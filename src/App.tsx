@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query'
 import React, { Fragment } from 'react'
 
-import AppContainer from './screens/Container'
+import AppContainer from './screens/RouteContainer'
 import { Global } from '@emotion/react'
 
 const queryClient = new QueryClient()

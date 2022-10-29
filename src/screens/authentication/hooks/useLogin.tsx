@@ -15,7 +15,7 @@ const useLogin = () => {
     }).then(({ data: { token, user } }) => {
       saveItemToStorage('token', token)
       setIsSignedin(true)
-      navigate('/dashboard/home')
+      navigate('/app/home')
     })
   })
   return mutation

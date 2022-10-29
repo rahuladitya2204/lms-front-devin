@@ -10,17 +10,12 @@ export default function RootScreen () {
   useEffect(() => {
     validateUser()
       .then(() => {
-        navigate('/dashboard/home')
+        navigate('dashboard/home')
       })
       .catch(() => {
-        navigate('/dashboard/login')
+        navigate('dashboard/login')
       })
   }, [])
 
-  return (
-    <div>
-      hello
-      <Outlet />
-    </div>
-  )
+  return <Outlet />
 }
