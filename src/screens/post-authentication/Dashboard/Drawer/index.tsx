@@ -4,8 +4,9 @@ import './style.css'
 
 import { Anchor, Drawer as DrawerComponent, Menu, MenuProps } from 'antd'
 import { AppstoreOutlined, CalendarOutlined, LinkOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import { MENU_ITEMS, MenuItems } from './constants';
 
-import { MENU_ITEMS } from './constants';
+import { useNavigate } from 'react-router';
 
 const { Link } = Anchor
 
@@ -14,44 +15,15 @@ interface DrawerPropsI {
   setOpen: (open: boolean) => void;
 }
 
-type MenuItem = Required<MenuProps>['items'][number];
-
-
-
-function getItem(
-    label: React.ReactNode,
-    key?: React.Key | null,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-  ): MenuItem {
-    return {
-      key,
-      icon,
-      children,
-      label,
-    } as MenuItem;
-}
-  
-const items = MENU_ITEMS.map((item, pIndex) => {
-  const ARGS = [item.title, ''+pIndex, item.icon];
-  const CHILDREN = item?.children?.map((childItem, cIndex) => getItem(childItem.title, `${pIndex}_${cIndex}`, childItem.icon));
-  if(CHILDREN)
-  {
-    // @ts-ignore
-    ARGS.push(CHILDREN);
-  }
-    // @ts-ignore
-    return getItem(...ARGS)
-})
-
-
 function Drawer(props: DrawerPropsI) {
+  const navigate = useNavigate();
   const onClose = () => {
     props.setOpen(false)
   }
     
   const onClick: MenuProps['onClick'] = e => {
     console.log('click ', e);
+    navigate(`/app/dashboard/${e.key}`)
   };
     
   return (
@@ -68,7 +40,7 @@ function Drawer(props: DrawerPropsI) {
         defaultSelectedKeys={['1']}
         defaultOpenKeys={['sub1']}
         mode="inline"
-        items={items}
+        items={MenuItems}
       />
     </DrawerComponent>
   )

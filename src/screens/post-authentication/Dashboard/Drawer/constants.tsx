@@ -1,4 +1,10 @@
-import { AppstoreOutlined, MailOutlined, UsergroupDeleteOutlined } from '@ant-design/icons'
+import {
+  AppstoreOutlined,
+  MailOutlined,
+  UsergroupDeleteOutlined
+} from '@ant-design/icons'
+
+import { MenuProps } from 'antd'
 
 export const MENU_ITEMS = [
   {
@@ -18,12 +24,12 @@ export const MENU_ITEMS = [
       },
       {
         title: 'Packages',
-        path: '',
+        path: 'packages',
         icon: <AppstoreOutlined />
       },
       {
         title: 'Question Bank',
-        path: '',
+        path: 'question-bank',
         icon: <AppstoreOutlined />
       }
     ]
@@ -31,21 +37,21 @@ export const MENU_ITEMS = [
   {
     title: 'Users',
     icon: <UsergroupDeleteOutlined />,
-    path: 'courses',
+    path: 'users',
     children: [
       {
         title: 'Learners',
-        path: '',
+        path: 'learners',
         icon: <AppstoreOutlined />
       },
       {
         title: 'Admins',
-        path: '',
+        path: 'admins',
         icon: <AppstoreOutlined />
       },
       {
         title: 'Instructors',
-        path: '',
+        path: 'instructors',
         icon: <AppstoreOutlined />
       }
     ]
@@ -57,14 +63,47 @@ export const MENU_ITEMS = [
     children: [
       {
         title: 'Website Pages',
-        path: '',
+        path: 'pages',
         icon: <AppstoreOutlined />
       },
       {
         title: 'Website Builder',
-        path: '',
+        path: 'builder',
         icon: <AppstoreOutlined />
       }
     ]
   }
 ]
+
+export const MenuItems = MENU_ITEMS.map((item, pIndex) => {
+  const ARGS = [item.title, `${item.path}`, item.icon]
+  const CHILDREN = item?.children?.map((childItem, cIndex) =>
+    getItem(childItem.title, `${item.path}/${childItem.path}`, childItem.icon)
+  )
+  if (CHILDREN) {
+    // @ts-ignore
+    ARGS.push(CHILDREN)
+  }
+  // @ts-ignore
+  return getItem(...ARGS)
+})
+
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+
+
+function getItem(
+    label: React.ReactNode,
+    key?: React.Key | null,
+    icon?: React.ReactNode,
+    children?: MenuItem[],
+  ): MenuItem {
+    return {
+      key,
+      icon,
+      children,
+      label,
+    } as MenuItem;
+}
+  

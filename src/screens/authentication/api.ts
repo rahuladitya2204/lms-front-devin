@@ -12,7 +12,6 @@ const Axios = axios.create({
   },
   transformRequest: [
     (data, headers) => {
-      console.log(data, 'data')
       const token = getItemFromStorage('token')
       // headers.set('Content-Type', 'application/json')
       if (token) {
@@ -28,7 +27,6 @@ export const LoginUser = (data: LoginData) => {
 }
 
 export const SignupUser = (data: SignupData) => {
-  console.log(data, 'ddd')
   return Axios.post('users/signup', data)
 }
 

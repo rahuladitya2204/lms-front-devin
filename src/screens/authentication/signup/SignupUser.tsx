@@ -13,7 +13,6 @@ function SignupUser() {
       //   name: ''
     },
     onSubmit: (values: SignupData) => {
-      console.log(values,'vals')
       Signup({
         email: values.email,
         password: values.password,

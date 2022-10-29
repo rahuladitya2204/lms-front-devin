@@ -16,14 +16,11 @@ const useAuthentication = create<AuthenticationState>(set => ({
     const token = getItemFromStorage('token');
     if (token)
     {
-      console.log('Validating')
       return ValidateUser()
       .then((data) => {
-        console.log('failed not!',data)
         return set({ isSignedIn: true })
       })
       .catch(() => {
-        console.log('failed!')
         removeItemFromStorage('token')
         set({ isSignedIn: false });
         return Promise.reject();
