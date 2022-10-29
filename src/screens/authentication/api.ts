@@ -12,12 +12,13 @@ const Axios = axios.create({
   },
   transformRequest: [
     (data, headers) => {
+      console.log(data, 'data')
       const token = getItemFromStorage('token')
-      headers.set('Content-Type', 'application/json')
+      // headers.set('Content-Type', 'application/json')
       if (token) {
         headers.set('x-auth', token)
       }
-      return data
+      return JSON.stringify(data);
     }
   ]
 })

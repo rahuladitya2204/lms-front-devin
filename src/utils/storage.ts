@@ -5,3 +5,7 @@ export const getItemFromStorage = (key: string) => {
 export const saveItemToStorage = (key: string, value: string) => {
   return localStorage.setItem(key, value)
 }
+
+export const removeItemFromStorage = (key: string) => {
+  return localStorage.removeItem(key)
+}
