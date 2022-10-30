@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Form, Input } from 'antd'
 
-import { SignupData } from '../../../types'
+import { SignupData } from '../../../types/Common.types'
 import { useFormik } from 'formik'
 import useSignup from '../hooks/useSignupUser'
 

@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.ant-layout-sider-children{
+  padding-top: 60px;
+}
+
+.ant-layout-content{
+  padding-top: 20px;
+  padding-bottom: 20px;
+}

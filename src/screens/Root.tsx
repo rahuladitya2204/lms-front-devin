@@ -1,7 +1,12 @@
 import { Outlet, useNavigate } from 'react-router'
 
+import styled from '@emotion/styled'
 import useAuthentication from '../store/useAuthentication'
 import { useEffect } from 'react'
+
+const Container = styled.div`
+  padding: 0;
+`
 
 export default function RootScreen () {
   const { validateUser } = useAuthentication(state => state)
@@ -12,9 +17,13 @@ export default function RootScreen () {
       //   navigate('dashboard/home')
       // })
       .catch(() => {
-        navigate('dashboard/login')
+        navigate('login')
       })
   }, [])
 
-  return <Outlet />
+  return (
+    <Container>
+      <Outlet />
+    </Container>
+  )
 }

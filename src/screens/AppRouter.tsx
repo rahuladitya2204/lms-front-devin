@@ -1,22 +1,16 @@
-import {
-  BrowserRouter,
-  Route,
-  RouterProvider,
-  Routes,
-  createBrowserRouter,
-  createRoutesFromElements
-} from 'react-router-dom'
-import { Fragment, useEffect } from 'react'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import CoursesScreen from './post-authentication/Courses/Courses'
+import CourseBuilderScreen from './post-authentication/CourseBuilder/CourseBuilderScreen'
+import CoursesScreen from './post-authentication/Courses/CoursesScreen'
 import Dashboard from './post-authentication/Dashboard/DashboardScreen'
+import { Fragment } from 'react'
 import HomeScreen from './post-authentication/Home/HomeScreen'
 import LoginScreen from './authentication/login/LoginScreen'
 import RootScreen from './Root'
 import SignupUser from './authentication/signup/SignupUser'
 import useAuthentication from '../store/useAuthentication'
 
-function RouteContainer () {
+function AppRouter () {
   const { isSignedIn } = useAuthentication(state => state)
   return (
     <BrowserRouter>
@@ -31,6 +25,10 @@ function RouteContainer () {
             <Route path="dashboard" element={<Dashboard />}>
               <Route path="home" element={<HomeScreen />} />
               <Route path="courses" element={<CoursesScreen />} />
+              <Route
+                path="courses/builder/:id"
+                element={<CourseBuilderScreen />}
+              />
             </Route>
           )}
         </Route>
@@ -39,4 +37,4 @@ function RouteContainer () {
   )
 }
 
-export default RouteContainer
+export default AppRouter

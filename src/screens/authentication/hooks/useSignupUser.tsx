@@ -1,4 +1,4 @@
-import { SignupData } from '../../../types'
+import { SignupData } from '../../../types/Common.types'
 import { SignupUser } from '../api'
 import { useMutation } from '@tanstack/react-query'
 

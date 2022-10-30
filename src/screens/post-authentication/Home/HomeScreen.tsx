@@ -1,22 +1,9 @@
-import { Button } from 'antd'
-import { NavLink } from 'react-router-dom'
-import { getItemFromStorage } from '../../../utils/storage'
-import { useEffect } from 'react'
+import Header from '../Dashboard/Header/Header'
 
-function Home() {
-  useEffect(() => {
-    let token
-    ;(async () => {
-      try {
-        token = await getItemFromStorage('token')
-      } catch (er) {
-        console.log(er, 'er')
-      }
-    })()
-  }, [])
-
+function Home () {
   return (
     <div className="App">
+      <Header />
       <div className="row">
         <div className="col-md-12">
           <h3>This is home component</h3>

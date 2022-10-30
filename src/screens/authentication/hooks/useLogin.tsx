@@ -1,4 +1,4 @@
-import { LoginData } from '../../../types'
+import { LoginData } from '../../../types/Common.types'
 import { LoginUser } from '../api'
 import { saveItemToStorage } from '../../../utils/storage'
 import useAuthentication from '../../../store/useAuthentication'
@@ -15,7 +15,7 @@ const useLogin = () => {
     }).then(({ data: { token, user } }) => {
       saveItemToStorage('token', token)
       setIsSignedin(true)
-      navigate('/app/home')
+      navigate('/app/dashboard/home')
     })
   })
   return mutation
