@@ -1,13 +1,11 @@
 import { ArrowLeftOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Row } from 'antd'
+import { Button, Card, Col, Row, Space } from 'antd'
 
-import AddChapterScreen from './AddChapter'
-import { useGetCourses } from '../../../queries/Courses/CoursesHooks'
-import { useParams } from 'react-router'
+import AddChapterScreen from './AddChapterScreen'
+import CourseBuilderTree from './CourseBuilderTree'
 
 function CourseBuilderScreen () {
-  const { data: courses } = useGetCourses()
-  const params = useParams();
+  const onAddNewChapter = () => {}
   return (
     <div className="site-card-wrapper">
       <Row gutter={[16, 16]}>
@@ -24,7 +22,12 @@ function CourseBuilderScreen () {
             }
             actions={[<EyeOutlined />, <EditOutlined />]}
           />
-          <AddChapterScreen />
+
+          <Card>
+            <CourseBuilderTree />
+          </Card>
+
+          <AddChapterScreen onAddNewChapter={onAddNewChapter} />
         </Col>
         <Col span={16}>12</Col>
       </Row>
