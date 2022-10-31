@@ -15,23 +15,21 @@ const props: UploadProps = {
 
 interface UploadComponentPropsI {
   onUpload: (urls: string[]) => void;
-} 
+}
 
 const UploadComponent: React.FC<UploadComponentPropsI> = componentProps => {
   const { mutate: uploadFiles } = useUploadFiles()
-  const [files, setFiles] = useState([])
+  const [files, setFiles] = useState<File[]>([])
   props.customRequest = ({ file, onError, onSuccess, onProgress, data }) => {
-    // @ts-ignore
     return uploadFiles({
       files,
       onSuccess: urls => {
-        componentProps.onUpload(urls);
+        componentProps.onUpload(urls)
         onSuccess && onSuccess(urls)
       }
     })
   }
-  props.beforeUpload = info => {
-    // @ts-ignore
+  props.beforeUpload = (info) => {
     setFiles([info])
   }
   return (
