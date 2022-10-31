@@ -1,18 +1,11 @@
-import { Breadcrumb, Layout, Menu } from 'antd';
-import {
-  DesktopOutlined,
-  FileOutlined,
-  PieChartOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 
 import { MenuItems } from './constants';
 import type { MenuProps } from 'antd';
 import { Outlet } from 'react-router';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>['items'][number];
 

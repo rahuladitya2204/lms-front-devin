@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { InboxOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
 import type { UploadProps } from 'antd'
-import { useUploadFiles } from '../queries/Common/CommonHooks'
+import { useUploadFiles } from '../queries/Common/CommonQueries'
 
 const { Dragger } = Upload
 

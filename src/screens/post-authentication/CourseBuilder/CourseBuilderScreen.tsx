@@ -1,4 +1,4 @@
-import { ArrowLeftOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, EditOutlined, EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Row } from 'antd'
 
 import AddItem from './AddItem'
@@ -9,10 +9,15 @@ import styled from '@emotion/styled'
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid';
 
-const createChapterItemNode  = ():DataNode => {
+const createChapterItemNode = (): DataNode => {
+  const keyId: string = JSON.stringify({
+    id: uuid(),
+    value: '',
+    type: 'item'
+  });
   return  {
     title: '+ Add Chapter Item',
-    key: `item_${uuid()}`,
+    key: keyId,
     children:[]
   }
 };
@@ -24,10 +29,15 @@ margin-top: 20px;
 function CourseBuilderScreen() {
   const [courseTree, setCourseTree] = useState<DataNode[]>([])
   const onAddNewItem = (type: string, value: string, key?: string) => {
-    let CT = [...courseTree]
+    let CT = [...courseTree];
+    const keyId: string = JSON.stringify({
+      id: uuid(),
+      value: value,
+      type: type
+    });
     const newItem:DataNode = {
       title: value,
-      key: `${type}_${uuid()}`,
+      key: keyId,
       children: [createChapterItemNode()],
     };
     console.log(CT,key)
@@ -51,7 +61,7 @@ function CourseBuilderScreen() {
       CT.push(newItem)
     }
       
-
+    console.log(CT,'ctt')
     setCourseTree(CT)
   }
 
@@ -84,7 +94,7 @@ function CourseBuilderScreen() {
           </AddItem>
         </Col>
         <Col span={16}>
-        <Card>
+        <Card  extra={<><Button style={{marginRight:15}} icon={<UploadOutlined />}>Publish Course</Button><Button type='primary' icon={<SaveOutlined />}>Save</Button></>}>
             <Outlet />
             </Card>
         </Col>

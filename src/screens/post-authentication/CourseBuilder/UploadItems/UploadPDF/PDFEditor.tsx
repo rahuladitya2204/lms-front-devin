@@ -2,12 +2,17 @@ import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { useState } from 'react';
 
 import { InfoCircleOutlined } from '@ant-design/icons';
+import PDFViewer from '../../../../../components/PDFViewer';
+import { useParams } from 'react-router';
+import { useSearchParams } from 'react-router-dom';
 
 interface PDFEditorProps {
     children?: React.ReactNode;
 }
 
 const PDFEditor: React.FC<PDFEditorProps> = (props) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const url = searchParams.get("value");
 
     const onSubmit = ({headingName}: { headingName: string }) => {
         // props.onFinish(headingName)
@@ -31,7 +36,8 @@ const PDFEditor: React.FC<PDFEditorProps> = (props) => {
       <Form.Item>
         <Button type="primary">Submit</Button>
       </Form.Item>
-    </Form>
+          </Form>
+          <PDFViewer url={''+url} />
     </>
   );
 };

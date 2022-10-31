@@ -6,6 +6,7 @@ import React, { useState } from 'react'
 import AddItem from '../AddItem'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
+import { useNavigateParams } from '../../../../hooks/CommonHooks'
 
 interface CourseBuilderTreeNodePropsI {
   data: DataNode;
@@ -21,18 +22,31 @@ const Node = styled.span`
 `
 
 const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
-  console.log(props, '12312')
   let icon
-  const type = ('' + props.data.key).split('_')[0]
+  const keyData = JSON.parse('' + props.data.key)
+  const type = keyData.type
   let title: string | React.ReactNode = `${props.data.title}`
-  const navigate = useNavigate()
+
+  const navigate = useNavigateParams()
+
   switch (type) {
     case 'chapter':
       icon = <BookOutlined />
       break
     case 'pdf':
       icon = <FilePdfOutlined />
-      break
+      return <Tooltip title={title}>
+        <Node
+          onClick={() =>
+            navigate(type, {
+              value: keyData.value
+            })
+          }
+        >
+          {icon} {title}
+        </Node>
+      </Tooltip>;
+    
     case 'item':
       title = (
         <AddItem
@@ -44,16 +58,13 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
           {title}
         </AddItem>
       )
-      // icon = <Button type="dashed">Add Chapter Item</Button>;
 
       break
   }
   return (
-    <Tooltip title={title}>
-      <Node onClick={() => navigate(type)}>
-        {icon} {title}
-      </Node>
-    </Tooltip>
+    <Node>
+      {icon} {title}
+    </Node>
   )
 }
 
