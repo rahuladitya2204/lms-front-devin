@@ -43,7 +43,9 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
       {
         label: `Upload PDF`,
         key: '1',
-        children: <UploadComponent/>,
+        children: <UploadComponent onUpload={u => {
+          console.log(u,'123123')
+        }}/>,
       },
       {
         label: `Public URL`,

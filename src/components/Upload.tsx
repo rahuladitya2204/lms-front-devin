@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Upload, message } from 'antd'
 
-import { GetFileUrls } from '../queries/Common/api'
 import { InboxOutlined } from '@ant-design/icons'
+import { Upload } from 'antd'
 import type { UploadProps } from 'antd'
 import { useUploadFiles } from '../queries/Common/CommonHooks'
 
@@ -14,13 +13,22 @@ const props: UploadProps = {
   }
 }
 
-const UploadComponent: React.FC = () => {
+interface UploadComponentPropsI {
+  onUpload: (urls: string[]) => void;
+} 
+
+const UploadComponent: React.FC<UploadComponentPropsI> = componentProps => {
   const { mutate: uploadFiles } = useUploadFiles()
   const [files, setFiles] = useState([])
   props.customRequest = ({ file, onError, onSuccess, onProgress, data }) => {
-    console.log(files, 'eeee')
     // @ts-ignore
-    return uploadFiles(files)
+    return uploadFiles({
+      files,
+      onSuccess: urls => {
+        componentProps.onUpload(urls);
+        onSuccess && onSuccess(urls)
+      }
+    })
   }
   props.beforeUpload = info => {
     // @ts-ignore

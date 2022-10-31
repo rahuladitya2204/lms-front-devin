@@ -1,7 +1,7 @@
 import { PresignedUrlRequestData, PresignedUrlResponseData } from '../../types/Common.types'
+import axios, { AxiosRequestConfig } from 'axios'
 
 import Axios from '../../utils/network'
-import { AxiosRequestConfig } from 'axios'
 
 export const GetFileUrls = (
   files: { fileType: string }[]
@@ -14,5 +14,10 @@ export const UploadFile = (
   file: File,
   options: AxiosRequestConfig
 ) => {
-  return Axios.put(url, file, options)
+  return axios.put(url, file, {
+    headers:{
+      // "Content-Type": 'multipart/form-data; boundary=---daba-boundary---'
+      "Content-Type": file.type,
+    }
+  })
 }

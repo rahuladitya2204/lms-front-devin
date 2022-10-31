@@ -1,11 +1,59 @@
 import { ArrowLeftOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Row, Space } from 'antd'
+import { Button, Card, Col, Row } from 'antd'
 
-import AddChapterScreen from './AddChapterScreen'
+import AddItem from './AddItem'
 import CourseBuilderTree from './CourseBuilderTree'
+import { DataNode } from 'antd/lib/tree'
+import styled from '@emotion/styled'
+import { useState } from 'react'
+import { v4 as uuid } from 'uuid';
 
-function CourseBuilderScreen () {
-  const onAddNewChapter = () => {}
+const createChapterItemNode  = ():DataNode => {
+  return  {
+    title: '+ Add Chapter Item',
+    key: `item_${uuid()}`,
+    children:[]
+  }
+};
+
+const AddChapterButton = styled(Button)`
+margin-top: 20px;
+`
+
+function CourseBuilderScreen() {
+  const [courseTree, setCourseTree] = useState<DataNode[]>([])
+  const onAddNewItem = (type: string, value: string, key?: string) => {
+    let CT = [...courseTree]
+    const newItem = {
+      title: value,
+      key: `${type}_${uuid()}`,
+      children: [createChapterItemNode()]
+    };
+    console.log(CT,key)
+    if (key) {
+      CT.forEach(item => {
+        if (!item.children)
+        {
+          item.children = [];
+        }
+        item.children.forEach(i => {
+          if (i.key === key)
+          {
+            item?.children?.push(newItem)
+          }
+        })
+        
+      })
+     }
+    else {
+      CT.push(newItem)
+    }
+      
+
+    setCourseTree(CT)
+  }
+
+  console.log(courseTree, 'tree');
   return (
     <div className="site-card-wrapper">
       <Row gutter={[16, 16]}>
@@ -24,10 +72,14 @@ function CourseBuilderScreen () {
           />
 
           <Card>
-            <CourseBuilderTree />
+            <CourseBuilderTree onAddNewItem={onAddNewItem} courseTree={courseTree} />
           </Card>
 
-          <AddChapterScreen onAddNewChapter={onAddNewChapter} />
+          <AddItem onAddNewItem={onAddNewItem} >
+          <AddChapterButton  block type="primary">
+      Add New Chapter
+    </AddChapterButton>
+          </AddItem>
         </Col>
         <Col span={16}>12</Col>
       </Row>
@@ -35,4 +87,4 @@ function CourseBuilderScreen () {
   )
 }
 
-export default CourseBuilderScreen
+export default CourseBuilderScreen;

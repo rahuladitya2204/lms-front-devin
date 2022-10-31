@@ -1,39 +1,16 @@
 import type { DataNode, TreeProps } from 'antd/es/tree';
 import React, { useState } from 'react';
 
+import CourseBuilderTreeNode from './CourseBuilderTreeNode';
 import { Tree } from 'antd';
 
-const treeData: DataNode[] = [
-    {
-      title: 'parent 1',
-      key: '0-0',
-      children: [
-        {
-          title: 'parent 1-0',
-          key: '0-0-0',
-          children: [
-            {
-              title: 'leaf',
-              key: '0-0-0-0',
-              disableCheckbox: true,
-            },
-            {
-              title: 'leaf',
-              key: '0-0-0-1',
-            },
-          ],
-        },
-        {
-          title: 'parent 1-1',
-          key: '0-0-1',
-          children: [{ title: <span style={{ color: '#1890ff' }}>sss</span>, key: '0-0-1-0' }],
-        },
-      ],
-    },
-  ];
+interface CourseBuilderTreePropsI {
+  courseTree: DataNode[];
+  onAddNewItem: (type: string, value: string,key:string) => void;
+};
 
-const CourseBuilderTree: React.FC = () => {
-  const [gData, setGData] = useState(treeData);
+const CourseBuilderTree: React.FC<CourseBuilderTreePropsI> = ({courseTree,onAddNewItem}) => {
+  const [gData, setGData] = useState(courseTree);
   const [expandedKeys] = useState(['0-0', '0-0-0', '0-0-0-0']);
 
   const onDragEnter: TreeProps['onDragEnter'] = info => {
@@ -110,10 +87,11 @@ const CourseBuilderTree: React.FC = () => {
       className="draggable-tree"
       defaultExpandedKeys={expandedKeys}
       draggable
+      titleRender={treeData => <CourseBuilderTreeNode onAddNewItem={onAddNewItem} data={treeData} />}
       blockNode
       onDragEnter={onDragEnter}
       onDrop={onDrop}
-      treeData={treeData}
+      treeData={courseTree}
     />
   );
 };

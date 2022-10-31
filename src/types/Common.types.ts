@@ -15,5 +15,12 @@ export interface PresignedUrlResponseData {
 }
 
 export interface PresignedUrlRequestData {
-    fileType:string
-  }
+  fileType: string;
+}
+
+export interface CourseTreeTypeNode {
+  title: string;
+  type: string;
+  key: string;
+  children: CourseTreeTypeNode[];
+}
