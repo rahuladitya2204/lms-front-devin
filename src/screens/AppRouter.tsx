@@ -6,6 +6,7 @@ import Dashboard from './post-authentication/Dashboard/DashboardScreen'
 import { Fragment } from 'react'
 import HomeScreen from './post-authentication/Home/HomeScreen'
 import LoginScreen from './authentication/login/LoginScreen'
+import PDFEditor from './post-authentication/CourseBuilder/UploadItems/UploadPDF/PDFEditor'
 import RootScreen from './Root'
 import SignupUser from './authentication/signup/SignupUser'
 import useAuthentication from '../store/useAuthentication'
@@ -28,7 +29,12 @@ function AppRouter () {
               <Route
                 path="courses/builder/:id"
                 element={<CourseBuilderScreen />}
-              />
+              >
+                <Route
+                  path="pdf"
+                  element={<PDFEditor />}
+                />
+              </Route>
             </Route>
           )}
         </Route>

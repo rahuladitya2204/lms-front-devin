@@ -4,6 +4,7 @@ import { Button, Card, Col, Row } from 'antd'
 import AddItem from './AddItem'
 import CourseBuilderTree from './CourseBuilderTree'
 import { DataNode } from 'antd/lib/tree'
+import { Outlet } from 'react-router'
 import styled from '@emotion/styled'
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid';
@@ -24,10 +25,10 @@ function CourseBuilderScreen() {
   const [courseTree, setCourseTree] = useState<DataNode[]>([])
   const onAddNewItem = (type: string, value: string, key?: string) => {
     let CT = [...courseTree]
-    const newItem = {
+    const newItem:DataNode = {
       title: value,
       key: `${type}_${uuid()}`,
-      children: [createChapterItemNode()]
+      children: [createChapterItemNode()],
     };
     console.log(CT,key)
     if (key) {
@@ -39,6 +40,7 @@ function CourseBuilderScreen() {
         item.children.forEach(i => {
           if (i.key === key)
           {
+            newItem.isLeaf = true;
             item?.children?.push(newItem)
           }
         })
@@ -81,7 +83,11 @@ function CourseBuilderScreen() {
     </AddChapterButton>
           </AddItem>
         </Col>
-        <Col span={16}>12</Col>
+        <Col span={16}>
+        <Card>
+            <Outlet />
+            </Card>
+        </Col>
       </Row>
     </div>
   )

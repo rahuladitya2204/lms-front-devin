@@ -1,8 +1,7 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { useState } from 'react';
 
-import UploadComponent from '../../../../components/Upload';
-import { useCreateCourse } from '../../../../queries/Courses/CoursesHooks';
+import UploadComponent from '../../../../../components/Upload';
 
 interface UploadPDFProps {
     children?: React.ReactNode;
@@ -10,7 +9,7 @@ interface UploadPDFProps {
 }
 
 const UploadPDF: React.FC<UploadPDFProps> = (props) => {
-    const {mutate:createCourse,isLoading: loading }=useCreateCourse()
+  const [urls, setUrls] = useState<string[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -20,8 +19,10 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-    const onSubmit = (e:{url:string}) => {
-        closeModal();
+  
+  const onSubmit = () => {
+    props.onFinish(urls[0]);
+    closeModal();
     }
     
     const [form] = Form.useForm<{ url: string }>();
@@ -30,10 +31,10 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
     <>
       <span onClick={showModal}>{props.children}</span>
       <Modal footer={[
-          <Button key="back" onClick={()=>form.resetFields(['instructorName','title'])}>
-            Clear
+          <Button key="back" onClick={()=>closeModal()}>
+            Cancel
           </Button>,
-          <Button loading={loading} key="submit" type="primary" onClick={form.submit}>
+          <Button key="submit" type="primary" onClick={onSubmit}>
             Submit
           </Button>,
           ]} title="New PDF: Max Size 250MB" open={isModalOpen} onCancel={closeModal}>
@@ -44,7 +45,7 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
         label: `Upload PDF`,
         key: '1',
         children: <UploadComponent onUpload={u => {
-          console.log(u,'123123')
+          setUrls(u);
         }}/>,
       },
       {
