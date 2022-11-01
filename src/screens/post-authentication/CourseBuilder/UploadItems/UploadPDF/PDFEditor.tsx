@@ -1,5 +1,5 @@
 import { Button, Form, Input } from 'antd';
-import { useOutletContext, useSearchParams } from 'react-router-dom';
+import { useOutletContext, useParams, useSearchParams } from 'react-router-dom';
 
 import { CourseTreeTypeNode } from '../../../../../types/Common.types';
 import PDFViewer from '../../../../../components/PDFViewer';
@@ -7,11 +7,11 @@ import React from 'react';
 import { findNode } from '../../utils';
 
 const PDFEditor: React.FC = (props) => {
-  
-  const [searchParams] = useSearchParams();
-  const url = searchParams.get("value");
-  const nodeId = searchParams.get("nodeId") || '';
-
+  let { nodeId } = useParams();
+  if (!nodeId)
+  {
+    nodeId = '';
+  }
   const [courseData, updateCourseData] = useOutletContext<[CourseTreeTypeNode[],(nodeId:string,data:unknown)=>void]>();
 
   const node = findNode(nodeId, courseData);
@@ -19,7 +19,7 @@ const PDFEditor: React.FC = (props) => {
   const data: any = node.data;
   
   const onFormChange = ( value: string,key:string ) => {
-    updateCourseData(nodeId, {
+    updateCourseData(nodeId+'', {
       ...data,
       [key]: value
       })
@@ -45,7 +45,7 @@ const PDFEditor: React.FC = (props) => {
         <Button type="primary">Submit</Button>
       </Form.Item>
           </Form>
-          <PDFViewer url={''+url} />
+          <PDFViewer url={data.url} />
     </>
   );
 };

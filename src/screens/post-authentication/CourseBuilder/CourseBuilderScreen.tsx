@@ -21,7 +21,7 @@ function CourseBuilderScreen() {
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  // console.log(courseDetails,'details')
+
   useEffect(() => {
     setCourseTree(courseDetails?.courseTree)
    },[courseDetails])
@@ -31,7 +31,6 @@ function CourseBuilderScreen() {
   
   const onAddNewItem = (type: string, item: CourseNodeValueType, id?: string) => {
     let CT = [...courseTree];
-    console.log(id,CT,'o')
     const newItem: CourseTreeTypeNode = {
       title: item.title,
       id: uuid(),
@@ -74,13 +73,11 @@ function CourseBuilderScreen() {
 
   const updateCourseTree = (node:CourseTreeTypeNode) => {
     const updatedTree = updateCourseTreeNode(courseTree, node);
-    console.log(node,courseTree, 'popop');
     setCourseTree(updatedTree)
   }
 
 
   const CourseTreeDataNode = convertToDataNode(courseTree);
-  console.log(courseTree,'CourseTreeDataNode')
   return (
     <div className="site-card-wrapper">
       <Row gutter={[16, 16]}>

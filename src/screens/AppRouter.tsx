@@ -31,8 +31,8 @@ function AppRouter () {
                 path="courses/builder/:id"
                 element={<CourseBuilderScreen />}
               >
-                <Route path="pdf" element={<PDFEditor />} />
-                <Route path="text" element={<AddTextItem />} />
+                <Route path="pdf/:nodeId" element={<PDFEditor />} />
+                <Route path="text/:nodeId" element={<AddTextItem />} />
               </Route>
             </Route>
           )}

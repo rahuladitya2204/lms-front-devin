@@ -1,4 +1,8 @@
-import { BookOutlined, FilePdfOutlined } from '@ant-design/icons'
+import {
+  BookOutlined,
+  FilePdfOutlined,
+  FileTextOutlined
+} from '@ant-design/icons'
 
 import AddItem from '../AddItem'
 import { CourseNodeValueType } from '../../../../types/Common.types'
@@ -6,7 +10,7 @@ import type { DataNode } from 'antd/es/tree'
 import React from 'react'
 import { Tooltip } from 'antd'
 import styled from '@emotion/styled'
-import { useNavigateParams } from '../../../../hooks/CommonHooks'
+import { useNavigate } from 'react-router'
 
 interface CourseBuilderTreeNodePropsI {
   data: DataNode;
@@ -27,8 +31,8 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
   const type = keyData.type
   let title: string | React.ReactNode = `${props.data.title}`
 
-  const navigate = useNavigateParams()
-  // console.log(type, 'type')
+  const navigate = useNavigate()
+
   switch (type) {
     case 'chapter':
       icon = <BookOutlined />
@@ -37,28 +41,16 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
       icon = <FilePdfOutlined />
       return (
         <Tooltip title={title}>
-          <Node
-            onClick={() =>
-              navigate(type, {
-                nodeId: keyData.id
-              })
-            }
-          >
+          <Node onClick={() => navigate(`${type}/${keyData.id}`)}>
             {icon} {title}
           </Node>
         </Tooltip>
       )
 
     case 'text':
-      icon = <FilePdfOutlined />
+      icon = <FileTextOutlined />
       return (
-        <Node
-          onClick={() =>
-            navigate(type, {
-              nodeId: keyData.id
-            })
-          }
-        >
+        <Node onClick={() => navigate(`${type}/${keyData.id}`)}>
           {icon} {title}
         </Node>
       )
