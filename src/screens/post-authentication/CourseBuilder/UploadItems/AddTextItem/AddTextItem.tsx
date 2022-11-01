@@ -24,12 +24,10 @@ const AddTextItem: React.FC = () => {
       <Form.Item name='title' label="Title" required tooltip="This is a required field">
         <Input value={data.title} onChange={(e)=>onFormChange('title',e.target.value)} placeholder="Enter Text Content's title" />
       </Form.Item>
-      </Form>
-      <Form.Item>
+      <Form.Item name='description' label="Description" required tooltip="This is a required field">
       <QuillEditor onChange={e => onFormChange('description', e)} value={data.description} />
       </Form.Item>
-      <Form.Item>
-      </Form.Item>
+      </Form>
     </>
   );
 };
