@@ -1,0 +1,14 @@
+import 'react-quill/dist/quill.snow.css'
+
+import ReactQuill from 'react-quill'
+
+interface QuillEditorPropsI {
+    value: string;
+    onChange?: (value: string) => void;
+}
+
+function QuillEditor(props: QuillEditorPropsI) {
+  return <ReactQuill style={{minHeight:500}} theme="snow" value={props.value} onChange={props.onChange} />
+}
+
+export default QuillEditor

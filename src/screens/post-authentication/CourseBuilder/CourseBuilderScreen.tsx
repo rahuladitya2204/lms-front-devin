@@ -1,28 +1,15 @@
 import { ArrowLeftOutlined, EditOutlined, EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Row } from 'antd'
+import { CourseNodeValueType, CourseTreeTypeNode } from '../../../types/Common.types'
 import { Outlet, useNavigate, useParams } from 'react-router'
+import { convertToDataNode, createChapterItemNode, updateCourseTreeNode } from './utils'
+import { useEffect, useState } from 'react'
 import { useGetCourseDetails, useUpdateCourse } from '../../../queries/Courses/CoursesQueries'
 
 import AddItem from './AddItem'
 import CourseBuilderTree from './CourseBuilderTree'
-import { CourseNodeValueType } from '../../../types/Common.types'
-import { DataNode } from 'antd/lib/tree'
 import styled from '@emotion/styled'
-import { useState } from 'react'
 import { v4 as uuid } from 'uuid';
-
-const createChapterItemNode = (): DataNode => {
-  const keyId: string = JSON.stringify({
-    id: uuid(),
-    value: '',
-    type: 'item'
-  });
-  return  {
-    title: '+ Add Chapter Item',
-    key: keyId,
-    children: []
-  }
-};
 
 const AddChapterButton = styled(Button)`
 margin-top: 20px;
@@ -31,34 +18,38 @@ margin-top: 20px;
 function CourseBuilderScreen() {
   const {id: courseId} = useParams();
   const { mutate: updateCourse,isLoading:loading } = useUpdateCourse();
-  const { data: courseDetails} = useGetCourseDetails(courseId +'', {
+  const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
-  })
-  const [courseTree, setCourseTree] = useState<DataNode[]>(courseDetails?.courseTree);
+  });
+  // console.log(courseDetails,'details')
+  useEffect(() => {
+    setCourseTree(courseDetails?.courseTree)
+   },[courseDetails])
+
+  const [courseTree, setCourseTree] = useState<CourseTreeTypeNode[]>([]);
   const navigate = useNavigate();
-  const onAddNewItem = (type: string, item: CourseNodeValueType, key?: string) => {
+  
+  const onAddNewItem = (type: string, item: CourseNodeValueType, id?: string) => {
     let CT = [...courseTree];
-    const keyId: string = JSON.stringify({
-      id: uuid(),
-      value: item.value,
-      type: type
-    });
-    const newItem:DataNode = {
+    console.log(id,CT,'o')
+    const newItem: CourseTreeTypeNode = {
       title: item.title,
-      key: keyId,
+      id: uuid(),
+      data: item.data,
+      type,
       children: [createChapterItemNode()],
     };
 
-    if (key) {
+    if (id) {
+      newItem.children = [];
       CT.forEach(item => {
         if (!item.children)
         {
           item.children = [];
         }
         item.children.forEach(i => {
-          if (i.key === key)
+          if (i.id === id)
           {
-            newItem.isLeaf = true;
             item?.children?.push(newItem)
           }
         })
@@ -76,16 +67,25 @@ function CourseBuilderScreen() {
     updateCourse({
       id: courseId +'',
       data:{
-        courseTree:courseTree
+        courseTree: courseTree
       }
     })
   }
 
+  const updateCourseTree = (node:CourseTreeTypeNode) => {
+    const updatedTree = updateCourseTreeNode(courseTree, node);
+    console.log(node,courseTree, 'popop');
+    setCourseTree(updatedTree)
+  }
+
+
+  const CourseTreeDataNode = convertToDataNode(courseTree);
+  console.log(courseTree,'CourseTreeDataNode')
   return (
     <div className="site-card-wrapper">
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(-1)} type="link">
+          <Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(`/app/dashboard/courses`)} type="link">
             Back to courses
           </Button>
           <Card
@@ -99,7 +99,7 @@ function CourseBuilderScreen() {
           />
 
           <Card>
-            <CourseBuilderTree onAddNewItem={onAddNewItem} courseTree={courseTree} />
+            <CourseBuilderTree onAddNewItem={onAddNewItem} courseTree={CourseTreeDataNode} />
           </Card>
 
           <AddItem onAddNewItem={onAddNewItem} >
@@ -110,7 +110,7 @@ function CourseBuilderScreen() {
         </Col>
         <Col span={16}>
         <Card  extra={<><Button style={{marginRight:15}} icon={<UploadOutlined />}>Publish Course</Button><Button onClick={saveCourse} loading={loading} type='primary' icon={<SaveOutlined />}>Save</Button></>}>
-            <Outlet />
+            <Outlet context={[courseTree,updateCourseTree]} />
             </Card>
         </Col>
       </Row>

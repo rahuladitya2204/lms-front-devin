@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
+import AddTextItem from './post-authentication/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import CourseBuilderScreen from './post-authentication/CourseBuilder/CourseBuilderScreen'
 import CoursesScreen from './post-authentication/Courses/CoursesScreen'
 import Dashboard from './post-authentication/Dashboard/DashboardScreen'
@@ -30,10 +31,8 @@ function AppRouter () {
                 path="courses/builder/:id"
                 element={<CourseBuilderScreen />}
               >
-                <Route
-                  path="pdf"
-                  element={<PDFEditor />}
-                />
+                <Route path="pdf" element={<PDFEditor />} />
+                <Route path="text" element={<AddTextItem />} />
               </Route>
             </Route>
           )}

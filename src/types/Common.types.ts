@@ -20,14 +20,21 @@ export interface PresignedUrlRequestData {
 
 export interface CourseTreeTypeNode {
   title: string;
+  id: string;
   type: string;
-  key: string;
+  data?: unknown;
   children: CourseTreeTypeNode[];
 }
 
-export interface CourseNodeValueType { title: string; value: string }
+export interface CourseNodeValueType { title: string; data: unknown }
 
 export interface UploadFileType {
   name: string;
   url: string;
+}
+
+export interface AddItemFormProps<T> {
+  children?: React.ReactNode;
+  onFormUpdate: (data: T) => void;
+  formValues: T;
 }

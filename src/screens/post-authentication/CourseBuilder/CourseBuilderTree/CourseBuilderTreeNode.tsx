@@ -28,7 +28,7 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
   let title: string | React.ReactNode = `${props.data.title}`
 
   const navigate = useNavigateParams()
-
+  // console.log(type, 'type')
   switch (type) {
     case 'chapter':
       icon = <BookOutlined />
@@ -40,7 +40,7 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
           <Node
             onClick={() =>
               navigate(type, {
-                value: keyData.value
+                nodeId: keyData.id
               })
             }
           >
@@ -49,18 +49,31 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
         </Tooltip>
       )
 
+    case 'text':
+      icon = <FilePdfOutlined />
+      return (
+        <Node
+          onClick={() =>
+            navigate(type, {
+              nodeId: keyData.id
+            })
+          }
+        >
+          {icon} {title}
+        </Node>
+      )
+
     case 'item':
       title = (
         <AddItem
           onAddNewItem={(key, value) =>
-            props.onAddNewItem(key, value, props.data.key + '')
+            props.onAddNewItem(key, value, keyData.id)
           }
         >
           {' '}
           {title}
         </AddItem>
       )
-
       break
   }
   return (

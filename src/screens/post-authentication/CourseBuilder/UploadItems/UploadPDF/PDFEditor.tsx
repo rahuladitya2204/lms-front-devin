@@ -1,22 +1,30 @@
-import { Button, Form, Input, Modal, Tabs } from 'antd';
-import React, { useState } from 'react';
+import { Button, Form, Input } from 'antd';
+import { useOutletContext, useSearchParams } from 'react-router-dom';
 
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { CourseTreeTypeNode } from '../../../../../types/Common.types';
 import PDFViewer from '../../../../../components/PDFViewer';
-import { useParams } from 'react-router';
-import { useSearchParams } from 'react-router-dom';
+import React from 'react';
+import { findNode } from '../../utils';
 
-interface PDFEditorProps {
-    children?: React.ReactNode;
-}
-
-const PDFEditor: React.FC<PDFEditorProps> = (props) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+const PDFEditor: React.FC = (props) => {
+  
+  const [searchParams] = useSearchParams();
   const url = searchParams.get("value");
+  const nodeId = searchParams.get("nodeId") || '';
 
-    const onSubmit = ({headingName}: { headingName: string }) => {
-        // props.onFinish(headingName)
-    }
+  const [courseData, updateCourseData] = useOutletContext<[CourseTreeTypeNode[],(nodeId:string,data:unknown)=>void]>();
+
+  const node = findNode(nodeId, courseData);
+
+  const data: any = node.data;
+  
+  const onFormChange = ( value: string,key:string ) => {
+    updateCourseData(nodeId, {
+      ...data,
+      [key]: value
+      })
+  }
+  
     
     const [form] = Form.useForm<{ headingName: string }>();
 
@@ -28,10 +36,10 @@ const PDFEditor: React.FC<PDFEditorProps> = (props) => {
               initialValues={{ title: '', description:'' }}
     >
       <Form.Item name='title' label="Title" required tooltip="This is a required field">
-        <Input placeholder="input placeholder" />
+        <Input  onChange={e=>onFormChange('title',e.target.value)} placeholder="input placeholder" />
       </Form.Item>
       <Form.Item name='description' label="Description" required>
-        <Input placeholder="input placeholder" />
+        <Input onChange={e=>onFormChange('description',e.target.value)} placeholder="input placeholder" />
       </Form.Item>
       <Form.Item>
         <Button type="primary">Submit</Button>

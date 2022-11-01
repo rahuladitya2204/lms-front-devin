@@ -25,7 +25,9 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
     const file = files[0];
     props.onFinish({
       title: file.name,
-      value:file.url
+      data: {
+        url:file.url
+      }
     });
     closeModal();
     }
