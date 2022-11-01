@@ -24,3 +24,10 @@ export interface CourseTreeTypeNode {
   key: string;
   children: CourseTreeTypeNode[];
 }
+
+export interface CourseNodeValueType { title: string; value: string }
+
+export interface UploadFileType {
+  name: string;
+  url: string;
+}

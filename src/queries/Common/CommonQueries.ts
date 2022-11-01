@@ -1,5 +1,6 @@
 import { GetFileUrls, UploadFile } from './api'
 
+import { UploadFileType } from '../../types/Common.types';
 import { config } from '../../constants/config'
 import { useMutation } from '@tanstack/react-query'
 
@@ -10,7 +11,7 @@ export const useUploadFiles = () => {
       onSuccess
     }: {
       files: File[],
-      onSuccess: (urls: string[]) => void
+      onSuccess: (files: UploadFileType[]) => void
     }) => {
       const keys = files.map(file => {
         return {
@@ -28,12 +29,15 @@ export const useUploadFiles = () => {
           return UploadFile(d.url, files[index], httpOptions)
         })
         return Promise.all(requests).then(data => {
-          const urls = data.map((d, index) => {
-            const url = config.S3_ASSET + '/' + keys[index].fileName
-            return url
+          const files = data.map((d, index) => {
+            const file = {
+              name: keys[index].fileName,
+              url: config.S3_ASSET + '/' + keys[index].fileName
+            };
+            return file
           })
-          onSuccess(urls);
-          return urls;
+          onSuccess(files);
+          return files;
         })
       })
     }

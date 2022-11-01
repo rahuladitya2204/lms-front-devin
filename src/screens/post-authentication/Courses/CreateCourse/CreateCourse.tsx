@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 
 import { CreateCoursePayload } from '../../../../types/Courses.types';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { useCreateCourse } from '../../../../queries/Courses/CoursesHooks';
+import { useCreateCourse } from '../../../../queries/Courses/CoursesQueries';
 
 const CreateCourseComponent: React.FC = () => {
     const {mutate:createCourse,isLoading: loading }=useCreateCourse()

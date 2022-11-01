@@ -1,15 +1,16 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
+import { CourseNodeValueType, UploadFileType } from '../../../../../types/Common.types';
 import React, { useState } from 'react';
 
 import UploadComponent from '../../../../../components/Upload';
 
 interface UploadPDFProps {
     children?: React.ReactNode;
-    onFinish:(url:string)=>void
+    onFinish:(data:CourseNodeValueType)=>void
 }
 
 const UploadPDF: React.FC<UploadPDFProps> = (props) => {
-  const [urls, setUrls] = useState<string[]>([]);
+  const [files, setFiles] = useState<UploadFileType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -21,7 +22,11 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
   };
   
   const onSubmit = () => {
-    props.onFinish(urls[0]);
+    const file = files[0];
+    props.onFinish({
+      title: file.name,
+      value:file.url
+    });
     closeModal();
     }
     
@@ -45,7 +50,7 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
         label: `Upload PDF`,
         key: '1',
         children: <UploadComponent onUpload={u => {
-          setUrls(u);
+          setFiles(u);
         }}/>,
       },
       {

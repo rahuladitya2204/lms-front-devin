@@ -1,8 +1,11 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { useState } from 'react';
+
+import { CourseNodeValueType } from '../../../../types/Common.types';
+
 interface CreateHeadingProps {
     children?: React.ReactNode;
-    onFinish:(headingName:string)=>void
+    onFinish:(data:CourseNodeValueType)=>void
 }
 
 const CreateHeading: React.FC<CreateHeadingProps> = (props) => {
@@ -17,7 +20,10 @@ const CreateHeading: React.FC<CreateHeadingProps> = (props) => {
   };
     
     const onSubmit = ({headingName}: { headingName: string }) => {
-        props.onFinish(headingName)
+      props.onFinish({
+        title: headingName,
+        value: headingName
+      });
         closeModal();
     }
     

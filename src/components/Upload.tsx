@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import { InboxOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
+import { UploadFileType } from '../types/Common.types'
 import type { UploadProps } from 'antd'
 import { useUploadFiles } from '../queries/Common/CommonQueries'
 
@@ -14,7 +15,7 @@ const props: UploadProps = {
 }
 
 interface UploadComponentPropsI {
-  onUpload: (urls: string[]) => void;
+  onUpload: (files: UploadFileType[]) => void;
 }
 
 const UploadComponent: React.FC<UploadComponentPropsI> = componentProps => {
@@ -23,9 +24,9 @@ const UploadComponent: React.FC<UploadComponentPropsI> = componentProps => {
   props.customRequest = ({ file, onError, onSuccess, onProgress, data }) => {
     return uploadFiles({
       files,
-      onSuccess: urls => {
-        componentProps.onUpload(urls)
-        onSuccess && onSuccess(urls)
+      onSuccess: files => {
+        componentProps.onUpload(files)
+        onSuccess && onSuccess(files)
       }
     })
   }

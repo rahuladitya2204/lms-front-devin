@@ -2,11 +2,12 @@ import type { DataNode, TreeProps } from 'antd/es/tree';
 import React, { useState } from 'react';
 
 import CourseBuilderTreeNode from './CourseBuilderTreeNode';
+import { CourseNodeValueType } from '../../../../types/Common.types';
 import { Tree } from 'antd';
 
 interface CourseBuilderTreePropsI {
   courseTree: DataNode[];
-  onAddNewItem: (type: string, value: string,key:string) => void;
+  onAddNewItem: (type: string, item: CourseNodeValueType,key:string) => void;
 };
 
 const CourseBuilderTree: React.FC<CourseBuilderTreePropsI> = ({courseTree,onAddNewItem}) => {

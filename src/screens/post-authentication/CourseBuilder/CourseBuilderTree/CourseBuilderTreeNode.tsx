@@ -1,16 +1,16 @@
 import { BookOutlined, FilePdfOutlined } from '@ant-design/icons'
-import { Button, Tooltip } from 'antd'
-import type { DataNode, TreeProps } from 'antd/es/tree'
-import React, { useState } from 'react'
 
 import AddItem from '../AddItem'
+import { CourseNodeValueType } from '../../../../types/Common.types'
+import type { DataNode } from 'antd/es/tree'
+import React from 'react'
+import { Tooltip } from 'antd'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router'
 import { useNavigateParams } from '../../../../hooks/CommonHooks'
 
 interface CourseBuilderTreeNodePropsI {
   data: DataNode;
-  onAddNewItem: (type: string, value: string, key: string) => void;
+  onAddNewItem: (type: string, value: CourseNodeValueType, key: string) => void;
 }
 
 const Node = styled.span`
@@ -35,18 +35,20 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
       break
     case 'pdf':
       icon = <FilePdfOutlined />
-      return <Tooltip title={title}>
-        <Node
-          onClick={() =>
-            navigate(type, {
-              value: keyData.value
-            })
-          }
-        >
-          {icon} {title}
-        </Node>
-      </Tooltip>;
-    
+      return (
+        <Tooltip title={title}>
+          <Node
+            onClick={() =>
+              navigate(type, {
+                value: keyData.value
+              })
+            }
+          >
+            {icon} {title}
+          </Node>
+        </Tooltip>
+      )
+
     case 'item':
       title = (
         <AddItem

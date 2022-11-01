@@ -1,5 +1,9 @@
+import {
+  CreateCoursePayload,
+  UpdateCoursePayload
+} from '../../types/Courses.types'
+
 import Axios from '../../utils/network'
-import { CreateCoursePayload } from '../../types/Courses.types'
 
 export const GetCourses = () => {
   return Axios.get('courses').then(r => r.data)
@@ -10,4 +14,8 @@ export const GetCourseDetails = (id: string) => {
 }
 export const CreateCourse = (data: CreateCoursePayload) => {
   return Axios.post('courses', data).then(r => r.data)
+}
+
+export const UpdateCourse = (id: string, data: Partial<UpdateCoursePayload>) => {
+  return Axios.put('courses/' + id, data).then(r => r.data)
 }

@@ -1,5 +1,6 @@
 import { Button, Col, Form, Modal, Radio, Row, Space, Typography } from 'antd'
 
+import { CourseNodeValueType } from '../../../types/Common.types';
 import CreateHeading from './CreateNewItem/CreateHeading';
 import UploadPDF from './UploadItems/UploadPDF';
 import styled from '@emotion/styled';
@@ -10,7 +11,7 @@ const { Title } = Typography;
 
 
 interface AddItemPropsI {
-  onAddNewItem: (type: string, value: string,key?:string) => void;
+  onAddNewItem: (type: string, item: CourseNodeValueType,key?:string) => void;
   children?: React.ReactNode;
 }
 
@@ -25,10 +26,10 @@ function AddItem (props:AddItemPropsI) {
       setIsModalOpen(false);
     };
     const [form] = Form.useForm();
-    const onFinish = (type:string,value:string) => {
-        props.onAddNewItem(type, value);
-                                      closeModal();
-    }
+  const onFinish = (type: string, item: CourseNodeValueType) => {
+    props.onAddNewItem(type, item);
+    closeModal();
+  };
   return (
     <>
       <span onClick={showModal}>{props.children}</span>
@@ -60,7 +61,7 @@ function AddItem (props:AddItemPropsI) {
                           </Title>
                               <Space direction="vertical">
                                   <CreateHeading onFinish={(e) => {
-                                      onFinish('heading',e)
+                    onFinish('heading', e)
 }}>  <Radio value={'headingName'}> <Typography.Text strong>
                                       Heading: 
                                   </Typography.Text> Define your chapter or section headings.. </Radio></CreateHeading>
