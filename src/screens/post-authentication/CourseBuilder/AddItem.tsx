@@ -4,10 +4,26 @@ import { CourseNodeValueType } from '../../../types/Common.types';
 import CreateHeading from './CreateNewItem/CreateHeading';
 import CreateTextItem from './CreateNewItem/CreatTextItem';
 import UploadPDF from './UploadItems/UploadPDF';
+import UploadVideo from './UploadItems/UploadVideo';
 import styled from '@emotion/styled';
 import { useState } from 'react'
 
 const { Title } = Typography;
+
+const UPLOAD_NEW_ITEM = [
+  {
+    title: 'PDF',
+    description: 'Add a PDF file in the course.',
+    component: UploadPDF,
+    type:'pdf'
+  },
+  {
+    title: 'Video',
+    description: 'All uploaded videos are completely secure and non downloadable. It can also be used to embed youtube and Vimeo videos.',
+    component: UploadVideo,
+    type: 'video',
+  }
+]
 
 const CREATE_NEW_ITEM = [
   {
@@ -62,12 +78,14 @@ function AddItem (props:AddItemPropsI) {
                               Upload new Item
                           </Title>
                               <Space direction="vertical">
-                                  <UploadPDF onFinish={(e)=> onFinish('pdf',e)}>  <Radio name={'pdf'} value={'pdf'}>
-                                      <Typography.Text strong>
-                                          PDF:
-                                      </Typography.Text> Add a PDF file in the course
-                                  </Radio>
-                                  </UploadPDF>
+                              {UPLOAD_NEW_ITEM.map(item => {
+                    const Component = item.component;
+                    return <Component onFinish={(e) => {
+                      onFinish(item.type, e)
+  }}>  <Radio value={item.type}> <Typography.Text strong>
+                                        {item.title}: 
+                                    </Typography.Text> {item.description}</Radio></Component>
+                  })}
 </Space>
         </Col>
                       <Col span={12}>
@@ -83,17 +101,6 @@ function AddItem (props:AddItemPropsI) {
                                         {item.title}: 
                                     </Typography.Text> {item.description}</Radio></Component>
                   })}
-                                  {/* <CreateHeading onFinish={(e) => {
-                    onFinish('heading', e)
-}}>  <Radio> <Typography.Text strong>
-                                      Heading: 
-                                  </Typography.Text> Define your chapter or section headings.. </Radio></CreateHeading>
-                                  <CreateHeading onFinish={(e) => {
-                    onFinish('text', e)
-}}>  <Radio> <Typography.Text strong>
-                                      Heading: 
-                                  </Typography.Text> Define your chapter or section headings.. </Radio></CreateHeading>
-                              */}
        
 </Space>
         </Col>

@@ -1,7 +1,9 @@
 import {
   BookOutlined,
   FilePdfOutlined,
-  FileTextOutlined
+  FileTextOutlined,
+  VideoCameraOutlined,
+  YoutubeOutlined
 } from '@ant-design/icons'
 
 import AddItem from '../AddItem'
@@ -39,6 +41,16 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
       break
     case 'pdf':
       icon = <FilePdfOutlined />
+      return (
+        <Tooltip title={title}>
+          <Node onClick={() => navigate(`${type}/${keyData.id}`)}>
+            {icon} {title}
+          </Node>
+        </Tooltip>
+      )
+
+    case 'video':
+      icon = <YoutubeOutlined />
       return (
         <Tooltip title={title}>
           <Node onClick={() => navigate(`${type}/${keyData.id}`)}>

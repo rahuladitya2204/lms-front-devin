@@ -7,12 +7,13 @@ import Dashboard from './post-authentication/Dashboard/DashboardScreen'
 import { Fragment } from 'react'
 import HomeScreen from './post-authentication/Home/HomeScreen'
 import LoginScreen from './authentication/login/LoginScreen'
-import PDFEditor from './post-authentication/CourseBuilder/UploadItems/UploadPDF/PDFEditor'
 import RootScreen from './Root'
 import SignupUser from './authentication/signup/SignupUser'
+import UploadPDFForm from './post-authentication/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
+import UploadVideoForm from './post-authentication/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import useAuthentication from '../store/useAuthentication'
 
-function AppRouter () {
+function AppRouter() {
   const { isSignedIn } = useAuthentication(state => state)
   return (
     <BrowserRouter>
@@ -31,7 +32,8 @@ function AppRouter () {
                 path="courses/builder/:id"
                 element={<CourseBuilderScreen />}
               >
-                <Route path="pdf/:nodeId" element={<PDFEditor />} />
+                <Route path="pdf/:nodeId" element={<UploadPDFForm />} />
+                <Route path="video/:nodeId" element={<UploadVideoForm />} />
                 <Route path="text/:nodeId" element={<AddTextItem />} />
               </Route>
             </Route>

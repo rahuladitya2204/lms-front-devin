@@ -6,7 +6,7 @@ import PDFViewer from '../../../../../components/PDFViewer';
 import React from 'react';
 import { findNode } from '../../utils';
 
-const PDFEditor: React.FC = (props) => {
+const UploadPDFForm: React.FC = (props) => {
   let { nodeId } = useParams();
   if (!nodeId)
   {
@@ -50,4 +50,4 @@ const PDFEditor: React.FC = (props) => {
   );
 };
 
-export default PDFEditor;
+export default UploadPDFForm;

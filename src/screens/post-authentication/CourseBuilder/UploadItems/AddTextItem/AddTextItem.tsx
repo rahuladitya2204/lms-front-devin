@@ -17,11 +17,11 @@ const AddTextItem: React.FC = () => {
   {
     nodeId = '';
   }
-  console.log('rendered',nodeId)
+
   const [courseData, updateCourseData] = useOutletContext<[CourseTreeTypeNode[],(data:CourseTreeTypeNode)=>void]>();
 
   const node = findNode(nodeId, courseData);
-  const data = node?(node.data as AddTextItemForm):{title:''};
+  const data = node?(node.data as AddTextItemForm):{title:'',description:''};
   
   const onFormChange = (key: string, value: string) => {
     const newData = {
@@ -37,9 +37,9 @@ const AddTextItem: React.FC = () => {
     updateCourseData(updatedNode);
   }
 
-  useEffect(() => { 
+  useEffect(() => {
     form.setFieldsValue(data)
-  },[data])
+  }, [data]);
     
     const [form] = Form.useForm<{ title: string }>();
   return (
@@ -50,11 +50,11 @@ const AddTextItem: React.FC = () => {
               initialValues={{ title: data.title, description:'' }}
     >
       <Form.Item name='title' label="Title" required tooltip="This is a required field">
-        <Input value={data.title} onChange={(e)=>onFormChange('title',e.target.value)} placeholder="input placeholder" />
+        <Input value={data.title} onChange={(e)=>onFormChange('title',e.target.value)} placeholder="Enter Text Content's title" />
       </Form.Item>
       </Form>
       <Form.Item>
-      <QuillEditor onChange={e => onFormChange('description', e)} value={form.getFieldValue('description')} />
+      <QuillEditor onChange={e => onFormChange('description', e)} value={data.description} />
       </Form.Item>
       <Form.Item>
       </Form.Item>
