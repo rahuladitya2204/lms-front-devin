@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import AddTextItem from './post-authentication/Admin/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import CourseBuilderScreen from './post-authentication/Admin/CourseBuilder/CourseBuilderScreen'
+import CourseItemViewer from './post-authentication/User/CourseViewer/CourseItemVIewer'
+import CourseViewer from './post-authentication/User/CourseViewer/CourseViewer'
 import CoursesScreen from './post-authentication/Admin/Courses/CoursesScreen'
 import Dashboard from './post-authentication/Common/Dashboard/DashboardScreen'
 import { Fragment } from 'react'
@@ -27,6 +29,7 @@ function AppRouter () {
             </Fragment>
           ) : (
               <>
+              <Route path='admin'>
               <Route path="dashboard" element={<Dashboard />}>
               <Route path="home" element={<HomeScreen />} />
               <Route path="courses" element={<CoursesScreen />} />
@@ -41,8 +44,13 @@ function AppRouter () {
                 <Route path="file/:nodeId" element={<UploadFileForm />} />
               </Route>
                 </Route>
-                <Route path="courses/:id" element={<Dashboard />}></Route>
-              </>
+                </Route>
+                <Route path="user" element={<Dashboard />}>
+                  <Route path="courses/:id" element={<CourseViewer />}>
+                  <Route path="item/:nodeId" element={<CourseItemViewer />}></Route>
+                </Route>
+                </Route>
+                </>
           )}
         </Route>
       </Routes>

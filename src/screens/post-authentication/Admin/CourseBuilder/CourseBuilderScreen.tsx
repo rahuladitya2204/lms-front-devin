@@ -91,7 +91,7 @@ function CourseBuilderScreen() {
     <div className="site-card-wrapper">
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(`/app/dashboard/courses`)} type="link">
+          <Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(`/app/admin/dashboard/courses`)} type="link">
             Back to courses
           </Button>
           <Card

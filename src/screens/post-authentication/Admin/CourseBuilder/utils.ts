@@ -62,6 +62,7 @@ export const convertFromDataNode = (tree: DataNode[]): CourseTreeTypeNode[] => {
           }
         })
       : []
+    // children.shift();
     return {
       title: item.title + '',
       id: ParsedKey.id,
