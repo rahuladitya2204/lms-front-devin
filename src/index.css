@@ -14,7 +14,7 @@ code {
 
 
 .ant-layout-sider-children{
-  padding-top: 60px;
+  padding-top: 60px !important;
 }
 
 .ant-layout-content{
