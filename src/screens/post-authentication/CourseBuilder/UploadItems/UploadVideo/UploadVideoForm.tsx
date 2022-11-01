@@ -2,11 +2,13 @@ import { Button, Form, Input } from 'antd';
 import { useOutletContext, useParams } from 'react-router-dom';
 
 import { CourseTreeTypeNode } from '../../../../../types/Common.types';
+import QuillEditor from '../../../../../components/QuillEditor';
 import React from 'react';
 import { findNode } from '../../utils';
 
 interface UploadVideoForm {
   title: string;
+  context: string;
   description: string;
 }
 
@@ -21,7 +23,7 @@ const UploadVideoForm: React.FC = (props) => {
   const [courseData, updateCourseData] = useOutletContext<[CourseTreeTypeNode[],(data:CourseTreeTypeNode)=>void]>();
 
   const node = findNode(nodeId, courseData);
-  const data = node?(node.data as UploadVideoForm):{title:'',description:''};
+  const data = node?(node.data as UploadVideoForm):{title:'',description:'',context:''};
   const onFormChange = (value: string, key: string) => {
     const onFormChange = (key: string, value: string) => {
       const newData = {
@@ -37,7 +39,7 @@ const UploadVideoForm: React.FC = (props) => {
       updateCourseData(updatedNode);
     }
   }
-  const [form] = Form.useForm<{ title: string, description: string}>();
+  const [form] = Form.useForm<{ title: string, description: string,context:string}>();
 
   return (
       <>
@@ -50,11 +52,12 @@ const UploadVideoForm: React.FC = (props) => {
         <Input  onChange={e=>onFormChange('title',e.target.value)} placeholder="Enter Video Title" />
       </Form.Item>
       <Form.Item name='description' label="Description" required>
-        <Input onChange={e=>onFormChange('description',e.target.value)} placeholder="Enter Video Description" />
+      <QuillEditor onChange={e => onFormChange('description', e)} value={data.description} />
+        </Form.Item>
+        <Form.Item name='context' label="Context" required>
+      <QuillEditor onChange={e => onFormChange('context', e)} value={data.context} />
       </Form.Item>
-      <Form.Item>
-        <Button type="primary">Submit</Button>
-      </Form.Item>
+
           </Form>
     </>
   );

@@ -41,9 +41,7 @@ const UploadPDFForm: React.FC = (props) => {
       <Form.Item name='description' label="Description" required>
         <Input onChange={e=>onFormChange('description',e.target.value)} placeholder="input placeholder" />
       </Form.Item>
-      <Form.Item>
-        <Button type="primary">Submit</Button>
-      </Form.Item>
+
           </Form>
           <PDFViewer url={data.url} />
     </>

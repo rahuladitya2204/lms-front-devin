@@ -8,7 +8,7 @@ interface QuillEditorPropsI {
 }
 
 function QuillEditor(props: QuillEditorPropsI) {
-  return <ReactQuill style={{minHeight:500}} theme="snow" value={props.value} onChange={props.onChange} />
+  return <ReactQuill theme="snow" value={props.value} onChange={props.onChange} />
 }
 
 export default QuillEditor
