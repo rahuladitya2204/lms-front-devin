@@ -79,7 +79,7 @@ export const updateCourseTreeNode = (
   const TREE = cloneDeep(tree)
   TREE.forEach((item, index) => {
     if (item.id === node.id) {
-      TREE[index] = item;
+      TREE[index] = node;
     }
     item.children.forEach((i, childIndex) => {
       if (i.id === node.id) {

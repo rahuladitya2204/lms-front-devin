@@ -1,46 +1,20 @@
-import { Button, Form, Input } from 'antd';
-import { useOutletContext, useParams } from 'react-router-dom';
+import { Form, Input } from 'antd';
 
-import { CourseTreeTypeNode } from '../../../../../types/Common.types';
+import MediaPlayer from '../../../../../components/MediaPlayer';
 import QuillEditor from '../../../../../components/QuillEditor';
-import React from 'react';
-import { findNode } from '../../utils';
+import useUploadItemForm from '../hooks/useUploadItemForm';
 
 interface UploadVideoForm {
   title: string;
   context: string;
   description: string;
+  url: string;
 }
 
 
 const UploadVideoForm: React.FC = (props) => {
-  let { nodeId } = useParams();
-  if (!nodeId)
-  {
-    nodeId = '';
-  }
-
-  const [courseData, updateCourseData] = useOutletContext<[CourseTreeTypeNode[],(data:CourseTreeTypeNode)=>void]>();
-
-  const node = findNode(nodeId, courseData);
-  const data = node?(node.data as UploadVideoForm):{title:'',description:'',context:''};
-  const onFormChange = (value: string, key: string) => {
-    const onFormChange = (key: string, value: string) => {
-      const newData = {
-        ...data,
-        [key]: value
-      };
-      const updatedNode = {
-        ...node,
-        title: newData.title,
-        data: newData
-      };
-  
-      updateCourseData(updatedNode);
-    }
-  }
-  const [form] = Form.useForm<{ title: string, description: string,context:string}>();
-
+  const { onFormChange, form, data } = useUploadItemForm<UploadVideoForm>( { title: '', description: '',url:'',context:''});
+  const VideoUrl = data.url;
   return (
       <>
    <Form
@@ -56,7 +30,11 @@ const UploadVideoForm: React.FC = (props) => {
         </Form.Item>
         <Form.Item name='context' label="Context" required>
       <QuillEditor onChange={e => onFormChange('context', e)} value={data.context} />
-      </Form.Item>
+        </Form.Item>
+        
+        <Form.Item name='context' label="Preview" required>
+          {VideoUrl?<MediaPlayer url={VideoUrl} />:null}
+        </Form.Item>
 
           </Form>
     </>

@@ -5,6 +5,7 @@ import { useOutletContext, useParams, useSearchParams } from 'react-router-dom';
 import { CourseTreeTypeNode } from '../../../../../types/Common.types';
 import QuillEditor from '../../../../../components/QuillEditor';
 import { findNode } from '../../utils';
+import useUploadItemForm from '../hooks/useUploadItemForm';
 
 interface AddTextItemForm {
   title: string;
@@ -12,36 +13,7 @@ interface AddTextItemForm {
 }
 
 const AddTextItem: React.FC = () => {
-  let { nodeId } = useParams();
-  if (!nodeId)
-  {
-    nodeId = '';
-  }
-
-  const [courseData, updateCourseData] = useOutletContext<[CourseTreeTypeNode[],(data:CourseTreeTypeNode)=>void]>();
-
-  const node = findNode(nodeId, courseData);
-  const data = node?(node.data as AddTextItemForm):{title:'',description:''};
-  
-  const onFormChange = (key: string, value: string) => {
-    const newData = {
-      ...data,
-      [key]: value
-    };
-    const updatedNode = {
-      ...node,
-      title: newData.title,
-      data: newData
-    };
-
-    updateCourseData(updatedNode);
-  }
-
-  useEffect(() => {
-    form.setFieldsValue(data)
-  }, [data]);
-    
-    const [form] = Form.useForm<{ title: string }>();
+  const { onFormChange, form, data } = useUploadItemForm<AddTextItemForm>( { title: '', description: ''});
   return (
       <>
    <Form

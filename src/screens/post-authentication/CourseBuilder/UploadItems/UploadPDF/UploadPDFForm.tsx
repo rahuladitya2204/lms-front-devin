@@ -1,33 +1,16 @@
-import { Button, Form, Input } from 'antd';
-import { useOutletContext, useParams, useSearchParams } from 'react-router-dom';
+import { Form, Input } from 'antd';
 
-import { CourseTreeTypeNode } from '../../../../../types/Common.types';
 import PDFViewer from '../../../../../components/PDFViewer';
-import React from 'react';
-import { findNode } from '../../utils';
+import useUploadItemForm from '../hooks/useUploadItemForm';
 
-const UploadPDFForm: React.FC = (props) => {
-  let { nodeId } = useParams();
-  if (!nodeId)
-  {
-    nodeId = '';
-  }
-  const [courseData, updateCourseData] = useOutletContext<[CourseTreeTypeNode[],(nodeId:string,data:unknown)=>void]>();
+interface UploadPDFFormI {
+  title: string;
+  description: string;
+  url: string;
+}
 
-  const node = findNode(nodeId, courseData);
-
-  const data: any = node.data;
-  
-  const onFormChange = ( value: string,key:string ) => {
-    updateCourseData(nodeId+'', {
-      ...data,
-      [key]: value
-      })
-  }
-  
-    
-    const [form] = Form.useForm<{ headingName: string }>();
-
+const UploadPDFForm: React.FC = () => {
+  const { onFormChange, form, data } = useUploadItemForm<UploadPDFFormI>({ title: '', description: '',url:''});
   return (
       <>
    <Form

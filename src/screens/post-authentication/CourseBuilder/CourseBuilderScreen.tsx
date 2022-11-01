@@ -73,8 +73,8 @@ function CourseBuilderScreen() {
 
   const updateCourseTree = (node:CourseTreeTypeNode) => {
     const updatedTree = updateCourseTreeNode(courseTree, node);
-    console.log(updatedTree,'updatedTree')
-    setCourseTree(updatedTree)
+    console.log(updatedTree, node, 'updatedTree');
+    setCourseTree(updatedTree);
   }
 
 

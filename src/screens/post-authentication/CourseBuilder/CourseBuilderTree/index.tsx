@@ -15,7 +15,7 @@ const CourseBuilderTree: React.FC<CourseBuilderTreePropsI> = ({courseTree,onAddN
   const [expandedKeys] = useState(['0-0', '0-0-0', '0-0-0-0']);
 
   const onDragEnter: TreeProps['onDragEnter'] = info => {
-    console.log(info);
+    // console.log(info);
   };
 
   const onDrop: TreeProps['onDrop'] = info => {

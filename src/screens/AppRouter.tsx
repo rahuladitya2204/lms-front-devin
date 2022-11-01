@@ -13,7 +13,7 @@ import UploadPDFForm from './post-authentication/CourseBuilder/UploadItems/Uploa
 import UploadVideoForm from './post-authentication/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import useAuthentication from '../store/useAuthentication'
 
-function AppRouter() {
+function AppRouter () {
   const { isSignedIn } = useAuthentication(state => state)
   return (
     <BrowserRouter>
