@@ -1,6 +1,6 @@
 import { CourseDetailsType, CourseType, CreateCoursePayload, UpdateCoursePayload } from '../../types/Courses.types'
 import { CreateCourse, GetCourseDetails, GetCourses, UpdateCourse } from './api'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { KEYS } from '../keys'
 
@@ -41,8 +41,14 @@ export const useCreateCourse = () => {
 
 
 export const useUpdateCourse = () => {
+  const qc = useQueryClient();
   const mutation = useMutation(({id,data}:{id:string,data: Partial<UpdateCoursePayload>}) => {
-    return UpdateCourse(id,data)
+    return UpdateCourse(id, data).then(() => {
+      setTimeout(() => {
+        qc.invalidateQueries([KEYS.GET_COURSE_DETAILS, id]);
+
+      }, 2000);
+    })
   });
 
   return mutation;

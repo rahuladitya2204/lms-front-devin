@@ -14,11 +14,11 @@ const props: UploadProps = {
   }
 }
 
-interface UploadComponentPropsI {
+interface DraggerUploadPropsI {
   onUpload: (files: UploadFileType[]) => void;
 }
 
-const UploadComponent: React.FC<UploadComponentPropsI> = componentProps => {
+const DraggerUpload: React.FC<DraggerUploadPropsI> = componentProps => {
   const { mutate: uploadFiles } = useUploadFiles()
   const [files, setFiles] = useState<File[]>([])
   props.customRequest = ({ file, onError, onSuccess, onProgress, data }) => {
@@ -49,4 +49,4 @@ const UploadComponent: React.FC<UploadComponentPropsI> = componentProps => {
   )
 }
 
-export default UploadComponent
+export default DraggerUpload

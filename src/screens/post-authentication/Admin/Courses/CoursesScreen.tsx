@@ -13,7 +13,7 @@ function CoursesScreen () {
       <Row gutter={[16, 16]}>
         {courses.map(course => {
           return (
-            <Col className="gutter-row" span={8}>
+            <Col key={course._id} className="gutter-row" span={8}>
               <CourseCard course={course} />
             </Col>
           )

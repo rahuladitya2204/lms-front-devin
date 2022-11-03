@@ -5,12 +5,12 @@ import {
   FileTextOutlined,
   YoutubeOutlined
 } from '@ant-design/icons'
+import { Tooltip, Typography } from 'antd'
 
 import AddItem from '../AddItem'
 import { CourseNodeValueType } from '../../../../../types/Common.types'
 import type { DataNode } from 'antd/es/tree'
 import React from 'react'
-import { Tooltip } from 'antd'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
@@ -19,7 +19,7 @@ interface CourseBuilderTreeNodePropsI {
   onAddNewItem: (type: string, value: CourseNodeValueType, key: string) => void;
 }
 
-const Node = styled.div`
+const Node = styled(Typography.Text)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

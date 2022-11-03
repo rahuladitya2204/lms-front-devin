@@ -1,13 +1,11 @@
-import { Card, Col, Collapse, Row, Typography } from 'antd'
-
+import { Card } from 'antd'
 import MediaPlayer from '../../../../components/MediaPlayer'
-import styled from '@emotion/styled'
 import { useGetNodeFromRouterOutlet } from '../../../../hooks/CommonHooks'
 
 function CourseItemViewer () {
-  const node = useGetNodeFromRouterOutlet()
+  const node = useGetNodeFromRouterOutlet();
   const Component = (
-    <MediaPlayer url="https://www.youtube.com/watch?v=oUFJJNQGwhk" />
+    <MediaPlayer url='https://www.youtube.com/watch?v=bMknfKXIFA8' />
   )
 
   return <Card bodyStyle={{ padding: 0 }}>{Component}</Card>

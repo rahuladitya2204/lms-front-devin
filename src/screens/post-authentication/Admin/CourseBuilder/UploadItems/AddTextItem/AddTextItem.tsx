@@ -1,10 +1,6 @@
 import { Form, Input } from 'antd';
-import React, { useEffect } from 'react';
-import { useOutletContext, useParams, useSearchParams } from 'react-router-dom';
 
-import { CourseTreeTypeNode } from '../../../../../../types/Common.types';
 import QuillEditor from '../../../../../../components/QuillEditor';
-import { findNode } from '../../utils';
 import useUploadItemForm from '../hooks/useUploadItemForm';
 
 interface AddTextItemForm {

@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, Tabs } from 'antd';
 import { CourseNodeValueType, UploadFileType } from '../../../../../../types/Common.types';
 import React, { useState } from 'react';
 
-import UploadComponent from '../../../../../../components/Upload';
+import DraggerUpload from '../../../../../../components/DraggerUpload';
 
 interface UploadPDFProps {
     children?: React.ReactNode;
@@ -51,7 +51,7 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
       {
         label: `Upload PDF`,
         key: '1',
-        children: <UploadComponent onUpload={u => {
+        children: <DraggerUpload onUpload={u => {
           setFiles(u);
         }}/>,
       },

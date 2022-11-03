@@ -9,13 +9,14 @@ const Container = styled.div`
 `
 
 export default function RootScreen () {
+  console.log('Hello')
   const { validateUser } = useAuthentication(state => state)
   const navigate = useNavigate()
   useEffect(() => {
     validateUser()
-      // .then(() => {
-      //   navigate('dashboard/home')
-      // })
+      .then(() => {
+        // navigate('user/dashboard/home')
+      })
       .catch(() => {
         navigate('login')
       })

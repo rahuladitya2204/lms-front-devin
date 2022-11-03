@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface SignupData {
   email: string;
   password: string;
@@ -23,6 +25,7 @@ export interface CourseTreeTypeNode {
   id: string;
   type: string;
   data?: unknown;
+  checked?: boolean;
   children: CourseTreeTypeNode[];
 }
 
@@ -37,4 +40,12 @@ export interface AddItemFormProps<T> {
   children?: React.ReactNode;
   onFormUpdate: (data: T) => void;
   formValues: T;
+}
+
+
+export interface MenuItemNode{
+  title: string,
+  icon?: ReactNode,
+  path: string,
+  children?: MenuItemNode[]
 }

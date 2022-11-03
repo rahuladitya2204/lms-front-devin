@@ -4,9 +4,11 @@ import {
   UsergroupDeleteOutlined
 } from '@ant-design/icons'
 
+import { MenuItemNode } from '../../../../types/Common.types'
 import { MenuProps } from 'antd'
+import { ReactNode } from 'react'
 
-export const MENU_ITEMS = [
+export const MENU_ITEMS: MenuItemNode[] = [
   {
     title: 'Home',
     icon: <MailOutlined />,
@@ -15,11 +17,11 @@ export const MENU_ITEMS = [
   {
     title: 'Courses',
     icon: <MailOutlined />,
-    path: 'courses',
+    path: '',
     children: [
       {
         title: 'All Courses',
-        path: '',
+        path: 'admin/dashboard/courses',
         icon: <AppstoreOutlined />
       },
       {
@@ -75,18 +77,21 @@ export const MENU_ITEMS = [
   }
 ]
 
-export const MenuItems = MENU_ITEMS.map((item, pIndex) => {
-  const ARGS = [item.title, `${item.path}`, item.icon]
-  const CHILDREN = item?.children?.map((childItem, cIndex) =>
-    getItem(childItem.title, `${item.path}/${childItem.path}`, childItem.icon)
-  )
-  if (CHILDREN) {
+
+export const MenuItems = (items:MenuItemNode[]) => {
+  return items.map((item, pIndex) => {
+    const ARGS = [item.title, `${item.path}`, item.icon]
+    const CHILDREN = item?.children?.map((childItem, cIndex) =>
+      getItem(childItem.title, `${item.path}/${childItem.path}`, childItem.icon)
+    )
+    if (CHILDREN) {
+      // @ts-ignore
+      ARGS.push(CHILDREN)
+    }
     // @ts-ignore
-    ARGS.push(CHILDREN)
-  }
-  // @ts-ignore
-  return getItem(...ARGS)
-})
+    return getItem(...ARGS)
+  })
+}
 
 
 type MenuItem = Required<MenuProps>['items'][number];

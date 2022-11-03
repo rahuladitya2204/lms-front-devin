@@ -1,7 +1,8 @@
 import { CourseTreeTypeNode } from '../../../../types/Common.types'
 import { DataNode } from 'antd/lib/tree'
-import { cloneDeep } from 'lodash'
-import { v4 as uuid } from 'uuid'
+import { cloneDeep } from 'lodash';
+import { v4 as uuid } from 'uuid';
+
 export const findNode = (
   id: string,
   TREE: CourseTreeTypeNode[]
@@ -28,21 +29,23 @@ export const convertToDataNode = (tree: CourseTreeTypeNode[]): DataNode[] => {
       data: item.data,
       type: item.type
     }
+    const children = item.children.map(i => {
+      const childKey = {
+        id: i.id,
+        data: i.data,
+        type: i.type
+      }
+      return {
+        title: i.title,
+        key: JSON.stringify(childKey),
+        isLeaf: true
+      }
+    });
+    children.shift();
     return {
       title: item.title,
       key: JSON.stringify(key),
-      children: item.children.map(i => {
-        const childKey = {
-          id: i.id,
-          data: i.data,
-          type: i.type
-        }
-        return {
-          title: i.title,
-          key: JSON.stringify(childKey),
-          isLeaf: true
-        }
-      })
+      children: children
     }
   })
 }
@@ -52,17 +55,19 @@ export const convertFromDataNode = (tree: DataNode[]): CourseTreeTypeNode[] => {
     const ParsedKey = JSON.parse(item.key + '')
     const children = item.children
       ? item.children?.map(i => {
-          const ChildParsedKey = JSON.parse(i.key + '')
-          return {
-            title: item.title + '',
-            id: ChildParsedKey.id,
-            type: ChildParsedKey.type,
-            data: ChildParsedKey.data,
-            children: []
-          }
-        })
-      : []
-    // children.shift();
+        const ChildParsedKey = JSON.parse(i.key + '')
+        return {
+          title: item.title + '',
+          id: ChildParsedKey.id,
+          type: ChildParsedKey.type,
+          data: ChildParsedKey.data,
+          children: []
+        }
+      })
+      : [];
+    
+      // @ts-ignore
+    children.unshift(createChapterItemNode());
     return {
       title: item.title + '',
       id: ParsedKey.id,

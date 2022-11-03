@@ -2,26 +2,19 @@ import { ArrowLeftOutlined, EditOutlined, EyeOutlined, SaveOutlined, UploadOutli
 import { Button, Card, Col, Row } from 'antd'
 import { CourseNodeValueType, CourseTreeTypeNode } from '../../../../types/Common.types'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { convertToDataNode, createChapterItemNode, updateCourseTreeNode } from './utils'
 import { useEffect, useState } from 'react'
 import { useGetCourseDetails, useUpdateCourse } from '../../../../queries/Courses/CoursesQueries'
 
 import AddItem from './AddItem'
 import CourseBuilderTree from './CourseBuilderTree'
+import FileUpload from '../../../../components/FileUpload'
 import styled from '@emotion/styled'
+import { updateCourseTreeNode } from './utils'
 import { v4 as uuid } from 'uuid';
 
 const AddChapterButton = styled(Button)`
 margin-top: 20px;
 `;
-
-const TreeHoldingCard = styled(Card)`
-padding: 15px;
-padding-left:10px;
-div.ant-card-body{
-  padding: 0;
-}
-`
 
 function CourseBuilderScreen() {
   const {id: courseId} = useParams();
@@ -44,7 +37,7 @@ function CourseBuilderScreen() {
       id: uuid(),
       data: item.data,
       type,
-      children: [createChapterItemNode()],
+      children: [],
     };
 
     if (id) {
@@ -81,19 +74,19 @@ function CourseBuilderScreen() {
 
   const updateCourseTree = (node:CourseTreeTypeNode) => {
     const updatedTree = updateCourseTreeNode(courseTree, node);
-    console.log(updatedTree, node, 'updatedTree');
     setCourseTree(updatedTree);
   }
 
-
-  const CourseTreeDataNode = convertToDataNode(courseTree);
   return (
     <div className="site-card-wrapper">
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(`/app/admin/dashboard/courses`)} type="link">
+          <Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(`/admin/dashboard/courses`)} type="link">
             Back to courses
           </Button>
+          <FileUpload onUpload={e => {
+            console.log(e, 'Helo');
+          }}>
           <Card
             cover={
               <img
@@ -103,10 +96,9 @@ function CourseBuilderScreen() {
             }
             actions={[<EyeOutlined />, <EditOutlined />]}
           />
+          </FileUpload>
 
-          <TreeHoldingCard>
-            <CourseBuilderTree onAddNewItem={onAddNewItem} courseTree={CourseTreeDataNode} />
-          </TreeHoldingCard>
+            <CourseBuilderTree onAddNewItem={onAddNewItem} courseTree={courseTree} />
 
           <AddItem onAddNewItem={onAddNewItem} >
           <AddChapterButton  block type="primary">

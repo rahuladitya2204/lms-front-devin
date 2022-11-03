@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import AddTextItem from './post-authentication/Admin/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import CourseBuilderScreen from './post-authentication/Admin/CourseBuilder/CourseBuilderScreen'
-import CourseItemViewer from './post-authentication/User/CourseViewer/CourseItemVIewer'
+import CourseItemViewer from './post-authentication/User/CourseViewer/CourseItemViewer'
 import CourseViewer from './post-authentication/User/CourseViewer/CourseViewer'
 import CoursesScreen from './post-authentication/Admin/Courses/CoursesScreen'
 import Dashboard from './post-authentication/Common/Dashboard/DashboardScreen'
@@ -21,7 +21,7 @@ function AppRouter () {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/app" element={<RootScreen />}>
+        <Route path="/" element={<RootScreen />}>
           {!isSignedIn ? (
             <Fragment>
               <Route path="signup" element={<SignupUser />} />
@@ -45,11 +45,14 @@ function AppRouter () {
               </Route>
                 </Route>
                 </Route>
-                <Route path="user" element={<Dashboard />}>
-                  <Route path="courses/:id" element={<CourseViewer />}>
+                <Route path="user">
+                <Route path="dashboard" element={<Dashboard />}>
+                <Route path="home" element={<HomeScreen />} />
+                <Route path="courses/:id" element={<CourseViewer />}>
                   <Route path="item/:nodeId" element={<CourseItemViewer />}></Route>
                 </Route>
-                </Route>
+                  </Route>
+                 </Route>
                 </>
           )}
         </Route>

@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, Tabs } from 'antd';
 import { CourseNodeValueType, UploadFileType } from '../../../../../../types/Common.types';
 import React, { useState } from 'react';
 
-import UploadComponent from '../../../../../../components/Upload';
+import UploadComponent from '../../../../../../components/FileUpload';
 
 interface UploadFileProps {
     children?: React.ReactNode;
