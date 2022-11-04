@@ -20,7 +20,7 @@ export const useNavigateParams = () => {
 export const useGetNodeFromRouterOutlet = () => {
   const { nodeId } = useParams();
   const [courseTree] = useOutletContext<CourseTreeTypeNode[][]>()
-  const node = findNode(nodeId+'', courseTree);
+  const node: CourseTreeTypeNode = findNode(nodeId+'', courseTree);
 
   return node;
 }

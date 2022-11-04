@@ -3,10 +3,10 @@ import MediaPlayer from '../../../../components/MediaPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../hooks/CommonHooks'
 
 function CourseItemViewer () {
-  const node = useGetNodeFromRouterOutlet();
-  const Component = (
-    <MediaPlayer url='https://www.youtube.com/watch?v=bMknfKXIFA8' />
-  )
+  const node = useGetNodeFromRouterOutlet()
+  const data = node.data || { url: '' }
+  // console.log(node.data.url, 'node.data.url');
+  const Component = <MediaPlayer url={''} />
 
   return <Card bodyStyle={{ padding: 0 }}>{Component}</Card>
 }

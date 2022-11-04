@@ -9,7 +9,6 @@ import CourseViewerCollapsible from './CourseViewerCollapsible/CourseViewerColla
 import CourseViewerMoreInfo from './CourseViewerMoreInfo/CourseViewerMoreInfo'
 import { cloneDeep } from 'lodash'
 import { findNode } from '../../Admin/CourseBuilder/utils'
-import styled from '@emotion/styled'
 import { useEffect } from 'react'
 
 function CourseViewer() {

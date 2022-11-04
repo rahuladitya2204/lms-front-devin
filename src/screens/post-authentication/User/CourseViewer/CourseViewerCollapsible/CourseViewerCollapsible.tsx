@@ -4,9 +4,7 @@ import { PlayCircleFilled, PlayCircleOutlined } from '@ant-design/icons'
 import { CourseTreeTypeNode } from '../../../../../types/Common.types'
 import CourseViewerCollapsibleItem from './CourseViewerCollapsibleItem'
 import { Fragment } from 'react'
-import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { useUpdateCourse } from '../../../../../queries/Courses/CoursesQueries'
 
 const { Panel } = Collapse
 
@@ -16,21 +14,10 @@ const CustomCollapse = styled(Collapse)`
   }
 `
 
-const CollapsibleNavlink = styled(NavLink)`
-  .active-link {
-    .ant-card-body {
-      background: grey;
-    }
-  }
-`
 
 interface CourseViewerCollapsiblePropsI {
   courseTree: CourseTreeTypeNode[];
   toggleItemCheck: (itemID: string, value: boolean) => void;
-}
-
-let activeStyle = {
-  background: 'grey'
 }
 
 function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
@@ -49,14 +36,10 @@ function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
             >
               {parent.children.map((item, itemIndex) => {
                 return (
-                  <CollapsibleNavlink
-                    to={`item/${item.id}`}
-                    style={({ isActive }) =>
-                      isActive ? activeStyle : undefined
-                    }
-                  >
-                    <CourseViewerCollapsibleItem toggleItemCheck={props.toggleItemCheck} item={item} />
-                  </CollapsibleNavlink>
+                  <CourseViewerCollapsibleItem
+                    toggleItemCheck={props.toggleItemCheck}
+                    item={item}
+                  />
                 )
               })}
             </Panel>
