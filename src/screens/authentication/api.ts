@@ -11,5 +11,5 @@ export const SignupUser = (data: SignupData) => {
 }
 
 export const ValidateUser = () => {
-  return Axios.post('/validate')
+  return Axios.post('auth/validate')
 }

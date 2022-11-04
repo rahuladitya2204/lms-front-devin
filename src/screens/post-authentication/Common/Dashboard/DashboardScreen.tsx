@@ -1,33 +1,53 @@
+import { HEADER_ITEMS, MENU_ITEMS, MenuItems } from './constants'
 import { Layout, Menu } from 'antd'
-import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useState } from 'react'
 
-import type { MenuProps } from 'antd'
+import LogoImage from './logo.svg'
+import styled from '@emotion/styled'
+
+const LogoHolder = styled.div`
+  padding: 20px;
+`
+
+const Logo = styled.img`
+  width: 115px;
+  margin: auto;
+  display: block;
+`
 
 const { Header, Content, Sider } = Layout
 
 const App: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider
         collapsible
+        theme="light"
         collapsed={collapsed}
         onCollapse={value => setCollapsed(value)}
       >
-        <div className="logo" />
+        <LogoHolder>
+          <Logo src={LogoImage} />
+        </LogoHolder>
         <Menu
           onClick={e => navigate(e.keyPath.join(''))}
-          theme="dark"
+          theme="light"
           defaultSelectedKeys={['1']}
           mode="inline"
           items={MenuItems(MENU_ITEMS)}
         />
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }} />
+        <Header className="site-layout-background" style={{ padding: 0 }}>
+          <Menu
+            mode="horizontal"
+            defaultSelectedKeys={['2']}
+            items={MenuItems(HEADER_ITEMS)}
+            />
+        </Header>
         <Content style={{ margin: '0 16px' }}>
           <Outlet />
         </Content>

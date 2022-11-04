@@ -77,6 +77,75 @@ export const MENU_ITEMS: MenuItemNode[] = [
   }
 ]
 
+export const HEADER_ITEMS: MenuItemNode[] = [
+  {
+    title: 'Courses',
+    icon: <MailOutlined />,
+    path: 'home'
+  },
+  {
+    title: 'Courses',
+    icon: <MailOutlined />,
+    path: '',
+    children: [
+      {
+        title: 'All Courses',
+        path: 'admin/dashboard/courses',
+        icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Packages',
+        path: 'packages',
+        icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Question Bank',
+        path: 'question-bank',
+        icon: <AppstoreOutlined />
+      }
+    ]
+  },
+  {
+    title: 'Users',
+    icon: <UsergroupDeleteOutlined />,
+    path: 'users',
+    children: [
+      {
+        title: 'Learners',
+        path: 'learners',
+        icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Admins',
+        path: 'admins',
+        icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Instructors',
+        path: 'instructors',
+        icon: <AppstoreOutlined />
+      }
+    ]
+  },
+  {
+    title: 'Website',
+    icon: <UsergroupDeleteOutlined />,
+    path: 'website',
+    children: [
+      {
+        title: 'Website Pages',
+        path: 'pages',
+        icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Website Builder',
+        path: 'builder',
+        icon: <AppstoreOutlined />
+      }
+    ]
+  }
+]
+
 
 export const MenuItems = (items:MenuItemNode[]) => {
   return items.map((item, pIndex) => {

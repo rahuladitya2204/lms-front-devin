@@ -5,7 +5,7 @@ import { useGetNodeFromRouterOutlet } from '../../../../hooks/CommonHooks'
 function CourseItemViewer() {
   console.log('hel')
   const node = useGetNodeFromRouterOutlet()
-  const data = node.data || { url: '' }
+  // const data = node.data || { url: '' }
   // console.log(node.data.url, 'node.data.url');
   const Component = <MediaPlayer url={''} />
 
