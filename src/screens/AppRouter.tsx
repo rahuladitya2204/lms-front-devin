@@ -18,6 +18,7 @@ import useAuthentication from '../store/useAuthentication'
 
 function AppRouter () {
   const { isSignedIn } = useAuthentication(state => state)
+  console.log(isSignedIn,'isSignedIn')
   return (
     <BrowserRouter>
       <Routes>

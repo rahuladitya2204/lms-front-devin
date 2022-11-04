@@ -31,7 +31,16 @@ function LoginScreen () {
         }}
         onSubmitCapture={formik.handleSubmit}
       >
-        <Form.Item label="Email" name="email">
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            {
+              required: true,
+              message: 'Please enter your password!'
+            }
+          ]}
+        >
           <Input onChange={formik.handleChange} value={formik.values.email} />
         </Form.Item>
 
