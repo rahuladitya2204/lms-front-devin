@@ -3,6 +3,7 @@ import { CreateCourse, GetCourseDetails, GetCourses, UpdateCourse } from './api'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { KEYS } from '../keys'
+import { message } from 'antd'
 
 export const useGetCourses = () => {
   const { data = [], isFetching: isLoading } =
@@ -44,10 +45,9 @@ export const useUpdateCourse = () => {
   const qc = useQueryClient();
   const mutation = useMutation(({id,data}:{id:string,data: Partial<UpdateCoursePayload>}) => {
     return UpdateCourse(id, data).then(() => {
-      setTimeout(() => {
-        qc.invalidateQueries([KEYS.GET_COURSE_DETAILS, id]);
+      qc.invalidateQueries([KEYS.GET_COURSE_DETAILS, id]);
+      message.success('Course Details Updated');
 
-      }, 2000);
     })
   });
 

@@ -23,12 +23,9 @@ function CourseBuilderScreen() {
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-
-  useEffect(() => {
-    setCourseTree(courseDetails?.courseSections)
-   },[courseDetails])
+  
   console.log(courseDetails, 'courseDetails');
-  const [courseSections, setCourseTree] = useState<CourseSectionItem[]>([]);
+  const [courseSections, setCourseSections] = useState<CourseSectionItem[]>([]);
   const navigate = useNavigate();
   
   const onAddNewItem = (type: string, item: CourseNodeValueType, index:number | null) => {
@@ -48,7 +45,7 @@ function CourseBuilderScreen() {
       CourseSections.push(newItem);
     }
       
-    setCourseTree(CourseSections)
+    setCourseSections(CourseSections)
   }
 
   const saveCourse = () => {
@@ -60,9 +57,26 @@ function CourseBuilderScreen() {
     })
   }
 
+
+  useEffect(() => {
+    setCourseSections(courseDetails?.courseSections)
+  }, [courseDetails]);
+
   const updateCourseTree = (node:CourseSectionItem) => {
     const updatedTree = updateCourseTreeNode(courseSections, node);
-    setCourseTree(updatedTree);
+    setCourseSections(updatedTree);
+  }
+
+  const deleteSection = (index:number) => {
+    const sections = [...courseSections];
+    sections.splice(index, 1);
+    setCourseSections(sections);
+  }
+
+  const deleteSectionItem = (sectionIndex: number,itemIndex:number) => {
+    const sections = [...courseSections];
+    sections[sectionIndex].items.splice(itemIndex, 1);
+    setCourseSections(sections);
   }
 
   return (
@@ -87,7 +101,7 @@ function CourseBuilderScreen() {
           />
           </FileUpload>
 
-            <CourseBuilderTree onAddNewItem={onAddNewItem} courseSections={courseSections} />
+            <CourseBuilderTree deleteSectionItem={deleteSectionItem} deleteSection={deleteSection} onAddNewItem={onAddNewItem} courseSections={courseSections} />
 
           <CreateHeading onFinish={(e)=>onAddNewItem('heading',e,null)} >
           <AddChapterButton  block type="primary">

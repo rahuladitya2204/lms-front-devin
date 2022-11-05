@@ -42,8 +42,20 @@ function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
         defaultActiveKey={props.courseSections.map((s, i) => i)}
       >
         {props.courseSections.map((section, index) => {
+          let sectionsCompleted = 0
+          const totalSections = section.items.length
+          section.items.forEach(i => {
+            if (i.checked) sectionsCompleted += 1
+          })
           return (
-            <Panel header="This is panel header 1" key={index}>
+            <Panel
+              header={
+                <Typography.Title level={5}>
+                  {section.title} {sectionsCompleted}/{totalSections}
+                </Typography.Title>
+              }
+              key={index}
+            >
               <List
                 itemLayout="horizontal"
                 dataSource={section.items}
@@ -56,14 +68,6 @@ function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
                   </List.Item>
                 )}
               />
-              {/* {section.items.map(item => {
-                return (
-                  <CourseViewerCollapsibleItem
-                    toggleItemCheck={props.toggleItemCheck}
-                    item={item}
-                  />
-                )
-              })} */}
             </Panel>
           )
         })}

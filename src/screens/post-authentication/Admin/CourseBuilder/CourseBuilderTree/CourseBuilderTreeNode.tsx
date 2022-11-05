@@ -5,18 +5,18 @@ import {
   FileTextOutlined,
   YoutubeOutlined
 } from '@ant-design/icons'
+import {
+  CourseNodeValueType,
+  CourseSectionItem
+} from '../../../../../types/Common.types'
 import { Tooltip, Typography } from 'antd'
 
-import AddItem from '../AddItem'
-import { CourseNodeValueType } from '../../../../../types/Common.types'
-import type { DataNode } from 'antd/es/tree'
 import React from 'react'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
 interface CourseBuilderTreeNodePropsI {
-  data: DataNode;
-  onAddNewItem: (type: string, value: CourseNodeValueType, key: string) => void;
+  item: CourseSectionItem;
 }
 
 const Node = styled(Typography.Text)`
@@ -33,9 +33,8 @@ const Node = styled(Typography.Text)`
 
 const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
   let icon
-  const keyData = JSON.parse('' + props.data.key)
-  const type = keyData.type
-  let title: string | React.ReactNode = `${props.data.title}`
+  const type = props.item.type
+  let title: string | React.ReactNode = props.item.title
 
   const navigate = useNavigate()
 
@@ -47,17 +46,17 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
       icon = <FilePdfOutlined />
       return (
         <Tooltip title={title}>
-          <Node onClick={() => navigate(`${type}/${keyData.id}`)}>
+          <Node onClick={() => navigate(`${type}/${props.item.id}`)}>
             {icon} {title}
           </Node>
         </Tooltip>
       )
 
     case 'file':
-      icon = <CloudDownloadOutlined />;
+      icon = <CloudDownloadOutlined />
       return (
         <Tooltip title={title}>
-          <Node onClick={() => navigate(`${type}/${keyData.id}`)}>
+          <Node onClick={() => navigate(`${type}/${props.item.id}`)}>
             {icon} {title}
           </Node>
         </Tooltip>
@@ -67,7 +66,7 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
       icon = <YoutubeOutlined />
       return (
         <Tooltip title={title}>
-          <Node onClick={() => navigate(`${type}/${keyData.id}`)}>
+          <Node onClick={() => navigate(`${type}/${props.item.id}`)}>
             {icon} {title}
           </Node>
         </Tooltip>
@@ -76,23 +75,10 @@ const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
     case 'text':
       icon = <FileTextOutlined />
       return (
-        <Node onClick={() => navigate(`${type}/${keyData.id}`)}>
+        <Node onClick={() => navigate(`${type}/${props.item.id}`)}>
           {icon} {title}
         </Node>
       )
-
-    case 'item':
-      title = (
-        <AddItem
-          onAddNewItem={(key, value) =>
-            props.onAddNewItem(key, value, keyData.id)
-          }
-        >
-          {' '}
-          {title}
-        </AddItem>
-      )
-      break
   }
   return (
     <Node>
