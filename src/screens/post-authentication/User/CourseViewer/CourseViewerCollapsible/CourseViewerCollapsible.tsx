@@ -23,6 +23,10 @@ const CustomCollapse = styled(Collapse)`
     padding-top: 0;
     padding-bottom: 0;
   }
+
+  .ant-collapse {
+    border-radius: 0;
+  }
 `
 
 interface CourseViewerCollapsiblePropsI {
@@ -33,7 +37,10 @@ interface CourseViewerCollapsiblePropsI {
 function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
   return (
     <Fragment>
-      <CustomCollapse expandIconPosition='end' defaultActiveKey={props.courseSections.map((s, i) => i)}>
+      <CustomCollapse
+        expandIconPosition="end"
+        defaultActiveKey={props.courseSections.map((s, i) => i)}
+      >
         {props.courseSections.map((section, index) => {
           return (
             <Panel header="This is panel header 1" key={index}>
