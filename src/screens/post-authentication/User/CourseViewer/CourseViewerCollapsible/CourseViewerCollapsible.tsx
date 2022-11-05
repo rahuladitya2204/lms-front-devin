@@ -1,19 +1,9 @@
-import {
-  Avatar,
-  Button,
-  Card,
-  Checkbox,
-  Col,
-  Collapse,
-  List,
-  Row,
-  Typography
-} from 'antd'
-import { PlayCircleFilled, PlayCircleOutlined } from '@ant-design/icons'
+import { Badge, Collapse, List, Typography } from 'antd'
 
 import { CourseSectionItem } from '../../../../../types/Common.types'
 import CourseViewerCollapsibleItem from './CourseViewerCollapsibleItem'
 import { Fragment } from 'react'
+import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
 
 const { Panel } = Collapse
@@ -24,9 +14,22 @@ const CustomCollapse = styled(Collapse)`
     padding-bottom: 0;
   }
 
-  .ant-collapse {
-    border-radius: 0;
+  div.ant-collapse {
+    border-radius: 0 !important;
   }
+
+  .ant-collapse-content-box {
+    padding: 0;
+  }
+
+  .ant-list-item {
+    padding: 15px;
+  }
+`
+
+const CourseListItem = styled(List.Item)`
+  background: ${(props: { isActive: boolean }) =>
+    props.isActive ? '#e3e3e3' : 'auto'};
 `
 
 interface CourseViewerCollapsiblePropsI {
@@ -60,12 +63,17 @@ function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
                 itemLayout="horizontal"
                 dataSource={section.items}
                 renderItem={item => (
-                  <List.Item>
-                    <CourseViewerCollapsibleItem
-                      toggleItemCheck={props.toggleItemCheck}
-                      item={item}
-                    />
-                  </List.Item>
+                  <NavLink
+                    to={`item/${item.id}`}
+                    children={({ isActive }) => (
+                      <CourseListItem isActive={isActive}>
+                        <CourseViewerCollapsibleItem
+                          toggleItemCheck={props.toggleItemCheck}
+                          item={item}
+                        />
+                      </CourseListItem>
+                    )}
+                  />
                 )}
               />
             </Panel>

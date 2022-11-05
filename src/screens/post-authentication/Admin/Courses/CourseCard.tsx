@@ -1,3 +1,4 @@
+import { Card, Tooltip } from 'antd'
 import {
   EyeOutlined,
   FormatPainterOutlined,
@@ -7,7 +8,6 @@ import {
 } from '@ant-design/icons'
 
 import Avatar from 'antd/lib/avatar/avatar'
-import { Card } from 'antd'
 import { CourseType } from '../../../../types/Courses.types'
 import Meta from 'antd/lib/card/Meta'
 import { useNavigate } from 'react-router'
@@ -29,8 +29,14 @@ function CourseCard(props: CourseCardProps) {
       }
       actions={[
         <SettingOutlined />,
-        <ToolOutlined onClick={() => navigate(`builder/${props.course._id}`)} />,
-        <FormatPainterOutlined />,
+        <Tooltip placement="bottom" title={'Go to course builder'}>
+          <ToolOutlined
+            onClick={() => navigate(`builder/${props.course._id}`)}
+          />
+        </Tooltip>,
+        <Tooltip placement="bottom" title={'Build landing page'}>
+          <FormatPainterOutlined />
+        </Tooltip>,
         <EyeOutlined />,
         <WechatOutlined />,
         <SettingOutlined />

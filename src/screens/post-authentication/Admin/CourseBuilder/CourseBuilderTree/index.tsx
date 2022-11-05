@@ -17,6 +17,7 @@ import {
 import AddItem from '../AddItem'
 import CourseBuilderTreeNode from './CourseBuilderTreeNode'
 import { DeleteOutlined } from '@ant-design/icons'
+import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
@@ -36,6 +37,10 @@ const CustomCollapse = styled(Collapse)`
   }
 `
 
+const CourseListItem = styled(List.Item)`
+  background: ${(props: { isActive: boolean }) =>
+    props.isActive ? '#e3e3e3' : 'auto'};
+`
 interface CourseSectionPropsI {
   courseSections: CourseSectionItem[];
   deleteSection: (index: number) => void;
@@ -86,7 +91,7 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                       okText="Yes"
                       cancelText="No"
                     >
-                      <Tooltip placement="bottom" title={'Delete Section'}>
+                      <Tooltip placement="bottom" title={'Delete this complete section of course'}>
                         <Button size="small" type="ghost">
                           Delete Section{' '}
                         </Button>
@@ -95,27 +100,38 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                   </Space>
                 }
                 renderItem={(item, itemIndex) => (
-                  <List.Item
-                    style={{ cursor: 'pointer' }}
-                    actions={[
-                      <Popconfirm
-                        placement="right"
-                        title={`Are you sure to delete this item?`}
-                        onConfirm={() => deleteSectionItem(secIndex, itemIndex)}
-                        okText="Yes"
-                        cancelText="No"
+                  <NavLink
+                    to={`${item.type}/${item.id}`}
+                    children={({ isActive }) => (
+                      <CourseListItem
+                        isActive={isActive}
+                        actions={[
+                          <Popconfirm
+                            placement="right"
+                            title={`Are you sure to delete this item?`}
+                            onConfirm={() =>
+                              deleteSectionItem(secIndex, itemIndex)
+                            }
+                            okText="Yes"
+                            cancelText="No"
+                          >
+                            <Tooltip
+                              placement="bottom"
+                              title={'Delete Section item'}
+                            >
+                              <DeleteOutlined />
+                            </Tooltip>
+                          </Popconfirm>
+                        ]}
                       >
-                        <Tooltip
-                          placement="bottom"
-                          title={'Delete Section item'}
-                        >
-                          <DeleteOutlined />
-                        </Tooltip>
-                      </Popconfirm>
-                    ]}
-                  >
-                    <CourseBuilderTreeNode item={item} />
-                  </List.Item>
+                        <List.Item.Meta
+                          style={{ cursor: 'pointer' }}
+                          title={item.title}
+                          avatar={<CourseBuilderTreeNode item={item} />}
+                        />
+                      </CourseListItem>
+                    )}
+                  />
                 )}
               />
             </Collapse.Panel>

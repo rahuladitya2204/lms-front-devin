@@ -1,17 +1,18 @@
 import {
-  BookOutlined,
+  BookFilled,
   CloudDownloadOutlined,
-  FilePdfOutlined,
-  FileTextOutlined,
-  YoutubeOutlined
+  FilePdfFilled,
+  FileTextFilled,
+  PlayCircleFilled,
+  YoutubeFilled
 } from '@ant-design/icons'
 import {
   CourseNodeValueType,
   CourseSectionItem
 } from '../../../../../types/Common.types'
+import React, { ReactNode } from 'react'
 import { Tooltip, Typography } from 'antd'
 
-import React from 'react'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
@@ -31,60 +32,31 @@ const Node = styled(Typography.Text)`
   padding-top: 6px;
 `
 
-const CourseBuilderTreeNode: React.FC<CourseBuilderTreeNodePropsI> = props => {
-  let icon
-  const type = props.item.type
-  let title: string | React.ReactNode = props.item.title
-
-  const navigate = useNavigate()
-
-  switch (type) {
+const CourseBuilderTreeNode = (props: CourseBuilderTreeNodePropsI) => {
+  let icon;
+  switch (props.item.type) {
     case 'chapter':
-      icon = <BookOutlined />
+      icon = <BookFilled />
       break
     case 'pdf':
-      icon = <FilePdfOutlined />
-      return (
-        <Tooltip title={title}>
-          <Node onClick={() => navigate(`${type}/${props.item.id}`)}>
-            {icon} {title}
-          </Node>
-        </Tooltip>
-      )
+      icon = <FilePdfFilled />
+      break
 
     case 'file':
       icon = <CloudDownloadOutlined />
-      return (
-        <Tooltip title={title}>
-          <Node onClick={() => navigate(`${type}/${props.item.id}`)}>
-            {icon} {title}
-          </Node>
-        </Tooltip>
-      )
+      break
 
     case 'video':
-      icon = <YoutubeOutlined />
-      return (
-        <Tooltip title={title}>
-          <Node onClick={() => navigate(`${type}/${props.item.id}`)}>
-            {icon} {title}
-          </Node>
-        </Tooltip>
-      )
+      icon = <PlayCircleFilled />
+      break
 
     case 'text':
-      icon = <FileTextOutlined />
-      return (
-        <Node onClick={() => navigate(`${type}/${props.item.id}`)}>
-          {icon} {title}
-        </Node>
-      )
+      icon = <FileTextFilled />
+      break
   }
-  return (
-    <Node>
-      {icon} {title}
-    </Node>
-  )
+  return <>
+    {icon}
+  </>
 }
 
 export default CourseBuilderTreeNode
