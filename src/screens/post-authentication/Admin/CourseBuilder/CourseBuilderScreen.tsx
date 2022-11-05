@@ -5,7 +5,6 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import { useGetCourseDetails, useUpdateCourse } from '../../../../queries/Courses/CoursesQueries'
 
-import AddItem from './AddItem'
 import CourseBuilderTree from './CourseBuilderTree'
 import CreateHeading from './CreateNewItem/CreateHeading'
 import FileUpload from '../../../../components/FileUpload'

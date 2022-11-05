@@ -17,7 +17,24 @@ import {
 import AddItem from '../AddItem'
 import CourseBuilderTreeNode from './CourseBuilderTreeNode'
 import { DeleteOutlined } from '@ant-design/icons'
+import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
+
+const CustomCollapse = styled(Collapse)`
+  .ant-collapse-content-box {
+    padding: 0;
+  }
+
+  .ant-list-footer {
+    padding-bottom: 0;
+  }
+
+  .ant-space {
+    display: flex;
+    gap: 8px;
+    justify-content: space-around;
+  }
+`
 
 interface CourseSectionPropsI {
   courseSections: CourseSectionItem[];
@@ -35,11 +52,9 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
   onAddNewItem,
   deleteSection
 }) => {
-  const navigate = useNavigate()
-  console.log(courseSections, 'courseSections')
   return (
     <Card bodyStyle={{ padding: 0 }}>
-      <Collapse
+      <CustomCollapse
         collapsible="header"
         defaultActiveKey={courseSections.map((s, i) => i + '')}
         expandIconPosition="end"
@@ -52,6 +67,32 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                 style={{ marginBottom: 20 }}
                 size="small"
                 dataSource={section.items}
+                footer={
+                  <Space>
+                    <AddItem
+                      onAddNewItem={(key, value) =>
+                        onAddNewItem(key, value, secIndex)
+                      }
+                    >
+                      <Button size="small" type="primary">
+                        Add New Item{' '}
+                      </Button>
+                    </AddItem>
+                    <Popconfirm
+                      placement="right"
+                      title={`Are you sure to delete this section?`}
+                      onConfirm={() => deleteSection(secIndex)}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Tooltip placement="bottom" title={'Delete Section'}>
+                        <Button size="small" type="ghost">
+                          Delete Section{' '}
+                        </Button>
+                      </Tooltip>
+                    </Popconfirm>
+                  </Space>
+                }
                 renderItem={item => (
                   <List.Item
                     style={{ cursor: 'pointer' }}
@@ -76,39 +117,10 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                   </List.Item>
                 )}
               />
-              <Row gutter={[16, 16]}>
-                <Col span={12}>
-                  {' '}
-                  <AddItem
-                    onAddNewItem={(key, value) =>
-                      onAddNewItem(key, value, secIndex)
-                    }
-                  >
-                    <Button size="small" type="primary">
-                      Add New Item{' '}
-                    </Button>
-                  </AddItem>
-                </Col>
-                <Col span={12}>
-                  <Popconfirm
-                    placement="right"
-                    title={`Are you sure to delete this section?`}
-                    onConfirm={() => deleteSection(secIndex)}
-                    okText="Yes"
-                    cancelText="No"
-                  >
-                    <Tooltip placement="bottom" title={'Delete Section'}>
-                      <Button size="small" type="ghost">
-                        Delete Section{' '}
-                      </Button>
-                    </Tooltip>
-                  </Popconfirm>
-                </Col>
-              </Row>
             </Collapse.Panel>
           )
         })}
-      </Collapse>
+      </CustomCollapse>
     </Card>
   )
 }

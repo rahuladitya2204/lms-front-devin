@@ -5,7 +5,7 @@ import { CourseNodeValueType } from '../../../../../types/Common.types';
 
 interface CreateHeadingProps {
     children?: React.ReactNode;
-    onFinish:(data:CourseNodeValueType)=>void
+  onFinish: (data: CourseNodeValueType) => void;
 }
 
 const CreateHeading: React.FC<CreateHeadingProps> = (props) => {
@@ -45,7 +45,7 @@ const CreateHeading: React.FC<CreateHeadingProps> = (props) => {
           ]} title="New Heading" open={isModalOpen} onCancel={closeModal}>
               
               <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item name="headingName" label="Heading Name">
+        <Form.Item required name="headingName" label="Heading Name">
           <Input />
         </Form.Item></Form>
       
