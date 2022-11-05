@@ -1,18 +1,18 @@
-import { CourseTreeTypeNode } from '../../../../types/Common.types'
+import { CourseSectionItem } from '../../../../types/Common.types'
 import { DataNode } from 'antd/lib/tree'
 import { cloneDeep } from 'lodash';
 import { v4 as uuid } from 'uuid';
 
 export const findNode = (
   id: string,
-  TREE: CourseTreeTypeNode[]
-): CourseTreeTypeNode => {
-  let node: CourseTreeTypeNode
+  TREE: CourseSectionItem[]
+): CourseSectionItem => {
+  let node: CourseSectionItem
   TREE.forEach(item => {
     if (item.id === id) {
       node = item
     }
-    item.children.forEach(i => {
+    item.items.forEach(i => {
       if (i.id === id) {
         node = i
       }
@@ -22,86 +22,32 @@ export const findNode = (
   return node
 }
 
-export const convertToDataNode = (tree: CourseTreeTypeNode[]): DataNode[] => {
-  return tree.map(item => {
-    const key = {
-      id: item.id,
-      data: item.data,
-      type: item.type
-    }
-    const children = item.children.map(i => {
-      const childKey = {
-        id: i.id,
-        data: i.data,
-        type: i.type
-      }
-      return {
-        title: i.title,
-        key: JSON.stringify(childKey),
-        isLeaf: true
-      }
-    });
-    children.shift();
-    return {
-      title: item.title,
-      key: JSON.stringify(key),
-      children: children
-    }
-  })
-}
 
-export const convertFromDataNode = (tree: DataNode[]): CourseTreeTypeNode[] => {
-  return tree.map(item => {
-    const ParsedKey = JSON.parse(item.key + '')
-    const children = item.children
-      ? item.children?.map(i => {
-        const ChildParsedKey = JSON.parse(i.key + '')
-        return {
-          title: item.title + '',
-          id: ChildParsedKey.id,
-          type: ChildParsedKey.type,
-          data: ChildParsedKey.data,
-          children: []
-        }
-      })
-      : [];
-    
-      // @ts-ignore
-    children.unshift(createChapterItemNode());
-    return {
-      title: item.title + '',
-      id: ParsedKey.id,
-      type: ParsedKey.type,
-      data: ParsedKey.data,
-      children: children
-    }
-  })
-}
 
 export const updateCourseTreeNode = (
-  tree: CourseTreeTypeNode[],
-  node: CourseTreeTypeNode
+  tree: CourseSectionItem[],
+  node: CourseSectionItem
 ) => {
   const TREE = cloneDeep(tree)
   TREE.forEach((item, index) => {
     if (item.id === node.id) {
       TREE[index] = node;
     }
-    item.children.forEach((i, childIndex) => {
+    item.items.forEach((i, childIndex) => {
       if (i.id === node.id) {
-        item.children[childIndex] = node
+        item.items[childIndex] = node
       }
     })
   })
   return TREE
 }
 
-export const createChapterItemNode = (): CourseTreeTypeNode => {
+export const createChapterItemNode = (): CourseSectionItem => {
   return {
     title: '+ Add Chapter Item',
     id: uuid(),
     type: 'item',
     data: null,
-    children: []
+    items: []
   }
 }

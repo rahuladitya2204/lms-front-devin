@@ -1,12 +1,12 @@
 import { Card, Checkbox, Col, Row, Space, Typography } from 'antd'
 
-import { CourseTreeTypeNode } from '../../../../../types/Common.types'
+import { CourseSectionItem } from '../../../../../types/Common.types'
 import { NavLink } from 'react-router-dom'
 import { PlayCircleFilled } from '@ant-design/icons'
 import styled from '@emotion/styled'
 
 interface CourseViewerCollapsibleItemPropsI {
-  item: CourseTreeTypeNode;
+  item: CourseSectionItem;
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 

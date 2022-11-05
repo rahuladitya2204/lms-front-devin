@@ -1,5 +1,7 @@
-import { Button, Card, Checkbox, Form, Input } from 'antd'
+import { Button, Card, Checkbox, Form, Input, Typography } from 'antd'
 
+import AuthenticationCard from '../components/AuthenticationCard'
+import { NavLink } from 'react-router-dom'
 import { SignupData } from '../../../types/Common.types'
 import { useFormik } from 'formik'
 import useSignup from '../hooks/useSignupUser'
@@ -21,8 +23,10 @@ function SignupUser() {
     }
   })
   return (
-    <Card title="Signup" style={{ width: 300 }}>
+    <AuthenticationCard title={'Register'}>
+      {' '}
       <Form
+        layout="vertical"
         initialValues={{
           remember: true
         }}
@@ -57,12 +61,21 @@ function SignupUser() {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button block type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>
+        <Form.Item style={{ textAlign: 'center' }}>
+          <Typography.Text>
+            Already have an account?{' '}
+            <NavLink
+              to={'/login'}
+              children={<Button type="link">Log In</Button>}
+            />
+          </Typography.Text>
+        </Form.Item>
       </Form>
-    </Card>
+    </AuthenticationCard>
   )
 }
 

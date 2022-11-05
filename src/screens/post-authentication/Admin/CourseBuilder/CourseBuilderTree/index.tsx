@@ -1,24 +1,24 @@
 import { Button, Card, Collapse, Dropdown, Menu, MenuProps, Space } from 'antd'
 import {
   CourseNodeValueType,
-  CourseTreeTypeNode
+  CourseSectionItem
 } from '../../../../../types/Common.types'
 
 import AddItem from '../AddItem'
 import { DownOutlined } from '@ant-design/icons'
 import { useNavigate } from 'react-router'
 
-interface CourseBuilderTreePropsI {
-  courseTree: CourseTreeTypeNode[];
+interface CourseSectionPropsI {
+  courseSections: CourseSectionItem[];
   onAddNewItem: (type: string, item: CourseNodeValueType, id?: string) => void;
 }
 
-const CourseBuilderTree: React.FC<CourseBuilderTreePropsI> = ({
-  courseTree,
+const CourseSection: React.FC<CourseSectionPropsI> = ({
+  courseSections,
   onAddNewItem
 }) => {
   const navigate = useNavigate()
-
+  console.log(courseSections,'courseSections')
   return (
     <Card bodyStyle={{ padding: 0 }}>
       <Collapse
@@ -26,11 +26,11 @@ const CourseBuilderTree: React.FC<CourseBuilderTreePropsI> = ({
         defaultActiveKey={['1']}
         expandIconPosition="end"
       >
-        {courseTree.map(parent => {
+        {courseSections.map(section => {
           return (
-            <Collapse.Panel header={`${parent.title}`} key="1">
+            <Collapse.Panel header={`${section.title}`} key="1">
               <Space direction="vertical" size={'middle'}>
-                {parent.children?.map(child => {
+                {section.items?.map(child => {
                   const menu = (
                     <Menu>
                       <Menu.Item key="1">Item 1</Menu.Item>
@@ -57,7 +57,7 @@ const CourseBuilderTree: React.FC<CourseBuilderTreePropsI> = ({
                 })}
                 <AddItem
                   onAddNewItem={(key, value) =>
-                    onAddNewItem(key, value, parent.id)
+                    onAddNewItem(key, value, section.id)
                   }
                 >
                   <Button block type="primary">
@@ -73,4 +73,4 @@ const CourseBuilderTree: React.FC<CourseBuilderTreePropsI> = ({
   )
 }
 
-export default CourseBuilderTree
+export default CourseSection

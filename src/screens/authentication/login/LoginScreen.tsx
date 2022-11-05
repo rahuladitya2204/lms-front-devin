@@ -1,12 +1,19 @@
 import { Button, Checkbox, Form, Input } from 'antd'
 import { Card, Typography } from 'antd'
 
+import AuthenticationCard from '../components/AuthenticationCard'
 import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { useFormik } from 'formik'
 import useLogin from '../hooks/useLogin'
 
-const { Title, Paragraph, Text, Link } = Typography
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+`
 
 function LoginScreen () {
   const { mutate: loginUser } = useLogin()
@@ -23,12 +30,12 @@ function LoginScreen () {
     }
   })
   return (
-    // <Container>
-    <Card title="Login" style={{ width: 300 }}>
+    <AuthenticationCard title={'Login'}>
       <Form
         initialValues={{
           remember: true
         }}
+        layout="vertical"
         onSubmitCapture={formik.handleSubmit}
       >
         <Form.Item
@@ -68,20 +75,18 @@ function LoginScreen () {
           <Button block type="primary" htmlType="submit">
             Submit
           </Button>
-          <NavLink to={'/signup'}>
-            <Button
-              style={{ margin: '10px 0' }}
-              block
-              type="primary"
-              htmlType="button"
-            >
-              Register User
-            </Button>
-          </NavLink>
+        </Form.Item>
+        <Form.Item style={{ textAlign: 'center' }}>
+          <Typography.Text>
+            Don't have an account?{' '}
+            <NavLink
+              to={'/signup'}
+              children={<Button type="link">Sign up?</Button>}
+            />
+          </Typography.Text>
         </Form.Item>
       </Form>
-    </Card>
-    // </Container>
+    </AuthenticationCard>
   )
 }
 

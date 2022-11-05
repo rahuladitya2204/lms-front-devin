@@ -19,27 +19,27 @@ function CourseViewer() {
   const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
   const navigate = useNavigate()
 
-  const courseTree = courseDetails.courseTree
+  const courseSections = courseDetails.courseSections
 
   useEffect(
     () => {
-      if (courseTree[0]?.children[0]) {
-        const itemId = courseTree[0].children[0].id
+      if (courseSections[0]?.items[0]) {
+        const itemId = courseSections[0].items[0].id
         navigate(`item/${itemId}`)
       }
     },
-    [courseTree]
+    [courseSections]
   )
   console.log(courseDetails, 'details')
 
   const toggleItemCheck = (id: string, checked: boolean) => {
-    const COURSE_TREE = cloneDeep(courseTree)
+    const COURSE_TREE = cloneDeep(courseSections)
     const node = findNode(id, COURSE_TREE)
     node.checked = checked;
     updateCourse({
       id: courseId + '',
       data: {
-        courseTree: COURSE_TREE
+        courseSections: COURSE_TREE
       }
     })
   }
@@ -48,7 +48,7 @@ function CourseViewer() {
     <div className="site-card-wrapper">
       <Row gutter={[0, 0]}>
         <Col span={17}>
-          <Outlet context={[courseTree]} />
+          <Outlet context={[courseSections]} />
           <Card>
             <CourseViewerMoreInfo />
           </Card>
@@ -56,7 +56,7 @@ function CourseViewer() {
         <Col span={7}>
           <CourseViewerCollapsible
             toggleItemCheck={toggleItemCheck}
-            courseTree={courseTree}
+            courseSections={courseSections}
           />
         </Col>
       </Row>

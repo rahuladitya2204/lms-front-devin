@@ -1,6 +1,6 @@
 import { useOutletContext, useParams } from "react-router";
 
-import { CourseTreeTypeNode } from "../../../../../../types/Common.types";
+import { CourseSectionItem } from "../../../../../../types/Common.types";
 import { Form } from "antd";
 import { findNode } from "../../utils";
 import { useEffect } from "react";
@@ -13,7 +13,7 @@ function useUploadItemForm<T>(initialValues:T) {
     nodeId = '';
   }
 
-  const [courseData, updateCourseData] = useOutletContext<[CourseTreeTypeNode[],(data:CourseTreeTypeNode)=>void]>();
+  const [courseData, updateCourseData] = useOutletContext<[CourseSectionItem[],(data:CourseSectionItem)=>void]>();
 
   const node = findNode(nodeId, courseData);
   

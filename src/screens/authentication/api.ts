@@ -7,7 +7,7 @@ export const LoginUser = (data: LoginData) => {
 }
 
 export const SignupUser = (data: SignupData) => {
-  return Axios.post('auth/signup', data)
+  return Axios.post('auth/register', data)
 }
 
 export const ValidateUser = () => {

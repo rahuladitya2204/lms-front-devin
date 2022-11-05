@@ -20,13 +20,13 @@ export interface PresignedUrlRequestData {
   fileType: string;
 }
 
-export interface CourseTreeTypeNode {
+export interface CourseSectionItem {
   title: string;
   id: string;
   type: string;
   data?: unknown;
   checked?: boolean;
-  children: CourseTreeTypeNode[];
+  items: CourseSectionItem[];
 }
 
 export interface CourseNodeValueType { title: string; data: unknown }

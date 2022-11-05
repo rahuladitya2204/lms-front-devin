@@ -1,7 +1,7 @@
 import { Button, Card, Checkbox, Col, Collapse, Row, Typography } from 'antd'
 import { PlayCircleFilled, PlayCircleOutlined } from '@ant-design/icons'
 
-import { CourseTreeTypeNode } from '../../../../../types/Common.types'
+import { CourseSectionItem } from '../../../../../types/Common.types'
 import CourseViewerCollapsibleItem from './CourseViewerCollapsibleItem'
 import { Fragment } from 'react'
 import styled from '@emotion/styled'
@@ -16,25 +16,25 @@ const CustomCollapse = styled(Collapse)`
 
 
 interface CourseViewerCollapsiblePropsI {
-  courseTree: CourseTreeTypeNode[];
+  courseSections: CourseSectionItem[];
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
 function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
   return (
     <Fragment>
-      {props.courseTree.map((parent, parentIndex) => {
+      {props.courseSections.map((section, sectionIndex) => {
         return (
           <CustomCollapse expandIconPosition="end" defaultActiveKey={['1']}>
             <Panel
               header={
                 <Typography.Title style={{ marginBottom: 0 }} level={5}>
-                  Section {parentIndex + 1}
+                  Section {sectionIndex + 1}
                 </Typography.Title>
               }
               key="1"
             >
-              {parent.children.map((item, itemIndex) => {
+              {section.items.map((item, itemIndex) => {
                 return (
                   <CourseViewerCollapsibleItem
                     toggleItemCheck={props.toggleItemCheck}

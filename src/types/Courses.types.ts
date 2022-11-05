@@ -1,4 +1,4 @@
-import { CourseTreeTypeNode } from "./Common.types";
+import { CourseSectionItem } from "./Common.types";
 import { DataNode } from "antd/lib/tree";
 
 export interface CourseType {
@@ -17,13 +17,13 @@ export interface UpdateCoursePayload {
   title: string;
   instructorName: string;
   howToUse: string;
-  courseTree: CourseTreeTypeNode[];
+  courseSections: CourseSectionItem[];
 }
 
 export interface CourseDetailsType{
   title: string;
   instructorName: string;
   howToUse: string;
-  courseTree: CourseTreeTypeNode[];
+  courseSections: CourseSectionItem[];
   _id: string;
 }

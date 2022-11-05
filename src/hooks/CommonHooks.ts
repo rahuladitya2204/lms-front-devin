@@ -5,7 +5,7 @@ import {
   useParams
 } from 'react-router-dom'
 
-import { CourseTreeTypeNode } from '../types/Common.types';
+import { CourseSectionItem } from '../types/Common.types';
 import { findNode } from '../screens/post-authentication/Admin/CourseBuilder/utils'
 
 export const useNavigateParams = () => {
@@ -19,8 +19,8 @@ export const useNavigateParams = () => {
 
 export const useGetNodeFromRouterOutlet = () => {
   const { nodeId } = useParams();
-  const [courseTree] = useOutletContext<CourseTreeTypeNode[][]>()
-  const node: CourseTreeTypeNode = findNode(nodeId+'', courseTree);
+  const [courseSections] = useOutletContext<CourseSectionItem[][]>()
+  const node: CourseSectionItem = findNode(nodeId+'', courseSections);
 
   return node;
 }

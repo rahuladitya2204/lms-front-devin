@@ -1,6 +1,6 @@
 import { ArrowLeftOutlined, EditOutlined, EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Button, Card, Col, Row } from 'antd'
-import { CourseNodeValueType, CourseTreeTypeNode } from '../../../../types/Common.types'
+import { CourseNodeValueType, CourseSectionItem } from '../../../../types/Common.types'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 import { useGetCourseDetails, useUpdateCourse } from '../../../../queries/Courses/CoursesQueries'
@@ -24,33 +24,33 @@ function CourseBuilderScreen() {
   });
 
   useEffect(() => {
-    setCourseTree(courseDetails?.courseTree)
+    setCourseTree(courseDetails?.courseSections)
    },[courseDetails])
-
-  const [courseTree, setCourseTree] = useState<CourseTreeTypeNode[]>([]);
+  console.log(courseDetails, 'courseDetails');
+  const [courseSections, setCourseTree] = useState<CourseSectionItem[]>([]);
   const navigate = useNavigate();
   
   const onAddNewItem = (type: string, item: CourseNodeValueType, id?: string) => {
-    let CT = [...courseTree];
-    const newItem: CourseTreeTypeNode = {
+    let CT = [...courseSections];
+    const newItem: CourseSectionItem = {
       title: item.title,
       id: uuid(),
       data: item.data,
       type,
-      children: [],
+      items: [],
     };
 
     if (id) {
-      newItem.children = [];
+      newItem.items = [];
       CT.forEach(item => {
-        if (!item.children)
+        if (!item.items)
         {
-          item.children = [];
+          item.items = [];
         }
-        item.children.forEach(i => {
+        item.items.forEach(i => {
           if (i.id === id)
           {
-            item?.children?.push(newItem)
+            item?.items?.push(newItem)
           }
         })
         
@@ -67,13 +67,13 @@ function CourseBuilderScreen() {
     updateCourse({
       id: courseId +'',
       data:{
-        courseTree: courseTree
+        courseSections: courseSections
       }
     })
   }
 
-  const updateCourseTree = (node:CourseTreeTypeNode) => {
-    const updatedTree = updateCourseTreeNode(courseTree, node);
+  const updateCourseTree = (node:CourseSectionItem) => {
+    const updatedTree = updateCourseTreeNode(courseSections, node);
     setCourseTree(updatedTree);
   }
 
@@ -98,7 +98,7 @@ function CourseBuilderScreen() {
           />
           </FileUpload>
 
-            <CourseBuilderTree onAddNewItem={onAddNewItem} courseTree={courseTree} />
+            <CourseBuilderTree onAddNewItem={onAddNewItem} courseSections={courseSections} />
 
           <AddItem onAddNewItem={onAddNewItem} >
           <AddChapterButton  block type="primary">
@@ -108,7 +108,7 @@ function CourseBuilderScreen() {
         </Col>
         <Col span={16}>
         <Card  extra={<><Button style={{marginRight:15}} icon={<UploadOutlined />}>Publish Course</Button><Button onClick={saveCourse} loading={loading} type='primary' icon={<SaveOutlined />}>Save</Button></>}>
-            <Outlet context={[courseTree,updateCourseTree]} />
+            <Outlet context={[courseSections,updateCourseTree]} />
             </Card>
         </Col>
       </Row>
