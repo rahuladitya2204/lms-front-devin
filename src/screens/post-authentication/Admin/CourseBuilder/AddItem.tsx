@@ -33,12 +33,12 @@ const UPLOAD_NEW_ITEM = [
 ]
 
 const CREATE_NEW_ITEM = [
-  {
-    title: 'Heading',
-    description: 'Define your chapter or section headings.',
-    component: CreateHeading,
-    type:'heading'
-  },
+  // {
+  //   title: 'Heading',
+  //   description: 'Define your chapter or section headings.',
+  //   component: CreateHeading,
+  //   type:'heading'
+  // },
   {
     title: 'Text',
     description: 'Create your textual lessons in the course. It can also be used to embed iFrame, add HTML code through the Source option.',

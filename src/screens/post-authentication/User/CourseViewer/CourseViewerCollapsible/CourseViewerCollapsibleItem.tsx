@@ -1,4 +1,4 @@
-import { Card, Checkbox, Col, Row, Space, Typography } from 'antd'
+import { Card, Checkbox, Col, List, Row, Space, Typography } from 'antd'
 
 import { CourseSectionItem } from '../../../../../types/Common.types'
 import { NavLink } from 'react-router-dom'
@@ -11,8 +11,9 @@ interface CourseViewerCollapsibleItemPropsI {
 }
 
 const CollapsibleNavlink = styled(NavLink)`
-  .ant-card-body {
-    /* background: ${props => (props.style ? `red` : `red`)}; */
+  a {
+    width: 100%;
+    padding-left: 19px;
   }
 `
 
@@ -34,46 +35,32 @@ const CustomPanelCard = styled(Card)`
 
 function CourseViewerCollapsibleItem(props: CourseViewerCollapsibleItemPropsI) {
   return (
-    <CollapsibleNavlink
-      children={({ isActive }) => {
-        return (
-          <CustomPanelCard isActive={isActive}>
-            <Row gutter={[0, 0]}>
-              <Col span={4}>
-                <Checkbox
-                  defaultChecked={props.item.checked}
-                  onChange={e =>
-                    props.toggleItemCheck(props.item.id, !!e.target.checked)
-                  }
-                />
-              </Col>
-              <Col span={20}>
-                <Typography.Text style={{ fontSize: 16 }} ellipsis>
-                  {props.item.title}
-                </Typography.Text>
-                <Row gutter={[10, 10]}>
-                  <Col span={12}>
-                    <Typography.Text
-                      style={{
-                        color: 'grey',
-                        fontSize: 14,
-                        marginTop: '5px',
-                        display: 'block'
-                      }}
-                    >
-                      <PlayCircleFilled /> 12 min
-                    </Typography.Text>
-                  </Col>
-                  <Col span={12}>
-                    {/* <Button size="small">Resources</Button> */}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </CustomPanelCard>
-        )
-      }}
-      to={`item/${props.item.id}`}
+    <List.Item.Meta
+      avatar={
+        <Checkbox
+          defaultChecked={props.item.checked}
+          onChange={e =>
+            props.toggleItemCheck(props.item.id, !!e.target.checked)
+          }
+        />
+      }
+      title={
+        <NavLink to={`item/${props.item.id}`}
+          children={<a href="https://ant.design">{props.item.title}</a>}
+        />
+      }
+      description={
+        <Typography.Text
+          style={{
+            color: 'grey',
+            fontSize: 14,
+            marginTop: '5px',
+            display: 'block'
+          }}
+        >
+          <PlayCircleFilled /> 12 min
+        </Typography.Text>
+      }
     />
   )
 }

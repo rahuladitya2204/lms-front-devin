@@ -26,6 +26,7 @@ const CreateHeading: React.FC<CreateHeadingProps> = (props) => {
           headingName
         }
       });
+      form.resetFields(['headingName']);
         closeModal();
     }
     

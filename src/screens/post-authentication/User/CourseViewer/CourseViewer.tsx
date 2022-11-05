@@ -35,7 +35,7 @@ function CourseViewer() {
   const toggleItemCheck = (id: string, checked: boolean) => {
     const COURSE_TREE = cloneDeep(courseSections)
     const node = findNode(id, COURSE_TREE)
-    node.checked = checked;
+    node.checked = checked
     updateCourse({
       id: courseId + '',
       data: {

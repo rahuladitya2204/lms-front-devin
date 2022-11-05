@@ -7,7 +7,7 @@ import { useFormik } from 'formik'
 import useSignup from '../hooks/useSignupUser'
 
 function SignupUser() {
-  const { mutate: Signup } = useSignup()
+  const { mutate: Signup, isLoading: loading } = useSignup()
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -61,7 +61,7 @@ function SignupUser() {
         </Form.Item>
 
         <Form.Item>
-          <Button block type="primary" htmlType="submit">
+          <Button loading={loading} block type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>

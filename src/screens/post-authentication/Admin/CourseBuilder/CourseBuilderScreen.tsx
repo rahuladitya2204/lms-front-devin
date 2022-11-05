@@ -7,6 +7,7 @@ import { useGetCourseDetails, useUpdateCourse } from '../../../../queries/Course
 
 import AddItem from './AddItem'
 import CourseBuilderTree from './CourseBuilderTree'
+import CreateHeading from './CreateNewItem/CreateHeading'
 import FileUpload from '../../../../components/FileUpload'
 import styled from '@emotion/styled'
 import { updateCourseTreeNode } from './utils'
@@ -30,8 +31,8 @@ function CourseBuilderScreen() {
   const [courseSections, setCourseTree] = useState<CourseSectionItem[]>([]);
   const navigate = useNavigate();
   
-  const onAddNewItem = (type: string, item: CourseNodeValueType, id?: string) => {
-    let CT = [...courseSections];
+  const onAddNewItem = (type: string, item: CourseNodeValueType, index:number | null) => {
+    let CourseSections = [...courseSections];
     const newItem: CourseSectionItem = {
       title: item.title,
       id: uuid(),
@@ -39,28 +40,15 @@ function CourseBuilderScreen() {
       type,
       items: [],
     };
-
-    if (id) {
-      newItem.items = [];
-      CT.forEach(item => {
-        if (!item.items)
-        {
-          item.items = [];
-        }
-        item.items.forEach(i => {
-          if (i.id === id)
-          {
-            item?.items?.push(newItem)
-          }
-        })
-        
-      })
-     }
+    if (index !== null)
+    {
+      CourseSections[index].items.push(newItem);
+    }
     else {
-      CT.push(newItem)
+      CourseSections.push(newItem);
     }
       
-    setCourseTree(CT)
+    setCourseTree(CourseSections)
   }
 
   const saveCourse = () => {
@@ -81,6 +69,7 @@ function CourseBuilderScreen() {
     <div className="site-card-wrapper">
       <Row gutter={[16, 16]}>
         <Col span={8}>
+          <Card>
           <Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(`/admin/dashboard/courses`)} type="link">
             Back to courses
           </Button>
@@ -100,11 +89,12 @@ function CourseBuilderScreen() {
 
             <CourseBuilderTree onAddNewItem={onAddNewItem} courseSections={courseSections} />
 
-          <AddItem onAddNewItem={onAddNewItem} >
+          <CreateHeading onFinish={(e)=>onAddNewItem('heading',e,null)} >
           <AddChapterButton  block type="primary">
-      Add New Chapter
-    </AddChapterButton>
-          </AddItem>
+            Add New Section
+          </AddChapterButton>
+          </CreateHeading>
+          </Card>
         </Col>
         <Col span={16}>
         <Card  extra={<><Button style={{marginRight:15}} icon={<UploadOutlined />}>Publish Course</Button><Button onClick={saveCourse} loading={loading} type='primary' icon={<SaveOutlined />}>Save</Button></>}>

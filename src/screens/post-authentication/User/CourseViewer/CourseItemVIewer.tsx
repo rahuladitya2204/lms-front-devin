@@ -2,14 +2,15 @@ import { Card } from 'antd'
 import MediaPlayer from '../../../../components/MediaPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../hooks/CommonHooks'
 
-function CourseItemViewer() {
+function CourseItemViewer () {
   console.log('hel')
   const node = useGetNodeFromRouterOutlet()
   // const data = node.data || { url: '' }
   // console.log(node.data.url, 'node.data.url');
-  const Component = <MediaPlayer url={''} />
+  const url = 'https://www.youtube.com/watch?v=ysz5S6PUM-U'
+  const Component = <MediaPlayer url={url} />
 
-  return <Card bodyStyle={{ padding: 0 }}>{Component}</Card>
+  return Component
 }
 
 export default CourseItemViewer

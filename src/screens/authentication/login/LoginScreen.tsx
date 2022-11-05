@@ -16,7 +16,7 @@ const Container = styled.div`
 `
 
 function LoginScreen () {
-  const { mutate: loginUser } = useLogin()
+  const { mutate: loginUser, isLoading: loading } = useLogin()
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -72,7 +72,7 @@ function LoginScreen () {
         </Form.Item>
 
         <Form.Item>
-          <Button block type="primary" htmlType="submit">
+          <Button loading={loading} block type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>

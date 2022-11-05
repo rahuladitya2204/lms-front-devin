@@ -26,6 +26,7 @@ const CreateTextItem: React.FC<CreateTextItemProps> = (props) => {
           title:textHeading
         }
       });
+      form.resetFields(['textHeading'])
         closeModal();
     }
     

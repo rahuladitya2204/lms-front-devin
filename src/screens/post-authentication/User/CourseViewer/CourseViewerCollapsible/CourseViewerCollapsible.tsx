@@ -1,4 +1,14 @@
-import { Button, Card, Checkbox, Col, Collapse, Row, Typography } from 'antd'
+import {
+  Avatar,
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Collapse,
+  List,
+  Row,
+  Typography
+} from 'antd'
 import { PlayCircleFilled, PlayCircleOutlined } from '@ant-design/icons'
 
 import { CourseSectionItem } from '../../../../../types/Common.types'
@@ -10,10 +20,10 @@ const { Panel } = Collapse
 
 const CustomCollapse = styled(Collapse)`
   .ant-collapse-content-box {
-    padding: 0;
+    padding-top: 0;
+    padding-bottom: 0;
   }
 `
-
 
 interface CourseViewerCollapsiblePropsI {
   courseSections: CourseSectionItem[];
@@ -23,29 +33,41 @@ interface CourseViewerCollapsiblePropsI {
 function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
   return (
     <Fragment>
-      {props.courseSections.map((section, sectionIndex) => {
-        return (
-          <CustomCollapse expandIconPosition="end" defaultActiveKey={['1']}>
-            <Panel
-              header={
-                <Typography.Title style={{ marginBottom: 0 }} level={5}>
-                  Section {sectionIndex + 1}
-                </Typography.Title>
-              }
-              key="1"
-            >
-              {section.items.map((item, itemIndex) => {
+      <CustomCollapse expandIconPosition='end' defaultActiveKey={props.courseSections.map((s, i) => i)}>
+        {props.courseSections.map((section, index) => {
+          return (
+            <Panel header="This is panel header 1" key={index}>
+              <List
+                itemLayout="horizontal"
+                dataSource={section.items}
+                renderItem={item => (
+                  <List.Item>
+                    <CourseViewerCollapsibleItem
+                      toggleItemCheck={props.toggleItemCheck}
+                      item={item}
+                    />
+                  </List.Item>
+                )}
+              />
+              {/* {section.items.map(item => {
                 return (
                   <CourseViewerCollapsibleItem
                     toggleItemCheck={props.toggleItemCheck}
                     item={item}
                   />
                 )
-              })}
+              })} */}
             </Panel>
+          )
+        })}
+      </CustomCollapse>
+      {/* {props.courseSections.map((section, sectionIndex) => {
+        return (
+          <CustomCollapse>
+         
           </CustomCollapse>
         )
-      })}
+      })} */}
     </Fragment>
   )
 }
