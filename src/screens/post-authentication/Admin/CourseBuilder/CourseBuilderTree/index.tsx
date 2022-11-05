@@ -50,7 +50,8 @@ interface CourseSectionPropsI {
 const CourseSection: React.FC<CourseSectionPropsI> = ({
   courseSections,
   onAddNewItem,
-  deleteSection
+  deleteSection,
+  deleteSectionItem
 }) => {
   return (
     <Card bodyStyle={{ padding: 0 }}>
@@ -93,14 +94,14 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                     </Popconfirm>
                   </Space>
                 }
-                renderItem={item => (
+                renderItem={(item, itemIndex) => (
                   <List.Item
                     style={{ cursor: 'pointer' }}
                     actions={[
                       <Popconfirm
                         placement="right"
                         title={`Are you sure to delete this item?`}
-                        onConfirm={() => deleteSection(secIndex)}
+                        onConfirm={() => deleteSectionItem(secIndex, itemIndex)}
                         okText="Yes"
                         cancelText="No"
                       >
