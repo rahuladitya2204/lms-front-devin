@@ -1,30 +1,21 @@
 import { CourseSectionItem, Instructor } from './Common.types'
-
-import { DataNode } from 'antd/lib/tree'
-
 export interface CourseType {
   title: string;
   _id: string;
   description: string;
 }
 
-export interface CreateCoursePayload {
-  title: string;
-  instructorName: string;
-}
-
 export interface UpdateCoursePayload {
   title: string;
-  instructorName: string;
   howToUse: string;
   courseSections: CourseSectionItem[];
 }
 
-export interface CourseDetailsType {
+export interface CourseDetailType {
   title: string;
   subtitle: string;
-  instructor: Instructor;
-  instructorName: string;
+  instructor: string;
+  description: string;
   howToUse: string;
   courseSections: CourseSectionItem[];
   _id: string;

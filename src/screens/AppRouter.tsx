@@ -1,22 +1,22 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import AddTextItem from './post-authentication/Admin/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
-import CourseBuilderScreen from './post-authentication/Admin/CourseBuilder/CourseBuilderScreen'
+import AddTextItem from './post-authentication/Admin/Courses/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
+import CourseBuilderScreen from './post-authentication/Admin/Courses/CourseBuilder/CourseBuilderScreen'
 import CourseDetailViewer from './non-authenticated/CourseDetailViewer/Layout-1'
-import CourseDetailsEditor from './post-authentication/Admin/CourseBuilderDetails'
-import CourseEditor from './post-authentication/Admin/CourseEditor'
+import CourseEditor from './post-authentication/Admin/Courses/CourseBuilder/CourseEditor'
 import CourseItemViewer from './post-authentication/Learner/CoursePlayer/CoursePlayerItem'
 import CourseViewer from './post-authentication/Learner/CoursePlayer/CoursePlayer'
 import CoursesScreen from './post-authentication/Admin/Courses/CoursesScreen'
 import Dashboard from './post-authentication/Common/Dashboard/DashboardScreen'
 import { Fragment } from 'react'
 import HomeScreen from './post-authentication/Admin/Home/HomeScreen'
+import InstructorsScreen from './post-authentication/Admin/Users/Instructors/InstructorsScreen'
 import LoginScreen from './authentication/login/LoginScreen'
 import RootScreen from './Root'
 import SignupUser from './authentication/signup/SignupUser'
-import UploadFileForm from './post-authentication/Admin/CourseBuilder/UploadItems/UploadFile/UploadFileForm'
-import UploadPDFForm from './post-authentication/Admin/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
-import UploadVideoForm from './post-authentication/Admin/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
+import UploadFileForm from './post-authentication/Admin/Courses/CourseBuilder/UploadItems/UploadFile/UploadFileForm'
+import UploadPDFForm from './post-authentication/Admin/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
+import UploadVideoForm from './post-authentication/Admin/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import useAuthentication from '../store/useAuthentication'
 
 function AppRouter () {
@@ -36,6 +36,11 @@ function AppRouter () {
               <Route path='admin'>
               <Route path="dashboard" element={<Dashboard />}>
               <Route path="home" element={<HomeScreen />} />
+                    <Route path="users" >
+                    <Route path="instructors" element={<InstructorsScreen/>} >
+
+                    </Route>  
+              </Route>
               <Route path="courses" element={<CoursesScreen />} />
               <Route
                 path="courses/builder/:id"

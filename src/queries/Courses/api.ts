@@ -1,5 +1,5 @@
 import {
-  CreateCoursePayload,
+  CourseDetailType,
   UpdateCoursePayload
 } from '../../types/Courses.types'
 
@@ -12,10 +12,13 @@ export const GetCourses = () => {
 export const GetCourseDetails = (id: string) => {
   return Axios.get('courses/' + id).then(r => r.data)
 }
-export const CreateCourse = (data: CreateCoursePayload) => {
+export const CreateCourse = (data: Partial<CourseDetailType>) => {
   return Axios.post('courses', data).then(r => r.data)
 }
 
-export const UpdateCourse = (id: string, data: Partial<UpdateCoursePayload>) => {
+export const UpdateCourse = (
+  id: string,
+  data: Partial<UpdateCoursePayload>
+) => {
   return Axios.put('courses/' + id, data).then(r => r.data)
 }

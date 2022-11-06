@@ -1,13 +1,13 @@
 import { Col, Collapse, List, Row, Space } from 'antd'
 
-import { CourseDetailsType } from '../../../../../../types/Courses.types'
-import CourseItemIcon from '../../../../../post-authentication/Admin/CourseBuilder/CourseBuilderTree/CourseItemIcon'
+import { CourseDetailType } from '../../../../../../types/Courses.types'
+import CourseItemIcon from '../../../../../post-authentication/Admin/Courses/CourseBuilder/CourseBuilderTree/CourseItemIcon'
 import { LockOutlined } from '@ant-design/icons'
 
 const { Panel } = Collapse
 
 interface CourseCurriculumPropsI {
-  course: CourseDetailsType;
+  course: CourseDetailType;
 }
 
 function CourseCurriculum(props: CourseCurriculumPropsI) {

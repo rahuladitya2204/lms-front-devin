@@ -1,26 +1,13 @@
 import {
-  Button,
-  Card,
-  Col,
-  Divider,
-  List,
-  Row,
-  Space,
-  Tag,
-  Typography
-} from 'antd'
-import {
   CalendarOutlined,
   CheckCircleOutlined,
   ClockCircleOutlined,
   ReadOutlined,
-  SafetyCertificateFilled,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
+import { List, Typography } from 'antd'
 
-import { CourseDetailsType } from '../../../../types/Courses.types'
-import MediaPlayer from '../../../../components/MediaPlayer'
-import image from './bg.svg'
+import { CourseDetailType } from '../../../../types/Courses.types'
 import styled from '@emotion/styled'
 
 const { Title, Text } = Typography
@@ -68,7 +55,7 @@ const data = [
 ]
 
 interface CourseMetadataPropsI {
-  course: CourseDetailsType;
+  course: CourseDetailType;
 }
 
 function CourseMetadata(props: CourseMetadataPropsI) {
@@ -77,10 +64,10 @@ function CourseMetadata(props: CourseMetadataPropsI) {
       itemLayout="horizontal"
       dataSource={data}
       renderItem={item => (
-        <ListItem actions={[<Text type='secondary'>{item.value}</Text>]}>
+        <ListItem actions={[<Text type="secondary">{item.value}</Text>]}>
           <List.Item.Meta
             avatar={item.icon}
-            title={<Text type='secondary'>{item.title}</Text>}
+            title={<Text type="secondary">{item.title}</Text>}
           />
         </ListItem>
       )}

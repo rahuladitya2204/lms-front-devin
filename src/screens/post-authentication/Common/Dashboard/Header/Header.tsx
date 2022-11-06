@@ -1,6 +1,6 @@
 /*eslint-disable */
 
-import { Anchor, PageHeader } from 'antd'
+import { Anchor, Col, PageHeader, Row } from 'antd'
 
 import { MenuUnfoldOutlined } from '@ant-design/icons'
 import useGlobal from '../../../../../store/useGlobal'
@@ -14,16 +14,18 @@ interface HeaderPropsI {
 function Header(props: HeaderPropsI) {
   const { isDrawerOpen, setDrawerOpen } = useGlobal(state => state)
   return (
-    <PageHeader
-      onBack={() => null}
-      extra={props.extra}
-      title={props.title || 'LMS'}
-      backIcon={
-        <MenuUnfoldOutlined onClick={() => setDrawerOpen(!isDrawerOpen)} />
-      }
-    >
-      {props.children}
-    </PageHeader>
+    <Row>
+      <Col span={24}>
+        <PageHeader
+          onBack={() => null}
+          extra={props.extra}
+          title={props.title || 'LMS'}
+          backIcon={false}
+        >
+          {props.children}
+        </PageHeader>
+      </Col>
+    </Row>
   )
 }
 

@@ -1,12 +1,16 @@
 import { Button, Form, Input, Modal, Radio } from 'antd';
-import React, { useState } from 'react';
+import React, { Fragment, ReactNode, useState } from 'react';
 
-import { CreateCoursePayload } from '../../../../../types/Courses.types';
+import { CourseDetailType } from '../../../../../types/Courses.types';
 import { InfoCircleOutlined } from '@ant-design/icons';
-import { useCreateCourse } from '../../../../../queries/Courses/CoursesQueries';
+import { useCreateCourse } from '../../../../../queries/Courses/queries';
 
-const CreateCourseComponent: React.FC = () => {
-    const {mutate:createCourse,isLoading: loading }=useCreateCourse()
+interface CreateCourseComponentPropsI {
+  children?: ReactNode;
+}
+
+const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = (props) => {
+  const { mutate: createCourse, isLoading: loading } = useCreateCourse();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -18,17 +22,18 @@ const CreateCourseComponent: React.FC = () => {
   };
   const [form] = Form.useForm();
 
-    const onSubmit = (e:CreateCoursePayload) => {
+    const onSubmit = (e:CourseDetailType) => {
         createCourse({
-            instructorName: e.instructorName,
+            instructor: e.instructor,
             title: e.title
         });
   }
   return (
     <>
-      <Button type="primary" onClick={showModal}>
-        Create Course
-      </Button>
+      <span onClick={showModal}>
+        {props.children}
+      </span>
+
       <Modal footer={[
           <Button key="back" onClick={()=>form.resetFields(['instructorName','title'])}>
             Clear

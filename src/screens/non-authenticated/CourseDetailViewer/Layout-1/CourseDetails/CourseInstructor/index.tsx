@@ -7,16 +7,18 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Col, List, Row, Space, Typography } from 'antd'
 
+import { CourseDetailType } from '../../../../../../types/Courses.types'
 import { Fragment } from 'react'
+import { useGetInstructorDetails } from '../../../../../../queries/Instructor/queries'
 
 const { Title, Text, Paragraph } = Typography
 
 interface CourseInstructorPropsI {
-  //   renderItem: (item: string) => ReactNode;
-  //   data: string[];
+  course: CourseDetailType;
 }
 
 function CourseInstructor(props: CourseInstructorPropsI) {
+  const { data: instructor } = useGetInstructorDetails(props.course.instructor)
   return (
     <Fragment>
       <Row gutter={[25, 25]}>
@@ -32,15 +34,16 @@ function CourseInstructor(props: CourseInstructorPropsI) {
               />
             </Col>
             <Col span={18}>
-              <Title level={5}>Lauren Handerson</Title>
-              <Text>iOS Developer & UI Designer</Text>
+              <Title level={5}>{instructor.name}</Title>
+              <Text>{instructor.designation}</Text>
             </Col>
           </Row>
         </Col>
         <Col span={24}>
           <Row>
             <Col span={6}>
-              <StarOutlined /> <Text>4.87 Instructor rating</Text>
+              <StarOutlined />{' '}
+              <Text>{instructor.rating} Instructor rating</Text>
             </Col>
             <Col span={6}>
               <CommentOutlined /> <Text>1,533 Reviews</Text>
@@ -49,18 +52,13 @@ function CourseInstructor(props: CourseInstructorPropsI) {
               <UsergroupAddOutlined /> <Text>16,322 Students</Text>
             </Col>
             <Col span={6}>
-              <PlayCircleOutlined /> <Text>4 Courses</Text>
+              <PlayCircleOutlined /> <Text>{instructor.courses} Courses</Text>
             </Col>
           </Row>
         </Col>
         <Col span={24}>
           <Paragraph>
-            My passion is helping people to learn new skills in a short-term
-            course and achieve their goals. I've been designing for more than
-            ten years and developing iOS apps for four years. It's my honor if I
-            could help you learn to program in a simple word. I currently am
-            teaching iOS 13, Swift 5, ARKit 3, Sketch 5, Illustrator, Photoshop,
-            Cinema 4D, HTML, CSS, JavaScript, etc.
+            <div dangerouslySetInnerHTML={{ __html: instructor.aboutMe }} />
           </Paragraph>
         </Col>
       </Row>
