@@ -1,7 +1,7 @@
 import { Badge, Collapse, List, Typography } from 'antd'
 
+import CoursePlayerCollapsibleItem from './CoursePlayerCollapsibleItem'
 import { CourseSectionItem } from '../../../../../types/Common.types'
-import CourseViewerCollapsibleItem from './CourseViewerCollapsibleItem'
 import { Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
@@ -32,12 +32,12 @@ const CourseListItem = styled(List.Item)`
     props.isActive ? '#e3e3e3' : 'auto'};
 `
 
-interface CourseViewerCollapsiblePropsI {
+interface CoursePlayerCollapsiblePropsI {
   courseSections: CourseSectionItem[];
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
-function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
+function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
   return (
     <Fragment>
       <CustomCollapse
@@ -67,7 +67,7 @@ function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
                     to={`item/${item.id}`}
                     children={({ isActive }) => (
                       <CourseListItem isActive={isActive}>
-                        <CourseViewerCollapsibleItem
+                        <CoursePlayerCollapsibleItem
                           toggleItemCheck={props.toggleItemCheck}
                           item={item}
                         />
@@ -91,4 +91,4 @@ function CourseViewerCollapsible(props: CourseViewerCollapsiblePropsI) {
   )
 }
 
-export default CourseViewerCollapsible
+export default CoursePlayerCollapsible

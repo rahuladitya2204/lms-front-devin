@@ -16,7 +16,8 @@ export const useGetCourses = () => {
 
 export const INITIAL_COURSE_DETAILS:CourseDetailsType = {
   title: '',
-  instructor: {name:''},
+  subtitle:'',
+  instructor: {name:'',image:''},
   instructorName:'',
   courseSections: [],
   _id: '',

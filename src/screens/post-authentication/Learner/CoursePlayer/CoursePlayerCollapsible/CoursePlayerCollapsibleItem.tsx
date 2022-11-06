@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { PlayCircleFilled } from '@ant-design/icons'
 import styled from '@emotion/styled'
 
-interface CourseViewerCollapsibleItemPropsI {
+interface CoursePlayerCollapsibleItemPropsI {
   item: CourseSectionItem;
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
@@ -33,7 +33,7 @@ const CustomPanelCard = styled(Card)`
   }
 `
 
-function CourseViewerCollapsibleItem(props: CourseViewerCollapsibleItemPropsI) {
+function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
   return (
     <List.Item.Meta
       avatar={
@@ -65,4 +65,4 @@ function CourseViewerCollapsibleItem(props: CourseViewerCollapsibleItemPropsI) {
   )
 }
 
-export default CourseViewerCollapsibleItem
+export default CoursePlayerCollapsibleItem

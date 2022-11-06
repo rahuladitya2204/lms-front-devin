@@ -5,13 +5,13 @@ import {
   useUpdateCourse
 } from '../../../../queries/Courses/CoursesQueries'
 
-import CourseViewerCollapsible from './CourseViewerCollapsible/CourseViewerCollapsible'
-import CourseViewerMoreInfo from './CourseViewerMoreInfo/CourseViewerMoreInfo'
+import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerCollapsible'
+import CoursePlayerMoreInfo from './CoursePlayerMoreInfo/CoursePlayerMoreInfo'
 import { cloneDeep } from 'lodash'
 import { findNode } from '../../Admin/CourseBuilder/utils'
 import { useEffect } from 'react'
 
-function CourseViewer() {
+function CoursePlayer() {
   const { id: courseId } = useParams()
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
@@ -50,11 +50,11 @@ function CourseViewer() {
         <Col span={17}>
           <Outlet context={[courseSections]} />
           <Card>
-            <CourseViewerMoreInfo />
+            <CoursePlayerMoreInfo />
           </Card>
         </Col>
         <Col span={7}>
-          <CourseViewerCollapsible
+          <CoursePlayerCollapsible
             toggleItemCheck={toggleItemCheck}
             courseSections={courseSections}
           />
@@ -64,4 +64,4 @@ function CourseViewer() {
   )
 }
 
-export default CourseViewer
+export default CoursePlayer

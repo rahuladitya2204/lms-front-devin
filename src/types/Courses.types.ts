@@ -22,6 +22,7 @@ export interface UpdateCoursePayload {
 
 export interface CourseDetailsType {
   title: string;
+  subtitle: string;
   instructor: Instructor;
   instructorName: string;
   howToUse: string;

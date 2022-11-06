@@ -2,10 +2,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import AddTextItem from './post-authentication/Admin/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import CourseBuilderScreen from './post-authentication/Admin/CourseBuilder/CourseBuilderScreen'
+import CourseDetailViewer from './non-authenticated/CourseDetailViewer/Layout-1'
 import CourseDetailsEditor from './post-authentication/Admin/CourseBuilderDetails'
 import CourseEditor from './post-authentication/Admin/CourseEditor'
-import CourseItemViewer from './post-authentication/User/CourseViewer/CourseItemViewer'
-import CourseViewer from './post-authentication/User/CourseViewer/CourseViewer'
+import CourseItemViewer from './post-authentication/Learner/CoursePlayer/CoursePlayerItem'
+import CourseViewer from './post-authentication/Learner/CoursePlayer/CoursePlayer'
 import CoursesScreen from './post-authentication/Admin/Courses/CoursesScreen'
 import Dashboard from './post-authentication/Common/Dashboard/DashboardScreen'
 import { Fragment } from 'react'
@@ -47,8 +48,6 @@ function AppRouter () {
                 <Route path="file/:nodeId" element={<UploadFileForm />} />
               </Route>
                     <Route path="courses/editor/:id" element={<CourseEditor />} >
-                    {/* <Route path="details" element={<CourseDetailsEditor />} ></Route> */}
-
               </Route>
                 </Route>
                 </Route>
@@ -59,7 +58,8 @@ function AppRouter () {
                   <Route path="item/:nodeId" element={<CourseItemViewer />}></Route>
                 </Route>
                   </Route>
-                 </Route>
+                </Route>
+                 <Route path="courses/:id" element={<CourseDetailViewer />} ></Route>
                 </>
           )}
         </Route>

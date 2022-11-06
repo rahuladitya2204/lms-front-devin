@@ -15,10 +15,10 @@ const AddChapterButton = styled(Button)`
 
 function CourseLandingPageBuilderScreen () {
   const { id: courseId } = useParams()
-  const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
+  const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
 
   const saveCourse = () => {
     updateCourse({

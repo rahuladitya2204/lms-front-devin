@@ -1,8 +1,7 @@
-import { Card } from 'antd'
 import MediaPlayer from '../../../../components/MediaPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../hooks/CommonHooks'
 
-function CourseItemViewer () {
+function CoursePlayerItem () {
 
   const node = useGetNodeFromRouterOutlet()
   // const data = node.data || { url: '' }
@@ -13,4 +12,4 @@ function CourseItemViewer () {
   return Component
 }
 
-export default CourseItemViewer
+export default CoursePlayerItem

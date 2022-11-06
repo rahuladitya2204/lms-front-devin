@@ -5,10 +5,10 @@ Input,
 } from 'antd'
 import { Fragment, useEffect } from 'react'
 
-import { CourseDetailsType } from '../../../../types/Courses.types'
-import FileUpload from '../../../../components/FileUpload'
-import FormListItem from '../../../../components/FormListItem'
-import QuillEditor from '../../../../components/QuillEditor'
+import { CourseDetailsType } from '../../../../../types/Courses.types'
+import FileUpload from '../../../../../components/FileUpload'
+import FormListItem from '../../../../../components/FormListItem'
+import QuillEditor from '../../../../../components/QuillEditor'
 
 interface CourseDetailsEditorPropsI {
   formData: Partial<CourseDetailsType>;
@@ -41,6 +41,10 @@ src={thumbnailImage}
 </Form.Item>
 
 <Form.Item name="title" required label="Course Title">
+  <Input />
+        </Form.Item>
+        
+        <Form.Item name="subtitle" required label="Course Sub Title">
   <Input />
 </Form.Item>
 

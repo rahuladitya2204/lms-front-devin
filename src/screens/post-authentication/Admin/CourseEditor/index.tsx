@@ -7,7 +7,7 @@ import {
 import { Outlet, useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 
-import CourseDetailsEditor from '../CourseDetailsEditor'
+import CourseDetailsEditor from './CourseDetailsEditor'
 import { CourseDetailsType } from '../../../../types/Courses.types'
 import { UploadOutlined } from '@ant-design/icons'
 

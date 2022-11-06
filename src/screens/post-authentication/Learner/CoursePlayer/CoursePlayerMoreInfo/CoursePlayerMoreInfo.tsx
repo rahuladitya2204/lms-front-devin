@@ -36,11 +36,11 @@ const TAB_ITEMS = [
   },
 ];
 
-const CourseViewerMoreInfo: React.FC = () => (
+const CoursePlayerMoreInfo: React.FC = () => (
   <Tabs
     defaultActiveKey="1"
     items={TAB_ITEMS}
   />
 );
 
-export default CourseViewerMoreInfo;
+export default CoursePlayerMoreInfo;
