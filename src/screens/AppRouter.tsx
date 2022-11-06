@@ -10,6 +10,7 @@ import CoursesScreen from './post-authentication/Admin/Courses/CoursesScreen'
 import Dashboard from './post-authentication/Common/Dashboard/DashboardScreen'
 import { Fragment } from 'react'
 import HomeScreen from './post-authentication/Admin/Home/HomeScreen'
+import InstructorEditor from './post-authentication/Admin/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/Admin/Users/Instructors/InstructorsScreen'
 import LoginScreen from './authentication/login/LoginScreen'
 import RootScreen from './Root'
@@ -37,9 +38,11 @@ function AppRouter () {
               <Route path="dashboard" element={<Dashboard />}>
               <Route path="home" element={<HomeScreen />} />
                     <Route path="users" >
-                    <Route path="instructors" element={<InstructorsScreen/>} >
-
-                    </Route>  
+                      <Route path="instructors" element={<InstructorsScreen />} >
+                      </Route> 
+                      <Route path="instructors/:id/editor" element={<InstructorEditor/>} >
+                        </Route>
+               
               </Route>
               <Route path="courses" element={<CoursesScreen />} />
               <Route
@@ -51,9 +54,8 @@ function AppRouter () {
                 <Route path="text/:nodeId" element={<AddTextItem />} />
                 <Route path="file/:nodeId" element={<UploadFileForm />} />
               </Route>
-                    <Route path="courses/editor/:id" element={<CourseEditor />} >
+                    <Route path="courses/:id/editor" element={<CourseEditor />} >
               </Route>
-                </Route>
                 </Route>
                 <Route path="user">
                 <Route path="dashboard" element={<Dashboard />}>
@@ -63,7 +65,8 @@ function AppRouter () {
                 </Route>
                   </Route>
                 </Route>
-                 <Route path="courses/:id" element={<CourseDetailViewer />} ></Route>
+                <Route path="courses/:id" element={<CourseDetailViewer />} ></Route>
+              </Route>  
                 </>
           )}
         </Route>

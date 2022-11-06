@@ -67,12 +67,6 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
           <Form.Item name="email" label="Email" required>
         <Input placeholder="Please enter email of the instructor" />
         </Form.Item>
-        <Form.Item required
-          label="About the Instructor"
-          name="aboutMe"
-        >
-            <QuillEditor onChange={e => form.setFieldValue('aboutMe', e)} />
-          </Form.Item>
       </Form>
       </Modal>
     </>

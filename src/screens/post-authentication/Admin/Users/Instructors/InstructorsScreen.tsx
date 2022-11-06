@@ -27,7 +27,11 @@ function InstructorsScreen() {
           <Table dataSource={data} loading={loading}>
             <Table.Column title="Name" dataIndex="name" key="name" />
             <Table.Column title="Email Adress" dataIndex="email" key="email" />
-            <Table.Column title="Designation" dataIndex="designation" key="designation" />
+            <Table.Column
+              title="Designation"
+              dataIndex="designation"
+              key="designation"
+            />
             <Table.Column
               title="Last Login"
               dataIndex="lastActive"
@@ -45,9 +49,7 @@ function InstructorsScreen() {
               key="action"
               render={(_: any, record: InstructorDetailsType) => (
                 <Space size="middle">
-                  <AddInstructor data={record}>
-                    <EditOutlined />
-                  </AddInstructor>
+                  <EditOutlined onClick={() => window.open(`instructors/${record._id}/editor`, '_blank')} />
                   <DeleteOutlined />
                 </Space>
               )}

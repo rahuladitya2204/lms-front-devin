@@ -48,7 +48,7 @@ function CourseCard(props: CourseCardProps) {
         <Tooltip placement="bottom" title={'Build landing page'}>
           <FormatPainterOutlined
             onClick={() =>
-              navigate(`courses/landing-page-builder/${props.course._id}`)
+              navigate(`${props.course._id}/editor`)
             }
           />
         </Tooltip>,
