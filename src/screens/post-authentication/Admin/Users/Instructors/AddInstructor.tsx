@@ -61,6 +61,9 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
         <Form.Item name="name" label="Name" required>
         <Input placeholder="Name of the instructor" />
           </Form.Item>
+          <Form.Item name="designation" label="Designation" required>
+        <Input placeholder="Designation of the instructor" />
+          </Form.Item>
           <Form.Item name="email" label="Email" required>
         <Input placeholder="Please enter email of the instructor" />
         </Form.Item>

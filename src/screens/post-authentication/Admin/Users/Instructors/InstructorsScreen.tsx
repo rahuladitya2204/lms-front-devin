@@ -27,6 +27,7 @@ function InstructorsScreen() {
           <Table dataSource={data} loading={loading}>
             <Table.Column title="Name" dataIndex="name" key="name" />
             <Table.Column title="Email Adress" dataIndex="email" key="email" />
+            <Table.Column title="Designation" dataIndex="designation" key="designation" />
             <Table.Column
               title="Last Login"
               dataIndex="lastActive"
