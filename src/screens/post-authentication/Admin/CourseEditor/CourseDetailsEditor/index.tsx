@@ -40,15 +40,15 @@ src={thumbnailImage}
 </FileUpload>
 </Form.Item>
 
-<Form.Item name="title" required label="Course Title">
+<Form.Item name="title" required label="Title">
   <Input />
         </Form.Item>
         
-        <Form.Item name="subtitle" required label="Course Sub Title">
+        <Form.Item name="subtitle" required label="Subtitle">
   <Input />
 </Form.Item>
 
-<Form.Item name="description" required label="Course Description">
+<Form.Item name="description" required label="Description">
   <QuillEditor value=''/>
 </Form.Item>
 

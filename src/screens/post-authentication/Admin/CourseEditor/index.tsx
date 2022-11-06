@@ -1,18 +1,19 @@
 import { Button, Card, Col, Row, Tabs } from 'antd'
+import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
 import {
   INITIAL_COURSE_DETAILS,
   useGetCourseDetails,
   useUpdateCourse
 } from '../../../../queries/Courses/CoursesQueries'
-import { Outlet, useParams } from 'react-router'
+import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useState } from 'react'
 
 import CourseDetailsEditor from './CourseDetailsEditor'
 import { CourseDetailsType } from '../../../../types/Courses.types'
-import { UploadOutlined } from '@ant-design/icons'
 
 function CourseEditor () {
-  const { id: courseId } = useParams()
+  const { id: courseId } = useParams();
+  const navigate = useNavigate();
   const [course, setCourse] = useState(INITIAL_COURSE_DETAILS)
   const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
@@ -41,7 +42,7 @@ function CourseEditor () {
 
 
   return (
-    <Card extra={<><Button onClick={saveCourse} style={{marginRight:15}} icon={<UploadOutlined />}>Save Course</Button></>}>
+    <Card extra={<><Button onClick={()=>navigate('preview')} style={{marginRight:15}} icon={<EyeOutlined />}>Preview</Button><Button loading={loading} type='primary' onClick={saveCourse} icon={<UploadOutlined />}>Save Course</Button></>}>
       <Tabs
         defaultActiveKey="1"
         // onChange={onChange}

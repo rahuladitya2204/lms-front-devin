@@ -60,7 +60,7 @@ function CourseDetailViewer() {
     <Container>
       <Row gutter={[20, 20]}>
         <Col span={3} />
-        <Col span={11}>
+        <Col span={12}>
           <Space
             style={{ height: 270, overflow: 'hidden' }}
             size="middle"
@@ -94,9 +94,7 @@ function CourseDetailViewer() {
               </Col>
             </Row>
           </Space>
-          <Space>
             <CourseDetails  course={course}/>
-          </Space>
         </Col>
         <Col span={6}>
           <Card bordered style={{ padding: 0 }} bodyStyle={{ padding: 5 }}>
@@ -104,6 +102,7 @@ function CourseDetailViewer() {
               height="150px"
               url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
             />
+            <Card bodyStyle={{padding: 15}}>
             <Row gutter={[15, 15]}>
               <Col span={24}>
                 <Row gutter={[20, 20]}>
@@ -131,6 +130,7 @@ function CourseDetailViewer() {
                 <CourseMetadata course={course} />
               </Col>
             </Row>
+           </Card>
           </Card>
         </Col>
         <Col span={3} />

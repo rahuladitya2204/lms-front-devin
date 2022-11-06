@@ -77,10 +77,10 @@ function CourseMetadata(props: CourseMetadataPropsI) {
       itemLayout="horizontal"
       dataSource={data}
       renderItem={item => (
-        <ListItem actions={[<Text>{item.value}</Text>]}>
+        <ListItem actions={[<Text type='secondary'>{item.value}</Text>]}>
           <List.Item.Meta
             avatar={item.icon}
-            title={<a href="https://ant.design">{item.title}</a>}
+            title={<Text type='secondary'>{item.title}</Text>}
           />
         </ListItem>
       )}

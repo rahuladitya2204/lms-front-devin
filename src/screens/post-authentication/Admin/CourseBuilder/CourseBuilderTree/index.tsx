@@ -15,11 +15,10 @@ import {
 } from '../../../../../types/Common.types'
 
 import AddItem from '../AddItem'
-import CourseBuilderTreeNode from './CourseBuilderTreeNode'
+import CourseItemIcon from './CourseItemIcon'
 import { DeleteOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router'
 
 const CustomCollapse = styled(Collapse)`
   .ant-collapse-content-box {
@@ -91,7 +90,10 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                       okText="Yes"
                       cancelText="No"
                     >
-                      <Tooltip placement="bottom" title={'Delete this complete section of course'}>
+                      <Tooltip
+                        placement="bottom"
+                        title={'Delete this complete section of course'}
+                      >
                         <Button size="small" type="ghost">
                           Delete Section{' '}
                         </Button>
@@ -127,7 +129,7 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                         <List.Item.Meta
                           style={{ cursor: 'pointer' }}
                           title={item.title}
-                          avatar={<CourseBuilderTreeNode item={item} />}
+                          avatar={<CourseItemIcon item={item} />}
                         />
                       </CourseListItem>
                     )}

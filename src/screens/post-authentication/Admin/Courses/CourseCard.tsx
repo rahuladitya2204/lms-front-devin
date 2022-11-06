@@ -38,9 +38,7 @@ function CourseCard(props: CourseCardProps) {
       }
       actions={[
         <SettingOutlined
-          onClick={() =>
-            navigate(`/courses/editor/${props.course._id}`)
-          }
+          onClick={() => navigate(`/courses/editor/${props.course._id}`)}
         />,
         <Tooltip placement="bottom" title={'Go to course builder'}>
           <ToolOutlined
@@ -62,7 +60,6 @@ function CourseCard(props: CourseCardProps) {
       <Meta
         avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
         title={props.course.title}
-        description={props.course.description}
       />
     </CourseCardHolder>
   )

@@ -37,7 +37,6 @@ function AppRouter () {
               <Route path="dashboard" element={<Dashboard />}>
               <Route path="home" element={<HomeScreen />} />
               <Route path="courses" element={<CoursesScreen />} />
-              <Route path="courses" element={<CoursesScreen />} />
               <Route
                 path="courses/builder/:id"
                 element={<CourseBuilderScreen />}

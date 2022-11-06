@@ -1,4 +1,6 @@
+import CourseCurriculum from './CourseCurriculum'
 import { CourseDetailsType } from '../../../../../types/Courses.types'
+import CourseInstructor from './CourseInstructor';
 import CourseOverview from './CourseOverview'
 import { Tabs } from 'antd'
 
@@ -13,10 +15,10 @@ function CourseDetails(props: CourseDetailsPropsI) {
         <CourseOverview course={props.course} />
       </Tabs.TabPane>
       <Tabs.TabPane tab="Curriculum" key="Curiculum">
-        Curriculum
+        <CourseCurriculum course={props.course} />
       </Tabs.TabPane>
       <Tabs.TabPane tab="Instructor" key="instructor">
-        Instructor
+        <CourseInstructor />
       </Tabs.TabPane>
     </Tabs>
   )
