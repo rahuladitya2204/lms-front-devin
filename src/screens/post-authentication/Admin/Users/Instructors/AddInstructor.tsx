@@ -1,17 +1,20 @@
 import { Button, Form, Input, Modal } from 'antd';
-import React, { Fragment, ReactNode, useState } from 'react';
+import { CreateInstructorPayload, InstructorDetailsType } from '../../../../../types/Instructor.types';
+import React, { Fragment, ReactNode, useEffect, useState } from 'react';
+import { useCreateInstructor, useUpdateInstructor } from '../../../../../queries/Instructor/queries';
 
-import { CreateInstructorPayload } from '../../../../../types/Instructor.types';
 import QuillEditor from '../../../../../components/QuillEditor';
-import { useCreateInstructor } from '../../../../../queries/Instructor/queries';
 
 interface CreateInstructorComponentPropsI {
   children?: ReactNode;
+  data?: InstructorDetailsType;
 }
 
 const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
-    const {mutate: createInstructor,isLoading: loading }=useCreateInstructor()
+  const {mutate: createInstructor,isLoading: createInstructorLoading }=useCreateInstructor()
+  const {mutate: updateInstructor,isLoading: updateInstructorLoading }=useUpdateInstructor()
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -20,12 +23,22 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
-  const [form] = Form.useForm();
 
   const onSubmit = (e: CreateInstructorPayload) => {
-    createInstructor(e);
+    if (props.data)
+    {
+      updateInstructor({ id: props.data._id, data: e });
+    }
+    else {
+      createInstructor(e);
+    }
     closeModal();
   }
+
+  useEffect(() => { 
+    form.setFieldsValue(props.data)
+  },[props.data])
+
   return (
     <>
       <span onClick={showModal}>
@@ -36,7 +49,7 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
           <Button key="back" onClick={()=>form.resetFields(['instructorName','title'])}>
             Clear
           </Button>,
-          <Button loading={loading} key="submit" type="primary" onClick={form.submit}>
+          <Button loading={createInstructorLoading || updateInstructorLoading} key="submit" type="primary" onClick={form.submit}>
             Submit
           </Button>,
         ]} title="Add Instructor" open={isModalOpen} onCancel={closeModal}>

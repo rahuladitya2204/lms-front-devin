@@ -61,7 +61,7 @@ export const useUpdateInstructor = () => {
   const qc = useQueryClient();
   const mutation = useMutation(({id,data}:{id:string,data: Partial<InstructorDetailsType>}): Promise<void> => {
     return UpdateInstructor(id, data).then(() => {
-      qc.invalidateQueries([KEYS.GET_INSTRUCTOR_DETAILS, id]);
+      qc.invalidateQueries([KEYS.GET_INSTRUCTORS]);
       message.success('Instructor Details Updated');
     })
   });

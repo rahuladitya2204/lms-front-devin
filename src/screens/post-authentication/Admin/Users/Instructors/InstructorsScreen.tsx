@@ -1,7 +1,7 @@
 import { Button, Col, Row, Space, Table } from 'antd'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import AddInstructor from './AddInstructor'
-import { DeleteOutlined } from '@ant-design/icons'
 import { Fragment } from 'react'
 import Header from '../../../Common/Dashboard/Header/Header'
 import { InstructorDetailsType } from '../../../../../types/Instructor.types'
@@ -44,6 +44,9 @@ function InstructorsScreen() {
               key="action"
               render={(_: any, record: InstructorDetailsType) => (
                 <Space size="middle">
+                  <AddInstructor data={record}>
+                    <EditOutlined />
+                  </AddInstructor>
                   <DeleteOutlined />
                 </Space>
               )}
