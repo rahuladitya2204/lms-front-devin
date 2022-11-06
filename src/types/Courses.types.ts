@@ -1,5 +1,6 @@
-import { CourseSectionItem } from "./Common.types";
-import { DataNode } from "antd/lib/tree";
+import { CourseSectionItem, Instructor } from './Common.types'
+
+import { DataNode } from 'antd/lib/tree'
 
 export interface CourseType {
   title: string;
@@ -12,7 +13,6 @@ export interface CreateCoursePayload {
   instructorName: string;
 }
 
-
 export interface UpdateCoursePayload {
   title: string;
   instructorName: string;
@@ -20,10 +20,13 @@ export interface UpdateCoursePayload {
   courseSections: CourseSectionItem[];
 }
 
-export interface CourseDetailsType{
+export interface CourseDetailsType {
   title: string;
+  instructor: Instructor;
   instructorName: string;
   howToUse: string;
   courseSections: CourseSectionItem[];
   _id: string;
+  whatYouLearn: string[];
+  requirements: string[];
 }

@@ -2,6 +2,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import AddTextItem from './post-authentication/Admin/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import CourseBuilderScreen from './post-authentication/Admin/CourseBuilder/CourseBuilderScreen'
+import CourseDetailsEditor from './post-authentication/Admin/CourseDetailsEditor'
+import CourseEditor from './post-authentication/Admin/CourseEditor'
 import CourseItemViewer from './post-authentication/User/CourseViewer/CourseItemViewer'
 import CourseViewer from './post-authentication/User/CourseViewer/CourseViewer'
 import CoursesScreen from './post-authentication/Admin/Courses/CoursesScreen'
@@ -18,7 +20,7 @@ import useAuthentication from '../store/useAuthentication'
 
 function AppRouter () {
   const { isSignedIn } = useAuthentication(state => state)
-  console.log(isSignedIn,'isSignedIn')
+
   return (
     <BrowserRouter>
       <Routes>
@@ -43,6 +45,10 @@ function AppRouter () {
                 <Route path="video/:nodeId" element={<UploadVideoForm />} />
                 <Route path="text/:nodeId" element={<AddTextItem />} />
                 <Route path="file/:nodeId" element={<UploadFileForm />} />
+              </Route>
+                    <Route path="courses/editor/:id" element={<CourseEditor />} >
+                    <Route path="details" element={<CourseDetailsEditor />} ></Route>
+
               </Route>
                 </Route>
                 </Route>

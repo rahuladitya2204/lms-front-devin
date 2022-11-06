@@ -1,12 +1,10 @@
-import { Button, Upload } from 'antd'
-import React, { Fragment, ReactNode, useRef, useState } from 'react'
+import React, { Fragment, ReactNode, useState } from 'react'
+import { Upload, UploadProps } from 'antd'
 
 import { UploadFileType } from '../types/Common.types'
-import { UploadOutlined } from '@ant-design/icons'
-import type { UploadProps } from 'antd'
 import { useUploadFiles } from '../queries/Common/CommonQueries'
 
-const props: UploadProps = {
+const UPLOAD: UploadProps = {
   onDrop(e) {
     // console.log('Dropped files', e.dataTransfer.files)
   }
@@ -17,38 +15,25 @@ interface FileUploadPropsI {
   children?: ReactNode;
 }
 
-const FileUpload: React.FC<FileUploadPropsI> = componentProps => {
+const FileUpload: React.FC<FileUploadPropsI> = props => {
   const { mutate: uploadFiles } = useUploadFiles()
   const [files, setFiles] = useState<File[]>([])
-  props.customRequest = ({ file, onError, onSuccess, onProgress, data }) => {
+  UPLOAD.customRequest = ({ file, onError, onSuccess, onProgress, data }) => {
     return uploadFiles({
       files,
       onSuccess: files => {
-        componentProps.onUpload(files)
+        props.onUpload(files)
         onSuccess && onSuccess(files)
       }
     })
   }
-  props.beforeUpload = (info) => {
+  UPLOAD.beforeUpload = (info) => {
     setFiles([info])
   }
-  const buttonRef = useRef(null);
   return (
-    <Fragment>
+    <Upload {...UPLOAD}>
       {props.children}
-       {/* <Upload {...props}>
-      <div onClick={(e) => {
-        if (buttonRef && buttonRef.current)
-        {          
-              // @ts-ignore
-            buttonRef.current.click(e)
-        }
-      }}>
-
-      </div>
-    <Button ref={buttonRef} style={{display: 'none'}} icon={<UploadOutlined />}>Click to Upload</Button>
-    </Upload> */}
-   </Fragment>
+   </Upload>
     
   )
 }

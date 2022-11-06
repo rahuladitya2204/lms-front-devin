@@ -14,12 +14,15 @@ export const useGetCourses = () => {
   }
 }
 
-const INITIAL_COURSE_DETAILS:CourseDetailsType = {
+export const INITIAL_COURSE_DETAILS:CourseDetailsType = {
   title: '',
-  instructorName: '',
+  instructor: {name:''},
+  instructorName:'',
   courseSections: [],
   _id: '',
-  howToUse:''
+  howToUse: '',
+  whatYouLearn: [''],
+  requirements:['']
 }
 
 export const useGetCourseDetails = (id:string,options={enabled:true}) => {

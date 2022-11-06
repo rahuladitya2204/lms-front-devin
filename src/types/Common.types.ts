@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react'
 
 export interface SignupData {
   email: string;
@@ -42,10 +42,13 @@ export interface AddItemFormProps<T> {
   formValues: T;
 }
 
+export interface MenuItemNode {
+  title: string;
+  icon?: ReactNode;
+  path: string;
+  children?: MenuItemNode[];
+}
 
-export interface MenuItemNode{
-  title: string,
-  icon?: ReactNode,
-  path: string,
-  children?: MenuItemNode[]
+export interface Instructor {
+  name: string;
 }
