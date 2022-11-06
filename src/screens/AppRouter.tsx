@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import AddTextItem from './post-authentication/Admin/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import CourseBuilderScreen from './post-authentication/Admin/CourseBuilder/CourseBuilderScreen'
-import CourseDetailsEditor from './post-authentication/Admin/CourseDetailsEditor'
+import CourseDetailsEditor from './post-authentication/Admin/CourseBuilderDetails'
 import CourseEditor from './post-authentication/Admin/CourseEditor'
 import CourseItemViewer from './post-authentication/User/CourseViewer/CourseItemViewer'
 import CourseViewer from './post-authentication/User/CourseViewer/CourseViewer'
@@ -47,7 +47,7 @@ function AppRouter () {
                 <Route path="file/:nodeId" element={<UploadFileForm />} />
               </Route>
                     <Route path="courses/editor/:id" element={<CourseEditor />} >
-                    <Route path="details" element={<CourseDetailsEditor />} ></Route>
+                    {/* <Route path="details" element={<CourseDetailsEditor />} ></Route> */}
 
               </Route>
                 </Route>

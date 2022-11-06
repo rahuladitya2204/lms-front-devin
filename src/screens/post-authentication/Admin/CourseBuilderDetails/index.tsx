@@ -1,7 +1,7 @@
 import {
-Form,
-Image,
-Input,
+  Form,
+  Image,
+  Input,
 } from 'antd'
 import { Fragment, useEffect } from 'react'
 
@@ -10,14 +10,13 @@ import FileUpload from '../../../../components/FileUpload'
 import FormListItem from '../../../../components/FormListItem'
 import QuillEditor from '../../../../components/QuillEditor'
 
-interface CourseDetailsEditorPropsI {
+interface CourseDetailsEditorI {
   formData: Partial<CourseDetailsType>;
-  onFormUpdate: (d:Partial<CourseDetailsType>)=>void;
+  onFormUpdate: (data: Partial<CourseDetailsType>) => void;
 }
 
-function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
+function CourseDetailsEditor(props:CourseDetailsEditorI) {
   const [form] = Form.useForm<CourseDetailsType>();
-
   useEffect(() => {
     form.setFieldsValue(props.formData);
   },[props.formData])
@@ -27,7 +26,8 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
 
   return (
     <Fragment>
-       <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
+       <Form onValuesChange={e=>console.log(e,'eeee')} form={form} layout="vertical" autoComplete="off">
+
 <Form.Item name="thumbnailImage" required label="Thumbnail">
   <FileUpload onUpload={e => {
     form.setFieldValue('thumbnailImage', e[0].url);
@@ -57,7 +57,6 @@ src={thumbnailImage}
 <FormListItem required name="requirements" placeholder='Enter Requirement' label='Course Requirements' />
 <FormListItem required name="whatYouLearn" placeholder="What You'll Learn" label="What You'll Learn" />
 </Form>
-
    </Fragment>
   )
 }

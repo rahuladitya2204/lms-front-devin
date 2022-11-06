@@ -4,12 +4,8 @@ import styled from '@emotion/styled'
 import useAuthentication from '../store/useAuthentication'
 import { useEffect } from 'react'
 
-const Container = styled.div`
-  padding: 0;
-`
-
 export default function RootScreen () {
-  console.log('Hello')
+
   const { validateUser } = useAuthentication(state => state)
   const navigate = useNavigate()
   useEffect(() => {

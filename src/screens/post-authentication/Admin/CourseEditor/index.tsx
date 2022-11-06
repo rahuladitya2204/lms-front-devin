@@ -5,31 +5,43 @@ import {
   useUpdateCourse
 } from '../../../../queries/Courses/CoursesQueries'
 import { Outlet, useParams } from 'react-router'
+import { useEffect, useState } from 'react'
 
 import CourseDetailsEditor from '../CourseDetailsEditor'
-import styled from '@emotion/styled'
-import { useState } from 'react'
-
-const AddChapterButton = styled(Button)`
-  margin-top: 20px;
-`
+import { CourseDetailsType } from '../../../../types/Courses.types'
+import { UploadOutlined } from '@ant-design/icons'
 
 function CourseEditor () {
   const { id: courseId } = useParams()
+  const [course, setCourse] = useState(INITIAL_COURSE_DETAILS)
   const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
-  //   const instructionListItems=courseDetails.item
+
+  useEffect(() => {
+    setCourse(courseDetails);
+   },[courseDetails])
+
+  
   const saveCourse = () => {
     updateCourse({
       id: courseId + '',
       data: course
     })
   }
-  const [course, setCourse] = useState(INITIAL_COURSE_DETAILS)
+
+  const onCourseUpdate = (data: Partial<CourseDetailsType>) => {
+    console.log(data, 'data');
+    setCourse({
+      ...course,
+      ...data
+    });
+  }
+
+
   return (
-    <Card>
+    <Card extra={<><Button onClick={saveCourse} style={{marginRight:15}} icon={<UploadOutlined />}>Save Course</Button></>}>
       <Tabs
         defaultActiveKey="1"
         // onChange={onChange}
@@ -37,7 +49,7 @@ function CourseEditor () {
           {
             label: `Details`,
             key: '1',
-            children: <CourseDetailsEditor />
+            children: <CourseDetailsEditor formData={course} onFormUpdate={onCourseUpdate} />
           },
           {
             label: `Pricing`,
