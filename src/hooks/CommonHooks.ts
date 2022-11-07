@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 import { CourseSectionItem } from '../types/Common.types';
-import { findNode } from '../screens/post-authentication/Admin/Courses/CourseBuilder/utils'
+import { findNode } from '../screens/post-authentication/User/Courses/CourseBuilder/utils'
 
 export const useNavigateParams = () => {
   const navigate = useNavigate()

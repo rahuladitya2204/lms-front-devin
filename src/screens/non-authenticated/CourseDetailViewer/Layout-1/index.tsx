@@ -16,8 +16,8 @@ import MediaPlayer from '../../../../components/MediaPlayer'
 import { UserOutlined } from '@ant-design/icons'
 import image from './bg.svg'
 import styled from '@emotion/styled'
-import { useGetCourseDetails } from '../../../../queries/Courses/queries'
-import { useGetInstructorDetails } from '../../../../queries/Instructor/queries'
+import { useGetCourseDetails } from '../../../../network/Courses/queries'
+import { useGetInstructorDetails } from '../../../../network/Instructor/queries'
 import { useParams } from 'react-router'
 
 const { Title, Text } = Typography

@@ -1,6 +1,6 @@
 import { getItemFromStorage, removeItemFromStorage } from '../utils/storage'
 
-import { ValidateUser } from '../screens/authentication/api'
+import { ValidateUser } from '../network/User/api'
 import create from 'zustand'
 
 interface AuthenticationState {

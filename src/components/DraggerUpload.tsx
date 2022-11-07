@@ -4,7 +4,7 @@ import { InboxOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
 import { UploadFileType } from '../types/Common.types'
 import type { UploadProps } from 'antd'
-import { useUploadFiles } from '../queries/Common/CommonQueries'
+import { useUploadFiles } from '../network/Common/CommonQueries'
 
 const { Dragger } = Upload
 

@@ -3,12 +3,12 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import {
   useGetCourseDetails,
   useUpdateCourse
-} from '../../../../queries/Courses/queries'
+} from '../../../../network/Courses/queries'
 
 import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerCollapsible'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo/CoursePlayerMoreInfo'
 import { cloneDeep } from 'lodash'
-import { findNode } from '../../Admin/Courses/CourseBuilder/utils'
+import { findNode } from '../../User/Courses/CourseBuilder/utils'
 import { useEffect } from 'react'
 
 function CoursePlayer() {

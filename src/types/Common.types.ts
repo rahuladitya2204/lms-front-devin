@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 export interface SignupData {
   email: string;
   password: string;
-  name?: SVGStringList;
+  name: string;
 }
 
 export interface LoginData {

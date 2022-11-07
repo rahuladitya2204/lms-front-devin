@@ -2,7 +2,7 @@ import React, { Fragment, ReactNode, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 
 import { UploadFileType } from '../types/Common.types'
-import { useUploadFiles } from '../queries/Common/CommonQueries'
+import { useUploadFiles } from '../network/Common/CommonQueries'
 
 const UPLOAD: UploadProps = {
   onDrop(e) {

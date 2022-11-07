@@ -9,7 +9,7 @@ import { Avatar, Col, List, Row, Space, Typography } from 'antd'
 
 import { CourseDetailType } from '../../../../../../types/Courses.types'
 import { Fragment } from 'react'
-import { useGetInstructorDetails } from '../../../../../../queries/Instructor/queries'
+import { useGetInstructorDetails } from '../../../../../../network/Instructor/queries'
 
 const { Title, Text, Paragraph } = Typography
 
