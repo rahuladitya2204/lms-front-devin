@@ -10,10 +10,10 @@ interface AuthenticationState {
   }
 
 const useAuthentication = create<AuthenticationState>(set => ({
-  isSignedIn: !!getItemFromStorage('token'),
+  isSignedIn: !!getItemFromStorage('user-auth-token'),
   setIsSignedin: (isSignedIn) => set(state => ({ isSignedIn: isSignedIn })),
   validateUser: () => {
-    const token = getItemFromStorage('token');
+    const token = getItemFromStorage('user-auth-token');
     if (token)
     {
       return ValidateUser()
@@ -21,7 +21,7 @@ const useAuthentication = create<AuthenticationState>(set => ({
         return set({ isSignedIn: true })
       })
       .catch(() => {
-        removeItemFromStorage('token')
+        removeItemFromStorage('user-auth-token')
         set({ isSignedIn: false });
         return Promise.reject();
       })

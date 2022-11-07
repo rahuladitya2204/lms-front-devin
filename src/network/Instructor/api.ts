@@ -1,11 +1,11 @@
 import {
   CreateInstructorPayload,
-  InstructorDetailsType
+  Instructor
 } from '../../types/Instructor.types'
 
 import Axios from '..'
 
-const PREFIX = 'instructor'
+const PREFIX = 'user/instructor'
 
 export const GetInstructors = () => {
   return Axios.get(PREFIX).then(r => r.data)
@@ -20,7 +20,7 @@ export const CreateInstructor = (data: CreateInstructorPayload) => {
 
 export const UpdateInstructor = (
   id: string,
-  data: Partial<InstructorDetailsType>
+  data: Partial<Instructor>
 ) => {
   return Axios.put(PREFIX + '/' + id, data).then(r => r.data)
 }

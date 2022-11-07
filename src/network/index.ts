@@ -9,7 +9,7 @@ const Axios = axios.create({
   },
   transformRequest: [
     (data, headers) => {
-      const token = getItemFromStorage('token')
+      const token = getItemFromStorage('user-auth-token') || getItemFromStorage('learner-auth-token')
       const orgId = getItemFromStorage('orgId')
       // headers.set('Content-Type', 'application/json')
       if (token) {

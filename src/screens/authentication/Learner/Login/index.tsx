@@ -9,13 +9,16 @@ import { useFormik } from 'formik'
 import { useLoginLearner } from '../../../../network/Learner/queries'
 
 function LoginScreen () {
-  const { mutate: loginUser, isLoading: loading } = useLoginLearner();
+  const { mutate: loginUser, isLoading: loading } = useLoginLearner()
 
-  const params = useParams();
-  useEffect(() => {
-    saveItemToStorage('orgId', params.orgId+'');
-  }, [params.orgId])
-  
+  const params = useParams()
+  useEffect(
+    () => {
+      saveItemToStorage('orgId', params.orgId + '')
+    },
+    [params.orgId]
+  )
+
   const formik = useFormik({
     initialValues: {
       email: '',

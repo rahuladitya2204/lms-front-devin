@@ -1,14 +1,14 @@
 import { Col, List, Row, Typography } from 'antd'
 
 import { CheckCircleTwoTone } from '@ant-design/icons'
+import { Course } from '../../../../../../types/Courses.types'
 import CourseDetailList from './CourseDetailList'
-import { CourseDetailType } from '../../../../../../types/Courses.types'
 import { Fragment } from 'react'
 
 const { Title, Paragraph } = Typography
 
 interface CourseOverviewPropsI {
-  course: CourseDetailType;
+  course: Course;
 }
 
 function CourseOverview(props: CourseOverviewPropsI) {
@@ -24,7 +24,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
               symbol: 'readmore'
             }}
           >
-            {props.course.description}
+            <div dangerouslySetInnerHTML={{ __html: props.course.description }} />
           </Paragraph>
         </Col>
 
@@ -50,10 +50,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
             data={props.course.requirements}
             renderItem={item => (
               <List.Item>
-                <CheckCircleTwoTone
-                  style={{ marginRight: 10 }}
-                  // twoToneColor="#52c41a"
-                />
+                <CheckCircleTwoTone style={{ marginRight: 10 }} />
                 {item}
               </List.Item>
             )}

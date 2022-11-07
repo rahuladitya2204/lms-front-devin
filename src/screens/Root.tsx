@@ -5,23 +5,19 @@ import useAuthentication from '../store/useAuthentication'
 import { useEffect } from 'react'
 
 export default function RootScreen () {
-
   const { validateUser } = useAuthentication(state => state)
-  const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location.pathname,'path')
+  const location = useLocation()
+  const navigate = useNavigate()
+  console.log(location.pathname, 'path')
   useEffect(() => {
     validateUser()
       .then(() => {
         // navigate('user/dashboard/home')
       })
       .catch(() => {
-        // navigate('login')
+        navigate('user/login')
       })
   }, [])
 
-  return (
-    <Outlet />
-
-  )
+  return <Outlet />
 }

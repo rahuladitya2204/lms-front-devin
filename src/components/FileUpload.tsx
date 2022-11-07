@@ -3,7 +3,13 @@ import { Upload, UploadProps } from 'antd'
 
 import { UploadFileType } from '../types/Common.types'
 import { useUploadFiles } from '../network/Common/CommonQueries'
+import styled from '@emotion/styled'
 
+const CustomUpload = styled(Upload)`
+.ant-upload.ant-upload-select {
+  width: 100%;
+}
+`
 const UPLOAD: UploadProps = {
   onDrop(e) {
     // console.log('Dropped files', e.dataTransfer.files)
@@ -31,9 +37,9 @@ const FileUpload: React.FC<FileUploadPropsI> = props => {
     setFiles([info])
   }
   return (
-    <Upload {...UPLOAD}>
+    <CustomUpload  {...UPLOAD}>
       {props.children}
-   </Upload>
+   </CustomUpload>
     
   )
 }

@@ -11,7 +11,7 @@ export const MENU_ITEMS: MenuItemNode[] = [
   {
     title: 'Home',
     icon: <MailOutlined />,
-    path: 'home'
+    path: 'home',
   },
   {
     title: 'Courses',
@@ -23,36 +23,41 @@ export const MENU_ITEMS: MenuItemNode[] = [
         path: 'user/dashboard/courses',
         icon: <AppstoreOutlined />
       },
-      {
-        title: 'Packages',
-        path: 'packages',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'Question Bank',
-        path: 'question-bank',
-        icon: <AppstoreOutlined />
-      }
+      // {
+      //   title: 'Packages',
+      //   path: 'packages',
+      //   icon: <AppstoreOutlined />
+      // },
+      // {
+      //   title: 'Question Bank',
+      //   path: 'question-bank',
+      //   icon: <AppstoreOutlined />
+      // }
     ]
   },
   {
     title: 'Users',
     icon: <UsergroupDeleteOutlined />,
-    path: 'users',
+    path: '',
     children: [
+      // {
+      //   title: 'Learners',
+      //   path: 'learners',
+      //   icon: <AppstoreOutlined />
+      // },
+      // {
+      //   title: 'Admins',
+      //   path: 'users',
+      //   icon: <AppstoreOutlined />
+      // },
       {
         title: 'Learners',
-        path: 'learners',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'Admins',
-        path: 'users',
+        path: 'user/dashboard/users/learners',
         icon: <AppstoreOutlined />
       },
       {
         title: 'Instructors',
-        path: 'instructors',
+        path: 'user/dashboard/users/instructors',
         icon: <AppstoreOutlined />
       }
     ]

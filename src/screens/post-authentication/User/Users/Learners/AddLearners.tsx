@@ -1,18 +1,18 @@
 import { Button, Form, Input, Modal } from 'antd';
-import { CreateInstructorPayload, Instructor } from '../../../../../types/Instructor.types';
+import { CreateLearnerPayload, Learner } from '../../../../../types/Learner.types';
 import React, { Fragment, ReactNode, useEffect, useState } from 'react';
-import { useCreateInstructor, useUpdateInstructor } from '../../../../../network/Instructor/queries';
+import { useCreateLearner, useUpdateLearner } from '../../../../../network/Learner/queries';
 
 import QuillEditor from '../../../../../components/QuillEditor';
 
-interface CreateInstructorComponentPropsI {
+interface CreateLearnerComponentPropsI {
   children?: ReactNode;
-  data?: Instructor;
+  data?: Learner;
 }
 
-const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
-  const {mutate: createInstructor,isLoading: createInstructorLoading }=useCreateInstructor()
-  const {mutate: updateInstructor,isLoading: updateInstructorLoading }=useUpdateInstructor()
+const AddLearner: React.FC<CreateLearnerComponentPropsI> = (props) => {
+  const {mutate: createLearner,isLoading: createLearnerLoading }=useCreateLearner()
+  const {mutate: updateLearner,isLoading: updateLearnerLoading }=useUpdateLearner()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 
@@ -24,13 +24,13 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
     setIsModalOpen(false);
   };
 
-  const onSubmit = (e: CreateInstructorPayload) => {
+  const onSubmit = (e: CreateLearnerPayload) => {
     if (props.data)
     {
-      updateInstructor({ id: props.data._id, data: e });
+      updateLearner({ id: props.data._id, data: e });
     }
     else {
-      createInstructor(e);
+      createLearner(e);
     }
     closeModal();
   }
@@ -49,10 +49,10 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
           <Button key="back" onClick={()=>form.resetFields(['instructorName','title'])}>
             Clear
           </Button>,
-          <Button loading={createInstructorLoading || updateInstructorLoading} key="submit" type="primary" onClick={form.submit}>
+          <Button loading={createLearnerLoading || updateLearnerLoading} key="submit" type="primary" onClick={form.submit}>
             Submit
           </Button>,
-        ]} title="Add Instructor" open={isModalOpen} onCancel={closeModal}>
+        ]} title="Add Learner" open={isModalOpen} onCancel={closeModal}>
       <Form
                   form={form}
                   onFinish={onSubmit}
@@ -73,4 +73,4 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = (props) => {
   );
 };
 
-export default AddInstructor;
+export default AddLearner;

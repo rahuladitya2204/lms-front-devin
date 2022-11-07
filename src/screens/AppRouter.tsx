@@ -1,11 +1,11 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
 import AddTextItem from './post-authentication/User/Courses/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import CourseBuilderScreen from './post-authentication/User/Courses/CourseBuilder/CourseBuilderScreen'
 import CourseDetailViewer from './non-authenticated/CourseDetailViewer/Layout-1'
 import CourseEditor from './post-authentication/User/Courses/CourseBuilder/CourseEditor'
-import CourseItemViewer from './post-authentication/Learner/CoursePlayer/CoursePlayerItem'
-import CourseViewer from './post-authentication/Learner/CoursePlayer/CoursePlayer'
+import CoursePlayerItem from './post-authentication/Learner/CoursePlayer/CoursePlayerItem'
+import CoursePlayer from './post-authentication/Learner/CoursePlayer/CoursePlayer'
 import CoursesScreen from './post-authentication/User/Courses/CoursesScreen'
 import { Fragment } from 'react'
 import HomeScreen from './post-authentication/User/Home/HomeScreen'
@@ -22,6 +22,8 @@ import UserDashboard from './post-authentication/User/Dashboard/DashboardScreen'
 import UserLogin from './authentication/User/Login'
 import UserRegister from './authentication/User/Register'
 import useAuthentication from '../store/useAuthentication'
+import LearnersScreen from './post-authentication/User/Users/Learners/LearnersScreen'
+import LearnerEditor from './post-authentication/User/Users/Learners/LearnersEditor'
 
 function AppRouter () {
   const { isSignedIn } = useAuthentication(state => state)
@@ -35,11 +37,14 @@ function AppRouter () {
               <Route path="dashboard" element={<UserDashboard />}>
                 <Route path="home" element={<HomeScreen />} />
                 <Route path="users">
-                  <Route path="instructors" element={<InstructorsScreen />} />
-                  <Route
-                    path="instructors/:id/editor"
-                    element={<InstructorEditor />}
-                  />
+                  <Route path="instructors">
+                    <Route path="" element={<InstructorsScreen />} />
+                    <Route path=":id/editor" element={<InstructorEditor />} />
+                  </Route>
+                  <Route path="learners">
+                    <Route path="" element={<LearnersScreen />} />
+                    <Route path=":id/editor" element={<LearnerEditor />} />
+                  </Route>{' '}
                 </Route>
                 <Route path="courses" element={<CoursesScreen />} />
                 <Route
@@ -59,14 +64,18 @@ function AppRouter () {
                 <Route path="login" element={<UserLogin />} />
               </Fragment>
             )}
+            <Route
+              path="*"
+              element={<Navigate to="dashboard/home" replace />}
+            />{' '}
           </Route>
 
           <Route path="learner">
             {isSignedIn ? (
               <Route path="dashboard" element={<LearnerDashboard />}>
                 <Route path="home" element={<HomeScreen />} />
-                <Route path="courses/:id" element={<CourseViewer />}>
-                  <Route path="item/:nodeId" element={<CourseItemViewer />} />
+                <Route path="courses/:id" element={<CoursePlayer />}>
+                  <Route path="item/:nodeId" element={<CoursePlayerItem />} />
                 </Route>
               </Route>
             ) : (
@@ -75,6 +84,10 @@ function AppRouter () {
                 <Route path=":orgId/login" element={<LearnerLogin />} />
               </Fragment>
             )}
+            <Route
+              path="*"
+              element={<Navigate to="learner/dashboard/home" replace />}
+            />{' '}
           </Route>
           <Route path="courses/:id" element={<CourseDetailViewer />} />
         </Route>

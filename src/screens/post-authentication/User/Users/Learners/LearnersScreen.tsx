@@ -1,24 +1,24 @@
 import { Button, Col, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-import AddInstructor from './AddInstructor'
+import AddLearner from './AddLearners'
 import { Fragment } from 'react'
 import Header from '../../Dashboard/Header/Header'
-import { Instructor } from '../../../../../types/Instructor.types'
-import { useGetInstructors } from '../../../../../network/Instructor/queries'
+import { Learner } from '../../../../../types/Learner.types'
+import { useGetLearners } from '../../../../../network/Learner/queries'
 
-function InstructorsScreen() {
-  const { data, isLoading: loading } = useGetInstructors()
+function LearnersScreen() {
+  const { data, isLoading: loading } = useGetLearners()
 
   return (
     <Fragment>
       <Header
-        title="Instructors"
+        title="Learners"
         extra={[
-          <AddInstructor>
+          <AddLearner>
             {' '}
-            <Button type="primary">Add Instructor</Button>
-          </AddInstructor>
+            <Button type="primary">Add Learner</Button>
+          </AddLearner>
         ]}
       />
 
@@ -27,18 +27,12 @@ function InstructorsScreen() {
           <Table dataSource={data} loading={loading}>
             <Table.Column title="Name" dataIndex="name" key="name" />
             <Table.Column title="Email Adress" dataIndex="email" key="email" />
-            <Table.Column
-              title="Designation"
-              dataIndex="designation"
-              key="designation"
-            />
+
             <Table.Column
               title="Last Login"
               dataIndex="lastActive"
               key="lastActive"
             />
-            <Table.Column title="Courses" dataIndex="courses" key="courses" />
-            <Table.Column title="Rating" dataIndex="rating" key="rating" />
             <Table.Column
               title="Joined On"
               dataIndex="createdAt"
@@ -47,9 +41,13 @@ function InstructorsScreen() {
             <Table.Column
               title="Action"
               key="action"
-              render={(_: any, record: Instructor) => (
+              render={(_: any, record: Learner) => (
                 <Space size="middle">
-                  <EditOutlined onClick={() => window.open(`instructors/${record._id}/editor`, '_blank')} />
+                  <EditOutlined
+                    onClick={() =>
+                      window.open(`learners/${record._id}/editor`, '_blank')
+                    }
+                  />
                   <DeleteOutlined />
                 </Space>
               )}
@@ -61,4 +59,4 @@ function InstructorsScreen() {
   )
 }
 
-export default InstructorsScreen
+export default LearnersScreen

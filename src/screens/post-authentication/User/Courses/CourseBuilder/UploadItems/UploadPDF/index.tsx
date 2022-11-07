@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import { CourseNodeValueType, UploadFileType } from '../../../../../../../types/Common.types';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import DraggerUpload from '../../../../../../../components/DraggerUpload';
 
@@ -35,7 +35,7 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
     const [form] = Form.useForm<{ url: string }>();
 
   return (
-    <>
+    <Fragment>
       <span onClick={showModal}>{props.children}</span>
       <Modal footer={[
           <Button key="back" onClick={()=>closeModal()}>
@@ -68,7 +68,7 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
   />
       
       </Modal>
-    </>
+    </Fragment>
   );
 };
 

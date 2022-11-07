@@ -10,16 +10,19 @@ import { useRegisterLearner } from '../../../../network/Learner/queries'
 
 function SignupUser() {
   const { mutate: Signup, isLoading: loading } = useRegisterLearner()
-  const params = useParams();
-  useEffect(() => {
-    saveItemToStorage('orgId', params.orgId+'');
-  },[params.orgId])
+  const params = useParams()
+  useEffect(
+    () => {
+      saveItemToStorage('orgId', params.orgId + '')
+    },
+    [params.orgId]
+  )
 
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
-        name: ''
+      name: ''
     },
     onSubmit: (values: SignupData) => {
       Signup({

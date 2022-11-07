@@ -1,6 +1,5 @@
 import { Form, Input } from 'antd';
-
-import PDFViewer from '../../../../../../../components/PDFViewer';
+import { Fragment } from 'react';
 import QuillEditor from '../../../../../../../components/QuillEditor';
 import useUploadItemForm from '../hooks/useUploadItemForm';
 
@@ -13,7 +12,7 @@ interface UploadFileFormI {
 const UploadFileForm: React.FC = () => {
   const { onFormChange, form, data } = useUploadItemForm<UploadFileFormI>({ title: '', description: '',url:''});
   return (
-      <>
+      <Fragment>
    <Form
       form={form}
       layout="vertical"
@@ -26,7 +25,7 @@ const UploadFileForm: React.FC = () => {
       <QuillEditor onChange={e => onFormChange('description', e)} value={data.description} />
         </Form.Item>
           </Form>
-    </>
+    </Fragment>
   );
 };
 

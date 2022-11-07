@@ -55,7 +55,7 @@ function FormListItem(props: FormListItemPropsI) {
   ]:[]}
 >
   {(fields, { add, remove }, { errors }) => (
-          <>
+          <Fragment>
                <Form.Item
           label={props.label}
           required={props.required}
@@ -98,7 +98,7 @@ function FormListItem(props: FormListItemPropsI) {
         </Button>
         <Form.ErrorList errors={errors} />
       </Form.Item>
-    </>
+    </Fragment>
   )}
 </Form.List>}
 

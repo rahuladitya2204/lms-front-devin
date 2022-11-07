@@ -1,5 +1,5 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import { CourseNodeValueType } from '../../../../../../types/Common.types';
 
@@ -33,7 +33,7 @@ const CreateTextItem: React.FC<CreateTextItemProps> = (props) => {
     const [form] = Form.useForm<{ textHeading: string }>();
 
   return (
-    <>
+    <Fragment>
       <span onClick={showModal}>{props.children}</span>
       <Modal footer={[
           <Button key="back" onClick={()=>form.resetFields(['textHeading'])}>
@@ -50,7 +50,7 @@ const CreateTextItem: React.FC<CreateTextItemProps> = (props) => {
         </Form.Item></Form>
       
       </Modal>
-    </>
+    </Fragment>
   );
 };
 

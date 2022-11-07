@@ -1,4 +1,4 @@
-import { CourseSectionItem, Instructor } from './Common.types'
+import { CourseSectionItem } from './Common.types'
 
 export interface Course {
   title: string;
@@ -13,12 +13,6 @@ export interface Course {
   requirements: string[];
 }
 
+export interface UpdateCoursePayload extends Partial<Course> {}
 
-export interface UpdateCoursePayload extends Partial<Course> {
-
-}
-
-
-export interface CourseCoursePayload extends Partial<Course> {
-
-}
+export interface CourseCoursePayload extends Partial<Course> {}

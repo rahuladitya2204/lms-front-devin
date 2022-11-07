@@ -1,4 +1,5 @@
 import { Form, Input } from 'antd';
+import { Fragment } from 'react';
 
 import MediaPlayer from '../../../../../../../components/MediaPlayer';
 import QuillEditor from '../../../../../../../components/QuillEditor';
@@ -16,7 +17,7 @@ const UploadVideoForm: React.FC = (props) => {
   const { onFormChange, form, data } = useUploadItemForm<UploadVideoForm>( { title: '', description: '',url:'',context:''});
   const VideoUrl = data.url;
   return (
-      <>
+      <Fragment>
    <Form
       form={form}
       layout="vertical"
@@ -37,7 +38,7 @@ const UploadVideoForm: React.FC = (props) => {
         </Form.Item>
 
           </Form>
-    </>
+    </Fragment>
   );
 };
 

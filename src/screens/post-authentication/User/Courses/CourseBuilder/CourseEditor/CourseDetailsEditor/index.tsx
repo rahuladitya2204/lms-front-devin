@@ -6,24 +6,24 @@ Select,
 } from 'antd'
 import { Fragment, useEffect } from 'react'
 
-import { CourseDetailType } from '../../../../../../../types/Courses.types';
+import { Course } from '../../../../../../../types/Courses.types';
 import FileUpload from '../../../../../../../components/FileUpload';
 import FormListItem from '../../../../../../../components/FormListItem';
 import QuillEditor from '../../../../../../../components/QuillEditor';
 import { useGetInstructors } from '../../../../../../../network/Instructor/queries';
 
 interface CourseDetailsEditorPropsI {
-  formData: Partial<CourseDetailType>;
-  onFormUpdate: (d:Partial<CourseDetailType>)=>void;
+  formData: Partial<Course>;
+  onFormUpdate: (d:Partial<Course>)=>void;
 }
 
 function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
-  const [form] = Form.useForm<CourseDetailType>();
+  const [form] = Form.useForm<Course>();
   const { listItems: instructors, isLoading: loading } = useGetInstructors()
 
-  useEffect(() => {
-    form.setFieldsValue(props.formData);
-  },[props.formData])
+  // useEffect(() => {
+  //   form.setFieldsValue(props.formData);
+  // },[props.formData])
 
 
   const thumbnailImage = form.getFieldValue('thumbnailImage') || "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png";

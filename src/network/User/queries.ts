@@ -14,7 +14,7 @@ export const useLoginUser = () => {
       email,
       password
     }).then(({ data: { token, user } }) => {
-      saveItemToStorage('token', token)
+      saveItemToStorage('user-auth-token', token)
       setIsSignedin(true)
       navigate('/user/dashboard/home')
     })

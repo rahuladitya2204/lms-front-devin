@@ -7,14 +7,11 @@ import {
   FileTextFilled,
   FileTextOutlined,
   PlayCircleFilled,
-  PlayCircleOutlined,
+  PlayCircleOutlined
 } from '@ant-design/icons'
 
-import {
-CourseSectionItem
-} from '../../../../../../types/Common.types'
-import { Typography } from 'antd'
-import styled from '@emotion/styled'
+import { CourseSectionItem } from '../../../../../../types/Common.types'
+import { Fragment } from 'react'
 
 interface CourseItemIconPropsI {
   item: CourseSectionItem;
@@ -22,61 +19,49 @@ interface CourseItemIconPropsI {
 }
 
 const CourseItemIcon = (props: CourseItemIconPropsI) => {
-  let icon;
+  let icon
   switch (props.item.type) {
     case 'chapter':
-      if (props.type === 'outlined')
-      {
-        icon = <BookOutlined/>
-      }
-      else {
+      if (props.type === 'outlined') {
+        icon = <BookOutlined />
+      } else {
         icon = <BookFilled />
       }
-      
+
       break
     case 'pdf':
-      if (props.type === 'outlined')
-      {
-        icon = <FilePdfOutlined/>
-      }
-      else {
+      if (props.type === 'outlined') {
+        icon = <FilePdfOutlined />
+      } else {
         icon = <FilePdfFilled />
       }
       break
 
     case 'file':
-      if (props.type === 'outlined')
-      {
-        icon = <CloudDownloadOutlined/>
-      }
-      else {
+      if (props.type === 'outlined') {
+        icon = <CloudDownloadOutlined />
+      } else {
         icon = <CloudDownloadOutlined />
       }
       break
 
     case 'video':
-      if (props.type === 'outlined')
-      {
-        icon = <PlayCircleOutlined/>
-      }
-      else {
+      if (props.type === 'outlined') {
+        icon = <PlayCircleOutlined />
+      } else {
         icon = <PlayCircleFilled />
       }
       break
 
     case 'text':
-      if (props.type === 'outlined')
-      {
-        icon = <FileTextOutlined/>
-      }
-      else {
+      if (props.type === 'outlined') {
+        icon = <FileTextOutlined />
+      } else {
         icon = <FileTextFilled />
       }
       break
   }
-  return <>
-    {icon}
-  </>
+  return <Fragment>{icon}</Fragment>
 }
 
 export default CourseItemIcon

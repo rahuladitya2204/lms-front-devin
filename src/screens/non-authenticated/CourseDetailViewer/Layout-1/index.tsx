@@ -20,7 +20,7 @@ import { useGetCourseDetails } from '../../../../network/Courses/queries'
 import { useGetInstructorDetails } from '../../../../network/Instructor/queries'
 import { useParams } from 'react-router'
 
-const { Title, Text } = Typography
+const { Title, Text,Paragraph } = Typography
 
 const Container = styled.div`
   background-image: url(${image});
@@ -45,7 +45,7 @@ const CourseTitle = styled(Title)`
   color: #fff !important;
 `
 
-const CourseSubTitle = styled(Text)`
+const CourseSubTitle = styled(Paragraph)`
   color: #fff !important;
 `
 
@@ -59,49 +59,47 @@ function CourseDetailViewer() {
     enabled: !!course.instructor
   })
 
-  console.log(course, 'courseDetails')
-
   return (
     <Container>
       <Row gutter={[20, 20]}>
         <Col span={3} />
         <Col span={12}>
-          <Space
-            style={{ height: 270, overflow: 'hidden' }}
-            size="middle"
-            direction="vertical"
-          >
+          <Space direction='vertical' size='small' style={{height:190}}>
             <CourseTitle className="course-title" level={2}>
               {course.title}
             </CourseTitle>
-            <CourseSubTitle className="course-title">
+            <CourseSubTitle ellipsis className="course-title">
               {course.subtitle}
             </CourseSubTitle>
-            <Row>
+          </Space>
+         
+          <Row>
               {instructor?<><Col span={4}>
                 <Avatar
                   size={64}
                   src={instructor.image || <UserOutlined />}
                 />
               </Col>
-              <Col span={4}>
+              <Col span={6}>
                 <MetaText strong>Created By</MetaText> <br />
                 <MetaText>{instructor.name}</MetaText>
               </Col></>:null}
               
-              <Col span={4}>
+              <Col span={6}>
                 <MetaText strong>Categories</MetaText> <br />
                 <MetaText>Design</MetaText>
               </Col>
-              <Col span={4}>
+              <Col span={6}>
                 <MetaText strong>Review</MetaText> <br />
                 <CustomRate disabled style={{ fontSize: 15 }} value={4} /> <MetaText>
                   {/* 4.87 (3.8k+ reviews) */}
                 </MetaText>
               </Col>
             </Row>
-          </Space>
-            <CourseDetails  course={course}/>
+
+          <Row>
+            <Col style={{marginTop: 15}} span={24}><CourseDetails  course={course}/></Col>
+            </Row>
         </Col>
         <Col span={6}>
           <Card bordered style={{ padding: 0 }} bodyStyle={{ padding: 5 }}>
@@ -110,18 +108,10 @@ function CourseDetailViewer() {
               url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
             />
             <Card bordered={false} bodyStyle={{padding: 15}}>
-            <Row gutter={[15, 15]}>
-              <Col span={24}>
-                <Row gutter={[20, 20]}>
-                  <Col span={12}>
-                    <Title level={4}>$89.9</Title>
-                  </Col>
-                  <Col span={12}>
-                    <Tag color="purple">91% off</Tag>
-                  </Col>{' '}
-                </Row>
-              </Col>
-            </Row>
+            <Space style={{display:'flex',justifyContent:'space-between',alignItems:'baseline'}}>
+                  <Title level={4}>$89.9</Title>
+                  <Tag color="purple">91% off</Tag>
+                  </Space>
             <Row gutter={[10, 10]}>
               <Col span={24}>
                 <Button size='large' type="primary" block>

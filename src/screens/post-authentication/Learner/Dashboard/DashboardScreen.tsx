@@ -23,30 +23,13 @@ const App: React.FC = () => {
   const navigate = useNavigate()
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider
-        collapsible
-        theme="light"
-        collapsed={collapsed}
-        onCollapse={value => setCollapsed(value)}
-      >
-        <LogoHolder>
-          <Logo src={LogoImage} />
-        </LogoHolder>
-        <Menu
-          onClick={e => navigate(e.keyPath.join(''))}
-          theme="light"
-          defaultSelectedKeys={['1']}
-          mode="inline"
-          items={MenuItems(MENU_ITEMS)}
-        />
-      </Sider>
       <Layout className="site-layout">
         <Header className="site-layout-background" style={{ padding: 0 }}>
           <Menu
             mode="horizontal"
             defaultSelectedKeys={['2']}
             items={MenuItems(HEADER_ITEMS)}
-            />
+          />
         </Header>
         <Content style={{ margin: '0 16px' }}>
           <Outlet />

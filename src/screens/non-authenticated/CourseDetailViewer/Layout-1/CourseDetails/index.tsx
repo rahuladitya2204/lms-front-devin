@@ -1,11 +1,11 @@
+import { Course } from '../../../../../types/Courses.types'
 import CourseCurriculum from './CourseCurriculum'
-import { CourseDetailType } from '../../../../../types/Courses.types'
-import CourseInstructor from './CourseInstructor';
+import CourseInstructor from './CourseInstructor'
 import CourseOverview from './CourseOverview'
 import { Tabs } from 'antd'
 
 interface CourseDetailsPropsI {
-  course: CourseDetailType;
+  course: Course;
 }
 
 function CourseDetails(props: CourseDetailsPropsI) {
@@ -18,7 +18,7 @@ function CourseDetails(props: CourseDetailsPropsI) {
         <CourseCurriculum course={props.course} />
       </Tabs.TabPane>
       <Tabs.TabPane tab="Instructor" key="instructor">
-        <CourseInstructor course={props.course}  />
+        <CourseInstructor course={props.course} />
       </Tabs.TabPane>
     </Tabs>
   )

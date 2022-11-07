@@ -48,8 +48,3 @@ export interface MenuItemNode {
   path: string;
   children?: MenuItemNode[];
 }
-
-export interface Instructor {
-  name: string;
-  image?: string;
-}

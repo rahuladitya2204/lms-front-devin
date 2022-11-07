@@ -1,4 +1,4 @@
-import { CourseDetailType, CourseType, UpdateCoursePayload } from '../../types/Courses.types'
+import { Course, UpdateCoursePayload } from '../../types/Courses.types'
 import { CreateCourse, GetCourseDetails, GetCourses, UpdateCourse } from './api'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
@@ -7,14 +7,14 @@ import { message } from 'antd'
 
 export const useGetCourses = () => {
   const { data = [], isFetching: isLoading } =
-    useQuery<CourseType[]>([KEYS.GET_COURSES], GetCourses)
+    useQuery<Course[]>([KEYS.GET_COURSES], GetCourses)
   return {
     data,
     isLoading
   }
 }
 
-export const INITIAL_COURSE_DETAILS:CourseDetailType = {
+export const INITIAL_COURSE_DETAILS:Course = {
   title: '',
   subtitle: '',
   description:'',
@@ -29,7 +29,7 @@ export const INITIAL_COURSE_DETAILS:CourseDetailType = {
 
 export const useGetCourseDetails = (id:string,options={enabled:true}) => {
   const { data = INITIAL_COURSE_DETAILS , isFetching: isLoading } =
-    useQuery<CourseDetailType>([KEYS.GET_COURSE_DETAILS, id], () => GetCourseDetails(id), options)
+    useQuery<Course>([KEYS.GET_COURSE_DETAILS, id], () => GetCourseDetails(id), options)
   return {
     data,
     isLoading
@@ -39,7 +39,7 @@ export const useGetCourseDetails = (id:string,options={enabled:true}) => {
 
 export const useCreateCourse = () => {
   const qc = useQueryClient();
-  const mutation = useMutation((data: Partial<CourseDetailType>) => {
+  const mutation = useMutation((data: Partial<Course>) => {
     return CreateCourse(data).then(() => {
       qc.invalidateQueries([KEYS.GET_COURSES]);
       message.success('Course Details Updated');

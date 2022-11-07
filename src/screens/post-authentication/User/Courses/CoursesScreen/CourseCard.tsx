@@ -8,13 +8,13 @@ import {
 } from '@ant-design/icons'
 
 import Avatar from 'antd/lib/avatar/avatar'
-import { CourseType } from '../../../../../types/Courses.types'
+import { Course } from '../../../../../types/Courses.types'
 import Meta from 'antd/lib/card/Meta'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
 interface CourseCardProps {
-  course: CourseType;
+  course: Course;
 }
 
 const CourseCardHolder = styled(Card)`
@@ -26,7 +26,7 @@ const CourseCardHolder = styled(Card)`
 function CourseCard(props: CourseCardProps) {
   const navigate = useNavigate()
   return (
-    <CourseCardHolder
+    <CourseCardHolder hoverable
       style={{ width: 300 }}
       cover={
         <Badge.Ribbon color="orange" text="Unpublished">

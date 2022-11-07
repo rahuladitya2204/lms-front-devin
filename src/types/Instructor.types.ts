@@ -1,4 +1,4 @@
-export interface InstructorType {
+export interface Instructor {
   aboutMe: string;
   name: string;
   organisation: string;
@@ -8,14 +8,14 @@ export interface InstructorType {
   createdAt: string;
   courses: number;
   updatedAt: string;
-
-}
-
-export interface CreateInstructorPayload extends InstructorType {
-
-}
-
-export interface InstructorDetailsType extends InstructorType {
   _id: string;
   rating?: string;
+}
+
+export interface CreateInstructorPayload extends Partial<Instructor> {
+
+}
+
+export interface InstructorDetailsType extends Partial<Instructor> {
+
 }

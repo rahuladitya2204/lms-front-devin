@@ -2,15 +2,15 @@ import { Form, Image, Input, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
 import FileUpload from '../../../../../../components/FileUpload';
-import { Instructor } from '../../../../../../types/Instructor.types';
+import { Learner } from '../../../../../../types/Learner.types';
 import QuillEditor from '../../../../../../components/QuillEditor';
 
-interface CreateInstructorComponentPropsI {
-  formData: Partial<Instructor>;
-  onFormUpdate: (d:Partial<Instructor>)=>void;}
+interface CreateLearnerComponentPropsI {
+  formData: Partial<Learner>;
+  onFormUpdate: (d:Partial<Learner>)=>void;}
 
-const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (props) => {
-  const [form] = Form.useForm<Instructor>();
+const LearnerDetailsEditor: React.FC<CreateLearnerComponentPropsI> = (props) => {
+  const [form] = Form.useForm<Learner>();
   useEffect(() => {
     form.setFieldsValue(props.formData);
   }, [props.formData]);
@@ -33,20 +33,18 @@ src={image}
 </FileUpload>
 </Form.Item>
         <Form.Item name="name" label="Name" required>
-        <Input placeholder="Name of the instructor" />
-          </Form.Item>
-          <Form.Item name="designation" label="Designation" required>
-        <Input placeholder="Designation of the instructor" />
+        <Input placeholder="Name of the student" />
           </Form.Item>
           <Form.Item name="email" label="Email" required>
-        <Input placeholder="Please enter email of the instructor" />
+        <Input placeholder="Please enter email of the learner" />
         </Form.Item>
-        <Form.Item name="aboutMe" label="About Me" required>
-        <QuillEditor onChange={e => props.onFormUpdate({aboutMe:e})} />
+
+        <Form.Item name="contactNo" label="Mobile" required>
+        <Input placeholder="Please enter contact number of the learner" />
         </Form.Item>
       </Form>
     </Fragment>
   );
 };
 
-export default InstructorDetailsEditor;
+export default LearnerDetailsEditor;

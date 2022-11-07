@@ -7,14 +7,14 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Col, List, Row, Space, Typography } from 'antd'
 
-import { CourseDetailType } from '../../../../../../types/Courses.types'
+import { Course } from '../../../../../../types/Courses.types'
 import { Fragment } from 'react'
 import { useGetInstructorDetails } from '../../../../../../network/Instructor/queries'
 
 const { Title, Text, Paragraph } = Typography
 
 interface CourseInstructorPropsI {
-  course: CourseDetailType;
+  course: Course;
 }
 
 function CourseInstructor(props: CourseInstructorPropsI) {

@@ -1,26 +1,32 @@
 import { Button, Card, Tabs } from 'antd'
 import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
-import { INITIAL_INSTRUCTOR_DETAILS, useGetInstructorDetails, useUpdateInstructor } from '../../../../../../network/Instructor/queries'
+import {
+  INITIAL_INSTRUCTOR_DETAILS,
+  useGetInstructorDetails,
+  useUpdateInstructor
+} from '../../../../../../network/Instructor/queries'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
+import { Instructor } from '../../../../../../types/Instructor.types'
 import InstructorDetailsEditor from './InstructorDetailsEditor'
-import { InstructorDetailsType } from '../../../../../../types/Instructor.types'
 
-function InstructorEditor () {
-  const { id: instructorId } = useParams();
-  const navigate = useNavigate();
+function InstructorEditor() {
+  const { id: instructorId } = useParams()
+  const navigate = useNavigate()
   const [instructor, setInstructor] = useState(INITIAL_INSTRUCTOR_DETAILS)
   const { mutate: updateInstructor, isLoading: loading } = useUpdateInstructor()
   const { data } = useGetInstructorDetails(instructorId + '', {
     enabled: !!`instructorId`
   })
 
-  useEffect(() => {
-    setInstructor(data);
-   },[data])
+  useEffect(
+    () => {
+      setInstructor(data)
+    },
+    [data]
+  )
 
-  
   const saveInstructor = () => {
     updateInstructor({
       id: instructorId + '',
@@ -28,17 +34,29 @@ function InstructorEditor () {
     })
   }
 
-  const onFormUpdate = (data: Partial<InstructorDetailsType>) => {
-    console.log(data, 'data');
+  const onFormUpdate = (data: Partial<Instructor>) => {
+    console.log(data, 'data')
     setInstructor({
       ...instructor,
       ...data
-    });
+    })
   }
 
-
   return (
-    <Card extra={<><Button loading={loading} type='primary' onClick={saveInstructor} icon={<UploadOutlined />}>Save Instructor</Button></>}>
+    <Card
+      extra={
+        <Fragment>
+          <Button
+            loading={loading}
+            type="primary"
+            onClick={saveInstructor}
+            icon={<UploadOutlined />}
+          >
+            Save Instructor
+          </Button>
+        </Fragment>
+      }
+    >
       <Tabs
         defaultActiveKey="1"
         // onChange={onChange}
@@ -46,7 +64,12 @@ function InstructorEditor () {
           {
             label: `Profile Details`,
             key: '1',
-            children: <InstructorDetailsEditor formData={instructor} onFormUpdate={onFormUpdate} />
+            children: (
+              <InstructorDetailsEditor
+                formData={instructor}
+                onFormUpdate={onFormUpdate}
+              />
+            )
           },
           {
             label: `Courses`,

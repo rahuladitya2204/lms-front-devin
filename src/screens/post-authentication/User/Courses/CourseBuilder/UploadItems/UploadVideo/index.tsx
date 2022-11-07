@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import { CourseNodeValueType, UploadFileType } from '../../../../../../../types/Common.types';
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 
 import UploadComponent from '../../../../../../../components/FileUpload';
 
@@ -35,7 +35,7 @@ const UploadVideo: React.FC<UploadVideoProps> = (props) => {
     const [form] = Form.useForm<{ url: string }>();
 
   return (
-    <>
+    <Fragment>
       <span onClick={showModal}>{props.children}</span>
       <Modal footer={[
           <Button key="back" onClick={()=>closeModal()}>
@@ -67,7 +67,7 @@ const UploadVideo: React.FC<UploadVideoProps> = (props) => {
   />
       
       </Modal>
-    </>
+    </Fragment>
   );
 };
 

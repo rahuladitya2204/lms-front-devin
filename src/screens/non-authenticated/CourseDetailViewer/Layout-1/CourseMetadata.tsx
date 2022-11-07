@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons'
 import { List, Typography } from 'antd'
 
-import { CourseDetailType } from '../../../../types/Courses.types'
+import { Course } from '../../../../types/Courses.types'
 import styled from '@emotion/styled'
 
 const { Title, Text } = Typography
@@ -55,7 +55,7 @@ const data = [
 ]
 
 interface CourseMetadataPropsI {
-  course: CourseDetailType;
+  course: Course;
 }
 
 function CourseMetadata(props: CourseMetadataPropsI) {
