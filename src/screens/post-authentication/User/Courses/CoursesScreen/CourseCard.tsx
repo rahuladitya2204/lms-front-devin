@@ -27,7 +27,7 @@ function CourseCard(props: CourseCardProps) {
   const navigate = useNavigate()
   return (
     <CourseCardHolder hoverable
-      style={{ width: 300 }}
+
       cover={
         <Badge.Ribbon color="orange" text="Unpublished">
           <img

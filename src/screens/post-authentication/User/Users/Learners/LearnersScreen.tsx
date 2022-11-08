@@ -3,7 +3,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import AddLearner from './AddLearners'
 import { Fragment } from 'react'
-import Header from '../../Dashboard/Header/Header'
+import Header from '../../Header/Header'
 import { Learner } from '../../../../../types/Learner.types'
 import { useGetLearners } from '../../../../../network/Learner/queries'
 

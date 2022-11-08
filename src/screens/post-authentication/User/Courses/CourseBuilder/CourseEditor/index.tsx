@@ -10,12 +10,14 @@ import { Fragment, useEffect, useState } from 'react'
 
 import { Course } from '../../../../../../types/Courses.types'
 import CourseDetailsEditor from './CourseDetailsEditor'
+import Header from '../../../Header/Header'
 
 function CourseEditor() {
   const { id: courseId } = useParams()
   const navigate = useNavigate()
   const [course, setCourse] = useState(INITIAL_COURSE_DETAILS)
   const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
+
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
@@ -35,7 +37,7 @@ function CourseEditor() {
   }
 
   const onCourseUpdate = (data: Partial<Course>) => {
-    console.log(data, 'data')
+    console.log(data,'dddddd')
     setCourse({
       ...course,
       ...data
@@ -43,8 +45,9 @@ function CourseEditor() {
   }
 
   return (
-    <Card
-      extra={
+    <Header
+      title="Course Editor"
+      extra={[
         <Fragment>
           <Button
             onClick={() => navigate('preview')}
@@ -52,7 +55,7 @@ function CourseEditor() {
             icon={<EyeOutlined />}
           >
             Preview
-          </Button>
+          </Button>,
           <Button
             loading={loading}
             type="primary"
@@ -62,42 +65,43 @@ function CourseEditor() {
             Save Course
           </Button>
         </Fragment>
-      }
+      ]}
     >
-      <Tabs
-        defaultActiveKey="1"
-        // onChange={onChange}
-        items={[
-          {
-            label: `Details`,
-            key: '1',
-            children: (
-              <CourseDetailsEditor
-                formData={course}
-                onFormUpdate={onCourseUpdate}
-              />
-            )
-          },
-          {
-            label: `Pricing`,
-            key: '2',
-            children: `Content of Tab Pane 2`
-          },
-          {
-            label: `Pages`,
-            key: '3',
-            children: `Content of Tab Pane 3`
-          },
-          {
-            label: `Advanced`,
-            key: '4',
-            children: `Content of Tab Pane 3`
-          }
-        ]}
-      />
+      <Card>
+        <Tabs
+          defaultActiveKey="1"
+          items={[
+            {
+              label: `Details`,
+              key: '1',
+              children: (
+                <CourseDetailsEditor
+                  formData={course}
+                  onFormUpdate={onCourseUpdate}
+                />
+              )
+            },
+            {
+              label: `Pricing`,
+              key: '2',
+              children: `Content of Tab Pane 2`
+            },
+            {
+              label: `Pages`,
+              key: '3',
+              children: `Content of Tab Pane 3`
+            },
+            {
+              label: `Advanced`,
+              key: '4',
+              children: `Content of Tab Pane 3`
+            }
+          ]}
+        />
 
-      <Outlet />
-    </Card>
+        <Outlet />
+      </Card>
+    </Header>
   )
 }
 

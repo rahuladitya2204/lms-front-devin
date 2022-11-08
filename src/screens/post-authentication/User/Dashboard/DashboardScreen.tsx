@@ -41,13 +41,6 @@ const App: React.FC = () => {
         />
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
-          <Menu
-            mode="horizontal"
-            defaultSelectedKeys={['2']}
-            items={MenuItems(HEADER_ITEMS)}
-            />
-        </Header>
         <Content style={{ margin: '0 16px' }}>
           <Outlet />
         </Content>

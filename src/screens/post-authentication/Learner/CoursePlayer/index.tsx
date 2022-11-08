@@ -6,7 +6,7 @@ import {
 } from '../../../../network/Courses/queries'
 
 import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerCollapsible'
-import CoursePlayerMoreInfo from './CoursePlayerMoreInfo/CoursePlayerMoreInfo'
+import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { cloneDeep } from 'lodash'
 import { findNode } from '../../User/Courses/CourseBuilder/utils'
 import { useEffect } from 'react'
@@ -19,7 +19,7 @@ function CoursePlayer() {
   const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
   const navigate = useNavigate()
 
-  const courseSections = courseDetails.courseSections
+  const courseSections = courseDetails.courseSections;
 
   useEffect(
     () => {
@@ -30,7 +30,6 @@ function CoursePlayer() {
     },
     [courseSections]
   )
-  console.log(courseDetails, 'details')
 
   const toggleItemCheck = (id: string, checked: boolean) => {
     const COURSE_TREE = cloneDeep(courseSections)
@@ -50,7 +49,7 @@ function CoursePlayer() {
         <Col span={17}>
           <Outlet context={[courseSections]} />
           <Card>
-            <CoursePlayerMoreInfo />
+            <CoursePlayerMoreInfo course={courseDetails} />
           </Card>
         </Col>
         <Col span={7}>

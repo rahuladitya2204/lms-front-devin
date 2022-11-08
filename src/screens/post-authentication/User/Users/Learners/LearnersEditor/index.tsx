@@ -35,7 +35,7 @@ function LearnerEditor() {
   }
 
   const onFormUpdate = (data: Partial<Learner>) => {
-    console.log(data, 'data')
+
     setLearner({
       ...instructor,
       ...data

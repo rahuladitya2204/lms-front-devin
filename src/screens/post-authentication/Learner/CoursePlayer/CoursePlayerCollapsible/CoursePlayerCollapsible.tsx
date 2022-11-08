@@ -27,11 +27,6 @@ const CustomCollapse = styled(Collapse)`
   }
 `
 
-const CourseListItem = styled(List.Item)`
-  background: ${(props: { isActive: boolean }) =>
-    props.isActive ? '#e3e3e3' : 'auto'};
-`
-
 interface CoursePlayerCollapsiblePropsI {
   courseSections: CourseSectionItem[];
   toggleItemCheck: (itemID: string, value: boolean) => void;
@@ -62,17 +57,11 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
               <List
                 itemLayout="horizontal"
                 dataSource={section.items}
-                renderItem={item => (
-                  <NavLink
-                    to={`item/${item.id}`}
-                    children={({ isActive }) => (
-                      <CourseListItem isActive={isActive}>
-                        <CoursePlayerCollapsibleItem
-                          toggleItemCheck={props.toggleItemCheck}
-                          item={item}
-                        />
-                      </CourseListItem>
-                    )}
+                renderItem={(item, itemIndex) => (
+                  <CoursePlayerCollapsibleItem
+                    toggleItemCheck={props.toggleItemCheck}
+                    item={item}
+                    itemIndex={index + itemIndex + 1}
                   />
                 )}
               />

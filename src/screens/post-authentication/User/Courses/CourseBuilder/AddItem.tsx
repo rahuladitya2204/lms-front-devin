@@ -8,6 +8,7 @@ import UploadFile from './UploadItems/UploadFile'
 import UploadPDF from './UploadItems/UploadPDF'
 import UploadVideo from './UploadItems/UploadVideo'
 import styled from '@emotion/styled'
+import { useNavigate } from 'react-router'
 
 const { Title } = Typography
 

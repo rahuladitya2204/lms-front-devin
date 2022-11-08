@@ -3,7 +3,7 @@
 import { Anchor, Col, PageHeader, Row } from 'antd'
 
 import { MenuUnfoldOutlined } from '@ant-design/icons'
-import useGlobal from '../../../../../store/useGlobal'
+import useGlobal from '../../../../store/useGlobal'
 
 interface HeaderPropsI {
   children?: React.ReactNode;
@@ -14,18 +14,15 @@ interface HeaderPropsI {
 function Header(props: HeaderPropsI) {
   const { isDrawerOpen, setDrawerOpen } = useGlobal(state => state)
   return (
-    <Row>
-      <Col span={24}>
-        <PageHeader
-          onBack={() => null}
-          extra={props.extra}
-          title={props.title || 'LMS'}
-          backIcon={false}
-        >
-          {props.children}
-        </PageHeader>
-      </Col>
-    </Row>
+    <PageHeader
+      onBack={() => null}
+      // ghost={false}
+      extra={props.extra}
+      title={props.title || 'LMS'}
+      backIcon={false}
+    >
+      {props.children}
+    </PageHeader>
   )
 }
 

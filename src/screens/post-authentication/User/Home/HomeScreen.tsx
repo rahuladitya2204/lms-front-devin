@@ -1,4 +1,4 @@
-import Header from '../Dashboard/Header/Header'
+import Header from '../Header/Header'
 
 function Home () {
   return (

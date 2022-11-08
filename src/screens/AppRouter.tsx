@@ -1,11 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
-import AddTextItem from './post-authentication/User/Courses/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
-import CourseBuilderScreen from './post-authentication/User/Courses/CourseBuilder/CourseBuilderScreen'
+import AddTextItem from './post-authentication/User/Courses/CourseBuilder/UploadItems/AddTextItem/index'
+import CourseBuilderScreen from './post-authentication/User/Courses/CourseBuilder'
 import CourseDetailViewer from './non-authenticated/CourseDetailViewer/Layout-1'
 import CourseEditor from './post-authentication/User/Courses/CourseBuilder/CourseEditor'
 import CoursePlayerItem from './post-authentication/Learner/CoursePlayer/CoursePlayerItem'
-import CoursePlayer from './post-authentication/Learner/CoursePlayer/CoursePlayer'
+import CoursePlayer from './post-authentication/Learner/CoursePlayer'
 import CoursesScreen from './post-authentication/User/Courses/CoursesScreen'
 import { Fragment } from 'react'
 import HomeScreen from './post-authentication/User/Home/HomeScreen'
@@ -54,6 +54,7 @@ function AppRouter () {
                   <Route path="pdf/:nodeId" element={<UploadPDFForm />} />
                   <Route path="video/:nodeId" element={<UploadVideoForm />} />
                   <Route path="text/:nodeId" element={<AddTextItem />} />
+                  {/* <Route path="heading/:nodeId" element={<UploadPDFForm />} /> */}
                   <Route path="file/:nodeId" element={<UploadFileForm />} />
                 </Route>
                 <Route path="courses/:id/editor" element={<CourseEditor />} />

@@ -11,7 +11,8 @@ interface FormListItemPropsI {
     name: string;
     placeholder: string;
     minItems?: number
-    required?: boolean;
+  required?: boolean;
+  initialValue?: string[];
 }
 
 const RemoveItemIcon = styled(MinusCircleOutlined)`
@@ -37,7 +38,7 @@ margin-top: 10px;
 `
 
 function FormListItem(props: FormListItemPropsI) {
-  return    <Form.List
+  return <Form.List initialValue={ props.initialValue}
   name={props.name}
   rules={props.minItems?[
     {
@@ -55,7 +56,7 @@ function FormListItem(props: FormListItemPropsI) {
   ]:[]}
 >
   {(fields, { add, remove }, { errors }) => (
-          <Fragment>
+          <>
                <Form.Item
           label={props.label}
           required={props.required}
@@ -98,7 +99,7 @@ function FormListItem(props: FormListItemPropsI) {
         </Button>
         <Form.ErrorList errors={errors} />
       </Form.Item>
-    </Fragment>
+    </>
   )}
 </Form.List>}
 

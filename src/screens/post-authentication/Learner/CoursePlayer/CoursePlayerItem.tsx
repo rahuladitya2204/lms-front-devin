@@ -1,15 +1,10 @@
-import MediaPlayer from '../../../../components/MediaPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../hooks/CommonHooks'
+import CoursePlayerTextItem from './CoursePlayerItems/Text'
 
 function CoursePlayerItem () {
-
   const node = useGetNodeFromRouterOutlet()
-  // const data = node.data || { url: '' }
-  // console.log(node.data.url, 'node.data.url');
-  const url = 'https://www.youtube.com/watch?v=ysz5S6PUM-U'
-  const Component = <MediaPlayer url={url} />
-
-  return Component
+  console.log(node,'nodddd')
+  return <CoursePlayerTextItem item={node} />
 }
 
 export default CoursePlayerItem

@@ -42,11 +42,11 @@ const CreateHeading: React.FC<CreateHeadingProps> = (props) => {
           <Button key="submit" type="primary" onClick={form.submit}>
             Submit
           </Button>,
-          ]} title="New Heading" open={isModalOpen} onCancel={closeModal}>
+          ]} title="New Section" open={isModalOpen} onCancel={closeModal}>
               
               <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item required name="headingName" label="Heading Name">
-          <Input />
+        <Form.Item required name="headingName" label="Section Heading">
+          <Input placeholder='Please enter heading for the new section' />
         </Form.Item></Form>
       
       </Modal>

@@ -66,7 +66,14 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
       >
         {courseSections.map((section, secIndex) => {
           return (
-            <Collapse.Panel header={`${section.title}`} key={secIndex}>
+            <Collapse.Panel
+              header={
+                <span onClick={e => console.log(e, 'eee')}>{`${
+                  section.title
+                }`}</span>
+              }
+              key={secIndex}
+            >
               <List
                 itemLayout="horizontal"
                 style={{ marginBottom: 20 }}

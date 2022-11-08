@@ -29,9 +29,10 @@ function CourseBuilderScreen() {
   
   const onAddNewItem = (type: string, item: CourseNodeValueType, index:number | null) => {
     let CourseSections = [...courseSections];
+    const ID = uuid();
     const newItem: CourseSectionItem = {
       title: item.title,
-      id: uuid(),
+      id: ID,
       data: item.data,
       type,
       items: [],
@@ -43,7 +44,8 @@ function CourseBuilderScreen() {
     else {
       CourseSections.push(newItem);
     }
-      
+    if(type!=='heading')
+    navigate(`${type}/${ID}`)
     setCourseSections(CourseSections)
   }
 
@@ -81,7 +83,7 @@ function CourseBuilderScreen() {
   return (
     <div className="site-card-wrapper">
       <Row gutter={[16, 16]}>
-        <Col span={8}>
+        <Col span={9}>
           <Card extra={[<Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(`/user/dashboard/courses`)} type="link">
             Back to courses
           </Button>]}>
@@ -107,7 +109,7 @@ function CourseBuilderScreen() {
           </CreateHeading>
           </Card>
         </Col>
-        <Col span={16}>
+        <Col span={15}>
           <Card extra={<Fragment>
             <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>Publish Course</Button><Button onClick={saveCourse} loading={loading} type='primary' icon={<SaveOutlined />}>Save</Button>
           </Fragment>}>

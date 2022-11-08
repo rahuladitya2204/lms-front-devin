@@ -1,7 +1,6 @@
 import { Form, Input } from 'antd'
 import { Fragment } from 'react'
 
-import PDFViewer from '../../../../../../../components/PDFViewer'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 interface UploadPDFFormI {
@@ -37,7 +36,7 @@ const UploadPDFForm: React.FC = () => {
           />
         </Form.Item>
       </Form>
-      <PDFViewer url={data.url} />
+      {/* <PDFViewer url={data.url} /> */}
     </Fragment>
   )
 }
