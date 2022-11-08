@@ -19,8 +19,8 @@ export const useNavigateParams = () => {
 
 export const useGetNodeFromRouterOutlet = () => {
   const { nodeId } = useParams();
-  const [courseSections] = useOutletContext<CourseSectionItem[][]>()
-  const node: CourseSectionItem = findNode(nodeId+'', courseSections);
+  const [sections] = useOutletContext<CourseSectionItem[][]>()
+  const node: CourseSectionItem = findNode(nodeId+'', sections);
   console.log(nodeId,'nodeId')
   return node;
 }

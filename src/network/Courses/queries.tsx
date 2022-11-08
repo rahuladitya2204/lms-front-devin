@@ -19,7 +19,7 @@ export const INITIAL_COURSE_DETAILS:Course = {
   subtitle: '',
   description:'',
   instructor: '',
-  courseSections: [],
+  sections: [],
   thumbnailImage:'',
   _id: '',
   howToUse: '',

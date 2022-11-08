@@ -18,8 +18,19 @@ interface ImageUploadPropsI {
   children?: ReactNode;
   listType?: string;
   url?: string;
+  height?: string;
+  width?: string;
   extra?: UploadProps;
 }
+
+const CustomUpload = styled(Upload)`
+.ant-upload-select{
+  width: 100%;
+  min-height: 300px;
+  margin: 0;
+}
+
+`
 
 const ImageUpload: React.FC<ImageUploadPropsI> = props => {
   const { mutate: uploadFiles } = useUploadFiles();
@@ -48,15 +59,16 @@ const ImageUpload: React.FC<ImageUploadPropsI> = props => {
     </div>
   );
   return (
-    <Upload
+    <CustomUpload
       {...UPLOAD}
     name="avatar"
     listType="picture-card"
     className="avatar-uploader"
     showUploadList={false}
+    
   >
     {props.url ? <img src={props.url} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
-  </Upload>
+  </CustomUpload>
     
   )
 }

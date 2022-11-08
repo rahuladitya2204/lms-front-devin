@@ -19,26 +19,26 @@ function CoursePlayer() {
   const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
   const navigate = useNavigate()
 
-  const courseSections = courseDetails.courseSections;
+  const sections = courseDetails.sections;
 
   useEffect(
     () => {
-      if (courseSections[0]?.items[0]) {
-        const itemId = courseSections[0].items[0].id
+      if (sections[0]?.items[0]) {
+        const itemId = sections[0].items[0].id
         navigate(`item/${itemId}`)
       }
     },
-    [courseSections]
+    [sections]
   )
 
   const toggleItemCheck = (id: string, checked: boolean) => {
-    const COURSE_TREE = cloneDeep(courseSections)
+    const COURSE_TREE = cloneDeep(sections)
     const node = findNode(id, COURSE_TREE)
     node.checked = checked
     updateCourse({
       id: courseId + '',
       data: {
-        courseSections: COURSE_TREE
+        sections: COURSE_TREE
       }
     })
   }
@@ -47,7 +47,7 @@ function CoursePlayer() {
     <div className="site-card-wrapper">
       <Row gutter={[0, 0]}>
         <Col span={17}>
-          <Outlet context={[courseSections]} />
+          <Outlet context={[sections]} />
           <Card>
             <CoursePlayerMoreInfo course={courseDetails} />
           </Card>
@@ -55,7 +55,7 @@ function CoursePlayer() {
         <Col span={7}>
           <CoursePlayerCollapsible
             toggleItemCheck={toggleItemCheck}
-            courseSections={courseSections}
+            sections={sections}
           />
         </Col>
       </Row>

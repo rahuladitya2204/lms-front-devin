@@ -41,7 +41,7 @@ const CourseListItem = styled(List.Item)`
     props.isActive ? '#e3e3e3' : 'auto'};
 `
 interface CourseSectionPropsI {
-  courseSections: CourseSectionItem[];
+  sections: CourseSectionItem[];
   deleteSection: (index: number) => void;
   deleteSectionItem: (sectionIndex: number, itemIndex: number) => void;
   onAddNewItem: (
@@ -52,7 +52,7 @@ interface CourseSectionPropsI {
 }
 
 const CourseSection: React.FC<CourseSectionPropsI> = ({
-  courseSections,
+  sections,
   onAddNewItem,
   deleteSection,
   deleteSectionItem
@@ -61,10 +61,10 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
     <Card bodyStyle={{ padding: 0 }}>
       <CustomCollapse
         collapsible="header"
-        defaultActiveKey={courseSections.map((s, i) => i + '')}
+        defaultActiveKey={sections.map((s, i) => i + '')}
         expandIconPosition="end"
       >
-        {courseSections.map((section, secIndex) => {
+        {sections.map((section, secIndex) => {
           return (
             <Collapse.Panel
               header={

@@ -28,7 +28,7 @@ const CustomCollapse = styled(Collapse)`
 `
 
 interface CoursePlayerCollapsiblePropsI {
-  courseSections: CourseSectionItem[];
+  sections: CourseSectionItem[];
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
@@ -37,9 +37,9 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
     <Fragment>
       <CustomCollapse
         expandIconPosition="end"
-        defaultActiveKey={props.courseSections.map((s, i) => i)}
+        defaultActiveKey={props.sections.map((s, i) => i)}
       >
-        {props.courseSections.map((section, index) => {
+        {props.sections.map((section, index) => {
           let sectionsCompleted = 0
           const totalSections = section.items.length
           section.items.forEach(i => {
@@ -69,7 +69,7 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
           )
         })}
       </CustomCollapse>
-      {/* {props.courseSections.map((section, sectionIndex) => {
+      {/* {props.sections.map((section, sectionIndex) => {
         return (
           <CustomCollapse>
          

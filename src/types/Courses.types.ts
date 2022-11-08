@@ -7,7 +7,7 @@ export interface Course {
   thumbnailImage: string;
   description: string;
   howToUse: string;
-  courseSections: CourseSectionItem[];
+  sections: CourseSectionItem[];
   _id: string;
   whatYouLearn: string[];
   requirements: string[];
