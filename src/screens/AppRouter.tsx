@@ -51,11 +51,12 @@ function AppRouter () {
                   path="courses/builder/:id"
                   element={<CourseBuilderScreen />}
                 >
-                  <Route path="pdf/:nodeId" element={<UploadPDFForm />} />
-                  <Route path="video/:nodeId" element={<UploadVideoForm />} />
-                  <Route path="text/:nodeId" element={<AddTextItem />} />
-                  {/* <Route path="heading/:nodeId" element={<UploadPDFForm />} /> */}
-                  <Route path="file/:nodeId" element={<UploadFileForm />} />
+                  <Route path="section/:sectionId">
+                    <Route path="pdf/:itemId" element={<UploadPDFForm />} />
+                    <Route path="video/:itemId" element={<UploadVideoForm />} />
+                    <Route path="text/:itemId" element={<AddTextItem />} />
+                    <Route path="file/:itemId" element={<UploadFileForm />} />
+                  </Route>
                 </Route>
                 <Route path="courses/:id/editor" element={<CourseEditor />} />
               </Route>
@@ -76,7 +77,7 @@ function AppRouter () {
               <Route path="dashboard" element={<LearnerDashboard />}>
                 <Route path="home" element={<HomeScreen />} />
                 <Route path="courses/:id" element={<CoursePlayer />}>
-                  <Route path="item/:nodeId" element={<CoursePlayerItem />} />
+                  <Route path="item/:itemId" element={<CoursePlayerItem />} />
                 </Route>
               </Route>
             ) : (

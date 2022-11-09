@@ -1,15 +1,11 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
-import { CourseNodeValueType, UploadFileType } from '../../../../../../../types/Common.types';
+import {  CreateItemPropsI, UploadFileType } from '../../../../../../../types/Common.types';
 import React, { Fragment, useState } from 'react';
 
 import UploadComponent from '../../../../../../../components/FileUpload';
 
-interface UploadFileProps {
-    children?: React.ReactNode;
-    onFinish:(data:CourseNodeValueType)=>void
-}
 
-const UploadFile: React.FC<UploadFileProps> = (props) => {
+const UploadFile: React.FC<CreateItemPropsI> = (props) => {
   const [files, setFiles] = useState<UploadFileType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,9 +21,7 @@ const UploadFile: React.FC<UploadFileProps> = (props) => {
     const file = files[0];
     props.onFinish({
       title: file.name,
-      data: {
-        url:file.url
-      }
+      url:file.url
     });
     closeModal();
     }

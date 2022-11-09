@@ -1,10 +1,9 @@
-import { Badge, Collapse, List, Typography } from 'antd'
+import {  Collapse, List, Typography } from 'antd'
 
 import CoursePlayerCollapsibleItem from './CoursePlayerCollapsibleItem'
-import { CourseSectionItem } from '../../../../../types/Common.types'
 import { Fragment } from 'react'
-import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
+import { CourseSection, CourseSectionItem } from '../../../../../types/Courses.types'
 
 const { Panel } = Collapse
 
@@ -28,7 +27,7 @@ const CustomCollapse = styled(Collapse)`
 `
 
 interface CoursePlayerCollapsiblePropsI {
-  sections: CourseSectionItem[];
+  sections: CourseSection[];
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
@@ -42,9 +41,9 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
         {props.sections.map((section, index) => {
           let sectionsCompleted = 0
           const totalSections = section.items.length
-          section.items.forEach(i => {
-            if (i.checked) sectionsCompleted += 1
-          })
+          // section.items.forEach(i => {
+          //   if (i.checked) sectionsCompleted += 1
+          // })
           return (
             <Panel
               header={

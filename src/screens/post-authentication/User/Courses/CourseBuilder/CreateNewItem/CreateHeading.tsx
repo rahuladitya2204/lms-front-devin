@@ -1,14 +1,10 @@
-import { Button, Form, Input, Modal, Tabs } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, useState } from 'react';
+import { CreateItemPropsI } from '../../../../../../types/Common.types';
 
-import { CourseNodeValueType } from '../../../../../../types/Common.types';
 
-interface CreateHeadingProps {
-    children?: React.ReactNode;
-  onFinish: (data: CourseNodeValueType) => void;
-}
 
-const CreateHeading: React.FC<CreateHeadingProps> = (props) => {
+const CreateHeading: React.FC<CreateItemPropsI> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -21,10 +17,7 @@ const CreateHeading: React.FC<CreateHeadingProps> = (props) => {
     
     const onSubmit = ({headingName}: { headingName: string }) => {
       props.onFinish({
-        title: headingName,
-        data: {
-          headingName
-        }
+        title:headingName
       });
       form.resetFields(['headingName']);
         closeModal();

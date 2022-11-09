@@ -1,17 +1,17 @@
-import { ArrowLeftOutlined, EditOutlined, EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Image, Row } from 'antd'
-import { CourseNodeValueType, CourseSectionItem } from '../../../../../types/Common.types'
+import {  SaveOutlined, UploadOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Row } from 'antd'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { Fragment, useEffect, useState } from 'react'
+import {  useEffect, useState } from 'react'
 import { useGetCourseDetails, useUpdateCourse } from '../../../../../network/Courses/queries'
 
-import CourseBuilderTree from './CourseBuilderTree'
+import CourseSectionsNavigator from './CourseSectionsNavigator'
 import CreateHeading from './CreateNewItem/CreateHeading'
-import FileUpload from '../../../../../components/FileUpload'
 import styled from '@emotion/styled'
-import { updateCourseTreeNode } from './utils'
+import { updateCourseSectionItem } from './utils'
 import { v4 as uuid } from 'uuid';
-import ImageUpload from '../../../../../components/ImageUpload'
+import MediaUpload from '../../../../../components/MediaUpload'
+import Header from '../../Header/Header'
+import { CourseSection, CourseSectionItem } from '../../../../../types/Courses.types'
 
 const AddChapterButton = styled(Button)`
 margin-top: 20px;
@@ -24,30 +24,36 @@ function CourseBuilderScreen() {
     enabled: !!courseId
   });
   
-  console.log(courseDetails, 'courseDetails');
-  const [sections, setsections] = useState<CourseSectionItem[]>([]);
+  const [sections, setSections] = useState<CourseSection[]>([]);
   const navigate = useNavigate();
+
+  const onAddSection = ({title}:Partial<CourseSection>) => {
+    let SECTIONS = [...sections];
+    const ID = uuid();
+    const newSection: CourseSection = {
+      title: title+'',
+      items: [],
+      description: '',
+      id: ID
+    };
+    SECTIONS.push(newSection);
+    setSections(SECTIONS)
+
+  }
   
-  const onAddNewItem = (type: string, item: CourseNodeValueType, index:number | null) => {
+  const onAddNewItem = (type: string, item: Partial<CourseSectionItem>, index:number) => {
     let SECTIONS = [...sections];
     const ID = uuid();
     const newItem: CourseSectionItem = {
-      title: item.title,
+      title: item.title+'',
       id: ID,
-      data: item.data,
       type,
-      items: [],
+      ...item
     };
-    if (index !== null)
-    {
-      SECTIONS[index].items.push(newItem);
-    }
-    else {
-      SECTIONS.push(newItem);
-    }
-    if(type!=='heading')
-    navigate(`${type}/${ID}`)
-    setsections(SECTIONS)
+    SECTIONS[index].items.push(newItem);
+
+    navigate(`section/${SECTIONS[index].id}/${type}/${ID}`)
+    setSections(SECTIONS)
   }
 
   const saveCourse = () => {
@@ -61,42 +67,47 @@ function CourseBuilderScreen() {
 
 
   useEffect(() => {
-    setsections(courseDetails?.sections)
+    setSections(courseDetails?.sections)
   }, [courseDetails]);
 
-  const updateCourseTree = (node:CourseSectionItem) => {
-    const updatedTree = updateCourseTreeNode(sections, node);
-    setsections(updatedTree);
+  const updateCourseSection = (sectionId: string,item:CourseSectionItem) => {
+    const updatedSections = updateCourseSectionItem(sections, sectionId, item);
+    setSections(updatedSections);
   }
 
   const deleteSection = (index:number) => {
     const SECTIONS = [...sections];
     sections.splice(index, 1);
-    setsections(SECTIONS);
+    setSections(SECTIONS);
+    // saveCourse();
   }
 
   const deleteSectionItem = (sectionIndex: number,itemIndex:number) => {
     const SECTIONS = [...sections];
     sections[sectionIndex].items.splice(itemIndex, 1);
-    setsections(SECTIONS);
+    setSections(SECTIONS);
   }
-
   return (
-    <div className="site-card-wrapper">
+   <Header title={'Course Builder'} extra={[<Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>Publish Course</Button>,<Button onClick={saveCourse} loading={loading} type='primary' icon={<SaveOutlined />}>Save</Button>]}>
       <Row gutter={[16, 16]}>
         <Col span={9}>
-          <Card extra={[<Button icon={<ArrowLeftOutlined />} size="large" onClick={()=>navigate(`/user/dashboard/courses`)} type="link">
-            Back to courses
-          </Button>]}>
-          <ImageUpload onUpload={e => {
-            console.log(e, 'Helo');
+          <Card style={{marginBottom: 30}} >
+            <Row><Col span={24}>
+            <MediaUpload onUpload={e => {
           }}>
-          
-          </ImageUpload>
+            
+              </MediaUpload></Col>
+              <Col span={24} style={{ marginTop: 30 }}>
+                {sections.length ?
+                  <CourseSectionsNavigator
+                    deleteSectionItem={deleteSectionItem}
+                    deleteSection={deleteSection}
+                    onAddNewItem={onAddNewItem}
+                    sections={sections} /> : null} 
+</Col></Row>
 
-            {sections.length? <CourseBuilderTree deleteSectionItem={deleteSectionItem} deleteSection={deleteSection} onAddNewItem={onAddNewItem} sections={sections} />:null} 
 
-          <CreateHeading onFinish={(e)=>onAddNewItem('heading',e,null)} >
+          <CreateHeading onFinish={(e)=>onAddSection(e)} >
           <AddChapterButton  block type="primary">
             Add New Section
           </AddChapterButton>
@@ -104,14 +115,12 @@ function CourseBuilderScreen() {
           </Card>
         </Col>
         <Col span={15}>
-          <Card extra={<Fragment>
-            <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>Publish Course</Button><Button onClick={saveCourse} loading={loading} type='primary' icon={<SaveOutlined />}>Save</Button>
-          </Fragment>}>
-            <Outlet context={[sections,updateCourseTree]} />
+          <Card>
+            <Outlet context={[sections,updateCourseSection]} />
             </Card>
         </Col>
       </Row>
-    </div>
+      </Header>
   )
 }
 

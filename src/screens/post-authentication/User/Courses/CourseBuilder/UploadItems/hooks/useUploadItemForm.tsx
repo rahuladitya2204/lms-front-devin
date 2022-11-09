@@ -1,42 +1,33 @@
 import { useOutletContext, useParams } from "react-router";
 
-import { CourseSectionItem } from "../../../../../../../types/Common.types";
 import { Form } from "antd";
-import { findNode } from "../../utils";
+import { findSectionItem } from "../../utils";
 import { useEffect } from "react";
+import { CourseSection, CourseSectionItem } from "../../../../../../../types/Courses.types";
 
 function useUploadItemForm<T>(initialValues:T) {
   const [form] = Form.useForm();
-  let { nodeId } = useParams();
-  if (!nodeId)
-  {
-    nodeId = '';
-  }
+  let { itemId, sectionId } = useParams();
 
-  const [courseData, updateCourseData] = useOutletContext<[CourseSectionItem[],(data:CourseSectionItem)=>void]>();
 
-  const node = findNode(nodeId, courseData);
+  const [sections, updateSections] = useOutletContext<[CourseSection[],(sectionId:string,data:CourseSectionItem)=>void]>();
+
+  const item = findSectionItem(itemId+'', sectionId+'', sections) || {title:'',description:''};
   
-  const data = node ? (node.data as T) : initialValues;
-
   useEffect(() => {
-    form.setFieldsValue(data)
-  }, [data]);
+    form.setFieldsValue(item)
+  }, [item]);
 
-  const onFormChange = (key: string, value: string) => {
-      const newData = {
-        ...data,
-        [key]: value
+  const onFormChange = (data: { [key: string]: string }) => {
+      const newItem = {
+        ...item,
+        ...data
       };
-      const updatedNode = {
-        ...node,
-        title: newData.title,
-        data: newData
-      };
-      updateCourseData(updatedNode);
+
+    updateSections(sectionId+'', newItem);
   }
 
-  return { onFormChange,form,data };
+  return { onFormChange,form,item };
   } 
   
 

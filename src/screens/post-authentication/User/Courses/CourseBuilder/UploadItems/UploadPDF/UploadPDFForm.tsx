@@ -10,10 +10,11 @@ interface UploadPDFFormI {
 }
 
 const UploadPDFForm: React.FC = () => {
-  const { onFormChange, form, data } = useUploadItemForm<UploadPDFFormI>({ title: '', description: '',url:''});
+  const { onFormChange, form, item } = useUploadItemForm<UploadPDFFormI>({ title: '', description: '',url:''});
   return (
     <Fragment>
       <Form
+        onValuesChange={onFormChange}
         form={form}
         layout="vertical"
         initialValues={{ title: '', description: '' }}
@@ -25,13 +26,11 @@ const UploadPDFForm: React.FC = () => {
           tooltip="This is a required field"
         >
           <Input
-            onChange={e => onFormChange('title', e.target.value)}
             placeholder="input placeholder"
           />
         </Form.Item>
         <Form.Item name="description" label="Description" required>
           <Input
-            onChange={e => onFormChange('description', e.target.value)}
             placeholder="input placeholder"
           />
         </Form.Item>

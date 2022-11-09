@@ -12,7 +12,7 @@ const CustomUpload = styled(Upload)`
 `
 const UPLOAD: UploadProps = {
   onDrop(e) {
-    // console.log('Dropped files', e.dataTransfer.files)
+
   }
 }
 

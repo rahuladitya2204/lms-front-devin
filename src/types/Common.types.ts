@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import { CourseSectionItem } from './Courses.types'
 
 export interface SignupData {
   email: string;
@@ -20,17 +21,6 @@ export interface PresignedUrlRequestData {
   fileType: string;
 }
 
-export interface CourseSectionItem {
-  title: string;
-  id: string;
-  type: string;
-  data?: unknown;
-  checked?: boolean;
-  items: CourseSectionItem[];
-}
-
-export interface CourseNodeValueType { title: string; data: unknown }
-
 export interface UploadFileType {
   name: string;
   url: string;
@@ -47,4 +37,9 @@ export interface MenuItemNode {
   icon?: ReactNode;
   path: string;
   children?: MenuItemNode[];
+}
+
+export interface CreateItemPropsI {
+  children?: React.ReactNode;
+  onFinish: (data: Partial<CourseSectionItem>) => void;
 }

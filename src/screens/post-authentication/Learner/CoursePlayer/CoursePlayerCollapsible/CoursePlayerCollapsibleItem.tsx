@@ -1,14 +1,10 @@
-import { Card, Checkbox, Col, List, Row, Space, Tag, Typography } from 'antd'
+import { Checkbox, List, Tag } from 'antd'
 
-import { CourseSectionItem } from '../../../../../types/Common.types'
 import { NavLink } from 'react-router-dom'
-import {
-  FilePdfOutlined,
-  PlayCircleFilled,
-  PlayCircleOutlined
-} from '@ant-design/icons'
+
 import styled from '@emotion/styled'
-import CourseItemIcon from '../../../User/Courses/CourseBuilder/CourseBuilderTree/CourseItemIcon'
+import CourseItemIcon from '../../../User/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
+import { CourseSectionItem } from '../../../../../types/Courses.types'
 
 interface CoursePlayerCollapsibleItemPropsI {
   item: CourseSectionItem;
@@ -29,14 +25,14 @@ function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
         <CourseListItem
           extra={[
             <Tag color="blue">12 min</Tag>,
-            <CourseItemIcon type='outlined' item={props.item} />
+            <CourseItemIcon type="outlined" item={props.item} />
           ]}
           isActive={isActive}
         >
           <List.Item.Meta
             avatar={
               <Checkbox
-                defaultChecked={props.item.checked}
+                // defaultChecked={props.item.checked}
                 onChange={e =>
                   props.toggleItemCheck(props.item.id, !!e.target.checked)
                 }

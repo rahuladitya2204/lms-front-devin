@@ -1,7 +1,7 @@
 import { Col, Collapse, List, Row, Space } from 'antd'
 
 import { Course } from '../../../../../../types/Courses.types'
-import CourseItemIcon from '../../../../../post-authentication/User/Courses/CourseBuilder/CourseBuilderTree/CourseItemIcon'
+import CourseItemIcon from '../../../../../post-authentication/User/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import { LockOutlined } from '@ant-design/icons'
 
 const { Panel } = Collapse

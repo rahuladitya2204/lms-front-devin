@@ -14,25 +14,22 @@ interface UploadVideoForm {
 
 
 const UploadVideoForm: React.FC = (props) => {
-  const { onFormChange, form, data } = useUploadItemForm<UploadVideoForm>( { title: '', description: '',url:'',context:''});
-  const VideoUrl = data.url;
+  const { onFormChange, form, item } = useUploadItemForm<UploadVideoForm>( { title: '', description: '',url:'',context:''});
+  const VideoUrl = item.url;
   return (
       <Fragment>
-   <Form
+   <Form onValuesChange={onFormChange}
       form={form}
       layout="vertical"
               initialValues={{ title: '', description:'' }}
     >
       <Form.Item name='title' label="Title" required tooltip="This is a required field">
-        <Input  onChange={e=>onFormChange('title',e.target.value)} placeholder="Enter Video Title" />
+        <Input placeholder="Enter Video Title" />
       </Form.Item>
       <Form.Item name='description' label="Description" required>
-      <QuillEditor onChange={e => onFormChange('description', e)} value={data.description} />
+      <QuillEditor onChange={e => onFormChange({'description':e})} value={item.description} />
         </Form.Item>
-        <Form.Item name='context' label="Context" required>
-      <QuillEditor onChange={e => onFormChange('context', e)} value={data.context} />
-        </Form.Item>
-        
+
         <Form.Item name='context' label="Preview" required>
           {VideoUrl?<MediaPlayer url={VideoUrl} />:null}
         </Form.Item>

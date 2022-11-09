@@ -10,13 +10,13 @@ interface AddTextItemForm {
 }
 
 const AddTextItem: React.FC = () => {
-  const { onFormChange, form, data } = useUploadItemForm<AddTextItemForm>( { title: '', description: ''});
+  const { onFormChange, form, item } = useUploadItemForm<AddTextItemForm>( { title: '', description: ''});
   return (
     <Fragment>
       <Form
         form={form}
         layout="vertical"
-        initialValues={{ title: data.title, description: '' }}
+        onValuesChange={onFormChange}
       >
         <Form.Item
           name="title"
@@ -25,8 +25,6 @@ const AddTextItem: React.FC = () => {
           tooltip="This is a required field"
         >
           <Input
-            value={data.title}
-            onChange={e => onFormChange('title', e.target.value)}
             placeholder="Enter Text Content's title"
           />
         </Form.Item>
@@ -37,8 +35,8 @@ const AddTextItem: React.FC = () => {
           tooltip="This is a required field"
         >
           <QuillEditor
-            onChange={e => onFormChange('description', e)}
-            value={data.description}
+            onChange={e => onFormChange({'description': e})}
+            value={item.description}
           />
         </Form.Item>
       </Form>

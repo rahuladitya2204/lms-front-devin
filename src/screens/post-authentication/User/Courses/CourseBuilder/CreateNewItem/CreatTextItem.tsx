@@ -1,14 +1,8 @@
-import { Button, Form, Input, Modal, Tabs } from 'antd';
+import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, useState } from 'react';
+import { CreateItemPropsI } from '../../../../../../types/Common.types';
 
-import { CourseNodeValueType } from '../../../../../../types/Common.types';
-
-interface CreateTextItemProps {
-    children?: React.ReactNode;
-    onFinish:(data:CourseNodeValueType)=>void
-}
-
-const CreateTextItem: React.FC<CreateTextItemProps> = (props) => {
+const CreateTextItem: React.FC<CreateItemPropsI> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -22,9 +16,6 @@ const CreateTextItem: React.FC<CreateTextItemProps> = (props) => {
     const onSubmit = ({textHeading}: { textHeading: string }) => {
       props.onFinish({
         title: textHeading,
-        data: {
-          title:textHeading
-        }
       });
       form.resetFields(['textHeading'])
         closeModal();

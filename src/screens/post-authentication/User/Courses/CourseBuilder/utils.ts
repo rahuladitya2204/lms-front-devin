@@ -1,53 +1,54 @@
-import { CourseSectionItem } from '../../../../../types/Common.types'
-import { DataNode } from 'antd/lib/tree'
-import { cloneDeep } from 'lodash';
-import { v4 as uuid } from 'uuid';
+import { cloneDeep } from 'lodash'
+import { v4 as uuid } from 'uuid'
+import {
+  CourseSection,
+  CourseSectionItem
+} from '../../../../../types/Courses.types'
 
-export const findNode = (
-  id: string,
-  TREE: CourseSectionItem[]
+export const findSectionItem = (
+  itemId: string,
+  sectionId: string,
+  sections: CourseSection[]
 ): CourseSectionItem => {
   let node: CourseSectionItem
-  TREE.forEach(item => {
-    if (item.id === id) {
-      node = item
+  sections.forEach(section => {
+    if (section.id === sectionId) {
+      section.items.forEach(item => {
+        if (item.id == itemId) {
+          node = item
+        }
+      })
     }
-    item.items.forEach(i => {
-      if (i.id === id) {
-        node = i
-      }
-    })
   })
   // @ts-ignore
   return node
 }
 
-
-
-export const updateCourseTreeNode = (
-  tree: CourseSectionItem[],
-  node: CourseSectionItem
+export const updateCourseSectionItem = (
+  sections: CourseSection[],
+  sectionId: string,
+  item: CourseSectionItem
 ) => {
-  const TREE = cloneDeep(tree)
-  TREE.forEach((item, index) => {
-    if (item.id === node.id) {
-      TREE[index] = node;
+  const SECTIONS = cloneDeep(sections)
+  SECTIONS.forEach((section) => {
+    if (section.id === sectionId) {
+      section.items.forEach((secItem, itemIndex) => {
+        if (secItem.id === item.id) {
+          section.items[itemIndex] = {
+            ...secItem,
+            ...item
+          }
+        }
+      })
     }
-    item.items.forEach((i, childIndex) => {
-      if (i.id === node.id) {
-        item.items[childIndex] = node
-      }
-    })
   })
-  return TREE
+  return SECTIONS
 }
 
 export const createChapterItemNode = (): CourseSectionItem => {
   return {
     title: '+ Add Chapter Item',
     id: uuid(),
-    type: 'item',
-    data: null,
-    items: []
+    type: 'item'
   }
 }

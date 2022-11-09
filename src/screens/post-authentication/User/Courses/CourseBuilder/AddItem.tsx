@@ -1,14 +1,11 @@
-import { Button, Col, Form, Modal, Radio, Row, Space, Typography } from 'antd'
+import { Col, Form, Modal, Radio, Row, Space, Typography } from 'antd'
 import { Fragment, useState } from 'react'
+import { CourseSectionItem } from '../../../../../types/Courses.types'
 
-import { CourseNodeValueType } from '../../../../../types/Common.types'
-import CreateHeading from './CreateNewItem/CreateHeading'
 import CreateTextItem from './CreateNewItem/CreatTextItem'
 import UploadFile from './UploadItems/UploadFile'
 import UploadPDF from './UploadItems/UploadPDF'
 import UploadVideo from './UploadItems/UploadVideo'
-import styled from '@emotion/styled'
-import { useNavigate } from 'react-router'
 
 const { Title } = Typography
 
@@ -51,7 +48,7 @@ const CREATE_NEW_ITEM = [
 ]
 
 interface AddItemPropsI {
-  onAddNewItem: (type: string, item: CourseNodeValueType, key?: string) => void;
+  onAddNewItem: (type: string, item: Partial<CourseSectionItem>, key?: string) => void;
   children?: React.ReactNode;
 }
 
@@ -68,7 +65,7 @@ function AddItem(props: AddItemPropsI) {
 
   const [form] = Form.useForm()
 
-  const onFinish = (type: string, item: CourseNodeValueType) => {
+  const onFinish = (type: string, item: Partial<CourseSectionItem>) => {
     props.onAddNewItem(type, item)
     closeModal()
   }

@@ -13,7 +13,7 @@ const UPLOAD: UploadProps = {
   }
 }
 
-interface ImageUploadPropsI {
+interface MediaUploadPropsI {
   onUpload: (files: UploadFileType[]) => void;
   children?: ReactNode;
   listType?: string;
@@ -26,13 +26,13 @@ interface ImageUploadPropsI {
 const CustomUpload = styled(Upload)`
 .ant-upload-select{
   width: 100%;
-  min-height: 300px;
+  min-height: 200px;
   margin: 0;
 }
 
 `
 
-const ImageUpload: React.FC<ImageUploadPropsI> = props => {
+const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   const { mutate: uploadFiles } = useUploadFiles();
   const [loading, setLoading] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
@@ -66,11 +66,12 @@ const ImageUpload: React.FC<ImageUploadPropsI> = props => {
     className="avatar-uploader"
     showUploadList={false}
     
-  >
-    {props.url ? <img src={props.url} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+    >
+      
+    {props.url ? props.children : uploadButton}
   </CustomUpload>
     
   )
 }
 
-export default ImageUpload
+export default MediaUpload

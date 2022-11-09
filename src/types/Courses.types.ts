@@ -1,4 +1,18 @@
-import { CourseSectionItem } from './Common.types'
+export interface CourseSection {
+  items: CourseSectionItem[];
+  title: string;
+  description: string;
+  id: string;
+  instructor?: string;
+}
+
+export interface CourseSectionItem {
+  title: string;
+  id: string;
+  description?: string;
+  url?: string;
+  type: string;
+}
 
 export interface Course {
   title: string;
@@ -7,7 +21,7 @@ export interface Course {
   thumbnailImage: string;
   description: string;
   howToUse: string;
-  sections: CourseSectionItem[];
+  sections: CourseSection[];
   _id: string;
   whatYouLearn: string[];
   requirements: string[];

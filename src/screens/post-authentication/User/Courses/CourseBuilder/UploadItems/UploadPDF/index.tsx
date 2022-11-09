@@ -1,15 +1,9 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
-import { CourseNodeValueType, UploadFileType } from '../../../../../../../types/Common.types';
+import {  CreateItemPropsI, UploadFileType } from '../../../../../../../types/Common.types';
 import React, { Fragment, useState } from 'react';
-
 import DraggerUpload from '../../../../../../../components/DraggerUpload';
 
-interface UploadPDFProps {
-    children?: React.ReactNode;
-    onFinish:(data:CourseNodeValueType)=>void
-}
-
-const UploadPDF: React.FC<UploadPDFProps> = (props) => {
+const UploadVideoa: React.FC<CreateItemPropsI> = (props) => {
   const [files, setFiles] = useState<UploadFileType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -25,9 +19,7 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
     const file = files[0];
     props.onFinish({
       title: file.name,
-      data: {
-        url:file.url
-      }
+      url:file.url
     });
     closeModal();
     }
@@ -72,4 +64,4 @@ const UploadPDF: React.FC<UploadPDFProps> = (props) => {
   );
 };
 
-export default UploadPDF;
+export default UploadVideoa;

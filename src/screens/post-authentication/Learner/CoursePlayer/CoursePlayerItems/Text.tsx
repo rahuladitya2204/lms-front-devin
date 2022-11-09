@@ -10,7 +10,6 @@ interface CoursePlayerItemsPropsI {
 }
 
 const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = props => {
-  console.log(props.item.data, 'item')
   return (
     <div>
       <Typography.Text>{props.item.data?.title || ''}</Typography.Text>

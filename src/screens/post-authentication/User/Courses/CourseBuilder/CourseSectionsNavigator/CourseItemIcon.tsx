@@ -10,8 +10,8 @@ import {
   PlayCircleOutlined
 } from '@ant-design/icons'
 
-import { CourseSectionItem } from '../../../../../../types/Common.types'
 import { Fragment } from 'react'
+import { CourseSectionItem } from '../../../../../../types/Courses.types';
 
 interface CourseItemIconPropsI {
   item: CourseSectionItem;

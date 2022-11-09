@@ -3,8 +3,8 @@ import CoursePlayerTextItem from './CoursePlayerItems/Text'
 
 function CoursePlayerItem () {
   const node = useGetNodeFromRouterOutlet()
-  console.log(node,'nodddd')
-  return <CoursePlayerTextItem item={node} />
+  // return <CoursePlayerTextItem item={node} />
+  return null;
 }
 
 export default CoursePlayerItem

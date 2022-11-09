@@ -10,7 +10,7 @@ const { Dragger } = Upload
 
 const props: UploadProps = {
   onDrop(e) {
-    // console.log('Dropped files', e.dataTransfer.files)
+
   }
 }
 

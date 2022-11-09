@@ -37,7 +37,7 @@ function CourseEditor() {
   }
 
   const onCourseUpdate = (data: Partial<Course>) => {
-    console.log(data,'dddddd')
+
     setCourse({
       ...course,
       ...data

@@ -8,7 +8,6 @@ import {
 import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerCollapsible'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { cloneDeep } from 'lodash'
-import { findNode } from '../../User/Courses/CourseBuilder/utils'
 import { useEffect } from 'react'
 
 function CoursePlayer() {
@@ -33,14 +32,14 @@ function CoursePlayer() {
 
   const toggleItemCheck = (id: string, checked: boolean) => {
     const COURSE_TREE = cloneDeep(sections)
-    const node = findNode(id, COURSE_TREE)
-    node.checked = checked
-    updateCourse({
-      id: courseId + '',
-      data: {
-        sections: COURSE_TREE
-      }
-    })
+    // const node = findNode(id, COURSE_TREE)
+    // node.checked = checked
+    // updateCourse({
+    //   id: courseId + '',
+    //   data: {
+    //     sections: COURSE_TREE
+    //   }
+    // })
   }
 
   return (

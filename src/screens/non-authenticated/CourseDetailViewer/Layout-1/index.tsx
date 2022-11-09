@@ -104,7 +104,7 @@ function CourseDetailViewer() {
         <Col span={6}>
           <Card bordered style={{ padding: 0 }} bodyStyle={{ padding: 5 }}>
             <MediaPlayer
-              height="150px"
+              height={150}
               url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
             />
             <Card bordered={false} bodyStyle={{padding: 15}}>

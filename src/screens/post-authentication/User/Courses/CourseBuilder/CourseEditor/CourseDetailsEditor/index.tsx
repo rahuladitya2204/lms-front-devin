@@ -10,7 +10,7 @@ import { Course } from '../../../../../../../types/Courses.types';
 import FormListItem from '../../../../../../../components/FormListItem';
 import QuillEditor from '../../../../../../../components/QuillEditor';
 import { useGetInstructors } from '../../../../../../../network/Instructor/queries';
-import ImageUpload from '../../../../../../../components/ImageUpload';
+import MediaUpload from '../../../../../../../components/MediaUpload';
 
 interface CourseDetailsEditorPropsI {
   formData: Partial<Course>;
@@ -32,11 +32,11 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
     <Fragment>
        <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
 <Form.Item name="thumbnailImage" required label="Thumbnail">
-          <ImageUpload url={thumbnailImage} onUpload={e => {
+          <MediaUpload url={thumbnailImage} onUpload={e => {
             props.onFormUpdate({
               thumbnailImage:e[0].url
             })
-    // form.setFieldValue('thumbnailImage', e[0].url);
+
   }} />
 
 </Form.Item>

@@ -1,24 +1,23 @@
 import {
   Button,
   Card,
-  Col,
   Collapse,
   List,
   Popconfirm,
-  Row,
   Space,
-  Tooltip
+  Tooltip,
+  Typography
 } from 'antd'
-import {
-  CourseNodeValueType,
-  CourseSectionItem
-} from '../../../../../../types/Common.types'
 
 import AddItem from '../AddItem'
 import CourseItemIcon from './CourseItemIcon'
 import { DeleteOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
+import {
+  CourseSection,
+  CourseSectionItem
+} from '../../../../../../types/Courses.types'
 
 const CustomCollapse = styled(Collapse)`
   .ant-collapse-content-box {
@@ -40,18 +39,18 @@ const CourseListItem = styled(List.Item)`
   background: ${(props: { isActive: boolean }) =>
     props.isActive ? '#e3e3e3' : 'auto'};
 `
-interface CourseSectionPropsI {
-  sections: CourseSectionItem[];
+interface CourseSectionsNavigatorPropsI {
+  sections: CourseSection[];
   deleteSection: (index: number) => void;
   deleteSectionItem: (sectionIndex: number, itemIndex: number) => void;
   onAddNewItem: (
     type: string,
-    item: CourseNodeValueType,
+    item: Partial<CourseSectionItem>,
     index: number
   ) => void;
 }
 
-const CourseSection: React.FC<CourseSectionPropsI> = ({
+const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   sections,
   onAddNewItem,
   deleteSection,
@@ -67,12 +66,13 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
         {sections.map((section, secIndex) => {
           return (
             <Collapse.Panel
+              key={section.id}
               header={
                 <span onClick={e => console.log(e, 'eee')}>{`${
                   section.title
                 }`}</span>
               }
-              key={secIndex}
+
             >
               <List
                 itemLayout="horizontal"
@@ -110,7 +110,8 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                 }
                 renderItem={(item, itemIndex) => (
                   <NavLink
-                    to={`${item.type}/${item.id}`}
+                    key={item.id}
+                    to={`section/${section.id}/${item.type}/${item.id}`}
                     children={({ isActive }) => (
                       <CourseListItem
                         isActive={isActive}
@@ -135,7 +136,11 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
                       >
                         <List.Item.Meta
                           style={{ cursor: 'pointer' }}
-                          title={item.title}
+                          title={
+                            <Typography.Text ellipsis>
+                              {item.title}
+                            </Typography.Text>
+                          }
                           avatar={<CourseItemIcon item={item} />}
                         />
                       </CourseListItem>
@@ -151,4 +156,4 @@ const CourseSection: React.FC<CourseSectionPropsI> = ({
   )
 }
 
-export default CourseSection
+export default CourseSectionsNavigator

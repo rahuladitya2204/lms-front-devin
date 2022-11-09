@@ -1,20 +1,18 @@
 import 'react-quill/dist/quill.snow.css'
 
-import ReactPlayer from 'react-player'
+import { Player } from 'video-react'
 
 interface MediaPlayerPropsI {
   url: string;
-  width?: string;
-  height?: string;
+  width?: number;
+  height?: number;
 }
 
 function MediaPlayer(props: MediaPlayerPropsI) {
   return (
-    <ReactPlayer
-      height={props.height || '500px'}
-      width={props.width || '100%'}
-      url={props.url}
-    />
+    <Player height={props.height} width={props.width}>
+      <source src={props.url} />
+    </Player>
   )
   // return <ReactPlayer width='100%' url='https://www.youtube.com/watch?v=ysz5S6PUM-U' />;
 }

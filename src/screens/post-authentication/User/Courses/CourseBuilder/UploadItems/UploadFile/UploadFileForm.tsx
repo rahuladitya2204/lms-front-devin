@@ -10,19 +10,19 @@ interface UploadFileFormI {
 }
 
 const UploadFileForm: React.FC = () => {
-  const { onFormChange, form, data } = useUploadItemForm<UploadFileFormI>({ title: '', description: '',url:''});
+  const { onFormChange, form, item } = useUploadItemForm<UploadFileFormI>({ title: '', description: '',url:''});
   return (
       <Fragment>
-   <Form
+   <Form onValuesChange={onFormChange}
       form={form}
       layout="vertical"
               initialValues={{ title: '', description:'' }}
     >
       <Form.Item name='title' label="Title" required tooltip="This is a required field">
-        <Input  onChange={e=>onFormChange('title',e.target.value)} placeholder="input placeholder" />
+        <Input  placeholder="input placeholder" />
       </Form.Item>
       <Form.Item name='description' label="Description" required>
-      <QuillEditor onChange={e => onFormChange('description', e)} value={data.description} />
+      <QuillEditor onChange={e => onFormChange({'description': e})} value={item.description} />
         </Form.Item>
           </Form>
     </Fragment>
