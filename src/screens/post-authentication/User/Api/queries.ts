@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { message } from 'antd'
 import { useNavigate } from 'react-router'
-import { CreateCourse, CreateInstructor, CreateLearner, GetCourseDetails, GetInstructorDetails, GetInstructors, GetLearnerDetails, GetLearners, LoginUser, RegisterUser, UpdateCourse, UpdateInstructor, UpdateLearner } from '.'
+import { CreateCourse, CreateInstructor, CreateLearner, GetCourseDetails, GetCourses, GetInstructorDetails, GetInstructors, GetLearnerDetails, GetLearners, LoginUser, RegisterUser, UpdateCourse, UpdateInstructor, UpdateLearner } from '.'
 import { KEYS } from '../../../../network/keys'
 import useAuthentication from '../../../../store/useAuthentication'
 import { LoginData, SignupData } from '../../../../types/Common.types'
@@ -51,7 +51,16 @@ export const INITIAL_COURSE_DETAILS:Course = {
     howToUse: '',
     whatYouLearn: [''],
     requirements:['']
+}
+  
+export const useGetCourses = () => {
+  const { data = [], isFetching: isLoading } =
+    useQuery<Course[]>([KEYS.GET_COURSES], GetCourses)
+  return {
+    data,
+    isLoading
   }
+};
   
   export const useGetCourseDetails = (id:string,options={enabled:true}) => {
     const { data = INITIAL_COURSE_DETAILS , isFetching: isLoading } =

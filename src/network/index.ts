@@ -23,10 +23,10 @@ const Axios = axios.create({
       return JSON.stringify(data)
     }
   ],
-  transformResponse: [
-    (data, headers) => {
-      return data.data
-    }
-  ]
+  // transformResponse: [
+  //   (data, headers) => {
+  //     return data.data
+  //   }
+  // ]
 })
 export default Axios

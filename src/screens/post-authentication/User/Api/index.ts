@@ -25,7 +25,10 @@ export const ValidateUser = (type: string) => {
 // Course Get, update, delete, create
 
 export const GetCourses = () => {
-  return Axios.get(API_ENDPOINTS.user_course).then(r => r.data)
+  return Axios.get(API_ENDPOINTS.user_course).then(r => {
+    console.log(r, 'rrrr');
+    return r.data
+  })
 }
 
 export const GetCourseDetails = (id: string) => {

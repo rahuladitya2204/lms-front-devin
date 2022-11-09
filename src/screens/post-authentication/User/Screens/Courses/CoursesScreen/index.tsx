@@ -3,10 +3,11 @@ import { Button, Col, Row } from 'antd'
 import CourseCard from './CourseCard'
 import CreateCourseComponent from '../CreateCourse'
 import Header from '../../Header/Header'
-import { useGetCourses } from '../../../../Learner/Api/queries'
+import { useGetCourses } from '../../../../User/Api/queries'
 
 function CoursesScreen () {
   const { data: courses } = useGetCourses()
+  console.log(courses, 'courses')
   return (
     <div className="site-card-wrapper">
       <Header
