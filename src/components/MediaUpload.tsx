@@ -21,6 +21,7 @@ interface MediaUploadPropsI {
   height?: string;
   width?: string;
   extra?: UploadProps;
+  renderItem: () => ReactNode;
 }
 
 const CustomUpload = styled(Upload)`
@@ -58,6 +59,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
+
   return (
     <CustomUpload
       {...UPLOAD}
@@ -67,11 +69,10 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     showUploadList={false}
     
     >
-      
-    {props.url ? props.children : uploadButton}
+        {props.url?props.renderItem():uploadButton}
   </CustomUpload>
     
   )
 }
 
-export default MediaUpload
+export default MediaUpload;

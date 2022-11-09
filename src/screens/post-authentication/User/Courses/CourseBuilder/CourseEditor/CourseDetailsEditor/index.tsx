@@ -1,6 +1,6 @@
 import {
 Form,
-
+Image,
 Input,
 Select,
 } from 'antd'
@@ -32,7 +32,9 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
     <Fragment>
        <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
 <Form.Item name="thumbnailImage" required label="Thumbnail">
-          <MediaUpload url={thumbnailImage} onUpload={e => {
+          <MediaUpload url={thumbnailImage}
+            renderItem={() => <Image src={thumbnailImage} />}
+            onUpload={e => {
             props.onFormUpdate({
               thumbnailImage:e[0].url
             })

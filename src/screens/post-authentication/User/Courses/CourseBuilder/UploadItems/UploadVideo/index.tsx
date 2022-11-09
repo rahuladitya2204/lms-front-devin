@@ -46,8 +46,10 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
           <Input placeholder='Please enter title of the video' />
           </Form.Item>
           <Form.Item required name="title" label="Upload Video">
-            <MediaUpload url={url} onUpload={e => setUrl(e[0].url)}>
-              <MediaPlayer width={300} height={200} url={url} />
+            <MediaUpload
+                        renderItem={() => <MediaPlayer url={url} />}
+              url={url} onUpload={e => setUrl(e[0].url)}>
+
           </MediaUpload>
           </Form.Item>
         </Form>
