@@ -9,7 +9,9 @@ const Axios = axios.create({
   },
   transformRequest: [
     (data, headers) => {
-      const token = getItemFromStorage('user-auth-token') || getItemFromStorage('learner-auth-token')
+      const token =
+        getItemFromStorage('user-auth-token') ||
+        getItemFromStorage('learner-auth-token')
       const orgId = getItemFromStorage('orgId')
       // headers.set('Content-Type', 'application/json')
       if (token) {
@@ -19,6 +21,11 @@ const Axios = axios.create({
         headers.set('x-org', orgId)
       }
       return JSON.stringify(data)
+    }
+  ],
+  transformResponse: [
+    (data, headers) => {
+      return data.data
     }
   ]
 })

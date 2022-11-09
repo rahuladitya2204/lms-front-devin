@@ -1,21 +1,39 @@
-import { Outlet, useLocation, useNavigate } from 'react-router'
+import { Outlet, useNavigate, useParams } from 'react-router'
 
 import useAuthentication from '../store/useAuthentication'
 import { useEffect } from 'react'
 
 export default function RootScreen () {
-  const { validateUser } = useAuthentication(state => state)
+  console.log('Roor')
+  const { orgId } = useParams()
+  let userType = orgId ? 'learner' : 'user'
+  const { validateUser, setIsSignedin } = useAuthentication(state => state)
   const navigate = useNavigate()
-
+  console.log(userType, 'type')
   useEffect(() => {
-    validateUser()
+    validateUser(userType)
       .then(() => {
-        // navigate('user/dashboard/home')
+        setIsSignedin(true)
+        console.log(userType, 'user')
+        if (userType === 'learner') {
+          // return navigate(`/learner/${orgId}/dashboard/home`)
+        }
+        // navigate(`/user/dashboard/home`)
       })
       .catch(() => {
-        navigate('user/login')
+        // navigate(`/user/login`)
+        setIsSignedin(false)
+        // if (userType === 'learner') {
+        //   navigate(`${userType}/${orgId}/login`)
+        // } else {
+        //   return navigate(`user/login`)
+        // }
       })
   }, [])
 
-  return <Outlet />
+  return (
+    <div>
+      <Outlet />
+    </div>
+  )
 }

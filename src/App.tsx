@@ -7,7 +7,7 @@ import {
 import React, { Fragment } from 'react'
 
 import { Global } from '@emotion/react'
-import RouteContainer from './screens/AppRouter'
+import AppRouter from './screens/AppRouter'
 
 const queryClient = new QueryClient()
 
@@ -23,7 +23,7 @@ function App () {
             }
           }}
         />
-        <RouteContainer />
+        <AppRouter />
       </QueryClientProvider>
     </Fragment>
   )

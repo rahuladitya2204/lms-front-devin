@@ -16,9 +16,9 @@ import MediaPlayer from '../../../../components/MediaPlayer'
 import { UserOutlined } from '@ant-design/icons'
 import image from './bg.svg'
 import styled from '@emotion/styled'
-import { useGetCourseDetails } from '../../../../network/Courses/queries'
-import { useGetInstructorDetails } from '../../../../network/Instructor/queries'
 import { useParams } from 'react-router'
+import { useGetCourseDetails } from '../../../post-authentication/Learner/Api/queries'
+import { useGetInstructorDetails } from '../../../post-authentication/User/Api/queries'
 
 const { Title, Text,Paragraph } = Typography
 

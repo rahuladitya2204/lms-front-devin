@@ -1,8 +1,8 @@
-import { Col, Collapse, List, Row, Space } from 'antd'
+import { Col, Collapse, List, Row } from 'antd'
 
 import { Course } from '../../../../../../types/Courses.types'
-import CourseItemIcon from '../../../../../post-authentication/User/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import { LockOutlined } from '@ant-design/icons'
+import CourseItemIcon from '../../../../../post-authentication/User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon';
 
 const { Panel } = Collapse
 

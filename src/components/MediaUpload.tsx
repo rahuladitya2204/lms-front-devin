@@ -1,4 +1,4 @@
-import React, { Fragment, ReactNode, useState } from 'react'
+import React, {  ReactNode, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 
 import { UploadFileType } from '../types/Common.types'

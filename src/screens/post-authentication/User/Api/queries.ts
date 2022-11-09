@@ -1,0 +1,208 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { message } from 'antd'
+import { useNavigate } from 'react-router'
+import { CreateCourse, CreateInstructor, CreateLearner, GetCourseDetails, GetInstructorDetails, GetInstructors, GetLearnerDetails, GetLearners, LoginUser, RegisterUser, UpdateCourse, UpdateInstructor, UpdateLearner } from '.'
+import { KEYS } from '../../../../network/keys'
+import useAuthentication from '../../../../store/useAuthentication'
+import { LoginData, SignupData } from '../../../../types/Common.types'
+import { Course, UpdateCoursePayload } from '../../../../types/Courses.types'
+import { CreateInstructorPayload, Instructor } from '../../../../types/Instructor.types'
+import { CreateLearnerPayload, Learner } from '../../../../types/Learner.types'
+import { saveItemToStorage } from '../../../../utils/storage'
+import { INITIAL_LEARNER_DETAILS } from '../../Learner/Api/queries'
+
+export const useLoginUser = () => {
+  const navigate = useNavigate()
+  const { setIsSignedin } = useAuthentication(state => state)
+  const mutation = useMutation(({ email, password }: LoginData) => {
+    return LoginUser({
+      email,
+      password
+    }).then(({ data: { token, user } }) => {
+      saveItemToStorage('user-auth-token', token)
+      setIsSignedin(true)
+      navigate('/user/dashboard/home')
+    })
+  })
+  return mutation
+}
+
+export const useRegisterUser = () => {
+  const mutation = useMutation(({ email, password, name }: SignupData) => {
+    return RegisterUser({
+      email,
+      password,
+      name
+    })
+  })
+  return mutation
+}
+
+// Course
+
+export const INITIAL_COURSE_DETAILS:Course = {
+    title: '',
+    subtitle: '',
+    description:'',
+    instructor: '',
+    sections: [],
+    thumbnailImage:'',
+    _id: '',
+    howToUse: '',
+    whatYouLearn: [''],
+    requirements:['']
+  }
+  
+  export const useGetCourseDetails = (id:string,options={enabled:true}) => {
+    const { data = INITIAL_COURSE_DETAILS , isFetching: isLoading } =
+      useQuery<Course>([KEYS.GET_COURSE_DETAILS, id], () => GetCourseDetails(id), options)
+    return {
+      data,
+      isLoading
+    }
+  }
+  
+  
+  export const useCreateCourse = () => {
+    const qc = useQueryClient();
+    const mutation = useMutation((data: Partial<Course>) => {
+      return CreateCourse(data).then(() => {
+        qc.invalidateQueries([KEYS.GET_COURSES]);
+        message.success('Course Details Updated');
+      })
+    });
+  
+    return mutation;
+  }
+  
+  
+  export const useUpdateCourse = () => {
+    const qc = useQueryClient();
+    const mutation = useMutation(({id,data}:{id:string,data: Partial<UpdateCoursePayload>}) => {
+      return UpdateCourse(id, data).then(() => {
+        qc.invalidateQueries([KEYS.GET_COURSE_DETAILS, id]);
+        message.success('Course Details Updated');
+  
+      })
+    });
+  
+    return mutation;
+  }
+  
+
+
+  export const INITIAL_INSTRUCTOR_DETAILS:Instructor = {
+    name: '',
+    aboutMe: '',
+    email: '',
+    designation: '',
+    image:'',
+    createdAt: '',
+    updatedAt: '',
+    _id: '',
+    courses:0,
+    organisation:''
+    
+  }
+  
+  
+  export const useGetInstructors = () => {
+    const { data = [], isFetching: isLoading } =
+      useQuery<Instructor[]>([KEYS.GET_INSTRUCTORS], GetInstructors)
+    return {
+      data,
+      isLoading,
+      listItems: data.map(i => {
+        return {
+          value: i._id,
+          label:i.name
+        }
+      })
+    }
+  }
+  export const useGetInstructorDetails = (id:string,options={enabled:true}) => {
+    const { data = INITIAL_INSTRUCTOR_DETAILS , isFetching: isLoading } =
+      useQuery<Instructor>([KEYS.GET_INSTRUCTOR_DETAILS, id], () => GetInstructorDetails(id), options)
+    return {
+      data,
+      isLoading
+    }
+  }
+  
+  
+  export const useCreateInstructor = () => {
+    const qc = useQueryClient();
+    const mutation = useMutation((data: CreateInstructorPayload) => {
+      return CreateInstructor(data).then(() => {
+        qc.invalidateQueries([KEYS.GET_INSTRUCTORS]);
+        message.success('Course Details Updated');
+      });
+    })
+  
+    return mutation;
+  }
+  
+  
+  export const useUpdateInstructor = () => {
+    const qc = useQueryClient();
+    const mutation = useMutation(({id,data}:{id:string,data: Partial<Instructor>}): Promise<void> => {
+      return UpdateInstructor(id, data).then(() => {
+        qc.invalidateQueries([KEYS.GET_INSTRUCTORS]);
+        message.success('Instructor Details Updated');
+      })
+    });
+  
+    return mutation;
+  }
+  
+
+  // Learner 
+
+  export const useGetLearners = () => {
+    const { data = [], isFetching: isLoading } =
+      useQuery<Learner[]>([KEYS.GET_LEARNERS], GetLearners)
+    return {
+      data,
+      isLoading,
+      listItems: data.map(i => {
+        return {
+          value: i._id,
+          label:i.name
+        }
+      })
+    }
+  }
+  export const useGetLearnerDetails = (id:string,options={enabled:true}) => {
+    const { data = INITIAL_LEARNER_DETAILS , isFetching: isLoading } =
+      useQuery<Learner>([KEYS.GET_LEARNER_DETAILS, id], () => GetLearnerDetails(id), options)
+    return {
+      data,
+      isLoading
+    }
+  }
+  
+  
+  export const useCreateLearner = () => {
+    const qc = useQueryClient();
+    const mutation = useMutation((data: CreateLearnerPayload) => {
+      return CreateLearner(data).then((data) => {
+        qc.invalidateQueries([KEYS.GET_LEARNERS]);
+        message.success('Learners Details Updated');
+      });
+    })
+  
+    return mutation;
+  }
+  
+  
+  export const useUpdateLearner = () => {
+    const qc = useQueryClient();
+    const mutation = useMutation(({id,data}:{id:string,data: Partial<Learner>}): Promise<void> => {
+      return UpdateLearner(id, data).then(() => {
+        qc.invalidateQueries([KEYS.GET_LEARNERS]);
+        message.success('Learner Details Updated');
+      })
+    });
+  
+    return mutation;
+  }

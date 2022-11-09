@@ -1,31 +1,33 @@
 import { getItemFromStorage, removeItemFromStorage } from '../utils/storage'
-
-import { ValidateUser } from '../network/User/api'
 import create from 'zustand'
+import { ValidateUser } from '../screens/post-authentication/User/Api';
 
 interface AuthenticationState {
-    isSignedIn: boolean
+  isSignedIn: boolean
+  userType: string;
     setIsSignedin: (isSignedIn: boolean) => void,
-    validateUser: ()=>Promise<void>
+    validateUser: (type:string)=>Promise<void>
   }
 
 const useAuthentication = create<AuthenticationState>(set => ({
-  isSignedIn: !!getItemFromStorage('user-auth-token'),
+  isSignedIn: false,
+  userType:'',
   setIsSignedin: (isSignedIn) => set(state => ({ isSignedIn: isSignedIn })),
-  validateUser: () => {
-    const token = getItemFromStorage('user-auth-token');
+  validateUser: (type) => {
+    console.log(type, 'tyee');
+    const token = getItemFromStorage(type+'-auth-token');
     if (token)
     {
-      return ValidateUser()
-      .then((data) => {
-        return set({ isSignedIn: true })
+      return ValidateUser(type)
+      .then((data:any) => {
+        return set({ isSignedIn: true,userType:type })
       })
       .catch(() => {
-        removeItemFromStorage('user-auth-token')
+        removeItemFromStorage(type + '-auth-token');
         set({ isSignedIn: false });
         return Promise.reject();
       })
-      }
+    }
     else {
       return Promise.reject();
     }

@@ -1,6 +1,6 @@
 import 'react-quill/dist/quill.snow.css'
 
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player'
 
 interface MediaPlayerPropsI {
   url: string;
@@ -9,7 +9,7 @@ interface MediaPlayerPropsI {
 }
 
 function MediaPlayer(props: MediaPlayerPropsI) {
-  return <ReactPlayer controls playing width='100%' url={props.url} />;
+  return <ReactPlayer controls playing={false} width="100%" url={props.url} />
 }
 
 export default MediaPlayer
