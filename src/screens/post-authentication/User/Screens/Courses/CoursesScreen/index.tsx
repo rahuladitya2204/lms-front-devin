@@ -7,7 +7,6 @@ import { useGetCourses } from '@User/Api/queries'
 
 function CoursesScreen () {
   const { data: courses } = useGetCourses()
-  console.log(courses, 'courses')
   return (
     <div className="site-card-wrapper">
       <Header

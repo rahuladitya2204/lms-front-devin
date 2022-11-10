@@ -1,29 +1,30 @@
-import { Avatar, Card, Col, Layout, Menu, Progress, Row, Tabs, Typography } from 'antd'
+import { Avatar, Card, Progress, Typography } from 'antd'
 import React, { useState } from 'react'
 
-import Header from '@Components/Header'
 import { useGetCourses } from '@Learner/Api/queries'
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined
-} from '@ant-design/icons'
+
 import Meta from 'antd/lib/card/Meta'
 import { Course } from '@Types/Courses.types'
+import styled from '@emotion/styled'
 
 const { Text } = Typography
 
 interface CourseCardPropsI {
   course: Course;
+  onClick: () => void;
 }
 
-const CourseCard: React.FC<CourseCardPropsI> = ({ course }) => {
+const CardHolder = styled(Card)`
+  cursor: pointer;
+`
+
+const CourseCard: React.FC<CourseCardPropsI> = props => {
   const { data: courses } = useGetCourses()
-  console.log(courses, 'courses')
   return (
-    <Card
+    <CardHolder
+      onClick={props.onClick}
       bodyStyle={{ padding: 10 }}
-      cover={<img alt="example" src={course.thumbnailImage} />}
+      cover={<img alt="example" src={props.course.thumbnailImage} />}
     >
       <Meta
         // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
@@ -39,7 +40,7 @@ const CourseCard: React.FC<CourseCardPropsI> = ({ course }) => {
         }
       />
       <Progress percent={30} />
-    </Card>
+    </CardHolder>
   )
 }
 

@@ -12,7 +12,11 @@ import Header from '../../Header/Header'
 
 import { cloneDeep } from 'lodash'
 import { Course, CourseSection, CourseSectionItem } from '@Types/Courses.types'
-import { INITIAL_COURSE_DETAILS, useGetCourseDetails, useUpdateCourse } from '@User/Api/queries'
+import {
+  INITIAL_COURSE_DETAILS,
+  useGetCourseDetails,
+  useUpdateCourse
+} from '@User/Api/queries'
 import MediaUpload from '@Components/MediaUpload'
 
 const AddChapterButton = styled(Button)`
@@ -26,7 +30,7 @@ function CourseBuilderScreen() {
     enabled: !!courseId
   })
 
-  const [course, setCourse] = useState<Course>(INITIAL_COURSE_DETAILS)
+  const [course, setCourse] = useState < Course > INITIAL_COURSE_DETAILS
   const navigate = useNavigate()
 
   const onAddSection = ({ title }: Partial<CourseSection>) => {
@@ -45,17 +49,19 @@ function CourseBuilderScreen() {
   const onAddNewItem = (
     type: string,
     item: Partial<CourseSectionItem>,
+    metadata: unknown,
     index: number
   ) => {
     let COURSE = cloneDeep(course)
     const ID = uuid()
     const newItem: CourseSectionItem = {
       title: item.title + '',
+      description: item.title + '',
       id: ID,
       type,
       ...item
     }
-    COURSE.sections[index].items.push(newItem)
+    COURSE.sections[index].items.push({ item: newItem, metadata: metadata })
 
     navigate(`section/${COURSE.sections[index].id}/${type}/${ID}`)
     setCourse(COURSE)
@@ -101,7 +107,7 @@ function CourseBuilderScreen() {
           Publish Course
         </Button>,
         <Button
-          onClick={()=>saveCourse()}
+          onClick={() => saveCourse()}
           loading={loading}
           type="primary"
           icon={<SaveOutlined />}
@@ -117,10 +123,12 @@ function CourseBuilderScreen() {
               <Col span={24}>
                 <MediaUpload
                   renderItem={() => <Image src={course.thumbnailImage} />}
-                  onUpload={e => setCourse({
-                    ...course,
-                    thumbnailImage:e[0].url
-                  })}
+                  onUpload={e =>
+                    setCourse({
+                      ...course,
+                      thumbnailImage: e[0].url
+                    })
+                  }
                 />
               </Col>
               <Col span={24} style={{ marginTop: 30 }}>

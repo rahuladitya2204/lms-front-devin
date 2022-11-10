@@ -3,11 +3,12 @@ import { Checkbox, List, Tag } from 'antd'
 import { NavLink } from 'react-router-dom'
 
 import styled from '@emotion/styled'
-import { CourseSectionItem } from '@Types/Courses.types';
-import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon';
+import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
+import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 
 interface CoursePlayerCollapsibleItemPropsI {
   item: CourseSectionItem;
+  section: CourseSection;
   itemIndex: number;
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
@@ -20,7 +21,7 @@ const CourseListItem = styled(List.Item)`
 function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
   return (
     <NavLink
-      to={`item/${props.item.id}`}
+      to={`section/${props.section.id}/item/${props.item.id}`}
       children={({ isActive }) => (
         <CourseListItem
           extra={[
@@ -39,14 +40,9 @@ function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
               />
             }
             title={
-              <NavLink
-                to={`item/${props.item.id}`}
-                children={
-                  <a href="https://ant.design">
-                    {props.itemIndex}. {props.item.title}
-                  </a>
-                }
-              />
+              <a href="https://ant.design">
+                {props.itemIndex}. {props.item.title}
+              </a>
             }
             // description={
             //   <Typography.Text

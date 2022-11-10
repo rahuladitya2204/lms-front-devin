@@ -12,8 +12,8 @@ interface CoursePlayerItemsPropsI {
 const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = props => {
   return (
     <div>
-      <Typography.Text>{props.item.data?.title || ''}</Typography.Text>
-      <div dangerouslySetInnerHTML={{ __html: item?.data?.description }} />
+      <Typography.Text>{props.item?.title || ''}</Typography.Text>
+      <div dangerouslySetInnerHTML={{ __html: props.item?.description }} />
     </div>
   )
 }

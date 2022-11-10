@@ -10,14 +10,17 @@ import {
 } from '@ant-design/icons'
 import Meta from 'antd/lib/card/Meta'
 import CourseCard from './CourseCard'
+import { useNavigate } from 'react-router'
 
 const LearnerCourseList: React.FC = () => {
   const { data: courses } = useGetCourses()
-  console.log(courses, 'courses')
+  const navigate = useNavigate()
   return (
     <Row>
       <Col span={6}>
-        {courses.map(course => <CourseCard course={course} />)}
+        {courses.map(course => (
+          <CourseCard onClick={() => navigate(`${course._id}/player`)} course={course} />
+        ))}
       </Col>
     </Row>
   )

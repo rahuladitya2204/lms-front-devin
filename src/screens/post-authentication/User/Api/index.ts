@@ -23,7 +23,6 @@ export const ValidateUser = (type: string) => {
 
 export const GetCourses = () => {
   return Axios.get(API_ENDPOINTS.user_course).then(r => {
-    console.log(r, 'rrrr')
     return r.data
   })
 }

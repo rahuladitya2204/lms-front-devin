@@ -1,8 +1,4 @@
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-} from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import CourseDetailViewer from './non-authenticated/CourseDetailViewer/Layout-1'
 import { Fragment } from 'react'
@@ -31,7 +27,7 @@ import LearnerLogin from './post-authentication/Learner/Screens/Login'
 
 function AppRouter () {
   const { isSignedIn } = useAuthentication(state => state)
-  console.log(isSignedIn, 'isSignedIn')
+  // console.log(isSignedIn, 'isSignedIn')
   return (
     <BrowserRouter>
       <Routes>
@@ -78,8 +74,12 @@ function AppRouter () {
               {/* <Route path="home" element={<HomeScreen />} /> */}
               <Route path="courses">
                 <Route path="" element={<LearnerCourses />} />
-                <Route path=":id/player" element={<CoursePlayer />} />
-                <Route path="item/:itemId" element={<CoursePlayerItem />} />
+                <Route path=":id/player" element={<CoursePlayer />}>
+                  <Route
+                    path="section/:sectionId/item/:itemId"
+                    element={<CoursePlayerItem />}
+                  />
+                </Route>
               </Route>
             </Route>
             <Fragment>

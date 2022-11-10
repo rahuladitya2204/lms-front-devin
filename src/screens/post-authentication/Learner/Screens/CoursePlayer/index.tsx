@@ -20,8 +20,9 @@ function CoursePlayer() {
   useEffect(
     () => {
       if (sections[0]?.items[0]) {
+        const sectionId = sections[0].id
         const itemId = sections[0].items[0].id
-        navigate(`item/${itemId}`)
+        navigate(`section/${sectionId}/item/${itemId}`)
       }
     },
     [sections]
@@ -41,10 +42,17 @@ function CoursePlayer() {
 
   return (
     <div className="site-card-wrapper">
-      <Row gutter={[0, 0]}>
+      <Row gutter={[10, 10]}>
         <Col span={17}>
-          <Outlet context={[sections]} />
           <Card>
+            <Card
+              bordered={false}
+              style={{ height: 400 }}
+              bodyStyle={{ padding: 0 }}
+            >
+              <Outlet context={[sections]} />
+            </Card>
+
             <CoursePlayerMoreInfo course={courseDetails} />
           </Card>
         </Col>

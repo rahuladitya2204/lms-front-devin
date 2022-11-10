@@ -1,5 +1,5 @@
 export interface CourseSection {
-  items: CourseSectionItem[];
+  items: { item: CourseSectionItem, metadata: unknown };
   title: string;
   description: string;
   id: string;

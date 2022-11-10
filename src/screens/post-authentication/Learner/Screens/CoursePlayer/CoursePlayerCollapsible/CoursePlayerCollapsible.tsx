@@ -1,4 +1,4 @@
-import {  Collapse, List, Typography } from 'antd'
+import { Collapse, List, Typography } from 'antd'
 
 import CoursePlayerCollapsibleItem from './CoursePlayerCollapsibleItem'
 import { Fragment } from 'react'
@@ -58,6 +58,7 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
                 dataSource={section.items}
                 renderItem={(item, itemIndex) => (
                   <CoursePlayerCollapsibleItem
+                    section={section}
                     toggleItemCheck={props.toggleItemCheck}
                     item={item}
                     itemIndex={index + itemIndex + 1}

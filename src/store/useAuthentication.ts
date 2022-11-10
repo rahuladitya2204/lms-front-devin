@@ -14,7 +14,6 @@ const useAuthentication = create<AuthenticationState>(set => ({
   userType:'',
   setIsSignedin: (isSignedIn) => set(state => ({ isSignedIn: isSignedIn })),
   validateUser: (type) => {
-    console.log(type, 'tyee');
     const token = getItemFromStorage(type+'-auth-token');
     if (token)
     {
