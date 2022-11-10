@@ -36,7 +36,7 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
             renderItem={() => <Image src={thumbnailImage} />}
             onUpload={e => {
             props.onFormUpdate({
-              thumbnailImage:e[0].url
+              thumbnailImage:e.url
             })
 
   }} />

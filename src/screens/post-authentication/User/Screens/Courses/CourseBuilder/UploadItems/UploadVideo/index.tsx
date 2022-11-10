@@ -7,6 +7,12 @@ import { CreateItemPropsI } from '@Types/Common.types';
 
 const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
   const [url,setUrl] = useState('');
+  const [metadata, setMetadata] = useState({
+    duration: {
+      value: 0,
+      unit:''
+    }
+  });
   const [isModalOpen, setIsModalOpen] = useState(false);
   
   const showModal = () => {
@@ -22,7 +28,8 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
       props.onFinish({
         title: title,
         metadata: {
-          url: url
+          url: url,
+          duration: metadata.duration
         }
       });
       form.resetFields(['title']);
@@ -30,7 +37,7 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
     }
     
     const [form] = Form.useForm<{ title: string }>();
-
+  console.log(url, metadata, 'mndmdmdmdm');
   return (
     <Fragment>
       <span onClick={showModal}>{props.children}</span>
@@ -50,7 +57,10 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
           <Form.Item required name="title" label="Upload Video">
             <MediaUpload
                         renderItem={() => <MediaPlayer url={url} />}
-              url={url} onUpload={e => setUrl(e[0].url)}>
+              url={url} onUpload={(file,md) => {
+                setUrl(file.url);
+                setMetadata({duration: md.duration})
+              }}>
 
           </MediaUpload>
           </Form.Item>

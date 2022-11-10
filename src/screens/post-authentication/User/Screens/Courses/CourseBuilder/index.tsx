@@ -125,7 +125,7 @@ function CourseBuilderScreen() {
                   onUpload={e =>
                     setCourse({
                       ...course,
-                      thumbnailImage: e[0].url
+                      thumbnailImage: e.url
                     })
                   }
                 />

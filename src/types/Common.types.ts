@@ -43,3 +43,8 @@ export interface CreateItemPropsI {
   children?: React.ReactNode;
   onFinish: (data: Partial<CourseSectionItem>) => void;
 }
+
+export interface ValueUnitType {
+  value: number;
+  unit: string;
+}

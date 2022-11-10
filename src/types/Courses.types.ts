@@ -1,3 +1,5 @@
+import { ValueUnitType } from "./Common.types";
+
 export interface CourseSection {
   items: CourseSectionItem[];
   title: string;
@@ -13,7 +15,8 @@ export interface CourseSectionItem {
   // url?: string;
   type: string;
   metadata?: {
-    url?: string
+    url?: string;
+    duration?: ValueUnitType;
   };
 }
 
