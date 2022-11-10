@@ -5,8 +5,12 @@ import { Fragment, useEffect, useState } from 'react'
 
 import CourseDetailsEditor from './CourseDetailsEditor'
 import Header from '../../../Header/Header'
-import { INITIAL_COURSE_DETAILS, useGetCourseDetails, useUpdateCourse } from '../../../../Api/queries';
-import { Course } from '../../../../../../../types/Courses.types'
+import {
+  INITIAL_COURSE_DETAILS,
+  useGetCourseDetails,
+  useUpdateCourse
+} from '../../../../Api/queries'
+import { Course } from '@Types/Courses.types'
 
 function CourseEditor() {
   const { id: courseId } = useParams()
@@ -33,7 +37,6 @@ function CourseEditor() {
   }
 
   const onCourseUpdate = (data: Partial<Course>) => {
-
     setCourse({
       ...course,
       ...data

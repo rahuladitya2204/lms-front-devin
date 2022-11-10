@@ -2,7 +2,7 @@ import { Tabs } from 'antd'
 
 import React from 'react'
 import { SearchOutlined } from '@ant-design/icons'
-import { Course } from '../../../../../../types/Courses.types';
+import { Course } from '@Types/Courses.types';
 import CourseOverview from '../../../../../non-authenticated/CourseDetailViewer/Layout-1/CourseDetails/CourseOverview';
 
 interface CoursePlayerMoreInfoPropsI {

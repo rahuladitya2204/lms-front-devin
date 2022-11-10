@@ -2,7 +2,7 @@ import { Button, Checkbox, Form, Input, Typography } from 'antd'
 
 import AuthenticationCard from '../../../../../components/AuthenticationCard'
 import { NavLink } from 'react-router-dom'
-import { SignupData } from '../../../../../types/Common.types'
+import { SignupData } from '@Types/Common.types'
 import { useFormik } from 'formik'
 import { useRegisterUser } from '../../Api/queries'
 

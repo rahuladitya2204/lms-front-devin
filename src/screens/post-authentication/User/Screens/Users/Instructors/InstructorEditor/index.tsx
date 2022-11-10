@@ -4,7 +4,7 @@ import { UploadOutlined } from '@ant-design/icons'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { Fragment, useEffect, useState } from 'react'
 
-import { Instructor } from '../../../../../../../types/Instructor.types'
+import { Instructor } from '@Types/Instructor.types'
 import InstructorDetailsEditor from './InstructorDetailsEditor'
 import {
   INITIAL_INSTRUCTOR_DETAILS,

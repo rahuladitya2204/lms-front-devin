@@ -11,7 +11,7 @@ import { v4 as uuid } from 'uuid'
 import Header from '../../Header/Header'
 
 import { cloneDeep } from 'lodash'
-import { Course, CourseSection, CourseSectionItem } from '../../../../../../types/Courses.types'
+import { Course, CourseSection, CourseSectionItem } from '@Types/Courses.types'
 import { INITIAL_COURSE_DETAILS, useGetCourseDetails, useUpdateCourse } from '../../../Api/queries'
 import MediaUpload from '../../../../../../components/MediaUpload'
 

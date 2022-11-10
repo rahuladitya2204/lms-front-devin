@@ -2,7 +2,7 @@ import { Form, Image, Input, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
 import FileUpload from '../../../../../../../components/FileUpload';
-import { Learner } from '../../../../../../../types/Learner.types';
+import { Learner } from '@Types/Learner.types';
 
 interface CreateLearnerComponentPropsI {
   formData: Partial<Learner>;

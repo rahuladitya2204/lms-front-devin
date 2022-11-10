@@ -3,7 +3,7 @@ import {  UploadOutlined } from '@ant-design/icons'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { Fragment, useEffect, useState } from 'react'
 
-import { Learner } from '../../../../../../../types/Learner.types'
+import { Learner } from '@Types/Learner.types'
 import LearnerDetailsEditor from './LearnersDetailsEditor'
 import { useGetLearnerDetails, useUpdateLearner } from '../../../../Api/queries'
 import { INITIAL_LEARNER_DETAILS } from '../../../../../Learner/Api/queries'

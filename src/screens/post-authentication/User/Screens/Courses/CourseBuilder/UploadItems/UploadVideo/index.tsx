@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, useState } from 'react';
 import MediaPlayer from '../../../../../../../../components/MediaPlayer';
 import MediaUpload from '../../../../../../../../components/MediaUpload';
-import { CreateItemPropsI } from '../../../../../../../../types/Common.types';
+import { CreateItemPropsI } from '@Types/Common.types';
 
 
 const UploadVideo: React.FC<CreateItemPropsI> = (props) => {

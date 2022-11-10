@@ -25,7 +25,8 @@ const Axios = axios.create({
   ],
   // transformResponse: [
   //   (data, headers) => {
-  //     return data.data
+  //     console.log(data.data, 'hahaha');
+  //     return JSON.parse(data)
   //   }
   // ]
 })

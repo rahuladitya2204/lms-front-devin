@@ -1,7 +1,7 @@
-import Axios from '../../../../network'
-import { API_ENDPOINTS } from '../../../../network/constants'
-import { LoginData, SignupData } from '../../../../types/Common.types'
-import { Learner } from '../../../../types/Learner.types'
+import Axios from '@Network/index'
+import { API_ENDPOINTS } from '@Network/constants'
+import { LoginData, SignupData } from '@Types/Common.types'
+import { Learner } from '@Types/Learner.types'
 
 // Login - Register
 

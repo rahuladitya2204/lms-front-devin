@@ -1,5 +1,5 @@
 import { Button, Form, Input, Modal } from 'antd';
-import { CreateLearnerPayload, Learner } from '../../../../../../types/Learner.types';
+import { CreateLearnerPayload, Learner } from '@Types/Learner.types';
 import React, { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useCreateLearner, useUpdateLearner } from '../../../Api/queries';
 

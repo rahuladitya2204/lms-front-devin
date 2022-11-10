@@ -1,6 +1,6 @@
 import { GetFileUrls, UploadFile } from './api'
 
-import { UploadFileType } from '../../types/Common.types';
+import { UploadFileType } from '@Types/Common.types';
 import { config } from '../../constants/config'
 import { useMutation } from '@tanstack/react-query'
 

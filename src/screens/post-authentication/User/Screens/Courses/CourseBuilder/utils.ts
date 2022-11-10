@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash'
 import { v4 as uuid } from 'uuid'
-import { CourseSection, CourseSectionItem } from '../../../../../../types/Courses.types'
+import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 
 export const findSectionItem = (
   itemId: string,

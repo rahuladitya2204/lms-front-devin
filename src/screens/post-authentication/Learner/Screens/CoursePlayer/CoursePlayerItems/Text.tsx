@@ -2,8 +2,8 @@
 
 import { Typography } from 'antd'
 import React from 'react'
-import { CourseSectionItem } from '../../../../../types/Common.types'
-import { Course } from '../../../../../types/Courses.types'
+import { CourseSectionItem } from '@Types/Common.types'
+import { Course } from '@Types/Courses.types'
 
 interface CoursePlayerItemsPropsI {
   item: CourseSectionItem;

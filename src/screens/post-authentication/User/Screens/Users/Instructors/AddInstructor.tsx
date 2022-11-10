@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal } from 'antd'
 import {
   CreateInstructorPayload,
   Instructor
-} from '../../../../../../types/Instructor.types'
+} from '@Types/Instructor.types'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useCreateInstructor, useUpdateInstructor } from '../../../Api/queries';
 

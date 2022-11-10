@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 
 import { InboxOutlined } from '@ant-design/icons'
 import { Upload } from 'antd'
-import { UploadFileType } from '../types/Common.types'
+import { UploadFileType } from '@Types/Common.types'
 import type { UploadProps } from 'antd'
-import { useUploadFiles } from '../network/Common/CommonQueries'
+import { useUploadFiles } from '@Network/Common/CommonQueries'
 
 const { Dragger } = Upload
 

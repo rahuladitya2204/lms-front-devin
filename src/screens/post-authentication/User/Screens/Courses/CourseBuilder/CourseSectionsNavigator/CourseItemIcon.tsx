@@ -11,7 +11,7 @@ import {
 } from '@ant-design/icons'
 
 import { Fragment } from 'react'
-import { CourseSectionItem } from '../../../../../../../types/Courses.types';
+import { CourseSectionItem } from '@Types/Courses.types';
 
 interface CourseItemIconPropsI {
   item: CourseSectionItem;

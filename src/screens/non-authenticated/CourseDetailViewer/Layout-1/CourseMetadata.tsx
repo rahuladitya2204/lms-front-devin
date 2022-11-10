@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons'
 import { List, Typography } from 'antd'
 
-import { Course } from '../../../../types/Courses.types'
+import { Course } from '@Types/Courses.types'
 import styled from '@emotion/styled'
 
 const { Title, Text } = Typography

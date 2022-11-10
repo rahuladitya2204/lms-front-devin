@@ -1,8 +1,8 @@
 import React, {  ReactNode, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 
-import { UploadFileType } from '../types/Common.types'
-import { useUploadFiles } from '../network/Common/CommonQueries'
+import { UploadFileType } from '@Types/Common.types'
+import { useUploadFiles } from '@Network/Common/CommonQueries'
 import styled from '@emotion/styled'
 
 const CustomUpload = styled(Upload)`

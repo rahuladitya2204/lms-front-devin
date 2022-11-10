@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Col, List, Row, Space, Typography } from 'antd'
 
-import { Course } from '../../../../../../types/Courses.types'
+import { Course } from '@Types/Courses.types'
 import { Fragment } from 'react'
 import { useGetInstructorDetails } from '../../../../../post-authentication/User/Api/queries'
 

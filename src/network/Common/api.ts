@@ -1,4 +1,4 @@
-import { PresignedUrlResponseData } from '../../types/Common.types'
+import { PresignedUrlResponseData } from '@Types/Common.types'
 import axios, { AxiosRequestConfig } from 'axios'
 
 import Axios from '..'

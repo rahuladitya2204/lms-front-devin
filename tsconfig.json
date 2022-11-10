@@ -18,7 +18,25 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "baseUrl": "./src",
+     "paths": {
+       "@components/*": [
+         "components/*"
+       ],
+       "@Types/*": [
+        "types/*"
+      ],
+      "@User/*": [
+        "screens/post-authenticated/User/*"
+      ],
+      "@Learner/*": [
+        "screens/post-authenticated/Learner/*"
+      ],
+      "@Network/*": [
+        "network/*"
+      ],
+     }
   },
   "include": [
     "src"

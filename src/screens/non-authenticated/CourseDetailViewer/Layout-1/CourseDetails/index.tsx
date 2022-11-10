@@ -1,4 +1,4 @@
-import { Course } from '../../../../../types/Courses.types'
+import { Course } from '@Types/Courses.types'
 import CourseCurriculum from './CourseCurriculum'
 import CourseInstructor from './CourseInstructor'
 import CourseOverview from './CourseOverview'

@@ -14,7 +14,7 @@ import CourseItemIcon from './CourseItemIcon'
 import { DeleteOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { CourseSection, CourseSectionItem } from '../../../../../../../types/Courses.types'
+import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 
 
 const CustomCollapse = styled(Collapse)`

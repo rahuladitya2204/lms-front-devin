@@ -1,6 +1,6 @@
 import { Col, Form, Modal, Radio, Row, Space, Typography } from 'antd'
 import { Fragment, useState } from 'react'
-import { CourseSectionItem } from '../../../../../../types/Courses.types'
+import { CourseSectionItem } from '@Types/Courses.types'
 
 import CreateTextItem from './CreateNewItem/CreatTextItem'
 import UploadFile from './UploadItems/UploadFile'

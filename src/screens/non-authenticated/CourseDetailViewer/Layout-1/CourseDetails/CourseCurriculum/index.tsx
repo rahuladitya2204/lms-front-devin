@@ -1,6 +1,6 @@
 import { Col, Collapse, List, Row } from 'antd'
 
-import { Course } from '../../../../../../types/Courses.types'
+import { Course } from '@Types/Courses.types'
 import { LockOutlined } from '@ant-design/icons'
 import CourseItemIcon from '../../../../../post-authentication/User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon';
 

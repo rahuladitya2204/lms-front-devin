@@ -3,7 +3,7 @@ import React, { Fragment, ReactNode, useState } from 'react'
 
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { useCreateCourse } from '../../../Api/queries';
-import { Course } from '../../../../../../types/Courses.types';
+import { Course } from '@Types/Courses.types';
 
 interface CreateCourseComponentPropsI {
   children?: ReactNode;

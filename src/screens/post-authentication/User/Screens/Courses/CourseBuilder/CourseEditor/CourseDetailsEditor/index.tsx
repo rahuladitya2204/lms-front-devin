@@ -8,7 +8,7 @@ import { Fragment, useEffect } from 'react'
 import FormListItem from '../../../../../../../../components/FormListItem';
 import MediaUpload from '../../../../../../../../components/MediaUpload';
 import QuillEditor from '../../../../../../../../components/QuillEditor';
-import { Course } from '../../../../../../../../types/Courses.types';
+import { Course } from '@Types/Courses.types';
 import { useGetInstructors } from '../../../../../Api/queries';
 
 

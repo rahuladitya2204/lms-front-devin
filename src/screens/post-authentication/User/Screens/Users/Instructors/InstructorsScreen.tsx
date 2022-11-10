@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import AddInstructor from './AddInstructor'
 import { Fragment } from 'react'
 import Header from '../../Header/Header'
-import { Instructor } from '../../../../../../types/Instructor.types'
+import { Instructor } from '@Types/Instructor.types'
 import { useGetInstructors } from '../../../Api/queries'
 
 function InstructorsScreen() {

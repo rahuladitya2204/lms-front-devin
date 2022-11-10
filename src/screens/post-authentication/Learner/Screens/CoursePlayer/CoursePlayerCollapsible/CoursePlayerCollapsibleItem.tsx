@@ -3,7 +3,7 @@ import { Checkbox, List, Tag } from 'antd'
 import { NavLink } from 'react-router-dom'
 
 import styled from '@emotion/styled'
-import { CourseSectionItem } from '../../../../../../types/Courses.types';
+import { CourseSectionItem } from '@Types/Courses.types';
 import CourseItemIcon from '../../../../User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon';
 
 interface CoursePlayerCollapsibleItemPropsI {

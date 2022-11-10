@@ -3,7 +3,7 @@ import {  Collapse, List, Typography } from 'antd'
 import CoursePlayerCollapsibleItem from './CoursePlayerCollapsibleItem'
 import { Fragment } from 'react'
 import styled from '@emotion/styled'
-import { CourseSection } from '../../../../../../types/Courses.types'
+import { CourseSection } from '@Types/Courses.types'
 
 const { Panel } = Collapse
 

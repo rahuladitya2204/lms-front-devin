@@ -315,6 +315,11 @@ module.exports = function (webpackEnv) {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
+        '@components': path.resolve(__dirname, '../src/components'),
+        '@Types': path.resolve(__dirname, '../src/types'),
+        '@Network': path.resolve(__dirname, '../src/network'),
+        '@User': path.resolve(__dirname, '../src/screens/post-authenticated/User'),
+        '@Learner': path.resolve(__dirname, '../src/screens/post-authenticated/Learner'),
         // Allows for better profiling with ReactDevTools
         ...(isEnvProductionProfile && {
           'react-dom$': 'react-dom/profiling',

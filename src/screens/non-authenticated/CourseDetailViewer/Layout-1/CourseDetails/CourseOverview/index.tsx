@@ -1,7 +1,7 @@
 import { Col, List, Row, Typography } from 'antd'
 
 import { CheckCircleTwoTone } from '@ant-design/icons'
-import { Course } from '../../../../../../types/Courses.types'
+import { Course } from '@Types/Courses.types'
 import CourseDetailList from './CourseDetailList'
 import { Fragment } from 'react'
 

@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { Typography } from 'antd'
 import { useFormik } from 'formik'
 import { useLoginUser } from '../../Api/queries'
-import AuthenticationCard from '../../../../../components/AuthenticationCard'
+import AuthenticationCard from '@components/AuthenticationCard'
 
 function UserLoginScreen () {
   const { mutate: loginUser, isLoading: loading } = useLoginUser()

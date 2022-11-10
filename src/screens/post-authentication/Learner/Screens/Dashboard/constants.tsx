@@ -4,7 +4,7 @@ import {
   UsergroupDeleteOutlined
 } from '@ant-design/icons'
 
-import { MenuItemNode } from '../../../../../types/Common.types'
+import { MenuItemNode } from '@Types/Common.types'
 import { MenuProps } from 'antd'
 
 export const MENU_ITEMS: MenuItemNode[] = [

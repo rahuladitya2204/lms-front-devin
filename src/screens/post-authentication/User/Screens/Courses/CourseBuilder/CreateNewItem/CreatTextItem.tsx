@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, useState } from 'react';
-import { CreateItemPropsI } from '../../../../../../../types/Common.types';
+import { CreateItemPropsI } from '@Types/Common.types';
 
 const CreateTextItem: React.FC<CreateItemPropsI> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);

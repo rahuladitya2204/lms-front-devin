@@ -1,12 +1,9 @@
-import Axios from '../../../../network'
-import { API_ENDPOINTS } from '../../../../network/constants'
-import { LoginData, SignupData } from '../../../../types/Common.types'
-import { Course, UpdateCoursePayload } from '../../../../types/Courses.types'
-import {
-  CreateInstructorPayload,
-  Instructor
-} from '../../../../types/Instructor.types'
-import { CreateLearnerPayload, Learner } from '../../../../types/Learner.types'
+import Axios from '@Network/index'
+import { API_ENDPOINTS } from '@Network/constants'
+import { LoginData, SignupData } from '@Types/Common.types'
+import { Course, UpdateCoursePayload } from '@Types/Courses.types'
+import { CreateInstructorPayload, Instructor } from '@Types/Instructor.types'
+import { CreateLearnerPayload, Learner } from '@Types/Learner.types'
 
 // Login - Register
 
@@ -26,7 +23,7 @@ export const ValidateUser = (type: string) => {
 
 export const GetCourses = () => {
   return Axios.get(API_ENDPOINTS.user_course).then(r => {
-    console.log(r, 'rrrr');
+    console.log(r, 'rrrr')
     return r.data
   })
 }

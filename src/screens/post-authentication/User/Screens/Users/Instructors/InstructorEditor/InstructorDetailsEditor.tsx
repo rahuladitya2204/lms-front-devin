@@ -2,7 +2,7 @@ import { Form, Image, Input, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
 import FileUpload from '../../../../../../../components/FileUpload';
-import { Instructor } from '../../../../../../../types/Instructor.types';
+import { Instructor } from '@Types/Instructor.types';
 import QuillEditor from '../../../../../../../components/QuillEditor';
 
 interface CreateInstructorComponentPropsI {

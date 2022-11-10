@@ -3,7 +3,7 @@ import { useOutletContext, useParams } from "react-router";
 import { Form } from "antd";
 import { findSectionItem } from "../../utils";
 import { useEffect } from "react";
-import { CourseSection, CourseSectionItem } from "../../../../../../../../types/Courses.types";
+import { CourseSection, CourseSectionItem } from "@Types/Courses.types";
 
 function useUploadItemForm<T>(initialValues:T) {
   const [form] = Form.useForm();

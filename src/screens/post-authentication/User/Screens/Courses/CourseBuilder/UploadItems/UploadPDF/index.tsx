@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { Fragment, useState } from 'react';
 import DraggerUpload from '../../../../../../../../components/DraggerUpload';
-import { CreateItemPropsI, UploadFileType } from '../../../../../../../../types/Common.types';
+import { CreateItemPropsI, UploadFileType } from '@Types/Common.types';
 
 const UploadVideoa: React.FC<CreateItemPropsI> = (props) => {
   const [files, setFiles] = useState<UploadFileType[]>([]);

@@ -5,7 +5,7 @@ import {
 } from '@ant-design/icons'
 
 import { MenuProps } from 'antd'
-import { MenuItemNode } from '../../../../../types/Common.types'
+import { MenuItemNode } from '@Types/Common.types'
 
 export const MENU_ITEMS: MenuItemNode[] = [
   {
