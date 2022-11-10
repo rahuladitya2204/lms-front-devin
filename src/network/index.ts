@@ -9,20 +9,21 @@ const Axios = axios.create({
   },
   transformRequest: [
     (data, headers) => {
-      const token =
-        getItemFromStorage('user-auth-token') ||
-        getItemFromStorage('learner-auth-token')
-      const orgId = getItemFromStorage('orgId')
+      let token
+      if (window.location.pathname.includes('/learner/')) {
+        token = getItemFromStorage('learner-auth-token')
+        const orgId = getItemFromStorage('orgId')
+        headers.set('x-org', orgId)
+      } else {
+        token = getItemFromStorage('user-auth-token')
+      }
       // headers.set('Content-Type', 'application/json')
       if (token) {
         headers.set('x-auth', token)
       }
-      if (orgId) {
-        headers.set('x-org', orgId)
-      }
       return JSON.stringify(data)
     }
-  ],
+  ]
   // transformResponse: [
   //   (data, headers) => {
   //     console.log(data.data, 'hahaha');

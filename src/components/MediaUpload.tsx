@@ -14,10 +14,7 @@ const UPLOAD: UploadProps = {
 }
 
 interface MediaUploadPropsI {
-  onUpload: (
-    file: UploadFileType,
-    metadata: { duration: ValueUnitType }
-  ) => void;
+  onUpload: (file: UploadFileType) => void;
   children?: ReactNode;
   listType?: string;
   url?: string;
@@ -29,7 +26,7 @@ interface MediaUploadPropsI {
 
 const CustomUpload = styled(Upload)`
   .ant-upload-select {
-    width: 100%;
+    width: 200px;
     min-height: 200px;
     margin: 0;
   }
@@ -43,21 +40,14 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   UPLOAD.customRequest = ({ onError, onSuccess, onProgress, data }) => {
     if (!file) return
     setLoading(true)
-    return getMetadata(file).then(({ duration: durationInSeconds }) => {
-      console.log(durationInSeconds, 'durationInSeconds')
-      return uploadFiles({
-        files: [file],
-        onSuccess: ([file]) => {
-          setLoading(false)
-          props.onUpload(file, {
-            duration: {
-              value: Math.ceil(durationInSeconds),
-              unit: 'seconds'
-            }
-          })
-          onSuccess && onSuccess(file)
-        }
-      })
+    return uploadFiles({
+      files: [file],
+      onSuccess: ([uploadFile]) => {
+        uploadFile.file = file;
+        setLoading(false)
+        props.onUpload(uploadFile)
+        onSuccess && onSuccess(file)
+      }
     })
   }
 
@@ -81,7 +71,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       className="avatar-uploader"
       showUploadList={false}
     >
-      {props.url ? props.renderItem() : uploadButton}
+      {props.renderItem ? props.renderItem() : uploadButton}
     </CustomUpload>
   )
 }

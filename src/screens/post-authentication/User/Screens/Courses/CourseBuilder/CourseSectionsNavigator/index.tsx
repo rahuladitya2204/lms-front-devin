@@ -16,7 +16,6 @@ import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 
-
 const CustomCollapse = styled(Collapse)`
   .ant-collapse-content-box {
     padding: 0;
@@ -58,7 +57,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     <Card bodyStyle={{ padding: 0 }}>
       <CustomCollapse
         collapsible="header"
-        defaultActiveKey={sections.map((s, i) => i + '')}
+        defaultActiveKey={sections.map((s, i) => i)}
         expandIconPosition="end"
       >
         {sections.map((section, secIndex) => {
@@ -70,7 +69,6 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   section.title
                 }`}</span>
               }
-
             >
               <List
                 itemLayout="horizontal"

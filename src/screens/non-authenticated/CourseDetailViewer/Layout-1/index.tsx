@@ -17,8 +17,11 @@ import { UserOutlined } from '@ant-design/icons'
 import image from './bg.svg'
 import styled from '@emotion/styled'
 import { useParams } from 'react-router'
-import { useGetCourseDetails } from '@Learner/Api/queries'
+import { INITIAL_COURSE_DETAILS, useGetCourseDetails } from '@Learner/Api/queries'
 import { useGetInstructorDetails } from '@User/Api/queries'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
+import { PARSE } from '@User/Screens/Courses/CourseBuilder/utils'
 
 const { Title, Text,Paragraph } = Typography
 
@@ -50,10 +53,22 @@ const CourseSubTitle = styled(Paragraph)`
 `
 
 function CourseDetailViewer() {
+  let [searchParams, setSearchParams] = useSearchParams();
   const { id: courseId } = useParams()
-  const { data: course } = useGetCourseDetails(courseId + '', {
+  const [course, setCourse] = useState(INITIAL_COURSE_DETAILS);
+  const { data } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
+
+  useEffect(() => { 
+    const courseDataString = PARSE(searchParams.get('details') + '');
+    console.log(courseDataString,'courseDataString')
+    setCourse(courseDataString)
+  }, [])
+  
+  useEffect(() => { 
+    setCourse(data)
+  },[data])
 
   const { data: instructor } = useGetInstructorDetails(course.instructor+'', {
     enabled: !!course.instructor

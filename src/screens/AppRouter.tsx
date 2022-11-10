@@ -1,15 +1,11 @@
 import {
-  BrowserRouter,
   createBrowserRouter,
   createRoutesFromElements,
-  Navigate,
   Route,
   RouterProvider,
-  Routes
 } from 'react-router-dom'
 
 import CourseDetailViewer from './non-authenticated/CourseDetailViewer/Layout-1'
-import { Fragment } from 'react'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
 import LearnerDashboard from './post-authentication/Learner/Screens/Dashboard/DashboardScreen'
@@ -32,6 +28,7 @@ import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserDashboard from './post-authentication/User/Screens/Dashboard/DashboardScreen'
 import LearnerRegister from './post-authentication/Learner/Screens/Register'
 import LearnerLogin from './post-authentication/Learner/Screens/Login'
+import CourseDetails from './non-authenticated/CourseDetailViewer/Layout-1/CourseDetails'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -63,9 +60,9 @@ const router = createBrowserRouter(
         <Route path="register" element={<UserRegister />} />
         <Route path="login" element={<UserLoginScreen />} />
         <Route
-        path="*"
-        // element={<Navigate to="dashboard/home" replace />}
-      />{' '}
+          path="*"
+          // element={<Navigate to="dashboard/home" replace />}
+        />{' '}
       </Route>
 
       <Route path="learner/:orgId">
@@ -83,6 +80,9 @@ const router = createBrowserRouter(
         <Route path="register" element={<LearnerRegister />} />
         <Route path="login" element={<LearnerLogin />} />
       </Route>
+
+      <Route path="courses/:id" element={<CourseDetailViewer />} />
+      <Route path="courses/preview" element={<CourseDetailViewer />} />
     </Route>
   )
 )

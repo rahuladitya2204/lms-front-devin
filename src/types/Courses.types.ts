@@ -30,6 +30,10 @@ export interface Course {
   _id: string;
   whatYouLearn: string[];
   requirements: string[];
+  comments?: {
+    user: string;
+    text: string;
+  }[];
 }
 
 export interface UpdateCoursePayload extends Partial<Course> {}

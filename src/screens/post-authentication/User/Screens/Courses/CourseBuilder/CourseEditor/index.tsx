@@ -11,6 +11,7 @@ import {
   useUpdateCourse
 } from '@User/Api/queries'
 import { Course } from '@Types/Courses.types'
+import { STRINGIFY } from '../utils'
 
 function CourseEditor() {
   const { id: courseId } = useParams()
@@ -49,7 +50,14 @@ function CourseEditor() {
       extra={[
         <Fragment>
           <Button
-            onClick={() => navigate('preview')}
+            onClick={() => {
+              console.log(course, 'strf')
+              const dataStr = STRINGIFY(course);
+              window.open(
+                `/courses/preview?details=${dataStr}`,
+                '_blank'
+              )
+            }}
             style={{ marginRight: 15 }}
             icon={<EyeOutlined />}
           >

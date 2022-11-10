@@ -24,6 +24,7 @@ export interface PresignedUrlRequestData {
 export interface UploadFileType {
   name: string;
   url: string;
+  file?: File;
 }
 
 export interface AddItemFormProps<T> {

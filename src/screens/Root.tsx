@@ -15,19 +15,19 @@ export default function RootScreen () {
       .then(() => {
         setIsSignedin(true)
         console.log(userType, 'user')
-        if (userType === 'learner') {
-          return navigate(`/learner/${orgId}/dashboard/courses`)
-        }
-        navigate(`/user/dashboard/courses`)
+        // if (userType === 'learner') {
+        //   return navigate(`/learner/${orgId}/dashboard/courses`)
+        // }
+        // navigate(`/user/dashboard/courses`)
       })
       .catch(() => {
+        console.log('not signedin')
         // navigate(`/user/login`)
         setIsSignedin(false)
-        // if (userType === 'learner') {
-        //   navigate(`${userType}/${orgId}/login`)
-        // } else {
-        //   return navigate(`user/login`)
-        // }
+        if (userType === 'learner') {
+          return navigate(`/learner/${orgId}/login`)
+        }
+        navigate(`/user/login`)
       })
   }, [])
 

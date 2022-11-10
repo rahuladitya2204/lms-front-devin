@@ -8,11 +8,7 @@ import { MenuProps } from 'antd'
 import { MenuItemNode } from '@Types/Common.types'
 
 export const MENU_ITEMS: MenuItemNode[] = [
-  {
-    title: 'Home',
-    icon: <MailOutlined />,
-    path: 'home',
-  },
+
   {
     title: 'Courses',
     icon: <MailOutlined />,

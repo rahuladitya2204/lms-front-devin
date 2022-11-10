@@ -32,7 +32,7 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
     <Fragment>
        <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
 <Form.Item name="thumbnailImage" required label="Thumbnail">
-          <MediaUpload url={thumbnailImage}
+          <MediaUpload url={thumbnailImage} width='100px'
             renderItem={() => <Image src={thumbnailImage} />}
             onUpload={e => {
             props.onFormUpdate({

@@ -1,6 +1,7 @@
 import { cloneDeep } from 'lodash'
 import { v4 as uuid } from 'uuid'
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
+import { stringify, parse } from 'zipson'
 
 export const findSectionItem = (
   itemId: string,
@@ -27,7 +28,7 @@ export const updateCourseSectionItem = (
   item: CourseSectionItem
 ) => {
   const SECTIONS = cloneDeep(sections)
-  SECTIONS.forEach((section) => {
+  SECTIONS.forEach(section => {
     if (section.id === sectionId) {
       section.items.forEach((secItem, itemIndex) => {
         if (secItem.id === item.id) {
@@ -48,4 +49,11 @@ export const createChapterItemNode = (): CourseSectionItem => {
     id: uuid(),
     type: 'item'
   }
+}
+
+export const STRINGIFY = function(data: unknown) {
+  return btoa(unescape(encodeURIComponent(JSON.stringify(data))))
+}
+export const PARSE = function(str: string) {
+  return JSON.parse(decodeURIComponent(atob(str)))
 }

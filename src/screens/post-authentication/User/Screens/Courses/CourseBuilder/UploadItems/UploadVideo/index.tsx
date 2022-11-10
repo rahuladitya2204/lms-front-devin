@@ -3,6 +3,7 @@ import React, { Fragment, useState } from 'react';
 import MediaPlayer from '@Components/MediaPlayer';
 import MediaUpload from '@Components/MediaUpload';
 import { CreateItemPropsI } from '@Types/Common.types';
+import { getMetadata } from 'video-metadata-thumbnails';
 
 
 const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
@@ -57,9 +58,16 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
           <Form.Item required name="title" label="Upload Video">
             <MediaUpload
                         renderItem={() => <MediaPlayer url={url} />}
-              url={url} onUpload={(file,md) => {
-                setUrl(file.url);
-                setMetadata({duration: md.duration})
+              url={url} onUpload={({url,file}) => {
+                setUrl(url);
+                getMetadata(file as File).then(({ duration: durationInSeconds }) => {
+                  setMetadata({
+                    duration: {
+                      value: durationInSeconds,
+                      unit:'seconds'
+                      }
+                    })
+                  })
               }}>
 
           </MediaUpload>

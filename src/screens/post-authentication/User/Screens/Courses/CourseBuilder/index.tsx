@@ -30,7 +30,7 @@ function CourseBuilderScreen() {
     enabled: !!courseId
   })
 
-  const [course, setCourse] = useState<Course>(INITIAL_COURSE_DETAILS);
+  const [course, setCourse] = useState <Course>(INITIAL_COURSE_DETAILS)
   const navigate = useNavigate()
 
   const onAddSection = ({ title }: Partial<CourseSection>) => {
@@ -65,6 +65,16 @@ function CourseBuilderScreen() {
     navigate(`section/${COURSE.sections[index].id}/${type}/${ID}`)
     setCourse(COURSE)
   }
+
+  useEffect(() => {
+    if (course?.sections[0]?.items?.length)
+    {
+      const firstSection = course.sections[0];
+      const firstItem = firstSection.items[0];
+      navigate(`section/${firstSection.id}/${firstItem.type}/${firstItem.id}`)
+  
+    }
+  }, [course])
 
   const saveCourse = () => {
     updateCourse({
