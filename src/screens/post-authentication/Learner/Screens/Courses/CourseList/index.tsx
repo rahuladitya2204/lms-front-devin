@@ -1,25 +1,25 @@
-import { Card, Layout, Menu, Tabs } from 'antd'
+import { Avatar, Card, Col, Layout, Menu, Row, Tabs } from 'antd'
 import React, { useState } from 'react'
 
 import Header from '@Components/Header'
+import { useGetCourses } from '@Learner/Api/queries'
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined
+} from '@ant-design/icons'
+import Meta from 'antd/lib/card/Meta'
+import CourseCard from './CourseCard'
 
 const LearnerCourseList: React.FC = () => {
+  const { data: courses } = useGetCourses()
+  console.log(courses, 'courses')
   return (
-    <Header title="My Courses">
-      <Card>
-        <Tabs defaultActiveKey="1">
-          <Tabs.TabPane tab="All Courses" key="1">
-            Content of Tab Pane 1
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Wishlist" key="2">
-            Content of Tab Pane 2
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Archived" key="3">
-            Content of Tab Pane 3
-          </Tabs.TabPane>
-        </Tabs>
-      </Card>
-    </Header>
+    <Row>
+      <Col span={6}>
+        {courses.map(course => <CourseCard course={course} />)}
+      </Col>
+    </Row>
   )
 }
 

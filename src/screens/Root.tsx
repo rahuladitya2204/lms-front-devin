@@ -18,7 +18,7 @@ export default function RootScreen () {
         if (userType === 'learner') {
           // return navigate(`/learner/${orgId}/dashboard/home`)
         }
-        navigate(`/user/dashboard/courses`)
+        navigate(`/learner/6368e34a86402abb8d2737a9/dashboard/courses`)
       })
       .catch(() => {
         // navigate(`/user/login`)

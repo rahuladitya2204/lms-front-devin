@@ -1,9 +1,6 @@
-import { Card, Layout, Menu, Tabs } from 'antd'
-import React, { useState } from 'react'
-
-import LogoImage from './logo.svg'
-import styled from '@emotion/styled'
+import { Card, Tabs } from 'antd'
 import Header from '@Components/Header'
+import LearnerCourseList from './CourseList'
 
 const LearnerCourses: React.FC = () => {
   return (
@@ -11,7 +8,7 @@ const LearnerCourses: React.FC = () => {
       <Card>
         <Tabs defaultActiveKey="1">
           <Tabs.TabPane tab="All Courses" key="1">
-            Content of Tab Pane 1
+            <LearnerCourseList />
           </Tabs.TabPane>
           <Tabs.TabPane tab="Wishlist" key="2">
             Content of Tab Pane 2

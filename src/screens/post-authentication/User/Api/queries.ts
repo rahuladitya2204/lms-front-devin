@@ -181,6 +181,7 @@ export const useGetCourses = () => {
       })
     }
   }
+  
   export const useGetLearnerDetails = (id:string,options={enabled:true}) => {
     const { data = INITIAL_LEARNER_DETAILS , isFetching: isLoading } =
       useQuery<Learner>([KEYS.GET_LEARNER_DETAILS, id], () => GetLearnerDetails(id), options)
