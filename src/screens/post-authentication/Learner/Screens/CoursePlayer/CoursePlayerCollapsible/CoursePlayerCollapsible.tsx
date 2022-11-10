@@ -54,7 +54,7 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
               key={index}
             >
               <List
-                itemLayout="horizontal"
+                // itemLayout="horizontal"
                 dataSource={section.items}
                 renderItem={(item, itemIndex) => (
                   <CoursePlayerCollapsibleItem

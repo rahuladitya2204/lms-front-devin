@@ -30,7 +30,7 @@ function CourseBuilderScreen() {
     enabled: !!courseId
   })
 
-  const [course, setCourse] = useState < Course > INITIAL_COURSE_DETAILS
+  const [course, setCourse] = useState<Course>(INITIAL_COURSE_DETAILS);
   const navigate = useNavigate()
 
   const onAddSection = ({ title }: Partial<CourseSection>) => {
@@ -49,19 +49,18 @@ function CourseBuilderScreen() {
   const onAddNewItem = (
     type: string,
     item: Partial<CourseSectionItem>,
-    metadata: unknown,
     index: number
   ) => {
     let COURSE = cloneDeep(course)
     const ID = uuid()
     const newItem: CourseSectionItem = {
-      title: item.title + '',
-      description: item.title + '',
+      title: item.title ? item.title : '',
+      description: item.description ? item.description : '',
       id: ID,
       type,
-      ...item
+      metadata: item.metadata
     }
-    COURSE.sections[index].items.push({ item: newItem, metadata: metadata })
+    COURSE.sections[index].items.push(newItem)
 
     navigate(`section/${COURSE.sections[index].id}/${type}/${ID}`)
     setCourse(COURSE)

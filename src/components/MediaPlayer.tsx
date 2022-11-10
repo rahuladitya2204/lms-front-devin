@@ -9,7 +9,15 @@ interface MediaPlayerPropsI {
 }
 
 function MediaPlayer(props: MediaPlayerPropsI) {
-  return <ReactPlayer controls playing={false} width="100%" url={props.url} />
+  return (
+    <ReactPlayer
+      controls
+      playing={false}
+      height="500px"
+      width="100%"
+      url={props.url}
+    />
+  )
 }
 
 export default MediaPlayer

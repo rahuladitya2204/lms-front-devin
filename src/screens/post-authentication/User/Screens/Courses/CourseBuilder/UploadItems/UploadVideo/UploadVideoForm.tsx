@@ -15,7 +15,7 @@ interface UploadVideoForm {
 
 const UploadVideoForm: React.FC = (props) => {
   const { onFormChange, form, item } = useUploadItemForm<UploadVideoForm>( { title: '', description: '',url:'',context:''});
-  const VideoUrl = item.url;
+  const VideoUrl = item?.metadata?.url;
   return (
       <Fragment>
    <Form onValuesChange={onFormChange}

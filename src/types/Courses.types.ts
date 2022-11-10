@@ -1,5 +1,5 @@
 export interface CourseSection {
-  items: { item: CourseSectionItem, metadata: unknown };
+  items: CourseSectionItem[];
   title: string;
   description: string;
   id: string;
@@ -10,8 +10,11 @@ export interface CourseSectionItem {
   title: string;
   id: string;
   description?: string;
-  url?: string;
+  // url?: string;
   type: string;
+  metadata?: {
+    url?: string
+  };
 }
 
 export interface Course {

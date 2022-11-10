@@ -44,17 +44,22 @@ function CoursePlayer() {
     <div className="site-card-wrapper">
       <Row gutter={[10, 10]}>
         <Col span={17}>
-          <Card>
-            <Card
-              bordered={false}
-              style={{ height: 400 }}
-              bodyStyle={{ padding: 0 }}
-            >
-              <Outlet context={[sections]} />
-            </Card>
-
-            <CoursePlayerMoreInfo course={courseDetails} />
-          </Card>
+          <Row gutter={[10, 10]}>
+            <Col span={24}>
+              <Card
+                bordered={false}
+                style={{ height: 500, overflow: 'scroll' }}
+                bodyStyle={{ padding: 0 }}
+              >
+                <Outlet context={[sections]} />
+              </Card>
+            </Col>
+            <Col span={24}>
+              <Card>
+                <CoursePlayerMoreInfo course={courseDetails} />
+              </Card>
+            </Col>
+          </Row>
         </Col>
         <Col span={7}>
           <CoursePlayerCollapsible

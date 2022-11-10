@@ -21,7 +21,9 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
     const onSubmit = ({title}: { title: string }) => {
       props.onFinish({
         title: title,
-        url: url
+        metadata: {
+          url: url
+        }
       });
       form.resetFields(['title']);
         closeModal();

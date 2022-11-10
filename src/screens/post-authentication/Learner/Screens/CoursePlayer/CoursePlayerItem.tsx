@@ -12,7 +12,7 @@ function CoursePlayerItem () {
   }
 
   if (item.type === 'video') {
-    Component = <MediaPlayer url={item.url + ''} />
+    Component = <MediaPlayer url={item?.metadata?.url + ''} />
   }
   return <Fragment>{Component}</Fragment>
 }

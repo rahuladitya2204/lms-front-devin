@@ -16,9 +16,9 @@ export default function RootScreen () {
         setIsSignedin(true)
         console.log(userType, 'user')
         if (userType === 'learner') {
-          // return navigate(`/learner/${orgId}/dashboard/home`)
+          return navigate(`/learner/6368e34a86402abb8d2737a9/dashboard/courses`)
         }
-        navigate(`/user/dashboard/courses`)
+        // navigate(`/user/dashboard/courses`)
       })
       .catch(() => {
         // navigate(`/user/login`)

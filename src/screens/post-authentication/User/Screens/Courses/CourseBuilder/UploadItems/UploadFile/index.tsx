@@ -21,7 +21,9 @@ const UploadFile: React.FC<CreateItemPropsI> = (props) => {
     const file = files[0];
     props.onFinish({
       title: file.name,
-      url:file.url
+      metadata: {
+        url:file.url
+      }
     });
     closeModal();
     }

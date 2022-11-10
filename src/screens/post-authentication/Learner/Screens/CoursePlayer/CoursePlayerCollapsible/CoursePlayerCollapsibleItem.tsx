@@ -14,6 +14,8 @@ interface CoursePlayerCollapsibleItemPropsI {
 }
 
 const CourseListItem = styled(List.Item)`
+  border-bottom: 1px solid #f0f0f0 !important;
+
   background: ${(props: { isActive: boolean }) =>
     props.isActive ? '#e3e3e3' : 'auto'};
 `
