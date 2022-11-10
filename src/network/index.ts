@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { config } from '../constants/config'
-import { getItemFromStorage } from '../utils/storage'
+import { getItemFromStorage } from '@Utils/storage'
 
 const Axios = axios.create({
   baseURL: config.API_URL,

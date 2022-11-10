@@ -1,6 +1,6 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { Fragment, useState } from 'react';
-import FileUpload from '../../../../../../../../components/FileUpload';
+import FileUpload from '@Components/FileUpload';
 import { CreateItemPropsI, UploadFileType } from '@Types/Common.types';
 
 

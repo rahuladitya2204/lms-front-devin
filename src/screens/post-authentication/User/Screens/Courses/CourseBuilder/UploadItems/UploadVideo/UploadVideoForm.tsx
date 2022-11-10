@@ -1,7 +1,7 @@
 import { Form, Input } from 'antd';
 import { Fragment } from 'react';
-import MediaPlayer from '../../../../../../../../components/MediaPlayer';
-import QuillEditor from '../../../../../../../../components/QuillEditor';
+import MediaPlayer from '@Components/MediaPlayer';
+import QuillEditor from '@Components/QuillEditor';
 
 import useUploadItemForm from '../hooks/useUploadItemForm';
 

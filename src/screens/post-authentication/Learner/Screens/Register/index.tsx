@@ -3,9 +3,9 @@ import { NavLink, useParams } from 'react-router-dom'
 
 import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import { saveItemToStorage } from '../../../../../utils/storage'
+import { saveItemToStorage } from '@Utils/storage'
 import { SignupData } from '@Types/Common.types'
-import AuthenticationCard from '../../../../../components/AuthenticationCard'
+import AuthenticationCard from '@Components/AuthenticationCard'
 import { useRegisterLearner } from '../../Api/queries'
 
 function LearnerRegister() {

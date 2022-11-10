@@ -1,7 +1,7 @@
 import { useOutletContext, useParams } from "react-router";
 
 import { Form } from "antd";
-import { findSectionItem } from "../../utils";
+import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useEffect } from "react";
 import { CourseSection, CourseSectionItem } from "@Types/Courses.types";
 

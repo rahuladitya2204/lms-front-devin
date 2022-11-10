@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, useParams } from 'react-router'
 
-import useAuthentication from '../store/useAuthentication'
+import useAuthentication from '@Store/useAuthentication'
 import { useEffect } from 'react'
 
 export default function RootScreen () {

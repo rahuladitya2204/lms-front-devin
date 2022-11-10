@@ -1,6 +1,6 @@
 import { Form, Input } from 'antd';
 import { Fragment } from 'react';
-import QuillEditor from '../../../../../../../../components/QuillEditor';
+import QuillEditor from '@Components/QuillEditor';
 import useUploadItemForm from '../hooks/useUploadItemForm';
 
 interface UploadFileFormI {

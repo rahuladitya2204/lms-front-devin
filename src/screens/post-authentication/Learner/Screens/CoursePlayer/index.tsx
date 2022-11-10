@@ -6,7 +6,7 @@ import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { cloneDeep } from 'lodash'
 import { useEffect } from 'react'
 import { useGetCourseDetails } from '../../Api/queries'
-import { useUpdateCourse } from '../../../User/Api/queries'
+import { useUpdateCourse } from '@User/Api/queries'
 
 function CoursePlayer() {
   const { id: courseId } = useParams()

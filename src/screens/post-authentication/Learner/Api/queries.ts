@@ -3,11 +3,11 @@ import { message } from "antd"
 import { useNavigate } from "react-router"
 import { GetLearnerCourseDetails, GetLearnerCourses, GetLearnerDetails, LoginLearner, RegisterLearner, UpdateLearner } from "."
 import { KEYS } from "@Network/keys"
-import useAuthentication from "../../../../store/useAuthentication"
+import useAuthentication from "@Store/useAuthentication"
 import { LoginData, SignupData } from "@Types/Common.types"
 import { Course } from "@Types/Courses.types"
 import { CreateLearnerPayload, Learner } from "@Types/Learner.types"
-import { saveItemToStorage } from "../../../../utils/storage"
+import { saveItemToStorage } from "@Utils/storage"
 
 
 

@@ -9,7 +9,7 @@ import { Avatar, Col, List, Row, Space, Typography } from 'antd'
 
 import { Course } from '@Types/Courses.types'
 import { Fragment } from 'react'
-import { useGetInstructorDetails } from '../../../../../post-authentication/User/Api/queries'
+import { useGetInstructorDetails } from '@User/Api/queries'
 
 const { Title, Text, Paragraph } = Typography
 

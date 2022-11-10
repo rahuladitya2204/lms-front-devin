@@ -3,7 +3,7 @@
 import { Anchor, Col, PageHeader, Row } from 'antd'
 
 import { MenuUnfoldOutlined } from '@ant-design/icons'
-import useGlobal from '../../../../../../store/useGlobal'
+import useGlobal from '@Store/useGlobal'
 
 interface HeaderPropsI {
   children?: React.ReactNode;

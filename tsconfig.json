@@ -21,20 +21,29 @@
     "jsx": "react-jsx",
     "baseUrl": "./src",
      "paths": {
-       "@components/*": [
+       "@Components/*": [
          "components/*"
        ],
        "@Types/*": [
         "types/*"
       ],
       "@User/*": [
-        "screens/post-authenticated/User/*"
+        "screens/post-authentication/User/*"
       ],
       "@Learner/*": [
-        "screens/post-authenticated/Learner/*"
+        "screens/post-authentication/Learner/*"
       ],
       "@Network/*": [
         "network/*"
+      ],
+      "@Utils/*": [
+        "utils/*"
+      ],
+      "@Hooks/*": [
+        "hooks/*"
+      ],
+      "@Store/*": [
+        "store/*"
       ],
      }
   },

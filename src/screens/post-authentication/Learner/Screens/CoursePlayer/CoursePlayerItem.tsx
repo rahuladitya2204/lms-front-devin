@@ -1,4 +1,4 @@
-import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks';
+import { useGetNodeFromRouterOutlet } from '@Hooks/CommonHooks';
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
 
 function CoursePlayerItem () {

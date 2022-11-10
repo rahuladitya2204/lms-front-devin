@@ -1,7 +1,7 @@
 import { Form, Image, Input, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
-import FileUpload from '../../../../../../../components/FileUpload';
+import FileUpload from '@Components/FileUpload';
 import { Learner } from '@Types/Learner.types';
 
 interface CreateLearnerComponentPropsI {

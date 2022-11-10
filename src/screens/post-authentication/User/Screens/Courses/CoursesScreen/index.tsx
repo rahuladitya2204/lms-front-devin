@@ -3,7 +3,7 @@ import { Button, Col, Row } from 'antd'
 import CourseCard from './CourseCard'
 import CreateCourseComponent from '../CreateCourse'
 import Header from '../../Header/Header'
-import { useGetCourses } from '../../../../User/Api/queries'
+import { useGetCourses } from '@User/Api/queries'
 
 function CoursesScreen () {
   const { data: courses } = useGetCourses()

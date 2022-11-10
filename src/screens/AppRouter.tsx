@@ -11,7 +11,7 @@ import InstructorsScreen from './post-authentication/User/Screens/Users/Instruct
 import LearnerDashboard from './post-authentication/Learner/Screens/Dashboard/DashboardScreen'
 import RootScreen from './Root'
 import UserRegister from './post-authentication/User/Screens/Register'
-import useAuthentication from '../store/useAuthentication'
+import useAuthentication from '@Store/useAuthentication'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'

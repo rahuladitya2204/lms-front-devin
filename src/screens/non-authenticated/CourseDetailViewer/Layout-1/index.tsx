@@ -12,13 +12,13 @@ import {
 
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
-import MediaPlayer from '../../../../components/MediaPlayer'
+import MediaPlayer from '@Components/MediaPlayer'
 import { UserOutlined } from '@ant-design/icons'
 import image from './bg.svg'
 import styled from '@emotion/styled'
 import { useParams } from 'react-router'
-import { useGetCourseDetails } from '../../../post-authentication/Learner/Api/queries'
-import { useGetInstructorDetails } from '../../../post-authentication/User/Api/queries'
+import { useGetCourseDetails } from '@Learner/Api/queries'
+import { useGetInstructorDetails } from '@User/Api/queries'
 
 const { Title, Text,Paragraph } = Typography
 

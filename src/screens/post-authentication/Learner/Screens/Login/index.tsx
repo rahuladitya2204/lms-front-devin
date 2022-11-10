@@ -4,8 +4,8 @@ import { NavLink, useParams } from 'react-router-dom'
 import { Typography } from 'antd'
 import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import { saveItemToStorage } from '../../../../../utils/storage'
-import AuthenticationCard from '../../../../../components/AuthenticationCard'
+import { saveItemToStorage } from '@Utils/storage'
+import AuthenticationCard from '@Components/AuthenticationCard'
 import { useLoginLearner } from '../../Api/queries'
 
 function LearnerLogin () {

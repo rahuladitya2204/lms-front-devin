@@ -5,9 +5,9 @@ Input,
 Select,
 } from 'antd'
 import { Fragment, useEffect } from 'react'
-import FormListItem from '../../../../../../../../components/FormListItem';
-import MediaUpload from '../../../../../../../../components/MediaUpload';
-import QuillEditor from '../../../../../../../../components/QuillEditor';
+import FormListItem from '@Components/FormListItem';
+import MediaUpload from '@Components/MediaUpload';
+import QuillEditor from '@Components/QuillEditor';
 import { Course } from '@Types/Courses.types';
 import { useGetInstructors } from '../../../../../Api/queries';
 

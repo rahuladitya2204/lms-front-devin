@@ -1,7 +1,7 @@
 /*eslint-disable */
 
 import { Anchor, Col, PageHeader, Row } from 'antd'
-import useGlobal from '../../../../../store/useGlobal'
+import useGlobal from '@Store/useGlobal'
 
 interface HeaderPropsI {
   children?: React.ReactNode;

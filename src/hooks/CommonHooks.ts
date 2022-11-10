@@ -4,7 +4,7 @@ import {
   useOutletContext,
   useParams
 } from 'react-router-dom'
-import { findSectionItem } from '../screens/post-authentication/User/Screens/Courses/CourseBuilder/utils'
+import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 

@@ -1,4 +1,4 @@
-import { getItemFromStorage, removeItemFromStorage } from '../utils/storage'
+import { getItemFromStorage, removeItemFromStorage } from '@Utils/storage'
 import create from 'zustand'
 import { ValidateUser } from '../screens/post-authentication/User/Api';
 
