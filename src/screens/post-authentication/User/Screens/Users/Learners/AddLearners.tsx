@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal } from 'antd';
 import { CreateLearnerPayload, Learner } from '@Types/Learner.types';
 import React, { Fragment, ReactNode, useEffect, useState } from 'react';
-import { useCreateLearner, useUpdateLearner } from '../../../Api/queries';
+import { useCreateLearner, useUpdateLearner } from '@User/Api/queries';
 
 interface CreateLearnerComponentPropsI {
   children?: ReactNode;

@@ -5,7 +5,7 @@ import AddInstructor from './AddInstructor'
 import { Fragment } from 'react'
 import Header from '../../Header/Header'
 import { Instructor } from '@Types/Instructor.types'
-import { useGetInstructors } from '../../../Api/queries'
+import { useGetInstructors } from '@User/Api/queries'
 
 function InstructorsScreen() {
   const { data, isLoading: loading } = useGetInstructors()

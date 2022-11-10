@@ -5,18 +5,17 @@ import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerColla
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { cloneDeep } from 'lodash'
 import { useEffect } from 'react'
-import { useGetCourseDetails } from '../../Api/queries'
-import { useUpdateCourse } from '@User/Api/queries'
+import { useGetCourseDetails } from '@Learner/Api/queries'
 
 function CoursePlayer() {
   const { id: courseId } = useParams()
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
-  const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
+  // const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
   const navigate = useNavigate()
 
-  const sections = courseDetails.sections;
+  const sections = courseDetails.sections
 
   useEffect(
     () => {

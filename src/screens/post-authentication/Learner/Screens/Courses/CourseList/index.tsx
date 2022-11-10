@@ -1,7 +1,7 @@
 import { Card, Layout, Menu, Tabs } from 'antd'
 import React, { useState } from 'react'
 
-import Header from '../../Dashboard/Header/Header'
+import Header from '@Components/Header'
 
 const LearnerCourseList: React.FC = () => {
   return (

@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { useFormik } from 'formik'
 import { saveItemToStorage } from '@Utils/storage'
 import AuthenticationCard from '@Components/AuthenticationCard'
-import { useLoginLearner } from '../../Api/queries'
+import { useLoginLearner } from '@Learner/Api/queries'
 
 function LearnerLogin () {
   const { mutate: loginUser, isLoading: loading } = useLoginLearner()

@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 import LogoImage from './logo.svg'
 import styled from '@emotion/styled'
-import Header from '../Dashboard/Header/Header'
+import Header from '@Components/Header'
 
 const LearnerCourses: React.FC = () => {
   return (

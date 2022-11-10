@@ -5,8 +5,8 @@ import { Fragment, useEffect, useState } from 'react'
 
 import { Learner } from '@Types/Learner.types'
 import LearnerDetailsEditor from './LearnersDetailsEditor'
-import { useGetLearnerDetails, useUpdateLearner } from '../../../../Api/queries'
-import { INITIAL_LEARNER_DETAILS } from '../../../../../Learner/Api/queries'
+import { useGetLearnerDetails, useUpdateLearner } from '@User/Api/queries'
+import { INITIAL_LEARNER_DETAILS } from '@Learner/Api/queries'
 
 function LearnerEditor() {
   const { id: instructorId } = useParams()

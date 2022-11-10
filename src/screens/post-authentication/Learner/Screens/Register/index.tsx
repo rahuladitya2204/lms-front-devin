@@ -6,7 +6,7 @@ import { useFormik } from 'formik'
 import { saveItemToStorage } from '@Utils/storage'
 import { SignupData } from '@Types/Common.types'
 import AuthenticationCard from '@Components/AuthenticationCard'
-import { useRegisterLearner } from '../../Api/queries'
+import { useRegisterLearner } from '@Learner/Api/queries'
 
 function LearnerRegister() {
   const { mutate: Signup, isLoading: loading } = useRegisterLearner()

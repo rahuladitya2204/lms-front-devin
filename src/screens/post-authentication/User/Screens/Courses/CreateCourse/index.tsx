@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, Radio } from 'antd'
 import React, { Fragment, ReactNode, useState } from 'react'
 
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { useCreateCourse } from '../../../Api/queries';
+import { useCreateCourse } from '@User/Api/queries';
 import { Course } from '@Types/Courses.types';
 
 interface CreateCourseComponentPropsI {

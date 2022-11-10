@@ -3,7 +3,7 @@ import { Button, Checkbox, Form, Input } from 'antd'
 import { NavLink } from 'react-router-dom'
 import { Typography } from 'antd'
 import { useFormik } from 'formik'
-import { useLoginUser } from '../../Api/queries'
+import { useLoginUser } from '@User/Api/queries'
 import AuthenticationCard from '@Components/AuthenticationCard'
 
 function UserLoginScreen () {

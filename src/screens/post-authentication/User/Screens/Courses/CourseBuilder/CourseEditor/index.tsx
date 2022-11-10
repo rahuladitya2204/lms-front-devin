@@ -4,12 +4,12 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import { Fragment, useEffect, useState } from 'react'
 
 import CourseDetailsEditor from './CourseDetailsEditor'
-import Header from '../../../Header/Header'
+import Header from '@Components/Header'
 import {
   INITIAL_COURSE_DETAILS,
   useGetCourseDetails,
   useUpdateCourse
-} from '../../../../Api/queries'
+} from '@User/Api/queries'
 import { Course } from '@Types/Courses.types'
 
 function CourseEditor() {

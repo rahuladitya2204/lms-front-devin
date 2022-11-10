@@ -10,7 +10,7 @@ import {
   INITIAL_INSTRUCTOR_DETAILS,
   useGetInstructorDetails,
   useUpdateInstructor
-} from '../../../../Api/queries'
+} from '@User/Api/queries'
 
 function InstructorEditor() {
   const { id: instructorId } = useParams()

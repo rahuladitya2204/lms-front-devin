@@ -4,7 +4,7 @@ import {
   Instructor
 } from '@Types/Instructor.types'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
-import { useCreateInstructor, useUpdateInstructor } from '../../../Api/queries';
+import { useCreateInstructor, useUpdateInstructor } from '@User/Api/queries';
 
 interface CreateInstructorComponentPropsI {
   children?: ReactNode;

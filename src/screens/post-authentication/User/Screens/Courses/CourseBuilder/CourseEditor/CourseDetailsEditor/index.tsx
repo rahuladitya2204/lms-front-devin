@@ -9,7 +9,7 @@ import FormListItem from '@Components/FormListItem';
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Course } from '@Types/Courses.types';
-import { useGetInstructors } from '../../../../../Api/queries';
+import { useGetInstructors } from '@User/Api/queries';
 
 
 interface CourseDetailsEditorPropsI {

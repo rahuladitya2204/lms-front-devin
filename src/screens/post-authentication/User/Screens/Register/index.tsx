@@ -4,7 +4,7 @@ import AuthenticationCard from '@Components/AuthenticationCard'
 import { NavLink } from 'react-router-dom'
 import { SignupData } from '@Types/Common.types'
 import { useFormik } from 'formik'
-import { useRegisterUser } from '../../Api/queries'
+import { useRegisterUser } from '@User/Api/queries'
 
 function UserRegisterScreen() {
   const { mutate: Signup, isLoading: loading } = useRegisterUser()

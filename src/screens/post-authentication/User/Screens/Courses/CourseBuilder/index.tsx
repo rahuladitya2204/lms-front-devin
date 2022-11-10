@@ -12,7 +12,7 @@ import Header from '../../Header/Header'
 
 import { cloneDeep } from 'lodash'
 import { Course, CourseSection, CourseSectionItem } from '@Types/Courses.types'
-import { INITIAL_COURSE_DETAILS, useGetCourseDetails, useUpdateCourse } from '../../../Api/queries'
+import { INITIAL_COURSE_DETAILS, useGetCourseDetails, useUpdateCourse } from '@User/Api/queries'
 import MediaUpload from '@Components/MediaUpload'
 
 const AddChapterButton = styled(Button)`
