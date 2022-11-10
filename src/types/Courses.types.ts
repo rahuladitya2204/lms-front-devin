@@ -12,7 +12,6 @@ export interface CourseSectionItem {
   title: string;
   id: string;
   description?: string;
-  // url?: string;
   type: string;
   metadata?: {
     url?: string;
