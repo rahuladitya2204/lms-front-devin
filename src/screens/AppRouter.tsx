@@ -1,4 +1,12 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  createRoutesFromElements,
+  Navigate,
+  Route,
+  RouterProvider,
+  Routes
+} from 'react-router-dom'
 
 import CourseDetailViewer from './non-authenticated/CourseDetailViewer/Layout-1'
 import { Fragment } from 'react'
@@ -25,73 +33,64 @@ import UserDashboard from './post-authentication/User/Screens/Dashboard/Dashboar
 import LearnerRegister from './post-authentication/Learner/Screens/Register'
 import LearnerLogin from './post-authentication/Learner/Screens/Login'
 
-function AppRouter () {
-  const { isSignedIn } = useAuthentication(state => state)
-  // console.log(isSignedIn, 'isSignedIn')
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<RootScreen />}>
-          <Route path="user">
-            <Route path="dashboard" element={<UserDashboard />}>
-              {/* <Route path="home" element={<HomeScreen />} /> */}
-              <Route path="users">
-                <Route path="instructors">
-                  <Route path="" element={<InstructorsScreen />} />
-                  <Route path=":id/editor" element={<InstructorEditor />} />
-                </Route>
-                <Route path="learners">
-                  <Route path="" element={<LearnersScreen />} />
-                  <Route path=":id/editor" element={<LearnerEditor />} />
-                </Route>{' '}
-              </Route>
-              <Route path="courses" element={<CoursesScreen />} />
-              <Route
-                path="courses/:id/builder"
-                element={<CourseBuilderScreen />}
-              >
-                <Route path="section/:sectionId">
-                  <Route path="pdf/:itemId" element={<UploadPDFForm />} />
-                  <Route path="video/:itemId" element={<UploadVideoForm />} />
-                  <Route path="text/:itemId" element={<AddTextItem />} />
-                  <Route path="file/:itemId" element={<UploadFileForm />} />
-                </Route>
-              </Route>
-              <Route path="courses/:id/editor" element={<CourseEditor />} />
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<RootScreen />}>
+      <Route path="user">
+        <Route path="dashboard" element={<UserDashboard />}>
+          {/* <Route path="home" element={<HomeScreen />} /> */}
+          <Route path="users">
+            <Route path="instructors">
+              <Route path="" element={<InstructorsScreen />} />
+              <Route path=":id/editor" element={<InstructorEditor />} />
             </Route>
-            <Fragment>
-              <Route path="register" element={<UserRegister />} />
-              <Route path="login" element={<UserLoginScreen />} />
-            </Fragment>
-            {/* <Route
-              path="*"
-              element={<Navigate to="dashboard/home" replace />}
-            />{' '} */}
+            <Route path="learners">
+              <Route path="" element={<LearnersScreen />} />
+              <Route path=":id/editor" element={<LearnerEditor />} />
+            </Route>{' '}
           </Route>
-
-          <Route path="/learner/:orgId">
-            <Route path="dashboard" element={<LearnerDashboard />}>
-              {/* <Route path="home" element={<HomeScreen />} /> */}
-              <Route path="courses">
-                <Route path="" element={<LearnerCourses />} />
-                <Route path=":id/player" element={<CoursePlayer />}>
-                  <Route
-                    path="section/:sectionId/item/:itemId"
-                    element={<CoursePlayerItem />}
-                  />
-                </Route>
-              </Route>
+          <Route path="courses" element={<CoursesScreen />} />
+          <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
+            <Route path="section/:sectionId">
+              <Route path="pdf/:itemId" element={<UploadPDFForm />} />
+              <Route path="video/:itemId" element={<UploadVideoForm />} />
+              <Route path="text/:itemId" element={<AddTextItem />} />
+              <Route path="file/:itemId" element={<UploadFileForm />} />
             </Route>
-            <Fragment>
-              <Route path="register" element={<LearnerRegister />} />
-              <Route path="login" element={<LearnerLogin />} />
-            </Fragment>
+          </Route>
+          <Route path="courses/:id/editor" element={<CourseEditor />} />
+        </Route>
+        <Route path="register" element={<UserRegister />} />
+        <Route path="login" element={<UserLoginScreen />} />
+        <Route
+        path="*"
+        // element={<Navigate to="dashboard/home" replace />}
+      />{' '}
+      </Route>
+
+      <Route path="learner/:orgId">
+        <Route path="dashboard" element={<LearnerDashboard />}>
+          <Route path="courses">
+            <Route path="" element={<LearnerCourses />} />
+            <Route path=":id/player" element={<CoursePlayer />}>
+              <Route
+                path="section/:sectionId/item/:itemId"
+                element={<CoursePlayerItem />}
+              />
+            </Route>
           </Route>
         </Route>
-        <Route path="courses/:id" element={<CourseDetailViewer />} />
-      </Routes>
-    </BrowserRouter>
+        <Route path="register" element={<LearnerRegister />} />
+        <Route path="login" element={<LearnerLogin />} />
+      </Route>
+    </Route>
   )
+)
+
+function AppRouter () {
+  const { isSignedIn } = useAuthentication(state => state)
+  console.log(isSignedIn, 'isSignedIn')
+  return <RouterProvider router={router} />
 }
 
 export default AppRouter
