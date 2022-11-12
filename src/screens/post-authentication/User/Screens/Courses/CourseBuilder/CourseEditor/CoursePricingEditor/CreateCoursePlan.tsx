@@ -4,6 +4,7 @@ import { Course, CourseSectionItem, Plan } from '@Types/Courses.types'
 import ActionModal from '@Components/ActionModal'
 import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/queries'
 import { Option } from 'antd/lib/mentions'
+import { INITIAL_COURSE_PLAN_DETAILS } from '@Learner/Api/queries'
 
 interface CreateCoursePlanPropsI {
   children?: React.ReactNode;
@@ -32,6 +33,7 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
   )
 
   const onSubmit = (e: Plan) => {
+    form.validateFields()
     const body = {
       courseId: courseId,
       data: e
@@ -46,6 +48,7 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
       createCoursePlan(body)
     }
   }
+  const planType = Form.useWatch('type', form)
 
   return (
     <Fragment>
@@ -56,11 +59,10 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
           </Button>,
           <Button
             key="submit"
-              type="primary"
-              loading={isCreating || isUpdating}
+            type="primary"
+            loading={isCreating || isUpdating}
             onClick={() => {
               form.submit()
-              closeModal()
             }}
           >
             {planId ? 'Update Plan' : 'Save Plan'}
@@ -69,7 +71,12 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
         title="Create Plan"
         cta={props.children}
       >
-        <Form form={form} onFinish={onSubmit} layout="vertical">
+        <Form
+          initialValues={INITIAL_COURSE_PLAN_DETAILS}
+          form={form}
+          onFinish={onSubmit}
+          layout="vertical"
+        >
           <Form.Item label="Plan Name" required name="name">
             <Input placeholder="Enter plan name" />
           </Form.Item>
@@ -82,38 +89,40 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
               </Radio.Button>
             </Radio.Group>
           </Form.Item>
-          <Row gutter={[30, 30]}>
-            <Col>
-              <Form.Item label="List Price" name={['listPrice', 'value']}>
-                <Input
-                  type="number"
-                  addonBefore={
-                    <Select defaultValue="rupee">
-                      <Option value="rupee">₹</Option>
-                      <Option value="dollar">$</Option>
-                    </Select>
-                  }
-                />
-              </Form.Item>
-            </Col>
-            <Col>
-              <Form.Item
-                label="Final Payable Price"
-                name={['finalPrice', 'value']}
-              >
-                <Input
-                  type="number"
-                  addonBefore={
-                    <Select defaultValue="rupee">
-                      <Option value="rupee">₹</Option>
-                      <Option value="dollar">$</Option>
-                    </Select>
-                  }
-                  defaultValue="mysite"
-                />
-              </Form.Item>
-            </Col>
-          </Row>
+          {planType === 'one-time' || planType === 'recurring' ? (
+            <Row gutter={[30, 30]}>
+              <Col>
+                <Form.Item label="List Price" name={['listPrice', 'value']}>
+                  <Input
+                    type="number"
+                    addonBefore={
+                      <Select defaultValue="rupee">
+                        <Option value="rupee">₹</Option>
+                        <Option value="dollar">$</Option>
+                      </Select>
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item
+                  label="Final Payable Price"
+                  name={['finalPrice', 'value']}
+                >
+                  <Input
+                    type="number"
+                    addonBefore={
+                      <Select defaultValue="rupee">
+                        <Option value="rupee">₹</Option>
+                        <Option value="dollar">$</Option>
+                      </Select>
+                    }
+                    defaultValue="mysite"
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+          ) : null}
         </Form>
       </ActionModal>
     </Fragment>

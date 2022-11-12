@@ -126,7 +126,7 @@ function CourseBuilderScreen() {
       ]}
     >
       <Row gutter={[16, 16]}>
-        <Col span={9}>
+        <Col span={8}>
           <Card style={{ marginBottom: 30 }}>
             <Row>
               <Col span={24}>
@@ -159,7 +159,7 @@ function CourseBuilderScreen() {
             </CreateHeading>
           </Card>
         </Col>
-        <Col span={15}>
+        <Col span={16}>
           <Card>
             <Outlet context={[course.sections, updateCourseSection]} />
           </Card>

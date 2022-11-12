@@ -25,6 +25,7 @@ function CourseEditor() {
 
   useEffect(
     () => {
+      console.log(courseDetails,'aaa')
       setCourse(courseDetails)
     },
     [courseDetails]
@@ -52,7 +53,7 @@ function CourseEditor() {
           <Button
             onClick={() => {
               console.log(course, 'strf')
-              const dataStr = STRINGIFY(course)
+              const dataStr = STRINGIFY(JSON.stringify(course))
               window.open(`/courses/preview?details=${dataStr}`, '_blank')
             }}
             style={{ marginRight: 15 }}

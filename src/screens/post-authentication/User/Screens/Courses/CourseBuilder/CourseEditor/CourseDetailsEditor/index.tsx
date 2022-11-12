@@ -5,7 +5,6 @@ Input,
 Select,
 } from 'antd'
 import { Fragment, useEffect } from 'react'
-import FormListItem from '@Components/FormListItem';
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Course } from '@Types/Courses.types';
@@ -67,15 +66,16 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
   />
 </Form.Item>
 
-<Form.Item required label="Requirements">
-          <QuillEditor value={props.formData.requirements} onChange={e => {
+<Form.Item required label="Requirements" name='requirements'>
+          <QuillEditor onChange={e => {
             console.log(e,'ee')
             props.onFormUpdate({ requirements: e })
           }} />
 </Form.Item>
-<Form.Item  required label="What you'll learn">
-          <QuillEditor value={props.formData.whatYouLearn}  onChange={e => props.onFormUpdate({ whatYouLearn: e })} />
-</Form.Item></Form>
+<Form.Item  required label="What you'll learn" name={'whatYouLearn'}>
+          <QuillEditor  onChange={e => props.onFormUpdate({ whatYouLearn: e })} />
+</Form.Item>
+</Form>
 
    </Fragment>
   )

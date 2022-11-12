@@ -13,7 +13,7 @@ function MediaPlayer(props: MediaPlayerPropsI) {
     <ReactPlayer
       controls
       playing={false}
-      height="500px"
+      // height="500px"
       width="100%"
       url={props.url}
     />

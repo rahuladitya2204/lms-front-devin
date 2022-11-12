@@ -30,6 +30,7 @@ import { useGetInstructorDetails } from '@User/Api/queries'
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { PARSE } from '@User/Screens/Courses/CourseBuilder/utils'
+import { Instructor } from '@Types/Instructor.types'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -62,7 +63,6 @@ const CourseSubTitle = styled(Paragraph)`
 `
 
 function CourseDetailViewer () {
-  let [searchParams, setSearchParams] = useSearchParams()
   const { id: courseId } = useParams()
   const [course, setCourse] = useState(INITIAL_COURSE_DETAILS)
   const { data } = useGetCourseDetails(courseId + '', {
@@ -76,9 +76,7 @@ function CourseDetailViewer () {
     [data]
   )
 
-  const { data: instructor } = useGetInstructorDetails(course.instructor + '', {
-    enabled: !!course.instructor
-  })
+  const instructor = course.instructor as unknown as Instructor;
 
   return (
     <Container>
@@ -150,7 +148,7 @@ function CourseDetailViewer () {
             <Card bordered={false} bodyStyle={{ padding: 15 }}>
               <Row gutter={[20, 10]}>
                 <Col span={24}>
-                  <Row justify="space-between">
+                  <Row justify="space-between" align='middle'>
                     <Col>
                       <Title level={4}>$89.9</Title>
                     </Col>

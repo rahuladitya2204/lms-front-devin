@@ -78,6 +78,17 @@ export const INITIAL_COURSE_DETAILS:Course = {
   requirements:''
 }
 
+export const INITIAL_COURSE_PLAN_DETAILS = {
+  name: '',
+  type:'one-time',
+  finalPrice: {
+    value:''
+  },
+  listPrice: {
+    value:''
+  }
+}
+
 export const useGetCourseDetails = (id:string,options={enabled:true}) => {
   const { data = INITIAL_COURSE_DETAILS , isFetching: isLoading } =
     useQuery<Course>([KEYS.GET_COURSE_DETAILS, id], () => GetLearnerCourseDetails(id), options)

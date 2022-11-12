@@ -1,11 +1,16 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+// @ts-nocheck
+import React, { ReactNode, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 
-import { UploadFileType, ValueUnitType } from '@Types/Common.types'
+import { UploadFileType } from '@Types/Common.types'
 import { useUploadFiles } from '@Network/Common/CommonQueries'
 import styled from '@emotion/styled'
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons'
-import { getMetadata, getThumbnails } from 'video-metadata-thumbnails'
+import {
+  ClockCircleOutlined,
+  LoadingOutlined,
+  PlusOutlined
+} from '@ant-design/icons'
+import ImgCrop from 'antd-img-crop'
 
 const UPLOAD: UploadProps = {
   onDrop(e) {
@@ -26,8 +31,8 @@ interface MediaUploadPropsI {
 
 const CustomUpload = styled(Upload)`
   .ant-upload-select {
-    width: 200px;
-    min-height: 200px;
+    /* width: 200px;
+    min-height: 200px; */
     margin: 0;
   }
 `
@@ -64,15 +69,18 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   )
 
   return (
-    <CustomUpload
-      {...UPLOAD}
-      name="avatar"
-      listType="picture-card"
-      className="avatar-uploader"
-      showUploadList={false}
-    >
-      {props.renderItem ? props.renderItem() : uploadButton}
-    </CustomUpload>
+    // <ImgCrop onModalOk={e => setFile(e)}>
+      <CustomUpload
+        {...UPLOAD}
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        iconRender={() => <ClockCircleOutlined />}
+      >
+        {props.renderItem ? props.renderItem() : uploadButton}
+      </CustomUpload>
+    // </ImgCrop>
   )
 }
 

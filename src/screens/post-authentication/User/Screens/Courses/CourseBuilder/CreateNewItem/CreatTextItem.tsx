@@ -33,10 +33,10 @@ const CreateTextItem: React.FC<CreateItemPropsI> = (props) => {
           <Button key="submit" type="primary" onClick={form.submit}>
             Submit
           </Button>,
-          ]} title="New Heading" open={isModalOpen} onCancel={closeModal}>
+          ]} title="Text Item" open={isModalOpen} onCancel={closeModal}>
               
               <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item name="textHeading" label="Heading Name">
+        <Form.Item name="textHeading" label="Text Heading">
           <Input />
         </Form.Item></Form>
       

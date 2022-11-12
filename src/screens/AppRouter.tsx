@@ -88,7 +88,7 @@ const router = createBrowserRouter(
         <Route path="login" element={<LearnerLogin />} />
       </Route>
 
-      {/* <Route path="courses/:id" element={<CourseDetails />} /> */}
+      <Route path="courses/preview" element={<CourseDetailViewer />} />
     </Route>
   )
 )

@@ -30,7 +30,7 @@ const useAuthentication =
             return set({ isSignedIn: true, userType: type })
           })
           .catch(() => {
-            removeItemFromStorage(type + '-auth-token')
+            // removeItemFromStorage(type + '-auth-token')
             set({ isSignedIn: false })
             return Promise.reject()
           })

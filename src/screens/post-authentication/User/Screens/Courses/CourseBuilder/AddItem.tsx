@@ -32,12 +32,6 @@ const UPLOAD_NEW_ITEM = [
 ]
 
 const CREATE_NEW_ITEM = [
-  // {
-  //   title: 'Heading',
-  //   description: 'Define your chapter or section headings.',
-  //   component: CreateHeading,
-  //   type:'heading'
-  // },
   {
     title: 'Text',
     description:
@@ -60,13 +54,14 @@ function AddItem(props: AddItemPropsI) {
   }
 
   const closeModal = () => {
+    form.resetFields();
     setIsModalOpen(false)
   }
 
   const [form] = Form.useForm()
 
   const onFinish = (type: string, item: Partial<CourseSectionItem>) => {
-    props.onAddNewItem(type, item)
+    props.onAddNewItem(type, item);
     closeModal()
   }
   return (
