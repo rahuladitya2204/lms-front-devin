@@ -1,20 +1,9 @@
-import { HEADER_ITEMS, MENU_ITEMS, MenuItems } from './constants'
-import { Layout, Menu } from 'antd'
+import { HEADER_ITEMS, MenuItems } from './constants'
+import { Col, Layout, Menu, Row } from 'antd'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useState } from 'react'
 
-import LogoImage from './logo.svg'
 import styled from '@emotion/styled'
-
-const LogoHolder = styled.div`
-  padding: 20px;
-`
-
-const Logo = styled.img`
-  width: 115px;
-  margin: auto;
-  display: block;
-`
 
 const { Header, Content, Sider } = Layout
 
@@ -27,6 +16,7 @@ const LearnerDashboard: React.FC = () => {
         <Header className="site-layout-background" style={{ padding: 0 }}>
           <Menu
             mode="horizontal"
+            direction="rtl"
             defaultSelectedKeys={['2']}
             items={MenuItems(HEADER_ITEMS)}
           />

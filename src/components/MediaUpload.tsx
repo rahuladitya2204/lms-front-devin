@@ -43,7 +43,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     return uploadFiles({
       files: [file],
       onSuccess: ([uploadFile]) => {
-        uploadFile.file = file;
+        uploadFile.file = file
         setLoading(false)
         props.onUpload(uploadFile)
         onSuccess && onSuccess(file)

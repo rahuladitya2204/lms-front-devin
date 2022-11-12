@@ -9,33 +9,6 @@ import { MenuProps } from 'antd'
 
 export const MENU_ITEMS: MenuItemNode[] = [
   {
-    title: 'Home',
-    icon: <MailOutlined />,
-    path: 'home'
-  },
-  {
-    title: 'Courses',
-    icon: <MailOutlined />,
-    path: '',
-    children: [
-      {
-        title: 'All Courses',
-        path: 'user/dashboard/courses',
-        icon: <AppstoreOutlined />
-      },
-      // {
-      //   title: 'Packages',
-      //   path: 'packages',
-      //   icon: <AppstoreOutlined />
-      // },
-      // {
-      //   title: 'Question Bank',
-      //   path: 'question-bank',
-      //   icon: <AppstoreOutlined />
-      // }
-    ]
-  },
-  {
     title: 'Users',
     icon: <UsergroupDeleteOutlined />,
     path: 'users',
@@ -61,18 +34,6 @@ export const MENU_ITEMS: MenuItemNode[] = [
     title: 'Website',
     icon: <UsergroupDeleteOutlined />,
     path: 'website',
-    children: [
-      {
-        title: 'Website Pages',
-        path: 'pages',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'Website Builder',
-        path: 'builder',
-        icon: <AppstoreOutlined />
-      }
-    ]
   }
 ]
 

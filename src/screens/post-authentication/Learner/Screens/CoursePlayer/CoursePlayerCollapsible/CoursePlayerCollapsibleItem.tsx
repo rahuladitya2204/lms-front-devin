@@ -34,7 +34,7 @@ function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
       children={({ isActive }) => (
         <CourseListItem
           extra={[
-            durationInMin ? (
+            props.item.type === 'video' && durationInMin ? (
               <Tag color="blue">{durationInMin.value} min</Tag>
             ) : null,
             <CourseItemIcon type="outlined" item={props.item} />
@@ -55,16 +55,7 @@ function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
                 {props.itemIndex}. {props.item.title}
               </a>
             }
-            // description={
-            //   <Typography.Text
-            //     style={{
-            //       color: 'grey',
-            //       fontSize: 14,
-            //       marginTop: '5px',
-            //       display: 'block'
-            //     }}
-            //   />
-            // }
+
           />
         </CourseListItem>
       )}

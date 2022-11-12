@@ -1,11 +1,12 @@
-import { Tabs } from 'antd'
+import { Tabs, Typography } from 'antd'
 
 import React from 'react'
 import { SearchOutlined } from '@ant-design/icons'
-import { Course } from '@Types/Courses.types'
-import CourseOverview from '../../../../../non-authenticated/CourseDetailViewer/Layout-1/CourseDetails/CourseOverview'
+import CourseOverview from 'screens/non-authenticated/CourseDetailViewer/Layout-1/CourseDetails/CourseOverview'
 import CourseDiscussion from './CourseDiscussion'
+import { Course } from '@Types/Courses.types'
 
+const { Text } = Typography;
 interface CoursePlayerMoreInfoPropsI {
   course: Course;
 }
@@ -18,22 +19,22 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
       children: 'Search Content'
     },
     {
-      label: 'Overview',
+      label: <Text strong>Overview</Text>,
       key: '2',
       children: <CourseOverview course={props.course} />
     },
     {
-      label: 'Q & A',
+      label: <Text strong>Course Discussion</Text>,
       key: '3',
       children: <CourseDiscussion course={props.course} />
     },
     {
-      label: 'Announcements',
+      label: <Text strong>Announcements</Text>,
       key: '4',
       children: 'Tab 3'
     },
     {
-      label: 'Reviews',
+      label: <Text strong>Reviews</Text>,
       key: '5',
       children: 'Tab 3'
     },

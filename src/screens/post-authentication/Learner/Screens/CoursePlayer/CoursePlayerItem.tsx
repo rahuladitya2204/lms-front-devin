@@ -6,7 +6,6 @@ import CoursePlayerTextItem from './CoursePlayerItems/Text'
 function CoursePlayerItem () {
   let Component
   const item = useGetNodeFromRouterOutlet()
-  console.log(item, 'item')
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />
   }
@@ -15,6 +14,7 @@ function CoursePlayerItem () {
     Component = <MediaPlayer url={item?.metadata?.url + ''} />
   }
   return <Fragment>{Component}</Fragment>
+  // return null;
 }
 
 export default CoursePlayerItem

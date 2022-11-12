@@ -5,11 +5,12 @@ import ReactQuill from 'react-quill'
 interface QuillEditorPropsI {
   value?: string;
   onChange?: (value: string) => void;
+  placeholder?: string;
 }
 
 function QuillEditor(props: QuillEditorPropsI) {
   return (
-    <ReactQuill theme="snow" value={props.value} onChange={props.onChange} />
+    <ReactQuill placeholder={props.placeholder || ''} theme="snow" value={props.value} onChange={props.onChange} />
   )
 }
 

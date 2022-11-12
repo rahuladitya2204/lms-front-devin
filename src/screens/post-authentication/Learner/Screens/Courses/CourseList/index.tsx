@@ -17,11 +17,14 @@ const LearnerCourseList: React.FC = () => {
   const navigate = useNavigate()
   return (
     <Row>
-      <Col span={6}>
-        {courses.map(course => (
-          <CourseCard onClick={() => navigate(`${course._id}/player`)} course={course} />
-        ))}
-      </Col>
+      {courses.map(course => (
+        <Col span={5}>
+          <CourseCard
+            onClick={() => navigate(`${course._id}/player`)}
+            course={course}
+          />
+        </Col>
+      ))}
     </Row>
   )
 }

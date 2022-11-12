@@ -21,9 +21,9 @@ const CardHolder = styled(Card)`
 const CourseCard: React.FC<CourseCardPropsI> = props => {
   const { data: courses } = useGetCourses()
   return (
-    <CardHolder
+    <CardHolder 
       onClick={props.onClick}
-      bodyStyle={{ padding: 10 }}
+      bodyStyle={{ padding: 10 }} style={{width: 200}}
       cover={<img alt="example" src={props.course.thumbnailImage} />}
     >
       <Meta

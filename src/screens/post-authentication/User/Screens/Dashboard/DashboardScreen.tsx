@@ -1,5 +1,5 @@
-import {  MENU_ITEMS, MenuItems } from './constants'
-import { Layout, Menu } from 'antd'
+import { MENU_ITEMS, MenuItems } from './constants'
+import { Col, Layout, Menu, Row } from 'antd'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useState } from 'react'
 
@@ -42,9 +42,12 @@ const UserDashboard: React.FC = () => {
       </Sider>
       <Layout className="site-layout">
         <Content style={{ margin: '0 16px' }}>
-          <Outlet />
+          <Row gutter={[20, 20]}>
+            <Col span={24}>
+              <Outlet />
+            </Col>
+          </Row>
         </Content>
-        {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
       </Layout>
     </Layout>
   )

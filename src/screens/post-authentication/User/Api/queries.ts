@@ -1,11 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { message } from 'antd'
 import { useNavigate } from 'react-router'
-import { CreateCourse, CreateInstructor, CreateLearner, GetCourseDetails, GetCourses, GetInstructorDetails, GetInstructors, GetLearnerDetails, GetLearners, LoginUser, RegisterUser, UpdateCourse, UpdateInstructor, UpdateLearner } from '.'
+import { CreateCourse,CreateCoursePlan, CreateInstructor, CreateLearner, GetCourseDetails, GetCoursePlans, GetCourses, GetInstructorDetails, GetInstructors, GetLearnerDetails, GetLearners, LoginUser, RegisterUser, UpdateCourse, UpdateCoursePlan, UpdateInstructor, UpdateLearner } from '.'
 import { KEYS } from '@Network/keys'
 import useAuthentication from '@Store/useAuthentication'
 import { LoginData, SignupData } from '@Types/Common.types'
-import { Course, UpdateCoursePayload } from '@Types/Courses.types'
+import { Course, Plan, UpdateCoursePayload } from '@Types/Courses.types'
 import { CreateInstructorPayload, Instructor } from '@Types/Instructor.types'
 import { CreateLearnerPayload, Learner } from '@Types/Learner.types'
 import { saveItemToStorage } from '@Utils/storage'
@@ -45,12 +45,13 @@ export const INITIAL_COURSE_DETAILS:Course = {
     subtitle: '',
     description:'',
     instructor: '',
-    sections: [],
+  sections: [],
+    plan:'',
     thumbnailImage:'',
     _id: '',
     howToUse: '',
-    whatYouLearn: [''],
-    requirements:['']
+    whatYouLearn: '',
+    requirements:''
 }
   
 export const useGetCourses = () => {
@@ -212,6 +213,44 @@ export const useGetCourses = () => {
         qc.invalidateQueries([KEYS.GET_LEARNERS]);
         message.success('Learner Details Updated');
       })
+    });
+  
+    return mutation;
+  }
+
+  export const useGetCoursePlans = (id:string,options={enabled:true}) => {
+    const { data = [] , isFetching: isLoading } =
+      useQuery<Plan[]>([KEYS.GET_COURSE_PLANS, id], () => GetCoursePlans(id), options)
+    return {
+      data,
+      isLoading
+    }
+  }
+
+    
+  export const useCreateCoursePlan = (cb:()=>void) => {
+    const qc = useQueryClient();
+    const mutation = useMutation(({courseId,data}:{courseId:string, data: Plan}): Promise<void> => {
+      return CreateCoursePlan(courseId, data).then(() => {
+        qc.invalidateQueries([KEYS.GET_COURSE_PLANS]);
+        message.success('Course Plan Added');
+      })
+    }, {
+      onSuccess:()=>cb()
+    });
+  
+    return mutation;
+  }
+
+  export const useUpdateCoursePlan = (cb: ()=>void) => {
+    const qc = useQueryClient();
+    const mutation = useMutation(({courseId,planId,data}:{courseId:string,planId:string ,data: Plan}): Promise<void> => {
+      return UpdateCoursePlan(courseId,planId, data).then(() => {
+        qc.invalidateQueries([KEYS.GET_COURSE_PLANS]);
+        message.success('Course Plan Updated');
+      })
+    }, {
+      onSuccess:()=>cb()
     });
   
     return mutation;

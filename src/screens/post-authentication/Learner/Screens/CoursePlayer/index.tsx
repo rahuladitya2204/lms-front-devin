@@ -6,6 +6,7 @@ import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { cloneDeep } from 'lodash'
 import { useEffect } from 'react'
 import { useGetCourseDetails } from '@Learner/Api/queries'
+import { useGetNodeFromRouterOutlet } from '@Hooks/CommonHooks'
 
 function CoursePlayer() {
   const { id: courseId } = useParams()
@@ -29,7 +30,7 @@ function CoursePlayer() {
   )
 
   const toggleItemCheck = (id: string, checked: boolean) => {
-    const COURSE_TREE = cloneDeep(sections)
+    // const COURSE_TREE = cloneDeep(sections)
     // const node = findNode(id, COURSE_TREE)
     // node.checked = checked
     // updateCourse({

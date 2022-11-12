@@ -1,7 +1,7 @@
 import Axios from '@Network/index'
 import { API_ENDPOINTS } from '@Network/constants'
 import { LoginData, SignupData } from '@Types/Common.types'
-import { Course, UpdateCoursePayload } from '@Types/Courses.types'
+import { Course, Plan, UpdateCoursePayload } from '@Types/Courses.types'
 import { CreateInstructorPayload, Instructor } from '@Types/Instructor.types'
 import { CreateLearnerPayload, Learner } from '@Types/Learner.types'
 
@@ -74,4 +74,28 @@ export const UpdateLearner = (id: string, data: Partial<Learner>) => {
   return Axios.put(API_ENDPOINTS.user.instructor + '/' + id, data).then(
     r => r.data
   )
+}
+
+export const GetCoursePlans = (courseId: string) => {
+  return Axios.get(`${API_ENDPOINTS.user.self}/course/${courseId}/plan`).then(
+    r => r.data
+  )
+}
+
+export const CreateCoursePlan = (courseId: string, data: Partial<Plan>) => {
+  return Axios.post(
+    `${API_ENDPOINTS.user.self}/course/${courseId}/plan`,
+    data
+  ).then(r => r.data)
+}
+
+export const UpdateCoursePlan = (
+  courseId: string,
+  planId: string,
+  data: Partial<Plan>
+) => {
+  return Axios.put(
+    `${API_ENDPOINTS.user.self}/course/${courseId}/plan/${planId}`,
+    data
+  ).then(r => r.data)
 }

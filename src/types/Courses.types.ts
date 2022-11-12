@@ -1,4 +1,4 @@
-import { ValueUnitType } from "./Common.types";
+import { ValueUnitType } from './Common.types'
 
 export interface CourseSection {
   items: CourseSectionItem[];
@@ -14,8 +14,8 @@ export interface CourseSectionItem {
   description?: string;
   type: string;
   metadata?: {
-    url?: string;
-    duration?: ValueUnitType;
+    url?: string,
+    duration?: ValueUnitType
   };
 }
 
@@ -28,14 +28,38 @@ export interface Course {
   howToUse: string;
   sections: CourseSection[];
   _id: string;
-  whatYouLearn: string[];
-  requirements: string[];
-  comments?: {
-    user: string;
-    text: string;
-  }[];
+  whatYouLearn: string;
+  plan: string;
+  requirements: string;
+  questions?: CourseQuestion[];
+}
+
+export interface CourseQuestion {
+  title: string;
+  upvotes: number;
+  course: string;
+  description: string;
+  _id: string;
+  answers: CourseQuestionAnswer[];
+}
+
+export interface CourseQuestionAnswer {
+  user: string;
+  answer: string;
 }
 
 export interface UpdateCoursePayload extends Partial<Course> {}
 
 export interface CourseCoursePayload extends Partial<Course> {}
+
+export interface Plan {
+  name: string;
+  rate: ValueUnitType;
+  organisation: string;
+  type: string;
+  course: string;
+  createdAt: string;
+  listPrice: ValueUnitType;
+  finalPrice: ValueUnitType;
+  _id: string;
+}

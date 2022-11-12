@@ -19,8 +19,9 @@ code {
 }
 
 .ant-layout-content{
-  padding-top: 20px;
-  padding-bottom: 20px;
+  margin: 0 !important;
+  /* padding-top: 20px;
+  padding-bottom: 20px; */
 }
 
 .ant-layout-sider-children {

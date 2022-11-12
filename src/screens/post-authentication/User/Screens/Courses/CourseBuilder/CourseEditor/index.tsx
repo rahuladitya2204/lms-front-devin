@@ -12,10 +12,10 @@ import {
 } from '@User/Api/queries'
 import { Course } from '@Types/Courses.types'
 import { STRINGIFY } from '../utils'
+import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 
 function CourseEditor() {
   const { id: courseId } = useParams()
-  const navigate = useNavigate()
   const [course, setCourse] = useState(INITIAL_COURSE_DETAILS)
   const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
 
@@ -52,11 +52,8 @@ function CourseEditor() {
           <Button
             onClick={() => {
               console.log(course, 'strf')
-              const dataStr = STRINGIFY(course);
-              window.open(
-                `/courses/preview?details=${dataStr}`,
-                '_blank'
-              )
+              const dataStr = STRINGIFY(course)
+              window.open(`/courses/preview?details=${dataStr}`, '_blank')
             }}
             style={{ marginRight: 15 }}
             icon={<EyeOutlined />}
@@ -91,7 +88,13 @@ function CourseEditor() {
             {
               label: `Pricing`,
               key: '2',
-              children: `Content of Tab Pane 2`
+              children: (
+                <CoursePricingEditor
+                  formData={course}
+                  onFormUpdate={onCourseUpdate}
+                  course={course}
+                />
+              )
             },
             {
               label: `Pages`,

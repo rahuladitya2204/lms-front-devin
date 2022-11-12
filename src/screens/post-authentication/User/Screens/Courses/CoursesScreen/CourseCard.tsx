@@ -53,8 +53,8 @@ function CourseCard(props: CourseCardProps) {
           />
         </Tooltip>,
         <EyeOutlined />,
-        <WechatOutlined />,
-        <SettingOutlined />
+        // <WechatOutlined />,
+        // <SettingOutlined />
       ]}
     >
       <Meta

@@ -67,10 +67,15 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
   />
 </Form.Item>
 
-
-<FormListItem name="requirements"  placeholder='Enter Requirement' label='Course Requirements' />
-<FormListItem name="whatYouLearn" placeholder="What You'll Learn" label="What You'll Learn" />
-</Form>
+<Form.Item required label="Requirements">
+          <QuillEditor value={props.formData.requirements} onChange={e => {
+            console.log(e,'ee')
+            props.onFormUpdate({ requirements: e })
+          }} />
+</Form.Item>
+<Form.Item  required label="What you'll learn">
+          <QuillEditor value={props.formData.whatYouLearn}  onChange={e => props.onFormUpdate({ whatYouLearn: e })} />
+</Form.Item></Form>
 
    </Fragment>
   )

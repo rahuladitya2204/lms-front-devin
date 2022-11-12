@@ -82,7 +82,7 @@ function LearnerLogin () {
           <Typography.Text>
             Don't have an account?{' '}
             <NavLink
-              to={'signup'}
+              to={'register'}
               children={<Button type="link">Sign up?</Button>}
             />
           </Typography.Text>

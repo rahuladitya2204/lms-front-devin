@@ -1,11 +1,15 @@
 import {
+  BrowserRouter,
   createBrowserRouter,
   createRoutesFromElements,
+  Navigate,
   Route,
   RouterProvider,
+  Routes
 } from 'react-router-dom'
 
 import CourseDetailViewer from './non-authenticated/CourseDetailViewer/Layout-1'
+import { Fragment } from 'react'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
 import LearnerDashboard from './post-authentication/Learner/Screens/Dashboard/DashboardScreen'
@@ -29,6 +33,7 @@ import UserDashboard from './post-authentication/User/Screens/Dashboard/Dashboar
 import LearnerRegister from './post-authentication/Learner/Screens/Register'
 import LearnerLogin from './post-authentication/Learner/Screens/Login'
 import CourseDetails from './non-authenticated/CourseDetailViewer/Layout-1/CourseDetails'
+import LearnerHomeScreen from '@Learner/Screens/HomeScreen/HomeScreen'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -67,8 +72,10 @@ const router = createBrowserRouter(
 
       <Route path="learner/:orgId">
         <Route path="dashboard" element={<LearnerDashboard />}>
+          <Route path="home" element={<LearnerHomeScreen />} />
           <Route path="courses">
             <Route path="" element={<LearnerCourses />} />
+            <Route path=":id/details" element={<CourseDetailViewer />} />
             <Route path=":id/player" element={<CoursePlayer />}>
               <Route
                 path="section/:sectionId/item/:itemId"
@@ -81,8 +88,7 @@ const router = createBrowserRouter(
         <Route path="login" element={<LearnerLogin />} />
       </Route>
 
-      <Route path="courses/:id" element={<CourseDetailViewer />} />
-      <Route path="courses/preview" element={<CourseDetailViewer />} />
+      {/* <Route path="courses/:id" element={<CourseDetails />} /> */}
     </Route>
   )
 )

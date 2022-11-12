@@ -10,7 +10,7 @@ interface CourseDetailsPropsI {
 
 function CourseDetails(props: CourseDetailsPropsI) {
   return (
-    <Tabs>
+    <Tabs style={{ fontSize: 30 }} size="middle">
       <Tabs.TabPane tab="Overview" key="overview">
         <CourseOverview course={props.course} />
       </Tabs.TabPane>
