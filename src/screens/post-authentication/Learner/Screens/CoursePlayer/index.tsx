@@ -8,9 +8,10 @@ import Header from '@Components/Header'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import styled from '@emotion/styled'
 
+// const PLAYER_HEIGHT=
 const ControlButton = styled(Button)`
   position: absolute;
-  top: 250px;
+  top: 220px;
   padding: 0px;
   width: 23px;
   border-radius: 0;
