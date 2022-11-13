@@ -1,28 +1,41 @@
 /*eslint-disable */
 
-import { Col, PageHeader, Row } from 'antd'
+import { Col, PageHeader, PageHeaderProps, Row } from 'antd'
 
 import useGlobal from '@Store/useGlobal'
+import { HTMLAttributes } from 'react'
+import styled from '@emotion/styled'
 
-interface HeaderPropsI {
+interface HeaderPropsI extends PageHeaderProps {
   children?: React.ReactNode;
   title?: string;
   extra?: React.ReactNode[];
+  bgColor?: string;
 }
+
+const CustomHeader = styled(PageHeader)`
+  .ant-page-header-heading {
+    padding: 0 10px;
+    background-color: ${(props: { bgColor?: string }) =>
+      props.bgColor ? props.bgColor : '#fff'};
+  }
+`
 
 function Header(props: HeaderPropsI) {
   const { isDrawerOpen, setDrawerOpen } = useGlobal(state => state)
   return (
     <Row>
       <Col span={24}>
-        <PageHeader
+        <CustomHeader
+          theme={'dark'}
+          {...props}
           onBack={() => null}
           extra={props.extra}
-          title={props.title || 'LMS'}
+          title={props.title}
           backIcon={false}
         >
           {props.children}
-        </PageHeader>
+        </CustomHeader>
       </Col>
     </Row>
   )

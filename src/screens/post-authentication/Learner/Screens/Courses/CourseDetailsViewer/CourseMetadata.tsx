@@ -60,6 +60,7 @@ interface CourseMetadataPropsI {
 
 function CourseMetadata(props: CourseMetadataPropsI) {
   data.enrolled.value = `${props.course.studentsEnrolled} students`
+  data.lectures.value = `${props.course.sections.length}`
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (

@@ -1,18 +1,36 @@
-import { Card, Col, Row } from 'antd'
+import { Button, Card, Col, Progress, Row, Typography } from 'antd'
 import { Outlet, useNavigate, useParams } from 'react-router'
-
 import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerCollapsible'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
-import { cloneDeep } from 'lodash'
 import { useEffect } from 'react'
 import { useGetCourseDetails } from '@Learner/Api/queries'
+import Header from '@Components/Header'
+import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import styled from '@emotion/styled'
 
+const ControlButton = styled(Button)`
+  position: absolute;
+  top: 250px;
+  padding: 0px;
+  width: 23px;
+  border-radius: 0;
+  display: none;
+`
+
+const CustomCard = styled(Card)`
+  &:hover {
+    button {
+      display: block;
+    }
+  }
+`
+
+const Text = Typography.Text
 function CoursePlayer() {
-  const { id: courseId } = useParams()
+  const { id: courseId, sectionId, itemId } = useParams()
   const { data: courseDetails } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
-  // const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
   const navigate = useNavigate()
 
   const sections = courseDetails.sections
@@ -29,31 +47,75 @@ function CoursePlayer() {
     [sections]
   )
 
-  const toggleItemCheck = (id: string, checked: boolean) => {
-    // const COURSE_TREE = cloneDeep(sections)
-    // const node = findNode(id, COURSE_TREE)
-    // node.checked = checked
-    // updateCourse({
-    //   id: courseId + '',
-    //   data: {
-    //     sections: COURSE_TREE
-    //   }
-    // })
+  const toggleItemCheck = () => {}
+
+  let currentSectionIndex, currentSectionItemIndex, nextSection, nextItem
+
+  sections.forEach((s, index) => {
+    if (s.id === sectionId) currentSectionIndex = index
+  })
+  if (currentSectionIndex) {
+    sections[currentSectionIndex].items.forEach((i, index) => {
+      if (i.id === itemId) currentSectionItemIndex = index
+    })
   }
 
+  nextSection = currentSectionIndex ? sections[currentSectionIndex + 1] : null;
+
+  nextItem = currentSectionItemIndex
+    ? sections[currentSectionItemIndex + 1]
+    : null;
+
+  const next = () => {}
+
+  const prev = () => {}
+
   return (
-    <div className="site-card-wrapper">
-      <Row gutter={[10, 10]}>
+    <Header
+      title={'Udemy'}
+      style={{ padding: 10, borderBottom: '1px solid #cac7c7' }}
+      extra={[
+        <Text strong>
+          Your Progress<Progress
+            style={{ marginLeft: 10 }}
+            type="circle"
+            percent={30}
+            width={40}
+          />
+        </Text>
+      ]}
+    >
+      <Row
+        style={{ padding: '0 10px' }}
+        gutter={[10, 40]}
+        justify="space-between"
+      >
         <Col span={17}>
           <Row gutter={[10, 10]}>
             <Col span={24}>
-              <Card
-                bordered={false}
-                style={{ height: 500, overflow: 'scroll' }}
-                bodyStyle={{ padding: 0 }}
+              <CustomCard
+                style={{ height: 500, overflow: 'hidden' }}
+                bodyStyle={{ padding: 0, position: 'relative' }}
               >
+                <ControlButton
+                  type="primary"
+                  style={{
+                    right: 0
+                  }}
+                  onClick={next}
+                  icon={<CaretRightOutlined />}
+                />
+                <ControlButton
+                  style={{
+                    left: 0
+                  }}
+                  onClick={prev}
+                  type="primary"
+                  icon={<CaretLeftOutlined />}
+                />
+
                 <Outlet context={[sections]} />
-              </Card>
+              </CustomCard>
             </Col>
             <Col span={24}>
               <Card>
@@ -69,7 +131,7 @@ function CoursePlayer() {
           />
         </Col>
       </Row>
-    </div>
+    </Header>
   )
 }
 

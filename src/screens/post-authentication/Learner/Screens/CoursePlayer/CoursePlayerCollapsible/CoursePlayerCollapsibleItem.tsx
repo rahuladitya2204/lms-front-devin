@@ -1,4 +1,4 @@
-import { Checkbox, List, Tag } from 'antd'
+import { Checkbox, List, Tag, Typography } from 'antd'
 
 import { NavLink } from 'react-router-dom'
 import { unit } from 'mathjs'
@@ -6,6 +6,7 @@ import styled from '@emotion/styled'
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 
+const { Text } = Typography
 interface CoursePlayerCollapsibleItemPropsI {
   item: CourseSectionItem;
   section: CourseSection;
@@ -51,11 +52,11 @@ function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
               />
             }
             title={
-              <a href="https://ant.design">
+              <Text ellipsis>
                 {props.itemIndex}. {props.item.title}
-              </a>
+              </Text>
             }
-
+            description={<span>121</span>}
           />
         </CourseListItem>
       )}

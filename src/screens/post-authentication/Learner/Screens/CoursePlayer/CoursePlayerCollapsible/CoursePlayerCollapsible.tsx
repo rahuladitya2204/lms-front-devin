@@ -39,7 +39,7 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
         defaultActiveKey={props.sections.map((s, i) => s.id)}
       >
         {props.sections.map((section, index) => {
-          let sectionsCompleted = 0
+          let sectionsCompleted = 0;
           const totalSections = section.items.length
           // section.items.forEach(i => {
           //   if (i.checked) sectionsCompleted += 1
@@ -48,9 +48,10 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
             <Panel
               header={
                 <Typography.Title level={5}>
-                  Section {index}: {section.title} {sectionsCompleted}/{
+                  Section {index + 1}: {section.title}
+                  {/* {sectionsCompleted}/{
                     totalSections
-                  }
+                  } */}
                 </Typography.Title>
               }
               key={section.id}
