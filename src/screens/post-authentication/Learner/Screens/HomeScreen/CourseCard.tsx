@@ -41,7 +41,7 @@ function CourseCard(props: CourseCardPropsI) {
       <CustomCard
         onClick={() =>
           navigate(
-            `/learner/learner/dashboard/courses/${props.course._id}/details`
+            `/learner/learner/dashboard/courses/${props.course._id}`
           )
         } bodyStyle={{padding: 15}}
         cover={

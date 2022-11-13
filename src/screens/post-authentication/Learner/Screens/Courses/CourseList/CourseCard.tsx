@@ -19,7 +19,6 @@ const CardHolder = styled(Card)`
 `
 
 const CourseCard: React.FC<CourseCardPropsI> = props => {
-  const { data: courses } = useGetCourses()
   return (
     <CardHolder 
       onClick={props.onClick}

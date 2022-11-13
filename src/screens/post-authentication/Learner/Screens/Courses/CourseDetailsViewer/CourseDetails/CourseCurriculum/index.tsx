@@ -42,7 +42,7 @@ function CourseCurriculum(props: CourseCurriculumPropsI) {
                       <List.Item actions={actions}>
                         <List.Item.Meta
                           avatar={
-                            <CourseItemIcon type="outlined" item={item} />
+                            <CourseItemIcon  type="outlined" item={item} />
                           }
                           title={item.title}
                         />

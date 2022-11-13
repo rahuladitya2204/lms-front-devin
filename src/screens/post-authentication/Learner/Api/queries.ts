@@ -115,14 +115,18 @@ export const useCreateDiscussionQuestionAnswer = (onSuccess:()=>void) => {
 }
 
 
-export const useEnrollForCourse = (onSuccess:()=>void) => {
+export const useEnrollForCourse = () => {
   const qc = useQueryClient();
+  const navigate = useNavigate();
+
   const mutation = useMutation((courseId:string): Promise<void> => {
     return enrollForCourse(courseId).then(() => {
       message.success('Enrolled for the course. Congratulation!');
     })
   }, {
-    onSuccess:()=>onSuccess()
+    onSuccess: () => {
+      navigate('enrolled')
+    }
   });
   return mutation;
 }

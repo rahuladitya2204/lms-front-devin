@@ -63,6 +63,7 @@ const router = createBrowserRouter(
           </Route>
           <Route path="courses/:id/editor" element={<CourseEditor />} />
         </Route>
+        <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
         <Route path="register" element={<UserRegister />} />
         <Route path="login" element={<UserLoginScreen />} />
         <Route
@@ -76,7 +77,7 @@ const router = createBrowserRouter(
           <Route path="home" element={<LearnerHomeScreen />} />
           <Route path="courses">
             <Route path="" element={<LearnerCourses />} />
-            <Route path=":id/details" element={<CourseDetailViewer />} />
+            <Route path=":id" element={<CourseDetailViewer />} />
             <Route path=":id/enrolled" element={<EnrolledCourseSuccessful />} />
           </Route>
         </Route>
@@ -89,8 +90,6 @@ const router = createBrowserRouter(
         <Route path="register" element={<LearnerRegister />} />
         <Route path="login" element={<LearnerLogin />} />
       </Route>
-
-      <Route path="courses/preview" element={<CourseDetailViewer />} />
     </Route>
   )
 )

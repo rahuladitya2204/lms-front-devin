@@ -54,7 +54,7 @@ function CourseEditor() {
             onClick={() => {
               console.log(course, 'strf')
               const dataStr = STRINGIFY(JSON.stringify(course))
-              window.open(`/courses/preview?details=${dataStr}`, '_blank')
+              window.open(`${course._id}/preview`, '_blank')
             }}
             style={{ marginRight: 15 }}
             icon={<EyeOutlined />}

@@ -18,7 +18,7 @@ import {
 } from '@ant-design/icons'
 import image from './bg.svg'
 import styled from '@emotion/styled'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import {
   useEnrollForCourse,
   useGetCourseDetails
@@ -59,14 +59,10 @@ const CourseSubTitle = styled(Paragraph)`
 `
 
 function CourseDetailViewer () {
-  const { id: courseId } = useParams()
+  const { id: courseId } = useParams();
   const [course, setCourse] = useState(INITIAL_COURSE_DETAILS);
 
-  const onEnroll = () => {
-    console.log('Erolleed!!!')
-  }
-
-  const { mutate: enroll} = useEnrollForCourse(onEnroll);
+  const { mutate: enroll} = useEnrollForCourse();
   const { data } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })

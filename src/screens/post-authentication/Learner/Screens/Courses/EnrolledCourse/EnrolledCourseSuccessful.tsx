@@ -30,7 +30,7 @@ const EnrolledCourseSuccessful: React.FC = () => {
           <Result
             status="success"
             title="You have successfully enrolled for the course!"
-            subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+            // subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
             // extra={[
             //   <Button type="primary" key="console">
             //     Go Console
