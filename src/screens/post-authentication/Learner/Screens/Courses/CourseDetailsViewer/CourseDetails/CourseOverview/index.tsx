@@ -10,24 +10,27 @@ const { Title, Paragraph } = Typography
 
 interface CourseOverviewPropsI {
   course: Course;
+  hidePreview?: boolean;
 }
 
 function CourseOverview(props: CourseOverviewPropsI) {
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
-        <Col span={24}>
-          <Card
-            style={{ margin: '20px 0' }}
-            bordered={false}
-            bodyStyle={{ padding: 0 }}
-          >
-            <MediaPlayer
-              // height={300}
-              url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
-            />
-          </Card>
-        </Col>
+        {!props.hidePreview ? (
+          <Col span={24}>
+            <Card
+              style={{ margin: '20px 0' }}
+              bordered={false}
+              bodyStyle={{ padding: 0 }}
+            >
+              <MediaPlayer
+                // height={300}
+                url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
+              />
+            </Card>
+          </Col>
+        ) : null}
         <Col span={24}>
           <Title level={4}>Course Description</Title>
           <Paragraph

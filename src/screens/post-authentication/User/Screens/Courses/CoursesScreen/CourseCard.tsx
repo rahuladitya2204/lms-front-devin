@@ -52,7 +52,9 @@ function CourseCard(props: CourseCardProps) {
             }
           />
         </Tooltip>,
-        <EyeOutlined />,
+        <EyeOutlined onClick={() => {
+          navigate(`${props.course._id}/player`)
+        }} />,
         // <WechatOutlined />,
         // <SettingOutlined />
       ]}

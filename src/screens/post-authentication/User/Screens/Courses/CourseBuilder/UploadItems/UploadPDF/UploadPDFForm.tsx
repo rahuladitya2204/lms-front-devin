@@ -3,9 +3,8 @@ import { Fragment } from 'react'
 
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
-
 const UploadPDFForm: React.FC = () => {
-  const { onFormChange, form, item } = useUploadItemForm();
+  const { onFormChange, form, item } = useUploadItemForm()
   return (
     <Fragment>
       <Form
@@ -20,14 +19,10 @@ const UploadPDFForm: React.FC = () => {
           required
           tooltip="This is a required field"
         >
-          <Input
-            placeholder="input placeholder"
-          />
+          <Input placeholder="input placeholder" />
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <Input
-            placeholder="input placeholder"
-          />
+          <Input placeholder="input placeholder" />
         </Form.Item>
       </Form>
       {/* <PDFViewer url={data.url} /> */}

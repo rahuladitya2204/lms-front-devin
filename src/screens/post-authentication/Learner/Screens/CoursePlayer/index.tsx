@@ -6,7 +6,6 @@ import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { cloneDeep } from 'lodash'
 import { useEffect } from 'react'
 import { useGetCourseDetails } from '@Learner/Api/queries'
-import { useGetNodeFromRouterOutlet } from '@Hooks/CommonHooks'
 
 function CoursePlayer() {
   const { id: courseId } = useParams()
@@ -20,6 +19,7 @@ function CoursePlayer() {
 
   useEffect(
     () => {
+      console.log('ohoh')
       if (sections[0]?.items[0]) {
         const sectionId = sections[0].id
         const itemId = sections[0].items[0].id

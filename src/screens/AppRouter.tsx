@@ -97,7 +97,6 @@ const router = createBrowserRouter(
 
 function AppRouter () {
   const { isSignedIn } = useAuthentication(state => state)
-  console.log(isSignedIn, 'isSignedIn')
   return <RouterProvider router={router} />
 }
 

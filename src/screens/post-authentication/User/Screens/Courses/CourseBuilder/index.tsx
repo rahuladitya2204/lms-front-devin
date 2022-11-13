@@ -74,7 +74,7 @@ function CourseBuilderScreen() {
       navigate(`section/${firstSection.id}/${firstItem.type}/${firstItem.id}`)
   
     }
-  }, [course])
+  }, [course._id])
 
   const saveCourse = () => {
     updateCourse({
