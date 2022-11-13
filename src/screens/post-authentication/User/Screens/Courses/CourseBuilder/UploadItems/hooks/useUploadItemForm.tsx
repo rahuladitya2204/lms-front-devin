@@ -5,7 +5,7 @@ import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useEffect } from "react";
 import { CourseSection, CourseSectionItem } from "@Types/Courses.types";
 
-function useUploadItemForm<T>(initialValues:T) {
+function useUploadItemForm() {
   const [form] = Form.useForm();
   let { itemId, sectionId } = useParams();
 
@@ -18,7 +18,7 @@ function useUploadItemForm<T>(initialValues:T) {
     form.setFieldsValue(item)
   }, [item]);
 
-  const onFormChange = (data: { [key: string]: string }) => {
+  const onFormChange = (data:Partial<CourseSectionItem>) => {
       const newItem = {
         ...item,
         ...data

@@ -10,6 +10,7 @@ export interface CourseSection {
 
 export interface CourseSectionItem {
   title: string;
+  isPreview?: boolean;
   id: string;
   description?: string;
   type: string;

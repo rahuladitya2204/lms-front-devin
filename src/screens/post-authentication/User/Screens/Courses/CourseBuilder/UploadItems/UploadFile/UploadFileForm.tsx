@@ -3,14 +3,9 @@ import { Fragment } from 'react';
 import QuillEditor from '@Components/QuillEditor';
 import useUploadItemForm from '../hooks/useUploadItemForm';
 
-interface UploadFileFormI {
-  title: string;
-  description: string;
-  url: string;
-}
 
 const UploadFileForm: React.FC = () => {
-  const { onFormChange, form, item } = useUploadItemForm<UploadFileFormI>({ title: '', description: '',url:''});
+  const { onFormChange, form, item } = useUploadItemForm();
   return (
       <Fragment>
    <Form onValuesChange={onFormChange}

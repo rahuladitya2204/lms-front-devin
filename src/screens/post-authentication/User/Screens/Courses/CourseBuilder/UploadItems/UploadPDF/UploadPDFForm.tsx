@@ -3,14 +3,9 @@ import { Fragment } from 'react'
 
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
-interface UploadPDFFormI {
-  title: string;
-  description: string;
-  url: string;
-}
 
 const UploadPDFForm: React.FC = () => {
-  const { onFormChange, form, item } = useUploadItemForm<UploadPDFFormI>({ title: '', description: '',url:''});
+  const { onFormChange, form, item } = useUploadItemForm();
   return (
     <Fragment>
       <Form

@@ -1,15 +1,17 @@
-import { Form, Input } from 'antd'
+import { Checkbox, Form, Input } from 'antd'
 import { Fragment } from 'react'
 import QuillEditor from '@Components/QuillEditor';
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 interface AddTextItemForm {
   title: string;
+  isPreview: boolean;
   description: string;
 }
 
 const AddTextItem: React.FC = () => {
-  const { onFormChange, form, item } = useUploadItemForm<AddTextItemForm>( { title: '', description: ''});
+  const { onFormChange, form, item } = useUploadItemForm();
+
   return (
     <Fragment>
       <Form
@@ -21,17 +23,25 @@ const AddTextItem: React.FC = () => {
           name="title"
           label="Title"
           required
-          tooltip="This is a required field"
         >
           <Input
             placeholder="Enter Text Content's title"
           />
         </Form.Item>
         <Form.Item
+          label="Preview"
+          tooltip="This is a preview item"
+        >
+          <Checkbox checked={item.isPreview} onChange={e => {
+            const isPreview = e.target.checked;
+            onFormChange({ isPreview  })
+          }}
+          >Avail this as a free lecture</Checkbox>
+        </Form.Item>
+        <Form.Item
           name="description"
           label="Description"
           required
-          tooltip="This is a required field"
         >
           <QuillEditor
             onChange={e => onFormChange({'description': e})}
