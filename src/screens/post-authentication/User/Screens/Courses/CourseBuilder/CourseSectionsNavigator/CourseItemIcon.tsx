@@ -10,8 +10,8 @@ import {
   PlayCircleOutlined
 } from '@ant-design/icons'
 
-import { Fragment } from 'react'
-import { CourseSectionItem } from '@Types/Courses.types';
+import { Fragment, ReactNode } from 'react'
+import { CourseSectionItem } from '@Types/Courses.types'
 
 interface CourseItemIconPropsI {
   item: CourseSectionItem;
@@ -19,49 +19,54 @@ interface CourseItemIconPropsI {
 }
 
 const CourseItemIcon = (props: CourseItemIconPropsI) => {
-  let icon
+  let Icon: React.FC
   switch (props.item.type) {
     case 'chapter':
       if (props.type === 'outlined') {
-        icon = <BookOutlined />
+        Icon = BookOutlined
       } else {
-        icon = <BookFilled />
+        Icon = BookFilled
       }
 
       break
     case 'pdf':
       if (props.type === 'outlined') {
-        icon = <FilePdfOutlined />
+        Icon = FilePdfOutlined
       } else {
-        icon = <FilePdfFilled />
+        Icon = FilePdfFilled
       }
       break
 
     case 'file':
       if (props.type === 'outlined') {
-        icon = <CloudDownloadOutlined />
+        Icon = CloudDownloadOutlined
       } else {
-        icon = <CloudDownloadOutlined />
+        Icon = CloudDownloadOutlined
       }
       break
 
     case 'video':
       if (props.type === 'outlined') {
-        icon = <PlayCircleOutlined />
+        Icon = PlayCircleOutlined
       } else {
-        icon = <PlayCircleFilled />
+        Icon = PlayCircleFilled
       }
       break
 
     case 'text':
       if (props.type === 'outlined') {
-        icon = <FileTextOutlined />
+        Icon = FileTextOutlined
       } else {
-        icon = <FileTextFilled />
+        Icon = FileTextFilled
       }
       break
   }
-  return <Fragment>{icon}</Fragment>
+  return (
+    <Fragment>
+      {/* @ts-ignore */}
+      <Icon style={{ fontSize: 18 }} />
+    </Fragment>
+  )
 }
 
 export default CourseItemIcon

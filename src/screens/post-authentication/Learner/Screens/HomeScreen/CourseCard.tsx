@@ -60,29 +60,34 @@ function CourseCard(props: CourseCardPropsI) {
             <Text style={{ fontSize: 14 }} type='secondary'>Fashion Photography From Professional</Text>
             <Text strong ellipsis>{props.course.title}</Text>
           </Space>}
-          description={
-            <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
-              <Rate style={{ fontSize: 12 }} value={4} /> <Text>4.87 (3.8k+ reviews)</Text>
-            </Space>
-          }
+          // description={
+          //   <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
+          //     <Rate style={{ fontSize: 12 }} value={4} /> <Text>4.87 (3.8k+ reviews)</Text>
+          //   </Space>
+          // }
         />
-        <Space direction='horizontal' style={{display:'flex',justifyContent: 'space-between'}}>
-          <Space direction='horizontal'>
-          <Text type="secondary">
+        <Space direction='horizontal' style={{display:'flex',justifyContent:'space-between',marginTop: 10}} align='end' >
+          <Space direction='vertical'>
+          <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
+              <Rate disabled style={{ fontSize: 12 }} value={4} /> <Text>4.87 </Text>
+            </Space>
+            <Space direction='horizontal'>
+            <Text type="secondary">
                   <BookOutlined /> {props.course.sections.length} Lessons
             </Text>
             <Text type="secondary">
                   <ClockCircleOutlined /> 8h 12m
                 </Text>
+        </Space>
           </Space>
-          <Space>
+
             <Space direction='vertical' align='end' size={0}>
               <Text style={{textAlign:'right',textDecoration:'line-through'}} type='secondary'>${plan.listPrice.value}</Text>
               <Text strong style={{fontSize: 20}}>
               ${plan.finalPrice.value}
               </Text>
             </Space>
-          </Space>
+
         </Space>
 
       </CustomCard>

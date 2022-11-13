@@ -14,6 +14,7 @@ export interface CourseSectionItem {
   id: string;
   description?: string;
   type: string;
+  section?: string;
   metadata?: {
     url?: string,
     duration?: ValueUnitType

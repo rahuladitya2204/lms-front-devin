@@ -8,14 +8,14 @@ import styled from '@emotion/styled'
 
 interface HeaderPropsI extends PageHeaderProps {
   children?: React.ReactNode;
-  title?: string;
+  title?: React.ReactNode;
   extra?: React.ReactNode[];
   bgColor?: string;
 }
 
 const CustomHeader = styled(PageHeader)`
   .ant-page-header-heading {
-    padding: 0 10px;
+    padding: 12px;
     background-color: ${(props: { bgColor?: string }) =>
       props.bgColor ? props.bgColor : '#fff'};
   }

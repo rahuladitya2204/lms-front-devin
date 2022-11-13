@@ -43,14 +43,6 @@ export const updateCourseSectionItem = (
   return SECTIONS
 }
 
-export const createChapterItemNode = (): CourseSectionItem => {
-  return {
-    title: '+ Add Chapter Item',
-    id: uuid(),
-    type: 'item'
-  }
-}
-
 export const STRINGIFY = function(data: unknown) {
   return btoa(unescape(encodeURIComponent(JSON.stringify(data))))
 }

@@ -52,17 +52,20 @@ function CourseBuilderScreen() {
     index: number
   ) => {
     let COURSE = cloneDeep(course)
-    const ID = uuid()
+    const ID = uuid();
+    const sectionId = COURSE.sections[index].id;
     const newItem: CourseSectionItem = {
       title: item.title ? item.title : '',
       description: item.description ? item.description : '',
       id: ID,
       type,
-      metadata: item.metadata
-    }
+      metadata: item.metadata,
+      section: sectionId
+    };
+    
     COURSE.sections[index].items.push(newItem)
 
-    navigate(`section/${COURSE.sections[index].id}/${type}/${ID}`)
+    navigate(`section/${sectionId}/${type}/${ID}`)
     setCourse(COURSE)
   }
 

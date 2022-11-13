@@ -1,21 +1,35 @@
-import { Button, Card, Col, Progress, Row, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Image,
+  Progress,
+  Row,
+  Space,
+  Tooltip,
+  Typography
+} from 'antd'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerCollapsible'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { useEffect } from 'react'
 import { useGetCourseDetails } from '@Learner/Api/queries'
 import Header from '@Components/Header'
-import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import {
+  ArrowLeftOutlined,
+  CaretLeftOutlined,
+  CaretRightOutlined
+} from '@ant-design/icons'
 import styled from '@emotion/styled'
 
-// const PLAYER_HEIGHT=
 const ControlButton = styled(Button)`
   position: absolute;
   top: 220px;
   padding: 0px;
   width: 23px;
   border-radius: 0;
-  display: none;
+  display: block;
+  z-index: 999;
 `
 
 const CustomCard = styled(Card)`
@@ -28,13 +42,13 @@ const CustomCard = styled(Card)`
 
 const Text = Typography.Text
 function CoursePlayer() {
-  const { id: courseId, sectionId, itemId } = useParams()
-  const { data: courseDetails } = useGetCourseDetails(courseId + '', {
+  const { id: courseId, itemId } = useParams()
+  const { data: course } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
   const navigate = useNavigate()
 
-  const sections = courseDetails.sections
+  const sections = course.sections
 
   useEffect(
     () => {
@@ -48,33 +62,44 @@ function CoursePlayer() {
     [sections]
   )
 
+  const allItems = sections.map(s => s.items).flat()
+
   const toggleItemCheck = () => {}
+  let currentItemIndex = 0
 
-  let currentSectionIndex, currentSectionItemIndex, nextSection, nextItem
-
-  sections.forEach((s, index) => {
-    if (s.id === sectionId) currentSectionIndex = index
+  allItems.forEach((i, index) => {
+    if (i.id == itemId) {
+      currentItemIndex = index
+    }
   })
-  if (currentSectionIndex) {
-    sections[currentSectionIndex].items.forEach((i, index) => {
-      if (i.id === itemId) currentSectionItemIndex = index
-    })
+
+  const nextItem = allItems[currentItemIndex + 1];
+  const prevItem = allItems[currentItemIndex - 1];
+  
+  const next = () => {
+    navigate(`section/${nextItem.section}/item/${nextItem.id}`)
   }
 
-  nextSection = currentSectionIndex ? sections[currentSectionIndex + 1] : null;
-
-  nextItem = currentSectionItemIndex
-    ? sections[currentSectionItemIndex + 1]
-    : null;
-
-  const next = () => {}
-
-  const prev = () => {}
-
+  const prev = () => {
+    navigate(`section/${prevItem.section}/item/${prevItem.id}`)
+  }
   return (
     <Header
-      title={'Udemy'}
-      style={{ padding: 10, borderBottom: '1px solid #cac7c7' }}
+      title={
+        <Space style={{ cursor: 'pointer' }}>
+          <ArrowLeftOutlined />{' '}
+          <Image
+            style={{ cursor: 'pointer' }}
+            width={40}
+            preview={false}
+            src={
+              'https://asset-cdn.learnyst.com/assets/schools/110998/schoolLogo/soiclogolearnyst_r5jz9f.png'
+            }
+          />
+        </Space>
+      }
+      subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
+      style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
       extra={[
         <Text strong>
           Your Progress<Progress
@@ -98,29 +123,40 @@ function CoursePlayer() {
                 style={{ height: 500, overflow: 'hidden' }}
                 bodyStyle={{ padding: 0, position: 'relative' }}
               >
-                <ControlButton
-                  type="primary"
-                  style={{
-                    right: 0
-                  }}
-                  onClick={next}
-                  icon={<CaretRightOutlined />}
-                />
-                <ControlButton
-                  style={{
-                    left: 0
-                  }}
-                  onClick={prev}
-                  type="primary"
-                  icon={<CaretLeftOutlined />}
-                />
+                {currentItemIndex > 0 ? (
+                  <Tooltip
+                    placement="right"
+                    title={`Previous: ${prevItem.title}`}
+                  >
+                    <ControlButton
+                      // type='primary'
+                      style={{
+                        left: 0
+                      }}
+                      onClick={prev}
+                      icon={<CaretLeftOutlined />}
+                    />
+                  </Tooltip>
+                ) : null}
 
+                {currentItemIndex < allItems.length - 1 ? (
+                  <Tooltip placement="left" title={`Next: ${nextItem.title}`}>
+                    <ControlButton
+                      style={{
+                        right: 0
+                      }}
+                      onClick={next}
+                      // type='primary'
+                      icon={<CaretRightOutlined />}
+                    />
+                  </Tooltip>
+                ) : null}
                 <Outlet context={[sections]} />
               </CustomCard>
             </Col>
             <Col span={24}>
               <Card>
-                <CoursePlayerMoreInfo course={courseDetails} />
+                <CoursePlayerMoreInfo course={course} />
               </Card>
             </Col>
           </Row>
