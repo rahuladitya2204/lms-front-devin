@@ -12,7 +12,7 @@ import {
 import { Course } from '@Types/Courses.types'
 import { STRINGIFY } from '../utils'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
-import { INITIAL_COURSE_DETAILS } from 'constant'
+import { INITIAL_COURSE_DETAILS } from 'constant.ts'
 
 function CourseEditor() {
   const { id: courseId } = useParams()

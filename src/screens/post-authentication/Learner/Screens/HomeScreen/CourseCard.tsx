@@ -8,7 +8,8 @@ import {
   Input,
   Rate,
   Badge,
-  Row
+  Row,
+  Space
 } from 'antd'
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 
@@ -16,6 +17,8 @@ import { Typography } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import { BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Course, Plan } from '@Types/Courses.types'
+import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
+import styled from '@emotion/styled'
 
 const { Text } = Typography
 
@@ -23,17 +26,24 @@ interface CourseCardPropsI {
   course: Course;
 }
 
+const CustomCard = styled(Card)`
+cursor: pointer;
+
+`
+
 function CourseCard(props: CourseCardPropsI) {
   const navigate = useNavigate();
-  const plan = props.course.plan as unknown as Plan;
+  const plan = props.course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
+  const discount = 100-(plan.finalPrice.value / plan.listPrice.value) * 100;
+
   return (
     <Badge.Ribbon text="Best Seller" color="orange">
-      <Card
+      <CustomCard
         onClick={() =>
           navigate(
             `/learner/learner/dashboard/courses/${props.course._id}/details`
           )
-        }
+        } bodyStyle={{padding: 15}}
         cover={
           <img
             alt="example"
@@ -46,59 +56,36 @@ function CourseCard(props: CourseCardPropsI) {
       >
         <Meta
           // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-          title={<Text>Fashion Photography From Professional</Text>}
+          title={<Space size='small' direction="vertical"  >
+            <Text style={{ fontSize: 14 }} type='secondary'>Fashion Photography From Professional</Text>
+            <Text strong ellipsis>{props.course.title}</Text>
+          </Space>}
           description={
-            <Row justify="space-between" align="middle">
-              <Col>
-                <Rate style={{ fontSize: 12 }} value={4} />
-              </Col>{' '}
-              <Col>4.87(3.8K+ Reviews)</Col>
-            </Row>
+            <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
+              <Rate style={{ fontSize: 12 }} value={4} /> <Text>4.87 (3.8k+ reviews)</Text>
+            </Space>
           }
         />
-        <Row style={{ marginTop: 5 }} justify="space-between">
-          <Col span={12}>
-            <Row>
-              {' '}
-              <Col span={24}>
-                <Text type="secondary">
-                  <BookOutlined /> 5 lessons
-                </Text>
-              </Col>
-              <Col span={24}>
-                <Text type="secondary">
+        <Space direction='horizontal' style={{display:'flex',justifyContent: 'space-between'}}>
+          <Space direction='horizontal'>
+          <Text type="secondary">
+                  <BookOutlined /> {props.course.sections.length} Lessons
+            </Text>
+            <Text type="secondary">
                   <ClockCircleOutlined /> 8h 12m
                 </Text>
-              </Col>
-            </Row>
-          </Col>
-          <Col span={12}>
-          <Row>
-                  <Col span={24}>
-                    {' '}
-                    <Text
-                      type="secondary"
-                      style={{
-                        fontSize: 20,
-                        textAlign: 'right',
-                        textDecoration: 'line-through'
-                      }}
-                    >
-                      $ {plan.listPrice.value}
-                    </Text>
-                  </Col>
-                </Row>
-            <Row>
-              <Col span={24}>
-                {' '}
-                <Text strong style={{ fontSize: 30, textAlign: 'right' }}>
-                $ {plan.finalPrice.value}
-                </Text>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </Card>
+          </Space>
+          <Space>
+            <Space direction='vertical' align='end' size={0}>
+              <Text style={{textAlign:'right',textDecoration:'line-through'}} type='secondary'>${plan.listPrice.value}</Text>
+              <Text strong style={{fontSize: 20}}>
+              ${plan.finalPrice.value}
+              </Text>
+            </Space>
+          </Space>
+        </Space>
+
+      </CustomCard>
     </Badge.Ribbon>
   )
 }

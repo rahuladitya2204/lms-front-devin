@@ -4,7 +4,7 @@ import {  Plan } from '@Types/Courses.types'
 import ActionModal from '@Components/ActionModal'
 import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/queries'
 import { Option } from 'antd/lib/mentions'
-import { INITIAL_COURSE_PLAN_DETAILS } from 'constant'
+import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
 
 interface CreateCoursePlanPropsI {
   children?: React.ReactNode;

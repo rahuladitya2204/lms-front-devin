@@ -8,7 +8,7 @@ import { LoginData, SignupData } from "@Types/Common.types"
 import { Course, CourseQuestion, CourseQuestionAnswer } from "@Types/Courses.types"
 import {  Learner } from "@Types/Learner.types"
 import { saveItemToStorage } from "@Utils/storage"
-import { INITIAL_COURSE_DETAILS, INITIAL_LEARNER_DETAILS } from "constant"
+import { INITIAL_COURSE_DETAILS, INITIAL_LEARNER_DETAILS } from "constant.ts"
 
 
 

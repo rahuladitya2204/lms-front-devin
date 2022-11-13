@@ -9,7 +9,7 @@ import { Course, Plan, UpdateCoursePayload } from '@Types/Courses.types'
 import { CreateInstructorPayload, Instructor } from '@Types/Instructor.types'
 import { CreateLearnerPayload, Learner } from '@Types/Learner.types'
 import { saveItemToStorage } from '@Utils/storage'
-import { INITIAL_COURSE_DETAILS, INITIAL_LEARNER_DETAILS } from 'constant'
+import { INITIAL_COURSE_DETAILS, INITIAL_LEARNER_DETAILS } from 'constant.ts'
 
 export const useLoginUser = () => {
   const navigate = useNavigate()

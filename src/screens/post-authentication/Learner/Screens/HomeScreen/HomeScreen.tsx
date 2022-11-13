@@ -21,8 +21,7 @@ function LearnerHomeScreen () {
 
   return (
     <Row gutter={[40, 40]}>
-      <Col span={3} />
-      <Col span={18}>
+      <Col span={24}>
         {courses.map(course => {
           return (
             <Col span={8}>
@@ -31,7 +30,6 @@ function LearnerHomeScreen () {
           )
         })}
       </Col>
-      <Col span={3} />
     </Row>
   )
 }

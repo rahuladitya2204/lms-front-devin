@@ -26,7 +26,7 @@ import {
 import { useEffect, useState } from 'react'
 import { Instructor } from '@Types/Instructor.types'
 import { Plan } from '@Types/Courses.types'
-import { INITIAL_COURSE_DETAILS, INITIAL_COURSE_PLAN_DETAILS } from 'constant'
+import { INITIAL_COURSE_DETAILS, INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
 
 const { Title, Text, Paragraph } = Typography
 

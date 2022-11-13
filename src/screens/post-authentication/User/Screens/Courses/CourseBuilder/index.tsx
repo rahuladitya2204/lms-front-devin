@@ -17,7 +17,7 @@ import {
   useUpdateCourse
 } from '@User/Api/queries'
 import MediaUpload from '@Components/MediaUpload'
-import { INITIAL_COURSE_DETAILS } from 'constant'
+import { INITIAL_COURSE_DETAILS } from 'constant.ts'
 
 const AddChapterButton = styled(Button)`
   margin-top: 20px;

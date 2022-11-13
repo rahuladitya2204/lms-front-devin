@@ -12,7 +12,7 @@ import { Course, CourseQuestion } from '@Types/Courses.types'
 
 import CourseQuestionsList from './CourseQuestions'
 import CourseQuestionAnswers from './CourseQuestionAnswers'
-import { INITIAL_QUESTION_DETAILS } from 'constant'
+import { INITIAL_QUESTION_DETAILS } from 'constant.ts'
 const { Text } = Typography
 
 
