@@ -2,7 +2,7 @@ import { Tabs, Typography } from 'antd'
 
 import React from 'react'
 import { SearchOutlined } from '@ant-design/icons'
-import CourseOverview from 'screens/non-authenticated/CourseDetailViewer/Layout-1/CourseDetails/CourseOverview'
+import CourseOverview from '@Learner/Screens/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
 import CourseDiscussion from './CourseDiscussion'
 import { Course } from '@Types/Courses.types'
 

@@ -6,31 +6,27 @@ import {
   Col,
   Rate,
   Row,
-  Space,
   Tag,
   Typography
 } from 'antd'
 
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
-import MediaPlayer from '@Components/MediaPlayer'
 import {
   AlertOutlined,
-  ClockCircleOutlined,
   UserOutlined
 } from '@ant-design/icons'
 import image from './bg.svg'
 import styled from '@emotion/styled'
 import { useParams } from 'react-router'
 import {
-  INITIAL_COURSE_DETAILS,
+  useEnrollForCourse,
   useGetCourseDetails
 } from '@Learner/Api/queries'
-import { useGetInstructorDetails } from '@User/Api/queries'
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { PARSE } from '@User/Screens/Courses/CourseBuilder/utils'
 import { Instructor } from '@Types/Instructor.types'
+import { Plan } from '@Types/Courses.types'
+import { INITIAL_COURSE_DETAILS, INITIAL_COURSE_PLAN_DETAILS } from 'constant'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -64,7 +60,13 @@ const CourseSubTitle = styled(Paragraph)`
 
 function CourseDetailViewer () {
   const { id: courseId } = useParams()
-  const [course, setCourse] = useState(INITIAL_COURSE_DETAILS)
+  const [course, setCourse] = useState(INITIAL_COURSE_DETAILS);
+
+  const onEnroll = () => {
+    console.log('Erolleed!!!')
+  }
+
+  const { mutate: enroll} = useEnrollForCourse(onEnroll);
   const { data } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
@@ -76,13 +78,18 @@ function CourseDetailViewer () {
     [data]
   )
 
+  const enrollForCourse = (courseId:string) => {
+    enroll(courseId);
+  }
   const instructor = course.instructor as unknown as Instructor;
-
+  const plan = course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
+  const discount = 100-(plan.finalPrice.value / plan.listPrice.value) * 100;
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
-        <Col span={3} />
-        <Col span={12}>
+        <Col span={24}>
+          <Row gutter={[30,30]}>
+          <Col span={16}>
           <Row justify="space-between" align="top" gutter={[20, 20]}>
             <Col span={24}>
               <Row gutter={[30, 30]}>
@@ -100,7 +107,7 @@ function CourseDetailViewer () {
             <Col span={24}>
               <Row justify="space-between" align="middle">
                 <Col>
-                  <Row justify="start" align="middle">
+                  <Row justify="start" align="middle" gutter={[20,20]}>
                     <Col>
                       <Avatar
                         size={64}
@@ -138,7 +145,7 @@ function CourseDetailViewer () {
             </Col>
           </Row>
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Card
             cover
             bordered
@@ -150,10 +157,13 @@ function CourseDetailViewer () {
                 <Col span={24}>
                   <Row justify="space-between" align='middle'>
                     <Col>
-                      <Title level={4}>$89.9</Title>
+                      <Row align='middle' gutter={ [5,5]}>
+                        <Col><Text strong style={{fontSize:24}}>${plan.finalPrice.value}</Text></Col>
+                        <Col><Text style={{textDecoration:'line-through'}} type='secondary'>${plan.listPrice.value}</Text></Col>
+                      </Row>
                     </Col>
                     <Col>
-                      <Tag color="purple">91% off</Tag>
+                      <Tag color="purple">{ discount}% off</Tag>
                     </Col>
                   </Row>
                 </Col>
@@ -173,7 +183,7 @@ function CourseDetailViewer () {
                       </Button>
                     </Col>
                     <Col span={24}>
-                      <Button size="large" type="ghost" block>
+                      <Button onClick={()=>enrollForCourse(course._id)} size="large" type="ghost" block>
                         Enroll Now
                       </Button>
                     </Col>{' '}
@@ -185,8 +195,8 @@ function CourseDetailViewer () {
               </Row>
             </Card>
           </Card>
+            </Col></Row>
         </Col>
-        <Col span={3} />
       </Row>
     </Container>
   )

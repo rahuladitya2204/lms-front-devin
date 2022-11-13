@@ -1,18 +1,18 @@
 import { Button, Card, Tabs } from 'antd'
 import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet, useParams } from 'react-router'
 import { Fragment, useEffect, useState } from 'react'
 
 import CourseDetailsEditor from './CourseDetailsEditor'
 import Header from '@Components/Header'
 import {
-  INITIAL_COURSE_DETAILS,
   useGetCourseDetails,
   useUpdateCourse
 } from '@User/Api/queries'
 import { Course } from '@Types/Courses.types'
 import { STRINGIFY } from '../utils'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
+import { INITIAL_COURSE_DETAILS } from 'constant'
 
 function CourseEditor() {
   const { id: courseId } = useParams()

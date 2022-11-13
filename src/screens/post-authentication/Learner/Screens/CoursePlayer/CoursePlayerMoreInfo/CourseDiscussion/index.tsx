@@ -3,34 +3,19 @@ import {
   Button,
   Card,
   Col,
-  Comment,
-  List,
   Row,
-  Tooltip,
   Typography
 } from 'antd'
 
 import React, { useState } from 'react'
 import { Course, CourseQuestion } from '@Types/Courses.types'
-import CreateQuestion from './CreateQuestion'
-import {
-  INITIAL_COURSE_DETAILS,
-  useCreateDiscussionQuestion,
-  useGetCourseQuestions
-} from '@Learner/Api/queries'
-import { UpCircleOutlined } from '@ant-design/icons'
+
 import CourseQuestionsList from './CourseQuestions'
 import CourseQuestionAnswers from './CourseQuestionAnswers'
+import { INITIAL_QUESTION_DETAILS } from 'constant'
 const { Text } = Typography
 
-const INITIAL_QUESTION_DETAILS: CourseQuestion = {
-  answers: [],
-  title: '',
-  course:'',
-  upvotes: 0,
-  description: '',
-  _id: ''
-};
+
 interface CourseDiscussionPropsI {
   course: Course;
 }

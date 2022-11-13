@@ -9,7 +9,7 @@ import { Course, Plan, UpdateCoursePayload } from '@Types/Courses.types'
 import { CreateInstructorPayload, Instructor } from '@Types/Instructor.types'
 import { CreateLearnerPayload, Learner } from '@Types/Learner.types'
 import { saveItemToStorage } from '@Utils/storage'
-import { INITIAL_LEARNER_DETAILS } from '../../Learner/Api/queries'
+import { INITIAL_COURSE_DETAILS, INITIAL_LEARNER_DETAILS } from 'constant'
 
 export const useLoginUser = () => {
   const navigate = useNavigate()
@@ -40,20 +40,6 @@ export const useRegisterUser = () => {
 
 // Course
 
-export const INITIAL_COURSE_DETAILS:Course = {
-    title: '',
-    subtitle: '',
-    description:'',
-    instructor: '',
-  sections: [],
-    plan:'',
-    thumbnailImage:'',
-    _id: '',
-    howToUse: '',
-    whatYouLearn: '',
-    requirements:''
-}
-  
 export const useGetCourses = () => {
   const { data = [], isFetching: isLoading } =
     useQuery<Course[]>([KEYS.GET_COURSES], GetCourses)

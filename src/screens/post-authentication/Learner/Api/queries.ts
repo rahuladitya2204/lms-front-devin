@@ -6,22 +6,13 @@ import { KEYS } from "@Network/keys"
 import useAuthentication from "@Store/useAuthentication"
 import { LoginData, SignupData } from "@Types/Common.types"
 import { Course, CourseQuestion, CourseQuestionAnswer } from "@Types/Courses.types"
-import { CreateLearnerPayload, Learner } from "@Types/Learner.types"
+import {  Learner } from "@Types/Learner.types"
 import { saveItemToStorage } from "@Utils/storage"
+import { INITIAL_COURSE_DETAILS, INITIAL_LEARNER_DETAILS } from "constant"
 
 
 
-export const INITIAL_LEARNER_DETAILS:Learner = {
-  email: '',
-  name: '',
-  recoveryEmail: '',
-  username: '',
-  contactNo: '',
-  isDeactivated: '',
-  status: '',
- createdAt: '',
-  _id:''
-}
+
 
 // Login - register
 
@@ -64,30 +55,7 @@ export const useGetCourses = () => {
   }
 }
 
-export const INITIAL_COURSE_DETAILS:Course = {
-  title: '',
-  subtitle: '',
-  description:'',
-  instructor: '',
-  sections: [],
-  thumbnailImage:'',
-  _id: '',
-  howToUse: '',
-  plan:'',
-  whatYouLearn: '',
-  requirements:''
-}
 
-export const INITIAL_COURSE_PLAN_DETAILS = {
-  name: '',
-  type:'one-time',
-  finalPrice: {
-    value:''
-  },
-  listPrice: {
-    value:''
-  }
-}
 
 export const useGetCourseDetails = (id:string,options={enabled:true}) => {
   const { data = INITIAL_COURSE_DETAILS , isFetching: isLoading } =
@@ -137,7 +105,7 @@ export const useCreateDiscussionQuestionAnswer = (onSuccess:()=>void) => {
   const qc = useQueryClient();
   const mutation = useMutation(({courseId,questionId,data}:{courseId:string,questionId:string,data: Partial<CourseQuestionAnswer>}): Promise<void> => {
     return createDiscussionQuestionAnswer(courseId,questionId, data).then(() => {
-      qc.invalidateQueries([KEYS.GET_COURSE_QUESTIONS]);
+      qc.invalidateQueries([KEYS.GET_COURSE_QUESTIONS,courseId]);
       message.success('Answer Posted');
     })
   }, {
@@ -149,7 +117,7 @@ export const useCreateDiscussionQuestionAnswer = (onSuccess:()=>void) => {
 
 export const useEnrollForCourse = (onSuccess:()=>void) => {
   const qc = useQueryClient();
-  const mutation = useMutation(({courseId}:{courseId:string}): Promise<void> => {
+  const mutation = useMutation((courseId:string): Promise<void> => {
     return enrollForCourse(courseId).then(() => {
       message.success('Enrolled for the course. Congratulation!');
     })
@@ -162,7 +130,7 @@ export const useEnrollForCourse = (onSuccess:()=>void) => {
 
 export const useGetCourseQuestions = (courseId:string) => {
   const { data = [], isFetching: isLoading } =
-    useQuery<CourseQuestion[]>([KEYS.GET_COURSE_QUESTIONS], ()=>GetCourseQuestions(courseId))
+    useQuery<CourseQuestion[]>([KEYS.GET_COURSE_QUESTIONS,courseId], ()=>GetCourseQuestions(courseId))
   return {
     data,
     isLoading

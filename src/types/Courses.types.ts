@@ -31,6 +31,7 @@ export interface Course {
   whatYouLearn: string;
   plan: string;
   requirements: string;
+  studentsEnrolled: number;
   questions?: CourseQuestion[];
 }
 
@@ -54,7 +55,6 @@ export interface CourseCoursePayload extends Partial<Course> {}
 
 export interface Plan {
   name: string;
-  rate: ValueUnitType;
   organisation: string;
   type: string;
   course: string;

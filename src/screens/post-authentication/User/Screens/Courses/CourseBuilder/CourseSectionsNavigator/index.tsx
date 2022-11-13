@@ -57,7 +57,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     <Card bodyStyle={{ padding: 0 }}>
       <CustomCollapse
         collapsible="header"
-        defaultActiveKey={sections.map((s, i) => i)}
+        defaultActiveKey={sections.map((s, i) => s.id)}
         expandIconPosition="end"
       >
         {sections.map((section, secIndex) => {

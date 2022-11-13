@@ -22,7 +22,15 @@ const LearnerDashboard: React.FC = () => {
           />
         </Header>
         <Content style={{ margin: '0 16px' }}>
-          <Outlet />
+          <Row style={{paddingTop:20}}>
+            <Col span={3}>
+            </Col>
+            <Col span={18}>
+              <Outlet />
+            </Col>
+            <Col span={3}>
+            </Col>
+          </Row>
         </Content>
         {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
       </Layout>

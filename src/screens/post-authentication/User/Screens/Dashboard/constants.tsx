@@ -34,7 +34,7 @@ export const MENU_ITEMS: MenuItemNode[] = [
   {
     title: 'Users',
     icon: <UsergroupDeleteOutlined />,
-    path: '',
+    path: 'users',
     children: [
       // {
       //   title: 'Learners',
@@ -48,12 +48,12 @@ export const MENU_ITEMS: MenuItemNode[] = [
       // },
       {
         title: 'Learners',
-        path: 'user/dashboard/users/learners',
+        path: 'learners',
         icon: <AppstoreOutlined />
       },
       {
         title: 'Instructors',
-        path: 'user/dashboard/users/instructors',
+        path: 'instructors',
         icon: <AppstoreOutlined />
       }
     ]

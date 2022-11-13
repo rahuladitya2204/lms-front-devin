@@ -1,10 +1,10 @@
-import { Button, Col, Form, Input, Modal, Radio, Row, Select, Tabs } from 'antd'
-import { Fragment, useEffect, useState } from 'react'
-import { Course, CourseSectionItem, Plan } from '@Types/Courses.types'
+import { Button, Col, Form, Input, Radio, Row, Select } from 'antd'
+import { Fragment, useEffect } from 'react'
+import {  Plan } from '@Types/Courses.types'
 import ActionModal from '@Components/ActionModal'
 import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/queries'
 import { Option } from 'antd/lib/mentions'
-import { INITIAL_COURSE_PLAN_DETAILS } from '@Learner/Api/queries'
+import { INITIAL_COURSE_PLAN_DETAILS } from 'constant'
 
 interface CreateCoursePlanPropsI {
   children?: React.ReactNode;
