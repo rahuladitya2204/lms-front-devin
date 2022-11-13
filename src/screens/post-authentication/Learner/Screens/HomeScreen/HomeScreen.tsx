@@ -24,7 +24,7 @@ function LearnerHomeScreen () {
       <Col span={24}>
         {courses.map(course => {
           return (
-            <Col span={8}>
+            <Col span={7}>
               <CourseCard course={course} />
             </Col>
           )

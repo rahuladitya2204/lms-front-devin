@@ -46,12 +46,13 @@ function CourseCard(props: CourseCardPropsI) {
         } bodyStyle={{padding: 15}}
         cover={
           <img
-            alt="example"
+            alt="example" style={{height: 140}}
             src={
-              props.course.thumbnailImage ||
-              'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+              // props.course.thumbnailImage ||
+              // 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
+              `https://img-b.udemycdn.com/course/240x135/2195176_979e_3.jpg`
             }
-          />
+          /> 
         }
       >
         <Meta
@@ -72,10 +73,10 @@ function CourseCard(props: CourseCardPropsI) {
               <Rate disabled style={{ fontSize: 12 }} value={4} /> <Text>4.87 </Text>
             </Space>
             <Space direction='horizontal'>
-            <Text type="secondary">
+            <Text style={{fontSize: 13}} type="secondary">
                   <BookOutlined /> {props.course.sections.length} Lessons
             </Text>
-            <Text type="secondary">
+            <Text style={{fontSize: 13}} type="secondary">
                   <ClockCircleOutlined /> 8h 12m
                 </Text>
         </Space>
