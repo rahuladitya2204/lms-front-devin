@@ -1,15 +1,13 @@
 import { Col, Input, Row, Select, Typography } from 'antd'
 import { useParams } from 'react-router-dom'
 
-import { Fragment, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import { saveItemToStorage } from '@Utils/storage'
 
-import {
-  useGetCoursesOfOrganisation,
-  useGetInstructors
-} from '@Learner/Api/queries'
 import CourseCard from './CourseCard'
+import { useGetInstructors } from '@Learner/Api/Instructor/queries'
+import { useGetCoursesOfOrganisation } from '@Learner/Api/Course/queries'
 
 const { Text } = Typography
 const { Search } = Input

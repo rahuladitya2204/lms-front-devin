@@ -13,7 +13,6 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerCollapsible'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { useEffect } from 'react'
-import { useGetCourseDetails } from '@Learner/Api/queries'
 import Header from '@Components/Header'
 import {
   ArrowLeftOutlined,
@@ -22,6 +21,7 @@ import {
 } from '@ant-design/icons'
 import styled from '@emotion/styled'
 import { Link } from 'react-router-dom'
+import { useGetCourseDetails } from '@Learner/Api/Course/queries'
 
 const ControlButton = styled(Button)`
   position: absolute;

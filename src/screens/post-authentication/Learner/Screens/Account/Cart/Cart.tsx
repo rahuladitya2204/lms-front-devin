@@ -28,7 +28,9 @@ export default function LearnerCart () {
         </Col>
         <Col span={6}>
           <Title level={2}>Total: 6,998</Title>
-          <Button type='primary' size="large">Checkout</Button>
+          <Button type="primary" size="large">
+            Checkout
+          </Button>
         </Col>
       </Row>
     </Card>

@@ -1,5 +1,5 @@
 import QuillEditor from '@Components/QuillEditor'
-import { useCreateDiscussionQuestion } from '@Learner/Api/queries'
+import { useCreateDiscussionQuestion } from '@Learner/Api/Course/queries';
 import { Course, CourseQuestion } from '@Types/Courses.types'
 import { Button, Col, Form, Input, Row } from 'antd'
 

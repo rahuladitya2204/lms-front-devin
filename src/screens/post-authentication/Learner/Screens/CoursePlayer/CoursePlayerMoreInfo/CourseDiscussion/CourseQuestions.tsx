@@ -15,11 +15,10 @@ import { Course, CourseQuestion } from '@Types/Courses.types'
 import {
   ArrowUpOutlined,
   CommentOutlined,
-  UpCircleOutlined
+
 } from '@ant-design/icons'
-import { useGetCourseQuestions } from '@Learner/Api/queries'
-import CourseQuestionAnswers from './CourseQuestionAnswers'
 import CreateQuestion from './CreateQuestion'
+import { useGetCourseQuestions } from '@Learner/Api/Course/queries'
 
 const { Text } = Typography
 

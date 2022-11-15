@@ -3,25 +3,21 @@ import {
   Card,
   Col,
   Button,
-  Menu,
   Result,
   Row,
-  Tabs,
   Image,
   Typography,
-  Progress,
   Space
 } from 'antd'
 
-import { useGetCourseDetails, useGetCourses } from '@Learner/Api/queries'
 import { useNavigate, useParams } from 'react-router'
 import { Instructor } from '@Types/Instructor.types'
 import { Link } from 'react-router-dom'
+import { useGetCourseDetails } from '@Learner/Api/Course/queries'
 const { Title, Text } = Typography
 
 const EnrolledCourseSuccessful: React.FC = () => {
   const { id: courseId } = useParams()
-  const navigate = useNavigate()
   const { data: course } = useGetCourseDetails(courseId || '')
   console.log(course, 'coursecourse')
   const instructor = course.instructor as unknown as Instructor;

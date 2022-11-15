@@ -1,8 +1,6 @@
 import QuillEditor from '@Components/QuillEditor'
-import {
-  useCreateDiscussionQuestion,
-  useCreateDiscussionQuestionAnswer
-} from '@Learner/Api/queries'
+import { useCreateDiscussionQuestionAnswer } from '@Learner/Api/Course/queries';
+
 import { Course, CourseQuestion, CourseQuestionAnswer } from '@Types/Courses.types'
 import { Button, Col, Form, Input, Row } from 'antd'
 
@@ -23,6 +21,7 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
     mutate: createDiscussionQuestionAnswer,
     isLoading: loading
   } = useCreateDiscussionQuestionAnswer(onSuccess)
+
   const createAnswer = (q: Partial<CourseQuestionAnswer>) => {
     console.log(q)
     createDiscussionQuestionAnswer({

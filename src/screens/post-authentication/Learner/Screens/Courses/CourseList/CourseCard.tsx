@@ -1,8 +1,4 @@
-import { Avatar, Card, Progress, Typography } from 'antd'
-import React, { useState } from 'react'
-
-import { useGetCourses } from '@Learner/Api/queries'
-
+import { Card, Progress, Typography } from 'antd'
 import Meta from 'antd/lib/card/Meta'
 import { Course } from '@Types/Courses.types'
 import styled from '@emotion/styled'
@@ -20,9 +16,11 @@ const CardHolder = styled(Card)`
 
 const CourseCard: React.FC<CourseCardPropsI> = props => {
   return (
-    <CardHolder  hoverable
+    <CardHolder
+      hoverable
       onClick={props.onClick}
-      bodyStyle={{ padding: 10 }} style={{width: 200}}
+      bodyStyle={{ padding: 10 }}
+      style={{ width: 200 }}
       cover={<img alt="example" src={props.course.thumbnailImage} />}
     >
       <Meta
