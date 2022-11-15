@@ -11,8 +11,8 @@ import {
 
     import { Course, Plan } from '@Types/Courses.types';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import { useGetCoursePlans } from '@User/Api/queries';
 import CreateCoursePlan from './CreateCoursePlan';
+import { useGetCoursePlans } from '@User/Api/Course/queries';
     
     
     interface CoursePricingEditorPropsI {

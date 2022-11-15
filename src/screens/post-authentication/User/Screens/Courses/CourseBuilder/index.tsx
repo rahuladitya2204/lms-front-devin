@@ -12,12 +12,10 @@ import Header from '../../Header/Header'
 
 import { cloneDeep } from 'lodash'
 import { Course, CourseSection, CourseSectionItem } from '@Types/Courses.types'
-import {
-  useGetCourseDetails,
-  useUpdateCourse
-} from '@User/Api/queries'
+
 import MediaUpload from '@Components/MediaUpload'
 import { INITIAL_COURSE_DETAILS } from 'constant.ts'
+import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
 
 const AddChapterButton = styled(Button)`
   margin-top: 20px;

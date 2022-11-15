@@ -5,7 +5,7 @@ import AddLearner from './AddLearners'
 import { Fragment } from 'react'
 import Header from '../../Header/Header'
 import { Learner } from '@Types/Learner.types'
-import { useGetLearners } from '@User/Api/queries'
+import { useGetLearners } from '@User/Api/Learner/queries'
 
 function LearnersScreen() {
   const { data, isLoading: loading } = useGetLearners()

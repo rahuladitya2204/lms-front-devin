@@ -8,7 +8,7 @@ import { Fragment, useEffect } from 'react'
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Course } from '@Types/Courses.types';
-import { useGetInstructors } from '@User/Api/queries';
+import { useGetInstructors } from '@User/Api/Instructor/queries';
 
 
 interface CourseDetailsEditorPropsI {

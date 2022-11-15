@@ -1,9 +1,9 @@
-import { Button, Form, Input, Modal, Radio } from 'antd'
+import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment, ReactNode, useState } from 'react'
 
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { useCreateCourse } from '@User/Api/queries';
 import { Course } from '@Types/Courses.types';
+import { useCreateCourse } from '@User/Api/Course/queries';
 
 interface CreateCourseComponentPropsI {
   children?: ReactNode;

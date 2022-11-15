@@ -5,14 +5,12 @@ import { Fragment, useEffect, useState } from 'react'
 
 import CourseDetailsEditor from './CourseDetailsEditor'
 import Header from '@Components/Header'
-import {
-  useGetCourseDetails,
-  useUpdateCourse
-} from '@User/Api/queries'
+
 import { Course } from '@Types/Courses.types'
 import { STRINGIFY } from '../utils'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import { INITIAL_COURSE_DETAILS } from 'constant.ts'
+import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
 
 function CourseEditor() {
   const { id: courseId } = useParams()

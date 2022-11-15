@@ -1,20 +1,17 @@
 import { Button, Card, Tabs } from 'antd'
 import { UploadOutlined } from '@ant-design/icons'
 
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet, useParams } from 'react-router'
 import { Fragment, useEffect, useState } from 'react'
 
 import { Instructor } from '@Types/Instructor.types'
 import InstructorDetailsEditor from './InstructorDetailsEditor'
-import {
-  INITIAL_INSTRUCTOR_DETAILS,
-  useGetInstructorDetails,
-  useUpdateInstructor
-} from '@User/Api/queries'
+import { INITIAL_INSTRUCTOR_DETAILS } from 'constant.ts'
+import { useGetInstructorDetails, useUpdateInstructor } from '@User/Api/Instructor/queries'
+
 
 function InstructorEditor() {
   const { id: instructorId } = useParams()
-  const navigate = useNavigate()
   const [instructor, setInstructor] = useState(INITIAL_INSTRUCTOR_DETAILS)
   const { mutate: updateInstructor, isLoading: loading } = useUpdateInstructor()
   const { data } = useGetInstructorDetails(instructorId + '', {

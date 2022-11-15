@@ -5,12 +5,11 @@ import { Fragment, useEffect, useState } from 'react'
 
 import { Learner } from '@Types/Learner.types'
 import LearnerDetailsEditor from './LearnersDetailsEditor'
-import { useGetLearnerDetails, useUpdateLearner } from '@User/Api/queries'
 import { INITIAL_LEARNER_DETAILS } from 'constant.ts'
+import { useGetLearnerDetails, useUpdateLearner } from '@User/Api/Learner/queries'
 
 function LearnerEditor() {
   const { id: instructorId } = useParams()
-  const navigate = useNavigate()
   const [instructor, setLearner] = useState(INITIAL_LEARNER_DETAILS)
   const { mutate: updateLearner, isLoading: loading } = useUpdateLearner()
   const { data } = useGetLearnerDetails(instructorId + '', {

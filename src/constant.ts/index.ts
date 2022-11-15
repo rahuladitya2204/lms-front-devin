@@ -1,4 +1,5 @@
 import { Course, CourseQuestion, Plan } from '@Types/Courses.types'
+import { Instructor } from '@Types/Instructor.types'
 import { Learner } from '@Types/Learner.types'
 
 export const INITIAL_COURSE_DETAILS: Course = {
@@ -53,4 +54,21 @@ export const INITIAL_QUESTION_DETAILS: CourseQuestion = {
   upvotes: 0,
   description: '',
   _id: ''
+}
+
+
+
+
+export const INITIAL_INSTRUCTOR_DETAILS:Instructor = {
+  name: '',
+  aboutMe: '',
+  email: '',
+  designation: '',
+  image:'',
+  createdAt: '',
+  updatedAt: '',
+  _id: '',
+  courses:0,
+  organisation:''
+  
 }
