@@ -60,6 +60,8 @@ export interface Plan {
   organisation: string;
   type: string;
   course: string;
+  discount?: number;
+  price?: string;
   createdAt: string;
   listPrice: ValueUnitType;
   finalPrice: ValueUnitType;

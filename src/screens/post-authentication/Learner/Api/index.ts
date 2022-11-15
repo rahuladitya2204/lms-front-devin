@@ -20,14 +20,12 @@ export const ValidateLearner = () => {
 
 // Get, Update Learner Details
 
-export const GetLearnerDetails = (id: string) => {
-  return Axios.get(API_ENDPOINTS.learner.self + '/' + id).then(r => r.data)
+export const GetLearnerDetails = () => {
+  return Axios.get(API_ENDPOINTS.learner.self).then(r => r.data)
 }
 
-export const UpdateLearner = (id: string, data: Partial<Learner>) => {
-  return Axios.put(API_ENDPOINTS.learner.self + '/' + id, data).then(
-    r => r.data
-  )
+export const UpdateLearner = (data: Partial<Learner>) => {
+  return Axios.put(API_ENDPOINTS.learner.self, data).then(r => r.data)
 }
 
 // Get Courses, Get Detail of courses
@@ -76,4 +74,8 @@ export const enrollForCourse = (courseId: string) => {
   return Axios.post(
     `${API_ENDPOINTS.learner.self}/organisation/course/${courseId}/enroll`
   ).then(r => r.data)
+}
+
+export const getInstructors = () => {
+  return Axios.get(`${API_ENDPOINTS.learner.self}/instructor`).then(r => r.data)
 }

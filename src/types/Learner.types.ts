@@ -5,6 +5,7 @@ export interface Learner {
   username: string;
   contactNo: string;
   isDeactivated: string;
+  cartItems: string[];
   status: string;
   _id: string;
   createdAt?: '';

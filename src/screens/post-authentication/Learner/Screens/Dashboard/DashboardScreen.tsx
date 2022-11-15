@@ -1,37 +1,98 @@
+// @ts-nocheck
 import { HEADER_ITEMS, MenuItems } from './constants'
-import { Col, Layout, Menu, Row } from 'antd'
+import {
+  Badge,
+  Button,
+  Col,
+  Dropdown,
+  Layout,
+  Menu,
+  Row,
+  Space,
+  Typography
+} from 'antd'
 import { Outlet, useNavigate } from 'react-router'
-import React, { useState } from 'react'
+import React, { useEffect } from 'react'
 
-import styled from '@emotion/styled'
+import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
+import Header from './Header/Header'
+import useCart from '@Store/useCart'
+import { useGetLearnerDetails } from '@Learner/Api/queries'
 
-const { Header, Content, Sider } = Layout
+const { Content } = Layout
+const { Text } = Typography
 
 const LearnerDashboard: React.FC = () => {
-  const [collapsed, setCollapsed] = useState(false)
+  const { cartItems, setCartItems } = useCart(state => state)
+  const { data: learner } = useGetLearnerDetails()
+  useEffect(
+    () => {
+      setCartItems(learner.cartItems || [])
+    },
+    [learner]
+  )
   const navigate = useNavigate()
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
-          <Menu
-            mode="horizontal"
-            direction="rtl"
-            defaultSelectedKeys={['2']}
-            items={MenuItems(HEADER_ITEMS)}
-          />
+        <Header
+          avatar={{
+            src: 'https://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
+          }}
+          title={'SKOLA'}
+          extra={[
+            <Link to={`store`} style={{ margin: '0 10px' }}>
+              <Text strong>Store</Text>
+            </Link>,
+            <Link to={`courses`} style={{ margin: '0 10px' }}>
+              <Text strong>Courses</Text>
+            </Link>,
+
+            <Space>
+              <Dropdown
+                placement="bottomLeft"
+                overlay={
+                  <Menu>
+                    <Menu.Item
+                      onClick={() => {
+                        navigate('account')
+                      }}
+                    >
+                      My Account
+                    </Menu.Item>
+                    <Menu.Item>item 2</Menu.Item>
+                  </Menu>
+                }
+              >
+                <Button shape="circle" icon={<UserOutlined />} />
+              </Dropdown>
+              <Badge count={cartItems.length} showZero={false}>
+                <Button
+                  onClick={() => {
+                    navigate('cart')
+                  }}
+                  type="primary"
+                  shape="circle"
+                  icon={<ShoppingCartOutlined />}
+                />
+              </Badge>
+            </Space>
+          ]}
+          className="site-layout-background"
+          style={{ padding: 0 }}
+        >
+          <Content style={{ margin: '0 16px' }}>
+            <Row style={{ paddingTop: 20 }}>
+              <Col span={3} />
+              <Col span={18}>
+                <Outlet />
+              </Col>
+              <Col span={3} />
+            </Row>
+          </Content>
         </Header>
-        <Content style={{ margin: '0 16px' }}>
-          <Row style={{paddingTop:20}}>
-            <Col span={3}>
-            </Col>
-            <Col span={18}>
-              <Outlet />
-            </Col>
-            <Col span={3}>
-            </Col>
-          </Row>
-        </Content>
+
         {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
       </Layout>
     </Layout>

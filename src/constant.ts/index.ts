@@ -23,6 +23,7 @@ export const INITIAL_LEARNER_DETAILS: Learner = {
   username: '',
   contactNo: '',
   isDeactivated: '',
+  cartItems:[],
   status: '',
   createdAt: '',
   _id: ''

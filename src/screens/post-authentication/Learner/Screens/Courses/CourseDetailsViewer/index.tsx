@@ -21,12 +21,15 @@ import styled from '@emotion/styled'
 import { useNavigate, useParams } from 'react-router'
 import {
   useEnrollForCourse,
-  useGetCourseDetails
+  useGetCourseDetails,
+  useGetLearnerDetails
 } from '@Learner/Api/queries'
 import { useEffect, useState } from 'react'
 import { Instructor } from '@Types/Instructor.types'
-import { Plan } from '@Types/Courses.types'
+import { Course, Plan } from '@Types/Courses.types'
 import { INITIAL_COURSE_DETAILS, INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
+import useCart from '@Store/useCart'
+import { useUpdateLearner } from '@Learner/Api/queries'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -61,11 +64,22 @@ const CourseSubTitle = styled(Paragraph)`
 function CourseDetailViewer () {
   const { id: courseId } = useParams();
   const [course, setCourse] = useState(INITIAL_COURSE_DETAILS);
-
   const { mutate: enroll} = useEnrollForCourse();
   const { data } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
-  })
+  });
+  const {mutate:updateDetails } = useUpdateLearner();
+  const { data: {
+    cartItems
+  } } = useGetLearnerDetails();
+
+  const addItemToCart = (course:Course) => {
+    updateDetails({
+      data: {
+        cartItems: [...cartItems, course._id]
+      }
+    })
+  }
 
   useEffect(
     () => {
@@ -79,7 +93,7 @@ function CourseDetailViewer () {
   }
   const instructor = course.instructor as unknown as Instructor;
   const plan = course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
-  const discount = 100-(plan.finalPrice.value / plan.listPrice.value) * 100;
+  const isAddedToCart = cartItems?.find(item => item == course._id);
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
@@ -159,7 +173,7 @@ function CourseDetailViewer () {
                       </Row>
                     </Col>
                     <Col>
-                      <Tag color="purple">{ discount}% off</Tag>
+                      <Tag color="purple">{ plan.discount}% off</Tag>
                     </Col>
                   </Row>
                 </Col>
@@ -174,8 +188,8 @@ function CourseDetailViewer () {
                 <Col span={24}>
                   <Row gutter={[15, 15]}>
                     <Col span={24}>
-                      <Button size="large" type="primary" block>
-                        Buy Now
+                      <Button disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
+                        {isAddedToCart?`Added to cart`:`Add To Cart`}
                       </Button>
                     </Col>
                     <Col span={24}>

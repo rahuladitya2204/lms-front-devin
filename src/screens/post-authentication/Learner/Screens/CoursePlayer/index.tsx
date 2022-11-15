@@ -21,6 +21,7 @@ import {
   CaretRightOutlined
 } from '@ant-design/icons'
 import styled from '@emotion/styled'
+import { Link } from 'react-router-dom'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -73,9 +74,9 @@ function CoursePlayer() {
     }
   })
 
-  const nextItem = allItems[currentItemIndex + 1];
-  const prevItem = allItems[currentItemIndex - 1];
-  
+  const nextItem = allItems[currentItemIndex + 1]
+  const prevItem = allItems[currentItemIndex - 1]
+
   const next = () => {
     navigate(`section/${nextItem.section}/item/${nextItem.id}`)
   }
@@ -87,7 +88,9 @@ function CoursePlayer() {
     <Header
       title={
         <Space style={{ cursor: 'pointer' }}>
-          <ArrowLeftOutlined />{' '}
+          <Link to={`../dashboard/courses`}>
+            <ArrowLeftOutlined />
+          </Link>
           <Image
             style={{ cursor: 'pointer' }}
             width={40}

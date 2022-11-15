@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { message } from "antd"
 import { useNavigate } from "react-router"
-import { createDiscussionQuestion, createDiscussionQuestionAnswer, enrollForCourse, GetCourseQuestions, getCoursesOfOrganisation, GetLearnerCourseDetails, GetLearnerCourses, GetLearnerDetails, LoginLearner, RegisterLearner, UpdateLearner } from "."
+import { createDiscussionQuestion, createDiscussionQuestionAnswer, enrollForCourse, GetCourseQuestions, getCoursesOfOrganisation, getInstructors, GetLearnerCourseDetails, GetLearnerCourses, GetLearnerDetails, LoginLearner, RegisterLearner, UpdateLearner } from "."
 import { KEYS } from "@Network/keys"
 import useAuthentication from "@Store/useAuthentication"
 import { LoginData, SignupData } from "@Types/Common.types"
@@ -9,6 +9,7 @@ import { Course, CourseQuestion, CourseQuestionAnswer } from "@Types/Courses.typ
 import {  Learner } from "@Types/Learner.types"
 import { saveItemToStorage } from "@Utils/storage"
 import { INITIAL_COURSE_DETAILS, INITIAL_LEARNER_DETAILS } from "constant.ts"
+import { Instructor } from "@Types/Instructor.types"
 
 
 
@@ -66,9 +67,9 @@ export const useGetCourseDetails = (id:string,options={enabled:true}) => {
   }
 }
 
-export const useGetLearnerDetails = (id:string,options={enabled:true}) => {
+export const useGetLearnerDetails = (options={enabled:true}) => {
   const { data = INITIAL_LEARNER_DETAILS , isFetching: isLoading } =
-    useQuery<Learner>([KEYS.GET_LEARNER_DETAILS, id], () => GetLearnerDetails(id), options)
+    useQuery<Learner>([KEYS.GET_LEARNER_DETAILS], () => GetLearnerDetails(), options)
   return {
     data,
     isLoading
@@ -77,9 +78,9 @@ export const useGetLearnerDetails = (id:string,options={enabled:true}) => {
 
 export const useUpdateLearner = () => {
   const qc = useQueryClient();
-  const mutation = useMutation(({id,data}:{id:string,data: Partial<Learner>}): Promise<void> => {
-    return UpdateLearner(id, data).then(() => {
-      qc.invalidateQueries([KEYS.GET_LEARNERS]);
+  const mutation = useMutation(({data}:{data: Partial<Learner>}): Promise<void> => {
+    return UpdateLearner(data).then(() => {
+      qc.invalidateQueries([KEYS.GET_LEARNER_DETAILS]);
       message.success('Learner Details Updated');
     })
   });
@@ -147,5 +148,20 @@ export const useGetCoursesOfOrganisation = () => {
   return {
     data,
     isLoading
+  }
+}
+
+export const useGetInstructors = () => {
+  const { data = [], isFetching: isLoading } =
+    useQuery<Instructor[]>([KEYS.GET_INSTRUCTORS], getInstructors)
+  return {
+    data,
+    isLoading,
+    listItems: data.map(i => {
+      return {
+        value: i._id,
+        label:i.name
+      }
+    })
   }
 }

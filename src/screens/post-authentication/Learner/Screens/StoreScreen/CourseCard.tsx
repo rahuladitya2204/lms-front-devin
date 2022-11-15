@@ -19,6 +19,7 @@ import { BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Course, Plan } from '@Types/Courses.types'
 import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
 import styled from '@emotion/styled'
+import { Instructor } from '@Types/Instructor.types'
 
 const { Text } = Typography
 
@@ -35,10 +36,10 @@ function CourseCard(props: CourseCardPropsI) {
   const navigate = useNavigate();
   const plan = props.course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
   const discount = 100-(plan.finalPrice.value / plan.listPrice.value) * 100;
-
+  const instructor = props.course.instructor as unknown as Instructor;
   return (
     <Badge.Ribbon text="Best Seller" color="orange">
-      <CustomCard
+      <CustomCard hoverable
         onClick={() =>
           navigate(
             `/learner/learner/dashboard/courses/${props.course._id}`
@@ -48,8 +49,6 @@ function CourseCard(props: CourseCardPropsI) {
           <img
             alt="example" style={{height: 140}}
             src={
-              // props.course.thumbnailImage ||
-              // 'https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png'
               `https://img-b.udemycdn.com/course/240x135/2195176_979e_3.jpg`
             }
           /> 
@@ -58,7 +57,9 @@ function CourseCard(props: CourseCardPropsI) {
         <Meta
           // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
           title={<Space size='small' direction="vertical"  >
-            <Text style={{ fontSize: 14 }} type='secondary'>Fashion Photography From Professional</Text>
+            <Text style={{ fontSize: 14 }} type='secondary'>
+              By {instructor.name}
+            </Text>
             <Text strong ellipsis>{props.course.title}</Text>
           </Space>}
           // description={

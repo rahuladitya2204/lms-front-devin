@@ -32,9 +32,10 @@ import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserDashboard from './post-authentication/User/Screens/Dashboard/DashboardScreen'
 import LearnerRegister from './post-authentication/Learner/Screens/Register'
 import LearnerLogin from './post-authentication/Learner/Screens/Login'
-import CourseDetails from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer/CourseDetails'
-import LearnerHomeScreen from '@Learner/Screens/HomeScreen/HomeScreen'
 import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
+import LearnerAccount from '@Learner/Screens/Account/Account'
+import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
+import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -74,7 +75,9 @@ const router = createBrowserRouter(
 
       <Route path="learner/:orgId">
         <Route path="dashboard" element={<LearnerDashboard />}>
-          <Route path="home" element={<LearnerHomeScreen />} />
+          <Route path="cart" element={<LearnerCart />} />
+          <Route path="store" element={<LearnerStoreScreen />} />
+          <Route path="account" element={<LearnerAccount />} />
           <Route path="courses">
             <Route path="" element={<LearnerCourses />} />
             <Route path=":id" element={<CourseDetailViewer />} />

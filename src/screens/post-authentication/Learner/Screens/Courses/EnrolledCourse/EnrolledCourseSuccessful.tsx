@@ -9,12 +9,14 @@ import {
   Tabs,
   Image,
   Typography,
-  Progress
+  Progress,
+  Space
 } from 'antd'
 
 import { useGetCourseDetails, useGetCourses } from '@Learner/Api/queries'
 import { useNavigate, useParams } from 'react-router'
 import { Instructor } from '@Types/Instructor.types'
+import { Link } from 'react-router-dom'
 const { Title, Text } = Typography
 
 const EnrolledCourseSuccessful: React.FC = () => {
@@ -30,36 +32,24 @@ const EnrolledCourseSuccessful: React.FC = () => {
           <Result
             status="success"
             title="You have successfully enrolled for the course!"
-            // subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
-            // extra={[
-            //   <Button type="primary" key="console">
-            //     Go Console
-            //   </Button>,
-            //   <Button key="buy">Buy Again</Button>
-            // ]}
           >
-            <Row gutter={[20,20]} align='stretch'>
+            <Row gutter={[20,20]} align='middle' justify='center'>
               <Col span={8}>
-                <Image src={course.thumbnailImage} />
+                <Image preview={false} src={course.thumbnailImage} />
               </Col>
               <Col span={16}>
-                <Row justify='space-between' align='stretch'>
-                  <Col span={24}>
-                    <Title level={3}>{course.title}</Title>
-                  </Col>
-                  <Col span={24}>
-                    <Text >By { instructor.name}</Text>
-                  </Col>
-                  <Col span={24}>
-                    <Text>Your Progress</Text>
-                  <Progress percent={0} status="active" />
-</Col>
-                  <Col span={24}>
-                    <Button type='primary' onClick={() => {
-                      // navigate('../player')
-                   }}>Start Course</Button>
-                  </Col>
-                </Row>
+                <Space direction='vertical'>
+                  <Space direction='vertical' style={{display:'flex',justifyContent:'space-around'}}>
+                  <Title style={{margin: 0}} level={3}>{course.title}</Title>
+                <Text >By { instructor.name}</Text>
+                  </Space>
+                  <Link to={`../${courseId}/player`}>
+                  <Button type='primary' onClick={() => {
+                    // navigate('./player', { replace: true });
+                    }}>Start Course</Button>
+                    </Link>
+                </Space>
+
               </Col>
             </Row>
           </Result>

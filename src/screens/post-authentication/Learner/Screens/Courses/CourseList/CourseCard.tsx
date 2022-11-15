@@ -20,7 +20,7 @@ const CardHolder = styled(Card)`
 
 const CourseCard: React.FC<CourseCardPropsI> = props => {
   return (
-    <CardHolder 
+    <CardHolder  hoverable
       onClick={props.onClick}
       bodyStyle={{ padding: 10 }} style={{width: 200}}
       cover={<img alt="example" src={props.course.thumbnailImage} />}
