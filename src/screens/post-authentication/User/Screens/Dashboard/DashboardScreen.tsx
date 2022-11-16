@@ -33,7 +33,7 @@ const UserDashboard: React.FC = () => {
           <Logo src={LogoImage} />
         </LogoHolder>
         <Menu
-          onClick={e => navigate(e.keyPath.join(''))}
+          onClick={e => navigate(e.key)}
           theme="light"
           defaultSelectedKeys={['1']}
           mode="inline"

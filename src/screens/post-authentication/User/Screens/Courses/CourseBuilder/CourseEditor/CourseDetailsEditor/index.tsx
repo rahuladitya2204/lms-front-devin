@@ -10,6 +10,16 @@ import QuillEditor from '@Components/QuillEditor';
 import { Course } from '@Types/Courses.types';
 import { useGetInstructors } from '@User/Api/Instructor/queries';
 
+const LANGUAGES = [
+  {
+    value: 'english',
+    label:'English',
+  },
+  {
+    value: 'hindi',
+    label:'Hindi',
+  }
+]
 
 interface CourseDetailsEditorPropsI {
   formData: Partial<Course>;
@@ -31,7 +41,7 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
     <Fragment>
        <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
 <Form.Item name="thumbnailImage" required label="Thumbnail">
-          <MediaUpload url={thumbnailImage} width='100px'
+          <MediaUpload url={thumbnailImage} width='250px'
             renderItem={() => <Image src={thumbnailImage} />}
             onUpload={e => {
             props.onFormUpdate({
@@ -63,6 +73,15 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
       (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
     }
     options={instructors}
+  />
+        </Form.Item>
+        
+        <Form.Item name="language" required label="Language">
+<Select
+    showSearch
+    placeholder="Select Language"
+    optionFilterProp="children"
+    options={LANGUAGES}
   />
 </Form.Item>
 

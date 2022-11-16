@@ -81,13 +81,13 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     <Card bodyStyle={{ padding: 0 }}>
       <CustomCollapse
         collapsible="header"
-        defaultActiveKey={sections.map((s, i) => s.id)}
+        defaultActiveKey={sections.map((s, i) => i)}
         expandIconPosition="end"
       >
         {sections.map((section, secIndex) => {
           return (
             <Collapse.Panel
-              key={section.id}
+              key={secIndex}
               header={
                 <span onClick={e => console.log(e, 'eee')}>{`${
                   section.title
@@ -127,8 +127,8 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                 }
                 renderItem={(item, itemIndex) => (
                   <NavLink
-                    key={item.id}
-                    to={`section/${section.id}/${item.type}/${item.id}`}
+                    key={item._id}
+                    to={`section/${section._id}/${item.type}/${item._id}`}
                     children={({ isActive }) => (
                       <CourseListItem
                         isActive={isActive}

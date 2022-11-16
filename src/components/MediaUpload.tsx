@@ -47,6 +47,9 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     setLoading(true)
     return uploadFiles({
       files: [file],
+      onUploadProgress: e => {
+        console.log(e, 'e')
+      },
       onSuccess: ([uploadFile]) => {
         uploadFile.file = file
         setLoading(false)
@@ -80,7 +83,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       showUploadList={false}
       iconRender={() => <ClockCircleOutlined />}
     >
-      {uploadButton}
+        {props.renderItem ? props.renderItem() : uploadButton}
     </CustomUpload>
     // </ImgCrop>
   )

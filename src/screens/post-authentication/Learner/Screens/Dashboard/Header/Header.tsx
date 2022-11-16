@@ -29,10 +29,8 @@ function Header(props: HeaderPropsI) {
         <CustomHeader
           theme={'dark'}
           {...props}
-          onBack={() => null}
           extra={props.extra}
           title={props.title}
-          backIcon={false}
         >
           {props.children}
         </CustomHeader>

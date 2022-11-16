@@ -7,8 +7,11 @@ import { Fragment, useEffect, useState } from 'react'
 import { Instructor } from '@Types/Instructor.types'
 import InstructorDetailsEditor from './InstructorDetailsEditor'
 import { INITIAL_INSTRUCTOR_DETAILS } from 'constant.ts'
-import { useGetInstructorDetails, useUpdateInstructor } from '@User/Api/Instructor/queries'
-
+import {
+  useGetInstructorDetails,
+  useUpdateInstructor
+} from '@User/Api/Instructor/queries'
+import Header from '@Components/Header'
 
 function InstructorEditor() {
   const { id: instructorId } = useParams()
@@ -40,8 +43,8 @@ function InstructorEditor() {
   }
 
   return (
-    <Card
-      extra={
+    <Header title='Instructor Editor'
+      extra={[
         <Fragment>
           <Button
             loading={loading}
@@ -52,42 +55,44 @@ function InstructorEditor() {
             Save Instructor
           </Button>
         </Fragment>
-      }
+      ]}
     >
-      <Tabs
-        defaultActiveKey="1"
-        // onChange={onChange}
-        items={[
-          {
-            label: `Profile Details`,
-            key: '1',
-            children: (
-              <InstructorDetailsEditor
-                formData={instructor}
-                onFormUpdate={onFormUpdate}
-              />
-            )
-          },
-          {
-            label: `Courses`,
-            key: '2',
-            children: `Content of Tab Pane 2`
-          },
-          {
-            label: `Purchase History`,
-            key: '3',
-            children: `Content of Tab Pane 3`
-          },
-          {
-            label: `Advanced`,
-            key: '4',
-            children: `Content of Tab Pane 3`
-          }
-        ]}
-      />
+      <Card>
+        <Tabs
+          defaultActiveKey="1"
+          // onChange={onChange}
+          items={[
+            {
+              label: `Profile Details`,
+              key: '1',
+              children: (
+                <InstructorDetailsEditor
+                  formData={instructor}
+                  onFormUpdate={onFormUpdate}
+                />
+              )
+            },
+            {
+              label: `Courses`,
+              key: '2',
+              children: `Content of Tab Pane 2`
+            },
+            {
+              label: `Purchase History`,
+              key: '3',
+              children: `Content of Tab Pane 3`
+            },
+            {
+              label: `Advanced`,
+              key: '4',
+              children: `Content of Tab Pane 3`
+            }
+          ]}
+        />
 
-      <Outlet />
-    </Card>
+        <Outlet />
+      </Card>
+    </Header>
   )
 }
 

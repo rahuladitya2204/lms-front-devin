@@ -35,7 +35,6 @@ cursor: pointer;
 function CourseCard(props: CourseCardPropsI) {
   const navigate = useNavigate();
   const plan = props.course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
-  const discount = 100-(plan.finalPrice.value / plan.displayPrice.value) * 100;
   const instructor = props.course.instructor as unknown as Instructor;
   return (
     <Badge.Ribbon text="Best Seller" color="orange">
@@ -49,7 +48,7 @@ function CourseCard(props: CourseCardPropsI) {
           <img
             alt="example" style={{height: 140}}
             src={
-              `https://img-b.udemycdn.com/course/240x135/2195176_979e_3.jpg`
+             props.course.thumbnailImage
             }
           /> 
         }

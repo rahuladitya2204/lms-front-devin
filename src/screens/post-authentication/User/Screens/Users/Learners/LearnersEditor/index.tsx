@@ -1,12 +1,16 @@
 import { Button, Card, Tabs } from 'antd'
-import {  UploadOutlined } from '@ant-design/icons'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { UploadOutlined } from '@ant-design/icons'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
 import { Fragment, useEffect, useState } from 'react'
 
 import { Learner } from '@Types/Learner.types'
 import LearnerDetailsEditor from './LearnersDetailsEditor'
 import { INITIAL_LEARNER_DETAILS } from 'constant.ts'
-import { useGetLearnerDetails, useUpdateLearner } from '@User/Api/Learner/queries'
+import {
+  useGetLearnerDetails,
+  useUpdateLearner
+} from '@User/Api/Learner/queries'
+import Header from '@Components/Header'
 
 function LearnerEditor() {
   const { id: instructorId } = useParams()
@@ -31,16 +35,17 @@ function LearnerEditor() {
   }
 
   const onFormUpdate = (data: Partial<Learner>) => {
-
     setLearner({
       ...instructor,
       ...data
     })
   }
-
+  const navigate = useNavigate()
   return (
-    <Card
-      extra={
+    <Header
+      onBack={() => navigate(-1)}
+      title="Learner Editor"
+      extra={[
         <Fragment>
           <Button
             loading={loading}
@@ -51,42 +56,45 @@ function LearnerEditor() {
             Save Learner
           </Button>
         </Fragment>
-      }
+      ]}
     >
-      <Tabs
-        defaultActiveKey="1"
-        // onChange={onChange}
-        items={[
-          {
-            label: `Profile Details`,
-            key: '1',
-            children: (
-              <LearnerDetailsEditor
-                formData={instructor}
-                onFormUpdate={onFormUpdate}
-              />
-            )
-          },
-          // {
-          //   label: `Courses`,
-          //   key: '2',
-          //   children: `Content of Tab Pane 2`
-          // },
-          // {
-          //   label: `Purchase History`,
-          //   key: '3',
-          //   children: `Content of Tab Pane 3`
-          // },
-          // {
-          //   label: `Advanced`,
-          //   key: '4',
-          //   children: `Content of Tab Pane 3`
-          // }
-        ]}
-      />
+      {' '}
+      <Card>
+        <Tabs
+          defaultActiveKey="1"
+          // onChange={onChange}
+          items={[
+            {
+              label: `Profile Details`,
+              key: '1',
+              children: (
+                <LearnerDetailsEditor
+                  formData={instructor}
+                  onFormUpdate={onFormUpdate}
+                />
+              )
+            }
+            // {
+            //   label: `Courses`,
+            //   key: '2',
+            //   children: `Content of Tab Pane 2`
+            // },
+            // {
+            //   label: `Purchase History`,
+            //   key: '3',
+            //   children: `Content of Tab Pane 3`
+            // },
+            // {
+            //   label: `Advanced`,
+            //   key: '4',
+            //   children: `Content of Tab Pane 3`
+            // }
+          ]}
+        />
 
-      <Outlet />
-    </Card>
+        <Outlet />
+      </Card>
+    </Header>
   )
 }
 

@@ -1,7 +1,7 @@
 import { Checkbox, List, Tag, Typography } from 'antd'
 
 import { NavLink } from 'react-router-dom'
-import { unit } from 'mathjs'
+import { Unit, unit } from 'mathjs'
 import styled from '@emotion/styled'
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
@@ -27,11 +27,14 @@ function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
     duration = { value: 0, unit: 'second' }
   }
 
-  const durationInMin = unit(duration?.value, duration?.unit).to('minute')
+  let durationInMin: Unit
+  if (duration?.value && duration?.unit) {
+    durationInMin = unit(duration?.value, duration?.unit).to('minute')
+  }
 
   return (
     <NavLink
-      to={`section/${props.section.id}/item/${props.item.id}`}
+      to={`section/${props.section._id}/item/${props.item._id}`}
       children={({ isActive }) => (
         <CourseListItem
           extra={[
@@ -47,7 +50,7 @@ function CoursePlayerCollapsibleItem(props: CoursePlayerCollapsibleItemPropsI) {
               <Checkbox
                 // defaultChecked={props.item.checked}
                 onChange={e =>
-                  props.toggleItemCheck(props.item.id, !!e.target.checked)
+                  props.toggleItemCheck(props.item._id, !!e.target.checked)
                 }
               />
             }

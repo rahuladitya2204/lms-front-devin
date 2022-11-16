@@ -55,8 +55,8 @@ function CoursePlayer() {
     () => {
       console.log('ohoh')
       if (sections[0]?.items[0]) {
-        const sectionId = sections[0].id
-        const itemId = sections[0].items[0].id
+        const sectionId = sections[0]._id
+        const itemId = sections[0].items[0]._id
         navigate(`section/${sectionId}/item/${itemId}`)
       }
     },
@@ -69,7 +69,7 @@ function CoursePlayer() {
   let currentItemIndex = 0
 
   allItems.forEach((i, index) => {
-    if (i.id == itemId) {
+    if (i._id == itemId) {
       currentItemIndex = index
     }
   })
@@ -78,11 +78,11 @@ function CoursePlayer() {
   const prevItem = allItems[currentItemIndex - 1]
 
   const next = () => {
-    navigate(`section/${nextItem.section}/item/${nextItem.id}`)
+    navigate(`section/${nextItem.section}/item/${nextItem._id}`)
   }
 
   const prev = () => {
-    navigate(`section/${prevItem.section}/item/${prevItem.id}`)
+    navigate(`section/${prevItem.section}/item/${prevItem._id}`)
   }
   return (
     <Header

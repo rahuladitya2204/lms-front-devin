@@ -1,7 +1,13 @@
 import {
   AppstoreOutlined,
+  BookOutlined,
+  FundProjectionScreenOutlined,
   MailOutlined,
-  UsergroupDeleteOutlined
+  SettingOutlined,
+  ToolOutlined,
+  UsergroupAddOutlined,
+  UsergroupDeleteOutlined,
+  UserOutlined
 } from '@ant-design/icons'
 
 import { MenuProps } from 'antd'
@@ -11,56 +17,36 @@ export const MENU_ITEMS: MenuItemNode[] = [
 
   {
     title: 'Courses',
-    icon: <MailOutlined />,
+    icon: <BookOutlined />,
     path: '',
     children: [
       {
         title: 'All Courses',
         path: 'user/dashboard/courses',
-        icon: <AppstoreOutlined />
+        // icon: <AppstoreOutlined />
       },
-      // {
-      //   title: 'Packages',
-      //   path: 'packages',
-      //   icon: <AppstoreOutlined />
-      // },
-      // {
-      //   title: 'Question Bank',
-      //   path: 'question-bank',
-      //   icon: <AppstoreOutlined />
-      // }
     ]
   },
   {
     title: 'Users',
-    icon: <UsergroupDeleteOutlined />,
+    icon: <UsergroupAddOutlined />,
     path: 'users',
     children: [
-      // {
-      //   title: 'Learners',
-      //   path: 'learners',
-      //   icon: <AppstoreOutlined />
-      // },
-      // {
-      //   title: 'Admins',
-      //   path: 'users',
-      //   icon: <AppstoreOutlined />
-      // },
       {
         title: 'Learners',
         path: 'learners',
-        icon: <AppstoreOutlined />
+        // icon: <UserOutlined />
       },
       {
         title: 'Instructors',
         path: 'instructors',
-        icon: <AppstoreOutlined />
+        // icon: <UserOutlined />
       }
     ]
   },
   {
     title: 'Website',
-    icon: <UsergroupDeleteOutlined />,
+    icon: <FundProjectionScreenOutlined />,
     path: 'website',
     children: [
       {
@@ -71,10 +57,27 @@ export const MENU_ITEMS: MenuItemNode[] = [
       {
         title: 'Website Builder',
         path: 'builder',
-        icon: <AppstoreOutlined />
+        icon: <ToolOutlined />
       }
     ]
-  }
+  },
+  {
+    title: 'Settings',
+    icon: <SettingOutlined />,
+    path: 'settings',
+    children: [
+      {
+        title: 'Website Pages',
+        path: 'pages',
+        icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Website Builder',
+        path: 'builder',
+        icon: <ToolOutlined />
+      }
+    ]
+  },
 ]
 
 export const HEADER_ITEMS: MenuItemNode[] = [

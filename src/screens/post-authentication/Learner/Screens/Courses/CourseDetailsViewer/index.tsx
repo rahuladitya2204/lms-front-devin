@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Col,
+  Image,
   Rate,
   Row,
   Tag,
@@ -149,14 +150,16 @@ function CourseDetailViewer () {
         <Col span={8}>
           <Card
             cover
-            bordered
+            bordered hoverable
             style={{ padding: 0 }}
             bodyStyle={{ padding: 5 }}
           >
             <Card bordered={false} bodyStyle={{ padding: 15 }}>
-              <Row gutter={[20, 10]}>
-                <Col span={24}>
-                  <Row justify="space-between" align='middle'>
+                  <Row gutter={[20, 10]}>
+                    <Col span={24}>                    <Image src={ course.thumbnailImage} />
+</Col>
+                    <Col span={24}>
+                      <Row justify="space-between" align='middle'>
                     <Col>
                       <Row align='middle' gutter={ [5,5]}>
                         <Col><Text strong style={{fontSize:24}}>${plan.finalPrice.value}</Text></Col>

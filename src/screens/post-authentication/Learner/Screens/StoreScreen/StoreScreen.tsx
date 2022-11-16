@@ -50,7 +50,7 @@ function StoreScreen () {
         </Row>
       </Col>
       <Col span={24}>
-        <Row>
+        <Row gutter={[30,30]}>
           {courses.map(course => {
             return (
               <Col span={6}>

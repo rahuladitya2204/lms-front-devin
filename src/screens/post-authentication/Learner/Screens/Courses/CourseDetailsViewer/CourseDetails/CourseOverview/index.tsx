@@ -24,10 +24,10 @@ function CourseOverview(props: CourseOverviewPropsI) {
               bordered={false}
               bodyStyle={{ padding: 0 }}
             >
-              <MediaPlayer
+              {/* <MediaPlayer
                 // height={300}
                 url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
-              />
+              /> */}
             </Card>
           </Col>
         ) : null}

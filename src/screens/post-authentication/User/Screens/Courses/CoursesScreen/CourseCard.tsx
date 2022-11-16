@@ -12,6 +12,7 @@ import Meta from 'antd/lib/card/Meta'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 import { Course } from '@Types/Courses.types'
+import { Instructor } from '@Types/Instructor.types'
 
 interface CourseCardProps {
   course: Course;
@@ -24,7 +25,8 @@ const CourseCardHolder = styled(Card)`
 `
 
 function CourseCard(props: CourseCardProps) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const instructor = props.course.instructor as unknown as Instructor;
   return (
     <CourseCardHolder hoverable
 
@@ -32,7 +34,7 @@ function CourseCard(props: CourseCardProps) {
         <Badge.Ribbon color="orange" text="Unpublished">
           <img
             alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            src={props.course.thumbnailImage}
           />
         </Badge.Ribbon>
       }
@@ -59,9 +61,9 @@ function CourseCard(props: CourseCardProps) {
         // <SettingOutlined />
       ]}
     >
-      <Meta
-        avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
-        title={props.course.title}
+      <Meta description={`By ${instructor?.name}`}
+        avatar={<Avatar src={instructor?.image} />}
+        title={props.course.title || ''}
       />
     </CourseCardHolder>
   )

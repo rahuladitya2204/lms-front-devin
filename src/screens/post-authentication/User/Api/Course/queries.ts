@@ -41,11 +41,11 @@ export const useGetCourses = () => {
     
     export const useUpdateCourse = () => {
       const qc = useQueryClient();
-      const mutation = useMutation(({id,data}:{id:string,data: Partial<UpdateCoursePayload>}) => {
-        return UpdateCourse(id, data).then(() => {
+      const mutation = useMutation(({id,data,cb}:{id:string,data: Partial<UpdateCoursePayload>,cb?:(c:Course)=>void}) => {
+        return UpdateCourse(id, data).then((response) => {
           qc.invalidateQueries([KEYS.GET_COURSE_DETAILS, id]);
           message.success('Course Details Updated');
-    
+          cb&&cb(response);
         })
       });
     

@@ -36,7 +36,7 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
     <Fragment>
       <CustomCollapse
         expandIconPosition="end"
-        defaultActiveKey={props.sections.map((s, i) => s.id)}
+        defaultActiveKey={props.sections.map((s, i) => s._id)}
       >
         {props.sections.map((section, index) => {
           let sectionsCompleted = 0;
@@ -54,7 +54,7 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
                   } */}
                 </Typography.Title>
               }
-              key={section.id}
+              key={section._id}
             >
               <List
                 // itemLayout="horizontal"

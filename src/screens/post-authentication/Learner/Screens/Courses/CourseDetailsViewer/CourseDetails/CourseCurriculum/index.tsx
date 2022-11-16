@@ -21,10 +21,10 @@ function CourseCurriculum(props: CourseCurriculumPropsI) {
   return (
     <Row gutter={[30, 30]}>
       <Col span={24}>
-        <Collapse defaultActiveKey={props.course.sections.map(s => s.id)}>
+        <Collapse defaultActiveKey={props.course.sections.map((s, i) => i)}>
           {props.course.sections.map((section, index) => {
             return (
-              <Panel header={section.title} key={section.id}>
+              <Panel header={section.title} key={index}>
                 <List
                   itemLayout="horizontal"
                   dataSource={section.items}
@@ -42,7 +42,7 @@ function CourseCurriculum(props: CourseCurriculumPropsI) {
                       <List.Item actions={actions}>
                         <List.Item.Meta
                           avatar={
-                            <CourseItemIcon  type="outlined" item={item} />
+                            <CourseItemIcon type="outlined" item={item} />
                           }
                           title={item.title}
                         />

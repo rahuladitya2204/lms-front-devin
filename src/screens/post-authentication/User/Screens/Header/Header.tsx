@@ -13,11 +13,9 @@ function Header(props: HeaderPropsI) {
   const { isDrawerOpen, setDrawerOpen } = useGlobal(state => state)
   return (
     <PageHeader
-      onBack={() => null}
       // ghost={false}
       extra={props.extra}
       title={props.title || 'LMS'}
-      backIcon={false}
     >
       {props.children}
     </PageHeader>

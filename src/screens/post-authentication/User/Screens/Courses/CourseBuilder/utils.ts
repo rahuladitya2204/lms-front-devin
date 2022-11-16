@@ -10,9 +10,9 @@ export const findSectionItem = (
 ): CourseSectionItem => {
   let node: CourseSectionItem
   sections.forEach(section => {
-    if (section.id === sectionId) {
+    if (section._id === sectionId) {
       section.items.forEach(item => {
-        if (item.id == itemId) {
+        if (item._id == itemId) {
           node = item
         }
       })
@@ -29,9 +29,9 @@ export const updateCourseSectionItem = (
 ) => {
   const SECTIONS = cloneDeep(sections)
   SECTIONS.forEach(section => {
-    if (section.id === sectionId) {
+    if (section._id === sectionId) {
       section.items.forEach((secItem, itemIndex) => {
-        if (secItem.id === item.id) {
+        if (secItem._id === item._id) {
           section.items[itemIndex] = {
             ...secItem,
             ...item

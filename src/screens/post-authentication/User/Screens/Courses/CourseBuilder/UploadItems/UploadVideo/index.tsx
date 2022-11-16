@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Col, Form, Input, Modal, Row } from 'antd';
 import React, { Fragment, useState } from 'react';
 import MediaPlayer from '@Components/MediaPlayer';
 import MediaUpload from '@Components/MediaUpload';
@@ -38,7 +38,7 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
     }
     
     const [form] = Form.useForm<{ title: string }>();
-  console.log(url, metadata, 'mndmdmdmdm');
+
   return (
     <Fragment>
       <span onClick={showModal}>{props.children}</span>
@@ -55,8 +55,10 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
         <Form.Item required name="title" label="Video Title">
           <Input placeholder='Please enter title of the video' />
           </Form.Item>
-          <Form.Item required name="title" label="Upload Video">
-            <MediaUpload
+          <Form.Item required label="Upload Video">
+            <Row wrap>
+              <Col span={24}>
+              <MediaUpload width='300px' height='250px'
                         renderItem={() => <MediaPlayer url={url} />}
               url={url} onUpload={({url,file}) => {
                 setUrl(url);
@@ -69,8 +71,10 @@ const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
                     })
                   })
               }}>
-
+                  <MediaPlayer url={url } />
           </MediaUpload>
+              </Col>
+           </Row>
           </Form.Item>
         </Form>
       

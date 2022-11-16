@@ -4,14 +4,14 @@ export interface CourseSection {
   items: CourseSectionItem[];
   title: string;
   description: string;
-  id: string;
+  _id: string;
   instructor?: string;
 }
 
 export interface CourseSectionItem {
   title: string;
   isPreview?: boolean;
-  id: string;
+  _id: string;
   description?: string;
   type: string;
   section?: string;
