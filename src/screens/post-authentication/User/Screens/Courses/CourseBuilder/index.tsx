@@ -131,7 +131,7 @@ function CourseBuilderScreen() {
           <Card style={{ marginBottom: 30 }}>
             <Row>
               <Col span={24}>
-                <MediaUpload
+                <MediaUpload width='100%' height='200px'
                   renderItem={() => <Image src={course.thumbnailImage} />}
                   onUpload={e =>
                     setCourse({

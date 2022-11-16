@@ -35,7 +35,7 @@ cursor: pointer;
 function CourseCard(props: CourseCardPropsI) {
   const navigate = useNavigate();
   const plan = props.course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
-  const discount = 100-(plan.finalPrice.value / plan.listPrice.value) * 100;
+  const discount = 100-(plan.finalPrice.value / plan.displayPrice.value) * 100;
   const instructor = props.course.instructor as unknown as Instructor;
   return (
     <Badge.Ribbon text="Best Seller" color="orange">
@@ -84,7 +84,7 @@ function CourseCard(props: CourseCardPropsI) {
           </Space>
 
             <Space direction='vertical' align='end' size={0}>
-              <Text style={{textAlign:'right',textDecoration:'line-through'}} type='secondary'>${plan.listPrice.value}</Text>
+              <Text style={{textAlign:'right',textDecoration:'line-through'}} type='secondary'>${plan.displayPrice.value}</Text>
               <Text strong style={{fontSize: 20}}>
               ${plan.finalPrice.value}
               </Text>

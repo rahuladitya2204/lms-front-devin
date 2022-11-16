@@ -19,19 +19,13 @@ import { Link } from 'react-router-dom'
 import Header from './Header/Header'
 import useCart from '@Store/useCart'
 import { useGetLearnerDetails } from '@Learner/Api/queries'
+import { useGetCartItems } from '@Learner/Api/Common/queries'
 
 const { Content } = Layout
 const { Text } = Typography
 
 const LearnerDashboard: React.FC = () => {
-  const { cartItems, setCartItems } = useCart(state => state)
-  const { data: learner } = useGetLearnerDetails()
-  useEffect(
-    () => {
-      setCartItems(learner.cartItems || [])
-    },
-    [learner]
-  )
+  const { data: cartItems } = useGetCartItems()
   const navigate = useNavigate()
   return (
     <Layout style={{ minHeight: '100vh' }}>

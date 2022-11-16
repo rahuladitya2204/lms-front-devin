@@ -37,7 +37,7 @@ export const INITIAL_COURSE_PLAN_DETAILS: Plan = {
     value: 0,
     unit: ''
   },
-  listPrice: {
+  displayPrice: {
     value: 0,
     unit: ''
   },

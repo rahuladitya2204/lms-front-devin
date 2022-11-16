@@ -63,7 +63,7 @@ export interface Plan {
   discount?: number;
   price?: string;
   createdAt: string;
-  listPrice: ValueUnitType;
+  displayPrice: ValueUnitType;
   finalPrice: ValueUnitType;
   _id: string;
 }

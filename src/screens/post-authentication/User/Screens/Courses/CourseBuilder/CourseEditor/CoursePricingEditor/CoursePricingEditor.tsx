@@ -38,8 +38,8 @@ import { useGetCoursePlans } from '@User/Api/Course/queries';
             <Table.Column title="Name" dataIndex="name" key="name" />
             <Table.Column title="Plan Type" dataIndex="type" key="type" />
                     <Table.Column title="Listing Price" render={(text, record: Plan) => {
-                      return `₹${record.listPrice.value}`
-            }} dataIndex="listPrice.value" key="listPrice.value" />
+                      return `₹${record.displayPrice.value}`
+            }} dataIndex="displayPrice.value" key="displayPrice.value" />
             <Table.Column title="Final Price" render={(text, record: Plan) => {
                       return `₹${record.finalPrice.value}`
             }} dataIndex="finalPrice.value" key="finalPrice.value" />

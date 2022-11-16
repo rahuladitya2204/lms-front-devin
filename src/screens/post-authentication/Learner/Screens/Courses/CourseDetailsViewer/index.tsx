@@ -28,6 +28,7 @@ import { Course, Plan } from '@Types/Courses.types'
 import { INITIAL_COURSE_DETAILS, INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
 import { useUpdateLearner } from '@Learner/Api/queries'
 import { useEnrollForCourse, useGetCourseDetails } from '@Learner/Api/Course/queries'
+import { useGetCartItems, useUpdateCartItems } from '@Learner/Api/Common/queries'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -62,23 +63,15 @@ const CourseSubTitle = styled(Paragraph)`
 function CourseDetailViewer () {
   const { id: courseId } = useParams();
   const [course, setCourse] = useState(INITIAL_COURSE_DETAILS);
-  const { mutate: enroll} = useEnrollForCourse();
+  const { mutate: enroll } = useEnrollForCourse();
+  const { mutate: updateCart } = useUpdateCartItems();
   const { data } = useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  const {mutate:updateDetails } = useUpdateLearner();
-  const { data: {
-    cartItems
-  } } = useGetLearnerDetails();
-
+  const {data: cartItems } = useGetCartItems();
   const addItemToCart = (course:Course) => {
-    updateDetails({
-      data: {
-        cartItems: [...cartItems, course._id]
-      }
-    })
+    updateCart({ courseId: course._id, action: 'add' });
   }
-
   useEffect(
     () => {
       setCourse(data)
@@ -91,7 +84,7 @@ function CourseDetailViewer () {
   }
   const instructor = course.instructor as unknown as Instructor;
   const plan = course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
-  const isAddedToCart = cartItems?.find(item => item == course._id);
+  const isAddedToCart = cartItems?.find(item => item._id == course._id);
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
@@ -167,7 +160,7 @@ function CourseDetailViewer () {
                     <Col>
                       <Row align='middle' gutter={ [5,5]}>
                         <Col><Text strong style={{fontSize:24}}>${plan.finalPrice.value}</Text></Col>
-                        <Col><Text style={{textDecoration:'line-through'}} type='secondary'>${plan.listPrice.value}</Text></Col>
+                        <Col><Text style={{textDecoration:'line-through'}} type='secondary'>${plan.displayPrice.value}</Text></Col>
                       </Row>
                     </Col>
                     <Col>

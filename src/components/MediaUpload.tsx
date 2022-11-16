@@ -31,8 +31,8 @@ interface MediaUploadPropsI {
 
 const CustomUpload = styled(Upload)`
   .ant-upload-select {
-    /* width: 200px;
-    min-height: 200px; */
+    width: ${props => (props.width ? props.width : 'auto')};
+    height: ${props => (props.height ? props.height : 'auto')};
     margin: 0;
   }
 `
@@ -70,16 +70,18 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
 
   return (
     // <ImgCrop onModalOk={e => setFile(e)}>
-      <CustomUpload
-        {...UPLOAD}
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        iconRender={() => <ClockCircleOutlined />}
-      >
-        {props.renderItem ? props.renderItem() : uploadButton}
-      </CustomUpload>
+    <CustomUpload
+      {...UPLOAD}
+      height={props.height}
+      width={props.width}
+      name="avatar"
+      listType="picture-card"
+      className="avatar-uploader"
+      showUploadList={false}
+      iconRender={() => <ClockCircleOutlined />}
+    >
+      {uploadButton}
+    </CustomUpload>
     // </ImgCrop>
   )
 }

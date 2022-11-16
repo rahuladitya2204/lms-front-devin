@@ -49,3 +49,13 @@ export const STRINGIFY = function(data: unknown) {
 export const PARSE = function(str: string) {
   return JSON.parse(decodeURIComponent(atob(str)))
 }
+
+export const UnitTypeToStr = ({
+  value,
+  unit
+}: {
+  value: number,
+  unit: string
+  }) => {
+  return `${value} ${unit}`
+}
