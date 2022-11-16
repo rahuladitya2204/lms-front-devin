@@ -15,6 +15,7 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
+import confirm from 'antd/lib/modal/confirm'
 
 const CustomCollapse = styled(Collapse)`
   .ant-collapse-content-box {
@@ -53,6 +54,29 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   deleteSection,
   deleteSectionItem
 }) => {
+  const DeleteSectionItem = (secIndex: number, itemIndex: number) => {
+    confirm({
+      title: 'Are you sure?',
+      // icon: <ExclamationCircleOutlined />,
+      content: `You want to delete this section item`,
+      onOk() {
+        deleteSectionItem(secIndex, itemIndex)
+      },
+      okText: 'Delete'
+    })
+  }
+
+  const DeleteSection = (secIndex: number) => {
+    confirm({
+      title: 'Are you sure?',
+      // icon: <ExclamationCircleOutlined />,
+      content: `You want to delete this section`,
+      onOk() {
+        deleteSection(secIndex)
+      },
+      okText: 'Delete'
+    })
+  }
   return (
     <Card bodyStyle={{ padding: 0 }}>
       <CustomCollapse
@@ -86,22 +110,19 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                         Add New Item{' '}
                       </Button>
                     </AddItem>
-                    <Popconfirm
-                      placement="right"
-                      title={`Are you sure to delete this section?`}
-                      onConfirm={() => deleteSection(secIndex)}
-                      okText="Yes"
-                      cancelText="No"
+
+                    <Tooltip
+                      placement="bottom"
+                      title={'Delete this complete section of course'}
                     >
-                      <Tooltip
-                        placement="bottom"
-                        title={'Delete this complete section of course'}
+                      <Button
+                        onClick={() => DeleteSection(secIndex)}
+                        size="small"
+                        type="ghost"
                       >
-                        <Button size="small" type="ghost">
-                          Delete Section{' '}
-                        </Button>
-                      </Tooltip>
-                    </Popconfirm>
+                        Delete Section{' '}
+                      </Button>
+                    </Tooltip>
                   </Space>
                 }
                 renderItem={(item, itemIndex) => (
@@ -112,22 +133,16 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                       <CourseListItem
                         isActive={isActive}
                         actions={[
-                          <Popconfirm
-                            placement="right"
-                            title={`Are you sure to delete this item?`}
-                            onConfirm={() =>
-                              deleteSectionItem(secIndex, itemIndex)
-                            }
-                            okText="Yes"
-                            cancelText="No"
+                          <Tooltip
+                            placement="bottom"
+                            title={'Delete Section item'}
                           >
-                            <Tooltip
-                              placement="bottom"
-                              title={'Delete Section item'}
-                            >
-                              <DeleteOutlined />
-                            </Tooltip>
-                          </Popconfirm>
+                            <DeleteOutlined
+                              onClick={() =>
+                                DeleteSectionItem(secIndex, itemIndex)
+                              }
+                            />
+                          </Tooltip>
                         ]}
                       >
                         <List.Item.Meta
