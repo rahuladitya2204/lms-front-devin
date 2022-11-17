@@ -7,6 +7,7 @@ const { Text } = Typography
 
 interface CourseCardPropsI {
   course: Course;
+  progress: number;
   onClick: () => void;
 }
 
@@ -20,7 +21,6 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
       hoverable
       onClick={props.onClick}
       bodyStyle={{ padding: 10 }}
-      style={{ width: 200 }}
       cover={<img alt="example" src={props.course.thumbnailImage} />}
     >
       <Meta
@@ -36,7 +36,7 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
           </Text>
         }
       />
-      <Progress percent={30} />
+      <Progress percent={props.progress} />
     </CardHolder>
   )
 }

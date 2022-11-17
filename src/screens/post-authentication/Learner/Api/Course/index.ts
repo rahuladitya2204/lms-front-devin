@@ -1,9 +1,9 @@
 import { API_ENDPOINTS } from '@Network/constants'
 import Axios from '@Network/index'
-import { CourseQuestion, CourseQuestionAnswer } from '@Types/Courses.types'
+import { CourseQuestion, CourseQuestionAnswer, EnrolledCourseDetails } from '@Types/Courses.types'
 
-export const GetLearnerCourses = () => {
-  return Axios.get(API_ENDPOINTS.learner_course).then(r => r.data)
+export const GetLearnerEnrolledCourses = ():Promise<EnrolledCourseDetails[]> => {
+  return Axios.get(API_ENDPOINTS.learner_course + '/enrolled/all').then(r => r.data)
 }
 
 export const GetLearnerCourseDetails = (id: string) => {

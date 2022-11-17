@@ -3,14 +3,17 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Course, CourseQuestion, CourseQuestionAnswer, CourseSection, CourseSectionItem, EnrolledCourseDetails } from "@Types/Courses.types"
 import { message } from "antd"
 import { INITIAL_COURSE_DETAILS, INITIAL_ENROLLED_COURSE_DETAILS } from "constant.ts"
-import { cloneDeep } from "lodash"
 import { useNavigate } from "react-router"
-import { createDiscussionQuestion, createDiscussionQuestionAnswer, enrollForCourse, GetCourseQuestions, getCoursesOfOrganisation, GetEnrolledCourseDetails, GetLearnerCourseDetails, GetLearnerCourses, UpdateCourseProgress } from "."
+import { createDiscussionQuestion, createDiscussionQuestionAnswer, enrollForCourse, GetCourseQuestions, getCoursesOfOrganisation, GetEnrolledCourseDetails, GetLearnerCourseDetails, GetLearnerEnrolledCourses, UpdateCourseProgress } from "."
 import { LEARNER_KEYS } from "../keys"
+import { calcCourseProgress } from "./utils"
 
-export const useGetCourses = () => {
+export const useGetEnrolledCourses = () => {
     const { data = [], isFetching: isLoading } =
-      useQuery<Course[]>([KEYS.GET_COURSES], GetLearnerCourses)
+      useQuery<EnrolledCourseDetails[]>([KEYS.GET_ENROLLED_COURSES], () => GetLearnerEnrolledCourses().then((enrolledCourses => {
+        const hydrated = enrolledCourses.map(i => calcCourseProgress(i));
+        return hydrated;
+      })))
     return {
       data,
       isLoading
@@ -32,18 +35,8 @@ export const useGetCourses = () => {
   export const useGetEnrolledCourseDetails = (id:string,options={enabled:true}) => {
     const { data = INITIAL_ENROLLED_COURSE_DETAILS, isFetching: isLoading } =
       useQuery<EnrolledCourseDetails>([LEARNER_KEYS.GET_ENROLLED_COURSE_DETAILS, id], () => GetEnrolledCourseDetails(id).then(({ completed, course }) => {
-        let completedCourses = 0, totalItems = 0;
-        course.sections.forEach((s:CourseSection) => {
-          s.items.forEach((i: CourseSectionItem) => {
-            totalItems += 1;
-            if (completed.indexOf(i._id))
-            {
-              completedCourses += 1;
-              i.isCompleted = true;
-            }
-          })
-        })
-        return {course,progress:(completedCourses/totalItems)*100,completed};
+        const calculatedProgress = calcCourseProgress({course, completed});
+        return {course:calculatedProgress.course,progress:calculatedProgress.progress,completed};
       }), options);
     return {
       data:data,
