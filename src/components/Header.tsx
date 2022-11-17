@@ -5,10 +5,12 @@ import { Col, PageHeader, PageHeaderProps, Row } from 'antd'
 import useGlobal from '@Store/useGlobal'
 import { HTMLAttributes } from 'react'
 import styled from '@emotion/styled'
+import { useNavigate } from 'react-router'
 
 interface HeaderPropsI extends PageHeaderProps {
   children?: React.ReactNode;
   title?: React.ReactNode;
+  showBack?: boolean;
   extra?: React.ReactNode[];
   bgColor?: string;
 }
@@ -22,13 +24,14 @@ const CustomHeader = styled(PageHeader)`
 `
 
 function Header(props: HeaderPropsI) {
-  const { isDrawerOpen, setDrawerOpen } = useGlobal(state => state)
+  const navigate = useNavigate()
   return (
     <Row>
       <Col span={24}>
         <CustomHeader
-          theme={'dark'}
           {...props}
+          backIcon={props.showBack}
+          onBack={() => props.showBack && navigate(-1)}
           extra={props.extra}
           title={props.title}
         >

@@ -14,7 +14,6 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
   const [description, setDescription] = useState('')
   const [form] = Form.useForm()
   const onSuccess = () => {
-    console.log('success')
     form.resetFields()
   }
   const {
@@ -22,7 +21,6 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
     isLoading: loading
   } = useCreateDiscussionQuestion(onSuccess)
   const createQuestion = (q: Partial<CourseQuestion>) => {
-    console.log(q)
     createDiscussionQuestion({ id: props.course._id, data: q })
   }
 

@@ -2,7 +2,7 @@ import { Button, Col, Row } from 'antd'
 
 import CourseCard from './CourseCard'
 import CreateCourseComponent from '../CreateCourse'
-import Header from '../../Header/Header'
+import Header from '@Components/Header'
 import { useGetCourses } from '@User/Api/Course/queries'
 
 function CoursesScreen () {

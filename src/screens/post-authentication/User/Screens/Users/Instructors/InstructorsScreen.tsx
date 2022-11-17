@@ -1,10 +1,9 @@
 import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-import AddInstructor from './AddInstructor'
-import { Fragment } from 'react'
-import Header from '../../Header/Header'
-import { Instructor } from '@Types/Instructor.types'
+import AddInstructor from './AddInstructor';
+import Header from '@Components/Header';
+import { Instructor } from '@Types/Instructor.types';
 import { useGetInstructors } from '@User/Api/Instructor/queries'
 
 function InstructorsScreen() {

@@ -21,7 +21,6 @@ interface CourseDiscussionPropsI {
 }
 const CourseDiscussion: React.FC<CourseDiscussionPropsI> = props => {
   const [question, setQuestion] = useState<CourseQuestion>(INITIAL_QUESTION_DETAILS)
-  console.log(question,'question')
   return (
     <Row>    
       <Col span={24}>

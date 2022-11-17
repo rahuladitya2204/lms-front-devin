@@ -19,7 +19,7 @@ const { Title, Text } = Typography
 const EnrolledCourseSuccessful: React.FC = () => {
   const { id: courseId } = useParams()
   const { data: course } = useGetCourseDetails(courseId || '')
-  console.log(course, 'coursecourse')
+
   const instructor = course.instructor as unknown as Instructor;
   return (
     <Row>

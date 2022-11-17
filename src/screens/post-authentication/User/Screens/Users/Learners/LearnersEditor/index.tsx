@@ -40,10 +40,10 @@ function LearnerEditor() {
       ...data
     })
   }
-  const navigate = useNavigate()
+
   return (
     <Header
-      onBack={() => navigate(-1)}
+      showBack
       title="Learner Editor"
       extra={[
         <Fragment>

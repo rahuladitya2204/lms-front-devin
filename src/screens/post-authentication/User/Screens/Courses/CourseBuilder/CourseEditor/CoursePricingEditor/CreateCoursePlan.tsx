@@ -26,7 +26,6 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
   const courseId = props.courseId || ''
   useEffect(
     () => {
-      console.log(props.plan, 'ha')
       form.setFieldsValue(props.plan)
     },
     [props.plan]
@@ -92,7 +91,7 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
           {planType === 'one-time' || planType === 'recurring' ? (
             <Row gutter={[30, 30]}>
               <Col>
-                <Form.Item label="List Price" name={['listPrice', 'value']}>
+                <Form.Item label="List Price" name={['displayPrice', 'value']}>
                   <Input
                     type="number"
                     addonBefore={

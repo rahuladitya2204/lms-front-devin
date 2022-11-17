@@ -32,9 +32,26 @@ export interface Course {
   _id: string;
   whatYouLearn: string;
   plan: string;
+  landingPage: CourseLandingPage;
+  advanced: CourseAdvancedSetting;
   requirements: string;
   studentsEnrolled: number;
   questions?: CourseQuestion[];
+}
+
+export interface CourseAdvancedSetting {
+  email?: {
+    enabled:boolean,
+    subject: string;
+    content: string;
+  }
+}
+
+export interface CourseLandingPage {
+  url: string;
+  promoVideo: string;
+  title: string;
+  subtitle: string;
 }
 
 export interface CourseQuestion {

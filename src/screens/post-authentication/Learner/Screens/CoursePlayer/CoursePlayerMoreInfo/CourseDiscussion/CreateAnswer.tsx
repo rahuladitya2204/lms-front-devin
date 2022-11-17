@@ -14,7 +14,6 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
   const [description, setDescription] = useState('')
   const [form] = Form.useForm()
   const onSuccess = () => {
-    console.log('success')
     form.resetFields()
   }
   const {
@@ -23,7 +22,6 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
   } = useCreateDiscussionQuestionAnswer(onSuccess)
 
   const createAnswer = (q: Partial<CourseQuestionAnswer>) => {
-    console.log(q)
     createDiscussionQuestionAnswer({
       courseId: props.question.course,
       questionId: props.question._id,

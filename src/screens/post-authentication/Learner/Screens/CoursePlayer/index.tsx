@@ -53,7 +53,6 @@ function CoursePlayer() {
 
   useEffect(
     () => {
-      console.log('ohoh')
       if (sections[0]?.items[0]) {
         const sectionId = sections[0]._id
         const itemId = sections[0].items[0]._id
@@ -88,9 +87,6 @@ function CoursePlayer() {
     <Header
       title={
         <Space style={{ cursor: 'pointer' }}>
-          <Link to={`../dashboard/courses`}>
-            <ArrowLeftOutlined />
-          </Link>
           <Image
             style={{ cursor: 'pointer' }}
             width={40}

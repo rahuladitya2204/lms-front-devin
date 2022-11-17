@@ -10,7 +10,6 @@ const { Title, Text } = Typography
 export default function LearnerCart() {
   const { mutate: updateCart } = useUpdateCartItems()
   const { data: cartItems } = useGetCartItems()
-  console.log(cartItems, 'cart')
 
   const removeItemFromCart = (id: string) => {
     updateCart({ courseId: id, action: 'remove' })
@@ -22,16 +21,16 @@ export default function LearnerCart() {
       <Row gutter={[20, 20]}>
         <Col span={16}>
           <Row gutter={[20, 20]}>
-            <Col span={24}>
-              {cartItems.map(course => {
-                return (
+            {cartItems.map(course => {
+              return (
+                <Col span={24}>
                   <LearnerCartCourseCard
                     removeItemFromCart={removeItemFromCart}
                     course={course}
                   />
-                )
-              })}
-            </Col>
+                </Col>
+              )
+            })}
           </Row>
         </Col>
         <Col span={6}>

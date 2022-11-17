@@ -11,6 +11,8 @@ import { STRINGIFY } from '../utils'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import { INITIAL_COURSE_DETAILS } from 'constant.ts'
 import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
+import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
+import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
 
 function CourseEditor() {
   const { id: courseId } = useParams()
@@ -23,7 +25,6 @@ function CourseEditor() {
 
   useEffect(
     () => {
-      console.log(courseDetails,'aaa')
       setCourse(courseDetails)
     },
     [courseDetails]
@@ -45,12 +46,12 @@ function CourseEditor() {
 
   return (
     <Header
+      showBack
       title="Course Editor"
       extra={[
         <Fragment>
           <Button
             onClick={() => {
-              console.log(course, 'strf')
               const dataStr = STRINGIFY(JSON.stringify(course))
               window.open(`${course._id}/preview`, '_blank')
             }}
@@ -89,21 +90,46 @@ function CourseEditor() {
               key: '2',
               children: (
                 <CoursePricingEditor
+                  courseId={course._id}
                   formData={course}
                   onFormUpdate={onCourseUpdate}
-                  course={course}
                 />
               )
             },
             {
-              label: `Pages`,
+              label: `Landing Page`,
               key: '3',
-              children: `Content of Tab Pane 3`
+              children: (
+                <CourseLandingPageEditor
+                  formData={course.landingPage}
+                  courseId={course._id}
+                  onFormUpdate={e =>
+                    onCourseUpdate({
+                      ...course,
+                      landingPage: e
+                    })
+                  }
+                />
+              )
             },
             {
               label: `Advanced`,
               key: '4',
-              children: `Content of Tab Pane 3`
+              children: (
+                <CourseAdvancedSettings
+                  courseId={course._id}
+                  formData={course.advanced}
+                  onFormUpdate={e =>
+                    onCourseUpdate({
+                      ...course,
+                      advanced: {
+                        ...course.advanced,
+                        ...e
+                      }
+                    })
+                  }
+                />
+              )
             }
           ]}
         />

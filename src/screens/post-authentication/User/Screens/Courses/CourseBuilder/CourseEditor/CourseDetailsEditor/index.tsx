@@ -87,7 +87,6 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
 
 <Form.Item required label="Requirements" name='requirements'>
           <QuillEditor onChange={e => {
-            console.log(e,'ee')
             props.onFormUpdate({ requirements: e })
           }} />
 </Form.Item>

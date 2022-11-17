@@ -1,5 +1,4 @@
 // @ts-nocheck
-import { HEADER_ITEMS, MenuItems } from './constants'
 import {
   Badge,
   Button,
@@ -12,13 +11,10 @@ import {
   Typography
 } from 'antd'
 import { Outlet, useNavigate } from 'react-router'
-import React, { useEffect } from 'react'
 
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
-import Header from './Header/Header'
-import useCart from '@Store/useCart'
-import { useGetLearnerDetails } from '@Learner/Api/queries'
+import Header from '@Components/Header'
 import { useGetCartItems } from '@Learner/Api/Common/queries'
 
 const { Content } = Layout

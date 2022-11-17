@@ -10,6 +10,19 @@ export const INITIAL_COURSE_DETAILS: Course = {
   sections: [],
   thumbnailImage: '',
   _id: '',
+  landingPage: {
+    url: '',
+    promoVideo: '',
+    title: '',
+    subtitle: ''
+  },
+  advanced: {
+    email: {
+      content: '',
+      enabled: true,
+      subject:''
+    }
+  },
   studentsEnrolled: 0,
   howToUse: '',
   plan: '',
@@ -24,7 +37,7 @@ export const INITIAL_LEARNER_DETAILS: Learner = {
   username: '',
   contactNo: '',
   isDeactivated: '',
-  cartItems:[],
+  cartItems: [],
   status: '',
   createdAt: '',
   _id: ''
@@ -56,19 +69,15 @@ export const INITIAL_QUESTION_DETAILS: CourseQuestion = {
   _id: ''
 }
 
-
-
-
-export const INITIAL_INSTRUCTOR_DETAILS:Instructor = {
+export const INITIAL_INSTRUCTOR_DETAILS: Instructor = {
   name: '',
   aboutMe: '',
   email: '',
   designation: '',
-  image:'',
+  image: '',
   createdAt: '',
   updatedAt: '',
   _id: '',
-  courses:0,
-  organisation:''
-  
+  courses: 0,
+  organisation: ''
 }

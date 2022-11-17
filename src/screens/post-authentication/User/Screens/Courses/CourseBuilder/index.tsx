@@ -9,7 +9,7 @@ import CourseSectionsNavigator from './CourseSectionsNavigator'
 import CreateHeading from './CreateNewItem/CreateHeading'
 import styled from '@emotion/styled'
 import { updateCourseSectionItem } from './utils'
-import Header from '../../Header/Header'
+import Header from '@Components/Header'
 
 import { cloneDeep } from 'lodash'
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
@@ -153,6 +153,7 @@ function CourseBuilderScreen() {
   return (
     <Header
       title={'Course Builder'}
+      showBack
       extra={[
         <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>
           Publish Course
