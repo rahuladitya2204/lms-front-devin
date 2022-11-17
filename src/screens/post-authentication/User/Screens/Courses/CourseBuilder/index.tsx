@@ -153,7 +153,7 @@ function CourseBuilderScreen() {
   return (
     <Header
       title={'Course Builder'}
-      showBack
+      hideBack
       extra={[
         <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>
           Publish Course

@@ -20,7 +20,7 @@ export const INITIAL_COURSE_DETAILS: Course = {
     email: {
       content: '',
       enabled: true,
-      subject:''
+      subject: ''
     }
   },
   studentsEnrolled: 0,
@@ -28,6 +28,12 @@ export const INITIAL_COURSE_DETAILS: Course = {
   plan: '',
   whatYouLearn: '',
   requirements: ''
+}
+
+export const INITIAL_ENROLLED_COURSE_DETAILS = {
+  course: INITIAL_COURSE_DETAILS,
+  completed: [],
+  progress: 0
 }
 
 export const INITIAL_LEARNER_DETAILS: Learner = {

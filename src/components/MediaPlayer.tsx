@@ -1,16 +1,19 @@
 import 'react-quill/dist/quill.snow.css'
 
 import ReactPlayer from 'react-player'
+import { HTMLAttributes } from 'react'
 
 interface MediaPlayerPropsI {
   url: string;
   width?: number;
   height?: number;
+  onEnded?: () => void;
 }
 
 function MediaPlayer(props: MediaPlayerPropsI) {
   return (
     <ReactPlayer
+      onEnded={props.onEnded}
       controls
       playing={false}
       height="500px"

@@ -13,6 +13,7 @@ export interface CourseSectionItem {
   isPreview?: boolean;
   _id: string;
   description?: string;
+  isCompleted?: boolean;
   type: string;
   section?: string;
   metadata?: {
@@ -37,6 +38,12 @@ export interface Course {
   requirements: string;
   studentsEnrolled: number;
   questions?: CourseQuestion[];
+}
+
+export interface EnrolledCourseDetails {
+  course: Course;
+  progress?: number;
+  completed:string[]
 }
 
 export interface CourseAdvancedSetting {

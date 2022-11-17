@@ -43,7 +43,7 @@ function LearnerEditor() {
 
   return (
     <Header
-      showBack
+    hideBack
       title="Learner Editor"
       extra={[
         <Fragment>

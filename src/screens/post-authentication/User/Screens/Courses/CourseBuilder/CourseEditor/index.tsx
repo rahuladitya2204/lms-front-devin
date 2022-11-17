@@ -46,7 +46,7 @@ function CourseEditor() {
 
   return (
     <Header
-      showBack
+    hideBack
       title="Course Editor"
       extra={[
         <Fragment>

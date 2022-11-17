@@ -1,6 +1,6 @@
 import { Collapse, List, Typography } from 'antd'
 
-import CoursePlayerCollapsibleItem from './CoursePlayerCollapsibleItem'
+import CoursePlayerNavigatorItem from './CoursePlayerNavigatorItem'
 import { Fragment } from 'react'
 import styled from '@emotion/styled'
 import { CourseSection } from '@Types/Courses.types'
@@ -26,12 +26,13 @@ const CustomCollapse = styled(Collapse)`
   }
 `
 
-interface CoursePlayerCollapsiblePropsI {
+interface CoursePlayerNavigatorPropsI {
   sections: CourseSection[];
+  courseId: string;
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
-function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
+function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
   return (
     <Fragment>
       <CustomCollapse
@@ -60,7 +61,7 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
                 // itemLayout="horizontal"
                 dataSource={section.items}
                 renderItem={(item, itemIndex) => (
-                  <CoursePlayerCollapsibleItem
+                  <CoursePlayerNavigatorItem courseId={props.courseId}
                     section={section}
                     toggleItemCheck={props.toggleItemCheck}
                     item={item}
@@ -83,4 +84,4 @@ function CoursePlayerCollapsible(props: CoursePlayerCollapsiblePropsI) {
   )
 }
 
-export default CoursePlayerCollapsible
+export default CoursePlayerNavigator

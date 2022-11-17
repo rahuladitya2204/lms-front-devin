@@ -10,18 +10,13 @@ import {
   Typography
 } from 'antd'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import CoursePlayerCollapsible from './CoursePlayerCollapsible/CoursePlayerCollapsible'
+import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import { useEffect } from 'react'
 import Header from '@Components/Header'
-import {
-  ArrowLeftOutlined,
-  CaretLeftOutlined,
-  CaretRightOutlined
-} from '@ant-design/icons'
+import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import styled from '@emotion/styled'
-import { Link } from 'react-router-dom'
-import { useGetCourseDetails } from '@Learner/Api/Course/queries'
+import { useGetEnrolledCourseDetails } from '@Learner/Api/Course/queries'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -44,9 +39,12 @@ const CustomCard = styled(Card)`
 const Text = Typography.Text
 function CoursePlayer() {
   const { id: courseId, itemId } = useParams()
-  const { data: course } = useGetCourseDetails(courseId + '', {
-    enabled: !!courseId
-  })
+  const { data: { course, progress } } = useGetEnrolledCourseDetails(
+    courseId + '',
+    {
+      enabled: !!courseId
+    }
+  )
   const navigate = useNavigate()
 
   const sections = course.sections
@@ -104,7 +102,7 @@ function CoursePlayer() {
           Your Progress<Progress
             style={{ marginLeft: 10 }}
             type="circle"
-            percent={30}
+            percent={progress}
             width={40}
           />
         </Text>
@@ -162,6 +160,7 @@ function CoursePlayer() {
         </Col>
         <Col span={7}>
           <CoursePlayerCollapsible
+            courseId={course._id}
             toggleItemCheck={toggleItemCheck}
             sections={sections}
           />

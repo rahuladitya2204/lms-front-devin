@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router'
 interface HeaderPropsI extends PageHeaderProps {
   children?: React.ReactNode;
   title?: React.ReactNode;
-  showBack?: boolean;
+  hideBack?: boolean;
   extra?: React.ReactNode[];
   bgColor?: string;
 }
@@ -30,8 +30,8 @@ function Header(props: HeaderPropsI) {
       <Col span={24}>
         <CustomHeader
           {...props}
-          backIcon={props.showBack}
-          onBack={() => props.showBack && navigate(-1)}
+          backIcon={!props.hideBack}
+          onBack={() => navigate(-1)}
           extra={props.extra}
           title={props.title}
         >
