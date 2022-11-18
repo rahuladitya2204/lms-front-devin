@@ -64,7 +64,7 @@ function InstructorsScreen() {
                   </Space>
                 )}
               />
-            </Table>;
+            </Table>
           </Col>
         </Row>
       </Card>

@@ -46,7 +46,7 @@ function CourseEditor() {
 
   return (
     <Header
-    hideBack
+      hideBack
       title="Course Editor"
       extra={[
         <Fragment>
@@ -119,15 +119,13 @@ function CourseEditor() {
                 <CourseAdvancedSettings
                   courseId={course._id}
                   formData={course.advanced}
-                  onFormUpdate={e =>
+                  onFormUpdate={e => {
+                    console.log(e, 'eee')
                     onCourseUpdate({
-                      ...course,
-                      advanced: {
-                        ...course.advanced,
-                        ...e
-                      }
+                      // ...course,
+                      advanced: e
                     })
-                  }
+                  }}
                 />
               )
             }

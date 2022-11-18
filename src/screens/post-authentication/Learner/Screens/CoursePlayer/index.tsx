@@ -48,7 +48,6 @@ function CoursePlayer() {
   const navigate = useNavigate()
 
   const sections = course.sections
-
   useEffect(
     () => {
       if (sections[0]?.items[0]) {

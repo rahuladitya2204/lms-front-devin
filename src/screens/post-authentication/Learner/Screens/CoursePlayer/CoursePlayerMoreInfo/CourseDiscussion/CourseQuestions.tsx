@@ -5,7 +5,6 @@ import {
   Comment,
   List,
   Row,
-  Tooltip,
   Typography
 } from 'antd'
 
@@ -17,8 +16,8 @@ import {
   CommentOutlined,
 
 } from '@ant-design/icons'
-import CreateQuestion from './CreateQuestion'
 import { useGetCourseQuestions } from '@Learner/Api/Course/queries'
+import CreateQuestion from './CreateQuestion'
 
 const { Text } = Typography
 

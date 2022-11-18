@@ -156,7 +156,7 @@ function CourseDetailViewer () {
           >
             <Card bordered={false} bodyStyle={{ padding: 15 }}>
                   <Row gutter={[20, 10]}>
-                    <Col span={24}>                    <Image src={ course.thumbnailImage} />
+                    <Col span={24}>                    <Image preview={false} src={ course.thumbnailImage} />
 </Col>
                     <Col span={24}>
                       <Row justify="space-between" align='middle'>

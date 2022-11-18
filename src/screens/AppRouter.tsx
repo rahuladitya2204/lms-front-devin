@@ -36,13 +36,14 @@ import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/En
 import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
+import SettingsScreen from '@User/Screens/Settings/Settings'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootScreen />}>
       <Route path="user">
         <Route path="dashboard" element={<UserDashboard />}>
-          {/* <Route path="home" element={<HomeScreen />} /> */}
+          <Route path="settings" element={<SettingsScreen />} />
           <Route path="users">
             <Route path="instructors">
               <Route path="" element={<InstructorsScreen />} />

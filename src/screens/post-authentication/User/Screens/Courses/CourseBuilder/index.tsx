@@ -176,7 +176,7 @@ function CourseBuilderScreen() {
                 <MediaUpload
                   width="100%"
                   height="200px"
-                  renderItem={() => <Image src={course.thumbnailImage} />}
+                  renderItem={() => <Image preview={false} src={course.thumbnailImage} />}
                   onUpload={e =>
                     setCourse({
                       ...course,

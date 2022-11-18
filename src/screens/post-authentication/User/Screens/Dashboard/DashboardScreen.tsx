@@ -16,7 +16,7 @@ const Logo = styled.img`
   display: block;
 `
 
-const { Header, Content, Sider } = Layout
+const { Content, Sider } = Layout
 
 const UserDashboard: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)

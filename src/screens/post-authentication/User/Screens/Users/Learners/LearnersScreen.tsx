@@ -55,7 +55,7 @@ function LearnersScreen() {
                     </Space>
                   )}
                 />
-              </Table>;
+              </Table>
             </Col>
           </Row>
         </Card>

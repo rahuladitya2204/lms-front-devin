@@ -19,7 +19,7 @@ export const INITIAL_COURSE_DETAILS: Course = {
   advanced: {
     email: {
       content: '',
-      enabled: true,
+      enabled: false,
       subject: ''
     }
   },

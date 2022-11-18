@@ -37,7 +37,9 @@ export const useGetEnrolledCourses = () => {
       useQuery<EnrolledCourseDetails>([LEARNER_KEYS.GET_ENROLLED_COURSE_DETAILS, id], () => GetEnrolledCourseDetails(id).then(({ completed, course }) => {
         const calculatedProgress = calcCourseProgress({course, completed});
         return {course:calculatedProgress.course,progress:calculatedProgress.progress,completed};
-      }), options);
+      }), {
+        notifyOnChangeProps:['data']
+      });
     return {
       data:data,
       isLoading
@@ -63,7 +65,7 @@ export const useGetEnrolledCourses = () => {
     const mutation = useMutation((data: { courseId: string, itemId: string;  action: string}): Promise<void> => {
       return UpdateCourseProgress(data)
         .then(() => {
-        qc.invalidateQueries([LEARNER_KEYS.GET_ENROLLED_COURSE_DETAILS]);
+        // qc.invalidateQueries([LEARNER_KEYS.GET_ENROLLED_COURSE_DETAILS]);
         message.success('Progress Updated');
       })
     });

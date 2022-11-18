@@ -19,7 +19,7 @@ const CustomHeader = styled(PageHeader)`
   .ant-page-header-heading {
     padding: 12px;
     background-color: ${(props: { bgColor?: string }) =>
-      props.bgColor ? props.bgColor : 'auto'};
+      props.bgColor ? props.bgColor : ''};
   }
 `
 

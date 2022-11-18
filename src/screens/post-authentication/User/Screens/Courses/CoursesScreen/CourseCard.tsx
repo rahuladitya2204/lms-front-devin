@@ -2,9 +2,8 @@ import { Badge, Card, Tooltip } from 'antd'
 import {
   EyeOutlined,
   FormatPainterOutlined,
-  SettingOutlined,
+  InfoCircleOutlined,
   ToolOutlined,
-  WechatOutlined
 } from '@ant-design/icons'
 
 import Avatar from 'antd/lib/avatar/avatar'
@@ -39,7 +38,7 @@ function CourseCard(props: CourseCardProps) {
         </Badge.Ribbon>
       }
       actions={[
-        <SettingOutlined
+        <InfoCircleOutlined
           onClick={() => navigate(`${props.course._id}/editor`)}
         />,
         <Tooltip placement="bottom" title={'Go to course builder'}>

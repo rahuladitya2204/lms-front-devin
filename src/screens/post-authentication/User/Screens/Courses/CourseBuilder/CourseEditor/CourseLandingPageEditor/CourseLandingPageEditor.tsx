@@ -37,11 +37,7 @@ import MediaUpload from '@Components/MediaUpload';
             </Form.Item>
             
             <Form.Item required label="Promo Video">
-              <MediaUpload width='300px' height='250px' renderItem={() => <MediaPlayer url={props.formData.promoVideo } />}  onUpload={({url}) => {
-                onFormUpdate({
-                  promoVideo: url
-                });
-          }} url={props.formData?.promoVideo} />
+            <MediaPlayer width={500} url={props.formData.promoVideo } />
     </Form.Item>
 
 
