@@ -1,5 +1,4 @@
 import { Card, Progress, Typography } from 'antd'
-import Meta from 'antd/lib/card/Meta'
 import { Course } from '@Types/Courses.types'
 import styled from '@emotion/styled'
 
@@ -23,7 +22,7 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
       bodyStyle={{ padding: 10 }}
       cover={<img alt="example" src={props.course.thumbnailImage} />}
     >
-      <Meta
+      <Card.Meta
         // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
         title={
           <Text style={{ fontSize: 13 }} type="secondary">

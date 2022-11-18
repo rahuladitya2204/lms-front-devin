@@ -2,7 +2,6 @@ import { Button, Col, Form, Input, Radio, Row, Select } from 'antd'
 import { Fragment, useEffect } from 'react'
 import {  Plan } from '@Types/Courses.types'
 import ActionModal from '@Components/ActionModal'
-import { Option } from 'antd/lib/mentions'
 import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
 import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/Course/queries'
 
@@ -96,8 +95,8 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
                     type="number"
                     addonBefore={
                       <Select defaultValue="rupee">
-                        <Option value="rupee">₹</Option>
-                        <Option value="dollar">$</Option>
+                        <Select.Option value="rupee">₹</Select.Option>
+                        <Select.Option value="dollar">$</Select.Option>
                       </Select>
                     }
                   />
@@ -112,8 +111,8 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
                     type="number"
                     addonBefore={
                       <Select defaultValue="rupee">
-                        <Option value="rupee">₹</Option>
-                        <Option value="dollar">$</Option>
+                        <Select.Option value="rupee">₹</Select.Option>
+                        <Select.Option value="dollar">$</Select.Option>
                       </Select>
                     }
                     defaultValue="mysite"

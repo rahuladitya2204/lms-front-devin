@@ -1,5 +1,5 @@
-import { Avatar, Comment, List, Tooltip, Typography } from 'antd'
-
+import { Avatar, List, Tooltip, Typography } from 'antd'
+import { Comment } from '@ant-design/compatible';
 import React, { Fragment } from 'react'
 import { CourseQuestion } from '@Types/Courses.types'
 import CreateAnswer from './CreateAnswer'

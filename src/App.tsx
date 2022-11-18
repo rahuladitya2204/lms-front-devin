@@ -1,13 +1,12 @@
 import './App.less'
 
-import {
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { Fragment } from 'react'
 
 import { Global } from '@emotion/react'
 import AppRouter from './screens/AppRouter'
+import { ConfigProvider } from 'antd'
+import { THEME } from 'theme/constant'
 
 const queryClient = new QueryClient()
 
@@ -23,7 +22,11 @@ function App () {
             }
           }}
         />
-        <AppRouter />
+        <ConfigProvider theme={{
+          token: THEME
+        }} csp={{ nonce: 'YourNonceCode' }}>
+          <AppRouter />
+        </ConfigProvider>
       </QueryClientProvider>
     </Fragment>
   )

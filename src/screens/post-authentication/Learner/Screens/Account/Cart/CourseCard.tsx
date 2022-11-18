@@ -2,13 +2,11 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { Course, Plan } from '@Types/Courses.types'
 import { Instructor } from '@Types/Instructor.types';
 import { UnitTypeToStr } from '@User/Screens/Courses/CourseBuilder/utils';
-import { Button, Card, Col, Form, Image, Input, Row, Space, Tabs, Tag, Typography } from 'antd'
-import confirm from 'antd/lib/modal/confirm';
-import useModal from 'antd/lib/modal/useModal';
+import { Button, Card, Col, Form, Image, Input, Modal, Row, Space, Tabs, Tag, Typography } from 'antd'
 import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts';
 
 const { Title, Text } = Typography
-
+const {confirm } = Modal;
 interface LearnerCartCourseCardPropsI {
   course: Course;
   removeItemFromCart: (id: string) => void;

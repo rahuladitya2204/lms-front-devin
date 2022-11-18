@@ -3,6 +3,7 @@ import {
   Card,
   Collapse,
   List,
+  Modal,
   Space,
   Tooltip,
   Typography
@@ -14,11 +15,16 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
-import confirm from 'antd/lib/modal/confirm'
+
+const { confirm } = Modal
 
 const CustomCollapse = styled(Collapse)`
   .ant-collapse-content-box {
-    padding: 0;
+    padding: 0 !important;
+  }
+
+  .ant-list-item-meta-title {
+    margin-top: 0;
   }
 
   .ant-list-footer {
@@ -146,12 +152,10 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                       >
                         <List.Item.Meta
                           style={{ cursor: 'pointer' }}
-                          title={
-                            <Typography.Text ellipsis>
-                              {item.title}
-                            </Typography.Text>
+                          title={item.title}
+                          avatar={
+                            <CourseItemIcon type="outlined" item={item} />
                           }
-                          avatar={<CourseItemIcon item={item} />}
                         />
                       </CourseListItem>
                     )}

@@ -1,9 +1,7 @@
 /*eslint-disable */
 
-import { Col, PageHeader, PageHeaderProps, Row } from 'antd'
-
-import useGlobal from '@Store/useGlobal'
-import { HTMLAttributes } from 'react'
+import { Col, Row } from 'antd'
+import { PageHeader, PageHeaderProps } from '@ant-design/pro-layout';
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 

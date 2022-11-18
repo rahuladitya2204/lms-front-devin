@@ -1,4 +1,4 @@
-import { Badge, Card, Tooltip } from 'antd'
+import { Avatar, Badge, Card, Tooltip } from 'antd'
 import {
   EyeOutlined,
   FormatPainterOutlined,
@@ -6,8 +6,6 @@ import {
   ToolOutlined,
 } from '@ant-design/icons'
 
-import Avatar from 'antd/lib/avatar/avatar'
-import Meta from 'antd/lib/card/Meta'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 import { Course } from '@Types/Courses.types'
@@ -60,7 +58,7 @@ function CourseCard(props: CourseCardProps) {
         // <SettingOutlined />
       ]}
     >
-      <Meta description={`By ${instructor?.name}`}
+      <Card.Meta description={`By ${instructor?.name}`}
         avatar={<Avatar src={instructor?.image} />}
         title={props.course.title || ''}
       />

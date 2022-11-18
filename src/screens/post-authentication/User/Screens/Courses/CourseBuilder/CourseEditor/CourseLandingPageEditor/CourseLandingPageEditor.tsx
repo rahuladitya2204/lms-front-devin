@@ -37,7 +37,7 @@ import MediaUpload from '@Components/MediaUpload';
             </Form.Item>
             
             <Form.Item required label="Promo Video">
-            <MediaPlayer width={500} url={props.formData.promoVideo } />
+            {/* <MediaPlayer width={500} url={props.formData.promoVideo } /> */}
     </Form.Item>
 
 

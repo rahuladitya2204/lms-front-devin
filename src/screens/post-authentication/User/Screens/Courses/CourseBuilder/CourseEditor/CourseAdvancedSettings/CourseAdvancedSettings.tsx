@@ -6,10 +6,8 @@ import {
     import { Fragment, useEffect } from 'react'
     import QuillEditor from '@Components/QuillEditor';
     import {  CourseAdvancedSetting } from '@Types/Courses.types';
-    import { useGetInstructors } from '@User/Api/Instructor/queries';
-import { useWatch } from 'antd/lib/form/Form';
 const { Title} = Typography;
-    
+const { useWatch} = Form;    
     interface CourseAdvancedSettingsPropsI {
         formData: CourseAdvancedSetting;
         courseId: string;

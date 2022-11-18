@@ -2,12 +2,11 @@ import {
   Avatar,
   Card,
   Col,
-  Comment,
   List,
   Row,
   Typography
 } from 'antd'
-
+import { Comment } from '@ant-design/compatible';
 import React from 'react'
 import { Course, CourseQuestion } from '@Types/Courses.types'
 

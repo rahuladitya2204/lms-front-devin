@@ -14,7 +14,6 @@ import {
 import { NavLink, useNavigate, useParams } from 'react-router-dom'
 
 import { Typography } from 'antd'
-import Meta from 'antd/lib/card/Meta'
 import { BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Course, Plan } from '@Types/Courses.types'
 import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
@@ -53,7 +52,7 @@ function CourseCard(props: CourseCardPropsI) {
           /> 
         }
       >
-        <Meta
+        <Card.Meta
           // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
           title={<Space size='small' direction="vertical"  >
             <Text style={{ fontSize: 14 }} type='secondary'>
