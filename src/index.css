@@ -34,3 +34,12 @@ code {
   height: 100%; /* NEW */
 }
 
+
+
+.ant-list-item-meta-content h4.ant-list-item-meta-title{
+  margin-top: 0;
+}
+
+.ant-collapse-header-text h5{ 
+  margin-top: 0;
+}

@@ -12,7 +12,7 @@ function LearnersScreen() {
 
   return (
       <Header>
-        <Card
+        <Card bodyStyle={{padding: 0}}
           title={'Learners'}
           extra={
             <AddLearner>

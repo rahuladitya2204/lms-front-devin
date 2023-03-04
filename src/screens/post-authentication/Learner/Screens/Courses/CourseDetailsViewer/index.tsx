@@ -154,7 +154,7 @@ function CourseDetailViewer () {
             style={{ padding: 0 }}
             bodyStyle={{ padding: 5 }}
           >
-            <Card bordered={false} bodyStyle={{ padding: 15 }}>
+            {/* <Card bordered={false} bodyStyle={{ padding: 15 }}> */}
                   <Row gutter={[20, 10]}>
                     <Col span={24}>                    <Image preview={false} src={ course.thumbnailImage} />
 </Col>
@@ -197,7 +197,7 @@ function CourseDetailViewer () {
                   </Row>
                 </Col>
               </Row>
-            </Card>
+            {/* </Card> */}
           </Card>
             </Col></Row>
         </Col>

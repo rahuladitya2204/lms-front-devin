@@ -22,7 +22,7 @@ const ControlButton = styled(Button)`
   position: absolute;
   top: 220px;
   padding: 0px;
-  width: 23px;
+  width: 18px !important;
   border-radius: 0;
   display: block;
   z-index: 999;
@@ -125,9 +125,9 @@ function CoursePlayer() {
                     title={`Previous: ${prevItem.title}`}
                   >
                     <ControlButton
-                      // type='primary'
                       style={{
-                        left: 0
+                        left: 0,
+                        borderLeft: 0
                       }}
                       onClick={prev}
                       icon={<CaretLeftOutlined />}
@@ -139,7 +139,8 @@ function CoursePlayer() {
                   <Tooltip placement="left" title={`Next: ${nextItem.title}`}>
                     <ControlButton
                       style={{
-                        right: 0
+                        right: 0,
+                        borderRight: 0
                       }}
                       onClick={next}
                       // type='primary'

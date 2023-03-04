@@ -1,6 +1,6 @@
 import { Checkbox, List, Tag, Typography } from 'antd'
 
-import { NavLink, useParams } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { Unit, unit } from 'mathjs'
 import styled from '@emotion/styled'
 import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
@@ -18,6 +18,9 @@ interface CoursePlayerNavigatorItemPropsI {
 
 const CourseListItem = styled(List.Item)`
   border-bottom: 1px solid #f0f0f0 !important;
+  h4{
+    margin-top: 0;
+  }
 
   background: ${(props: { isActive: boolean }) =>
     props.isActive ? '#e3e3e3' : 'auto'};
@@ -63,7 +66,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
               />
             }
             title={
-              <Text ellipsis>
+              <Text style={{ marginTop: 0}} ellipsis>
                 {props.itemIndex}. {props.item.title}
               </Text>
             }

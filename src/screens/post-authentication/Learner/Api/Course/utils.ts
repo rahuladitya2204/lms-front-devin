@@ -19,6 +19,6 @@ export const calcCourseProgress = ({
       }
     })
   })
-  const progress = completedCourses / totalItems * 100
+  const progress = Math.ceil(completedCourses / totalItems * 100);
   return { course, progress, completed }
 }

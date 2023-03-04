@@ -6,7 +6,7 @@ import React, { Fragment } from 'react'
 import { Global } from '@emotion/react'
 import AppRouter from './screens/AppRouter'
 import { ConfigProvider } from 'antd'
-import { THEME } from 'theme/constant'
+import { THEME } from 'theme/theme'
 
 const queryClient = new QueryClient()
 
@@ -22,9 +22,7 @@ function App () {
             }
           }}
         />
-        <ConfigProvider theme={{
-          token: THEME
-        }} csp={{ nonce: 'YourNonceCode' }}>
+        <ConfigProvider theme={THEME} csp={{ nonce: 'YourNonceCode' }}>
           <AppRouter />
         </ConfigProvider>
       </QueryClientProvider>

@@ -8,17 +8,12 @@ import { CourseSection } from '@Types/Courses.types'
 const { Panel } = Collapse
 
 const CustomCollapse = styled(Collapse)`
-  .ant-collapse-content-box {
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
   div.ant-collapse {
     border-radius: 0 !important;
   }
 
   .ant-collapse-content-box {
-    padding: 0;
+    padding: 0 !important;
   }
 
   .ant-list-item {

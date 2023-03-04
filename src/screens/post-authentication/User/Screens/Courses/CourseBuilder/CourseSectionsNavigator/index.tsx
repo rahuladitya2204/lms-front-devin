@@ -6,7 +6,6 @@ import {
   Modal,
   Space,
   Tooltip,
-  Typography
 } from 'antd'
 
 import AddItem from '../AddItem'
@@ -39,6 +38,9 @@ const CustomCollapse = styled(Collapse)`
 `
 
 const CourseListItem = styled(List.Item)`
+  .ant-list-item {
+    padding: 15px !important; 
+  }
   background: ${(props: { isActive: boolean }) =>
     props.isActive ? '#e3e3e3' : 'auto'};
 `
