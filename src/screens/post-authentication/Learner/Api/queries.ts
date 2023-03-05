@@ -1,13 +1,14 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { message } from "antd"
-import { useNavigate } from "react-router"
-import {   GetLearnerDetails, LoginLearner, RegisterLearner, UpdateLearner } from "."
-import { KEYS } from "@Network/keys"
-import useAuthentication from "@Store/useAuthentication"
+import { GetLearnerDetails, LoginLearner, RegisterLearner, UpdateLearner } from "."
 import { LoginData, SignupData } from "@Types/Common.types"
-import {  Learner } from "@Types/Learner.types"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
+
+import { INITIAL_LEARNER_DETAILS } from "constant.ts"
+import { KEYS } from "@Network/keys"
+import { Learner } from "@Types/Learner.types"
+import { message } from "antd"
 import { saveItemToStorage } from "@Utils/storage"
-import {  INITIAL_LEARNER_DETAILS } from "constant.ts"
+import useAuthentication from "@Store/useAuthentication"
+import { useNavigate } from "react-router"
 
 // Login - register
 
@@ -21,7 +22,7 @@ export const useLoginLearner = () => {
    }).then(({ data: { token, user } }) => {
      saveItemToStorage('learner-auth-token', token)
      setIsSignedin(true)
-     navigate('/learner/dashboard/home')
+     navigate(`/learner/${user.organisation}/dashboard/courses`)
    })
  })
  return mutation

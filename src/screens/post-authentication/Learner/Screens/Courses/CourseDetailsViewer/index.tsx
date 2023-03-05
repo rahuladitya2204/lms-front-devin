@@ -10,26 +10,26 @@ import {
   Tag,
   Typography
 } from 'antd'
-
-import CourseDetails from './CourseDetails'
-import CourseMetadata from './CourseMetadata'
 import {
   AlertOutlined,
   UserOutlined
 } from '@ant-design/icons'
+import { Course, Plan } from '@Types/Courses.types'
+import { INITIAL_COURSE_DETAILS, INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
+import { useEffect, useState } from 'react'
+import { useEnrollForCourse, useGetCourseDetails } from '@Learner/Api/Course/queries'
+import { useGetCartItems, useUpdateCartItems } from '@Learner/Api/Common/queries'
+
+import CourseDetails from './CourseDetails'
+import CourseMetadata from './CourseMetadata'
+import { Instructor } from '@Types/Instructor.types'
 import image from './bg.svg'
 import styled from '@emotion/styled'
-import {  useParams } from 'react-router'
 import {
   useGetLearnerDetails
 } from '@Learner/Api/queries'
-import { useEffect, useState } from 'react'
-import { Instructor } from '@Types/Instructor.types'
-import { Course, Plan } from '@Types/Courses.types'
-import { INITIAL_COURSE_DETAILS, INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
+import { useParams } from 'react-router'
 import { useUpdateLearner } from '@Learner/Api/queries'
-import { useEnrollForCourse, useGetCourseDetails } from '@Learner/Api/Course/queries'
-import { useGetCartItems, useUpdateCartItems } from '@Learner/Api/Common/queries'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -122,7 +122,6 @@ function CourseDetailViewer () {
                     </Col>
                   </Row>
                 </Col>
-
                 <Col>
                   <MetaText strong>Categories</MetaText> <br />
                   <MetaText>Design</MetaText>

@@ -1,18 +1,17 @@
 import { Button, Card, Tabs } from 'antd'
 import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
-import { Outlet, useParams } from 'react-router'
 import { Fragment, useEffect, useState } from 'react'
-
-import CourseDetailsEditor from './CourseDetailsEditor'
-import Header from '@Components/Header'
+import { Outlet, useParams } from 'react-router'
+import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
 
 import { Course } from '@Types/Courses.types'
-import { STRINGIFY } from '../utils'
-import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
-import { INITIAL_COURSE_DETAILS } from 'constant.ts'
-import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
-import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
 import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
+import CourseDetailsEditor from './CourseDetailsEditor'
+import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
+import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
+import Header from '@Components/Header'
+import { INITIAL_COURSE_DETAILS } from 'constant.ts'
+import { STRINGIFY } from '../utils'
 
 function CourseEditor() {
   const { id: courseId } = useParams()
@@ -46,7 +45,7 @@ function CourseEditor() {
 
   return (
     <Header
-      hideBack
+      // hideBack
       title="Course Editor"
       extra={[
         <Fragment>

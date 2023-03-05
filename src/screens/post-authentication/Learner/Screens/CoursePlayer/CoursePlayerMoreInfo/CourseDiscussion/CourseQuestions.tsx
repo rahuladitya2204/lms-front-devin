@@ -1,4 +1,8 @@
 import {
+  ArrowUpOutlined,
+  CommentOutlined,
+} from '@ant-design/icons'
+import {
   Avatar,
   Card,
   Col,
@@ -6,17 +10,12 @@ import {
   Row,
   Typography
 } from 'antd'
-import { Comment } from '@ant-design/compatible';
-import React from 'react'
 import { Course, CourseQuestion } from '@Types/Courses.types'
 
-import {
-  ArrowUpOutlined,
-  CommentOutlined,
-
-} from '@ant-design/icons'
-import { useGetCourseQuestions } from '@Learner/Api/Course/queries'
+import { Comment } from '@ant-design/compatible';
 import CreateQuestion from './CreateQuestion'
+import React from 'react'
+import { useGetCourseQuestions } from '@Learner/Api/Course/queries'
 
 const { Text } = Typography
 
@@ -45,7 +44,7 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
                   key={question._id}
                   actions={[
                     <Text strong>
-                      <ArrowUpOutlined /> 12
+                      <ArrowUpOutlined /> {question.answers.length}
                     </Text>,
                     <Text strong>
                       <CommentOutlined

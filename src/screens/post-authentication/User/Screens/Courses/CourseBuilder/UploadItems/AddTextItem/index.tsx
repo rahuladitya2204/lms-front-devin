@@ -1,6 +1,8 @@
 import { Checkbox, Form, Input } from 'antd'
+
 import { Fragment } from 'react'
 import QuillEditor from '@Components/QuillEditor'
+import UploadFiles from '@Components/UploadFiles';
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 interface AddTextItemForm {
@@ -35,7 +37,10 @@ const AddTextItem: React.FC = () => {
             value={item.description}
           />
         </Form.Item>
-      </Form>
+
+        <Form.Item label="Add Files" required>
+          <UploadFiles />
+        </Form.Item>      </Form>
     </Fragment>
   )
 }

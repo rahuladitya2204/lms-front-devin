@@ -2,6 +2,8 @@ import {
   Button,
   Card,
   Col,
+  Divider,
+  Dropdown,
   Image,
   Progress,
   Row,
@@ -9,13 +11,14 @@ import {
   Tooltip,
   Typography
 } from 'antd'
+import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import { Outlet, useNavigate, useParams } from 'react-router'
+
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
-import { useEffect } from 'react'
 import Header from '@Components/Header'
-import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
 import styled from '@emotion/styled'
+import { useEffect } from 'react'
 import { useGetEnrolledCourseDetails } from '@Learner/Api/Course/queries'
 
 const ControlButton = styled(Button)`
@@ -36,7 +39,7 @@ const CustomCard = styled(Card)`
   }
 `
 
-const Text = Typography.Text
+const { Text, Title } = Typography
 function CoursePlayer() {
   const { id: courseId, itemId } = useParams()
   const { data: { course, progress } } = useGetEnrolledCourseDetails(
@@ -82,9 +85,11 @@ function CoursePlayer() {
   }
   return (
     <Header
+      theme="dark"
       title={
-        <Space style={{ cursor: 'pointer' }}>
+        <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
           <Image
+            onClick={() => navigate('/learner/123123/dashboard/courses')}
             style={{ cursor: 'pointer' }}
             width={40}
             preview={false}
@@ -92,12 +97,36 @@ function CoursePlayer() {
               'https://asset-cdn.learnyst.com/assets/schools/110998/schoolLogo/soiclogolearnyst_r5jz9f.png'
             }
           />
+          <Divider type="vertical" />
+          <Text style={{ fontSize: 16 }}>{course.title}</Text>
         </Space>
       }
       subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
       style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
       extra={[
-        <Text strong>
+        <Dropdown.Button
+          menu={{
+            items: [
+              {
+                key: '3',
+                label: (
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://www.luohanacademy.com"
+                  >
+                    3rd menu item
+                  </a>
+                )
+              }
+            ]
+          }}
+          placement="topRight"
+          arrow={{ pointAtCenter: true }}
+        >
+          Share
+        </Dropdown.Button>,
+        <Text strong style={{ paddingRight: 10 }}>
           Your Progress<Progress
             style={{ marginLeft: 10 }}
             type="circle"
@@ -113,7 +142,7 @@ function CoursePlayer() {
         justify="space-between"
       >
         <Col span={17}>
-          <Row gutter={[10, 10]}>
+          <Row>
             <Col span={24}>
               <CustomCard
                 style={{ height: 500, overflow: 'hidden' }}

@@ -4,6 +4,7 @@ import {
   Button,
   Col,
   Dropdown,
+  Image,
   Layout,
   Menu,
   Row,
@@ -11,14 +12,16 @@ import {
   Typography
 } from 'antd'
 import { Outlet, useNavigate } from 'react-router'
-
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
-import { Link } from 'react-router-dom'
+
 import Header from '@Components/Header'
+import { Input } from 'antd'
+import { Link } from 'react-router-dom'
 import { useGetCartItems } from '@Learner/Api/Common/queries'
 
 const { Content } = Layout
 const { Text } = Typography
+const { Search } = Input
 
 const LearnerDashboard: React.FC = () => {
   const { data: cartItems } = useGetCartItems()
@@ -26,17 +29,35 @@ const LearnerDashboard: React.FC = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Layout className="site-layout">
-        <Header hideBack
-          avatar={{
-            src: 'https://avatars1.githubusercontent.com/u/8186664?s=460&v=4'
-          }}
+        <Header
+          hideBack
+          title={
+            <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
+              <Image onClick={()=>navigate('/learner/123123/dashboard/courses')}
+                style={{ cursor: 'pointer' }}
+                width={40}
+                preview={false}
+                src={
+                  'https://asset-cdn.learnyst.com/assets/schools/110998/schoolLogo/soiclogolearnyst_r5jz9f.png'
+                }
+              />
+              {/* <Search
+                placeholder="Search Courses"
+                // onSearch={onSearch}
+                style={{ width: 200 }}
+              /> */}
+            </Space>
+          }
           bgColor="#fff"
           extra={[
             <Link to={`store`} style={{ margin: '0 10px' }}>
               <Text strong>Store</Text>
             </Link>,
+            <Link to={`store`} style={{ margin: '0 10px' }}>
+              <Text strong>Blogs</Text>
+            </Link>,
             <Link to={`courses`} style={{ margin: '0 10px' }}>
-              <Text strong>Courses</Text>
+              <Text strong>My Courses</Text>
             </Link>,
 
             <Space>

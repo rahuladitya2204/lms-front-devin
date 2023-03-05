@@ -1,42 +1,42 @@
 import {
   BrowserRouter,
-  createBrowserRouter,
-  createRoutesFromElements,
   Navigate,
   Route,
   RouterProvider,
-  Routes
+  Routes,
+  createBrowserRouter,
+  createRoutesFromElements
 } from 'react-router-dom'
 
+import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
+import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
+import CourseEditor from './post-authentication/User/Screens/Courses/CourseBuilder/CourseEditor'
+import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
+import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
+import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
+import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
 import { Fragment } from 'react'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
+import LearnerAccount from '@Learner/Screens/Account/Account'
+import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
+import LearnerCourses from './post-authentication/Learner/Screens/Courses'
 import LearnerDashboard from './post-authentication/Learner/Screens/Dashboard/DashboardScreen'
-import RootScreen from './Root'
-import UserRegister from './post-authentication/User/Screens/Register'
-import useAuthentication from '@Store/useAuthentication'
-import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
+import LearnerLogin from './post-authentication/Learner/Screens/Login'
+import LearnerRegister from './post-authentication/Learner/Screens/Register'
+import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
+import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
+import RootScreen from './Root'
+import SettingsScreen from '@User/Screens/Settings/Settings'
+import UploadFileForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadFile/UploadFileForm'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
-import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
-import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
-import UploadFileForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadFile/UploadFileForm'
-import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
-import CourseEditor from './post-authentication/User/Screens/Courses/CourseBuilder/CourseEditor'
-import LearnerCourses from './post-authentication/Learner/Screens/Courses'
-import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
-import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
-import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserDashboard from './post-authentication/User/Screens/Dashboard/DashboardScreen'
-import LearnerRegister from './post-authentication/Learner/Screens/Register'
-import LearnerLogin from './post-authentication/Learner/Screens/Login'
-import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
-import LearnerAccount from '@Learner/Screens/Account/Account'
-import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
-import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
-import SettingsScreen from '@User/Screens/Settings/Settings'
+import UserLoginScreen from './post-authentication/User/Screens/Login'
+import UserRegister from './post-authentication/User/Screens/Register'
+import useAuthentication from '@Store/useAuthentication'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
