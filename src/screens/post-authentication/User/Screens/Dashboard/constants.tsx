@@ -5,13 +5,13 @@ import {
   MailOutlined,
   SettingOutlined,
   ToolOutlined,
+  UserOutlined,
   UsergroupAddOutlined,
-  UsergroupDeleteOutlined,
-  UserOutlined
+  UsergroupDeleteOutlined
 } from '@ant-design/icons'
 
-import { MenuProps } from 'antd'
 import { MenuItemNode } from '@Types/Common.types'
+import { MenuProps } from 'antd'
 
 export const MENU_ITEMS: MenuItemNode[] = [
 
@@ -67,8 +67,8 @@ export const MENU_ITEMS: MenuItemNode[] = [
     path: 'settings',
     children: [
       {
-        title: 'Website Pages',
-        path: 'pages',
+        title: 'My Account',
+        path: 'account',
         icon: <AppstoreOutlined />
       },
       {

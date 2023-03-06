@@ -8,6 +8,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  margin-top: 100px;
   width: 100%;
 `
 

@@ -33,8 +33,10 @@ import SettingsScreen from '@User/Screens/Settings/Settings'
 import UploadFileForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadFile/UploadFileForm'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
+import UserAccount from '@User/Screens/Account/Account'
 import UserDashboard from './post-authentication/User/Screens/Dashboard/DashboardScreen'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
+import UserProfile from '@User/Screens/Account/Profile'
 import UserRegister from './post-authentication/User/Screens/Register'
 import useAuthentication from '@Store/useAuthentication'
 
@@ -54,6 +56,9 @@ const router = createBrowserRouter(
               <Route path=":id/editor" element={<LearnerEditor />} />
             </Route>{' '}
           </Route>
+          <Route path="settings">
+            <Route path="account" element={<UserAccount />} />
+          </Route>{' '}
           <Route path="courses" element={<CoursesScreen />} />
           <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
             <Route path="section/:sectionId">
