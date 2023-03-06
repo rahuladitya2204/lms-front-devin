@@ -1,9 +1,11 @@
-import { DeleteOutlined } from '@ant-design/icons';
+import { Button, Card, Col, Form, Input, Modal, Row, Space, Tabs, Tag, Typography } from 'antd'
 import { Course, Plan } from '@Types/Courses.types'
+
+import { DeleteOutlined } from '@ant-design/icons';
+import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts';
+import Image from '@Components/Image'
 import { Instructor } from '@Types/Instructor.types';
 import { UnitTypeToStr } from '@User/Screens/Courses/CourseBuilder/utils';
-import { Button, Card, Col, Form, Image, Input, Modal, Row, Space, Tabs, Tag, Typography } from 'antd'
-import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts';
 
 const { Title, Text } = Typography
 const {confirm } = Modal;

@@ -6,10 +6,11 @@ import {
   ToolOutlined,
 } from '@ant-design/icons'
 
+import { Course } from '@Types/Courses.types'
+import Image from '@Components/Image'
+import { Instructor } from '@Types/Instructor.types'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
-import { Course } from '@Types/Courses.types'
-import { Instructor } from '@Types/Instructor.types'
 
 interface CourseCardProps {
   course: Course;
@@ -29,9 +30,10 @@ function CourseCard(props: CourseCardProps) {
 
       cover={
         <Badge.Ribbon color="orange" text="Unpublished">
-          <img
+          <Image
             alt="example"
             src={props.course.thumbnailImage}
+
           />
         </Badge.Ribbon>
       }

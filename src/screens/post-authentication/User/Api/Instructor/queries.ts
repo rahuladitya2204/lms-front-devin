@@ -1,12 +1,12 @@
-import { KEYS } from "@Network/keys"
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { CreateInstructorPayload, Instructor } from "@Types/Instructor.types"
-import { message } from "antd"
-import { INITIAL_INSTRUCTOR_DETAILS } from "constant.ts"
 import { CreateInstructor, GetInstructorDetails, GetInstructors, UpdateInstructor } from "."
+import { CreateInstructorPayload, Instructor } from "@Types/Instructor.types"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-  
-  export const useGetInstructors = () => {
+import { INITIAL_INSTRUCTOR_DETAILS } from "constant.ts"
+import { KEYS } from "@Network/keys"
+import { message } from "antd"
+
+export const useGetInstructors = () => {
     const { data = [], isFetching: isLoading } =
       useQuery<Instructor[]>([KEYS.GET_INSTRUCTORS], GetInstructors)
     return {
@@ -15,7 +15,7 @@ import { CreateInstructor, GetInstructorDetails, GetInstructors, UpdateInstructo
       listItems: data.map(i => {
         return {
           value: i._id,
-          label:i.name
+          label: i.name
         }
       })
     }

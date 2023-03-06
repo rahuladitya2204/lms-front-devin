@@ -1,10 +1,11 @@
-import { Form, Image, Input, } from 'antd';
+import { Form, Input, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
 import FileUpload from '@Components/FileUpload';
+import Image from '@Components/Image'
 import { Instructor } from '@Types/Instructor.types';
-import QuillEditor from '@Components/QuillEditor';
 import MediaUpload from '@Components/MediaUpload';
+import QuillEditor from '@Components/QuillEditor';
 
 interface CreateInstructorComponentPropsI {
   formData: Partial<Instructor>;

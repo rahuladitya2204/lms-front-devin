@@ -1,16 +1,16 @@
-// @ts-nocheck
-import React, { ReactNode, useState } from 'react'
-import { Upload, UploadProps } from 'antd'
-
-import { UploadFileType } from '@Types/Common.types'
-import { useUploadFiles } from '@Network/Common/CommonQueries'
-import styled from '@emotion/styled'
 import {
   ClockCircleOutlined,
   LoadingOutlined,
   PlusOutlined
 } from '@ant-design/icons'
+// @ts-nocheck
+import React, { ReactNode, useState } from 'react'
+import { Upload, UploadProps } from 'antd'
+
 import ImgCrop from 'antd-img-crop'
+import { UploadFileType } from '@Types/Common.types'
+import styled from '@emotion/styled'
+import { useUploadFiles } from '@Network/Common/CommonQueries'
 
 const UPLOAD: UploadProps = {
   onDrop(e) {
@@ -31,9 +31,15 @@ interface MediaUploadPropsI {
 
 const CustomUpload = styled(Upload)`
   .ant-upload-select {
-    width: ${props => (props.width ? props.width : 'auto')};
-    height: ${props => (props.height ? props.height : 'auto')};
     margin: 0;
+  }
+  .ant-upload {
+    width: 95% !important;
+    margin: auto;
+    display: block;
+    object-fit: cover;
+    overflow: hidden;
+    height: 150px !important;
   }
 `
 
@@ -75,8 +81,8 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     // <ImgCrop onModalOk={e => setFile(e)}>
     <CustomUpload
       {...UPLOAD}
-      height={props.height}
-      width={props.width}
+      // height={props.height}
+      // width={props.width}
       name="avatar"
       listType="picture-card"
       className="avatar-uploader"

@@ -1,13 +1,16 @@
 import {
-Form,
-Image,
-Input,
-Select,
-} from 'antd'
+  AutoComplete,
+  Form,
+  Input,
+  Select,
+} from 'antd';
 import { Fragment, useEffect } from 'react'
+
+import { Course } from '@Types/Courses.types';
+import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
-import { Course } from '@Types/Courses.types';
+import { useGetCourseCategories } from '@User/Api/Course/queries';
 import { useGetInstructors } from '@User/Api/Instructor/queries';
 
 const LANGUAGES = [
@@ -29,7 +32,8 @@ interface CourseDetailsEditorPropsI {
 function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
   const [form] = Form.useForm<Course>();
   const { listItems: instructors, isLoading: loading } = useGetInstructors()
-
+  const { listItems: categories } = useGetCourseCategories();
+  console.log(categories, 'categories');
   useEffect(() => {
     form.setFieldsValue(props.formData);
   },[props.formData])
@@ -58,10 +62,14 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
         <Form.Item name="subtitle" required label="Subtitle">
   <Input />
 </Form.Item>
-
-<Form.Item name="description" required label="Description">
-  <QuillEditor value=''/>
-</Form.Item>
+        <Form.Item name="category" required label="Category">
+        <AutoComplete 
+        options={categories}
+        style={{ width: 200 }}
+        onSelect={console.log}
+        placeholder="Type Category"
+          />
+          </Form.Item>
 
 
 <Form.Item name="instructor" required label="Instructor">
@@ -85,14 +93,17 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
   />
 </Form.Item>
 
-<Form.Item required label="Requirements" name='requirements'>
+{/* <Form.Item required label="Requirements" name='requirements'>
           <QuillEditor onChange={e => {
             props.onFormUpdate({ requirements: e })
           }} />
 </Form.Item>
 <Form.Item  required label="What you'll learn" name={'whatYouLearn'}>
           <QuillEditor  onChange={e => props.onFormUpdate({ whatYouLearn: e })} />
-</Form.Item>
+        </Form.Item> */}
+        <Form.Item name="description" required label="Description">
+  <QuillEditor value=''/>
+        </Form.Item>
 </Form>
 
    </Fragment>

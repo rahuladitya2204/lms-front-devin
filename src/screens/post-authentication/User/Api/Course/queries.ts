@@ -1,11 +1,11 @@
-import { KEYS } from "@Network/keys";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Course, Plan, UpdateCoursePayload } from "@Types/Courses.types";
-import { message } from "antd";
+import { CreateCourse, CreateCoursePlan, GetCourseCategories, GetCourseDetails, GetCoursePlans, GetCourses, UpdateCourse, UpdateCoursePlan } from ".";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { CourseCategory } from '../../../../../types/Courses.types';
 import { INITIAL_COURSE_DETAILS } from "constant.ts";
-import { CreateCourse, CreateCoursePlan, GetCourseDetails, GetCoursePlans, GetCourses, UpdateCourse, UpdateCoursePlan } from ".";
-
-
+import { KEYS } from "@Network/keys";
+import { message } from "antd";
 
 export const useGetCourses = () => {
     const { data = [], isFetching: isLoading } =
@@ -88,4 +88,19 @@ export const useGetCoursePlans = (id:string,options={enabled:true}) => {
     });
   
     return mutation;
+  }
+
+  export const useGetCourseCategories = () => {
+    const { data = [], isFetching: isLoading } =
+      useQuery<CourseCategory[]>([KEYS.GET_COURSE_CATEGORIES], GetCourseCategories)
+    return {
+      data,
+      isLoading,
+      listItems: data.map(i => {
+        return {
+          value: i._id,
+          label: i.title
+        }
+      })
+    }
   }

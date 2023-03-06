@@ -1,12 +1,15 @@
+import { Course, Plan, UpdateCoursePayload } from '@Types/Courses.types'
+
 import { API_ENDPOINTS } from '@Network/constants'
 import Axios from '@Network/index'
-import { Course, Plan, UpdateCoursePayload } from '@Types/Courses.types'
 
 export const GetCourses = () => {
   return Axios.get(API_ENDPOINTS.user_course).then(r => {
     return r.data
   })
 }
+
+
 
 export const GetCourseDetails = (id: string) => {
   return Axios.get(API_ENDPOINTS.user_course + '/' + id).then(r => r.data)
@@ -44,4 +47,8 @@ export const UpdateCoursePlan = (
     `${API_ENDPOINTS.user.self}/course/${courseId}/plan/${planId}`,
     data
   ).then(r => r.data)
+}
+
+export const GetCourseCategories = () => {
+  return Axios.get(API_ENDPOINTS.user.courseCategory).then(r => r.data)
 }

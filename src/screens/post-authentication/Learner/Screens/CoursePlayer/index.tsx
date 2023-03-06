@@ -4,7 +4,6 @@ import {
   Col,
   Divider,
   Dropdown,
-  Image,
   Progress,
   Row,
   Space,
@@ -17,6 +16,7 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'
+import Image from '@Components/Image'
 import styled from '@emotion/styled'
 import { useEffect } from 'react'
 import { useGetEnrolledCourseDetails } from '@Learner/Api/Course/queries'
@@ -37,6 +37,10 @@ const CustomCard = styled(Card)`
       display: block;
     }
   }
+`
+const CustomHeader = styled(Header)`
+  /* & {
+  } */
 `
 
 const { Text, Title } = Typography
@@ -84,12 +88,12 @@ function CoursePlayer() {
     navigate(`section/${prevItem.section}/item/${prevItem._id}`)
   }
   return (
-    <Header
-      theme="dark"
+    <CustomHeader
+      className="page-header"
       title={
         <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
           <Image
-            onClick={() => navigate('/learner/123123/dashboard/courses')}
+            onClick={() => navigate('/learner/123123/dashboard/store')}
             style={{ cursor: 'pointer' }}
             width={40}
             preview={false}
@@ -195,7 +199,7 @@ function CoursePlayer() {
           />
         </Col>
       </Row>
-    </Header>
+    </CustomHeader>
   )
 }
 

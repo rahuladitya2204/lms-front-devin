@@ -23,9 +23,9 @@ const CustomHeader = styled(PageHeader)(
     props.theme === 'dark'
       ? `
 .custom-header{
-  background: #1c1d1f;
+  background: #212041;
   .ant-space-horizontal {
-    background: #1c1d1f;
+    background: #212041;
   }
   .ant-divider {
     background: #fff;
@@ -65,7 +65,7 @@ function Header(props: HeaderPropsI) {
             </Space>
             <Space>{props.extra}</Space>
           </Space>
-          <Row gutter={[40, 40]} style={{marginTop: '20px'}}>
+          <Row gutter={[40, 40]} style={{ marginTop: '20px' }}>
             <Col span={24}>{props.children}</Col>
           </Row>
         </CustomHeader>

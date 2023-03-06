@@ -1,9 +1,10 @@
 import { Button, Col, Form, Input, Radio, Row, Select } from 'antd'
 import { Fragment, useEffect } from 'react'
-import {  Plan } from '@Types/Courses.types'
+import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/Course/queries'
+
 import ActionModal from '@Components/ActionModal'
 import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
-import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/Course/queries'
+import { Plan } from '@Types/Courses.types'
 
 interface CreateCoursePlanPropsI {
   children?: React.ReactNode;
@@ -52,9 +53,9 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
     <Fragment>
       <ActionModal
         footer={closeModal => [
-          <Button key="back" onClick={() => form.resetFields()}>
-            Clear
-          </Button>,
+          // <Button key="back" onClick={() => form.resetFields()}>
+          //   C
+          // </Button>,
           <Button
             key="submit"
             type="primary"

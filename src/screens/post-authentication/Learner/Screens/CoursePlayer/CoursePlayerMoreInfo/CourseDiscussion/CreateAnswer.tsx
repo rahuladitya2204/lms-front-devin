@@ -1,10 +1,9 @@
+import { Button, Col, Form, Input, Row } from 'antd'
+import { Course, CourseQuestion, CourseQuestionAnswer } from '@Types/Courses.types'
+import React, { useState } from 'react'
+
 import QuillEditor from '@Components/QuillEditor'
 import { useCreateDiscussionQuestionAnswer } from '@Learner/Api/Course/queries';
-
-import { Course, CourseQuestion, CourseQuestionAnswer } from '@Types/Courses.types'
-import { Button, Col, Form, Input, Row } from 'antd'
-
-import React, { useState } from 'react'
 
 interface CreateAnswerPropsI {
   question: CourseQuestion;
@@ -48,7 +47,7 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
               }}
               type="primary"
             >
-              Submit Query
+              Submit Answer
             </Button>
           </Form.Item>
         </Form>

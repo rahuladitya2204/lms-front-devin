@@ -3,9 +3,9 @@ import './App.less'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { Fragment } from 'react'
 
-import { Global } from '@emotion/react'
 import AppRouter from './screens/AppRouter'
 import { ConfigProvider } from 'antd'
+import { Global } from '@emotion/react'
 import { THEME } from 'theme/theme'
 
 const queryClient = new QueryClient()

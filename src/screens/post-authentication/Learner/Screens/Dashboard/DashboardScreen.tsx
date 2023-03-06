@@ -4,17 +4,17 @@ import {
   Button,
   Col,
   Dropdown,
-  Image,
   Layout,
   Menu,
   Row,
   Space,
   Typography
-} from 'antd'
+} from 'antd';
 import { Outlet, useNavigate } from 'react-router'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 
 import Header from '@Components/Header'
+import Image from '@Components/Image'
 import { Input } from 'antd'
 import { Link } from 'react-router-dom'
 import { useGetCartItems } from '@Learner/Api/Common/queries'
@@ -33,7 +33,8 @@ const LearnerDashboard: React.FC = () => {
           hideBack
           title={
             <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-              <Image onClick={()=>navigate('/learner/123123/dashboard/courses')}
+              <Image
+                onClick={() => navigate('/learner/123123/dashboard/store')}
                 style={{ cursor: 'pointer' }}
                 width={40}
                 preview={false}
@@ -95,11 +96,11 @@ const LearnerDashboard: React.FC = () => {
         >
           <Content style={{ margin: '0 16px' }}>
             <Row style={{ paddingTop: 20 }}>
-              <Col span={3} />
-              <Col span={18}>
+              <Col span={2} />
+              <Col span={20}>
                 <Outlet />
               </Col>
-              <Col span={3} />
+              <Col span={2} />
             </Row>
           </Content>
         </Header>

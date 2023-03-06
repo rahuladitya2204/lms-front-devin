@@ -1,5 +1,7 @@
 import { Card, Progress, Typography } from 'antd'
+
 import { Course } from '@Types/Courses.types'
+import Image from '@Components/Image'
 import styled from '@emotion/styled'
 
 const { Text } = Typography
@@ -20,7 +22,12 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
       hoverable
       onClick={props.onClick}
       bodyStyle={{ padding: 10 }}
-      cover={<img alt="example" src={props.course.thumbnailImage} />}
+      cover={
+        <Image
+          alt="example"
+          src={props.course.thumbnailImage}
+        />
+      }
     >
       <Card.Meta
         // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}

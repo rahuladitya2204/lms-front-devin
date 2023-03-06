@@ -1,22 +1,21 @@
 // @ts-nocheck
 
-import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Image, Row } from 'antd'
+import { Button, Card, Col, Row } from 'antd'
+import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 import { Outlet, useNavigate, useParams } from 'react-router'
+import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
+import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
 
 import CourseSectionsNavigator from './CourseSectionsNavigator'
 import CreateHeading from './CreateNewItem/CreateHeading'
+import Header from '@Components/Header'
+import { INITIAL_COURSE_DETAILS } from 'constant.ts'
+import Image from '@Components/Image'
+import MediaUpload from '@Components/MediaUpload'
+import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import { updateCourseSectionItem } from './utils'
-import Header from '@Components/Header'
-
-import { cloneDeep } from 'lodash'
-import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
-
-import MediaUpload from '@Components/MediaUpload'
-import { INITIAL_COURSE_DETAILS } from 'constant.ts'
-import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
 
 const AddChapterButton = styled(Button)`
   margin-top: 20px;

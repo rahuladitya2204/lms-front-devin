@@ -1,20 +1,15 @@
 import { Col, Input, Row, Select, Typography } from 'antd'
-import { useParams } from 'react-router-dom'
-
-import { useEffect } from 'react'
-
-import { saveItemToStorage } from '@Utils/storage'
 
 import CourseCard from './CourseCard'
-import { useGetInstructors } from '@Learner/Api/Instructor/queries'
+import { saveItemToStorage } from '@Utils/storage'
+import { useEffect } from 'react'
 import { useGetCoursesOfOrganisation } from '@Learner/Api/Course/queries'
-
-const { Text } = Typography
-const { Search } = Input
+import { useGetInstructors } from '@Learner/Api/Instructor/queries'
+import { useParams } from 'react-router-dom'
 
 function StoreScreen () {
   const { data: courses } = useGetCoursesOfOrganisation()
-  const { listItems: instructors } = useGetInstructors()
+  // const { listItems: instructors } = useGetInstructors()
   const params = useParams()
   useEffect(
     () => {
@@ -25,7 +20,7 @@ function StoreScreen () {
 
   return (
     <Row gutter={[30, 30]}>
-      <Col span={24}>
+      {/* <Col span={24}>
         <Row gutter={[20, 20]}>
           <Col span={10}>
             <Text strong style={{ fontSize: 20 }}>
@@ -48,9 +43,9 @@ function StoreScreen () {
             />
           </Col>
         </Row>
-      </Col>
+      </Col> */}
       <Col span={24}>
-        <Row gutter={[30,30]}>
+        <Row gutter={[30, 30]}>
           {courses.map(course => {
             return (
               <Col span={6}>

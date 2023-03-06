@@ -1,24 +1,18 @@
 import {
-  Avatar,
-  Button,
-  Card,
-  Checkbox,
-  Col,
-  Form,
-  Input,
-  Rate,
   Badge,
-  Row,
+  Card,
+  Rate,
   Space
 } from 'antd'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
-
-import { Typography } from 'antd'
 import { BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Course, Plan } from '@Types/Courses.types'
+
 import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
-import styled from '@emotion/styled'
+import Image from '@Components/Image'
 import { Instructor } from '@Types/Instructor.types'
+import { Typography } from 'antd'
+import styled from '@emotion/styled'
+import { useNavigate } from 'react-router-dom'
 
 const { Text } = Typography
 
@@ -28,7 +22,6 @@ interface CourseCardPropsI {
 
 const CustomCard = styled(Card)`
 cursor: pointer;
-
 `
 
 function CourseCard(props: CourseCardPropsI) {
@@ -44,8 +37,8 @@ function CourseCard(props: CourseCardPropsI) {
           )
         } bodyStyle={{padding: 15}}
         cover={
-          <img
-            alt="example" style={{height: 140}}
+          <Image
+  alt="example" style={{height: 140}}
             src={
              props.course.thumbnailImage
             }

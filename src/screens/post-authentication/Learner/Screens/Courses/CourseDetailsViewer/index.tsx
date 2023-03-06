@@ -4,12 +4,11 @@ import {
   Button,
   Card,
   Col,
-  Image,
   Rate,
   Row,
   Tag,
   Typography
-} from 'antd'
+} from 'antd';
 import {
   AlertOutlined,
   UserOutlined
@@ -22,6 +21,7 @@ import { useGetCartItems, useUpdateCartItems } from '@Learner/Api/Common/queries
 
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
+import Image from '@Components/Image'
 import { Instructor } from '@Types/Instructor.types'
 import image from './bg.svg'
 import styled from '@emotion/styled'
@@ -90,7 +90,7 @@ function CourseDetailViewer () {
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
         <Col span={24}>
-          <Row gutter={[30,30]}>
+          <Row gutter={[30,30]} style={{lineHeight: 0}} >
           <Col span={16}>
           <Row justify="space-between" align="top" gutter={[20, 20]}>
             <Col span={24}>

@@ -25,6 +25,7 @@ export interface CourseSectionItem {
 export interface Course {
   title: string;
   subtitle: string;
+  category: CourseCategory;
   instructor: string;
   thumbnailImage: string;
   description: string;
@@ -59,6 +60,13 @@ export interface CourseLandingPage {
   promoVideo: string;
   title: string;
   subtitle: string;
+}
+
+
+
+export interface CourseCategory {
+  title: string;
+  _id: string;
 }
 
 export interface CourseQuestion {

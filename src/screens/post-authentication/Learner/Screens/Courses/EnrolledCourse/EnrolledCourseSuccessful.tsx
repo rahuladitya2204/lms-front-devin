@@ -1,19 +1,20 @@
 import {
   Avatar,
+  Button,
   Card,
   Col,
-  Button,
   Result,
   Row,
-  Image,
-  Typography,
-  Space
+  Space,
+  Typography
 } from 'antd'
 
-import { useNavigate, useParams } from 'react-router'
+import Image from '@Components/Image'
 import { Instructor } from '@Types/Instructor.types'
 import { Link } from 'react-router-dom'
 import { useGetCourseDetails } from '@Learner/Api/Course/queries'
+import { useParams } from 'react-router'
+
 const { Title, Text } = Typography
 
 const EnrolledCourseSuccessful: React.FC = () => {
