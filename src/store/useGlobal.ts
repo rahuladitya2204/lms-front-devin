@@ -1,13 +1,21 @@
+import { GetOrganisationDetails } from '@User/Api'
+import { INITIAL_ORG_DETAILS } from 'constant.ts'
+import { Organisation } from '@Types/Organisation'
 import create from 'zustand'
 
 interface GlobalState {
-    isDrawerOpen: boolean
-    setDrawerOpen: (isDrawerOpen: boolean) => void,
+  organisation: Organisation;
+  setOrganisation: (organisation: Organisation) => void,
+  fetchOrganisation: (id:string)=>Promise<void>
   }
 
 const useGlobal = create<GlobalState>(set => ({
-    isDrawerOpen: false,
-    setDrawerOpen: (isDrawerOpen) => set(state => ({ isDrawerOpen: isDrawerOpen })),
+  organisation: INITIAL_ORG_DETAILS,
+  setOrganisation: (organisation) => set(state => ({ organisation: organisation })),
+  fetchOrganisation:async (orgId:string) => {
+    await GetOrganisationDetails(orgId)
+        .then(data => set({organisation: data}))
+}
 }))
 
 export default useGlobal

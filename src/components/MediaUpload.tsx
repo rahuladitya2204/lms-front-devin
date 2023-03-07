@@ -23,6 +23,7 @@ interface MediaUploadPropsI {
   children?: ReactNode;
   listType?: string;
   url?: string;
+  rounded?: boolean;
   height?: string;
   width?: string;
   extra?: UploadProps;
@@ -34,12 +35,14 @@ const CustomUpload = styled(Upload)`
     margin: 0;
   }
   .ant-upload {
-    width: 95% !important;
-    margin: auto;
+    min-width: 150px !important;
+    margin: 0;
     display: block;
+    border-radius: ${(props: { rounded?: boolean }) =>
+      props.rounded ? '50% !important' : ''};
     object-fit: cover;
     overflow: hidden;
-    height: 150px !important;
+    min-height: 150px !important;
   }
 `
 
@@ -81,6 +84,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     // <ImgCrop onModalOk={e => setFile(e)}>
     <CustomUpload
       {...UPLOAD}
+      rounded={props.rounded}
       // height={props.height}
       // width={props.width}
       name="avatar"
@@ -89,7 +93,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       showUploadList={false}
       iconRender={() => <ClockCircleOutlined />}
     >
-        {props.renderItem ? props.renderItem() : uploadButton}
+      {props.renderItem ? props.renderItem() : uploadButton}
     </CustomUpload>
     // </ImgCrop>
   )

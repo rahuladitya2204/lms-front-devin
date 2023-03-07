@@ -71,8 +71,8 @@ const router = createBrowserRouter(
           <Route path="courses/:id/editor" element={<CourseEditor />} />
         </Route>
         <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
-        <Route path="register" element={<UserRegister />} />
-        <Route path="login" element={<UserLoginScreen />} />
+        <Route path=":orgId/register" element={<UserRegister />} />
+        <Route path=":orgId/login" element={<UserLoginScreen />} />
         <Route
           path="*"
           // element={<Navigate to="dashboard/home" replace />}

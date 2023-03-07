@@ -1,13 +1,26 @@
 import { Button, Checkbox, Col, Form, Input, Row, Space } from 'antd'
+import { NavLink, useParams } from 'react-router-dom'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
 import Image from '@Components/Image'
-import { NavLink } from 'react-router-dom'
 import { Typography } from 'antd'
+import { useEffect } from 'react'
 import { useFormik } from 'formik'
+import useGlobal from '@Store/useGlobal'
 import { useLoginUser } from '@User/Api/queries'
 
 function UserLoginScreen () {
+  const { organisation, setOrganisation, fetchOrganisation } = useGlobal(
+    state => state
+  )
+  const { orgId } = useParams()
+  console.log(orgId, 'iod')
+  useEffect(
+    () => {
+      fetchOrganisation(orgId + '')
+    },
+    [orgId]
+  )
   const { mutate: loginUser, isLoading: loading } = useLoginUser()
   const formik = useFormik({
     initialValues: {
@@ -26,7 +39,7 @@ function UserLoginScreen () {
       <Col span={24}>
         <AuthenticationCard
           title={
-            <Image src="https://dz8fbjd9gwp2s.cloudfront.net/logos/5e7d87c30cf2482752db5484.png?v=2" />
+            <Image src={organisation.logo} />
           }
         >
           <Form

@@ -6,7 +6,9 @@ export const API_ENDPOINTS = {
     course: 'user/course',
     instructor: 'user/instructor',
     learner: 'learner',
-    courseCategory: 'user/course/category'
+    courseCategory: 'user/course/category',
+    account: 'user/account',
+    organisation: 'user/organisation'
   },
   learner: {
     self: 'learner',

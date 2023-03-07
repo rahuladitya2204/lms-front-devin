@@ -2,6 +2,8 @@ import { Course, CourseQuestion, Plan } from '@Types/Courses.types'
 
 import { Instructor } from '@Types/Instructor.types'
 import { Learner } from '@Types/Learner.types'
+import { Organisation } from '@Types/Organisation'
+import { User } from '@Types/User.types'
 
 export const INITIAL_COURSE_DETAILS: Course = {
   title: '',
@@ -91,4 +93,26 @@ export const INITIAL_INSTRUCTOR_DETAILS: Instructor = {
   _id: '',
   courses: 0,
   organisation: ''
+}
+
+export const INITIAL_USER_DETAILS: User = {
+  email: '',
+  name: '',
+  recoveryEmail: '',
+  username: '',
+  contactNo: '',
+  isDeactivated: '',
+  status: '',
+  _id: ''
+}
+
+export const INITIAL_ORG_DETAILS: Organisation = {
+  name: '',
+  email: '',
+  website: '',
+  _id: '',
+  users: [],
+  contactNo: '',
+  logo: '',
+  learners: []
 }
