@@ -1,14 +1,13 @@
 import { CreateLearner, GetLearnerDetails, GetLearners, UpdateLearner } from "."
+import {Network, Types} from '@adewaskar/lms-common'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { INITIAL_LEARNER_DETAILS } from "constant.ts";
-import { KEYS } from "@Network/keys"
-import { Types } from '@adewaskar/lms-common'
 import { message } from 'antd';
 
 export const useGetLearners = () => {
     const { data = [], isFetching: isLoading } =
-      useQuery<Types.Learner[]>([KEYS.GET_LEARNERS], GetLearners)
+      useQuery<Types.Learner[]>([Network.KEYS.GET_LEARNERS], GetLearners)
     return {
       data,
       isLoading,
@@ -23,7 +22,7 @@ export const useGetLearners = () => {
   
   export const useGetLearnerDetails = (id:string,options={enabled:true}) => {
     const { data = INITIAL_LEARNER_DETAILS , isFetching: isLoading } =
-      useQuery<Types.Learner>([KEYS.GET_LEARNER_DETAILS, id], () => GetLearnerDetails(id), options)
+      useQuery<Types.Learner>([Network.KEYS.GET_LEARNER_DETAILS, id], () => GetLearnerDetails(id), options)
     return {
       data,
       isLoading
@@ -35,7 +34,7 @@ export const useGetLearners = () => {
     const qc = useQueryClient();
     const mutation = useMutation((data: Types.CreateLearnerPayload) => {
       return CreateLearner(data).then((data) => {
-        qc.invalidateQueries([KEYS.GET_LEARNERS]);
+        qc.invalidateQueries([Network.KEYS.GET_LEARNERS]);
         message.success('Learners Details Updated');
       });
     })
@@ -48,7 +47,7 @@ export const useGetLearners = () => {
     const qc = useQueryClient();
     const mutation = useMutation(({id,data}:{id:string,data: Partial<Types.Learner>}): Promise<void> => {
       return UpdateLearner(id, data).then(() => {
-        qc.invalidateQueries([KEYS.GET_LEARNERS]);
+        qc.invalidateQueries([Network.KEYS.GET_LEARNERS]);
         message.success('Learner Details Updated');
       })
     });

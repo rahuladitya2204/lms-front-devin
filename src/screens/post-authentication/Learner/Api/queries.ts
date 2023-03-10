@@ -1,9 +1,8 @@
 import { GetLearnerDetails, LoginLearner, RegisterLearner, UpdateLearner } from "."
+import { Network, Types } from '@adewaskar/lms-common'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { INITIAL_LEARNER_DETAILS } from "constant.ts"
-import { KEYS } from "@Network/keys"
-import { Types } from '@adewaskar/lms-common'
 import { message } from "antd"
 import { saveItemToStorage } from "@Utils/storage"
 import useAuthentication from "@Store/useAuthentication"
@@ -45,7 +44,7 @@ export const useRegisterLearner = () => {
 
 export const useGetLearnerDetails = (options={enabled:true}) => {
   const { data = INITIAL_LEARNER_DETAILS , isFetching: isLoading } =
-    useQuery<Types.Learner>([KEYS.GET_LEARNER_DETAILS], () => GetLearnerDetails(), options)
+    useQuery<Types.Learner>([Network.KEYS.GET_LEARNER_DETAILS], () => GetLearnerDetails(), options)
   return {
     data,
     isLoading
@@ -56,7 +55,7 @@ export const useUpdateLearner = () => {
   const qc = useQueryClient();
   const mutation = useMutation(({data}:{data: Partial<Types.Learner>}): Promise<void> => {
     return UpdateLearner(data).then(() => {
-      qc.invalidateQueries([KEYS.GET_LEARNER_DETAILS]);
+      qc.invalidateQueries([Network.KEYS.GET_LEARNER_DETAILS]);
       message.success('Learner Details Updated');
     })
   });

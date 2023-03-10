@@ -1,4 +1,4 @@
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Network, Types } from '@adewaskar/lms-common'
 import {
   GetUserAccountDetails,
   LoginUser,
@@ -7,7 +7,6 @@ import {
 } from '.'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { KEYS } from '@Network/keys'
 import { message } from 'antd'
 import { saveItemToStorage } from '@Utils/storage'
 import useAuthentication from '@Store/useAuthentication'
@@ -44,7 +43,7 @@ export const useGetUserAccountDetails = (options = { enabled: true }) => {
   const { data = Constants.INITIAL_ORG_DETAILS, isFetching: isLoading } =
     useQuery <
     Types.Organisation >
-    ([KEYS.GET_USER_ACCOUNT_DETAILS], () => GetUserAccountDetails(), options)
+    ([Network.KEYS.GET_USER_ACCOUNT_DETAILS], () => GetUserAccountDetails(), options)
   return {
     data,
     isLoading
@@ -55,7 +54,7 @@ export const useGetOrgDetails = (options = { enabled: true }) => {
   const { data = Constants.INITIAL_ORG_DETAILS, isFetching: isLoading } =
     useQuery <
     Types.Organisation >
-    ([KEYS.GET_USER_ACCOUNT_DETAILS], () => GetUserAccountDetails(), options)
+    ([Network.KEYS.GET_USER_ACCOUNT_DETAILS], () => GetUserAccountDetails(), options)
   return {
     data,
     isLoading
@@ -67,7 +66,7 @@ export const useUpdateUserAccount = () => {
   const mutation = useMutation(
     ({ data }: { data: Partial<Types.Organisation> }): Promise<void> => {
       return UpdateUserAccount(data).then(() => {
-        qc.invalidateQueries([KEYS.GET_USER_ACCOUNT_DETAILS])
+        qc.invalidateQueries([Network.KEYS.GET_USER_ACCOUNT_DETAILS])
         message.success('User Account Details Updated')
       })
     }

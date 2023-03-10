@@ -1,6 +1,6 @@
 import { Constants, Types } from '@adewaskar/lms-common'
 
-import { GetOrganisationDetails } from '@User/Api'
+import { User } from '@adewaskar/lms-common'
 import create from 'zustand'
 
 // console.log(goodBye, 'goodBye')
@@ -18,7 +18,7 @@ const useGlobal =
     setOrganisation: organisation =>
       set(state => ({ organisation: organisation })),
     fetchOrganisation: async (orgId: string) => {
-      await GetOrganisationDetails(orgId).then(data =>
+      await User.Api.GetOrganisationDetails(orgId).then(data =>
         set({ organisation: data })
       )
     }
