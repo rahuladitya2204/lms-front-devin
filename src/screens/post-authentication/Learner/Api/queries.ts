@@ -1,7 +1,6 @@
-import { Learner, Network, Types } from '@adewaskar/lms-common'
+import { Constants, Learner, Network, Types } from '@adewaskar/lms-common'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { INITIAL_LEARNER_DETAILS } from 'constant.ts'
 import { message } from 'antd'
 import { saveItemToStorage } from '@Utils/storage'
 import useAuthentication from '@Store/useAuthentication'
@@ -41,7 +40,7 @@ export const useRegisterLearner = () => {
 // Courses
 
 export const useGetLearnerDetails = (options = { enabled: true }) => {
-  const { data = INITIAL_LEARNER_DETAILS, isFetching: isLoading } =
+  const { data = Constants.INITIAL_LEARNER_DETAILS, isFetching: isLoading } =
     useQuery <
     Types.Learner >
     ([Network.KEYS.GET_LEARNER_DETAILS], () => Learner.Api.GetLearnerDetails(), options)

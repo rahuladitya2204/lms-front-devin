@@ -1,8 +1,7 @@
+import {Constants, User} from '@adewaskar/lms-common'
 import { Network, Types } from '@adewaskar/lms-common'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { INITIAL_COURSE_DETAILS } from "constant.ts";
-import {User} from '@adewaskar/lms-common'
 import { message } from "antd";
 
 export const useGetCourses = () => {
@@ -15,7 +14,7 @@ export const useGetCourses = () => {
   };
     
     export const useGetCourseDetails = (id:string,options={enabled:true}) => {
-      const { data = INITIAL_COURSE_DETAILS , isFetching: isLoading } =
+      const { data = Constants.INITIAL_COURSE_DETAILS , isFetching: isLoading } =
         useQuery<Types.Course>([Network.KEYS.GET_COURSE_DETAILS, id], () => User.Api.GetCourseDetails(id), options)
       return {
         data,

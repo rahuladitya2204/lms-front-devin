@@ -3,13 +3,12 @@ import {
   LoadingOutlined,
   PlusOutlined
 } from '@ant-design/icons'
+import { Common, Types } from '@adewaskar/lms-common'
 // @ts-nocheck
 import React, { ReactNode, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 
-import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
-import { useUploadFiles } from '@Network/Common/queries'
 
 const UPLOAD: UploadProps = {
   onDrop(e) {
@@ -46,7 +45,7 @@ const CustomUpload = styled(Upload)`
 `
 
 const MediaUpload: React.FC<MediaUploadPropsI> = props => {
-  const { mutate: uploadFiles } = useUploadFiles()
+  const { mutate: uploadFiles } = Common.Queries.useUploadFiles()
   const [loading, setLoading] = useState(false)
   const [file, setFile] = useState(null)
 

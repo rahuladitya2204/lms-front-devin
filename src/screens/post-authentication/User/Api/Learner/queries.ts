@@ -1,7 +1,6 @@
-import {Network, Types, User} from '@adewaskar/lms-common'
+import {Constants, Network, Types, User} from '@adewaskar/lms-common'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { INITIAL_LEARNER_DETAILS } from "constant.ts";
 import { message } from 'antd';
 
 export const useGetLearners = () => {
@@ -20,7 +19,7 @@ export const useGetLearners = () => {
   }
   
   export const useGetLearnerDetails = (id:string,options={enabled:true}) => {
-    const { data = INITIAL_LEARNER_DETAILS , isFetching: isLoading } =
+    const { data = Constants.INITIAL_LEARNER_DETAILS , isFetching: isLoading } =
       useQuery<Types.Learner>([Network.KEYS.GET_LEARNER_DETAILS, id], () =>  User.Api.GetLearnerDetails(id), options)
     return {
       data,

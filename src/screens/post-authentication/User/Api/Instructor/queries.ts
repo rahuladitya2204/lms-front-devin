@@ -1,7 +1,6 @@
-import { Network, Types } from '@adewaskar/lms-common'
+import { Constants, Network, Types } from '@adewaskar/lms-common'
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
-import { INITIAL_INSTRUCTOR_DETAILS } from "constant.ts"
 import { User } from '@adewaskar/lms-common'
 import { message } from "antd"
 
@@ -21,7 +20,7 @@ export const useGetInstructors = () => {
   }
   
   export const useGetInstructorDetails = (id:string,options={enabled:true}) => {
-    const { data = INITIAL_INSTRUCTOR_DETAILS , isFetching: isLoading } =
+    const { data = Constants.INITIAL_INSTRUCTOR_DETAILS , isFetching: isLoading } =
       useQuery<Types.Instructor>([Network.KEYS.GET_INSTRUCTOR_DETAILS, id], () => User.Api.GetInstructorDetails(id), options)
     return {
       data,

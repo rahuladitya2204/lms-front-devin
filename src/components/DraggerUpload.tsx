@@ -1,10 +1,9 @@
+import { Common, Types } from '@adewaskar/lms-common'
 import React, { useState } from 'react'
 
 import { InboxOutlined } from '@ant-design/icons'
-import { Types } from '@adewaskar/lms-common'
 import { Upload } from 'antd'
 import type { UploadProps } from 'antd'
-import { useUploadFiles } from '@Network/Common/queries'
 
 const { Dragger } = Upload
 
@@ -19,7 +18,7 @@ interface DraggerUploadPropsI {
 }
 
 const DraggerUpload: React.FC<DraggerUploadPropsI> = componentProps => {
-  const { mutate: uploadFiles } = useUploadFiles()
+  const { mutate: uploadFiles } = Common.Queries.useUploadFiles()
   const [files, setFiles] = useState<File[]>([])
   props.customRequest = ({ file, onError, onSuccess, onProgress, data }) => {
     return uploadFiles({
