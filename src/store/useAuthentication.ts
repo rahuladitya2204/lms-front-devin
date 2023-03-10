@@ -1,8 +1,7 @@
-import { getItemFromStorage, removeItemFromStorage } from '@Utils/storage'
+import { Types, User } from '@adewaskar/lms-common'
 
-import { Types } from '@adewaskar/lms-common'
-import { ValidateUser } from '../screens/post-authentication/User/Api'
 import create from 'zustand'
+import { getItemFromStorage } from '@Utils/storage'
 
 interface AuthenticationState {
   isSignedIn: boolean;
@@ -25,7 +24,7 @@ const useAuthentication =
     validateUser: type => {
       const token = getItemFromStorage(type + '-auth-token')
       if (token) {
-        return ValidateUser(type)
+        return User.Api.ValidateUser(type)
           .then(d => d.data)
           .then((data: any) => {
             return set({ isSignedIn: true, userType: type })

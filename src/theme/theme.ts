@@ -1,5 +1,4 @@
 import { ThemeConfig } from 'antd/es/config-provider/context'
-import { AliasToken } from 'antd/es/theme'
 
 const PRIMARY = '#090761';
 

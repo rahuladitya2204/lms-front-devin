@@ -1,16 +1,28 @@
 import { Button, Checkbox, Form, Input } from 'antd'
 import { NavLink, useParams } from 'react-router-dom'
 
+import AuthenticationCard from '@Components/AuthenticationCard'
+import Image from '@Components/Image'
 import { Typography } from 'antd'
+import { saveItemToStorage } from '@Utils/storage'
 import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import { saveItemToStorage } from '@Utils/storage'
-import AuthenticationCard from '@Components/AuthenticationCard'
+import useGlobal from '@Store/useGlobal'
 import { useLoginLearner } from '@Learner/Api/queries'
 
 function LearnerLogin () {
   const { mutate: loginUser, isLoading: loading } = useLoginLearner()
-
+  const { organisation, setOrganisation, fetchOrganisation } = useGlobal(
+    state => state
+  )
+  const { orgId } = useParams()
+  console.log(orgId, 'iod')
+  useEffect(
+    () => {
+      fetchOrganisation(orgId + '')
+    },
+    [orgId]
+  )
   const params = useParams()
   useEffect(
     () => {
@@ -32,7 +44,7 @@ function LearnerLogin () {
     }
   })
   return (
-    <AuthenticationCard title={'Learner Login'}>
+    <AuthenticationCard title={<Image src={organisation.logo} />}>
       <Form
         initialValues={{
           remember: true

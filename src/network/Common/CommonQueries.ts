@@ -24,13 +24,13 @@ export const useUploadFiles = () => {
       })
       return GetFileUrls(keys).then(data => {
         const requests = data.map((d, index: number) => {
-          const httpOptions = {
-            headers: {
-              'Content-Type': files[index].type
-            },
-            onUploadProgress: onUploadProgress
-          }
-          return UploadFile(d.url, files[index], httpOptions)
+          // const httpOptions = {
+          //   headers: {
+          //     'Content-Type': files[index].type
+          //   },
+          //   onUploadProgress: onUploadProgress
+          // }
+          return UploadFile(d.url, files[index])
         })
         return Promise.all(requests).then(data => {
           const files = data.map((d, index) => {
