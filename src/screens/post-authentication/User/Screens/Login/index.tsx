@@ -10,7 +10,7 @@ import useGlobal from '@Store/useGlobal'
 import { useLoginUser } from '@User/Api/queries'
 
 function UserLoginScreen () {
-  const { organisation, setOrganisation, fetchOrganisation } = useGlobal(
+  const { organisation, fetchOrganisation } = useGlobal(
     state => state
   )
   const { orgId } = useParams()
