@@ -1,9 +1,8 @@
 import { Button, Card, Col, Form, Input, Modal, Row, Space, Tabs, Tag, Typography } from 'antd'
+import { Constants, Types } from '@adewaskar/lms-common'
 
 import { DeleteOutlined } from '@ant-design/icons';
-import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts';
 import Image from '@Components/Image'
-import { Types } from '@adewaskar/lms-common'
 import { UnitTypeToStr } from '@User/Screens/Courses/CourseBuilder/utils';
 
 const { Title, Text } = Typography
@@ -18,7 +17,7 @@ export default function LearnerCartCourseCard(
 ) {
   const course = props.course
   const instructor = course.instructor as unknown as Types.Instructor;
-    const plan = course.plan as unknown as Types.Plan || INITIAL_COURSE_PLAN_DETAILS;
+    const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const removeItemFromCart = (id:string) => {
     confirm({
       title:'Are you sure?',

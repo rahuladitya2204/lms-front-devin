@@ -1,10 +1,9 @@
+import { Constants, Types } from '@adewaskar/lms-common'
 import { GetCourseQuestions, GetEnrolledCourseDetails, GetLearnerCourseDetails, GetLearnerEnrolledCourses, UpdateCourseProgress, createDiscussionQuestion, createDiscussionQuestionAnswer, enrollForCourse, getCoursesOfOrganisation } from "."
-import { INITIAL_COURSE_DETAILS, INITIAL_ENROLLED_COURSE_DETAILS } from "constant.ts"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { KEYS } from "@Network/keys"
 import { LEARNER_KEYS } from "../keys"
-import { Types } from '@adewaskar/lms-common'
 import { calcCourseProgress } from "./utils"
 import { message } from "antd"
 import { useNavigate } from "react-router"
@@ -24,7 +23,7 @@ export const useGetEnrolledCourses = () => {
   
   
   export const useGetCourseDetails = (id:string,options={enabled:true}) => {
-    const { data = INITIAL_COURSE_DETAILS , isFetching: isLoading } =
+    const { data = Constants.INITIAL_COURSE_DETAILS , isFetching: isLoading } =
       useQuery<Types.Course>([KEYS.GET_COURSE_DETAILS, id], () => GetLearnerCourseDetails(id), options)
     return {
       data,
@@ -34,7 +33,7 @@ export const useGetEnrolledCourses = () => {
 
 
   export const useGetEnrolledCourseDetails = (id:string,options={enabled:true}) => {
-    const { data = INITIAL_ENROLLED_COURSE_DETAILS, isFetching: isLoading } =
+    const { data = Constants.INITIAL_ENROLLED_COURSE_DETAILS, isFetching: isLoading } =
       useQuery<Types.EnrolledCourseDetails>([LEARNER_KEYS.GET_ENROLLED_COURSE_DETAILS, id], () => GetEnrolledCourseDetails(id).then(({ completed, course }) => {
         const calculatedProgress = calcCourseProgress({course, completed});
         return {course:calculatedProgress.course,progress:calculatedProgress.progress,completed};

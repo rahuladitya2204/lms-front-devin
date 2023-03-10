@@ -5,10 +5,9 @@ import {
   Space
 } from 'antd'
 import { BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { Constants, Types } from '@adewaskar/lms-common'
 
-import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
 import Image from '@Components/Image'
-import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
@@ -25,7 +24,7 @@ cursor: pointer;
 
 function CourseCard(props: CourseCardPropsI) {
   const navigate = useNavigate();
-  const plan = props.course.plan as unknown as Types.Plan || INITIAL_COURSE_PLAN_DETAILS;
+  const plan = props.course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const instructor = props.course.instructor as unknown as Types.Instructor;
   return (
     <Badge.Ribbon text="Best Seller" color="orange">

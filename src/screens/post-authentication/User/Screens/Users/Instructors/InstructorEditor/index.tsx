@@ -1,4 +1,5 @@
 import { Button, Card, Tabs } from 'antd'
+import { Constants, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 import {
@@ -7,14 +8,12 @@ import {
 } from '@User/Api/Instructor/queries'
 
 import Header from '@Components/Header'
-import { INITIAL_INSTRUCTOR_DETAILS } from 'constant.ts'
 import InstructorDetailsEditor from './InstructorDetailsEditor'
-import { Types } from '@adewaskar/lms-common'
 import { UploadOutlined } from '@ant-design/icons'
 
 function InstructorEditor() {
   const { id: instructorId } = useParams()
-  const [instructor, setInstructor] = useState(INITIAL_INSTRUCTOR_DETAILS)
+  const [instructor, setInstructor] = useState(Constants.INITIAL_INSTRUCTOR_DETAILS)
   const { mutate: updateInstructor, isLoading: loading } = useUpdateInstructor()
   const { data } = useGetInstructorDetails(instructorId + '', {
     enabled: !!`instructorId`

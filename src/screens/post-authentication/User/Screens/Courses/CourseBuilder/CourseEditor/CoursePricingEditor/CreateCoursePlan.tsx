@@ -1,10 +1,9 @@
 import { Button, Col, Form, Input, Radio, Row, Select } from 'antd'
+import { Constants, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect } from 'react'
 import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/Course/queries'
 
 import ActionModal from '@Components/ActionModal'
-import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
-import { Types } from '@adewaskar/lms-common'
 
 interface CreateCoursePlanPropsI {
   children?: React.ReactNode;
@@ -71,7 +70,7 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
         cta={props.children}
       >
         <Form
-          initialValues={INITIAL_COURSE_PLAN_DETAILS}
+          initialValues={Constants.INITIAL_COURSE_PLAN_DETAILS}
           form={form}
           onFinish={onSubmit}
           layout="vertical"

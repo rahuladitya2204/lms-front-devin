@@ -1,3 +1,4 @@
+import { Constants, Types } from '@adewaskar/lms-common'
 import {
   GetUserAccountDetails,
   LoginUser,
@@ -6,9 +7,7 @@ import {
 } from '.'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
-import { INITIAL_ORG_DETAILS } from 'constant.ts'
 import { KEYS } from '@Network/keys'
-import { Types } from '@adewaskar/lms-common'
 import { message } from 'antd'
 import { saveItemToStorage } from '@Utils/storage'
 import useAuthentication from '@Store/useAuthentication'
@@ -42,7 +41,7 @@ export const useRegisterUser = () => {
 }
 
 export const useGetUserAccountDetails = (options = { enabled: true }) => {
-  const { data = INITIAL_ORG_DETAILS, isFetching: isLoading } =
+  const { data = Constants.INITIAL_ORG_DETAILS, isFetching: isLoading } =
     useQuery <
     Types.Organisation >
     ([KEYS.GET_USER_ACCOUNT_DETAILS], () => GetUserAccountDetails(), options)
@@ -53,7 +52,7 @@ export const useGetUserAccountDetails = (options = { enabled: true }) => {
 }
 
 export const useGetOrgDetails = (options = { enabled: true }) => {
-  const { data = INITIAL_ORG_DETAILS, isFetching: isLoading } =
+  const { data = Constants.INITIAL_ORG_DETAILS, isFetching: isLoading } =
     useQuery <
     Types.Organisation >
     ([KEYS.GET_USER_ACCOUNT_DETAILS], () => GetUserAccountDetails(), options)

@@ -1,20 +1,19 @@
 import { Button, Card, Tabs } from 'antd'
+import { Constants, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
+import { Outlet, useParams } from 'react-router'
 import {
   useGetLearnerDetails,
   useUpdateLearner
 } from '@User/Api/Learner/queries'
 
 import Header from '@Components/Header'
-import { INITIAL_LEARNER_DETAILS } from 'constant.ts'
 import LearnerDetailsEditor from './LearnersDetailsEditor'
-import { Types } from '@adewaskar/lms-common'
 import { UploadOutlined } from '@ant-design/icons'
 
 function LearnerEditor() {
   const { id: instructorId } = useParams()
-  const [instructor, setLearner] = useState(INITIAL_LEARNER_DETAILS)
+  const [instructor, setLearner] = useState(Constants.INITIAL_LEARNER_DETAILS)
   const { mutate: updateLearner, isLoading: loading } = useUpdateLearner()
   const { data } = useGetLearnerDetails(instructorId + '', {
     enabled: !!`instructorId`
