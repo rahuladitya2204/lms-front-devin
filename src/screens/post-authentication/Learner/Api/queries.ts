@@ -1,10 +1,9 @@
 import { GetLearnerDetails, LoginLearner, RegisterLearner, UpdateLearner } from "."
-import { LoginData, SignupData } from "@Types/Common.types"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 
 import { INITIAL_LEARNER_DETAILS } from "constant.ts"
 import { KEYS } from "@Network/keys"
-import { Learner } from "@Types/Learner.types"
+import { Types } from '@adewaskar/lms-common'
 import { message } from "antd"
 import { saveItemToStorage } from "@Utils/storage"
 import useAuthentication from "@Store/useAuthentication"
@@ -15,7 +14,7 @@ import { useNavigate } from "react-router"
 export const useLoginLearner = () => {
  const navigate = useNavigate()
  const { setIsSignedin } = useAuthentication(state => state)
- const mutation = useMutation(({ email, password }: LoginData) => {
+ const mutation = useMutation(({ email, password }: Types.LoginData) => {
    return LoginLearner({
      email,
      password
@@ -29,7 +28,7 @@ export const useLoginLearner = () => {
 }
 
 export const useRegisterLearner = () => {
- const mutation = useMutation(({ email, password, name }: SignupData) => {
+ const mutation = useMutation(({ email, password, name }: Types.SignupData) => {
    return RegisterLearner({
      email,
      password,
@@ -46,7 +45,7 @@ export const useRegisterLearner = () => {
 
 export const useGetLearnerDetails = (options={enabled:true}) => {
   const { data = INITIAL_LEARNER_DETAILS , isFetching: isLoading } =
-    useQuery<Learner>([KEYS.GET_LEARNER_DETAILS], () => GetLearnerDetails(), options)
+    useQuery<Types.Learner>([KEYS.GET_LEARNER_DETAILS], () => GetLearnerDetails(), options)
   return {
     data,
     isLoading
@@ -55,7 +54,7 @@ export const useGetLearnerDetails = (options={enabled:true}) => {
 
 export const useUpdateLearner = () => {
   const qc = useQueryClient();
-  const mutation = useMutation(({data}:{data: Partial<Learner>}): Promise<void> => {
+  const mutation = useMutation(({data}:{data: Partial<Types.Learner>}): Promise<void> => {
     return UpdateLearner(data).then(() => {
       qc.invalidateQueries([KEYS.GET_LEARNER_DETAILS]);
       message.success('Learner Details Updated');

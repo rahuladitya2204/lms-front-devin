@@ -1,11 +1,11 @@
 import { KEYS } from "@Network/keys"
-import { useQuery } from "@tanstack/react-query"
-import { Instructor } from "@Types/Instructor.types"
+import { Types } from '@adewaskar/lms-common'
 import { getInstructors } from "."
+import { useQuery } from "@tanstack/react-query"
 
 export const useGetInstructors = () => {
     const { data = [], isFetching: isLoading } =
-      useQuery<Instructor[]>([KEYS.GET_INSTRUCTORS], getInstructors)
+      useQuery<Types.Instructor[]>([KEYS.GET_INSTRUCTORS], getInstructors)
     return {
       data,
       isLoading,

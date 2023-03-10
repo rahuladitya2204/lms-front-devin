@@ -1,11 +1,11 @@
-import QuillEditor from '@Components/QuillEditor'
-import { CourseQuestion } from '@Types/Courses.types';
 import { Button, Col, Form, Input, Row } from 'antd'
-
 import React, { useState } from 'react'
 
+import QuillEditor from '@Components/QuillEditor'
+import { Types } from '@adewaskar/lms-common'
+
 interface CreateQuestionPropsI {
-  onSubmit: (query: Partial<CourseQuestion>) => void;
+  onSubmit: (query: Partial<Types.CourseQuestion>) => void;
 }
 
 const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {

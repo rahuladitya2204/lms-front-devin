@@ -1,14 +1,13 @@
 import { Tabs, Typography } from 'antd'
 
-import React from 'react'
-import { SearchOutlined } from '@ant-design/icons'
-import CourseOverview from '@Learner/Screens/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
 import CourseDiscussion from './CourseDiscussion'
-import { Course } from '@Types/Courses.types'
+import CourseOverview from '@Learner/Screens/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
+import React from 'react'
+import { Types } from '@adewaskar/lms-common'
 
 const { Text } = Typography;
 interface CoursePlayerMoreInfoPropsI {
-  course: Course;
+  course: Types.Course;
 }
 
 const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {

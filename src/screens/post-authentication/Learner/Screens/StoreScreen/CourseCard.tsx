@@ -5,11 +5,10 @@ import {
   Space
 } from 'antd'
 import { BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
-import { Course, Plan } from '@Types/Courses.types'
 
 import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
 import Image from '@Components/Image'
-import { Instructor } from '@Types/Instructor.types'
+import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
@@ -17,7 +16,7 @@ import { useNavigate } from 'react-router-dom'
 const { Text } = Typography
 
 interface CourseCardPropsI {
-  course: Course;
+  course: Types.Course;
 }
 
 const CustomCard = styled(Card)`
@@ -26,8 +25,8 @@ cursor: pointer;
 
 function CourseCard(props: CourseCardPropsI) {
   const navigate = useNavigate();
-  const plan = props.course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
-  const instructor = props.course.instructor as unknown as Instructor;
+  const plan = props.course.plan as unknown as Types.Plan || INITIAL_COURSE_PLAN_DETAILS;
+  const instructor = props.course.instructor as unknown as Types.Instructor;
   return (
     <Badge.Ribbon text="Best Seller" color="orange">
       <CustomCard hoverable

@@ -2,24 +2,23 @@ import { Button, Card, Form, Input, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
 import { useGetUserAccountDetails, useUpdateUserAccount } from '@User/Api/queries'
 
-import { INITIAL_ORG_DETAILS } from 'constant.ts'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import { Organisation } from '@Types/Organisation'
+import { Types } from '@adewaskar/lms-common'
 import { UploadOutlined } from '@ant-design/icons'
 
 export default function UserProfile() {
 
-    const [form] = Form.useForm<Organisation>();
+    const [form] = Form.useForm<Types.Organisation>();
     const { data } = useGetUserAccountDetails()
-    const [organisation, setAccount] = useState<Partial<Organisation>>({})
+    const [organisation, setAccount] = useState<Partial<Types.Organisation>>({})
     
     useEffect(() => {
       form.setFieldsValue(organisation);
     }, [organisation]);
 
 
-  const onFormUpdate = (data: Partial<Organisation>) => {
+  const onFormUpdate = (data: Partial<Types.Organisation>) => {
     setAccount({
       ...organisation,
       ...data

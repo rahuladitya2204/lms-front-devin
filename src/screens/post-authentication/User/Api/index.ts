@@ -1,16 +1,14 @@
-import { LoginData, SignupData } from '@Types/Common.types'
-
 import { API_ENDPOINTS } from '@Network/constants'
 import Axios from '@Network/index'
-import { Organisation } from '@Types/Organisation'
+import { Types } from '@adewaskar/lms-common'
 
 // Login - Register
 
-export const LoginUser = (data: LoginData) => {
+export const LoginUser = (data: Types.LoginData) => {
   return Axios.post('user/login', data)
 }
 
-export const RegisterUser = (data: SignupData) => {
+export const RegisterUser = (data: Types.SignupData) => {
   return Axios.post('user/register', data)
 }
 
@@ -18,7 +16,7 @@ export const ValidateUser = (type: string) => {
   return Axios.post(`${type}/validate`)
 }
 
-export const UpdateUserAccount = (data: Partial<Organisation>) => {
+export const UpdateUserAccount = (data: Partial<Types.Organisation>) => {
   return Axios.put(API_ENDPOINTS.user.account, data)
 }
 

@@ -1,16 +1,16 @@
 import { useOutletContext, useParams } from "react-router";
 
 import { Form } from "antd";
+import { Types } from '@adewaskar/lms-common'
 import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useEffect } from "react";
-import { CourseSection, CourseSectionItem } from "@Types/Courses.types";
 
 function useUploadItemForm() {
   const [form] = Form.useForm();
   let { itemId, sectionId } = useParams();
 
 
-  const [sections, updateSections] = useOutletContext<[CourseSection[],(sectionId:string,data:CourseSectionItem)=>void]>();
+  const [sections, updateSections] = useOutletContext<[Types.CourseSection[],(sectionId:string,data:Types.CourseSectionItem)=>void]>();
 
   const item = findSectionItem(itemId+'', sectionId+'', sections) || {title:'',description:''};
   
@@ -18,7 +18,7 @@ function useUploadItemForm() {
     form.setFieldsValue(item)
   }, [item]);
 
-  const onFormChange = (data:Partial<CourseSectionItem>) => {
+  const onFormChange = (data:Partial<Types.CourseSectionItem>) => {
       const newItem = {
         ...item,
         ...data

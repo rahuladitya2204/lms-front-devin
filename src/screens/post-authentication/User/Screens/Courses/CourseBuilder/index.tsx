@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import { Button, Card, Col, Row } from 'antd'
-import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'

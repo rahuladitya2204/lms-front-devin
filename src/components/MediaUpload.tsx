@@ -7,8 +7,7 @@ import {
 import React, { ReactNode, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 
-import ImgCrop from 'antd-img-crop'
-import { UploadFileType } from '@Types/Common.types'
+import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 import { useUploadFiles } from '@Network/Common/CommonQueries'
 
@@ -19,7 +18,7 @@ const UPLOAD: UploadProps = {
 }
 
 interface MediaUploadPropsI {
-  onUpload: (file: UploadFileType) => void;
+  onUpload: (file: Types.UploadFileType) => void;
   children?: ReactNode;
   listType?: string;
   url?: string;

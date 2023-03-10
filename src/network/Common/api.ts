@@ -1,11 +1,11 @@
-import { PresignedUrlResponseData } from '@Types/Common.types'
 import axios, { AxiosRequestConfig } from 'axios'
 
 import Axios from '..'
+import { Types } from '@adewaskar/lms-common'
 
 export const GetFileUrls = (
   files: { fileType: string }[]
-): Promise<PresignedUrlResponseData[]> => {
+): Promise<Types.PresignedUrlResponseData[]> => {
   return Axios.post(`/file/url`, { files: files }).then(({ data }) => data)
 }
 

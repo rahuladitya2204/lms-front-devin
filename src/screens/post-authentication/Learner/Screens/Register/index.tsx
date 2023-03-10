@@ -1,11 +1,11 @@
 import { Button, Checkbox, Form, Input, Typography } from 'antd'
 import { NavLink, useParams } from 'react-router-dom'
 
+import AuthenticationCard from '@Components/AuthenticationCard'
+import { Types } from '@adewaskar/lms-common'
+import { saveItemToStorage } from '@Utils/storage'
 import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import { saveItemToStorage } from '@Utils/storage'
-import { SignupData } from '@Types/Common.types'
-import AuthenticationCard from '@Components/AuthenticationCard'
 import { useRegisterLearner } from '@Learner/Api/queries'
 
 function LearnerRegister() {
@@ -24,7 +24,7 @@ function LearnerRegister() {
       password: '',
       name: ''
     },
-    onSubmit: (values: SignupData) => {
+    onSubmit: (values: Types.SignupData) => {
       Signup({
         email: values.email,
         password: values.password,

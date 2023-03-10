@@ -1,11 +1,11 @@
-import { Course } from '@Types/Courses.types'
+import { Types } from '@adewaskar/lms-common'
 import create from 'zustand'
 
 interface CartState {
-  cartItems: Course[];
-  addItemToCart: (item: Course) => void;
+  cartItems: Types.Course[];
+  addItemToCart: (item: Types.Course) => void;
   resetCart: () => void;
-  setCartItems: (items: Course[]) => void;
+  setCartItems: (items: Types.Course[]) => void;
 }
 
 const useCart =

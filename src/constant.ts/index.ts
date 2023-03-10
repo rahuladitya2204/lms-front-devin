@@ -1,11 +1,6 @@
-import { Course, CourseQuestion, Plan } from '@Types/Courses.types'
+import { Types } from '@adewaskar/lms-common'
 
-import { Instructor } from '@Types/Instructor.types'
-import { Learner } from '@Types/Learner.types'
-import { Organisation } from '@Types/Organisation'
-import { User } from '@Types/User.types'
-
-export const INITIAL_COURSE_DETAILS: Course = {
+export const INITIAL_COURSE_DETAILS: Types.Course = {
   title: '',
   subtitle: '',
   description: '',
@@ -43,7 +38,7 @@ export const INITIAL_ENROLLED_COURSE_DETAILS = {
   progress: 0
 }
 
-export const INITIAL_LEARNER_DETAILS: Learner = {
+export const INITIAL_LEARNER_DETAILS: Types.Learner = {
   email: '',
   name: '',
   recoveryEmail: '',
@@ -56,7 +51,7 @@ export const INITIAL_LEARNER_DETAILS: Learner = {
   _id: ''
 }
 
-export const INITIAL_COURSE_PLAN_DETAILS: Plan = {
+export const INITIAL_COURSE_PLAN_DETAILS: Types.Plan = {
   name: '',
   type: 'one-time',
   finalPrice: {
@@ -73,7 +68,7 @@ export const INITIAL_COURSE_PLAN_DETAILS: Plan = {
   course: ''
 }
 
-export const INITIAL_QUESTION_DETAILS: CourseQuestion = {
+export const INITIAL_QUESTION_DETAILS: Types.CourseQuestion = {
   answers: [],
   title: '',
   course: '',
@@ -82,7 +77,7 @@ export const INITIAL_QUESTION_DETAILS: CourseQuestion = {
   _id: ''
 }
 
-export const INITIAL_INSTRUCTOR_DETAILS: Instructor = {
+export const INITIAL_INSTRUCTOR_DETAILS: Types.Instructor = {
   name: '',
   aboutMe: '',
   email: '',
@@ -95,7 +90,7 @@ export const INITIAL_INSTRUCTOR_DETAILS: Instructor = {
   organisation: ''
 }
 
-export const INITIAL_USER_DETAILS: User = {
+export const INITIAL_USER_DETAILS: Types.User = {
   email: '',
   name: '',
   recoveryEmail: '',
@@ -106,7 +101,7 @@ export const INITIAL_USER_DETAILS: User = {
   _id: ''
 }
 
-export const INITIAL_ORG_DETAILS: Organisation = {
+export const INITIAL_ORG_DETAILS: Types.Organisation = {
   name: '',
   email: '',
   website: '',

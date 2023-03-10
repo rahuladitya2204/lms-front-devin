@@ -1,7 +1,6 @@
 import { GetOrganisationDetails } from '@User/Api'
 import { INITIAL_ORG_DETAILS } from 'constant.ts'
 import { Types } from '@adewaskar/lms-common'
-// import { Organisation } from '@Types/Organisation'
 import create from 'zustand'
 
 // console.log(goodBye, 'goodBye')

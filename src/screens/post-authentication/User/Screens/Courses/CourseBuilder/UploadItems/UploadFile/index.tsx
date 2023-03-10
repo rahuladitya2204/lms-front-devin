@@ -1,12 +1,11 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { Fragment, useState } from 'react';
+
 import FileUpload from '@Components/FileUpload';
-import { CreateItemPropsI, UploadFileType } from '@Types/Common.types';
+import { Types } from '@adewaskar/lms-common'
 
-
-
-const UploadFile: React.FC<CreateItemPropsI> = (props) => {
-  const [files, setFiles] = useState<UploadFileType[]>([]);
+const UploadFile: React.FC<Types.CreateItemPropsI> = (props) => {
+  const [files, setFiles] = useState<Types.UploadFileType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {

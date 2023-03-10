@@ -10,18 +10,18 @@ import {
   Row,
   Typography
 } from 'antd'
-import { Course, CourseQuestion } from '@Types/Courses.types'
 
 import { Comment } from '@ant-design/compatible';
 import CreateQuestion from './CreateQuestion'
 import React from 'react'
+import { Types } from '@adewaskar/lms-common'
 import { useGetCourseQuestions } from '@Learner/Api/Course/queries'
 
 const { Text } = Typography
 
 interface CourseQuestionsListPropsI {
-  selectQuestion: (q: CourseQuestion) => void;
-  course: Course;
+  selectQuestion: (q: Types.CourseQuestion) => void;
+  course: Types.Course;
 }
 
 const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {

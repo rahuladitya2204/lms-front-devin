@@ -5,16 +5,16 @@ import {
   StarOutlined,
   UsergroupAddOutlined
 } from '@ant-design/icons'
-import { Avatar, Col, List, Row, Space, Typography } from 'antd'
+import { Avatar, Col, Row, Typography } from 'antd'
 
-import { Course } from '@Types/Courses.types'
 import { Fragment } from 'react'
+import { Types } from '@adewaskar/lms-common'
 import { useGetInstructorDetails } from '@User/Api/Instructor/queries'
 
 const { Title, Text, Paragraph } = Typography
 
 interface CourseInstructorPropsI {
-  course: Course;
+  course: Types.Course;
 }
 
 function CourseInstructor(props: CourseInstructorPropsI) {

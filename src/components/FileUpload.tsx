@@ -1,9 +1,9 @@
-import React, {  ReactNode, useState } from 'react'
+import React, { ReactNode, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 
-import { UploadFileType } from '@Types/Common.types'
-import { useUploadFiles } from '@Network/Common/CommonQueries'
+import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
+import { useUploadFiles } from '@Network/Common/CommonQueries'
 
 const CustomUpload = styled(Upload)`
 .ant-upload.ant-upload-select {
@@ -17,7 +17,7 @@ const UPLOAD: UploadProps = {
 }
 
 interface FileUploadPropsI {
-  onUpload: (files: UploadFileType[]) => void;
+  onUpload: (files: Types.UploadFileType[]) => void;
   children?: ReactNode;
   listType?: string;
   extra?: UploadProps;

@@ -1,13 +1,13 @@
 import { Card, Progress, Typography } from 'antd'
 
-import { Course } from '@Types/Courses.types'
 import Image from '@Components/Image'
+import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 
 const { Text } = Typography
 
 interface CourseCardPropsI {
-  course: Course;
+  course: Types.Course;
   progress: number;
   onClick: () => void;
 }

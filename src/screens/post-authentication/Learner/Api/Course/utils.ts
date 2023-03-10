@@ -1,17 +1,13 @@
-import {
-  CourseSection,
-  CourseSectionItem,
-  EnrolledCourseDetails
-} from '@Types/Courses.types'
+import { Types } from '@adewaskar/lms-common'
 
 export const calcCourseProgress = ({
   course,
   completed
-}: EnrolledCourseDetails) => {
+}: Types.EnrolledCourseDetails) => {
   let totalItems = 0,
     completedCourses = 0
-  course.sections.forEach((s: CourseSection) => {
-    s.items.forEach((i: CourseSectionItem) => {
+  course.sections.forEach((s: Types.CourseSection) => {
+    s.items.forEach((i: Types.CourseSectionItem) => {
       totalItems += 1
       if (completed.indexOf(i._id)) {
         completedCourses += 1

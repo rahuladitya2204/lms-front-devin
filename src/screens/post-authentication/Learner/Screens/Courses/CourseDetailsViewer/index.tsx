@@ -13,7 +13,6 @@ import {
   AlertOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Course, Plan } from '@Types/Courses.types'
 import { INITIAL_COURSE_DETAILS, INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
 import { useEffect, useState } from 'react'
 import { useEnrollForCourse, useGetCourseDetails } from '@Learner/Api/Course/queries'
@@ -22,14 +21,10 @@ import { useGetCartItems, useUpdateCartItems } from '@Learner/Api/Common/queries
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'
-import { Instructor } from '@Types/Instructor.types'
+import { Types } from '@adewaskar/lms-common'
 import image from './bg.svg'
 import styled from '@emotion/styled'
-import {
-  useGetLearnerDetails
-} from '@Learner/Api/queries'
 import { useParams } from 'react-router'
-import { useUpdateLearner } from '@Learner/Api/queries'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -70,7 +65,7 @@ function CourseDetailViewer () {
     enabled: !!courseId
   });
   const {data: cartItems } = useGetCartItems();
-  const addItemToCart = (course:Course) => {
+  const addItemToCart = (course:Types.Course) => {
     updateCart({ courseId: course._id, action: 'add' });
   }
   useEffect(
@@ -83,8 +78,8 @@ function CourseDetailViewer () {
   const enrollForCourse = (courseId:string) => {
     enroll(courseId);
   }
-  const instructor = course.instructor as unknown as Instructor;
-  const plan = course.plan as unknown as Plan || INITIAL_COURSE_PLAN_DETAILS;
+  const instructor = course.instructor as unknown as Types.Instructor;
+  const plan = course.plan as unknown as Types.Plan || INITIAL_COURSE_PLAN_DETAILS;
   const isAddedToCart = cartItems?.find(item => item._id == course._id);
   return (
     <Container>

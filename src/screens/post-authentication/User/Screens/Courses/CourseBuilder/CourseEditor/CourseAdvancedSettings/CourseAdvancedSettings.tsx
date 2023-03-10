@@ -1,21 +1,26 @@
 import {
   Button,
   Divider,
-    Form, Input, Switch, Typography,
-    } from 'antd'
-    import { Fragment, useEffect } from 'react'
-    import QuillEditor from '@Components/QuillEditor';
-    import {  CourseAdvancedSetting } from '@Types/Courses.types';
+  Form,
+  Input,
+  Switch,
+  Typography,
+} from 'antd'
+import { Fragment, useEffect } from 'react'
+
+import QuillEditor from '@Components/QuillEditor';
+import { Types } from '@adewaskar/lms-common'
+
 const { Title} = Typography;
 const { useWatch} = Form;    
     interface CourseAdvancedSettingsPropsI {
-        formData: CourseAdvancedSetting;
+        formData: Types.CourseAdvancedSetting;
         courseId: string;
-      onFormUpdate: (d: CourseAdvancedSetting) => void;
+      onFormUpdate: (d: Types.CourseAdvancedSetting) => void;
     }
     
     function CourseAdvancedSettings(props:CourseAdvancedSettingsPropsI) {
-      const [form] = Form.useForm<CourseAdvancedSetting>();    
+      const [form] = Form.useForm<Types.CourseAdvancedSetting>();    
       useEffect(() => {
         form.setFieldsValue(props.formData);
       },[props.formData])

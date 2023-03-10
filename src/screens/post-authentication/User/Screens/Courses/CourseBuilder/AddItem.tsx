@@ -1,8 +1,8 @@
 import { Col, Form, Modal, Radio, Row, Space, Typography } from 'antd'
 import { Fragment, useState } from 'react'
-import { CourseSectionItem } from '@Types/Courses.types'
 
 import CreateTextItem from './CreateNewItem/CreatTextItem'
+import { Types } from '@adewaskar/lms-common'
 import UploadFile from './UploadItems/UploadFile'
 import UploadPDF from './UploadItems/UploadPDF'
 import UploadVideo from './UploadItems/UploadVideo'
@@ -42,7 +42,7 @@ const CREATE_NEW_ITEM = [
 ]
 
 interface AddItemPropsI {
-  onAddNewItem: (type: string, item: Partial<CourseSectionItem>, key?: string) => void;
+  onAddNewItem: (type: string, item: Partial<Types.CourseSectionItem>, key?: string) => void;
   children?: React.ReactNode;
 }
 
@@ -60,7 +60,7 @@ function AddItem(props: AddItemPropsI) {
 
   const [form] = Form.useForm()
 
-  const onFinish = (type: string, item: Partial<CourseSectionItem>) => {
+  const onFinish = (type: string, item: Partial<Types.CourseSectionItem>) => {
     props.onAddNewItem(type, item);
     closeModal()
   }

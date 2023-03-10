@@ -1,10 +1,11 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { Fragment, useState } from 'react';
-import DraggerUpload from '@Components/DraggerUpload';
-import { CreateItemPropsI, UploadFileType } from '@Types/Common.types';
 
-const UploadVideoa: React.FC<CreateItemPropsI> = (props) => {
-  const [files, setFiles] = useState<UploadFileType[]>([]);
+import DraggerUpload from '@Components/DraggerUpload';
+import { Types } from '@adewaskar/lms-common'
+
+const UploadVideoa: React.FC<Types.CreateItemPropsI> = (props) => {
+  const [files, setFiles] = useState<Types.UploadFileType[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {

@@ -2,7 +2,7 @@ import { Button, Checkbox, Form, Input, Typography } from 'antd'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
 import { NavLink } from 'react-router-dom'
-import { SignupData } from '@Types/Common.types'
+import { Types } from '@adewaskar/lms-common'
 import { useFormik } from 'formik'
 import { useRegisterUser } from '@User/Api/queries'
 
@@ -14,7 +14,7 @@ function UserRegisterScreen() {
       password: '',
       name: ''
     },
-    onSubmit: (values: SignupData) => {
+    onSubmit: (values: Types.SignupData) => {
       Signup({
         email: values.email,
         password: values.password,

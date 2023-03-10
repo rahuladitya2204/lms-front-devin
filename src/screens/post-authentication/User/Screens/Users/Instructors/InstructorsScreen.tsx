@@ -3,7 +3,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import AddInstructor from './AddInstructor';
 import Header from '@Components/Header';
-import { Instructor } from '@Types/Instructor.types';
+import { Types } from '@adewaskar/lms-common'
 import { useGetInstructors } from '@User/Api/Instructor/queries'
 
 function InstructorsScreen() {
@@ -50,7 +50,7 @@ function InstructorsScreen() {
               <Table.Column
                 title="Action"
                 key="action"
-                render={(_: any, record: Instructor) => (
+                render={(_: any, record: Types.Instructor) => (
                   <Space size="middle">
                     <EditOutlined
                       onClick={() =>

@@ -1,13 +1,14 @@
 import { Avatar, List, Tooltip, Typography } from 'antd'
-import { Comment } from '@ant-design/compatible';
 import React, { Fragment } from 'react'
-import { CourseQuestion } from '@Types/Courses.types'
+
+import { Comment } from '@ant-design/compatible';
 import CreateAnswer from './CreateAnswer'
+import { Types } from '@adewaskar/lms-common'
 
 const { Text } = Typography
 
 interface CourseQuestionAnswersPropsI {
-  question: CourseQuestion;
+  question: Types.CourseQuestion;
 }
 
 const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {

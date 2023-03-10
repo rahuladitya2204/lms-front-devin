@@ -4,9 +4,9 @@ import {
   useOutletContext,
   useParams
 } from 'react-router-dom'
-import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 
-import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
+import { Types } from '@adewaskar/lms-common'
+import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 
 export const useNavigateParams = () => {
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ export const useNavigateParams = () => {
 
 export const useGetNodeFromRouterOutlet = () => {
   const { itemId,sectionId } = useParams();
-  const [sections] = useOutletContext<CourseSection[][]>()
-  const node: CourseSectionItem = findSectionItem(itemId + '', sectionId + '', sections) || {};
+  const [sections] = useOutletContext<Types.CourseSection[][]>()
+  const node: Types.CourseSectionItem = findSectionItem(itemId + '', sectionId + '', sections) || {};
   return node;
 }

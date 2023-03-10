@@ -1,12 +1,12 @@
 import { Button, Col, Form, Input, Modal, Row } from 'antd';
 import React, { Fragment, useState } from 'react';
+
 import MediaPlayer from '@Components/MediaPlayer';
 import MediaUpload from '@Components/MediaUpload';
-import { CreateItemPropsI } from '@Types/Common.types';
+import { Types } from '@adewaskar/lms-common'
 import { getMetadata } from 'video-metadata-thumbnails';
 
-
-const UploadVideo: React.FC<CreateItemPropsI> = (props) => {
+const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
   const [url,setUrl] = useState('');
   const [metadata, setMetadata] = useState({
     duration: {

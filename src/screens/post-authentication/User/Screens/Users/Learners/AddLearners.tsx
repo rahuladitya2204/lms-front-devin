@@ -1,11 +1,12 @@
 import { Button, Form, Input, Modal } from 'antd';
-import { CreateLearnerPayload, Learner } from '@Types/Learner.types';
 import React, { Fragment, ReactNode, useEffect, useState } from 'react';
 import { useCreateLearner, useUpdateLearner } from '@User/Api/Learner/queries';
 
+import { Types } from '@adewaskar/lms-common'
+
 interface CreateLearnerComponentPropsI {
   children?: ReactNode;
-  data?: Learner;
+  data?: Types.Learner;
 }
 
 const AddLearner: React.FC<CreateLearnerComponentPropsI> = (props) => {
@@ -22,7 +23,7 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = (props) => {
     setIsModalOpen(false);
   };
 
-  const onSubmit = (e: CreateLearnerPayload) => {
+  const onSubmit = (e: Types.CreateLearnerPayload) => {
     if (props.data)
     {
       updateLearner({ id: props.data._id, data: e });

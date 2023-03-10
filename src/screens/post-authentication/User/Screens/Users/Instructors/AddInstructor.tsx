@@ -1,14 +1,12 @@
 import { Button, Form, Input, Modal } from 'antd'
-import {
-  CreateInstructorPayload,
-  Instructor
-} from '@Types/Instructor.types'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useCreateInstructor, useUpdateInstructor } from '@User/Api/Instructor/queries';
 
+import { Types } from '@adewaskar/lms-common'
+
 interface CreateInstructorComponentPropsI {
   children?: ReactNode;
-  data?: Instructor;
+  data?: Types.Instructor;
 }
 
 const AddInstructor: React.FC<CreateInstructorComponentPropsI> = props => {
@@ -31,7 +29,7 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = props => {
     setIsModalOpen(false)
   }
 
-  const onSubmit = (e: CreateInstructorPayload) => {
+  const onSubmit = (e: Types.CreateInstructorPayload) => {
     if (props.data) {
       updateInstructor({ id: props.data._id, data: e })
     } else {

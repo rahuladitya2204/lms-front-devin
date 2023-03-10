@@ -2,8 +2,8 @@ import { Collapse, List, Typography } from 'antd'
 
 import CoursePlayerNavigatorItem from './CoursePlayerNavigatorItem'
 import { Fragment } from 'react'
+import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
-import { CourseSection } from '@Types/Courses.types'
 
 const { Panel } = Collapse
 
@@ -22,7 +22,7 @@ const CustomCollapse = styled(Collapse)`
 `
 
 interface CoursePlayerNavigatorPropsI {
-  sections: CourseSection[];
+  sections: Types.CourseSection[];
   courseId: string;
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }

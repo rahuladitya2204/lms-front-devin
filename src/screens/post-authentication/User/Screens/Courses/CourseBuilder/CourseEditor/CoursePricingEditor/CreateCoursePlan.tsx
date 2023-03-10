@@ -4,12 +4,12 @@ import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/Course/queri
 
 import ActionModal from '@Components/ActionModal'
 import { INITIAL_COURSE_PLAN_DETAILS } from 'constant.ts'
-import { Plan } from '@Types/Courses.types'
+import { Types } from '@adewaskar/lms-common'
 
 interface CreateCoursePlanPropsI {
   children?: React.ReactNode;
   courseId: string;
-  plan?: Plan;
+  plan?: Types.Plan;
 }
 
 function CreateCoursePlan(props: CreateCoursePlanPropsI) {
@@ -31,7 +31,7 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
     [props.plan]
   )
 
-  const onSubmit = (e: Plan) => {
+  const onSubmit = (e: Types.Plan) => {
     form.validateFields()
     const body = {
       courseId: courseId,

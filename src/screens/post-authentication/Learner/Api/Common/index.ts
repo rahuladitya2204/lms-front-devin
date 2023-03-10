@@ -1,6 +1,5 @@
 import { API_ENDPOINTS } from '@Network/constants'
 import Axios from '@Network/index'
-import { Course } from '@Types/Courses.types'
 
 export const GetCartItems = () => {
   return Axios.get(API_ENDPOINTS.learner.self + '/cart').then(r => r.data)

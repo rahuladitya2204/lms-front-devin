@@ -1,16 +1,16 @@
 import { Button, Card, Tabs } from 'antd'
-import { UploadOutlined } from '@ant-design/icons'
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
 import { Fragment, useEffect, useState } from 'react'
-
-import { Learner } from '@Types/Learner.types'
-import LearnerDetailsEditor from './LearnersDetailsEditor'
-import { INITIAL_LEARNER_DETAILS } from 'constant.ts'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
 import {
   useGetLearnerDetails,
   useUpdateLearner
 } from '@User/Api/Learner/queries'
+
 import Header from '@Components/Header'
+import { INITIAL_LEARNER_DETAILS } from 'constant.ts'
+import LearnerDetailsEditor from './LearnersDetailsEditor'
+import { Types } from '@adewaskar/lms-common'
+import { UploadOutlined } from '@ant-design/icons'
 
 function LearnerEditor() {
   const { id: instructorId } = useParams()
@@ -34,7 +34,7 @@ function LearnerEditor() {
     })
   }
 
-  const onFormUpdate = (data: Partial<Learner>) => {
+  const onFormUpdate = (data: Partial<Types.Learner>) => {
     setLearner({
       ...instructor,
       ...data

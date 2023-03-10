@@ -319,6 +319,7 @@ module.exports = function (webpackEnv) {
         '@Types': path.resolve(__dirname, '../src/types'),
         '@Network': path.resolve(__dirname, '../src/network'),
         '@Hooks': path.resolve(__dirname, '../src/hooks'),
+        '@Common': '@adewaskar/lms-common',
         '@Store': path.resolve(__dirname, '../src/store'),
         '@Network': path.resolve(__dirname, '../src/network'),
         '@Utils': path.resolve(__dirname, '../src/utils'),

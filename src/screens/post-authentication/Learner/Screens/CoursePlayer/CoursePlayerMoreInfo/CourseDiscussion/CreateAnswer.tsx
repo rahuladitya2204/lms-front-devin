@@ -1,12 +1,12 @@
 import { Button, Col, Form, Input, Row } from 'antd'
-import { Course, CourseQuestion, CourseQuestionAnswer } from '@Types/Courses.types'
 import React, { useState } from 'react'
 
 import QuillEditor from '@Components/QuillEditor'
+import { Types } from '@adewaskar/lms-common'
 import { useCreateDiscussionQuestionAnswer } from '@Learner/Api/Course/queries';
 
 interface CreateAnswerPropsI {
-  question: CourseQuestion;
+  question: Types.CourseQuestion;
 }
 
 const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
@@ -20,7 +20,7 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
     isLoading: loading
   } = useCreateDiscussionQuestionAnswer(onSuccess)
 
-  const createAnswer = (q: Partial<CourseQuestionAnswer>) => {
+  const createAnswer = (q: Partial<Types.CourseQuestionAnswer>) => {
     createDiscussionQuestionAnswer({
       courseId: props.question.course,
       questionId: props.question._id,

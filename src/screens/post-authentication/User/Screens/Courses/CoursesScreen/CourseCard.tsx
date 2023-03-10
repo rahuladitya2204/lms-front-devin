@@ -6,14 +6,13 @@ import {
   ToolOutlined,
 } from '@ant-design/icons'
 
-import { Course } from '@Types/Courses.types'
 import Image from '@Components/Image'
-import { Instructor } from '@Types/Instructor.types'
+import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
 interface CourseCardProps {
-  course: Course;
+  course: Types.Course;
 }
 
 const CourseCardHolder = styled(Card)`
@@ -24,7 +23,7 @@ const CourseCardHolder = styled(Card)`
 
 function CourseCard(props: CourseCardProps) {
   const navigate = useNavigate();
-  const instructor = props.course.instructor as unknown as Instructor;
+  const instructor = props.course.instructor as unknown as Types.Instructor;
   return (
     <CourseCardHolder hoverable
 

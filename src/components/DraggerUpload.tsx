@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 
 import { InboxOutlined } from '@ant-design/icons'
+import { Types } from '@adewaskar/lms-common'
 import { Upload } from 'antd'
-import { UploadFileType } from '@Types/Common.types'
 import type { UploadProps } from 'antd'
 import { useUploadFiles } from '@Network/Common/CommonQueries'
 
@@ -15,7 +15,7 @@ const props: UploadProps = {
 }
 
 interface DraggerUploadPropsI {
-  onUpload: (files: UploadFileType[]) => void;
+  onUpload: (files: Types.UploadFileType[]) => void;
 }
 
 const DraggerUpload: React.FC<DraggerUploadPropsI> = componentProps => {

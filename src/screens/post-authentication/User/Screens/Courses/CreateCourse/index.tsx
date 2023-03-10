@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment, ReactNode, useState } from 'react'
 
 import { InfoCircleOutlined } from '@ant-design/icons'
-import { Course } from '@Types/Courses.types';
+import { Types } from '@adewaskar/lms-common'
 import { useCreateCourse } from '@User/Api/Course/queries';
 
 interface CreateCourseComponentPropsI {
@@ -22,7 +22,7 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
   }
   const [form] = Form.useForm()
 
-  const onSubmit = (e: Course) => {
+  const onSubmit = (e: Types.Course) => {
     createCourse({
       instructor: e.instructor,
       title: e.title

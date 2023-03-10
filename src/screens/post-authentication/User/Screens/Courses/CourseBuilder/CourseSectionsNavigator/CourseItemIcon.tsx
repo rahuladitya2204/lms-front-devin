@@ -10,11 +10,11 @@ import {
   PlayCircleOutlined
 } from '@ant-design/icons'
 
-import { Fragment, ReactNode } from 'react'
-import { CourseSectionItem } from '@Types/Courses.types'
+import { Fragment } from 'react'
+import { Types } from '@adewaskar/lms-common'
 
 interface CourseItemIconPropsI {
-  item: CourseSectionItem;
+  item: Types.CourseSectionItem;
   type?: string;
 }
 

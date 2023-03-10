@@ -1,15 +1,13 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import {
-  Course,
-} from '@Types/Courses.types'
-import { message } from 'antd'
 import { GetCartItems, UpdateCartItems } from '.'
-import { LEARNER_KEYS } from '../keys'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
+import { LEARNER_KEYS } from '../keys'
+import { Types } from '@adewaskar/lms-common'
+import { message } from 'antd'
 
 export const useGetCartItems = () => {
     const { data = [], isFetching: isLoading } =
-      useQuery<Course[]>([LEARNER_KEYS.GET_CART_ITEMS], GetCartItems)
+      useQuery<Types.Course[]>([LEARNER_KEYS.GET_CART_ITEMS], GetCartItems)
     return {
       data,
       isLoading

@@ -1,25 +1,25 @@
 import {
-    Form, Input,
-    } from 'antd'
-    import { Fragment, useEffect } from 'react'
-    import { CourseLandingPage } from '@Types/Courses.types';
-import MediaPlayer from '@Components/MediaPlayer';
-import MediaUpload from '@Components/MediaUpload';
-    
-    interface CourseLandingPageEditorPropsI {
-        formData: CourseLandingPage;
+    Form,
+    Input,
+} from 'antd'
+import { Fragment, useEffect } from 'react'
+
+import { Types } from '@adewaskar/lms-common'
+
+interface CourseLandingPageEditorPropsI {
+        formData: Types.CourseLandingPage;
         courseId: string;
-      onFormUpdate: (d:CourseLandingPage)=>void;
+      onFormUpdate: (d:Types.CourseLandingPage)=>void;
     }
     
     function CourseLandingPageEditor(props:CourseLandingPageEditorPropsI) {
-      const [form] = Form.useForm<CourseLandingPage>();    
+      const [form] = Form.useForm<Types.CourseLandingPage>();    
       useEffect(() => {
         form.setFieldsValue(props.formData);
       },[props.formData])
     
     
-      const onFormUpdate = (e:Partial<CourseLandingPage>) => {
+      const onFormUpdate = (e:Partial<Types.CourseLandingPage>) => {
         props.onFormUpdate({
           ...props.formData,
           ...e

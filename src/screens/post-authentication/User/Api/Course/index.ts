@@ -1,7 +1,6 @@
-import { Course, Plan, UpdateCoursePayload } from '@Types/Courses.types'
-
 import { API_ENDPOINTS } from '@Network/constants'
 import Axios from '@Network/index'
+import { Types } from '@adewaskar/lms-common'
 
 export const GetCourses = () => {
   return Axios.get(API_ENDPOINTS.user_course).then(r => {
@@ -14,13 +13,13 @@ export const GetCourses = () => {
 export const GetCourseDetails = (id: string) => {
   return Axios.get(API_ENDPOINTS.user_course + '/' + id).then(r => r.data)
 }
-export const CreateCourse = (data: Partial<Course>) => {
+export const CreateCourse = (data: Partial<Types.Course>) => {
   return Axios.post(API_ENDPOINTS.user_course, data).then(r => r.data)
 }
 
 export const UpdateCourse = (
   id: string,
-  data: Partial<UpdateCoursePayload>
+  data: Partial<Types.UpdateCoursePayload>
 ) => {
   return Axios.put(API_ENDPOINTS.user_course + '/' + id, data).then(r => r.data)
 }
@@ -31,7 +30,7 @@ export const GetCoursePlans = (courseId: string) => {
   )
 }
 
-export const CreateCoursePlan = (courseId: string, data: Partial<Plan>) => {
+export const CreateCoursePlan = (courseId: string, data: Partial<Types.Plan>) => {
   return Axios.post(
     `${API_ENDPOINTS.user.self}/course/${courseId}/plan`,
     data
@@ -41,7 +40,7 @@ export const CreateCoursePlan = (courseId: string, data: Partial<Plan>) => {
 export const UpdateCoursePlan = (
   courseId: string,
   planId: string,
-  data: Partial<Plan>
+  data: Partial<Types.Plan>
 ) => {
   return Axios.put(
     `${API_ENDPOINTS.user.self}/course/${courseId}/plan/${planId}`,

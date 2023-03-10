@@ -24,8 +24,8 @@
        "@Components/*": [
          "components/*"
        ],
-       "@Types/*": [
-        "types/*"
+       "@Common": [
+        "@adewaskar/lms-common"
       ],
       "@User/*": [
         "screens/post-authentication/User/*"

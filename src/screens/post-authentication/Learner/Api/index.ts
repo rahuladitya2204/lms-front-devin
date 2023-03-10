@@ -1,15 +1,14 @@
-import Axios from '@Network/index'
 import { API_ENDPOINTS } from '@Network/constants'
-import { LoginData, SignupData } from '@Types/Common.types'
-import { Learner } from '@Types/Learner.types'
+import Axios from '@Network/index'
+import { Types } from '@adewaskar/lms-common'
 
 // Login - Register
 
-export const LoginLearner = (data: LoginData) => {
+export const LoginLearner = (data: Types.LoginData) => {
   return Axios.post('learner/login', data)
 }
 
-export const RegisterLearner = (data: SignupData) => {
+export const RegisterLearner = (data: Types.SignupData) => {
   return Axios.post('learner/register', data)
 }
 

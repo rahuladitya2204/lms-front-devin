@@ -1,9 +1,9 @@
 import { GetFileUrls, UploadFile } from './api'
 
-import { UploadFileType } from '@Types/Common.types'
+import { AxiosProgressEvent } from 'axios'
+import { Types } from '@adewaskar/lms-common'
 import { config } from '../../constants/config'
 import { useMutation } from '@tanstack/react-query'
-import { AxiosProgressEvent } from 'axios'
 
 export const useUploadFiles = () => {
   const mutation = useMutation(
@@ -14,7 +14,7 @@ export const useUploadFiles = () => {
     }: {
       files: File[],
       onUploadProgress?: (e: AxiosProgressEvent) => void,
-      onSuccess: (files: UploadFileType[]) => void
+      onSuccess: (files: Types.UploadFileType[]) => void
     }) => {
       const keys = files.map(file => {
         return {

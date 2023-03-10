@@ -12,8 +12,8 @@ import AddItem from '../AddItem'
 import CourseItemIcon from './CourseItemIcon'
 import { DeleteOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
+import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
-import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
 
 const { confirm } = Modal
 
@@ -45,12 +45,12 @@ const CourseListItem = styled(List.Item)`
     props.isActive ? '#e3e3e3' : 'auto'};
 `
 interface CourseSectionsNavigatorPropsI {
-  sections: CourseSection[];
+  sections: Types.CourseSection[];
   deleteSection: (index: number) => void;
   deleteSectionItem: (sectionIndex: number, itemIndex: number) => void;
   onAddNewItem: (
     type: string,
-    item: Partial<CourseSectionItem>,
+    item: Partial<Types.CourseSectionItem>,
     index: number
   ) => void;
 }

@@ -1,8 +1,8 @@
 import { API_ENDPOINTS } from '@Network/constants'
 import Axios from '@Network/index'
-import { CourseQuestion, CourseQuestionAnswer, EnrolledCourseDetails } from '@Types/Courses.types'
+import { Types } from '@adewaskar/lms-common'
 
-export const GetLearnerEnrolledCourses = ():Promise<EnrolledCourseDetails[]> => {
+export const GetLearnerEnrolledCourses = ():Promise<Types.EnrolledCourseDetails[]> => {
   return Axios.get(API_ENDPOINTS.learner_course + '/enrolled/all').then(r => r.data)
 }
 
@@ -24,7 +24,7 @@ export const GetCourseQuestions = (courseId: string) => {
 
 export const createDiscussionQuestion = (
   courseId: string,
-  data: Partial<CourseQuestion>
+  data: Partial<Types.CourseQuestion>
 ) => {
   return Axios.post(
     `${API_ENDPOINTS.learner_course}/${courseId}/question`,
@@ -47,7 +47,7 @@ export const UpdateCourseProgress = (data: {
 export const createDiscussionQuestionAnswer = (
   courseId: string,
   questionId: string,
-  data: Partial<CourseQuestionAnswer>
+  data: Partial<Types.CourseQuestionAnswer>
 ) => {
   return Axios.post(
     `${API_ENDPOINTS.learner_course}/${courseId}/question/${questionId}/answer`,

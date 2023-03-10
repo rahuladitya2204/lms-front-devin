@@ -2,9 +2,8 @@ import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import AddLearner from './AddLearners'
-import { Fragment } from 'react'
 import Header from '@Components/Header'
-import { Learner } from '@Types/Learner.types'
+import { Types } from '@adewaskar/lms-common'
 import { useGetLearners } from '@User/Api/Learner/queries'
 
 function LearnersScreen() {
@@ -44,7 +43,7 @@ function LearnersScreen() {
                 <Table.Column
                   title="Action"
                   key="action"
-                  render={(_: any, record: Learner) => (
+                  render={(_: any, record: Types.Learner) => (
                     <Space size="middle">
                       <EditOutlined
                         onClick={() =>

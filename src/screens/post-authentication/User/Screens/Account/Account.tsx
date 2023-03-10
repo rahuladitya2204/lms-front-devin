@@ -1,11 +1,8 @@
 import { Button, Card, Tabs } from 'antd'
-import { Fragment, useEffect, useState } from 'react'
 
+import { Fragment } from 'react'
 import Header from '@Components/Header'
-import { INITIAL_ORG_DETAILS } from 'constant.ts'
-import { Organisation } from '@Types/Organisation'
 import { Outlet } from 'react-router'
-import { UploadOutlined } from '@ant-design/icons'
 import UserProfile from './Profile'
 
 function UserAccount () {

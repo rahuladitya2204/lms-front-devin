@@ -5,15 +5,14 @@ import {
   MailOutlined,
   SettingOutlined,
   ToolOutlined,
-  UserOutlined,
   UsergroupAddOutlined,
   UsergroupDeleteOutlined
 } from '@ant-design/icons'
 
-import { MenuItemNode } from '@Types/Common.types'
 import { MenuProps } from 'antd'
+import { Types } from '@adewaskar/lms-common'
 
-export const MENU_ITEMS: MenuItemNode[] = [
+export const MENU_ITEMS: Types.MenuItemNode[] = [
 
   {
     title: 'Courses',
@@ -80,7 +79,7 @@ export const MENU_ITEMS: MenuItemNode[] = [
   },
 ]
 
-export const HEADER_ITEMS: MenuItemNode[] = [
+export const HEADER_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Courses',
     icon: <MailOutlined />,
@@ -150,7 +149,7 @@ export const HEADER_ITEMS: MenuItemNode[] = [
 ]
 
 
-export const MenuItems = (items:MenuItemNode[]) => {
+export const MenuItems = (items:Types.MenuItemNode[]) => {
   return items.map((item, pIndex) => {
     const ARGS = [item.title, `${item.path}`, item.icon]
     const CHILDREN = item?.children?.map((childItem, cIndex) =>

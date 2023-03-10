@@ -1,14 +1,12 @@
+import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
-import { v4 as uuid } from 'uuid'
-import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
-import { stringify, parse } from 'zipson'
 
 export const findSectionItem = (
   itemId: string,
   sectionId: string,
-  sections: CourseSection[]
-): CourseSectionItem => {
-  let node: CourseSectionItem
+  sections: Types.CourseSection[]
+): Types.CourseSectionItem => {
+  let node: Types.CourseSectionItem
   sections.forEach(section => {
     if (section._id === sectionId) {
       section.items.forEach(item => {
@@ -23,9 +21,9 @@ export const findSectionItem = (
 }
 
 export const updateCourseSectionItem = (
-  sections: CourseSection[],
+  sections: Types.CourseSection[],
   sectionId: string,
-  item: CourseSectionItem
+  item: Types.CourseSectionItem
 ) => {
   const SECTIONS = cloneDeep(sections)
   SECTIONS.forEach(section => {

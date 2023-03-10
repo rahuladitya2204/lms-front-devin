@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   Col,
@@ -10,8 +9,8 @@ import {
 } from 'antd'
 
 import Image from '@Components/Image'
-import { Instructor } from '@Types/Instructor.types'
 import { Link } from 'react-router-dom'
+import { Types } from '@adewaskar/lms-common'
 import { useGetCourseDetails } from '@Learner/Api/Course/queries'
 import { useParams } from 'react-router'
 
@@ -21,7 +20,7 @@ const EnrolledCourseSuccessful: React.FC = () => {
   const { id: courseId } = useParams()
   const { data: course } = useGetCourseDetails(courseId || '')
 
-  const instructor = course.instructor as unknown as Instructor;
+  const instructor = course.instructor as unknown as Types.Instructor;
   return (
     <Row>
       <Col span={24}>

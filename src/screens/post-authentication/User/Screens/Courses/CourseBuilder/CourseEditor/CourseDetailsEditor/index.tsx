@@ -6,10 +6,10 @@ import {
 } from 'antd';
 import { Fragment, useEffect } from 'react'
 
-import { Course } from '@Types/Courses.types';
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
+import { Types } from '@adewaskar/lms-common'
 import { useGetCourseCategories } from '@User/Api/Course/queries';
 import { useGetInstructors } from '@User/Api/Instructor/queries';
 
@@ -25,12 +25,12 @@ const LANGUAGES = [
 ]
 
 interface CourseDetailsEditorPropsI {
-  formData: Partial<Course>;
-  onFormUpdate: (d:Partial<Course>)=>void;
+  formData: Partial<Types.Course>;
+  onFormUpdate: (d:Partial<Types.Course>)=>void;
 }
 
 function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
-  const [form] = Form.useForm<Course>();
+  const [form] = Form.useForm<Types.Course>();
   const { listItems: instructors, isLoading: loading } = useGetInstructors()
   const { listItems: categories } = useGetCourseCategories();
   console.log(categories, 'categories');

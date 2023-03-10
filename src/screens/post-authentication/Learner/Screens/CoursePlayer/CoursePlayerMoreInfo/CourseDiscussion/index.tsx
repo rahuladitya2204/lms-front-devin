@@ -6,21 +6,21 @@ import {
   Row,
   Typography
 } from 'antd'
-
 import React, { useState } from 'react'
-import { Course, CourseQuestion } from '@Types/Courses.types'
 
-import CourseQuestionsList from './CourseQuestions'
 import CourseQuestionAnswers from './CourseQuestionAnswers'
+import CourseQuestionsList from './CourseQuestions'
 import { INITIAL_QUESTION_DETAILS } from 'constant.ts'
+import { Types } from '@adewaskar/lms-common'
+
 const { Text } = Typography
 
 
 interface CourseDiscussionPropsI {
-  course: Course;
+  course: Types.Course;
 }
 const CourseDiscussion: React.FC<CourseDiscussionPropsI> = props => {
-  const [question, setQuestion] = useState<CourseQuestion>(INITIAL_QUESTION_DETAILS)
+  const [question, setQuestion] = useState<Types.CourseQuestion>(INITIAL_QUESTION_DETAILS)
   return (
     <Row>    
       <Col span={24}>

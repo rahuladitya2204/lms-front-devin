@@ -4,12 +4,11 @@ import {
   RegisterUser,
   UpdateUserAccount
 } from '.'
-import { LoginData, SignupData } from '@Types/Common.types'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 import { INITIAL_ORG_DETAILS } from 'constant.ts'
 import { KEYS } from '@Network/keys'
-import { Organisation } from '@Types/Organisation'
+import { Types } from '@adewaskar/lms-common'
 import { message } from 'antd'
 import { saveItemToStorage } from '@Utils/storage'
 import useAuthentication from '@Store/useAuthentication'
@@ -18,7 +17,7 @@ import { useNavigate } from 'react-router'
 export const useLoginUser = () => {
   const navigate = useNavigate()
   const { setIsSignedin } = useAuthentication(state => state)
-  const mutation = useMutation(({ email, password }: LoginData) => {
+  const mutation = useMutation(({ email, password }: Types.LoginData) => {
     return LoginUser({
       email,
       password
@@ -32,7 +31,7 @@ export const useLoginUser = () => {
 }
 
 export const useRegisterUser = () => {
-  const mutation = useMutation(({ email, password, name }: SignupData) => {
+  const mutation = useMutation(({ email, password, name }: Types.SignupData) => {
     return RegisterUser({
       email,
       password,
@@ -45,7 +44,7 @@ export const useRegisterUser = () => {
 export const useGetUserAccountDetails = (options = { enabled: true }) => {
   const { data = INITIAL_ORG_DETAILS, isFetching: isLoading } =
     useQuery <
-    Organisation >
+    Types.Organisation >
     ([KEYS.GET_USER_ACCOUNT_DETAILS], () => GetUserAccountDetails(), options)
   return {
     data,
@@ -56,7 +55,7 @@ export const useGetUserAccountDetails = (options = { enabled: true }) => {
 export const useGetOrgDetails = (options = { enabled: true }) => {
   const { data = INITIAL_ORG_DETAILS, isFetching: isLoading } =
     useQuery <
-    Organisation >
+    Types.Organisation >
     ([KEYS.GET_USER_ACCOUNT_DETAILS], () => GetUserAccountDetails(), options)
   return {
     data,
@@ -67,7 +66,7 @@ export const useGetOrgDetails = (options = { enabled: true }) => {
 export const useUpdateUserAccount = () => {
   const qc = useQueryClient()
   const mutation = useMutation(
-    ({ data }: { data: Partial<Organisation> }): Promise<void> => {
+    ({ data }: { data: Partial<Types.Organisation> }): Promise<void> => {
       return UpdateUserAccount(data).then(() => {
         qc.invalidateQueries([KEYS.GET_USER_ACCOUNT_DETAILS])
         message.success('User Account Details Updated')

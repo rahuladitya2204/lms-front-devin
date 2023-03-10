@@ -1,18 +1,17 @@
 import { Form, Input, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
-import FileUpload from '@Components/FileUpload';
 import Image from '@Components/Image'
-import { Instructor } from '@Types/Instructor.types';
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
+import { Types } from '@adewaskar/lms-common'
 
 interface CreateInstructorComponentPropsI {
-  formData: Partial<Instructor>;
-  onFormUpdate: (d:Partial<Instructor>)=>void;}
+  formData: Partial<Types.Instructor>;
+  onFormUpdate: (d:Partial<Types.Instructor>)=>void;}
 
 const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (props) => {
-  const [form] = Form.useForm<Instructor>();
+  const [form] = Form.useForm<Types.Instructor>();
   useEffect(() => {
     form.setFieldsValue(props.formData);
   }, [props.formData]);

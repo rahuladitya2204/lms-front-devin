@@ -3,14 +3,14 @@ import React, { Fragment, useEffect } from 'react';
 
 import FileUpload from '@Components/FileUpload';
 import Image from '@Components/Image'
-import { Learner } from '@Types/Learner.types';
+import { Types } from '@adewaskar/lms-common'
 
 interface CreateLearnerComponentPropsI {
-  formData: Partial<Learner>;
-  onFormUpdate: (d:Partial<Learner>)=>void;}
+  formData: Partial<Types.Learner>;
+  onFormUpdate: (d:Partial<Types.Learner>)=>void;}
 
 const LearnerDetailsEditor: React.FC<CreateLearnerComponentPropsI> = (props) => {
-  const [form] = Form.useForm<Learner>();
+  const [form] = Form.useForm<Types.Learner>();
   useEffect(() => {
     form.setFieldsValue(props.formData);
   }, [props.formData]);

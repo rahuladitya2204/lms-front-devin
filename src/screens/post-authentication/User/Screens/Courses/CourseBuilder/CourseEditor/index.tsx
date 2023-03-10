@@ -4,7 +4,6 @@ import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
 
-import { Course } from '@Types/Courses.types'
 import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
 import CourseDetailsEditor from './CourseDetailsEditor'
 import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
@@ -12,6 +11,7 @@ import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import Header from '@Components/Header'
 import { INITIAL_COURSE_DETAILS } from 'constant.ts'
 import { STRINGIFY } from '../utils'
+import { Types } from '@adewaskar/lms-common'
 
 function CourseEditor() {
   const { id: courseId } = useParams()
@@ -36,7 +36,7 @@ function CourseEditor() {
     })
   }
 
-  const onCourseUpdate = (data: Partial<Course>) => {
+  const onCourseUpdate = (data: Partial<Types.Course>) => {
     console.log(data,'da')
     setCourse({
       ...course,

@@ -1,19 +1,19 @@
 import { Col, Collapse, List, Row, Tag } from 'antd'
-
-import { Course, CourseSectionItem } from '@Types/Courses.types'
 import { LockOutlined, PlayCircleOutlined } from '@ant-design/icons'
-import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
+
 import ActionModal from '@Components/ActionModal'
+import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import MediaPlayer from '@Components/MediaPlayer'
+import { Types } from '@adewaskar/lms-common'
 
 const { Panel } = Collapse
 
 interface CourseCurriculumPropsI {
-  course: Course;
+  course: Types.Course;
 }
 
 function CourseCurriculum(props: CourseCurriculumPropsI) {
-  const PreviewVideo = (item: CourseSectionItem) => (
+  const PreviewVideo = (item: Types.CourseSectionItem) => (
     <ActionModal title="Preview Video" cta={<PlayCircleOutlined />}>
       <MediaPlayer url={item.metadata?.url || ''} />
     </ActionModal>

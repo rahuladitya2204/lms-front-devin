@@ -1,15 +1,13 @@
 import { Card, Col, List, Row, Typography } from 'antd'
 
-import { CheckCircleTwoTone } from '@ant-design/icons'
-import { Course } from '@Types/Courses.types'
-import CourseDetailList from './CourseDetailList'
 import { Fragment } from 'react'
 import MediaPlayer from '@Components/MediaPlayer'
+import { Types } from '@adewaskar/lms-common'
 
 const { Title, Paragraph } = Typography
 
 interface CourseOverviewPropsI {
-  course: Course;
+  course: Types.Course;
   hidePreview?: boolean;
 }
 

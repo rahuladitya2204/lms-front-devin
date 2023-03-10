@@ -7,10 +7,10 @@ import {
 } from '@ant-design/icons'
 import { List, Typography } from 'antd'
 
-import { Course } from '@Types/Courses.types'
+import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 
-const { Title, Text } = Typography
+const { Text } = Typography
 
 const ListItem = styled(List.Item)`
   padding: 5px 15px;
@@ -55,7 +55,7 @@ const data = {
 }
 
 interface CourseMetadataPropsI {
-  course: Course;
+  course: Types.Course;
 }
 
 function CourseMetadata(props: CourseMetadataPropsI) {

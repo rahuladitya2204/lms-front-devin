@@ -1,12 +1,12 @@
-import QuillEditor from '@Components/QuillEditor'
-import { useCreateDiscussionQuestion } from '@Learner/Api/Course/queries';
-import { Course, CourseQuestion } from '@Types/Courses.types'
 import { Button, Col, Form, Input, Row } from 'antd'
-
 import React, { useState } from 'react'
 
+import QuillEditor from '@Components/QuillEditor'
+import { Types } from '@adewaskar/lms-common'
+import { useCreateDiscussionQuestion } from '@Learner/Api/Course/queries';
+
 interface CreateQuestionPropsI {
-  course: Course;
+  course: Types.Course;
 }
 
 const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
@@ -20,7 +20,7 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
     mutate: createDiscussionQuestion,
     isLoading: loading
   } = useCreateDiscussionQuestion(onSuccess)
-  const createQuestion = (q: Partial<CourseQuestion>) => {
+  const createQuestion = (q: Partial<Types.CourseQuestion>) => {
     createDiscussionQuestion({ id: props.course._id, data: q })
   }
 

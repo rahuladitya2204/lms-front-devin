@@ -1,14 +1,15 @@
-import { User } from '@Types/User.types'
 import { getItemFromStorage, removeItemFromStorage } from '@Utils/storage'
-import create from 'zustand'
+
+import { Types } from '@adewaskar/lms-common'
 import { ValidateUser } from '../screens/post-authentication/User/Api'
+import create from 'zustand'
 
 interface AuthenticationState {
   isSignedIn: boolean;
-  user: Partial<User>;
+  user: Partial<Types.User>;
   userType: string;
   setIsSignedin: (isSignedIn: boolean) => void;
-  setUser: (user: User) => void;
+  setUser: (user: Types.User) => void;
   validateUser: (type: string) => Promise<void>;
 }
 

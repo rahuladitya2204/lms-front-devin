@@ -1,28 +1,27 @@
 import {
   Button,
   Card,
-    Col,
-    Form,
-    Row,
-    Space,
-    Table,
-    } from 'antd'
-    import { Fragment } from 'react'
-
-    import { Course, Plan } from '@Types/Courses.types';
+  Col,
+  Form,
+  Row,
+  Space,
+  Table,
+} from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+
 import CreateCoursePlan from './CreateCoursePlan';
+import { Fragment } from 'react'
+import { Types } from '@adewaskar/lms-common'
 import { useGetCoursePlans } from '@User/Api/Course/queries';
-    
-    
-    interface CoursePricingEditorPropsI {
-      formData: Partial<Course>;
+
+interface CoursePricingEditorPropsI {
+      formData: Partial<Types.Course>;
       courseId: string;
-      onFormUpdate: (d:Partial<Course>)=>void;
+      onFormUpdate: (d:Partial<Types.Course>)=>void;
     }
     
     function CoursePricingEditor(props:CoursePricingEditorPropsI) {
-      const [form] = Form.useForm<Course>();    
+      const [form] = Form.useForm<Types.Course>();    
       // const 
       const { data,isLoading:loading } = useGetCoursePlans(props.courseId);
       return (
@@ -37,16 +36,16 @@ import { useGetCoursePlans } from '@User/Api/Course/queries';
           <Table pagination={false} dataSource={data} loading={loading}>
             <Table.Column title="Name" dataIndex="name" key="name" />
             <Table.Column title="Plan Type" dataIndex="type" key="type" />
-                    <Table.Column title="Listing Price" render={(text, record: Plan) => {
+                    <Table.Column title="Listing Price" render={(text, record: Types.Plan) => {
                       return `₹${record?.displayPrice?.value}`
             }} dataIndex="displayPrice.value" key="displayPrice.value" />
-            <Table.Column title="Final Price" render={(text, record: Plan) => {
+            <Table.Column title="Final Price" render={(text, record: Types.Plan) => {
                       return `₹${record.finalPrice.value}`
             }} dataIndex="finalPrice.value" key="finalPrice.value" />
             <Table.Column
               title="Action"
               key="action"
-              render={(_: any, record: Plan) => (
+              render={(_: any, record: Types.Plan) => (
                 <Space size="middle">
                   <CreateCoursePlan courseId={props.courseId} plan={record}><EditOutlined
                   /></CreateCoursePlan>

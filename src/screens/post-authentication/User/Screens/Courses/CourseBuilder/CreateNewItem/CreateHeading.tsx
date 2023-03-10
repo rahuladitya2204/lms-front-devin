@@ -1,10 +1,9 @@
 import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, useState } from 'react';
-import { CreateItemPropsI } from '@Types/Common.types';
 
+import { Types } from '@adewaskar/lms-common'
 
-
-const CreateHeading: React.FC<CreateItemPropsI> = (props) => {
+const CreateHeading: React.FC<Types.CreateItemPropsI> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {

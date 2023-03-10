@@ -1,17 +1,17 @@
 import { Checkbox, List, Tag, Typography } from 'antd'
-
-import { NavLink } from 'react-router-dom'
 import { Unit, unit } from 'mathjs'
-import styled from '@emotion/styled'
-import { CourseSection, CourseSectionItem } from '@Types/Courses.types'
+
 import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
+import { NavLink } from 'react-router-dom'
+import { Types } from '@adewaskar/lms-common'
+import styled from '@emotion/styled'
 import { useUpdateCourseProgress } from '@Learner/Api/Course/queries'
 
 const { Text } = Typography
 interface CoursePlayerNavigatorItemPropsI {
-  item: CourseSectionItem;
+  item: Types.CourseSectionItem;
   courseId: string;
-  section: CourseSection;
+  section: Types.CourseSection;
   itemIndex: number;
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
