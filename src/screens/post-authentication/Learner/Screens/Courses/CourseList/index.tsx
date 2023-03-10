@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd'
-import React, { Fragment, useState } from 'react'
+import React, { Fragment } from 'react'
 
 import CourseCard from './CourseCard'
 import { Learner } from '@adewaskar/lms-common'
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router'
 
 const LearnerCourseList: React.FC = () => {
   const { data: courses } = Learner.Queries.useGetEnrolledCourses()
-  console.log(courses, 'cococococ')
+
   const navigate = useNavigate()
   return (
     <Fragment>

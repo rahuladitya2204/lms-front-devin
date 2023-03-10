@@ -15,13 +15,12 @@ import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 
 import Header from '@Components/Header'
 import Image from '@Components/Image'
-import { Input } from 'antd'
 import { Learner } from '@adewaskar/lms-common'
 import { Link } from 'react-router-dom'
 
 const { Content } = Layout
 const { Text } = Typography
-const { Search } = Input
+
 
 const LearnerDashboard: React.FC = () => {
   const { data: cartItems } = Learner.Queries.useGetCartItems()
