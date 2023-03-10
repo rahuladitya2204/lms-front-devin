@@ -9,7 +9,7 @@ import { Upload, UploadProps } from 'antd'
 
 import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
-import { useUploadFiles } from '@Network/Common/CommonQueries'
+import { useUploadFiles } from '@Network/Common/queries'
 
 const UPLOAD: UploadProps = {
   onDrop(e) {

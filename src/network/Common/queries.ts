@@ -1,7 +1,6 @@
-import { GetFileUrls, UploadFile } from './api'
+import { Common, Types } from '@adewaskar/lms-common'
 
 import { AxiosProgressEvent } from 'axios'
-import { Types } from '@adewaskar/lms-common'
 import { config } from '../../constants/config'
 import { useMutation } from '@tanstack/react-query'
 
@@ -22,16 +21,11 @@ export const useUploadFiles = () => {
           fileName: file.name
         }
       })
-      return GetFileUrls(keys).then(data => {
+      return Common.Api.GetFileUrls(keys).then(data => {
         const requests = data.map((d, index: number) => {
-          // const httpOptions = {
-          //   headers: {
-          //     'Content-Type': files[index].type
-          //   },
-          //   onUploadProgress: onUploadProgress
-          // }
-          return UploadFile(d.url, files[index])
-        })
+          return Common.Api.UploadFile(d.url, files[index])
+        });
+        
         return Promise.all(requests).then(data => {
           const files = data.map((d, index) => {
             const file = {
