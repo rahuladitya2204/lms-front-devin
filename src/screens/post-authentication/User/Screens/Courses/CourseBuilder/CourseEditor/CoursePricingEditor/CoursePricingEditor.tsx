@@ -12,7 +12,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import CreateCoursePlan from './CreateCoursePlan';
 import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'
-import { useGetCoursePlans } from '@User/Api/Course/queries';
+import { User } from '@adewaskar/lms-common';
 
 interface CoursePricingEditorPropsI {
       formData: Partial<Types.Course>;
@@ -23,7 +23,7 @@ interface CoursePricingEditorPropsI {
     function CoursePricingEditor(props:CoursePricingEditorPropsI) {
       const [form] = Form.useForm<Types.Course>();    
       // const 
-      const { data,isLoading:loading } = useGetCoursePlans(props.courseId);
+      const { data,isLoading:loading } = User.Queries.useGetCoursePlans(props.courseId);
       return (
         <Fragment>
            <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">

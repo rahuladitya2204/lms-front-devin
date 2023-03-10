@@ -1,15 +1,18 @@
-import {
-  useGetCartItems,
-  useUpdateCartItems
-} from '@Learner/Api/Common/queries'
 import { Card, Col, List, Row, Space, Typography } from 'antd'
+
+import { Learner } from '@adewaskar/lms-common'
 import LearnerCartCourseCard from './CourseCard'
+
+// import {
+//   useGetCartItems,
+//   useUpdateCartItems
+// } from '@Learner/Api/Common/queries'
 
 const { Title, Text } = Typography
 
 export default function LearnerCart() {
-  const { mutate: updateCart } = useUpdateCartItems()
-  const { data: cartItems } = useGetCartItems()
+  const { mutate: updateCart } = Learner.Queries.useUpdateCartItems()
+  const { data: cartItems } = Learner.Queries.useGetCartItems()
 
   const removeItemFromCart = (id: string) => {
     updateCart({ courseId: id, action: 'remove' })

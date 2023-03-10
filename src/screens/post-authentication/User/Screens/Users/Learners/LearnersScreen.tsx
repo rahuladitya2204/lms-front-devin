@@ -4,10 +4,10 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import AddLearner from './AddLearners'
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
-import { useGetLearners } from '@User/Api/Learner/queries'
+import { User } from '@adewaskar/lms-common'
 
 function LearnersScreen() {
-  const { data, isLoading: loading } = useGetLearners()
+  const { data, isLoading: loading } = User.Queries.useGetLearners()
 
   return (
       <Header>

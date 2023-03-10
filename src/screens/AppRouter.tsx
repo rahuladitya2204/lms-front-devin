@@ -1,9 +1,6 @@
 import {
-  BrowserRouter,
-  Navigate,
   Route,
   RouterProvider,
-  Routes,
   createBrowserRouter,
   createRoutesFromElements
 } from 'react-router-dom'
@@ -16,7 +13,6 @@ import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
 import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
-import { Fragment } from 'react'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
 import LearnerAccount from '@Learner/Screens/Account/Account'
@@ -36,9 +32,7 @@ import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBu
 import UserAccount from '@User/Screens/Account/Account'
 import UserDashboard from './post-authentication/User/Screens/Dashboard/DashboardScreen'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
-import UserProfile from '@User/Screens/Account/Profile'
 import UserRegister from './post-authentication/User/Screens/Register'
-import useAuthentication from '@Store/useAuthentication'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -104,7 +98,7 @@ const router = createBrowserRouter(
 )
 
 function AppRouter () {
-  const { isSignedIn } = useAuthentication(state => state)
+  // const { isSignedIn } = useAuthentication(state => state)
   return <RouterProvider router={router} />
 }
 

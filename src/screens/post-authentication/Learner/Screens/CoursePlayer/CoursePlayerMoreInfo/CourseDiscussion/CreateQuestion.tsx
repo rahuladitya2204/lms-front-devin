@@ -1,9 +1,9 @@
 import { Button, Col, Form, Input, Row } from 'antd'
 import React, { useState } from 'react'
 
+import { Learner } from '@adewaskar/lms-common';
 import QuillEditor from '@Components/QuillEditor'
 import { Types } from '@adewaskar/lms-common'
-import { useCreateDiscussionQuestion } from '@Learner/Api/Course/queries';
 
 interface CreateQuestionPropsI {
   course: Types.Course;
@@ -19,7 +19,7 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
   const {
     mutate: createDiscussionQuestion,
     isLoading: loading
-  } = useCreateDiscussionQuestion(onSuccess)
+  } = Learner.Queries.useCreateDiscussionQuestion(onSuccess)
   const createQuestion = (q: Partial<Types.CourseQuestion>) => {
     createDiscussionQuestion({ id: props.course._id, data: q })
   }

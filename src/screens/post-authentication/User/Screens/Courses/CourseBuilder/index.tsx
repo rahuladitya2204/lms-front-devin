@@ -4,7 +4,6 @@ import { Button, Card, Col, Row } from 'antd'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
 
 import CourseSectionsNavigator from './CourseSectionsNavigator'
 import CreateHeading from './CreateNewItem/CreateHeading'

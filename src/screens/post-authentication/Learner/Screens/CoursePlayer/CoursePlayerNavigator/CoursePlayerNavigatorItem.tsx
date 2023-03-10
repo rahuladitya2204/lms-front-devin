@@ -2,10 +2,10 @@ import { Checkbox, List, Tag, Typography } from 'antd'
 import { Unit, unit } from 'mathjs'
 
 import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
+import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
-import { useUpdateCourseProgress } from '@Learner/Api/Course/queries'
 
 const { Text } = Typography
 interface CoursePlayerNavigatorItemPropsI {
@@ -36,7 +36,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   if (duration?.value && duration?.unit) {
     durationInMin = unit(duration?.value, duration?.unit).to('minute')
   }
-  const { mutate: updateProgress } = useUpdateCourseProgress()
+  const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   return (
     <NavLink
       to={`section/${props.section._id}/item/${props.item._id}`}

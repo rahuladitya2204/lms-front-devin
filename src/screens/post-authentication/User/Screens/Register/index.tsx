@@ -3,11 +3,11 @@ import { Button, Checkbox, Form, Input, Typography } from 'antd'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common'
 import { useFormik } from 'formik'
-import { useRegisterUser } from '@User/Api/queries'
 
 function UserRegisterScreen() {
-  const { mutate: Signup, isLoading: loading } = useRegisterUser()
+  const { mutate: Signup, isLoading: loading } = User.Queries.useRegisterUser()
   const formik = useFormik({
     initialValues: {
       email: '',

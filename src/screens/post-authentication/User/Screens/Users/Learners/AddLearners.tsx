@@ -1,8 +1,8 @@
 import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, ReactNode, useEffect, useState } from 'react';
-import { useCreateLearner, useUpdateLearner } from '@User/Api/Learner/queries';
 
 import { Types } from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common';
 
 interface CreateLearnerComponentPropsI {
   children?: ReactNode;
@@ -10,8 +10,8 @@ interface CreateLearnerComponentPropsI {
 }
 
 const AddLearner: React.FC<CreateLearnerComponentPropsI> = (props) => {
-  const {mutate: createLearner,isLoading: createLearnerLoading }=useCreateLearner()
-  const {mutate: updateLearner,isLoading: updateLearnerLoading }=useUpdateLearner()
+  const {mutate: createLearner,isLoading: createLearnerLoading }=User.Queries.useCreateLearner()
+  const {mutate: updateLearner,isLoading: updateLearnerLoading }=User.Queries.useUpdateLearner()
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 

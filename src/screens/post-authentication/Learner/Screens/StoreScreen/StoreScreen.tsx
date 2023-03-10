@@ -1,19 +1,18 @@
-import { Col, Input, Row, Select, Typography } from 'antd'
+import { Col, Row } from 'antd'
 
 import CourseCard from './CourseCard'
-import { saveItemToStorage } from '@Utils/storage'
+import { Learner } from '@adewaskar/lms-common'
+import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
-import { useGetCoursesOfOrganisation } from '@Learner/Api/Course/queries'
-import { useGetInstructors } from '@Learner/Api/Instructor/queries'
 import { useParams } from 'react-router-dom'
 
 function StoreScreen () {
-  const { data: courses } = useGetCoursesOfOrganisation()
+  const { data: courses } = Learner.Queries.useGetCoursesOfOrganisation()
   // const { listItems: instructors } = useGetInstructors()
   const params = useParams()
   useEffect(
     () => {
-      saveItemToStorage('orgId', params.orgId + '')
+      Utils.Storage.SetItem('orgId', params.orgId + '')
     },
     [params.orgId]
   )

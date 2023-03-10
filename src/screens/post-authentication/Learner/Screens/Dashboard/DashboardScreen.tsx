@@ -16,15 +16,15 @@ import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import { Input } from 'antd'
+import { Learner } from '@adewaskar/lms-common'
 import { Link } from 'react-router-dom'
-import { useGetCartItems } from '@Learner/Api/Common/queries'
 
 const { Content } = Layout
 const { Text } = Typography
 const { Search } = Input
 
 const LearnerDashboard: React.FC = () => {
-  const { data: cartItems } = useGetCartItems()
+  const { data: cartItems } = Learner.Queries.useGetCartItems()
   const navigate = useNavigate()
   return (
     <Layout style={{ minHeight: '100vh' }}>

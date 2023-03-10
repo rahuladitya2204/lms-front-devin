@@ -9,7 +9,7 @@ import { Avatar, Col, Row, Typography } from 'antd'
 
 import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'
-import { useGetInstructorDetails } from '@User/Api/Instructor/queries'
+import { User } from '@adewaskar/lms-common'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -18,7 +18,7 @@ interface CourseInstructorPropsI {
 }
 
 function CourseInstructor(props: CourseInstructorPropsI) {
-  const { data: instructor } = useGetInstructorDetails(props.course.instructor)
+  const { data: instructor } = User.Queries.useGetInstructorDetails(props.course.instructor)
   return (
     <Fragment>
       <Row gutter={[25, 25]}>

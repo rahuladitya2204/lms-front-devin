@@ -17,9 +17,9 @@ import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigat
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
+import { Learner } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 import { useEffect } from 'react'
-import { useGetEnrolledCourseDetails } from '@Learner/Api/Course/queries'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -46,7 +46,7 @@ const CustomHeader = styled(Header)`
 const { Text, Title } = Typography
 function CoursePlayer() {
   const { id: courseId, itemId } = useParams()
-  const { data: { course, progress } } = useGetEnrolledCourseDetails(
+  const { data: { course, progress } } = Learner.Queries.useGetEnrolledCourseDetails(
     courseId + '',
     {
       enabled: !!courseId
@@ -66,12 +66,12 @@ function CoursePlayer() {
     [sections]
   )
 
-  const allItems = sections.map(s => s.items).flat()
+  const allItems = sections.map((s:any) => s.items).flat()
 
   const toggleItemCheck = () => {}
   let currentItemIndex = 0
 
-  allItems.forEach((i, index) => {
+  allItems.forEach((i:any, index:number) => {
     if (i._id == itemId) {
       currentItemIndex = index
     }

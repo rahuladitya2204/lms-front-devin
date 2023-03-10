@@ -1,16 +1,16 @@
 import { Button, Card, Form, Input, Tabs } from 'antd'
 import { useEffect, useState } from 'react'
-import { useGetUserAccountDetails, useUpdateUserAccount } from '@User/Api/queries'
 
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { Types } from '@adewaskar/lms-common'
 import { UploadOutlined } from '@ant-design/icons'
+import { User } from '@adewaskar/lms-common'
 
 export default function UserProfile() {
 
     const [form] = Form.useForm<Types.Organisation>();
-    const { data } = useGetUserAccountDetails()
+    const { data } = User.Queries.useGetUserAccountDetails()
     const [organisation, setAccount] = useState<Partial<Types.Organisation>>({})
     
     useEffect(() => {
@@ -28,7 +28,7 @@ export default function UserProfile() {
     const {
       mutate: updateUserAccount,
       isLoading: loading
-    } = useUpdateUserAccount();
+    } = User.Queries.useUpdateUserAccount();
     
 
   return (

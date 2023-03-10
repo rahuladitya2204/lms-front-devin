@@ -2,18 +2,18 @@ import { Button, Checkbox, Form, Input, Typography } from 'antd'
 import { NavLink, useParams } from 'react-router-dom'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
+import { Learner } from '@adewaskar/lms-common'
 import { Types } from '@adewaskar/lms-common'
-import { saveItemToStorage } from '@Utils/storage'
+import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import { useRegisterLearner } from '@Learner/Api/queries'
 
 function LearnerRegister() {
-  const { mutate: Signup, isLoading: loading } = useRegisterLearner()
+  const { mutate: Signup, isLoading: loading } = Learner.Queries.useRegisterLearner()
   const params = useParams()
   useEffect(
     () => {
-      saveItemToStorage('orgId', params.orgId + '')
+      Utils.Storage.SetItem('orgId', params.orgId + '')
     },
     [params.orgId]
   )

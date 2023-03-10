@@ -1,9 +1,9 @@
 import { Button, Col, Form, Input, Radio, Row, Select } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect } from 'react'
-import { useCreateCoursePlan, useUpdateCoursePlan } from '@User/Api/Course/queries'
 
 import ActionModal from '@Components/ActionModal'
+import { User } from '@adewaskar/lms-common'
 
 interface CreateCoursePlanPropsI {
   children?: React.ReactNode;
@@ -16,11 +16,11 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
   const {
     mutate: createCoursePlan,
     isLoading: isCreating
-  } = useCreateCoursePlan(form.resetFields)
+  } = User.Queries.useCreateCoursePlan(form.resetFields)
   const {
     mutate: updateCoursePlan,
     isLoading: isUpdating
-  } = useUpdateCoursePlan(form.resetFields)
+  } = User.Queries.useUpdateCoursePlan(form.resetFields)
   const planId = props?.plan?._id || ''
   const courseId = props.courseId || ''
   useEffect(

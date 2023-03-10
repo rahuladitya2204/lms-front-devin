@@ -1,20 +1,22 @@
 import { Button, Checkbox, Form, Input } from 'antd'
+import { Learner, Store } from '@adewaskar/lms-common'
 import { NavLink, useParams } from 'react-router-dom'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
 import Image from '@Components/Image'
 import { Typography } from 'antd'
-import { saveItemToStorage } from '@Utils/storage'
+import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import useGlobal from '@Store/useGlobal'
-import { useLoginLearner } from '@Learner/Api/queries'
+import { useNavigate } from 'react-router'
 
 function LearnerLogin () {
-  const { mutate: loginUser, isLoading: loading } = useLoginLearner()
-  const { organisation, setOrganisation, fetchOrganisation } = useGlobal(
-    state => state
-  )
+  const navigate = useNavigate()
+  const {
+    mutate: loginUser,
+    isLoading: loading
+  } = Learner.Queries.useLoginLearner()
+  const { organisation, fetchOrganisation } = Store.useGlobal(state => state)
   const { orgId } = useParams()
   console.log(orgId, 'iod')
   useEffect(
@@ -26,7 +28,7 @@ function LearnerLogin () {
   const params = useParams()
   useEffect(
     () => {
-      saveItemToStorage('orgId', params.orgId + '')
+      Utils.Storage.SetItem('orgId', params.orgId + '')
     },
     [params.orgId]
   )
@@ -39,7 +41,10 @@ function LearnerLogin () {
     onSubmit: values => {
       loginUser({
         email: values.email,
-        password: values.password
+        password: values.password,
+        onSuccess: orgId => {
+          navigate(`/learner/${orgId}/dashboard/courses`)
+        }
       })
     }
   })

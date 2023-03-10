@@ -2,11 +2,11 @@ import { Col, Row } from 'antd'
 import React, { Fragment, useState } from 'react'
 
 import CourseCard from './CourseCard'
+import { Learner } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
-import { useGetEnrolledCourses } from '@Learner/Api/Course/queries'
 
 const LearnerCourseList: React.FC = () => {
-  const { data: courses } = useGetEnrolledCourses()
+  const { data: courses } = Learner.Queries.useGetEnrolledCourses()
   console.log(courses, 'cococococ')
   const navigate = useNavigate()
   return (

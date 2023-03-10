@@ -1,18 +1,17 @@
 import { Button, Checkbox, Col, Form, Input, Row, Space } from 'antd'
 import { NavLink, useParams } from 'react-router-dom'
+import { Store, User } from '@adewaskar/lms-common'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
 import Image from '@Components/Image'
 import { Typography } from 'antd'
 import { useEffect } from 'react'
 import { useFormik } from 'formik'
-import useGlobal from '@Store/useGlobal'
-import { useLoginUser } from '@User/Api/queries'
+import { useNavigate } from 'react-router'
 
 function UserLoginScreen () {
-  const { organisation, fetchOrganisation } = useGlobal(
-    state => state
-  )
+  const navigate = useNavigate()
+  const { organisation, fetchOrganisation } = Store.useGlobal(state => state)
   const { orgId } = useParams()
   console.log(orgId, 'iod')
   useEffect(
@@ -21,7 +20,7 @@ function UserLoginScreen () {
     },
     [orgId]
   )
-  const { mutate: loginUser, isLoading: loading } = useLoginUser()
+  const { mutate: loginUser, isLoading: loading } = User.Queries.useLoginUser()
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -30,18 +29,17 @@ function UserLoginScreen () {
     onSubmit: values => {
       loginUser({
         email: values.email,
-        password: values.password
+        password: values.password,
+        onSuccess: () => {
+          navigate('/user/dashboard/courses')
+        }
       })
     }
   })
   return (
     <Row align="middle">
       <Col span={24}>
-        <AuthenticationCard
-          title={
-            <Image src={organisation.logo} />
-          }
-        >
+        <AuthenticationCard title={<Image src={organisation.logo} />}>
           <Form
             initialValues={{
               remember: true

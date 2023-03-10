@@ -3,7 +3,6 @@ import { Constants, Types } from '@adewaskar/lms-common'
 import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
-import { useGetCourseDetails, useUpdateCourse } from '@User/Api/Course/queries'
 
 import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
 import CourseDetailsEditor from './CourseDetailsEditor'
@@ -11,13 +10,14 @@ import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPage
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import Header from '@Components/Header'
 import { STRINGIFY } from '../utils'
+import { User } from '@adewaskar/lms-common'
 
 function CourseEditor() {
   const { id: courseId } = useParams()
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
-  const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
+  const { mutate: updateCourse, isLoading: loading } = User.Queries.useUpdateCourse()
 
-  const { data: courseDetails } = useGetCourseDetails(courseId + '', {
+  const { data: courseDetails } = User.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   })
 

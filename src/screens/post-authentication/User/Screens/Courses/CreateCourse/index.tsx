@@ -3,14 +3,14 @@ import React, { Fragment, ReactNode, useState } from 'react'
 
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Types } from '@adewaskar/lms-common'
-import { useCreateCourse } from '@User/Api/Course/queries';
+import { User } from '@adewaskar/lms-common';
 
 interface CreateCourseComponentPropsI {
   children?: ReactNode;
 }
 
 const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
-  const { mutate: createCourse, isLoading: loading } = useCreateCourse()
+  const { mutate: createCourse, isLoading: loading } = User.Queries.useCreateCourse()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   const showModal = () => {

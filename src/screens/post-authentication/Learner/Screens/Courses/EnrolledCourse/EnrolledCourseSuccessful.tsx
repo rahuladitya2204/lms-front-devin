@@ -9,16 +9,16 @@ import {
 } from 'antd'
 
 import Image from '@Components/Image'
+import { Learner } from '@adewaskar/lms-common'
 import { Link } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
-import { useGetCourseDetails } from '@Learner/Api/Course/queries'
 import { useParams } from 'react-router'
 
 const { Title, Text } = Typography
 
 const EnrolledCourseSuccessful: React.FC = () => {
   const { id: courseId } = useParams()
-  const { data: course } = useGetCourseDetails(courseId || '')
+  const { data: course } = Learner.Queries.useGetCourseDetails(courseId || '')
 
   const instructor = course.instructor as unknown as Types.Instructor;
   return (

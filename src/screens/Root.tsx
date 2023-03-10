@@ -1,13 +1,13 @@
 import { Outlet, useNavigate, useParams } from 'react-router'
 
-import useAuthentication from '@Store/useAuthentication'
+import {Store} from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 
 export default function RootScreen () {
   console.log('Roor')
   const { orgId } = useParams()
-  let userType = orgId ? 'learner' : 'user'
-  const { validateUser, setIsSignedin } = useAuthentication(state => state)
+  let userType = orgId ? 'learner' : 'user';
+  const { validateUser, setIsSignedin } = Store.useAuthentication(state => state)
   const navigate = useNavigate()
   console.log(userType, 'type')
   useEffect(() => {

@@ -10,8 +10,7 @@ import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
-import { useGetCourseCategories } from '@User/Api/Course/queries';
-import { useGetInstructors } from '@User/Api/Instructor/queries';
+import { User } from '@adewaskar/lms-common';
 
 const LANGUAGES = [
   {
@@ -31,8 +30,8 @@ interface CourseDetailsEditorPropsI {
 
 function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
   const [form] = Form.useForm<Types.Course>();
-  const { listItems: instructors, isLoading: loading } = useGetInstructors()
-  const { listItems: categories } = useGetCourseCategories();
+  const { listItems: instructors, isLoading: loading } = User.Queries.useGetInstructors()
+  const { listItems: categories } = User.Queries.useGetCourseCategories();
   console.log(categories, 'categories');
   useEffect(() => {
     form.setFieldsValue(props.formData);

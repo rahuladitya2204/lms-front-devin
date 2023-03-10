@@ -13,9 +13,9 @@ import {
 
 import { Comment } from '@ant-design/compatible';
 import CreateQuestion from './CreateQuestion'
+import { Learner } from '@adewaskar/lms-common'
 import React from 'react'
 import { Types } from '@adewaskar/lms-common'
-import { useGetCourseQuestions } from '@Learner/Api/Course/queries'
 
 const { Text } = Typography
 
@@ -25,7 +25,7 @@ interface CourseQuestionsListPropsI {
 }
 
 const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
-  const { data: questions } = useGetCourseQuestions(props.course._id)
+  const { data: questions } = Learner.Queries.useGetCourseQuestions(props.course._id)
 
   const upvote = () => {}
 

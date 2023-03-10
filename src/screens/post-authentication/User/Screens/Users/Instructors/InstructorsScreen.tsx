@@ -4,10 +4,10 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import AddInstructor from './AddInstructor';
 import Header from '@Components/Header';
 import { Types } from '@adewaskar/lms-common'
-import { useGetInstructors } from '@User/Api/Instructor/queries'
+import { User } from '@adewaskar/lms-common'
 
 function InstructorsScreen() {
-  const { data, isLoading: loading } = useGetInstructors()
+  const { data, isLoading: loading } = User.Queries.useGetInstructors()
 
   return (
     <Header>

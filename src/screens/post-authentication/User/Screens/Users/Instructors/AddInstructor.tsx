@@ -1,8 +1,8 @@
 import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
-import { useCreateInstructor, useUpdateInstructor } from '@User/Api/Instructor/queries';
 
 import { Types } from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common';
 
 interface CreateInstructorComponentPropsI {
   children?: ReactNode;
@@ -13,11 +13,11 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = props => {
   const {
     mutate: createInstructor,
     isLoading: createInstructorLoading
-  } = useCreateInstructor()
+  } = User.Queries.useCreateInstructor()
   const {
     mutate: updateInstructor,
     isLoading: updateInstructorLoading
-  } = useUpdateInstructor()
+  } = User.Queries.useUpdateInstructor()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [form] = Form.useForm()
 

@@ -15,12 +15,11 @@ import {
 } from '@ant-design/icons'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
-import { useEnrollForCourse, useGetCourseDetails } from '@Learner/Api/Course/queries'
-import { useGetCartItems, useUpdateCartItems } from '@Learner/Api/Common/queries'
 
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'
+import { Learner } from '@adewaskar/lms-common'
 import image from './bg.svg'
 import styled from '@emotion/styled'
 import { useParams } from 'react-router'
@@ -58,12 +57,12 @@ const CourseSubTitle = styled(Paragraph)`
 function CourseDetailViewer () {
   const { id: courseId } = useParams();
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
-  const { mutate: enroll } = useEnrollForCourse();
-  const { mutate: updateCart } = useUpdateCartItems();
-  const { data } = useGetCourseDetails(courseId + '', {
+  const { mutate: enroll } = Learner.Queries.useEnrollForCourse();
+  const { mutate: updateCart } = Learner.Queries.useUpdateCartItems();
+  const { data } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  const {data: cartItems } = useGetCartItems();
+  const {data: cartItems } = Learner.Queries.useGetCartItems();
   const addItemToCart = (course:Types.Course) => {
     updateCart({ courseId: course._id, action: 'add' });
   }
