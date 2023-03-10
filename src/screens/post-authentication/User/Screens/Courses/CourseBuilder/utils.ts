@@ -54,6 +54,6 @@ export const UnitTypeToStr = ({
 }: {
   value: number,
   unit: string
-  }) => {
+}) => {
   return `${value} ${unit}`
 }

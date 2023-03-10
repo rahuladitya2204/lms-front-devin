@@ -20,6 +20,6 @@ export const GetLearnerDetails = () => {
   return Axios.get(API_ENDPOINTS.learner.self).then(r => r.data)
 }
 
-export const UpdateLearner = (data: Partial<Learner>) => {
+export const UpdateLearner = (data: Partial<Types.Learner>) => {
   return Axios.put(API_ENDPOINTS.learner.self, data).then(r => r.data)
 }
