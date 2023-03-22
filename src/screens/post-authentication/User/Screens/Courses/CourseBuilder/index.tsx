@@ -1,6 +1,7 @@
 // @ts-nocheck
 
 import { Button, Card, Col, Row } from 'antd'
+import { Constants, Types, User } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
@@ -20,21 +21,27 @@ const AddChapterButton = styled(Button)`
 
 function CourseBuilderScreen() {
   const { id: courseId } = useParams()
-  const { mutate: updateCourse, isLoading: loading } = useUpdateCourse()
-  const { data: courseDetails } = useGetCourseDetails(courseId + '', {
-    enabled: !!courseId
-  })
+  const {
+    mutate: updateCourse,
+    isLoading: loading
+  } = User.Queries.useUpdateCourse()
+  const { data: courseDetails } = User.Queries.useGetCourseDetails(
+    courseId + '',
+    {
+      enabled: !!courseId
+    }
+  )
 
-  const [course, setCourse] = useState<Course>(INITIAL_COURSE_DETAILS)
+  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
   const navigate = useNavigate()
 
-  const onAddSection = ({ title }: Partial<CourseSection>) => {
+  const onAddSection = ({ title }: Partial<Types.CourseSection>) => {
     let COURSE = cloneDeep(course)
-    const newSection: CourseSection = {
+    const newSection: Types.CourseSection = {
       title: title + '',
       items: [],
-      description: ''
-      // _id: ''
+      description: '',
+      _id: ''
     }
     COURSE.sections.push(newSection)
     updateCourse({
@@ -47,12 +54,12 @@ function CourseBuilderScreen() {
 
   const onAddNewItem = (
     type: string,
-    item: Partial<CourseSectionItem>,
+    item: Partial<Types.CourseSectionItem>,
     index: number
   ) => {
     let COURSE = cloneDeep(course)
     const sectionId = COURSE.sections[index]._id
-    const newItem: CourseSectionItem = {
+    const newItem: Partial<Types.CourseSectionItem> = {
       title: item.title ? item.title : '',
       description: item.description ? item.description : '',
       // _id: '',
@@ -70,7 +77,7 @@ function CourseBuilderScreen() {
       },
       cb: course => {
         const item = [...course.sections[index].items].pop()
-        navigate(`section/${sectionId}/${type}/${item._id}`)
+        navigate(`section/${sectionId}/${type}/${item?._id}`)
       }
     })
   }
@@ -102,7 +109,10 @@ function CourseBuilderScreen() {
     [courseDetails]
   )
 
-  const updateCourseSection = (sectionId: string, item: CourseSectionItem) => {
+  const updateCourseSection = (
+    sectionId: string,
+    item: Types.CourseSectionItem
+  ) => {
     const COURSE = cloneDeep(course)
     COURSE.sections = updateCourseSectionItem(COURSE.sections, sectionId, item)
     setCourse(COURSE)
@@ -112,7 +122,7 @@ function CourseBuilderScreen() {
     const COURSE = cloneDeep(course)
     COURSE.sections.splice(index, 1)
     updateCourse({
-      id: courseId,
+      id: courseId +'',
       data: {
         sections: COURSE.sections
       },
@@ -131,7 +141,7 @@ function CourseBuilderScreen() {
     const COURSE = cloneDeep(course)
     COURSE.sections[sectionIndex].items.splice(itemIndex, 1)
     updateCourse({
-      id: courseId,
+      id: courseId + '',
       data: {
         sections: COURSE.sections
       },
@@ -172,7 +182,9 @@ function CourseBuilderScreen() {
                 <MediaUpload
                   width="100%"
                   height="200px"
-                  renderItem={() => <Image preview={false} src={course.thumbnailImage} />}
+                  renderItem={() => (
+                    <Image preview={false} src={course.thumbnailImage} />
+                  )}
                   onUpload={e =>
                     setCourse({
                       ...course,

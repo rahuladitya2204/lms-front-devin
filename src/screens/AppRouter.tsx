@@ -37,7 +37,7 @@ import UserRegister from './post-authentication/User/Screens/Register'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootScreen />}>
-      <Route path="user">
+      <Route path="user/:orgId">
         <Route path="dashboard" element={<UserDashboard />}>
           <Route path="settings" element={<SettingsScreen />} />
           <Route path="users">
@@ -65,8 +65,8 @@ const router = createBrowserRouter(
           <Route path="courses/:id/editor" element={<CourseEditor />} />
         </Route>
         <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
-        <Route path=":orgId/register" element={<UserRegister />} />
-        <Route path=":orgId/login" element={<UserLoginScreen />} />
+        <Route path="register" element={<UserRegister />} />
+        <Route path="login" element={<UserLoginScreen />} />
         <Route
           path="*"
           // element={<Navigate to="dashboard/home" replace />}

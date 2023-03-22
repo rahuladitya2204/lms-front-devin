@@ -47,7 +47,8 @@ function LearnerLogin () {
         }
       })
     }
-  })
+  });
+  
   return (
     <AuthenticationCard title={<Image src={organisation.logo} />}>
       <Form

@@ -62,7 +62,6 @@ function CourseDetailViewer () {
   const { data } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  const {data: cartItems } = Learner.Queries.useGetCartItems();
   const addItemToCart = (course:Types.Course) => {
     updateCart({ courseId: course._id, action: 'add' });
   }
@@ -78,6 +77,7 @@ function CourseDetailViewer () {
   }
   const instructor = course.instructor as unknown as Types.Instructor;
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
+  const {data: cartItems } = Learner.Queries.useGetCartItems();
   const isAddedToCart = cartItems?.find(item => item._id == course._id);
   return (
     <Container>
@@ -159,7 +159,7 @@ function CourseDetailViewer () {
                       </Row>
                     </Col>
                     <Col>
-                      <Tag color="purple">{ plan.discount}% off</Tag>
+                      <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
                     </Col>
                   </Row>
                 </Col>

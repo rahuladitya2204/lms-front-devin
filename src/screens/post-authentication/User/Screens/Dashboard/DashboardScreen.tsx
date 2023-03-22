@@ -1,9 +1,10 @@
-import { MENU_ITEMS, MenuItems } from './constants'
 import { Col, Layout, Menu, Row } from 'antd'
+import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useState } from 'react'
 
 import LogoImage from './logo.svg'
+import { Store } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 
 const LogoHolder = styled.div`
@@ -20,6 +21,7 @@ const { Content, Sider } = Layout
 
 const UserDashboard: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
+  const org = Store.useGlobal(s => s.organisation)
   const navigate = useNavigate()
   return (
     <Layout style={{ minHeight: '100vh' }}>

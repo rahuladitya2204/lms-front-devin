@@ -1,18 +1,23 @@
 import { Avatar, List, Tooltip, Typography } from 'antd'
+import { Learner, Types } from '@adewaskar/lms-common'
 import React, { Fragment } from 'react'
 
-import { Comment } from '@ant-design/compatible';
+import { Comment } from '@ant-design/compatible'
 import CreateAnswer from './CreateAnswer'
-import { Types } from '@adewaskar/lms-common'
 
 const { Text } = Typography
 
 interface CourseQuestionAnswersPropsI {
-  question: Types.CourseQuestion;
+  questionId: string;
+  courseId: string;
 }
 
 const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
-  const question = props.question
+  const { data: question } = Learner.Queries.useGetCourseQuestionDetails(
+    props.courseId,
+    props.questionId
+  )
+  console.log(question, '11')
   const answers = question.answers
   return (
     <Fragment>
@@ -33,7 +38,9 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
                     alt="Han Solo"
                   />
                 }
-                content={<div dangerouslySetInnerHTML={{__html: item.answer}}></div>}
+                content={
+                  <div dangerouslySetInnerHTML={{ __html: item.answer }} />
+                }
                 datetime={
                   <Tooltip title="2016-11-22 11:22:33">
                     <span>8 hours ago</span>

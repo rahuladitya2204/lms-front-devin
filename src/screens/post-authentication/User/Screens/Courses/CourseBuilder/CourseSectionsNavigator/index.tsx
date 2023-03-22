@@ -1,12 +1,4 @@
-import {
-  Button,
-  Card,
-  Collapse,
-  List,
-  Modal,
-  Space,
-  Tooltip,
-} from 'antd'
+import { Button, Card, Collapse, List, Modal, Space, Tooltip } from 'antd'
 
 import AddItem from '../AddItem'
 import CourseItemIcon from './CourseItemIcon'
@@ -39,7 +31,7 @@ const CustomCollapse = styled(Collapse)`
 
 const CourseListItem = styled(List.Item)`
   .ant-list-item {
-    padding: 15px !important; 
+    padding: 15px !important;
   }
   background: ${(props: { isActive: boolean }) =>
     props.isActive ? '#e3e3e3' : 'auto'};
@@ -90,6 +82,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
         collapsible="header"
         defaultActiveKey={sections.map((s, i) => i)}
         expandIconPosition="end"
+        ghost
       >
         {sections.map((section, secIndex) => {
           return (

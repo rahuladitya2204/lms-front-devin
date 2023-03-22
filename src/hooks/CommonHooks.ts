@@ -1,3 +1,4 @@
+import { Common, Store, Types } from '@adewaskar/lms-common'
 import {
   createSearchParams,
   useNavigate,
@@ -5,8 +6,8 @@ import {
   useParams
 } from 'react-router-dom'
 
-import { Types } from '@adewaskar/lms-common'
 import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
+import { useEffect } from 'react'
 
 export const useNavigateParams = () => {
   const navigate = useNavigate()
@@ -22,4 +23,27 @@ export const useGetNodeFromRouterOutlet = () => {
   const [sections] = useOutletContext<Types.CourseSection[][]>()
   const node: Types.CourseSectionItem = findSectionItem(itemId + '', sectionId + '', sections) || {};
   return node;
+}
+
+export const useAppInit = (type:string) => {
+  const navigate = useNavigate();
+  const {organisation } = Store.useGlobal();
+  const {
+    mutate: validateUser,
+    isLoading: validatingUser,
+  } = Common.Queries.useValidateUser()
+
+  useEffect(() => {
+    validateUser({
+      type: type, onSuccess: () => {
+        if (type === 'learner') {
+          return navigate(`/learner/${organisation._id}/login`)
+        }
+        navigate(`/user/login`)
+    } })
+  }, []);
+
+  const isInitDone = validatingUser
+
+  return { isInitDone }
 }

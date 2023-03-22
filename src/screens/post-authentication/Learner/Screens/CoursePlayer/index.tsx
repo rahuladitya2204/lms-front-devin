@@ -46,12 +46,11 @@ const CustomHeader = styled(Header)`
 const { Text, Title } = Typography
 function CoursePlayer() {
   const { id: courseId, itemId } = useParams()
-  const { data: { course, progress } } = Learner.Queries.useGetEnrolledCourseDetails(
-    courseId + '',
-    {
-      enabled: !!courseId
-    }
-  )
+  const {
+    data: { course, progress }
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '', {
+    enabled: !!courseId
+  })
   const navigate = useNavigate()
 
   const sections = course.sections
@@ -66,12 +65,12 @@ function CoursePlayer() {
     [sections]
   )
 
-  const allItems = sections.map((s:any) => s.items).flat()
+  const allItems = sections.map((s: any) => s.items).flat()
 
   const toggleItemCheck = () => {}
   let currentItemIndex = 0
 
-  allItems.forEach((i:any, index:number) => {
+  allItems.forEach((i: any, index: number) => {
     if (i._id == itemId) {
       currentItemIndex = index
     }
@@ -90,6 +89,7 @@ function CoursePlayer() {
   return (
     <CustomHeader
       className="page-header"
+      bgColor="black"
       title={
         <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
           <Image

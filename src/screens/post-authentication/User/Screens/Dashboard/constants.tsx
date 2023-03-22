@@ -17,11 +17,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Courses',
     icon: <BookOutlined />,
-    path: '',
+    path: 'dashboard',
     children: [
       {
         title: 'All Courses',
-        path: 'user/dashboard/courses',
+        path: 'courses',
         // icon: <AppstoreOutlined />
       },
     ]
@@ -77,75 +77,6 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
       }
     ]
   },
-]
-
-export const HEADER_ITEMS: Types.MenuItemNode[] = [
-  {
-    title: 'Courses',
-    icon: <MailOutlined />,
-    path: 'home'
-  },
-  {
-    title: 'Courses',
-    icon: <MailOutlined />,
-    path: '',
-    children: [
-      {
-        title: 'All Courses',
-        path: 'user/dashboard/courses',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'Packages',
-        path: 'packages',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'Question Bank',
-        path: 'question-bank',
-        icon: <AppstoreOutlined />
-      }
-    ]
-  },
-  {
-    title: 'Users',
-    icon: <UsergroupDeleteOutlined />,
-    path: 'users',
-    children: [
-      {
-        title: 'Learners',
-        path: 'learners',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'Admins',
-        path: 'users',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'Instructors',
-        path: 'instructors',
-        icon: <AppstoreOutlined />
-      }
-    ]
-  },
-  {
-    title: 'Website',
-    icon: <UsergroupDeleteOutlined />,
-    path: 'website',
-    children: [
-      {
-        title: 'Website Pages',
-        path: 'pages',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'Website Builder',
-        path: 'builder',
-        icon: <AppstoreOutlined />
-      }
-    ]
-  }
 ]
 
 

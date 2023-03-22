@@ -32,7 +32,7 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
   const [form] = Form.useForm<Types.Course>();
   const { listItems: instructors, isLoading: loading } = User.Queries.useGetInstructors()
   const { listItems: categories } = User.Queries.useGetCourseCategories();
-  console.log(categories, 'categories');
+  // console.log(categories, 'categories');
   useEffect(() => {
     form.setFieldsValue(props.formData);
   },[props.formData])
@@ -65,7 +65,7 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
         <AutoComplete 
         options={categories}
         style={{ width: 200 }}
-        onSelect={console.log}
+        // onSelect={console.log}
         placeholder="Type Category"
           />
           </Form.Item>

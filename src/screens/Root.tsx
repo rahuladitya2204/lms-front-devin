@@ -1,13 +1,15 @@
 import { Outlet, useNavigate, useParams } from 'react-router'
 
-import {Store} from '@adewaskar/lms-common'
+import { Store } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 
 export default function RootScreen () {
-  console.log('Roor')
   const { orgId } = useParams()
-  let userType = orgId ? 'learner' : 'user';
-  const { validateUser, setIsSignedin } = Store.useAuthentication(state => state)
+  console.log('Roor', orgId)
+  let userType = window.location.href.includes('learner') ? 'learner' : 'user'
+  const { validateUser, setIsSignedin } = Store.useAuthentication(
+    state => state
+  )
   const navigate = useNavigate()
   console.log(userType, 'type')
   useEffect(() => {
@@ -26,8 +28,9 @@ export default function RootScreen () {
         setIsSignedin(false)
         if (userType === 'learner') {
           return navigate(`/learner/${orgId}/login`)
+        } else {
+          return navigate(`/user/${orgId}/login`)
         }
-        navigate(`/user/login`)
       })
   }, [])
 
