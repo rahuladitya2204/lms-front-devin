@@ -43,7 +43,7 @@ const CustomHeader = styled(Header)`
   } */
 `
 
-const { Text, Title } = Typography
+const { Text } = Typography
 function CoursePlayer() {
   const { id: courseId, itemId } = useParams()
   const {
@@ -89,7 +89,7 @@ function CoursePlayer() {
   return (
     <CustomHeader
       className="page-header"
-      bgColor="black"
+      // bgColor="black"
       title={
         <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
           <Image
@@ -108,28 +108,28 @@ function CoursePlayer() {
       subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
       style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
       extra={[
-        <Dropdown.Button
-          menu={{
-            items: [
-              {
-                key: '3',
-                label: (
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://www.luohanacademy.com"
-                  >
-                    3rd menu item
-                  </a>
-                )
-              }
-            ]
-          }}
-          placement="topRight"
-          arrow={{ pointAtCenter: true }}
-        >
-          Share
-        </Dropdown.Button>,
+        // <Dropdown.Button
+        //   menu={{
+        //     items: [
+        //       {
+        //         key: '3',
+        //         label: (
+        //           <a
+        //             target="_blank"
+        //             rel="noopener noreferrer"
+        //             href="https://www.luohanacademy.com"
+        //           >
+        //             3rd menu item
+        //           </a>
+        //         )
+        //       }
+        //     ]
+        //   }}
+        //   placement="topRight"
+        //   arrow={{ pointAtCenter: true }}
+        // >
+        //   Share
+        // </Dropdown.Button>,
         <Text strong style={{ paddingRight: 10 }}>
           Your Progress<Progress
             style={{ marginLeft: 10 }}
@@ -185,7 +185,7 @@ function CoursePlayer() {
               </CustomCard>
             </Col>
             <Col span={24}>
-              <Card>
+              <Card style={{ marginTop: 30 }}>
                 <CoursePlayerMoreInfo course={course} />
               </Card>
             </Col>
@@ -195,7 +195,6 @@ function CoursePlayer() {
           <CoursePlayerCollapsible
             courseId={course._id}
             toggleItemCheck={toggleItemCheck}
-            sections={sections}
           />
         </Col>
       </Row>

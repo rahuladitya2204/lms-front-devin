@@ -1,8 +1,8 @@
 import { Collapse, List, Typography } from 'antd'
+import { Learner, Types } from '@adewaskar/lms-common'
 
 import CoursePlayerNavigatorItem from './CoursePlayerNavigatorItem'
 import { Fragment } from 'react'
-import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 
 const { Panel } = Collapse
@@ -22,24 +22,22 @@ const CustomCollapse = styled(Collapse)`
 `
 
 interface CoursePlayerNavigatorPropsI {
-  sections: Types.CourseSection[];
   courseId: string;
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
 function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
+  const { data: course } = Learner.Queries.useGetCourseDetails(props.courseId, {
+    enabled: !!props.courseId
+  })
+  const sections = course.sections
   return (
     <Fragment>
       <CustomCollapse
         expandIconPosition="end"
-        defaultActiveKey={props.sections.map((s, i) => s._id)}
+        defaultActiveKey={sections.map((s, i) => i)}
       >
-        {props.sections.map((section, index) => {
-          let sectionsCompleted = 0;
-          const totalSections = section.items.length
-          // section.items.forEach(i => {
-          //   if (i.checked) sectionsCompleted += 1
-          // })
+        {sections.map((section, index) => {
           return (
             <Panel
               header={
@@ -50,13 +48,14 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
                   } */}
                 </Typography.Title>
               }
-              key={section._id}
+              key={index}
             >
               <List
                 // itemLayout="horizontal"
                 dataSource={section.items}
                 renderItem={(item, itemIndex) => (
-                  <CoursePlayerNavigatorItem courseId={props.courseId}
+                  <CoursePlayerNavigatorItem
+                    courseId={props.courseId}
                     section={section}
                     toggleItemCheck={props.toggleItemCheck}
                     item={item}
@@ -68,7 +67,7 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
           )
         })}
       </CustomCollapse>
-      {/* {props.sections.map((section, sectionIndex) => {
+      {/* {sections.map((section, sectionIndex) => {
         return (
           <CustomCollapse>
          

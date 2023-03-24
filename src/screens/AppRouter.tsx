@@ -7,6 +7,7 @@ import {
 
 import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
 import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
+import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseBuilder/CourseEditor'
 import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
@@ -50,6 +51,10 @@ const router = createBrowserRouter(
               <Route path=":id/editor" element={<LearnerEditor />} />
             </Route>{' '}
           </Route>
+          <Route path="category">
+            <Route path="" element={<CourseCategoryScreen />} />
+            {/* <Route path=":id/editor" element={<LearnerEditor />} /> */}
+          </Route>{' '}
           <Route path="settings">
             <Route path="account" element={<UserAccount />} />
           </Route>{' '}

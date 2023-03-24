@@ -11,19 +11,19 @@ export default function RootScreen () {
     state => state
   )
   const navigate = useNavigate()
-  console.log(userType, 'type')
+  // console.log(userType, 'type')
   useEffect(() => {
     validateUser(userType)
       .then(() => {
         setIsSignedin(true)
-        console.log(userType, 'user')
+        // console.log(userType, 'user')
         // if (userType === 'learner') {
         //   return navigate(`/learner/${orgId}/dashboard/courses`)
         // }
         // navigate(`/user/dashboard/courses`)
       })
       .catch(() => {
-        console.log('not signedin')
+        // console.log('not signedin')
         // navigate(`/user/login`)
         setIsSignedin(false)
         if (userType === 'learner') {

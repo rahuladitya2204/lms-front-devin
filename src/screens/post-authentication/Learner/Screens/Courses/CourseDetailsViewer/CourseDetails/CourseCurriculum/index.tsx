@@ -21,7 +21,7 @@ function CourseCurriculum(props: CourseCurriculumPropsI) {
   return (
     <Row gutter={[30, 30]}>
       <Col span={24}>
-        <Collapse  defaultActiveKey={props.course.sections.map((s, i) => i)}>
+        <Collapse defaultActiveKey={props.course.sections.map((s, i) => i)}>
           {props.course.sections.map((section, index) => {
             return (
               <Panel header={section.title} key={index}>

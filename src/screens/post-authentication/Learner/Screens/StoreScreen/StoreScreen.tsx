@@ -2,13 +2,16 @@ import { Col, Row } from 'antd'
 
 import CourseCard from './CourseCard'
 import { Learner } from '@adewaskar/lms-common'
+import Section from '@Components/Section'
 import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 function StoreScreen () {
   const { data: courses } = Learner.Queries.useGetCoursesOfOrganisation()
-  // const { listItems: instructors } = useGetInstructors()
+  const { data: categories } = Learner.Queries.useGetLearnerCategories()
+
+  console.log(categories, 'categories')
   const params = useParams()
   useEffect(
     () => {
@@ -19,41 +22,30 @@ function StoreScreen () {
 
   return (
     <Row gutter={[30, 30]}>
-      {/* <Col span={24}>
-        <Row gutter={[20, 20]}>
-          <Col span={10}>
-            <Text strong style={{ fontSize: 20 }}>
-              We found {courses.length} courses
-            </Text>
+      {categories.map(category => {
+        const categorizedCourses = courses.filter(
+          course => course.category === category._id
+        )
+        return (
+          <Col span={24}>
+            <Section title="1212">
+              <Row>
+                <Col span={24}>
+                  <Row gutter={[30, 30]}>
+                    {categorizedCourses.map(course => {
+                      return (
+                        <Col span={6}>
+                          <CourseCard course={course} />
+                        </Col>
+                      )
+                    })}
+                  </Row>
+                </Col>
+              </Row>
+            </Section>
           </Col>
-          <Col span={6}>
-            <Search
-              placeholder="Search courses"
-              allowClear
-              // onSearch={onSearch}
-              // style={{ width: 200 }}
-            />
-          </Col>
-          <Col span={6}>
-            <Select
-              placeholder="Select Instructor"
-              style={{ width: 200 }}
-              options={instructors}
-            />
-          </Col>
-        </Row>
-      </Col> */}
-      <Col span={24}>
-        <Row gutter={[30, 30]}>
-          {courses.map(course => {
-            return (
-              <Col span={6}>
-                <CourseCard course={course} />
-              </Col>
-            )
-          })}
-        </Row>
-      </Col>
+        )
+      })}
     </Row>
   )
 }

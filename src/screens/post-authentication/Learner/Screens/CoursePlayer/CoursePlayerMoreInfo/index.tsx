@@ -5,7 +5,7 @@ import CourseOverview from '@Learner/Screens/Courses/CourseDetailsViewer/CourseD
 import React from 'react'
 import { Types } from '@adewaskar/lms-common'
 
-const { Text } = Typography;
+const { Text } = Typography
 interface CoursePlayerMoreInfoPropsI {
   course: Types.Course;
 }
@@ -27,21 +27,21 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
       key: '3',
       children: <CourseDiscussion course={props.course} />
     },
-    {
-      label: <Text strong>Announcements</Text>,
-      key: '4',
-      children: 'Tab 3'
-    },
-    {
-      label: <Text strong>Reviews</Text>,
-      key: '5',
-      children: 'Tab 3'
-    },
-    {
-      label: 'Learning Tools',
-      key: '6',
-      children: 'Tab 3'
-    }
+    // {
+    //   label: <Text strong>Announcements</Text>,
+    //   key: '4',
+    //   children: 'Tab 3'
+    // },
+    // {
+    //   label: <Text strong>Reviews</Text>,
+    //   key: '5',
+    //   children: 'Tab 3'
+    // },
+    // {
+    //   label: 'Learning Tools',
+    //   key: '6',
+    //   children: 'Tab 3'
+    // }
   ]
   return <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
 }

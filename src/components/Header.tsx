@@ -1,6 +1,6 @@
 /*eslint-disable */
 
-import { Col, Layout, Row, Space, Typography } from 'antd'
+import { Col, Input, Layout, Row, Space, Typography } from 'antd'
 
 import { PageHeaderProps } from '@ant-design/pro-layout'
 import styled from '@emotion/styled'
@@ -16,6 +16,7 @@ interface HeaderPropsI extends PageHeaderProps {
 }
 const { Title } = Typography
 const { Header: PageHeader } = Layout
+const { Search } = Input
 
 const CustomHeader = styled(PageHeader)(
   props => `
@@ -47,7 +48,10 @@ function Header(props: HeaderPropsI) {
       <Col span={24}>
         <CustomHeader
           theme={props.theme}
-          style={{ background: props.bgColor ? props.bgColor : '#fff' }}
+          style={{
+            background: props.bgColor ? props.bgColor : '#fff',
+            border: `1px solid #ececec`
+          }}
           // {...props}
           // backIcon={!props.hideBack}
           // onBack={() => navigate(-1)}
