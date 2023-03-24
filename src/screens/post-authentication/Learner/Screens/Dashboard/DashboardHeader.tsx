@@ -13,13 +13,15 @@ import {
   Space,
   Typography
 } from 'antd'
+import { Learner, Store } from '@adewaskar/lms-common'
 import { Outlet, useNavigate } from 'react-router'
 import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 
+import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
-import { Learner } from '@adewaskar/lms-common'
 import { Link } from 'react-router-dom'
+import LoginScreen from '@Learner/Screens/Login'
 import Search from 'antd/es/input/Search'
 import { useState } from 'react'
 
@@ -28,6 +30,7 @@ const { Text, Title } = Typography
 
 const DashboardHeader: React.FC = () => {
   const { data: cartItems } = Learner.Queries.useGetCartItems()
+  const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
   const [text, setText] = useState(null)
   const {
     data: searchedCourses,
@@ -35,6 +38,8 @@ const DashboardHeader: React.FC = () => {
   } = Learner.Queries.useGetCoursesOfOrganisation({
     searchValue: text
   })
+  const { isSignedIn } = Store.useAuthentication(state => state)
+
   const listItems = searchedCourses.map(c => ({
     label: (
       <Space
@@ -57,10 +62,13 @@ const DashboardHeader: React.FC = () => {
         </Space>
       </Space>
     ),
-    value: c.title,
+    value: c.title
   }))
   console.log(searchedCourses, 'searchedCoursessearchedCourses')
   const navigate = useNavigate()
+  const logout = () => {
+    logoutLearner()
+  }
   return (
     <Header
       hideBack
@@ -109,39 +117,52 @@ const DashboardHeader: React.FC = () => {
         <Link to={`store`} style={{ margin: '0 10px' }}>
           <Text strong>Blogs</Text>
         </Link>,
-        <Link to={`courses`} style={{ margin: '0 10px' }}>
-          <Text strong>My Courses</Text>
-        </Link>,
+        ...(isSignedIn
+          ? [
+              <Link to={`courses`} style={{ margin: '0 10px' }}>
+                <Text strong>My Courses</Text>
+              </Link>
+            ]
+          : [
+              <ActionModal
+                title="Login"
+                cta={<Button style={{ margin: '0 10px' }}>Login</Button>}
+              >
+                <LoginScreen />
+              </ActionModal>
+            ]),
 
-        <Space>
-          <Dropdown
-            placement="bottomLeft"
-            overlay={
-              <Menu>
-                <Menu.Item
-                  onClick={() => {
-                    navigate('account')
-                  }}
-                >
-                  My Account
-                </Menu.Item>
-                <Menu.Item>item 2</Menu.Item>
-              </Menu>
-            }
-          >
-            <Button shape="circle" icon={<UserOutlined />} />
-          </Dropdown>
-          <Badge count={cartItems.length} showZero={false}>
-            <Button
-              onClick={() => {
-                navigate('cart')
-              }}
-              type="primary"
-              shape="circle"
-              icon={<ShoppingCartOutlined />}
-            />
-          </Badge>
-        </Space>
+        isSignedIn ? (
+          <Space>
+            <Dropdown
+              placement="bottomLeft"
+              overlay={
+                <Menu>
+                  <Menu.Item
+                    onClick={() => {
+                      navigate('account')
+                    }}
+                  >
+                    My Account
+                  </Menu.Item>
+                  <Menu.Item onClick={logout}>Logout</Menu.Item>
+                </Menu>
+              }
+            >
+              <Button shape="circle" icon={<UserOutlined />} />
+            </Dropdown>
+            <Badge count={cartItems.length} showZero={false}>
+              <Button
+                onClick={() => {
+                  navigate('cart')
+                }}
+                type="primary"
+                shape="circle"
+                icon={<ShoppingCartOutlined />}
+              />
+            </Badge>
+          </Space>
+        ) : null
       ]}
       className="site-layout-background"
       style={{ padding: 0 }}

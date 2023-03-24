@@ -12,27 +12,27 @@ export default function RootScreen () {
   )
   const navigate = useNavigate()
   // console.log(userType, 'type')
-  useEffect(() => {
-    validateUser(userType)
-      .then(() => {
-        setIsSignedin(true)
-        // console.log(userType, 'user')
-        // if (userType === 'learner') {
-        //   return navigate(`/learner/${orgId}/dashboard/courses`)
-        // }
-        // navigate(`/user/dashboard/courses`)
-      })
-      .catch(() => {
-        // console.log('not signedin')
-        // navigate(`/user/login`)
-        setIsSignedin(false)
-        if (userType === 'learner') {
-          return navigate(`/learner/${orgId}/login`)
-        } else {
-          return navigate(`/user/${orgId}/login`)
-        }
-      })
-  }, [])
+  // useEffect(() => {
+  //   validateUser(userType)
+  //     .then(() => {
+  //       setIsSignedin(true)
+  //       // console.log(userType, 'user')
+  //       // if (userType === 'learner') {
+  //       //   return navigate(`/learner/${orgId}/dashboard/courses`)
+  //       // }
+  //       // navigate(`/user/dashboard/courses`)
+  //     })
+  //     .catch(() => {
+  //       // console.log('not signedin')
+  //       // navigate(`/user/login`)
+  //       setIsSignedin(false)
+  //       if (userType === 'learner') {
+  //         return navigate(`/learner/${orgId}/login`)
+  //       } else {
+  //         return navigate(`/user/${orgId}/login`)
+  //       }
+  //     })
+  // }, [])
 
   return (
     <div>

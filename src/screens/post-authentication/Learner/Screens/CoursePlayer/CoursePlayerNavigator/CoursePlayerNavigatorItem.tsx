@@ -18,7 +18,7 @@ interface CoursePlayerNavigatorItemPropsI {
 
 const CourseListItem = styled(List.Item)`
   border-bottom: 1px solid #f0f0f0 !important;
-  h4{
+  h4 {
     margin-top: 0;
   }
 
@@ -43,9 +43,9 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
       children={({ isActive }) => (
         <CourseListItem
           extra={[
-            props.item.type === 'video' && durationInMin ? (
-              <Tag color="blue">{durationInMin.value} min</Tag>
-            ) : null,
+            // props.item.type === 'video' && durationInMin ? (
+            //   <Tag color="blue">{durationInMin.value} min</Tag>
+            // ) : null,
             <CourseItemIcon type="outlined" item={props.item} />
           ]}
           isActive={isActive}
@@ -66,11 +66,17 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
               />
             }
             title={
-              <Text style={{ marginTop: 0}} ellipsis>
+              <Text style={{ marginTop: 0 }} ellipsis>
                 {props.itemIndex}. {props.item.title}
               </Text>
             }
-            description={<span>121</span>}
+            description={
+              props.item.type === 'video' && durationInMin ? (
+                <Tag style={{ marginTop: 10 }} color="blue">
+                  {durationInMin.value} min
+                </Tag>
+              ) : null
+            }
           />
         </CourseListItem>
       )}

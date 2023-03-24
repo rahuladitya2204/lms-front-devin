@@ -16,7 +16,7 @@ function LearnerLogin () {
     mutate: loginUser,
     isLoading: loading
   } = Learner.Queries.useLoginLearner()
-  const { organisation, fetchOrganisation } = Store.useGlobal(state => state)
+  const { fetchOrganisation } = Store.useGlobal(state => state)
   const { orgId } = useParams()
   console.log(orgId, 'iod')
   useEffect(
@@ -47,10 +47,10 @@ function LearnerLogin () {
         }
       })
     }
-  });
-  
+  })
+
   return (
-    <AuthenticationCard title={<Image src={organisation.logo} />}>
+    <AuthenticationCard>
       <Form
         initialValues={{
           remember: true

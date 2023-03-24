@@ -6,13 +6,18 @@ interface SectionPropsI {
   subtitle?: string;
 }
 
-const { Title } = Typography
+const { Title, Text } = Typography
 
 function Section(props: SectionPropsI) {
   return (
     <Row>
       <Col span={24}>
-        <Title level={3}>{props.title}</Title>
+        <Title style={{ marginTop: 0, marginBottom: 10 }} level={3}>
+          {props.title}
+        </Title>
+        {props.subtitle ? (
+          <Text style={{ marginTop: 0 }}>{props.subtitle}</Text>
+        ) : null}
       </Col>
       <Col span={24}>{props.children}</Col>
     </Row>

@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 import styled from '@emotion/styled'
 
 const Container = styled.div`
-  display: flex;
+  /* display: flex; */
   justify-content: center;
   align-items: center;
   height: 100%;
@@ -14,7 +14,7 @@ const Container = styled.div`
 
 interface AuthenticationCardPropsI {
   children?: ReactNode;
-  title: string | ReactNode;
+  title?: string | ReactNode;
 }
 
 function AuthenticationCard(props: AuthenticationCardPropsI) {

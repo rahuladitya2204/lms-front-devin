@@ -1,5 +1,6 @@
-import { Modal } from 'antd'
 import { Fragment, useState } from 'react'
+
+import { Modal } from 'antd'
 
 interface ActionModalPropsI {
   children?: React.ReactNode;
@@ -24,8 +25,8 @@ function ActionModal(props: ActionModalPropsI) {
     <Fragment>
       <span onClick={showModal}>{props.cta}</span>
       <Modal
-        footer={props.footer ? props.footer(closeModal): null}
-        style={{ minWidth: 750 }}
+        footer={props.footer ? props.footer(closeModal) : null}
+        // style={{ width: 750 }}
         title={props.title}
         open={isModalOpen}
         onCancel={closeModal}

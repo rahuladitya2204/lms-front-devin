@@ -95,8 +95,8 @@ const router = createBrowserRouter(
             element={<CoursePlayerItem />}
           />
         </Route>
-        <Route path="register" element={<LearnerRegister />} />
-        <Route path="login" element={<LearnerLogin />} />
+        {/* <Route path="register" element={<LearnerRegister />} />
+        <Route path="login" element={<LearnerLogin />} /> */}
       </Route>
     </Route>
   )

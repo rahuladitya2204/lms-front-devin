@@ -28,7 +28,7 @@ function StoreScreen () {
         )
         return (
           <Col span={24}>
-            <Section title="1212">
+            <Section title={category.title} subtitle={category.description}>
               <Row>
                 <Col span={24}>
                   <Row gutter={[30, 30]}>
