@@ -18,6 +18,7 @@ import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
+import OrgLogo from '@Components/OrgLogo'
 import styled from '@emotion/styled'
 import { useEffect } from 'react'
 
@@ -92,15 +93,7 @@ function CoursePlayer() {
       // bgColor="black"
       title={
         <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-          <Image
-            onClick={() => navigate('/learner/123123/dashboard/store')}
-            style={{ cursor: 'pointer' }}
-            width={40}
-            preview={false}
-            src={
-              'https://asset-cdn.learnyst.com/assets/schools/110998/schoolLogo/soiclogolearnyst_r5jz9f.png'
-            }
-          />
+          <OrgLogo />
           <Divider type="vertical" />
           <Text style={{ fontSize: 16 }}>{course.title}</Text>
         </Space>

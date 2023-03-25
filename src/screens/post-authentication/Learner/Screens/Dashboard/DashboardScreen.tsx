@@ -26,14 +26,10 @@ const { Content } = Layout
 const { Text } = Typography
 
 const LearnerDashboard: React.FC = () => {
-  const { data: cartItems } = Learner.Queries.useGetCartItems()
-  const navigate = useNavigate()
   return (
     <Layout>
       <Layout className="site-layout">
         <DashboardHeader />
-
-        {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
       </Layout>
     </Layout>
   )

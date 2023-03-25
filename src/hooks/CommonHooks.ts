@@ -5,9 +5,10 @@ import {
   useOutletContext,
   useParams
 } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
 import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
-import { useEffect } from 'react'
+import { getToken } from '@Network/index'
 
 export const useNavigateParams = () => {
   const navigate = useNavigate()
@@ -25,25 +26,37 @@ export const useGetNodeFromRouterOutlet = () => {
   return node;
 }
 
-export const useAppInit = (type:string) => {
-  const navigate = useNavigate();
-  const {organisation } = Store.useGlobal();
+export const useAppInit = (type: string) => {
+  const token = getToken();
+  const {orgId } = useParams();
+  const { fetchOrganisation } = Store.useGlobal();
+  const [loading, setLoading] = useState(false);
   const {
     mutate: validateUser,
-    isLoading: validatingUser,
   } = Common.Queries.useValidateUser()
 
   useEffect(() => {
-    validateUser({
-      type: type, onSuccess: () => {
-        if (type === 'learner') {
-          return navigate(`/learner/${organisation._id}/login`)
-        }
-        navigate(`/user/login`)
-    } })
-  }, []);
+    initApp();
+  }, [orgId,type,token]);
 
-  const isInitDone = validatingUser
 
-  return { isInitDone }
+  const initApp = async () => {
+    try {
+      setLoading(true);
+      await fetchOrganisation(orgId + '');
+      if (token) {
+        await validateUser({
+          type: type,
+          onSuccess: () => { }
+        });
+      }
+    }
+    catch (er) {
+      console.log(er,'err')
+      setLoading(false)
+    }
+  }
+
+
+  return { isInitDone: loading }
 }

@@ -3,11 +3,6 @@ import { Card, Col, List, Row, Space, Typography } from 'antd'
 import { Learner } from '@adewaskar/lms-common'
 import LearnerCartCourseCard from './CourseCard'
 
-// import {
-//   useGetCartItems,
-//   useUpdateCartItems
-// } from '@Learner/Api/Common/queries'
-
 const { Title, Text } = Typography
 
 export default function LearnerCart() {

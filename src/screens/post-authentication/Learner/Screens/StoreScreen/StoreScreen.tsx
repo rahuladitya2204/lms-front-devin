@@ -1,13 +1,23 @@
-import { Col, Row } from 'antd'
+import { Carousel, Col, Row } from 'antd'
 
 import CourseCard from './CourseCard'
+import HomeCarousel from './Carousel'
 import { Learner } from '@adewaskar/lms-common'
 import Section from '@Components/Section'
 import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-function StoreScreen () {
+const contentStyle: React.CSSProperties = {
+  margin: 0,
+  height: '460px',
+  color: '#fff',
+  lineHeight: '160px',
+  textAlign: 'center',
+  background: '#364d79'
+}
+
+function StoreScreen() {
   const { data: courses } = Learner.Queries.useGetCoursesOfOrganisation()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
 
@@ -22,6 +32,9 @@ function StoreScreen () {
 
   return (
     <Row gutter={[30, 30]}>
+      <Col span={24}>
+        <HomeCarousel />
+      </Col>
       {categories.map(category => {
         const categorizedCourses = courses.filter(
           course => course.category === category._id

@@ -173,13 +173,13 @@ function CourseDetailViewer () {
                 </Col>
                 <Col span={24}>
                   <Row gutter={[15, 15]}>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                       <Button disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
                         {isAddedToCart?`Added to cart`:`Add To Cart`}
                       </Button>
-                    </Col>
+                    </Col> */}
                     <Col span={24}>
-                      <Button onClick={()=>enrollForCourse(course._id)} size="large" type="ghost" block>
+                      <Button onClick={()=>enrollForCourse(course._id)}size="large" type="primary" block>
                         Enroll Now
                       </Button>
                     </Col>{' '}

@@ -22,6 +22,7 @@ import Header from '@Components/Header'
 import Image from '@Components/Image'
 import { Link } from 'react-router-dom'
 import LoginScreen from '@Learner/Screens/Login'
+import OrgLogo from '@Components/OrgLogo'
 import Search from 'antd/es/input/Search'
 import { useState } from 'react'
 
@@ -29,7 +30,7 @@ const { Content } = Layout
 const { Text, Title } = Typography
 
 const DashboardHeader: React.FC = () => {
-  const { data: cartItems } = Learner.Queries.useGetCartItems()
+  // const { data: cartItems } = Learner.Queries.useGetCartItems()
   const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
   const [text, setText] = useState(null)
   const {
@@ -74,15 +75,7 @@ const DashboardHeader: React.FC = () => {
       hideBack
       title={
         <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-          <Image
-            onClick={() => navigate('/learner/123123/dashboard/store')}
-            style={{ cursor: 'pointer' }}
-            width={40}
-            preview={false}
-            src={
-              'https://asset-cdn.learnyst.com/assets/schools/110998/schoolLogo/soiclogolearnyst_r5jz9f.png'
-            }
-          />
+          <OrgLogo />
           <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
             <AutoComplete
               onSelect={e => console.log(e)}
@@ -152,7 +145,7 @@ const DashboardHeader: React.FC = () => {
             >
               <Button shape="circle" icon={<UserOutlined />} />
             </Dropdown>
-            <Badge count={cartItems.length} showZero={false}>
+            {/* <Badge count={cartItems.length} showZero={false}>
               <Button
                 onClick={() => {
                   navigate('cart')
@@ -161,7 +154,7 @@ const DashboardHeader: React.FC = () => {
                 shape="circle"
                 icon={<ShoppingCartOutlined />}
               />
-            </Badge>
+            </Badge> */}
           </Space>
         ) : null
       ]}

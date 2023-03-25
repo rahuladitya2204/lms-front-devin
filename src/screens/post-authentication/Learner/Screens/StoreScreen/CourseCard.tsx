@@ -31,12 +31,11 @@ function CourseCard(props: CourseCardPropsI) {
       <CustomCard hoverable
         onClick={() =>
           navigate(
-            `/learner/learner/dashboard/courses/${props.course._id}`
+            `../courses/${props.course._id}`
           )
         } bodyStyle={{padding: 15}}
         cover={
-          <Image
-  alt="example" style={{height: 140}}
+          <Image alt="example" style={{height: 140}}
             src={
              props.course.thumbnailImage
             }
