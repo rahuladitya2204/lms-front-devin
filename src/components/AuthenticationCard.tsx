@@ -19,18 +19,14 @@ interface AuthenticationCardPropsI {
 
 function AuthenticationCard(props: AuthenticationCardPropsI) {
   return (
-    <Container>
-      <Card
-        title={
-          <Typography.Title style={{ textAlign: 'center' }} level={3}>
-            {props.title}
-          </Typography.Title>
-        }
-        style={{ width: 350, minHeight: 500 }}
-      >
-        {props.children}
-      </Card>
-    </Container>
+    // <Container>
+    <div
+      // title={null}
+      style={{ minHeight: 500 }}
+    >
+      {props.children}
+    </div>
+    // </Container>
   )
 }
 

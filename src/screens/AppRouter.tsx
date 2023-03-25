@@ -25,6 +25,7 @@ import LearnerLogin from './post-authentication/Learner/Screens/Login'
 import LearnerRegister from './post-authentication/Learner/Screens/Register'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
+import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
 import UploadFileForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadFile/UploadFileForm'
@@ -95,9 +96,11 @@ const router = createBrowserRouter(
             element={<CoursePlayerItem />}
           />
         </Route>
+
         {/* <Route path="register" element={<LearnerRegister />} />
         <Route path="login" element={<LearnerLogin />} /> */}
       </Route>
+      <Route path="*" element={<NotFoundScreen />} />
     </Route>
   )
 )

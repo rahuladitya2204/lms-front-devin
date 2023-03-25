@@ -125,6 +125,7 @@ const DashboardHeader: React.FC = () => {
             ]
           : [
               <ActionModal
+                width={300}
                 title="Login"
                 cta={<Button style={{ margin: '0 10px' }}>Login</Button>}
               >

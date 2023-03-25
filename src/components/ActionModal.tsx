@@ -6,6 +6,7 @@ interface ActionModalPropsI {
   children?: React.ReactNode;
   onClose?: () => void;
   title?: string;
+  width?: number;
   cta?: React.ReactNode;
   footer?: (f: Function) => React.ReactNode[];
 }
@@ -25,8 +26,8 @@ function ActionModal(props: ActionModalPropsI) {
     <Fragment>
       <span onClick={showModal}>{props.cta}</span>
       <Modal
+        width={props.width}
         footer={props.footer ? props.footer(closeModal) : null}
-        // style={{ width: 750 }}
         title={props.title}
         open={isModalOpen}
         onCancel={closeModal}
