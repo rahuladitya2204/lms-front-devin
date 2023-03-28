@@ -1,8 +1,10 @@
-import { Col, Form, Image, Input, Row, Typography } from 'antd'
+import { Checkbox, Col, Form, Image, Input, Row, Typography } from 'antd'
 
 import MediaUpload from '@Components/MediaUpload'
 import { Store } from '@adewaskar/lms-common'
+import { generate } from '@ant-design/colors'
 import { useFormik } from 'formik'
+import useGetPalette from '@Hooks/useGetPalette'
 
 interface AppCustomizerScreenPropsI {}
 
@@ -10,6 +12,8 @@ const { Title } = Typography
 
 const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
   const { organisation } = Store.useGlobal(s => s)
+  const { color } = useGetPalette()
+  console.log(color, 'color')
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -17,6 +21,12 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
     },
     onSubmit: values => {}
   })
+  const colors = generate('#1890ff', {
+    theme: 'dark',
+    backgroundColor: '#141414'
+  })
+  console.log(colors, 'colors')
+  // useEff
   return (
     <Row>
       <Col span={24}>
@@ -39,7 +49,16 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
                 />
               </Form.Item>
               <Form.Item name={'primaryColor'} label={'Primary Color'}>
-                <Input placeholder="Select Primary color" type="color" />
+                {color.map(c => (
+                  <Checkbox onChange={formik.handleChange}>
+                    <Input
+                      style={{ width: 60, height: 50, marginRight: 10 }}
+                      value={c}
+                      placeholder="Select Primary color"
+                      type="color"
+                    />
+                  </Checkbox>
+                ))}
               </Form.Item>
             </Form>
           </Col>

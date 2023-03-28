@@ -21,8 +21,7 @@ const { Content, Sider } = Layout
 
 const UserDashboard: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
-  const { colorPallete } = Store.useGlobal(s => s)
-  console.log(colorPallete, 'colorPallete')
+  // const { colorPallete } = Store.useGlobal(s => s)
   const navigate = useNavigate()
   return (
     <Layout style={{ minHeight: '100vh' }}>
