@@ -1,19 +1,25 @@
 import {
-    Form,
-    Input,
+  Button,
+  Form,
+  Input,
 } from 'antd'
 import { Fragment, useEffect } from 'react'
 
+import MediaPlayer from '@Components/MediaPlayer';
+import MediaUpload from '@Components/MediaUpload';
 import { Types } from '@adewaskar/lms-common'
 
 interface CourseLandingPageEditorPropsI {
-        formData: Types.CourseLandingPage;
-        courseId: string;
+    formData: Types.CourseLandingPage;
+    courseId: string;
       onFormUpdate: (d:Types.CourseLandingPage)=>void;
     }
     
     function CourseLandingPageEditor(props:CourseLandingPageEditorPropsI) {
       const [form] = Form.useForm<Types.CourseLandingPage>();    
+      console.log(props.formData,'props.formData')
+      const PromoVideoUrl = props?.formData?.promoVideo;
+      
       useEffect(() => {
         form.setFieldsValue(props.formData);
       },[props.formData])
@@ -36,9 +42,23 @@ interface CourseLandingPageEditorPropsI {
 <Input/>
             </Form.Item>
             
-            <Form.Item required label="Promo Video">
-            {/* <MediaPlayer width={500} url={props.formData.promoVideo } /> */}
-    </Form.Item>
+            <Form.Item label="Promo Video" required>
+          <MediaUpload
+            width="300px"
+            onUpload={({ url }) => {
+              onFormUpdate({
+                promoVideo:url
+              })
+              // setUrl(url)
+            }}
+            height="250px"
+            renderItem={() => (
+              <Button>{PromoVideoUrl ? 'Replace Video' : 'Upload Video'}</Button>
+            )}
+            url={PromoVideoUrl}
+          />
+          {PromoVideoUrl ? <MediaPlayer url={PromoVideoUrl} /> : null}
+        </Form.Item>
 
 
               </Form></Fragment>)

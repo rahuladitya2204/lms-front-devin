@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, Modal, Space } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import { Types } from '@adewaskar/lms-common'
@@ -7,6 +7,7 @@ import { User } from '@adewaskar/lms-common'
 interface CreateCategoryComponentPropsI {
   children?: ReactNode;
   data?: Types.CourseCategory;
+  onFinish?: () => void;
 }
 
 const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
@@ -18,16 +19,7 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
     mutate: updateCategory,
     isLoading: updateCategoryLoading
   } = User.Queries.useUpdateCourseCategory()
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const [form] = Form.useForm()
-
-  const showModal = () => {
-    setIsModalOpen(true)
-  }
-
-  const closeModal = () => {
-    setIsModalOpen(false)
-  }
 
   const onSubmit = (e: Types.CourseCategory) => {
     if (props.data) {
@@ -35,7 +27,7 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
     } else {
       createCategory({ data: e })
     }
-    closeModal()
+    props.onFinish && props.onFinish()
   }
 
   useEffect(
@@ -47,10 +39,14 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
 
   return (
     <Fragment>
-      <span onClick={showModal}>{props.children}</span>
-
-      <Modal
-        footer={[
+      <Form form={form} onFinish={onSubmit} layout="vertical">
+        <Form.Item name="title" label="Title" required>
+          <Input placeholder="Category Title" />
+        </Form.Item>
+        <Form.Item name="description" label="Description" required>
+          <Input placeholder="Category Description" />
+        </Form.Item>
+        <Space>
           <Button
             loading={createCategoryLoading || updateCategoryLoading}
             key="submit"
@@ -59,23 +55,8 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
           >
             Submit
           </Button>
-        ]}
-        title="Create New Category"
-        open={isModalOpen}
-        onCancel={closeModal}
-      >
-        <Form form={form} onFinish={onSubmit} layout="vertical">
-          <Form.Item name="title" label="Title" required>
-            <Input placeholder="Category Title" />
-          </Form.Item>
-          <Form.Item name="description" label="Description" required>
-            <Input placeholder="Category Description" />
-          </Form.Item>
-          {/* <Form.Item name="email" label="Email" required>
-            <Input placeholder="Please enter email of the instructor" />
-          </Form.Item> */}
-        </Form>
-      </Modal>
+        </Space>
+      </Form>
     </Fragment>
   )
 }

@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 
 import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
+import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
@@ -51,6 +52,12 @@ const router = createBrowserRouter(
               <Route path="" element={<LearnersScreen />} />
               <Route path=":id/editor" element={<LearnerEditor />} />
             </Route>{' '}
+          </Route>
+          <Route path="builder">
+            <Route path="app">
+              <Route path="" element={<AppBuilderScreen />} />
+              <Route path=":id/editor" element={<InstructorEditor />} />
+            </Route>
           </Route>
           <Route path="category">
             <Route path="" element={<CourseCategoryScreen />} />

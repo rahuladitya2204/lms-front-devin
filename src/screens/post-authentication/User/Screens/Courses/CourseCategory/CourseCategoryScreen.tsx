@@ -1,6 +1,7 @@
 import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
+import ActionModal from '@Components/ActionModal'
 import CreateCategory from './CreateCategory'
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
@@ -15,10 +16,11 @@ function CourseCategoryScreen() {
         bodyStyle={{ padding: 0 }}
         title={'Categories'}
         extra={
-          <CreateCategory>
-            {' '}
-            <Button type="primary">Create New Category</Button>
-          </CreateCategory>
+          <ActionModal
+            cta={<Button type="primary">Create New Category</Button>}
+          >
+            <CreateCategory> </CreateCategory>
+          </ActionModal>
         }
       >
         <Row>
@@ -39,10 +41,9 @@ function CourseCategoryScreen() {
                 key="action"
                 render={(_: any, record: Types.CourseCategory) => (
                   <Space size="middle">
-                    <CreateCategory data={record}>
-                      {' '}
-                      <EditOutlined />{' '}
-                    </CreateCategory>
+                    <ActionModal cta={<EditOutlined />}>
+                      <CreateCategory data={record} />
+                    </ActionModal>
 
                     {/* <DeleteOutlined /> */}
                   </Space>

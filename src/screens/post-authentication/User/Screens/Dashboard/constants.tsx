@@ -17,11 +17,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Courses',
     icon: <BookOutlined />,
-    path: 'dashboard',
+    path: 'courses',
     children: [
       {
         title: 'All Courses',
-        path: 'courses',
+        path: '',
         // icon: <AppstoreOutlined />
       },
     ]
@@ -44,13 +44,13 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     ]
   },
   {
-    title: 'Website',
+    title: 'Builder',
     icon: <FundProjectionScreenOutlined />,
-    path: 'website',
+    path: 'builder',
     children: [
       {
-        title: 'Website Pages',
-        path: 'pages',
+        title: 'App Builder',
+        path: 'app',
         icon: <AppstoreOutlined />
       },
       {

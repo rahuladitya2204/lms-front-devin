@@ -1,11 +1,19 @@
 import {
   AutoComplete,
+  Avatar,
+  Button,
   Form,
   Input,
   Select,
+  Space,
+  Typography,
 } from 'antd';
 import { Fragment, useEffect } from 'react'
+import { PlusCircleFilled, PlusCircleOutlined, PlusOutlined, UserOutlined } from '@ant-design/icons';
 
+import ActionModal from '@Components/ActionModal';
+import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor';
+import CreateCategory from '@User/Screens/Courses/CourseCategory/CreateCategory';
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
@@ -30,9 +38,9 @@ interface CourseDetailsEditorPropsI {
 
 function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
   const [form] = Form.useForm<Types.Course>();
-  const { listItems: instructors, isLoading: loading } = User.Queries.useGetInstructors()
+  const { data: instructors, isLoading: loading } = User.Queries.useGetInstructors()
   const { listItems: categories } = User.Queries.useGetCourseCategories();
-  // console.log(categories, 'categories');
+
   useEffect(() => {
     form.setFieldsValue(props.formData);
   },[props.formData])
@@ -62,25 +70,52 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
   <Input />
 </Form.Item>
         <Form.Item name="category" required label="Category">
-        <AutoComplete 
-        options={categories}
-        style={{ width: 200 }}
-        // onSelect={console.log}
-        placeholder="Type Category"
-          />
-          </Form.Item>
-
-
-<Form.Item name="instructor" required label="Instructor">
-<Select
-    showSearch
-    placeholder="Select Instructor"
+          <Space>
+          <Select
+    placeholder="Select Category" style={{width:200}}
     optionFilterProp="children"
     filterOption={(input, option) =>
       (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
     }
-    options={instructors}
+    options={categories}
   />
+          <ActionModal
+            cta={<Button style={{ marginLeft:10}} shape='round' icon={<PlusOutlined />}></Button>}
+          >
+            <CreateCategory> </CreateCategory>
+            </ActionModal>
+            </Space>
+
+  </Form.Item>
+
+
+<Form.Item name="instructor" required label="Instructor">
+          <Space>
+          <Select
+            // showSearch
+            // filterOption={(input, option) =>
+            //   (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+            // }
+    placeholder="Select Instructor"
+            optionFilterProp="children"
+            style={{height: 60,width: 300}}
+
+          >
+            {instructors.map(instructor=>{
+              return  <Select.Option value={instructor._id}>
+              <Space>
+                    <Avatar size={30} src={instructor.image} />
+                    <Typography.Text>{ instructor.name}</Typography.Text>
+                  </Space>
+                </Select.Option>
+            })}
+            </Select>
+            <ActionModal
+            cta={<Button style={{ marginLeft:10}} shape='round' icon={<PlusOutlined />}></Button>}
+          >
+            <AddInstructor> </AddInstructor>
+            </ActionModal>
+</Space>
         </Form.Item>
         
         <Form.Item name="language" required label="Language">

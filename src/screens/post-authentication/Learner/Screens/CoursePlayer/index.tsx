@@ -4,6 +4,7 @@ import {
   Col,
   Divider,
   Dropdown,
+  Input,
   Progress,
   Row,
   Space,
@@ -11,16 +12,15 @@ import {
   Typography
 } from 'antd'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import { Fragment, useEffect } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'
-import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
 import OrgLogo from '@Components/OrgLogo'
 import styled from '@emotion/styled'
-import { useEffect } from 'react'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -40,10 +40,13 @@ const CustomCard = styled(Card)`
   }
 `
 const CustomHeader = styled(Header)`
+  .ant-layout-header {
+    padding: 0 !important;
+  }
   /* & {
   } */
 `
-
+const { Search } = Input
 const { Text } = Typography
 function CoursePlayer() {
   const { id: courseId, itemId } = useParams()
@@ -88,57 +91,58 @@ function CoursePlayer() {
     navigate(`section/${prevItem.section}/item/${prevItem._id}`)
   }
   return (
-    <CustomHeader
-      className="page-header"
-      // bgColor="black"
-      title={
-        <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-          <OrgLogo />
-          <Divider type="vertical" />
-          <Text style={{ fontSize: 16 }}>{course.title}</Text>
-        </Space>
-      }
-      subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
-      style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
-      extra={[
-        // <Dropdown.Button
-        //   menu={{
-        //     items: [
-        //       {
-        //         key: '3',
-        //         label: (
-        //           <a
-        //             target="_blank"
-        //             rel="noopener noreferrer"
-        //             href="https://www.luohanacademy.com"
-        //           >
-        //             3rd menu item
-        //           </a>
-        //         )
-        //       }
-        //     ]
-        //   }}
-        //   placement="topRight"
-        //   arrow={{ pointAtCenter: true }}
-        // >
-        //   Share
-        // </Dropdown.Button>,
-        <Text strong style={{ paddingRight: 10 }}>
-          Your Progress<Progress
-            style={{ marginLeft: 10 }}
-            type="circle"
-            percent={progress}
-            width={40}
-          />
-        </Text>
-      ]}
-    >
+    <Fragment>
+      <CustomHeader
+        className="page-header"
+        // bgColor="black"
+        title={
+          <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
+            <OrgLogo />
+            <Divider type="vertical" />
+            <Text style={{ fontSize: 16 }}>{course.title}</Text>
+          </Space>
+        }
+        subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
+        style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
+        extra={[
+          // <Dropdown.Button
+          //   menu={{
+          //     items: [
+          //       {
+          //         key: '3',
+          //         label: (
+          //           <a
+          //             target="_blank"
+          //             rel="noopener noreferrer"
+          //             href="https://www.luohanacademy.com"
+          //           >
+          //             3rd menu item
+          //           </a>
+          //         )
+          //       }
+          //     ]
+          //   }}
+          //   placement="topRight"
+          //   arrow={{ pointAtCenter: true }}
+          // >
+          //   Share
+          // </Dropdown.Button>,
+          <Text strong style={{ paddingRight: 10 }}>
+            Your Progress<Progress
+              style={{ marginLeft: 10 }}
+              type="circle"
+              percent={progress}
+              width={40}
+            />
+          </Text>
+        ]}
+      />{' '}
       <Row
-        style={{ padding: '0 10px' }}
+        style={{ padding: '20px 10px', background: '#f4f4f4' }}
         gutter={[10, 40]}
         justify="space-between"
       >
-        <Col span={17}>
+        <Col span={18}>
           <Row>
             <Col span={24}>
               <CustomCard
@@ -169,7 +173,6 @@ function CoursePlayer() {
                         borderRight: 0
                       }}
                       onClick={next}
-                      // type='primary'
                       icon={<CaretRightOutlined />}
                     />
                   </Tooltip>
@@ -184,14 +187,21 @@ function CoursePlayer() {
             </Col>
           </Row>
         </Col>
-        <Col span={7}>
+        <Col span={6}>
+          <Search
+            placeholder="Search in course.."
+            // onSearch={onSearch}
+            size="large"
+            style={{ marginBottom: 20 }}
+          />
+
           <CoursePlayerCollapsible
             courseId={course._id}
             toggleItemCheck={toggleItemCheck}
           />
         </Col>
       </Row>
-    </CustomHeader>
+    </Fragment>
   )
 }
 

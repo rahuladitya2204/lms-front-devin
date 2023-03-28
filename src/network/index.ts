@@ -11,7 +11,7 @@ Network.Axios.defaults.transformRequest = [
     if (token) {
       headers.set('x-auth', token)
     }
-    console.log('learner hai', token)
+
     return JSON.stringify(data)
   }
 ]

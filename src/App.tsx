@@ -1,12 +1,13 @@
 import './App.less'
 
+import { ConfigProvider, theme } from 'antd'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { Fragment } from 'react'
 
 import AppRouter from './screens/AppRouter'
-import { ConfigProvider } from 'antd'
 import { Global } from '@emotion/react'
-import { THEME } from 'theme/theme'
+
+const { defaultAlgorithm, darkAlgorithm } = theme
 
 const queryClient = new QueryClient()
 
@@ -22,7 +23,15 @@ function App () {
             }
           }}
         />
-        <ConfigProvider theme={THEME} csp={{ nonce: 'YourNonceCode' }}>
+        <ConfigProvider
+          theme={{
+            // algorithm: darkAlgorithm,
+            token: {
+              // colorPrimary: '#00b96b'
+            }
+          }}
+          csp={{ nonce: 'YourNonceCode' }}
+        >
           <AppRouter />
         </ConfigProvider>
       </QueryClientProvider>

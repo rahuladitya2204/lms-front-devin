@@ -15,11 +15,17 @@ import { User } from '@adewaskar/lms-common'
 function CourseEditor() {
   const { id: courseId } = useParams()
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
-  const { mutate: updateCourse, isLoading: loading } = User.Queries.useUpdateCourse()
+  const {
+    mutate: updateCourse,
+    isLoading: loading
+  } = User.Queries.useUpdateCourse()
 
-  const { data: courseDetails } = User.Queries.useGetCourseDetails(courseId + '', {
-    enabled: !!courseId
-  })
+  const { data: courseDetails } = User.Queries.useGetCourseDetails(
+    courseId + '',
+    {
+      enabled: !!courseId
+    }
+  )
 
   useEffect(
     () => {
@@ -36,11 +42,11 @@ function CourseEditor() {
   }
 
   const onCourseUpdate = (data: Partial<Types.Course>) => {
-    console.log(data,'da')
+    console.log(data, 'da')
     setCourse({
       ...course,
       ...data
-    });
+    })
   }
 
   return (

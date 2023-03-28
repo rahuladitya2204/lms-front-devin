@@ -1,9 +1,9 @@
-import MediaPlayer from '@Components/MediaPlayer'
-import { Fragment } from 'react'
-import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
+import { Fragment } from 'react'
+import MediaPlayer from '@Components/MediaPlayer'
+import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 
-function CoursePlayerItem () {
+function CoursePlayerItem() {
   let Component
   const item = useGetNodeFromRouterOutlet()
   if (item.type === 'text') {
@@ -11,7 +11,7 @@ function CoursePlayerItem () {
   }
 
   if (item.type === 'video') {
-    Component = <MediaPlayer height={500} url={item?.metadata?.url + ''} />
+    Component = <MediaPlayer height={600} url={item?.metadata?.url + ''} />
   }
   return <Fragment>{Component}</Fragment>
   // return null;

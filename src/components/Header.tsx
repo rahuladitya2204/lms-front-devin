@@ -24,7 +24,6 @@ const CustomHeader = styled(PageHeader)(
     props.theme === 'dark'
       ? `
 .custom-header{
-  background: #212041;
   .ant-space-horizontal {
     background: #212041;
   }
@@ -50,7 +49,8 @@ function Header(props: HeaderPropsI) {
           theme={props.theme}
           style={{
             background: props.bgColor ? props.bgColor : '#fff',
-            border: `1px solid #ececec`
+            border: `1px solid #ececec`,
+            padding: '0 20px'
           }}
           // {...props}
           // backIcon={!props.hideBack}

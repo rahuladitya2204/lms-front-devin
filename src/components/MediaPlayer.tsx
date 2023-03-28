@@ -1,7 +1,6 @@
 import 'react-quill/dist/quill.snow.css'
 
 import ReactPlayer from 'react-player'
-import { HTMLAttributes } from 'react'
 
 interface MediaPlayerPropsI {
   url: string;

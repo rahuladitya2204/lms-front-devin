@@ -1,21 +1,17 @@
-// @ts-nocheck
 import {
   AutoComplete,
   Avatar,
-  Badge,
   Button,
   Col,
   Dropdown,
-  Input,
   Layout,
   Menu,
   Row,
   Space,
   Typography
 } from 'antd'
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Learner, Store, Types } from '@adewaskar/lms-common'
 import { Outlet, useNavigate } from 'react-router'
-import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
@@ -24,6 +20,7 @@ import { Link } from 'react-router-dom'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import Search from 'antd/es/input/Search'
+import { UserOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 
 const { Content } = Layout
@@ -32,7 +29,7 @@ const { Text, Title } = Typography
 const DashboardHeader: React.FC = () => {
   // const { data: cartItems } = Learner.Queries.useGetCartItems()
   const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
-  const [text, setText] = useState(null)
+  const [text, setText] = useState('')
   const {
     data: searchedCourses,
     isLoading: loading
@@ -41,30 +38,33 @@ const DashboardHeader: React.FC = () => {
   })
   const { isSignedIn } = Store.useAuthentication(state => state)
 
-  const listItems = searchedCourses.map(c => ({
-    label: (
-      <Space
-        align="center"
-        style={{ justifyContent: 'center', alignItems: 'center' }}
-      >
-        <Avatar
-          shape="square"
-          style={{ background: 'transparent' }}
-          size={45}
-          icon={<Image src={c.thumbnailImage} />}
-        />{' '}
-        <Space direction="vertical" align="baseline">
-          <Title style={{ margin: 0 }} level={5}>
-            {c.title}
-          </Title>
-          <Text style={{ margin: 0 }} level={5}>
-            Taught By: {c.instructor.name}
-          </Text>
+  const listItems = searchedCourses.map(c => {
+    const instructor = c.instructor as  unknown as Types.Instructor;
+    return {
+      label: (
+        <Space
+          align="center"
+          style={{ justifyContent: 'center', alignItems: 'center' }}
+        >
+          <Avatar
+            shape="square"
+            style={{ background: 'transparent' }}
+            size={45}
+            icon={<Image src={c.thumbnailImage} />}
+          />{' '}
+          <Space direction="vertical" align="baseline">
+            <Title style={{ margin: 0 }} level={5}>
+              {c.title}
+            </Title>
+            <Text style={{ margin: 0 }}>
+              Taught By: {instructor.name}
+            </Text>
+          </Space>
         </Space>
-      </Space>
-    ),
-    value: c.title
-  }))
+      ),
+      value: c.title
+    }
+  })
   console.log(searchedCourses, 'searchedCoursessearchedCourses')
   const navigate = useNavigate()
   const logout = () => {
@@ -89,7 +89,7 @@ const DashboardHeader: React.FC = () => {
                 allowClear
                 value={text}
                 loading={loading}
-                onChange={e => setText(e.target.value)}
+                onChange={(e: any) => setText(e.target.value)}
                 onSearch={e => console.log(e, 'eee')}
                 style={{ width: 500 }}
               />
