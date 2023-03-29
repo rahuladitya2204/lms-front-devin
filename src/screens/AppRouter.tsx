@@ -7,7 +7,6 @@ import {
 
 import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
-import { ConfigProvider } from 'antd'
 import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
@@ -24,13 +23,12 @@ import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
 import LearnerCourses from './post-authentication/Learner/Screens/Courses'
 import LearnerDashboard from './post-authentication/Learner/Screens/Dashboard/DashboardScreen'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
-import LearnerLogin from './post-authentication/Learner/Screens/Login'
-import LearnerRegister from './post-authentication/Learner/Screens/Register'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
+import ThemeProvider from './ThemeProvider'
 import UploadFileForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadFile/UploadFileForm'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
@@ -117,17 +115,9 @@ const router = createBrowserRouter(
 function AppRouter () {
   const { data: appDetails } = Learner.Queries.useGetAppDetails()
   return (
-    <ConfigProvider
-      theme={{
-        // algorithm: darkAlgorithm,
-        token: {
-          colorPrimary: appDetails.branding.primaryColor
-        }
-      }}
-      csp={{ nonce: 'YourNonceCode' }}
-    >
+    <ThemeProvider>
       <RouterProvider router={router} />
-    </ConfigProvider>
+    </ThemeProvider>
   )
 }
 
