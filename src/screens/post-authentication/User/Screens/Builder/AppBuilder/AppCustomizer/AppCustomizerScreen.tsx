@@ -8,8 +8,6 @@ import useGetPalette from '@Hooks/useGetPalette'
 
 interface AppCustomizerScreenPropsI {}
 
-const { Title } = Typography
-
 const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
   const { organisation } = Store.useGlobal(s => s)
   const { color } = useGetPalette()
@@ -32,7 +30,7 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
       <Col span={24}>
         <Row>
           <Col span={24}>
-            <Form>
+            <Form layout="vertical">
               <Form.Item name="logo" required label="App Logo">
                 <MediaUpload
                   url={'image'}

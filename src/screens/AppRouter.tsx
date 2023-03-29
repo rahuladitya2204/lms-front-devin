@@ -7,6 +7,7 @@ import {
 
 import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
+import { ConfigProvider } from 'antd'
 import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
@@ -17,6 +18,7 @@ import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScr
 import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
+import { Learner } from '@adewaskar/lms-common'
 import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
 import LearnerCourses from './post-authentication/Learner/Screens/Courses'
@@ -113,8 +115,20 @@ const router = createBrowserRouter(
 )
 
 function AppRouter () {
-  // const { isSignedIn } = useAuthentication(state => state)
-  return <RouterProvider router={router} />
+  const { data: appDetails } = Learner.Queries.useGetAppDetails()
+  return (
+    <ConfigProvider
+      theme={{
+        // algorithm: darkAlgorithm,
+        token: {
+          colorPrimary: appDetails.branding.primaryColor
+        }
+      }}
+      csp={{ nonce: 'YourNonceCode' }}
+    >
+      <RouterProvider router={router} />
+    </ConfigProvider>
+  )
 }
 
 export default AppRouter

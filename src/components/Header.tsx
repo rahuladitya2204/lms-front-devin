@@ -15,48 +15,17 @@ interface HeaderPropsI extends PageHeaderProps {
   bgColor?: string;
 }
 const { Title } = Typography
-const { Header: PageHeader } = Layout
-const { Search } = Input
-
-const CustomHeader = styled(PageHeader)(
-  props => `
-  ${
-    props.theme === 'dark'
-      ? `
-.custom-header{
-  .ant-space-horizontal {
-    background: #212041;
-  }
-  .ant-divider {
-    background: #fff;
-  }
-  .ant-typography {
-    color: white;
-  }
-}`
-      : ``
-  }
- 
-`
-)
 
 function Header(props: HeaderPropsI) {
-  const navigate = useNavigate()
   return (
     <Row gutter={[20, 20]}>
       <Col span={24}>
-        <CustomHeader
-          theme={props.theme}
+        <Layout.Header
           style={{
             background: props.bgColor ? props.bgColor : '#fff',
             border: `1px solid #ececec`,
             padding: '0 20px'
           }}
-          // {...props}
-          // backIcon={!props.hideBack}
-          // onBack={() => navigate(-1)}
-          // extra={props.extra}
-          // title={props.title}
         >
           <Space
             className="custom-header"
@@ -72,7 +41,7 @@ function Header(props: HeaderPropsI) {
           <Row gutter={[40, 40]} style={{ marginTop: '20px' }}>
             <Col span={24}>{props.children}</Col>
           </Row>
-        </CustomHeader>
+        </Layout.Header>
       </Col>
     </Row>
   )

@@ -1,11 +1,5 @@
-import { Carousel, Col, Row } from 'antd'
-
-import CourseCard from './CourseCard'
-import { Learner } from '@adewaskar/lms-common'
-import Section from '@Components/Section'
-import { Utils } from '@adewaskar/lms-common'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { Carousel } from 'antd'
+import Image from '@Components/Image'
 
 const contentStyle: React.CSSProperties = {
   margin: 0,
@@ -18,19 +12,20 @@ const contentStyle: React.CSSProperties = {
 
 function HomeCarousel() {
   return (
-    <Carousel>
+    <Carousel autoplay>
       <div>
-        <h3 style={contentStyle}>1</h3>
+        <Image src="https://i.imgur.com/oi5kvIS.png" />
+        {/* </h3> */}
       </div>
       <div>
-        <h3 style={contentStyle}>2</h3>
+        <Image src="https://i.imgur.com/nPCIEnE.jpg" />
       </div>
       <div>
-        <h3 style={contentStyle}>3</h3>
+        <Image src="https://i.imgur.com/dlcgOtk.png" />
       </div>
-      <div>
+      {/* <div>
         <h3 style={contentStyle}>4</h3>
-      </div>
+      </div> */}
     </Carousel>
   )
 }

@@ -1,4 +1,4 @@
-import { Col, Row, Tabs, Typography } from 'antd'
+import { Button, Col, Row, Tabs, Typography } from 'antd'
 
 import AppCustomizerScreen from './AppCustomizer/AppCustomizerScreen'
 import Header from '@Components/Header'
@@ -9,7 +9,7 @@ const { Title } = Typography
 
 const AppBuilderScreen = (props: AppBuilderScreenPropsI) => {
   return (
-    <Header title="App Builder" extra={[]}>
+    <Header title="App Builder" extra={[<Button type="primary">Save</Button>]}>
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Tabs

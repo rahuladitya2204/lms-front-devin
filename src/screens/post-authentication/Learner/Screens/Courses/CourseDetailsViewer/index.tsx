@@ -42,15 +42,14 @@ const CustomRate = styled(Rate)`
 `
 
 const MetaText = styled(Text)`
-  /* color: #fff !important; */
 `
 
 const CourseTitle = styled(Title)`
-  /* color: #fff !important; */
+
 `
 
 const CourseSubTitle = styled(Paragraph)`
-  /* color: #fff !important; */
+
   font-size: 20px;
 `
 

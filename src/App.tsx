@@ -6,6 +6,7 @@ import React, { Fragment } from 'react'
 
 import AppRouter from './screens/AppRouter'
 import { Global } from '@emotion/react'
+import { Learner } from '@adewaskar/lms-common'
 
 const { defaultAlgorithm, darkAlgorithm } = theme
 
@@ -23,17 +24,8 @@ function App () {
             }
           }}
         />
-        <ConfigProvider
-          theme={{
-            // algorithm: darkAlgorithm,
-            token: {
-              // colorPrimary: '#00b96b'
-            }
-          }}
-          csp={{ nonce: 'YourNonceCode' }}
-        >
+      
           <AppRouter />
-        </ConfigProvider>
       </QueryClientProvider>
     </Fragment>
   )
