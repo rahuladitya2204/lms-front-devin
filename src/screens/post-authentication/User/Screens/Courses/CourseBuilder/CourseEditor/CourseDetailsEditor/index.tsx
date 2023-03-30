@@ -2,8 +2,10 @@ import {
   AutoComplete,
   Avatar,
   Button,
+  Col,
   Form,
   Input,
+  Row,
   Select,
   Space,
   Typography,
@@ -68,10 +70,12 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
         </Form.Item>
         <Form.Item name="subtitle" required label="Subtitle">
   <Input />
-</Form.Item>
-        <Form.Item name="category" required label="Category">
+        </Form.Item>
+        <Row>
+          <Col span={8}>
+          <Form.Item name="category" required label="Category">
           <Space>
-          <Select
+          <Select defaultValue={props.formData.category}
     placeholder="Select Category" style={{width:200}}
     optionFilterProp="children"
     filterOption={(input, option) =>
@@ -88,36 +92,36 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
 
   </Form.Item>
 
-
-<Form.Item name="instructor" required label="Instructor">
+          </Col>
+          <Col span={8}>
+          <Form.Item name="instructor" required label="Instructor">
           <Space>
-          <Select
-            // showSearch
-            // filterOption={(input, option) =>
-            //   (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-            // }
-    placeholder="Select Instructor"
-            optionFilterProp="children"
-            style={{height: 60,width: 300}}
-
-          >
-            {instructors.map(instructor=>{
-              return  <Select.Option value={instructor._id}>
+          <Select value={props.formData.instructor}
+    placeholder="Select Instructor" style={{width:200}}
+    // optionFilterProp="children"
+    // filterOption={(input, option) =>console.log(option,'oppo')}
+    // options={instructors}
+                >
+                  {instructors.map(instructor=>{
+              return  <Select.Option key={instructor._id} value={instructor._id}>
               <Space>
                     <Avatar size={30} src={instructor.image} />
-                    <Typography.Text>{ instructor.name}</Typography.Text>
+                    <Typography.Text>{instructor.name}</Typography.Text>
                   </Space>
                 </Select.Option>
             })}
-            </Select>
-            <ActionModal
+  </Select>
+          <ActionModal
             cta={<Button style={{ marginLeft:10}} shape='round' icon={<PlusOutlined />}></Button>}
           >
             <AddInstructor> </AddInstructor>
             </ActionModal>
-</Space>
-        </Form.Item>
-        
+            </Space>
+
+  </Form.Item>
+          </Col>
+          <Col span={8}>
+                    
         <Form.Item name="language" required label="Language">
 <Select
     showSearch
@@ -126,6 +130,11 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
     options={LANGUAGES}
   />
 </Form.Item>
+          </Col>
+        </Row>
+     
+
+
 
 {/* <Form.Item required label="Requirements" name='requirements'>
           <QuillEditor onChange={e => {

@@ -57,7 +57,7 @@ function CourseEditor() {
         <Fragment>
           <Button
             onClick={() => {
-              const dataStr = STRINGIFY(JSON.stringify(course))
+              // const dataStr = STRINGIFY(JSON.stringify(course))
               window.open(`${course._id}/preview`, '_blank')
             }}
             style={{ marginRight: 15 }}

@@ -1,7 +1,7 @@
-import { useState } from 'react'
-import { getMetadata } from 'video-metadata-thumbnails'
 import MediaPlayer from './MediaPlayer'
 import MediaUpload from './MediaUpload'
+import { getMetadata } from 'video-metadata-thumbnails'
+import { useState } from 'react'
 
 export default function UploadVideo(props: { url: string }) {
   const [url, setUrl] = useState(props.url)

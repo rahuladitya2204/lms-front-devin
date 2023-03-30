@@ -52,6 +52,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   UPLOAD.customRequest = ({ onError, onSuccess, onProgress, data }) => {
     if (!file) return
     setLoading(true)
+    console.log(file, 'tkukur')
     return uploadFiles({
       files: [file],
       onUploadProgress: e => {
@@ -59,6 +60,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       },
       onSuccess: ([uploadFile]) => {
         uploadFile.file = file
+        console.log(file, 'file123123')
         setLoading(false)
         props.onUpload(uploadFile)
         onSuccess && onSuccess(file)

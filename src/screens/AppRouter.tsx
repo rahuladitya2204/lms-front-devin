@@ -113,7 +113,6 @@ const router = createBrowserRouter(
 )
 
 function AppRouter () {
-  const { data: appDetails } = Learner.Queries.useGetAppDetails()
   return (
     <ThemeProvider>
       <RouterProvider router={router} />
