@@ -1,8 +1,11 @@
 import { Network } from '@adewaskar/lms-common'
 import { Utils } from '@adewaskar/lms-common'
 
+Network.Axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
+
 Network.Axios.defaults.transformRequest = [
   (data, headers) => {
+    console.log(data, 'before sending')
     const token = getToken()
     if (window.location.pathname.includes('/learner/')) {
       const orgId = Utils.Storage.GetItem('orgId')
@@ -11,8 +14,8 @@ Network.Axios.defaults.transformRequest = [
     if (token) {
       headers.set('x-auth', token)
     }
-
-    return JSON.stringify(data)
+    console.log(data, 'das')
+    return data
   }
 ]
 

@@ -105,28 +105,6 @@ function CoursePlayer() {
         subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
         style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
         extra={[
-          // <Dropdown.Button
-          //   menu={{
-          //     items: [
-          //       {
-          //         key: '3',
-          //         label: (
-          //           <a
-          //             target="_blank"
-          //             rel="noopener noreferrer"
-          //             href="https://www.luohanacademy.com"
-          //           >
-          //             3rd menu item
-          //           </a>
-          //         )
-          //       }
-          //     ]
-          //   }}
-          //   placement="topRight"
-          //   arrow={{ pointAtCenter: true }}
-          // >
-          //   Share
-          // </Dropdown.Button>,
           <Text strong style={{ paddingRight: 10 }}>
             Your Progress<Progress
               style={{ marginLeft: 10 }}

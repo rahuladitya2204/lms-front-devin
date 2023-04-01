@@ -14,6 +14,10 @@ interface CourseCardPropsI {
 
 const CardHolder = styled(Card)`
   cursor: pointer;
+
+  .ant-card-cover {
+    height: 200px !important;
+  }
 `
 
 const CourseCard: React.FC<CourseCardPropsI> = props => {
@@ -22,7 +26,9 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
       hoverable
       onClick={props.onClick}
       bodyStyle={{ padding: 10 }}
-      cover={<Image alt="example" src={props.course.thumbnailImage} />}
+      cover={
+        <Image height={180} alt="example" src={props.course.thumbnailImage} />
+      }
     >
       <Card.Meta
         // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}

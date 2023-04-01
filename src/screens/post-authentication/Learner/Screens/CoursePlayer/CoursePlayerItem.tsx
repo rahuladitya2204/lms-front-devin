@@ -11,7 +11,7 @@ function CoursePlayerItem() {
   }
 
   if (item.type === 'video') {
-    Component = <MediaPlayer height={600} url={item?.metadata?.url + ''} />
+    Component = <MediaPlayer url={item?.metadata?.url + ''} />
   }
   return <Fragment>{Component}</Fragment>
   // return null;

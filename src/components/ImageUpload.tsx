@@ -5,10 +5,10 @@ import {
   PlusOutlined
 } from '@ant-design/icons'
 import { Common, Types } from '@adewaskar/lms-common'
-// @ts-nocheck
 import React, { ReactNode, useState } from 'react'
 import { Spin, Upload, UploadProps } from 'antd'
 
+import ImgCrop from 'antd-img-crop'
 import styled from '@emotion/styled'
 
 const UPLOAD: UploadProps = {
@@ -17,12 +17,13 @@ const UPLOAD: UploadProps = {
   }
 }
 
-interface MediaUploadPropsI {
+interface ImageUploadPropsI {
   onUpload: (file: Types.UploadFileType) => void;
   children?: ReactNode;
   listType?: string;
   url?: string;
   rounded?: boolean;
+  cropper?: boolean;
   height?: string;
   width?: string;
   extra?: UploadProps;
@@ -45,36 +46,32 @@ const CustomUpload = styled(Upload)(
   overflow: hidden;
   min-height: 150px !important;
 }
+
 `
 )
 
-const MediaUpload: React.FC<MediaUploadPropsI> = props => {
+const ImageUpload: React.FC<ImageUploadPropsI> = props => {
   const {
     mutate: uploadFiles,
     isLoading: loading
   } = Common.Queries.useUploadFiles()
-  const [file, setFile] = useState(null)
+  const [fileList, setFileList] = useState(null)
 
-  UPLOAD.customRequest = ({ onError, onSuccess, onProgress, data }) => {
+  const UploadFile = (file) => {
     if (!file) return
-    console.log(file, 'tkukur')
+    // console.log(file, 'tkukur')
     return uploadFiles({
       files: [file],
       onUploadProgress: e => {
-        console.log(e, 'e')
+        // console.log(e, 'e')
       },
       onSuccess: ([uploadFile]) => {
         uploadFile.file = file
-        console.log(file, 'file123123')
+        // console.log(file, 'file123123')
         props.onUpload(uploadFile)
-        onSuccess && onSuccess(file)
+        // onSuccess && onSuccess(file)
       }
     })
-  }
-
-  UPLOAD.beforeUpload = info => {
-    // @ts-ignore
-    setFile(info)
   }
 
   const uploadButton = (
@@ -84,27 +81,36 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     </div>
   )
 
+  const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    setFileList(newFileList);
+  };
+
+  const UploadComponent = <CustomUpload
+    {...UPLOAD}
+
+    fileList={fileList}
+    onChange={onChange}
+    name="avatar"
+    listType="picture-card"
+    className="avatar-uploader"
+    showUploadList={false}
+    iconRender={() => <ClockCircleOutlined />}
+
+    width={props.width || 'auto'}
+  >
+    {props.renderItem ? props.renderItem() : uploadButton}
+  </CustomUpload>;
+
   return (
-    // <ImgCrop onModalOk={e => setFile(e)}>
     <Spin spinning={loading} tip="Uploading..">
-      <CustomUpload
-        {...UPLOAD}
-        // rounded={props.rounded}
-        // height={props.height}
-        // width={props.width}
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        iconRender={() => <ClockCircleOutlined />}
-        // @ts-ignore
-        width={props.width || 'auto'}
-      >
-        {props.renderItem ? props.renderItem() : uploadButton}
-      </CustomUpload>
+      {props.cropper?<ImgCrop rotationSlider onModalOk={(e) => {
+        // console.log(e, 'donene')
+        UploadFile(e);          
+      }}>
+       {UploadComponent}
+      </ImgCrop>:UploadComponent}
     </Spin>
-    // </ImgCrop>
   )
 }
 
-export default MediaUpload
+export default ImageUpload

@@ -2,7 +2,7 @@ import { Form, Input, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
 import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload';
+import ImageUpload from '@Components/ImageUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
 
@@ -16,14 +16,14 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
     form.setFieldsValue(props.formData);
   }, [props.formData]);
   
-  const image = form.getFieldValue('image') || "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png";
+  const image = form.getFieldValue('image');
 
 
   return (
     <Fragment>
       <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
       <Form.Item name="image" required label="Profile Image">
-          <MediaUpload url={image} width='100px'
+          <ImageUpload cropper url={image} width='100px'
             renderItem={() => <Image src={image} />}
             onUpload={e => {
             props.onFormUpdate({

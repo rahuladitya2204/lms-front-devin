@@ -1,15 +1,15 @@
-// @ts-nocheck
 import {
   ClockCircleOutlined,
   LoadingOutlined,
   PlusOutlined
 } from '@ant-design/icons'
 import { Common, Types } from '@adewaskar/lms-common'
-// @ts-nocheck
 import React, { ReactNode, useState } from 'react'
 import { Spin, Upload, UploadProps } from 'antd'
 
 import styled from '@emotion/styled'
+
+// @ts-nocheck
 
 const UPLOAD: UploadProps = {
   onDrop(e) {
@@ -17,7 +17,7 @@ const UPLOAD: UploadProps = {
   }
 }
 
-interface MediaUploadPropsI {
+interface VideoUploadPropsI {
   onUpload: (file: Types.UploadFileType) => void;
   children?: ReactNode;
   listType?: string;
@@ -29,45 +29,44 @@ interface MediaUploadPropsI {
   renderItem: () => ReactNode;
 }
 const CustomUpload = styled(Upload)(
-  props =>
+  (props: { width: number }) =>
     `
-.ant-upload-select {
-  margin: 0;
-  width: ${props.width} !important;
-}
-.ant-upload {
-  min-width: 150px !important;
-  margin: 0;
-  display: block;
-  border-radius: ${(props: { rounded?: boolean }) =>
-    props.rounded ? '50% !important' : ''};
-  object-fit: cover;
-  overflow: hidden;
-  min-height: 150px !important;
-}
-`
+  .ant-upload-select {
+    margin: 0;
+    width: ${props.width} !important;
+  }
+  .ant-upload {
+    min-width: 150px !important;
+    margin: 0;
+    display: block;
+    border-radius: ${(props: { rounded?: boolean }) =>
+      props.rounded ? '50% !important' : ''};
+    object-fit: cover;
+    overflow: hidden;
+    min-height: 150px !important;
+  }
+  `
 )
 
-const MediaUpload: React.FC<MediaUploadPropsI> = props => {
+const VideoUpload: React.FC<VideoUploadPropsI> = props => {
   const {
-    mutate: uploadFiles,
+    mutate: uploadVideo,
     isLoading: loading
-  } = Common.Queries.useUploadFiles()
+  } = Common.Queries.useUploadVideo()
   const [file, setFile] = useState(null)
 
   UPLOAD.customRequest = ({ onError, onSuccess, onProgress, data }) => {
     if (!file) return
-    console.log(file, 'tkukur')
-    return uploadFiles({
-      files: [file],
-      onUploadProgress: e => {
+    return uploadVideo({
+      file: file,
+      onUploadProgress: (e: any) => {
         console.log(e, 'e')
       },
-      onSuccess: ([uploadFile]) => {
-        uploadFile.file = file
-        console.log(file, 'file123123')
-        props.onUpload(uploadFile)
-        onSuccess && onSuccess(file)
+      onSuccess: () => {
+        // uploadFile.file = file
+        // console.log(file, 'file123123')
+        // props.onUpload(uploadFile)
+        // onSuccess && onSuccess(file)
       }
     })
   }
@@ -107,4 +106,4 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   )
 }
 
-export default MediaUpload
+export default VideoUpload

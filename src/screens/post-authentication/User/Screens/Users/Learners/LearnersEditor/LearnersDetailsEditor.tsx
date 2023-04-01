@@ -15,7 +15,7 @@ const LearnerDetailsEditor: React.FC<CreateLearnerComponentPropsI> = (props) => 
     form.setFieldsValue(props.formData);
   }, [props.formData]);
   
-  const image = form.getFieldValue('image') || "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png";
+  const image = form.getFieldValue('image');
 
 
   return (

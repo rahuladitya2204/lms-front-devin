@@ -29,7 +29,7 @@ function CourseCard(props: CourseCardProps) {
 
       cover={
         <Badge.Ribbon color="orange" text="Unpublished">
-          <Image
+          <Image height={200}
             alt="example"
             src={props.course.thumbnailImage}
 

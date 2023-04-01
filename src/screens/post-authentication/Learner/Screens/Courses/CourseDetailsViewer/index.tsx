@@ -77,7 +77,7 @@ function CourseDetailViewer () {
   const instructor = course.instructor as unknown as Types.Instructor;
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const {data: cartItems } = Learner.Queries.useGetCartItems();
-  const isAddedToCart = cartItems?.find(item => item._id == course._id);
+  // const isAddedToCart = cartItems?.find(item => item._id == course._id);
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
@@ -147,7 +147,8 @@ function CourseDetailViewer () {
           >
             {/* <Card bordered={false} bodyStyle={{ padding: 15 }}> */}
                   <Row gutter={[20, 10]}>
-                    <Col span={24}>                    <Image preview={false} src={ course.thumbnailImage} />
+                  <Col span={24}>
+                    <Image  width={'100%'} height={200} preview={false} src={course.thumbnailImage} />
 </Col>
                     <Col span={24}>
                       <Row justify="space-between" align='middle'>
