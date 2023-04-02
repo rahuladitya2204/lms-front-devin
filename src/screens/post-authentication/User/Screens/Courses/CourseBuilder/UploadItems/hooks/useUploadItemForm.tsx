@@ -18,7 +18,8 @@ function useUploadItemForm() {
     form.setFieldsValue(item)
   }, [item]);
 
-  const onFormChange = (data:Partial<Types.CourseSectionItem>) => {
+  const onFormChange = (data: Partial<Types.CourseSectionItem>) => {
+    console.log(data, 'daskutututu');
       const newItem = {
         ...item,
         ...data

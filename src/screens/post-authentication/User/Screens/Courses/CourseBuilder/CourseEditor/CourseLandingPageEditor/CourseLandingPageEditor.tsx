@@ -17,7 +17,6 @@ interface CourseLandingPageEditorPropsI {
     
     function CourseLandingPageEditor(props:CourseLandingPageEditorPropsI) {
       const [form] = Form.useForm<Types.CourseLandingPage>();    
-      console.log(props.formData,'props.formData')
       const PromoVideoUrl = props?.formData?.promoVideo;
       
       useEffect(() => {

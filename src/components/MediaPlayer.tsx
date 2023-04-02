@@ -5,13 +5,13 @@ import React from 'react'
 import videojs from 'video.js'
 
 interface MediaPlayerPropsI {
-  url: string;
+  url?: string;
   width?: number;
   height?: number;
   onEnded?: () => void;
 }
 
-export const VideoJS = (props: MediaPlayerPropsI) => {
+export const MediaPlayer = (props: MediaPlayerPropsI) => {
   const videoRef = React.useRef(null)
   const playerRef = React.useRef(null)
   const options = {
@@ -23,8 +23,7 @@ export const VideoJS = (props: MediaPlayerPropsI) => {
     sources: [
       {
         // props.url
-        hlsUrl:
-          'https://api.dyntube.com/v1/apps/hls/Bqn39ZflWUihixbxpc3fDA.m3u8',
+        src: props.url,
         type: 'video/mp4'
       }
     ]
@@ -90,4 +89,4 @@ export const VideoJS = (props: MediaPlayerPropsI) => {
   )
 }
 
-export default VideoJS
+export default MediaPlayer

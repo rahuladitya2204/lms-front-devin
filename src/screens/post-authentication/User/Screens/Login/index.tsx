@@ -13,7 +13,6 @@ function UserLoginScreen () {
   const navigate = useNavigate()
   const { organisation, fetchOrganisation } = Store.useGlobal(state => state)
   const { orgId } = useParams()
-  console.log(orgId, 'iod')
   useEffect(
     () => {
       fetchOrganisation(orgId + '')

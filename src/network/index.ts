@@ -1,8 +1,6 @@
 import { Network } from '@adewaskar/lms-common'
 import { Utils } from '@adewaskar/lms-common'
 
-Network.Axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
-
 Network.Axios.defaults.transformRequest = [
   (data, headers) => {
     console.log(data, 'before sending')
@@ -14,8 +12,11 @@ Network.Axios.defaults.transformRequest = [
     if (token) {
       headers.set('x-auth', token)
     }
-    console.log(data, 'das')
-    return data
+    if (headers.get('x-req-type')) {
+      return data
+    } else {
+      return JSON.stringify(data)
+    }
   }
 ]
 

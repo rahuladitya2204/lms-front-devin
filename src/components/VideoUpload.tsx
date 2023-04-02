@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   ClockCircleOutlined,
   LoadingOutlined,
@@ -18,7 +19,7 @@ const UPLOAD: UploadProps = {
 }
 
 interface VideoUploadPropsI {
-  onUpload: (file: Types.UploadFileType) => void;
+  onUpload: (d: { key: string, url: string }) => void;
   children?: ReactNode;
   listType?: string;
   url?: string;
@@ -62,11 +63,17 @@ const VideoUpload: React.FC<VideoUploadPropsI> = props => {
       onUploadProgress: (e: any) => {
         console.log(e, 'e')
       },
-      onSuccess: () => {
+      onSuccess: (d: { channelKey: string }) => {
+        console.log(d, 'ddd')
         // uploadFile.file = file
         // console.log(file, 'file123123')
-        // props.onUpload(uploadFile)
-        // onSuccess && onSuccess(file)
+        props.onUpload({
+          key: d.channelKey
+        })
+        // onSuccess &&
+        //   onSuccess({
+        //     key: d.channelKey
+        //   })
       }
     })
   }

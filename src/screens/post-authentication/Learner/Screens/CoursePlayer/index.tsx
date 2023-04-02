@@ -124,7 +124,7 @@ function CoursePlayer() {
           <Row>
             <Col span={24}>
               <CustomCard
-                style={{ height: 500, overflow: 'hidden' }}
+                style={{ height: 600 }}
                 bodyStyle={{ padding: 0, position: 'relative' }}
               >
                 {currentItemIndex > 0 ? (

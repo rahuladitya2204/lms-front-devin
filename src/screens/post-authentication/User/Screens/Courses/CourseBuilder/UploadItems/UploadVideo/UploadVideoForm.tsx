@@ -2,13 +2,13 @@ import { Button, Checkbox, Form, Input } from 'antd'
 
 import { Fragment } from 'react'
 import MediaPlayer from '@Components/MediaPlayer'
+import MediaUpload from '@Components/MediaUpload'
 import QuillEditor from '@Components/QuillEditor'
-import VideoUpload from '@Components/VideoUpload'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadVideoForm: React.FC = () => {
   const { onFormChange, form, item } = useUploadItemForm()
-  const VideoUrl = item?.metadata?.url
+  const VideoUrl = item?.metadata?.url || item?.metadata?.key
   return (
     <Fragment>
       <Form
@@ -43,12 +43,13 @@ const UploadVideoForm: React.FC = () => {
           </Checkbox>
         </Form.Item>
         <Form.Item name="context" label="Preview" required>
-          <VideoUpload
+          <MediaUpload
             width="300px"
             onUpload={({ url }) => {
               onFormChange({
                 metadata: {
                   url: url
+                  // key: key
                 }
               })
               // setUrl(url)
@@ -59,7 +60,7 @@ const UploadVideoForm: React.FC = () => {
             )}
             url={VideoUrl}
           />
-          {VideoUrl ? <MediaPlayer url={VideoUrl} /> : null}
+          {VideoUrl ? <MediaPlayer url={item.metadata?.url} /> : null}
         </Form.Item>
       </Form>
     </Fragment>

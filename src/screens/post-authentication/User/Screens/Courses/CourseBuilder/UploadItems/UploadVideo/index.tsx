@@ -71,7 +71,7 @@ const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
                     })
                   })
               }}>
-                  <MediaPlayer url={url } />
+                  <MediaPlayer url={url} />
           </MediaUpload>
               </Col>
            </Row>
