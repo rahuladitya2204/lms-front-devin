@@ -65,7 +65,6 @@ const DashboardHeader: React.FC = () => {
       value: c.title
     }
   })
-  console.log(searchedCourses, 'searchedCoursessearchedCourses')
   const navigate = useNavigate()
   const logout = () => {
     logoutLearner()

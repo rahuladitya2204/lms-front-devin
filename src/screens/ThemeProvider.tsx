@@ -1,13 +1,17 @@
+import { Learner, User } from '@adewaskar/lms-common'
+
 import { ConfigProvider } from 'antd'
-import { Learner } from '@adewaskar/lms-common'
 
 function ThemeProvider(props: any) {
-  // const { data: appDetails } = Learner.Queries.useGetAppDetails()
+  const { data: appDetails } =
+    props.type === 'learner'
+      ? Learner.Queries.useGetAppDetails()
+      : User.Queries.useGetAppDetails()
   return (
     <ConfigProvider
       theme={{
         token: {
-          // colorPrimary: appDetails.branding.primaryColor
+          colorPrimary: appDetails.branding.primaryColor
         }
       }}
       csp={{ nonce: 'YourNonceCode' }}

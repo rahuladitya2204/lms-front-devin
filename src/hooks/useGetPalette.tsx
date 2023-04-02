@@ -8,7 +8,6 @@ const useGetPalette = (image?: string) => {
   const [color, setColor] = useState([])
   useEffect(() => {
     prominent(organisation.logo, { format: 'hex' }).then((c: any) => {
-      console.log(c, 'ccc')
       setColor(c)
     })
   }, [])

@@ -89,7 +89,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
             <Collapse.Panel
               key={secIndex}
               header={
-                <span onClick={e => console.log(e, 'eee')}>{`${
+                <span>{`${
                   section.title
                 }`}</span>
               }

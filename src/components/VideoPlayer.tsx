@@ -15,7 +15,6 @@ function VideoPlayer(props: VideoPlayerProps) {
       function handlePlayerReady(event) {
         const video = event.video
         const player = event.player
-        console.log(player, 'player')
 
         // Below are some common methods that you can use
 
@@ -59,7 +58,6 @@ function VideoPlayer(props: VideoPlayerProps) {
     },
     [props.item]
   )
-  console.log(props.item.metadata?.key, '1231231312')
   return <div data-dyntube-key={props.item.metadata?.key} />
 }
 

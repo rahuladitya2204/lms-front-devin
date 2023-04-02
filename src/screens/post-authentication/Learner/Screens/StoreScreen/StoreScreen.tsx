@@ -21,7 +21,6 @@ function StoreScreen() {
   const { data: courses } = Learner.Queries.useGetCoursesOfOrganisation()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
 
-  console.log(categories, 'categories')
   const params = useParams()
   useEffect(
     () => {

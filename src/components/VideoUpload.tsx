@@ -61,10 +61,9 @@ const VideoUpload: React.FC<VideoUploadPropsI> = props => {
     return uploadVideo({
       file: file,
       onUploadProgress: (e: any) => {
-        console.log(e, 'e')
+        // console.log(e, 'e')
       },
       onSuccess: (d: { channelKey: string }) => {
-        console.log(d, 'ddd')
         // uploadFile.file = file
         // console.log(file, 'file123123')
         props.onUpload({

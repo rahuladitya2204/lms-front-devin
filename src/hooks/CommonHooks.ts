@@ -52,7 +52,6 @@ export const useAppInit = (type: string) => {
       }
     }
     catch (er) {
-      console.log(er,'err')
       setLoading(false)
     }
   }

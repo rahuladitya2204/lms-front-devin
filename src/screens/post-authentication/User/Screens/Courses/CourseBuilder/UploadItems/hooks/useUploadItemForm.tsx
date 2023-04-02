@@ -19,7 +19,6 @@ function useUploadItemForm() {
   }, [item]);
 
   const onFormChange = (data: Partial<Types.CourseSectionItem>) => {
-    console.log(data, 'daskutututu');
       const newItem = {
         ...item,
         ...data

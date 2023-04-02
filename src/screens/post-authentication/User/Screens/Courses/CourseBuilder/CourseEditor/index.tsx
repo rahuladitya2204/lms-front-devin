@@ -42,7 +42,6 @@ function CourseEditor() {
   }
 
   const onCourseUpdate = (data: Partial<Types.Course>) => {
-    console.log(data, 'da')
     setCourse({
       ...course,
       ...data
@@ -125,7 +124,6 @@ function CourseEditor() {
                   courseId={course._id}
                   formData={course.advanced}
                   onFormUpdate={e => {
-                    console.log(e, 'eee')
                     onCourseUpdate({
                       // ...course,
                       advanced: e

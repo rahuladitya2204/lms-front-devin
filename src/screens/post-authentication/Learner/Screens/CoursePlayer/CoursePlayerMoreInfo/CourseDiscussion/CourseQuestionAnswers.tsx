@@ -17,7 +17,7 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
     props.courseId,
     props.questionId
   )
-  console.log(question, '11')
+
   const answers = question.answers
   return (
     <Fragment>

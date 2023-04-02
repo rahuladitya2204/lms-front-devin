@@ -11,7 +11,6 @@ interface AppCustomizerScreenPropsI {}
 const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
   const { organisation } = Store.useGlobal(s => s)
   const { color } = useGetPalette()
-  console.log(color, 'color')
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -23,7 +22,6 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
     theme: 'dark',
     backgroundColor: '#141414'
   })
-  console.log(colors, 'colors')
   // useEff
   return (
     <Row>

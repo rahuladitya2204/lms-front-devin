@@ -31,7 +31,6 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   if (!duration) {
     duration = { value: 0, unit: 'second' }
   }
-  // console.log(props.courseId, 'courseId')
   let durationInMin: Unit
   if (duration?.value && duration?.unit) {
     durationInMin = unit(duration?.value, duration?.unit).to('minute')

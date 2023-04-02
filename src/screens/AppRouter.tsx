@@ -113,11 +113,7 @@ const router = createBrowserRouter(
 )
 
 function AppRouter () {
-  return (
-    <ThemeProvider>
-      <RouterProvider router={router} />
-    </ThemeProvider>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default AppRouter

@@ -10,7 +10,7 @@ import CourseSectionsNavigator from './CourseSectionsNavigator'
 import CreateHeading from './CreateNewItem/CreateHeading'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload'
+import ImageUpload from '@Components/ImageUpload'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import { updateCourseSectionItem } from './utils'
@@ -122,7 +122,7 @@ function CourseBuilderScreen() {
     const COURSE = cloneDeep(course)
     COURSE.sections.splice(index, 1)
     updateCourse({
-      id: courseId +'',
+      id: courseId + '',
       data: {
         sections: COURSE.sections
       },
@@ -179,7 +179,8 @@ function CourseBuilderScreen() {
           <Card style={{ marginBottom: 30 }}>
             <Row>
               <Col span={24}>
-                <MediaUpload
+                <ImageUpload
+                  cropper
                   width="100%"
                   height="200px"
                   renderItem={() => (

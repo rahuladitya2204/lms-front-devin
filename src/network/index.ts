@@ -3,7 +3,7 @@ import { Utils } from '@adewaskar/lms-common'
 
 Network.Axios.defaults.transformRequest = [
   (data, headers) => {
-    console.log(data, 'before sending')
+
     const token = getToken()
     if (window.location.pathname.includes('/learner/')) {
       const orgId = Utils.Storage.GetItem('orgId')
