@@ -34,8 +34,9 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
   return (
     <Fragment>
       <CustomCollapse
+        // bordered={false}
         expandIconPosition="end"
-        defaultActiveKey={sections.map((s, i) => i)}
+        defaultActiveKey={sections.map((s, i) => s._id)}
       >
         {sections.map((section, index) => {
           return (
@@ -48,7 +49,7 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
                   } */}
                 </Typography.Title>
               }
-              key={index}
+              key={section._id}
             >
               <List
                 // itemLayout="horizontal"

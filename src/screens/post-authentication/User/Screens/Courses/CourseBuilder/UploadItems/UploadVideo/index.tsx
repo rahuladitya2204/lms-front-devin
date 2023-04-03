@@ -58,7 +58,7 @@ const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
           <Form.Item required label="Upload Video">
             <Row wrap>
               <Col span={24}>
-              <MediaUpload width='300px' height='250px'
+              {/* <MediaUpload width='300px' height='250px'
                         renderItem={() => <MediaPlayer url={url} />}
               url={url} onUpload={({url,file}) => {
                 setUrl(url);
@@ -72,7 +72,27 @@ const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
                   })
               }}>
                   <MediaPlayer url={url} />
-          </MediaUpload>
+          </MediaUpload> */}
+                 <MediaUpload
+            width="300px"
+            renderItem={() => (
+              <Button>{url ? 'Replace Video' : 'Upload Video'}</Button>
+            )}
+              url={url} onUpload={({url,file}) => {
+                setUrl(url);
+                getMetadata(file as File).then(({ duration: durationInSeconds }) => {
+                  setMetadata({
+                    duration: {
+                      value: durationInSeconds,
+                      unit:'seconds'
+                      }
+                    })
+                  })
+              }}
+            height="250px"
+            // url={VideoUrl}
+          />
+          {/* {VideoUrl ? <MediaPlayer url={item.metadata?.url} /> : null} */}
               </Col>
            </Row>
           </Form.Item>

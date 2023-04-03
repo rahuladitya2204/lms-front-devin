@@ -80,19 +80,16 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     <Card bodyStyle={{ padding: 0 }}>
       <CustomCollapse
         collapsible="header"
+        bordered
         defaultActiveKey={sections.map((s, i) => i)}
         expandIconPosition="end"
-        ghost
+        // ghost
       >
         {sections.map((section, secIndex) => {
           return (
             <Collapse.Panel
               key={secIndex}
-              header={
-                <span>{`${
-                  section.title
-                }`}</span>
-              }
+              header={<span>{`${section.title}`}</span>}
             >
               <List
                 itemLayout="horizontal"
@@ -118,7 +115,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                       <Button
                         onClick={() => DeleteSection(secIndex)}
                         size="small"
-                        type="ghost"
+                        // type="ghost"
                       >
                         Delete Section{' '}
                       </Button>

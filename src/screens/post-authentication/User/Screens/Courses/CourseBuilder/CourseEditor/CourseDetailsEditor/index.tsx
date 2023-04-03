@@ -17,7 +17,7 @@ import ActionModal from '@Components/ActionModal';
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor';
 import CreateCategory from '@User/Screens/Courses/CourseCategory/CreateCategory';
 import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload';
+import ImageUpload from '@Components/ImageUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common';
@@ -54,7 +54,7 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
     <Fragment>
        <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
 <Form.Item name="thumbnailImage" required label="Thumbnail">
-          <MediaUpload url={thumbnailImage} width='250px'
+          <ImageUpload cropper url={thumbnailImage} width='250px'
             renderItem={() => <Image preview={false} src={thumbnailImage} />}
             onUpload={e => {
             props.onFormUpdate({
@@ -77,12 +77,12 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
           <Space>
           <Select defaultValue={props.formData.category}
     placeholder="Select Category" style={{width:200}}
-    optionFilterProp="children"
-    filterOption={(input, option) =>
-      (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-    }
+    // optionFilterProp="children"
+    // filterOption={(input, option) =>
+    //   (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
+    // }
     options={categories}
-  />
+    />
           <ActionModal
             cta={<Button style={{ marginLeft:10}} shape='round' icon={<PlusOutlined />}></Button>}
           >

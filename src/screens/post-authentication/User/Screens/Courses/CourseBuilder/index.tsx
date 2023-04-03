@@ -40,8 +40,7 @@ function CourseBuilderScreen() {
     const newSection: Types.CourseSection = {
       title: title + '',
       items: [],
-      description: '',
-      _id: ''
+      description: ''
     }
     COURSE.sections.push(newSection)
     updateCourse({
@@ -84,6 +83,7 @@ function CourseBuilderScreen() {
 
   useEffect(
     () => {
+      console.log('Oh yeah', course)
       if (course?.sections[0]?.items?.length) {
         const firstSection = course.sections[0]
         const firstItem = firstSection.items[0]
@@ -92,7 +92,7 @@ function CourseBuilderScreen() {
         )
       }
     },
-    [courseId]
+    [course]
   )
 
   const saveCourse = () => {

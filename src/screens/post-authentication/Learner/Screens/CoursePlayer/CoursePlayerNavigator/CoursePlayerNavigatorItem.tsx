@@ -33,7 +33,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   }
   let durationInMin: Unit
   if (duration?.value && duration?.unit) {
-    durationInMin = unit(duration?.value, duration?.unit).to('minute')
+    durationInMin = unit(duration?.value, duration?.unit)
   }
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   return (
@@ -72,7 +72,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
             description={
               props.item.type === 'video' && durationInMin ? (
                 <Tag style={{ marginTop: 10 }} color="blue">
-                  {durationInMin.value} min
+                  {durationInMin.value} sec
                 </Tag>
               ) : null
             }
