@@ -1,4 +1,4 @@
-import { Button, Card, Tabs } from 'antd'
+import { Button, Card, Tabs, message } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
@@ -11,8 +11,10 @@ import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import Header from '@Components/Header'
 import { STRINGIFY } from '../utils'
 import { User } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
 
 function CourseEditor() {
+  const message = useMessage()
   const { id: courseId } = useParams()
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
   const {
@@ -35,10 +37,17 @@ function CourseEditor() {
   )
 
   const saveCourse = () => {
-    updateCourse({
-      id: courseId + '',
-      data: course
-    })
+    updateCourse(
+      {
+        id: courseId + '',
+        data: course
+      },
+      {
+        onSuccess: () => {
+          message.info('Hello, Ant Design!')
+        }
+      }
+    )
   }
 
   const onCourseUpdate = (data: Partial<Types.Course>) => {

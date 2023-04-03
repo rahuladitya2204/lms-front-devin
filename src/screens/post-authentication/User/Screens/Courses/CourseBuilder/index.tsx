@@ -14,12 +14,14 @@ import ImageUpload from '@Components/ImageUpload'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import { updateCourseSectionItem } from './utils'
+import useMessage from '@Hooks/useMessage'
 
 const AddChapterButton = styled(Button)`
   margin-top: 20px;
 `
 
 function CourseBuilderScreen() {
+  const message = useMessage()
   const { id: courseId } = useParams()
   const {
     mutate: updateCourse,
@@ -96,10 +98,18 @@ function CourseBuilderScreen() {
   )
 
   const saveCourse = () => {
-    updateCourse({
-      id: courseId + '',
-      data: course
-    })
+    updateCourse(
+      {
+        id: courseId + '',
+        data: course
+      },
+      {
+        onSuccess: () => {
+          console.log('Hehihuhuhuhuh')
+          message.info('Hello, Ant Design!')
+        }
+      }
+    )
   }
 
   useEffect(

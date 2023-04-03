@@ -3,6 +3,7 @@ import { Button, Card, Collapse, List, Modal, Space, Tooltip } from 'antd'
 import AddItem from '../AddItem'
 import CourseItemIcon from './CourseItemIcon'
 import { DeleteOutlined } from '@ant-design/icons'
+import Draggable from 'react-draggable'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
@@ -91,6 +92,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
               key={secIndex}
               header={<span>{`${section.title}`}</span>}
             >
+              {' '}
               <List
                 itemLayout="horizontal"
                 style={{ marginBottom: 20 }}
