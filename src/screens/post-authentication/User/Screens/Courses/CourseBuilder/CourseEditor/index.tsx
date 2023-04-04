@@ -14,7 +14,7 @@ import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 function CourseEditor() {
-  const { message } = useMessage()
+  const message = useMessage()
   const { id: courseId } = useParams()
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
   const {
@@ -44,7 +44,10 @@ function CourseEditor() {
       },
       {
         onSuccess: () => {
-          message.info('Hello, Ant Design!')
+          message.open({
+            type: 'success',
+            content: 'Saved'
+          })
         }
       }
     )

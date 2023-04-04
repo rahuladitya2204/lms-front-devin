@@ -10,7 +10,7 @@ import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 function InstructorEditor() {
-  const { message, context } = useMessage()
+  const message = useMessage()
   const { id: instructorId } = useParams()
   const [instructor, setInstructor] = useState(
     Constants.INITIAL_INSTRUCTOR_DETAILS
@@ -71,7 +71,6 @@ function InstructorEditor() {
         </Fragment>
       ]}
     >
-      {context}
       <Card>
         <Tabs
           defaultActiveKey="1"
