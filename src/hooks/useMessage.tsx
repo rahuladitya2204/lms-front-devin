@@ -1,8 +1,8 @@
 import { message } from 'antd'
 
 const useMessage = () => {
-  const [messageApi, contextHolder] = message.useMessage()
-  return messageApi
+  const [messageApi, context] = message.useMessage()
+  return { message: messageApi, context }
 }
 
 export default useMessage

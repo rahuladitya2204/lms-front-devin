@@ -106,7 +106,10 @@ function CourseBuilderScreen() {
       {
         onSuccess: () => {
           console.log('Hehihuhuhuhuh')
-          message.info('Hello, Ant Design!')
+          message.open({
+            type: 'success',
+            content: 'This is a success message'
+          })
         }
       }
     )

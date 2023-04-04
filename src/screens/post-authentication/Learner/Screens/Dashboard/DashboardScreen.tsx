@@ -21,17 +21,20 @@ import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
 import { Link } from 'react-router-dom'
 import Search from 'antd/es/input/Search'
+import ThemeProvider from 'screens/ThemeProvider'
 
 const { Content } = Layout
 const { Text } = Typography
 
 const LearnerDashboard: React.FC = () => {
   return (
-    <Layout>
-      <Layout className="site-layout">
-        <DashboardHeader />
+    <ThemeProvider type="learner">
+      <Layout>
+        <Layout className="site-layout">
+          <DashboardHeader />
+        </Layout>
       </Layout>
-    </Layout>
+    </ThemeProvider>
   )
 }
 

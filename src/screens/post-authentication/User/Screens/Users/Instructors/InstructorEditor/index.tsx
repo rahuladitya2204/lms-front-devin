@@ -6,14 +6,19 @@ import { Outlet, useParams } from 'react-router'
 import Header from '@Components/Header'
 import InstructorDetailsEditor from './InstructorDetailsEditor'
 import { UploadOutlined } from '@ant-design/icons'
-import {
-  User
-} from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
 
 function InstructorEditor() {
+  const { message, context } = useMessage()
   const { id: instructorId } = useParams()
-  const [instructor, setInstructor] = useState(Constants.INITIAL_INSTRUCTOR_DETAILS)
-  const { mutate: updateInstructor, isLoading: loading } = User.Queries.useUpdateInstructor()
+  const [instructor, setInstructor] = useState(
+    Constants.INITIAL_INSTRUCTOR_DETAILS
+  )
+  const {
+    mutate: updateInstructor,
+    isLoading: loading
+  } = User.Queries.useUpdateInstructor()
   const { data } = User.Queries.useGetInstructorDetails(instructorId + '', {
     enabled: !!`instructorId`
   })
@@ -26,10 +31,21 @@ function InstructorEditor() {
   )
 
   const saveInstructor = () => {
-    updateInstructor({
-      id: instructorId + '',
-      data: instructor
-    })
+    updateInstructor(
+      {
+        id: instructorId + '',
+        data: instructor
+      },
+      {
+        onSuccess: () => {
+          console.log('Saving Instructor!')
+          message.open({
+            type: 'success',
+            content: 'Saved'
+          })
+        }
+      }
+    )
   }
 
   const onFormUpdate = (data: Partial<Types.Instructor>) => {
@@ -40,7 +56,8 @@ function InstructorEditor() {
   }
 
   return (
-    <Header title='Instructor Editor'
+    <Header
+      title="Instructor Editor"
       extra={[
         <Fragment>
           <Button
@@ -54,6 +71,7 @@ function InstructorEditor() {
         </Fragment>
       ]}
     >
+      {context}
       <Card>
         <Tabs
           defaultActiveKey="1"
