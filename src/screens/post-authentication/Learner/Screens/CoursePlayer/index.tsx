@@ -104,16 +104,16 @@ function CoursePlayer() {
         }
         subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
         style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
-        extra={[
-          <Text strong style={{ paddingRight: 10 }}>
-            Your Progress<Progress
-              style={{ marginLeft: 10 }}
-              type="circle"
-              percent={progress}
-              width={40}
-            />
-          </Text>
-        ]}
+        // extra={[
+        //   <Text strong style={{ paddingRight: 10 }}>
+        //     Your Progress<Progress
+        //       style={{ marginLeft: 10 }}
+        //       type="circle"
+        //       percent={progress}
+        //       width={40}
+        //     />
+        //   </Text>
+        // ]}
       />{' '}
       <Row
         style={{ padding: '20px 10px', background: '#f4f4f4' }}

@@ -12,7 +12,7 @@ interface CourseOverviewPropsI {
 }
 
 function CourseOverview(props: CourseOverviewPropsI) {
-  const PromoVideoUrl = props.course.landingPage.promoVideo
+  const PromoVideoUrl = props?.course?.landingPage?.promoVideo
 
   return (
     <Fragment>

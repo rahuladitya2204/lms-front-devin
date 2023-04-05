@@ -77,7 +77,7 @@ const DashboardHeader: React.FC = () => {
           <OrgLogo />
           <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
             <AutoComplete
-              onSelect={e => console.log(e)}
+              onSelect={(e,a) => console.log(e,a)}
               popupClassName="certain-category-search-dropdown"
               dropdownMatchSelectWidth={500}
               style={{ width: 250 }}
