@@ -80,7 +80,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
     <div
       data-vjs-player
       style={{
-        height: '500px',
+        // height: '500px',
         width: '100%'
       }}
     >

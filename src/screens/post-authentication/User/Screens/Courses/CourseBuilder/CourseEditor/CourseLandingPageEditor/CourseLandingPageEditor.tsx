@@ -18,8 +18,8 @@ interface CourseLandingPageEditorPropsI {
     function CourseLandingPageEditor(props:CourseLandingPageEditorPropsI) {
       const [form] = Form.useForm<Types.CourseLandingPage>();    
       const PromoVideoUrl = props?.formData?.promoVideo;
-      
-      useEffect(() => {
+        console.log(PromoVideoUrl)
+      useEffect(() => { 
         form.setFieldsValue(props.formData);
       },[props.formData])
     
@@ -30,6 +30,7 @@ interface CourseLandingPageEditorPropsI {
           ...e
         })
       };
+
       return (
         <Fragment>
            <Form onValuesChange={onFormUpdate} form={form} layout="vertical" autoComplete="off">

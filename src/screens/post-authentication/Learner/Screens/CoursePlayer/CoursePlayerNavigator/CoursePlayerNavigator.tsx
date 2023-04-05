@@ -52,7 +52,6 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
               key={section._id}
             >
               <List
-                bordered
                 // itemLayout="horizontal"
                 dataSource={section.items}
                 renderItem={(item, itemIndex) => (

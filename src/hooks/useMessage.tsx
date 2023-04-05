@@ -1,6 +1,7 @@
 import { createContext, useContext } from 'react'
 
-import { MessageInstance } from 'antd/es/message/interface'
+import { ArgsProps } from 'antd/es/message'
+import { MessageType } from 'antd/es/message/interface'
 
 const useMessage = () => {
   const Message = useContext(MessageContext)
@@ -10,5 +11,5 @@ const useMessage = () => {
 export default useMessage
 
 export const MessageContext = createContext({
-  open: (data: { type: string, content: string }) => {}
+  open: (args: ArgsProps): MessageType | void => {}
 })

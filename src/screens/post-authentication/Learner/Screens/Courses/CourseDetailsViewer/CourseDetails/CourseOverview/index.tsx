@@ -12,6 +12,8 @@ interface CourseOverviewPropsI {
 }
 
 function CourseOverview(props: CourseOverviewPropsI) {
+  const PromoVideoUrl = props.course.landingPage.promoVideo
+
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
@@ -22,10 +24,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
               bordered={false}
               bodyStyle={{ padding: 0 }}
             >
-              {/* <MediaPlayer
-                // height={300}
-                url="https://www.youtube.com/watch?v=ysz5S6PUM-U"
-              /> */}
+              <MediaPlayer url={PromoVideoUrl} />
             </Card>
           </Col>
         ) : null}

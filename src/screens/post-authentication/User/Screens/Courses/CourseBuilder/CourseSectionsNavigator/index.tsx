@@ -125,38 +125,40 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   </Space>
                 }
                 renderItem={(item, itemIndex) => (
-                  <List.Item style={{ padding: 0 }}>
-                    <NavLink
-                      style={{ width: '100%' }}
-                      key={item._id}
-                      to={`section/${section._id}/${item.type}/${item._id}`}
-                      children={({ isActive }) => (
-                        <CourseListItem
-                          isActive={isActive}
-                          actions={[
-                            <Tooltip
-                              placement="bottom"
-                              title={'Delete Section item'}
-                            >
-                              <DeleteOutlined
-                                onClick={() =>
-                                  DeleteSectionItem(secIndex, itemIndex)
-                                }
-                              />
-                            </Tooltip>
-                          ]}
-                        >
-                          <List.Item.Meta
-                            style={{ cursor: 'pointer' }}
-                            title={item.title}
-                            avatar={
-                              <CourseItemIcon type="outlined" item={item} />
-                            }
-                          />
-                        </CourseListItem>
-                      )}
-                    />
-                  </List.Item>
+                  <Draggable axis="y">
+                    <List.Item style={{ padding: 0 }}>
+                      <NavLink
+                        style={{ width: '100%' }}
+                        key={item._id}
+                        to={`section/${section._id}/${item.type}/${item._id}`}
+                        children={({ isActive }) => (
+                          <CourseListItem
+                            isActive={isActive}
+                            actions={[
+                              <Tooltip
+                                placement="bottom"
+                                title={'Delete Section item'}
+                              >
+                                <DeleteOutlined
+                                  onClick={() =>
+                                    DeleteSectionItem(secIndex, itemIndex)
+                                  }
+                                />
+                              </Tooltip>
+                            ]}
+                          >
+                            <List.Item.Meta
+                              style={{ cursor: 'pointer' }}
+                              title={item.title}
+                              avatar={
+                                <CourseItemIcon type="outlined" item={item} />
+                              }
+                            />
+                          </CourseListItem>
+                        )}
+                      />
+                    </List.Item>
+                  </Draggable>
                 )}
               />
             </Collapse.Panel>
