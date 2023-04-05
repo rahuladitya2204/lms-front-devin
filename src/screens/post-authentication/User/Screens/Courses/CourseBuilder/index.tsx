@@ -108,7 +108,7 @@ function CourseBuilderScreen() {
           console.log('Hehihuhuhuhuh')
           message.open({
             type: 'success',
-            content: 'This is a success message'
+            content: 'Saved Course'
           })
         }
       }

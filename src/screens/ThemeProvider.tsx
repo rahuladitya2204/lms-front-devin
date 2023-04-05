@@ -14,9 +14,12 @@ function ThemeProvider(props: any) {
       {context}
       <ConfigProvider
         theme={{
-          token: {
-            colorPrimary: appDetails.branding.primaryColor
-          }
+          token:
+            props.type === 'learner'
+              ? {
+                  colorPrimary: appDetails.branding.primaryColor
+                }
+              : {}
         }}
         csp={{ nonce: 'YourNonceCode' }}
       >
