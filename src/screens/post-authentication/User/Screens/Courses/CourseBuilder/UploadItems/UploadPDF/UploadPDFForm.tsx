@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd'
+import { Button, Form, Input } from 'antd'
 
 import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
@@ -21,25 +21,33 @@ const UploadPDFForm: React.FC = () => {
           required
           tooltip="This is a required field"
         >
+          <Input placeholder="Title" />
+        </Form.Item>
+        <Form.Item name="Description" label="Description" required>
           <Input placeholder="input placeholder" />
         </Form.Item>
-        <Form.Item name="description" label="Description" required>
-          <Input placeholder="input placeholder" />
-        </Form.Item>
-        <Form.Item name="description" label="Description" required>
+        <Form.Item name="PDF File" label="PDF File" required>
           <MediaUpload
             width="300px"
             onUpload={({ url }) => {
               onFormChange({
                 metadata: {
                   url: url
-                }
+                },
+                type: 'pdf'
               })
               // setUrl(url)
             }}
             height="250px"
-            renderItem={() => <PDFViewer url={item.metadata?.url + ''} />}
+            renderItem={() => (
+              <Button>
+                {item.metadata?.url ? 'Replace PDF' : 'Upload PDF'}
+              </Button>
+            )}
           />
+          {item.metadata?.url ? (
+            <PDFViewer url={item.metadata?.url + ''} />
+          ) : null}
         </Form.Item>
       </Form>
       {/* <PDFViewer url={data.url} /> */}

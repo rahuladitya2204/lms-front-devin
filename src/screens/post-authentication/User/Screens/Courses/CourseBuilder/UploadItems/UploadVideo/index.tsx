@@ -78,7 +78,7 @@ const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
             renderItem={() => (
               <Button>{url ? 'Replace Video' : 'Upload Video'}</Button>
             )}
-              url={url} onUpload={({url,file}) => {
+              onUpload={({url,file}) => {
                 setUrl(url);
                 getMetadata(file as File).then(({ duration: durationInSeconds }) => {
                   setMetadata({

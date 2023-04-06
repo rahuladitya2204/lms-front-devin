@@ -36,7 +36,7 @@ export default function UserProfile() {
       <Form onValuesChange={onFormUpdate} form={form}>
         <Form.Item name="image" required label="Profile Image">
           <MediaUpload
-            url={'image'}
+            // url={'image'}
             // rounded
             width="100px"
             renderItem={() => <Image src={organisation.logo} />}

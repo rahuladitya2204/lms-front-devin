@@ -55,7 +55,7 @@ interface CourseLandingPageEditorPropsI {
             renderItem={() => (
               <Button>{PromoVideoUrl ? 'Replace Video' : 'Upload Video'}</Button>
             )}
-            url={PromoVideoUrl}
+            // url={PromoVideoUrl}
           />
           {PromoVideoUrl ? <MediaPlayer url={PromoVideoUrl} /> : null}
         </Form.Item>
