@@ -28,8 +28,6 @@ import LearnersScreen from './post-authentication/User/Screens/Users/Learners/Le
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
-import ThemeProvider from './ThemeProvider'
-import UploadFileForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadFile/UploadFileForm'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Account/Account'
@@ -72,7 +70,7 @@ const router = createBrowserRouter(
               <Route path="pdf/:itemId" element={<UploadPDFForm />} />
               <Route path="video/:itemId" element={<UploadVideoForm />} />
               <Route path="text/:itemId" element={<AddTextItem />} />
-              <Route path="file/:itemId" element={<UploadFileForm />} />
+              {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
             </Route>
           </Route>
           <Route path="courses/:id/editor" element={<CourseEditor />} />

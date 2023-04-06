@@ -4,7 +4,6 @@ import { FileOutlined, PlusOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal'
 import { Fragment } from 'react'
 import QuillEditor from '@Components/QuillEditor'
-import UploadFile from '../UploadFile'
 import UploadFiles from '@Components/UploadFiles'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
@@ -41,20 +40,30 @@ const AddTextItem: React.FC = () => {
           />
         </Form.Item>
         <Form.Item label="Add Files" required>
-          <UploadFiles
-            onUpload={e => onFormChange({ files: [...item.files, e.url] })}
-          />
+          <Space direction="horizontal">
+            {item?.files?.map(file => {
+              return (
+                <Avatar
+                  onClick={e => window.open(file.url,'_blank')}
+                  shape="square"
+                  size={80}
+                  icon={<FileOutlined />}
+                />
+              )
+            })}
+            <ActionModal
+              cta={<Avatar shape="square" size={80} icon={<PlusOutlined />} />}
+            >
+              <UploadFiles
+                onUpload={({ name, url }) => {
+                  onFormChange({
+                    files: [...item.files, { name, url }]
+                  })
+                }}
+              />
+            </ActionModal>
+          </Space>
         </Form.Item>{' '}
-        <Space direction="horizontal">
-          {item?.files?.map(file => {
-            return <Avatar shape="square" size={80} icon={<FileOutlined />} />
-          })}
-          <ActionModal
-            cta={<Avatar shape="square" size={80} icon={<PlusOutlined />} />}
-          >
-            {/* <UploadFile /> */}
-          </ActionModal>
-        </Space>
       </Form>
     </Fragment>
   )

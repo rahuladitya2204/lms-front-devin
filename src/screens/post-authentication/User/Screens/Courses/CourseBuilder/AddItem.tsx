@@ -3,7 +3,6 @@ import { Fragment, useState } from 'react'
 
 import CreateTextItem from './CreateNewItem/CreatTextItem'
 import { Types } from '@adewaskar/lms-common'
-import UploadFile from './UploadItems/UploadFile'
 import UploadPDF from './UploadItems/UploadPDF'
 import UploadVideo from './UploadItems/UploadVideo'
 
@@ -22,12 +21,6 @@ const UPLOAD_NEW_ITEM = [
       'All uploaded videos are completely secure and non downloadable. It can also be used to embed youtube and Vimeo videos.',
     component: UploadVideo,
     type: 'video'
-  },
-  {
-    title: 'File',
-    description: 'Add any file type for learners to download.',
-    component: UploadFile,
-    type: 'file'
   }
 ]
 
@@ -42,7 +35,11 @@ const CREATE_NEW_ITEM = [
 ]
 
 interface AddItemPropsI {
-  onAddNewItem: (type: string, item: Partial<Types.CourseSectionItem>, key?: string) => void;
+  onAddNewItem: (
+    type: string,
+    item: Partial<Types.CourseSectionItem>,
+    key?: string
+  ) => void;
   children?: React.ReactNode;
 }
 
@@ -54,14 +51,14 @@ function AddItem(props: AddItemPropsI) {
   }
 
   const closeModal = () => {
-    form.resetFields();
+    form.resetFields()
     setIsModalOpen(false)
   }
 
   const [form] = Form.useForm()
 
   const onFinish = (type: string, item: Partial<Types.CourseSectionItem>) => {
-    props.onAddNewItem(type, item);
+    props.onAddNewItem(type, item)
     closeModal()
   }
   return (

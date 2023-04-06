@@ -115,15 +115,15 @@ const UpoadFiles: React.FC<UpoadFilesPropsI> = props => {
       </Spin>
     </Space></>,
       },
-      {
-        label: `Public URL`,
-        key: '2',
-        children:  <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item name="url" label="Public URL:*">
-          <Input />
-          </Form.Item>
-        </Form>,
-      }
+      // {
+      //   label: `Public URL`,
+      //   key: '2',
+      //   children: <Form onFinish={() => { }} form={form} layout="vertical" autoComplete="off">
+      //   <Form.Item name="url" label="Public URL:*">
+      //     <Input />
+      //     </Form.Item>
+      //   </Form>,
+      // }
     ]}
   />
   
