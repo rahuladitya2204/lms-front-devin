@@ -1,6 +1,7 @@
 import { Form, Input } from 'antd'
+
 import { Fragment } from 'react'
-import QuillEditor from '@Components/QuillEditor'
+import UploadFiles from '@Components/UploadFiles'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadFileForm: React.FC = () => {
@@ -22,10 +23,7 @@ const UploadFileForm: React.FC = () => {
           <Input placeholder="input placeholder" />
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <QuillEditor
-            onChange={e => onFormChange({ description: e })}
-            value={item.description}
-          />
+          <UploadFiles onUpload={() => {}} />
         </Form.Item>
       </Form>
     </Fragment>

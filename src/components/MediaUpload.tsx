@@ -85,13 +85,9 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   )
 
   return (
-    // <ImgCrop onModalOk={e => setFile(e)}>
     <Spin spinning={loading} tip="Uploading..">
       <CustomUpload
         {...UPLOAD}
-        // rounded={props.rounded}
-        // height={props.height}
-        // width={props.width}
         name="avatar"
         listType="picture-card"
         className="avatar-uploader"
@@ -103,7 +99,6 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         {props.renderItem ? props.renderItem() : uploadButton}
       </CustomUpload>
     </Spin>
-    // </ImgCrop>
   )
 }
 

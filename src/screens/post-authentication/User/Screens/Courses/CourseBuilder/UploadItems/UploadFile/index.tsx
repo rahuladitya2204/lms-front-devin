@@ -3,18 +3,10 @@ import React, { Fragment, useState } from 'react';
 
 import FileUpload from '@Components/FileUpload';
 import { Types } from '@adewaskar/lms-common'
+import UploadFiles from '@Components/UploadFiles';
 
 const UploadFile: React.FC<Types.CreateItemPropsI> = (props) => {
   const [files, setFiles] = useState<Types.UploadFileType[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
   
   const onSubmit = () => {
     const file = files[0];
@@ -24,30 +16,19 @@ const UploadFile: React.FC<Types.CreateItemPropsI> = (props) => {
         url:file.url
       }
     });
-    closeModal();
     }
     
     const [form] = Form.useForm<{ url: string }>();
 
   return (
-    <Fragment>
-      <span onClick={showModal}>{props.children}</span>
-      <Modal footer={[
-          <Button key="back" onClick={()=>closeModal()}>
-            Cancel
-          </Button>,
-          <Button key="submit" type="primary" onClick={onSubmit}>
-            Submit
-          </Button>,
-          ]} title="New PDF: Max Size 250MB" open={isModalOpen} onCancel={closeModal}>
-               <Tabs
+    <Tabs
     defaultActiveKey="1"
     items={[
       {
         label: `Upload File`,
         key: '1',
-        children: <FileUpload onUpload={u => {
-          setFiles(u);
+        children: <UploadFiles onUpload={u => {
+          // setFiles(u);
         }}/>,
       },
       {
@@ -56,13 +37,11 @@ const UploadFile: React.FC<Types.CreateItemPropsI> = (props) => {
         children:  <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
         <Form.Item name="url" label="Public URL:*">
           <Input />
-        </Form.Item></Form>,
+          </Form.Item>
+        </Form>,
       }
     ]}
   />
-      
-      </Modal>
-    </Fragment>
   );
 };
 

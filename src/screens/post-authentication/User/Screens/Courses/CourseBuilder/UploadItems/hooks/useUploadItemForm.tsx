@@ -27,7 +27,7 @@ function useUploadItemForm() {
     updateSections(sectionId+'', newItem);
   }
 
-  return { onFormChange,form,item };
+  return { onFormChange, form, item };
   } 
   
 

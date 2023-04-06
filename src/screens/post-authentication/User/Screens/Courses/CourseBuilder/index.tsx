@@ -83,19 +83,19 @@ function CourseBuilderScreen() {
     })
   }
 
-  useEffect(
-    () => {
-      console.log('Oh yeah', course)
-      if (course?.sections[0]?.items?.length) {
-        const firstSection = course.sections[0]
-        const firstItem = firstSection.items[0]
-        navigate(
-          `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
-        )
-      }
-    },
-    [course]
-  )
+  // useEffect(
+  //   () => {
+  //     console.log('Oh yeah', course)
+  //     if (course?.sections[0]?.items?.length) {
+  //       const firstSection = course.sections[0]
+  //       const firstItem = firstSection.items[0]
+  //       navigate(
+  //         `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
+  //       )
+  //     }
+  //   },
+  //   [course]
+  // )
 
   const saveCourse = () => {
     updateCourse(

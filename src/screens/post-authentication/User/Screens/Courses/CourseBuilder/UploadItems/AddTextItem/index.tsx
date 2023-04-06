@@ -1,8 +1,11 @@
-import { Checkbox, Form, Input } from 'antd'
+import { Avatar, Checkbox, Form, Input, Space } from 'antd'
+import { FileOutlined, PlusOutlined } from '@ant-design/icons'
 
+import ActionModal from '@Components/ActionModal'
 import { Fragment } from 'react'
 import QuillEditor from '@Components/QuillEditor'
-import UploadFiles from '@Components/UploadFiles';
+import UploadFile from '../UploadFile'
+import UploadFiles from '@Components/UploadFiles'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 interface AddTextItemForm {
@@ -34,13 +37,25 @@ const AddTextItem: React.FC = () => {
         <Form.Item name="description" label="Description" required>
           <QuillEditor
             onChange={e => onFormChange({ description: e })}
-            value={item.description}
+            value={item?.description}
           />
         </Form.Item>
-
         <Form.Item label="Add Files" required>
-          <UploadFiles />
-        </Form.Item>      </Form>
+          <UploadFiles
+            onUpload={e => onFormChange({ files: [...item.files, e.url] })}
+          />
+        </Form.Item>{' '}
+        <Space direction="horizontal">
+          {item?.files?.map(file => {
+            return <Avatar shape="square" size={80} icon={<FileOutlined />} />
+          })}
+          <ActionModal
+            cta={<Avatar shape="square" size={80} icon={<PlusOutlined />} />}
+          >
+            {/* <UploadFile /> */}
+          </ActionModal>
+        </Space>
+      </Form>
     </Fragment>
   )
 }
