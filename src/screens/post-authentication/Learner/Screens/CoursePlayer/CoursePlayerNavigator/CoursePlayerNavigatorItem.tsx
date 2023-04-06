@@ -1,10 +1,12 @@
-import { Checkbox, List, Tag, Typography } from 'antd'
+import { Button, Checkbox, Dropdown, List, Space, Tag, Typography } from 'antd'
 import { Unit, unit } from 'mathjs'
 
 import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
+import { DownloadOutlined } from '@ant-design/icons'
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
+import { downloadFile } from '@User/Screens/Courses/CourseBuilder/utils'
 import styled from '@emotion/styled'
 
 const { Text } = Typography
@@ -70,11 +72,39 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
               </Text>
             }
             description={
-              props.item.type === 'video' && durationInMin ? (
-                <Tag style={{ marginTop: 10 }} color="blue">
-                  {durationInMin.value} sec
-                </Tag>
-              ) : null
+              <Space direction="horizontal">
+                {props.item.type === 'video' && durationInMin ? (
+                  <Tag style={{ marginTop: 10 }} color="blue">
+                    {durationInMin.value} sec
+                  </Tag>
+                ) : null}
+                {props.item.files.length ? (
+                  <Dropdown.Button
+                    size="small"
+                    menu={{
+                      items: props.item.files.map((file, index) => {
+                        return {
+                          key: index,
+                          label: (
+                            <a
+                              onClick={() => downloadFile(file.url)}
+                              type="primary"
+                              target="_blank"
+                              href={file.url}
+                              rel="noreferrer"
+                            >
+                              {file.name} <DownloadOutlined />
+                            </a>
+                          )
+                        }
+                      })
+                    }}
+                    placement="bottomRight"
+                  >
+                    Resources
+                  </Dropdown.Button>
+                ) : null}
+              </Space>
             }
           />
         </CourseListItem>

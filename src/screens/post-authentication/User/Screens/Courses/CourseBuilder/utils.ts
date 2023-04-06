@@ -57,3 +57,7 @@ export const UnitTypeToStr = ({
 }) => {
   return `${value} ${unit}`
 }
+
+export const downloadFile = (filePath: string) => {
+  window.open(filePath, 'Download')
+}

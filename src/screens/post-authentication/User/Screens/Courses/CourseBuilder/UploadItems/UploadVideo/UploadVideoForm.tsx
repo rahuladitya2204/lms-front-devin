@@ -1,9 +1,13 @@
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Avatar, Button, Checkbox, Form, Input, Space } from 'antd'
 
+import ActionModal from '@Components/ActionModal'
+import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import MediaPlayer from '@Components/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
+import { PlusOutlined } from '@ant-design/icons'
 import QuillEditor from '@Components/QuillEditor'
+import UploadFiles from '@Components/UploadFiles'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadVideoForm: React.FC = () => {
@@ -28,10 +32,7 @@ const UploadVideoForm: React.FC = () => {
         <Form.Item name="description" label="Description" required>
           <QuillEditor />
         </Form.Item>
-        <Form.Item
-        // label="Preview"
-        // tooltip="This is a preview item"
-        >
+        <Form.Item>
           <Checkbox
             checked={item.isPreview}
             onChange={e => {
@@ -42,6 +43,22 @@ const UploadVideoForm: React.FC = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
+        <Form.Item label="Add Files" required>
+          <Space direction="horizontal">
+            <FileList files={item.files} />
+            <ActionModal
+              cta={<Avatar shape="square" size={80} icon={<PlusOutlined />} />}
+            >
+              <UploadFiles
+                onUpload={({ name, url }) => {
+                  onFormChange({
+                    files: [...item.files, { name, url }]
+                  })
+                }}
+              />
+            </ActionModal>
+          </Space>
+        </Form.Item>{' '}
         <Form.Item name="context" label="Preview" required>
           <MediaUpload
             width="300px"

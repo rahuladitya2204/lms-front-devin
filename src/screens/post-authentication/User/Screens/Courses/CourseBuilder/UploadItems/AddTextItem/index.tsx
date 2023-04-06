@@ -2,6 +2,7 @@ import { Avatar, Checkbox, Form, Input, Space } from 'antd'
 import { FileOutlined, PlusOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
+import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import QuillEditor from '@Components/QuillEditor'
 import UploadFiles from '@Components/UploadFiles'
@@ -41,16 +42,7 @@ const AddTextItem: React.FC = () => {
         </Form.Item>
         <Form.Item label="Add Files" required>
           <Space direction="horizontal">
-            {item?.files?.map(file => {
-              return (
-                <Avatar
-                  onClick={e => window.open(file.url,'_blank')}
-                  shape="square"
-                  size={80}
-                  icon={<FileOutlined />}
-                />
-              )
-            })}
+            <FileList files={item.files} />
             <ActionModal
               cta={<Avatar shape="square" size={80} icon={<PlusOutlined />} />}
             >
