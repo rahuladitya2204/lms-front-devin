@@ -11,6 +11,7 @@
     "@emotion/css": "^11.10.5",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@mikecousins/react-pdf": "^6.1.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
     "@react-pdf-viewer/core": "^3.7.0",
     "@svgr/webpack": "^5.5.0",
@@ -125,6 +126,7 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.187",
+    "@types/pdf-viewer-reactjs": "^2.2.2",
     "@types/react-pdf": "^5.7.3",
     "@types/uuid": "^8.3.4",
     "@types/video-react": "^0.15.1",

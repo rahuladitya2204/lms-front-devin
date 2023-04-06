@@ -64,15 +64,9 @@ const VideoUpload: React.FC<VideoUploadPropsI> = props => {
         // console.log(e, 'e')
       },
       onSuccess: (d: { channelKey: string }) => {
-        // uploadFile.file = file
-        // console.log(file, 'file123123')
         props.onUpload({
           key: d.channelKey
         })
-        // onSuccess &&
-        //   onSuccess({
-        //     key: d.channelKey
-        //   })
       }
     })
   }

@@ -75,7 +75,6 @@ const UploadVideoForm: React.FC = () => {
             renderItem={() => (
               <Button>{VideoUrl ? 'Replace Video' : 'Upload Video'}</Button>
             )}
-            url={VideoUrl}
           />
           {VideoUrl ? <MediaPlayer url={item.metadata?.url} /> : null}
         </Form.Item>

@@ -1,6 +1,7 @@
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
 import { Fragment } from 'react'
 import MediaPlayer from '@Components/MediaPlayer'
+import PDFViewer from '@Components/PDFViewer'
 import VideoPlayer from '@Components/VideoPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 
@@ -13,6 +14,10 @@ function CoursePlayerItem() {
 
   if (item.type === 'video') {
     Component = <MediaPlayer url={item.metadata?.url} />
+  }
+
+  if (item.type === 'pdf') {
+    Component = <PDFViewer url={item.metadata?.url + ''} />
   }
   return <Fragment>{Component}</Fragment>
   // return null;

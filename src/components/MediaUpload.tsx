@@ -21,7 +21,6 @@ interface MediaUploadPropsI {
   onUpload: (file: Types.UploadFileType) => void;
   children?: ReactNode;
   listType?: string;
-  url?: string;
   rounded?: boolean;
   height?: string;
   width?: string;
