@@ -7,6 +7,7 @@ import {
 
 import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
+import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
 import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
@@ -14,6 +15,7 @@ import CourseEditor from './post-authentication/User/Screens/Courses/CourseBuild
 import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
 import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
+import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign'
 import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
@@ -56,6 +58,14 @@ const router = createBrowserRouter(
               <Route path="" element={<AppBuilderScreen />} />
               <Route path=":id/editor" element={<InstructorEditor />} />
             </Route>
+          </Route>
+          <Route path="marketing">
+            <Route path="campaign">
+              <Route path="" element={<CampaignScreen />} />
+              {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
+            </Route>
+            <Route path="create-campaign" element={<CreateCampaign />} />
+            <Route path="edit-campaign/:id" element={<CreateCampaign />} />
           </Route>
           <Route path="category">
             <Route path="" element={<CourseCategoryScreen />} />

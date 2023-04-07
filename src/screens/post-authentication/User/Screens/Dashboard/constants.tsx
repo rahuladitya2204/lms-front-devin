@@ -4,6 +4,7 @@ import {
   FundProjectionScreenOutlined,
   MailOutlined,
   SettingOutlined,
+  SoundOutlined,
   ToolOutlined,
   UsergroupAddOutlined,
   UsergroupDeleteOutlined
@@ -44,6 +45,18 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     ]
   },
   {
+    title: 'Marketing',
+    icon: <SoundOutlined />,
+    path: 'marketing',
+    children: [
+      {
+        title: 'Campaign',
+        path: 'campaign',
+        icon: <AppstoreOutlined />
+      }
+    ]
+  },
+  {
     title: 'Builder',
     icon: <FundProjectionScreenOutlined />,
     path: 'builder',
@@ -60,6 +73,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
       }
     ]
   },
+
   {
     title: 'Settings',
     icon: <SettingOutlined />,
