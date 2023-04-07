@@ -19,6 +19,7 @@ interface CreateCampaignComponentPropsI {
 
 const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   const params = useParams();
+  const [rules, setRules] = useState<Types.Rule[]>([]);
   const message = useMessage();
   const {
     mutate: createCampaign,
@@ -43,7 +44,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     const recipients = form.getFieldValue(['recipients']);
     const data = {
       ...e,
-      recipients,
+      recipients: {...recipients,rule:rules},
       status:'draft'
     }
     if (campaign._id) {
@@ -68,8 +69,32 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     // onFinish && onFinish(e)
   }
   // console.log(form.getFieldValue(),'ll')
+
+  const addRule = () => {
+    const RULES: any[] = [...rules]
+    RULES.push({
+      operand: 'email',
+      operator: '',
+      value: ''
+    })
+    setRules(RULES)
+  }
+
+  const updateRule = (index: number, type: string, value: string) => {
+    const RULES: any[] = [...rules]
+    RULES[index][type] = value
+    setRules(RULES)
+  }
+
+  const deleteRule = (index: number) => {
+    const RULES: any[] = [...rules]
+    RULES.splice(index, 1)
+    setRules(RULES)
+  }
+
   useEffect(
     () => {
+      // setRules(props.data?.recipients?.rule)
       form.setFieldsValue(props.data)
     },
     [props.data]
@@ -77,14 +102,13 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   useEffect(
     () => {
+      setRules(campaign?.recipients?.rule)
       form.setFieldsValue(campaign)
     },
     [campaign]
   )
-  const recipientsType = Form.useWatch(['recipients', 'type'],form);
-  const scheduledAt = Form.useWatch(['scheduledAt'], form);
-  const recipientsRule = form.getFieldValue(['recipients', 'rule']);
-    console.log(recipientsType,recipientsRule,'recipientsRule')
+
+  const recipientsType = Form.useWatch(['recipients', 'type'], form);
 
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical" initialValues={Constants.INITIAL_CAMPAIGN_DETAILS}>
@@ -147,7 +171,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
               label="Email List" required>
                 <Input placeholder="Enter receipients for the campaign" />
             </Form.Item> : null}
-            {recipientsType==='segment'?<RuleCreator form={form}/>:null}
+            {recipientsType === 'segment' ? <RuleCreator updateRule={updateRule} addRule={addRule} deleteRule={deleteRule} rules={rules} />:null}
           </>
           },
           {

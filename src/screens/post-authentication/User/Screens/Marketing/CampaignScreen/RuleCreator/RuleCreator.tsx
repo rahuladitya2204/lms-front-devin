@@ -16,36 +16,13 @@ import RuleRow from './RuleRow'
 import { Types } from '@adewaskar/lms-common'
 
 interface RuleCreatorPropsI {
-  // rules: Types.Rule[];
-  form: FormInstance<any>;
+  addRule: Function;
+  updateRule: Function;
+  deleteRule: Function;
+  rules: Types.Rule[];
 }
 
 function RuleCreator(props: RuleCreatorPropsI) {
-  const rules = props.form.getFieldValue(['recipients', 'rule'])
-  console.log(rules, 'ssssss')
-  const updateRule = (index: number, type: string, value: string) => {
-    const RULES: any[] = [...rules]
-    RULES[index][type] = value
-    props.form.setFieldValue(['recipients', 'rule'], RULES)
-  }
-
-  const addRule = () => {
-    const RULES: any[] = [...rules]
-    RULES.push({
-      operand: 'email',
-      operator: '',
-      value: ''
-    })
-    props.form.setFieldValue(['recipients', 'rule'], RULES)
-  }
-
-  const deleteRule = (index: number) => {
-    const RULES: any[] = [...rules]
-    RULES.splice(index, 1)
-    // setRules(RULES)
-    props.form.setFieldValue(['recipients', 'rule'], RULES)
-  }
-
   return (
     <Row>
       <Col span={24}>
@@ -60,12 +37,12 @@ function RuleCreator(props: RuleCreatorPropsI) {
         >
           <Space direction="vertical">
             <Space direction="vertical">
-              {rules.map((rule: Types.Rule, index: number) => {
+              {props.rules.map((rule: Types.Rule, index: number) => {
                 return (
                   <RuleRow
-                    deleteRule={() => deleteRule(index)}
+                    deleteRule={() => props.deleteRule(index)}
                     updateRule={(type, value) => {
-                      updateRule(index, type, value)
+                      props.updateRule(index, type, value)
                     }}
                     rule={rule}
                   />
@@ -78,7 +55,7 @@ function RuleCreator(props: RuleCreatorPropsI) {
               style={{ marginTop: 20 }}
               type="primary"
               icon={<PlusOutlined />}
-              onClick={addRule}
+              onClick={e => props.addRule()}
             >
               Add
             </Button>
