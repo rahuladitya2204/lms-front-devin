@@ -12,7 +12,7 @@ interface StepperPropsI {
 const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
     const steps = props.steps;
   const { token } = theme.useToken();
-  const [current, setCurrent] = useState(1);
+  const [current, setCurrent] = useState(0);
 
   const next = () => {
     setCurrent(current + 1);
@@ -52,11 +52,11 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
             Next
           </Button>
         )}
-        {current === steps.length - 1 && (
+        {/* {current === steps.length - 1 && (
           <Button type="primary" onClick={() => message.success('Processing complete!')}>
             Done
           </Button>
-        )}
+        )} */}
       </Space>
     </>
   );

@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Radio, Row, Select } from 'antd'
+import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Tag } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
@@ -7,6 +7,7 @@ import QuillEditor from '@Components/QuillEditor'
 import RuleCreator from './RuleCreator/RuleCreator'
 import Stepper from '@Components/Stepper'
 import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
 
@@ -33,12 +34,17 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   })
 
   const [form] = Form.useForm();
-
-  const onSubmit = (e: Partial<Types.Campaign>) => {
+  const isFormValid = !form.getFieldsError().some(({ errors }) => errors.length);
+  // console.log(form.getFieldsError(),'isValid')
+  const onSubmit =  (e: Partial<Types.Campaign>) => {
+    if (!isFormValid) {
+      return;
+    }
     const recipients = form.getFieldValue(['recipients']);
     const data = {
       ...e,
-      recipients
+      recipients,
+      status:'draft'
     }
     if (campaign._id) {
       updateCampaign({ id: campaign._id, data: data }, {
@@ -71,21 +77,21 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   useEffect(
     () => {
-      console.log('setting',campaign)
       form.setFieldsValue(campaign)
     },
     [campaign]
   )
-  const recipientsType = Form.useWatch(['recipients', 'type'], form);
+  const recipientsType = Form.useWatch(['recipients', 'type'],form);
+  const scheduledAt = Form.useWatch(['scheduledAt'], form);
   const recipientsRule = form.getFieldValue(['recipients', 'rule']);
-  // console.log(recipientsRule, 'huhuh');
+    console.log(recipientsType,recipientsRule,'recipientsRule')
+
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical" initialValues={Constants.INITIAL_CAMPAIGN_DETAILS}>
     <Header
     title="Create Campaign"
       extra={[
-      // @ts-ignore
-      <Button loading={createCampaignLoading | updateCampaignLoading} type="primary" onClick={form.submit} >Save Campaign </Button>
+      <Button disabled={!isFormValid} loading={createCampaignLoading || updateCampaignLoading}  onClick={form.submit} >Save Draft </Button>
     ]}
   >
     <Row gutter={[16, 16]}>
@@ -100,9 +106,13 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                 <Input placeholder="Enter a title for the campaign" />
               </Form.Item>
 
-              <Form.Item name="channel" label="Campaign Channels" required>
-                <Select  mode='multiple'
-                  defaultValue={["email"]}
+              <Form.Item name="subject" label="Campaign Subject" >
+                <Input placeholder="Enter a subject for the campaign" />
+              </Form.Item>
+              <Space direction='horizontal'>
+              <Form.Item name="channel" label="Campaign Channels" >
+                <Select
+                  defaultValue={'email'}
                   style={{ width: 300 }}
                   options={[
                     { value: 'email', label: 'Email' },
@@ -113,9 +123,14 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                 />{' '}
               </Form.Item>
 
-              <Form.Item name="subject" label="Campaign Subject" required>
-                <Input placeholder="Enter a subject for the campaign" />
-              </Form.Item>
+              {/* <Form.Item name="scheduledAt" label="Scheduled For" required>
+              <DatePicker 
+              style={{ width: 300 }} name="scheduledAt"
+              value={scheduledAt ? dayjs(scheduledAt) : null}
+            />
+              </Form.Item> */}
+             </Space>
+
             </>
           )
           }, {
@@ -132,13 +147,17 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
               label="Email List" required>
                 <Input placeholder="Enter receipients for the campaign" />
             </Form.Item> : null}
-            {recipientsType==='segment'?<RuleCreator form={form} rules={recipientsRule} updateRules={(rules)=>form.setFieldValue(['recipients','rule'],rules)}/>:null}
+            {recipientsType==='segment'?<RuleCreator form={form}/>:null}
           </>
           },
           {
             title: 'Template',
             content: <>
-            
+              <Form.Item label="Variables" >
+                <Tag color="blue">Name: {`{{name}}`}</Tag>
+                <Tag color="blue">Contact No: {`{{contactNo}}`}</Tag>
+
+</Form.Item>
             <Form.Item name="template" label="Template" required>
                 <QuillEditor onChange={e => form.setFieldsValue({
                   template:e

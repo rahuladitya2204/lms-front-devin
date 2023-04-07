@@ -1,13 +1,15 @@
-import { Button, Card, Col, Row, Space, Table } from 'antd'
+import { Button, Card, Col, Row, Space, Table, Tag } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
 function CampaignsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetCampaigns()
+
   const navigate = useNavigate()
   return (
     <Header>
@@ -27,17 +29,32 @@ function CampaignsScreen() {
               <Table.Column title="Subject" dataIndex="subject" key="subject" />
               <Table.Column title="Channel" dataIndex="channel" key="channel" />
               <Table.Column
-                title="Last Login"
-                dataIndex="lastActive"
-                key="lastActive"
+                title="Scheduled At"
+                dataIndex="scheduledAt"
+                key="scheduledAt"
+                render={(_: any, record: Types.Campaign) =>
+                  dayjs(record.createdAt).format('DD/MM/YYYY')
+                }
               />
-              {/* <Table.Column title="Courses" dataIndex="courses" key="courses" />
-              <Table.Column title="Rating" dataIndex="rating" key="rating" /> */}
               <Table.Column
-                title="Joined On"
+                title="Status"
+                dataIndex="status"
+                key="status"
+                render={(_: any, record: Types.Campaign) =>
+                  record.status ? (
+                    <Tag color={'blue'}>{record.status}</Tag>
+                  ) : null
+                }
+              />
+              <Table.Column
+                title="Created At"
                 dataIndex="createdAt"
                 key="createdAt"
+                render={(_: any, record: Types.Campaign) =>
+                  dayjs(record.createdAt).format('DD/MM/YYYY')
+                }
               />
+
               <Table.Column
                 title="Action"
                 key="action"
@@ -46,7 +63,7 @@ function CampaignsScreen() {
                     <EditOutlined
                       onClick={() => navigate(`../edit-campaign/${record._id}`)}
                     />
-                    <DeleteOutlined />
+                    {/* <DeleteOutlined onClick={e => deleteCampaign(record)} /> */}
                   </Space>
                 )}
               />
