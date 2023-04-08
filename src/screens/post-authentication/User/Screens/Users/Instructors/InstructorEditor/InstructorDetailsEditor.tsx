@@ -23,7 +23,7 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
     <Fragment>
       <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
       <Form.Item name="image" required label="Profile Image">
-          <ImageUpload cropper url={image} width='100px'
+          <ImageUpload keyName={`images/instructors/${props.formData._id}`} cropper url={image} width='100px'
             renderItem={() => <Image src={image} />}
             onUpload={e => {
             props.onFormUpdate({
