@@ -1,6 +1,7 @@
 import { Button, Card, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Tag } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import Header from '@Components/Header'
 import QuillEditor from '@Components/QuillEditor'
@@ -9,7 +10,6 @@ import Stepper from '@Components/Stepper'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
-import { useParams } from 'react-router'
 
 interface CreateCampaignComponentPropsI {
   children?: ReactNode;
@@ -19,6 +19,7 @@ interface CreateCampaignComponentPropsI {
 
 const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   const params = useParams();
+  const navigate = useNavigate();
   const [rules, setRules] = useState<Types.Rule[]>([]);
   const message = useMessage();
   const {
@@ -51,18 +52,20 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
       updateCampaign({ id: campaign._id, data: data }, {
         onSuccess: (r) => {
           message.open({
-            type:'success',
-            content:'Saved'
-          })
+            type: 'success',
+            content: 'Campaign Draft Saved'
+          });
+          // navigate('../campaign')
         }
       })
     } else {
       createCampaign(data, {
         onSuccess: (r) => {
           message.open({
-            type:'success',
-            content:'Saved'
-          })
+            type: 'success',
+            content: 'Saved'
+          });
+          navigate('../campaign')
         }
       })
     }
