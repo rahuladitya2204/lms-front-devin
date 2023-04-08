@@ -23,6 +23,7 @@ interface MediaUploadPropsI {
   children?: ReactNode;
   isProtected?: boolean;
   listType?: string;
+  key?: string;
   rounded?: boolean;
   height?: string;
   width?: string;
@@ -59,7 +60,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   UPLOAD.customRequest = ({ onError, onSuccess, onProgress, data }) => {
     if (!file) return
     return uploadFiles({
-      files: [file],
+      files: [{file:file,name:props.key}],
       isProtected: !!props.isProtected,
       onUploadProgress: e => {
         console.log(e, 'e')

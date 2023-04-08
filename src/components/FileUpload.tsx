@@ -27,7 +27,7 @@ const FileUpload: React.FC<FileUploadPropsI> = props => {
   const [files, setFiles] = useState<File[]>([])
   UPLOAD.customRequest = ({ file, onError, onSuccess, onProgress, data }) => {
     return uploadFiles({
-      files,
+      files:files.map(file=>({file})),
       onSuccess: files => {
         props.onUpload(files)
         onSuccess && onSuccess(files)

@@ -62,7 +62,7 @@ const ImageUpload: React.FC<ImageUploadPropsI> = props => {
     console.log()
     if (!file) return
     return uploadFiles({
-      files: [file],
+      files: [{file:file,name:props.key}],
       onUploadProgress: e => {
         // console.log(e, 'e')
       },

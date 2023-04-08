@@ -60,7 +60,7 @@ const PDFUpload: React.FC<MediaUploadPropsI> = props => {
     if (!file) return
     console.log(file, 'tkukur')
     return uploadFiles({
-      files: [file],
+      files: [{ file }],
       isProtected: true,
       onUploadProgress: e => {
         console.log(e, 'e')
