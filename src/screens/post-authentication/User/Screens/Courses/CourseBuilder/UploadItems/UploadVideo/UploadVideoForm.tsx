@@ -9,9 +9,12 @@ import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import QuillEditor from '@Components/QuillEditor'
 import UploadFiles from '@Components/UploadFiles'
+import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadVideoForm: React.FC = () => {
+  const { id: courseId, sectionId, itemId } = useParams()
+  console.log(courseId, 'courseId')
   const { onFormChange, form, item } = useUploadItemForm()
   const VideoKey = item?.metadata?.key + ''
   const { data: VideoUrl } = Learner.Queries.useGetPresignedUrl(VideoKey)
@@ -64,6 +67,7 @@ const UploadVideoForm: React.FC = () => {
         </Form.Item>{' '}
         <Form.Item name="context" label="Preview" required>
           <MediaUpload
+            keyName={`courses/${courseId}/${sectionId}/${itemId}`}
             isProtected
             width="300px"
             onUpload={({ url, key, metadata }) => {
