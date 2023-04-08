@@ -14,7 +14,6 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadVideoForm: React.FC = () => {
   const { id: courseId, sectionId, itemId } = useParams()
-  console.log(courseId, 'courseId')
   const { onFormChange, form, item } = useUploadItemForm()
   const VideoKey = item?.metadata?.key + ''
   const { data: VideoUrl } = Learner.Queries.useGetPresignedUrl(VideoKey)

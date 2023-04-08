@@ -73,7 +73,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
       }
     ]
   },
-
+  {
+    title: 'Asset Library',
+    icon: <SettingOutlined />,
+    path: 'asset-library',
+  },
   {
     title: 'Settings',
     icon: <SettingOutlined />,

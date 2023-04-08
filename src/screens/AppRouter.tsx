@@ -7,6 +7,7 @@ import {
 
 import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
+import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
 import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
         <Route path="user">
           <Route path="dashboard" element={<UserDashboard />}>
             <Route path="settings" element={<SettingsScreen />} />
+            <Route path="asset-library" element={<AssetLibraryScreen />} />
             <Route path="users">
               <Route path="instructors">
                 <Route path="" element={<InstructorsScreen />} />
