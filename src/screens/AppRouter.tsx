@@ -40,80 +40,85 @@ import UserRegister from './post-authentication/User/Screens/Register'
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootScreen />}>
-      <Route path="user/:orgId">
-        <Route path="dashboard" element={<UserDashboard />}>
-          <Route path="settings" element={<SettingsScreen />} />
-          <Route path="users">
-            <Route path="instructors">
-              <Route path="" element={<InstructorsScreen />} />
-              <Route path=":id/editor" element={<InstructorEditor />} />
+      <Route path=":orgId">
+        <Route path="user">
+          <Route path="dashboard" element={<UserDashboard />}>
+            <Route path="settings" element={<SettingsScreen />} />
+            <Route path="users">
+              <Route path="instructors">
+                <Route path="" element={<InstructorsScreen />} />
+                <Route path=":id/editor" element={<InstructorEditor />} />
+              </Route>
+              <Route path="learners">
+                <Route path="" element={<LearnersScreen />} />
+                <Route path=":id/editor" element={<LearnerEditor />} />
+              </Route>{' '}
             </Route>
-            <Route path="learners">
-              <Route path="" element={<LearnersScreen />} />
-              <Route path=":id/editor" element={<LearnerEditor />} />
+            <Route path="builder">
+              <Route path="app">
+                <Route path="" element={<AppBuilderScreen />} />
+                <Route path=":id/editor" element={<InstructorEditor />} />
+              </Route>
+            </Route>
+            <Route path="marketing">
+              <Route path="campaign">
+                <Route path="" element={<CampaignScreen />} />
+                {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
+              </Route>
+              <Route path="create-campaign" element={<CreateCampaign />} />
+              <Route path="edit-campaign/:id" element={<CreateCampaign />} />
+            </Route>
+            <Route path="category">
+              <Route path="" element={<CourseCategoryScreen />} />
+              {/* <Route path=":id/editor" element={<LearnerEditor />} /> */}
             </Route>{' '}
-          </Route>
-          <Route path="builder">
-            <Route path="app">
-              <Route path="" element={<AppBuilderScreen />} />
-              <Route path=":id/editor" element={<InstructorEditor />} />
+            <Route path="settings">
+              <Route path="account" element={<UserAccount />} />
+            </Route>{' '}
+            <Route path="courses" element={<CoursesScreen />} />
+            <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
+              <Route path="section/:sectionId">
+                <Route path="pdf/:itemId" element={<UploadPDFForm />} />
+                <Route path="video/:itemId" element={<UploadVideoForm />} />
+                <Route path="text/:itemId" element={<AddTextItem />} />
+                {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
+              </Route>
             </Route>
+            <Route path="courses/:id/editor" element={<CourseEditor />} />
           </Route>
-          <Route path="marketing">
-            <Route path="campaign">
-              <Route path="" element={<CampaignScreen />} />
-              {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
-            </Route>
-            <Route path="create-campaign" element={<CreateCampaign />} />
-            <Route path="edit-campaign/:id" element={<CreateCampaign />} />
-          </Route>
-          <Route path="category">
-            <Route path="" element={<CourseCategoryScreen />} />
-            {/* <Route path=":id/editor" element={<LearnerEditor />} /> */}
-          </Route>{' '}
-          <Route path="settings">
-            <Route path="account" element={<UserAccount />} />
-          </Route>{' '}
-          <Route path="courses" element={<CoursesScreen />} />
-          <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
-            <Route path="section/:sectionId">
-              <Route path="pdf/:itemId" element={<UploadPDFForm />} />
-              <Route path="video/:itemId" element={<UploadVideoForm />} />
-              <Route path="text/:itemId" element={<AddTextItem />} />
-              {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
-            </Route>
-          </Route>
-          <Route path="courses/:id/editor" element={<CourseEditor />} />
-        </Route>
-        <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
-        <Route path="register" element={<UserRegister />} />
-        <Route path="login" element={<UserLoginScreen />} />
-        <Route
-          path="*"
-          // element={<Navigate to="dashboard/home" replace />}
-        />{' '}
-      </Route>
-
-      <Route path="learner/:orgId">
-        <Route path="dashboard" element={<LearnerDashboard />}>
-          <Route path="cart" element={<LearnerCart />} />
-          <Route path="store" element={<LearnerStoreScreen />} />
-          <Route path="account" element={<LearnerAccount />} />
-          <Route path="courses">
-            <Route path="" element={<LearnerCourses />} />
-            <Route path=":id" element={<CourseDetailViewer />} />
-            <Route path=":id/enrolled" element={<EnrolledCourseSuccessful />} />
-          </Route>
-        </Route>
-        <Route path="dashboard/courses/:id/player" element={<CoursePlayer />}>
+          <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
+          <Route path="register" element={<UserRegister />} />
+          <Route path="login" element={<UserLoginScreen />} />
           <Route
-            path="section/:sectionId/item/:itemId"
-            element={<CoursePlayerItem />}
-          />
+            path="*"
+            // element={<Navigate to="dashboard/home" replace />}
+          />{' '}
         </Route>
 
-        {/* <Route path="register" element={<LearnerRegister />} />
+        <Route path="learner">
+          <Route path="dashboard" element={<LearnerDashboard />}>
+            <Route path="cart" element={<LearnerCart />} />
+            <Route path="store" element={<LearnerStoreScreen />} />
+            <Route path="account" element={<LearnerAccount />} />
+            <Route path="courses">
+              <Route path="" element={<LearnerCourses />} />
+              <Route path=":id" element={<CourseDetailViewer />} />
+              <Route
+                path=":id/enrolled"
+                element={<EnrolledCourseSuccessful />}
+              />
+            </Route>
+          </Route>
+          <Route path="dashboard/courses/:id/player" element={<CoursePlayer />}>
+            <Route
+              path="section/:sectionId/item/:itemId"
+              element={<CoursePlayerItem />}
+            />
+          </Route>
+
+          {/* <Route path="register" element={<LearnerRegister />} />
         <Route path="login" element={<LearnerLogin />} /> */}
+        </Route>
       </Route>
       <Route path="*" element={<NotFoundScreen />} />
     </Route>

@@ -33,22 +33,23 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   if (!duration) {
     duration = { value: 0, unit: 'second' }
   }
-  let durationInMin: Unit
-  if (duration?.value && duration?.unit) {
-    durationInMin = unit(duration?.value, duration?.unit)
-  }
+  let durationInMin = unit(duration?.value, duration?.unit)
+    .to('minute')
+    .toJSON()
+
+  console.log(duration, durationInMin, 'durationInMin')
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   return (
     <NavLink
       to={`section/${props.section._id}/item/${props.item._id}`}
       children={({ isActive }) => (
         <CourseListItem
-          extra={[
-            // props.item.type === 'video' && durationInMin ? (
-            //   <Tag color="blue">{durationInMin.value} min</Tag>
-            // ) : null,
-            <CourseItemIcon type="outlined" item={props.item} />
-          ]}
+          // extra={[
+          //   // props.item.type === 'video' && durationInMin ? (
+          //   //   <Tag color="blue">{durationInMin.value} min</Tag>
+          //   // ) : null,
+
+          // ]}
           isActive={isActive}
         >
           <List.Item.Meta
@@ -74,35 +75,50 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
             description={
               <Space direction="horizontal">
                 {props.item.type === 'video' && durationInMin ? (
-                  <Tag style={{ marginTop: 10 }} color="blue">
-                    {durationInMin.value} sec
-                  </Tag>
-                ) : null}
-                {props.item.files.length ? (
-                  <Dropdown.Button
-                    size="small"
-                    menu={{
-                      items: props.item.files.map((file, index) => {
-                        return {
-                          key: index,
-                          label: (
-                            <a
-                              onClick={() => downloadFile(file.url)}
-                              type="primary"
-                              target="_blank"
-                              href={file.url}
-                              rel="noreferrer"
-                            >
-                              {file.name} <DownloadOutlined />
-                            </a>
-                          )
-                        }
-                      })
+                  <Space
+                    style={{
+                      marginTop: 10
                     }}
-                    placement="bottomRight"
+                    direction="horizontal"
+                    align="center"
                   >
-                    Resources
-                  </Dropdown.Button>
+                    <Tag
+                      icon={
+                        <CourseItemIcon type="outlined" item={props.item} />
+                      }
+                      style={{ marginRight: 0 }}
+                      color="blue"
+                    >
+                      {Math.ceil(durationInMin.value)} min
+                    </Tag>
+
+                    {props.item.files.length ? (
+                      <Dropdown.Button
+                        size="small"
+                        menu={{
+                          items: props.item.files.map((file, index) => {
+                            return {
+                              key: index,
+                              label: (
+                                <a
+                                  onClick={() => downloadFile(file.url)}
+                                  type="primary"
+                                  target="_blank"
+                                  href={file.url}
+                                  rel="noreferrer"
+                                >
+                                  {file.name} <DownloadOutlined />
+                                </a>
+                              )
+                            }
+                          })
+                        }}
+                        placement="bottomRight"
+                      >
+                        Resources
+                      </Dropdown.Button>
+                    ) : null}
+                  </Space>
                 ) : null}
               </Space>
             }

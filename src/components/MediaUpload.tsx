@@ -9,6 +9,7 @@ import { Common, Types } from '@adewaskar/lms-common'
 import React, { ReactNode, useState } from 'react'
 import { Spin, Upload, UploadProps } from 'antd'
 
+import { getMetadata } from 'video-metadata-thumbnails'
 import styled from '@emotion/styled'
 
 const UPLOAD: UploadProps = {
@@ -57,17 +58,25 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
 
   UPLOAD.customRequest = ({ onError, onSuccess, onProgress, data }) => {
     if (!file) return
-    console.log(file, 'tkukur')
     return uploadFiles({
       files: [file],
       isProtected: !!props.isProtected,
       onUploadProgress: e => {
         console.log(e, 'e')
       },
-      onSuccess: ([uploadFile]) => {
-        console.log(uploadFile, 'hhahah')
+      onSuccess: async ([uploadFile]) => {
+        console.log(uploadFile, 'hhahah');
+        if (file.type.includes('video')) {
+          const {duration} = await getMetadata(file as File);
+          uploadFile.metadata = {
+            duration: {
+              value: duration,
+              unit:'seconds'
+            }
+            };
+        }
         uploadFile.file = file
-        console.log(file, 'file123123')
+        console.log(uploadFile, 'file123123')
         props.onUpload(uploadFile)
         onSuccess && onSuccess(file)
       }

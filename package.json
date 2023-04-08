@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@adewaskar/lms-common": "^1.0.163",
+    "@adewaskar/lms-common": "^1.0.168",
     "@ant-design/compatible": "^5.0.0",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.34",
@@ -94,6 +94,8 @@
     "video-metadata-thumbnails": "^1.0.22",
     "video-react": "^0.15.0",
     "video.js": "^8.0.4",
+    "videojs-dynamic-watermark": "^1.0.1",
+    "videojs-watermark": "^2.0.0",
     "web-vitals": "^2.1.4",
     "webpack": "^5.64.4",
     "webpack-dev-server": "^4.6.0",

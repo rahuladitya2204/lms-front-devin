@@ -121,40 +121,40 @@ function CoursePlayer() {
         <Col span={18}>
           <Row>
             <Col span={24}>
-              <CustomCard
-                style={{ height: 600 }}
-                bodyStyle={{ padding: 0, position: 'relative' }}
-              >
-                {currentItemIndex > 0 ? (
-                  <Tooltip
-                    placement="right"
-                    title={`Previous: ${prevItem.title}`}
-                  >
-                    <ControlButton
-                      style={{
-                        left: 0,
-                        borderLeft: 0
-                      }}
-                      onClick={prev}
-                      icon={<CaretLeftOutlined />}
-                    />
-                  </Tooltip>
-                ) : null}
+              {/* <div
+              // style={{ height: 600, padding: 0, position: 'relative' }}
+              // bodyStyle={{}}
+              > */}
+              {currentItemIndex > 0 ? (
+                <Tooltip
+                  placement="right"
+                  title={`Previous: ${prevItem.title}`}
+                >
+                  <ControlButton
+                    style={{
+                      left: 0,
+                      borderLeft: 0
+                    }}
+                    onClick={prev}
+                    icon={<CaretLeftOutlined />}
+                  />
+                </Tooltip>
+              ) : null}
 
-                {currentItemIndex < allItems.length - 1 ? (
-                  <Tooltip placement="left" title={`Next: ${nextItem.title}`}>
-                    <ControlButton
-                      style={{
-                        right: 0,
-                        borderRight: 0
-                      }}
-                      onClick={next}
-                      icon={<CaretRightOutlined />}
-                    />
-                  </Tooltip>
-                ) : null}
-                <Outlet context={[sections]} />
-              </CustomCard>
+              {currentItemIndex < allItems.length - 1 ? (
+                <Tooltip placement="left" title={`Next: ${nextItem.title}`}>
+                  <ControlButton
+                    style={{
+                      right: 0,
+                      borderRight: 0
+                    }}
+                    onClick={next}
+                    icon={<CaretRightOutlined />}
+                  />
+                </Tooltip>
+              ) : null}
+              <Outlet context={[sections]} />
+              {/* </div> */}
             </Col>
             <Col span={24}>
               <Card style={{ marginTop: 30 }}>

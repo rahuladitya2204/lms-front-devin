@@ -63,6 +63,7 @@ const UpoadFiles: React.FC<UpoadFilesPropsI> = props => {
     console.log(file, 'tkukur')
     return uploadFiles({
       files: [file],
+      isProtected:false,
       onUploadProgress: e => {
         console.log(e, 'e')
       },

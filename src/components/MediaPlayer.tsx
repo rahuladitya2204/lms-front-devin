@@ -3,9 +3,13 @@ import 'video.js/dist/video-js.css'
 
 import React from 'react'
 import videojs from 'video.js'
+import watermark from 'videojs-dynamic-watermark'
+
+videojs.registerPlugin('dynamicWatermark', watermark)
 
 interface MediaPlayerPropsI {
   url?: string;
+  watermark?: string;
   width?: number;
   height?: number;
   onEnded?: () => void;
@@ -48,13 +52,24 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
             onReady && onReady(player)
           }
         ))
+        if (props.watermark) {
+          player.dynamicWatermark({
+            elementId: 'unique_id',
+            watermarkText: props.watermark.toString(),
+            changeDuration: 8000,
+            cssText:
+            `display: inline-block; color: red; background-color: transparent; font-size: 1rem; z-index: 9999; position: absolute; @media only screen and (max-width: 992px){font-size: 0.8rem;}
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+            `
+          })
+        }
 
         // You could update an existing player in the `else` block here
         // on prop change, for example:
       } else {
         const player = playerRef.current
-
-        player.autoplay(options.autoplay)
         player.src(options.sources)
       }
     },
@@ -65,6 +80,8 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   React.useEffect(
     () => {
       const player = playerRef.current
+      // player.autoplay(options.autoplay)
+      console.log(player, 'papap')
 
       return () => {
         if (player && !player.isDisposed()) {

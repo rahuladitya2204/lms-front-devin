@@ -30,7 +30,7 @@ function UserLoginScreen () {
         email: values.email,
         password: values.password,
         onSuccess: orgId => {
-          navigate(`/user/${orgId}/dashboard/courses`)
+          navigate(`${orgId}/user/dashboard/courses`)
         }
       })
     }

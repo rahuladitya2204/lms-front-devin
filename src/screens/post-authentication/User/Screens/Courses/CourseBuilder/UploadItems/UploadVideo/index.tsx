@@ -52,48 +52,6 @@ const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
         <Form.Item required name="title" label="Video Title">
           <Input placeholder='Please enter title of the video' />
           </Form.Item>
-          <Form.Item required label="Upload Video">
-            <Row wrap>
-              <Col span={24}>
-              {/* <MediaUpload width='300px' height='250px'
-                        renderItem={() => <MediaPlayer url={url} />}
-              url={url} onUpload={({url,file}) => {
-                setUrl(url);
-                getMetadata(file as File).then(({ duration: durationInSeconds }) => {
-                  setMetadata({
-                    duration: {
-                      value: durationInSeconds,
-                      unit:'seconds'
-                      }
-                    })
-                  })
-              }}>
-                  <MediaPlayer url={url} />
-          </MediaUpload> */}
-                 <MediaUpload isProtected
-            width="300px"
-            renderItem={() => (
-              <Button>{metadata.url ? 'Replace Video' : 'Upload Video'}</Button>
-            )}
-              onUpload={({url,file,key}) => {
-                getMetadata(file as File).then(({ duration: durationInSeconds }) => {
-                  setMetadata({
-                    duration: {
-                      value: durationInSeconds,
-                      unit:'seconds'
-                    },
-                    key: key+'',
-                    url:url
-                    })
-                  })
-              }}
-            height="250px"
-            // url={VideoUrl}
-          />
-          {/* {VideoUrl ? <MediaPlayer url={item.metadata?.url} /> : null} */}
-              </Col>
-           </Row>
-          </Form.Item>
         </Form>
       
       </Modal>

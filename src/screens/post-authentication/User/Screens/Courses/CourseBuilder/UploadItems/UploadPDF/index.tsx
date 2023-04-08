@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { Fragment, useState } from 'react';
 
-import DraggerUpload from '@Components/DraggerUpload';
+// import DraggerUpload from '@Components/DraggerUpload';
 import { Types } from '@adewaskar/lms-common'
 
 const UploadVideoa: React.FC<Types.CreateItemPropsI> = (props) => {
@@ -46,9 +46,9 @@ const UploadVideoa: React.FC<Types.CreateItemPropsI> = (props) => {
       {
         label: `Upload PDF`,
         key: '1',
-        children: <DraggerUpload onUpload={u => {
-          setFiles(u);
-        }}/>,
+        // children: <DraggerUpload onUpload={u => {
+        //   setFiles(u);
+        // }}/>,
       },
       {
         label: `Public URL`,

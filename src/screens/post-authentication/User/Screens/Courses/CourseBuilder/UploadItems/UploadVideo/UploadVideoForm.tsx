@@ -66,11 +66,12 @@ const UploadVideoForm: React.FC = () => {
           <MediaUpload
             isProtected
             width="300px"
-            onUpload={({ url, key }) => {
+            onUpload={({ url, key, metadata }) => {
               onFormChange({
                 metadata: {
                   url: url,
-                  key: key
+                  key: key,
+                  ...metadata
                 }
               })
               // setUrl(url)

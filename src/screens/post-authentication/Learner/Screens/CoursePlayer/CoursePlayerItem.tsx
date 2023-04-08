@@ -1,12 +1,14 @@
+import { Learner, Store } from '@adewaskar/lms-common'
+
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
 import { Fragment } from 'react'
-import { Learner } from '@adewaskar/lms-common'
 import MediaPlayer from '@Components/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import VideoPlayer from '@Components/VideoPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 
 function CoursePlayerItem() {
+  const user = Store.useAuthentication(s => s.user)
   const item = useGetNodeFromRouterOutlet()
   const { data: url } = Learner.Queries.useGetPresignedUrl(
     item?.metadata?.key + ''
@@ -18,7 +20,15 @@ function CoursePlayerItem() {
   }
 
   if (item.type === 'video') {
-    Component = <MediaPlayer url={url + ''} />
+    Component = (
+      <MediaPlayer
+        watermark={` <div>
+         <p>${user.name}</p>
+         <p>${user.contactNo}</p>
+       </div>`}
+        url={url + ''}
+      />
+    )
   }
 
   if (item.type === 'pdf') {

@@ -22,6 +22,7 @@ interface ImageUploadPropsI {
   children?: ReactNode;
   listType?: string;
   url?: string;
+  key?: string;
   rounded?: boolean;
   cropper?: boolean;
   height?: string;
@@ -58,8 +59,8 @@ const ImageUpload: React.FC<ImageUploadPropsI> = props => {
   const [fileList, setFileList] = useState(null)
 
   const UploadFile = (file) => {
+    console.log()
     if (!file) return
-    // console.log(file, 'tkukur')
     return uploadFiles({
       files: [file],
       onUploadProgress: e => {
