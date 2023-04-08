@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Tag } from 'antd'
+import { Button, Card, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Tag } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
@@ -120,7 +120,8 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   >
     <Row gutter={[16, 16]}>
         <Col span={24}>
-    <Stepper
+            <Card>
+            <Stepper
       steps={[
         {
           title: 'Title',
@@ -178,7 +179,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
             title: 'Template',
             content: <>
               <Form.Item label="Variables" >
-                <Tag color="blue">Name: {`{{name}}`}</Tag>
+                <Tag color="blue">Learner Name: {`{{name}}`}</Tag>
                 <Tag color="blue">Contact No: {`{{contactNo}}`}</Tag>
 
 </Form.Item>
@@ -191,6 +192,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
           }
       ]}
     />
+   </Card>
           </Col></Row></Header>
           </Form>
   

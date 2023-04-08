@@ -10,8 +10,8 @@ const PDFViewer = (props: PDFViewerPropsI) => {
   return (
     <Viewer
       document={{
-        // url: props.url
-        url: 'https://arxiv.org/pdf/quant-ph/0410100.pdf'
+        url: props.url
+        // url: 'https://arxiv.org/pdf/quant-ph/0410100.pdf'
       }}
     />
   )

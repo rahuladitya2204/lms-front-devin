@@ -40,6 +40,7 @@ function RuleCreator(props: RuleCreatorPropsI) {
               {props.rules.map((rule: Types.Rule, index: number) => {
                 return (
                   <RuleRow
+                    isFirst={props.rules.length < 2}
                     deleteRule={() => props.deleteRule(index)}
                     updateRule={(type, value) => {
                       props.updateRule(index, type, value)

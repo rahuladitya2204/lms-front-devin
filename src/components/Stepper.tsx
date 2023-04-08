@@ -1,3 +1,4 @@
+import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Button, Space, Steps, message, theme } from 'antd';
 import React, { useState } from 'react';
 
@@ -37,27 +38,23 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
 
   return (
     <>
+      <Space direction='horizontal' style={{ marginBottom: 24, justifyContent: 'space-between', width: '100%' }}>
+      {current > 0 && (
+          <Button icon={<ArrowLeftOutlined/>} style={{ margin: '0 8px' }} onClick={() => prev()}>
+            Previous
+          </Button>
+        )}
+      {current < steps.length - 1 && (
+          <Button icon={<ArrowRightOutlined/>} type="primary" onClick={() => next()}>
+            Next
+          </Button>
+        )}
+     
+      </Space>
       <Steps current={current} items={items} />
       {steps.map((step,index) => {
         return <div style={{...contentStyle,display:index===current?'block':'none'}}>{step.content}</div>;
       })}
-      <Space direction='horizontal' style={{ marginTop: 24 }}>
-      {current > 0 && (
-          <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
-            Previous
-          </Button>
-        )}
-        {current < steps.length - 1 && (
-          <Button type="primary" onClick={() => next()}>
-            Next
-          </Button>
-        )}
-        {/* {current === steps.length - 1 && (
-          <Button type="primary" onClick={() => message.success('Processing complete!')}>
-            Done
-          </Button>
-        )} */}
-      </Space>
     </>
   );
 };

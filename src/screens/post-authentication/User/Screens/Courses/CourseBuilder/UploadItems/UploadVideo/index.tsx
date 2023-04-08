@@ -7,12 +7,13 @@ import { Types } from '@adewaskar/lms-common'
 import { getMetadata } from 'video-metadata-thumbnails';
 
 const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
-  const [url,setUrl] = useState('');
   const [metadata, setMetadata] = useState({
     duration: {
       value: 0,
       unit:''
-    }
+    },
+    key: '',
+    url:''
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   
@@ -21,17 +22,13 @@ const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
   };
 
   const closeModal = () => {
-    setUrl('')
     setIsModalOpen(false);
   };
     
     const onSubmit = ({title}: { title: string }) => {
       props.onFinish({
         title: title,
-        metadata: {
-          url: url,
-          duration: metadata.duration
-        }
+        metadata: metadata
       });
       form.resetFields(['title']);
         closeModal();
@@ -73,19 +70,20 @@ const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
               }}>
                   <MediaPlayer url={url} />
           </MediaUpload> */}
-                 <MediaUpload
+                 <MediaUpload isProtected
             width="300px"
             renderItem={() => (
-              <Button>{url ? 'Replace Video' : 'Upload Video'}</Button>
+              <Button>{metadata.url ? 'Replace Video' : 'Upload Video'}</Button>
             )}
-              onUpload={({url,file}) => {
-                setUrl(url);
+              onUpload={({url,file,key}) => {
                 getMetadata(file as File).then(({ duration: durationInSeconds }) => {
                   setMetadata({
                     duration: {
                       value: durationInSeconds,
                       unit:'seconds'
-                      }
+                    },
+                    key: key+'',
+                    url:url
                     })
                   })
               }}

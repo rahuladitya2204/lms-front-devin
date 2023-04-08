@@ -3,6 +3,7 @@ import { Avatar, Button, Checkbox, Form, Input, Space } from 'antd'
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
+import { Learner } from '@adewaskar/lms-common'
 import MediaPlayer from '@Components/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
@@ -12,7 +13,9 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadVideoForm: React.FC = () => {
   const { onFormChange, form, item } = useUploadItemForm()
-  const VideoUrl = item?.metadata?.url || item?.metadata?.key
+  const VideoKey = item?.metadata?.key + ''
+  const { data: VideoUrl } = Learner.Queries.useGetPresignedUrl(VideoKey)
+
   return (
     <Fragment>
       <Form
@@ -61,12 +64,13 @@ const UploadVideoForm: React.FC = () => {
         </Form.Item>{' '}
         <Form.Item name="context" label="Preview" required>
           <MediaUpload
+            isProtected
             width="300px"
-            onUpload={({ url }) => {
+            onUpload={({ url, key }) => {
               onFormChange({
                 metadata: {
-                  url: url
-                  // key: key
+                  url: url,
+                  key: key
                 }
               })
               // setUrl(url)
@@ -76,7 +80,7 @@ const UploadVideoForm: React.FC = () => {
               <Button>{VideoUrl ? 'Replace Video' : 'Upload Video'}</Button>
             )}
           />
-          {VideoUrl ? <MediaPlayer url={item.metadata?.url} /> : null}
+          {VideoUrl ? <MediaPlayer url={VideoUrl} /> : null}
         </Form.Item>
       </Form>
     </Fragment>

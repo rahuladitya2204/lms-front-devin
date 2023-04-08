@@ -91,6 +91,7 @@ const OPERANDS = [
 interface RuleRowPropsI {
   rule: Types.Rule;
   deleteRule: Function;
+  isFirst: boolean;
   updateRule: (type: string, val: string) => void;
 }
 
@@ -145,10 +146,12 @@ function RuleRow(props: RuleRowPropsI) {
               //   value={props.rule.value}
             />
           ) : null}
-          <Button
-            onClick={() => props.deleteRule()}
-            icon={<DeleteOutlined size={10} />}
-          />
+          {!props.isFirst ? (
+            <Button
+              onClick={() => props.deleteRule()}
+              icon={<DeleteOutlined size={10} />}
+            />
+          ) : null}
         </Space>
       </Col>
     </Row>

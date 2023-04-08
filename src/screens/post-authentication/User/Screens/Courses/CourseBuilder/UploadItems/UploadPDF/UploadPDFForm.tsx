@@ -27,12 +27,13 @@ const UploadPDFForm: React.FC = () => {
           <Input placeholder="input placeholder" />
         </Form.Item>
         <Form.Item name="PDF File" label="PDF File" required>
-          <MediaUpload
+          <MediaUpload isProtected
             width="300px"
-            onUpload={({ url }) => {
+            onUpload={({ url, key }) => {
               onFormChange({
                 metadata: {
-                  url: url
+                  url,
+                  key
                 },
                 type: 'pdf'
               })
