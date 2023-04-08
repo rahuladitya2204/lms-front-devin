@@ -21,6 +21,7 @@ import ImageUpload from '@Components/ImageUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common';
+import { useParams } from 'react-router';
 
 const LANGUAGES = [
   {
@@ -39,6 +40,7 @@ interface CourseDetailsEditorPropsI {
 }
 
 function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
+  const { id: courseId } = useParams()
   const [form] = Form.useForm<Types.Course>();
   const { data: instructors, isLoading: loading } = User.Queries.useGetInstructors()
   const { listItems: categories } = User.Queries.useGetCourseCategories();
@@ -54,7 +56,9 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
     <Fragment>
        <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
 <Form.Item name="thumbnailImage" required label="Thumbnail">
-          <ImageUpload cropper url={thumbnailImage} width='250px'
+          <ImageUpload  cropper url={thumbnailImage} width='250px'
+                              keyName={`courses/${courseId}/thumbnailImage`}
+
             renderItem={() => <Image preview={false} src={thumbnailImage} />}
             onUpload={e => {
             props.onFormUpdate({

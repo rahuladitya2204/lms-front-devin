@@ -15,7 +15,8 @@ interface CourseLandingPageEditorPropsI {
       onFormUpdate: (d:Types.CourseLandingPage)=>void;
     }
     
-    function CourseLandingPageEditor(props:CourseLandingPageEditorPropsI) {
+function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
+  const { courseId } = props;
       const [form] = Form.useForm<Types.CourseLandingPage>();    
       const PromoVideoUrl = props?.formData?.promoVideo;
         console.log(PromoVideoUrl)
@@ -43,7 +44,8 @@ interface CourseLandingPageEditorPropsI {
             </Form.Item>
             
             <Form.Item label="Promo Video" required>
-          <MediaUpload
+              <MediaUpload
+                keyName={`courses/${courseId}/promo`}
             width="300px"
             onUpload={({ url }) => {
               onFormUpdate({
