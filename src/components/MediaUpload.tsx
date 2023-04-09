@@ -19,7 +19,7 @@ const UPLOAD: UploadProps = {
 }
 
 interface MediaUploadPropsI {
-  onUpload: (file: Types.UploadFileType) => void;
+  onUpload: (d: Types.FileType) => void;
   children?: ReactNode;
   isProtected?: boolean;
   listType?: string;
@@ -68,7 +68,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       onSuccess: async ([uploadFile]) => {
         console.log(uploadFile, 'hhahah');
         if (file.type.includes('video')) {
-          const {duration} = await getMetadata(file as File);
+          const { duration } = await getMetadata(file as File);
           uploadFile.metadata = {
             duration: {
               value: duration,

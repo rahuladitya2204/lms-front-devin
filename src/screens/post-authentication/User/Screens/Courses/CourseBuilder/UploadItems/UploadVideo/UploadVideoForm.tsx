@@ -1,9 +1,9 @@
 import { Avatar, Button, Checkbox, Form, Input, Space } from 'antd'
+import { Common, Learner } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
-import { Learner } from '@adewaskar/lms-common'
 import MediaPlayer from '@Components/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
@@ -15,8 +15,8 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 const UploadVideoForm: React.FC = () => {
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, form, item } = useUploadItemForm()
-  const VideoKey = item?.metadata?.key + ''
-  const { data: VideoUrl } = Learner.Queries.useGetPresignedUrl(VideoKey)
+  console.log(item.file, 'item')
+  const { data: file } = Common.Queries.useGetFileDetails(item.file + '')
 
   return (
     <Fragment>
@@ -69,22 +69,17 @@ const UploadVideoForm: React.FC = () => {
             keyName={`courses/${courseId}/${sectionId}/${itemId}`}
             isProtected
             width="300px"
-            onUpload={({ url, key, metadata }) => {
+            onUpload={({ url, key, _id }) => {
               onFormChange({
-                metadata: {
-                  url: url,
-                  key: key,
-                  ...metadata
-                }
+                file: _id
               })
-              // setUrl(url)
             }}
             height="250px"
             renderItem={() => (
-              <Button>{VideoUrl ? 'Replace Video' : 'Upload Video'}</Button>
+              <Button>{file.url ? 'Replace Video' : 'Upload Video'}</Button>
             )}
           />
-          {VideoUrl ? <MediaPlayer url={VideoUrl} /> : null}
+          {file.url ? <MediaPlayer url={file.url} /> : null}
         </Form.Item>
       </Form>
     </Fragment>

@@ -1,4 +1,4 @@
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Common, Learner, Store } from '@adewaskar/lms-common'
 
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
 import { Fragment } from 'react'
@@ -7,13 +7,10 @@ import PDFViewer from '@Components/PDFViewer'
 import VideoPlayer from '@Components/VideoPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 
-function CoursePlayerItem() {
+function CoursePlayerItem () {
   const user = Store.useAuthentication(s => s.user)
   const item = useGetNodeFromRouterOutlet()
-  const { data: url } = Learner.Queries.useGetPresignedUrl(
-    item?.metadata?.key + ''
-  )
-  console.log(url, 'url')
+  const { data: { url } } = Common.Queries.useGetFileDetails(item.file + '')
   let Component
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />

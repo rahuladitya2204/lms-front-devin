@@ -59,7 +59,6 @@ const ImageUpload: React.FC<ImageUploadPropsI> = props => {
   const [fileList, setFileList] = useState(null)
 
   const UploadFile = (file) => {
-    console.log(props.keyName,'mmmmm')
     if (!file) return
     return uploadFiles({
       files: [{file:file,name:props.keyName}],
@@ -67,6 +66,7 @@ const ImageUpload: React.FC<ImageUploadPropsI> = props => {
         // console.log(e, 'e')
       },
       onSuccess: ([uploadFile]) => {
+        console.log(uploadFile, 'hhahah');
         uploadFile.file = file
         // console.log(file, 'file123123')
         props.onUpload(uploadFile)
