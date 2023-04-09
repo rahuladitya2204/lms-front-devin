@@ -1,16 +1,16 @@
-import { Avatar, Modal } from 'antd'
+import { Avatar, Modal, Space } from 'antd'
 import { Fragment, useState } from 'react'
 
 import { FileOutlined } from '@ant-design/icons'
 import { Types } from '@adewaskar/lms-common'
 
 interface FileListPropsI {
-  files: Types.UploadFileType[];
+  files: { name: string, key: string, url?: string }[];
 }
 
 function FileList(props: FileListPropsI) {
   return (
-    <Fragment>
+    <Space size={[20, 20]}>
       {props.files?.map(file => {
         return (
           <Avatar
@@ -21,7 +21,7 @@ function FileList(props: FileListPropsI) {
           />
         )
       })}
-    </Fragment>
+    </Space>
   )
 }
 

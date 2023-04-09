@@ -30,10 +30,11 @@ const CourseListItem = styled(List.Item)`
 
 function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   let duration = props.item.metadata?.duration
+  console.log(duration, 'aaa')
   if (!duration) {
     duration = { value: 0, unit: 'second' }
   }
-  let durationInMin = unit(duration?.value, duration?.unit)
+  let durationInMin = unit(duration, 'seconds')
     .to('minute')
     .toJSON()
 
@@ -101,7 +102,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                               key: index,
                               label: (
                                 <a
-                                  onClick={() => downloadFile(file.url)}
+                                  onClick={() => downloadFile(file.url + '')}
                                   type="primary"
                                   target="_blank"
                                   href={file.url}

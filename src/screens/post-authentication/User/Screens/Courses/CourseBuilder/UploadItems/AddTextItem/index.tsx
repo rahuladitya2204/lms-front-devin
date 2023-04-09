@@ -1,18 +1,12 @@
 import { Avatar, Checkbox, Form, Input, Space } from 'antd'
-import { FileOutlined, PlusOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
+import MediaUpload from '@Components/MediaUpload'
+import { PlusOutlined } from '@ant-design/icons'
 import QuillEditor from '@Components/QuillEditor'
-import UploadFiles from '@Components/UploadFiles'
 import useUploadItemForm from '../hooks/useUploadItemForm'
-
-interface AddTextItemForm {
-  title: string;
-  isPreview: boolean;
-  description: string;
-}
 
 const AddTextItem: React.FC = () => {
   const { onFormChange, form, item } = useUploadItemForm()
@@ -44,12 +38,21 @@ const AddTextItem: React.FC = () => {
           <Space direction="horizontal">
             <FileList files={item.files} />
             <ActionModal
-              cta={<Avatar shape="square" size={80} icon={<PlusOutlined />} />}
+              cta={
+                <Avatar
+                  style={{ background: 'transparent' }}
+                  shape="square"
+                  size={80}
+                  icon={<PlusOutlined />}
+                />
+              }
             >
-              <UploadFiles
-                onUpload={({ name, url }) => {
+              <MediaUpload
+                uploadType="file"
+                isProtected
+                onUpload={({ name, key }) => {
                   onFormChange({
-                    files: [...item.files, { name, url }]
+                    files: [...item.files, { name, key }]
                   })
                 }}
               />

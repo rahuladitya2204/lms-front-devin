@@ -53,7 +53,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
       {
         title: 'Campaign',
         path: 'campaign',
-        icon: <AppstoreOutlined />
+        // icon: <AppstoreOutlined />
       }
     ]
   },

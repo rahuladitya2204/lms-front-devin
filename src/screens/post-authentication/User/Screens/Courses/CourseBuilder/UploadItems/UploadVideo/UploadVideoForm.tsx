@@ -8,7 +8,7 @@ import MediaPlayer from '@Components/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import QuillEditor from '@Components/QuillEditor'
-import UploadFiles from '@Components/UploadFiles'
+import { getMetadata } from 'video-metadata-thumbnails'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
@@ -53,13 +53,22 @@ const UploadVideoForm: React.FC = () => {
           <Space direction="horizontal">
             <FileList files={item.files} />
             <ActionModal
-              cta={<Avatar shape="square" size={80} icon={<PlusOutlined />} />}
+              cta={
+                <Avatar
+                  style={{ background: 'transparent', color: '#000' }}
+                  shape="square"
+                  size={80}
+                  icon={<PlusOutlined />}
+                />
+              }
             >
-              <UploadFiles
+              <MediaUpload
+                uploadType="file"
+                isProtected
                 prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files`}
-                onUpload={({ name, url }) => {
+                onUpload={({ name, key }) => {
                   onFormChange({
-                    files: [...item.files, { name, url }]
+                    files: [...item.files, { name, key }]
                   })
                 }}
               />
@@ -72,9 +81,14 @@ const UploadVideoForm: React.FC = () => {
             fileName={item.title}
             isProtected
             width="300px"
-            onUpload={({ url, key, _id }) => {
-              onFormChange({
-                file: _id
+            onUpload={({ _id }, file) => {
+              getMetadata(file).then(r => {
+                onFormChange({
+                  file: _id,
+                  metadata: {
+                    ...r
+                  }
+                })
               })
             }}
             height="250px"

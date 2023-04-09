@@ -1,9 +1,23 @@
-import { Button, Card, Col, Modal, Row, Space, Spin, Table } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Modal,
+  Row,
+  Space,
+  Spin,
+  Table,
+  Typography
+} from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
+import FileTypeIcon from '@Components/FileTypeIcon'
 import Header from '@Components/Header'
 import dayjs from 'dayjs'
+import { unit } from 'mathjs'
+
+const { Text } = Typography
 
 function AssetLibraryScreen() {
   const { data, isLoading: loadingFiles } = Common.Queries.useGetFiles()
@@ -19,7 +33,63 @@ function AssetLibraryScreen() {
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loadingFiles || deletingFile}>
-              <Table.Column title="Name" dataIndex="name" key="name" />
+              <Table.Column
+                title=""
+                dataIndex=""
+                render={(_: any, record: { name: string, type: string }) => {
+                  const fileType = record.type.split('/')[0]
+                  return (
+                    <Space size="middle">
+                      <Text strong>
+                        <FileTypeIcon iconType="outlined" fileType={fileType} />
+                      </Text>
+                    </Space>
+                  )
+                }}
+              />
+              <Table.Column
+                title="Name"
+                dataIndex="name"
+                render={(_: any, record: { name: string, type: string }) => {
+                  const name = record.name.split('/')[0]
+                  const fileType = record.type.split('/')[0]
+                  return (
+                    <Space size="middle">
+                      <Text strong>
+                        {name}
+                      </Text>
+                    </Space>
+                  )
+                }}
+              />
+              <Table.Column
+                title="File Type"
+                dataIndex="type"
+                key="type"
+                render={(_: any, record: { type: string }) => {
+                  const type = record.type.split('/')[0]
+                  return (
+                    <Space size="middle">
+                      <Text strong>{type}</Text>
+                    </Space>
+                  )
+                }}
+              />
+              <Table.Column
+                title="Size"
+                dataIndex="size"
+                key="size"
+                render={(_: any, record: { size: number }) => {
+                  const size = unit(record.size, 'byte')
+                    .to('megabyte')
+                    .toJSON()
+                  return (
+                    <Space size="middle">
+                      <Text strong>{Math.ceil(size.value)} MB</Text>
+                    </Space>
+                  )
+                }}
+              />
               <Table.Column
                 title="Modified On"
                 dataIndex="updatedAt"

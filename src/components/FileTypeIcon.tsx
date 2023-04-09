@@ -1,0 +1,57 @@
+import {
+  BookFilled,
+  BookOutlined,
+  CloudDownloadOutlined,
+  FileImageOutlined,
+  FilePdfFilled,
+  FilePdfOutlined,
+  FileTextFilled,
+  FileTextOutlined,
+  PlayCircleFilled,
+  PlayCircleOutlined
+} from '@ant-design/icons'
+
+import { Fragment } from 'react'
+
+interface CourseItemIconPropsI {
+  fileType: string;
+  iconType?: string;
+}
+
+const FileTypeIcon = (props: CourseItemIconPropsI) => {
+  console.log(props.fileType, 'file')
+  let Icon: React.FC = PlayCircleOutlined
+  switch (props.fileType) {
+    case 'pdf':
+      if (props.iconType === 'outlined') {
+        Icon = FilePdfOutlined
+      } else {
+        Icon = FilePdfFilled
+      }
+      break
+
+    case 'image':
+      if (props.iconType === 'outlined') {
+        Icon = FileImageOutlined
+      } else {
+        Icon = FileImageOutlined
+      }
+      break
+
+    case 'video':
+      if (props.iconType === 'outlined') {
+        Icon = PlayCircleOutlined
+      } else {
+        Icon = PlayCircleFilled
+      }
+      break
+  }
+  return (
+    <Fragment>
+      {/* @ts-ignore */}
+      <Icon style={{ fontSize: 30, marginRight: 10 }} />
+    </Fragment>
+  )
+}
+
+export default FileTypeIcon

@@ -1,5 +1,10 @@
 // @ts-nocheck
-import { ClockCircleOutlined, InboxOutlined } from '@ant-design/icons'
+import {
+  ClockCircleOutlined,
+  InboxOutlined,
+  LoadingOutlined,
+  PlusOutlined
+} from '@ant-design/icons'
 import { Common, Types } from '@adewaskar/lms-common'
 // @ts-nocheck
 import React, { ReactNode, useState } from 'react'
@@ -7,7 +12,6 @@ import { Spin, Upload, UploadProps } from 'antd'
 
 import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop'
-import { getMetadata } from 'video-metadata-thumbnails'
 import styled from '@emotion/styled'
 
 const UPLOAD: UploadProps = {
@@ -17,7 +21,7 @@ const UPLOAD: UploadProps = {
 }
 
 interface MediaUploadPropsI {
-  onUpload: (d: Types.FileType) => void;
+  onUpload: (d: Types.FileType, file: File) => void;
   children?: ReactNode;
   isProtected?: boolean;
   listType?: string;
@@ -29,7 +33,7 @@ interface MediaUploadPropsI {
   height?: string;
   width?: string;
   extra?: UploadProps;
-  renderItem: () => ReactNode;
+  renderItem?: () => ReactNode;
 }
 const CustomUpload = styled(Upload)(
   props =>
@@ -61,6 +65,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   const [fileList, setFileList] = useState(null)
 
   const UploadFile = file => {
+    console.log(file, 'fififif')
     if (!file) return
     return uploadFiles({
       files: [{ file: file, prefixKey: props.prefixKey, name: props.fileName }],
@@ -71,20 +76,32 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       onSuccess: ([uploadFile]) => {
         console.log(uploadFile, 'hhahah')
         uploadFile.file = file
-        props.onUpload(uploadFile)
+        props.onUpload(uploadFile, file)
       }
     })
   }
-
+  UPLOAD.customRequest = () => {
+    UploadFile(file)
+  }
   UPLOAD.onChange = ({ file, fileList }) => {
     console.log(file, 'file')
     setFile(file)
     setFileList(fileList)
   }
 
+  const UploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  )
+
   let UploadComponent = (
     <CustomUpload
       {...UPLOAD}
+      beforeUpload={info => {
+        setFile(info)
+      }}
       name="avatar"
       listType="picture-card"
       className="avatar-uploader"
@@ -93,7 +110,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       // @ts-ignore
       width={props.width || 'auto'}
     >
-      {props.renderItem ? props.renderItem() : uploadButton}
+      {props.renderItem ? props.renderItem() : UploadButton}
     </CustomUpload>
   )
 
@@ -109,7 +126,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         iconRender={() => <ClockCircleOutlined />}
         width={props.width || 'auto'}
       >
-        {props.renderItem ? props.renderItem() : uploadButton}
+        {props.renderItem ? props.renderItem() : UploadButton}
       </CustomUpload>
     )
     UploadComponent = props.cropper ? (
@@ -126,10 +143,13 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     )
   }
 
-  if (props.type === 'file') {
+  if (props.uploadType === 'file') {
     UploadComponent = (
       <Dragger
         {...UPLOAD}
+        beforeUpload={info => {
+          setFile(info)
+        }}
         name="avatar"
         listType="picture-card"
         className="avatar-uploader"

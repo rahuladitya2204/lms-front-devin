@@ -2,7 +2,6 @@ import { Form, Input, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
 import Image from '@Components/Image'
-import ImageUpload from '@Components/ImageUpload';
 import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'

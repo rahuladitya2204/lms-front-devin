@@ -10,7 +10,7 @@ const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
   const [metadata, setMetadata] = useState({
     duration: {
       value: 0,
-      unit:''
+      unit:'seconds'
     },
     key: '',
     url:''

@@ -1,6 +1,5 @@
-import { Checkbox, Col, Form, Image, Input, Row, Typography } from 'antd'
+import { Checkbox, Col, Form, Image, Input, Row } from 'antd'
 
-import ImageUpload from '@Components/ImageUpload'
 import MediaUpload from '@Components/MediaUpload'
 import { Store } from '@adewaskar/lms-common'
 import { generate } from '@ant-design/colors'
