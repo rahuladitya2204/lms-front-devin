@@ -193,7 +193,7 @@ function CourseBuilderScreen() {
             <Row>
               <Col span={24}>
                 <ImageUpload
-                  keyName={`courses/${courseId}/thumbnailImage`}
+                  prefixKey={`courses/${courseId}/thumbnailImage`}
                   cropper
                   width="100%"
                   height="200px"

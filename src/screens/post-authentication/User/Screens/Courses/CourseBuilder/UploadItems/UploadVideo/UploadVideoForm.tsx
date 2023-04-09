@@ -15,8 +15,9 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 const UploadVideoForm: React.FC = () => {
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, form, item } = useUploadItemForm()
-  console.log(item.file, 'item')
-  const { data: file } = Common.Queries.useGetFileDetails(item.file + '')
+  const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
+    enabled: !!item.file
+  })
 
   return (
     <Fragment>
@@ -55,6 +56,7 @@ const UploadVideoForm: React.FC = () => {
               cta={<Avatar shape="square" size={80} icon={<PlusOutlined />} />}
             >
               <UploadFiles
+                prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files`}
                 onUpload={({ name, url }) => {
                   onFormChange({
                     files: [...item.files, { name, url }]
@@ -66,7 +68,8 @@ const UploadVideoForm: React.FC = () => {
         </Form.Item>{' '}
         <Form.Item name="context" label="Preview" required>
           <MediaUpload
-            keyName={`courses/${courseId}/${sectionId}/${itemId}`}
+            prefixKey={`courses/${courseId}/${sectionId}/${itemId}/lecture`}
+            fileName={item.title}
             isProtected
             width="300px"
             onUpload={({ url, key, _id }) => {

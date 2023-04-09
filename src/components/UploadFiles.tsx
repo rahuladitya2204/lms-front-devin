@@ -25,31 +25,14 @@ interface UpoadFilesPropsI {
   children?: ReactNode;
   listType?: string;
   url?: string;
+  prefixKey?: string;
+  fileName?: string;
   rounded?: boolean;
   height?: string;
   width?: string;
   extra?: UploadProps;
   renderItem?: () => ReactNode;
 }
-const CustomUpload = styled(Upload)(
-  props =>
-    `
-.ant-upload-select {
-  margin: 0;
-  width: ${props.width} !important;
-}
-.ant-upload {
-  min-width: 150px !important;
-  margin: 0;
-  display: block;
-  border-radius: ${(props: { rounded?: boolean }) =>
-    props.rounded ? '50% !important' : ''};
-  object-fit: cover;
-  overflow: hidden;
-  min-height: 150px !important;
-}
-`
-)
 
 const UpoadFiles: React.FC<UpoadFilesPropsI> = props => {
   const {
@@ -60,9 +43,8 @@ const UpoadFiles: React.FC<UpoadFilesPropsI> = props => {
 
   UPLOAD.customRequest = ({ onError, onSuccess, onProgress, data }) => {
     if (!file) return
-    console.log(file, 'tkukur')
     return uploadFiles({
-      files: [file],
+      files: [{file,prefixKey:props.prefixKey,name:props.fileName}],
       isProtected:false,
       onUploadProgress: e => {
         console.log(e, 'e')

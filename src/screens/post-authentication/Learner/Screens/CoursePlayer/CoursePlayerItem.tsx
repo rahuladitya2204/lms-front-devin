@@ -10,7 +10,9 @@ import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 function CoursePlayerItem () {
   const user = Store.useAuthentication(s => s.user)
   const item = useGetNodeFromRouterOutlet()
-  const { data: { url } } = Common.Queries.useGetFileDetails(item.file + '')
+  const { data: { url } } = Common.Queries.useGetFileDetails(item.file + '', {
+    enabled: !!item.file
+  })
   let Component
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />

@@ -2,9 +2,8 @@ import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
-import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 
 function AssetLibraryScreen() {
   const { data, isLoading: loading } = Common.Queries.useGetFiles()
@@ -13,12 +12,7 @@ function AssetLibraryScreen() {
     <Header>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'AssetLibrary'}
-        // extra={
-        //   <ActionModal cta={<Button type="primary">Add Instructor</Button>}>
-        //     <AddInstructor> </AddInstructor>
-        //   </ActionModal>
-        // }
+        title={'Asset Library'}
       >
         <Row>
           <Col span={24}>
@@ -28,18 +22,28 @@ function AssetLibraryScreen() {
                 title="Modified On"
                 dataIndex="updatedAt"
                 key="updatedAt"
+                render={(_: any, record: { updatedAt: string }) => (
+                  <Space size="middle">
+                    {dayjs(record.updatedAt).format('LLLL')}
+                  </Space>
+                )}
               />
               <Table.Column
                 title="Created On"
                 dataIndex="createdAt"
                 key="createdAt"
+                render={(_: any, record: { createdAt: string }) => (
+                  <Space size="middle">
+                    {dayjs(record.createdAt).format('LLLL')}
+                  </Space>
+                )}
               />
               <Table.Column
                 title="Created By"
                 key="createdBy"
-                render={(_: any, record: Types.Instructor) => (
+                render={(_: any, record: { createdBy: Types.User }) => (
                   <Space size="middle">
-                    {/* {record.createdAt} */}
+                    {record.createdBy.name}
                     {/* <DeleteOutlined /> */}
                   </Space>
                 )}

@@ -57,7 +57,7 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
        <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
 <Form.Item name="thumbnailImage" required label="Thumbnail">
           <ImageUpload  cropper url={thumbnailImage} width='250px'
-                              keyName={`courses/${courseId}/thumbnailImage`}
+                              prefixKey={`courses/${courseId}/thumbnailImage`}
 
             renderItem={() => <Image preview={false} src={thumbnailImage} />}
             onUpload={e => {

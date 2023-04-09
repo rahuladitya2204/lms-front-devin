@@ -29,7 +29,6 @@ export const useGetNodeFromRouterOutlet = () => {
 export const useAppInit = (type: string) => {
   const token = getToken();
   const { orgId } = useParams();
-  console.log(orgId,'ss')
   const { fetchOrganisation } = Store.useGlobal();
   const [loading, setLoading] = useState(false);
   const {

@@ -1,6 +1,7 @@
 import {
   AppstoreOutlined,
   BookOutlined,
+  FileOutlined,
   FundProjectionScreenOutlined,
   MailOutlined,
   SettingOutlined,
@@ -75,7 +76,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   },
   {
     title: 'Asset Library',
-    icon: <SettingOutlined />,
+    icon: <FileOutlined />,
     path: 'asset-library',
   },
   {

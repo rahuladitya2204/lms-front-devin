@@ -5,7 +5,11 @@ import '@Network/index'
 import App from './App';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 import reportWebVitals from './reportWebVitals';
+
+dayjs.extend(localizedFormat)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
