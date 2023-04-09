@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Table } from 'antd'
+import { Button, Card, Col, Modal, Row, Space, Spin, Table } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
@@ -6,17 +6,19 @@ import Header from '@Components/Header'
 import dayjs from 'dayjs'
 
 function AssetLibraryScreen() {
-  const { data, isLoading: loading } = Common.Queries.useGetFiles()
+  const { data, isLoading: loadingFiles } = Common.Queries.useGetFiles()
+  const {
+    mutate: deleteFile,
+    isLoading: deletingFile
+  } = Common.Queries.useDeleteFile()
+  const { confirm } = Modal
 
   return (
     <Header>
-      <Card
-        bodyStyle={{ padding: 0 }}
-        title={'Asset Library'}
-      >
+      <Card bodyStyle={{ padding: 0 }} title={'Asset Library'}>
         <Row>
           <Col span={24}>
-            <Table dataSource={data} loading={loading}>
+            <Table dataSource={data} loading={loadingFiles || deletingFile}>
               <Table.Column title="Name" dataIndex="name" key="name" />
               <Table.Column
                 title="Modified On"
@@ -41,12 +43,10 @@ function AssetLibraryScreen() {
               <Table.Column
                 title="Created By"
                 key="createdBy"
-                render={(_: any, record: { createdBy: Types.User }) => (
-                  <Space size="middle">
-                    {record.createdBy.name}
-                    {/* <DeleteOutlined /> */}
-                  </Space>
-                )}
+                render={(
+                  _: any,
+                  record: { createdBy: Types.User, _id: string }
+                ) => <Space size="middle">{record.createdBy.name}</Space>}
               />
               <Table.Column
                 title="Action"
@@ -61,7 +61,19 @@ function AssetLibraryScreen() {
                         )
                       }
                     />
-                    <DeleteOutlined />
+                    <DeleteOutlined
+                      onClick={() => {
+                        confirm({
+                          title: 'Are you sure?',
+                          // icon: <ExclamationCircleOutlined />,
+                          content: `You want to delete this file`,
+                          onOk() {
+                            deleteFile({ id: record._id })
+                          },
+                          okText: 'Delete'
+                        })
+                      }}
+                    />
                   </Space>
                 )}
               />

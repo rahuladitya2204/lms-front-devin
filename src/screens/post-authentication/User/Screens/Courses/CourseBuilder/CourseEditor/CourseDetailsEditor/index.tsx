@@ -17,7 +17,7 @@ import ActionModal from '@Components/ActionModal';
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor';
 import CreateCategory from '@User/Screens/Courses/CourseCategory/CreateCategory';
 import Image from '@Components/Image'
-import ImageUpload from '@Components/ImageUpload';
+import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common';
@@ -56,8 +56,10 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
     <Fragment>
        <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
 <Form.Item name="thumbnailImage" required label="Thumbnail">
-          <ImageUpload  cropper url={thumbnailImage} width='250px'
-                              prefixKey={`courses/${courseId}/thumbnailImage`}
+          <MediaUpload uploadType='image'
+            cropper
+            width='250px'    
+            prefixKey={`courses/${courseId}/thumbnailImage`}
 
             renderItem={() => <Image preview={false} src={thumbnailImage} />}
             onUpload={e => {

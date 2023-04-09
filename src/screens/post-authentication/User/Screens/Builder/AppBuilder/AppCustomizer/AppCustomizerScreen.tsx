@@ -1,6 +1,7 @@
 import { Checkbox, Col, Form, Image, Input, Row, Typography } from 'antd'
 
 import ImageUpload from '@Components/ImageUpload'
+import MediaUpload from '@Components/MediaUpload'
 import { Store } from '@adewaskar/lms-common'
 import { generate } from '@ant-design/colors'
 import { useFormik } from 'formik'
@@ -30,8 +31,9 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
           <Col span={24}>
             <Form layout="vertical">
               <Form.Item name="logo" required label="App Logo">
-                <ImageUpload cropper
-                  url={'image'}
+                <MediaUpload
+                  cropper
+                  uploadType={'image'}
                   width="100px"
                   renderItem={() => (
                     <Image preview={false} src={organisation.logo} />

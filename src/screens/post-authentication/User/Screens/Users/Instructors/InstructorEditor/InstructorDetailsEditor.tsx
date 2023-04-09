@@ -3,6 +3,7 @@ import React, { Fragment, useEffect } from 'react';
 
 import Image from '@Components/Image'
 import ImageUpload from '@Components/ImageUpload';
+import MediaUpload from '@Components/MediaUpload';
 import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
 
@@ -23,7 +24,11 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
     <Fragment>
       <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
       <Form.Item name="image" required label="Profile Image">
-          <ImageUpload prefixKey={`images/instructors/${props.formData._id}`} cropper url={image} width='100px'
+          <MediaUpload
+            uploadType={'image'}
+            prefixKey={`images/instructors/${props.formData._id}`}
+            cropper
+            width='100px'
             renderItem={() => <Image src={image} />}
             onUpload={e => {
             props.onFormUpdate({

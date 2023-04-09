@@ -1,14 +1,12 @@
 // @ts-nocheck
-import {
-  ClockCircleOutlined,
-  LoadingOutlined,
-  PlusOutlined
-} from '@ant-design/icons'
+import { ClockCircleOutlined, InboxOutlined } from '@ant-design/icons'
 import { Common, Types } from '@adewaskar/lms-common'
 // @ts-nocheck
 import React, { ReactNode, useState } from 'react'
 import { Spin, Upload, UploadProps } from 'antd'
 
+import Dragger from 'antd/es/upload/Dragger'
+import ImgCrop from 'antd-img-crop'
 import { getMetadata } from 'video-metadata-thumbnails'
 import styled from '@emotion/styled'
 
@@ -24,6 +22,8 @@ interface MediaUploadPropsI {
   isProtected?: boolean;
   listType?: string;
   prefixKey?: string;
+  uploadType?: string;
+  cropper?: boolean;
   fileName?: string;
   rounded?: boolean;
   height?: string;
@@ -47,7 +47,8 @@ const CustomUpload = styled(Upload)(
   object-fit: cover;
   overflow: hidden;
   min-height: 150px !important;
-}
+}import { ImgCrop } from 'antd-img-crop';
+
 `
 )
 
@@ -57,60 +58,104 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     isLoading: loading
   } = Common.Queries.useUploadFiles()
   const [file, setFile] = useState(null)
+  const [fileList, setFileList] = useState(null)
 
-  UPLOAD.customRequest = ({ onError, onSuccess, onProgress, data }) => {
+  const UploadFile = file => {
     if (!file) return
     return uploadFiles({
-      files: [{file:file,prefixKey:props.prefixKey,name:props.fileName}],
-      isProtected: !!props.isProtected,
+      files: [{ file: file, prefixKey: props.prefixKey, name: props.fileName }],
+      isProtected: props.isProtected,
       onUploadProgress: e => {
-        console.log(e, 'e')
+        // console.log(e, 'e')
       },
-      onSuccess: async ([uploadFile]) => {
-        console.log(uploadFile, 'hhahah');
-        if (file.type.includes('video')) {
-          const { duration } = await getMetadata(file as File);
-          uploadFile.metadata = {
-            duration: {
-              value: duration,
-              unit:'seconds'
-            }
-            };
-        }
+      onSuccess: ([uploadFile]) => {
+        console.log(uploadFile, 'hhahah')
         uploadFile.file = file
-        console.log(uploadFile, 'file123123')
         props.onUpload(uploadFile)
-        onSuccess && onSuccess(file)
       }
     })
   }
 
-  UPLOAD.beforeUpload = info => {
-    // @ts-ignore
-    setFile(info)
+  UPLOAD.onChange = ({ file, fileList }) => {
+    console.log(file, 'file')
+    setFile(file)
+    setFileList(fileList)
   }
 
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
+  let UploadComponent = (
+    <CustomUpload
+      {...UPLOAD}
+      name="avatar"
+      listType="picture-card"
+      className="avatar-uploader"
+      showUploadList={false}
+      iconRender={() => <ClockCircleOutlined />}
+      // @ts-ignore
+      width={props.width || 'auto'}
+    >
+      {props.renderItem ? props.renderItem() : uploadButton}
+    </CustomUpload>
   )
 
-  return (
-    <Spin spinning={loading} tip="Uploading..">
+  if (props.uploadType === 'image') {
+    const ImageUploadComponent = (
       <CustomUpload
         {...UPLOAD}
+        fileList={fileList}
         name="avatar"
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
         iconRender={() => <ClockCircleOutlined />}
-        // @ts-ignore
         width={props.width || 'auto'}
       >
         {props.renderItem ? props.renderItem() : uploadButton}
       </CustomUpload>
+    )
+    UploadComponent = props.cropper ? (
+      <ImgCrop
+        rotationSlider
+        onModalOk={e => {
+          UploadFile(e)
+        }}
+      >
+        {ImageUploadComponent}
+      </ImgCrop>
+    ) : (
+      ImageUploadComponent
+    )
+  }
+
+  if (props.type === 'file') {
+    UploadComponent = (
+      <Dragger
+        {...UPLOAD}
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        multiple
+        iconRender={() => <ClockCircleOutlined />}
+        // @ts-ignore
+        width={props.width || 'auto'}
+      >
+        <p className="ant-upload-drag-icon">
+          <InboxOutlined />
+        </p>
+        <p className="ant-upload-text">
+          Click or drag file to this area to upload
+        </p>
+        <p className="ant-upload-hint">
+          Support for a single or bulk upload. Strictly prohibit from uploading
+          company data or other band files
+        </p>
+      </Dragger>
+    )
+  }
+
+  return (
+    <Spin spinning={loading} tip="Uploading..">
+      {UploadComponent}
     </Spin>
   )
 }

@@ -11,6 +11,7 @@ import CreateHeading from './CreateNewItem/CreateHeading'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import ImageUpload from '@Components/ImageUpload'
+import MediaUpload from '@Components/MediaUpload'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import { updateCourseSectionItem } from './utils'
@@ -192,7 +193,8 @@ function CourseBuilderScreen() {
           <Card style={{ marginBottom: 30 }}>
             <Row>
               <Col span={24}>
-                <ImageUpload
+                <MediaUpload
+                  uploadType="image"
                   prefixKey={`courses/${courseId}/thumbnailImage`}
                   cropper
                   width="100%"

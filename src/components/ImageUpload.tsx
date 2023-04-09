@@ -23,7 +23,6 @@ interface ImageUploadPropsI {
   listType?: string;
   url?: string;
   prefixKey?: string;
-  fileName?: string;
   rounded?: boolean;
   cropper?: boolean;
   height?: string;
@@ -62,12 +61,11 @@ const ImageUpload: React.FC<ImageUploadPropsI> = props => {
   const UploadFile = (file) => {
     if (!file) return
     return uploadFiles({
-      files: [{file:file,prefixKey:props.prefixKey,name:props.fileName}],
+      files: [{file:file,name:props.prefixKey}],
       onUploadProgress: e => {
         // console.log(e, 'e')
       },
       onSuccess: ([uploadFile]) => {
-        console.log(uploadFile, 'hhahah');
         uploadFile.file = file
         props.onUpload(uploadFile)
       }

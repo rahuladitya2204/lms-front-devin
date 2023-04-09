@@ -63,6 +63,29 @@ const UpoadFiles: React.FC<UpoadFilesPropsI> = props => {
     setFile(info)
   }
 
+  const UploadComponent = <Dragger
+    {...UPLOAD}
+    name="avatar"
+    listType="picture-card"
+    className="avatar-uploader"
+    showUploadList={false}
+    multiple
+    iconRender={() => <ClockCircleOutlined />}
+    // @ts-ignore
+    width={props.width || 'auto'}
+  >
+    <p className="ant-upload-drag-icon">
+      <InboxOutlined />
+    </p>
+    <p className="ant-upload-text">
+      Click or drag file to this area to upload
+    </p>
+    <p className="ant-upload-hint">
+      Support for a single or bulk upload. Strictly prohibit from
+      uploading company data or other band files
+    </p>
+  </Dragger>;
+
   return (
     <Tabs
     defaultActiveKey="1"
@@ -73,28 +96,7 @@ const UpoadFiles: React.FC<UpoadFilesPropsI> = props => {
         children: <>
           <Space>
       <Spin spinning={loading} tip="Uploading..">
-        <Dragger
-          {...UPLOAD}
-          name="avatar"
-          listType="picture-card"
-          className="avatar-uploader"
-          showUploadList={false}
-          multiple
-          iconRender={() => <ClockCircleOutlined />}
-          // @ts-ignore
-          width={props.width || 'auto'}
-        >
-          <p className="ant-upload-drag-icon">
-            <InboxOutlined />
-          </p>
-          <p className="ant-upload-text">
-            Click or drag file to this area to upload
-          </p>
-          <p className="ant-upload-hint">
-            Support for a single or bulk upload. Strictly prohibit from
-            uploading company data or other band files
-          </p>
-        </Dragger>
+        {UploadComponent}
       </Spin>
     </Space></>,
       },
