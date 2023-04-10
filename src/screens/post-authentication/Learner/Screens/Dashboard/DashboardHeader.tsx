@@ -138,6 +138,13 @@ const DashboardHeader: React.FC = () => {
                   >
                     My Account
                   </Menu.Item>
+                  <Menu.Item
+                    onClick={() => {
+                      navigate('tickets')
+                    }}
+                  >
+                    Help and Support
+                  </Menu.Item>
                   <Menu.Item onClick={logout}>Logout</Menu.Item>
                 </Menu>
               }

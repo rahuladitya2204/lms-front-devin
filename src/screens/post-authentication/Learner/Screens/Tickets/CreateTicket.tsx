@@ -22,8 +22,14 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
 
     const onSubmit = (e: any) => {
         e.files = files;
-    console.log(e, 'eee')
-    createTicket(e)
+        createTicket({
+        data:e
+        }, {
+            onSuccess: () => {
+                form.resetFields();
+        }
+        
+    })
   }
 
   useEffect(
@@ -75,7 +81,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
         <Button
           loading={createTicketLoading}
           key="submit"
-          onClick={form.submit}
+
         >
           Cancel
         </Button>
@@ -84,4 +90,4 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
   )
 }
 
-export default CreateTicket
+export default CreateTicket;

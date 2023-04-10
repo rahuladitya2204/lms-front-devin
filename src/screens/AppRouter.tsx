@@ -31,6 +31,8 @@ import LearnersScreen from './post-authentication/User/Screens/Users/Learners/Le
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
+import TicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
+import TicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Account/Account'
@@ -102,6 +104,8 @@ const router = createBrowserRouter(
             <Route path="cart" element={<LearnerCart />} />
             <Route path="store" element={<LearnerStoreScreen />} />
             <Route path="account" element={<LearnerAccount />} />
+            <Route path="tickets" element={<TicketsScreen />} />
+            <Route path="tickets/:id" element={<TicketDetail />} />
             <Route path="courses">
               <Route path="" element={<LearnerCourses />} />
               <Route path=":id" element={<CourseDetailViewer />} />
