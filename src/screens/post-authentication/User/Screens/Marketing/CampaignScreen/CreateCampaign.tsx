@@ -1,8 +1,10 @@
-import { Button, Card, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Tag } from 'antd'
+import { Button, Card, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Tabs, Tag } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
+import AddRecipients from './AddRecipients/AddReciepients'
+import CreateEmailTemplate from './CreateTemplate/CreateEmailTemplate'
 import Header from '@Components/Header'
 import QuillEditor from '@Components/QuillEditor'
 import RuleCreator from './RuleCreator/RuleCreator'
@@ -111,8 +113,6 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     [campaign]
   )
 
-  const recipientsType = Form.useWatch(['recipients', 'type'], form);
-
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical" initialValues={Constants.INITIAL_CAMPAIGN_DETAILS}>
     <Header
@@ -139,8 +139,8 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
               </Form.Item>
               <Space direction='horizontal'>
               <Form.Item name="channel" label="Campaign Channels" >
-                <Select
-                  defaultValue={'email'}
+                <Select mode='multiple'
+                  defaultValue={['email']}
                   style={{ width: 300 }}
                   options={[
                     { value: 'email', label: 'Email' },
@@ -163,35 +163,15 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
           )
           }, {
           title: 'Recipients',
-          content: <>
-             <Form.Item name={['recipients','type']}>
-              <Radio.Group>
-                <Radio value="entire">Entire Audience</Radio>
-                <Radio value="segment">Segment</Radio>
-                <Radio value="email-list">Email List</Radio>
-              </Radio.Group>
-            </Form.Item>
-            {recipientsType==='email-list'?<Form.Item name={['recipients','emailList']}
-              label="Email List" required>
-                <Input placeholder="Enter receipients for the campaign" />
-            </Form.Item> : null}
-            {recipientsType === 'segment' ? <RuleCreator updateRule={updateRule} addRule={addRule} deleteRule={deleteRule} rules={rules} />:null}
-          </>
+          content: <AddRecipients form={form} data={props.data} addRule={addRule} deleteRule={deleteRule} updateRule={updateRule} rules={rules} />
           },
           {
             title: 'Template',
-            content: <>
-              <Form.Item label="Variables" >
-                <Tag color="blue">Learner Name: {`{{name}}`}</Tag>
-                <Tag color="blue">Contact No: {`{{contactNo}}`}</Tag>
-
-</Form.Item>
-            <Form.Item name="template" label="Template" required>
-                <QuillEditor onChange={e => form.setFieldsValue({
-                  template:e
-                })} value={ props.data?.template} />
-                </Form.Item>
-            </>
+            content:<Tabs defaultActiveKey="1" items={[  {
+              key: '1',
+              label: `Email`,
+              children: <CreateEmailTemplate form={form} data={props.data} />
+            },]}/>
           }
       ]}
     />

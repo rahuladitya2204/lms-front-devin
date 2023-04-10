@@ -5,7 +5,7 @@ import { Modal } from 'antd'
 interface ActionModalPropsI {
   children?: React.ReactNode;
   onClose?: () => void;
-  title?: string;
+  title?: string | React.ReactNode;
   width?: number;
   cta?: React.ReactNode;
   footer?: (f: Function) => React.ReactNode[];

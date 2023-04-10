@@ -30,9 +30,8 @@ const CourseListItem = styled(List.Item)`
 
 function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   let duration = props.item.metadata?.duration
-  console.log(duration, 'aaa')
   if (!duration) {
-    duration = { value: 0, unit: 'second' }
+    duration = 0;
   }
   let durationInMin = unit(duration, 'seconds')
     .to('minute')

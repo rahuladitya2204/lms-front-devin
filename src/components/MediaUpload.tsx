@@ -99,6 +99,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   let UploadComponent = (
     <CustomUpload
       {...UPLOAD}
+      type="video/*"
       beforeUpload={info => {
         setFile(info)
       }}
@@ -117,6 +118,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   if (props.uploadType === 'image') {
     const ImageUploadComponent = (
       <CustomUpload
+        accept="image/png,image/jpeg"
         {...UPLOAD}
         fileList={fileList}
         name="avatar"

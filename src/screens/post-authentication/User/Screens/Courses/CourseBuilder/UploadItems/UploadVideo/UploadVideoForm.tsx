@@ -54,21 +54,20 @@ const UploadVideoForm: React.FC = () => {
             <FileList files={item.files} />
             <ActionModal
               cta={
-                <Avatar
-                  style={{ background: 'transparent', color: '#000' }}
-                  shape="square"
-                  size={80}
+                <Button
+                  type="primary"
+                  shape="round"
                   icon={<PlusOutlined />}
+                  size={'large'}
                 />
               }
             >
               <MediaUpload
                 uploadType="file"
-                isProtected
                 prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files`}
-                onUpload={({ name, key }) => {
+                onUpload={({ name, key, url }) => {
                   onFormChange({
-                    files: [...item.files, { name, key }]
+                    files: [...item.files, { name, key, url }]
                   })
                 }}
               />
@@ -86,7 +85,7 @@ const UploadVideoForm: React.FC = () => {
                 onFormChange({
                   file: _id,
                   metadata: {
-                    ...r
+                    duration: r.duration
                   }
                 })
               })

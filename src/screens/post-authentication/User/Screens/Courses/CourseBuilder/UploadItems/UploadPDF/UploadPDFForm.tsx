@@ -1,12 +1,16 @@
 import { Button, Form, Input } from 'antd'
 
+import { Common } from '@adewaskar/lms-common'
 import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
 import PDFViewer from '@Components/PDFViewer'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadPDFForm: React.FC = () => {
-  const { onFormChange, form, item } = useUploadItemForm()
+  const { onFormChange, form, item } = useUploadItemForm();
+  const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
+    enabled: !!item.file
+  })
   return (
     <Fragment>
       <Form
@@ -40,12 +44,12 @@ const UploadPDFForm: React.FC = () => {
             height="250px"
             renderItem={() => (
               <Button>
-                {item.metadata?.url ? 'Replace PDF' : 'Upload PDF'}
+                {file?.url ? 'Replace PDF' : 'Upload PDF'}
               </Button>
             )}
           />
-          {item.metadata?.url ? (
-            <PDFViewer url={item.metadata?.url + ''} />
+          {file?.url ? (
+            <PDFViewer url={file?.url + ''} />
           ) : null}
         </Form.Item>
       </Form>

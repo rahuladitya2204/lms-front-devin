@@ -20,9 +20,9 @@ const UploadVideoa: React.FC<Types.CreateItemPropsI> = (props) => {
     const file = files[0];
     props.onFinish({
       title: file.name,
-      metadata: {
-        url:file.url
-      }
+      // metadata: {
+      //   url:file.url
+      // }
     });
     closeModal();
     }

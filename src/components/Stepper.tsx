@@ -39,13 +39,13 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
   return (
     <>
       <Space direction='horizontal' style={{ marginBottom: 24, justifyContent: 'space-between', width: '100%' }}>
-      {current > 0 && (
-          <Button icon={<ArrowLeftOutlined/>} style={{ margin: '0 8px' }} onClick={() => prev()}>
+      { (
+          <Button style={{margin: '0 8px',visibility:(current > 0)?'visible':'hidden'}} icon={<ArrowLeftOutlined/>} onClick={() => prev()}>
             Previous
           </Button>
         )}
-      {current < steps.length - 1 && (
-          <Button icon={<ArrowRightOutlined/>} type="primary" onClick={() => next()}>
+      { (
+          <Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>} type="primary" onClick={() => next()}>
             Next
           </Button>
         )}

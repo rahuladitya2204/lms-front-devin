@@ -12,6 +12,7 @@ function FileList(props: FileListPropsI) {
   return (
     <Space size={[20, 20]}>
       {props.files?.map(file => {
+        console.log(file,'file')
         return (
           <Avatar
             onClick={e => window.open(file.url, '_blank')}

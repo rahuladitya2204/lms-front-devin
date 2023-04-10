@@ -80,8 +80,6 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   React.useEffect(
     () => {
       const player = playerRef.current
-      // player.autoplay(options.autoplay)
-      console.log(player, 'papap')
 
       return () => {
         if (player && !player.isDisposed()) {

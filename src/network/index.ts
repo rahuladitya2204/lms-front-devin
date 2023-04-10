@@ -3,11 +3,11 @@ import { Utils } from '@adewaskar/lms-common'
 
 Network.Axios.defaults.transformRequest = [
   (data, headers) => {
-
     const token = getToken()
     if (window.location.pathname.includes('/learner/')) {
       const orgId = Utils.Storage.GetItem('orgId')
       headers.set('x-org', orgId)
+      headers.set('x-user-type', 'learner')
     }
     if (token) {
       headers.set('x-auth', token)

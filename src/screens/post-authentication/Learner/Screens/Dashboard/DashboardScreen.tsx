@@ -1,34 +1,32 @@
+import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons'
 // @ts-nocheck
-import {
-  AutoComplete,
-  Badge,
-  Button,
-  Col,
-  Dropdown,
-  Input,
-  Layout,
-  Menu,
-  Row,
-  Space,
-  Typography
-} from 'antd'
-import { Outlet, useNavigate } from 'react-router'
-import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
+import { FloatButton, Layout, Typography } from 'antd'
 
+import ActionModal from '@Components/ActionModal'
+import CreateTicket from '../Tickets/CreateTicket'
 import DashboardHeader from './DashboardHeader'
-import Header from '@Components/Header'
-import Image from '@Components/Image'
-import { Learner } from '@adewaskar/lms-common'
-import { Link } from 'react-router-dom'
-import Search from 'antd/es/input/Search'
 import ThemeProvider from 'screens/ThemeProvider'
 
-const { Content } = Layout
-const { Text } = Typography
-
+const { Title } = Typography
 const LearnerDashboard: React.FC = () => {
   return (
     <ThemeProvider type="learner">
+      <ActionModal
+        title={
+          <Title style={{ marginTop: 0 }} level={3}>
+            Raise a ticket
+          </Title>
+        }
+        cta={
+          <FloatButton
+            shape="circle"
+            type="primary"
+            icon={<CustomerServiceOutlined />}
+          />
+        }
+      >
+        <CreateTicket />
+      </ActionModal>
       <Layout>
         <Layout className="site-layout">
           <DashboardHeader />

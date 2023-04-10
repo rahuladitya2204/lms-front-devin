@@ -15,7 +15,7 @@ interface CourseCurriculumPropsI {
 function CourseCurriculum(props: CourseCurriculumPropsI) {
   const PreviewVideo = (item: Types.CourseSectionItem) => (
     <ActionModal title={item.title} cta={<PlayCircleOutlined />}>
-      <MediaPlayer url={item.metadata?.url || ''} />
+      {/* <MediaPlayer url={item.metadata?.url || ''} /> */}
     </ActionModal>
   )
   return (
