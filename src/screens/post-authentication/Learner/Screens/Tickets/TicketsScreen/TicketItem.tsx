@@ -1,6 +1,8 @@
+// @ts-nocheck
 import { Card, Divider, Space, Tag, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
+import FileList from '@Components/FileList'
 import { StatusMap } from '@Learner/Screens/Tickets/Constants'
 import dayjs from 'dayjs'
 
@@ -8,9 +10,10 @@ const { Text, Title } = Typography
 
 interface TicketItemPropsI {
   ticket: Types.Ticket;
+  hideAttachments?: boolean;
 }
 
-export default function TicketItem({ ticket }: TicketItemPropsI) {
+export default function TicketItem({ ticket,hideAttachments }: TicketItemPropsI) {
   return (
     <Card
       title={
@@ -29,11 +32,20 @@ export default function TicketItem({ ticket }: TicketItemPropsI) {
       }
       style={{ width: '100%' }}
     >
-      <Title style={{ marginTop: 0 }} level={4}>
-        {ticket.subject}
-      </Title>
-      <Text>{ticket.category}</Text>
-      <Text>{ticket.description}</Text>
+      <Space direction="vertical">
+        <Title style={{ marginTop: 0 }} level={4}>
+          {ticket.subject}
+        </Title>
+        <Text>{ticket.category}</Text>
+        <Text>{ticket.description}</Text>
+        {!hideAttachments?<><Divider style={{ width: '100%' }} />
+        <Space direction="vertical">
+          <Title style={{ marginTop: 0 }} level={4}>
+            Attachments
+          </Title>
+          <FileList files={ticket.files} />
+        </Space></>:null}
+      </Space>
     </Card>
   )
 }

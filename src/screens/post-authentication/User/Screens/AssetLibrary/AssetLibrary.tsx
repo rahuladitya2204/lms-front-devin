@@ -116,7 +116,7 @@ function AssetLibraryScreen() {
                 render={(
                   _: any,
                   record: { createdBy: Types.User, _id: string }
-                ) => <Space size="middle">{record.createdBy.name}</Space>}
+                ) => <Space size="middle">{record?.createdBy?.name}</Space>}
               />
               <Table.Column
                 title="Action"

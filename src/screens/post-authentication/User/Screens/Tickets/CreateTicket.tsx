@@ -11,7 +11,7 @@ interface CreateTicketComponentPropsI {
 }
 
 const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
-  const [files, setFiles] = useState<string[]>([])
+  const [files, setFiles] = useState<{ name: string; url?: string; key?:string}[]>([])
   const user = Store.useAuthentication(u => u.user)
   const {
     mutate: createTicket,
@@ -62,11 +62,11 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
           <Input placeholder="Your email address" />
         </Form.Item>
         <Form.Item label="Upload Files" required>
-          <MediaUpload
+          <MediaUpload isProtected
             uploadType="file"
             prefixKey={`tickets/${user._id}/files`}
             onUpload={({ name, key, url }) => {
-                setFiles([...files, url]);
+              setFiles([...files, { name, url, key }]);
             }}
           />{' '}
         </Form.Item>

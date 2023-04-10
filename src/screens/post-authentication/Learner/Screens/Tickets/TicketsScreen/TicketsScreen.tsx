@@ -13,7 +13,7 @@ export default function TicketsScreen () {
         <Space size={[20,30]} style={{width:'100%'}} direction='vertical'>
             {tickets.map(ticket => {
               return <Link to={ticket._id+''}>
-              <TicketItem ticket={ticket} /></Link>;
+              <TicketItem hideAttachments ticket={ticket} /></Link>;
     })}
       </Space></> : <Card>
       <Empty

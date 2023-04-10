@@ -1,6 +1,7 @@
 import {
   AppstoreOutlined,
   BookOutlined,
+  CustomerServiceOutlined,
   FileOutlined,
   FolderOpenOutlined,
   FundProjectionScreenOutlined,
@@ -82,7 +83,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   },
   {
     title: 'Support Tickets',
-    icon: <FolderOpenOutlined />,
+    icon: <CustomerServiceOutlined />,
     path: 'tickets',
   },
   {
