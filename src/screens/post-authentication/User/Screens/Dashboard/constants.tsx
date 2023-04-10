@@ -81,6 +81,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     path: 'asset-library',
   },
   {
+    title: 'Support Tickets',
+    icon: <FolderOpenOutlined />,
+    path: 'tickets',
+  },
+  {
     title: 'Settings',
     icon: <SettingOutlined />,
     path: 'settings',

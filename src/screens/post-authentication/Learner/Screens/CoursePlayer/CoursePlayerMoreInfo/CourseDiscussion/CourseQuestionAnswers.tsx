@@ -1,11 +1,12 @@
-import { Avatar, List, Tooltip, Typography } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Avatar, List, Tooltip, Typography, theme } from 'antd'
+import { Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { Fragment } from 'react'
 
 import { Comment } from '@ant-design/compatible'
 import CreateAnswer from './CreateAnswer'
 
 const { Text } = Typography
+const { useToken } = theme
 
 interface CourseQuestionAnswersPropsI {
   questionId: string;
@@ -13,10 +14,16 @@ interface CourseQuestionAnswersPropsI {
 }
 
 const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
+  const { token } = useToken()
   const { data: question } = Learner.Queries.useGetCourseQuestionDetails(
     props.courseId,
     props.questionId
   )
+  const user = Store.useAuthentication(s => s.user)
+  const name = (user.name + '')
+    .split(' ')
+    .map(n => n[0].toUpperCase())
+    .join('')
 
   const answers = question.answers
   return (
@@ -33,10 +40,9 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
                 // actions={actions}
                 author={<Text strong>Aditya Dewaskar</Text>}
                 avatar={
-                  <Avatar
-                    src="https://joeschmoe.io/api/v1/random"
-                    alt="Han Solo"
-                  />
+                  <Avatar style={{ backgroundColor: token.colorPrimary }}>
+                    {name}
+                  </Avatar>
                 }
                 content={
                   <div dangerouslySetInnerHTML={{ __html: item.answer }} />

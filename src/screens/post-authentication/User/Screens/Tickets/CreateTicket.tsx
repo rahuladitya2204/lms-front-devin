@@ -41,9 +41,8 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
 
   return (
     <Fragment>
-      <Form  initialValues={{
-              contactEmail: user.email,
-        //   contactName:user.name,
+      <Form initialValues={{
+        contactEmail: user.email,
         contactNo:user.contactNo
       }} form={form} onFinish={onSubmit} layout="vertical">
         <Form.Item name="subject" label="Subject" required>
@@ -52,13 +51,10 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
         <Form.Item name="category" label="Category" required>
           <Input placeholder="Category of the Ticket" />
         </Form.Item>
-        <Alert style={{marginBottom:20}} message="Note: Explain the issue in detail" type="warning" />
- <Form.Item name="description" label="Description" required>
+        <Form.Item name="description" label="Description" required>
           <Input.TextArea placeholder="Please enter email of the Ticket" />
               </Form.Item>
-              {/* <Form.Item name="contactName" label="Contact Name" required>
-          <Input placeholder="Your name" />
-        </Form.Item> */}
+              <Alert style={{marginBottom:20}} message="Note: Explain the issue in detail" type="warning" />
               <Form.Item name="contactNo" label="Contact Number" required>
           <Input placeholder="Your phone number" />
         </Form.Item>

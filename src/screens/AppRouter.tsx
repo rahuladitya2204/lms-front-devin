@@ -27,18 +27,20 @@ import LearnerCourses from './post-authentication/Learner/Screens/Courses'
 import LearnerDashboard from './post-authentication/Learner/Screens/Dashboard/DashboardScreen'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
+import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
+import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
-import TicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
-import TicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Account/Account'
 import UserDashboard from './post-authentication/User/Screens/Dashboard/DashboardScreen'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserRegister from './post-authentication/User/Screens/Register'
+import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
+import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -79,6 +81,8 @@ const router = createBrowserRouter(
             <Route path="settings">
               <Route path="account" element={<UserAccount />} />
             </Route>{' '}
+            <Route path="tickets" element={<UsersTicketsScreen />} />
+            <Route path="tickets/:id" element={<UserTicketDetail />} />
             <Route path="courses" element={<CoursesScreen />} />
             <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
               <Route path="section/:sectionId">
@@ -104,8 +108,8 @@ const router = createBrowserRouter(
             <Route path="cart" element={<LearnerCart />} />
             <Route path="store" element={<LearnerStoreScreen />} />
             <Route path="account" element={<LearnerAccount />} />
-            <Route path="tickets" element={<TicketsScreen />} />
-            <Route path="tickets/:id" element={<TicketDetail />} />
+            <Route path="tickets" element={<LearnersTicketsScreen />} />
+            <Route path="tickets/:id" element={<LearnerTicketDetail />} />
             <Route path="courses">
               <Route path="" element={<LearnerCourses />} />
               <Route path=":id" element={<CourseDetailViewer />} />
