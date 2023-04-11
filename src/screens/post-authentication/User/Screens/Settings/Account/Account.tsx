@@ -3,6 +3,7 @@ import { Button, Card, Tabs } from 'antd'
 import { Fragment } from 'react'
 import Header from '@Components/Header'
 import { Outlet } from 'react-router'
+import TicketCategorysScreen from '../SupportTickets/TicketCategoriesScreen'
 import UserProfile from './Profile'
 
 function UserAccount () {
@@ -48,9 +49,9 @@ function UserAccount () {
               children: `Content of Tab Pane 3`
             },
             {
-              label: `Advanced`,
+              label: `Ticket Support`,
               key: '4',
-              children: `Content of Tab Pane 3`
+              children: <TicketCategorysScreen />
             }
           ]}
         />

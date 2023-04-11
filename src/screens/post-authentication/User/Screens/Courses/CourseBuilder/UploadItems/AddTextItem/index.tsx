@@ -50,9 +50,9 @@ const AddTextItem: React.FC = () => {
               <MediaUpload
                 uploadType="file"
                 isProtected
-                onUpload={({ name, key }) => {
+                onUpload={({ name, key, isProtected }) => {
                   onFormChange({
-                    files: [...item.files, { name, key }]
+                    files: [...item.files, { name, key, isProtected }]
                   })
                 }}
               />

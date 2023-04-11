@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, Divider, Form, Input, List, Space, Tag, Tooltip, Typography, theme } from 'antd'
+import { Avatar, Button, Card, Divider, Form, Input, List, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd'
 import { Store, Types, User } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
@@ -17,7 +17,7 @@ const { Text, Title } = Typography
 
 export default function TicketDetail() {
   const { id } = useParams();
-  const { data: ticket } = User.Queries.useGetTicketDetails(id + '');
+  const { data: ticket,isLoading:loading } = User.Queries.useGetTicketDetails(id + '');
   const createdBy = ticket.createdBy as unknown as Types.Learner;
   const { token } = useToken();
   const name = (createdBy.name+'').split(' ').map(n => n[0].toUpperCase()).join('');
@@ -42,6 +42,7 @@ export default function TicketDetail() {
     <Header hideBack
       title={<Text>Support Ticket: {ticket.id}</Text> }
     >
+      <Spin spinning={loading}>
         <TicketItem ticket={ticket}/>
           <Card style={{ marginTop:20}}>
               <Form form={form} layout='vertical' onFinish={postReply}>
@@ -87,7 +88,8 @@ export default function TicketDetail() {
         /></>
        
       ) : null}
-          </Card>
+        </Card>
+        </Spin>
       </Header>
   )
 }

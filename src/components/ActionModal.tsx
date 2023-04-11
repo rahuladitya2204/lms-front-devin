@@ -1,9 +1,9 @@
-import { Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 
 import { Modal } from 'antd'
 
 interface ActionModalPropsI {
-  children?: React.ReactNode;
+  children?: any;
   onClose?: () => void;
   title?: string | React.ReactNode;
   width?: number;
@@ -32,7 +32,7 @@ function ActionModal(props: ActionModalPropsI) {
         open={isModalOpen}
         onCancel={closeModal}
       >
-        {props.children}
+        {React.cloneElement(props.children, { closeModal })}
       </Modal>
     </Fragment>
   )

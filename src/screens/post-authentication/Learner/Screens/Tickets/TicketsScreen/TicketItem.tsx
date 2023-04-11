@@ -19,7 +19,9 @@ export default function TicketItem({ ticket,hideAttachments }: TicketItemPropsI)
       title={
         <Space>
           <Text>{ticket.id}</Text> <Divider type="vertical" />{' '}
-          <Text>Category: {ticket.category}</Text> <Divider type="vertical" />
+          <Text> {ticket.category.title}</Text> <Divider type="vertical" /> 
+          {(ticket?.subCategory)?<><Text> {ticket?.subCategory?.title}</Text> <Divider type="vertical" /> </>:null}
+          
           <Text>{dayjs(ticket.createdAt).format('LLLL')}</Text>
         </Space>
       }
@@ -36,9 +38,9 @@ export default function TicketItem({ ticket,hideAttachments }: TicketItemPropsI)
         <Title style={{ marginTop: 0 }} level={4}>
           {ticket.subject}
         </Title>
-        <Text>{ticket.category}</Text>
+
         <Text>{ticket.description}</Text>
-        {!hideAttachments?<><Divider style={{ width: '100%' }} />
+        {(!hideAttachments && ticket.files.length)?<><Divider style={{ width: '100%' }} />
         <Space direction="vertical">
           <Title style={{ marginTop: 0 }} level={4}>
             Attachments

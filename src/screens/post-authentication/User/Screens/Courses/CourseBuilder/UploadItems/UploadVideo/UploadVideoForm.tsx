@@ -65,9 +65,9 @@ const UploadVideoForm: React.FC = () => {
               <MediaUpload
                 uploadType="file"
                 prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files`}
-                onUpload={({ name, key, url }) => {
+                onUpload={({ name, key, url, isProtected }) => {
                   onFormChange({
-                    files: [...item.files, { name, key, url }]
+                    files: [...item.files, { name, key, url, isProtected }]
                   })
                 }}
               />

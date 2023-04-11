@@ -69,11 +69,6 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         path: 'app',
         icon: <AppstoreOutlined />
       },
-      {
-        title: 'Website Builder',
-        path: 'builder',
-        icon: <ToolOutlined />
-      }
     ]
   },
   {
@@ -96,11 +91,6 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         path: 'account',
         icon: <AppstoreOutlined />
       },
-      {
-        title: 'Website Builder',
-        path: 'builder',
-        icon: <ToolOutlined />
-      }
     ]
   },
 ]

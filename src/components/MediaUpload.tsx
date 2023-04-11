@@ -84,7 +84,6 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     UploadFile(file)
   }
   UPLOAD.onChange = ({ file, fileList }) => {
-    console.log(file, 'file')
     setFile(file)
     setFileList(fileList)
   }

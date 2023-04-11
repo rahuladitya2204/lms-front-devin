@@ -55,9 +55,7 @@ function AssetLibraryScreen() {
                   const fileType = record.type.split('/')[0]
                   return (
                     <Space size="middle">
-                      <Text strong>
-                        {name}
-                      </Text>
+                      <Text strong>{name}</Text>
                     </Space>
                   )
                 }}
@@ -123,14 +121,6 @@ function AssetLibraryScreen() {
                 key="action"
                 render={(_: any, record: Types.Instructor) => (
                   <Space size="middle">
-                    <EditOutlined
-                      onClick={() =>
-                        window.open(
-                          `AssetLibrary/${record._id}/editor`,
-                          '_blank'
-                        )
-                      }
-                    />
                     <DeleteOutlined
                       onClick={() => {
                         confirm({

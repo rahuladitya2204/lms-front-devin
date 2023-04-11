@@ -6,6 +6,7 @@ import AddInstructor from './AddInstructor'
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 
 function InstructorsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetInstructors()
@@ -38,7 +39,7 @@ function InstructorsScreen() {
               <Table.Column
                 title="Last Login"
                 dataIndex="lastActive"
-                key="lastActive"
+
               />
               <Table.Column title="Courses" dataIndex="courses" key="courses" />
               <Table.Column title="Rating" dataIndex="rating" key="rating" />
@@ -46,6 +47,11 @@ function InstructorsScreen() {
                 title="Joined On"
                 dataIndex="createdAt"
                 key="createdAt"
+                render={(_: any, record: Types.Instructor) => (
+                  <Space size="middle">
+                    {dayjs(record.createdAt).format("LL")}
+                  </Space>
+                )}
               />
               <Table.Column
                 title="Action"

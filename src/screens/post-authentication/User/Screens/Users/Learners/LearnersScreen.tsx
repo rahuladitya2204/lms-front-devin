@@ -1,6 +1,7 @@
 import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
+import ActionModal from '@Components/ActionModal'
 import AddLearner from './AddLearners'
 import Header from '@Components/Header'
 import ThemeProvider from 'screens/ThemeProvider'
@@ -17,10 +18,9 @@ function LearnersScreen() {
           bodyStyle={{ padding: 0 }}
           title={'Learners'}
           extra={
-            <AddLearner>
-              {' '}
-              <Button type="primary">Add Learner</Button>
-            </AddLearner>
+            <ActionModal cta={<Button type="primary">Add Learner</Button>}>
+              <AddLearner> </AddLearner>
+            </ActionModal>
           }
         >
           <Row>

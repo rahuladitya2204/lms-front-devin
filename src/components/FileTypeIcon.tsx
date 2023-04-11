@@ -19,7 +19,6 @@ interface CourseItemIconPropsI {
 }
 
 const FileTypeIcon = (props: CourseItemIconPropsI) => {
-  console.log(props.fileType, 'file')
   let Icon: React.FC = PlayCircleOutlined
   switch (props.fileType) {
     case 'pdf':

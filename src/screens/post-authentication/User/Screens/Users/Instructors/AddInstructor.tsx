@@ -7,6 +7,7 @@ import { User } from '@adewaskar/lms-common'
 interface CreateInstructorComponentPropsI {
   children?: ReactNode;
   data?: Types.Instructor;
+  closeModal?: Function;
   onFinish?: (data: Types.Instructor) => void;
 }
 
@@ -24,9 +25,21 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = props => {
 
   const onSubmit = (e: Types.CreateInstructorPayload) => {
     if (props.data) {
-      updateInstructor({ id: props.data._id, data: e })
+      updateInstructor(
+        { id: props.data._id, data: e },
+        {
+          onSuccess: () => {
+            props.closeModal && props.closeModal()
+          }
+        }
+      )
     } else {
-      createInstructor(e)
+      createInstructor(e,
+        {
+          onSuccess: () => {
+            props.closeModal && props.closeModal()
+          }
+        })
     }
     // onFinish && onFinish(e)
   }

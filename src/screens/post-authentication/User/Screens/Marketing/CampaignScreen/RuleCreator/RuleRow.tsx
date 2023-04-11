@@ -50,10 +50,30 @@ const OPERANDS = [
     title: 'Enrolled Courses',
     value: 'enrolledCourses.course',
     operators: [OPERATORS.is, OPERATORS.isAnyOf],
-    query: {
-      collection: 'Course'
-    },
+    // query: {
+    //   collection: 'Course'
+    // },
     type: 'select'
+  },
+  {
+    title: 'Enrolled At',
+    value: 'enrolledCourses.enrolledAt',
+    operators: [OPERATORS.isGreaterThan, OPERATORS.isLessThan],
+    type: 'date'
+
+  },
+  {
+    title: 'Expires At',
+    value: 'enrolledCourses.expiresAt',
+    operators: [OPERATORS.isGreaterThan, OPERATORS.isLessThan],
+    type: 'date'
+
+  },
+  {
+    title: 'Certificate Issued At',
+    value: 'enrolledCourses.certificate.issuedAt',
+    operators: [OPERATORS.isGreaterThan, OPERATORS.isLessThan],
+    type: 'date'
   },
   {
     title: 'Email Address',
@@ -72,6 +92,24 @@ const OPERANDS = [
     title: 'Phone Number',
     operators: [OPERATORS.is, OPERATORS.contains],
     value: 'contactNo',
+    type: 'text'
+  },
+  {
+    title: 'State',
+    operators: [OPERATORS.is, OPERATORS.contains],
+    value: 'address.state',
+    type: 'text'
+  },
+  {
+    title: 'City',
+    operators: [OPERATORS.is, OPERATORS.contains],
+    value: 'address.city',
+    type: 'text'
+  },
+  {
+    title: 'Country',
+    operators: [OPERATORS.is, OPERATORS.contains],
+    value: 'address.country',
     type: 'text'
   },
   {

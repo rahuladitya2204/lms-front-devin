@@ -1,26 +1,35 @@
 import { Avatar, Modal, Space } from 'antd'
+import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { Fragment, useState } from 'react'
 
 import { FileOutlined } from '@ant-design/icons'
-import { Types } from '@adewaskar/lms-common'
+import { FileType } from '@adewaskar/lms-common/lib/cjs/types/types/Common.types'
+
+interface FileItemPropsI {
+  file: Partial<FileType>;
+}
+
+function FileItem({ file }: FileItemPropsI) {
+  const { data: url } = Learner.Queries.useGetPresignedUrl(file.key + '')
+  return (
+    <Avatar
+      onClick={e => window.open(url, '_blank')}
+      shape="square"
+      size={80}
+      icon={<FileOutlined />}
+    />
+  )
+}
 
 interface FileListPropsI {
-  files: { name: string, key: string, url?: string }[];
+  files: Partial<FileType>[];
 }
 
 function FileList(props: FileListPropsI) {
   return (
     <Space size={[20, 20]}>
       {props.files?.map(file => {
-        console.log(file,'file')
-        return (
-          <Avatar
-            onClick={e => window.open(file.url, '_blank')}
-            shape="square"
-            size={80}
-            icon={<FileOutlined />}
-          />
-        )
+        return <FileItem file={file} />
       })}
     </Space>
   )
