@@ -31,6 +31,7 @@ var toolbarOptions = [
 ]
 interface QuillEditorPropsI {
   value?: string;
+  defaultValue?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
 }
@@ -38,8 +39,9 @@ interface QuillEditorPropsI {
 function QuillEditor(props: QuillEditorPropsI) {
   return (
     <ReactQuill
+      defaultValue={props.defaultValue}
       modules={{
-        toolbar: toolbarOptions
+        toolbar: toolbarOptions,
       }}
       placeholder={props.placeholder || ''}
       theme="snow"

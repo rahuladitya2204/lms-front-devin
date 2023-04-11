@@ -8,7 +8,7 @@ import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
 function CampaignsScreen() {
-  const { data, isLoading: loading } = User.Queries.useGetCampaigns()
+  const { data, isLoading: loading } = User.Queries.useGetCampaigns();
 
   const navigate = useNavigate()
   return (

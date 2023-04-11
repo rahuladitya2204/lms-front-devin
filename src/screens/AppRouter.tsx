@@ -17,10 +17,11 @@ import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
 import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign'
+import EmailTemplateEditor from '@User/Screens/Marketing/Emails/Templates/EmailTemplateEditor'
+import EmailTemplatesScreen from '@User/Screens/Marketing/Emails/Templates/EmailTemplatesScreen'
 import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
-import { Learner } from '@adewaskar/lms-common'
 import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
 import LearnerCourses from './post-authentication/Learner/Screens/Courses'
@@ -73,6 +74,10 @@ const router = createBrowserRouter(
               </Route>
               <Route path="create-campaign" element={<CreateCampaign />} />
               <Route path="edit-campaign/:id" element={<CreateCampaign />} />
+              <Route path="emails">
+                <Route path="" element={<EmailTemplatesScreen />} />
+                <Route path=":id/editor" element={<EmailTemplateEditor />} />
+              </Route>
             </Route>
             <Route path="category">
               <Route path="" element={<CourseCategoryScreen />} />
