@@ -1,5 +1,5 @@
 import { Button, Card, Tabs } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Learner, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 
@@ -7,16 +7,18 @@ import Header from '@Components/Header'
 import LearnerDetailsEditor from './LearnersDetailsEditor'
 import { UploadOutlined } from '@ant-design/icons'
 import { User } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
 
 function LearnerEditor() {
-  const { id: instructorId } = useParams()
-  const [instructor, setLearner] = useState(Constants.INITIAL_LEARNER_DETAILS)
+  const message = useMessage();
+  const { id: learnerId } = useParams()
+  const [learner, setLearner] = useState(Constants.INITIAL_LEARNER_DETAILS)
   const {
     mutate: updateLearner,
     isLoading: loading
   } = User.Queries.useUpdateLearner()
-  const { data } = User.Queries.useGetLearnerDetails(instructorId + '', {
-    enabled: !!`instructorId`
+  const { data } = User.Queries.useGetLearnerDetails(learnerId + '', {
+    enabled: !!learnerId
   })
 
   useEffect(
@@ -28,14 +30,21 @@ function LearnerEditor() {
 
   const saveLearner = () => {
     updateLearner({
-      id: instructorId + '',
-      data: instructor
+      id: learnerId + '',
+      data: learner
+    }, {
+      onSuccess: () => {
+        message.open({
+          type: 'success',
+          content: 'Saved Learner Details'
+        })
+      }
     })
   }
 
   const onFormUpdate = (data: Partial<Types.Learner>) => {
     setLearner({
-      ...instructor,
+      ...learner,
       ...data
     })
   }
@@ -68,7 +77,7 @@ function LearnerEditor() {
               key: '1',
               children: (
                 <LearnerDetailsEditor
-                  formData={instructor}
+                  formData={learner}
                   onFormUpdate={onFormUpdate}
                 />
               )

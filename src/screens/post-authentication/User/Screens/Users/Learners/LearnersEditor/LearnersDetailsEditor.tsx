@@ -3,6 +3,7 @@ import React, { Fragment, useEffect } from 'react';
 
 import FileUpload from '@Components/FileUpload';
 import Image from '@Components/Image'
+import MediaUpload from '@Components/MediaUpload';
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateLearnerComponentPropsI {
@@ -10,6 +11,7 @@ interface CreateLearnerComponentPropsI {
   onFormUpdate: (d:Partial<Types.Learner>)=>void;}
 
 const LearnerDetailsEditor: React.FC<CreateLearnerComponentPropsI> = (props) => {
+  const learner = props.formData;
   const [form] = Form.useForm<Types.Learner>();
   useEffect(() => {
     form.setFieldsValue(props.formData);
@@ -21,16 +23,6 @@ const LearnerDetailsEditor: React.FC<CreateLearnerComponentPropsI> = (props) => 
   return (
     <Fragment>
       <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
-      <Form.Item name="image" required label="Profile Image">
-  <FileUpload onUpload={e => {
-    form.setFieldValue('image', e[0].url);
-  }}>
-  <Image preview={false}
-      width={200}
-src={image}
-/>
-</FileUpload>
-</Form.Item>
         <Form.Item name="name" label="Name" required>
         <Input placeholder="Name of the student" />
           </Form.Item>

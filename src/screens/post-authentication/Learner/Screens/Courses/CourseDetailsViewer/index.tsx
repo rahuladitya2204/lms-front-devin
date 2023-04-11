@@ -13,8 +13,9 @@ import {
   AlertOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Store, Types } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
@@ -22,7 +23,6 @@ import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
 import image from './bg.svg'
 import styled from '@emotion/styled'
-import { useParams } from 'react-router'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -55,15 +55,25 @@ const CourseSubTitle = styled(Paragraph)`
 
 function CourseDetailViewer () {
   const { id: courseId } = useParams();
+  const learner = Store.useAuthentication(s => s.learner);
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
   const { mutate: enroll } = Learner.Queries.useEnrollForCourse();
-  const { mutate: updateCart } = Learner.Queries.useUpdateCartItems();
+  // const { mutate: updateCart } = Learner.Queries.useUpdateCartItems();
   const { data } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  const addItemToCart = (course:Types.Course) => {
-    updateCart({ courseId: course._id, action: 'add' });
-  }
+  // const addItemToCart = (course:Types.Course) => {
+  //   updateCart({ courseId: course._id, action: 'add' });
+  // }
+
+  const isEnrolled = !!learner.enrolledCourses.find((e) => {
+    return e.course.toString() === courseId;
+  });
+
+  console.log(learner.enrolledCourses,'isEnrolled')
+
+  console.log(learner, 'learner');
+
   useEffect(
     () => {
       setCourse(data)
@@ -76,7 +86,8 @@ function CourseDetailViewer () {
   }
   const instructor = course.instructor as unknown as Types.Instructor;
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  const {data: cartItems } = Learner.Queries.useGetCartItems();
+  const { data: cartItems } = Learner.Queries.useGetCartItems();
+  const navigate = useNavigate();
   // const isAddedToCart = cartItems?.find(item => item._id == course._id);
   return (
     <Container>
@@ -179,9 +190,11 @@ function CourseDetailViewer () {
                       </Button>
                     </Col> */}
                     <Col span={24}>
-                      <Button onClick={()=>enrollForCourse(course._id)}size="large" type="primary" block>
+                     {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
+                        Go to Course
+                      </Button>: <Button onClick={()=>enrollForCourse(course._id)}size="large" type="primary" block>
                         Enroll Now
-                      </Button>
+                      </Button>}
                     </Col>{' '}
                     <Col span={24}>
                       <CourseMetadata course={course} />

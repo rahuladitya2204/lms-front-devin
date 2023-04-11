@@ -29,6 +29,7 @@ const CourseListItem = styled(List.Item)`
 `
 
 function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
+  console.log(props.item,'props.item')
   let duration = props.item.metadata?.duration
   if (!duration) {
     duration = 0;
@@ -36,8 +37,6 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   let durationInMin = unit(duration, 'seconds')
     .to('minute')
     .toJSON()
-
-  console.log(duration, durationInMin, 'durationInMin')
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   return (
     <NavLink
@@ -60,7 +59,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                   e.stopPropagation()
                   updateProgress({
                     courseId: props.courseId || '',
-                    action: !props.item.isCompleted ? 'REMOVE' : 'ADD',
+                    action: e.target.checked ? 'ADD' : 'REMOVE',
                     itemId: props.item._id
                   })
                   props.toggleItemCheck(props.item._id, !!e.target.checked)

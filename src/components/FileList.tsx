@@ -4,6 +4,7 @@ import { Fragment, useState } from 'react'
 
 import { FileOutlined } from '@ant-design/icons'
 import { FileType } from '@adewaskar/lms-common/lib/cjs/types/types/Common.types'
+import FileTypeIcon from './FileTypeIcon'
 
 interface FileItemPropsI {
   file: Partial<FileType>;
@@ -11,14 +12,7 @@ interface FileItemPropsI {
 
 function FileItem({ file }: FileItemPropsI) {
   const { data: url } = Learner.Queries.useGetPresignedUrl(file.key + '')
-  return (
-    <Avatar
-      onClick={e => window.open(url, '_blank')}
-      shape="square"
-      size={80}
-      icon={<FileOutlined />}
-    />
-  )
+  return <FileTypeIcon fileType={file.type} />;
 }
 
 interface FileListPropsI {

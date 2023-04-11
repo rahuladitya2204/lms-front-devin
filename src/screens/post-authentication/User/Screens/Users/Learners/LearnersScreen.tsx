@@ -7,6 +7,7 @@ import Header from '@Components/Header'
 import ThemeProvider from 'screens/ThemeProvider'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 
 function LearnersScreen() {
   const { data, isLoading: loading } = User.Queries.useGetLearners()
@@ -37,6 +38,11 @@ function LearnersScreen() {
                   title="Last Login"
                   dataIndex="lastActive"
                   key="lastActive"
+                  render={(_: any, record: Types.Learner) => (
+                    <Space size="middle">
+                      {dayjs(record.lastActive).format('LLLL')}
+                    </Space>
+                  )}
                 />
                 <Table.Column
                   title="Joined On"

@@ -59,7 +59,7 @@ function CourseEditor() {
       ...data
     })
   }
-
+  console.log(course, 'aaaddd')
   return (
     <Header
       // hideBack
@@ -137,8 +137,11 @@ function CourseEditor() {
                   formData={course.advanced}
                   onFormUpdate={e => {
                     onCourseUpdate({
-                      // ...course,
-                      advanced: e
+                      ...course,
+                      advanced: {
+                        ...course.advanced,
+                        ...e
+                      }
                     })
                   }}
                 />

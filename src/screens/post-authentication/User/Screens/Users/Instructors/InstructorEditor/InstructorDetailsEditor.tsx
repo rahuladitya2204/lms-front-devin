@@ -22,7 +22,7 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
   return (
     <Fragment>
       <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
-      <Form.Item name="image" required label="Profile Image">
+      {/* <Form.Item name="image" required label="Profile Image">
           <MediaUpload
             uploadType={'image'}
             prefixKey={`images/instructors/${props.formData._id}`}
@@ -36,7 +36,7 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
 
   }} />
 
-</Form.Item>
+</Form.Item> */}
         <Form.Item name="name" label="Name" required>
         <Input placeholder="Name of the instructor" />
           </Form.Item>
