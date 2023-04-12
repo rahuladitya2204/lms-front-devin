@@ -7,7 +7,6 @@ import AddEmailTemplate from './AddEmailTemplate'
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
 import { useState } from 'react'
 
 function EmailTemplatesScreen() {

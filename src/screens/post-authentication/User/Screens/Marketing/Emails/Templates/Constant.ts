@@ -24,10 +24,10 @@ export const EmailTypeMap: any = {
 export const EmailTemplateStatusMap: any = {
   draft: {
     title: 'Draft',
-    color: 'blue'
+    color: 'cyan'
   },
   live: {
     title: 'Live',
-    color: 'green'
+    color: 'magenta'
   }
 }

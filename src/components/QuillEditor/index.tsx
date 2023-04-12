@@ -2,11 +2,12 @@
 import 'react-quill/dist/quill.snow.css'
 import './custom-style.css'
 
+import { Space, Spin } from 'antd'
+import { addImageUpload, createVariablesButton } from './setup'
 import { useEffect, useRef, useState } from 'react'
 
+import { Common } from '@adewaskar/lms-common'
 import ReactQuill from 'react-quill'
-import { Space } from 'antd'
-import { createVariablesButton } from './setup'
 
 var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -29,12 +30,17 @@ interface QuillEditorPropsI {
   value?: string;
   style?: {};
   variables?: any;
+  type?: string;
   defaultValue?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
 }
 
 function QuillEditor(props: QuillEditorPropsI) {
+  const {
+    mutate: uploadFiles,
+    isLoading: loading
+  } = Common.Queries.useUploadFiles()
   const [inited, setInited] = useState(false)
   const quillRef = useRef(null)
   useEffect(
@@ -43,18 +49,19 @@ function QuillEditor(props: QuillEditorPropsI) {
       if (quill && props?.variables?.length && !inited) {
         setInited(true)
         createVariablesButton(quill, props.variables || [])
+        addImageUpload(quill, uploadFiles)
       }
     },
     [props.variables]
   )
   return (
-    <Space direction="vertical">
+    <Spin spinning={loading} tip="Loading">
       <ReactQuill
         style={props.style ? props.style : {}}
         defaultValue={props.defaultValue}
         ref={quillRef}
         modules={{
-          toolbar: toolbarOptions
+          toolbar: props.type === 'text' ? [] : toolbarOptions
         }}
         placeholder={props.placeholder || ''}
         theme="snow"
@@ -64,7 +71,7 @@ function QuillEditor(props: QuillEditorPropsI) {
           props.onChange(sanitizedHtmlString)
         }}
       />
-    </Space>
+    </Spin>
   )
 }
 

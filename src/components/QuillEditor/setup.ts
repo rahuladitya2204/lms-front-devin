@@ -137,3 +137,39 @@ const addVariable = (quill, variable) => {
 
   quill.setSelection(range.index + 2, Quill.sources.SILENT)
 }
+
+function selectLocalImage (quill, uploadFiles) {
+  const input = document.createElement('input')
+  input.setAttribute('type', 'file')
+  input.click()
+
+  // Listen upload local image and save to server
+  input.onchange = () => {
+    const file = input.files[0]
+    console.log(file, 'file')
+    // file type is only image.
+    if (/^image\//.test(file.type)) {
+      uploadFiles({
+        files: [{ file: file, prefixKey: 'jjijijij' }],
+        isProtected: false,
+        onUploadProgress: e => {
+          // console.log(e, 'e')
+        },
+        onSuccess: ([uploadFile]) => {
+          const range = quill.getSelection()
+          quill.insertEmbed(range.index, 'image', `${uploadFile.url}`, {
+            width: '100%'
+          })
+        }
+      })
+    } else {
+      console.warn('You could only upload images.')
+    }
+  }
+}
+
+export const addImageUpload = (quill, uploadFiles) => {
+  quill.getModule('toolbar').addHandler('image', () => {
+    selectLocalImage(quill, uploadFiles)
+  })
+}

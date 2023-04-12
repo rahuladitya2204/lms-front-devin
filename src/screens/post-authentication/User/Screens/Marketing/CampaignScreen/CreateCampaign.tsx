@@ -1,4 +1,4 @@
-import { Button, Card, Col, DatePicker, Form, Input, Radio, Row, Select, Space, Tabs, Tag } from 'antd'
+import { Button, Card, Col, Form, Input, Row, Select, Space, Tabs, Tag } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -17,6 +17,7 @@ interface CreateCampaignComponentPropsI {
 }
 
 const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
+  const data = props.data || Constants.INITIAL_CAMPAIGN_DETAILS;
   const params = useParams();
   const navigate = useNavigate();
   const [rules, setRules] = useState<Types.Rule[]>([]);
@@ -97,9 +98,9 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   useEffect(
     () => {
-      form.setFieldsValue(props.data)
+      form.setFieldsValue(data)
     },
-    [props.data]
+    [data]
   )
 
   useEffect(
@@ -160,14 +161,15 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
           )
           }, {
           title: 'Recipients',
-          content: <AddRecipients form={form} data={props.data} addRule={addRule} deleteRule={deleteRule} updateRule={updateRule} rules={rules} />
+          content: <AddRecipients form={form} data={data} addRule={addRule} deleteRule={deleteRule} updateRule={updateRule} rules={rules} />
           },
           {
             title: 'Template',
             content:<Tabs defaultActiveKey="1" items={[  {
               key: '1',
               label: `Email`,
-              children: <CreateEmailTemplate form={form} data={props.data} />
+              // @ts-ignore
+              children: <CreateEmailTemplate form={form} data={data} />
             },]}/>
           }
       ]}

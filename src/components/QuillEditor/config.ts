@@ -7,7 +7,7 @@ export class QuillToolbarItem {
     me.options = options
 
     me.qlFormatsEl = document.createElement('span')
-    me.qlFormatsEl.className = 'ql-formats'
+    me.qlFormatsEl.className = 'ql-formats ql-variable'
   }
   /**
    * Attaches this tool to the given Quill Editor instance.

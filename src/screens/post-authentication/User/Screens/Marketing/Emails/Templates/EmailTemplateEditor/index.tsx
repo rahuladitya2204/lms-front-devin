@@ -72,7 +72,6 @@ function EmailTemplateEditor() {
           >
             Save as Draft
           </Button>
-          {template.title}
           <Button
             onClick={() =>
               saveEmailTemplate({

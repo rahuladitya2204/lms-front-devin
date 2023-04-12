@@ -1,6 +1,7 @@
 import { Button, Card, Col, Row, Space, Table, Tag } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
+import { CampaignStatus } from './Constant'
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
@@ -8,7 +9,7 @@ import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
 function CampaignsScreen() {
-  const { data, isLoading: loading } = User.Queries.useGetCampaigns();
+  const { data, isLoading: loading } = User.Queries.useGetCampaigns()
 
   const navigate = useNavigate()
   return (
@@ -26,8 +27,15 @@ function CampaignsScreen() {
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
               <Table.Column title="Title" dataIndex="title" key="title" />
-              <Table.Column title="Subject" dataIndex="subject" key="subject" />
-              <Table.Column title="Channel" dataIndex="channel" key="channel" />
+              {/* <Table.Column title="Subject" dataIndex="subject" key="subject" /> */}
+              <Table.Column
+                title="Channel"
+                dataIndex="channel"
+                key="channel"
+                render={(_: any, record: Types.Campaign) =>
+                  record.channel.map(c => <Tag color={'blue'}>{c?.toUpperCase()}</Tag>)
+                }
+              />
               <Table.Column
                 title="Scheduled At"
                 dataIndex="scheduledAt"
@@ -42,7 +50,9 @@ function CampaignsScreen() {
                 key="status"
                 render={(_: any, record: Types.Campaign) =>
                   record.status ? (
-                    <Tag color={'blue'}>{record.status}</Tag>
+                    <Tag color={CampaignStatus[record.status].color}>
+                      {CampaignStatus[record.status].title}
+                    </Tag>
                   ) : null
                 }
               />
