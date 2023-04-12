@@ -6,11 +6,8 @@ import { useNavigate, useParams } from 'react-router'
 import AddRecipients from './AddRecipients/AddReciepients'
 import CreateEmailTemplate from './CreateTemplate/CreateEmailTemplate'
 import Header from '@Components/Header'
-import QuillEditor from '@Components/QuillEditor'
-import RuleCreator from './RuleCreator/RuleCreator'
 import Stepper from '@Components/Stepper'
 import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 
 interface CreateCampaignComponentPropsI {
@@ -74,7 +71,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     }
     // onFinish && onFinish(e)
   }
-  // console.log(form.getFieldValue(),'ll')
+
 
   const addRule = () => {
     const RULES: any[] = [...rules]
@@ -100,7 +97,6 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   useEffect(
     () => {
-      // setRules(props.data?.recipients?.rule)
       form.setFieldsValue(props.data)
     },
     [props.data]

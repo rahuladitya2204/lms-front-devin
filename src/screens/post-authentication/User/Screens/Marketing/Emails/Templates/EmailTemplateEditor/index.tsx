@@ -30,13 +30,13 @@ function EmailTemplateEditor() {
 
   useEffect(
     () => {
-      console.log('execinggg', template)
       setEmailTemplate(template)
     },
     [template]
   )
 
   const saveEmailTemplate = (data: Types.EmailTemplate) => {
+    delete data.variables
     updateEmailTemplate(
       {
         id: emailTemplateId + '',
@@ -44,7 +44,6 @@ function EmailTemplateEditor() {
       },
       {
         onSuccess: () => {
-          console.log('Saving EmailTemplate!')
           message.open({
             type: 'success',
             content: 'Saved'
@@ -73,7 +72,7 @@ function EmailTemplateEditor() {
           >
             Save as Draft
           </Button>
-{template.title}
+          {template.title}
           <Button
             onClick={() =>
               saveEmailTemplate({

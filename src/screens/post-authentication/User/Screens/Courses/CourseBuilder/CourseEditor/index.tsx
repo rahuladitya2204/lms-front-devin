@@ -59,7 +59,7 @@ function CourseEditor() {
       ...data
     })
   }
-  console.log(course, 'aaaddd')
+
   return (
     <Header
       // hideBack

@@ -106,7 +106,6 @@ function CourseBuilderScreen() {
       },
       {
         onSuccess: () => {
-          console.log('Hehihuhuhuhuh')
           message.open({
             type: 'success',
             content: 'Saved Course'

@@ -19,7 +19,6 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
   const { courseId } = props;
       const [form] = Form.useForm<Types.CourseLandingPage>();    
       const PromoVideoUrl = props?.formData?.promoVideo;
-        console.log(PromoVideoUrl)
       useEffect(() => { 
         form.setFieldsValue(props.formData);
       },[props.formData])

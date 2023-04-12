@@ -40,7 +40,6 @@ function InstructorEditor() {
       },
       {
         onSuccess: () => {
-          console.log('Saving Instructor!')
           message.open({
             type: 'success',
             content: 'Saved'

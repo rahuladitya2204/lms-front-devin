@@ -1,13 +1,12 @@
 // @ts-nocheck
 import 'react-quill/dist/quill.snow.css'
 import './custom-style.css'
-import './setup'
 
-import ReactQuill, { Quill } from 'react-quill'
-import { Space, Tag } from 'antd'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
+import ReactQuill from 'react-quill'
+import { Space } from 'antd'
+import { createVariablesButton } from './setup'
 
 var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -28,75 +27,30 @@ var toolbarOptions = [
 
 interface QuillEditorPropsI {
   value?: string;
+  style?: {};
   variables?: any;
   defaultValue?: string;
   onChange?: (value: string) => void;
   placeholder?: string;
 }
 
-
 function QuillEditor(props: QuillEditorPropsI) {
+  const [inited, setInited] = useState(false)
   const quillRef = useRef(null)
-  const addVariable = variable => {
-    const quill = quillRef?.current.getEditor()
-
-    let range = quill.getSelection(true)
-
-    quill.insertEmbed(
-      range.index,
-      //Insert the TemplateMarker in the same range as the cursor is
-
-      'TemplateMarker',
-      //This is the name of the Embed
-
-      //   {
-      // colour: `warning`,
-      // marker:`first_name`,
-      // title: `FIRST NAME`
-      // }
-      variable
-      //These are the variable values to feed to the editor
-    )
-
-    quill.insertText(range.index + 1, ' ', Quill.sources.USER)
-    //Add a space after the marker
-
-    quill.setSelection(range.index + 2, Quill.sources.SILENT)
-  }
-
-  // useEffect(() => {
-  //   const quill = quillRef?.current.getEditor()
-  //   quill.on('text-change', function(delta, oldDelta, source) {
-  //     var delta = quill.getContents()
-  //     var qdc = new QuillDeltaToHtmlConverter(delta.ops, window.opts_ || {})
-  //     qdc.renderCustomWith(function(customOp, contextOp) {
-  //       if (customOp.insert.type === 'TemplateMarker') {
-  //         let val = customOp.insert.value
-  //         return val.value
-  //       }
-  //     })
-
-  //     var html = qdc.convert()
-  //     //Convert the Delta JSON to HTML
-
-  //     //This is what will be used to render the template
-  //     //You also need to store this in your DB
-  //   })
-  // }, [])
-
+  useEffect(
+    () => {
+      const quill = quillRef?.current.getEditor()
+      if (quill && props?.variables?.length && !inited) {
+        setInited(true)
+        createVariablesButton(quill, props.variables || [])
+      }
+    },
+    [props.variables]
+  )
   return (
     <Space direction="vertical">
-      <Space>
-        {props.variables.map(variable => {
-          return (
-            <Tag onClick={e => addVariable(variable)} color="blue">
-              {variable.name}
-            </Tag>
-          )
-        })}
-      </Space>
-
       <ReactQuill
+        style={props.style ? props.style : {}}
         defaultValue={props.defaultValue}
         ref={quillRef}
         modules={{
@@ -105,7 +59,10 @@ function QuillEditor(props: QuillEditorPropsI) {
         placeholder={props.placeholder || ''}
         theme="snow"
         value={props.value}
-        onChange={props.onChange}
+        onChange={e => {
+          const sanitizedHtmlString = e.replace(/&zwj;|&nbsp;/g, '')
+          props.onChange(sanitizedHtmlString)
+        }}
       />
     </Space>
   )

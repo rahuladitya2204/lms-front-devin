@@ -60,7 +60,6 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
             value:c._id
         }
     });
-    console.log(category,subCategories,'aaaa')
   return (
     <Fragment>
       <Form
