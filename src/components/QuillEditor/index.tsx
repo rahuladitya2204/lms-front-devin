@@ -1,85 +1,30 @@
 // @ts-nocheck
 import 'react-quill/dist/quill.snow.css'
 import './custom-style.css'
+import './setup'
 
 import ReactQuill, { Quill } from 'react-quill'
 import { Space, Tag } from 'antd'
 import { useEffect, useRef } from 'react'
 
-import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
-
-var BackgroundClass = Quill.import('attributors/class/background')
-var ColorClass = Quill.import('attributors/class/color')
-var SizeStyle = Quill.import('attributors/style/size')
-Quill.register(BackgroundClass, true)
-Quill.register(ColorClass, true)
-Quill.register(SizeStyle, true)
+import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html';
 
 var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
-  ['blockquote', 'code-block'],
+  // ['blockquote', 'code-block'],
 
   [{ header: 1 }, { header: 2 }], // custom button values
   [{ list: 'ordered' }, { list: 'bullet' }],
-  [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
   [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
-  [{ direction: 'rtl' }], // text direction
 
   [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
 
   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
-  [{ font: [] }],
-  [{ align: [] }],
   ['video'],
   ['image'],
-  ['clean'] // remove formatting button
+  ['custom']
 ]
-
-var Embed = Quill.import('blots/embed')
-
-class TemplateMarker extends Embed {
-  static create({ name, value, collection }) {
-    console.log(value, 'eeeee')
-    let node = super.create(value)
-
-    node.setAttribute('class', 'variable-tag')
-    //Set up the (Bootstrap) badge, and badge colour
-
-    node.setAttribute('data-value', value)
-    //The marker is the (hidden) template marker reference
-    node.setAttribute('data-collection', collection)
-
-    node.innerHTML = name
-    //The title is what the user sees in their editor
-
-    return node
-  }
-
-  static value(node) {
-    // console.log(node, 'nodee')
-    // // console.log(
-    // //   {
-    // //     value: node.getAttribute('data-value'),
-    // //     title: node.getAttribute('data-title'),
-    // //     collection: node.getAttribute('data-collection')
-    // //   },
-    // //   'ooooooo'
-    // // )
-    return {
-      value: node.getAttribute('data-value'),
-      name: node.innerHTML,
-      collection: node.getAttribute('data-collection')
-    }
-  }
-}
-
-TemplateMarker.blotName = 'TemplateMarker'
-TemplateMarker.tagName = 'span'
-
-Quill.register({
-  'formats/TemplateMarker': TemplateMarker
-})
 
 interface QuillEditorPropsI {
   value?: string;
@@ -89,13 +34,6 @@ interface QuillEditorPropsI {
   placeholder?: string;
 }
 
-const variables = [
-  {
-    name: 'Course Name',
-    value: 'title',
-    collection: 'course'
-  }
-]
 
 function QuillEditor(props: QuillEditorPropsI) {
   const quillRef = useRef(null)
@@ -126,35 +64,25 @@ function QuillEditor(props: QuillEditorPropsI) {
     quill.setSelection(range.index + 2, Quill.sources.SILENT)
   }
 
-  useEffect(() => {
-    const quill = quillRef?.current.getEditor()
-    quill.on('text-change', function(delta, oldDelta, source) {
-      var delta = quill.getContents()
-      var delta_json = JSON.stringify(delta)
-      // console.log(delta)
-      // This is what you store in the DB so that you can edit the template later
+  // useEffect(() => {
+  //   const quill = quillRef?.current.getEditor()
+  //   quill.on('text-change', function(delta, oldDelta, source) {
+  //     var delta = quill.getContents()
+  //     var qdc = new QuillDeltaToHtmlConverter(delta.ops, window.opts_ || {})
+  //     qdc.renderCustomWith(function(customOp, contextOp) {
+  //       if (customOp.insert.type === 'TemplateMarker') {
+  //         let val = customOp.insert.value
+  //         return val.value
+  //       }
+  //     })
 
-      var qdc = new QuillDeltaToHtmlConverter(delta.ops, window.opts_ || {})
-      // This requires the Quill Delta to HTML converter js
+  //     var html = qdc.convert()
+  //     //Convert the Delta JSON to HTML
 
-      // customOp is your custom blot op
-      // contextOp is the block op that wraps this op, if any.
-      // If, for example, your custom blot is located inside a list item,
-      // then contextOp would provide that op.
-      qdc.renderCustomWith(function(customOp, contextOp) {
-        if (customOp.insert.type === 'TemplateMarker') {
-          let val = customOp.insert.value
-          return val.value
-        }
-      })
-
-      var html = qdc.convert()
-      //Convert the Delta JSON to HTML
-
-      //This is what will be used to render the template
-      //You also need to store this in your DB
-    })
-  }, [])
+  //     //This is what will be used to render the template
+  //     //You also need to store this in your DB
+  //   })
+  // }, [])
 
   return (
     <Space direction="vertical">
