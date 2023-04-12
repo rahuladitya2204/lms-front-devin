@@ -15,12 +15,14 @@ function InstructorEditor() {
   const [instructor, setInstructor] = useState(
     Constants.INITIAL_INSTRUCTOR_DETAILS
   )
+  
   const {
     mutate: updateInstructor,
     isLoading: loading
   } = User.Queries.useUpdateInstructor()
+  
   const { data } = User.Queries.useGetInstructorDetails(instructorId + '', {
-    enabled: !!`instructorId`
+    enabled: !!instructorId
   })
 
   useEffect(

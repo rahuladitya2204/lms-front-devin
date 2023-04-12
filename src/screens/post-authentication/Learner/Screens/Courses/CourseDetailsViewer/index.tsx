@@ -190,7 +190,7 @@ function CourseDetailViewer () {
                       </Button>
                     </Col> */}
                     <Col span={24}>
-                     {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
+                     {!isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
                         Go to Course
                       </Button>: <Button onClick={()=>enrollForCourse(course._id)}size="large" type="primary" block>
                         Enroll Now

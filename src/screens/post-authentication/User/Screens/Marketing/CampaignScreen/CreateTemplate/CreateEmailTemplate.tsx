@@ -7,17 +7,13 @@ interface CreateEmailTemplatePropsI {
     data: any;
 }
 
+const variables = [{ name: 'Course Name', value: 'title', collection: 'course' }, { name: 'Learner Name', value: 'name', collection: 'learner' }];
+
 const CreateEmailTemplate = ({form,data}:CreateEmailTemplatePropsI) => {
 
     return <>
-              
-        <Form.Item label="Variables" >
-            <Tag color="blue">Learner Name: {`{{name}}`}</Tag>
-            <Tag color="blue">Contact No: {`{{contactNo}}`}</Tag>
-
-        </Form.Item>
         <Form.Item name="template" label="Template" required>
-            <QuillEditor onChange={e => form.setFieldsValue({
+            <QuillEditor variables={variables} onChange={e => form.setFieldsValue({
                 template: e
             })} value={data?.template} />
         </Form.Item>

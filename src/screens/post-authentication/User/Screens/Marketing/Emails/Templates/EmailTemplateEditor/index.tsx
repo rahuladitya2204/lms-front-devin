@@ -21,7 +21,7 @@ function EmailTemplateEditor() {
     isLoading: loading
   } = User.Queries.useUpdateEmailTemplate()
 
-  const { data } = User.Queries.useGetEmailTemplateDetails(
+  const { data: template } = User.Queries.useGetEmailTemplateDetails(
     emailTemplateId + '',
     {
       enabled: !!emailTemplateId
@@ -30,9 +30,10 @@ function EmailTemplateEditor() {
 
   useEffect(
     () => {
-      setEmailTemplate(data)
+      console.log('execinggg', template)
+      setEmailTemplate(template)
     },
-    [data]
+    [template]
   )
 
   const saveEmailTemplate = (data: Types.EmailTemplate) => {
@@ -60,7 +61,7 @@ function EmailTemplateEditor() {
       ...data
     })
   }
-
+  // console.log(template, 'temp')
   return (
     <Header
       title="Email Template Editor"
@@ -72,7 +73,7 @@ function EmailTemplateEditor() {
           >
             Save as Draft
           </Button>
-
+{template.title}
           <Button
             onClick={() =>
               saveEmailTemplate({
@@ -88,7 +89,7 @@ function EmailTemplateEditor() {
         </Fragment>
       ]}
     >
-      <Card>
+      <Card extra={<Button danger>Send Test Mail</Button>}>
         <EmailTemplateDetailsEditor
           formData={emailTemplate}
           onFormUpdate={onFormUpdate}
