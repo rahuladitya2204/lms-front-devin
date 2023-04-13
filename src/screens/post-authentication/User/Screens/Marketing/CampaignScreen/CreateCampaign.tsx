@@ -110,7 +110,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     },
     [campaign]
   )
-
+    console.log(props.data,'ddd')
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical" initialValues={Constants.INITIAL_CAMPAIGN_DETAILS}>
     <Header
@@ -132,13 +132,14 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                 <Input placeholder="Enter a title for the campaign" />
               </Form.Item>
 
-              <Form.Item name="subject" label="Campaign Subject" >
-                <Input placeholder="Enter a subject for the campaign" />
+              <Form.Item name="description" label="Campaign Description" >
+                <Input placeholder="Enter a description for the campaign" />
               </Form.Item>
               <Space direction='horizontal'>
               <Form.Item name="channel" label="Campaign Channels" >
-                <Select mode='multiple'
-                  defaultValue={['email']}
+                <Select mode='multiple' onChange={e=>form.setFieldsValue({
+                channel: e
+            })}
                   style={{ width: 300 }}
                   options={[
                     { value: 'email', label: 'Email' },
@@ -146,7 +147,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                     { value: 'push', label: 'Push Notification' },
                     { value: 'sms', label: 'SMS' }
                   ]}
-                />{' '}
+                />
               </Form.Item>
 
               {/* <Form.Item name="scheduledAt" label="Scheduled For" required>

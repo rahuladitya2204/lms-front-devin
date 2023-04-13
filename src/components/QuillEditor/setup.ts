@@ -1,4 +1,5 @@
 // @ts-nocheck
+import { ImageResize } from 'quill-image-resize-module-ts'
 import { Quill } from 'react-quill'
 import { QuillToolbarDropDown } from './config'
 
@@ -8,6 +9,8 @@ var SizeStyle = Quill.import('attributors/style/size')
 Quill.register(BackgroundClass, true)
 Quill.register(ColorClass, true)
 Quill.register(SizeStyle, true)
+
+Quill.register('modules/imageResize', ImageResize)
 
 var Embed = Quill.import('blots/embed')
 

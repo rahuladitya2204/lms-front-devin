@@ -2,12 +2,13 @@
 import 'react-quill/dist/quill.snow.css'
 import './custom-style.css'
 
-import { Space, Spin } from 'antd'
 import { addImageUpload, createVariablesButton } from './setup'
 import { useEffect, useRef, useState } from 'react'
 
 import { Common } from '@adewaskar/lms-common'
+import { ImageResize } from 'quill-image-resize-module-ts'
 import ReactQuill from 'react-quill'
+import { Spin } from 'antd'
 
 var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -45,7 +46,7 @@ function QuillEditor(props: QuillEditorPropsI) {
   const quillRef = useRef(null)
   useEffect(
     () => {
-      const quill = quillRef?.current.getEditor()
+      const quill = quillRef?.current?.getEditor()
       if (quill && props?.variables?.length && !inited) {
         setInited(true)
         createVariablesButton(quill, props.variables || [])
@@ -61,7 +62,11 @@ function QuillEditor(props: QuillEditorPropsI) {
         defaultValue={props.defaultValue}
         ref={quillRef}
         modules={{
-          toolbar: props.type === 'text' ? [] : toolbarOptions
+          toolbar: props.type === 'text' ? [] : toolbarOptions,
+          imageResize: {
+            // module: ImageResize
+            // Other options here
+          }
         }}
         placeholder={props.placeholder || ''}
         theme="snow"
