@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Table, Tag } from 'antd'
+import { Button, Card, Col, Modal, Row, Space, Table, Tag } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import { CampaignStatus } from './Constant'
@@ -8,10 +8,26 @@ import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
+const { confirm } = Modal
+
 function CampaignsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetCampaigns()
 
   const navigate = useNavigate()
+
+  const deleteCampaign = () => {
+    confirm({
+      title: 'Are you sure?',
+      // icon: <ExclamationCircleOutlined />,
+      content: `You want to delete this campaign?`,
+      onOk() {
+        // props.removeItemFromCart(id)
+        console.log('deleteing')
+      },
+      okText: 'Delete Campaign'
+    })
+  }
+
   return (
     <Header>
       <Card
@@ -33,7 +49,9 @@ function CampaignsScreen() {
                 dataIndex="channel"
                 key="channel"
                 render={(_: any, record: Types.Campaign) =>
-                  record.channel.map(c => <Tag color={'blue'}>{c?.toUpperCase()}</Tag>)
+                  record.channel.map(c => (
+                    <Tag color={'blue'}>{c?.toUpperCase()}</Tag>
+                  ))
                 }
               />
               <Table.Column
@@ -73,7 +91,7 @@ function CampaignsScreen() {
                     <EditOutlined
                       onClick={() => navigate(`../edit-campaign/${record._id}`)}
                     />
-                    {/* <DeleteOutlined onClick={e => deleteCampaign(record)} /> */}
+                    <DeleteOutlined onClick={e => deleteCampaign()} />
                   </Space>
                 )}
               />

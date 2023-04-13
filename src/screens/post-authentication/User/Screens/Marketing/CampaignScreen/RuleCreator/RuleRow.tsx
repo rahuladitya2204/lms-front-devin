@@ -50,9 +50,6 @@ const OPERANDS = [
     title: 'Enrolled Courses',
     value: 'enrolledCourses.course',
     operators: [OPERATORS.is, OPERATORS.isAnyOf],
-    // query: {
-    //   collection: 'Course'
-    // },
     type: 'select'
   },
   {

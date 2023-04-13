@@ -67,6 +67,8 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
             content: 'Saved'
           });
           navigate('../campaign')
+          form.resetFields();
+          setRules([]);
         }
       })
     }
@@ -110,7 +112,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     },
     [campaign]
   )
-    console.log(props.data,'ddd')
+
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical" initialValues={Constants.INITIAL_CAMPAIGN_DETAILS}>
     <Header
@@ -140,7 +142,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                 <Select mode='multiple' onChange={e=>form.setFieldsValue({
                 channel: e
             })}
-                  style={{ width: 300 }}
+                  style={{ width: 450 }}
                   options={[
                     { value: 'email', label: 'Email' },
                     { value: 'whatsapp', label: 'Whatsapp' },

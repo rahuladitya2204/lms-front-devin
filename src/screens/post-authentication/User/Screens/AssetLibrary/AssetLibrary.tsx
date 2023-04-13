@@ -9,7 +9,7 @@ import {
   Table,
   Typography
 } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Store, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import FileTypeIcon from '@Components/FileTypeIcon'
@@ -21,6 +21,7 @@ const { Text } = Typography
 
 function AssetLibraryScreen() {
   const { data, isLoading: loadingFiles } = Common.Queries.useGetFiles()
+  const organisation = Store.useGlobal(s => s.organisation);
   const {
     mutate: deleteFile,
     isLoading: deletingFile
@@ -29,7 +30,7 @@ function AssetLibraryScreen() {
 
   return (
     <Header>
-      <Card bodyStyle={{ padding: 0 }} title={'Asset Library'}>
+      <Card bodyStyle={{ padding: 0 }} title={`Asset Library - ${organisation.storage.utilised}`}>
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loadingFiles || deletingFile}>
