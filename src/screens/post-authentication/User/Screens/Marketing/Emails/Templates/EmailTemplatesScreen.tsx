@@ -16,7 +16,7 @@ function EmailTemplatesScreen() {
     <Header>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'EmailTemplates'}
+        title={'Email Templates'}
         extra={
           <>
             {type==='custom'?<ActionModal

@@ -36,11 +36,11 @@ function InstructorsScreen() {
                 dataIndex="designation"
                 key="designation"
               />
-              <Table.Column
+              {/* <Table.Column
                 title="Last Login"
                 dataIndex="lastActive"
 
-              />
+              /> */}
               <Table.Column title="Courses" dataIndex="courses" key="courses" />
               <Table.Column title="Rating" dataIndex="rating" key="rating" />
               <Table.Column
