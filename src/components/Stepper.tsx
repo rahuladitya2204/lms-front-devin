@@ -6,8 +6,6 @@ interface StepperPropsI {
     steps: {
         title: string;
       content: React.ReactNode;
-      onNext?: Function;
-      onPrev?: Function;
     }[]
 }
 
@@ -16,24 +14,13 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
     const steps = props.steps;
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
-  
-  // const onPrev = steps[current].onPrev;
-  const onNext = steps[current].onNext;
-  const isValid = onNext ? onNext() : true;
 
   const next = () => {
-    if (!isValid) {
-      return;
-    }
     setCurrent(current + 1);
   };
 
   const prev = () => {
-    // const isValid = onPrev && onPrev();
-    // if (!isValid) {
-    //   return;
-    // }
-    setCurrent(current + 1);
+    setCurrent(current - 1);
   };
 
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
@@ -58,7 +45,7 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
           </Button>
         )}
       { (
-          <Button disabled={!isValid} style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>} type="primary" onClick={() => next()}>
+          <Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>} type="primary" onClick={() => next()}>
             Next
           </Button>
         )}

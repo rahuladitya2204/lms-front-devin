@@ -1,7 +1,13 @@
 export const EmailTypeMap: any = {
   'learner/signup': {
     title: 'Learner Sign Up',
-    description: 'Welcome email when learner signs up'
+    description: 'Welcome email when learner signs up',
+    variables: [
+      {
+        value: 'learner.name',
+        name: 'Learner Name'
+      }
+    ]
   },
   'learner/course/enroll': {
     title: 'Learner Enrolls for a course',
@@ -32,6 +38,10 @@ export const EmailTypeMap: any = {
       {
         name: 'Ticket Id',
         value: 'ticket.id'
+      },
+      {
+        name: 'Learner Reply Text',
+        value: 'ticket.replyText'
       },
       {
         name: 'Ticket Category',
