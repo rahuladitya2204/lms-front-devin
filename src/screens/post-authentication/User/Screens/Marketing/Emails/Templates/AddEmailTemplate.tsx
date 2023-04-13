@@ -1,6 +1,7 @@
 import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
+import BASE_EMAIL_TEMPLATE from '../BaseEmailTemplate'
 import QuillEditor from '@Components/QuillEditor'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
@@ -27,13 +28,14 @@ const AddEmailTemplate: React.FC<
   const [form] = Form.useForm()
 
   const onSubmit = (e: Types.CreateEmailTemplatePayload) => {
+    e.content = BASE_EMAIL_TEMPLATE
     if (props.data) {
       updateEmailTemplate(
         { id: props.data._id, data: e },
         {
           onSuccess: () => {
             props.closeModal && props.closeModal()
-            form.resetFields();
+            form.resetFields()
           }
         }
       )

@@ -78,6 +78,26 @@ function EmailTemplatesScreen() {
                   </Space>
                 )}
               />
+
+              <Table.Column
+                title="Total Sent"
+                dataIndex="totalSent"
+                key="totslSent"
+              />
+
+
+<Table.Column
+                title="Success Rate"
+                dataIndex="successCount"
+                key="successCount"
+              />
+
+<Table.Column
+                title="Failure Rate"
+                dataIndex="failureCount"
+                key="failureCount"
+              />
+              
               <Table.Column
                 title="Status"
                 dataIndex="status"

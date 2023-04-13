@@ -22,6 +22,9 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
   }, [props.formData]);
 
   const MailType = EmailTypeMap[emailTemplate.emailType] ? EmailTypeMap[emailTemplate.emailType] : {};
+
+  const variables = MailType.variables;
+
   return (
     <Fragment>
       <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
@@ -35,13 +38,13 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
         </Form.Item>}
         <Space direction='vertical' size={[30,30]}>
         <Form.Item name="subject" label="Subject of the email" required>
-          <QuillEditor type='text' variables={props.formData.variables}
+          <QuillEditor type='text' variables={variables}
             onChange={e => props.onFormUpdate({ subject: e })}
             value={props.formData.subject}
           />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-          <QuillEditor variables={props.formData.variables}
+          <QuillEditor variables={variables}
             onChange={e => props.onFormUpdate({ content: e })}
             value={props.formData.content}
           />

@@ -5,6 +5,7 @@ import {
   Divider,
   Form,
   Row,
+  Select,
   Space,
   Table,
   Typography
@@ -18,6 +19,8 @@ import { Types } from '@adewaskar/lms-common'
 interface RuleCreatorPropsI {
   addRule: Function;
   updateRule: Function;
+  operator: string;
+  setOperator: (s: string) => void;
   deleteRule: Function;
   rules: Types.Rule[];
 }
@@ -29,7 +32,24 @@ function RuleCreator(props: RuleCreatorPropsI) {
         <Card
           title={
             <Typography.Text>
-              Learners Match any of the following conditions
+              Learners Match{' '}
+              <Select
+                size="small"
+                value={props.operator}
+                style={{ width: 70 }}
+                onChange={e => props.setOperator(e)}
+                options={[
+                  {
+                    label: 'any',
+                    value: '$or'
+                  },
+                  {
+                    label: 'and',
+                    value: '$and'
+                  }
+                ]}
+              />{' '}
+              of the following conditions
             </Typography.Text>
           }
           extra={<a href="#">More</a>}
@@ -37,7 +57,7 @@ function RuleCreator(props: RuleCreatorPropsI) {
         >
           <Space direction="vertical">
             <Space direction="vertical">
-              {props.rules.map((rule: Types.Rule, index: number) => {
+              {props?.rules?.map((rule: Types.Rule, index: number) => {
                 return (
                   <RuleRow
                     isFirst={props.rules.length < 2}

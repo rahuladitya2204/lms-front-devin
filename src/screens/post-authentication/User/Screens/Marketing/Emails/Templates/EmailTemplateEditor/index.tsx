@@ -36,7 +36,6 @@ function EmailTemplateEditor() {
   )
 
   const saveEmailTemplate = (data: Types.EmailTemplate) => {
-    delete data.variables
     updateEmailTemplate(
       {
         id: emailTemplateId + '',

@@ -17,10 +17,10 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
   const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
   
-  const onPrev = steps[current].onPrev;
+  // const onPrev = steps[current].onPrev;
   const onNext = steps[current].onNext;
   const isValid = onNext ? onNext() : true;
-  console.log(isValid, 'valid');
+
   const next = () => {
     if (!isValid) {
       return;

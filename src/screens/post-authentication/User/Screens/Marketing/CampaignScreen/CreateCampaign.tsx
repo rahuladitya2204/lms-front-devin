@@ -4,7 +4,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import AddRecipients from './AddRecipients/AddReciepients'
-import CreateEmailTemplate from './CreateTemplate/CreateEmailTemplate'
+import CreateEmailTemplate from './AddRecipients/CreateTemplate/CreateEmailTemplate'
 import Header from '@Components/Header'
 import Stepper from '@Components/Stepper'
 import { User } from '@adewaskar/lms-common'
@@ -21,6 +21,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   const params = useParams();
   const navigate = useNavigate();
   const [rules, setRules] = useState<Types.Rule[]>([]);
+  const [operator, setOperator] = useState('$or');
   const message = useMessage();
   const {
     mutate: createCampaign,
@@ -46,7 +47,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     const recipients = form.getFieldValue(['recipients']);
     const data = {
       ...e,
-      recipients: {...recipients,rule:rules},
+      recipients: { ...recipients, rules: rules, operator: operator},
       status:'draft'
     }
     if (campaign._id) {
@@ -107,12 +108,12 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   useEffect(
     () => {
-      setRules(campaign?.recipients?.rule)
+      setRules(campaign?.recipients?.rules || [])
+      setOperator(campaign?.recipients?.operator)
       form.setFieldsValue(campaign)
     },
     [campaign]
   )
-
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical" initialValues={Constants.INITIAL_CAMPAIGN_DETAILS}>
     <Header
@@ -164,7 +165,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
           )
           }, {
           title: 'Recipients',
-          content: <AddRecipients form={form} data={data} addRule={addRule} deleteRule={deleteRule} updateRule={updateRule} rules={rules} />
+          content: <AddRecipients operator={operator} setOperator={setOperator} form={form} data={data} addRule={addRule} deleteRule={deleteRule} updateRule={updateRule} rules={rules} />
           },
           {
             title: 'Template',

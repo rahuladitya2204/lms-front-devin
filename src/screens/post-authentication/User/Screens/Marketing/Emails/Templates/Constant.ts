@@ -5,11 +5,47 @@ export const EmailTypeMap: any = {
   },
   'learner/course/enroll': {
     title: 'Learner Enrolls for a course',
-    description: 'Welcome email with course details when learner enrolls'
+    description: 'Welcome email with course details when learner enrolls',
+    variables: [
+      {
+        value: 'course.title',
+        name: 'Course Title'
+      },
+      {
+        value: 'learner.name',
+        name: 'Learner Name'
+      },
+      {
+        value: 'course.instructor.name',
+        name: 'Instructor Name'
+      }
+    ]
   },
   'learner/ticket/reply': {
     title: 'Learner Ticket Reply',
-    description: 'When someone replies to a ticket'
+    description: 'When someone replies to a ticket',
+    variables: [
+      {
+        name: 'Ticket Subject',
+        value: 'ticket.subject'
+      },
+      {
+        name: 'Ticket Id',
+        value: 'ticket.id'
+      },
+      {
+        name: 'Ticket Category',
+        value: 'ticket.category.title'
+      },
+      {
+        name: 'Learner Name',
+        value: 'learner.name'
+      }
+    ]
+  },
+  'learner/ticket/status-update': {
+    title: 'Learner Ticket Opened/Closed',
+    description: 'When someone updates status of the ticket'
   },
   'learner/password-reset': {
     title: 'Learner Password Reset',
