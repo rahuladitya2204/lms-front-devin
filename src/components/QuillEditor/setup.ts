@@ -1,7 +1,8 @@
 // @ts-nocheck
 import './blots/TemplateMarker'
+import './blots/Image'
+import './blots/CustomButton'
 
-import { ImageResize } from 'quill-image-resize-module-ts'
 import { Quill } from 'react-quill'
 import { QuillToolbarDropDown } from './config'
 

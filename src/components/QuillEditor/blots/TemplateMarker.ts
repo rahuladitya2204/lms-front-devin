@@ -1,15 +1,6 @@
 // @ts-nocheck
 import { ImageResize } from 'quill-image-resize-module-ts'
 import { Quill } from 'react-quill'
-import { QuillToolbarDropDown } from './config'
-
-var BackgroundClass = Quill.import('attributors/class/background')
-var ColorClass = Quill.import('attributors/class/color')
-var SizeStyle = Quill.import('attributors/style/size')
-
-Quill.register(BackgroundClass, true)
-Quill.register(ColorClass, true)
-Quill.register(SizeStyle, true)
 
 Quill.register('modules/imageResize', ImageResize)
 
@@ -17,7 +8,6 @@ var Embed = Quill.import('blots/embed')
 
 class TemplateMarker extends Embed {
   static create ({ name, value }) {
-    console.log(name, value, typeof value, 'aaa')
     let node = super.create(value)
     if (name && value !== null) {
       node.setAttribute('class', 'variable-tag')

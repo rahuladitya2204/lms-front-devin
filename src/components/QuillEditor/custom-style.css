@@ -10,3 +10,19 @@
 .ql-variable{
     float:left;
 }
+
+
+.ql-toolbar button.ql-customButton svg {
+    width: 30px;
+    height: 30px;
+  }
+  
+
+  
+  .ql-customButton::before {
+    content: "Add button"
+  }
+  
+  button.ql-customButton{
+    width:82px !important; 
+  }

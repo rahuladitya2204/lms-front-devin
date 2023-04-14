@@ -3,12 +3,12 @@ import 'react-quill/dist/quill.snow.css'
 import './custom-style.css'
 
 import { addImageUpload, createVariablesButton } from './setup'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Common } from '@adewaskar/lms-common'
-import { ImageResize } from 'quill-image-resize-module-ts'
 import ReactQuill from 'react-quill'
 import { Spin } from 'antd'
+import { useToken } from 'antd/es/theme/internal'
 
 var toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -24,7 +24,7 @@ var toolbarOptions = [
   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   ['video'],
   ['image'],
-  ['custom']
+  ['customButton']
 ]
 
 interface QuillEditorPropsI {
@@ -38,6 +38,8 @@ interface QuillEditorPropsI {
 }
 
 function QuillEditor(props: QuillEditorPropsI) {
+  const { token } = useToken();
+
   const {
     mutate: uploadFiles,
     isLoading: loading
@@ -55,6 +57,27 @@ function QuillEditor(props: QuillEditorPropsI) {
     },
     [props.variables]
   )
+
+  const customButtonHandler = useCallback(() => {
+    const buttonText = prompt('Enter button text:')
+    const buttonLink = prompt('Enter button link:')
+    const buttonColor = token?.colorPrimary || 'green';
+
+    if (buttonText && buttonLink && buttonColor) {
+      const buttonData = {
+        text: buttonText,
+        href: buttonLink,
+        color: buttonColor
+      }
+
+      const quill = quillRef.current.getEditor()
+      const range = quill.getSelection(true)
+
+      quill.insertEmbed(range.index, 'customButton', buttonData, 'user')
+      quill.setSelection(range.index + 1, 'user')
+    }
+  }, [])
+
   return (
     <Spin spinning={loading} tip="Loading">
       <ReactQuill
@@ -62,7 +85,12 @@ function QuillEditor(props: QuillEditorPropsI) {
         defaultValue={props.defaultValue}
         ref={quillRef}
         modules={{
-          toolbar: props.type === 'text' ? [] : toolbarOptions,
+          toolbar: {
+            container: props.type === 'text' ? [] : toolbarOptions,
+            handlers: {
+              customButton: customButtonHandler
+            }
+          },
           imageResize: {
             // module: ImageResize
             // Other options here
