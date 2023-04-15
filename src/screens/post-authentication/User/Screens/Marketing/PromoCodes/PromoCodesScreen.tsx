@@ -20,7 +20,7 @@ function PromoCodesScreen() {
         bodyStyle={{ padding: 0 }}
         title={'PromoCodes'}
         extra={
-          <ActionModal cta={<Button type="primary">Add PromoCode</Button>}>
+          <ActionModal cta={<Button type="primary">Create Promo Code</Button>}>
             <AddPromoCode> </AddPromoCode>
           </ActionModal>
         }

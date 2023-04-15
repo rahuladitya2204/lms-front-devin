@@ -18,6 +18,7 @@ import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
 import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign'
+import CreatePackage from '@User/Screens/Packages/CreatePackage'
 import EmailTemplateEditor from '@User/Screens/Marketing/Emails/Templates/EmailTemplateEditor'
 import EmailTemplatesScreen from '@User/Screens/Marketing/Emails/Templates/EmailTemplatesScreen'
 import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
@@ -33,6 +34,7 @@ import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/Tic
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
+import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PromoCodesScreen from '@User/Screens/Marketing/PromoCodes/PromoCodesScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
@@ -95,6 +97,10 @@ const router = createBrowserRouter(
             <Route path="tickets" element={<UsersTicketsScreen />} />
             <Route path="tickets/:id" element={<UserTicketDetail />} />
             <Route path="courses" element={<CoursesScreen />} />
+            <Route path="courses/packages">
+                <Route path="" element={<PackagesScreen />} />
+                <Route path=":id/editor" element={<CreatePackage />} />
+              </Route>
             <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
               <Route path="section/:sectionId">
                 <Route path="pdf/:itemId" element={<UploadPDFForm />} />
