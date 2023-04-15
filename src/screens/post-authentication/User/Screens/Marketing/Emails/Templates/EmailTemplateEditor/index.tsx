@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { Button, Card, Tabs } from 'antd'
+import { Button, Card, Form, Tabs } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
@@ -10,12 +9,8 @@ import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 function EmailTemplateEditor() {
-  const navigate = useNavigate()
   const message = useMessage()
   const { id: emailTemplateId } = useParams()
-  const [emailTemplate, setEmailTemplate] = useState(
-    Constants.INITIAL_EMAIL_TEMPLATE_DETAILS
-  )
   const {
     mutate: updateEmailTemplate,
     isLoading: loading
@@ -26,13 +21,6 @@ function EmailTemplateEditor() {
     {
       enabled: !!emailTemplateId
     }
-  )
-
-  useEffect(
-    () => {
-      setEmailTemplate(template)
-    },
-    [template]
   )
 
   const saveEmailTemplate = (data: Types.EmailTemplate) => {
@@ -52,14 +40,13 @@ function EmailTemplateEditor() {
       }
     )
   }
+  const [form] = Form.useForm<Types.EmailTemplate>();
 
-  const onFormUpdate = (data: Partial<Types.EmailTemplate>) => {
-    setEmailTemplate({
-      ...emailTemplate,
-      ...data
-    })
-  }
-  // console.log(template, 'temp')
+  useEffect(() => {
+    console.log(template,1212)
+    form.setFieldsValue(template);
+  },[template])
+
   return (
     <Header
       title="Email Template Editor"
@@ -67,17 +54,17 @@ function EmailTemplateEditor() {
         <Fragment>
           <Button
             loading={loading}
-            onClick={() => saveEmailTemplate(emailTemplate)}
+            onClick={form.submit}
           >
             Save as Draft
           </Button>
           <Button
-            onClick={() =>
-              saveEmailTemplate({
-                ...emailTemplate,
-                status: 'live'
-              })
-            }
+            // onClick={() =>
+            //   saveEmailTemplate({
+            //     ...emailTemplate,
+            //     status: 'live'
+            //   })
+            // }
             loading={loading}
             type="primary"
           >
@@ -86,12 +73,11 @@ function EmailTemplateEditor() {
         </Fragment>
       ]}
     >
-      <Card extra={<Button danger>Send Test Mail</Button>}>
-        <EmailTemplateDetailsEditor
-          formData={emailTemplate}
-          onFormUpdate={onFormUpdate}
-        />
-      </Card>
+      <Form initialValues={template} form={form} onFinish={saveEmailTemplate} layout="vertical" autoComplete="off">
+        <Card extra={<Button danger>Send Test Mail</Button>}>
+          <EmailTemplateDetailsEditor template={template} />
+        </Card>
+      </Form>
     </Header>
   )
 }

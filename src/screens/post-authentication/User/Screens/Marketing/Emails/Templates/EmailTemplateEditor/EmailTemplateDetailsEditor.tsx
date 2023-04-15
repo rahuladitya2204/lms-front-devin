@@ -1,4 +1,3 @@
-import BASE_EMAIL_TEMPLATE, { CreateBaseTemplate } from '../../BaseEmailTemplate';
 import { Form, Input, Space, Tag, Typography, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 import { Store, Types } from '@adewaskar/lms-common'
@@ -9,48 +8,46 @@ import QuillEditor from '@Components/QuillEditor';
 const {Text } = Typography;
 
 interface CreateEmailTemplateComponentPropsI {
-  formData: Types.EmailTemplate;
-  onFormUpdate: (d:Partial<Types.EmailTemplate>)=>void;}
+  template: Types.EmailTemplate;
+}
 
 const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> = (props) => {
-  // const { organisation } = Store.useGlobal(s => s);
-  // const BaseTemplate = CreateBaseTemplate(organisation);
-  const emailTemplate = props.formData;
-  const [form] = Form.useForm<Types.EmailTemplate>();
-  useEffect(() => {
-    form.setFieldsValue(props.formData);
-  }, [props.formData]);
+  const { useWatch } = Form;
+  const form = Form.useFormInstance<Types.EmailTemplate>();
 
-  const MailType = EmailTypeMap[emailTemplate.emailType] ? EmailTypeMap[emailTemplate.emailType] : {};
+  const template = props.template;
 
+  const subject = useWatch(['subject'], form);
+  const content = useWatch(['content'], form);
+  
+  const MailType = EmailTypeMap[template.emailType] ? EmailTypeMap[template.emailType] : {};
   const variables = MailType.variables;
+  
 
   return (
     <Fragment>
-      <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
-      {emailTemplate.type==='default'?<><Form.Item label="Email Type" >
+      {template.type==='default'?<><Form.Item label="Email Type" >
          <Text> {MailType.title}</Text>
         </Form.Item>
         <Form.Item label="Description" >
          <Text> {MailType.description}</Text>
         </Form.Item></>:<Form.Item label="Template Title" >
-         <Text> {emailTemplate.title}</Text>
+         <Text> {template.title}</Text>
         </Form.Item>}
         <Space direction='vertical' size={[30,30]}>
         <Form.Item name="subject" label="Subject of the email" required>
           <QuillEditor type='text' variables={variables}
-            onChange={e => props.onFormUpdate({ subject: e })}
-            value={props.formData.subject}
+            onChange={e => form.setFieldValue(['subject'],e)}
+            value={subject}
           />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
           <QuillEditor variables={variables}
-            onChange={e => props.onFormUpdate({ content: e })}
-            value={props.formData.content}
+            onChange={e => form.setFieldValue(['content'],e)}
+            value={content}
           />
         </Form.Item>
         </Space>
-      </Form>
     </Fragment>
   );
 };
