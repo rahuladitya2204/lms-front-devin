@@ -1,10 +1,10 @@
 import { Button, Card, Form, Tabs } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Outlet, useParams } from 'react-router'
 
 import Header from '@Components/Header'
 import InstructorDetailsEditor from './InstructorDetailsEditor'
+import { Types } from '@adewaskar/lms-common'
 import { UploadOutlined } from '@ant-design/icons'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
@@ -32,6 +32,7 @@ function InstructorEditor() {
   )
 
   const saveInstructor = (data: Types.Instructor) => {
+    console.log(data, 'ddd')
     updateInstructor(
       {
         id: instructorId + '',
@@ -77,7 +78,9 @@ function InstructorEditor() {
               {
                 label: `Profile Details`,
                 key: '1',
-                children: <InstructorDetailsEditor />
+                children: (
+                  <InstructorDetailsEditor instructorId={instructor._id} />
+                )
               },
               {
                 label: `Courses`,

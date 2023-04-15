@@ -115,13 +115,13 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     [campaign]
   )
   return (
-    <Form form={form} onFinish={onSubmit} layout="vertical" initialValues={Constants.INITIAL_CAMPAIGN_DETAILS}>
     <Header
     title="Create Campaign"
       extra={[
       <Button disabled={!isFormValid} loading={createCampaignLoading || updateCampaignLoading}  onClick={form.submit} >Save Draft </Button>
     ]}
   >
+    <Form form={form} onFinish={onSubmit} layout="vertical" initialValues={Constants.INITIAL_CAMPAIGN_DETAILS}>
     <Row gutter={[16, 16]}>
         <Col span={24}>
             <Card>
@@ -138,6 +138,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
               <Form.Item name="description" label="Campaign Description" >
                 <Input placeholder="Enter a description for the campaign" />
               </Form.Item>
+              
               <Space direction='horizontal'>
               <Form.Item name="channel" label="Campaign Channels" >
                 <Select mode='multiple' onChange={e=>form.setFieldsValue({
@@ -172,15 +173,15 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
             content:<Tabs defaultActiveKey="1" items={[  {
               key: '1',
               label: `Email`,
-              // @ts-ignore
-              children: <CreateEmailTemplate form={form} data={data} />
+              children: <CreateEmailTemplate />
             },]}/>
           }
       ]}
     />
    </Card>
-          </Col></Row></Header>
+          </Col></Row>
           </Form>
+</Header>
   
  )
 }

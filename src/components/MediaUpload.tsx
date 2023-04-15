@@ -79,7 +79,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       onSuccess: ([uploadFile]) => {
         console.log(uploadFile, 'hhahah')
         uploadFile.file = file
-        form.setFieldValue([props.name], file.url)
+        form.setFieldValue(props.name, file.url)
         props.onUpload(uploadFile, file)
       }
     })

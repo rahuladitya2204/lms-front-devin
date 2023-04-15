@@ -78,7 +78,7 @@ function QuillEditor(props: QuillEditorPropsI) {
       quill.setSelection(range.index + 1, 'user')
     }
   }, [])
-  const value = Form.useWatch([props.name], form);
+  const value = Form.useWatch(props.name, form)
   return (
     <Spin spinning={loading} tip="Loading">
       <ReactQuill
@@ -102,7 +102,7 @@ function QuillEditor(props: QuillEditorPropsI) {
         value={value}
         onChange={e => {
           const sanitizedHtmlString = e.replace(/&zwj;|&nbsp;/g, '')
-          form.setFieldValue([props.name], sanitizedHtmlString)
+          form.setFieldValue(props.name, sanitizedHtmlString)
         }}
       />
     </Spin>

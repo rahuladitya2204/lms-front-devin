@@ -7,33 +7,27 @@ import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateInstructorComponentPropsI {
-
+  instructorId: string;
 }
 
 const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (props) => {
-  const [form] = Form.useForm<Types.Instructor>();
-
-  
-  const image = form.getFieldValue('image');
-
-
+  const form = Form.useFormInstance<Types.Instructor>();  
+  const image = Form.useWatch(['image'], form);
   return (
     <Fragment>
-      {/* <Form.Item name="image" required label="Profile Image">
+      <Form.Item name="image" required label="Profile Image">
           <MediaUpload
-            uploadType={'image'}
-            prefixKey={`images/instructors/${props.formData._id}`}
+                     name="image"
+                     uploadType={'image'}
+            prefixKey={`images/instructors/${props.instructorId}`}
             cropper
             width='100px'
-            renderItem={() => <Image src={image} />}
+            renderItem={() => <Image src={image+''} />}
             onUpload={e => {
-            props.onFormUpdate({
-              image:e.url
-            })
 
   }} />
 
-</Form.Item> */}
+</Form.Item>
         <Form.Item name="name" label="Name" required>
         <Input placeholder="Name of the instructor" />
           </Form.Item>

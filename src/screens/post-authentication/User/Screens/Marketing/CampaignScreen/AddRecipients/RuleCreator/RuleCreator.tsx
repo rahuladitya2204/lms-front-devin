@@ -33,22 +33,32 @@ function RuleCreator(props: RuleCreatorPropsI) {
           title={
             <Typography.Text>
               Learners Match{' '}
-              <Select
-                size="small"
-                value={props.operator}
-                style={{ width: 70 }}
-                onChange={e => props.setOperator(e)}
-                options={[
-                  {
-                    label: 'any',
-                    value: '$or'
-                  },
-                  {
-                    label: 'and',
-                    value: '$and'
-                  }
-                ]}
-              />{' '}
+              <Form.Item
+                style={{
+                  display: 'inline-block',
+                  width: 75,
+                  margin: '0 6px',
+                  marginTop: '-3px'
+                }}
+                name={['recipients', 'operator']}
+                required
+              >
+                <Select
+                  size="small"
+                  value={props.operator}
+                  onChange={e => props.setOperator(e)}
+                  options={[
+                    {
+                      label: 'any',
+                      value: '$or'
+                    },
+                    {
+                      label: 'and',
+                      value: '$and'
+                    }
+                  ]}
+                />
+              </Form.Item>
               of the following conditions
             </Typography.Text>
           }

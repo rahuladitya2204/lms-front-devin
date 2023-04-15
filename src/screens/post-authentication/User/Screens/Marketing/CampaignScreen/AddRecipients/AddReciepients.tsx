@@ -15,9 +15,9 @@ interface AddRecipientsPropsI {
     rules: Types.Rule[];
 }
 
-const AddRecipients = ({form,setOperator,operator,data,updateRule,deleteRule,rules,addRule}:AddRecipientsPropsI) => {
+const AddRecipients = ({form,setOperator,operator,updateRule,deleteRule,rules,addRule}:AddRecipientsPropsI) => {
     const recipientsType = Form.useWatch(['recipients', 'type'], form);
-
+  
     return <>
     <Form.Item name={['recipients','type']}>
      <Radio.Group>
