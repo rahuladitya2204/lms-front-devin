@@ -41,24 +41,16 @@ const LANGUAGES = [
 
 const { Option } = Select
 interface CourseDetailsEditorPropsI {
-  formData: Partial<Types.Course>;
-  onFormUpdate: (d: Partial<Types.Course>) => void;
+
 }
 
 function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const { id: courseId } = useParams()
-  const {
-    data: instructors,
-    isLoading: loading
-  } = User.Queries.useGetInstructors()
+  const form = Form.useFormInstance()
+  const { data: instructors } = User.Queries.useGetInstructors()
   const { listItems: categories } = User.Queries.useGetCourseCategories()
-
-  // useEffect(() => {
-  //   form.setFieldsValue(props.formData);
-  // },[props.formData])
-
-  const thumbnailImage = props.formData.thumbnailImage
-  console.log(props.formData, 'ddd')
+  const { useWatch } = Form
+  const thumbnailImage = useWatch(['thumbnailImage'], form)
   return (
     <Fragment>
       <Form.Item name="thumbnailImage" required label="Thumbnail">
@@ -69,9 +61,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           prefixKey={`courses/${courseId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={thumbnailImage} />}
           onUpload={e => {
-            props.onFormUpdate({
-              thumbnailImage: e.url
-            })
+            form.setFieldValue('thumbnailImage', e.url)
           }}
         />
       </Form.Item>

@@ -37,19 +37,19 @@ const VARIABLES = [
 ]
 
 interface CourseAdvancedSettingsPropsI {
-  formData: Types.CourseAdvancedSetting;
   courseId: string;
-  onFormUpdate: (d: Types.CourseAdvancedSetting) => void;
 }
 
 function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
   const form = Form.useFormInstance()
-
   const sendEmail = useWatch(['advanced', 'email', 'enabled'], form)
   return (
     <Fragment>
-      <Form.Item name={['advanced', 'watermark', 'enabled']}>
-        <Checkbox>Avail this as a free lecture</Checkbox>
+      <Form.Item
+        valuePropName="checked"
+        name={['advanced', 'watermark', 'enabled']}
+      >
+        <Checkbox>Enable Water Mark</Checkbox>
       </Form.Item>
 
       <Title level={3}>Email Notification</Title>

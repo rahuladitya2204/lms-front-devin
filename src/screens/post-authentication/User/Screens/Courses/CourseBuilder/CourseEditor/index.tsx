@@ -4,6 +4,7 @@ import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 
+import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
 import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
 import CourseDetailsEditor from './CourseDetailsEditor'
 import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
@@ -36,11 +37,11 @@ function CourseEditor() {
     [courseDetails]
   )
 
-  const saveCourse = () => {
+  const saveCourse = (e:Partial<Course>) => {
     updateCourse(
       {
         id: courseId + '',
-        data: course
+        data: e
       },
       {
         onSuccess: () => {
@@ -84,7 +85,7 @@ function CourseEditor() {
           <Button
             loading={loading}
             type="primary"
-            onClick={saveCourse}
+            onClick={form.submit}
             icon={<UploadOutlined />}
           >
             Save Course
@@ -93,7 +94,7 @@ function CourseEditor() {
       ]}
     >
       <Card>
-        <Form form={form} layout="vertical" autoComplete="off">
+        <Form onFinish={saveCourse} form={form} layout="vertical" autoComplete="off">
         <Tabs
           defaultActiveKey="1"
           items={[
@@ -102,8 +103,6 @@ function CourseEditor() {
               key: '1',
               children: (
                 <CourseDetailsEditor
-                  formData={course}
-                  onFormUpdate={onCourseUpdate}
                 />
               )
             },
@@ -113,8 +112,6 @@ function CourseEditor() {
               children: (
                 <CoursePricingEditor
                   courseId={course._id}
-                  formData={course}
-                  onFormUpdate={onCourseUpdate}
                 />
               )
             },
@@ -123,14 +120,7 @@ function CourseEditor() {
               key: '3',
               children: (
                 <CourseLandingPageEditor
-                  formData={course.landingPage}
                   courseId={course._id}
-                  onFormUpdate={e =>
-                    onCourseUpdate({
-                      ...course,
-                      landingPage: e
-                    })
-                  }
                 />
               )
             },
@@ -140,16 +130,6 @@ function CourseEditor() {
               children: (
                 <CourseAdvancedSettings
                   courseId={course._id}
-                  formData={course.advanced}
-                  onFormUpdate={e => {
-                    onCourseUpdate({
-                      ...course,
-                      advanced: {
-                        ...course.advanced,
-                        ...e
-                      }
-                    })
-                  }}
                 />
               )
             }

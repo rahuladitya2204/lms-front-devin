@@ -10,26 +10,14 @@ import MediaUpload from '@Components/MediaUpload';
 import { Types } from '@adewaskar/lms-common'
 
 interface CourseLandingPageEditorPropsI {
-    formData: Types.CourseLandingPage;
     courseId: string;
-      onFormUpdate: (d:Types.CourseLandingPage)=>void;
     }
     
 function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
   const { courseId } = props;
-      const [form] = Form.useForm<Types.CourseLandingPage>();    
-      const PromoVideoUrl = props?.formData?.promoVideo;
-      useEffect(() => { 
-        form.setFieldsValue(props.formData);
-      },[props.formData])
-    
-    
-      const onFormUpdate = (e:Partial<Types.CourseLandingPage>) => {
-        props.onFormUpdate({
-          ...props.formData,
-          ...e
-        })
-      };
+  const [form] = Form.useForm<Types.CourseLandingPage>();    
+  const { useWatch} = Form;
+  const promoVideoUrl = useWatch(['promoVideo'], form)
 
       return (
         <Fragment>
@@ -46,18 +34,15 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
                 prefixKey={`courses/${courseId}/promo`}
             width="300px"
             onUpload={({ url }) => {
-              onFormUpdate({
-                promoVideo:url
-              })
-              // setUrl(url)
+              form.setFieldValue('promoVideo', url)
             }}
             height="250px"
             renderItem={() => (
-              <Button>{PromoVideoUrl ? 'Replace Video' : 'Upload Video'}</Button>
+              <Button>{promoVideoUrl ? 'Replace Video' : 'Upload Video'}</Button>
             )}
-            // url={PromoVideoUrl}
+            // url={promoVideoUrl}
           />
-          {PromoVideoUrl ? <MediaPlayer url={PromoVideoUrl} /> : null}
+          {promoVideoUrl ? <MediaPlayer url={promoVideoUrl} /> : null}
         </Form.Item>
 
               </Fragment >)

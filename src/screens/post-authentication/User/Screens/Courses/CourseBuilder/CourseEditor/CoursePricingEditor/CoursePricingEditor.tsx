@@ -7,13 +7,11 @@ import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
 interface CoursePricingEditorPropsI {
-  formData: Partial<Types.Course>;
   courseId: string;
-  onFormUpdate: (d: Partial<Types.Course>) => void;
 }
 
 function CoursePricingEditor(props: CoursePricingEditorPropsI) {
-  // const
+
   const { data, isLoading: loading } = User.Queries.useGetCoursePlans(
     props.courseId
   )
