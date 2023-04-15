@@ -5,6 +5,7 @@ import {
   createRoutesFromElements
 } from 'react-router-dom'
 
+import AddPromoCode from '@User/Screens/Marketing/PromoCodes/CreatePromoCode'
 import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
@@ -32,6 +33,7 @@ import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/Tic
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
+import PromoCodesScreen from '@User/Screens/Marketing/PromoCodes/PromoCodesScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
@@ -77,6 +79,10 @@ const router = createBrowserRouter(
               <Route path="emails">
                 <Route path="" element={<EmailTemplatesScreen />} />
                 <Route path=":id/editor" element={<EmailTemplateEditor />} />
+              </Route>
+              <Route path="promo-codes">
+                <Route path="" element={<PromoCodesScreen />} />
+                <Route path=":id/editor" element={<AddPromoCode />} />
               </Route>
             </Route>
             <Route path="category">

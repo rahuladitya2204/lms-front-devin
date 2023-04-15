@@ -24,7 +24,7 @@ var toolbarOptions = [
   [{ color: [] }, { background: [] }], // dropdown with defaults from theme
   ['video'],
   ['image'],
-  ['customButton']
+  ['link']
 ]
 
 interface QuillEditorPropsI {

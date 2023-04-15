@@ -1,5 +1,6 @@
-import { Button, Card, Tabs } from 'antd'
+import { Card, Tabs } from 'antd'
 
+import EmailSettingScreen from '../EmailSetting/EmailSettingScreen'
 import { Fragment } from 'react'
 import Header from '@Components/Header'
 import { Outlet } from 'react-router'
@@ -52,6 +53,11 @@ function UserAccount () {
               label: `Ticket Support`,
               key: '4',
               children: <TicketCategorysScreen />
+            },
+            {
+              label: `Email Comunication`,
+              key: '5',
+              children: <EmailSettingScreen />
             }
           ]}
         />

@@ -47,7 +47,7 @@ function EmailTemplateEditor() {
             type: 'success',
             content: 'Saved'
           })
-          navigate('../')
+          // navigate('../')
         }
       }
     )

@@ -75,9 +75,9 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
           onFinish={onSubmit}
           layout="vertical"
         >
-          <Form.Item label="Plan Name" required name="name">
+          {/* <Form.Item label="Plan Name" required name="name">
             <Input placeholder="Enter plan name" />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label="Plan Type" name="type">
             <Radio.Group>
               <Radio.Button value="free">Free</Radio.Button>

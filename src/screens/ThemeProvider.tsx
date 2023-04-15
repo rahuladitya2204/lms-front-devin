@@ -4,10 +4,7 @@ import useMessage, { MessageContext } from '@Hooks/useMessage'
 
 function ThemeProvider(props: any) {
   const [messageApi, context] = message.useMessage()
-  const { data: appDetails } =
-    props.type === 'learner'
-      ? Learner.Queries.useGetAppDetails()
-      : User.Queries.useGetAppDetails()
+  const { data: appDetails } = Learner.Queries.useGetAppDetails();
   return (
     // @ts-ignore
     <MessageContext.Provider value={messageApi}>

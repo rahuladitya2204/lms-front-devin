@@ -7,9 +7,11 @@ import AddEmailTemplate from './AddEmailTemplate'
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import { useNavigate } from 'react-router'
 import { useState } from 'react'
 
 function EmailTemplatesScreen() {
+  const navigate = useNavigate();
   const { data, isLoading: loading } = User.Queries.useGetEmailTemplates()
   const [type, setType] = useState('default')
   return (
@@ -139,7 +141,7 @@ function EmailTemplatesScreen() {
                   <Space size="middle">
                     <EditOutlined
                       onClick={() =>
-                        window.open(`emails/${record._id}/editor`, '_blank')
+                       navigate(`${record._id}/editor`)
                       }
                     />
                     {/* <DeleteOutlined /> */}

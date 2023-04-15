@@ -61,6 +61,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         title: 'Emails',
         path: 'emails',
         // icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Promo Codes',
+        path: 'promo-codes',
+        // icon: <AppstoreOutlined />
       }
     ]
   },

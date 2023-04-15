@@ -1,18 +1,22 @@
 // @ts-nocheck
 import './blots/TemplateMarker'
 import './blots/Image'
-import './blots/CustomButton'
 
 import { Quill } from 'react-quill'
 import { QuillToolbarDropDown } from './config'
 
-var BackgroundClass = Quill.import('attributors/class/background')
-var ColorClass = Quill.import('attributors/class/color')
-var SizeStyle = Quill.import('attributors/style/size')
+// import './blots/CustomButton'
 
-Quill.register(BackgroundClass, true)
-Quill.register(ColorClass, true)
-Quill.register(SizeStyle, true)
+
+const ColorClass = Quill.import('attributors/class/color');
+const BackgroundClass = Quill.import('attributors/class/background');
+const ColorStyle = Quill.import('attributors/style/color');
+const BackgroundStyle = Quill.import('attributors/style/background');
+
+Quill.register(ColorClass, true);
+Quill.register(BackgroundClass, true);
+Quill.register(ColorStyle, true);
+Quill.register(BackgroundStyle, true);
 
 export const createVariablesButton = (quill, variables) => {
   const dropDownItems = {}
