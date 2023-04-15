@@ -1,4 +1,5 @@
-// @ts-nocheck
+//@ts-nocheck
+
 import {
   ClockCircleOutlined,
   InboxOutlined,
@@ -6,9 +7,8 @@ import {
   PlusOutlined
 } from '@ant-design/icons'
 import { Common, Types } from '@adewaskar/lms-common'
-// @ts-nocheck
+import { Form, Spin, Upload, UploadProps } from 'antd'
 import React, { ReactNode, useState } from 'react'
-import { Spin, Upload, UploadProps } from 'antd'
 
 import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop'
@@ -27,6 +27,7 @@ interface MediaUploadPropsI {
   listType?: string;
   prefixKey?: string;
   uploadType?: string;
+  name?: string;
   cropper?: boolean;
   fileName?: string;
   rounded?: boolean;
@@ -63,6 +64,8 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   } = Common.Queries.useUploadFiles()
   const [file, setFile] = useState(null)
   const [fileList, setFileList] = useState(null)
+  const form = Form.useFormInstance()
+  // const value = Form.useWatch([props.name], form);
 
   const UploadFile = file => {
     console.log(file, 'fififif')
@@ -76,6 +79,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       onSuccess: ([uploadFile]) => {
         console.log(uploadFile, 'hhahah')
         uploadFile.file = file
+        form.setFieldValue([props.name], file.url)
         props.onUpload(uploadFile, file)
       }
     })

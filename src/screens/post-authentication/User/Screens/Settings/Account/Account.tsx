@@ -32,12 +32,7 @@ function UserAccount () {
             {
               label: `Profile Details`,
               key: '1',
-              children: (
-                <UserProfile
-                //   formData={instructor}
-                //   onFormUpdate={onFormUpdate}
-                />
-              )
+              children: <UserProfile />
             },
             {
               label: `Referral`,

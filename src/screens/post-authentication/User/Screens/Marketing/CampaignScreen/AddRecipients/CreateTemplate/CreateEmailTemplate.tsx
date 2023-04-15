@@ -12,13 +12,13 @@ const variables = [{ name: 'Course Name', value: 'course.title'}, { name: 'Learn
 
 const CreateEmailTemplate = ({form,data}:CreateEmailTemplatePropsI) => {
     return <>
-        <Form.Item name={ ['email','subject']} label="Email Subject" required>
-            <QuillEditor type="text" variables={variables} onChange={e => form.setFieldsValue({
+        <Form.Item label="Email Subject" required>
+            <QuillEditor name={['email','subject']} type="text" variables={variables} onChange={e => form.setFieldsValue({
                 subject: e
             })} value={data.email.subject} />
         </Form.Item>
-        <Form.Item name={ ['email','template']} label="Email Body" required>
-            <QuillEditor variables={variables} onChange={e => form.setFieldsValue({
+        <Form.Item  label="Email Body" required>
+            <QuillEditor name={ ['email','template']} variables={variables} onChange={e => form.setFieldsValue({
                 template: e
             })} value={data.email.template} />
         </Form.Item>

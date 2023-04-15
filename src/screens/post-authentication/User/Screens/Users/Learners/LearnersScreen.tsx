@@ -47,6 +47,11 @@ function LearnersScreen() {
                 title="Joined On"
                 dataIndex="createdAt"
                 key="createdAt"
+                render={(_: any, record: Types.Learner) => (
+                  <Space size="middle">
+                    {dayjs(record.createdAt).format('LL')}
+                  </Space>
+                )}
               />
               <Table.Column
                 title="Action"

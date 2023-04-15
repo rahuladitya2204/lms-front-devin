@@ -2,12 +2,12 @@
 import 'react-quill/dist/quill.snow.css'
 import './custom-style.css'
 
+import { Form, Spin } from 'antd'
 import { addImageUpload, createVariablesButton } from './setup'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { Common } from '@adewaskar/lms-common'
 import ReactQuill from 'react-quill'
-import { Spin } from 'antd'
 import { useToken } from 'antd/es/theme/internal'
 
 var toolbarOptions = [
@@ -29,6 +29,7 @@ var toolbarOptions = [
 
 interface QuillEditorPropsI {
   value?: string;
+  name?: string | string[];
   style?: {};
   variables?: any;
   type?: string;
@@ -38,8 +39,8 @@ interface QuillEditorPropsI {
 }
 
 function QuillEditor(props: QuillEditorPropsI) {
-  const { token } = useToken();
-
+  const { token } = useToken()
+  const form = Form.useFormInstance()
   const {
     mutate: uploadFiles,
     isLoading: loading
@@ -61,7 +62,7 @@ function QuillEditor(props: QuillEditorPropsI) {
   const customButtonHandler = useCallback(() => {
     const buttonText = prompt('Enter button text:')
     const buttonLink = prompt('Enter button link:')
-    const buttonColor = token?.colorPrimary || 'green';
+    const buttonColor = token?.colorPrimary || 'green'
 
     if (buttonText && buttonLink && buttonColor) {
       const buttonData = {
@@ -77,7 +78,7 @@ function QuillEditor(props: QuillEditorPropsI) {
       quill.setSelection(range.index + 1, 'user')
     }
   }, [])
-
+  const value = Form.useWatch([props.name], form);
   return (
     <Spin spinning={loading} tip="Loading">
       <ReactQuill
@@ -98,10 +99,10 @@ function QuillEditor(props: QuillEditorPropsI) {
         }}
         placeholder={props.placeholder || ''}
         theme="snow"
-        value={props.value}
+        value={value}
         onChange={e => {
           const sanitizedHtmlString = e.replace(/&zwj;|&nbsp;/g, '')
-          props.onChange(sanitizedHtmlString)
+          form.setFieldValue([props.name], sanitizedHtmlString)
         }}
       />
     </Spin>

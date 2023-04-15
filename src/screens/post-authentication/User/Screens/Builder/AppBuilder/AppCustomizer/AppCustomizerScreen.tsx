@@ -38,9 +38,7 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
                     <Image preview={false} src={organisation.logo} />
                   )}
                   onUpload={e => {
-                    // onFormUpdate({
-                    //   logo: e.url
-                    // })
+
                   }}
                 />
               </Form.Item>

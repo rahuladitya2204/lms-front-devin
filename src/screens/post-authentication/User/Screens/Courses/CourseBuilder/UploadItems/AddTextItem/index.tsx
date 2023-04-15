@@ -29,7 +29,7 @@ const AddTextItem: React.FC = () => {
           </Checkbox>
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <QuillEditor
+          <QuillEditor name="decription"
             onChange={e => onFormChange({ description: e })}
             value={item?.description}
           />

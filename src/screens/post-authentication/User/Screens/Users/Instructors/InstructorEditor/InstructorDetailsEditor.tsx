@@ -7,21 +7,18 @@ import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateInstructorComponentPropsI {
-  formData: Partial<Types.Instructor>;
-  onFormUpdate: (d:Partial<Types.Instructor>)=>void;}
+
+}
 
 const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (props) => {
   const [form] = Form.useForm<Types.Instructor>();
-  useEffect(() => {
-    form.setFieldsValue(props.formData);
-  }, [props.formData]);
+
   
   const image = form.getFieldValue('image');
 
 
   return (
     <Fragment>
-      <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
       {/* <Form.Item name="image" required label="Profile Image">
           <MediaUpload
             uploadType={'image'}
@@ -47,9 +44,8 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
         <Input placeholder="Please enter email of the instructor" />
         </Form.Item>
         <Form.Item name="aboutMe" label="About Me" required>
-        <QuillEditor onChange={e => props.onFormUpdate({aboutMe:e})} />
+        <QuillEditor name="aboutMe" />
         </Form.Item>
-      </Form>
     </Fragment>
   );
 };

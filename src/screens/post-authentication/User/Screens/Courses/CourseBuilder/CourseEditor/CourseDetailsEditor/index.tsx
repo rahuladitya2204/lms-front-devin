@@ -151,7 +151,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           <QuillEditor  onChange={e => props.onFormUpdate({ whatYouLearn: e })} />
         </Form.Item> */}
       <Form.Item name="description" required label="Description">
-        <QuillEditor value="" />
+        <QuillEditor name="description" value="" />
       </Form.Item>
     </Fragment>
   )

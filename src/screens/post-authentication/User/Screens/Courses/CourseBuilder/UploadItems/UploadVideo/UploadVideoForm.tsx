@@ -36,7 +36,7 @@ const UploadVideoForm: React.FC = () => {
           <Input placeholder="Enter Video Title" />
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <QuillEditor />
+          <QuillEditor name="description" />
         </Form.Item>
         <Form.Item>
           <Checkbox

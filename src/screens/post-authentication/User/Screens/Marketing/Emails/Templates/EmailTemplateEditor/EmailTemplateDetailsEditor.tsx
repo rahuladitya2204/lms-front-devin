@@ -36,13 +36,13 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
         </Form.Item>}
         <Space direction='vertical' size={[30,30]}>
         <Form.Item name="subject" label="Subject of the email" required>
-          <QuillEditor type='text' variables={variables}
+          <QuillEditor name="subject" type='text' variables={variables}
             onChange={e => form.setFieldValue(['subject'],e)}
             value={subject}
           />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-          <QuillEditor variables={variables}
+          <QuillEditor name="content" variables={variables}
             onChange={e => form.setFieldValue(['content'],e)}
             value={content}
           />

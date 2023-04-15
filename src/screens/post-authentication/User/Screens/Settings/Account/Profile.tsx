@@ -9,39 +9,28 @@ import { User } from '@adewaskar/lms-common'
 
 export default function UserProfile() {
 
-    const [form] = Form.useForm<Types.Organisation>();
-    const { data } = User.Queries.useGetUserAccountDetails()
-    const [organisation, setAccount] = useState<Partial<Types.Organisation>>({})
-    
-    useEffect(() => {
-      form.setFieldsValue(organisation);
-    }, [organisation]);
+  const [form] = Form.useForm<Types.Organisation>();
+  const { useWatch } = Form;
 
-
-  const onFormUpdate = (data: Partial<Types.Organisation>) => {
-    setAccount({
-      ...organisation,
-      ...data
-    })
-  }
-
+  const logo = useWatch(['logo'], form);
+ 
     const {
       mutate: updateUserAccount,
       isLoading: loading
     } = User.Queries.useUpdateUserAccount();
     
-
+  const onSubmit = (data:Types.Organisation) => { 
+    updateUserAccount({data})
+  }
   return (
     <Card>
-      <Form onValuesChange={onFormUpdate} form={form}>
+      <Form onFinish={onSubmit} form={form}>
         <Form.Item name="image" required label="Profile Image">
           <MediaUpload
             width="100px"
-            renderItem={() => <Image src={organisation.logo} />}
+            renderItem={() => <Image src={logo} />}
             onUpload={e => {
-              onFormUpdate({
-                logo:e.url
-              })
+              form.setFieldValue(['logo'], e.url);
             }}
           />
         </Form.Item>
@@ -49,7 +38,7 @@ export default function UserProfile() {
           <Button
             loading={loading}
             type="primary"
-            onClick={()=>updateUserAccount({data:organisation})}
+            onClick={form.submit}
             icon={<UploadOutlined />}
           >
             Save Account

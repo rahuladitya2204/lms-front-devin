@@ -201,12 +201,7 @@ function CourseBuilderScreen() {
                   renderItem={() => (
                     <Image preview={false} src={course.thumbnailImage} />
                   )}
-                  onUpload={e =>
-                    setCourse({
-                      ...course,
-                      thumbnailImage: e.url
-                    })
-                  }
+                  name="thumbnailImage"
                 />
               </Col>
               <Col span={24} style={{ marginTop: 30 }}>

@@ -69,7 +69,7 @@ const AddEmailTemplate: React.FC<
           <Input placeholder="Subject of the email" />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-          <QuillEditor />
+          <QuillEditor name="content" />
         </Form.Item>
       </Form>
       {/* <Button
