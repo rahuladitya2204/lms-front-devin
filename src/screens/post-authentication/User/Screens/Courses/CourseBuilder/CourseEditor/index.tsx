@@ -1,4 +1,4 @@
-import { Button, Card, Tabs, message } from 'antd'
+import { Button, Card, Form, Tabs, message } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
@@ -88,6 +88,7 @@ function CourseEditor() {
       ]}
     >
       <Card>
+        {/* <Form form={form} layout="vertical" autoComplete="off"> */}
         <Tabs
           defaultActiveKey="1"
           items={[

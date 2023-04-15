@@ -34,6 +34,7 @@ const LANGUAGES = [
   }
 ]
 
+const { Option } = Select;
 interface CourseDetailsEditorPropsI {
   formData: Partial<Types.Course>;
   onFormUpdate: (d:Partial<Types.Course>)=>void;
@@ -51,23 +52,23 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
 
 
   const thumbnailImage = props.formData.thumbnailImage;
-
+  console.log(props.formData,'ddd')
   return (
     <Fragment>
-       <Form onValuesChange={props.onFormUpdate} form={form} layout="vertical" autoComplete="off">
-<Form.Item name="thumbnailImage" required label="Thumbnail">
-          <MediaUpload uploadType='image'
-            cropper
-            width='250px'    
-            prefixKey={`courses/${courseId}/thumbnailImage`}
+       <Form form={form} layout="vertical" autoComplete="off">
+        <Form.Item name="thumbnailImage" required label="Thumbnail">
+                  <MediaUpload uploadType='image'
+                    cropper
+                    width='250px'    
+                    prefixKey={`courses/${courseId}/thumbnailImage`}
 
-            renderItem={() => <Image preview={false} src={thumbnailImage} />}
-            onUpload={e => {
-            props.onFormUpdate({
-              thumbnailImage:e.url
-            })
+                    renderItem={() => <Image preview={false} src={thumbnailImage} />}
+                    onUpload={e => {
+                    props.onFormUpdate({
+                      thumbnailImage:e.url
+                    })
 
-  }} />
+          }} />
 
 </Form.Item>
 
@@ -79,22 +80,25 @@ function CourseDetailsEditor(props:CourseDetailsEditorPropsI) {
         </Form.Item>
         <Row>
           <Col span={8}>
-          <Form.Item name="category" required label="Category">
-          <Space>
-          <Select defaultValue={props.formData.category}
-    placeholder="Select Category" style={{width:200}}
-    // optionFilterProp="children"
-    // filterOption={(input, option) =>
-    //   (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
-    // }
-    options={categories}
-    />
+          <Form.Item name={['category']} required label="Category">
+          <Select
+            style={{ width: 200 }}
+            placeholder="Select Category"
+            optionLabelProp="label"
+          >
+            {categories.map(category => {
+              return (
+                <Option value={category.value} label={category.label}>
+                  {category.label}
+                </Option>
+              )
+            })}
+          </Select>
           <ActionModal
             cta={<Button style={{ marginLeft:10}} shape='round' icon={<PlusOutlined />}></Button>}
           >
             <CreateCategory> </CreateCategory>
             </ActionModal>
-            </Space>
 
   </Form.Item>
 
