@@ -53,12 +53,17 @@ function CourseEditor() {
     )
   }
 
+  useEffect(() => {
+    form.setFieldsValue(courseDetails);
+  },[courseDetails])
+
   const onCourseUpdate = (data: Partial<Types.Course>) => {
     setCourse({
       ...course,
       ...data
     })
   }
+  const [form] = Form.useForm<Types.Course>();
 
   return (
     <Header
@@ -88,7 +93,7 @@ function CourseEditor() {
       ]}
     >
       <Card>
-        {/* <Form form={form} layout="vertical" autoComplete="off"> */}
+        <Form form={form} layout="vertical" autoComplete="off">
         <Tabs
           defaultActiveKey="1"
           items={[
@@ -149,7 +154,8 @@ function CourseEditor() {
               )
             }
           ]}
-        />
+          />
+          </Form>
 
         <Outlet />
       </Card>

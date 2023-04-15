@@ -33,12 +33,11 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
 
       return (
         <Fragment>
-           <Form onValuesChange={onFormUpdate} form={form} layout="vertical" autoComplete="off">
 
            <Form.Item  name='url' required label="Landing Page URL">
 <Input       addonBefore="extremebi://"/>
             </Form.Item>
-           <Form.Item name="description" required label="Description">
+           <Form.Item name={['landingPage','description']} required label="Description">
 <Input/>
             </Form.Item>
             
@@ -61,8 +60,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
           {PromoVideoUrl ? <MediaPlayer url={PromoVideoUrl} /> : null}
         </Form.Item>
 
-
-              </Form></Fragment>)
+              </Fragment >)
         
     }
     
