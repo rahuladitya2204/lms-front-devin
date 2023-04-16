@@ -14,6 +14,7 @@ import {
 } from 'antd'
 import { useEffect, useState } from 'react'
 
+import EmailTemplatesScreen from './EmailTemplatesScreen';
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
@@ -57,10 +58,7 @@ function EmailSettingScreen() {
 
   const [form] = Form.useForm()
 
-  console.log(setting.communication, 'lllll')
-
   const onSubmit = (e: any) => {
-    console.log(e, 'haih')
     updateSetting(
       {
         data: {
@@ -151,7 +149,6 @@ function EmailSettingScreen() {
     </Popover>
   };
 
-  console.log(setting.communication, 'setting.communication')
   return (
     <Spin spinning={loadingSetting || updatingSetting || verifyingMail}>
       <Form
@@ -209,6 +206,9 @@ function EmailSettingScreen() {
           <Button onClick={form.submit}>Save</Button>
         </Space>
       </Form>
+      <Card style={{ padding: 0,marginTop:20 }} title={'Email Templates'}>
+        <EmailTemplatesScreen />
+        </Card>
     </Spin>
   )
 }

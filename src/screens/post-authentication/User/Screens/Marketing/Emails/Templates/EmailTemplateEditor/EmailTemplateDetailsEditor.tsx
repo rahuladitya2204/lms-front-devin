@@ -1,27 +1,28 @@
 // @ts-nocheck
 
-import { Common, Store, Types } from '@adewaskar/lms-common'
+import { Common, Store, Types, User } from '@adewaskar/lms-common'
 import { Form, Input, Space, Tag, Typography, } from 'antd';
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 
 import QuillEditor from '@Components/QuillEditor';
+import { useParams } from 'react-router';
 
 const {Text } = Typography;
 
 interface CreateEmailTemplateComponentPropsI {
-  template: Types.EmailTemplate;
+  id?: string;
 }
 
 const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> = (props) => {
+  const { id } = useParams();
+  const templateId = props.id || id;
+  const { data: template } = User.Queries.useGetEmailTemplateDetails(templateId);
   const { useWatch } = Form;
   const form = Form.useFormInstance<Types.EmailTemplate>();
 
-  const template = props.template;
-
   const subject = useWatch(['subject'], form);
   const content = useWatch(['content'], form);
-  const { data: { EmailTemplates: EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user');
-  console.log(EmailTemplatesMap,template.emailType,'lalal')
+  const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user');
   const MailType = EmailTemplatesMap[template.emailType] ? EmailTemplatesMap[template.emailType] : {};
   const variables = MailType.variables;
   

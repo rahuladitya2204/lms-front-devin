@@ -87,6 +87,10 @@ const router = createBrowserRouter(
                 <Route path=":id/editor" element={<AddPromoCode />} />
               </Route>
             </Route>
+            <Route
+              path="email-templates/:id/editor"
+              element={<EmailTemplateEditor />}
+            />{' '}
             <Route path="category">
               <Route path="" element={<CourseCategoryScreen />} />
               {/* <Route path=":id/editor" element={<LearnerEditor />} /> */}
@@ -98,9 +102,9 @@ const router = createBrowserRouter(
             <Route path="tickets/:id" element={<UserTicketDetail />} />
             <Route path="courses" element={<CoursesScreen />} />
             <Route path="courses/packages">
-                <Route path="" element={<PackagesScreen />} />
-                <Route path=":id/editor" element={<CreatePackage />} />
-              </Route>
+              <Route path="" element={<PackagesScreen />} />
+              <Route path=":id/editor" element={<CreatePackage />} />
+            </Route>
             <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
               <Route path="section/:sectionId">
                 <Route path="pdf/:itemId" element={<UploadPDFForm />} />

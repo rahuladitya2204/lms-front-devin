@@ -69,7 +69,7 @@ function EmailTemplateEditor() {
     >
       <Form initialValues={template} form={form} onFinish={saveEmailTemplate} layout="vertical" autoComplete="off">
         <Card extra={<Button danger>Send Test Mail</Button>}>
-          <EmailTemplateDetailsEditor template={template} />
+          <EmailTemplateDetailsEditor id={template._id} />
         </Card>
       </Form>
     </Header>

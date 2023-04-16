@@ -115,28 +115,6 @@ function EmailTemplatesScreen() {
                   </Space>
                 )}
               />
-              {/* <Table.Column
-                title="Description"
-                dataIndex="description"
-                key="description"
-              /> */}
-              {/* <Table.Column
-                title="Last Login"
-                dataIndex="lastActive"
-
-              />
-              <Table.Column title="Courses" dataIndex="courses" key="courses" />
-              <Table.Column title="Rating" dataIndex="rating" key="rating" />
-              <Table.Column
-                title="Joined On"
-                dataIndex="createdAt"
-                key="createdAt"
-                render={(_: any, record: Types.EmailTemplate) => (
-                  <Space size="middle">
-                    {dayjs(record.createdAt).format("LL")}
-                  </Space>
-                )}
-              /> */}
               <Table.Column
                 title=""
                 key="action"
