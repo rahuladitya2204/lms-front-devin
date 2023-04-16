@@ -12,7 +12,7 @@ import { useState } from 'react'
 
 function EmailTemplatesScreen() {
   // @ts-ignore
-  const { data: { EmailTemplates:EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
+  const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
 
   const navigate = useNavigate();
   const { data, isLoading: loading } = User.Queries.useGetEmailTemplates()

@@ -74,7 +74,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
           <Form.Item
             name={['advanced', 'email', 'content']}
             required
-            label="Description"
+            label="Email Body"
           >
             <Space direction="vertical" style={{ marginBottom: 30 }}>
               <Space size={[0, 8]} wrap>
@@ -83,13 +83,10 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
                 ))}
               </Space>
             </Space>
-            <QuillEditor value="" />
+            <QuillEditor />
           </Form.Item>
         </Fragment>
       ) : null}
-
-      <Divider plain />
-      <Form.Item />
     </Fragment>
   )
 }
