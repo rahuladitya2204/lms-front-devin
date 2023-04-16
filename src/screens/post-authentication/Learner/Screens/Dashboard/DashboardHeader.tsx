@@ -69,6 +69,8 @@ const DashboardHeader: React.FC = () => {
   const logout = () => {
     logoutLearner()
   }
+
+
   return (
     <Header
       hideBack

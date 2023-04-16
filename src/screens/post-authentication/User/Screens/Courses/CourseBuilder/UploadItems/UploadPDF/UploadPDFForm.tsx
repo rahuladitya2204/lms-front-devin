@@ -39,7 +39,6 @@ const UploadPDFForm: React.FC = () => {
                 file: _id,
                 type: 'pdf'
               })
-              // setUrl(url)
             }}
             height="250px"
             renderItem={() => (

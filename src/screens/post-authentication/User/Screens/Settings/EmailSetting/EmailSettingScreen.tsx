@@ -98,7 +98,7 @@ function EmailSettingScreen() {
   }
 
   const renderVerify = (type:string) => {
-    return setting.communication.learner[type].verified ? <Tag color="green">Verified</Tag>
+    return !setting.communication.learner[type].verified ? <Tag color="green">Verified</Tag>
     : <Popover placement='left'
       content={
         <>

@@ -21,7 +21,7 @@ const UPLOAD: UploadProps = {
 }
 
 interface MediaUploadPropsI {
-  onUpload: (d: Types.FileType, file: File) => void;
+  onUpload?: (d: Types.FileType, file: File) => void;
   children?: ReactNode;
   isProtected?: boolean;
   listType?: string;
@@ -66,9 +66,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   const [fileList, setFileList] = useState(null)
   const form = Form.useFormInstance()
   // const value = Form.useWatch([props.name], form);
-
   const UploadFile = file => {
-    console.log(file, 'fififif')
     if (!file) return
     return uploadFiles({
       files: [{ file: file, prefixKey: props.prefixKey, name: props.fileName }],
@@ -77,10 +75,9 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         // console.log(e, 'e')
       },
       onSuccess: ([uploadFile]) => {
-        console.log(uploadFile, 'hhahah')
         uploadFile.file = file
         form.setFieldValue(props.name, file.url)
-        props.onUpload(uploadFile, file)
+        props.onUpload && props.onUpload(uploadFile, file)
       }
     })
   }

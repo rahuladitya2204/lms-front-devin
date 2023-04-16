@@ -28,7 +28,6 @@ export const useGetNodeFromRouterOutlet = () => {
 
 export const useAppInit = (type: string) => {
   const token = getToken();
-  const { orgId } = useParams();
   const { fetchOrganisation } = Store.useGlobal();
   const [loading, setLoading] = useState(false);
   const {
@@ -37,13 +36,13 @@ export const useAppInit = (type: string) => {
 
   useEffect(() => {
     initApp();
-  }, [orgId,type,token]);
+  }, [type,token]);
 
 
   const initApp = async () => {
     try {
       setLoading(true);
-      await fetchOrganisation(orgId + '');
+      await fetchOrganisation();
       if (token) {
         await validateUser({
           type: type,

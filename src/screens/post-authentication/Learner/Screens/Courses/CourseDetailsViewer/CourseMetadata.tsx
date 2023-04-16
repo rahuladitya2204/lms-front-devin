@@ -25,7 +25,7 @@ const data = {
   lectures: {
     title: 'Lectures',
     icon: <ReadOutlined />,
-    value: '43 Weeks'
+    value: 1
   },
   enrolled: {
     title: 'Enrolled',
@@ -59,8 +59,16 @@ interface CourseMetadataPropsI {
 }
 
 function CourseMetadata(props: CourseMetadataPropsI) {
-  data.enrolled.value = `${props.course.studentsEnrolled} students`
-  data.lectures.value = `${props.course.sections.length}`
+  data.enrolled.value = `${props.course.analytics.enrolled.total} students`
+  data.lectures.value = (() => {
+    let count = 0
+    props.course.sections.forEach(i => {
+      count += 1
+    })
+    return count + props.course.sections.length
+  })()
+
+  data.language.value = props.course.language
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (

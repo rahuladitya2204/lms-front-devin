@@ -29,13 +29,11 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
 <Input/>
             </Form.Item>
             
-            <Form.Item label="Promo Video" required>
+            <Form.Item name="promoVideo" label="Promo Video" required>
               <MediaUpload
                 prefixKey={`courses/${courseId}/promo`}
-            width="300px"
-            onUpload={({ url }) => {
-              form.setFieldValue('promoVideo', url)
-            }}
+              width="300px"
+              name="promoVideo"
             height="250px"
             renderItem={() => (
               <Button>{promoVideoUrl ? 'Replace Video' : 'Upload Video'}</Button>

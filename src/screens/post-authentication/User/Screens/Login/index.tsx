@@ -15,9 +15,9 @@ function UserLoginScreen () {
   const { orgId } = useParams()
   useEffect(
     () => {
-      fetchOrganisation(orgId + '')
+      fetchOrganisation()
     },
-    [orgId]
+    []
   )
   const { mutate: loginUser, isLoading: loading } = User.Queries.useLoginUser()
   const formik = useFormik({
@@ -30,7 +30,7 @@ function UserLoginScreen () {
         email: values.email,
         password: values.password,
         onSuccess: orgId => {
-          navigate(`${orgId}/user/dashboard/courses`)
+          navigate(`../dashboard/courses`)
         }
       })
     }

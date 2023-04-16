@@ -58,11 +58,11 @@ function LearnersScreen() {
                 key="action"
                 render={(_: any, record: Types.Learner) => (
                   <Space size="middle">
-                    <EditOutlined
+                    {/* <EditOutlined
                       onClick={() =>
                         window.open(`learners/${record._id}/editor`, '_blank')
                       }
-                    />
+                    /> */}
                     <DeleteOutlined />
                   </Space>
                 )}

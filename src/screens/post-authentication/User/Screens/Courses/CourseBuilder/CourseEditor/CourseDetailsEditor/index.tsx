@@ -40,9 +40,7 @@ const LANGUAGES = [
 ]
 
 const { Option } = Select
-interface CourseDetailsEditorPropsI {
-
-}
+interface CourseDetailsEditorPropsI {}
 
 function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const { id: courseId } = useParams()
@@ -57,6 +55,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         <MediaUpload
           uploadType="image"
           cropper
+          name="thumbnailImage"
           width="250px"
           prefixKey={`courses/${courseId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={thumbnailImage} />}
@@ -75,11 +74,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       <Row>
         <Col span={8}>
           <Form.Item name={['category']} required label="Category">
-            <Select
-              style={{ width: 200 }}
-              placeholder="Select Category"
-              optionLabelProp="label"
-            >
+            <Select style={{ width: 200 }} placeholder="Select Category">
               {categories.map(category => {
                 return (
                   <Option value={category.value} label={category.label}>

@@ -1,16 +1,19 @@
 import { Button, Card, Col, Row, Select, Space, Table, Tag } from 'antd'
+import { Common, Types } from '@adewaskar/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
-import { EmailTemplateStatusMap, EmailTypeMap } from './Constant'
 
 import ActionModal from '@Components/ActionModal'
 import AddEmailTemplate from './AddEmailTemplate'
+import { EmailTemplateStatusMap } from './Constant'
 import Header from '@Components/Header'
-import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
 
 function EmailTemplatesScreen() {
+  // @ts-ignore
+  const { data: { EmailTemplates:EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
+
   const navigate = useNavigate();
   const { data, isLoading: loading } = User.Queries.useGetEmailTemplates()
   const [type, setType] = useState('default')
@@ -64,7 +67,7 @@ function EmailTemplatesScreen() {
                   key="emailType"
                   render={(_: any, record: Types.EmailTemplate) => (
                     <Space size="middle">
-                      {EmailTypeMap[record.emailType]?.title}
+                      {EmailTemplatesMap[record.emailType]?.title}
                     </Space>
                   )}
                 />
@@ -76,7 +79,7 @@ function EmailTemplatesScreen() {
                 key="description"
                 render={(_: any, record: Types.EmailTemplate) => (
                   <Space size="middle">
-                    {EmailTypeMap[record.emailType]?.description}
+                    {EmailTemplatesMap[record.emailType]?.description}
                   </Space>
                 )}
               />

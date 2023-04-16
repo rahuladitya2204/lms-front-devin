@@ -3,7 +3,6 @@ import { Learner, Store } from '@adewaskar/lms-common'
 import { NavLink, useParams } from 'react-router-dom'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
-import Image from '@Components/Image'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
@@ -20,9 +19,9 @@ function LearnerLogin () {
   const { orgId } = useParams()
   useEffect(
     () => {
-      fetchOrganisation(orgId + '')
+      fetchOrganisation()
     },
-    [orgId]
+    []
   )
   const params = useParams()
   useEffect(
@@ -41,9 +40,6 @@ function LearnerLogin () {
       loginUser({
         email: values.email,
         password: values.password,
-        onSuccess: orgId => {
-          navigate(`/learner/${orgId}/dashboard/courses`)
-        }
       })
     }
   })

@@ -1,8 +1,9 @@
+// @ts-nocheck
+
+import { Common, Store, Types } from '@adewaskar/lms-common'
 import { Form, Input, Space, Tag, Typography, } from 'antd';
 import React, { Fragment, useEffect } from 'react';
-import { Store, Types } from '@adewaskar/lms-common'
 
-import { EmailTypeMap } from '../Constant';
 import QuillEditor from '@Components/QuillEditor';
 
 const {Text } = Typography;
@@ -19,8 +20,9 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
 
   const subject = useWatch(['subject'], form);
   const content = useWatch(['content'], form);
-  
-  const MailType = EmailTypeMap[template.emailType] ? EmailTypeMap[template.emailType] : {};
+  const { data: { EmailTemplates: EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user');
+  console.log(EmailTemplatesMap,template.emailType,'lalal')
+  const MailType = EmailTemplatesMap[template.emailType] ? EmailTemplatesMap[template.emailType] : {};
   const variables = MailType.variables;
   
 

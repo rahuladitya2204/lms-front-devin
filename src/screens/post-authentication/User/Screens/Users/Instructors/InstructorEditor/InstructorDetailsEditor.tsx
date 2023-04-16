@@ -17,8 +17,8 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
     <Fragment>
       <Form.Item name="image" required label="Profile Image">
           <MediaUpload
-                     name="image"
-                     uploadType={'image'}
+            name="image"
+            uploadType={'image'}
             prefixKey={`images/instructors/${props.instructorId}`}
             cropper
             width='100px'

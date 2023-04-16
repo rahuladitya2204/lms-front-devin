@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { Button, Card, Col, Row } from 'antd'
+import { Button, Card, Col, Form, Row } from 'antd'
 import { Constants, Types, User } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
@@ -192,17 +192,19 @@ function CourseBuilderScreen() {
           <Card style={{ marginBottom: 30 }}>
             <Row>
               <Col span={24}>
-                <MediaUpload
-                  uploadType="image"
-                  prefixKey={`courses/${courseId}/thumbnailImage`}
-                  cropper
-                  width="100%"
-                  height="200px"
-                  renderItem={() => (
-                    <Image preview={false} src={course.thumbnailImage} />
-                  )}
-                  name="thumbnailImage"
-                />
+                <Form.Item>
+                  <MediaUpload
+                    uploadType="image"
+                    prefixKey={`courses/${courseId}/thumbnailImage`}
+                    cropper
+                    width="100%"
+                    height="200px"
+                    renderItem={() => (
+                      <Image preview={false} src={course.thumbnailImage} />
+                    )}
+                    name="thumbnailImage"
+                  />
+                </Form.Item>
               </Col>
               <Col span={24} style={{ marginTop: 30 }}>
                 {course.sections.length ? (

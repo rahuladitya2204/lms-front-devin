@@ -38,9 +38,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   const [form] = Form.useForm();
   const isFormValid = !form.getFieldsError().some(({ errors }) => errors.length);
-  // console.log(form.getFieldsError(),'isValid')
   const onSubmit = (e: Partial<Types.Campaign>) => {
-    console.log(e,'ee')
     if (!isFormValid) {
       return;
     }

@@ -16,31 +16,25 @@ import useMessage from '@Hooks/useMessage'
 
 function CourseEditor() {
   const message = useMessage()
-  const { id: courseId } = useParams()
-  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
+  const { id } = useParams();
+  const courseId = id + '';
+  
   const {
     mutate: updateCourse,
     isLoading: loading
   } = User.Queries.useUpdateCourse()
 
   const { data: courseDetails } = User.Queries.useGetCourseDetails(
-    courseId + '',
+    courseId,
     {
       enabled: !!courseId
     }
   )
-
-  useEffect(
-    () => {
-      setCourse(courseDetails)
-    },
-    [courseDetails]
-  )
-
+  
   const saveCourse = (e:Partial<Course>) => {
     updateCourse(
       {
-        id: courseId + '',
+        id: courseId,
         data: e
       },
       {
@@ -58,24 +52,17 @@ function CourseEditor() {
     form.setFieldsValue(courseDetails);
   },[courseDetails])
 
-  const onCourseUpdate = (data: Partial<Types.Course>) => {
-    setCourse({
-      ...course,
-      ...data
-    })
-  }
   const [form] = Form.useForm<Types.Course>();
 
   return (
     <Header
-      // hideBack
       title="Course Editor"
       extra={[
         <Fragment>
           <Button
             onClick={() => {
               // const dataStr = STRINGIFY(JSON.stringify(course))
-              window.open(`${course._id}/preview`, '_blank')
+              window.open(`${courseId}/preview`, '_blank')
             }}
             style={{ marginRight: 15 }}
             icon={<EyeOutlined />}
@@ -111,7 +98,7 @@ function CourseEditor() {
               key: '2',
               children: (
                 <CoursePricingEditor
-                  courseId={course._id}
+                  courseId={courseId}
                 />
               )
             },
@@ -120,7 +107,7 @@ function CourseEditor() {
               key: '3',
               children: (
                 <CourseLandingPageEditor
-                  courseId={course._id}
+                  courseId={courseId}
                 />
               )
             },
@@ -129,7 +116,7 @@ function CourseEditor() {
               key: '4',
               children: (
                 <CourseAdvancedSettings
-                  courseId={course._id}
+                  courseId={courseId}
                 />
               )
             }

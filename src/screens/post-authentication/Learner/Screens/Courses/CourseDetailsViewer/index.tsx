@@ -70,10 +70,6 @@ function CourseDetailViewer () {
     return e.course.toString() === courseId;
   });
 
-  console.log(learner.enrolledCourses,'isEnrolled')
-
-  console.log(learner, 'learner');
-
   useEffect(
     () => {
       setCourse(data)

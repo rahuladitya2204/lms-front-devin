@@ -8,15 +8,6 @@ import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-const contentStyle: React.CSSProperties = {
-  margin: 0,
-  height: '460px',
-  color: '#fff',
-  lineHeight: '160px',
-  textAlign: 'center',
-  background: '#364d79'
-}
-
 function StoreScreen() {
   const { data: courses } = Learner.Queries.useGetCoursesOfOrganisation()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
@@ -24,7 +15,7 @@ function StoreScreen() {
   const params = useParams()
   useEffect(
     () => {
-      Utils.Storage.SetItem('orgId', params.orgId + '')
+      Utils.Storage.SetItem('orgId', params.orgId + '');
     },
     [params.orgId]
   )

@@ -2,6 +2,8 @@ import { ConfigProvider, message } from 'antd'
 import { Learner, User } from '@adewaskar/lms-common'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
+import { useParams } from 'react-router'
+
 function ThemeProvider(props: any) {
   const [messageApi, context] = message.useMessage()
   const { data: appDetails } = Learner.Queries.useGetAppDetails();

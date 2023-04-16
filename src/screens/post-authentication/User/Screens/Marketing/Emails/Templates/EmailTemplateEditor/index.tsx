@@ -1,12 +1,12 @@
-import { Button, Card, Form, Tabs } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
-import { Fragment, useEffect, useState } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Button, Card, Form } from 'antd'
+import { Fragment, useEffect } from 'react'
 
 import EmailTemplateDetailsEditor from './EmailTemplateDetailsEditor'
 import Header from '@Components/Header'
+import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
+import { useParams } from 'react-router'
 
 function EmailTemplateEditor() {
   const message = useMessage()
@@ -59,12 +59,6 @@ function EmailTemplateEditor() {
             Save as Draft
           </Button>
           <Button
-            // onClick={() =>
-            //   saveEmailTemplate({
-            //     ...emailTemplate,
-            //     status: 'live'
-            //   })
-            // }
             loading={loading}
             type="primary"
           >
