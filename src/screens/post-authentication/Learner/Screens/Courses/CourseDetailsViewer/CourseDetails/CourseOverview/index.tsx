@@ -39,7 +39,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
             // }}
           >
             <div
-              dangerouslySetInnerHTML={{ __html: props.course.description }}
+              dangerouslySetInnerHTML={{ __html: props.course.landingPage.description }}
             />
           </Paragraph>
         </Col>

@@ -7,28 +7,26 @@ import { Fragment, useEffect } from 'react'
 
 import MediaPlayer from '@Components/MediaPlayer';
 import MediaUpload from '@Components/MediaUpload';
+import QuillEditor from '@Components/QuillEditor';
 import { Types } from '@adewaskar/lms-common'
+import { useParams } from 'react-router';
 
 interface CourseLandingPageEditorPropsI {
     courseId: string;
     }
     
 function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
-  const { courseId } = props;
-  const [form] = Form.useForm<Types.CourseLandingPage>();    
+  const { id } = useParams();
+  const courseId = props.courseId || id;
+  const form = Form.useFormInstance<Types.CourseLandingPage>();    
   const { useWatch} = Form;
   const promoVideoUrl = useWatch(['promoVideo'], form)
 
       return (
         <Fragment>
-
-           <Form.Item  name='url' required label="Landing Page URL">
-<Input       addonBefore="extremebi://"/>
-            </Form.Item>
-           <Form.Item name={['landingPage','description']} required label="Description">
-<Input/>
-            </Form.Item>
-            
+              <Form.Item  name={['landingPage','description']} required label="Description">
+        <QuillEditor  name={['landingPage','description']} value="" />
+      </Form.Item>
             <Form.Item name="promoVideo" label="Promo Video" required>
               <MediaUpload
                 prefixKey={`courses/${courseId}/promo`}

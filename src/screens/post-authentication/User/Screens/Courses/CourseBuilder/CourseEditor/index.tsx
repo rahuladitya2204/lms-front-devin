@@ -89,16 +89,7 @@ function CourseEditor() {
               label: `Details`,
               key: '1',
               children: (
-                <CourseDetailsEditor
-                />
-              )
-            },
-            {
-              label: `Pricing`,
-              key: '2',
-              children: (
-                <CoursePricingEditor
-                  courseId={courseId}
+                <CourseDetailsEditor courseId={courseId}
                 />
               )
             },
@@ -107,6 +98,15 @@ function CourseEditor() {
               key: '3',
               children: (
                 <CourseLandingPageEditor
+                  courseId={courseId}
+                />
+              )
+            },
+            {
+              label: `Pricing`,
+              key: '2',
+              children: (
+                <CoursePricingEditor
                   courseId={courseId}
                 />
               )

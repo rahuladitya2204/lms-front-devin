@@ -13,25 +13,26 @@ import { Fragment, useEffect } from 'react'
 
 import QuillEditor from '@Components/QuillEditor'
 import { Types } from '@adewaskar/lms-common'
+import { useParams } from 'react-router'
 
 const { Title } = Typography
 const { useWatch } = Form
 
 const VARIABLES = [
   {
-    label: 'Course Title',
+    name: 'Course Title',
     value: 'course.title'
   },
   {
-    label: 'Course Instructor',
+    name: 'Course Instructor',
     value: 'course.instructor.name'
   },
   {
-    label: 'Learner Name',
+    name: 'Learner Name',
     value: 'title'
   },
   {
-    label: 'Course Release Date',
+    name: 'Course Release Date',
     value: 'course.enrolledAt'
   }
 ]
@@ -41,6 +42,8 @@ interface CourseAdvancedSettingsPropsI {
 }
 
 function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
+  const { id } = useParams()
+  const courseId = props.courseId || id
   const form = Form.useFormInstance()
   const sendEmail = useWatch(['advanced', 'email', 'enabled'], form)
   return (
@@ -54,10 +57,11 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
 
       <Title level={3}>Email Notification</Title>
       <Form.Item
+        valuePropName="checked"
         name={['advanced', 'email', 'enabled']}
         label="Send email to learner on course enrollment."
       >
-        <Switch defaultChecked />
+        <Switch />
       </Form.Item>
       {sendEmail ? (
         <Fragment>
@@ -76,14 +80,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
             required
             label="Email Body"
           >
-            <Space direction="vertical" style={{ marginBottom: 30 }}>
-              <Space size={[0, 8]} wrap>
-                {VARIABLES.map(variable => (
-                  <Tag color="default">{variable.label}</Tag>
-                ))}
-              </Space>
-            </Space>
-            <QuillEditor />
+            <QuillEditor variables={VARIABLES} name={['advanced', 'email', 'content']} />
           </Form.Item>
         </Fragment>
       ) : null}

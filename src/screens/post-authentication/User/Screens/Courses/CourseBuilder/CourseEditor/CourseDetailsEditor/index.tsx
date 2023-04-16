@@ -38,16 +38,18 @@ const LANGUAGES = [
     label: 'Hindi'
   }
 ]
-
+const { useWatch } = Form
 const { Option } = Select
-interface CourseDetailsEditorPropsI {}
+interface CourseDetailsEditorPropsI {
+  courseId?: string;
+}
 
 function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
-  const { id: courseId } = useParams()
   const form = Form.useFormInstance()
+  const { id } = useParams();
+  const courseId = props.courseId || id;
   const { data: instructors } = User.Queries.useGetInstructors()
   const { listItems: categories } = User.Queries.useGetCourseCategories()
-  const { useWatch } = Form
   const thumbnailImage = useWatch(['thumbnailImage'], form)
   return (
     <Fragment>
@@ -136,18 +138,6 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           </Form.Item>
         </Col>
       </Row>
-
-      {/* <Form.Item required label="Requirements" name='requirements'>
-          <QuillEditor onChange={e => {
-            props.onFormUpdate({ requirements: e })
-          }} />
-</Form.Item>
-<Form.Item  required label="What you'll learn" name={'whatYouLearn'}>
-          <QuillEditor  onChange={e => props.onFormUpdate({ whatYouLearn: e })} />
-        </Form.Item> */}
-      <Form.Item name="description" required label="Description">
-        <QuillEditor name="description" value="" />
-      </Form.Item>
     </Fragment>
   )
 }
