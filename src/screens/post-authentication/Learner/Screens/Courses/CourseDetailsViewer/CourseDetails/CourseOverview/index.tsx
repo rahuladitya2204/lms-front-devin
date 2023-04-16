@@ -13,7 +13,8 @@ interface CourseOverviewPropsI {
 
 function CourseOverview(props: CourseOverviewPropsI) {
   const PromoVideoUrl = props?.course?.landingPage?.promoVideo
-
+  console.log(props.course, 'asa')
+  const {landingPage} = props.course;
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
@@ -29,7 +30,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
           </Col>
         ) : null}
         <Col span={24}>
-          <Title level={4}>Course Description</Title>
+          {/* <Title level={4}>Course Description</Title> */}
           <Paragraph
             style={{ fontSize: 16 }}
             // ellipsis={{
@@ -39,12 +40,12 @@ function CourseOverview(props: CourseOverviewPropsI) {
             // }}
           >
             <div
-              dangerouslySetInnerHTML={{ __html: props.course.landingPage.description }}
+              dangerouslySetInnerHTML={{ __html: landingPage.description }}
             />
           </Paragraph>
         </Col>
 
-        <Col span={24}>
+        {/* <Col span={24}>
           <Title level={4}>What You'll Learn</Title>
           <Paragraph>
             <div
@@ -60,7 +61,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
               dangerouslySetInnerHTML={{ __html: props.course.requirements }}
             />
           </Paragraph>
-        </Col>
+        </Col> */}
       </Row>
     </Fragment>
   )

@@ -21,9 +21,10 @@ const LearnerDashboard: React.FC = () => {
           }
           cta={
             <FloatButton
+              style={{ width: 60, height: 60 }}
               shape="circle"
               type="primary"
-              icon={<CustomerServiceOutlined />}
+              icon={<CustomerServiceOutlined size={5600} />}
             />
           }
         >

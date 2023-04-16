@@ -82,7 +82,7 @@ function CourseDetailViewer () {
   }
   const instructor = course.instructor as unknown as Types.Instructor;
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  const { data: cartItems } = Learner.Queries.useGetCartItems();
+  // const { data: cartItems } = Learner.Queries.useGetCartItems();
   const navigate = useNavigate();
   // const isAddedToCart = cartItems?.find(item => item._id == course._id);
   return (
