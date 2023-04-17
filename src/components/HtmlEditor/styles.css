@@ -1817,3 +1817,7 @@ span.editor-image {
  .editor-container{
   border-radius: 0;
  }
+
+ .actions{
+  display: none;
+ }

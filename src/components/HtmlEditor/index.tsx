@@ -1,173 +1,267 @@
-// @ts-nocheck
 import './styles.css'
 
-import { AutoLinkNode, LinkNode } from '@lexical/link'
-import { CodeHighlightNode, CodeNode } from '@lexical/code'
-import { Form, Space, Tag } from 'antd'
-import { HeadingNode, QuoteNode } from '@lexical/rich-text'
-import { ListItemNode, ListNode } from '@lexical/list'
-import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
-import { useCallback, useEffect, useRef } from 'react'
+import { $getRoot, $getSelection } from 'lexical';
+import {Fragment, useCallback, useEffect, useRef, useState} from 'react';
 
 import { $generateHtmlFromNodes } from '@lexical/html'
 import { $generateNodesFromDOM } from '@lexical/html'
-import { $getRoot } from 'lexical'
-import { $getSelection } from 'lexical'
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
-import AutoLinkPlugin from './plugins/AutoLinkPlugin'
-import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
-import { ContentEditable } from '@lexical/react/LexicalContentEditable'
-import ExampleTheme from './themes/ExampleTheme'
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
-import { ImageNode } from './nodes/ImageNode'
-import ImagesPlugin from './plugins/ImagesPlugin'
-// import ImagesPlugin from './plugins/ImagePlugin'
-import { LexicalComposer } from '@lexical/react/LexicalComposer'
-import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin'
-import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin'
-import { ListPlugin } from '@lexical/react/LexicalListPlugin'
-import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin'
-import MentionsPlugin from './plugins/MentionsPlugin'
-import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
-import { TRANSFORMERS } from '@lexical/markdown'
-import ToolbarPlugin from './plugins/ToolbarPlugin/index'
-import TreeViewPlugin from './plugins/TreeViewPlugin'
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import AutoEmbedPlugin from './plugins/AutoEmbedPlugin';
+import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin';
+import AutoLinkPlugin from './plugins/AutoLinkPlugin';
+import {CAN_USE_DOM} from './shared/canUseDOM';
+import {CheckListPlugin} from '@lexical/react/LexicalCheckListPlugin';
+import {ClearEditorPlugin} from '@lexical/react/LexicalClearEditorPlugin';
+import ClickableLinkPlugin from './plugins/ClickableLinkPlugin';
+import CodeHighlightPlugin from './plugins/CodeHighlightPlugin';
+import CollapsiblePlugin from './plugins/CollapsiblePlugin';
+import ComponentPickerPlugin from './plugins/ComponentPickerPlugin';
+import ContentEditable from './ui/ContentEditable';
+import DragDropPaste from './plugins/DragDropPastePlugin';
+import EmojiPickerPlugin from './plugins/EmojiPickerPlugin';
+import EmojisPlugin from './plugins/EmojisPlugin';
+import FigmaPlugin from './plugins/FigmaPlugin';
+import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
+import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
+import {HashtagPlugin} from '@lexical/react/LexicalHashtagPlugin';
+import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
+import {HorizontalRulePlugin} from '@lexical/react/LexicalHorizontalRulePlugin';
+import ImagesPlugin from './plugins/ImagesPlugin';
+import KeywordsPlugin from './plugins/KeywordsPlugin';
+import {LexicalComposer} from '@lexical/react/LexicalComposer';
+import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary';
+import LinkPlugin from './plugins/LinkPlugin';
+import ListMaxIndentLevelPlugin from './plugins/ListMaxIndentLevelPlugin';
+import {ListPlugin} from '@lexical/react/LexicalListPlugin';
+import MarkdownShortcutPlugin from './plugins/MarkdownShortcutPlugin';
+import MentionsPlugin from './plugins/MentionsPlugin';
+import {TablePlugin as NewTablePlugin} from './plugins/TablePlugin';
+import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin';
+import Placeholder from './ui/Placeholder';
+import PlaygroundEditorTheme from './themes/PlaygroundEditorTheme';
+import PlaygroundNodes from './nodes/PlaygroundNodes';
+import PollPlugin from './plugins/PollPlugin';
+import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin';
+import SpeechToTextPlugin from './plugins/SpeechToTextPlugin';
+import TabFocusPlugin from './plugins/TabFocusPlugin';
+import {TabIndentationPlugin} from '@lexical/react/LexicalTabIndentationPlugin';
+import TableCellActionMenuPlugin from './plugins/TableActionMenuPlugin';
+import TableCellNodes from './nodes/TableCellNodes';
+import TableCellResizer from './plugins/TableCellResizer';
+import {TablePlugin} from '@lexical/react/LexicalTablePlugin';
+import ToolbarPlugin from './plugins/ToolbarPlugin';
+import TreeViewPlugin from './plugins/TreeViewPlugin';
+import TwitterPlugin from './plugins/TwitterPlugin';
+import YouTubePlugin from './plugins/YouTubePlugin';
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import {useSharedHistoryContext} from './context/SharedHistoryContext';
 
-function Placeholder () {
-  return <div className="editor-placeholder">Enter some rich text...</div>
-}
-
-const editorConfig = {
-  // The editor theme
-  theme: ExampleTheme,
-  // Handling of errors during update
-  onError (error) {
-    throw error
-  },
-  // Any custom nodes go here
-  nodes: [
-    HeadingNode,
-    ListNode,
-    ListItemNode,
-    QuoteNode,
-    CodeNode,
-    CodeHighlightNode,
-    TableNode,
-    TableCellNode,
-    TableRowNode,
-    AutoLinkNode,
-    LinkNode,
-    ImageNode
-  ]
-}
-
-export default function Editor (props) {
-  // console.log(editor, 'editor')
-
-
-  return (
-    <Space direction="vertical">
-      <LexicalComposer initialConfig={editorConfig}>
-        <EditorComponent {...props} />
-      </LexicalComposer>
-    </Space>
-  )
-}
-
-function EditorComponent({defaultValue,variables,onChange}) {
-  const [editor] = useLexicalComposerContext();
-  const isFirstRender = useRef(true)
-
-  const addVariable = (variable) => {
-    const tag = `<span class="${variable.value}">${variable.name}</span>`;
-    renderHtml(tag);
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+interface EditorPropsI{
+  onChange?: Function;
+  defaultValue?:any
   }
 
-  const renderHtml = (html:string) => {
-    editor.update(() => {
-        // In the browser you can use the native DOMParser API to parse the HTML string.
-        const parser = new DOMParser()
-        const dom = parser.parseFromString(html, `text/html`)
-        // console.log(dom, 'dom')
-        // Once you have the DOM instance it's easy to generate LexicalNodes.
-        const nodes = $generateNodesFromDOM(editor, dom)
-        // Select the root
-        $getRoot().select()
+ function Editor({defaultValue,onChange}:EditorPropsI): JSX.Element {
+  const {historyState} = useSharedHistoryContext();
+   const text = 'Enter some rich text...';
+  const placeholder = <Placeholder>{text}</Placeholder>;
+  const [floatingAnchorElem, setFloatingAnchorElem] =
+    useState<HTMLDivElement | null>(null);
+  const [isSmallWidthViewport, setIsSmallWidthViewport] =
+    useState<boolean>(false);
 
-        // Insert them at a selection.
-        const selection = $getSelection()
-        selection.insertNodes(nodes)
-    })
-  }
+  const onRef = (_floatingAnchorElem: HTMLDivElement) => {
+    if (_floatingAnchorElem !== null) {
+      setFloatingAnchorElem(_floatingAnchorElem);
+    }
+  };
 
-  useEffect(
-    () => {
-      if (
-        defaultValue &&
-        defaultValue !== '<p class="editor-paragraph"><br></p>' &&
-        isFirstRender.current
-      ) {
-        isFirstRender.current = false
-        renderHtml(defaultValue);
-      }
-      return () => {
-        isFirstRender.current = true;
-      }
-    }, [defaultValue]);
-
-  const onEditorChange = useCallback(
-    editorState => {
-      editorState.read(() => {
-        const htmlString = $generateHtmlFromNodes(editor, null)
-        console.log(htmlString, 'eddi')
-        onChange(htmlString)
-      })
+  const cellEditorConfig = {
+    namespace: 'Playground',
+    nodes: [...TableCellNodes],
+    onError: (error: Error) => {
+      throw error;
     },
-    [editor]
-  )
+    theme: PlaygroundEditorTheme,
+  };
 
-  return (
-    <>
-      {variables ? (
-        <Space style={{marginBottom:20}}>
-          Variables:{' '}
-          {variables.map(v => {
-            return <Tag onClick={e => addVariable(v)}>{v.name}</Tag>
-          })}
-        </Space>
-      ) : null}
-      <div className="editor-container">
-      <ToolbarPlugin />
-      <div className="editor-inner">
-        <RichTextPlugin
-          contentEditable={<ContentEditable className="editor-input" />}
-          placeholder={<Placeholder />}
-          ErrorBoundary={LexicalErrorBoundary}
-        />
-        <HistoryPlugin />
-        <TreeViewPlugin />
+  useEffect(() => {
+    const updateViewPortWidth = () => {
+      const isNextSmallWidthViewport =
+        CAN_USE_DOM && window.matchMedia('(max-width: 1025px)').matches;
+
+      if (isNextSmallWidthViewport !== isSmallWidthViewport) {
+        setIsSmallWidthViewport(isNextSmallWidthViewport);
+      }
+    };
+
+    window.addEventListener('resize', updateViewPortWidth);
+
+    return () => {
+      window.removeEventListener('resize', updateViewPortWidth);
+    };
+  }, [isSmallWidthViewport]);
+   
+   // start
+   const [editor] = useLexicalComposerContext();
+   const isFirstRender = useRef(true)
+ 
+   const addVariable = (variable:any) => {
+     const tag = `<span class="${variable.value}">${variable.name}</span>`;
+     renderHtml(tag);
+   }
+ 
+   const renderHtml = (html:string) => {
+     editor.update(() => {
+         // In the browser you can use the native DOMParser API to parse the HTML string.
+         const parser = new DOMParser()
+         const dom = parser.parseFromString(html, `text/html`)
+         // console.log(dom, 'dom')
+         // Once you have the DOM instance it's easy to generate LexicalNodes.
+         const nodes = $generateNodesFromDOM(editor, dom)
+         // Select the root
+         $getRoot().select()
+ 
+         // Insert them at a selection.
+         const selection:any = $getSelection()
+         selection.insertNodes(nodes)
+     })
+   }
+ 
+   useEffect(
+     () => {
+       console.log(defaultValue,'defaultValue')
+         renderHtml(defaultValue);
+
+       return () => {
+         isFirstRender.current = true;
+       }
+     }, [defaultValue]);
+ 
+   const onEditorChange = useCallback(
+     (editorState: any) => {
+       if (
+         defaultValue &&
+         defaultValue !== '<p class="editor-paragraph"><br></p>' &&
+         isFirstRender.current
+       ) {
+         isFirstRender.current = false;
+         editorState.read(() => {
+           const htmlString = $generateHtmlFromNodes(editor, null)
+           console.log(htmlString, 'eddi')
+           onChange && onChange(htmlString)
+         })
+       }
+     },
+     [editor]
+   )
+ 
+ 
+
+   //end 
+
+  return   <Fragment>
+  <ToolbarPlugin />
+      <div className={`editor-container tree-view`}>
+        <DragDropPaste />
         <AutoFocusPlugin />
-        <CodeHighlightPlugin />
-        <ListPlugin />
-        <LinkPlugin />
-        <AutoLinkPlugin />
-        <ListMaxIndentLevelPlugin maxDepth={7} />
-        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+        <ClearEditorPlugin />
+        <ComponentPickerPlugin />
+        <EmojiPickerPlugin />
+        <AutoEmbedPlugin />
         <MentionsPlugin />
-        <ImagesPlugin />
+        <EmojisPlugin />
+        <HashtagPlugin />
+        <KeywordsPlugin />
+        <SpeechToTextPlugin />
+        <AutoLinkPlugin />
+          <>
+                      <HistoryPlugin externalHistoryState={historyState} />
 
-        <OnChangePlugin onChange={onEditorChange} />
+            <RichTextPlugin
+              contentEditable={
+                <div className="editor-scroller">
+                  <div className="editor" ref={onRef}>
+                    <ContentEditable />
+                  </div>
+                </div>
+              }
+              placeholder={placeholder}
+              ErrorBoundary={LexicalErrorBoundary}
+            />
+            <MarkdownShortcutPlugin />
+            <CodeHighlightPlugin />
+            <ListPlugin />
+            <CheckListPlugin />
+            <ListMaxIndentLevelPlugin maxDepth={7} />
+            <TablePlugin />
+            <TableCellResizer />
+            <NewTablePlugin cellEditorConfig={cellEditorConfig}>
+              <AutoFocusPlugin />
+              <RichTextPlugin
+                contentEditable={
+                  <ContentEditable className="TableNode__contentEditable" />
+                }
+                placeholder={null}
+                ErrorBoundary={LexicalErrorBoundary}
+              />
+              <MentionsPlugin />
+              <HistoryPlugin />
+              <ImagesPlugin captionsEnabled={false} />
+              <LinkPlugin />
+              <ClickableLinkPlugin />
+              <FloatingTextFormatToolbarPlugin />
+            </NewTablePlugin>
+            <ImagesPlugin />
+            <LinkPlugin />
+            <PollPlugin />
+            <TwitterPlugin />
+            <YouTubePlugin />
+            <FigmaPlugin />
+            <ClickableLinkPlugin />
+            <HorizontalRulePlugin />
+
+            <TabFocusPlugin />
+            <TabIndentationPlugin />
+            <CollapsiblePlugin />
+            {floatingAnchorElem && !isSmallWidthViewport && (
+              <>
+                {/* <DraggableBlockPlugin anchorElem={floatingAnchorElem} /> */}
+                {/* <CodeActionMenuPlugin anchorElem={floatingAnchorElem} /> */}
+                <FloatingLinkEditorPlugin anchorElem={floatingAnchorElem} />
+                <TableCellActionMenuPlugin
+                  anchorElem={floatingAnchorElem}
+                  cellMerge={true}
+                />
+                <FloatingTextFormatToolbarPlugin
+                  anchorElem={floatingAnchorElem}
+                />
+              </>
+            )}
+          </>
+      <TreeViewPlugin />
+      <OnChangePlugin onChange={onEditorChange} />
       </div>
-    </div></>
-  
-  )
-}
+    </Fragment>
+  }
 
-function OnChangeComponent ({ onChange, defaultValue }) {
+const initialConfig = {
+  nodes: [...PlaygroundNodes],
+  namespace: 'Playground',
+  onError: (error: Error) => {
+    throw error;
+  },
+  theme: PlaygroundEditorTheme,
+};
 
-
-  return <OnChangePlugin onChange={onEditorChange} />
+export default function (props:any) {
+  return <LexicalComposer initialConfig={initialConfig}>
+    <Editor {...props} />
+</LexicalComposer>
 }
