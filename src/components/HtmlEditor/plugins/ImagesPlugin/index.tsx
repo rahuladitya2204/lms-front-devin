@@ -1,3 +1,4 @@
+// @ts-nocheck
 import * as React from 'react';
 
 import {
@@ -30,7 +31,9 @@ import {useEffect, useRef, useState} from 'react';
 
 import Button from '../../ui/Button';
 import {CAN_USE_DOM} from '../../shared/canUseDOM';
+import { Common } from '@adewaskar/lms-common';
 import FileInput from '../../ui/FileInput';
+import { Spin } from 'antd';
 import TextInput from '../../ui/TextInput';
 import landscapeImage from '../../images/landscape.jpg';
 /**
@@ -93,27 +96,33 @@ export function InsertImageUploadedDialogBody({
   onClick,
 }: {
   onClick: (payload: InsertImagePayload) => void;
-}) {
+  }) {
+  const {
+    mutate: uploadFiles,
+    isLoading: loading
+  } = Common.Queries.useUploadFiles();
   const [src, setSrc] = useState('');
   const [altText, setAltText] = useState('');
 
   const isDisabled = src === '';
 
-  const loadImage = (files: FileList | null) => {
-    const reader = new FileReader();
-    reader.onload = function () {
-      if (typeof reader.result === 'string') {
-        setSrc(reader.result);
+  const loadImage = (files: FileList) => {
+    const file = files[0];
+    console.log(file,'file')
+    uploadFiles({
+      files: [{ file: file, prefixKey: 'jjijijij' }],
+      isProtected: false,
+      onUploadProgress: e => {
+        // console.log(e, 'e')
+      },
+      onSuccess: ([uploadFile]) => {
+        setSrc(uploadFile.url);
       }
-      return '';
-    };
-    if (files !== null) {
-      reader.readAsDataURL(files[0]);
-    }
+    })
   };
 
   return (
-    <>
+    <Spin spinning={loading}>
       <FileInput
         label="Image Upload"
         onChange={loadImage}
@@ -135,7 +144,7 @@ export function InsertImageUploadedDialogBody({
           Confirm
         </Button>
       </DialogActions>
-    </>
+    </Spin>
   );
 }
 

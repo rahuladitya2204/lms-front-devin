@@ -67,6 +67,8 @@
  }
  
   .editor-container {
+    border: 1px solid #ccc;
+    border-radius: 0;
    background: #fff;
    position: relative;
    display: block;
@@ -1791,3 +1793,27 @@ span.editor-image {
   left: 48%;
   cursor: n-resize;
 }
+
+.editor-text-underline{
+  text-decoration: underline;
+}
+
+.editor-text-italic{
+  font-style: italic;
+}
+
+.editor-placeholder{
+  display: none;
+}
+
+.tree-view-output{
+  display: none;
+}
+
+.editor-inner{
+  border-top: 1px solid #ccc;
+ }
+
+ .editor-container{
+  border-radius: 0;
+ }

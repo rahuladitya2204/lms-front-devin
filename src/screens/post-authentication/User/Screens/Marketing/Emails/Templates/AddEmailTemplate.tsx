@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import BASE_EMAIL_TEMPLATE from '../BaseEmailTemplate'
-import QuillEditor from '@Components/QuillEditor'
+import HtmlEditor from '@Components/HtmlEditor'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
@@ -69,7 +69,9 @@ const AddEmailTemplate: React.FC<
           <Input placeholder="Subject of the email" />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-          <QuillEditor name="content" />
+          <HtmlEditor
+            onChange={(e: any) => form.setFieldValue(['content'], e)}
+          />
         </Form.Item>
       </Form>
       {/* <Button

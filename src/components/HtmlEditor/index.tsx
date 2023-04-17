@@ -3,15 +3,16 @@ import './styles.css'
 
 import { AutoLinkNode, LinkNode } from '@lexical/link'
 import { CodeHighlightNode, CodeNode } from '@lexical/code'
+import { Form, Space, Tag } from 'antd'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { ListItemNode, ListNode } from '@lexical/list'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 import { $generateHtmlFromNodes } from '@lexical/html'
-import { $generateNodesFromDOM } from '@lexical/html';
-import { $getRoot } from 'lexical';
-import { $getSelection } from 'lexical';
+import { $generateNodesFromDOM } from '@lexical/html'
+import { $getRoot } from 'lexical'
+import { $getSelection } from 'lexical'
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
@@ -65,72 +66,105 @@ const editorConfig = {
 
 export default function Editor (props) {
   // console.log(editor, 'editor')
+
+
   return (
-    <LexicalComposer initialConfig={editorConfig}>
+    <Space direction="vertical">
+      <LexicalComposer initialConfig={editorConfig}>
+        <EditorComponent {...props} />
+      </LexicalComposer>
+    </Space>
+  )
+}
+
+function EditorComponent({defaultValue,variables,onChange}) {
+  const [editor] = useLexicalComposerContext();
+  const isFirstRender = useRef(true)
+
+  const addVariable = (variable) => {
+    const tag = `<span class="${variable.value}">${variable.name}</span>`;
+    renderHtml(tag);
+  }
+
+  const renderHtml = (html:string) => {
+    editor.update(() => {
+        isFirstRender.current = false
+        // In the browser you can use the native DOMParser API to parse the HTML string.
+        const parser = new DOMParser()
+        const dom = parser.parseFromString(html, `text/html`)
+        // console.log(dom, 'dom')
+        // Once you have the DOM instance it's easy to generate LexicalNodes.
+        const nodes = $generateNodesFromDOM(editor, dom)
+        // Select the root
+        $getRoot().select()
+
+        // Insert them at a selection.
+        const selection = $getSelection()
+        selection.insertNodes(nodes)
+    })
+  }
+
+  useEffect(
+    () => {
+      if (
+        defaultValue &&
+        defaultValue !== '<p class="editor-paragraph"><br></p>' &&
+        isFirstRender.current
+      ) {
+        renderHtml(defaultValue);
+      }
+    }, [defaultValue]);
+
+  const onEditorChange = useCallback(
+    editorState => {
+      editorState.read(() => {
+        const htmlString = $generateHtmlFromNodes(editor, null)
+        console.log(htmlString, 'eddi')
+        onChange(htmlString)
+      })
+    },
+    [editor]
+  )
+
+  return (
+    <>
+      {variables ? (
+        <Space style={{marginBottom:20}}>
+          Variables:{' '}
+          {variables.map(v => {
+            return <Tag onClick={e => addVariable(v)}>{v.name}</Tag>
+          })}
+        </Space>
+      ) : null}
       <div className="editor-container">
-        <ToolbarPlugin />
-        <div className="editor-inner">
-          <RichTextPlugin
-            contentEditable={<ContentEditable className="editor-input" />}
-            placeholder={<Placeholder />}
-            ErrorBoundary={LexicalErrorBoundary}
-          />
-          <OnChangeComponent defaultValue={props.defaultValue} onChange={props.onChange} />
+      <ToolbarPlugin />
+      <div className="editor-inner">
+        <RichTextPlugin
+          contentEditable={<ContentEditable className="editor-input" />}
+          placeholder={<Placeholder />}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+        <HistoryPlugin />
+        <TreeViewPlugin />
+        <AutoFocusPlugin />
+        <CodeHighlightPlugin />
+        <ListPlugin />
+        <LinkPlugin />
+        <AutoLinkPlugin />
+        <ListMaxIndentLevelPlugin maxDepth={7} />
+        <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+        <MentionsPlugin />
+        <ImagesPlugin />
 
-          <HistoryPlugin />
-          <TreeViewPlugin />
-          <AutoFocusPlugin />
-          <CodeHighlightPlugin />
-          <ListPlugin />
-          <LinkPlugin />
-          <AutoLinkPlugin />
-          <ListMaxIndentLevelPlugin maxDepth={7} />
-          <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-          <MentionsPlugin />
-          <ImagesPlugin />
-
-          {/* <ImagesPlugin /> */}
-        </div>
+        <OnChangePlugin onChange={onEditorChange} />
       </div>
-    </LexicalComposer>
+    </div></>
+  
   )
 }
 
 function OnChangeComponent ({ onChange, defaultValue }) {
-  const [editor] = useLexicalComposerContext()
-  useEffect(  
-    () => {
-      editor.update(() => {
-        console.log(defaultValue,'aaaa')
-        if (defaultValue) {
-          console.log(defaultValue, 'defaultValuee')
-          // In the browser you can use the native DOMParser API to parse the HTML string.
-          const parser = new DOMParser()
-          const dom = parser.parseFromString(defaultValue, `text/html`)
-          console.log(dom, 'dom')
-          // Once you have the DOM instance it's easy to generate LexicalNodes.
-          const nodes = $generateNodesFromDOM(editor, dom)
 
-          // Select the root
-          $getRoot().select()
-
-          // Insert them at a selection.
-          const selection = $getSelection();
-          selection.insertNodes(nodes);
-        
-        }
-      })
-    },
-    [defaultValue]
-  )
-
-  function onEditorChange (editorState) {
-    editorState.read(() => {
-      const htmlString = $generateHtmlFromNodes(editor, null)
-      console.log(htmlString, 'eddi')
-      onChange(htmlString)
-    })
-  }
 
   return <OnChangePlugin onChange={onEditorChange} />
 }

@@ -1,7 +1,6 @@
 import { Button, Card, Form } from 'antd'
 import { Fragment, useEffect } from 'react'
 
-import CertificateTemplateDetailsEditor from './CertificateTemplateDetailsEditor'
 import Header from '@Components/Header'
 import HtmlEditor from '@Components/HtmlEditor'
 import { Types } from '@adewaskar/lms-common'

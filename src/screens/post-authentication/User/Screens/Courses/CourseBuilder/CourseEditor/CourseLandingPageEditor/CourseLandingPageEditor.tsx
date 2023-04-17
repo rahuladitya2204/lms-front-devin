@@ -25,7 +25,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       return (
         <Fragment>
               <Form.Item  name={['landingPage','description']} required label="Description">
-        <QuillEditor  name={['landingPage','description']} value="" />
+        {/* <QuillEditor  name={['landingPage','description']} value="" /> */}
       </Form.Item>
             <Form.Item name="promoVideo" label="Promo Video" required>
               <MediaUpload

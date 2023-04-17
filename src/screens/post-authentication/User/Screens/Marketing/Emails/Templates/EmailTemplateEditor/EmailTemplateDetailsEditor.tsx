@@ -1,13 +1,14 @@
 // @ts-nocheck
 
-import { Common, Store, Types, User } from '@adewaskar/lms-common'
-import { Form, Input, Space, Tag, Typography, } from 'antd';
+import { Common, Types, User } from '@adewaskar/lms-common';
+import { Form, Space, Typography, } from 'antd';
 import React, { Fragment } from 'react';
 
+import HtmlEditor from '@Components/HtmlEditor';
 import QuillEditor from '@Components/QuillEditor';
 import { useParams } from 'react-router';
 
-const {Text } = Typography;
+const { Text } = Typography;
 
 interface CreateEmailTemplateComponentPropsI {
   id?: string;
@@ -39,16 +40,17 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
         </Form.Item>}
         <Space direction='vertical' size={[30,30]}>
         <Form.Item name="subject" label="Subject of the email" required>
-          <QuillEditor name="subject" type='text' variables={variables}
+          {/* <QuillEditor name="subject" type='text' variables={variables}
             onChange={e => form.setFieldValue(['subject'],e)}
             value={subject}
-          />
+          /> */}
+           <HtmlEditor variables={variables} onChange={e => form.setFieldValue(['subject'],e)}
+            defaultValue={subject}/>
+
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-          <QuillEditor name="content" variables={variables}
-            onChange={e => form.setFieldValue(['content'],e)}
-            value={content}
-          />
+        <HtmlEditor variables={variables} onChange={e => form.setFieldValue(['content'],e)}
+            defaultValue={content}/>
         </Form.Item>
         </Space>
     </Fragment>
