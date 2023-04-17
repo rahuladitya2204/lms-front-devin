@@ -3,10 +3,30 @@ import { Fragment, useEffect } from 'react'
 
 import CertificateTemplateDetailsEditor from './CertificateTemplateDetailsEditor'
 import Header from '@Components/Header'
+import HtmlEditor from '@Components/HtmlEditor'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
+
+const VARIABLES = [
+  {
+    name: 'Course Title',
+    value: 'course.title'
+  },
+  {
+    name: 'Course Instructor',
+    value: 'course.instructor.name'
+  },
+  {
+    name: 'Learner Name',
+    value: 'title'
+  },
+  {
+    name: 'Course Completion Date',
+    value: 'course.completedAt'
+  }
+]
 
 function CertificateTemplateEditor() {
   const message = useMessage()
@@ -24,29 +44,30 @@ function CertificateTemplateEditor() {
   )
 
   const saveCertificateTemplate = (data: Types.CertificateTemplate) => {
-    updateCertificateTemplate(
-      {
-        id: emailTemplateId + '',
-        data: data
-      },
-      {
-        onSuccess: () => {
-          message.open({
-            type: 'success',
-            content: 'Saved'
-          })
-          // navigate('../')
-        }
-      }
-    )
+    console.log(data, 'daaaa');
+    // updateCertificateTemplate(
+    //   {
+    //     id: emailTemplateId + '',
+    //     data: data
+    //   },
+    //   {
+    //     onSuccess: () => {
+    //       message.open({
+    //         type: 'success',
+    //         content: 'Saved'
+    //       })
+    //       // navigate('../')
+    //     }
+    //   }
+    // )
   }
   const [form] = Form.useForm<Types.CertificateTemplate>();
 
   useEffect(() => {
-    console.log(template,1212)
+    console.log(template, 1212)
     form.setFieldsValue(template);
-  },[template])
-
+  }, [template]);
+  
   return (
     <Header
       title="Certificate Template Editor"
@@ -67,9 +88,11 @@ function CertificateTemplateEditor() {
         </Fragment>
       ]}
     >
-      <Form initialValues={template} form={form} onFinish={saveCertificateTemplate} layout="vertical" autoComplete="off">
+      <Form form={form} onFinish={saveCertificateTemplate} layout="vertical" autoComplete="off">
         <Card>
-          <CertificateTemplateDetailsEditor id={template._id} />
+        <HtmlEditor variables={VARIABLES} onChange={(e:any) => {
+            form.setFieldValue('template', e);
+  }} />
         </Card>
       </Form>
     </Header>

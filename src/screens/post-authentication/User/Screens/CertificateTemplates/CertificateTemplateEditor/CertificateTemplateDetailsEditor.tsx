@@ -2,7 +2,7 @@
 
 import { Common, Store, Types, User } from '@adewaskar/lms-common'
 import { Form, Input, Space, Tag, Typography, } from 'antd';
-import React, { Fragment, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useRef, useState } from 'react';
 
 import { GetBaseCertificateTemplate } from '@User/Screens/Courses/CourseBuilder/CourseEditor/CourseCertificate/Constant';
 import HtmlEditor from '@Components/HtmlEditor';
@@ -36,16 +36,20 @@ interface CreateCertificateTemplateComponentPropsI {
 
 const CertificateTemplateDetailsEditor: React.FC<CreateCertificateTemplateComponentPropsI> = (props) => {
   const { id } = useParams();
-  const {organisation}=Store.useGlobal(s=>s)
+  const { organisation } = Store.useGlobal(s => s);
   const templateId = props.id || id;
   const { data: template } = User.Queries.useGetCertificateTemplateDetails(templateId);
-  const { useWatch } = Form;
   const form = Form.useFormInstance<Types.CertificateTemplate>();
 
+  useEffect(() => {
+    console.log(template, 1212)
+    form.setFieldsValue(template);
+  }, [template]);
   
-  console.log(organisation.logo,'organisation.logo')
-
-  const html = useWatch(['template'], form);
+  const html = form.getFieldValue('template');
+  
+  console.log(form.getFieldValue('template'), 'organisation.logo');
+  
   return <Space direction='vertical'>
    <Space direction="vertical" style={{ marginBottom: 30 }}>
               <Space size={[0, 8]} wrap>
@@ -54,7 +58,9 @@ const CertificateTemplateDetailsEditor: React.FC<CreateCertificateTemplateCompon
                 ))}
               </Space>
     </Space>
-  <HtmlEditor variables={VARIABLES} onChange={e=>form.setFieldValue('template')} />
+    <HtmlEditor value={html} variables={VARIABLES} onChange={e => {
+      form.setFieldValue('template')
+  }} />
 </Space>
 
 };
