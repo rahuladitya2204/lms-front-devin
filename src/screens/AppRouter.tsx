@@ -10,6 +10,7 @@ import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilde
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
+import CertificateTemplateEditor from '@User/Screens/CertificateTemplates/CertificateTemplateEditor'
 import CourseBuilderScreen from './post-authentication/User/Screens/Courses/CourseBuilder'
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
@@ -52,6 +53,10 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootScreen />}>
       <Route path=":orgId">
         <Route path="user">
+          <Route
+            path="certificate-template/:id/editor"
+            element={<CertificateTemplateEditor />}
+          />
           <Route path="dashboard" element={<UserDashboard />}>
             <Route path="settings" element={<SettingsScreen />} />
             <Route path="asset-library" element={<AssetLibraryScreen />} />
