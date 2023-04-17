@@ -90,9 +90,11 @@ function CertificateTemplateEditor() {
     >
       <Form form={form} onFinish={saveCertificateTemplate} layout="vertical" autoComplete="off">
         <Card>
-        <HtmlEditor variables={VARIABLES} onChange={(e:any) => {
-            form.setFieldValue('template', e);
-  }} />
+          <HtmlEditor onChange={(e:any)=>console.log(e,'eee')}
+            // variables={VARIABLES} onChange={(e: any) => {
+            // form.setFieldValue('template', e);
+            // }}
+          />
         </Card>
       </Form>
     </Header>

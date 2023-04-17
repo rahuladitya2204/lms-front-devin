@@ -58,9 +58,11 @@ const CertificateTemplateDetailsEditor: React.FC<CreateCertificateTemplateCompon
                 ))}
               </Space>
     </Space>
-    <HtmlEditor value={html} variables={VARIABLES} onChange={e => {
-      form.setFieldValue('template')
-  }} />
+    <HtmlEditor onChange={e=>console.log(e,'eeee')}
+      // value={html} variables={VARIABLES} onChange={e => {
+      // form.setFieldValue('template')
+      // }}
+    />
 </Space>
 
 };
