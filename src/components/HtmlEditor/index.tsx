@@ -16,6 +16,8 @@ import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
 import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import ExampleTheme from './themes/ExampleTheme'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { ImageNode } from './nodes/ImageNode'
+import ImagesPlugin from './plugins/ImagesPlugin'
 // import ImagesPlugin from './plugins/ImagePlugin'
 import { LexicalComposer } from '@lexical/react/LexicalComposer'
 import LexicalErrorBoundary from '@lexical/react/LexicalErrorBoundary'
@@ -27,7 +29,7 @@ import MentionsPlugin from './plugins/MentionsPlugin'
 import { OnChangePlugin } from '@lexical/react/LexicalOnChangePlugin'
 import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
 import { TRANSFORMERS } from '@lexical/markdown'
-import ToolbarPlugin from './plugins/ToolbarPlugin'
+import ToolbarPlugin from './plugins/ToolbarPlugin/index'
 import TreeViewPlugin from './plugins/TreeViewPlugin'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { useRef } from 'react'
@@ -55,8 +57,8 @@ const editorConfig = {
     TableCellNode,
     TableRowNode,
     AutoLinkNode,
-    LinkNode
-    // ImageNode
+    LinkNode,
+    ImageNode
   ]
 }
 
@@ -84,6 +86,7 @@ export default function Editor (props) {
           <ListMaxIndentLevelPlugin maxDepth={7} />
           <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
           <MentionsPlugin />
+          <ImagesPlugin />
 
           {/* <ImagesPlugin /> */}
         </div>
