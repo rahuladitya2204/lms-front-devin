@@ -88,7 +88,6 @@ function EditorComponent({defaultValue,variables,onChange}) {
 
   const renderHtml = (html:string) => {
     editor.update(() => {
-        isFirstRender.current = false
         // In the browser you can use the native DOMParser API to parse the HTML string.
         const parser = new DOMParser()
         const dom = parser.parseFromString(html, `text/html`)
@@ -111,7 +110,11 @@ function EditorComponent({defaultValue,variables,onChange}) {
         defaultValue !== '<p class="editor-paragraph"><br></p>' &&
         isFirstRender.current
       ) {
+        isFirstRender.current = false
         renderHtml(defaultValue);
+      }
+      return () => {
+        isFirstRender.current = true;
       }
     }, [defaultValue]);
 
