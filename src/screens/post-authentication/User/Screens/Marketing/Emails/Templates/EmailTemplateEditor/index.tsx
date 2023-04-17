@@ -43,7 +43,6 @@ function EmailTemplateEditor() {
   const [form] = Form.useForm<Types.EmailTemplate>();
 
   useEffect(() => {
-    console.log(template,1212)
     form.setFieldsValue(template);
   },[template])
 

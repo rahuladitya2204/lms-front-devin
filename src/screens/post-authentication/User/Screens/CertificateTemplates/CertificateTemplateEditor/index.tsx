@@ -44,27 +44,26 @@ function CertificateTemplateEditor() {
   )
 
   const saveCertificateTemplate = (data: Types.CertificateTemplate) => {
-    console.log(data, 'daaaa');
-    // updateCertificateTemplate(
-    //   {
-    //     id: emailTemplateId + '',
-    //     data: data
-    //   },
-    //   {
-    //     onSuccess: () => {
-    //       message.open({
-    //         type: 'success',
-    //         content: 'Saved'
-    //       })
-    //       // navigate('../')
-    //     }
-    //   }
-    // )
+    console.log(data.template, 'daaaa');
+    updateCertificateTemplate(
+      {
+        id: emailTemplateId + '',
+        data: data
+      },
+      {
+        onSuccess: () => {
+          message.open({
+            type: 'success',
+            content: 'Saved'
+          })
+          // navigate('../')
+        }
+      }
+    )
   }
   const [form] = Form.useForm<Types.CertificateTemplate>();
 
   useEffect(() => {
-    console.log(template, 1212)
     form.setFieldsValue(template);
   }, [template]);
   
@@ -90,11 +89,10 @@ function CertificateTemplateEditor() {
     >
       <Form form={form} onFinish={saveCertificateTemplate} layout="vertical" autoComplete="off">
         <Card>
-          <HtmlEditor onChange={(e:any)=>console.log(e,'eee')}
-            // variables={VARIABLES} onChange={(e: any) => {
-            // form.setFieldValue('template', e);
-            // }}
+          <Form.Item name="template">
+          <HtmlEditor defaultValue={template.template} onChange={(e:any)=>form.setFieldsValue({template:e})}
           />
+          </Form.Item>
         </Card>
       </Form>
     </Header>

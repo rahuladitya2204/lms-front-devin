@@ -42,7 +42,6 @@ const CertificateTemplateDetailsEditor: React.FC<CreateCertificateTemplateCompon
   const form = Form.useFormInstance<Types.CertificateTemplate>();
 
   useEffect(() => {
-    console.log(template, 1212)
     form.setFieldsValue(template);
   }, [template]);
   

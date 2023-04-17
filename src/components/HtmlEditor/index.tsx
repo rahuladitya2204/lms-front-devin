@@ -6,10 +6,12 @@ import { CodeHighlightNode, CodeNode } from '@lexical/code'
 import { HeadingNode, QuoteNode } from '@lexical/rich-text'
 import { ListItemNode, ListNode } from '@lexical/list'
 import { TableCellNode, TableNode, TableRowNode } from '@lexical/table'
+import { useEffect, useRef } from 'react'
 
 import { $generateHtmlFromNodes } from '@lexical/html'
-import { $getRoot } from 'lexical'
-import { $getSelection } from 'lexical'
+import { $generateNodesFromDOM } from '@lexical/html';
+import { $getRoot } from 'lexical';
+import { $getSelection } from 'lexical';
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import AutoLinkPlugin from './plugins/AutoLinkPlugin'
 import CodeHighlightPlugin from './plugins/CodeHighlightPlugin'
@@ -32,7 +34,6 @@ import { TRANSFORMERS } from '@lexical/markdown'
 import ToolbarPlugin from './plugins/ToolbarPlugin/index'
 import TreeViewPlugin from './plugins/TreeViewPlugin'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import { useRef } from 'react'
 
 function Placeholder () {
   return <div className="editor-placeholder">Enter some rich text...</div>
@@ -74,7 +75,7 @@ export default function Editor (props) {
             placeholder={<Placeholder />}
             ErrorBoundary={LexicalErrorBoundary}
           />
-          <OnChangeComponent onChange={props.onChange} />
+          <OnChangeComponent defaultValue={props.defaultValue} onChange={props.onChange} />
 
           <HistoryPlugin />
           <TreeViewPlugin />
@@ -95,8 +96,34 @@ export default function Editor (props) {
   )
 }
 
-function OnChangeComponent ({ onChange }) {
+function OnChangeComponent ({ onChange, defaultValue }) {
   const [editor] = useLexicalComposerContext()
+  useEffect(  
+    () => {
+      editor.update(() => {
+        console.log(defaultValue,'aaaa')
+        if (defaultValue) {
+          console.log(defaultValue, 'defaultValuee')
+          // In the browser you can use the native DOMParser API to parse the HTML string.
+          const parser = new DOMParser()
+          const dom = parser.parseFromString(defaultValue, `text/html`)
+          console.log(dom, 'dom')
+          // Once you have the DOM instance it's easy to generate LexicalNodes.
+          const nodes = $generateNodesFromDOM(editor, dom)
+
+          // Select the root
+          $getRoot().select()
+
+          // Insert them at a selection.
+          const selection = $getSelection();
+          selection.insertNodes(nodes);
+        
+        }
+      })
+    },
+    [defaultValue]
+  )
+
   function onEditorChange (editorState) {
     editorState.read(() => {
       const htmlString = $generateHtmlFromNodes(editor, null)
