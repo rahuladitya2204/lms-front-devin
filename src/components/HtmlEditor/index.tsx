@@ -22,6 +22,7 @@ import EmojisPlugin from './plugins/EmojisPlugin';
 import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
+import { Form } from 'antd';
 import {HashtagPlugin} from '@lexical/react/LexicalHashtagPlugin';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import {HorizontalRulePlugin} from '@lexical/react/LexicalHorizontalRulePlugin';
@@ -54,6 +55,7 @@ import TwitterPlugin from './plugins/TwitterPlugin';
 import YouTubePlugin from './plugins/YouTubePlugin';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import {useSharedHistoryContext} from './context/SharedHistoryContext';
+import { useWatch } from 'antd/es/form/Form';
 
 /**
  * Copyright (c) Meta Platforms, Inc. and affiliates.
@@ -64,10 +66,11 @@ import {useSharedHistoryContext} from './context/SharedHistoryContext';
  */
 interface EditorPropsI{
   onChange?: Function;
-  defaultValue?:any
+  name: string;
+  // defaultValue?:any
   }
 
- function Editor({defaultValue,onChange}:EditorPropsI): JSX.Element {
+ function Editor({onChange,name}:EditorPropsI): JSX.Element {
   const {historyState} = useSharedHistoryContext();
    const text = 'Enter some rich text...';
   const placeholder = <Placeholder>{text}</Placeholder>;
@@ -108,6 +111,8 @@ interface EditorPropsI{
     };
   }, [isSmallWidthViewport]);
    
+   const form = Form.useFormInstance();
+   
    // start
    const [editor] = useLexicalComposerContext();
    const isFirstRender = useRef(true)
@@ -133,31 +138,26 @@ interface EditorPropsI{
          selection.insertNodes(nodes)
      })
    }
- 
+
+   const defaultValue = form.getFieldValue(name);
+  //  console.log(defaultValue,'defaultValue')
    useEffect(
      () => {
-       console.log(defaultValue,'defaultValue')
-         renderHtml(defaultValue);
-
-       return () => {
-         isFirstRender.current = true;
+      //  console.log(defaultValue,'defaultValue')
+      if ((defaultValue) && (defaultValue !=='<p class="editor-paragraph"><br></p>') && (isFirstRender.current)) {
+        isFirstRender.current = false;
+        renderHtml(defaultValue);
        }
+
      }, [defaultValue]);
  
    const onEditorChange = useCallback(
      (editorState: any) => {
-       if (
-         defaultValue &&
-         defaultValue !== '<p class="editor-paragraph"><br></p>' &&
-         isFirstRender.current
-       ) {
-         isFirstRender.current = false;
          editorState.read(() => {
            const htmlString = $generateHtmlFromNodes(editor, null)
-           console.log(htmlString, 'eddi')
-           onChange && onChange(htmlString)
+          //  onChange && onChange(htmlString)
+           form.setFieldsValue({ [name]: htmlString });
          })
-       }
      },
      [editor]
    )

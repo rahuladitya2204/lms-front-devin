@@ -89,7 +89,7 @@ function CertificateTemplateEditor() {
       <Form form={form} onFinish={saveCertificateTemplate} layout="vertical" autoComplete="off">
         <Card>
           <Form.Item name="template">
-          <HtmlEditor defaultValue={template.template} onChange={(e:any)=>form.setFieldsValue({template:e})}
+          <HtmlEditor name="template"
           />
           </Form.Item>
         </Card>

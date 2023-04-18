@@ -1,5 +1,6 @@
 import { Form, Tag } from "antd";
 
+import HtmlEditor from "@Components/HtmlEditor";
 import QuillEditor from "@Components/QuillEditor";
 
 interface CreateEmailTemplatePropsI {
@@ -11,10 +12,10 @@ const variables = [{ name: 'Course Name', value: 'course.title'}, { name: 'Learn
 const CreateEmailTemplate = () => {
     return <>
         <Form.Item name={['email','subject']} label="Email Subject" required>
-            <QuillEditor name={['email','subject']} type="text" variables={variables} />
+            <HtmlEditor name={['email','subject']} type="text" variables={variables} />
         </Form.Item>
         <Form.Item  name={['email','template']}  label="Email Body" required>
-            <QuillEditor name={ ['email','template']} variables={variables}  />
+            <HtmlEditor name={ ['email','template']} variables={variables}  />
         </Form.Item>
     </>;
 }
