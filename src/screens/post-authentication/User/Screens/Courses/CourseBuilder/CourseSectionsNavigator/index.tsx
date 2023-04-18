@@ -1,5 +1,6 @@
 import { Button, Card, Collapse, List, Modal, Space, Tooltip } from 'antd'
 
+import ActionModal from '@Components/ActionModal'
 import AddItem from '../AddItem'
 import CourseItemIcon from './CourseItemIcon'
 import { DeleteOutlined } from '@ant-design/icons'
@@ -100,15 +101,19 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                 dataSource={section.items}
                 footer={
                   <Space>
-                    <AddItem
-                      onAddNewItem={(key, value) =>
-                        onAddNewItem(key, value, secIndex)
+                    <ActionModal
+                      cta={
+                        <Button size="small" type="primary">
+                          Add New Item{' '}
+                        </Button>
                       }
                     >
-                      <Button size="small" type="primary">
-                        Add New Item{' '}
-                      </Button>
-                    </AddItem>
+                      <AddItem
+                        onAddNewItem={(key, value) =>
+                          onAddNewItem(key, value, secIndex)
+                        }
+                      />
+                    </ActionModal>
 
                     <Tooltip
                       placement="bottom"

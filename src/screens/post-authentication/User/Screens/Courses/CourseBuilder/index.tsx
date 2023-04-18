@@ -59,6 +59,7 @@ function CourseBuilderScreen() {
     item: Partial<Types.CourseSectionItem>,
     index: number
   ) => {
+    // debugger;
     let COURSE = cloneDeep(course)
     const sectionId = COURSE.sections[index]._id
     const newItem: Partial<Types.CourseSectionItem> = {

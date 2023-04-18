@@ -64,13 +64,19 @@ import { useWatch } from 'antd/es/form/Form';
  * LICENSE file in the root directory of this source tree.
  *
  */
+
+interface Variable {
+  name: string;
+  value: string;
+}
 interface EditorPropsI{
   onChange?: Function;
+  variables?: Variable[];
   name: string;
   // defaultValue?:any
   }
 
- function Editor({onChange,name}:EditorPropsI): JSX.Element {
+ function Editor({onChange,name,variables}:EditorPropsI): JSX.Element {
   const {historyState} = useSharedHistoryContext();
    const text = 'Enter some rich text...';
   const placeholder = <Placeholder>{text}</Placeholder>;
@@ -139,12 +145,13 @@ interface EditorPropsI{
      })
    }
 
-   const defaultValue = form.getFieldValue(name);
-  //  console.log(defaultValue,'defaultValue')
+   const defaultValue = useWatch(name, form);
+   console.log(defaultValue, '111');
    useEffect(
      () => {
-      //  console.log(defaultValue,'defaultValue')
+      //  console.log(defaultValue, isFirstRender.current, 'defaultValue');
       if ((defaultValue) && (defaultValue !=='<p class="editor-paragraph"><br></p>') && (isFirstRender.current)) {
+        // console.log(defaultValue,'defaultValue')
         isFirstRender.current = false;
         renderHtml(defaultValue);
        }
@@ -175,7 +182,7 @@ interface EditorPropsI{
         <ComponentPickerPlugin />
         <EmojiPickerPlugin />
         <AutoEmbedPlugin />
-        <MentionsPlugin />
+        <MentionsPlugin variables={variables} />
         <EmojisPlugin />
         <HashtagPlugin />
         <KeywordsPlugin />

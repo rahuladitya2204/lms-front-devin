@@ -22,7 +22,8 @@ import {
 
 export type SerializedMentionNode = Spread<
   {
-    mentionName: string;
+    name: string;
+    value:string
   },
   SerializedTextNode
 >;
@@ -33,7 +34,7 @@ function convertMentionElement(
   const textContent = domNode.textContent;
 
   if (textContent !== null) {
-    const node = $createMentionNode(textContent);
+    const node = $createMentionNode(textContent,'');
     return {
       node,
     };
@@ -44,17 +45,17 @@ function convertMentionElement(
 
 const mentionStyle = 'background-color: rgba(24, 119, 232, 0.2)';
 export class MentionNode extends TextNode {
-  __mention: string;
+  __mention: {name:string,value:string};
 
   static getType(): string {
     return 'mention';
   }
 
   static clone(node: MentionNode): MentionNode {
-    return new MentionNode(node.__mention, node.__text, node.__key);
+    return new MentionNode(node.__mention.name,node.__mention.value, node.__text, node.__key);
   }
   static importJSON(serializedNode: SerializedMentionNode): MentionNode {
-    const node = $createMentionNode(serializedNode.mentionName);
+    const node = $createMentionNode(serializedNode.name,serializedNode.value);
     node.setTextContent(serializedNode.text);
     node.setFormat(serializedNode.format);
     node.setDetail(serializedNode.detail);
@@ -63,15 +64,16 @@ export class MentionNode extends TextNode {
     return node;
   }
 
-  constructor(mentionName: string, text?: string, key?: NodeKey) {
-    super(text ?? mentionName, key);
-    this.__mention = mentionName;
+  constructor( name: string,value:string, text?: string, key?: NodeKey) {
+    super(text ?? name, key);
+    this.__mention = {name,value};
   }
 
   exportJSON(): SerializedMentionNode {
     return {
       ...super.exportJSON(),
-      mentionName: this.__mention,
+      name: this.__mention.name,
+      value:this.__mention.value,
       type: 'mention',
       version: 1,
     };
@@ -81,6 +83,7 @@ export class MentionNode extends TextNode {
     const dom = super.createDOM(config);
     dom.style.cssText = mentionStyle;
     dom.className = 'mention';
+    dom.setAttribute('variable-value', this.__mention.value);
     return dom;
   }
 
@@ -110,8 +113,8 @@ export class MentionNode extends TextNode {
   }
 }
 
-export function $createMentionNode(mentionName: string): MentionNode {
-  const mentionNode = new MentionNode(mentionName);
+export function $createMentionNode(name: string,value:string): MentionNode {
+  const mentionNode = new MentionNode(name,value);
   mentionNode.setMode('segmented').toggleDirectionless();
   return $applyNodeReplacement(mentionNode);
 }

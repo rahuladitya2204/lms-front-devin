@@ -9,7 +9,8 @@ import QuillEditor from '@Components/QuillEditor'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const AddTextItem: React.FC = () => {
-  const { onFormChange, form, item } = useUploadItemForm()
+  const [form] = Form.useForm()
+  const { onFormChange, item } = useUploadItemForm(form);
 
   return (
     <Fragment>
@@ -29,7 +30,8 @@ const AddTextItem: React.FC = () => {
           </Checkbox>
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <QuillEditor name="decription"
+          <QuillEditor
+            name="decription"
             onChange={e => onFormChange({ description: e })}
             value={item?.description}
           />

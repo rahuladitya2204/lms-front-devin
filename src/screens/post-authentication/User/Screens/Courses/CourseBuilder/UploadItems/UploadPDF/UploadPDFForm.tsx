@@ -7,7 +7,8 @@ import PDFViewer from '@Components/PDFViewer'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadPDFForm: React.FC = () => {
-  const { onFormChange, form, item } = useUploadItemForm();
+  const [form] = Form.useForm()
+  const { onFormChange, item } = useUploadItemForm(form)
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
@@ -42,14 +43,10 @@ const UploadPDFForm: React.FC = () => {
             }}
             height="250px"
             renderItem={() => (
-              <Button>
-                {file?.url ? 'Replace PDF' : 'Upload PDF'}
-              </Button>
+              <Button>{file?.url ? 'Replace PDF' : 'Upload PDF'}</Button>
             )}
           />
-          {file?.url ? (
-            <PDFViewer url={file?.url + ''} />
-          ) : null}
+          {file?.url ? <PDFViewer url={file?.url + ''} /> : null}
         </Form.Item>
       </Form>
       {/* <PDFViewer url={data.url} /> */}

@@ -1,20 +1,21 @@
-import { Avatar, Button, Checkbox, Form, Input, Space } from 'antd'
-import { Common, Learner } from '@adewaskar/lms-common'
+import { Button, Checkbox, Form, Input, Space } from 'antd'
 
 import ActionModal from '@Components/ActionModal'
+import { Common } from '@adewaskar/lms-common'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
+import HtmlEditor from '@Components/HtmlEditor'
 import MediaPlayer from '@Components/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
-import QuillEditor from '@Components/QuillEditor'
 import { getMetadata } from 'video-metadata-thumbnails'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadVideoForm: React.FC = () => {
+  const [form] = Form.useForm();
   const { id: courseId, sectionId, itemId } = useParams()
-  const { onFormChange, form, item } = useUploadItemForm()
+  const { onFormChange, item } = useUploadItemForm(form)
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
@@ -22,10 +23,9 @@ const UploadVideoForm: React.FC = () => {
   return (
     <Fragment>
       <Form
-        onValuesChange={onFormChange}
+        onValuesChange={e => console.log(e, 'eeee')}
         form={form}
         layout="vertical"
-        initialValues={{ title: '', description: '' }}
       >
         <Form.Item
           name="title"
@@ -36,7 +36,7 @@ const UploadVideoForm: React.FC = () => {
           <Input placeholder="Enter Video Title" />
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <QuillEditor name="description" />
+          <HtmlEditor name="description" />
         </Form.Item>
         <Form.Item>
           <Checkbox

@@ -1,12 +1,12 @@
 import { useOutletContext, useParams } from "react-router";
 
 import { Form } from "antd";
+import { FormInstance } from "antd/lib/form/Form";
 import { Types } from '@adewaskar/lms-common'
 import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useEffect } from "react";
 
-function useUploadItemForm() {
-  const [form] = Form.useForm();
+function useUploadItemForm(form:FormInstance) {
   let { itemId, sectionId } = useParams();
 
 
@@ -19,6 +19,7 @@ function useUploadItemForm() {
   }, [item]);
 
   const onFormChange = (data: Partial<Types.CourseSectionItem>) => {
+    console.log(data, 'AAA');
       const newItem = {
         ...item,
         ...data
