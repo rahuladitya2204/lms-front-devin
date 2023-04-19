@@ -30,7 +30,7 @@ function AssetLibraryScreen() {
 
   return (
     <Header>
-      <Card bodyStyle={{ padding: 0 }} title={`Asset Library - ${organisation.storage.utilised}`}>
+      <Card bodyStyle={{ padding: 0 }} title={`Asset Library - ${Math.floor(organisation.storage.utilised/1000000) + 'mb'}`}>
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loadingFiles || deletingFile}>
