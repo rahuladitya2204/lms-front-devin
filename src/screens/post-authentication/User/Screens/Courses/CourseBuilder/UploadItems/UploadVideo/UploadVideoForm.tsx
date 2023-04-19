@@ -33,9 +33,7 @@ const UploadVideoForm: React.FC = () => {
           <Input placeholder="Enter Video Title" />
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <HtmlEditor
-            name="description"
-          />
+          <HtmlEditor name="description" />
         </Form.Item>
         <Form.Item>
           <Checkbox
@@ -63,10 +61,12 @@ const UploadVideoForm: React.FC = () => {
             >
               <MediaUpload
                 uploadType="file"
-                prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files/${uniqueId()}`}
-                onUpload={({ name, key, url, isProtected }) => {
+                prefixKey={`courses/${courseId}/${sectionId}/${
+                  itemId
+                }/files/${uniqueId()}`}
+                onUpload={({ name, _id }) => {
                   onFormChange({
-                    files: [...item.files, { name, key, url, isProtected }]
+                    files: [...item.files, { name, file: _id }]
                   })
                 }}
               />

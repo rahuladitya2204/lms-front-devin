@@ -8,7 +8,7 @@ import FileTypeIcon from './FileTypeIcon'
 import styled from '@emotion/styled'
 
 interface FileItemPropsI {
-  file: Partial<FileType>;
+  file: Partial<{ name: string, file: string }>;
 }
 
 const FileDiv = styled.div`
@@ -27,14 +27,12 @@ const FileDiv = styled.div`
   }
 `
 
-function FileItem({ file }: FileItemPropsI) {
-  // const { data: url } = User.Queries.useGetPresignedUrl(file.key + '')
+function FileItem({ file: { name, file: fileId } }: FileItemPropsI) {
+  const { data: file } = Common.Queries.useGetFileDetails(fileId + '');
+  // console
   return (
     <FileDiv>
-      <FileTypeIcon
-        onClick={(e: any) => window.open(file.url)}
-        fileType={file.type}
-      />
+      <FileTypeIcon onClick={(e: any) => window.open(file.url)} fileType={'video'} />
     </FileDiv>
   )
 }

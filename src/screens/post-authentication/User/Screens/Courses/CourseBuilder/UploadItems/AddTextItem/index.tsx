@@ -10,7 +10,7 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const AddTextItem: React.FC = () => {
   const [form] = Form.useForm()
-  const { onFormChange, item } = useUploadItemForm(form);
+  const { onFormChange, item } = useUploadItemForm(form)
 
   return (
     <Fragment>
@@ -52,9 +52,9 @@ const AddTextItem: React.FC = () => {
               <MediaUpload
                 uploadType="file"
                 isProtected
-                onUpload={({ name, key, isProtected }) => {
+                onUpload={({ name, _id, isProtected }) => {
                   onFormChange({
-                    files: [...item.files, { name, key, isProtected }]
+                    files: [...item.files, { name, file: _id }]
                   })
                 }}
               />
