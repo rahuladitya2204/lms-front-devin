@@ -6,6 +6,9 @@
  *
  */
 
+import * as React from 'react';
+
+import {$applyNodeReplacement, DecoratorNode, createEditor} from 'lexical';
 import type {
   DOMConversionMap,
   DOMConversionOutput,
@@ -19,8 +22,6 @@ import type {
   Spread,
 } from 'lexical';
 
-import {$applyNodeReplacement, createEditor, DecoratorNode} from 'lexical';
-import * as React from 'react';
 import {Suspense} from 'react';
 
 const ImageComponent = React.lazy(
@@ -151,6 +152,7 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   exportJSON(): SerializedImageNode {
+    console.log(this.__width, this.__height, '1111');
     return {
       altText: this.getAltText(),
       caption: this.__caption.toJSON(),

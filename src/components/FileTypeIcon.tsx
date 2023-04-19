@@ -16,6 +16,7 @@ import { Fragment } from 'react'
 interface CourseItemIconPropsI {
   fileType: string;
   iconType?: string;
+  onClick?: Function;
 }
 
 const FileTypeIcon = (props: CourseItemIconPropsI) => {
@@ -48,7 +49,7 @@ const FileTypeIcon = (props: CourseItemIconPropsI) => {
   return (
     <Fragment>
       {/* @ts-ignore */}
-      <Icon style={{ fontSize: 30, marginRight: 10 }} />
+      <Icon onClick={props.onClick} style={{ fontSize: 30, marginRight: 10 }} />
     </Fragment>
   )
 }

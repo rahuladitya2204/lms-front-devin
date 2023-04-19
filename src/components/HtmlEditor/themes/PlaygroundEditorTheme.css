@@ -6,17 +6,17 @@
  *
  *
  */
-.PlaygroundEditorTheme__ltr {
+.editor-ltr {
   text-align: left;
 }
-.PlaygroundEditorTheme__rtl {
+.editor-rtl {
   text-align: right;
 }
-.PlaygroundEditorTheme__paragraph {
+.editor-paragraph {
   margin: 0;
   position: relative;
 }
-.PlaygroundEditorTheme__quote {
+.editor-quote {
   margin: 0;
   margin-left: 20px;
   margin-bottom: 10px;
@@ -27,69 +27,69 @@
   border-left-style: solid;
   padding-left: 16px;
 }
-.PlaygroundEditorTheme__h1 {
+.editor-h1 {
   font-size: 24px;
   color: rgb(5, 5, 5);
   font-weight: 400;
   margin: 0;
 }
-.PlaygroundEditorTheme__h2 {
+.editor-h2 {
   font-size: 15px;
   color: rgb(101, 103, 107);
   font-weight: 700;
   margin: 0;
   text-transform: uppercase;
 }
-.PlaygroundEditorTheme__h3 {
+.editor-h3 {
   font-size: 12px;
   margin: 0;
   text-transform: uppercase;
 }
-.PlaygroundEditorTheme__indent {
+.editor-indent {
   --lexical-indent-base-value: 40px;
 }
-.PlaygroundEditorTheme__textBold {
+.editor-textBold {
   font-weight: bold;
 }
-.PlaygroundEditorTheme__textItalic {
+.editor-textItalic {
   font-style: italic;
 }
-.PlaygroundEditorTheme__textUnderline {
+.editor-textUnderline {
   text-decoration: underline;
 }
-.PlaygroundEditorTheme__textStrikethrough {
+.editor-textStrikethrough {
   text-decoration: line-through;
 }
-.PlaygroundEditorTheme__textUnderlineStrikethrough {
+.editor-textUnderlineStrikethrough {
   text-decoration: underline line-through;
 }
-.PlaygroundEditorTheme__textSubscript {
+.editor-textSubscript {
   font-size: 0.8em;
   vertical-align: sub !important;
 }
-.PlaygroundEditorTheme__textSuperscript {
+.editor-textSuperscript {
   font-size: 0.8em;
   vertical-align: super;
 }
-.PlaygroundEditorTheme__textCode {
+.editor-textCode {
   background-color: rgb(240, 242, 245);
   padding: 1px 0.25rem;
   font-family: Menlo, Consolas, Monaco, monospace;
   font-size: 94%;
 }
-.PlaygroundEditorTheme__hashtag {
+.editor-hashtag {
   background-color: rgba(88, 144, 255, 0.15);
   border-bottom: 1px solid rgba(88, 144, 255, 0.3);
 }
-.PlaygroundEditorTheme__link {
+.editor-link {
   color: rgb(33, 111, 219);
   text-decoration: none;
 }
-.PlaygroundEditorTheme__link:hover {
+.editor-link:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__code {
+.editor-code {
   background-color: rgb(240, 242, 245);
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
@@ -104,7 +104,7 @@
   overflow-x: auto;
   position: relative;
 }
-.PlaygroundEditorTheme__code:before {
+.editor-code:before {
   content: attr(data-gutter);
   position: absolute;
   background-color: #eee;
@@ -117,7 +117,7 @@
   text-align: right;
   min-width: 25px;
 }
-.PlaygroundEditorTheme__table {
+.editor-table {
   border-collapse: collapse;
   border-spacing: 0;
   max-width: 100%;
@@ -126,10 +126,10 @@
   width: calc(100% - 25px);
   margin: 30px 0;
 }
-.PlaygroundEditorTheme__tableSelected {
+.editor-tableSelected {
   outline: 2px solid rgb(60, 132, 244);
 }
-.PlaygroundEditorTheme__tableCell {
+.editor-tableCell {
   border: 1px solid #bbb;
   min-width: 75px;
   vertical-align: top;
@@ -139,7 +139,7 @@
   cursor: default;
   outline: none;
 }
-.PlaygroundEditorTheme__tableCellSortedIndicator {
+.editor-tableCellSortedIndicator {
   display: block;
   opacity: 0.5;
   position: absolute;
@@ -149,7 +149,7 @@
   height: 4px;
   background-color: #999;
 }
-.PlaygroundEditorTheme__tableCellResizer {
+.editor-tableCellResizer {
   position: absolute;
   right: -4px;
   height: 100%;
@@ -158,14 +158,14 @@
   z-index: 10;
   top: 0;
 }
-.PlaygroundEditorTheme__tableCellHeader {
+.editor-tableCellHeader {
   background-color: #f2f3f5;
   text-align: start;
 }
-.PlaygroundEditorTheme__tableCellSelected {
+.editor-tableCellSelected {
   background-color: #c9dbf0;
 }
-.PlaygroundEditorTheme__tableCellPrimarySelected {
+.editor-tableCellPrimarySelected {
   border: 2px solid rgb(60, 132, 244);
   display: block;
   height: calc(100% - 2px);
@@ -175,11 +175,11 @@
   top: -1px;
   z-index: 2;
 }
-.PlaygroundEditorTheme__tableCellEditing {
+.editor-tableCellEditing {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
   border-radius: 3px;
 }
-.PlaygroundEditorTheme__tableAddColumns {
+.editor-tableAddColumns {
   position: absolute;
   top: 0;
   width: 20px;
@@ -190,7 +190,7 @@
   border: 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableAddColumns:after {
+.editor-tableAddColumns:after {
   background-image: url(../images/icons/plus.svg);
   background-size: contain;
   background-position: center;
@@ -204,10 +204,10 @@
   height: 100%;
   opacity: 0.4;
 }
-.PlaygroundEditorTheme__tableAddColumns:hover {
+.editor-tableAddColumns:hover {
   background-color: #c9dbf0;
 }
-.PlaygroundEditorTheme__tableAddRows {
+.editor-tableAddRows {
   position: absolute;
   bottom: -25px;
   width: calc(100% - 25px);
@@ -218,7 +218,7 @@
   border: 0;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableAddRows:after {
+.editor-tableAddRows:after {
   background-image: url(../images/icons/plus.svg);
   background-size: contain;
   background-position: center;
@@ -232,7 +232,7 @@
   height: 100%;
   opacity: 0.4;
 }
-.PlaygroundEditorTheme__tableAddRows:hover {
+.editor-tableAddRows:hover {
   background-color: #c9dbf0;
 }
 @keyframes table-controls {
@@ -243,7 +243,7 @@
     opacity: 1;
   }
 }
-.PlaygroundEditorTheme__tableCellResizeRuler {
+.editor-tableCellResizeRuler {
   display: block;
   position: absolute;
   width: 1px;
@@ -251,7 +251,7 @@
   height: 100%;
   top: 0;
 }
-.PlaygroundEditorTheme__tableCellActionButtonContainer {
+.editor-tableCellActionButtonContainer {
   display: block;
   right: 5px;
   top: 6px;
@@ -260,7 +260,7 @@
   width: 20px;
   height: 20px;
 }
-.PlaygroundEditorTheme__tableCellActionButton {
+.editor-tableCellActionButton {
   background-color: #eee;
   display: block;
   border: 0;
@@ -270,52 +270,52 @@
   color: #222;
   cursor: pointer;
 }
-.PlaygroundEditorTheme__tableCellActionButton:hover {
+.editor-tableCellActionButton:hover {
   background-color: #ddd;
 }
-.PlaygroundEditorTheme__characterLimit {
+.editor-characterLimit {
   display: inline;
   background-color: #ffbbbb !important;
 }
-.PlaygroundEditorTheme__ol1 {
+.editor-ol1 {
   padding: 0;
   margin: 0;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol2 {
+.editor-ol2 {
   padding: 0;
   margin: 0;
   list-style-type: upper-alpha;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol3 {
+.editor-ol3 {
   padding: 0;
   margin: 0;
   list-style-type: lower-alpha;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol4 {
+.editor-ol4 {
   padding: 0;
   margin: 0;
   list-style-type: upper-roman;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ol5 {
+.editor-ol5 {
   padding: 0;
   margin: 0;
   list-style-type: lower-roman;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__ul {
+.editor-ul {
   padding: 0;
   margin: 0;
   list-style-position: inside;
 }
-.PlaygroundEditorTheme__listItem {
+.editor-listItem {
   margin: 0 32px;
 }
-.PlaygroundEditorTheme__listItemChecked,
-.PlaygroundEditorTheme__listItemUnchecked {
+.editor-listItemChecked,
+.editor-listItemUnchecked {
   position: relative;
   margin-left: 8px;
   margin-right: 8px;
@@ -324,11 +324,11 @@
   list-style-type: none;
   outline: none;
 }
-.PlaygroundEditorTheme__listItemChecked {
+.editor-listItemChecked {
   text-decoration: line-through;
 }
-.PlaygroundEditorTheme__listItemUnchecked:before,
-.PlaygroundEditorTheme__listItemChecked:before {
+.editor-listItemUnchecked:before,
+.editor-listItemChecked:before {
   content: '';
   width: 16px;
   height: 16px;
@@ -339,27 +339,27 @@
   background-size: cover;
   position: absolute;
 }
-.PlaygroundEditorTheme__listItemUnchecked[dir='rtl']:before,
-.PlaygroundEditorTheme__listItemChecked[dir='rtl']:before {
+.editor-listItemUnchecked[dir='rtl']:before,
+.editor-listItemChecked[dir='rtl']:before {
   left: auto;
   right: 0;
 }
-.PlaygroundEditorTheme__listItemUnchecked:focus:before,
-.PlaygroundEditorTheme__listItemChecked:focus:before {
+.editor-listItemUnchecked:focus:before,
+.editor-listItemChecked:focus:before {
   box-shadow: 0 0 0 2px #a6cdfe;
   border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemUnchecked:before {
+.editor-listItemUnchecked:before {
   border: 1px solid #999;
   border-radius: 2px;
 }
-.PlaygroundEditorTheme__listItemChecked:before {
+.editor-listItemChecked:before {
   border: 1px solid rgb(61, 135, 245);
   border-radius: 2px;
   background-color: #3d87f5;
   background-repeat: no-repeat;
 }
-.PlaygroundEditorTheme__listItemChecked:after {
+.editor-listItemChecked:after {
   content: '';
   cursor: pointer;
   border-color: #fff;
@@ -374,57 +374,57 @@
   transform: rotate(45deg);
   border-width: 0 2px 2px 0;
 }
-.PlaygroundEditorTheme__nestedListItem {
+.editor-nestedListItem {
   list-style-type: none;
 }
-.PlaygroundEditorTheme__nestedListItem:before,
-.PlaygroundEditorTheme__nestedListItem:after {
+.editor-nestedListItem:before,
+.editor-nestedListItem:after {
   display: none;
 }
-.PlaygroundEditorTheme__tokenComment {
+.editor-tokenComment {
   color: slategray;
 }
-.PlaygroundEditorTheme__tokenPunctuation {
+.editor-tokenPunctuation {
   color: #999;
 }
-.PlaygroundEditorTheme__tokenProperty {
+.editor-tokenProperty {
   color: #905;
 }
-.PlaygroundEditorTheme__tokenSelector {
+.editor-tokenSelector {
   color: #690;
 }
-.PlaygroundEditorTheme__tokenOperator {
+.editor-tokenOperator {
   color: #9a6e3a;
 }
-.PlaygroundEditorTheme__tokenAttr {
+.editor-tokenAttr {
   color: #07a;
 }
-.PlaygroundEditorTheme__tokenVariable {
+.editor-tokenVariable {
   color: #e90;
 }
-.PlaygroundEditorTheme__tokenFunction {
+.editor-tokenFunction {
   color: #dd4a68;
 }
-.PlaygroundEditorTheme__mark {
+.editor-mark {
   background: rgba(255, 212, 0, 0.14);
   border-bottom: 2px solid rgba(255, 212, 0, 0.3);
   padding-bottom: 2px;
 }
-.PlaygroundEditorTheme__markOverlap {
+.editor-markOverlap {
   background: rgba(255, 212, 0, 0.3);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
-.PlaygroundEditorTheme__mark.selected {
+.editor-mark.selected {
   background: rgba(255, 212, 0, 0.5);
   border-bottom: 2px solid rgba(255, 212, 0, 1);
 }
-.PlaygroundEditorTheme__markOverlap.selected {
+.editor-markOverlap.selected {
   background: rgba(255, 212, 0, 0.7);
   border-bottom: 2px solid rgba(255, 212, 0, 0.7);
 }
-.PlaygroundEditorTheme__embedBlock {
+.editor-embedBlock {
   user-select: none;
 }
-.PlaygroundEditorTheme__embedBlockFocus {
+.editor-embedBlockFocus {
   outline: 2px solid rgb(60, 132, 244);
 }

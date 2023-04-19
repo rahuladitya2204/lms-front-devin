@@ -1821,3 +1821,12 @@ span.editor-image {
  .actions{
   display: none;
  }
+
+.variable{
+    background: #ffc803;
+    padding: 2px 5px;
+    color:#000 !important;
+    font-weight: 500;
+    border-radius: 6px;
+    font-weight: 600 !important;
+}

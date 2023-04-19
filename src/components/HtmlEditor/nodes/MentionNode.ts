@@ -32,9 +32,10 @@ function convertMentionElement(
   domNode: HTMLElement,
 ): DOMConversionOutput | null {
   const textContent = domNode.textContent;
-
+  const value = domNode.getAttribute('variable-value');
+    console.log(value,'kkkkkkk')
   if (textContent !== null) {
-    const node = $createMentionNode(textContent,'');
+    const node = $createMentionNode(textContent, value+'');
     return {
       node,
     };
@@ -55,7 +56,7 @@ export class MentionNode extends TextNode {
     return new MentionNode(node.__mention.name,node.__mention.value, node.__text, node.__key);
   }
   static importJSON(serializedNode: SerializedMentionNode): MentionNode {
-    const node = $createMentionNode(serializedNode.name,serializedNode.value);
+    const node = $createMentionNode(serializedNode.name, serializedNode.value);
     node.setTextContent(serializedNode.text);
     node.setFormat(serializedNode.format);
     node.setDetail(serializedNode.detail);
@@ -81,15 +82,14 @@ export class MentionNode extends TextNode {
 
   createDOM(config: EditorConfig): HTMLElement {
     const dom = super.createDOM(config);
-    dom.style.cssText = mentionStyle;
-    dom.className = 'mention';
+    dom.className = 'variable';
     dom.setAttribute('variable-value', this.__mention.value);
     return dom;
   }
 
   exportDOM(): DOMExportOutput {
     const element = document.createElement('span');
-    element.setAttribute('data-lexical-mention', 'true');
+    element.setAttribute('variable-value', this.__mention.value);
     element.textContent = this.__text;
     return {element};
   }
@@ -97,7 +97,8 @@ export class MentionNode extends TextNode {
   static importDOM(): DOMConversionMap | null {
     return {
       span: (domNode: HTMLElement) => {
-        if (!domNode.hasAttribute('data-lexical-mention')) {
+        console.log(domNode, 'dom');
+        if (!domNode.hasAttribute('variable-value')) {
           return null;
         }
         return {

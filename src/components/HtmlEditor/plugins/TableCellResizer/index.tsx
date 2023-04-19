@@ -1,17 +1,14 @@
-/**
- * Copyright (c) Meta Platforms, Inc. and affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- */
-import type {Cell} from '@lexical/table';
-import type {LexicalEditor} from 'lexical';
-
 import './index.css';
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
-import useLexicalEditable from '@lexical/react/useLexicalEditable';
+import * as React from 'react';
+
+import {
+  $getNearestNodeFromDOMNode,
+  $getSelection,
+  COMMAND_PRIORITY_HIGH,
+  DEPRECATED_$isGridSelection,
+  SELECTION_CHANGE_COMMAND,
+} from 'lexical';
 import {
   $getTableColumnIndexFromTableCellNode,
   $getTableNodeFromLexicalNodeOrThrow,
@@ -21,14 +18,6 @@ import {
   getCellFromTarget,
 } from '@lexical/table';
 import {
-  $getNearestNodeFromDOMNode,
-  $getSelection,
-  COMMAND_PRIORITY_HIGH,
-  DEPRECATED_$isGridSelection,
-  SELECTION_CHANGE_COMMAND,
-} from 'lexical';
-import * as React from 'react';
-import {
   MouseEventHandler,
   ReactPortal,
   useCallback,
@@ -37,7 +26,19 @@ import {
   useRef,
   useState,
 } from 'react';
+
+/**
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+import type {Cell} from '@lexical/table';
+import type {LexicalEditor} from 'lexical';
 import {createPortal} from 'react-dom';
+import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext';
+import useLexicalEditable from '@lexical/react/useLexicalEditable';
 
 type MousePosition = {
   x: number;

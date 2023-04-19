@@ -32,7 +32,7 @@ export const createVariablesButton = (quill, variables) => {
   myDropDown.setItems(dropDownItems)
 
   myDropDown.onSelect = function (label, value, quill) {
-    const varEl = variables.find(v => v.value === value)
+    const varEl = variables.find(v => v.value === value);
     addVariable(quill, varEl)
     // Do whatever you want with the new dropdown selection here
 

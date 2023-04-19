@@ -9,11 +9,12 @@ import MediaPlayer from '@Components/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import { getMetadata } from 'video-metadata-thumbnails'
+import { uniqueId } from 'lodash'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadVideoForm: React.FC = () => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, item } = useUploadItemForm(form)
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
@@ -22,11 +23,7 @@ const UploadVideoForm: React.FC = () => {
 
   return (
     <Fragment>
-      <Form
-        onValuesChange={e => console.log(e, 'eeee')}
-        form={form}
-        layout="vertical"
-      >
+      <Form onValuesChange={onFormChange} form={form} layout="vertical">
         <Form.Item
           name="title"
           label="Title"
@@ -36,7 +33,9 @@ const UploadVideoForm: React.FC = () => {
           <Input placeholder="Enter Video Title" />
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <HtmlEditor name="description" />
+          <HtmlEditor
+            name="description"
+          />
         </Form.Item>
         <Form.Item>
           <Checkbox
@@ -64,7 +63,7 @@ const UploadVideoForm: React.FC = () => {
             >
               <MediaUpload
                 uploadType="file"
-                prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files`}
+                prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files/${uniqueId()}`}
                 onUpload={({ name, key, url, isProtected }) => {
                   onFormChange({
                     files: [...item.files, { name, key, url, isProtected }]

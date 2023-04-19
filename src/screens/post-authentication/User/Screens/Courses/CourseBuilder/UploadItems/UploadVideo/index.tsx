@@ -3,13 +3,13 @@ import React, { Fragment } from 'react';
 
 import { Types } from '@adewaskar/lms-common'
 
-const UploadVideo: React.FC<Types.CreateItemPropsI> = (props) => {
+const UploadVideo = (props:any) => {
     const onSubmit = ({title}: { title: string }) => {
       props.onFinish({
         title: title
       });
       form.resetFields(['title']);
-      props.closeModal&&props.closeModal();
+      props.closeModal && props.closeModal();
     }
     
     const [form] = Form.useForm<{ title: string }>();

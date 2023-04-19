@@ -123,11 +123,6 @@ interface EditorPropsI{
    const [editor] = useLexicalComposerContext();
    const isFirstRender = useRef(true)
  
-   const addVariable = (variable:any) => {
-     const tag = `<span class="${variable.value}">${variable.name}</span>`;
-     renderHtml(tag);
-   }
- 
    const renderHtml = (html:string) => {
      editor.update(() => {
          // In the browser you can use the native DOMParser API to parse the HTML string.
@@ -146,7 +141,6 @@ interface EditorPropsI{
    }
 
    const defaultValue = useWatch(name, form);
-   console.log(defaultValue, '111');
    useEffect(
      () => {
       //  console.log(defaultValue, isFirstRender.current, 'defaultValue');
@@ -158,16 +152,13 @@ interface EditorPropsI{
 
      }, [defaultValue]);
  
-   const onEditorChange = useCallback(
-     (editorState: any) => {
-         editorState.read(() => {
-           const htmlString = $generateHtmlFromNodes(editor, null)
-          //  onChange && onChange(htmlString)
-           form.setFieldsValue({ [name]: htmlString });
-         })
-     },
-     [editor]
-   )
+   const onEditorChange = (editorState: any) => {
+    editorState.read(() => {
+      const htmlString = $generateHtmlFromNodes(editor, null)
+      onChange && onChange(htmlString)
+      form.setFieldsValue({ [name]: htmlString });
+    })
+}
  
  
 
@@ -258,16 +249,17 @@ interface EditorPropsI{
     </Fragment>
   }
 
-const initialConfig = {
-  nodes: [...PlaygroundNodes],
-  namespace: 'Playground',
-  onError: (error: Error) => {
-    throw error;
-  },
-  theme: PlaygroundEditorTheme,
-};
 
-export default function (props:any) {
+
+export default function (props: any) {
+  const initialConfig = {
+    nodes: [...PlaygroundNodes],
+    namespace: `editor-${props.name}`,
+    onError: (error: Error) => {
+      throw error;
+    },
+    theme: PlaygroundEditorTheme,
+  };
   return <LexicalComposer initialConfig={initialConfig}>
     <Editor {...props} />
 </LexicalComposer>
