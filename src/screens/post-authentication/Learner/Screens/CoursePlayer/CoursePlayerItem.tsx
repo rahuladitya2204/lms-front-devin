@@ -10,7 +10,7 @@ import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 function CoursePlayerItem () {
   const user = Store.useAuthentication(s => s.user)
   const item = useGetNodeFromRouterOutlet()
-  const { data: { url } } = Common.Queries.useGetFileDetails(item.file + '', {
+  const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
   let Component
@@ -25,13 +25,13 @@ function CoursePlayerItem () {
          <p>${user.name}</p>
          <p>${user.contactNo}</p>
        </div>`}
-        url={url + ''}
+        file={file}
       />
     )
   }
 
   if (item.type === 'pdf') {
-    Component = <PDFViewer url={url + ''} />
+    Component = <PDFViewer file={file} />
   }
   return <Fragment>{Component}</Fragment>
   // return null;

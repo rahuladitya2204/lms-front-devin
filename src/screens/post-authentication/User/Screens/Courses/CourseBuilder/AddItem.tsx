@@ -75,7 +75,7 @@ function AddItem(props: AddItemPropsI) {
                       }
                     >
                       <Component
-                        onFinish={e => {
+                        onFinish={(e: any) => {
                           onFinish(item.type, e)
                         }}
                       />

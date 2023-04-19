@@ -11,7 +11,7 @@ const UploadPDFForm: React.FC = () => {
   const { onFormChange, item } = useUploadItemForm(form)
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
-  })
+  });
   return (
     <Fragment>
       <Form
@@ -42,11 +42,12 @@ const UploadPDFForm: React.FC = () => {
               })
             }}
             height="250px"
+            uploadType="pdf"
             renderItem={() => (
               <Button>{file?.url ? 'Replace PDF' : 'Upload PDF'}</Button>
             )}
           />
-          {file?.url ? <PDFViewer url={file?.url + ''} /> : null}
+          {file?.url ? <PDFViewer file={file} /> : null}
         </Form.Item>
       </Form>
       {/* <PDFViewer url={data.url} /> */}

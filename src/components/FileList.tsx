@@ -1,14 +1,21 @@
-import { Avatar, Modal, Space } from 'antd'
+import { Avatar, List, Modal, Space, Spin } from 'antd'
 import { Common, Learner, Types, User } from '@adewaskar/lms-common'
+import {
+  DeleteOutlined,
+  DownloadOutlined,
+  EyeOutlined,
+  FileOutlined
+} from '@ant-design/icons'
 import { Fragment, useState } from 'react'
 
-import { FileOutlined } from '@ant-design/icons'
-import { FileType } from '@adewaskar/lms-common/lib/cjs/types/types/Common.types'
 import FileTypeIcon from './FileTypeIcon'
 import styled from '@emotion/styled'
 
+const { confirm } = Modal
+
 interface FileItemPropsI {
   file: Partial<{ name: string, file: string }>;
+  onDeleteFile: (id: string) => void;
 }
 
 const FileDiv = styled.div`
@@ -27,26 +34,78 @@ const FileDiv = styled.div`
   }
 `
 
-function FileItem({ file: { name, file: fileId } }: FileItemPropsI) {
-  const { data: file } = Common.Queries.useGetFileDetails(fileId + '');
+function FileItem({
+  file: { name, file: fileId },
+  onDeleteFile
+}: FileItemPropsI) {
+  const { data: file } = Common.Queries.useGetFileDetails(fileId + '')
+  const {
+    mutate: deleteFile,
+    isLoading: deletingFile
+  } = Common.Queries.useDeleteFile()
   // console
   return (
-    <FileDiv>
-      <FileTypeIcon onClick={(e: any) => window.open(file.url)} fileType={'video'} />
-    </FileDiv>
+    <Spin spinning={deletingFile}>
+      <List.Item
+        actions={[
+          <a key="list-loadmore-edit">
+            <DownloadOutlined
+              onClick={e => {
+                Common.Api.GetPresignedUrl(file._id).then(url =>
+                  // window.open(url)
+                  console.log(url)
+                )
+              }}
+            />
+          </a>,
+          <a key="list-loadmore-edit">
+            <DeleteOutlined
+              onClick={e => {
+                confirm({
+                  title: 'Are you sure?',
+                  // icon: <ExclamationCircleOutlined />,
+                  content: `You want to delete this file`,
+                  onOk() {
+                    deleteFile(
+                      { id: fileId + '' },
+                      {
+                        onSuccess: () => {
+                          onDeleteFile(fileId + '')
+                        }
+                      }
+                    )
+                  },
+                  okText: 'Delete File'
+                })
+              }}
+            />
+          </a>
+        ]}
+      >
+        {file.name}
+      </List.Item>
+    </Spin>
   )
 }
 
 interface FileListPropsI {
-  files: Partial<FileType>[];
+  files: { name: string, file: string }[];
+  onDeleteFile: (s: string) => void;
 }
 
 function FileList(props: FileListPropsI) {
   return (
     <Space size={[20, 20]}>
-      {props.files?.map(file => {
-        return <FileItem file={file} />
-      })}
+      <List
+        size="small"
+        // header={<div>Files</div>}
+        bordered
+        dataSource={props.files}
+        style={{ width: 500 }}
+        renderItem={file => (
+          <FileItem onDeleteFile={props.onDeleteFile} file={file} />
+        )}
+      />
     </Space>
   )
 }

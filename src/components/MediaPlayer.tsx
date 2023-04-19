@@ -1,6 +1,8 @@
 // @ts-nocheck
 import 'video.js/dist/video-js.css'
 
+import { Common, Types } from '@adewaskar/lms-common'
+
 import React from 'react'
 import videojs from 'video.js'
 import watermark from 'videojs-dynamic-watermark'
@@ -8,6 +10,7 @@ import watermark from 'videojs-dynamic-watermark'
 videojs.registerPlugin('dynamicWatermark', watermark)
 
 interface MediaPlayerPropsI {
+  file?: Types.FileType;
   url?: string;
   watermark?: string;
   width?: number;
@@ -16,6 +19,11 @@ interface MediaPlayerPropsI {
 }
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
+  const enabled = !!(!props.url && props.file._id)
+  const { data: url } = Common.Queries.useGetPresignedUrl(props.file._id, {
+    enabled
+  })
+  const Url = props.url || url
   const videoRef = React.useRef(null)
   const playerRef = React.useRef(null)
   const options = {
@@ -27,7 +35,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
     sources: [
       {
         // props.url
-        src: props.url,
+        src: Url,
         type: 'video/mp4'
       }
     ]
@@ -57,8 +65,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
             elementId: 'unique_id',
             watermarkText: props.watermark.toString(),
             changeDuration: 8000,
-            cssText:
-            `display: inline-block; color: red; background-color: transparent; font-size: 1rem; z-index: 9999; position: absolute; @media only screen and (max-width: 992px){font-size: 0.8rem;}
+            cssText: `display: inline-block; color: red; background-color: transparent; font-size: 1rem; z-index: 9999; position: absolute; @media only screen and (max-width: 992px){font-size: 0.8rem;}
             -webkit-user-select: none; /* Safari */
             -ms-user-select: none; /* IE 10 and IE 11 */
             user-select: none; /* Standard syntax */
@@ -73,7 +80,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
         player.src(options.sources)
       }
     },
-    [options, videoRef]
+    [options, videoRef, Url]
   )
 
   // Dispose the Video.js player when the functional component unmounts
@@ -90,7 +97,6 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
     },
     [playerRef]
   )
-
   return (
     <div
       data-vjs-player

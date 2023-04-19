@@ -24,6 +24,7 @@ interface MediaUploadPropsI {
   onUpload?: (d: Types.FileType, file: File) => void;
   children?: ReactNode;
   isProtected?: boolean;
+  closeModal?: () => void;
   listType?: string;
   prefixKey?: string;
   uploadType?: string;
@@ -78,6 +79,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         uploadFile.file = file
         form.setFieldValue(props.name, file.url)
         props.onUpload && props.onUpload(uploadFile, file)
+        props.closeModal && props.closeModal()
       }
     })
   }
@@ -114,6 +116,28 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       {props.renderItem ? props.renderItem() : UploadButton}
     </CustomUpload>
   )
+
+  if (props.uploadType === 'pdf') {
+
+    UploadComponent = (
+      <CustomUpload
+        {...UPLOAD}
+        type="video/*"
+        beforeUpload={info => {
+          setFile(info)
+        }}
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        iconRender={() => <ClockCircleOutlined />}
+        accept="application/pdf"
+        width={props.width || 'auto'}
+      >
+        {props.renderItem ? props.renderItem() : UploadButton}
+      </CustomUpload>
+    )
+  }
 
   if (props.uploadType === 'image') {
     const ImageUploadComponent = (

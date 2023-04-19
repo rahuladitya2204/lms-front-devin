@@ -1,69 +1,28 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { Fragment, useState } from 'react';
 
-// import DraggerUpload from '@Components/DraggerUpload';
-import { Types } from '@adewaskar/lms-common'
-
-const UploadVideoa: React.FC<Types.CreateItemPropsI> = (props) => {
-  const [files, setFiles] = useState<Types.UploadFileType[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-  
-  const onSubmit = () => {
-    const file = files[0];
+const UploadVideoa= (props:any) => {
+  const onSubmit = ({title}: { title: string }) => {
     props.onFinish({
-      title: file.name,
-      // metadata: {
-      //   url:file.url
-      // }
+      title: title
     });
-    closeModal();
-    }
-    
-    const [form] = Form.useForm<{ url: string }>();
+    form.resetFields(['title']);
+    props.closeModal && props.closeModal();
+  }
+  
+  const [form] = Form.useForm<{ title: string }>();
 
   return (
     <Fragment>
-      <span onClick={showModal}>{props.children}</span>
-      <Modal footer={[
-          <Button key="back" onClick={()=>closeModal()}>
-            Cancel
-          </Button>,
-          <Button key="submit" type="primary" onClick={onSubmit}>
-            Submit
-          </Button>,
-          ]} title="New PDF: Max Size 250MB" open={isModalOpen} onCancel={closeModal}>
-               <Tabs
-    defaultActiveKey="1"
-    items={[
-      {
-        label: `Upload PDF`,
-        key: '1',
-        // children: <DraggerUpload onUpload={u => {
-        //   setFiles(u);
-        // }}/>,
-      },
-      {
-        label: `Public URL`,
-        key: '2',
-        children:  <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item name="url" label="Public URL:*">
-          <Input />
-          </Form.Item>
-        </Form>,
-      }
-    ]}
-  />
-      
-      </Modal>
-    </Fragment>
+    <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
+     <Form.Item required name="title" label="PDF Title">
+       <Input placeholder='Please enter title of the PDF' />
+     </Form.Item>
+       <Button key="submit" type="primary" onClick={form.submit}>
+         Submit
+       </Button>
+     </Form>
+ </Fragment>
   );
 };
 

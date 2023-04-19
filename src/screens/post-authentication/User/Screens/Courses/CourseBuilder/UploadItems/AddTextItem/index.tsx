@@ -38,7 +38,13 @@ const AddTextItem: React.FC = () => {
         </Form.Item>
         <Form.Item label="Add Files" required>
           <Space direction="horizontal">
-            <FileList files={item.files} />
+            <FileList
+              files={item.files}
+              onDeleteFile={fileId => {
+                const files = item.files.filter(f => f.file !== fileId)
+                onFormChange({ files })
+              }}
+            />
             <ActionModal
               cta={
                 <Avatar

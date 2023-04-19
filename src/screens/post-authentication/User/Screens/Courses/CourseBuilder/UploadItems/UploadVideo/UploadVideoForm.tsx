@@ -20,7 +20,7 @@ const UploadVideoForm: React.FC = () => {
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
-
+  console.log(file, 'diule')
   return (
     <Fragment>
       <Form onValuesChange={onFormChange} form={form} layout="vertical">
@@ -48,7 +48,13 @@ const UploadVideoForm: React.FC = () => {
         </Form.Item>
         <Form.Item label="Add Files" required>
           <Space direction="horizontal">
-            <FileList files={item.files} />
+            <FileList
+              onDeleteFile={fileId => {
+                const files = item.files.filter(f => f.file !== fileId)
+                onFormChange({ files })
+              }}
+              files={item.files}
+            />
             <ActionModal
               cta={
                 <Button
@@ -90,11 +96,12 @@ const UploadVideoForm: React.FC = () => {
               })
             }}
             height="250px"
+            uploadType="video"
             renderItem={() => (
-              <Button>{file.url ? 'Replace Video' : 'Upload Video'}</Button>
+              <Button>{file ? 'Replace Video' : 'Upload Video'}</Button>
             )}
           />
-          {file.url ? <MediaPlayer url={file.url} /> : null}
+          {file ? <MediaPlayer file={file} /> : null}
         </Form.Item>
       </Form>
     </Fragment>

@@ -99,11 +99,11 @@ function CourseBuilderScreen() {
   //   [course]
   // )
 
-  const saveCourse = () => {
+  const saveCourse = d => {
     updateCourse(
       {
         id: courseId + '',
-        data: course
+        data: { ...course, ...d }
       },
       {
         onSuccess: () => {
@@ -130,6 +130,7 @@ function CourseBuilderScreen() {
     const COURSE = cloneDeep(course)
     COURSE.sections = updateCourseSectionItem(COURSE.sections, sectionId, item)
     setCourse(COURSE)
+    saveCourse(COURSE);
   }
 
   const deleteSection = (index: number) => {
@@ -228,7 +229,9 @@ function CourseBuilderScreen() {
         </Col>
         <Col span={16}>
           <Card>
-            <Outlet context={[course.sections, updateCourseSection]} />
+            <Outlet
+              context={[course.sections, updateCourseSection, saveCourse]}
+            />
           </Card>
         </Col>
       </Row>
