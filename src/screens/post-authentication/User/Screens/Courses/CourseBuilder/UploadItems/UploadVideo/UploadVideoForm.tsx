@@ -20,7 +20,6 @@ const UploadVideoForm: React.FC = () => {
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
-  console.log(file, 'diule')
   return (
     <Fragment>
       <Form onValuesChange={onFormChange} form={form} layout="vertical">

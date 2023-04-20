@@ -97,7 +97,6 @@ export class MentionNode extends TextNode {
   static importDOM(): DOMConversionMap | null {
     return {
       span: (domNode: HTMLElement) => {
-        console.log(domNode, 'dom');
         if (!domNode.hasAttribute('variable-value')) {
           return null;
         }

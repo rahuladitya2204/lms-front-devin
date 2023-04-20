@@ -128,7 +128,6 @@ interface EditorPropsI{
          // In the browser you can use the native DOMParser API to parse the HTML string.
          const parser = new DOMParser()
          const dom = parser.parseFromString(html, `text/html`)
-         // console.log(dom, 'dom')
          // Once you have the DOM instance it's easy to generate LexicalNodes.
          const nodes = $generateNodesFromDOM(editor, dom)
          // Select the root
