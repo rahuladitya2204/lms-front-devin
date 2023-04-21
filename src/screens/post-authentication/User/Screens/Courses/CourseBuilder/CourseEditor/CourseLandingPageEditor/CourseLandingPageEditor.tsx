@@ -1,49 +1,73 @@
-import {
-  Button,
-  Form,
-  Input,
-} from 'antd'
-import { Fragment, useEffect } from 'react'
+import { Button, Form, Input } from 'antd'
+import { Fragment, useEffect, useLayoutEffect } from 'react'
+import { Types, User } from '@adewaskar/lms-common'
 
-import MediaPlayer from '@Components/MediaPlayer';
-import MediaUpload from '@Components/MediaUpload';
-import QuillEditor from '@Components/QuillEditor';
-import { Types } from '@adewaskar/lms-common'
-import { useParams } from 'react-router';
+import HtmlEditor from '@Components/HtmlEditor'
+import MediaPlayer from '@Components/MediaPlayer'
+import MediaUpload from '@Components/MediaUpload'
+import { useParams } from 'react-router'
 
 interface CourseLandingPageEditorPropsI {
-    courseId: string;
-    }
-    
+  courseId: string;
+  saveCourse: Function;
+
+  course: Types.Course;
+}
+
 function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
-  const { id } = useParams();
-  const courseId = props.courseId || id;
-  const form = Form.useFormInstance<Types.CourseLandingPage>();    
-  const { useWatch} = Form;
-  const promoVideoUrl = useWatch(['promoVideo'], form)
+  const { id } = useParams()
+  const courseId = props.courseId || id + ''
+  const [form] = Form.useForm()
+  const { useWatch } = Form
+  const promoVideoFile = useWatch(['promoVideo'], form)
+  const { course } = props;
+  useLayoutEffect(
+    () => {
+      console.log(props.course.landingPage, 'ppppp')
+      form.setFieldsValue(props.course.landingPage)
+    },
+    [props.course]
+  )
 
-      return (
-        <Fragment>
-              <Form.Item  name={['landingPage','description']} required label="Description">
-        {/* <QuillEditor  name={['landingPage','description']} value="" /> */}
+  return (
+    <Form
+      onValuesChange={d => {
+        props.saveCourse({
+          landingPage: {
+            ...props.course.landingPage,
+            ...d
+          }
+        })
+      }}
+      form={form}
+      layout="vertical"
+      autoComplete="off"
+    >
+      <Form.Item name={'description'} required label="Description">
+        <HtmlEditor defaultValue={course.landingPage.description} name={'description'} />
       </Form.Item>
-            <Form.Item name="promoVideo" label="Promo Video" required>
-              <MediaUpload
-                prefixKey={`courses/${courseId}/promo`}
-              width="300px"
-              name="promoVideo"
-            height="250px"
-            renderItem={() => (
-              <Button>{promoVideoUrl ? 'Replace Video' : 'Upload Video'}</Button>
-            )}
-            // url={promoVideoUrl}
-          />
-          {promoVideoUrl ? <MediaPlayer url={promoVideoUrl} /> : null}
-        </Form.Item>
+      <Form.Item name="promoVideo" label="Promo Video" required>
+        <MediaUpload
+          prefixKey={`courses/${courseId}/promo`}
+          width="300px"
+          name="promoVideo"
+          height="250px"
+          onUpload={d => {
+            console.log(d, 'eee')
+            // form.setFieldsValue({
+            //   promoVideo: d._id
+            // })
+          }}
+          renderItem={() => (
+            <Button>{promoVideoFile ? 'Replace Video' : 'Upload Video'}</Button>
+          )}
+          // url={promoVideoFile}
+        />
+        {promoVideoFile ? <MediaPlayer fileId={promoVideoFile} /> : null}
+      </Form.Item>
+      {/* <Button onClick={form.submit}>HSSHSHH</Button> */}
+    </Form>
+  )
+}
 
-              </Fragment >)
-        
-    }
-    
-    export default CourseLandingPageEditor
-    
+export default CourseLandingPageEditor

@@ -25,7 +25,7 @@ function CoursePlayerItem () {
          <p>${user.name}</p>
          <p>${user.contactNo}</p>
        </div>`}
-        file={file}
+        fileId={file._id}
       />
     )
   }

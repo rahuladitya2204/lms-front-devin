@@ -5,13 +5,17 @@ import {
   Divider,
   Form,
   Input,
+  Radio,
+  Select,
   Space,
   Switch,
   Tag,
   Typography
 } from 'antd'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useLayoutEffect } from 'react'
+import { Types, User } from '@adewaskar/lms-common'
 
+import { Text } from 'yjs'
 import { useParams } from 'react-router'
 
 const { Title } = Typography
@@ -38,23 +42,82 @@ const VARIABLES = [
 
 interface CourseCertificatePropsI {
   courseId: string;
+  saveCourse: Function;
+  course: Types.Course;
 }
 
 function CourseCertificate(props: CourseCertificatePropsI) {
-  const { id } = useParams()
-  const courseId = props.courseId || id
-  const form = Form.useFormInstance()
-  const sendEmail = useWatch(['advanced', 'email', 'enabled'], form)
+  const [form] = Form.useForm()
+  const {
+    listItems: certificateTemplates
+  } = User.Queries.useGetCertificateTemplates()
+
+  useLayoutEffect(
+    () => {
+      console.log(props.course.certificate, 'props.course.certificate')
+      form.setFieldsValue(props.course.certificate)
+    },
+    [props.course.certificate]
+  )
   return (
-    <Fragment>
-      <Card
-        title="Certificate Template Design"
-        extra={<a href="#">More</a>}
-        style={{ width: '100%' }}
+    <Form
+      onValuesChange={d => {
+        console.log(d, 'dd')
+        props.saveCourse({
+          certificate: {
+            ...props.course.certificate,
+            ...d
+          }
+        })
+      }}
+      form={form}
+      layout="vertical"
+      autoComplete="off"
+    >
+      <Form.Item
+        // valuePropName="checked"
+        name={['template']}
+        label="Certificate Template Design"
       >
-        {/* <Sel> */}
-      </Card>
-    </Fragment>
+        <Select
+          allowClear
+          style={{ width: '300' }}
+          placeholder="Please select certificte template"
+          // onChange={handleChange}
+          options={certificateTemplates}
+        />
+      </Form.Item>
+
+      <Form.Item name={['serialNumber', 'type']} label="Serial Number">
+        <Radio.Group value={props.course.certificate.serialNumber.type}>
+          <Space direction="vertical">
+            <Radio value={'random'}>
+              <strong>Random</strong>: The serial number will be random
+              alphanumeric value of 8 characters.
+            </Radio>
+            <Radio value={'incremental'}>
+              <strong>Incremental</strong> : The serial number will be an
+              incremental value
+            </Radio>
+          </Space>
+        </Radio.Group>
+      </Form.Item>
+
+      <Form.Item name={['issue', 'type']} label="Issue Type">
+        <Radio.Group value={props.course.certificate.issue.type}>
+          <Space direction="vertical">
+            <Radio value={'manual'}>
+              <strong>Automatic</strong>: The certificate will be issued to
+              learner on completion
+            </Radio>
+            <Radio value={'automatic'}>
+              <strong>Manual</strong> : The certificate will be issued by admin
+              only.
+            </Radio>
+          </Space>
+        </Radio.Group>
+      </Form.Item>
+    </Form>
   )
 }
 

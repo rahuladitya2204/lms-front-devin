@@ -39,15 +39,26 @@ const VARIABLES = [
 
 interface CourseAdvancedSettingsPropsI {
   courseId: string;
+  saveCourse: Function;
+  course: Types.Course;
 }
 
 function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
   const { id } = useParams()
   const courseId = props.courseId || id
-  const form = Form.useFormInstance()
+  const [form] = Form.useForm()
   const sendEmail = useWatch(['advanced', 'email', 'enabled'], form)
   return (
-    <Fragment>
+    <Form
+      onValuesChange={d => {
+        props.saveCourse({
+          advanced: d
+        })
+      }}
+      form={form}
+      layout="vertical"
+      autoComplete="off"
+    >
       <Form.Item
         valuePropName="checked"
         name={['advanced', 'watermark', 'enabled']}
@@ -80,11 +91,14 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
             required
             label="Email Body"
           >
-            <QuillEditor variables={VARIABLES} name={['advanced', 'email', 'content']} />
+            <QuillEditor
+              variables={VARIABLES}
+              name={['advanced', 'email', 'content']}
+            />
           </Form.Item>
         </Fragment>
       ) : null}
-    </Fragment>
+    </Form>
   )
 }
 

@@ -100,7 +100,7 @@ const UploadVideoForm: React.FC = () => {
               <Button>{file ? 'Replace Video' : 'Upload Video'}</Button>
             )}
           />
-          {file ? <MediaPlayer file={file} /> : null}
+          {file ? <MediaPlayer fileId={file._id} /> : null}
         </Form.Item>
       </Form>
     </Fragment>

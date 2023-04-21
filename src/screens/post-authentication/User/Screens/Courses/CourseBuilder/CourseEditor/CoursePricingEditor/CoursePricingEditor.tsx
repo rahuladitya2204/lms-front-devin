@@ -8,6 +8,10 @@ import { User } from '@adewaskar/lms-common'
 
 interface CoursePricingEditorPropsI {
   courseId: string;
+  saveCourse: Function;
+
+  course: Types.Course;
+
 }
 
 function CoursePricingEditor(props: CoursePricingEditorPropsI) {

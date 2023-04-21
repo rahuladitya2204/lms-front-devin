@@ -42,17 +42,36 @@ const { useWatch } = Form
 const { Option } = Select
 interface CourseDetailsEditorPropsI {
   courseId?: string;
+  saveCourse: Function;
+  course: Types.Course;
 }
 
 function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
-  const form = Form.useFormInstance()
-  const { id } = useParams();
-  const courseId = props.courseId || id;
+  const [form] = Form.useForm()
+  const { id } = useParams()
+  const courseId = props.courseId || id
   const { data: instructors } = User.Queries.useGetInstructors()
   const { listItems: categories } = User.Queries.useGetCourseCategories()
   const thumbnailImage = useWatch(['thumbnailImage'], form)
+  useEffect(
+    () => {
+      form.setFieldsValue(props.course)
+    },
+    [props.course]
+  )
+
   return (
-    <Fragment>
+    <Form
+      form={form}
+      layout="vertical"
+      autoComplete="off"
+      onValuesChange={d => {
+        props.saveCourse({
+          ...props.course,
+          ...d
+        })
+      }}
+    >
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
           uploadType="image"
@@ -138,7 +157,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           </Form.Item>
         </Col>
       </Row>
-    </Fragment>
+    </Form>
   )
 }
 

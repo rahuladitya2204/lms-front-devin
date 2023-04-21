@@ -1,4 +1,4 @@
-import { Button, Card, Form, Tabs, message } from 'antd'
+import { Button, Card, Form, Tabs } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
@@ -11,7 +11,6 @@ import CourseDetailsEditor from './CourseDetailsEditor'
 import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import Header from '@Components/Header'
-import { STRINGIFY } from '../utils'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
@@ -19,9 +18,9 @@ function CourseEditor() {
   const message = useMessage()
   const { id } = useParams();
   const courseId = id + '';
-  
+  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
   const {
-    mutate: updateCourse,
+    mutate: updateCourseApi,
     isLoading: loading
   } = User.Queries.useUpdateCourse()
 
@@ -32,11 +31,21 @@ function CourseEditor() {
     }
   )
   
-  const saveCourse = (e:Partial<Course>) => {
-    updateCourse(
+  useEffect(() => {
+    setCourse(courseDetails);
+  },[courseDetails])
+  
+  const saveCourse = (e: Partial<Course>) => {
+    setCourse({
+      ...course,
+      ...e
+    })
+  }
+  const updateCourse = () => {
+    updateCourseApi(
       {
         id: courseId,
-        data: e
+        data: course
       },
       {
         onSuccess: () => {
@@ -47,13 +56,7 @@ function CourseEditor() {
         }
       }
     )
-  }
-
-  useEffect(() => {
-    form.setFieldsValue(courseDetails);
-  },[courseDetails])
-
-  const [form] = Form.useForm<Types.Course>();
+  };
 
   return (
     <Header
@@ -73,7 +76,7 @@ function CourseEditor() {
           <Button
             loading={loading}
             type="primary"
-            onClick={form.submit}
+            onClick={updateCourse}
             icon={<UploadOutlined />}
           >
             Save Course
@@ -82,7 +85,7 @@ function CourseEditor() {
       ]}
     >
       <Card>
-        <Form onFinish={saveCourse} form={form} layout="vertical" autoComplete="off">
+        {/* <Form onFinish={saveCourse} form={form} layout="vertical" autoComplete="off"> */}
         <Tabs
           defaultActiveKey="1"
           items={[
@@ -90,7 +93,7 @@ function CourseEditor() {
               label: `Details`,
               key: '1',
               children: (
-                <CourseDetailsEditor courseId={courseId}
+                <CourseDetailsEditor saveCourse={saveCourse} course={course} courseId={courseId}
                 />
               )
             },
@@ -100,6 +103,8 @@ function CourseEditor() {
               children: (
                 <CourseLandingPageEditor
                   courseId={courseId}
+                  course={course}
+                  saveCourse={saveCourse}
                 />
               )
             },
@@ -109,6 +114,8 @@ function CourseEditor() {
               children: (
                 <CoursePricingEditor
                   courseId={courseId}
+                  course={course}
+                  saveCourse={saveCourse}
                 />
               )
             },
@@ -118,6 +125,8 @@ function CourseEditor() {
               children: (
                 <CourseCertificate
                   courseId={courseId}
+                  course={course}
+                  saveCourse={saveCourse}
                 />
               )
             },
@@ -127,12 +136,14 @@ function CourseEditor() {
               children: (
                 <CourseAdvancedSettings
                   courseId={courseId}
+                  course={course}
+                  saveCourse={saveCourse}
+
                 />
               )
             }
           ]}
           />
-          </Form>
 
         <Outlet />
       </Card>

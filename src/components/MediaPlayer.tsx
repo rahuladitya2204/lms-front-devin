@@ -11,6 +11,7 @@ videojs.registerPlugin('dynamicWatermark', watermark)
 
 interface MediaPlayerPropsI {
   file?: Types.FileType;
+  fileId?: string;
   url?: string;
   watermark?: string;
   width?: number;
@@ -19,8 +20,8 @@ interface MediaPlayerPropsI {
 }
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
-  const enabled = !!(!props.url && props.file._id)
-  const { data: url } = Common.Queries.useGetPresignedUrl(props.file._id, {
+  const enabled = !!(!props.url && props.fileId)
+  const { data: url } = Common.Queries.useGetPresignedUrl(props.fileId, {
     enabled
   })
   const Url = props.url || url
