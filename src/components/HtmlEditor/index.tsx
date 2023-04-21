@@ -1,7 +1,7 @@
 import './styles.css'
 
 import { $getRoot, $getSelection } from 'lexical';
-import {Fragment, useCallback, useEffect, useRef, useState} from 'react';
+import {Fragment, useEffect, useRef, useState} from 'react';
 
 import { $generateHtmlFromNodes } from '@lexical/html'
 import { $generateNodesFromDOM } from '@lexical/html'
@@ -23,7 +23,6 @@ import FigmaPlugin from './plugins/FigmaPlugin';
 import FloatingLinkEditorPlugin from './plugins/FloatingLinkEditorPlugin';
 import FloatingTextFormatToolbarPlugin from './plugins/FloatingTextFormatToolbarPlugin';
 import { Form } from 'antd';
-import { FormInstance } from 'antd/lib/form/Form';
 import {HashtagPlugin} from '@lexical/react/LexicalHashtagPlugin';
 import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin';
 import {HorizontalRulePlugin} from '@lexical/react/LexicalHorizontalRulePlugin';
@@ -73,12 +72,11 @@ interface Variable {
 interface EditorPropsI{
   onChange?: Function;
   variables?: Variable[];
-  defaultValue?: string;
   name: string;
-  form?: FormInstance;
+  // defaultValue?:any
   }
 
- function Editor({onChange,name,variables,defaultValue}:EditorPropsI): JSX.Element {
+ function Editor({onChange,name,variables}:EditorPropsI): JSX.Element {
   const {historyState} = useSharedHistoryContext();
    const text = 'Enter some rich text...';
   const placeholder = <Placeholder>{text}</Placeholder>;
@@ -130,6 +128,7 @@ interface EditorPropsI{
          // In the browser you can use the native DOMParser API to parse the HTML string.
          const parser = new DOMParser()
          const dom = parser.parseFromString(html, `text/html`)
+         // console.log(dom, 'dom')
          // Once you have the DOM instance it's easy to generate LexicalNodes.
          const nodes = $generateNodesFromDOM(editor, dom)
          // Select the root
@@ -141,23 +140,21 @@ interface EditorPropsI{
      })
    }
 
-   const DEFAULT_VALUE =  useWatch(name, form) || defaultValue;
+   const defaultValue = useWatch(name, form);
    useEffect(
      () => {
       //  console.log(defaultValue, isFirstRender.current, 'defaultValue');
-      if ((DEFAULT_VALUE) && (DEFAULT_VALUE !=='<p class="editor-paragraph"><br></p>') && (isFirstRender.current)) {
-        // console.log(DEFAULT_VALUE,'DEFAULT_VALUE')
+      if ((defaultValue) && (defaultValue !=='<p class="editor-paragraph"><br></p>') && (isFirstRender.current)) {
+        // console.log(defaultValue,'defaultValue')
         isFirstRender.current = false;
-        renderHtml(DEFAULT_VALUE);
+        renderHtml(defaultValue);
        }
 
-     }, [DEFAULT_VALUE]);
+     }, [defaultValue]);
  
    const onEditorChange = (editorState: any) => {
-     editorState.read(() => {
-      //  const htmlString = document.querySelector(`#editor-selector-${name} .ContentEditable__root`)?.innerHTML;
+    editorState.read(() => {
       const htmlString = $generateHtmlFromNodes(editor, null)
-      console.log(htmlString, 'eee');
       onChange && onChange(htmlString)
       form.setFieldsValue({ [name]: htmlString });
     })
