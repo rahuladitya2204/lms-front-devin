@@ -3,6 +3,7 @@ import { Fragment, useEffect } from 'react'
 
 import Header from '@Components/Header'
 import HtmlEditor from '@Components/HtmlEditor'
+import SunEditor from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
@@ -63,6 +64,7 @@ function CertificateTemplateEditor() {
   const [form] = Form.useForm<Types.CertificateTemplate>();
 
   useEffect(() => {
+    console.log(template,'teee')
     form.setFieldsValue(template);
   }, [template]);
   
@@ -87,12 +89,9 @@ function CertificateTemplateEditor() {
       ]}
     >
       <Form form={form} onFinish={saveCertificateTemplate} layout="vertical" autoComplete="off">
-        <Card>
-          <Form.Item name="template">
-          <HtmlEditor name="template"
-          />
-          </Form.Item>
-        </Card>
+      <Form.Item name="template">
+          <SunEditor name="template" />
+      </Form.Item>
       </Form>
     </Header>
   )

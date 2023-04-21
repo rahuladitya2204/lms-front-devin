@@ -2,6 +2,7 @@ import { Form, Tag } from "antd";
 
 import HtmlEditor from "@Components/HtmlEditor";
 import QuillEditor from "@Components/QuillEditor";
+import SunEditorComponent from "@Components/SunEditor/SunEditor";
 
 interface CreateEmailTemplatePropsI {
 
@@ -15,7 +16,7 @@ const CreateEmailTemplate = () => {
             <HtmlEditor name={['email','subject']} type="text" variables={variables} />
         </Form.Item>
         <Form.Item  name={['email','template']}  label="Email Body" required>
-            <HtmlEditor name={ ['email','template']} variables={variables}  />
+            <SunEditorComponent name={['email','template']}  />
         </Form.Item>
     </>;
 }
