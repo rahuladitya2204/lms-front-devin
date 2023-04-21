@@ -145,6 +145,12 @@ const FONT_SIZE_OPTIONS: [string, string][] = [
   ['18px', '18px'],
   ['19px', '19px'],
   ['20px', '20px'],
+  ['30px', '30px'],
+  ['40px', '40px'],
+  ['50px', '50px'],
+  // ['20px', '20px'],
+  // ['20px', '20px'],
+  // ['20px', '20px'],
 ];
 
 function dropDownActiveClass(active: boolean) {

@@ -154,8 +154,10 @@ interface EditorPropsI{
      }, [DEFAULT_VALUE]);
  
    const onEditorChange = (editorState: any) => {
-    editorState.read(() => {
+     editorState.read(() => {
+      //  const htmlString = document.querySelector(`#editor-selector-${name} .ContentEditable__root`)?.innerHTML;
       const htmlString = $generateHtmlFromNodes(editor, null)
+      console.log(htmlString, 'eee');
       onChange && onChange(htmlString)
       form.setFieldsValue({ [name]: htmlString });
     })

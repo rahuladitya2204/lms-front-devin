@@ -5,6 +5,8 @@ import { Types, User } from '@adewaskar/lms-common'
 import HtmlEditor from '@Components/HtmlEditor'
 import MediaPlayer from '@Components/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
+import { deepPatch } from '../../utils'
+// import { patchObject } from '../../utils'
 import { useParams } from 'react-router'
 
 interface CourseLandingPageEditorPropsI {
@@ -20,10 +22,9 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
   const [form] = Form.useForm()
   const { useWatch } = Form
   const promoVideoFile = useWatch(['promoVideo'], form)
-  const { course } = props;
+  const { course } = props
   useLayoutEffect(
     () => {
-      console.log(props.course.landingPage, 'ppppp')
       form.setFieldsValue(props.course.landingPage)
     },
     [props.course]
@@ -32,11 +33,10 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
   return (
     <Form
       onValuesChange={d => {
+        const data = deepPatch(props.course.landingPage, d)
+        console.log(data, d, 1111)
         props.saveCourse({
-          landingPage: {
-            ...props.course.landingPage,
-            ...d
-          }
+          landingPage: data
         })
       }}
       form={form}
@@ -44,7 +44,10 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       autoComplete="off"
     >
       <Form.Item name={'description'} required label="Description">
-        <HtmlEditor defaultValue={course.landingPage.description} name={'description'} />
+        <HtmlEditor
+          defaultValue={course.landingPage.description}
+          name={'description'}
+        />
       </Form.Item>
       <Form.Item name="promoVideo" label="Promo Video" required>
         <MediaUpload

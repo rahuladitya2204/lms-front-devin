@@ -26,6 +26,7 @@ import MediaUpload from '@Components/MediaUpload'
 import QuillEditor from '@Components/QuillEditor'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import { deepPatch } from '../../utils'
 import { useParams } from 'react-router'
 
 const LANGUAGES = [
@@ -66,10 +67,8 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       layout="vertical"
       autoComplete="off"
       onValuesChange={d => {
-        props.saveCourse({
-          ...props.course,
-          ...d
-        })
+        const data = deepPatch(props.course, d)
+        props.saveCourse(data)
       }}
     >
       <Form.Item name="thumbnailImage" required label="Thumbnail">

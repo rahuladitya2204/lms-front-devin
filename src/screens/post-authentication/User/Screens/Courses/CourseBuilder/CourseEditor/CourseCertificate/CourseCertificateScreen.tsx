@@ -81,7 +81,7 @@ function CourseCertificate(props: CourseCertificatePropsI) {
       >
         <Select
           allowClear
-          style={{ width: '300' }}
+          style={{ width: 300 }}
           placeholder="Please select certificte template"
           // onChange={handleChange}
           options={certificateTemplates}

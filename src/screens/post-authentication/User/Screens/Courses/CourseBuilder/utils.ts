@@ -61,3 +61,24 @@ export const UnitTypeToStr = ({
 export const downloadFile = (filePath: string) => {
   window.open(filePath, 'Download')
 }
+
+function isObject(obj: any) {
+  return obj !== null && typeof obj === 'object' && !Array.isArray(obj)
+}
+
+export function deepPatch(target: any, patch: any) {
+  const result = JSON.parse(JSON.stringify(target))
+
+  function innerPatch(target: any, patch: any) {
+    for (const key in patch) {
+      if (isObject(patch[key]) && isObject(target[key])) {
+        innerPatch(target[key], patch[key])
+      } else {
+        target[key] = patch[key]
+      }
+    }
+  }
+
+  innerPatch(result, patch)
+  return result
+}

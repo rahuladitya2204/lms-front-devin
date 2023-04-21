@@ -9,10 +9,12 @@ import {
   Tag,
   Typography
 } from 'antd'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useLayoutEffect } from 'react'
 
+import HtmlEditor from '@Components/HtmlEditor'
 import QuillEditor from '@Components/QuillEditor'
 import { Types } from '@adewaskar/lms-common'
+import { deepPatch } from '../../utils'
 import { useParams } from 'react-router'
 
 const { Title } = Typography
@@ -44,56 +46,55 @@ interface CourseAdvancedSettingsPropsI {
 }
 
 function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
-  const { id } = useParams()
-  const courseId = props.courseId || id
   const [form] = Form.useForm()
-  const sendEmail = useWatch(['advanced', 'email', 'enabled'], form)
+  const sendEmail = useWatch(['email', 'enabled'], form)
+
+  useLayoutEffect(
+    () => {
+      form.setFieldsValue(props.course.advanced)
+    },
+    [props.course]
+  )
+
   return (
     <Form
       onValuesChange={d => {
+        const data = deepPatch(props.course.advanced, d)
+        console.log(data, d, 1111)
         props.saveCourse({
-          advanced: d
+          advanced: data
         })
       }}
       form={form}
       layout="vertical"
       autoComplete="off"
     >
-      <Form.Item
-        valuePropName="checked"
-        name={['advanced', 'watermark', 'enabled']}
-      >
+      <Form.Item valuePropName="checked" name={['watermark', 'enabled']}>
         <Checkbox>Enable Water Mark</Checkbox>
       </Form.Item>
 
       <Title level={3}>Email Notification</Title>
       <Form.Item
         valuePropName="checked"
-        name={['advanced', 'email', 'enabled']}
+        name={['email', 'enabled']}
         label="Send email to learner on course enrollment."
       >
         <Switch />
       </Form.Item>
       {sendEmail ? (
         <Fragment>
-          <Form.Item
-            name={['advanced', 'email', 'subject']}
-            label="Email Subject"
-          >
+          <Form.Item name={['email', 'subject']} label="Email Subject">
             <Input />
           </Form.Item>
 
-          <Form.Item name={['advanced', 'email', 'cc']} label="Add Cc">
+          <Form.Item name={['email', 'cc']} label="Add Cc">
             <Input />
           </Form.Item>
-          <Form.Item
-            name={['advanced', 'email', 'content']}
-            required
-            label="Email Body"
-          >
-            <QuillEditor
+          <Form.Item name={['email', 'content']} required label="Email Body">
+            <HtmlEditor
+              defaultValue={props.course.advanced.email?.content}
               variables={VARIABLES}
-              name={['advanced', 'email', 'content']}
+              name={['email', 'content']}
             />
           </Form.Item>
         </Fragment>
