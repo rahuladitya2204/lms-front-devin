@@ -61,7 +61,17 @@ function CourseCertificate(props: CourseCertificatePropsI) {
   );
   const certificateId = useWatch(['template'], form);
   return (
-    <Form
+    <Card extra={[ <ActionModal cta={<Button
+      icon={<PlusOutlined />}
+      type="primary"
+      style={{ marginLeft: 20 }}
+    >
+      Create New{' '}
+      </Button>}>
+      <AddCertificateTemplate/>
+   </ActionModal>]} title={<Title level={3} >Certificate</Title>
+  }>
+        <Form
       onValuesChange={d => {
         props.saveCourse({
           certificate: {
@@ -91,15 +101,7 @@ function CourseCertificate(props: CourseCertificatePropsI) {
       }} icon={<EditOutlined />} style={{ marginLeft: 30 }}>
           Edit Certificate
         </Button>
-       <ActionModal cta={<Button
-          icon={<PlusOutlined />}
-          type="primary"
-          style={{ marginLeft: 20 }}
-        >
-          Create New{' '}
-          </Button>}>
-          <AddCertificateTemplate/>
-       </ActionModal>
+
         </> : null}
       </Space>
 
@@ -133,6 +135,7 @@ function CourseCertificate(props: CourseCertificatePropsI) {
         </Radio.Group>
       </Form.Item>
     </Form>
+  </Card>
   )
 }
 

@@ -16,25 +16,25 @@ import useMessage from '@Hooks/useMessage'
 
 function CourseEditor() {
   const message = useMessage()
-  const { id } = useParams();
-  const courseId = id + '';
-  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
+  const { id } = useParams()
+  const courseId = id + ''
+  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
   const {
     mutate: updateCourseApi,
     isLoading: loading
   } = User.Queries.useUpdateCourse()
 
-  const { data: courseDetails } = User.Queries.useGetCourseDetails(
-    courseId,
-    {
-      enabled: !!courseId
-    }
+  const { data: courseDetails } = User.Queries.useGetCourseDetails(courseId, {
+    enabled: !!courseId
+  })
+
+  useEffect(
+    () => {
+      setCourse(courseDetails)
+    },
+    [courseDetails]
   )
-  
-  useEffect(() => {
-    setCourse(courseDetails);
-  },[courseDetails])
-  
+
   const saveCourse = (e: Partial<Course>) => {
     setCourse({
       ...course,
@@ -56,7 +56,7 @@ function CourseEditor() {
         }
       }
     )
-  };
+  }
 
   return (
     <Header
@@ -93,7 +93,10 @@ function CourseEditor() {
               label: `Details`,
               key: '1',
               children: (
-                <CourseDetailsEditor saveCourse={saveCourse} course={course} courseId={courseId}
+                <CourseDetailsEditor
+                  saveCourse={saveCourse}
+                  course={course}
+                  courseId={courseId}
                 />
               )
             },
@@ -119,17 +122,17 @@ function CourseEditor() {
                 />
               )
             },
-            {
-              label: `Certificate`,
-              key: '22',
-              children: (
-                <CourseCertificate
-                  courseId={courseId}
-                  course={course}
-                  saveCourse={saveCourse}
-                />
-              )
-            },
+            // {
+            //   label: `Certificate`,
+            //   key: '22',
+            //   children: (
+            //     <CourseCertificate
+            //       courseId={courseId}
+            //       course={course}
+            //       saveCourse={saveCourse}
+            //     />
+            //   )
+            // },
             {
               label: `Advanced`,
               key: '4',
@@ -138,12 +141,11 @@ function CourseEditor() {
                   courseId={courseId}
                   course={course}
                   saveCourse={saveCourse}
-
                 />
               )
             }
           ]}
-          />
+        />
 
         <Outlet />
       </Card>

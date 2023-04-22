@@ -1,5 +1,6 @@
 import {
   Button,
+  Card,
   Checkbox,
   Divider,
   Form,
@@ -11,6 +12,7 @@ import {
 } from 'antd'
 import { Fragment, useEffect, useLayoutEffect } from 'react'
 
+import CourseCertificate from '../CourseCertificate/CourseCertificateScreen'
 import HtmlEditor from '@Components/HtmlEditor'
 import QuillEditor from '@Components/QuillEditor'
 import { Types } from '@adewaskar/lms-common'
@@ -57,7 +59,8 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
   )
 
   return (
-    <Form
+    <>
+     <Form
       onValuesChange={d => {
         const data = deepPatch(props.course.advanced, d)
         console.log(data, d, 1111)
@@ -73,7 +76,8 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
         <Checkbox>Enable Water Mark</Checkbox>
       </Form.Item>
 
-      <Title level={3}>Email Notification</Title>
+      <Card title={<Title level={3}>Email Notification</Title>}>
+        
       <Form.Item
         valuePropName="checked"
         name={['email', 'enabled']}
@@ -99,7 +103,13 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
           </Form.Item>
         </Fragment>
       ) : null}
-    </Form>
+</Card>
+      </Form>
+      <Divider/>
+      <CourseCertificate   courseId={props.courseId}
+                  course={props.course}
+                  saveCourse={props.saveCourse}/>
+    </>
   )
 }
 
