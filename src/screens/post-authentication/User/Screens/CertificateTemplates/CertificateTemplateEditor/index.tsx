@@ -70,7 +70,7 @@ function CertificateTemplateEditor() {
   
   return (
     <Header
-      title="Certificate Template Editor"
+      title={template.title}
       extra={[
         <Fragment>
           <Button

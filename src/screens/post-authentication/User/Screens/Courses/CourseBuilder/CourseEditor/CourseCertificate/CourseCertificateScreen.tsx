@@ -10,6 +10,7 @@ import {
   Space,
   Switch,
   Tag,
+  Tooltip,
   Typography
 } from 'antd'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
@@ -84,7 +85,7 @@ function CourseCertificate(props: CourseCertificatePropsI) {
       layout="vertical"
       autoComplete="off"
     >
-      <Space>
+      <Space size={[0,0]}>
       <Form.Item
         name={['template']}
         label="Certificate Template Design"
@@ -96,12 +97,13 @@ function CourseCertificate(props: CourseCertificatePropsI) {
           options={certificateTemplates}
         />
       </Form.Item>
-        {certificateId ? <><Button onClick={e => {
+          {certificateId ? <>
+            <Tooltip placement="right" title={'Edit Template Design'}>
+<Button onClick={e => {
           window.open(`../../../certificate-template/${certificateId}/editor`)
-      }} icon={<EditOutlined />} style={{ marginLeft: 30 }}>
-          Edit Certificate
-        </Button>
-
+      }} icon={<EditOutlined />} style={{ marginLeft: 10 }}>
+          {/* Edit Certificate */}
+        </Button></Tooltip>
         </> : null}
       </Space>
 
