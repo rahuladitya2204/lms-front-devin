@@ -10,7 +10,6 @@ import CourseSectionsNavigator from './CourseSectionsNavigator'
 import CreateHeading from './CreateNewItem/CreateHeading'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
-import ImageUpload from '@Components/ImageUpload'
 import MediaUpload from '@Components/MediaUpload'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
@@ -72,7 +71,6 @@ function CourseBuilderScreen() {
       section: sectionId
     }
     COURSE.sections[index].items.push(newItem)
-
     updateCourse({
       id: courseId || '',
       data: {
@@ -85,19 +83,6 @@ function CourseBuilderScreen() {
     })
   }
 
-  // useEffect(
-  //   () => {
-  //     console.log('Oh yeah', course)
-  //     if (course?.sections[0]?.items?.length) {
-  //       const firstSection = course.sections[0]
-  //       const firstItem = firstSection.items[0]
-  //       navigate(
-  //         `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
-  //       )
-  //     }
-  //   },
-  //   [course]
-  // )
 
   const saveCourse = d => {
     updateCourse(

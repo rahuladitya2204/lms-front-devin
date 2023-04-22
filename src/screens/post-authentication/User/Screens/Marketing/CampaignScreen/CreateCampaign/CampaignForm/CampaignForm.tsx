@@ -1,4 +1,4 @@
-import { Form, Input, Select, Space } from 'antd'
+import { Form, Input, Select, Space, Tag } from 'antd'
 
 import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '@User/Screens/Courses/CourseBuilder/utils'
@@ -46,6 +46,7 @@ const CampaignForm = (props: CampaignFormPropsI) => {
                 channel: e
               })
             }
+            tagRender={e => <Tag color='blue'>{e.label}</Tag>}
             style={{ width: 450 }}
             options={[
               { value: 'email', label: 'Email' },

@@ -11,6 +11,7 @@ import plugins from 'suneditor/src/plugins'
 interface SunEditorPropsI {
   height?: number;
   name?: string | string[];
+  variables?: { name: string, value: string };
   value?: string;
   onChange?: (d: string) => void;
   defaultValue?: string;
