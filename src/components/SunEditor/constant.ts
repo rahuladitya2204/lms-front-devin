@@ -1,9 +1,13 @@
+import { customDropdownPlugin } from './plugins/variable-plugin'
+
 export const editorOptions = {
+  // plugins: [customDropdownPlugin],
   buttonList: [
+    // ['customDropdown'],
     // default
     ['undo', 'redo'],
     [
-    //   ':p-More Paragraph-default.more_paragraph',
+      //   ':p-More Paragraph-default.more_paragraph',
       'font',
       'fontSize',
       'formatBlock',
@@ -26,12 +30,7 @@ export const editorOptions = {
       'save',
       'template'
     ],
-    [
-      '-right',
-      ':r-More Rich-default.more_plus',
-      'table',
-      'imageGallery'
-    ],
+    ['-right', ':r-More Rich-default.more_plus', 'table', 'imageGallery'],
     ['-right', 'image', 'video', 'audio', 'link'],
     // (min-width: 992)
     [

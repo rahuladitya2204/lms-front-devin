@@ -5,6 +5,7 @@ import { Types, User } from '@adewaskar/lms-common'
 import HtmlEditor from '@Components/HtmlEditor'
 import MediaPlayer from '@Components/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
+import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { deepPatch } from '../../utils'
 // import { patchObject } from '../../utils'
 import { useParams } from 'react-router'
@@ -18,22 +19,22 @@ interface CourseLandingPageEditorPropsI {
 
 function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
   const { id } = useParams()
+  const { course } = props
   const courseId = props.courseId || id + ''
   const [form] = Form.useForm()
   const { useWatch } = Form
   const promoVideoFile = useWatch(['promoVideo'], form)
-  const { course } = props
   useLayoutEffect(
     () => {
-      form.setFieldsValue(props.course.landingPage)
+      form.setFieldsValue(course.landingPage)
     },
-    [props.course]
+    [course]
   )
 
   return (
     <Form
       onValuesChange={d => {
-        const data = deepPatch(props.course.landingPage, d)
+        const data = deepPatch(course.landingPage, d)
         console.log(data, d, 1111)
         props.saveCourse({
           landingPage: data
@@ -44,10 +45,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       autoComplete="off"
     >
       <Form.Item name={'description'} required label="Description">
-        <HtmlEditor
-          defaultValue={course.landingPage.description}
-          name={'description'}
-        />
+        <SunEditorComponent name={'description'} />
       </Form.Item>
       <Form.Item name="promoVideo" label="Promo Video" required>
         <MediaUpload
@@ -57,9 +55,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
           height="250px"
           onUpload={d => {
             console.log(d, 'eee')
-            // form.setFieldsValue({
-            //   promoVideo: d._id
-            // })
+            form.setFieldValue('promoVideo', d._id)
           }}
           renderItem={() => (
             <Button>{promoVideoFile ? 'Replace Video' : 'Upload Video'}</Button>

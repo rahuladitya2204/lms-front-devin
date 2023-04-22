@@ -11,6 +11,8 @@ import plugins from 'suneditor/src/plugins'
 interface SunEditorPropsI {
   height?: number;
   name?: string | string[];
+  value?: string;
+  onChange?: (d: string) => void;
   defaultValue?: string;
 }
 
@@ -20,9 +22,11 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     mutate: uploadFiles,
     isLoading: loading
   } = Common.Queries.useUploadFiles()
-  const value = Form.useWatch(props.name + '', form)
-  console.log(value, 'aaaaa')
-
+  let value = Form.useWatch(props.name + '', form)
+  if (props.value) {
+    value = props.value
+  }
+  // console.log(value, 'va');
   const handleImageUploadBefore = (
     files: any,
     info: any,
@@ -58,14 +62,21 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     <Fragment>
       <Spin spinning={loading}>
         <SunEditor
+          // defaultValue={value}
           // name={props.name}
           setContents={value}
-          onChange={e => props.name && form.setFieldValue(props.name, e)}
-          height={`${props.height || 700}`}
-          setOptions={{
-            ...editorOptions
-            //   plugins: Object.values(plugins)
+          onChange={e => {
+            // console.log(e, 'ee');
+            if (props.name) {
+              // const html = document.querySelector('.sun-editor-editable')
+              //   ?.innerHTML
+              // console.log(html, 'html')
+              form.setFieldValue(props.name, e)
+            }
+            props.onChange && props.onChange(e)
           }}
+          height={`${props.height || 700}`}
+          setOptions={editorOptions}
           // @ts-ignore
           onImageUploadBefore={handleImageUploadBefore}
         />

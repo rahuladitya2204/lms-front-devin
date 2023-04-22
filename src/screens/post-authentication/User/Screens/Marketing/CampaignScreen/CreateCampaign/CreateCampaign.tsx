@@ -33,7 +33,6 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   const data = props.data || Constants.INITIAL_CAMPAIGN_DETAILS
   const params = useParams()
   const navigate = useNavigate()
-  const [operator, setOperator] = useState('$or')
   const message = useMessage()
   const {
     mutate: createCampaign,
@@ -51,9 +50,6 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     }
   )
 
-  const [form] = Form.useForm()
-  const isFormValid = !form.getFieldsError().some(({ errors }) => errors.length)
-
   const [campaign, setCampaign] = useState(Constants.INITIAL_CAMPAIGN_DETAILS)
 
   useEffect(
@@ -64,16 +60,14 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   )
 
   const updateCampaign = (e: Partial<Types.Campaign>) => {
-    setCampaign({
-      ...campaign,
-      ...e
-    })
+    console.log(e, 'eeee')
+    setCampaign(e)
   }
 
   const onSubmit = () => {
-    if (!isFormValid) {
-      return
-    }
+    // if (!isFormValid) {
+    //   return
+    // }
     const data = {
       ...campaign,
       status: 'draft'
@@ -99,7 +93,6 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
             content: 'Saved'
           })
           navigate('../campaign')
-          form.resetFields()
           setRules([])
         }
       })
@@ -107,19 +100,12 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     // onFinish && onFinish(e)
   }
 
-  useEffect(
-    () => {
-      form.setFieldsValue(data)
-    },
-    [data]
-  )
-
   return (
     <Header
       title="Create Campaign"
       extra={[
         <Button
-          disabled={!isFormValid}
+          // disabled={!isFormValid}
           loading={createCampaignLoading || updateCampaignLoading}
           onClick={onSubmit}
         >
@@ -154,10 +140,10 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                   title: 'Template',
                   content: (
                     <Tabs
-                      defaultActiveKey="1"
+                      defaultActiveKey="1234321"
                       items={[
                         {
-                          key: '1',
+                          key: '112',
                           label: `Email`,
                           children: (
                             <CreateEmailTemplate
@@ -179,4 +165,4 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   )
 }
 
-export default CreateCampaign
+export default CreateCampaign;

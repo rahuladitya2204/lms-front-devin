@@ -17,21 +17,22 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
     const [form] = Form.useForm();
     useLayoutEffect(
         () => {
-          form.setFieldsValue(props.campaign)
+            form.setFieldsValue(props.campaign)
         },
         [[props.campaign]]
-      )
-    return <>
-            <Form   onValuesChange={d => {
-        const data = deepPatch(props.campaign, d)
-        console.log(data, d, 1111)
+    );
+    const onValuesChange = (d: any) => {
+        console.log( props.campaign,d, 1111)
+        const data = deepPatch({...props.campaign}, d)
         props.updateCampaign(data)
-      }} form={form}>
+    };
+    return <>
+            <Form onValuesChange={onValuesChange} form={form}>
 <Form.Item name={['email','subject']} label="Email Subject" required>
             <HtmlEditor name={['email','subject']} type="text" variables={variables} />
         </Form.Item>
         <Form.Item  name={['email','template']}  label="Email Body" required>
-            <SunEditorComponent name={['email','template']}  />
+                <SunEditorComponent  name={['email','template']}  />
         </Form.Item>
         </Form>
         </>
