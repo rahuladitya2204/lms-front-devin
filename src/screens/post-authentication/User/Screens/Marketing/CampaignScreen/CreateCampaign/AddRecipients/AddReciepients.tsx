@@ -38,7 +38,6 @@ const AddRecipients = ({ updateCampaign, campaign }: AddRecipientsPropsI) => {
 
   const updateRecipients = (d: any) => {
     const data = deepPatch(campaign.recipients, d)
-    console.log(data, d, 1111)
     // @ts-ignore
     updateCampaign({
       recipients: data
@@ -76,7 +75,6 @@ const AddRecipients = ({ updateCampaign, campaign }: AddRecipientsPropsI) => {
       form={form}
       onValuesChange={d => {
         const data = deepPatch(campaign, d)
-        console.log(data, d, 1111)
         updateCampaign(data)
       }}
       layout="vertical"

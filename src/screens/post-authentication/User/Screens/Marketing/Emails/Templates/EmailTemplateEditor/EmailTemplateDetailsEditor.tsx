@@ -6,6 +6,7 @@ import React, { Fragment } from 'react';
 
 import HtmlEditor from '@Components/HtmlEditor';
 import QuillEditor from '@Components/QuillEditor';
+import SunEditorComponent from '@Components/SunEditor/SunEditor';
 import { useParams } from 'react-router';
 
 const { Text } = Typography;
@@ -38,15 +39,17 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
         </Form.Item></>:<Form.Item label="Template Title" >
          <Text> {template.title}</Text>
         </Form.Item>}
-        <Space direction='vertical' size={[30,30]}>
+        <Space direction='vertical' size={[30,30]} style={{width:'100%'}}>
         <Form.Item name="subject" label="Subject of the email" required>
            <HtmlEditor variables={variables} name="subject"
           />
 
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-        <HtmlEditor name="content" variables={variables}
-          />
+        <SunEditorComponent
+              // variables={VARIABLES}
+              name={['content']}
+            />
         </Form.Item>
         </Space>
     </Fragment>

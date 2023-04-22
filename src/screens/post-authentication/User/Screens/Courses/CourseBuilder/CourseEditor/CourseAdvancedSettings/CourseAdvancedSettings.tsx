@@ -8,6 +8,7 @@ import {
   Space,
   Switch,
   Tag,
+  Tooltip,
   Typography
 } from 'antd'
 import { Fragment, useEffect, useLayoutEffect } from 'react'
@@ -15,6 +16,7 @@ import { Fragment, useEffect, useLayoutEffect } from 'react'
 import CourseCertificate from '../CourseCertificate/CourseCertificateScreen'
 import HtmlEditor from '@Components/HtmlEditor'
 import QuillEditor from '@Components/QuillEditor'
+import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '../../utils'
 import { useParams } from 'react-router'
@@ -63,7 +65,6 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
      <Form
       onValuesChange={d => {
         const data = deepPatch(props.course.advanced, d)
-        console.log(data, d, 1111)
         props.saveCourse({
           advanced: data
         })
@@ -76,15 +77,20 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
         <Checkbox>Enable Water Mark</Checkbox>
       </Form.Item>
 
-      <Card title={<Title level={3}>Email Notification</Title>}>
-        
-      <Form.Item
+        <Card bodyStyle={{
+          display:sendEmail?'block':'none'
+        }} title={<Title level={3}>Email Notification</Title>} extra={
+              <Tooltip placement="topLeft" title={`Send email to learner on course enrollment`}>
+
+          <Form.Item style={{margin:0}}
         valuePropName="checked"
         name={['email', 'enabled']}
-        label="Send email to learner on course enrollment."
+        // label="Send email to learner on course enrollment."
       >
         <Switch />
-      </Form.Item>
+            </Form.Item>
+          </Tooltip>}>
+        
       {sendEmail ? (
         <Fragment>
           <Form.Item name={['email', 'subject']} label="Email Subject">
@@ -95,8 +101,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
             <Input />
           </Form.Item>
           <Form.Item name={['email', 'content']} required label="Email Body">
-            <HtmlEditor
-              defaultValue={props.course.advanced.email?.content}
+            <SunEditorComponent
               variables={VARIABLES}
               name={['email', 'content']}
             />

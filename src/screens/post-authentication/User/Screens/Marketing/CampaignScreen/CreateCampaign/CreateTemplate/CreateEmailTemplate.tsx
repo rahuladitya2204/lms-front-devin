@@ -22,7 +22,6 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
         [[props.campaign]]
     );
     const onValuesChange = (d: any) => {
-        console.log( props.campaign,d, 1111)
         const data = deepPatch({...props.campaign}, d)
         props.updateCampaign(data)
     };

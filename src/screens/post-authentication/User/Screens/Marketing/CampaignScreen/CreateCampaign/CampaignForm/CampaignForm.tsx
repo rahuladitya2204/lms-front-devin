@@ -24,7 +24,6 @@ const CampaignForm = (props: CampaignFormPropsI) => {
       form={form}
       onValuesChange={d => {
         const data = deepPatch(props.campaign, d)
-        console.log(data, d, 1111)
         props.updateCampaign(data)
       }}
       layout="vertical"

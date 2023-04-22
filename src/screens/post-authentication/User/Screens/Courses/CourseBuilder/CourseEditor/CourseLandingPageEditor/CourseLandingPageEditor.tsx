@@ -35,7 +35,6 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
     <Form
       onValuesChange={d => {
         const data = deepPatch(course.landingPage, d)
-        console.log(data, d, 1111)
         props.saveCourse({
           landingPage: data
         })

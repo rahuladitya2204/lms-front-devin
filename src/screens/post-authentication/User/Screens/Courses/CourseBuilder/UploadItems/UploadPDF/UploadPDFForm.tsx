@@ -29,7 +29,7 @@ const UploadPDFForm: React.FC = () => {
           <Input placeholder="Title" />
         </Form.Item>
         <Form.Item name="Description" label="Description" required>
-          <Input placeholder="input placeholder" />
+          <Input placeholder="description" />
         </Form.Item>
         <Form.Item name="PDF File" label="PDF File" required>
           <MediaUpload

@@ -152,7 +152,6 @@ export class ImageNode extends DecoratorNode<JSX.Element> {
   }
 
   exportJSON(): SerializedImageNode {
-    console.log(this.__width, this.__height, '1111');
     return {
       altText: this.getAltText(),
       caption: this.__caption.toJSON(),
