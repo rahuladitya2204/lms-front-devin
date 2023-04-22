@@ -79,21 +79,20 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     })
   }
   return (
-    <Card bodyStyle={{ padding: 0 }}>
-      <CustomCollapse
-        collapsible="header"
-        bordered
-        defaultActiveKey={sections.map((s, i) => i)}
-        expandIconPosition="end"
-        // ghost
-      >
-        {sections.map((section, secIndex) => {
-          return (
+    <Space size={[20, 20]} direction="vertical" style={{ width: '100%' }}>
+      {sections.map((section, secIndex) => {
+        return (
+          <CustomCollapse
+            collapsible="header"
+            bordered
+            defaultActiveKey={sections.map((s, i) => i)}
+            expandIconPosition="end"
+            // ghost
+          >
             <Collapse.Panel
               key={secIndex}
               header={<span>{`${section.title}`}</span>}
             >
-              {' '}
               <List
                 itemLayout="horizontal"
                 style={{ marginBottom: 20 }}
@@ -165,10 +164,10 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                 )}
               />
             </Collapse.Panel>
-          )
-        })}
-      </CustomCollapse>
-    </Card>
+          </CustomCollapse>
+        )
+      })}
+    </Space>
   )
 }
 
