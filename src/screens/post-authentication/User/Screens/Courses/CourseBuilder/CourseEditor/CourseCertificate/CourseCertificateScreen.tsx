@@ -12,11 +12,12 @@ import {
   Tag,
   Typography
 } from 'antd'
+import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useLayoutEffect } from 'react'
 import { Types, User } from '@adewaskar/lms-common'
 
-import { Text } from 'yjs'
-import { useParams } from 'react-router'
+import ActionModal from '@Components/ActionModal'
+import AddCertificateTemplate from '@User/Screens/CertificateTemplates/AddCertificateTemplate'
 
 const { Title } = Typography
 const { useWatch } = Form
@@ -54,15 +55,14 @@ function CourseCertificate(props: CourseCertificatePropsI) {
 
   useLayoutEffect(
     () => {
-      console.log(props.course.certificate, 'props.course.certificate')
       form.setFieldsValue(props.course.certificate)
     },
     [props.course.certificate]
-  )
+  );
+  const certificateId = useWatch(['template'], form);
   return (
     <Form
       onValuesChange={d => {
-        console.log(d, 'dd')
         props.saveCourse({
           certificate: {
             ...props.course.certificate,
@@ -74,8 +74,8 @@ function CourseCertificate(props: CourseCertificatePropsI) {
       layout="vertical"
       autoComplete="off"
     >
+      <Space>
       <Form.Item
-        // valuePropName="checked"
         name={['template']}
         label="Certificate Template Design"
       >
@@ -83,10 +83,25 @@ function CourseCertificate(props: CourseCertificatePropsI) {
           allowClear
           style={{ width: 300 }}
           placeholder="Please select certificte template"
-          // onChange={handleChange}
           options={certificateTemplates}
         />
       </Form.Item>
+        {certificateId ? <><Button onClick={e => {
+          window.open(`../../../certificate-template/${certificateId}/editor`)
+      }} icon={<EditOutlined />} style={{ marginLeft: 30 }}>
+          Edit Certificate
+        </Button>
+       <ActionModal cta={<Button
+          icon={<PlusOutlined />}
+          type="primary"
+          style={{ marginLeft: 20 }}
+        >
+          Create New{' '}
+          </Button>}>
+          <AddCertificateTemplate/>
+       </ActionModal>
+        </> : null}
+      </Space>
 
       <Form.Item name={['serialNumber', 'type']} label="Serial Number">
         <Radio.Group value={props.course.certificate.serialNumber.type}>

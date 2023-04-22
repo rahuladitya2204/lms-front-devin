@@ -43,7 +43,8 @@ function EmailTemplatesScreen() {
             { value: 'default', label: 'Default Templates' },
             { value: 'custom', label: 'Custom Templates' }
           ]}
-        /></>
+            />
+          </>
         }
       >
         <Row>
