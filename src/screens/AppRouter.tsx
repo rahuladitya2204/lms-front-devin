@@ -18,7 +18,7 @@ import CourseEditor from './post-authentication/User/Screens/Courses/CourseBuild
 import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
 import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
-import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign'
+import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreatePackage from '@User/Screens/Packages/CreatePackage'
 import EmailTemplateEditor from '@User/Screens/Marketing/Emails/Templates/EmailTemplateEditor'
 import EmailTemplatesScreen from '@User/Screens/Marketing/Emails/Templates/EmailTemplatesScreen'
