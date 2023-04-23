@@ -10,6 +10,7 @@ import plugins from 'suneditor/src/plugins'
 
 interface SunEditorPropsI {
   height?: number;
+  width?: number;
   name?: string | string[];
   variables?: { name: string, value: string }[];
   value?: string;
@@ -77,6 +78,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
             props.onChange && props.onChange(e)
           }}
           height={`${props.height || 700}`}
+          width={`${props.width}`}
           setOptions={editorOptions}
           // @ts-ignore
           onImageUploadBefore={handleImageUploadBefore}

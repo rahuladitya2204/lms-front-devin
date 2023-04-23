@@ -28,7 +28,7 @@ interface MediaUploadPropsI {
   listType?: string;
   prefixKey?: string;
   uploadType?: string;
-  name?: string;
+  name?: string | string[];
   cropper?: boolean;
   fileName?: string;
   rounded?: boolean;
@@ -118,7 +118,6 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   )
 
   if (props.uploadType === 'pdf') {
-
     UploadComponent = (
       <CustomUpload
         {...UPLOAD}
