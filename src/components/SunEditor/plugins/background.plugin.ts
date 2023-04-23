@@ -4,76 +4,102 @@ import 'suneditor/dist/css/suneditor.min.css'
 import React, { useEffect } from 'react'
 
 import SunEditor from 'suneditor-react'
+import { Types } from '@adewaskar/lms-common'
 
-export const setBackgroundImagePlugin = {
-  name: 'setBackgroundImage',
-  display: 'button',
-  buttonClass: '',
-  add: function (core) {
-    const context = core.context
-    context.custom = {
-      fileInput: '',
-      customButton: ''
-    }
-
-    context.custom.fileInput = document.createElement('input')
-    context.custom.fileInput.type = 'file'
-    context.custom.fileInput.accept = 'image/*'
-    context.custom.fileInput.style.display = 'none'
-    context.custom.fileInput.addEventListener('change', event => {
-      const file = event.target.files[0]
-      const reader = new FileReader()
-
-      reader.onload = e => {
-        const imageUrl = e.target.result
-        core.context.element.wysiwyg.style.backgroundImage = `url(${imageUrl})`
+export const setBackgroundImagePlugin = (
+  variables: { name: string, value: string }[]
+) => {
+  return {
+    name: 'setBackgroundImage',
+    display: 'submenu',
+    title: 'Custom plugin of the submenu',
+    buttonClass: 'variables-btn',
+    innerHTML:
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="width:24px;height:24px;"><path d="M6 10c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm12 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm-6 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>',
+    buttonClass: '',
+    // arguments - (core : core object, targetElement : clicked button element)
+    add: function(core, targetElement) {
+      // @Required
+      // Registering a namespace for caching as a plugin name in the context object
+      const context = core.context
+      context.customSubmenu = {
+        targetButton: targetElement,
+        textElement: null,
+        currentSpan: null
       }
 
-      if (file) {
-        reader.readAsDataURL(file)
-      }
-    })
+      // Generate submenu HTML
+      // Always bind "core" when calling a plugin function
+      let listDiv = this.setSubmenu(core)
 
-    context.custom.customButton = document.createElement('button')
-    context.custom.customButton.innerHTML = 'Set Background Image'
-  },
-  init: function (core) {
-    const context = core.context
-    const toolbar = core.context.element.toolbar
-    this.buttonClass = core.util.addClass(context.custom.customButton, 'se-btn')
+      // Input tag caching
+      context.customSubmenu.textElement = listDiv.querySelector('input')
+      console.log(listDiv, variables, 'lili')
+      listDiv
+        .querySelector('.se-form-group')
+        ?.addEventListener('click', this.onClick.bind(core))
+      // You must bind "core" object when registering an event.
+      /** add event listeners */
+      // listDiv
+      //   .querySelector('.se-btn-primary')
+      //   .addEventListener('click', this.onClick.bind(core))
+      // listDiv
+      //   .querySelector('.se-btn')
+      //   .addEventListener('click', this.onClickRemove.bind(core))
 
-    context.custom.customButton.addEventListener('click', () => {
-      this.action()
-    })
-
-    toolbar
-      .querySelector('.se-btn-group:last-child')
-      .appendChild(context.custom.customButton)
-  },
-  action: function () {
-    this.core.context.custom.fileInput.click()
-  },
-  active: function () {
-    return false
-  },
-  after: function (core) {
-    core.context.custom.fileInput.remove()
-  }
-}
-
-export function useSunEditorPlugin (editorInstance, plugin) {
-  useEffect(
-    () => {
-      if (editorInstance && plugin) {
-        const context = editorInstance.core.context
-        console.log(context, 'editorInstance')
-
-        plugin.add(editorInstance.core)
-        if (context.toolbar) {
-          context.toolbar.appendChild(context.custom.customButton)
-        }
-      }
+      // @Required
+      // You must add the "submenu" element using the "core.initMenuTarget" method.
+      /** append target button menu */
+      core.initMenuTarget(this.name, targetElement, listDiv)
     },
-    [editorInstance, plugin]
-  )
+
+    setSubmenu: function(core) {
+      const listDiv = core.util.createElement('DIV')
+      // @Required
+      // A "se-submenu" class is required for the top level element.
+      listDiv.className = 'se-menu-container se-submenu se-list-layer'
+      listDiv.innerHTML =
+        '' +
+        '<div class="se-list-inner">' +
+        '<ul class="se-list-basic" style="width: 230px;">' +
+        '<li>' +
+        '<div class="se-form-group">' +
+        `
+      <ul>
+      ${variables
+        .map(
+          v => `<li class="variable-li">
+      <span variable-value="${v.value}">${v.name}</span>
+      </li>`
+        )
+        .join('')}
+      </ul>  
+      ` +
+        '</div>' +
+        '</li>' +
+        '</ul>' +
+        '</div>'
+
+      return listDiv
+    },
+    onClick: function(e) {
+      console.log(e.target, 'eee')
+      const variable: Types.Variable = {
+        name: e.target.innerHTML,
+        value: e.target.getAttribute('variable-value')
+      }
+      // if (span) {
+      //   span.textContent = value
+      //   this.setRange(span, 1, span, 1)
+      // } else {
+      this.functions.insertHTML(
+        `<span class="se-variable" variable-value="${variable.value}">${
+          variable.name
+        }</span>&#8203;`,
+        // '<span class="se-custom-tag" variable-value="">' + variable.name + '</span>',
+        true
+      )
+      this.submenuOff()
+    },
+  }
 }

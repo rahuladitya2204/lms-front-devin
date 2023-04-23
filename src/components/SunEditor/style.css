@@ -1,0 +1,13 @@
+.se-variable{
+    background: #ffc803;
+    padding: 2px 5px !important;
+    border-radius: 6px;
+}
+
+li.variable-li {
+    padding: 5px 10px !important;
+}
+
+li.variable-li:hover {
+    background: gainsboro;
+}

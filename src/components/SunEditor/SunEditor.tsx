@@ -1,17 +1,19 @@
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
+import './style.css'
 
+import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin } from 'antd'
 import React, { Fragment } from 'react'
 
-import { Common } from '@adewaskar/lms-common'
 import SunEditor from 'suneditor-react'
 import { editorOptions } from './constant'
+import { setBackgroundImagePlugin } from './plugins/background.plugin'
 
 interface SunEditorPropsI {
   height?: number;
   width?: number;
   name?: string | string[];
-  variables?: { name: string, value: string }[];
+  variables?: Types.Variable[];
   value?: string;
   onChange?: (d: string) => void;
   defaultValue?: string;
@@ -58,7 +60,10 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       return false
     }
   }
-
+  const variables = [
+    { name: 'Course Name', value: 'course.name' },
+    { name: 'Learner Name', value: 'learner.name' }
+  ]
   return (
     <Fragment>
       <Spin spinning={loading}>
@@ -78,7 +83,10 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           }}
           height={`${props.height || 700}`}
           width={`${props.width}`}
-          setOptions={editorOptions}
+          setOptions={{
+            ...editorOptions,
+            plugins: variables ? [setBackgroundImagePlugin(variables)] : []
+          }}
           // @ts-ignore
           onImageUploadBefore={handleImageUploadBefore}
         />

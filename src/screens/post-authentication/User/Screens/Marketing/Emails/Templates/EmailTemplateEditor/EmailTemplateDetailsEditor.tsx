@@ -47,7 +47,7 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
         <SunEditorComponent
-              // variables={VARIABLES}
+              variables={variables}
               name={['content']}
             />
         </Form.Item>
