@@ -16,11 +16,11 @@ import { useWatch } from 'antd/es/form/Form'
 const SIZES = {
   portrait: {
     width: 794,
-    height: 1123
+    height: 1100
   },
 landscape: {
   height: 794,
-  width: 1123
+  width: 1100
   }
 }
 

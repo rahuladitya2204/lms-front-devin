@@ -6,7 +6,6 @@ import React, { Fragment } from 'react'
 import { Common } from '@adewaskar/lms-common'
 import SunEditor from 'suneditor-react'
 import { editorOptions } from './constant'
-import plugins from 'suneditor/src/plugins'
 
 interface SunEditorPropsI {
   height?: number;
