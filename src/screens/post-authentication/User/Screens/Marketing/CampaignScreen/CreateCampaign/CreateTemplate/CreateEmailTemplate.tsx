@@ -26,7 +26,7 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
         props.updateCampaign(data)
     };
     return <>
-            <Form onValuesChange={onValuesChange} form={form}>
+            <Form onValuesChange={onValuesChange} form={form} layout="vertical">
 <Form.Item name={['email','subject']} label="Email Subject" required>
             <HtmlEditor name={['email','subject']} type="text" variables={variables} />
         </Form.Item>

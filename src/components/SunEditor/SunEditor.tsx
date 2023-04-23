@@ -7,7 +7,7 @@ import React, { Fragment } from 'react'
 
 import SunEditor from 'suneditor-react'
 import { editorOptions } from './constant'
-import { setBackgroundImagePlugin } from './plugins/background.plugin'
+import { variablePlugin } from './plugins/variable.plugin'
 
 interface SunEditorPropsI {
   height?: number;
@@ -61,7 +61,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     }
   }
   const variables = [
-    { name: 'Course Name', value: 'course.name' },
+    { name: 'Course Name', value: 'course.title' },
     { name: 'Learner Name', value: 'learner.name' }
   ]
   return (
@@ -85,7 +85,10 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           width={`${props.width}`}
           setOptions={{
             ...editorOptions,
-            plugins: variables ? [setBackgroundImagePlugin(variables)] : []
+            plugins: [variablePlugin(variables)],
+            attributesWhitelist: {
+              // span: 'variable-value'
+            }
           }}
           // @ts-ignore
           onImageUploadBefore={handleImageUploadBefore}

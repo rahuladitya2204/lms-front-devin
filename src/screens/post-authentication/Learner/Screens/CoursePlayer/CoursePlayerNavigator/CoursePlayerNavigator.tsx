@@ -27,6 +27,7 @@ interface CoursePlayerNavigatorPropsI {
 }
 
 function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
+  console.log(props.courseId, 'props.courseId')
   const { data: { course } } = Learner.Queries.useGetEnrolledCourseDetails(
     props.courseId,
     {

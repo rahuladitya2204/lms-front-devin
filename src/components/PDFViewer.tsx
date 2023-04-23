@@ -1,7 +1,7 @@
 import { Common, Types } from '@adewaskar/lms-common'
-import React, { useLayoutEffect, useState } from 'react'
+import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 
-import Viewer from 'pdf-viewer-reactjs'
+import React from 'react';
 
 interface PDFViewerPropsI {
   file: Types.FileType;
@@ -10,26 +10,21 @@ interface PDFViewerPropsI {
 const PDFViewer = (props: PDFViewerPropsI) => {
   const { data: url } = Common.Queries.useGetPresignedUrl(props.file._id)
 
-  const [isMounted, setIsMounted] = useState(false)
+  const [numPages, setNumPages] = React.useState(null)
 
-  console.log(url, 'url')
-  console.log('huhuhu')
+  function onDocumentLoadSuccess({ numPages }: any) {
+    setNumPages(numPages)
+  }
 
-  useLayoutEffect(() => {
-    setIsMounted(true)
-    return () => {
-      setIsMounted(false)
-    }
-  }, [])
-
-  return isMounted && url ? (
-    <Viewer
-      document={{
-        url: url
-        // url: 'https://arxiv.org/pdf/quant-ph/0410100.pdf'
-      }}
-    />
-  ) : null
+  return (
+    <div>
+      <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
+        {Array.from(new Array(numPages), (el, index) => (
+          <Page key={`page_${index + 1}`} pageNumber={index + 1} />
+        ))}
+      </Document>
+    </div>
+  )
 }
 
-export default PDFViewer
+export default PDFViewer;

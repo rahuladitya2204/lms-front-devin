@@ -20,6 +20,7 @@ const UploadVideoForm: React.FC = () => {
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
+
   return (
     <Fragment>
       <Form onValuesChange={onFormChange} form={form} layout="vertical">
@@ -31,9 +32,9 @@ const UploadVideoForm: React.FC = () => {
         >
           <Input placeholder="Enter Video Title" />
         </Form.Item>
-        <Form.Item name="description" label="Description" required>
-          <HtmlEditor name="description" />
-        </Form.Item>
+        {/* <Form.Item name="description" label="Description">
+          <Input placeholder="Enter Description" />
+        </Form.Item> */}
         <Form.Item>
           <Checkbox
             checked={item.isPreview}
@@ -100,7 +101,7 @@ const UploadVideoForm: React.FC = () => {
               <Button>{file ? 'Replace Video' : 'Upload Video'}</Button>
             )}
           />
-          {file ? <MediaPlayer fileId={file._id} /> : null}
+          {file._id ? <MediaPlayer fileId={file._id} /> : null}
         </Form.Item>
       </Form>
     </Fragment>

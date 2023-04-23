@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Card, Checkbox, Form, Input } from 'antd'
 
 import { Common } from '@adewaskar/lms-common'
 import { Fragment } from 'react'
@@ -11,7 +11,7 @@ const UploadPDFForm: React.FC = () => {
   const { onFormChange, item } = useUploadItemForm(form)
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
-  });
+  })
   return (
     <Fragment>
       <Form
@@ -28,8 +28,19 @@ const UploadPDFForm: React.FC = () => {
         >
           <Input placeholder="Title" />
         </Form.Item>
-        <Form.Item name="Description" label="Description" required>
+        {/* <Form.Item name="Description" label="Description" required>
           <Input placeholder="description" />
+        </Form.Item> */}
+        <Form.Item>
+          <Checkbox
+            checked={item.isPreview}
+            onChange={e => {
+              const isPreview = e.target.checked
+              onFormChange({ isPreview })
+            }}
+          >
+            Avail this as a free lecture
+          </Checkbox>
         </Form.Item>
         <Form.Item name="PDF File" label="PDF File" required>
           <MediaUpload
@@ -47,10 +58,11 @@ const UploadPDFForm: React.FC = () => {
               <Button>{file?.url ? 'Replace PDF' : 'Upload PDF'}</Button>
             )}
           />
-          {file?.url ? <PDFViewer file={file} /> : null}
         </Form.Item>
       </Form>
-      {/* <PDFViewer url={data.url} /> */}
+      <Card title={file.name}>
+        {file?.url ? <PDFViewer file={file} /> : null}
+      </Card>
     </Fragment>
   )
 }

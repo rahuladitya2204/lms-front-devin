@@ -43,6 +43,7 @@ interface AddItemPropsI {
     key?: string
   ) => void;
   children?: React.ReactNode;
+  closeModal?: () => void;
 }
 
 function AddItem(props: AddItemPropsI) {
@@ -50,7 +51,7 @@ function AddItem(props: AddItemPropsI) {
 
   const onFinish = (type: string, item: Partial<Types.CourseSectionItem>) => {
     props.onAddNewItem(type, item)
-    // closeModal()
+    props.closeModal && props.closeModal()
   }
   return (
     <Form form={form} layout="vertical">

@@ -1,9 +1,8 @@
-import { customDropdownPlugin } from './plugins/variable-plugin'
-
 export const editorOptions = {
   // plugins: [customDropdownPlugin],
   buttonList: [
-    ['setBackgroundImage'],
+    // ['backgroundPlugin'],
+    ['variablePlugin'],
     // default
     ['undo', 'redo'],
     [

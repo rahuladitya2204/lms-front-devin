@@ -83,22 +83,23 @@ function CourseBuilderScreen() {
     })
   }
 
-
   const saveCourse = d => {
-    updateCourse(
-      {
-        id: courseId + '',
-        data: { ...course, ...d }
-      },
-      {
-        onSuccess: () => {
-          message.open({
-            type: 'success',
-            content: 'Saved Course'
-          })
+    if (course._id) {
+      updateCourse(
+        {
+          id: courseId + '',
+          data: { ...course, ...d }
+        },
+        {
+          onSuccess: () => {
+            message.open({
+              type: 'success',
+              content: 'Saved Course'
+            })
+          }
         }
-      }
-    )
+      )
+    }
   }
 
   useEffect(
@@ -115,7 +116,7 @@ function CourseBuilderScreen() {
     const COURSE = cloneDeep(course)
     COURSE.sections = updateCourseSectionItem(COURSE.sections, sectionId, item)
     setCourse(COURSE)
-    saveCourse(COURSE);
+    saveCourse(COURSE)
   }
 
   const deleteSection = (index: number) => {
@@ -189,7 +190,11 @@ function CourseBuilderScreen() {
                     renderItem={() => (
                       <Image preview={false} src={course.thumbnailImage} />
                     )}
-                    name="thumbnailImage"
+                    onUpload={file => {
+                      saveCourse({
+                        thumbnailImage: file.url
+                      })
+                    }}
                   />
                 </Form.Item>
               </Col>

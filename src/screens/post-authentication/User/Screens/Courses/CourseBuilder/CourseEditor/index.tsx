@@ -6,7 +6,6 @@ import { Outlet, useParams } from 'react-router'
 
 import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
 import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
-import CourseCertificate from './CourseCertificate/CourseCertificateScreen'
 import CourseDetailsEditor from './CourseDetailsEditor'
 import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'

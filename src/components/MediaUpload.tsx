@@ -77,7 +77,9 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       },
       onSuccess: ([uploadFile]) => {
         uploadFile.file = file
-        form.setFieldValue(props.name, uploadFile._id)
+        if (form) {
+          form.setFieldValue(props.name, uploadFile._id)
+        }
         props.onUpload && props.onUpload(uploadFile, file)
         props.closeModal && props.closeModal()
       }
