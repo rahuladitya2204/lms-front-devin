@@ -82,3 +82,7 @@ export function deepPatch(target: any, patch: any) {
   innerPatch(result, patch)
   return result
 }
+
+export function formatSeconds(s: number) {
+  return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
+}

@@ -3,9 +3,11 @@ import 'video.js/dist/video-js.css'
 import 'videojs-markers'
 import 'videojs-markers/dist/videojs.markers.css'
 
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Store, Types } from '@adewaskar/lms-common'
 
 import React from 'react'
+import { useRef } from 'react'
+import { useState } from 'react'
 import videojs from 'video.js'
 import watermark from 'videojs-dynamic-watermark'
 
@@ -18,16 +20,27 @@ interface MediaPlayerPropsI {
   watermark?: string | null;
   width?: number;
   height?: number;
+  notes?: Types.PlayerNote[];
   onEnded?: () => void;
 }
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
+  const setPlayer = Store.usePlayer(s => s.setPlayerState)
+  // const playerState = Store.usePlayer(s => s.state)
+  // const lastFiredSecond = useRef(-1)
+  const onTimeUpdate = player => {
+    const currentTimeInSeconds = Math.floor(player.currentTime())
+    setPlayer({
+      currentTime: currentTimeInSeconds
+    })
+  }
   const enabled = !!(!props.url && props.fileId)
   const { data: url } = Common.Queries.useGetPresignedUrl(props.fileId, {
     enabled
   })
   const Url = props.url || url
   const videoRef = React.useRef(null)
+  // const [markers, setMarkers] = useState([])
   const playerRef = React.useRef(null)
   const options = {
     aspectRatio: '16:9',
@@ -60,9 +73,13 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
           options,
           () => {
             videojs.log('player is ready')
+            player.on('timeupdate', () => {
+              onTimeUpdate(player)
+            })
             onReady && onReady(player)
           }
         ))
+
         if (props.watermark) {
           player.dynamicWatermark({
             elementId: 'unique_id',
@@ -73,6 +90,21 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
             -ms-user-select: none; /* IE 10 and IE 11 */
             user-select: none; /* Standard syntax */
             `
+          })
+        }
+
+        if (props.notes) {
+          const markers = props.notes.map(note => {
+            return {
+              time: note.time,
+              text: 'Note'
+            }
+          })
+          player.markers({
+            markers: markers,
+            onMarkerClick: marker => {
+              // Implement the behavior when a marker is clicked
+            }
           })
         }
 

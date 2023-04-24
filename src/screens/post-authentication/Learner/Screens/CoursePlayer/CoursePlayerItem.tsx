@@ -19,12 +19,14 @@ function CoursePlayerItem() {
     [user]
   )
   const { node: item, courseId } = useGetNodeFromRouterOutlet()
-  const { data: { course } } = Learner.Queries.useGetEnrolledCourseDetails(
-    courseId + ''
-  )
+  const {
+    data: { course, notes }
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '')
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
+  const currentItemNotes = notes.filter(note => note.item === item._id) || []
+
   let Component
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />
@@ -33,6 +35,7 @@ function CoursePlayerItem() {
   if (item.type === 'video') {
     Component = (
       <MediaPlayer
+        notes={currentItemNotes}
         watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
         fileId={file._id}
       />
