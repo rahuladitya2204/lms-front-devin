@@ -20,7 +20,7 @@ interface MediaPlayerPropsI {
   watermark?: string | null;
   width?: number;
   height?: number;
-  notes?: Types.PlayerNote[];
+  notes?: Types.CourseNote[];
   onEnded?: () => void;
 }
 
@@ -75,6 +75,9 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
             videojs.log('player is ready')
             player.on('timeupdate', () => {
               onTimeUpdate(player)
+            })
+            setPlayer({
+              playerInstance: player
             })
             onReady && onReady(player)
           }

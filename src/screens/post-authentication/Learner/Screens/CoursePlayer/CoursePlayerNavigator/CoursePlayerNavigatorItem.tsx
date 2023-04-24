@@ -29,7 +29,6 @@ const CourseListItem = styled(List.Item)`
 `
 
 function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
-  console.log(props.item, 'props.item')
   let duration = props.item.metadata?.duration
   if (!duration) {
     duration = 0

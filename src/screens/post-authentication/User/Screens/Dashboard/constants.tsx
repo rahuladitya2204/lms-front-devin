@@ -2,15 +2,11 @@ import {
   AppstoreOutlined,
   BookOutlined,
   CustomerServiceOutlined,
-  FileOutlined,
   FolderOpenOutlined,
   FundProjectionScreenOutlined,
-  MailOutlined,
   SettingOutlined,
   SoundOutlined,
-  ToolOutlined,
   UsergroupAddOutlined,
-  UsergroupDeleteOutlined
 } from '@ant-design/icons'
 
 import { MenuProps } from 'antd'

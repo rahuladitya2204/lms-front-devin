@@ -1,0 +1,63 @@
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Form,
+  Row,
+  Space,
+  Tag,
+  Typography
+} from 'antd'
+import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
+import React, { useState } from 'react'
+
+import SunEditorComponent from '@Components/SunEditor/SunEditor'
+import { formatSeconds } from '@User/Screens/Courses/CourseBuilder/utils'
+
+const { Text } = Typography
+
+interface CourseNotesPropsI {
+  //   currentTime: number;
+  courseId: string;
+}
+const CreateNote: React.FC<CourseNotesPropsI> = props => {
+  const { mutate: createNote } = Learner.Queries.useCreateNote()
+  const { currentTime } = Store.usePlayer((s: any) => s.state)
+  const onSave = (data: Partial<Types.CourseNote>) => {
+    const note = {
+      content: data.content + '',
+      time: currentTime
+    }
+    createNote({
+      courseId: props.courseId,
+      data: note
+    })
+    console.log(note, 'daa')
+  }
+  const time = formatSeconds(currentTime)
+  const [form] = Form.useForm()
+  return (
+    <Form layout="vertical" onFinish={onSave} form={form}>
+      <Space align="start">
+        <Tag>{time}</Tag>
+
+        <Space direction="vertical" align="end">
+          <Space.Compact block style={{ flex: 1 }}>
+            <Form.Item label={<Text>Create a note</Text>} name="content">
+              <SunEditorComponent height={100} name="content" />
+            </Form.Item>
+          </Space.Compact>
+
+          <Space align="end" style={{ marginBottom: 20 }}>
+            <Button type="primary" onClick={form.submit}>
+              Save Note
+            </Button>
+          </Space>
+        </Space>
+      </Space>
+    </Form>
+  )
+}
+
+export default CreateNote

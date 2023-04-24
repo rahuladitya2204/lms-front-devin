@@ -24,7 +24,7 @@ function CoursePlayerItem() {
   } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '')
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
-  })
+  });
   const currentItemNotes = notes.filter(note => note.item === item._id) || []
 
   let Component

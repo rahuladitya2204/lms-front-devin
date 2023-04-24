@@ -9,30 +9,34 @@ import {
   Tag,
   Typography
 } from 'antd'
-import { Constants, Learner, Types } from '@adewaskar/lms-common'
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
+import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlayCircleOutlined,
+  PlusOutlined
+} from '@ant-design/icons'
 import React, { useState } from 'react'
 
 import HtmlViewer from '@Components/HtmlViewer'
+import { formatSeconds } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useParams } from 'react-router'
 
 const { Text } = Typography
 
 interface CourseNoteItemPropsI {
   course: Types.Course;
-  note: {
-    item: string,
-    time: string,
-    content: string
-  };
+  note: Types.CourseNote;
 }
 const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
+  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { sectionId, itemId } = useParams()
   const section = props.course.sections.find(s => s._id === sectionId)
   const item = section?.items.find(i => i._id === itemId)
+  const time = formatSeconds(props.note.time)
   return (
     <Space align="start">
-      <Tag color="blue">0:32</Tag>
+      <Tag color="blue">{time}</Tag>
       <Space direction="vertical">
         <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
           <Space>
@@ -41,8 +45,18 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
             <Text>{item?.title}</Text>
           </Space>
           <Space>
-            <Button icon={<EditOutlined />} />
-            <Button icon={<DeleteOutlined />} />
+            <Button
+              shape="round"
+              onClick={() => {
+                if (playerInstance) {
+                  playerInstance.currentTime(props.note.time)
+                  playerInstance.play()
+                }
+              }}
+              icon={<PlayCircleOutlined />}
+            />
+            <Button shape="round" icon={<EditOutlined />} />
+            <Button shape="round" icon={<DeleteOutlined />} />
           </Space>
         </Space>
         <Space direction="vertical">
