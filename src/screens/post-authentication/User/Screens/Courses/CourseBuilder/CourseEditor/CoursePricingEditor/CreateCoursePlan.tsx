@@ -4,15 +4,19 @@ import { Fragment, useEffect } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import { User } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
 
 interface CreateCoursePlanPropsI {
   children?: React.ReactNode;
   courseId: string;
   plan?: Types.Plan;
+  closeModal?: Function;
 }
 
 function CreateCoursePlan(props: CreateCoursePlanPropsI) {
   const [form] = Form.useForm()
+  const message = useMessage()
+
   const {
     mutate: createCoursePlan,
     isLoading: isCreating
@@ -38,12 +42,31 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
     }
 
     if (planId) {
-      updateCoursePlan({
-        ...body,
-        planId
-      })
+      updateCoursePlan(
+        {
+          ...body,
+          planId
+        },
+        {
+          onSuccess: () => {
+            message.open({
+              type: 'success',
+              content: 'Saved Plan Details'
+            })
+            props.closeModal && props.closeModal()
+          }
+        }
+      )
     } else {
-      createCoursePlan(body)
+      createCoursePlan(body, {
+        onSuccess: () => {
+          message.open({
+            type: 'success',
+            content: 'Saved Plan Details'
+          })
+          props.closeModal && props.closeModal()
+        }
+      })
     }
   }
   const planType = Form.useWatch('type', form)

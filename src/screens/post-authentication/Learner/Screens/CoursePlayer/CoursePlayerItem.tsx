@@ -1,15 +1,27 @@
 import { Common, Learner, Store } from '@adewaskar/lms-common'
+import { Fragment, useMemo } from 'react'
 
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
-import { Fragment } from 'react'
 import MediaPlayer from '@Components/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import VideoPlayer from '@Components/VideoPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 
-function CoursePlayerItem () {
+function CoursePlayerItem() {
   const user = Store.useAuthentication(s => s.user)
-  const item = useGetNodeFromRouterOutlet()
+  const WATERMERK = useMemo(
+    () => {
+      return ` <div>
+  <p>${user.name}</p>
+  <p>${user.contactNo}</p>
+</div>`
+    },
+    [user]
+  )
+  const { node: item, courseId } = useGetNodeFromRouterOutlet()
+  const { data: { course } } = Learner.Queries.useGetEnrolledCourseDetails(
+    courseId + ''
+  )
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
@@ -21,10 +33,7 @@ function CoursePlayerItem () {
   if (item.type === 'video') {
     Component = (
       <MediaPlayer
-        watermark={` <div>
-         <p>${user.name}</p>
-         <p>${user.contactNo}</p>
-       </div>`}
+        watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
         fileId={file._id}
       />
     )

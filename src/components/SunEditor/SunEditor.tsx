@@ -68,15 +68,9 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     <Fragment>
       <Spin spinning={loading}>
         <SunEditor
-          // defaultValue={value}
-          // name={props.name}
           setContents={value}
           onChange={e => {
-            // console.log(e, 'ee');
             if (props.name) {
-              // const html = document.querySelector('.sun-editor-editable')
-              //   ?.innerHTML
-              // console.log(html, 'html')
               form.setFieldValue(props.name, e)
             }
             props.onChange && props.onChange(e)
@@ -85,10 +79,11 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           width={`${props.width}`}
           setOptions={{
             ...editorOptions,
-            plugins: [variablePlugin(variables)],
-            attributesWhitelist: {
-              // span: 'variable-value'
-            }
+            // plugins={defaultPlugins}
+            // plugins: [variablePlugin(variables)],
+            // attributesWhitelist: {
+            //   // span: 'variable-value'
+            // }
           }}
           // @ts-ignore
           onImageUploadBefore={handleImageUploadBefore}

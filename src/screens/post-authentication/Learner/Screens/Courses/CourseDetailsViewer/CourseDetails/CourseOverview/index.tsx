@@ -13,7 +13,6 @@ interface CourseOverviewPropsI {
 
 function CourseOverview(props: CourseOverviewPropsI) {
   const PromoVideoUrl = props?.course?.landingPage?.promoVideo
-  console.log(props.course, 'asa')
   const {landingPage} = props.course;
   return (
     <Fragment>

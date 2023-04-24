@@ -21,9 +21,9 @@ export const useNavigateParams = () => {
 
 export const useGetNodeFromRouterOutlet = () => {
   const { itemId,sectionId } = useParams();
-  const [sections] = useOutletContext<Types.CourseSection[][]>()
+  const [sections, courseId] = useOutletContext<Types.CourseSection[][]>();
   const node: Types.CourseSectionItem = findSectionItem(itemId + '', sectionId + '', sections) || {};
-  return node;
+  return {node,courseId};
 }
 
 export const useAppInit = (type: string) => {

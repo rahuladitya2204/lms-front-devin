@@ -1,6 +1,7 @@
 import { Tabs, Typography } from 'antd'
 
 import CourseDiscussion from './CourseDiscussion'
+import CourseNotes from './CourseNotes/CourseNotes'
 import CourseOverview from '@Learner/Screens/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
 import React from 'react'
 import { Types } from '@adewaskar/lms-common'
@@ -12,21 +13,21 @@ interface CoursePlayerMoreInfoPropsI {
 
 const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
   const TAB_ITEMS = [
-    // {
-    //   label: <SearchOutlined />,
-    //   key: '1',
-    //   children: 'Search Content'
-    // },
     {
       label: <Text strong>Overview</Text>,
       key: '2',
       children: <CourseOverview hidePreview course={props.course} />
     },
     {
+      label: <Text strong>Notes</Text>,
+      key: '212',
+      children: <CourseNotes course={props.course} />
+    },
+    {
       label: <Text strong>Course Discussion</Text>,
       key: '3',
       children: <CourseDiscussion course={props.course} />
-    },
+    }
     // {
     //   label: <Text strong>Announcements</Text>,
     //   key: '4',

@@ -61,15 +61,17 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
     [props.course]
   )
 
+  const onValuesChange = (d: Partial<Types.Course>) => {
+    const data = deepPatch(props.course, d)
+    props.saveCourse(data)
+  }
+
   return (
     <Form
       form={form}
       layout="vertical"
       autoComplete="off"
-      onValuesChange={d => {
-        const data = deepPatch(props.course, d)
-        props.saveCourse(data)
-      }}
+      onValuesChange={onValuesChange}
     >
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
@@ -80,7 +82,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           prefixKey={`courses/${courseId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={thumbnailImage} />}
           onUpload={e => {
-            form.setFieldValue('thumbnailImage', e.url)
+            onValuesChange({ thumbnailImage: e.url })
           }}
         />
       </Form.Item>

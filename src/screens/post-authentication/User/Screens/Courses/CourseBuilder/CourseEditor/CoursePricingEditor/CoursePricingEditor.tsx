@@ -5,17 +5,17 @@ import CreateCoursePlan from './CreateCoursePlan'
 import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
 
 interface CoursePricingEditorPropsI {
   courseId: string;
   saveCourse: Function;
 
   course: Types.Course;
-
 }
 
 function CoursePricingEditor(props: CoursePricingEditorPropsI) {
-
+  const message = useMessage()
   const { data, isLoading: loading } = User.Queries.useGetCoursePlans(
     props.courseId
   )
@@ -33,7 +33,7 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
         <Row>
           <Col span={24}>
             <Table pagination={false} dataSource={data} loading={loading}>
-              <Table.Column title="Name" dataIndex="name" key="name" />
+              {/* <Table.Column title="Name" dataIndex="name" key="name" /> */}
               <Table.Column title="Plan Type" dataIndex="type" key="type" />
               <Table.Column
                 title="Listing Price"

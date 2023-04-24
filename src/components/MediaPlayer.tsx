@@ -1,5 +1,7 @@
 // @ts-nocheck
 import 'video.js/dist/video-js.css'
+import 'videojs-markers'
+import 'videojs-markers/dist/videojs.markers.css'
 
 import { Common, Types } from '@adewaskar/lms-common'
 
@@ -13,7 +15,7 @@ interface MediaPlayerPropsI {
   file?: Types.FileType;
   fileId?: string;
   url?: string;
-  watermark?: string;
+  watermark?: string | null;
   width?: number;
   height?: number;
   onEnded?: () => void;

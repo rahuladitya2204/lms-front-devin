@@ -126,7 +126,8 @@ function CoursePlayer() {
                   height: 533,
                   padding: 0,
                   position: 'relative',
-                  background: '#fff'
+                  background: '#fff',
+                  overflow: 'scroll'
                 }}
                 // bodyStyle={{}}
               >
@@ -158,7 +159,7 @@ function CoursePlayer() {
                     />
                   </Tooltip>
                 ) : null}
-                <Outlet context={[sections]} />
+                <Outlet context={[sections, course._id]} />
               </div>
             </Col>
             <Col span={24}>

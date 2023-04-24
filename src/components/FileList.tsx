@@ -103,7 +103,7 @@ function FileList(props: FileListPropsI) {
         dataSource={props.files}
         style={{ width: 500 }}
         renderItem={file => (
-          <FileItem onDeleteFile={props.onDeleteFile} file={file} />
+          <FileItem key={file.file} onDeleteFile={props.onDeleteFile} file={file} />
         )}
       />
     </Space>

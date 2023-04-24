@@ -2,6 +2,7 @@ import { Alert, Button, Form, Input, Select, Space } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
+import FileList from '@Components/FileList';
 import MediaUpload from '@Components/MediaUpload'
 
 interface CreateTicketComponentPropsI {
@@ -12,7 +13,7 @@ interface CreateTicketComponentPropsI {
 }
 
 const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
-    const [files, setFiles] = useState<Partial<Types.FileType>[]>([]);
+  const [files, setFiles] = useState<{ name: string,file:string}[]>([]);
   const user = Store.useAuthentication(u => u.user)
   const {
     mutate: createTicket,
@@ -32,16 +33,18 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
   const [form] = Form.useForm()
 
   const onSubmit = (e: any) => {
-    e.files = files
-    console.log(files, 'files')
+    const data = { ...e };
+    console.log(data,'eeeee')
+    // data.files = [...files];
     createTicket(
       {
-        data: e
+        data
       },
       {
         onSuccess: () => {
           form.resetFields()
           props.closeModal && props.closeModal()
+          setFiles([]);
         }
       }
     )
@@ -53,6 +56,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
     },
     [props.data]
   )
+
   const category = Form.useWatch('category', form)
     const subCategories = categories.filter((cat) => category&&cat.parentCategory === category).map(c => {
         return {
@@ -63,18 +67,15 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
   return (
     <Fragment>
       <Form
-        initialValues={{
-          contactEmail: user.email,
-          contactNo: user.contactNo
-        }}
         form={form}
         onFinish={onSubmit}
         layout="vertical"
       >
-        <Form.Item name="subject" label="Subject" required>
+        <Form.Item name="subject" label="Subject" required rules={[{ required: true, message: 'Please mention subject of the ticket!' }]}>
           <Input placeholder="Subject of the Ticket" />
         </Form.Item>
-        <Form.Item name="category" label="Category" required>
+        <Form.Item name="category" label="Category" rules={[{ required: true, message: 'Please select a category!' }]}
+                >
           <Select
             placeholder="Select Category"
             style={{ width: '100%' }}
@@ -82,7 +83,9 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
           />
         </Form.Item>
 
-        {subCategories.length?<Form.Item name="subCategory" label="Sub Category" required>
+        {subCategories.length ? <Form.Item name="subCategory" label="Sub Category"
+          rules={[{ required: true, message: 'Please select a sub-categor' }]}
+>
           <Select
             placeholder="Select Sub Category"
             // defaultValue="lucy"
@@ -96,28 +99,36 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
           message="Note: Explain the issue in detail"
           type="warning"
         />
-        <Form.Item name="description" label="Description" required>
+        <Form.Item name="description" label="Description" 
+        rules={[{ required: true, message: 'Please add some details about the issue' }]}>
           <Input.TextArea placeholder="Please enter email of the Ticket" />
         </Form.Item>
         {/* <Form.Item name="contactName" label="Contact Name" required>
           <Input placeholder="Your name" />
         </Form.Item> */}
-        <Form.Item name="contactNo" label="Contact Number" required>
+        <Form.Item name="contactNo" label="Contact Number" rules={[{ required: true, message: 'Please add your contact No!' }]} >
           <Input placeholder="Your phone number" />
         </Form.Item>
-        <Form.Item name="contactEmail" label="Contact Email" required>
+        <Form.Item name="contactEmail" label="Contact Email"  rules={[{ required: true, message: 'Please add your email address!' }]}>
           <Input placeholder="Your email address" />
         </Form.Item>
-        <Form.Item label="Upload Files" required>
+        <Form.Item label="Upload Files" required name={'files'}>
           <MediaUpload
             isProtected
             uploadType="file"
             prefixKey={`tickets/${user._id}/files`}
-            onUpload={({ name, key, url, isProtected }) => {
-              setFiles([...files, { name, url, key, isProtected }])
+            onUpload={({ _id,name }) => {
+              setFiles([...files, { name: name, file: _id }]);
             }}
           />{' '}
         </Form.Item>
+        <FileList
+              onDeleteFile={fileId => {
+                const FILES = files.filter(f => f.file !== fileId)
+                setFiles(FILES)
+              }}
+              files={files}
+            />
       </Form>
       {/* <Button
         key="back"
@@ -133,9 +144,6 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
           onClick={form.submit}
         >
           RAISE TICKET
-        </Button>
-        <Button loading={createTicketLoading} key="submit">
-          Cancel
         </Button>
       </Space>
     </Fragment>

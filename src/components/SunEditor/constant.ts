@@ -2,7 +2,7 @@ export const editorOptions = {
   // plugins: [customDropdownPlugin],
   buttonList: [
     // ['backgroundPlugin'],
-    ['variablePlugin'],
+    // ['variablePlugin'],
     // default
     ['undo', 'redo'],
     [
