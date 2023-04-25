@@ -58,39 +58,55 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   }
 
   return (
-    <Space align="start">
-      <Tag color="blue">{time}</Tag>
-      <Space direction="vertical">
-        <Space style={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Space>
-            <Text strong>{section?.title}</Text>
-            <Divider type="vertical" />
-            <Text>{item?.title}</Text>
-          </Space>
-          <Space>
-            <Button
-              shape="round"
-              onClick={() => {
-                if (playerInstance) {
-                  playerInstance.currentTime(props.note.time)
-                  playerInstance.play()
-                }
-              }}
-              icon={<PlayCircleOutlined />}
-            />
-            <Button shape="round" icon={<EditOutlined />} />
-            <Button
-              shape="round"
-              onClick={deleteNote}
-              icon={<DeleteOutlined />}
-            />
-          </Space>
-        </Space>
-        <Space direction="vertical">
-          <HtmlViewer content={props.note.content} />
-        </Space>
-      </Space>
-    </Space>
+    <Row>
+      <Col>
+        <Tag color="blue">{time}</Tag>
+      </Col>
+      <Col flex={1}>
+        <Row>
+          <Col span={24}>
+            <Row>
+              <Col span={24}>
+                <Row justify={'space-between'}>
+                  <Col>
+                    <Text strong>{section?.title}</Text>
+                    <Divider type="vertical" />
+                    <Text>{item?.title}</Text>
+                  </Col>
+                  <Col>
+                    <Button
+                      style={{ marginLeft: 10 }}
+                      shape="round"
+                      onClick={() => {
+                        if (playerInstance) {
+                          playerInstance.currentTime(props.note.time)
+                          playerInstance.play()
+                        }
+                      }}
+                      icon={<PlayCircleOutlined />}
+                    />
+                    <Button
+                      style={{ marginLeft: 10 }}
+                      shape="round"
+                      icon={<EditOutlined />}
+                    />
+                    <Button
+                      style={{ marginLeft: 10 }}
+                      shape="round"
+                      onClick={deleteNote}
+                      icon={<DeleteOutlined />}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+            <Space direction="vertical">
+              <HtmlViewer content={props.note.content} />
+            </Space>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
   )
 }
 

@@ -3,10 +3,11 @@ import './plyr.css'
 import './style.css'
 
 import { Store, Types } from '@adewaskar/lms-common'
-import { useEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 
 import ErrorBoundary from 'antd/es/alert/ErrorBoundary'
 import Plyr from 'plyr-react'
+import WatermarkPlugin from './useWatermark/Watermark'
 import { htmlToText } from 'html-to-text'
 
 interface VideoJsComponentPropsI {
@@ -21,7 +22,6 @@ interface VideoJsComponentPropsI {
 export const PlayrComponent = (props: VideoJsComponentPropsI) => {
   const setPlayer = Store.usePlayer(s => s.setPlayerState)
   const playerRef = useRef(null)
-  console.log(playerRef, 'playerRef')
   const points =
     props?.notes?.map(note => {
       return {
@@ -29,9 +29,8 @@ export const PlayrComponent = (props: VideoJsComponentPropsI) => {
         time: note.time
       }
     }) || []
-  useEffect(
+  useLayoutEffect(
     () => {
-      console.log(playerRef?.current, 'playerRef.current')
       // @ts-ignore
       if (playerRef.current && playerRef.current.plyr) {
         // @ts-ignore
@@ -47,23 +46,27 @@ export const PlayrComponent = (props: VideoJsComponentPropsI) => {
     },
     [playerRef.current]
   )
-  console.log(points, 'points')
+
   const PlayerComponent = (
-    <Plyr
-      onTimeUpdate={e => console.log(e, 'eee')}
-      ref={playerRef}
-      options={{
-        markers: {
-          enabled: true,
-          points: points
-        }
-      }}
-      source={{
-        type: 'video',
-        // @ts-ignore
-        sources: [{ src: props.url }]
-      }}
-    />
+    <WatermarkPlugin>
+      <Plyr
+        // onTimeUpdate={e => console.log(e, 'eee')}
+        // onTimeUpdateCapture={console.log}
+        ref={playerRef}
+        onPlay={e => console.log(e, 'eeee')}
+        options={{
+          markers: {
+            enabled: true,
+            points: points
+          }
+        }}
+        source={{
+          type: 'video',
+          // @ts-ignore
+          sources: [{ src: props.url }]
+        }}
+      />
+    </WatermarkPlugin>
   )
   return (
     <ErrorBoundary message={PlayerComponent}>{PlayerComponent}</ErrorBoundary>

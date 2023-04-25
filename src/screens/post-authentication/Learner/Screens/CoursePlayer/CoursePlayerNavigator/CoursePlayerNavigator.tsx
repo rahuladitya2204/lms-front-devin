@@ -8,6 +8,7 @@ import styled from '@emotion/styled'
 const { Panel } = Collapse
 
 const CustomCollapse = styled(Collapse)`
+  margin-top: 10px;
   div.ant-collapse {
     border-radius: 0 !important;
   }
@@ -36,13 +37,13 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
   const sections = course.sections
   return (
     <Fragment>
-      <CustomCollapse
-        // bordered={false}
-        expandIconPosition="end"
-        defaultActiveKey={sections.map((s, i) => s._id)}
-      >
-        {sections.map((section, index) => {
-          return (
+      {sections.map((section, index) => {
+        return (
+          <CustomCollapse
+            // bordered={false}
+            expandIconPosition="end"
+            defaultActiveKey={sections.map((s, i) => s._id)}
+          >
             <Panel
               header={
                 <Typography.Title level={5}>
@@ -68,9 +69,9 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
                 )}
               />
             </Panel>
-          )
-        })}
-      </CustomCollapse>
+          </CustomCollapse>
+        )
+      })}
       {/* {sections.map((section, sectionIndex) => {
         return (
           <CustomCollapse>

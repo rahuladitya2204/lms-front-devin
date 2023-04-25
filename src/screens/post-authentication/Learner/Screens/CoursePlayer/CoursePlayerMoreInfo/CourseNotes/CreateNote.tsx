@@ -47,25 +47,30 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
   const [form] = Form.useForm()
   return (
     <Form layout="vertical" onFinish={onSave} form={form}>
-      <Space align="start">
-        <Tag>{time}</Tag>
-
-        <Space direction="vertical" align="end">
+      <Row justify="start">
+        <Col flex={1}>
           <Row>
             <Col span={24}>
-              <Form.Item label={<Text>Create a note</Text>} name="content">
+              <Form.Item
+                label={
+                  <Text>Create a note at {<Tag color="cyan">{time}</Tag>}</Text>
+                }
+                name="content"
+              >
                 <SunEditorComponent height={100} name="content" />
               </Form.Item>
             </Col>
+            <Col
+              span={24}
+              style={{ display: 'flex', flexDirection: 'row-reverse' }}
+            >
+              <Button type="primary" onClick={form.submit}>
+                Save Note
+              </Button>
+            </Col>
           </Row>
-
-          <Space align="end" style={{ marginBottom: 20 }}>
-            <Button type="primary" onClick={form.submit}>
-              Save Note
-            </Button>
-          </Space>
-        </Space>
-      </Space>
+        </Col>
+      </Row>
     </Form>
   )
 }

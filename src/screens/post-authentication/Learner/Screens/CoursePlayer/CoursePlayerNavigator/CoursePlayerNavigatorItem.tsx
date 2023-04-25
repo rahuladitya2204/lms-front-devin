@@ -127,7 +127,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                           }}
                           placement="bottomRight"
                         >
-                          Resources
+                          Files
                         </Dropdown.Button>
                       ) : null}
                     </Col>

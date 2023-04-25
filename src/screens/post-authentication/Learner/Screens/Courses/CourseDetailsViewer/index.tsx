@@ -69,7 +69,6 @@ function CourseDetailViewer () {
   const isEnrolled = !!(learner.enrolledCourses.find((e) => {
     return e.course.toString() === courseId;
   }));
-  console.log(isEnrolled,'learner.enrolledCourses')
   useEffect(
     () => {
       setCourse(data)
@@ -85,6 +84,7 @@ function CourseDetailViewer () {
   // const { data: cartItems } = Learner.Queries.useGetCartItems();
   const navigate = useNavigate();
   // const isAddedToCart = cartItems?.find(item => item._id == course._id);
+  console.log(plan.finalPrice,'plan.finalPrice')
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
@@ -161,8 +161,8 @@ function CourseDetailViewer () {
                       <Row justify="space-between" align='middle'>
                     <Col>
                       <Row align='middle' gutter={ [5,5]}>
-                        <Col><Text strong style={{fontSize:24}}>${plan.finalPrice.value}</Text></Col>
-                        <Col><Text style={{textDecoration:'line-through'}} type='secondary'>${plan.displayPrice.value}</Text></Col>
+                          <Col><Text strong style={{ fontSize: 24 }}>{ plan.finalPrice.unit} {plan.finalPrice.value}</Text></Col>
+                          <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{plan.displayPrice.unit }{plan.displayPrice.value}</Text></Col>
                       </Row>
                     </Col>
                     <Col>

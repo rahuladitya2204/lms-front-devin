@@ -1,12 +1,9 @@
-import { Avatar, Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
+import { Card, Col, Divider, Row, Typography } from 'antd'
 import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import CourseNoteItem from './NoteItem'
 import CreateNote from './CreateNote'
-import { PlusOutlined } from '@ant-design/icons'
-import SunEditorComponent from '@Components/SunEditor/SunEditor'
-import { formatSeconds } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useParams } from 'react-router'
 
 const { Text } = Typography
@@ -15,11 +12,25 @@ interface CourseNotesPropsI {
   course: Types.Course;
 }
 const CourseNotes: React.FC<CourseNotesPropsI> = props => {
+  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { course } = props
   const { itemId } = useParams()
   const { data: { notes } } = Learner.Queries.useGetEnrolledCourseDetails(
     course._id + ''
   )
+  console.log(playerInstance?.getCurrentTime)
+  useEffect(
+    () => {
+      console.log(playerInstance, 'playerInstance')
+      if (playerInstance && playerInstance?.on) {
+        // playerInstance.on('timeupdate', (e: any) => {
+        //   console.log(e, '11212')
+        // })
+      }
+    },
+    [playerInstance]
+  )
+
   const currentItemNotes = notes.filter(note => note.item === itemId) || []
   return (
     <Row>
@@ -29,13 +40,14 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
             <Col span={24}>
               <CreateNote item={itemId + ''} courseId={course._id} />
             </Col>
-            <Col span={24}>
-              <Space direction="vertical">
-                {currentItemNotes.map(note => {
-                  return <CourseNoteItem course={course} note={note} />
-                })}
-              </Space>
-            </Col>
+            {currentItemNotes.map(note => {
+              return (
+                <Col span={24} style={{ marginBottom: 20 }}>
+                  <Divider />
+                  <CourseNoteItem course={course} note={note} />
+                </Col>
+              )
+            })}
           </Row>
         </Card>
       </Col>
