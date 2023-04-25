@@ -22,7 +22,11 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   const Url = props.url || url
 
   // return <VideoJs url={Url} />
-  return <PlayrComponent notes={props.notes} url={Url} />
+  return (
+    <div style={{ minHeight: 400 }}>
+      <PlayrComponent notes={props.notes} url={Url} />
+    </div>
+  )
 }
 
 export default MediaPlayer

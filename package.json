@@ -51,6 +51,7 @@
     "file-loader": "^6.2.0",
     "formik": "^2.2.9",
     "fs-extra": "^10.0.0",
+    "html-to-text": "^9.0.5",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
     "interactjs": "^1.10.17",
@@ -142,6 +143,7 @@
     ]
   },
   "devDependencies": {
+    "@types/html-to-text": "^9.0.0",
     "@types/lodash": "^4.14.187",
     "@types/pdf-viewer-reactjs": "^2.2.2",
     "@types/react-pdf": "^5.7.3",

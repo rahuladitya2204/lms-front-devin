@@ -2,6 +2,7 @@ import { Common, Learner, Store } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
+import ErrorBoundary from '@Components/ErrorBoundary'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import VideoPlayer from '@Components/VideoPlayer'
@@ -44,8 +45,12 @@ function CoursePlayerItem() {
   if (item.type === 'pdf') {
     Component = <PDFViewer file={file} />
   }
-  return <Fragment>{Component}</Fragment>
-  // return null;
+  return (
+    // @ts-ignore
+    <ErrorBoundary fallbackComponent={Component}>
+      <Fragment>{Component}</Fragment>
+    </ErrorBoundary>
+  )
 }
 
 export default CoursePlayerItem

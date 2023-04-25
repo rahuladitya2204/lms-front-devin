@@ -21,7 +21,6 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
     course._id + ''
   )
   const currentItemNotes = notes.filter(note => note.item === itemId) || []
-
   return (
     <Row>
       <Col span={24}>

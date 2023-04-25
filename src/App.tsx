@@ -12,7 +12,8 @@ const { defaultAlgorithm, darkAlgorithm } = theme
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false // default: true
+      refetchOnWindowFocus: false, // default: true,
+      staleTime: Infinity
     }
   }
 })

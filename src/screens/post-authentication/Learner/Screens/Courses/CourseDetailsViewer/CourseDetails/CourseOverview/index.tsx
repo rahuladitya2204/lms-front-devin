@@ -12,10 +12,11 @@ interface CourseOverviewPropsI {
 }
 
 function CourseOverview(props: CourseOverviewPropsI) {
-  const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrl(
-    props?.course?.landingPage?.promoVideo
-  )
   const { landingPage } = props.course
+  const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrl(
+    landingPage?.promoVideo
+  )
+  console.log(`PromoVideoUrl`, PromoVideoUrl)
   return (
     <Fragment>
       <Row gutter={[30, 30]}>

@@ -51,11 +51,13 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
         <Tag>{time}</Tag>
 
         <Space direction="vertical" align="end">
-          <Space.Compact block style={{ flex: 1 }}>
-            <Form.Item label={<Text>Create a note</Text>} name="content">
-              <SunEditorComponent height={100} name="content" />
-            </Form.Item>
-          </Space.Compact>
+          <Row>
+            <Col span={24}>
+              <Form.Item label={<Text>Create a note</Text>} name="content">
+                <SunEditorComponent height={100} name="content" />
+              </Form.Item>
+            </Col>
+          </Row>
 
           <Space align="end" style={{ marginBottom: 20 }}>
             <Button type="primary" onClick={form.submit}>
