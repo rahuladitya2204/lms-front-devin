@@ -41,7 +41,7 @@ export const PlayrComponent = (props: VideoJsComponentPropsI) => {
       }
       return () => {
         // @ts-ignore
-        console.log('Destroying', playerRef?.current?.plyr)
+        // console.log('Destroying', playerRef?.current?.plyr)
       }
     },
     [playerRef.current]
@@ -50,10 +50,7 @@ export const PlayrComponent = (props: VideoJsComponentPropsI) => {
   const PlayerComponent = (
     <WatermarkPlugin>
       <Plyr
-        // onTimeUpdate={e => console.log(e, 'eee')}
-        // onTimeUpdateCapture={console.log}
         ref={playerRef}
-        onPlay={e => console.log(e, 'eeee')}
         options={{
           markers: {
             enabled: true,

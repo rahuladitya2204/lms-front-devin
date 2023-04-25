@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Radio, Row, Select } from 'antd'
+import { Button, Col, Form, Input, Radio, Row, Select, Space } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect } from 'react'
 
@@ -112,35 +112,37 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
           </Form.Item>
           {planType === 'one-time' || planType === 'recurring' ? (
             <Row gutter={[30, 30]}>
-              <Col>
-                <Form.Item label="List Price" name={['displayPrice', 'value']}>
-                  <Input
-                    type="number"
-                    addonBefore={
-                      <Select defaultValue="rupee">
-                        <Select.Option value="rupee">₹</Select.Option>
-                        <Select.Option value="dollar">$</Select.Option>
-                      </Select>
-                    }
-                  />
-                </Form.Item>
+              <Col span={12}>
+                <Space align="end">
+                  <Form.Item label="List Price" name={['displayPrice', 'unit']}>
+                    <Select style={{ width: 70 }} defaultValue="rupee">
+                      <Select.Option value="rupee">₹</Select.Option>
+                      <Select.Option value="dollar">$</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    style={{ width: 130 }}
+                    name={['displayPrice', 'value']}
+                  >
+                    <Input type="number" />
+                  </Form.Item>
+                </Space>
               </Col>
-              <Col>
-                <Form.Item
-                  label="Final Payable Price"
-                  name={['finalPrice', 'value']}
-                >
-                  <Input
-                    type="number"
-                    addonBefore={
-                      <Select defaultValue="rupee">
-                        <Select.Option value="rupee">₹</Select.Option>
-                        <Select.Option value="dollar">$</Select.Option>
-                      </Select>
-                    }
-                    defaultValue="mysite"
-                  />
-                </Form.Item>
+              <Col span={12}>
+                <Space align="end">
+                  <Form.Item label="Final Price" name={['finalPrice', 'unit']}>
+                    <Select style={{ width: 70 }} defaultValue="rupee">
+                      <Select.Option value="rupee">₹</Select.Option>
+                      <Select.Option value="dollar">$</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    style={{ width: 130 }}
+                    name={['finalPrice', 'value']}
+                  >
+                    <Input type="number" />
+                  </Form.Item>
+                </Space>
               </Col>
             </Row>
           ) : null}

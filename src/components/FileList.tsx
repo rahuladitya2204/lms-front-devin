@@ -52,8 +52,7 @@ function FileItem({
             <DownloadOutlined
               onClick={e => {
                 Common.Api.GetPresignedUrl(file._id).then(url =>
-                  // window.open(url)
-                  console.log(url)
+                  window.open(url)
                 )
               }}
             />
@@ -103,7 +102,11 @@ function FileList(props: FileListPropsI) {
         dataSource={props.files}
         style={{ width: 500 }}
         renderItem={file => (
-          <FileItem key={file.file} onDeleteFile={props.onDeleteFile} file={file} />
+          <FileItem
+            key={file.file}
+            onDeleteFile={props.onDeleteFile}
+            file={file}
+          />
         )}
       />
     </Space>
