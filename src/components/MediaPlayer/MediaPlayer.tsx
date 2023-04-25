@@ -1,16 +1,7 @@
-// @ts-nocheck
-import 'video.js/dist/video-js.css'
-import 'videojs-markers'
-import 'videojs-markers/dist/videojs.markers.css'
+import { Common, Types } from '@adewaskar/lms-common'
 
-import { Common, Store, Types } from '@adewaskar/lms-common'
-
-import React from 'react'
-import { initMarkers } from './initMarker'
-import videojs from 'video.js'
-import watermark from 'videojs-dynamic-watermark'
-
-videojs.registerPlugin('dynamicWatermark', watermark)
+import PlayrComponent from './Playr/Playr'
+import VideoJs from './Videojs/Videojs'
 
 interface MediaPlayerPropsI {
   file?: Types.FileType;
@@ -24,124 +15,14 @@ interface MediaPlayerPropsI {
 }
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
-  const setPlayer = Store.usePlayer(s => s.setPlayerState)
-  // const playerState = Store.usePlayer(s => s.state)
-  // const lastFiredSecond = useRef(-1)
-  const onTimeUpdate = player => {
-    const currentTimeInSeconds = Math.floor(player.currentTime())
-    setPlayer({
-      currentTime: currentTimeInSeconds
-    })
-  }
   const enabled = !!(!props.url && props.fileId)
-  const { data: url } = Common.Queries.useGetPresignedUrl(props.fileId, {
+  const { data: url } = Common.Queries.useGetPresignedUrl(props.fileId + '', {
     enabled
   })
   const Url = props.url || url
-  const videoRef = React.useRef(null)
-  // const [markers, setMarkers] = useState([])
-  const playerRef = React.useRef(null)
-  const options = {
-    aspectRatio: '16:9',
-    // autoplay: true,
-    controls: true,
-    // responsive: true,
-    fluid: true,
-    sources: [
-      {
-        // props.url
-        src: Url,
-        type: 'video/mp4'
-      }
-    ]
-  }
-  const { onReady } = props
 
-  React.useEffect(
-    () => {
-      // Make sure Video.js player is only initialized once
-      if (!playerRef.current) {
-        // The Video.js player needs to be _inside_ the component el for React 18 Strict Mode.
-        const videoElement = document.createElement('video-js')
-
-        videoElement.classList.add('vjs-big-play-centered')
-        videoRef.current.appendChild(videoElement)
-
-        const player = (playerRef.current = videojs(
-          videoElement,
-          options,
-          () => {
-            videojs.log('player is ready')
-            player.on('timeupdate', () => {
-              onTimeUpdate(player)
-            })
-            setPlayer({
-              playerInstance: player
-            })
-            onReady && onReady(player)
-          }
-        ))
-
-        if (props.watermark) {
-          player.dynamicWatermark({
-            elementId: 'unique_id',
-            watermarkText: props.watermark.toString(),
-            changeDuration: 8000,
-            cssText: `display: inline-block; color: red; background-color: transparent; font-size: 1rem; z-index: 9999; position: absolute; @media only screen and (max-width: 992px){font-size: 0.8rem;}
-            -webkit-user-select: none; /* Safari */
-            -ms-user-select: none; /* IE 10 and IE 11 */
-            user-select: none; /* Standard syntax */
-            `
-          })
-        }
-
-        if (props.notes) {
-          const markers = props.notes.map(note => {
-            return {
-              time: note.time,
-              text: 'Note'
-            }
-          })
-          initMarkers(player, markers)
-        }
-
-        // You could update an existing player in the `else` block here
-        // on prop change, for example:
-      } else {
-        const player = playerRef.current
-        player.src(options.sources)
-      }
-    },
-    [options, videoRef, Url]
-  )
-
-  // Dispose the Video.js player when the functional component unmounts
-  React.useEffect(
-    () => {
-      const player = playerRef.current
-
-      return () => {
-        if (player && !player.isDisposed()) {
-          player.dispose()
-          playerRef.current = null
-        }
-      }
-    },
-    [playerRef]
-  )
-  return (
-    <div
-      data-vjs-player
-      style={
-        {
-          // height: '300px',
-          // width: '100%'
-        }
-      }
-    >
-      <div ref={videoRef} />
-    </div>
-  )
+  // return <VideoJs url={Url} />
+  return <PlayrComponent notes={props.notes} url={Url} />
 }
 
 export default MediaPlayer
