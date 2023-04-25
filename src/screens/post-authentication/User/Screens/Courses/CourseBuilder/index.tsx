@@ -16,10 +16,6 @@ import styled from '@emotion/styled'
 import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
 
-const AddChapterButton = styled(Button)`
-  margin-top: 20px;
-`
-
 function CourseBuilderScreen() {
   const message = useMessage()
   const { id: courseId } = useParams()
@@ -157,6 +153,14 @@ function CourseBuilderScreen() {
     })
   }
 
+  const onReorderSections = sections => {
+    console.log(sections, 'aaa')
+    const COURSE = cloneDeep(course)
+    COURSE.sections = cloneDeep(sections)
+    setCourse(COURSE)
+    saveCourse(COURSE)
+  }
+
   return (
     <Header
       title={'Course Builder'}
@@ -177,45 +181,39 @@ function CourseBuilderScreen() {
     >
       <Row gutter={[16, 16]}>
         <Col span={8}>
-          <Card style={{ marginBottom: 30 }}>
-            <Row>
-              <Col span={24}>
-                <Form.Item>
-                  <MediaUpload
-                    uploadType="image"
-                    prefixKey={`courses/${courseId}/thumbnailImage`}
-                    cropper
-                    width="100%"
-                    height="200px"
-                    renderItem={() => (
-                      <Image preview={false} src={course.thumbnailImage} />
-                    )}
-                    onUpload={file => {
-                      saveCourse({
-                        thumbnailImage: file.url
-                      })
-                    }}
-                  />
-                </Form.Item>
-              </Col>
-              <Col span={24} style={{ marginTop: 30 }}>
-                {course.sections.length ? (
-                  <CourseSectionsNavigator
-                    deleteSectionItem={deleteSectionItem}
-                    deleteSection={deleteSection}
-                    onAddNewItem={onAddNewItem}
-                    sections={course.sections}
-                  />
-                ) : null}
-              </Col>
-            </Row>
-
-            <CreateHeading onFinish={e => onAddSection(e)}>
-              <AddChapterButton block type="primary">
-                Add New Section
-              </AddChapterButton>
-            </CreateHeading>
-          </Card>
+          <Row>
+            <Col span={24}>
+              <Form.Item>
+                <MediaUpload
+                  uploadType="image"
+                  prefixKey={`courses/${courseId}/thumbnailImage`}
+                  cropper
+                  width="100%"
+                  height="200px"
+                  renderItem={() => (
+                    <Image preview={false} src={course.thumbnailImage} />
+                  )}
+                  onUpload={file => {
+                    saveCourse({
+                      thumbnailImage: file.url
+                    })
+                  }}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={24} style={{ marginTop: 30 }}>
+              {course.sections.length ? (
+                <CourseSectionsNavigator
+                  deleteSectionItem={deleteSectionItem}
+                  deleteSection={deleteSection}
+                  onAddNewItem={onAddNewItem}
+                  onAddSection={onAddSection}
+                  sections={course.sections}
+                  onReorderSections={onReorderSections}
+                />
+              ) : null}
+            </Col>
+          </Row>
         </Col>
         <Col span={16}>
           <Card>
