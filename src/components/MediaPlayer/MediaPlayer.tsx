@@ -6,8 +6,7 @@ import 'videojs-markers/dist/videojs.markers.css'
 import { Common, Store, Types } from '@adewaskar/lms-common'
 
 import React from 'react'
-import { useRef } from 'react'
-import { useState } from 'react'
+import { initMarkers } from './initMarker'
 import videojs from 'video.js'
 import watermark from 'videojs-dynamic-watermark'
 
@@ -103,12 +102,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
               text: 'Note'
             }
           })
-          player.markers({
-            markers: markers,
-            onMarkerClick: marker => {
-              // Implement the behavior when a marker is clicked
-            }
-          })
+          initMarkers(player, markers)
         }
 
         // You could update an existing player in the `else` block here
@@ -138,10 +132,12 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   return (
     <div
       data-vjs-player
-      style={{
-        // height: '500px',
-        width: '100%'
-      }}
+      style={
+        {
+          // height: '300px',
+          // width: '100%'
+        }
+      }
     >
       <div ref={videoRef} />
     </div>

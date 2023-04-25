@@ -121,7 +121,7 @@ function CoursePlayer() {
         <Col span={18}>
           <Row>
             <Col span={24}>
-              <div
+              {/* <div
                 style={{
                   height: 533,
                   padding: 0,
@@ -158,9 +158,9 @@ function CoursePlayer() {
                       icon={<CaretRightOutlined />}
                     />
                   </Tooltip>
-                ) : null}
-                <Outlet context={[sections, course._id]} />
-              </div>
+                ) : null} */}
+              <Outlet context={[sections, course._id]} />
+              {/* </div> */}
             </Col>
             <Col span={24}>
               <Card style={{ marginTop: 30 }}>

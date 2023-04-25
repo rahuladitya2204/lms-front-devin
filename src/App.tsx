@@ -9,7 +9,13 @@ import { theme } from 'antd'
 
 const { defaultAlgorithm, darkAlgorithm } = theme
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false // default: true
+    }
+  }
+})
 
 function App () {
   return (

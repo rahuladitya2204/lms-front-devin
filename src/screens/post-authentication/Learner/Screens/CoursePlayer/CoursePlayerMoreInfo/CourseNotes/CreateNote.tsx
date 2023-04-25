@@ -18,8 +18,8 @@ import { formatSeconds } from '@User/Screens/Courses/CourseBuilder/utils'
 const { Text } = Typography
 
 interface CourseNotesPropsI {
-  //   currentTime: number;
   courseId: string;
+  item: string;
 }
 const CreateNote: React.FC<CourseNotesPropsI> = props => {
   const { mutate: createNote } = Learner.Queries.useCreateNote()
@@ -27,12 +27,20 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
   const onSave = (data: Partial<Types.CourseNote>) => {
     const note = {
       content: data.content + '',
-      time: currentTime
+      time: currentTime,
+      item: props.item
     }
-    createNote({
-      courseId: props.courseId,
-      data: note
-    })
+    createNote(
+      {
+        courseId: props.courseId,
+        data: note
+      },
+      {
+        onSuccess: () => {
+          form.resetFields()
+        }
+      }
+    )
     console.log(note, 'daa')
   }
   const time = formatSeconds(currentTime)

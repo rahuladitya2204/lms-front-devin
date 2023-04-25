@@ -1,8 +1,8 @@
 import { Card, Col, List, Row, Typography } from 'antd'
+import { Common, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
-import MediaPlayer from '@Components/MediaPlayer'
-import { Types } from '@adewaskar/lms-common'
+import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 
 const { Title, Paragraph } = Typography
 
@@ -12,8 +12,10 @@ interface CourseOverviewPropsI {
 }
 
 function CourseOverview(props: CourseOverviewPropsI) {
-  const PromoVideoUrl = props?.course?.landingPage?.promoVideo
-  const {landingPage} = props.course;
+  const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrl(
+    props?.course?.landingPage?.promoVideo
+  )
+  const { landingPage } = props.course
   return (
     <Fragment>
       <Row gutter={[30, 30]}>

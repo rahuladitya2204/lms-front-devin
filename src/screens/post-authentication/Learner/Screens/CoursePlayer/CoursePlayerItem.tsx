@@ -2,7 +2,7 @@ import { Common, Learner, Store } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
-import MediaPlayer from '@Components/MediaPlayer'
+import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import VideoPlayer from '@Components/VideoPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
@@ -24,9 +24,8 @@ function CoursePlayerItem() {
   } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '')
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
-  });
+  })
   const currentItemNotes = notes.filter(note => note.item === item._id) || []
-
   let Component
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />

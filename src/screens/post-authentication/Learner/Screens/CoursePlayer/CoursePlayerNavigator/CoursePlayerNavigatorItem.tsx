@@ -1,4 +1,14 @@
-import { Button, Checkbox, Dropdown, List, Space, Tag, Typography } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Col,
+  Dropdown,
+  List,
+  Row,
+  Space,
+  Tag,
+  Typography
+} from 'antd'
 import { Unit, unit } from 'mathjs'
 
 import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
@@ -71,54 +81,59 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
               </Text>
             }
             description={
-              <Space direction="horizontal">
-                {props.item.type === 'video' && durationInMin ? (
-                  <Space
+              <>
+                   {props.item.type === 'video' && durationInMin ? (
+                  <Row
+                    justify={'space-between'}
                     style={{
                       marginTop: 10
                     }}
-                    direction="horizontal"
-                    align="center"
+                    // direction="horizontal"
+                    // align="center"
                   >
-                    <Tag
-                      icon={
-                        <CourseItemIcon type="outlined" item={props.item} />
-                      }
-                      style={{ marginRight: 0 }}
-                      color="blue"
-                    >
-                      {Math.ceil(durationInMin.value)} min
-                    </Tag>
-
-                    {props.item.files.length ? (
-                      <Dropdown.Button
-                        size="small"
-                        menu={{
-                          items: props.item.files.map((file, index) => {
-                            return {
-                              key: index,
-                              label: (
-                                <a
-                                  onClick={() => downloadFile(file.file + '')}
-                                  type="primary"
-                                  target="_blank"
-                                  href={file.file}
-                                  rel="noreferrer"
-                                >
-                                  {file.name} <DownloadOutlined />
-                                </a>
-                              )
-                            }
-                          })
-                        }}
-                        placement="bottomRight"
+                    <Col>
+                      <Tag
+                        icon={
+                          <CourseItemIcon type="outlined" item={props.item} />
+                        }
+                        style={{ marginRight: 0 }}
+                        color="blue"
                       >
-                        Resources
-                      </Dropdown.Button>
-                    ) : null}
-                  </Space>
+                        {Math.ceil(durationInMin.value)} min
+                      </Tag>
+                    </Col>
+
+                    <Col>
+                      {props.item.files.length ? (
+                        <Dropdown.Button
+                          size="small"
+                          menu={{
+                            items: props.item.files.map((file, index) => {
+                              return {
+                                key: index,
+                                label: (
+                                  <a
+                                    onClick={() => downloadFile(file.file + '')}
+                                    type="primary"
+                                    target="_blank"
+                                    href={file.file}
+                                    rel="noreferrer"
+                                  >
+                                    {file.name} <DownloadOutlined />
+                                  </a>
+                                )
+                              }
+                            })
+                          }}
+                          placement="bottomRight"
+                        >
+                          Resources
+                        </Dropdown.Button>
+                      ) : null}
+                    </Col>
+                  </Row>
                 ) : null}
-              </Space>
+              </>
             }
           />
         </CourseListItem>
