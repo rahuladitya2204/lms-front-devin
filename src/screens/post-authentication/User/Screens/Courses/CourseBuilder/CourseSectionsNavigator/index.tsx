@@ -1,4 +1,4 @@
-import { Button, Card, Collapse, List, Modal, Space, Tooltip } from 'antd'
+import { Button, Card, Collapse, List, Modal, Space, Tooltip, Typography } from 'antd'
 import { useCallback, useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
@@ -15,6 +15,7 @@ import styled from '@emotion/styled'
 import update from 'immutability-helper'
 
 const { confirm } = Modal;
+const {Title } = Typography;
 
 const AddChapterButton = styled(Button)`
   /* margin-top: 10px; */
@@ -117,8 +118,9 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   }, []);
   console.log(sectionList,'sectionList')
   return (
-    <Space  direction="vertical" style={{ width: '100%' }}>
-                 <Card>
+    <Space direction="vertical" style={{ width: '100%' }}>
+                 <Card title={enableSectionReorder?(<Title level={4} style={{textAlign:'center'}}>Drag and Drop sections below</Title>):null
+}>
    <DndProvider backend={HTML5Backend}>
         {sectionList.map((section, secIndex) => {
           return (

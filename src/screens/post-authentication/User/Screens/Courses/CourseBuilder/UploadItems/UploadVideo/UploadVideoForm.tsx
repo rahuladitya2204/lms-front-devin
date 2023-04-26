@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Input, Space } from 'antd'
+import { Common, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
-import { Common } from '@adewaskar/lms-common'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import HtmlEditor from '@Components/HtmlEditor'
@@ -15,6 +15,7 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadVideoForm: React.FC = () => {
   const [form] = Form.useForm()
+  const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo()
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, item } = useUploadItemForm(form)
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
@@ -81,11 +82,16 @@ const UploadVideoForm: React.FC = () => {
         </Form.Item>{' '}
         <Form.Item name="context" label="Preview" required>
           <MediaUpload
-            prefixKey={`courses/${courseId}/${sectionId}/${itemId}/lecture`}
+            prefixKey={`courses/${courseId}/${sectionId}/${
+              itemId
+            }/lecture/user-uploaded`}
             fileName={item.title}
             isProtected
             width="300px"
             onUpload={({ _id }, file) => {
+              transcodeVideo({
+                fileId: _id
+              });
               getMetadata(file).then(r => {
                 onFormChange({
                   file: _id,

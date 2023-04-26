@@ -20,10 +20,10 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
     enabled
   })
   const Url = props.url || url
-
+  console.log(Url, 'urll')
   // return <VideoJs url={Url} />
   return (
-    <div style={{ minHeight: 400 }}>
+    <div style={{ minHeight: 400, position: 'relative' }}>
       <PlayrComponent notes={props.notes} url={Url} />
     </div>
   )

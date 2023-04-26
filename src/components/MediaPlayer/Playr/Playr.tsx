@@ -59,8 +59,14 @@ export const PlayrComponent = (props: VideoJsComponentPropsI) => {
         }}
         source={{
           type: 'video',
-          // @ts-ignore
-          sources: [{ src: props.url }]
+          sources: [
+            {
+              // @ts-ignore
+              src: props.url,
+              type: 'application/x-mpegURL'
+              // size:
+            }
+          ]
         }}
       />
     </WatermarkPlugin>

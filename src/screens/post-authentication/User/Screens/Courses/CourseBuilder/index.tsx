@@ -154,9 +154,9 @@ function CourseBuilderScreen() {
   }
 
   const onReorderSections = sections => {
-    console.log(sections, 'aaa')
+    console.log(sections.map(s => s.title), 'aaa')
     const COURSE = cloneDeep(course)
-    COURSE.sections = cloneDeep(sections)
+    COURSE.sections = sections
     setCourse(COURSE)
     saveCourse(COURSE)
   }
@@ -201,7 +201,7 @@ function CourseBuilderScreen() {
                 />
               </Form.Item>
             </Col>
-            <Col span={24} style={{ marginTop: 30 }}>
+            <Col span={24}>
               {course.sections.length ? (
                 <CourseSectionsNavigator
                   deleteSectionItem={deleteSectionItem}
