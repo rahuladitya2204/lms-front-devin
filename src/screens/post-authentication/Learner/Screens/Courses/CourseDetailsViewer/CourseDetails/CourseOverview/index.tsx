@@ -13,8 +13,11 @@ interface CourseOverviewPropsI {
 
 function CourseOverview(props: CourseOverviewPropsI) {
   const { landingPage } = props.course
-  const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrl(
-    landingPage?.promoVideo
+  const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrlFromFile(
+    landingPage?.promoVideo,
+    {
+      enabled: !!landingPage?.promoVideo
+    }
   )
   return (
     <Fragment>

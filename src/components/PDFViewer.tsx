@@ -10,7 +10,9 @@ interface PDFViewerPropsI {
 
 const PDFViewer = (props: PDFViewerPropsI) => {
   const [loading, setLoading] = useState(true)
-  const { data: url } = Common.Queries.useGetPresignedUrl(props.file._id)
+  const { data: url } = Common.Queries.useGetPresignedUrlFromFile(props.file._id, {
+    enabled: !!props.file._id
+  })
 
   const [numPages, setNumPages] = React.useState(null)
 

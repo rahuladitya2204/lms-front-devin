@@ -89,9 +89,10 @@ const UploadVideoForm: React.FC = () => {
             isProtected
             width="300px"
             onUpload={({ _id }, file) => {
+              // @ts-ignore
               transcodeVideo({
                 fileId: _id
-              });
+              })
               getMetadata(file).then(r => {
                 onFormChange({
                   file: _id,
@@ -107,7 +108,7 @@ const UploadVideoForm: React.FC = () => {
               <Button>{file ? 'Replace Video' : 'Upload Video'}</Button>
             )}
           />
-          {file._id ? <MediaPlayer fileId={file._id} /> : null}
+          {file._id ? <MediaPlayer hls fileId={file._id} /> : null}
         </Form.Item>
       </Form>
     </Fragment>

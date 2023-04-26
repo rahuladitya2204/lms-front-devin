@@ -2,78 +2,66 @@
 import './plyr.css'
 import './style.css'
 
+import Plyr, { APITypes, PlyrInstance, PlyrProps } from 'plyr-react'
 import { Store, Types } from '@adewaskar/lms-common'
 import { useEffect, useLayoutEffect, useRef } from 'react'
 
+import { CustomXhrLoader } from './Hls'
 import ErrorBoundary from 'antd/es/alert/ErrorBoundary'
-import Plyr from 'plyr-react'
+import Hls from "hls.js";
 import WatermarkPlugin from './useWatermark/Watermark'
 import { htmlToText } from 'html-to-text'
 
 interface VideoJsComponentPropsI {
   url?: string;
   watermark?: string | null;
+  hls?: boolean;
   width?: number;
   height?: number;
   notes?: Types.CourseNote[];
   onEnded?: () => void;
 }
 
-export const PlayrComponent = (props: VideoJsComponentPropsI) => {
-  const setPlayer = Store.usePlayer(s => s.setPlayerState)
-  const playerRef = useRef(null)
-  const points =
-    props?.notes?.map(note => {
-      return {
-        label: htmlToText(note.content),
-        time: note.time
-      }
-    }) || []
-  useLayoutEffect(
-    () => {
+const PlyrComponent = (props:VideoJsComponentPropsI) => {
+  const ref = useRef<APITypes>(null);
+  useEffect(() => {
+    const loadVideo = async () => {
+      const video = document.getElementById("plyr") as HTMLVideoElement;
+      var hls = new Hls({
+        loader: CustomXhrLoader,
+      });
+      // hls.loadSource("https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8");
+      hls.loadSource(props.url+'')
+      hls.attachMedia(video);
       // @ts-ignore
-      if (playerRef.current && playerRef.current.plyr) {
-        // @ts-ignore
+      ref.current!.plyr.media = video;
 
-        setPlayer({ playerInstance: playerRef.current.plyr })
-        // @ts-ignore
-        // playerRef?.current?.plyr?.on('timeupdate', console.log)
-      }
-      return () => {
-        // @ts-ignore
-        // console.log('Destroying', playerRef?.current?.plyr)
-      }
-    },
-    [playerRef.current]
-  )
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        // (ref.current!.plyr as PlyrInstance).play();
+      });
+    };
+    if (props.hls) {
+      loadVideo();
+    }
+  });
 
-  const PlayerComponent = (
-    <WatermarkPlugin>
-      <Plyr
-        ref={playerRef}
-        options={{
-          markers: {
-            enabled: true,
-            points: points
-          }
-        }}
-        source={{
-          type: 'video',
-          sources: [
-            {
-              // @ts-ignore
-              src: props.url,
-              type: 'application/x-mpegURL'
-              // size:
-            }
-          ]
-        }}
-      />
-    </WatermarkPlugin>
-  )
   return (
-    <ErrorBoundary message={PlayerComponent}>{PlayerComponent}</ErrorBoundary>
-  )
-}
+    <Plyr
+      id="plyr"
+      options={{ volume: 0.1 }}
+      // @ts-ignore
+      source={true?({} as PlyrProps["source"]):{sources: [{ src: props.url }]}}
+      ref={ref}
+    />
+  );
+};
 
-export default PlayrComponent
+export default function App(props:VideoJsComponentPropsI) {
+  const supported = Hls.isSupported();
+
+  return (
+    <div>
+      {supported ? <PlyrComponent {...props} /> : "HLS is not supported in your browser"}
+    </div>
+  );
+}

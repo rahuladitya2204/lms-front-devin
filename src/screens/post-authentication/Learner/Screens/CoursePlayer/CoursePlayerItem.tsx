@@ -35,6 +35,7 @@ function CoursePlayerItem() {
   if (item.type === 'video') {
     Component = (
       <MediaPlayer
+        hls
         notes={currentItemNotes}
         watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
         fileId={file._id}
