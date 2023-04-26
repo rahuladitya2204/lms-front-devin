@@ -20,13 +20,14 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   const { data: url } = Common.Queries.useGetPresignedUrlFromFile(
     props.fileId + '',
     {
-      enabled: !!props.fileId
+      enabled
     }
   )
   const Url = props.url || url
+  // console.log(Url, 'Url')
   // return <VideoJs url={Url} />
   return (
-    <div style={{ minHeight: 400, position: 'relative' }}>
+    <div style={{ height: props.height || 400, position: 'relative' }}>
       <PlayrComponent hls={props.hls} notes={props.notes} url={Url} />
     </div>
   )

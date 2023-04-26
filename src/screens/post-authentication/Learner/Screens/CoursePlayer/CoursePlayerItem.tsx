@@ -39,6 +39,7 @@ function CoursePlayerItem() {
         notes={currentItemNotes}
         watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
         fileId={file._id}
+        height={533}
       />
     )
   }

@@ -2,15 +2,12 @@
 import './plyr.css'
 import './style.css'
 
-import Plyr, { APITypes, PlyrInstance, PlyrProps } from 'plyr-react'
+import  { APITypes, usePlyr } from 'plyr-react'
+import React, { Fragment, useEffect, useLayoutEffect, useRef } from 'react'
 import { Store, Types } from '@adewaskar/lms-common'
-import { useEffect, useLayoutEffect, useRef } from 'react'
 
 import { CustomXhrLoader } from './Hls'
-import ErrorBoundary from 'antd/es/alert/ErrorBoundary'
 import Hls from "hls.js";
-import WatermarkPlugin from './useWatermark/Watermark'
-import { htmlToText } from 'html-to-text'
 
 interface VideoJsComponentPropsI {
   url?: string;
@@ -25,12 +22,12 @@ interface VideoJsComponentPropsI {
 const PlyrComponent = (props:VideoJsComponentPropsI) => {
   const ref = useRef<APITypes>(null);
   useEffect(() => {
-    const loadVideo = async () => {
+    if (props.hls) {
+      const loadVideo = async () => {
       const video = document.getElementById("plyr") as HTMLVideoElement;
       var hls = new Hls({
         loader: CustomXhrLoader,
       });
-      // hls.loadSource("https://content.jwplatform.com/manifests/vM7nH0Kl.m3u8");
       hls.loadSource(props.url+'')
       hls.attachMedia(video);
       // @ts-ignore
@@ -40,28 +37,38 @@ const PlyrComponent = (props:VideoJsComponentPropsI) => {
         // (ref.current!.plyr as PlyrInstance).play();
       });
     };
-    if (props.hls) {
       loadVideo();
     }
   });
-
+  console.log(props.url,'props.url')
   return (
     <Plyr
       id="plyr"
       options={{ volume: 0.1 }}
       // @ts-ignore
-      source={true?({} as PlyrProps["source"]):{sources: [{ src: props.url }]}}
+      source={props.hls ? {} : {sources:[{ src: props.url }], type:'video'}}
       ref={ref}
     />
   );
 };
 
-export default function App(props:VideoJsComponentPropsI) {
+const Plyr = React.forwardRef((props: any, ref) => {
+  const setPlayer = Store.usePlayer(s => s.setPlayerState);
   const supported = Hls.isSupported();
+  const { source, options = null, ...rest } = props;
+  // console.log(supported,'sss')
+  // @ts-ignore
+  const raptorRef = usePlyr(ref, {
+    source,
+    options,
+  })
 
+  // console.log(raptorRef.current,'raptorRef')
   return (
-    <div>
-      {supported ? <PlyrComponent {...props} /> : "HLS is not supported in your browser"}
-    </div>
+    <Fragment>
+      {supported ? <video ref={raptorRef} className="plyr-react plyr" {...rest} /> : "HLS is not supported in your browser"}
+    </Fragment>
   );
-}
+})
+
+export default PlyrComponent;
