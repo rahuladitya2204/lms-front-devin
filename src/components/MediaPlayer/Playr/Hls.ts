@@ -8,13 +8,11 @@ export class CustomXhrLoader extends Hls.DefaultConfig.loader {
   }
 
   async load (context, config, callbacks) {
-    console.log(context, 'tttt')
     // Modify the request URL for 720p variant
     // if (context.type === 'manifest' && context.level === 1) {
     // Replace the URL with your pre-signed URL
     if (context.url) {
       context.url = await Common.Api.GetPresignedUrl(context.url)
-      console.log(context.url, 'aaaaa')
     }
     // }
 

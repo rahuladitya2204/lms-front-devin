@@ -116,7 +116,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
       })
     )
   }, []);
-  console.log(sectionList,'sectionList')
+
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
                  <Card title={enableSectionReorder?(<Title level={4} style={{textAlign:'center'}}>Drag and Drop sections below</Title>):null

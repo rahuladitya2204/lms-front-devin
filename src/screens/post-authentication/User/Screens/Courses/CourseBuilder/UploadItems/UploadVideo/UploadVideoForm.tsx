@@ -1,10 +1,9 @@
-import { Button, Checkbox, Form, Input, Space } from 'antd'
+import { Button, Checkbox, Form, Input, Space, Typography } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
-import HtmlEditor from '@Components/HtmlEditor'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
@@ -12,6 +11,8 @@ import { getMetadata } from 'video-metadata-thumbnails'
 import { uniqueId } from 'lodash'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
+
+const { Title } = Typography
 
 const UploadVideoForm: React.FC = () => {
   const [form] = Form.useForm()
@@ -21,7 +22,15 @@ const UploadVideoForm: React.FC = () => {
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
-
+  const { data: { status } } = User.Queries.useGetTranscodeVideoStatus(
+    file?.metadata?.jobId,
+    {
+      enabled: !!file?.metadata?.jobId,
+      retry: file?.metadata?.status !== 'COMPLETE',
+      retryDelay: 4000
+    }
+  )
+  console.log(file, 'dsd')
   return (
     <Fragment>
       <Form onValuesChange={onFormChange} form={form} layout="vertical">
@@ -108,6 +117,9 @@ const UploadVideoForm: React.FC = () => {
               <Button>{file ? 'Replace Video' : 'Upload Video'}</Button>
             )}
           />
+
+          {status !== 'COMPLETE' ? <Title> Processing Video...</Title> : null}
+
           {file._id ? <MediaPlayer hls fileId={file._id} /> : null}
         </Form.Item>
       </Form>

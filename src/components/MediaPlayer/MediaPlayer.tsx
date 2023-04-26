@@ -24,7 +24,6 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
     }
   )
   const Url = props.url || url
-  console.log(Url, 'urll')
   // return <VideoJs url={Url} />
   return (
     <div style={{ minHeight: 400, position: 'relative' }}>
