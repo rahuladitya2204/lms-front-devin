@@ -14,8 +14,9 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const AddTextItem: React.FC = () => {
   const [form] = Form.useForm()
-  const { onFormChange, item } = useUploadItemForm(form)
-  const { id: courseId, sectionId, itemId } = useParams()
+  const { onFormChange, item, courseId, sectionId, itemId } = useUploadItemForm(
+    form
+  )
 
   return (
     <Fragment>

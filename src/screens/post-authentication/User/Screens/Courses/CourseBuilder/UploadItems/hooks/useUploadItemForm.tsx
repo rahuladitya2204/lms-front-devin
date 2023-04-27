@@ -7,10 +7,10 @@ import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useEffect } from "react";
 
 function useUploadItemForm(form:FormInstance) {
-  let { itemId, sectionId,id: courseId } = useParams();
+  let { itemId, sectionId, id: courseId } = useParams();
   const { mutate: updateItem } = User.Queries.useUpdateCourseItem();
 
-  const [sections, updateSections] = useOutletContext<[Types.CourseSection[],(sectionId:string,data:Types.CourseSectionItem)=>void,Function]>();
+  const [sections] = useOutletContext<[Types.CourseSection[],(sectionId:string,data:Types.CourseSectionItem)=>void,Function]>();
 
   const item = findSectionItem(itemId+'', sectionId+'', sections) || {title:'',description:''};
   
@@ -34,7 +34,7 @@ function useUploadItemForm(form:FormInstance) {
     // saveCourse();
   }
 
-  return { onFormChange, form, item };
+  return { onFormChange, form, item,sectionId,courseId,itemId };
   } 
   
 

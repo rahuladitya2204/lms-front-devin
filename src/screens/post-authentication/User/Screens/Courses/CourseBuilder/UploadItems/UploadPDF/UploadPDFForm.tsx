@@ -1,14 +1,18 @@
-import { Button, Card, Checkbox, Form, Input } from 'antd'
+import { Button, Card, Checkbox, Form, Input, Space } from 'antd'
 
 import { Common } from '@adewaskar/lms-common'
+import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
 import PDFViewer from '@Components/PDFViewer'
+import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadPDFForm: React.FC = () => {
   const [form] = Form.useForm()
-  const { onFormChange, item } = useUploadItemForm(form)
+  const { onFormChange, item, itemId, courseId, sectionId } = useUploadItemForm(
+    form
+  )
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
@@ -41,6 +45,30 @@ const UploadPDFForm: React.FC = () => {
           >
             Avail this as a free lecture
           </Checkbox>
+        </Form.Item>
+        <Form.Item label="Add Files" required>
+          <Space direction="horizontal">
+            <FileList
+              onDeleteFile={fileId => {
+                const files = item.files.filter(f => f.file !== fileId)
+                onFormChange({ files })
+              }}
+              files={item.files}
+              uploadFileInput={
+                <MediaUpload
+                  uploadType="file"
+                  prefixKey={`courses/${courseId}/${sectionId}/${
+                    itemId
+                  }/files/${uniqueId()}`}
+                  onUpload={({ name, _id }) => {
+                    onFormChange({
+                      files: [...item.files, { name, file: _id }]
+                    })
+                  }}
+                />
+              }
+            />
+          </Space>
         </Form.Item>
         <Form.Item name="PDF File" label="PDF File" required>
           <MediaUpload
