@@ -20,7 +20,7 @@ function CourseCurriculumItem({ item }: CourseCurriculumItemPropsI) {
   const PreviewVideo = (item: Types.CourseSectionItem) => (
     <ActionModal title={item.title} cta={<PlayCircleOutlined />}>
       <Spin spinning={loading}>
-        <MediaPlayer url={url || ''} />
+        <MediaPlayer hls url={url || ''} />
       </Spin>
     </ActionModal>
   )

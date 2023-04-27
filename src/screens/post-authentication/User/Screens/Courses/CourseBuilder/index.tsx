@@ -80,7 +80,6 @@ function CourseBuilderScreen() {
   }
 
   const saveCourse = d => {
-    console.log(d, 'ddd')
     if (course._id) {
       updateCourse(
         {

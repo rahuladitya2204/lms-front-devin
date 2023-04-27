@@ -5,17 +5,35 @@ import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
-import QuillEditor from '@Components/QuillEditor'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
+import { Types } from '@adewaskar/lms-common'
+import { getReadingTime } from '../../utils'
+import { uniqueId } from 'lodash'
+import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const AddTextItem: React.FC = () => {
   const [form] = Form.useForm()
   const { onFormChange, item } = useUploadItemForm(form)
+  const { id: courseId, sectionId, itemId } = useParams()
 
   return (
     <Fragment>
-      <Form form={form} layout="vertical" onValuesChange={onFormChange}>
+      <Form
+        form={form}
+        layout="vertical"
+        onValuesChange={e => {
+          const data: Partial<Types.CourseSectionItem> = {
+            ...e
+          }
+          if (e.description) {
+            data.metadata = {
+              duration: getReadingTime(e.description)
+            }
+          }
+          onFormChange(data)
+        }}
+      >
         <Form.Item name="title" label="Title" required>
           <Input placeholder="Enter Text Content's title" />
         </Form.Item>
@@ -30,9 +48,7 @@ const AddTextItem: React.FC = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-        <Form.Item name="description" label="Description" required>
-          <SunEditorComponent name="description" />
-        </Form.Item>
+
         <Form.Item label="Add Files" required>
           <Space direction="horizontal">
             <FileList
@@ -41,6 +57,19 @@ const AddTextItem: React.FC = () => {
                 const files = item.files.filter(f => f.file !== fileId)
                 onFormChange({ files })
               }}
+              uploadFileInput={
+                <MediaUpload
+                  uploadType="file"
+                  prefixKey={`courses/${courseId}/${sectionId}/${
+                    itemId
+                  }/files/${uniqueId()}`}
+                  onUpload={({ name, _id }) => {
+                    onFormChange({
+                      files: [...item.files, { name, file: _id }]
+                    })
+                  }}
+                />
+              }
             />
             <ActionModal
               cta={
@@ -63,7 +92,20 @@ const AddTextItem: React.FC = () => {
               />
             </ActionModal>
           </Space>
-        </Form.Item>{' '}
+        </Form.Item>
+        <Form.Item name="description" label="Description" required>
+          <SunEditorComponent
+            // onChange={e => {
+            //   onFormChange({
+            //     description: e,
+            //     metadata: {
+            //       duration: readingTime(e)
+            //     }
+            //   })
+            // }}
+            name="description"
+          />
+        </Form.Item>
       </Form>
     </Fragment>
   )

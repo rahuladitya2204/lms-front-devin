@@ -172,7 +172,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                             }
                           />
                         </ActionModal>
-                        { itemRearrengeIndex!==secIndex?  <Button onClick={e=>setItemRearrengeIndex(secIndex)} size="small" >
+                        { itemRearrengeIndex!==secIndex?  <Button disabled={section.items.length<2} onClick={e=>setItemRearrengeIndex(secIndex)} size="small" >
                           Rearrange {' '}
                         </Button> : <Button onClick={e => {
                             setItemRearrengeIndex(null);
@@ -249,21 +249,21 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
         })}
         </DndProvider>
 
-        {!enableSectionReorder? <AddChapterButton style={{marginTop:20}} type="primary" danger onClick={e=>setEnableSectionReorder(!enableSectionReorder)} block>
+        {!enableSectionReorder? <AddChapterButton style={{marginTop:0,marginBottom:10}} onClick={e=>setEnableSectionReorder(!enableSectionReorder)} block>
                 Rearrange Sections
-      </AddChapterButton> : <AddChapterButton style={{marginTop:20}}danger onClick={e => {
+      </AddChapterButton> : <AddChapterButton style={{marginTop:0,marginBottom:10}} onClick={e => {
           onReorderSections(sectionList);
           setEnableSectionReorder(false)
       }} block>
                 Save Order
-              </AddChapterButton>}
-        </Card>
-
-      <CreateHeading onFinish={e => onAddSection(e)}>
+        </AddChapterButton>}
+        <CreateHeading onFinish={e => onAddSection(e)}>
               <AddChapterButton block type="primary">
                 Add New Section
               </AddChapterButton>
             </CreateHeading>
+        </Card>
+
     </Space>
   )
 }

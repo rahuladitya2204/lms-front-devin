@@ -63,18 +63,7 @@ const UploadVideoForm: React.FC = () => {
                 onFormChange({ files })
               }}
               files={item.files}
-            />
-            <ActionModal
-              cta={
-                <Button
-                  type="primary"
-                  shape="round"
-                  icon={<PlusOutlined />}
-                  size={'large'}
-                />
-              }
-            >
-              <MediaUpload
+              uploadFileInput={<MediaUpload
                 uploadType="file"
                 prefixKey={`courses/${courseId}/${sectionId}/${
                   itemId
@@ -84,8 +73,8 @@ const UploadVideoForm: React.FC = () => {
                     files: [...item.files, { name, file: _id }]
                   })
                 }}
-              />
-            </ActionModal>
+              />}
+            />
           </Space>
         </Form.Item>{' '}
         <Form.Item name="context" label="Preview" required>

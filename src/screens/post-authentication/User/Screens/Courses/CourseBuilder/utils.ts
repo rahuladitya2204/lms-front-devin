@@ -86,3 +86,16 @@ export function deepPatch(target: any, patch: any) {
 export function formatSeconds(s: number) {
   return (s - (s %= 60)) / 60 + (9 < s ? ':' : ':0') + s
 }
+
+export function htmlToText(html: string) {
+  const tmp = document.createElement('div')
+  tmp.innerHTML = html
+  return tmp.textContent || tmp.innerText || ''
+}
+
+export function getReadingTime(html: string, wordsPerMinute = 200) {
+  const text = htmlToText(html)
+  const wordCount = text.trim().split(/\s+/).length
+  const minutes = wordCount / wordsPerMinute * 60
+  return Math.ceil(minutes)
+}

@@ -3,12 +3,11 @@ import { Common, Learner, Types, User } from '@adewaskar/lms-common'
 import {
   DeleteOutlined,
   DownloadOutlined,
-  EyeOutlined,
-  FileOutlined
+  PlusOutlined
 } from '@ant-design/icons'
 import { Fragment, useState } from 'react'
 
-import FileTypeIcon from './FileTypeIcon'
+import ActionModal from './ActionModal'
 import styled from '@emotion/styled'
 
 const { confirm } = Modal
@@ -90,31 +89,47 @@ function FileItem({
 interface FileListPropsI {
   files: { name: string, file: string }[];
   onDeleteFile: (s: string) => void;
+  uploadFileInput?: any;
 }
 
 function FileList(props: FileListPropsI) {
   return (
-    <Space size={[20, 20]}>
-      {props?.files?.length ? <>
-        <List
-        size="small"
-        // header={<div>Files</div>}
-        bordered
-        dataSource={props.files}
-        style={{ width: 500 }}
-        renderItem={file => (
-          <FileItem
-            key={file.file}
-            onDeleteFile={props.onDeleteFile}
-            file={file}
-          />
-        )}
-      /></> : <Empty style={{ width: 500 }} description='No Files added'>
+    <Space><Space size={[20, 20]}>
+    {props?.files?.length ? <>
+      <List
+      size="small"
+      // header={<div>Files</div>}
+      bordered
+      dataSource={props.files}
+      style={{ width: 500 }}
+      renderItem={file => (
+        <FileItem
+          key={file.file}
+          onDeleteFile={props.onDeleteFile}
+          file={file}
+        />
+      )}
+    /></> : <Empty style={{ width: 500 }} description='No Files added'>
 
-      </Empty>
-      }
-      
-    </Space>
+    </Empty>
+    }
+    
+  </Space>
+     <ActionModal
+     cta={props.uploadFileInput?
+       <Button
+         type="primary"
+         shape="round"
+         icon={<PlusOutlined />}
+         size={'large'}
+       />:null
+     }
+   >
+        <>
+          {props.uploadFileInput}
+        </>
+   </ActionModal></Space>
+
   )
 }
 

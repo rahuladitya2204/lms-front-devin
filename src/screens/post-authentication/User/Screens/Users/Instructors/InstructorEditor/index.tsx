@@ -32,7 +32,6 @@ function InstructorEditor() {
   )
 
   const saveInstructor = (data: Types.Instructor) => {
-    console.log(data, 'ddd')
     updateInstructor(
       {
         id: instructorId + '',

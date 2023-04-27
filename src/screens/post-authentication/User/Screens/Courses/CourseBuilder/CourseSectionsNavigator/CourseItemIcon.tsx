@@ -64,7 +64,7 @@ const CourseItemIcon = (props: CourseItemIconPropsI) => {
   return (
     <Fragment>
       {/* @ts-ignore */}
-      <Icon style={{ fontSize: 12 }} />
+      {Icon ? <Icon style={{ fontSize: 12 }} /> : null}
     </Fragment>
   )
 }

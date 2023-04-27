@@ -82,7 +82,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
             }
             description={
               <>
-                   {props.item.type === 'video' && durationInMin ? (
+                   {(props.item.type === 'video' || props.item.type === 'text') && durationInMin ? (
                   <Row
                     justify={'space-between'}
                     style={{
