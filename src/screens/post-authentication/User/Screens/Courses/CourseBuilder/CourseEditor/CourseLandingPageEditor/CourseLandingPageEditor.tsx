@@ -2,7 +2,6 @@ import { Button, Form, Input } from 'antd'
 import { Fragment, useEffect, useLayoutEffect } from 'react'
 import { Types, User } from '@adewaskar/lms-common'
 
-import HtmlEditor from '@Components/HtmlEditor'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'

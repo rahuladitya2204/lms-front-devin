@@ -4,8 +4,6 @@ import { Common, Types, User } from '@adewaskar/lms-common';
 import { Form, Space, Typography, } from 'antd';
 import React, { Fragment } from 'react';
 
-import HtmlEditor from '@Components/HtmlEditor';
-import QuillEditor from '@Components/QuillEditor';
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
 import { useParams } from 'react-router';
 

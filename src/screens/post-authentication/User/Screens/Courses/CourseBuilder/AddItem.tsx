@@ -1,8 +1,6 @@
 import { Col, Form, Modal, Radio, Row, Space, Typography } from 'antd'
-import { Fragment, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
-import Button from '@Components/HtmlEditor/ui/Button'
 import CreateTextItem from './CreateNewItem/CreatTextItem'
 import { Types } from '@adewaskar/lms-common'
 import UploadPDF from './UploadItems/UploadPDF'

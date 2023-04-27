@@ -11,15 +11,12 @@ import {
   Tooltip,
   Typography
 } from 'antd'
-import { Fragment, useEffect, useLayoutEffect } from 'react'
+import { Fragment, useLayoutEffect } from 'react'
 
 import CourseCertificate from '../CourseCertificate/CourseCertificateScreen'
-import HtmlEditor from '@Components/HtmlEditor'
-import QuillEditor from '@Components/QuillEditor'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '../../utils'
-import { useParams } from 'react-router'
 
 const { Title } = Typography
 const { useWatch } = Form

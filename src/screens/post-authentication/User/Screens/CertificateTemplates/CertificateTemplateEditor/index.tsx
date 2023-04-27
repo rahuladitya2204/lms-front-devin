@@ -2,7 +2,6 @@ import { Button, Card, Form, Select, Space } from 'antd'
 import { Fragment, useEffect } from 'react'
 
 import Header from '@Components/Header'
-import HtmlEditor from '@Components/HtmlEditor'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import SunEditor from '@Components/SunEditor/SunEditor'

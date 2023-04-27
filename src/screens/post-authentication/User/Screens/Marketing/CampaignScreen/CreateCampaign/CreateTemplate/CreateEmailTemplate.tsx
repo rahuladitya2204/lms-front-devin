@@ -1,6 +1,5 @@
 import { Form, Tag } from "antd";
 
-import HtmlEditor from "@Components/HtmlEditor";
 import SunEditorComponent from "@Components/SunEditor/SunEditor";
 import { Types } from "@adewaskar/lms-common";
 import { deepPatch } from "@User/Screens/Courses/CourseBuilder/utils";
