@@ -28,7 +28,7 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
     return <>
             <Form onValuesChange={onValuesChange} form={form} layout="vertical">
         <Form.Item name={['email','subject']} label="Email Subject" required>
-            <HtmlEditor name={['email','subject']} type="text" />
+            <SunEditorComponent name={['email','subject']} />
         </Form.Item>
         <Form.Item  name={['email','template']}  label="Email Body" required>
                 <SunEditorComponent  name={['email','template']}  />

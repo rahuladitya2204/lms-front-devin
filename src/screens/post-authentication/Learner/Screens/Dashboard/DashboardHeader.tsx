@@ -129,7 +129,7 @@ const DashboardHeader: React.FC = () => {
 
         isSignedIn ? (
           <Space>
-            <Dropdown
+            <Dropdown  trigger={['click']}
               placement="bottomLeft"
               overlay={
                 <Menu>

@@ -3,6 +3,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import BASE_EMAIL_TEMPLATE from '../BaseEmailTemplate'
 import HtmlEditor from '@Components/HtmlEditor'
+import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
@@ -69,7 +70,7 @@ const AddEmailTemplate: React.FC<
           <Input placeholder="Subject of the email" />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-          <HtmlEditor
+          <SunEditorComponent
             onChange={(e: any) => form.setFieldValue(['content'], e)}
           />
         </Form.Item>

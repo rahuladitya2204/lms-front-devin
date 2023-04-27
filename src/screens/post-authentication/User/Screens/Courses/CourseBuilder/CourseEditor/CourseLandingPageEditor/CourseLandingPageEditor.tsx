@@ -45,9 +45,6 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       layout="vertical"
       autoComplete="off"
     >
-      <Form.Item name={'description'} required label="Description">
-        <SunEditorComponent name={'description'} />
-      </Form.Item>
       <Form.Item name="promoVideo" label="Promo Video" required>
         <MediaUpload
           prefixKey={`courses/${courseId}/promo`}
@@ -65,7 +62,12 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
           )}
           // url={promoVideoFile}
         />
-        {promoVideoFile ? <MediaPlayer fileId={promoVideoFile} /> : null}
+        {promoVideoFile ? (
+          <MediaPlayer width={500} height={300} fileId={promoVideoFile} />
+        ) : null}
+      </Form.Item>
+      <Form.Item name={'description'} required label="Landing Page Description">
+        <SunEditorComponent name={'description'} />
       </Form.Item>
       {/* <Button onClick={form.submit}>HSSHSHH</Button> */}
     </Form>

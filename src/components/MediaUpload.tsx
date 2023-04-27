@@ -45,15 +45,17 @@ const CustomUpload = styled(Upload)(
   width: ${props.width} !important;
 }
 .ant-upload {
-  min-width: 150px !important;
+  // min-width: 150px !important;
   margin: 0;
   display: block;
   border-radius: ${(props: { rounded?: boolean }) =>
     props.rounded ? '50% !important' : ''};
   object-fit: cover;
   overflow: hidden;
-  min-height: 150px !important;
-}import { ImgCrop } from 'antd-img-crop';
+  // min-height: 150px !important;
+}
+
+import { ImgCrop } from 'antd-img-crop';
 
 `
 )

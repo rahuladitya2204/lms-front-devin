@@ -27,7 +27,13 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   // console.log(Url, 'Url')
   // return <VideoJs url={Url} />
   return (
-    <div style={{ height: props.height || 400, position: 'relative' }}>
+    <div
+      style={{
+        height: props.height || 300,
+        width: props.width || '100%',
+        position: 'relative'
+      }}
+    >
       <PlayrComponent hls={props.hls} notes={props.notes} url={Url} />
     </div>
   )

@@ -41,7 +41,7 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
         </Form.Item>}
         <Space direction='vertical' size={[30,30]} style={{width:'100%'}}>
         <Form.Item name="subject" label="Subject of the email" required>
-           <HtmlEditor variables={variables} name="subject"
+           <SunEditorComponent variables={variables} name="subject"
           />
 
         </Form.Item>
