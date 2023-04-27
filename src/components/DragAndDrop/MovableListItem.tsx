@@ -5,12 +5,11 @@ import React, { useState } from 'react';
 
 import type { FC } from 'react'
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import styled from '@emotion/styled';
 import update from 'immutability-helper';
 import { useRef } from 'react'
 
 export const ItemTypes = {
-  MovableItem: 'card',
+  MovableListItem: 'card',
 }
 
 
@@ -22,13 +21,7 @@ const style = {
   cursor: 'move',
 }
 
-const DraggableItem = styled.div((props): { disabled: boolean } => `
-${!props.disabled ? `
-border: 1px dashed;
-`: ``}
-`)
-
-export interface MovableItemProps {
+export interface MovableListItemProps {
   id: any
   children?: React.ReactNode;
   disabled?: boolean;
@@ -42,14 +35,14 @@ interface DragItem {
   type: string
 }
 
-export const MovableItem: FC<MovableItemProps> = ({ id, text, index, moveItem, children, disabled }) => {
+export const MovableListItem: FC<MovableListItemProps> = ({ id, text, index, moveItem, children, disabled }) => {
   const ref = useRef<HTMLDivElement>(null)
   const [{ handlerId }, drop] = useDrop<
     DragItem,
     void,
     { handlerId: Identifier | null }
   >({
-    accept: ItemTypes.MovableItem,
+    accept: ItemTypes.MovableListItem,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -106,7 +99,7 @@ export const MovableItem: FC<MovableItemProps> = ({ id, text, index, moveItem, c
   })
 
   const [{ isDragging }, drag] = useDrag({
-    type: ItemTypes.MovableItem,
+    type: ItemTypes.MovableListItem,
     item: () => {
       return { id, index }
     },
@@ -117,12 +110,12 @@ export const MovableItem: FC<MovableItemProps> = ({ id, text, index, moveItem, c
 
   const opacity = isDragging ? 0 : 1;
   if (disabled) {
-    return <DraggableItem disabled={disabled} className='draggable-item'>{ children}</DraggableItem>;
+    return children;
   };
   drag(drop(ref))
-  return <DraggableItem ref={ref} className='draggable-item' style={{ ...style, opacity }} data-handler-id={handlerId}>
+  return <div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
   {children}
-</DraggableItem>
+</div>
 }
 
   

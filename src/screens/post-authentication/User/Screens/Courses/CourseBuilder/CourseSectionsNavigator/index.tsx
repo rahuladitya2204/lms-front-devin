@@ -24,7 +24,7 @@ const AddChapterButton = styled(Button)`
 
 
 const CustomCollapse = styled(Collapse)((props: { enableSectionReorder: boolean }) =>`
-    margin-top: 10px;
+    // margin-top: 10px;
   .ant-collapse-content-box {
     padding: 0 !important;
   }
@@ -42,12 +42,6 @@ const CustomCollapse = styled(Collapse)((props: { enableSectionReorder: boolean 
     gap: 8px;
     justify-content: space-around;
   }
-  ${props.enableSectionReorder ? `
-  border: 1px dashed;
-  cursor: move;
-  `
-  :`
-  `
 }
 `)
 
@@ -80,6 +74,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   onReorderSections
 }) => {
   const [enableSectionReorder, setEnableSectionReorder] = useState(false);
+  const [itemRearrengeIndex, setItemRearrengeIndex] = useState<number | null>(null);
   const [sectionList, setSectionList] = useState<Types.CourseSection[]>(sections)
   useEffect(
     () => {
@@ -109,12 +104,25 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     })
   }
 
-  const moveItem = useCallback((dragIndex: number, hoverIndex: number) => {
+  const moveSection = useCallback((dragIndex: number, hoverIndex: number) => {
     setSectionList(prevCards =>
       update(prevCards, {
         $splice: [[dragIndex, 1], [hoverIndex, 0, prevCards[dragIndex]]]
       })
     )
+  }, []);
+
+
+  const moveCourseItem = useCallback((dragIndex: number, hoverIndex: number, sectonId: string, itemId:string) => {
+    const SList = [...sectionList];
+    SList.forEach(section => {
+      if (section._id === sectonId) {
+        section.items = update(section.items, {
+          $splice: [[dragIndex, 1], [hoverIndex, 0, section.items[dragIndex]]]
+        });
+      }
+    });
+    setSectionList(SList);
   }, []);
 
   return (
@@ -124,16 +132,18 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
    <DndProvider backend={HTML5Backend}>
         {sectionList.map((section, secIndex) => {
           return (
+            <div style={{marginBottom:20}}>
+
             <MovableItem disabled={!enableSectionReorder}
               key={section._id}
               index={secIndex}
-              moveItem={moveItem}
+              moveItem={moveSection}
               id={section._id}
             >
               <CustomCollapse
                 collapsible="header"
                 bordered
-                enableSectionReorder={enableSectionReorder}
+                enableSectionReorder={!enableSectionReorder}
                 defaultActiveKey={sectionList.map((s, i) => i)}
                 expandIconPosition="end"
                 // ghost
@@ -142,8 +152,6 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   key={secIndex}
                   header={<span>{`${section.title}`}</span>}
                 >
-                        <DndProvider backend={HTML5Backend}>
-
                   <List
                     itemLayout="horizontal"
                     style={{ marginBottom: 20 }}
@@ -154,7 +162,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                         <ActionModal
                           cta={
                             <Button size="small" type="primary">
-                              Add New Item{' '}
+                              Add Item{' '}
                             </Button>
                           }
                         >
@@ -164,14 +172,21 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                             }
                           />
                         </ActionModal>
-
+                        { itemRearrengeIndex!==secIndex?  <Button onClick={e=>setItemRearrengeIndex(secIndex)} size="small" >
+                          Rearrange {' '}
+                        </Button> : <Button onClick={e => {
+                            setItemRearrengeIndex(null);
+                            onReorderSections(sectionList);
+                        }} size="small" type="primary">
+                          Save Order {' '}
+                          </Button>}
                         <Tooltip
                           placement="bottom"
                           title={'Delete this complete section of course'}
                         >
                           <Button
                             onClick={() => DeleteSection(secIndex)}
-                            size="small"
+                            size="small" danger
                             // type="ghost"
                           >
                             Delete Section{' '}
@@ -180,6 +195,13 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                       </Space>
                     }
                     renderItem={(item, itemIndex) => (
+                           <MovableItem
+                      disabled={!(itemRearrengeIndex===secIndex)}
+                      key={item._id}
+                      index={itemIndex}
+                      moveItem={(dragIndex,hoverIndex)=>moveCourseItem(dragIndex,hoverIndex,section._id,item._id)}
+                      id={item._id}
+                    >
                       <List.Item style={{ padding: 0 }}>
                         <NavLink
                           style={{ width: '100%' }}
@@ -201,7 +223,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                                 </Tooltip>
                               ]}
                             >
-                                    <Tooltip placement="left" title={item.title}>
+                                    {/* <Tooltip placement="left" title={item.title}> */}
 
                                     <List.Item.Meta
                                 style={{ cursor: 'pointer' }}
@@ -209,17 +231,20 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                                 avatar={
                                   <CourseItemIcon type="outlined" item={item} />
                                 }
-                              /></Tooltip>
+                              />
+                              {/* </Tooltip> */}
                             </CourseListItem>
                           )}
                         />
                       </List.Item>
+                      </MovableItem>
                     )}
                     />
-                    </DndProvider>
+
                 </Collapse.Panel>
               </CustomCollapse>
-            </MovableItem>
+              </MovableItem>
+              </div>
           )
         })}
         </DndProvider>
