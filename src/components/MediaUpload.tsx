@@ -209,4 +209,4 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   )
 }
 
-export default MediaUpload
+export default MediaUpload;

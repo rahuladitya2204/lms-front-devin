@@ -13,7 +13,7 @@ import {
   AlertOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Store, Types } from '@adewaskar/lms-common'
+import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -23,6 +23,8 @@ import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
 import image from './bg.svg'
 import styled from '@emotion/styled'
+
+const { UnitTypeToStr } = Utils;
 
 const { Title, Text, Paragraph } = Typography
 
@@ -55,19 +57,19 @@ const CourseSubTitle = styled(Paragraph)`
 
 function CourseDetailViewer () {
   const { id: courseId } = useParams();
-  const learner = Store.useAuthentication(s => s.learner);
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
   const { mutate: enroll } = Learner.Queries.useEnrollForCourse();
-  // const { mutate: updateCart } = Learner.Queries.useUpdateCartItems();
+  const { data: courses } = Learner.Queries.useGetEnrolledCourses()
+
   const { data } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
   // const addItemToCart = (course:Types.Course) => {
   //   updateCart({ courseId: course._id, action: 'add' });
   // }
-
-  const isEnrolled = !!(learner.enrolledCourses.find((e) => {
-    return e.course.toString() === courseId;
+  console.log(courses,'ospssss')
+  const isEnrolled = !!(courses.find((e) => {
+    return e.course._id === courseId;
   }));
   useEffect(
     () => {
@@ -160,9 +162,11 @@ function CourseDetailViewer () {
                     <Col span={24}>
                       <Row justify="space-between" align='middle'>
                     <Col>
-                      <Row align='middle' gutter={ [5,5]}>
-                          <Col><Text strong style={{ fontSize: 24 }}>{ plan.finalPrice.unit} {plan.finalPrice.value}</Text></Col>
-                          <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{plan.displayPrice.unit }{plan.displayPrice.value}</Text></Col>
+                        <Row align='middle' gutter={[5, 5]}>
+                         {/* @ts-ignore */}
+                          <Col><Text strong style={{ fontSize: 24 }}>{UnitTypeToStr(plan.finalPrice)}</Text></Col>
+                         {/* @ts-ignore */}
+                         <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text></Col>
                       </Row>
                     </Col>
                     <Col>

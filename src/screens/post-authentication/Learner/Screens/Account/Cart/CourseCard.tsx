@@ -1,12 +1,13 @@
 import { Button, Card, Col, Form, Input, Modal, Row, Space, Tabs, Tag, Typography } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types, Utils } from '@adewaskar/lms-common'
 
 import { DeleteOutlined } from '@ant-design/icons';
 import Image from '@Components/Image'
-import { UnitTypeToStr } from '@User/Screens/Courses/CourseBuilder/utils';
 
 const { Title, Text } = Typography
-const {confirm } = Modal;
+const { confirm } = Modal;
+const { UnitTypeToStr } = Utils;
+
 interface LearnerCartCourseCardPropsI {
   course: Types.Course;
   removeItemFromCart: (id: string) => void;

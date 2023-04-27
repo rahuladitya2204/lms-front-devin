@@ -1,4 +1,14 @@
-import { Button, DatePicker, Form, Input, Modal, Select, Space } from 'antd'
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Space
+} from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import { Types } from '@adewaskar/lms-common'
@@ -69,6 +79,38 @@ const CreatePromoCode: React.FC<CreatePromoCodeComponentPropsI> = props => {
             placeholder="Discount Percent"
           />
         </Form.Item>
+        <Space align="end">
+          <Form.Item
+            label="Minimum Course Value"
+            name={['minCourseValue', 'unit']}
+          >
+            <Select style={{ width: 70 }} defaultValue="rupee">
+              <Select.Option value="rupee">₹</Select.Option>
+              <Select.Option value="dollar">$</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item style={{ width: 130 }} name={['minCourseValue', 'value']}>
+            <Input type="number" />
+          </Form.Item>
+        </Space>
+
+        <Space align="end">
+          <Form.Item
+            label="Maximum Discount Value"
+            name={['maxDiscountValue', 'unit']}
+          >
+            <Select style={{ width: 70 }} defaultValue="rupee">
+              <Select.Option value="rupee">₹</Select.Option>
+              <Select.Option value="dollar">$</Select.Option>
+            </Select>
+          </Form.Item>
+          <Form.Item
+            style={{ width: 130 }}
+            name={['maxDiscountValue', 'value']}
+          >
+            <Input type="number" />
+          </Form.Item>
+        </Space>
         <Space align="end" direction="horizontal" size={[20, 20]}>
           <Form.Item name="startDate" label="Start Date" required>
             <DatePicker

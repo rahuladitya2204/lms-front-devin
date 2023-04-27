@@ -56,7 +56,6 @@ const Plyr = React.forwardRef((props: any, ref) => {
   const setPlayer = Store.usePlayer(s => s.setPlayerState);
   const supported = Hls.isSupported();
   const { source, options = null, ...rest } = props;
-  // console.log(supported,'sss')
   // @ts-ignore
   const raptorRef = usePlyr(ref, {
     source,
@@ -66,7 +65,7 @@ const Plyr = React.forwardRef((props: any, ref) => {
   // console.log(raptorRef.current,'raptorRef')
   return (
     <Fragment>
-      {supported ? <video ref={raptorRef} className="plyr-react plyr" {...rest} /> : "HLS is not supported in your browser"}
+      {supported ? <video ref={raptorRef} className="plyr-react plyr" {...rest}  preload={false} autoPlay={false} /> : "HLS is not supported in your browser"}
     </Fragment>
   );
 })

@@ -1,4 +1,4 @@
-import { Collapse, List, Typography } from 'antd'
+import { Collapse, List, Progress, Space, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import CoursePlayerNavigatorItem from './CoursePlayerNavigatorItem'
@@ -22,6 +22,8 @@ const CustomCollapse = styled(Collapse)`
   }
 `
 
+const { Text, Title } = Typography
+
 interface CoursePlayerNavigatorPropsI {
   courseId: string;
   toggleItemCheck: (itemID: string, value: boolean) => void;
@@ -38,6 +40,10 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
   return (
     <Fragment>
       {sections.map((section, index) => {
+        const itemsCompleted = section.items.filter(item => item.isCompleted)
+        const sectionProgress = Math.ceil(
+          itemsCompleted.length / section.items.length * 100
+        )
         return (
           <CustomCollapse
             // bordered={false}
@@ -46,12 +52,15 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
           >
             <Panel
               header={
-                <Typography.Title level={5}>
-                  Section {index + 1}: {section.title}
-                  {/* {sectionsCompleted}/{
-                    totalSections
-                  } */}
-                </Typography.Title>
+                <Space>
+                  <Progress
+                    format={() => <Text strong>{index + 1}</Text>}
+                    type="circle"
+                    percent={sectionProgress}
+                    size={35}
+                  />
+                  <Typography.Title level={5}>{section.title}</Typography.Title>
+                </Space>
               }
               key={section._id}
             >

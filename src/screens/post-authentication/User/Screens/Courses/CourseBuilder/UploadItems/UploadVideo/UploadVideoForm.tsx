@@ -2,12 +2,10 @@ import { Button, Checkbox, Form, Input, Progress, Space, Typography } from 'antd
 import { Common, User } from '@adewaskar/lms-common'
 import { debounce, uniqueId } from 'lodash'
 
-import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
-import { PlusOutlined } from '@ant-design/icons'
 import { getMetadata } from 'video-metadata-thumbnails'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'

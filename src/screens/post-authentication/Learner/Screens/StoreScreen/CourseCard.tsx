@@ -9,10 +9,13 @@ import { Constants, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import { Typography } from 'antd'
+import { Utils } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
 
 const { Text } = Typography
+
+const { UnitTypeToStr } = Utils;
 
 interface CourseCardPropsI {
   course: Types.Course;
@@ -72,9 +75,9 @@ function CourseCard(props: CourseCardPropsI) {
           </Space>
 
             <Space direction='vertical' align='end' size={0}>
-              <Text style={{textAlign:'right',textDecoration:'line-through'}} type='secondary'>${plan.displayPrice.value}</Text>
+              <Text style={{textAlign:'right',textDecoration:'line-through'}} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text>
               <Text strong style={{fontSize: 20}}>
-              ${plan.finalPrice.value}
+              {UnitTypeToStr(plan.finalPrice)}
               </Text>
             </Space>
 

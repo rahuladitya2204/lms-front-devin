@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router'
 
 const LearnerCourseList: React.FC = () => {
   const { data: courses } = Learner.Queries.useGetEnrolledCourses()
-  console.log(courses,'sss')
+
   const navigate = useNavigate()
   return (
     <Fragment>

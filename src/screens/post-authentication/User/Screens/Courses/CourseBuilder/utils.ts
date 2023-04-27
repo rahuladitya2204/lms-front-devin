@@ -48,16 +48,6 @@ export const PARSE = function(str: string) {
   return JSON.parse(decodeURIComponent(atob(str)))
 }
 
-export const UnitTypeToStr = ({
-  value,
-  unit
-}: {
-  value: number,
-  unit: string
-}) => {
-  return `${value} ${unit}`
-}
-
 export const downloadFile = (filePath: string) => {
   window.open(filePath, 'Download')
 }

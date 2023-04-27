@@ -10,7 +10,6 @@ import {
   Typography
 } from 'antd'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
-import { Fragment, useEffect } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
@@ -19,6 +18,7 @@ import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
 import OrgLogo from '@Components/OrgLogo'
 import styled from '@emotion/styled'
+import { useEffect } from 'react'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -30,13 +30,22 @@ const ControlButton = styled(Button)`
   z-index: 999;
 `
 
-const CustomCard = styled(Card)`
-  &:hover {
-    button {
-      display: block;
-    }
+const PlayerContainer = styled.div`
+  /* .ant-row,
+  .ant-list-item,
+  input,
+  .tablist,
+  .ant-card-body,
+  span,
+  button {
+    background-color: #1b1834 !important;
+    color: #fff !important;
   }
+  .ant-typography {
+    color: #fff;
+  } */
 `
+
 const CustomHeader = styled(Header)`
   .ant-layout-header {
     padding: 0 !important;
@@ -89,7 +98,7 @@ function CoursePlayer() {
     navigate(`section/${prevItem.section}/item/${prevItem._id}`)
   }
   return (
-    <Fragment>
+    <PlayerContainer>
       <CustomHeader
         className="page-header"
         // bgColor="black"
@@ -123,7 +132,7 @@ function CoursePlayer() {
             <Col span={24}>
               <div
                 style={{
-                  height: 533,
+                  height: 550,
                   padding: 0,
                   position: 'relative',
                   background: '#fff',
@@ -183,7 +192,7 @@ function CoursePlayer() {
           />
         </Col>
       </Row>
-    </Fragment>
+    </PlayerContainer>
   )
 }
 
