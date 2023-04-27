@@ -1,4 +1,4 @@
-import { Avatar, List, Modal, Space, Spin } from 'antd'
+import { Avatar, Button, Empty, List, Modal, Space, Spin } from 'antd'
 import { Common, Learner, Types, User } from '@adewaskar/lms-common'
 import {
   DeleteOutlined,
@@ -95,7 +95,8 @@ interface FileListPropsI {
 function FileList(props: FileListPropsI) {
   return (
     <Space size={[20, 20]}>
-      <List
+      {props?.files?.length ? <>
+        <List
         size="small"
         // header={<div>Files</div>}
         bordered
@@ -108,7 +109,11 @@ function FileList(props: FileListPropsI) {
             file={file}
           />
         )}
-      />
+      /></> : <Empty style={{ width: 500 }} description='No Files added'>
+
+      </Empty>
+      }
+      
     </Space>
   )
 }

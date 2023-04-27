@@ -1,5 +1,6 @@
-import { Button, Checkbox, Form, Input, Space, Typography } from 'antd'
+import { Button, Checkbox, Form, Input, Progress, Space, Typography } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
+import { debounce, uniqueId } from 'lodash'
 
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
@@ -8,7 +9,6 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import { getMetadata } from 'video-metadata-thumbnails'
-import { uniqueId } from 'lodash'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
@@ -22,18 +22,17 @@ const UploadVideoForm: React.FC = () => {
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
-  const { data: { status } } = User.Queries.useGetTranscodeVideoStatus(
-    file?.metadata?.jobId,
-    {
-      enabled: !!file?.metadata?.jobId,
-      retry: file?.metadata?.status !== 'COMPLETE',
-      retryDelay: 4000
-    }
-  )
-  console.log(file, 'dsd')
+  const {
+    data: { status, progress }
+  } = User.Queries.useGetTranscodeVideoStatus(file?.metadata?.jobId, {
+    enabled: !!file?.metadata?.jobId,
+    retry: true,
+    retryDelay: 4000
+  })
+
   return (
     <Fragment>
-      <Form onValuesChange={onFormChange} form={form} layout="vertical">
+      <Form onValuesChange={debounce(onFormChange,700)} form={form} layout="vertical">
         <Form.Item
           name="title"
           label="Title"
@@ -118,7 +117,12 @@ const UploadVideoForm: React.FC = () => {
             )}
           />
 
-          {status !== 'COMPLETE' ? <Title> Processing Video...</Title> : null}
+          {status === 'PROGRESSING' ? (
+            <>
+              <Title> Processing Video...</Title>
+              <Progress percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
+            </>
+          ) : null}
 
           {file._id ? <MediaPlayer hls fileId={file._id} /> : null}
         </Form.Item>

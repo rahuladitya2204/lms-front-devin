@@ -80,6 +80,7 @@ function CourseBuilderScreen() {
   }
 
   const saveCourse = d => {
+    console.log(d, 'ddd')
     if (course._id) {
       updateCourse(
         {
@@ -112,7 +113,7 @@ function CourseBuilderScreen() {
     const COURSE = cloneDeep(course)
     COURSE.sections = updateCourseSectionItem(COURSE.sections, sectionId, item)
     setCourse(COURSE)
-    saveCourse(COURSE)
+    // saveCourse(COURSE)
   }
 
   const deleteSection = (index: number) => {

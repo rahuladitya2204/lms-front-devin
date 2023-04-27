@@ -15,7 +15,7 @@ import styled from '@emotion/styled'
 import update from 'immutability-helper'
 
 const { confirm } = Modal;
-const {Title } = Typography;
+const {Title ,Text} = Typography;
 
 const AddChapterButton = styled(Button)`
   /* margin-top: 10px; */
@@ -201,13 +201,15 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                                 </Tooltip>
                               ]}
                             >
-                              <List.Item.Meta
+                                    <Tooltip placement="left" title={item.title}>
+
+                                    <List.Item.Meta
                                 style={{ cursor: 'pointer' }}
-                                title={item.title}
+                                title={<Text ellipsis>{item.title}</Text>}
                                 avatar={
                                   <CourseItemIcon type="outlined" item={item} />
                                 }
-                              />
+                              /></Tooltip>
                             </CourseListItem>
                           )}
                         />

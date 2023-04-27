@@ -40,7 +40,7 @@ const PlyrComponent = (props:VideoJsComponentPropsI) => {
       loadVideo();
     }
   });
-  console.log(props.url,'props.url')
+
   return (
     <Plyr
       id="plyr"
