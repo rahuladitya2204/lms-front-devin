@@ -17,8 +17,8 @@ const UploadVideo = (props:any) => {
   return (
     <Fragment>
        <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item required name="title" label="Video Title">
-          <Input placeholder='Please enter title of the video' />
+        <Form.Item  rules={[{ required: true, message: 'Please mention title for Video' }]} required name="title" label="Video Title">
+          <Input  placeholder='Please enter title of the video' />
         </Form.Item>
         {/* <Button key="back" onClick={()=>form.resetFields(['title'])}>
             Clear

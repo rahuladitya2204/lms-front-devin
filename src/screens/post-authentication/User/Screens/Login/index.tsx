@@ -13,12 +13,9 @@ function UserLoginScreen () {
   const navigate = useNavigate()
   const { organisation, fetchOrganisation } = Store.useGlobal(state => state)
   const { orgId } = useParams()
-  useEffect(
-    () => {
-      fetchOrganisation()
-    },
-    []
-  )
+  useEffect(() => {
+    fetchOrganisation()
+  }, [])
   const { mutate: loginUser, isLoading: loading } = User.Queries.useLoginUser()
   const formik = useFormik({
     initialValues: {
@@ -52,7 +49,11 @@ function UserLoginScreen () {
               rules={[
                 {
                   required: true,
-                  message: 'Please enter your password!'
+                  message: 'Please enter your email!'
+                },
+                {
+                  type: 'email',
+                  message: 'Please enter a valid email address!'
                 }
               ]}
             >

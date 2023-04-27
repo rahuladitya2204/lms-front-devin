@@ -15,7 +15,7 @@ const UploadVideoa= (props:any) => {
   return (
     <Fragment>
     <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-     <Form.Item required name="title" label="PDF Title">
+     <Form.Item  rules={[{ required: true, message: 'Please mention title for PDF' }]} required name="title" label="PDF Title">
        <Input placeholder='Please enter title of the PDF' />
      </Form.Item>
        <Button key="submit" type="primary" onClick={form.submit}>

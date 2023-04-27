@@ -19,19 +19,8 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
     course._id + ''
   )
   console.log(playerInstance?.getCurrentTime)
-  useEffect(
-    () => {
-      console.log(playerInstance, 'playerInstance')
-      if (playerInstance && playerInstance?.on) {
-        // playerInstance.on('timeupdate', (e: any) => {
-        //   console.log(e, '11212')
-        // })
-      }
-    },
-    [playerInstance]
-  )
 
-  const currentItemNotes = notes.filter(note => note.item === itemId) || []
+  const currentItemNotes = notes.filter(note => note.item === itemId) || [];
   return (
     <Row>
       <Col span={24}>

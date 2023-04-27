@@ -39,12 +39,16 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
         label="Title"
         required
         tooltip="Title of your course"
+        rules={[{ required: true, message: 'Please mention title for course' }]}
       >
         <Input placeholder="Enter your course title" />
       </Form.Item>
       <Form.Item
         label="Instructor"
         name="instructor"
+        rules={[
+          { required: true, message: 'Please mention instructor for course' }
+        ]}
         tooltip={{
           title: 'Instructor name',
           icon: <InfoCircleOutlined />

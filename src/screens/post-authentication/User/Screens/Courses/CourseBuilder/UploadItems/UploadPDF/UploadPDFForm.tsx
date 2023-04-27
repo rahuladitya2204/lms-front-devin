@@ -5,6 +5,7 @@ import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
 import PDFViewer from '@Components/PDFViewer'
+import { getPDFReadingTime } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
@@ -74,10 +75,16 @@ const UploadPDFForm: React.FC = () => {
           <MediaUpload
             isProtected
             width="300px"
-            onUpload={({ _id }) => {
-              onFormChange({
-                file: _id,
-                type: 'pdf'
+            onUpload={({ _id }, file) => {
+              console.log(file, 'aaa')
+              getPDFReadingTime(file).then(time => {
+                onFormChange({
+                  file: _id,
+                  type: 'pdf',
+                  metadata: {
+                    duration: time
+                  }
+                })
               })
             }}
             height="250px"

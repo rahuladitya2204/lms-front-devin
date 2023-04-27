@@ -91,20 +91,23 @@ function AddItem(props: AddItemPropsI) {
                 const Component = item.component
                 return (
                   <Space direction="vertical" size={[20, 20]}>
-                    <Component
-                      onFinish={e => {
-                        onFinish(item.type, e)
-                      }}
+                    <ActionModal
+                      cta={
+                        <Radio value={item.type}>
+                          {' '}
+                          <Typography.Text strong>
+                            {item.title}:
+                          </Typography.Text>{' '}
+                          {item.description}
+                        </Radio>
+                      }
                     >
-                      {' '}
-                      <Radio value={item.type}>
-                        {' '}
-                        <Typography.Text strong>
-                          {item.title}:
-                        </Typography.Text>{' '}
-                        {item.description}
-                      </Radio>
-                    </Component>
+                      <Component
+                        onFinish={e => {
+                          onFinish(item.type, e)
+                        }}
+                      />
+                    </ActionModal>
                   </Space>
                 )
               })}

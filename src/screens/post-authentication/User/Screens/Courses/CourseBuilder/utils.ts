@@ -1,5 +1,12 @@
+import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/legacy/build/pdf'
+
 import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
+
+GlobalWorkerOptions.workerSrc = new URL(
+  '/pdf.worker.min.js',
+  window.location.origin
+).href
 
 export const findSectionItem = (
   itemId: string,
@@ -88,4 +95,41 @@ export function getReadingTime(html: string, wordsPerMinute = 200) {
   const wordCount = text.trim().split(/\s+/).length
   const minutes = wordCount / wordsPerMinute * 60
   return Math.ceil(minutes)
+}
+
+// @ts-nocheck
+
+const wordsPerMinute = 200 // Adjust this value based on your preference
+
+async function getPDFText(fileObject: any) {
+  const pdfDoc = await getDocument(fileObject).promise
+  const totalPages = pdfDoc.numPages
+  let fullText = ''
+
+  for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+    const page = await pdfDoc.getPage(pageNumber)
+    const content = await page.getTextContent()
+    const text = content.items.map((item: any) => item.str).join(' ')
+    fullText += text
+  }
+
+  return fullText
+}
+
+async function fileToArrayBuffer(fileObject: File) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = error => reject(error)
+    reader.readAsArrayBuffer(fileObject)
+  })
+}
+
+export async function getPDFReadingTime(fileObject: File) {
+  const arrayBuffer = await fileToArrayBuffer(fileObject)
+  const text = await getPDFText({ data: arrayBuffer })
+  const words = text.split(/\s+/).length
+  const readingTimeInSeconds = words / wordsPerMinute * 60
+
+  return readingTimeInSeconds
 }
