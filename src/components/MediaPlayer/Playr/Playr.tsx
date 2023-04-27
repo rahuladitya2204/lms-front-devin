@@ -3,13 +3,9 @@
 import './plyr.css'
 import './style.css'
 
-import { APITypes, usePlyr } from 'plyr-react'
 import React, {
-  Fragment,
   useEffect,
-  useLayoutEffect,
   useRef,
-  useState
 } from 'react'
 import { Store, Types } from '@adewaskar/lms-common'
 
