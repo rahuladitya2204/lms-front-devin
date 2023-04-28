@@ -51,14 +51,14 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
   }, []);
 
   useEffect(() => {
-    console.log(props.notes,'props.notesprops.notes')
+
     const points = (props.notes || []).map(n => {
       return {
         time: n.time,
         label: htmlToText(n.content)
       }
     });
-    console.log(points,'markekeker')
+
     plyrRef.current.config.markers = { enabled: !!points.length, points: points };
   },[props.notes])
 
