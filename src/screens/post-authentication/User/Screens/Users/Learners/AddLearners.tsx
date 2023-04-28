@@ -51,10 +51,24 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
   return (
     <Fragment>
       <Form form={form} onFinish={onSubmit} layout="vertical">
-        <Form.Item name="name" label="Name" required>
+        <Form.Item
+          rules={[
+            { required: true, message: 'Please enter name of the learner' }
+          ]}
+          name="name"
+          label="Name"
+          required
+        >
           <Input placeholder="Name of the learner" />
         </Form.Item>
-        <Form.Item name="email" label="Email" required>
+        <Form.Item
+          rules={[
+            { required: true, message: 'Please enter email of the learner' }
+          ]}
+          name="email"
+          label="Email"
+          required
+        >
           <Input placeholder="Please enter email of the learner" />
         </Form.Item>
         <Button

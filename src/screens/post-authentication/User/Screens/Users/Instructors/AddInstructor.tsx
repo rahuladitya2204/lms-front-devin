@@ -34,12 +34,11 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = props => {
         }
       )
     } else {
-      createInstructor(e,
-        {
-          onSuccess: () => {
-            props.closeModal && props.closeModal()
-          }
-        })
+      createInstructor(e, {
+        onSuccess: () => {
+          props.closeModal && props.closeModal()
+        }
+      })
     }
     // onFinish && onFinish(e)
   }
@@ -52,24 +51,40 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = props => {
   )
 
   return (
-    <Fragment>
-      <Form form={form} onFinish={onSubmit} layout="vertical">
-        <Form.Item name="name" label="Name" required>
-          <Input placeholder="Name of the instructor" />
-        </Form.Item>
-        <Form.Item name="designation" label="Designation" required>
-          <Input placeholder="Designation of the instructor" />
-        </Form.Item>
-        <Form.Item name="email" label="Email" required>
-          <Input placeholder="Please enter email of the instructor" />
-        </Form.Item>
-      </Form>
-      {/* <Button
-        key="back"
-        onClick={() => form.resetFields(['instructorName', 'title'])}
+    <Form form={form} onFinish={onSubmit} layout="vertical">
+      <Form.Item
+        rules={[
+          { required: true, message: 'Please enter name of the instructor' }
+        ]}
+        name="name"
+        label="Name"
+        required
       >
-        Clear
-      </Button>, */}
+        <Input placeholder="Name of the instructor" />
+      </Form.Item>
+      <Form.Item
+        rules={[
+          {
+            required: true,
+            message: 'Please enter designation of the instructor'
+          }
+        ]}
+        name="designation"
+        label="Designation"
+        required
+      >
+        <Input placeholder="Designation of the instructor" />
+      </Form.Item>
+      <Form.Item
+        rules={[
+          { required: true, message: 'Please enter email of the instructor' }
+        ]}
+        name="email"
+        label="Email"
+        required
+      >
+        <Input placeholder="Please enter email of the instructor" />
+      </Form.Item>
       <Button
         loading={createInstructorLoading || updateInstructorLoading}
         key="submit"
@@ -78,7 +93,7 @@ const AddInstructor: React.FC<CreateInstructorComponentPropsI> = props => {
       >
         Submit
       </Button>
-    </Fragment>
+    </Form>
   )
 }
 

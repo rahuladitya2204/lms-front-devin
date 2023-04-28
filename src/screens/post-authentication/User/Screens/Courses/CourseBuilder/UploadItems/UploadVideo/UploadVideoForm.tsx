@@ -1,12 +1,13 @@
 import { Button, Checkbox, Form, Input, Progress, Space, Typography } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
+import { Fragment, useEffect } from 'react'
 import { debounce, uniqueId } from 'lodash'
 
 import FileList from '@Components/FileList'
-import { Fragment } from 'react'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { getMetadata } from 'video-metadata-thumbnails'
+import { getVideoThumbnails } from '../../utils'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
@@ -19,7 +20,10 @@ const UploadVideoForm: React.FC = () => {
   const { onFormChange, item } = useUploadItemForm(form)
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
-  })
+  });
+  const { data: videoUrl } = Common.Queries.useGetPresignedUrlFromFile(file._id, {
+    enabled:!!file._id
+  });
   const {
     data: { status, progress }
   } = User.Queries.useGetTranscodeVideoStatus(file?.metadata?.jobId, {
@@ -27,6 +31,13 @@ const UploadVideoForm: React.FC = () => {
     retry: true,
     retryDelay: 4000
   })
+
+  useEffect(() => {
+    // console.log('eee',videoUrl)
+    getVideoThumbnails(videoUrl).then(e=>{
+      console.log(e,'huhuhuhu')
+    }).catch(console.log)
+   },[videoUrl])
 
   return (
     <Fragment>

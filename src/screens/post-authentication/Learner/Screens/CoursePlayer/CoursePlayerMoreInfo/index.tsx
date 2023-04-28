@@ -13,11 +13,11 @@ interface CoursePlayerMoreInfoPropsI {
 
 const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
   const TAB_ITEMS = [
-    {
-      label: <Text strong>Overview</Text>,
-      key: '2',
-      children: <CourseOverview hidePreview course={props.course} />
-    },
+    // {
+    //   label: <Text strong>Overview</Text>,
+    //   key: '2',
+    //   children: <CourseOverview hidePreview course={props.course} />
+    // },
     {
       label: <Text strong>Notes</Text>,
       key: '212',

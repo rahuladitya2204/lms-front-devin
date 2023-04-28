@@ -25,6 +25,7 @@ const style = {
 const DraggableItem = styled.div((props): { disabled: boolean } => `
 ${!props.disabled ? `
 border: 1px dashed;
+margin: 10px;
 `: ``}
 `)
 

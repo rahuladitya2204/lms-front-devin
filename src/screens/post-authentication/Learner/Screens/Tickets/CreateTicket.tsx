@@ -34,8 +34,6 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
 
   const onSubmit = (e: any) => {
     const data = { ...e };
-    console.log(data,'eeeee')
-    // data.files = [...files];
     createTicket(
       {
         data

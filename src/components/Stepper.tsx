@@ -12,7 +12,6 @@ interface StepperPropsI {
 
 const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
     const steps = props.steps;
-  const { token } = theme.useToken();
   const [current, setCurrent] = useState(0);
 
   const next = () => {
@@ -26,12 +25,6 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
   const contentStyle: React.CSSProperties = {
-    // lineHeight: '260px',
-    // textAlign: 'center',
-    // color: token.colorTextTertiary,
-    // // backgroundColor: token.colorFillAlter,
-    // borderRadius: token.borderRadiusLG,
-    // border: `1px dashed ${token.colorBorder}`,
       marginTop: 20,
       minHeight:300
   };
@@ -45,7 +38,7 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
           </Button>
         )}
       { (
-          <Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>} type="primary" onClick={() => next()}>
+          <Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>}  ghost type="primary" onClick={() => next()}>
             Next
           </Button>
         )}

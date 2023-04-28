@@ -44,12 +44,10 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       })
 
       plyrRef.current.on('play', e => {
-        console.log('playing!!')
        setIsPlaying(true)
       })
 
       plyrRef.current.on('stop', e => {
-        console.log('stopppign!!')
        setIsPlaying(false)
       })
     }
@@ -57,7 +55,10 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
     return () => {
       if (plyrRef.current) {
         plyrRef.current.destroy()
-        plyrRef.current = null
+        plyrRef.current = null;
+        setPlayer({
+          currentTime: null
+        })
       }
     }
   }, []);
@@ -75,54 +76,54 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
   },[props.notes])
 
   useEffect(() => {
-      if (props.hls && isPlaying) {
-        const loadVideo = async () => {
-        const video = document.getElementById("playrrr") as HTMLVideoElement;
-        var hls = new Hls({
-          loader: CustomXhrLoader,
-        });
-        hls.loadSource(props.url+'')
-        hls.attachMedia(video);
-        // @ts-ignore
-        // ref.current!.plyr.media = video;
+    const loadVideo = async () => {
+      const video = document.getElementById("playrrr") as HTMLVideoElement;
+      var hls = new Hls({
+        loader: CustomXhrLoader,
+      });
+      hls.loadSource(props.url + '')
+      hls.attachMedia(video);
+      // @ts-ignore
+      // ref.current!.plyr.media = video;
   
-        hls.on(Hls.Events.MANIFEST_PARSED, function () {
-          // (ref.current!.plyr as PlyrInstance).play();
-        });
-      };
-        loadVideo();
-      }
-      else {
-        plyrRef.current.source = {
-          type: 'video',
-          // title: 'Example title',
-          sources: [
-            {
-              src: props.url
-            }
-          ],
-          // poster: '/path/to/poster.jpg',
-          // previewThumbnails: {
-          //   src: '/path/to/thumbnails.vtt',
-          // },
-          // tracks: [
-          //   {
-          //     kind: 'captions',
-          //     label: 'English',
-          //     srclang: 'en',
-          //     src: '/path/to/captions.en.vtt',
-          //     default: true,
-          //   },
-          //   {
-          //     kind: 'captions',
-          //     label: 'French',
-          //     srclang: 'fr',
-          //     src: '/path/to/captions.fr.vtt',
-          //   },
-          // ],
-        };
+      hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        // (ref.current!.plyr as PlyrInstance).play();
+      });
+    };
+    if (props.hls) {
+      loadVideo();
     }
-  },[props.hls,props.url,isPlaying])
+    else {
+      plyrRef.current.source = {
+        type: 'video',
+        // title: 'Example title',
+        sources: [
+          {
+            src: props.url
+          }
+        ],
+        // poster: '/path/to/poster.jpg',
+        // previewThumbnails: {
+        //   src: '/path/to/thumbnails.vtt',
+        // },
+        // tracks: [
+        //   {
+        //     kind: 'captions',
+        //     label: 'English',
+        //     srclang: 'en',
+        //     src: '/path/to/captions.en.vtt',
+        //     default: true,
+        //   },
+        //   {
+        //     kind: 'captions',
+        //     label: 'French',
+        //     srclang: 'fr',
+        //     src: '/path/to/captions.fr.vtt',
+        //   },
+        // ],
+      };
+    }
+  }, [props.hls, props.url, isPlaying]);
 
   return (
     <div>

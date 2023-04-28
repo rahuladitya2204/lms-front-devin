@@ -1,9 +1,8 @@
 import {
-  Avatar,
   Button,
-  Card,
   Col,
   Divider,
+  List,
   Modal,
   Row,
   Space,
@@ -14,11 +13,11 @@ import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 import {
   DeleteOutlined,
   EditOutlined,
-  PlayCircleOutlined,
-  PlusOutlined
+  PlayCircleOutlined
 } from '@ant-design/icons'
 import React, { useState } from 'react'
 
+import CreateNote from './CreateNote'
 import HtmlViewer from '@Components/HtmlViewer'
 import { formatSeconds } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useParams } from 'react-router'
@@ -36,7 +35,7 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   const section = props.course.sections.find(s => s._id === sectionId)
   const item = section?.items.find(i => i._id === itemId)
   const time = formatSeconds(props.note.time)
-
+  const [selectedNote, setSelectedNote] = useState<Types.CourseNote>(Constants.INITIAL_COURSE_NOTE_DETAILS);
   const deleteNote = () => {
     confirm({
       title: 'Are you sure?',
@@ -57,55 +56,62 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
     })
   }
 
-  return (
+  return selectedNote._id ? (
     <Row>
-      <Col>
-        <Tag color="blue">{time}</Tag>
-      </Col>
-      <Col flex={1}>
-        <Row>
-          <Col span={24}>
-            <Row>
-              <Col span={24}>
-                <Row justify={'space-between'}>
-                  <Col>
-                    <Text strong>{section?.title}</Text>
-                    <Divider type="vertical" />
-                    <Text>{item?.title}</Text>
-                  </Col>
-                  <Col>
-                    <Button
-                      style={{ marginLeft: 10 }}
-                      shape="round"
-                      onClick={() => {
-                        if (playerInstance) {
-                          playerInstance.currentTime = props.note.time;
-                        }
-                      }}
-                      icon={<PlayCircleOutlined />}
-                    />
-                    <Button
-                      style={{ marginLeft: 10 }}
-                      shape="round"
-                      icon={<EditOutlined />}
-                    />
-                    <Button
-                      style={{ marginLeft: 10 }}
-                      shape="round"
-                      onClick={deleteNote}
-                      icon={<DeleteOutlined />}
-                    />
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-            <Space direction="vertical">
-              <HtmlViewer content={props.note.content} />
-            </Space>
-          </Col>
-        </Row>
+      <Col span={24}>
+        <CreateNote
+          onFinish={e => setSelectedNote(Constants.INITIAL_COURSE_NOTE_DETAILS)}
+          selectedNote={selectedNote}
+          item={itemId + ''}
+          courseId={props.course._id}
+        />
       </Col>
     </Row>
+  ) : (
+    <List.Item
+      actions={[
+        <Button
+          style={{ marginLeft: 10 }}
+          shape="round"
+          onClick={() => {
+            if (playerInstance) {
+              playerInstance.currentTime = 3
+            }
+          }}
+          icon={<PlayCircleOutlined />}
+        />,
+        <Button
+          style={{ marginLeft: 10 }}
+          shape="round"
+          onClick={e => setSelectedNote(props.note)}
+          icon={<EditOutlined />}
+        />,
+        <Button
+          style={{ marginLeft: 10 }}
+          shape="round"
+          onClick={deleteNote}
+          icon={<DeleteOutlined />}
+        />
+      ]}
+    >
+      <List.Item.Meta
+        avatar={<Tag color="blue">{time}</Tag>}
+        title={
+          <Row>
+            <Col>
+              <Text strong>{section?.title}</Text>
+              <Divider type="vertical" />
+              <Text>{item?.title}</Text>
+            </Col>
+          </Row>
+        }
+        description={
+          <Text>
+            <HtmlViewer content={props.note.content} />
+          </Text>
+        }
+      />
+    </List.Item>
   )
 }
 

@@ -60,7 +60,6 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   )
 
   const updateCampaign = (e: Partial<Types.Campaign>) => {
-    console.log(e, 'eeee')
     setCampaign(e)
   }
 

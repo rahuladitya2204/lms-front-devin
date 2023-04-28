@@ -139,72 +139,90 @@ export const getVideoThumbnails = async (
   videoSource: string,
   numberOfThumbnails = 3
 ) => {
-  const video = document.createElement('video')
-  const canvas = document.createElement('canvas')
+  const video = document.createElement('video');
+  const canvas = document.createElement('canvas');
+
+  video.style.display = 'none';
+  document.body.appendChild(video);
+
+  const removeVideoElement = () => {
+    document.body.removeChild(video);
+  };
 
   const loadVideoMetadata = () =>
     new Promise(resolve => {
-      video.addEventListener('loadedmetadata', resolve, { once: true })
-    })
+      video.addEventListener('loadedmetadata', () => {
+        console.log('Metadata loaded');
+        resolve(true);
+      }, { once: true });
+    });
 
   const loadVideoFrame = () =>
     new Promise(resolve => {
-      video.addEventListener('seeked', resolve, { once: true })
-    })
+      video.addEventListener('seeked', () => {
+        console.log('Video frame loaded');
+        resolve(true);
+      }, { once: true });
+    });
 
   const captureFrame = async (time: number) => {
-    video.currentTime = time
-    await loadVideoFrame()
+    video.currentTime = time;
+    await loadVideoFrame();
 
-    const ctx: any = canvas.getContext('2d')
-    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
+    const ctx: any = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
     return new Promise(resolve => {
-      canvas.toBlob(blob => resolve(blob), 'image/png')
-    })
-  }
+      canvas.toBlob(blob => resolve(blob), 'image/png');
+    });
+  };
 
-  let videoUrl
-
-  if (typeof videoSource === 'string') {
-    videoUrl = videoSource
-  } else {
-    videoUrl = URL.createObjectURL(videoSource)
-  }
+  let videoUrl = videoSource;
 
   if (Hls.isSupported() && videoUrl.endsWith('.m3u8')) {
-    const hls = new Hls()
-    hls.loadSource(videoUrl)
-    hls.attachMedia(video)
+    const hls = new Hls();
+    hls.loadSource(videoUrl);
+    hls.attachMedia(video);
     await new Promise(resolve => {
-      hls.on(Hls.Events.MANIFEST_PARSED, resolve)
-    })
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        console.log('HLS manifest parsed');
+        resolve(true);
+      });
+    });
   } else {
-    video.src = videoUrl
+    video.src = videoUrl;
   }
 
-  await loadVideoMetadata()
+  await new Promise(resolve => {
+    video.addEventListener('canplay', () => {
+      console.log('Video can play');
+      resolve(true);
+    }, { once: true });
+  });
 
-  canvas.width = video.videoWidth
-  canvas.height = video.videoHeight
+  await loadVideoMetadata();
 
-  const videoDuration = video.duration
-  const divisionInterval = videoDuration / (numberOfThumbnails + 1)
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
+
+  const videoDuration = video.duration;
+  const divisionInterval = videoDuration / (numberOfThumbnails + 1);
   const captureTimes = Array.from(
     { length: numberOfThumbnails },
     (_, i) => (i + 1) * divisionInterval
-  )
+  );
 
-  const thumbnailBlobs = []
+  const thumbnailBlobs = [];
 
   for (const time of captureTimes) {
-    const thumbnailBlob = await captureFrame(time)
-    thumbnailBlobs.push(thumbnailBlob)
+    const thumbnailBlob = await captureFrame(time);
+    thumbnailBlobs.push(thumbnailBlob);
   }
 
-  if (typeof videoSource !== 'string') {
-    URL.revokeObjectURL(videoUrl)
-  }
+  console.log('Thumbnails generated:', thumbnailBlobs);
 
-  return thumbnailBlobs
-}
+  removeVideoElement();
+
+  return thumbnailBlobs;
+};
+
