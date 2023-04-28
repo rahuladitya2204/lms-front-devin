@@ -6,6 +6,7 @@ import './style.css'
 import React, {
   useEffect,
   useRef,
+  useState,
 } from 'react'
 import { Store, Types } from '@adewaskar/lms-common'
 
@@ -26,6 +27,7 @@ interface VideoJsComponentPropsI {
   onEnded?: () => void;
 }
 const PlyrComponent = (props: VideoJsComponentPropsI) => {
+  const [isPlaying, setIsPlaying] = useState(false);
   const setPlayer = Store.usePlayer(s => s.setPlayerState);
   const videoRef = useRef(null)
   const plyrRef = useRef(null)
@@ -39,6 +41,16 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         setPlayer({
           currentTime: Math.ceil(plyrRef.current.currentTime)
         })
+      })
+
+      plyrRef.current.on('play', e => {
+        console.log('playing!!')
+       setIsPlaying(true)
+      })
+
+      plyrRef.current.on('stop', e => {
+        console.log('stopppign!!')
+       setIsPlaying(false)
       })
     }
 
@@ -63,7 +75,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
   },[props.notes])
 
   useEffect(() => {
-      if (props.hls) {
+      if (props.hls && isPlaying) {
         const loadVideo = async () => {
         const video = document.getElementById("playrrr") as HTMLVideoElement;
         var hls = new Hls({
@@ -110,7 +122,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
           // ],
         };
     }
-  },[props.hls,props.url])
+  },[props.hls,props.url,isPlaying])
 
   return (
     <div>
