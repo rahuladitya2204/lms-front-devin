@@ -1,5 +1,6 @@
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/legacy/build/pdf'
 
+import Hls from 'hls.js'
 import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
 
@@ -132,4 +133,78 @@ export async function getPDFReadingTime(fileObject: File) {
   const readingTimeInSeconds = words / wordsPerMinute * 60
 
   return readingTimeInSeconds
+}
+
+export const getVideoThumbnails = async (
+  videoSource: string,
+  numberOfThumbnails = 3
+) => {
+  const video = document.createElement('video')
+  const canvas = document.createElement('canvas')
+
+  const loadVideoMetadata = () =>
+    new Promise(resolve => {
+      video.addEventListener('loadedmetadata', resolve, { once: true })
+    })
+
+  const loadVideoFrame = () =>
+    new Promise(resolve => {
+      video.addEventListener('seeked', resolve, { once: true })
+    })
+
+  const captureFrame = async (time: number) => {
+    video.currentTime = time
+    await loadVideoFrame()
+
+    const ctx: any = canvas.getContext('2d')
+    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight)
+
+    return new Promise(resolve => {
+      canvas.toBlob(blob => resolve(blob), 'image/png')
+    })
+  }
+
+  let videoUrl
+
+  if (typeof videoSource === 'string') {
+    videoUrl = videoSource
+  } else {
+    videoUrl = URL.createObjectURL(videoSource)
+  }
+
+  if (Hls.isSupported() && videoUrl.endsWith('.m3u8')) {
+    const hls = new Hls()
+    hls.loadSource(videoUrl)
+    hls.attachMedia(video)
+    await new Promise(resolve => {
+      hls.on(Hls.Events.MANIFEST_PARSED, resolve)
+    })
+  } else {
+    video.src = videoUrl
+  }
+
+  await loadVideoMetadata()
+
+  canvas.width = video.videoWidth
+  canvas.height = video.videoHeight
+
+  const videoDuration = video.duration
+  const divisionInterval = videoDuration / (numberOfThumbnails + 1)
+  const captureTimes = Array.from(
+    { length: numberOfThumbnails },
+    (_, i) => (i + 1) * divisionInterval
+  )
+
+  const thumbnailBlobs = []
+
+  for (const time of captureTimes) {
+    const thumbnailBlob = await captureFrame(time)
+    thumbnailBlobs.push(thumbnailBlob)
+  }
+
+  if (typeof videoSource !== 'string') {
+    URL.revokeObjectURL(videoUrl)
+  }
+
+  return thumbnailBlobs
 }

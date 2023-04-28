@@ -13,7 +13,7 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 const { Title } = Typography
 
 const UploadVideoForm: React.FC = () => {
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
   const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo()
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, item } = useUploadItemForm(form)

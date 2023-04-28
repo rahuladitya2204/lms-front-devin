@@ -79,8 +79,7 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
                       shape="round"
                       onClick={() => {
                         if (playerInstance) {
-                          playerInstance.currentTime(props.note.time)
-                          playerInstance.play()
+                          playerInstance.currentTime = props.note.time;
                         }
                       }}
                       icon={<PlayCircleOutlined />}
