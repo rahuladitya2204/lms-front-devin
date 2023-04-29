@@ -26,7 +26,7 @@ import { useState } from 'react'
 const { Content } = Layout
 const { Text, Title } = Typography
 
-const DashboardHeader: React.FC = () => {
+const LearnerHeader: React.FC = () => {
   // const { data: cartItems } = Learner.Queries.useGetCartItems()
   const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
   const [text, setText] = useState('')
@@ -182,4 +182,4 @@ const DashboardHeader: React.FC = () => {
   )
 }
 
-export default DashboardHeader
+export default LearnerHeader

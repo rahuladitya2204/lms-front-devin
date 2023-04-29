@@ -28,8 +28,8 @@ import InstructorsScreen from './post-authentication/User/Screens/Users/Instruct
 import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
 import LearnerCourses from './post-authentication/Learner/Screens/Courses'
-import LearnerDashboard from './post-authentication/Learner/Screens/Dashboard/DashboardScreen'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
+import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
@@ -42,9 +42,10 @@ import SettingsScreen from '@User/Screens/Settings/Settings'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
-import UserDashboard from './post-authentication/User/Screens/Dashboard/DashboardScreen'
+import UserDashboard from '@User/Screens/UserDashboard/UserDashboard'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserRegister from './post-authentication/User/Screens/Register'
+import UserRootScreen from './post-authentication/User/Screens/UserRoot/UserRootScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
 
@@ -57,7 +58,8 @@ const router = createBrowserRouter(
             path="certificate-template/:id/editor"
             element={<CertificateTemplateEditor />}
           />
-          <Route path="dashboard" element={<UserDashboard />}>
+          <Route path="app" element={<UserRootScreen />}>
+            <Route path="dashboard" element={<UserDashboard />} />
             <Route path="settings" element={<SettingsScreen />} />
             <Route path="asset-library" element={<AssetLibraryScreen />} />
             <Route path="users">
@@ -130,7 +132,7 @@ const router = createBrowserRouter(
         </Route>
 
         <Route path="learner">
-          <Route path="dashboard" element={<LearnerDashboard />}>
+          <Route path="app" element={<LearnerRootScreen />}>
             <Route path="cart" element={<LearnerCart />} />
             <Route path="store" element={<LearnerStoreScreen />} />
             <Route path="account" element={<LearnerAccount />} />

@@ -20,7 +20,7 @@ const Logo = styled.img`
 
 const { Content, Sider } = Layout
 
-const UserDashboard: React.FC = () => {
+const UserRootScreen: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
   // const { colorPallete } = Store.useGlobal(s => s)
   const navigate = useNavigate()
@@ -58,4 +58,4 @@ const UserDashboard: React.FC = () => {
   )
 }
 
-export default UserDashboard
+export default UserRootScreen
