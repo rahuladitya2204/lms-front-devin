@@ -95,7 +95,6 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
                 label: (
                   <a
                     onClick={e => setSelectedNote(props.note)}
-
                   >
                    <EditOutlined/> Edit
                   </a>
@@ -106,7 +105,6 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
                 label: (
                   <a
                     onClick={deleteNote}
-
                   >
                   <DeleteOutlined/>  Delete
                   </a>
