@@ -12,6 +12,7 @@ import { Store, Types } from '@adewaskar/lms-common'
 
 import { CustomXhrLoader } from './Hls'
 import Hls from 'hls.js'
+import { LiveCaption } from './Caption'
 import Plyr from 'plyr'
 import { htmlToText } from 'html-to-text'
 
@@ -34,6 +35,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
 
   useEffect(() => {
     if (videoRef.current) {
+      const liveCaption = new LiveCaption();
       plyrRef.current = new Plyr('#playrrr', {
         volume: 0.1,
       })
@@ -44,11 +46,14 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       })
 
       plyrRef.current.on('play', e => {
-       setIsPlaying(true)
+        setIsPlaying(true)
+        liveCaption.start();
+        
       })
 
       plyrRef.current.on('stop', e => {
        setIsPlaying(false)
+       liveCaption.stop();
       })
     }
 
@@ -137,6 +142,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       >
         {!props.hls ? <source src={props.url}/>:null}
       </video>
+      <div id="captions" class="captions"></div>
     </div>
   )
 }

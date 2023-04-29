@@ -2,6 +2,7 @@ import {
   Button,
   Col,
   Divider,
+  Dropdown,
   List,
   Modal,
   Row,
@@ -9,12 +10,14 @@ import {
   Tag,
   Typography
 } from 'antd'
-import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 import {
+  CaretDownOutlined,
   DeleteOutlined,
+  DotChartOutlined,
   EditOutlined,
   PlayCircleOutlined
 } from '@ant-design/icons'
+import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { useState } from 'react'
 
 import CreateNote from './CreateNote'
@@ -70,28 +73,52 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   ) : (
     <List.Item
       actions={[
-        <Button
-          style={{ marginLeft: 10 }}
-          shape="round"
-          onClick={() => {
-            if (playerInstance) {
-              playerInstance.currentTime = 3
-            }
+        <Dropdown  trigger={['click']}
+          menu={{
+            items: [
+              {
+                key: '1',
+                label: (
+                  <a
+                    onClick={() => {
+                      if (playerInstance) {
+                        playerInstance.currentTime = 3
+                      }
+                    }}
+                  >
+                   <PlayCircleOutlined/> Play
+                  </a>
+                )
+              },
+              {
+                key: '2',
+                label: (
+                  <a
+                    onClick={e => setSelectedNote(props.note)}
+
+                  >
+                   <EditOutlined/> Edit
+                  </a>
+                )
+              },
+              {
+                key: '3',
+                label: (
+                  <a
+                    onClick={deleteNote}
+
+                  >
+                  <DeleteOutlined/>  Delete
+                  </a>
+                )
+              }
+            ]
           }}
-          icon={<PlayCircleOutlined />}
-        />,
-        <Button
-          style={{ marginLeft: 10 }}
-          shape="round"
-          onClick={e => setSelectedNote(props.note)}
-          icon={<EditOutlined />}
-        />,
-        <Button
-          style={{ marginLeft: 10 }}
-          shape="round"
-          onClick={deleteNote}
-          icon={<DeleteOutlined />}
-        />
+          placement="bottomRight"
+        >
+          <Button size='small' icon={<CaretDownOutlined />}></Button>
+        </Dropdown>,
+
       ]}
     >
       <List.Item.Meta

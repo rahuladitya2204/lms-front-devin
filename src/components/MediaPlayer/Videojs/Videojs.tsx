@@ -1,55 +1,15 @@
 // @ts-nocheck
 import 'video.js/dist/video-js.css'
-import 'videojs-markers'
-import 'videojs-markers/dist/videojs.markers.css'
 
-import { Common, Store, Types } from '@adewaskar/lms-common'
+import React, { useEffect, useRef } from 'react'
 
-import React from 'react'
-import { initMarkers } from './initMarker'
+import { CustomXhrLoader } from '../Playr/Hls'
+import Hls from 'hls.js'
 import videojs from 'video.js'
-import watermark from 'videojs-dynamic-watermark'
 
-videojs.registerPlugin('dynamicWatermark', watermark)
-
-interface VideoJsComponentPropsI {
-  url?: string;
-  watermark?: string | null;
-  width?: number;
-  height?: number;
-  notes?: Types.CourseNote[];
-  onEnded?: () => void;
-}
-
-export const VideoJsComponent = (props: VideoJsComponentPropsI) => {
-  const setPlayer = Store.usePlayer(s => s.setPlayerState)
-  // const playerState = Store.usePlayer(s => s.state)
-  // const lastFiredSecond = useRef(-1)
-  const onTimeUpdate = player => {
-    const currentTimeInSeconds = Math.floor(player.currentTime())
-    setPlayer({
-      currentTime: currentTimeInSeconds
-    })
-  }
-  const Url = props.url
-  const videoRef = React.useRef(null)
-  // const [markers, setMarkers] = useState([])
-  const playerRef = React.useRef(null)
-  const options = {
-    aspectRatio: '16:9',
-    // autoplay: true,
-    controls: true,
-    // responsive: true,
-    fluid: true,
-    sources: [
-      {
-        // props.url
-        src: Url,
-        type: 'video/mp4'
-      }
-    ]
-  }
-  const { onReady } = props
+const VideoPlayer = ({ url, hls, watermark }) => {
+  const videoRef = useRef(null)
+  const playerRef = useRef(null)
 
   React.useEffect(
     () => {
@@ -63,7 +23,9 @@ export const VideoJsComponent = (props: VideoJsComponentPropsI) => {
 
         const player = (playerRef.current = videojs(
           videoElement,
-          options,
+          [{
+            
+          }],
           () => {
             videojs.log('player is ready')
             player.on('timeupdate', () => {
@@ -103,39 +65,43 @@ export const VideoJsComponent = (props: VideoJsComponentPropsI) => {
         // on prop change, for example:
       } else {
         const player = playerRef.current
-        player.src(options.sources)
+        // player.src(options.sources)
       }
     },
-    [options, videoRef, Url]
+    [videoRef, url]
   )
 
-  // Dispose the Video.js player when the functional component unmounts
-  React.useEffect(
+  useEffect(
     () => {
-      const player = playerRef.current
-
-      return () => {
-        if (player && !player.isDisposed()) {
-          player.dispose()
-          playerRef.current = null
+      if (playerRef.current) {
+        if (hls && Hls.isSupported()) {
+          const hlsInstance = new Hls({
+            loader: CustomXhrLoader
+          })
+          hlsInstance.loadSource(url)
+          hlsInstance.attachMedia(videoRef.current)
+          hlsInstance.on(Hls.Events.MANIFEST_PARSED, () => {
+            playerRef.current.play()
+          })
+        } else {
+          playerRef.current.src(url)
+          playerRef.current.load()
         }
       }
     },
-    [playerRef]
+    [url, hls]
   )
+
   return (
-    <div
-      data-vjs-player
-      style={
-        {
-          // height: '300px',
-          // width: '100%'
-        }
-      }
-    >
-      <div ref={videoRef} />
+    <div data-vjs-player>
+      <video
+        ref={videoRef}
+        className="video-js vjs-big-play-centered"
+        width="640"
+        height="360"
+      />{' '}
     </div>
   )
 }
 
-export default VideoJsComponent
+export default VideoPlayer

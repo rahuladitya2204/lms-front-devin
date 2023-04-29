@@ -35,6 +35,9 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
       }}
     >
       <PlayrComponent hls={props.hls} notes={props.notes} url={Url} />
+      {/* <VideoJsPlayer watermark={props.watermark} hls={props.hls}
+        url={Url}
+      /> */}
     </div>
   )
 }
