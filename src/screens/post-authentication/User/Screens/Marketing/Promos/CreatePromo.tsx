@@ -15,30 +15,30 @@ import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 
-interface CreatePromoCodeComponentPropsI {
+interface CreatePromoComponentPropsI {
   children?: ReactNode;
-  data?: Types.PromoCode;
+  data?: Types.Promo;
   closeModal?: Function;
-  onFinish?: (data: Types.PromoCode) => void;
+  onFinish?: (data: Types.Promo) => void;
 }
 const { Option } = Select
 
-const CreatePromoCode: React.FC<CreatePromoCodeComponentPropsI> = props => {
+const CreatePromo: React.FC<CreatePromoComponentPropsI> = props => {
   const {
-    mutate: createPromoCode,
-    isLoading: createPromoCodeLoading
-  } = User.Queries.useCreatePromoCode()
+    mutate: createPromo,
+    isLoading: createPromoLoading
+  } = User.Queries.useCreatePromo()
   const {
-    mutate: updatePromoCode,
-    isLoading: updatePromoCodeLoading
-  } = User.Queries.useUpdatePromoCode()
+    mutate: updatePromo,
+    isLoading: updatePromoLoading
+  } = User.Queries.useUpdatePromo()
   const { listItems: courses } = User.Queries.useGetCourses()
   const [form] = Form.useForm()
 
-  const onSubmit = (e: Types.PromoCode) => {
+  const onSubmit = (e: Types.Promo) => {
     console.log(e, 'ee')
     if (props.data) {
-      updatePromoCode(
+      updatePromo(
         { id: props.data._id, data: e },
         {
           onSuccess: () => {
@@ -47,7 +47,7 @@ const CreatePromoCode: React.FC<CreatePromoCodeComponentPropsI> = props => {
         }
       )
     } else {
-      createPromoCode(
+      createPromo(
         { data: e },
         {
           onSuccess: () => {
@@ -158,7 +158,7 @@ const CreatePromoCode: React.FC<CreatePromoCodeComponentPropsI> = props => {
         Clear
       </Button>, */}
       <Button
-        loading={createPromoCodeLoading || updatePromoCodeLoading}
+        loading={createPromoLoading || updatePromoLoading}
         key="submit"
         type="primary"
         onClick={form.submit}
@@ -169,4 +169,4 @@ const CreatePromoCode: React.FC<CreatePromoCodeComponentPropsI> = props => {
   )
 }
 
-export default CreatePromoCode
+export default CreatePromo

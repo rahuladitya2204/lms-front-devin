@@ -60,13 +60,14 @@ function CourseDetailViewer () {
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
   const { mutate: enroll } = Learner.Queries.useEnrollForCourse();
   const { data: courses } = Learner.Queries.useGetEnrolledCourses()
+  const { mutate: updateCart } = Learner.Queries.useUpdateCartItems()
 
   const { data } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  // const addItemToCart = (course:Types.Course) => {
-  //   updateCart({ courseId: course._id, action: 'add' });
-  // }
+  const addItemToCart = (course:Types.Course) => {
+    updateCart({ data: { courseId: course._id }, action: 'add' });
+  }
   console.log(courses,'ospssss')
   const isEnrolled = !!(courses.find((e) => {
     return e.course._id === courseId;
@@ -83,9 +84,9 @@ function CourseDetailViewer () {
   }
   const instructor = course.instructor as unknown as Types.Instructor;
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  // const { data: cartItems } = Learner.Queries.useGetCartItems();
+  const { data: {items} } = Learner.Queries.useGetCartDetails();
   const navigate = useNavigate();
-  // const isAddedToCart = cartItems?.find(item => item._id == course._id);
+  const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.course._id == course._id);
   console.log(plan.finalPrice,'plan.finalPrice')
   return (
     <Container>
@@ -184,11 +185,11 @@ function CourseDetailViewer () {
                 </Col>
                 <Col span={24}>
                   <Row gutter={[15, 15]}>
-                    {/* <Col span={24}>
+                    <Col span={24}>
                       <Button disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
                         {isAddedToCart?`Added to cart`:`Add To Cart`}
                       </Button>
-                    </Col> */}
+                    </Col>
                     <Col span={24}>
                      {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
                         Go to Course

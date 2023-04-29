@@ -5,7 +5,7 @@ import {
   createRoutesFromElements
 } from 'react-router-dom'
 
-import AddPromoCode from '@User/Screens/Marketing/PromoCodes/CreatePromoCode'
+import AddPromo from '@User/Screens/Marketing/Promos/CreatePromo'
 import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
@@ -26,7 +26,7 @@ import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/En
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
 import LearnerAccount from '@Learner/Screens/Account/Account'
-import LearnerCart from '@Learner/Screens/Account/Cart/Cart'
+import LearnerCart from '@Learner/Screens/Account/LearnerCartScreen/LearnerCartScreen'
 import LearnerCourses from './post-authentication/Learner/Screens/Courses'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
@@ -36,7 +36,7 @@ import LearnersScreen from './post-authentication/User/Screens/Users/Learners/Le
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
-import PromoCodesScreen from '@User/Screens/Marketing/PromoCodes/PromoCodesScreen'
+import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
@@ -90,8 +90,8 @@ const router = createBrowserRouter(
                 <Route path=":id/editor" element={<EmailTemplateEditor />} />
               </Route>
               <Route path="promo-codes">
-                <Route path="" element={<PromoCodesScreen />} />
-                <Route path=":id/editor" element={<AddPromoCode />} />
+                <Route path="" element={<PromosScreen />} />
+                <Route path=":id/editor" element={<AddPromo />} />
               </Route>
             </Route>
             <Route
@@ -147,7 +147,7 @@ const router = createBrowserRouter(
               />
             </Route>
           </Route>
-          <Route path="dashboard/courses/:id/player" element={<CoursePlayer />}>
+          <Route path="app/courses/:id/player" element={<CoursePlayer />}>
             <Route
               path="section/:sectionId/item/:itemId"
               element={<CoursePlayerItem />}

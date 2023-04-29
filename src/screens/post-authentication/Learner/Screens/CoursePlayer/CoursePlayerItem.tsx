@@ -5,7 +5,6 @@ import CoursePlayerTextItem from './CoursePlayerItems/Text'
 import ErrorBoundary from '@Components/ErrorBoundary'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
-import VideoPlayer from '@Components/VideoPlayer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 
 function CoursePlayerItem() {

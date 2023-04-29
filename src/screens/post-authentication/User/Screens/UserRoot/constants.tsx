@@ -2,6 +2,7 @@ import {
   AppstoreOutlined,
   BookOutlined,
   CustomerServiceOutlined,
+  DashboardOutlined,
   FolderOpenOutlined,
   FundProjectionScreenOutlined,
   SettingOutlined,
@@ -13,7 +14,11 @@ import { MenuProps } from 'antd'
 import { Types } from '@adewaskar/lms-common'
 
 export const MENU_ITEMS: Types.MenuItemNode[] = [
-
+  {
+    title: 'Dashboard',
+    icon: <DashboardOutlined />,
+    path: 'dashboard',
+  },
   {
     title: 'Courses',
     icon: <BookOutlined />,

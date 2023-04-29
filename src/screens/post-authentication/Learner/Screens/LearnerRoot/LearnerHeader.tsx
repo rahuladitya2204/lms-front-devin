@@ -1,6 +1,7 @@
 import {
   AutoComplete,
   Avatar,
+  Badge,
   Button,
   Col,
   Dropdown,
@@ -12,6 +13,7 @@ import {
 } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 import { Outlet, useNavigate } from 'react-router'
+import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
@@ -20,14 +22,13 @@ import { Link } from 'react-router-dom'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import Search from 'antd/es/input/Search'
-import { UserOutlined } from '@ant-design/icons'
 import { useState } from 'react'
 
 const { Content } = Layout
 const { Text, Title } = Typography
 
 const LearnerHeader: React.FC = () => {
-  // const { data: cartItems } = Learner.Queries.useGetCartItems()
+  const { data: { items } } = Learner.Queries.useGetCartDetails();
   const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
   const [text, setText] = useState('')
   const {
@@ -129,6 +130,16 @@ const LearnerHeader: React.FC = () => {
 
         isSignedIn ? (
           <Space>
+                <Badge count={items.length} showZero={false}>
+              <Button
+                onClick={() => {
+                  navigate('cart')
+                }}
+                type="primary"
+                shape="circle"
+                icon={<ShoppingCartOutlined />}
+              />
+            </Badge>
             <Dropdown  trigger={['click']}
               placement="bottomLeft"
               overlay={
@@ -153,16 +164,6 @@ const LearnerHeader: React.FC = () => {
             >
               <Button shape="circle" icon={<UserOutlined />} />
             </Dropdown>
-            {/* <Badge count={cartItems.length} showZero={false}>
-              <Button
-                onClick={() => {
-                  navigate('cart')
-                }}
-                type="primary"
-                shape="circle"
-                icon={<ShoppingCartOutlined />}
-              />
-            </Badge> */}
           </Space>
         ) : null
       ]}

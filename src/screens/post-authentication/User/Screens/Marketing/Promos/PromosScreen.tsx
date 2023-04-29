@@ -2,8 +2,8 @@ import { Button, Card, Col, Row, Space, Table, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
-import AddPromoCode from './CreatePromoCode'
-import CreatePromoCode from './CreatePromoCode'
+import AddPromo from './CreatePromo'
+import CreatePromo from './CreatePromo'
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
@@ -11,17 +11,17 @@ import dayjs from 'dayjs'
 
 const { Text } = Typography
 
-function PromoCodesScreen() {
-  const { data, isLoading: loading } = User.Queries.useGetPromoCodes()
+function PromosScreen() {
+  const { data, isLoading: loading } = User.Queries.useGetPromos()
 
   return (
     <Header>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'PromoCodes'}
+        title={'Promos'}
         extra={
           <ActionModal cta={<Button type="primary">Create Promo Code</Button>}>
-            <AddPromoCode> </AddPromoCode>
+            <AddPromo> </AddPromo>
           </ActionModal>
         }
       >
@@ -33,7 +33,7 @@ function PromoCodesScreen() {
                 title="Discount Percent"
                 dataIndex="discountPercent"
                 key="discountPercent"
-                render={(_: any, record: Types.PromoCode) => (
+                render={(_: any, record: Types.Promo) => (
                   <Space size="middle">
                     <Text>{record.discountPercent} %</Text>
                   </Space>
@@ -43,7 +43,7 @@ function PromoCodesScreen() {
                 title="Start Date"
                 dataIndex="startDate"
                 key="startDate"
-                render={(_: any, record: Types.PromoCode) => (
+                render={(_: any, record: Types.Promo) => (
                   <Space size="middle">
                     {dayjs(record.startDate).format('LL')}
                   </Space>
@@ -53,7 +53,7 @@ function PromoCodesScreen() {
                 title="End Date"
                 dataIndex="endDate"
                 key="endDate"
-                render={(_: any, record: Types.PromoCode) => (
+                render={(_: any, record: Types.Promo) => (
                   <Space size="middle">
                     {dayjs(record.endDate).format('LL')}
                   </Space>
@@ -63,7 +63,7 @@ function PromoCodesScreen() {
                 title="Max Count"
                 dataIndex="max.count"
                 key="max.count"
-                render={(_: any, record: Types.PromoCode) => (
+                render={(_: any, record: Types.Promo) => (
                   <Space size="middle">
                     <Text>{record.max.count}</Text>
                   </Space>
@@ -73,7 +73,7 @@ function PromoCodesScreen() {
                 title="Total Used"
                 dataIndex="used.count"
                 key="used.count"
-                render={(_: any, record: Types.PromoCode) => (
+                render={(_: any, record: Types.Promo) => (
                   <Space size="middle">
                     <Text>{record.used.count}</Text>
                   </Space>
@@ -83,10 +83,10 @@ function PromoCodesScreen() {
               <Table.Column
                 title="Action"
                 key="action"
-                render={(_: any, record: Types.PromoCode) => (
+                render={(_: any, record: Types.Promo) => (
                   <Space size="middle">
                     <ActionModal cta={<EditOutlined />}>
-                      <CreatePromoCode data={record} />
+                      <CreatePromo data={record} />
                     </ActionModal>
                     <DeleteOutlined />
                   </Space>
@@ -100,4 +100,4 @@ function PromoCodesScreen() {
   )
 }
 
-export default PromoCodesScreen
+export default PromosScreen
