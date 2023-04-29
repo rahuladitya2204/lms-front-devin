@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/legacy/build/pdf'
 
 import Hls from 'hls.js'
@@ -135,94 +136,56 @@ export async function getPDFReadingTime(fileObject: File) {
   return readingTimeInSeconds
 }
 
-export const getVideoThumbnails = async (
-  videoSource: string,
-  numberOfThumbnails = 3
-) => {
-  const video = document.createElement('video');
-  const canvas = document.createElement('canvas');
 
-  video.style.display = 'none';
-  document.body.appendChild(video);
+type CanvasElement = HTMLCanvasElement | OffscreenCanvas;
 
-  const removeVideoElement = () => {
-    document.body.removeChild(video);
-  };
 
-  const loadVideoMetadata = () =>
-    new Promise(resolve => {
-      video.addEventListener('loadedmetadata', () => {
-        console.log('Metadata loaded');
-        resolve(true);
-      }, { once: true });
-    });
-
-  const loadVideoFrame = () =>
-    new Promise(resolve => {
-      video.addEventListener('seeked', () => {
-        console.log('Video frame loaded');
-        resolve(true);
-      }, { once: true });
-    });
-
-  const captureFrame = async (time: number) => {
+function captureThumbnail(video: HTMLVideoElement, canvas: CanvasElement, context: CanvasRenderingContext2D, time: number): Promise<void> {
+  return new Promise<void>((resolve) => {
     video.currentTime = time;
-    await loadVideoFrame();
-
-    const ctx: any = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-
-    return new Promise(resolve => {
-      canvas.toBlob(blob => resolve(blob), 'image/png');
-    });
-  };
-
-  let videoUrl = videoSource;
-
-  if (Hls.isSupported() && videoUrl.endsWith('.m3u8')) {
-    const hls = new Hls();
-    hls.loadSource(videoUrl);
-    hls.attachMedia(video);
-    await new Promise(resolve => {
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        console.log('HLS manifest parsed');
-        resolve(true);
-      });
-    });
-  } else {
-    video.src = videoUrl;
-  }
-
-  await new Promise(resolve => {
-    video.addEventListener('canplay', () => {
-      console.log('Video can play');
-      resolve(true);
+    video.addEventListener('seeked', () => {
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+      resolve();
     }, { once: true });
   });
+}
 
-  await loadVideoMetadata();
+// Main function to extract thumbnails
+export async function getVideoThumbnails(url: string): Promise<Blob[]> {
+  const video = document.createElement('video');
+  const canvas = document.createElement('canvas') as CanvasElement;
+  const context = canvas.getContext('2d') as CanvasRenderingContext2D;
+  const thumbnails: Blob[] = [];
+
+  const videoReady = new Promise<void>((resolve) => {
+    if (Hls.isSupported() && /\.m3u8$/.test(url)) {
+      const hls = new Hls();
+      hls.loadSource(url);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        resolve();
+      });
+    } else {
+      video.src = url;
+      video.addEventListener('loadedmetadata', () => {
+        resolve();
+      });
+    }
+  });
+
+  await videoReady;
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
 
-  const videoDuration = video.duration;
-  const divisionInterval = videoDuration / (numberOfThumbnails + 1);
-  const captureTimes = Array.from(
-    { length: numberOfThumbnails },
-    (_, i) => (i + 1) * divisionInterval
-  );
+  const duration = video.duration;
+  const intervals = duration / 4;
 
-  const thumbnailBlobs = [];
-
-  for (const time of captureTimes) {
-    const thumbnailBlob = await captureFrame(time);
-    thumbnailBlobs.push(thumbnailBlob);
+  for (let i = 1; i <= 3; i++) {
+    await captureThumbnail(video, canvas, context, intervals * i);
+    const blob = await new Promise<Blob>((resolve) => canvas.toBlob(resolve));
+    thumbnails.push(blob as Blob);
   }
 
-  console.log('Thumbnails generated:', thumbnailBlobs);
-
-  removeVideoElement();
-
-  return thumbnailBlobs;
-};
-
+  return thumbnails;
+}
