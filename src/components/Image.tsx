@@ -9,7 +9,9 @@ width:${props.width ? props.width : 'auto'};
 height:${(p: { height: number }) => (p.height ? p.height : 'auto')};
 object-fit: cover;
 overflow: hidden;
-
+.ant-upload-wrapper.ant-upload-picture-card-wrapper{
+  width: 100% !imporat;
+}
 `
 )
 

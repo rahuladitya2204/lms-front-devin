@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Col,
+  Empty,
   Form,
   Input,
   List,
@@ -51,7 +52,7 @@ export default function LearnerCart() {
   return (
     <Card>
       <Title>Cart</Title>
-      <Row gutter={[20, 20]}>
+          {items.length?    <Row gutter={[20, 20]}>
         <Col span={13}>
           <List
             itemLayout="horizontal"
@@ -146,7 +147,9 @@ export default function LearnerCart() {
             Checkout
           </Button>
         </Col>
-      </Row>
+      </Row>:<Empty description='No Items added'/>}
+
+  
     </Card>
   )
 }

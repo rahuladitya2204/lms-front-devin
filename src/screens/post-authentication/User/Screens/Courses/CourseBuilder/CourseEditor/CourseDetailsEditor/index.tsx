@@ -10,22 +10,16 @@ import {
   Space,
   Typography
 } from 'antd'
-import { Fragment, useEffect } from 'react'
-import {
-  PlusCircleFilled,
-  PlusCircleOutlined,
-  PlusOutlined,
-  UserOutlined
-} from '@ant-design/icons'
+import { useEffect } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor'
 import CreateCategory from '@User/Screens/Courses/CourseCategory/CreateCategory'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import QuillEditor from '@Components/QuillEditor'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import { PlusOutlined } from '@ant-design/icons'
+import { Constants, Types } from '@adewaskar/lms-common'
+import { User, Utils } from '@adewaskar/lms-common'
 import { deepPatch } from '../../utils'
 import { useParams } from 'react-router'
 
@@ -46,6 +40,8 @@ interface CourseDetailsEditorPropsI {
   saveCourse: Function;
   course: Types.Course;
 }
+
+const STATUSES = Utils.getValuesFromMap(Constants.COURSE_STATUSES_MAP)
 
 function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const [form] = Form.useForm()
@@ -73,6 +69,21 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       autoComplete="off"
       onValuesChange={onValuesChange}
     >
+      <Form.Item name={['status']} required label="Course Status">
+        <Select style={{ width: 200 }} placeholder="Select Status`">
+          {STATUSES.map((category: any) => {
+            return (
+              <Option
+                key={category.value}
+                value={category.value}
+                label={category.label}
+              >
+                {category.label}
+              </Option>
+            )
+          })}
+        </Select>
+      </Form.Item>
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
           uploadType="image"

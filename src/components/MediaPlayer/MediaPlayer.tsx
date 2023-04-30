@@ -24,7 +24,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
     }
   )
   const Url = props.url || url
-  // console.log(Url, 'Url')
+  console.log(Url, 'Url')
   // return <VideoJs url={Url} />
   return (
     <div
@@ -34,7 +34,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
         position: 'relative'
       }}
     >
-      <PlayrComponent hls={props.hls} notes={props.notes} url={Url} />
+      <PlayrComponent notes={props.notes} url={Url} />
       {/* <VideoJsPlayer watermark={props.watermark} hls={props.hls}
         url={Url}
       /> */}

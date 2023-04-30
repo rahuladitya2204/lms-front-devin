@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { Button, Card, Col, Form, Row } from 'antd'
+import { Button, Card, Col, Empty, Form, Row } from 'antd'
 import { Constants, Types, User } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
@@ -202,24 +202,34 @@ function CourseBuilderScreen() {
               </Form.Item>
             </Col>
             <Col span={24}>
-              {course.sections.length ? (
-                <CourseSectionsNavigator
-                  deleteSectionItem={deleteSectionItem}
-                  deleteSection={deleteSection}
-                  onAddNewItem={onAddNewItem}
-                  onAddSection={onAddSection}
-                  sections={course.sections}
-                  onReorderSections={onReorderSections}
-                />
-              ) : null}
+              <CourseSectionsNavigator
+                deleteSectionItem={deleteSectionItem}
+                deleteSection={deleteSection}
+                onAddNewItem={onAddNewItem}
+                onAddSection={onAddSection}
+                sections={course.sections}
+                onReorderSections={onReorderSections}
+              />
             </Col>
           </Row>
         </Col>
         <Col span={16}>
           <Card>
-            <Outlet
-              context={[course.sections, updateCourseSection, saveCourse]}
-            />
+            {!course.sections.length ? (
+              <Empty
+                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                imageStyle={{ height: 60 }}
+                description={<span>No Sections Added</span>}
+              >
+                {/* <Button type="primary" onClick={onAddSection}>
+                  Add Section
+                </Button> */}
+              </Empty>
+            ) : (
+              <Outlet
+                context={[course.sections, updateCourseSection, saveCourse]}
+              />
+            )}
           </Card>
         </Col>
       </Row>

@@ -1,7 +1,7 @@
 import { Avatar, Button, Card, Col, Form, Input, List, Modal, Row, Space, Tabs, Tag, Typography } from 'antd'
+import { CloseOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Constants, Types, Utils } from '@adewaskar/lms-common'
 
-import { DeleteOutlined } from '@ant-design/icons';
 import Image from '@Components/Image'
 
 const { Title, Text } = Typography
@@ -23,7 +23,7 @@ export default function LearnerCartCourseItem(
     confirm({
       title:'Are you sure?',
       // icon: <ExclamationCircleOutlined />,
-      content: `You want to remvoe this item from cart`,
+      content: `You want to remove this item from cart`,
       onOk() {
         props.removeItemFromCart(id);
       },
@@ -35,7 +35,7 @@ export default function LearnerCartCourseItem(
     const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
 
     return (
-      <List.Item extra={[<Text strong style={{fontSize:20}}>{UnitTypeToStr(props.price)}</Text>]}>
+      <List.Item extra={[<Text strong style={{fontSize:20}}>{UnitTypeToStr(props.price)}</Text>,<CloseOutlined onClick={()=>removeItemFromCart(course._id)} style={{marginLeft: 30}}/>]}>
       <List.Item.Meta
         avatar={
           <Avatar shape='square'

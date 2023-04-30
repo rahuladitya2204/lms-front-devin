@@ -21,13 +21,13 @@ import { htmlToText } from 'html-to-text'
 interface VideoJsComponentPropsI {
   url?: string;
   watermark?: string | null;
-  hls?: boolean;
   width?: number;
   height?: number;
   notes?: Types.CourseNote[];
   onEnded?: () => void;
 }
 const PlyrComponent = (props: VideoJsComponentPropsI) => {
+  const isHls = props.url?.includes('.m3u8');
   const [isPlaying, setIsPlaying] = useState(false);
   const setPlayer = Store.usePlayer(s => s.setPlayerState);
   const videoRef = useRef(null)
@@ -95,7 +95,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         // (ref.current!.plyr as PlyrInstance).play();
       });
     };
-    if (props.hls) {
+    if (isHls) {
       loadVideo();
     }
     else {
@@ -128,8 +128,8 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         // ],
       };
     }
-  }, [props.hls, props.url, isPlaying]);
-
+  }, [isHls, props.url, isPlaying]);
+  console.log(props.url, '');
   return (
     <div>
       <video
@@ -140,7 +140,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         poster="your_poster_image_url"
         id="playrrr"
       >
-        {!props.hls ? <source src={props.url}/>:null}
+       <source src={props.url} />
       </video>
       <div id="captions" class="captions"></div>
     </div>

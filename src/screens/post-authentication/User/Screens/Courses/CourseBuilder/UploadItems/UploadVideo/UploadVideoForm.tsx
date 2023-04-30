@@ -122,7 +122,7 @@ const UploadVideoForm: React.FC = () => {
             </>
           ) : null}
 
-          {file._id ? <MediaPlayer hls fileId={file._id} /> : null}
+          {file._id ? <MediaPlayer fileId={file._id} /> : null}
         </Form.Item>
       </Form>
     </Fragment>
