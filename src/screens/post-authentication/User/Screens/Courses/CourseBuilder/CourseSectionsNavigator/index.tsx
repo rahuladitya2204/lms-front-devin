@@ -248,7 +248,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
           )
         })}
         </DndProvider>
-        {sectionList.length ? <>
+        {sectionList.length>1 ? <>
           {!enableSectionReorder? <AddChapterButton style={{marginTop:0,marginBottom:10}} onClick={e=>setEnableSectionReorder(!enableSectionReorder)} block>
                 Rearrange Sections
       </AddChapterButton> : <AddChapterButton style={{marginTop:0,marginBottom:10}} onClick={e => {

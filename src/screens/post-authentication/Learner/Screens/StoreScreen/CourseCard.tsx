@@ -26,21 +26,23 @@ cursor: pointer;
 `
 
 function CourseCard(props: CourseCardPropsI) {
+  const { course } = props;
   const navigate = useNavigate();
-  const plan = props.course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  const instructor = props.course.instructor as unknown as Types.Instructor;
+  const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
+  const instructor = course.instructor as unknown as Types.Instructor;
+  const formattedDuration = Utils.formatTime(course.totalDuration)
   return (
     <Badge.Ribbon text="Best Seller" color="orange">
       <CustomCard hoverable
         onClick={() =>
           navigate(
-            `../courses/${props.course._id}`
+            `../courses/${course._id}`
           )
         } bodyStyle={{padding: 15}}
         cover={
           <Image alt="example" style={{height: 140}}
             src={
-             props.course.thumbnailImage
+             course.thumbnailImage
             }
           /> 
         }
@@ -51,7 +53,7 @@ function CourseCard(props: CourseCardPropsI) {
             <Text style={{ fontSize: 14 }} type='secondary'>
               By {instructor.name}
             </Text>
-            <Text strong ellipsis>{props.course.title}</Text>
+            <Text strong ellipsis>{course.title}</Text>
           </Space>}
           // description={
           //   <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
@@ -66,10 +68,10 @@ function CourseCard(props: CourseCardPropsI) {
             </Space>
             <Space direction='horizontal'>
             <Text style={{fontSize: 13}} type="secondary">
-                  <BookOutlined /> {props.course.sections.length} Lessons
+                  <BookOutlined /> {course.totalItems} Lessons
             </Text>
             <Text style={{fontSize: 13}} type="secondary">
-                  <ClockCircleOutlined /> 8h 12m
+                  <ClockCircleOutlined /> {formattedDuration}
                 </Text>
         </Space>
           </Space>

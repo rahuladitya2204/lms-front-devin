@@ -1,5 +1,8 @@
-import { Avatar, Badge, Card, Tooltip,Typography } from 'antd'
+import { Avatar, Badge, Button, Card, List, Tag, Tooltip,Typography } from 'antd'
 import {
+  BookOutlined,
+  ClockCircleOutlined,
+  DownloadOutlined,
   EyeOutlined,
   FormatPainterOutlined,
   InfoCircleOutlined,
@@ -7,7 +10,7 @@ import {
 } from '@ant-design/icons'
 
 import Image from '@Components/Image'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
@@ -34,46 +37,47 @@ function CourseCard(props: CourseCardProps) {
   const navigate = useNavigate();
   const instructor = course.instructor as unknown as Types.Instructor;
   return (
-    <CourseCardHolder hoverable
-
-      cover={
-        // @ts-ignore
-        <Badge.Ribbon color={STATUS_COLOR_MAP[course.status]} text={Constants.COURSE_STATUSES_MAP[course.status].label}>
-          <Image height={200}
-            alt="example"
-            src={course.thumbnailImage}
-
-          />
-        </Badge.Ribbon>
-      }
+    <List.Item
+        key={course.title}
       actions={[
-        <InfoCircleOutlined
-          onClick={() => navigate(`${course._id}/editor`)}
-        />,
+        <Button onClick={() => navigate(`${course._id}/editor`)} icon={<InfoCircleOutlined
+          
+        />}></Button>,
         <Tooltip placement="bottom" title={'Go to course builder'}>
-          <ToolOutlined
-            onClick={() => navigate(`${course._id}/builder`)}
-          />
+         <Button onClick={() => navigate(`${course._id}/builder`)} icon={ <ToolOutlined
+            
+          />} />
         </Tooltip>,
         <Tooltip placement="bottom" title={'Build landing page'}>
-          <FormatPainterOutlined
-            onClick={() =>
+          <Button onClick={() =>
               navigate(`${course._id}/editor`)
-            }
-          />
+            } icon={<FormatPainterOutlined
+            
+          />}></Button>
         </Tooltip>,
-        <EyeOutlined onClick={() => {
+        <Button  onClick={() => {
           navigate(`${course._id}/player`)
-        }} />,
-        // <WechatOutlined />,
-        // <SettingOutlined />
+        }} icon={<EyeOutlined />} />
       ]}
-    >
-      <Card.Meta
-        avatar={<Avatar src={instructor?.image} />}
-        title={course.title || ''}
+        extra={
+               <Badge.Ribbon color={STATUS_COLOR_MAP[course.status]} text={Constants.COURSE_STATUSES_MAP[course.status].label}>
+   <Image
+            width={272}
+            alt="logo"
+            src={course.thumbnailImage}
+            />
+            </Badge.Ribbon>
+        }
+      >
+        <List.Item.Meta
+          // avatar={<Avatar src={item.avatar} />}
+          title={course.title}
+          description={course.subtitle?course.subtitle:null}
       />
-    </CourseCardHolder>
+
+      <Tag icon={<ClockCircleOutlined/>} color='blue'>Total Duration: {Utils.formatTime(course.totalDuration)}</Tag>
+      <Tag icon={<BookOutlined/>}>Lessons: {course.totalItems}</Tag>
+      </List.Item>
   )
 }
 

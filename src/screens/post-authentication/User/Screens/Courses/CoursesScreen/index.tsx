@@ -1,8 +1,8 @@
-import { Button, Card, Col, Empty, Row } from 'antd'
+import { Button, Card, Col, Empty, List, Row } from 'antd'
 
 import ActionModal from '@Components/ActionModal'
 import CourseCard from './CourseCard'
-import CreateCourseComponent from '../CreateCourse'
+import CreateCourseComponent from '../CreateCourse/CreateCourse'
 import Header from '@Components/Header'
 import { User } from '@adewaskar/lms-common'
 
@@ -17,15 +17,18 @@ function CoursesScreen () {
     <div className="site-card-wrapper">
       <Header title="Courses" extra={[CreateCourseCta]}>
         {courses.length ? (
-          <Row gutter={[16, 16]}>
-            {courses.map(course => {
-              return (
-                <Col key={course._id} className="gutter-row" span={6}>
-                  <CourseCard course={course} />
-                </Col>
-              )
-            })}
-          </Row>
+          <List
+            itemLayout="vertical"
+            size="large"
+            // pagination={{
+            //   onChange: (page) => {
+            //     console.log(page);
+            //   },
+            //   pageSize: 3,
+            // }}
+            dataSource={courses}
+            renderItem={course => <CourseCard course={course} />}
+          />
         ) : (
           <Card>
             <Empty
