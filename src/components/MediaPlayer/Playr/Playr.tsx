@@ -40,8 +40,12 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         volume: 0.1,
       })
       plyrRef.current.on('timeupdate', e => {
+        const duration = Math.ceil(plyrRef.current.duration);
+        const currentTime = Math.ceil(plyrRef.current.currentTime);
+        const progress=(currentTime / duration) * 100;
         setPlayer({
-          currentTime: Math.ceil(plyrRef.current.currentTime)
+          currentTime,
+          progress,
         })
       })
 

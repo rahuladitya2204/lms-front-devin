@@ -15,7 +15,6 @@ export class LiveCaption {
     this.recognition = new webkitSpeechRecognition();
     this.captionsElement = document.getElementById('captions');
     this.isRecognizing = false;
-    console.log('working')
     this.recognition.continuous = true;
     this.recognition.interimResults = true;
     this.recognition.lang = 'en-US';

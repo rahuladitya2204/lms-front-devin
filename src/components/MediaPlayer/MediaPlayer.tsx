@@ -1,7 +1,8 @@
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Types, Store } from '@adewaskar/lms-common'
 
 import PlayrComponent from './Playr/Playr'
 import VideoJs from './Videojs/Videojs'
+import { useEffect } from 'react'
 
 interface MediaPlayerPropsI {
   file?: Types.FileType;
@@ -16,6 +17,7 @@ interface MediaPlayerPropsI {
 }
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
+  const resetPlayer: any = Store.usePlayer(s => s.resetPlayerState)
   const enabled = !!(!props.url && props.fileId)
   const { data: url } = Common.Queries.useGetPresignedUrlFromFile(
     props.fileId + '',
@@ -25,6 +27,13 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   )
   const Url = props.url || url
   console.log(Url, 'Url')
+
+  useEffect(() => {
+    return () => {
+      console.log('resetting player')
+      resetPlayer()
+    }
+  }, [props.url])
   // return <VideoJs url={Url} />
   return (
     <div
@@ -34,7 +43,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
         position: 'relative'
       }}
     >
-      {Url?<PlayrComponent notes={props.notes} url={Url} />:null}
+      {Url ? <PlayrComponent notes={props.notes} url={Url} /> : null}
       {/* <VideoJsPlayer watermark={props.watermark} hls={props.hls}
         url={Url}
       /> */}

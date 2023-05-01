@@ -1,0 +1,54 @@
+import { Button, Col, Form, Input, Row } from 'antd'
+import React, { useState } from 'react'
+
+import { Learner } from '@adewaskar/lms-common';
+import QuillEditor from '@Components/QuillEditor'
+import { Types } from '@adewaskar/lms-common'
+
+interface CreateQuestionPropsI {
+  course: Types.Course;
+}
+
+const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const [form] = Form.useForm()
+  const onSuccess = () => {
+    form.resetFields()
+  }
+  const {
+    mutate: createDiscussionQuestion,
+    isLoading: loading
+  } = Learner.Queries.useCreateDiscussionQuestion(onSuccess)
+  const createQuestion = (q: Partial<Types.CourseQuestion>) => {
+    createDiscussionQuestion({ id: props.course._id, data: q })
+  }
+
+  return (
+    <Row>
+      <Col span={24}>
+        <Form form={form}>
+          <Form.Item name="title">
+            <Input placeholder='Enter title of your query' value={title} onChange={e => setTitle(e.target.value)} />
+          </Form.Item>
+          <Form.Item name="description">
+            <QuillEditor placeholder='Please provide a detailed summary'  value={description} onChange={setDescription} />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              loading={loading}
+              onClick={() => {
+                createQuestion({ title, description })
+              }}
+              type="primary"
+            >
+              Submit Query
+            </Button>
+          </Form.Item>
+        </Form>
+      </Col>
+    </Row>
+  )
+}
+
+export default CreateQuestion
