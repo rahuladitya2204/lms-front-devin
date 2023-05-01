@@ -87,9 +87,10 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
           uploadType="image"
-          cropper
+          cropper aspect={16/9}
           name="thumbnailImage"
           width="250px"
+          // height="300px"
           prefixKey={`courses/${courseId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={thumbnailImage} />}
           onUpload={e => {

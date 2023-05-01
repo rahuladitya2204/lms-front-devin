@@ -189,7 +189,8 @@ function CourseBuilderScreen() {
                   prefixKey={`courses/${courseId}/thumbnailImage`}
                   cropper
                   width="100%"
-                  height="200px"
+                  // height="200px"
+                  aspect={16 / 9}
                   renderItem={() => (
                     <Image preview={false} src={course.thumbnailImage} />
                   )}

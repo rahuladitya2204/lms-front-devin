@@ -129,10 +129,18 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       };
     }
   }, [isHls, props.url, isPlaying]);
-  console.log(props.url, '');
+
   return (
     <div>
-      <video
+      {isHls?<video
+        ref={videoRef}
+        className="plyr"
+        controls
+        preload="none"
+        poster="your_poster_image_url"
+        id="playrrr"
+      >
+      </video>: <video
         ref={videoRef}
         className="plyr"
         controls
@@ -141,7 +149,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         id="playrrr"
       >
        <source src={props.url} />
-      </video>
+      </video>}
       <div id="captions" class="captions"></div>
     </div>
   )

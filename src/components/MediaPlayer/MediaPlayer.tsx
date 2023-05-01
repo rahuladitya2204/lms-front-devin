@@ -34,7 +34,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
         position: 'relative'
       }}
     >
-      <PlayrComponent notes={props.notes} url={Url} />
+      {Url?<PlayrComponent notes={props.notes} url={Url} />:null}
       {/* <VideoJsPlayer watermark={props.watermark} hls={props.hls}
         url={Url}
       /> */}

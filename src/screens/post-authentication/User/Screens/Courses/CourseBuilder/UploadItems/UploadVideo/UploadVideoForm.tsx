@@ -24,10 +24,11 @@ const UploadVideoForm: React.FC = () => {
   const { data: videoUrl } = Common.Queries.useGetPresignedUrlFromFile(file._id, {
     enabled:!!file._id
   });
+  const jobId = file?.metadata?.jobId;
   const {
     data: { status, progress }
-  } = User.Queries.useGetTranscodeVideoStatus(file?.metadata?.jobId, {
-    enabled: !!file?.metadata?.jobId,
+  } = User.Queries.useGetTranscodeVideoStatus(jobId, {
+    enabled: !!jobId,
     retry: true,
     retryDelay: 4000
   })

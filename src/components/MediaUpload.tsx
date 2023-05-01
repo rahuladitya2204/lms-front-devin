@@ -25,6 +25,7 @@ interface MediaUploadPropsI {
   children?: ReactNode;
   isProtected?: boolean;
   closeModal?: () => void;
+  aspect?: number;
   listType?: string;
   prefixKey?: string;
   uploadType?: string;
@@ -160,7 +161,8 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     )
     UploadComponent = props.cropper ? (
       <ImgCrop
-        rotationSlider
+        aspect={props.aspect}
+        // rotationSlider
         onModalOk={e => {
           UploadFile(e)
         }}
@@ -209,4 +211,4 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   )
 }
 
-export default MediaUpload;
+export default MediaUpload

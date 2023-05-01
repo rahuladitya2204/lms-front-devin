@@ -6,21 +6,24 @@ import styled from '@emotion/styled'
 const ImageHolder = styled.div(
   (props: { width?: number, height: number }) => `
 width:${props.width ? props.width : 'auto'};
-height:${(p: { height: number }) => (p.height ? p.height : 'auto')};
 object-fit: cover;
 overflow: hidden;
 .ant-upload-wrapper.ant-upload-picture-card-wrapper{
   width: 100% !imporat;
 }
+height:${props.height ? props.height : 'auto'}px;
 `
 )
 
-const FALLBACK = ''
+const ImageComponent = styled(AntDImage)`
+  object-fit: cover !important;
+`
+const FALLBACK = `/images/not-found.png`
 
 function Image(props: ImageProps) {
   return (
     <ImageHolder width={props.width} height={props.height}>
-      <AntDImage
+      <ImageComponent
         preview={false}
         width="100%"
         height="100%"

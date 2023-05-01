@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card, Tooltip } from 'antd'
+import { Avatar, Badge, Card, Tooltip,Typography } from 'antd'
 import {
   EyeOutlined,
   FormatPainterOutlined,
@@ -26,6 +26,9 @@ const STATUS_COLOR_MAP={
   'published':'red'
 }
 
+
+const { Text } = Typography;
+
 function CourseCard(props: CourseCardProps) {
   const { course } = props;
   const navigate = useNavigate();
@@ -35,7 +38,7 @@ function CourseCard(props: CourseCardProps) {
 
       cover={
         // @ts-ignore
-        <Badge.Ribbon color={STATUS_COLOR_MAP[course.status]} text={Constants.COURSE_STATUSES_MAP[course.status]?.label}>
+        <Badge.Ribbon color={STATUS_COLOR_MAP[course.status]} text={Constants.COURSE_STATUSES_MAP[course.status].label}>
           <Image height={200}
             alt="example"
             src={course.thumbnailImage}
@@ -66,7 +69,7 @@ function CourseCard(props: CourseCardProps) {
         // <SettingOutlined />
       ]}
     >
-      <Card.Meta description={`By ${instructor?.name}`}
+      <Card.Meta
         avatar={<Avatar src={instructor?.image} />}
         title={course.title || ''}
       />
