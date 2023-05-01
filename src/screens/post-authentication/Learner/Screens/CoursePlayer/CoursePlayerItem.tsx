@@ -25,7 +25,7 @@ function CoursePlayerItem() {
   const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
-  const currentItemNotes = notes.filter(note => note.item === item._id) || []
+  const currentItemNotes = notes.filter(note => note.item === item._id) || [];
   let Component
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />

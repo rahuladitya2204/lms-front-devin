@@ -1,14 +1,12 @@
-import { Avatar, Button, Empty, List, Modal, Space, Spin } from 'antd'
-import { Common, Learner, Types, User } from '@adewaskar/lms-common'
+import {  Button, Empty, List, Modal, Space, Spin } from 'antd'
+import { Common } from '@adewaskar/lms-common'
 import {
   DeleteOutlined,
   DownloadOutlined,
   PlusOutlined
 } from '@ant-design/icons'
-import { Fragment, useState } from 'react'
 
 import ActionModal from './ActionModal'
-import styled from '@emotion/styled'
 
 const { confirm } = Modal
 
@@ -16,22 +14,6 @@ interface FileItemPropsI {
   file: Partial<{ name: string, file: string }>;
   onDeleteFile: (id: string) => void;
 }
-
-const FileDiv = styled.div`
-  cursor: pointer;
-  font-size: 30px;
-  margin-right: 10px;
-  width: 60px;
-  height: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0px 2px 5px 0px;
-  border-radius: 5px;
-  span {
-    margin-right: 0 !important;
-  }
-`
 
 function FileItem({
   file: { name, file: fileId },

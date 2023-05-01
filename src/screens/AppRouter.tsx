@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 import AddPromo from '@User/Screens/Marketing/Promos/CreatePromo'
-import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem'
+import AddTextItem from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'

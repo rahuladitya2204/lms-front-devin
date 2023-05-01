@@ -9,7 +9,7 @@ import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
 import { getReadingTime } from '../../utils'
 import { uniqueId } from 'lodash'
-import { useParams } from 'react-router'
+
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const AddTextItem: React.FC = () => {
@@ -55,8 +55,8 @@ const AddTextItem: React.FC = () => {
             <FileList
               files={item.files}
               onDeleteFile={fileId => {
-                const files = item.files.filter(f => f.file !== fileId)
-                onFormChange({ files })
+                // const files = item.files.filter(f => f.file !== fileId)
+                // onFormChange({ files })
               }}
               uploadFileInput={
                 <MediaUpload
