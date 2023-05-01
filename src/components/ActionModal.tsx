@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 
 import { Modal } from 'antd'
 
@@ -7,6 +7,7 @@ interface ActionModalPropsI {
   onClose?: () => void;
   title?: string | React.ReactNode;
   width?: number;
+  open?: boolean;
   cta?: React.ReactNode;
   footer?: (f: Function) => React.ReactNode[];
 }
@@ -17,6 +18,10 @@ function ActionModal(props: ActionModalPropsI) {
   const showModal = () => {
     setIsModalOpen(true)
   }
+
+  useEffect(()=>{
+    setIsModalOpen(!!props.open);
+  },[props.open])
 
   const closeModal = () => {
     setIsModalOpen(false)

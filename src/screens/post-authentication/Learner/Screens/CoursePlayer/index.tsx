@@ -18,7 +18,9 @@ import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
 import OrgLogo from '@Components/OrgLogo'
 import styled from '@emotion/styled'
-import { useEffect } from 'react'
+import { useEffect,useState } from 'react'
+import ActionModal from '@Components/ActionModal'
+import ReviewCourse from '../Courses/ReviewCourse/ReviewCourse'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -50,18 +52,19 @@ const CustomHeader = styled(Header)`
   .ant-layout-header {
     padding: 0 !important;
   }
-  /* & {
-  } */
 `
 const { Search } = Input
 const { Text } = Typography
 function CoursePlayer() {
+  const [showReview, setShowReview] = useState(true)
+
   const { id: courseId, itemId } = useParams()
-  const {
-    data: { course, progress }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '', {
-    enabled: !!courseId
-  })
+  const { data: { course } } = Learner.Queries.useGetEnrolledCourseDetails(
+    courseId + '',
+    {
+      enabled: !!courseId
+    }
+  )
   const navigate = useNavigate()
 
   const sections = course.sections
@@ -99,6 +102,9 @@ function CoursePlayer() {
   }
   return (
     <PlayerContainer>
+      <ActionModal width={800} open={showReview}>
+        <ReviewCourse course={course} />
+      </ActionModal>
       <CustomHeader
         className="page-header"
         // bgColor="black"
