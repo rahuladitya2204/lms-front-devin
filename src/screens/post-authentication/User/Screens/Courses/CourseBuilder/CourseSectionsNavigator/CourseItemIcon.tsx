@@ -16,10 +16,11 @@ import { Types } from '@adewaskar/lms-common'
 interface CourseItemIconPropsI {
   item: Types.CourseSectionItem;
   type?: string;
+  style?: any;
 }
 
 const CourseItemIcon = (props: CourseItemIconPropsI) => {
-  let Icon: React.FC
+  let Icon: any
   switch (props.item.type) {
     case 'chapter':
       if (props.type === 'outlined') {
@@ -64,7 +65,9 @@ const CourseItemIcon = (props: CourseItemIconPropsI) => {
   return (
     <Fragment>
       {/* @ts-ignore */}
-      {Icon ? <Icon style={{ fontSize: 12 }} /> : null}
+      {Icon ? (
+        <Icon style={{ fontSize: 12, ...(props.style ? props.style : {}) }} />
+      ) : null}
     </Fragment>
   )
 }

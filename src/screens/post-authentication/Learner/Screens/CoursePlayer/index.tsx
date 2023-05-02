@@ -18,7 +18,7 @@ import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
 import OrgLogo from '@Components/OrgLogo'
 import styled from '@emotion/styled'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import ActionModal from '@Components/ActionModal'
 import ReviewCourse from '../Courses/ReviewCourse/ReviewCourse'
 
@@ -56,18 +56,28 @@ const CustomHeader = styled(Header)`
 const { Search } = Input
 const { Text } = Typography
 function CoursePlayer() {
-  const [showReview, setShowReview] = useState(true)
+  const [showReview, setShowReview] = useState(false)
 
   const { id: courseId, itemId } = useParams()
-  const { data: { course } } = Learner.Queries.useGetEnrolledCourseDetails(
-    courseId + '',
-    {
-      enabled: !!courseId
-    }
-  )
+  const {
+    data: { course, progress, review }
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '', {
+    enabled: !!courseId
+  })
   const navigate = useNavigate()
 
   const sections = course.sections
+
+  useEffect(
+    () => {
+      console.log(review, 'reeee')
+      if (progress === 50 && !(review && typeof review !== 'undefined')) {
+        setShowReview(true)
+      }
+    },
+    [progress, review]
+  )
+
   useEffect(
     () => {
       if (sections[0]?.items[0]) {

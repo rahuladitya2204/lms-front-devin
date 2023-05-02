@@ -1,27 +1,14 @@
-import {
-  Button,
-  Checkbox,
-  Col,
-  Dropdown,
-  List,
-  Progress,
-  Row,
-  Space,
-  Tag,
-  Typography,
-  theme
-} from 'antd'
+import { List, Progress, Typography, theme } from 'antd'
 import { Unit, unit } from 'mathjs'
-
-import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
+import PlayIcon from './icons/play.svg'
+import PauseIcon from './icons/pause.svg'
 import {
   CheckCircleFilled,
-  DownloadOutlined,
   PauseOutlined,
   PlayCircleFilled,
   PlayCircleOutlined
 } from '@ant-design/icons'
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Store, Utils } from '@adewaskar/lms-common'
 import { NavLink, useParams } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
 
@@ -55,11 +42,8 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   if (!duration) {
     duration = 0
   }
-  let durationInMin = unit(duration, 'seconds')
-    .to('minute')
-    .toJSON()
   // const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
-  const progress = Store.usePlayer(s => s.state.progress)
+  const { progress, playerInstance, playing } = Store.usePlayer(s => s.state)
   let Icon = props.item.isCompleted ? CheckCircleFilled : PlayCircleFilled
   const { token } = useToken()
 
@@ -73,8 +57,8 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
       children={({ isActive }) => (
         <CourseListItem
           extra={[
-            <Text style={{ fontSize: 13 }}>
-              {Math.ceil(durationInMin.value)} min
+            <Text style={{ fontSize: 13 }} strong>
+              {Utils.formatSeconds(Number(duration + ''))}
             </Text>
           ]}
           isActive={isActive}
@@ -86,10 +70,30 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                   type="circle"
                   percent={progress}
                   size={30}
-                  format={() => <PauseOutlined />}
+                  format={() => {
+                    return (
+                      <img
+                        src={playing ? PauseIcon : PlayIcon}
+                        onClick={() => {
+                          if (playing) {
+                            playerInstance.pause()
+                          } else {
+                            playerInstance?.play()
+                          }
+                        }}
+                        style={{
+                          fontSize: 30,
+                          color: token.colorPrimary,
+                          width: 12,
+                          position: 'relative',
+                          left: 1
+                        }}
+                      />
+                    )
+                  }}
                 />
               ) : (
-                <Icon style={{ fontSize: 30, color: IconColor }} />
+                <Icon style={{ fontSize: 28, color: IconColor }} />
               )
               // <Checkbox
               //   defaultChecked={props.item.isCompleted}

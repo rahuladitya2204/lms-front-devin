@@ -10,8 +10,15 @@ import { getMetadata } from 'video-metadata-thumbnails'
 import { getVideoThumbnails } from '../../utils'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
+import styled from '@emotion/styled'
 
 const { Title } = Typography
+
+const FileListStyled=styled(FileList)`
+    /* ul.ant-list-items{
+      display: flex !important;
+    } */
+`
 
 const UploadVideoForm: React.FC = () => {
   const [form] = Form.useForm();
@@ -67,8 +74,8 @@ const UploadVideoForm: React.FC = () => {
         </Form.Item>
         <Form.Item label="Add Files" required>
           <Space direction="horizontal">
-            <FileList
-              onDeleteFile={fileId => {
+            <FileListStyled
+              onDeleteFile={(fileId:string) => {
                 const files = item.files.filter(f => f.file !== fileId)
                 onFormChange({ files })
               }}

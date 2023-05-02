@@ -28,16 +28,18 @@ interface VideoJsComponentPropsI {
 }
 const PlyrComponent = (props: VideoJsComponentPropsI) => {
   const isHls = props.url?.includes('.m3u8');
-  const [isPlaying, setIsPlaying] = useState(false);
   const setPlayer = Store.usePlayer(s => s.setPlayerState);
   const videoRef = useRef(null)
   const plyrRef = useRef(null)
 
   useEffect(() => {
     if (videoRef.current) {
-      const liveCaption = new LiveCaption();
+      // const liveCaption = new LiveCaption();
       plyrRef.current = new Plyr('#playrrr', {
         volume: 0.1,
+      })
+      setPlayer({
+        playerInstance:plyrRef.current,
       })
       plyrRef.current.on('timeupdate', e => {
         const duration = Math.ceil(plyrRef.current.duration);
@@ -50,14 +52,17 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       })
 
       plyrRef.current.on('play', e => {
-        setIsPlaying(true)
-        liveCaption.start();
-        
+        setPlayer({
+          playing:true
+        });
+        // liveCaption.start();
       })
 
-      plyrRef.current.on('stop', e => {
-       setIsPlaying(false)
-       liveCaption.stop();
+      plyrRef.current.on('pause', e => {
+        setPlayer({
+          playing:false
+        })
+      //  liveCaption.stop();
       })
     }
 
@@ -132,7 +137,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         // ],
       };
     }
-  }, [isHls, props.url, isPlaying]);
+  }, [isHls, props.url]);
 
   return (
     <div>

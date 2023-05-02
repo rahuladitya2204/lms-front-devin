@@ -34,7 +34,6 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
   const { data: { notes } } = Learner.Queries.useGetEnrolledCourseDetails(
     course._id + ''
   )
-  console.log(playerInstance?.getCurrentTime)
 
   const currentItemNotes = notes.filter(note => note.item === itemId) || []
   return (

@@ -1,9 +1,11 @@
 import {
+  Avatar,
   Button,
   Card,
   Col,
   Divider,
   Input,
+  List,
   Row,
   Space,
   Tooltip,
@@ -15,12 +17,13 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
+import { Learner, Types } from '@adewaskar/lms-common'
 import OrgLogo from '@Components/OrgLogo'
 import styled from '@emotion/styled'
-import { useEffect,useState } from 'react'
+import { useEffect, useState } from 'react'
 import ActionModal from '@Components/ActionModal'
 import ReviewCourse from '../Courses/ReviewCourse/ReviewCourse'
+import FileList from '@Components/FileList'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -51,21 +54,22 @@ const PlayerContainer = styled.div`
 const CustomHeader = styled(Header)`
   .ant-layout-header {
     padding: 0 !important;
-  }
+  }import src from '../../../../../react-app-env.d';
+
 `
 const { Search } = Input
 const { Text } = Typography
 function CoursePlayer() {
   const [showReview, setShowReview] = useState(false)
-
   const { id: courseId, itemId } = useParams()
-  const { data: { course } } = Learner.Queries.useGetEnrolledCourseDetails(
+  const { data: { course, progress,review } } = Learner.Queries.useGetEnrolledCourseDetails(
     courseId + '',
     {
       enabled: !!courseId
     }
   )
   const navigate = useNavigate()
+  const instructor = course.instructor as unknown as Types.Instructor;
 
   const sections = course.sections
   useEffect(
@@ -89,7 +93,7 @@ function CoursePlayer() {
       currentItemIndex = index
     }
   })
-
+  const currentItem = allItems.find(i => i._id === itemId) || { files: [] }
   const nextItem = allItems[currentItemIndex + 1]
   const prevItem = allItems[currentItemIndex - 1]
 
@@ -100,6 +104,16 @@ function CoursePlayer() {
   const prev = () => {
     navigate(`section/${prevItem.section}/item/${prevItem._id}`)
   }
+
+  useEffect(
+    () => {
+      if (progress === 50 && !review) {
+        setShowReview(true)
+      }
+    },
+    [progress]
+  )
+
 
   return (
     <PlayerContainer>
@@ -168,6 +182,21 @@ function CoursePlayer() {
                 <Outlet context={[sections, course._id]} />
               </div>
             </Col>
+            <Col span={24}>
+            <Space style={{marginTop:20}}>
+                <Avatar src={instructor.image} /><Text strong><span style={{color: 'grey'}}>Author</span>: {instructor.name}</Text>
+              </Space></Col>
+            {currentItem.files.length ? (
+              <Col span={24}>
+
+               
+                <Card style={{ marginTop: 15 }}>
+                  Attached Files
+                  <FileList style={{display: 'flex !important'}} horizontal type="card" files={currentItem.files} />
+                </Card>
+              </Col>
+            ) : null}
+
             <Col span={24}>
               <Card style={{ marginTop: 30 }}>
                 <CoursePlayerMoreInfo course={course} />

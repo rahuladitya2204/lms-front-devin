@@ -49,7 +49,7 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
             bodyStyle={{ padding: 0 }}
             key={section._id}
             title={section.title}
-            extra={<a href="#">More</a>}
+            // extra={<a href="#">More</a>}
             style={{ marginBottom: 20 }}
           >
             <List

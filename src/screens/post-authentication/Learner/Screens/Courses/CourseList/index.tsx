@@ -17,7 +17,7 @@ const LearnerCourseList: React.FC = () => {
             <CourseCard
               onClick={() => navigate(`${course._id}/player`)}
               course={course}
-              progress={progress || 0}
+              progress={progress}
             />
           </Col>
         ))}

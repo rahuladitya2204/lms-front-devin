@@ -79,12 +79,12 @@ function AssetLibraryScreen() {
                 dataIndex="size"
                 key="size"
                 render={(_: any, record: { size: number }) => {
-                  const size = unit(record.size, 'byte')
+                  const size = Math.ceil(unit(record.size, 'byte')
                     .to('megabyte')
-                    .toJSON()
+                    .toJSON().value)
                   return (
                     <Space size="middle">
-                      <Text strong>{Math.ceil(size.value)} MB</Text>
+                      <Text strong>{size} MB</Text>
                     </Space>
                   )
                 }}
