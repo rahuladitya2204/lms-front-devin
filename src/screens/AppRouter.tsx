@@ -15,8 +15,8 @@ import CourseBuilderScreen from './post-authentication/User/Screens/Courses/Cour
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseBuilder/CourseEditor'
-import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
-import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
+import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer2'
+import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer2/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreatePackage from '@User/Screens/Packages/CreatePackage'
@@ -153,11 +153,11 @@ const router = createBrowserRouter(
             <Route path="courses">
               <Route path="" element={<LearnerCourses />} />
               <Route path=":id" element={<CourseDetailViewer />} />
-              <Route
-                path=":id/enrolled"
+            </Route>
+            <Route
+                path=":orderId/successful"
                 element={<EnrolledCourseSuccessful />}
               />
-            </Route>
           </Route>
           <Route path="app/courses/:id/player" element={<CoursePlayer />}>
             <Route

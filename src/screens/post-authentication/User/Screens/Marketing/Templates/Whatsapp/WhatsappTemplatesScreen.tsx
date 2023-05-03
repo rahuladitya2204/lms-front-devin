@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Select, Space, Table, Tag } from 'antd'
+import { Button, Card, Col, Dropdown, Row, Select, Space, Table, Tag } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
@@ -11,16 +11,16 @@ import { useNavigate } from 'react-router'
 import { useState } from 'react'
 
 function WhatsappTemplatesScreen() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const { data, isLoading: loading } = User.Queries.useGetWhatsappTemplates()
-  const [type, setType] = useState('default')
+  const {mutate: sendForApproval } = User.Queries.useSendTemplateForApproval();
   return (
       <Card
         bodyStyle={{ padding: 0 }}
         title={'Whatsapp Templates'}
         extra={
           <>
-            {type==='custom'?<ActionModal
+          <ActionModal
           title="Create Whatsapp Template"
           cta={
             <Button style={{marginRight: 20}} icon={<PlusOutlined />} type="primary">
@@ -29,8 +29,7 @@ function WhatsappTemplatesScreen() {
           }
         >
           <AddWhatsappTemplate> </AddWhatsappTemplate>
-        </ActionModal>:null}
-
+        </ActionModal>
           </>
         }
       >
@@ -70,7 +69,7 @@ function WhatsappTemplatesScreen() {
                 dataIndex="category"
                 key="category"
               />
-
+{/* 
 
               <Table.Column
                 title="Total Sent"
@@ -90,7 +89,7 @@ function WhatsappTemplatesScreen() {
                 dataIndex="failureCount"
                 key="failureCount"
               />
-              
+               */}
               {/* <Table.Column
                 title="Status"
                 dataIndex="status"
@@ -103,18 +102,58 @@ function WhatsappTemplatesScreen() {
                   </Space>
                 )}
               /> */}
-              <Table.Column
-                title=""
+                    <Table.Column
+                title="Action"
                 key="action"
-                render={(_: any, record: Types.WhatsappTemplate) => (
-                  <Space size="middle">
-                    <EditOutlined
-                      onClick={() =>
-                       navigate(`${record._id}/editor`)
+                render={(_: any, record: Types.Ticket) => (
+                  <Dropdown.Button
+                    menu={{
+                      items: [
+                        record.status==='draft'?{
+                          label:  <a
+                          onClick={() => {
+                            sendForApproval({
+                              id: record._id + ''
+                            })
+                          }}
+                        >
+                          Send for approval
+                          </a>,
+                          key:'send'
+                          
+                        } : null,
+                        {
+                          label:  <a
+                          onClick={() => {
+                            sendForApproval({
+                              id: record._id + ''
+                            })
+                          }}
+                        >
+                          Edit Campign
+                          </a>,
+                          key:'edit'
+                          
+                        },
+                        {
+                          label:  <a
+                          onClick={() => {
+                            sendForApproval({
+                              id: record._id + ''
+                            })
+                          }}
+                        >
+                          Delete Campign
+                          </a>,
+                          key:'delete'
+                          
                       }
-                    />
-                    {/* <DeleteOutlined /> */}
-                  </Space>
+                      ]
+                    }}
+                    trigger={['click']}
+                  >
+                    More
+                  </Dropdown.Button>
                 )}
               />
             </Table>

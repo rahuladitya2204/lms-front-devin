@@ -16,6 +16,7 @@ import { Learner, Utils } from '@adewaskar/lms-common'
 
 import LearnerCartCourseItem from './CourseItem'
 import useMessage from '@Hooks/useMessage';
+import { useNavigate } from 'react-router';
 
 const { Title, Text } = Typography
 const { UnitTypeToStr } = Utils;
@@ -23,6 +24,7 @@ const { UnitTypeToStr } = Utils;
 export default function LearnerCart() {
   const message = useMessage();
   const [form] = Form.useForm()
+  const navigate=useNavigate();
   const { mutate: updateCart } = Learner.Queries.useUpdateCartItems()
   // @ts-ignore
   const { data: { items, promo,total,discount,totalBeforeDiscount } } = Learner.Queries.useGetCartDetails()
@@ -30,6 +32,8 @@ export default function LearnerCart() {
   const removeItemFromCart = (id: string) => {
     updateCart({ data: { courseId: id }, action: 'remove' })
   }
+
+  const {mutate: createOrder } = Learner.Queries.useCreateOrder()
 
   const applyCode = ({ code }: { code: string }) => {
     updateCart({ data: { promoCode: code }, action: 'apply_code' },{
@@ -92,6 +96,16 @@ export default function LearnerCart() {
                 <Typography.Text strong>
                   {UnitTypeToStr(totalBeforeDiscount) }</Typography.Text>
               </Space>
+            </List.Item> : null}
+            {totalBeforeDiscount? <List.Item style={{ display: 'block' }}>
+              <Space
+                style={{ display: 'flex', justifyContent: 'space-between' }}
+                size="large"
+              >
+                <Typography.Text>Discount</Typography.Text>
+                <Typography.Text strong>
+                  {UnitTypeToStr(discount) }</Typography.Text>
+              </Space>
             </List.Item>:null}
             {promo ? (
               <>
@@ -143,7 +157,15 @@ export default function LearnerCart() {
             </List.Item> */}
           </List>
           {/* <Title level={2}>Total: 6,998</Title> */}
-          <Button style={{ marginTop: 20 }} block type="primary" size="large">
+          <Button onClick={() => {
+            createOrder(undefined, {
+              onSuccess: (order) => {
+                console.log(order, 'order');
+                // @ts-ignore
+                navigate(`../${order._id}/successful`);
+              }
+            });
+          }} style={{ marginTop: 20 }} block type="primary" size="large">
             Checkout
           </Button>
         </Col>

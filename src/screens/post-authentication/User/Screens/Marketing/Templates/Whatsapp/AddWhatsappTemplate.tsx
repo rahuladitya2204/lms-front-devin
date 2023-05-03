@@ -1,21 +1,38 @@
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Image, Input, Modal, Select } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
-// import BASE_EMAIL_TEMPLATE from './BaseWhatsappTemplate'
-import SunEditorComponent from '@Components/SunEditor/SunEditor'
+import MediaUpload from '@Components/MediaUpload'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
 interface CreateWhatsappTemplateComponentPropsI {
   children?: ReactNode;
-  data?: Types.WhatsappTemplate;
+  templateId?: string;
   closeModal?: Function;
   onFinish?: (data: Types.WhatsappTemplate) => void;
 }
 
+const categories = [
+  { label: 'Marketing', value: 'MARKETING' },
+  { label: 'Transactional', value: 'TRANSACTIONAL' }
+]
+
+const languages = [
+  { label: 'English', value: 'en' }
+  // { label: 'Transactional', value: 'TRANSACTIONAL' }
+]
+
 const AddWhatsappTemplate: React.FC<
   CreateWhatsappTemplateComponentPropsI
 > = props => {
+  // const { }
+  const { data: template } = User.Queries.useGetWhatsappTemplateDetails(
+    props.templateId + '',
+    {
+      enabled: !!props.templateId
+    }
+  )
+
   const {
     mutate: createWhatsappTemplate,
     isLoading: createWhatsappTemplateLoading
@@ -29,9 +46,9 @@ const AddWhatsappTemplate: React.FC<
 
   const onSubmit = (e: Types.CreateWhatsappTemplatePayload) => {
     // e.content = BASE_EMAIL_TEMPLATE
-    if (props.data) {
+    if (template._id) {
       updateWhatsappTemplate(
-        { id: props.data._id, data: e },
+        { id: template._id, data: e },
         {
           onSuccess: () => {
             props.closeModal && props.closeModal()
@@ -46,32 +63,45 @@ const AddWhatsappTemplate: React.FC<
         }
       })
     }
-    // onFinish && onFinish(e)
   }
 
   useEffect(
     () => {
-      form.setFieldsValue(props.data)
+      form.setFieldsValue(template)
     },
-    [props.data]
+    [template]
   )
-
+  const mediaUrl = Form.useWatch(['mediaUrl'], form)
   return (
     <Fragment>
       <Form form={form} onFinish={onSubmit} layout="vertical">
-        <Form.Item name="title" label="Template Title" required>
-          <Input placeholder="Title of the Template" />
+        <Form.Item name="name" label="Template Name" required>
+          <Input placeholder="Name of the Template" />
         </Form.Item>
-        <Form.Item name="description" label="Template Description" required>
-          <Input placeholder="Title of the Template" />
+        <Form.Item name="category" label="Template Category" required>
+          <Select options={categories} />
         </Form.Item>
-        <Form.Item name="subject" label="Template Subject" required>
-          <Input placeholder="Subject of the whatsapp" />
+        <Form.Item name="language" label="Language" required>
+          <Select options={languages} />
         </Form.Item>
-        <Form.Item name="content" label="Body of the whatsapp" required>
-          <SunEditorComponent
-            onChange={(e: any) => form.setFieldValue(['content'], e)}
+        <Form.Item name="mediaUrl" required label="Media">
+          <MediaUpload
+            uploadType="image"
+            cropper
+            aspect={16 / 9}
+            onUpload={({ name, _id, url }) => {
+              form.setFieldValue('mediaUrl', url)
+            }}
+            name="mediaUrl"
+            width="250px"
+            renderItem={() => <Image preview={false} src={mediaUrl} />}
           />
+        </Form.Item>
+        <Form.Item name="headerText" label="Header Text" required>
+          <Input placeholder="Enter header text" />
+        </Form.Item>
+        <Form.Item name="bodyText" label="Body Text" required>
+          <Input placeholder="Enter body text" />
         </Form.Item>
       </Form>
       {/* <Button

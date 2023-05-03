@@ -131,11 +131,12 @@ function CourseDetailViewer () {
                 <Col>
                   <MetaText strong>Review</MetaText> <br />
                   <CustomRate
-                    disabled
+                    disabled allowHalf
                     style={{ fontSize: 15 }}
-                    value={4}
+                    value={course.averageRating}
                   />{' '}
-                  4.87 (3.8k+ reviews)
+                      {course.averageRating}
+                      ({formatNumber(course.numberOfReviews)} reviews)
                   <MetaText />
                 </Col>
               </Row>
@@ -213,3 +214,12 @@ function CourseDetailViewer () {
 }
 
 export default CourseDetailViewer
+
+
+function formatNumber(num:number) {
+  if (num >= 1000) {
+    return Math.floor(num / 1000) + "k+";
+  } else {
+    return num + "";
+  }
+}

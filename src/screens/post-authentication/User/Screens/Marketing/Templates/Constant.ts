@@ -10,9 +10,13 @@ export const EmailTemplateStatusMap: any = {
 }
 
 export const WhatsappTemplateStatusMap: any = {
-  pending: {
-    title: 'Pending',
+  draft: {
+    title: 'Draft',
     color: 'cyan'
+  },
+  'sent-for-approval': {
+    title: 'Sent for approval',
+    color: 'orange'
   },
   approved: {
     title: 'Approved',

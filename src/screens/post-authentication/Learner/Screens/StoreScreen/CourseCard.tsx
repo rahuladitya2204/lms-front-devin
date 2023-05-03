@@ -64,7 +64,7 @@ function CourseCard(props: CourseCardPropsI) {
         <Space direction='horizontal' style={{display:'flex',justifyContent:'space-between',marginTop: 10}} align='end' >
           <Space direction='vertical'>
           <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
-              <Rate disabled style={{ fontSize: 12 }} value={course.averageRating} /> <Text>{course.averageRating} </Text>
+              <Rate allowHalf disabled style={{ fontSize: 12 }} value={course.averageRating} /> <Text>{course.averageRating} </Text>
             </Space>
             <Space direction='horizontal'>
             <Text style={{fontSize: 13}} type="secondary">

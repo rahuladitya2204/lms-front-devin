@@ -6,8 +6,8 @@ import {
   SafetyCertificateOutlined
 } from '@ant-design/icons'
 import { List, Typography } from 'antd'
+import { Types, Utils } from '@adewaskar/lms-common'
 
-import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 
 const { Text } = Typography
@@ -42,11 +42,11 @@ const data = {
     icon: <CheckCircleOutlined />,
     value: 'Beginner'
   },
-  deadline: {
-    title: 'Deadline',
-    icon: <CalendarOutlined />,
-    value: '06 April 2020'
-  },
+  // deadline: {
+  //   title: 'Deadline',
+  //   icon: <CalendarOutlined />,
+  //   value: '06 April 2020'
+  // },
   certificate: {
     title: 'Certificate',
     icon: <SafetyCertificateOutlined />,
@@ -59,16 +59,11 @@ interface CourseMetadataPropsI {
 }
 
 function CourseMetadata(props: CourseMetadataPropsI) {
+  data.duration.value = formatTime(props.course.totalDuration)
   data.enrolled.value = `${props.course.analytics.enrolled.total} students`
-  data.lectures.value = (() => {
-    let count = 0
-    props.course.sections.forEach(i => {
-      count += 1
-    })
-    return count + props.course.sections.length
-  })()
-
-  data.language.value = props.course.language
+  data.lectures.value = props.course.totalItems
+  data.certificate.value = props.course.certificate ? 'Yes' : ''
+  data.language.value = props.course.language;
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (
@@ -88,3 +83,12 @@ function CourseMetadata(props: CourseMetadataPropsI) {
 }
 
 export default CourseMetadata
+
+function formatTime(seconds: number) {
+  if (seconds < 3600) {
+    return '< 1hr'
+  } else {
+    const hours = Math.floor(seconds / 3600)
+    return `${hours}hr+`
+  }
+}

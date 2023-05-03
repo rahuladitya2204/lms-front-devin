@@ -1,13 +1,6 @@
-import {
-  Button,
-  Card,
-  Col,
-  Result,
-  Row,
-  Space,
-  Typography
-} from 'antd'
+import { Button, Card, Col, Result, Row, Space, Typography } from 'antd'
 
+import EnrolledCourseCard from './CourseCard'
 import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
 import { Link } from 'react-router-dom'
@@ -17,10 +10,10 @@ import { useParams } from 'react-router'
 const { Title, Text } = Typography
 
 const EnrolledCourseSuccessful: React.FC = () => {
-  const { id: courseId } = useParams()
-  const { data: course } = Learner.Queries.useGetCourseDetails(courseId || '')
+  const { orderId } = useParams()
+  const { data: order } = Learner.Queries.useGetOrderDetails(orderId + '')
 
-  const instructor = course.instructor as unknown as Types.Instructor;
+  // const instructor = course.instructor as unknown as Types.Instructor;
   return (
     <Row>
       <Col span={24}>
@@ -29,25 +22,9 @@ const EnrolledCourseSuccessful: React.FC = () => {
             status="success"
             title="You have successfully enrolled for the course!"
           >
-            <Row gutter={[20,20]} align='middle' justify='center'>
-              <Col span={8}>
-                <Image preview={false} src={course.thumbnailImage} />
-              </Col>
-              <Col span={16}>
-                <Space direction='vertical'>
-                  <Space direction='vertical' style={{display:'flex',justifyContent:'space-around'}}>
-                  <Title style={{margin: 0}} level={3}>{course.title}</Title>
-                <Text >By { instructor.name}</Text>
-                  </Space>
-                  <Link to={`../${courseId}/player`}>
-                  <Button type='primary' onClick={() => {
-                    // navigate('./player', { replace: true });
-                    }}>Start Course</Button>
-                    </Link>
-                </Space>
-
-              </Col>
-            </Row>
+            {order.items.map(item => {
+              return <EnrolledCourseCard courseId={item.course} />
+            })}
           </Result>
         </Card>
       </Col>
