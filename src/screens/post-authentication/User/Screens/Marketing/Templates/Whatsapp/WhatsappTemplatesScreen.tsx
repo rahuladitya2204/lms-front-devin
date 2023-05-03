@@ -1,90 +1,76 @@
-// @ts-nocheck
 import { Button, Card, Col, Row, Select, Space, Table, Tag } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
-import AddEmailTemplate from './AddCertificateTemplate'
-import { EmailTemplateStatusMap } from '../Marketing/Templates/Constant'
+import AddWhatsappTemplate from './AddWhatsappTemplate'
 import Header from '@Components/Header'
 import { User } from '@adewaskar/lms-common'
+import { WhatsappTemplateStatusMap } from '../Constant'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
 
-function EmailTemplatesScreen() {
-  // @ts-ignore
-  const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
-
+function WhatsappTemplatesScreen() {
   const navigate = useNavigate();
-  const { data, isLoading: loading } = User.Queries.useGetEmailTemplates()
+  const { data, isLoading: loading } = User.Queries.useGetWhatsappTemplates()
   const [type, setType] = useState('default')
   return (
-    <Header>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'Email Templates'}
+        title={'Whatsapp Templates'}
         extra={
           <>
             {type==='custom'?<ActionModal
-          title="Create Email Template"
+          title="Create Whatsapp Template"
           cta={
             <Button style={{marginRight: 20}} icon={<PlusOutlined />} type="primary">
               Create Custom Template
             </Button>
           }
         >
-          <AddEmailTemplate> </AddEmailTemplate>
+          <AddWhatsappTemplate> </AddWhatsappTemplate>
         </ActionModal>:null}
-        <Select
-          defaultValue="default"
-          style={{ width: 200 }}
-          onChange={e => setType(e)}
-          options={[
-            { value: 'default', label: 'Default Templates' },
-            { value: 'custom', label: 'Custom Templates' }
-          ]}
-            />
+
           </>
         }
       >
         <Row>
           <Col span={24}>
             <Table
-              dataSource={data.filter(r => r.type === type)}
+              dataSource={data}
               loading={loading}
             >
-              {type === 'custom' ? (
-                <Table.Column
-                  title="Template Title"
+
+            <Table.Column
+                  title="Template Name"
                   dataIndex="title"
                   key="title"
-                  render={(_: any, record: Types.EmailTemplate) => (
-                    <Space size="middle">{record.title}</Space>
+                  render={(_: any, record: Types.WhatsappTemplate) => (
+                    <Space size="middle">{record.name}</Space>
                   )}
-                />
-              ) : (
-                <Table.Column
-                  title="Mail Type"
-                  dataIndex="certificateType"
-                  key="certificateType"
-                  render={(_: any, record: Types.EmailTemplate) => (
-                    <Space size="middle">
-                      {EmailTemplatesMap[record.certificateType]?.title}
-                    </Space>
-                  )}
-                />
-              )}
-
-              <Table.Column
-                title="Description"
-                dataIndex="description"
-                key="description"
-                render={(_: any, record: Types.EmailTemplate) => (
+            />
+     
+     <Table.Column
+                title="Status"
+                dataIndex="status"
+                key="status"
+                render={(_: any, record: Types.WhatsappTemplate) => (
                   <Space size="middle">
-                    {EmailTemplatesMap[record.certificateType]?.description}
+                    {/* @ts-ignore */}
+                    <Tag color={WhatsappTemplateStatusMap[record.status].color}>
+                    {/* @ts-ignore */}
+                    {WhatsappTemplateStatusMap[record.status].title}
+                    </Tag>
                   </Space>
                 )}
               />
+            
+            <Table.Column
+                title="Category"
+                dataIndex="category"
+                key="category"
+              />
+
 
               <Table.Column
                 title="Total Sent"
@@ -105,22 +91,22 @@ function EmailTemplatesScreen() {
                 key="failureCount"
               />
               
-              <Table.Column
+              {/* <Table.Column
                 title="Status"
                 dataIndex="status"
                 key="status"
-                render={(_: any, record: Types.EmailTemplate) => (
+                render={(_: any, record: Types.WhatsappTemplate) => (
                   <Space size="middle">
-                    <Tag color={EmailTemplateStatusMap[record.status].color}>
-                      {EmailTemplateStatusMap[record.status].title}
+                    <Tag color={WhatsappTemplateStatusMap[record.status].color}>
+                      {WhatsappTemplateStatusMap[record.status].title}
                     </Tag>
                   </Space>
                 )}
-              />
+              /> */}
               <Table.Column
                 title=""
                 key="action"
-                render={(_: any, record: Types.EmailTemplate) => (
+                render={(_: any, record: Types.WhatsappTemplate) => (
                   <Space size="middle">
                     <EditOutlined
                       onClick={() =>
@@ -135,8 +121,8 @@ function EmailTemplatesScreen() {
           </Col>
         </Row>
       </Card>
-    </Header>
+
   )
 }
 
-export default EmailTemplatesScreen
+export default WhatsappTemplatesScreen

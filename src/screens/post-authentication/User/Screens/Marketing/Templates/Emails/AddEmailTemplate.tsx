@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
-import BASE_EMAIL_TEMPLATE from '../BaseEmailTemplate'
+import BASE_EMAIL_TEMPLATE from './BaseEmailTemplate'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'

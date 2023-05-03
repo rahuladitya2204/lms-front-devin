@@ -22,6 +22,8 @@ export default function UserProfile() {
   const onSubmit = (data:Types.Organisation) => { 
     updateUserAccount({data})
   }
+
+  const { data: url}=User.Queries.useGetProviderLoginUrl('facebook');
   return (
     <Card>
       <Form onFinish={onSubmit} form={form}>

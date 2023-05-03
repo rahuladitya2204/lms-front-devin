@@ -4,7 +4,7 @@ import { Common, Types } from '@adewaskar/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
-import { EmailTemplateStatusMap } from '@User/Screens/Marketing/Emails/Templates/Constant'
+import { EmailTemplateStatusMap } from '@User/Screens/Marketing/Templates/Constant'
 import Header from '@Components/Header'
 import { User } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'

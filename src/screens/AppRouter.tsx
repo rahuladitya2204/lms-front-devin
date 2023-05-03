@@ -20,8 +20,8 @@ import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreatePackage from '@User/Screens/Packages/CreatePackage'
-import EmailTemplateEditor from '@User/Screens/Marketing/Emails/Templates/EmailTemplateEditor'
-import EmailTemplatesScreen from '@User/Screens/Marketing/Emails/Templates/EmailTemplatesScreen'
+import EmailTemplateEditor from '@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor'
+import EmailTemplatesScreen from '@User/Screens/CertificateTemplates/CertificateTemplatesScreen'
 import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
@@ -39,6 +39,7 @@ import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
+import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
 import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
@@ -48,6 +49,8 @@ import UserRegister from './post-authentication/User/Screens/Register'
 import UserRootScreen from './post-authentication/User/Screens/UserRoot/UserRootScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
+import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
+import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -85,9 +88,18 @@ const router = createBrowserRouter(
               </Route>
               <Route path="create-campaign" element={<CreateCampaign />} />
               <Route path="edit-campaign/:id" element={<CreateCampaign />} />
-              <Route path="emails">
-                <Route path="" element={<EmailTemplatesScreen />} />
-                <Route path=":id/editor" element={<EmailTemplateEditor />} />
+              <Route path="templates" element={<TemplatesScreen />}>
+                <Route path="emails">
+                  <Route path="" element={<EmailTemplatesScreen />} />
+                  <Route path=":id/editor" element={<EmailTemplateEditor />} />
+                </Route>
+                <Route path="whatsapp">
+                  <Route path="" element={<WhatsappTemplatesScreen />} />
+                  <Route
+                    path=":id/editor"
+                    element={<WhatsappTemplateEditor />}
+                  />
+                </Route>
               </Route>
               <Route path="promo-codes">
                 <Route path="" element={<PromosScreen />} />
