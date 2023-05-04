@@ -52,6 +52,7 @@ const AddTextItem: React.FC = () => {
         <Form.Item label="Add Files" required>
           <Space direction="horizontal">
             <FileList
+              userType="user"
               files={item.files}
               onDeleteFile={fileId => {
                 // const files = item.files.filter(f => f.file !== fileId)

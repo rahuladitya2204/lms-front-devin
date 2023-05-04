@@ -25,7 +25,7 @@ const UploadVideoForm: React.FC = () => {
   const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo()
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, item } = useUploadItemForm(form)
-  const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
+  const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   });
   const { data: videoUrl } = Common.Queries.useGetPresignedUrlFromFile(file._id, {
@@ -74,7 +74,7 @@ const UploadVideoForm: React.FC = () => {
         </Form.Item>
         <Form.Item label="Add Files" required>
           <Space direction="horizontal">
-            <FileListStyled
+            <FileListStyled userType='user'
               onDeleteFile={(fileId:string) => {
                 const files = item.files.filter(f => f.file !== fileId)
                 onFormChange({ files })

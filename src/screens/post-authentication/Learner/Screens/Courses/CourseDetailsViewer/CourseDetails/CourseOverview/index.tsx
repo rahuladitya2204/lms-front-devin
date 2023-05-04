@@ -2,6 +2,7 @@ import { Card, Col, List, Row, Typography } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
+import HtmlViewer from '@Components/HtmlViewer'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 
 const { Title, Paragraph } = Typography
@@ -43,29 +44,9 @@ function CourseOverview(props: CourseOverviewPropsI) {
             //   symbol: 'readmore'
             // }}
           >
-            <div
-              dangerouslySetInnerHTML={{ __html: landingPage.description }}
-            />
+            <HtmlViewer content={landingPage.description} />
           </Paragraph>
         </Col>
-
-        {/* <Col span={24}>
-          <Title level={4}>What You'll Learn</Title>
-          <Paragraph>
-            <div
-              dangerouslySetInnerHTML={{ __html: props.course.whatYouLearn }}
-            />
-          </Paragraph>
-        </Col>
-
-        <Col span={24}>
-          <Title level={4}>Course Requirements</Title>
-          <Paragraph>
-            <div
-              dangerouslySetInnerHTML={{ __html: props.course.requirements }}
-            />
-          </Paragraph>
-        </Col> */}
       </Row>
     </Fragment>
   )

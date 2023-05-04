@@ -189,3 +189,12 @@ export async function getVideoThumbnails(url: string): Promise<Blob[]> {
 
   return thumbnails;
 }
+
+
+export function formatAvgCount(num:number) {
+  if (num >= 1000) {
+    return Math.floor(num / 1000) + "k+";
+  } else {
+    return num + "";
+  }
+}

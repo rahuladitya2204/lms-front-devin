@@ -1,17 +1,18 @@
 import { Avatar, Button, Divider, List, Modal, Typography } from 'antd'
-import { Common } from '@adewaskar/lms-common'
 import { DownloadOutlined, FileTwoTone } from '@ant-design/icons'
 
+import { Common } from '@adewaskar/lms-common'
 import { unit } from 'mathjs'
 
 const { Text } = Typography
 
 interface FileItemPropsI {
   file: Partial<{ name: string, file: string }>;
+  useGetFileDetails: Function;
 }
 
-function FileItem({ file: { name, file: fileId } }: FileItemPropsI) {
-  const { data: file } = Common.Queries.useGetFileDetails(fileId + '')
+function FileItem({ file: { name, file: fileId } ,useGetFileDetails}: FileItemPropsI) {
+  const { data: file } = useGetFileDetails(fileId + '')
   const size = Math.ceil(
     unit(file.size, 'byte')
       .to('megabyte')

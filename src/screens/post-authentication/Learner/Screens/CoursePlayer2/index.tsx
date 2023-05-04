@@ -12,18 +12,18 @@ import {
   Typography
 } from 'antd'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import { Learner, Types } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
+import { useEffect, useState } from 'react'
 
+import ActionModal from '@Components/ActionModal'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
-import Header from '@Components/Header'
-import { Learner, Types } from '@adewaskar/lms-common'
-import OrgLogo from '@Components/OrgLogo'
-import styled from '@emotion/styled'
-import { useEffect, useState } from 'react'
-import ActionModal from '@Components/ActionModal'
-import ReviewCourse from '../Courses/ReviewCourse/ReviewCourse'
 import FileList from '@Components/FileList'
+import Header from '@Components/Header'
+import OrgLogo from '@Components/OrgLogo'
+import ReviewCourse from '../Courses/ReviewCourse/ReviewCourse'
+import styled from '@emotion/styled'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -54,7 +54,7 @@ const PlayerContainer = styled.div`
 const CustomHeader = styled(Header)`
   .ant-layout-header {
     padding: 0 !important;
-  }import src from '../../../../../react-app-env.d';
+  }
 
 `
 const { Search } = Input
@@ -192,7 +192,8 @@ function CoursePlayer() {
                
                 <Card style={{ marginTop: 15 }}>
                   Attached Files
-                  <FileList style={{display: 'flex !important'}} horizontal type="card" files={currentItem.files} />
+                  <FileList               userType="learner"
+ style={{display: 'flex !important'}} horizontal type="card" files={currentItem.files} />
                 </Card>
               </Col>
             ) : null}

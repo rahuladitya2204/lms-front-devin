@@ -1,5 +1,5 @@
 import { Col, Collapse, List, Row, Spin, Tag } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { LockOutlined, PlayCircleOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
@@ -14,7 +14,7 @@ function CourseCurriculumItem({ item }: CourseCurriculumItemPropsI) {
   const {
     data: { url },
     isLoading: loading
-  } = Common.Queries.useGetFileDetails(item.file + '', {
+  } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
   const PreviewVideo = (item: Types.CourseSectionItem) => (

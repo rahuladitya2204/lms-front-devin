@@ -21,6 +21,7 @@ import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
+import { formatAvgCount } from '@User/Screens/Courses/CourseBuilder/utils';
 import image from './bg.svg'
 import styled from '@emotion/styled'
 
@@ -131,12 +132,12 @@ function CourseDetailViewer () {
                 <Col>
                   <MetaText strong>Review</MetaText> <br />
                   <CustomRate
-                    disabled allowHalf
+                    disabled
                     style={{ fontSize: 15 }}
                     value={course.averageRating}
                   />{' '}
                       {course.averageRating}
-                      ({formatNumber(course.numberOfReviews)} reviews)
+                      ({formatAvgCount(course.numberOfReviews)} reviews)
                   <MetaText />
                 </Col>
               </Row>
@@ -214,12 +215,3 @@ function CourseDetailViewer () {
 }
 
 export default CourseDetailViewer
-
-
-function formatNumber(num:number) {
-  if (num >= 1000) {
-    return Math.floor(num / 1000) + "k+";
-  } else {
-    return num + "";
-  }
-}

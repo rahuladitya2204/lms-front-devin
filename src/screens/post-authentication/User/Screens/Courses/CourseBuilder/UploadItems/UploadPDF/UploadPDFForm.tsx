@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Form, Input, Space } from 'antd'
+import { Common, User } from '@adewaskar/lms-common'
 
-import { Common } from '@adewaskar/lms-common'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
@@ -14,7 +14,7 @@ const UploadPDFForm: React.FC = () => {
   const { onFormChange, item, itemId, courseId, sectionId } = useUploadItemForm(
     form
   )
-  const { data: file } = Common.Queries.useGetFileDetails(item.file + '', {
+  const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
   return (
@@ -50,6 +50,7 @@ const UploadPDFForm: React.FC = () => {
         <Form.Item label="Add Files" required>
           <Space direction="horizontal">
             <FileList
+              userType="user"
               onDeleteFile={fileId => {
                 const files = item.files.filter(f => f.file !== fileId)
                 onFormChange({ files })
@@ -104,7 +105,7 @@ const UploadPDFForm: React.FC = () => {
         </Form.Item>
       </Form>
       <Card title={file.name}>
-        {file?.url ? <PDFViewer file={file} /> : null}
+        {file?._id ? <PDFViewer file={file} /> : null}
       </Card>
     </Fragment>
   )

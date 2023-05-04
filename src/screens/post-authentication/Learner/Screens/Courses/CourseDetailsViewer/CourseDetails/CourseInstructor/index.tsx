@@ -7,7 +7,9 @@ import {
 } from '@ant-design/icons'
 import { Avatar, Col, Row, Typography } from 'antd'
 
+import CourseReviews from '../CourseReviews/CourseReviews'
 import { Fragment } from 'react'
+import HtmlViewer from '@Components/HtmlViewer'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
@@ -18,7 +20,9 @@ interface CourseInstructorPropsI {
 }
 
 function CourseInstructor(props: CourseInstructorPropsI) {
-  const { data: instructor } = User.Queries.useGetInstructorDetails(props.course.instructor)
+  const { data: instructor } = User.Queries.useGetInstructorDetails(
+    props.course.instructor
+  )
   return (
     <Fragment>
       <Row gutter={[25, 25]}>
@@ -58,8 +62,13 @@ function CourseInstructor(props: CourseInstructorPropsI) {
         </Col>
         <Col span={24}>
           <Paragraph>
-            <div dangerouslySetInnerHTML={{ __html: instructor.aboutMe }} />
+            <HtmlViewer content={instructor.aboutMe} />
           </Paragraph>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <CourseReviews course={props.course} />
         </Col>
       </Row>
       <Row />

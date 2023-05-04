@@ -1,7 +1,10 @@
 import {
   Badge,
   Card,
+  Col,
+  Divider,
   Rate,
+  Row,
   Space
 } from 'antd'
 import { BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
@@ -10,6 +13,7 @@ import { Constants, Types } from '@adewaskar/lms-common'
 import Image from '@Components/Image'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
+import { formatAvgCount } from '@User/Screens/Courses/CourseBuilder/utils'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
 
@@ -50,10 +54,10 @@ function CourseCard(props: CourseCardPropsI) {
         <Card.Meta
           // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
           title={<Space size='small' direction="vertical"  >
-            <Text style={{ fontSize: 14 }} type='secondary'>
-              By {instructor.name}
-            </Text>
-            <Text strong ellipsis>{course.title}</Text>
+            <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
+              <Rate disabled style={{ fontSize: 12 }} value={course.averageRating} /> <Text>{course.averageRating}({formatAvgCount(course.numberOfReviews) }) </Text>
+            </Space>
+            <Text style={{fontSize:20}} strong ellipsis>{course.title}</Text>
           </Space>}
           // description={
           //   <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
@@ -61,29 +65,34 @@ function CourseCard(props: CourseCardPropsI) {
           //   </Space>
           // }
         />
-        <Space direction='horizontal' style={{display:'flex',justifyContent:'space-between',marginTop: 10}} align='end' >
-          <Space direction='vertical'>
-          <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
-              <Rate allowHalf disabled style={{ fontSize: 12 }} value={course.averageRating} /> <Text>{course.averageRating} </Text>
-            </Space>
-            <Space direction='horizontal'>
+          <Row justify={'space-between'} style={{marginTop:10}}>
+            <Col>
             <Text style={{fontSize: 13}} type="secondary">
                   <BookOutlined /> {course.totalItems} Lessons
             </Text>
+            </Col>
+            <Col>
             <Text style={{fontSize: 13}} type="secondary">
                   <ClockCircleOutlined /> {formattedDuration}
-                </Text>
-        </Space>
-          </Space>
-
-            <Space direction='vertical' align='end' size={0}>
+                </Text></Col>
+        </Row>
+        <Divider style={{marginTop:10,marginBottom:10}}/>
+        <Row justify={'space-between'}>
+          <Col>
+          <Text ellipsis style={{ fontSize: 14,width: 100 }} type='secondary'>
+               {instructor.name}
+            </Text>
+          </Col>
+          <Col>
+          <Space direction='vertical' align='end' size={0}>
               <Text style={{textAlign:'right',textDecoration:'line-through'}} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text>
               <Text strong style={{fontSize: 20}}>
               {UnitTypeToStr(plan.finalPrice)}
               </Text>
-            </Space>
+          </Space></Col>
+        </Row>
+            
 
-        </Space>
 
       </CustomCard>
     </Badge.Ribbon>

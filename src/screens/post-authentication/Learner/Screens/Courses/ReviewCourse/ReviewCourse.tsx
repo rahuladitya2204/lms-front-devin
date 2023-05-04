@@ -1,5 +1,5 @@
+import { Button, Form, Input, Rate, Space, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
-import { Space, Rate, Typography,Form ,Input, Button} from 'antd'
 
 const { Title } = Typography
 
@@ -28,7 +28,7 @@ const ReviewCourse: React.FC<ReviewCoursePropsI> = ({ course,closeModal }) => {
    <Title level={3}>How would you rate your experience with the course</Title>
 <Form onFinish={submitReview} style={{textAlign:'center'}} layout='vertical' form={form}>
 <Form.Item name="rating">
-          <Rate style={{ marginBottom: 30 }} allowHalf  />
+          <Rate style={{ marginBottom: 30 }}  />
           </Form.Item>
 <Form.Item name="comment">
           <TextArea style={{width: 300}} rows={4} />

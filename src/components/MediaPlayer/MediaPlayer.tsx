@@ -1,4 +1,4 @@
-import { Common, Types, Store } from '@adewaskar/lms-common'
+import { Common, Store, Types } from '@adewaskar/lms-common'
 
 import PlayrComponent from './Playr/Playr'
 import VideoJs from './Videojs/Videojs'
@@ -26,7 +26,6 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
     }
   )
   const Url = props.url || url
-  console.log(Url, 'Url')
 
   useEffect(() => {
     return () => {

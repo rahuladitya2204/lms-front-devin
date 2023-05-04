@@ -1,7 +1,8 @@
-import {  Avatar, Button, Empty, List, Modal,Typography } from 'antd'
-import ListItem from './types/ListItem';
-import CardItem from './types/CardItem';
+import { Avatar, Button, Empty, List, Modal, Typography } from 'antd'
+import { Learner, User } from '@adewaskar/lms-common';
 
+import CardItem from './types/CardItem';
+import ListItem from './types/ListItem';
 
 interface FileListPropsI {
     type?: string;
@@ -9,7 +10,8 @@ interface FileListPropsI {
     files: { name: string, file: string }[];
     onDeleteFile?: (s: string) => void;
     style?: any;
-    uploadFileInput?: any;
+  uploadFileInput?: any;
+  userType: string;
 }
 
 function FileList(props: FileListPropsI) {
@@ -25,7 +27,7 @@ function FileList(props: FileListPropsI) {
             style={props.style || {}}
       renderItem={(file, index) => {
         return (
-            <ListItemComponent onDeleteFile={(d:string) => {
+            <ListItemComponent useGetFileDetails={props.userType==='learner'?Learner.Queries.useGetFileDetails:User.Queries.useGetFileDetails} onDeleteFile={(d:string) => {
                 props.onDeleteFile&&props.onDeleteFile(d)
                   }} file={file} />
         )

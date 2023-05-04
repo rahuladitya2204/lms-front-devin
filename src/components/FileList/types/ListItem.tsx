@@ -1,23 +1,26 @@
 import { Button, Empty, List, Modal, Space, Spin } from 'antd'
-import { Common } from '@adewaskar/lms-common'
 import {
   DeleteOutlined,
   DownloadOutlined,
   PlusOutlined
 } from '@ant-design/icons'
 
+import { Common } from '@adewaskar/lms-common'
+
 const { confirm } = Modal
 
 interface FileItemPropsI {
   file: Partial<{ name: string, file: string }>;
   onDeleteFile: (id: string) => void;
+  useGetFileDetails: Function;
 }
 
 function FileItem({
   file: { name, file: fileId },
+  useGetFileDetails,
   onDeleteFile
 }: FileItemPropsI) {
-  const { data: file } = Common.Queries.useGetFileDetails(fileId + '')
+  const { data: file } = useGetFileDetails(fileId + '')
   const {
     mutate: deleteFile,
     isLoading: deletingFile
