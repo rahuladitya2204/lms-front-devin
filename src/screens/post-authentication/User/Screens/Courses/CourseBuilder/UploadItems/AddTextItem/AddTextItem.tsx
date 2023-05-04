@@ -9,7 +9,6 @@ import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
 import { getReadingTime } from '../../utils'
 import { uniqueId } from 'lodash'
-
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const AddTextItem: React.FC = () => {
@@ -60,6 +59,10 @@ const AddTextItem: React.FC = () => {
               }}
               uploadFileInput={
                 <MediaUpload
+                  source={{
+                    type: 'course.section.item.files',
+                    value: courseId + ''
+                  }}
                   uploadType="file"
                   prefixKey={`courses/${courseId}/${sectionId}/${
                     itemId
@@ -84,6 +87,10 @@ const AddTextItem: React.FC = () => {
             >
               <MediaUpload
                 uploadType="file"
+                source={{
+                  type: 'course.section.item/files',
+                  value: courseId + ''
+                }}
                 isProtected
                 onUpload={({ name, _id, isProtected }) => {
                   onFormChange({

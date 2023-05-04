@@ -1,25 +1,31 @@
 import { Carousel, Col, Row } from 'antd'
+import { Learner, Store } from '@adewaskar/lms-common'
 
 import CourseCard from './CourseCard'
 import HomeCarousel from './Carousel'
-import { Learner } from '@adewaskar/lms-common'
 import Section from '@Components/Section'
 import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-function StoreScreen() {
-  const { data: courses } = Learner.Queries.useGetCoursesOfOrganisation()
-  const { data: categories } = Learner.Queries.useGetLearnerCategories()
+function StoreScreen () {
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
 
   const params = useParams()
+
+  const { data: allCourses } = Learner.Queries.useGetCoursesOfOrganisation()
+  const {
+    data: recommendedCourses
+  } = Learner.Queries.useGetRecommendedCourses()
+  const { data: categories } = Learner.Queries.useGetLearnerCategories()
+
   useEffect(
     () => {
-      Utils.Storage.SetItem('orgId', params.orgId + '');
+      Utils.Storage.SetItem('orgId', params.orgId + '')
     },
     [params.orgId]
   )
-
+  const courses = isSignedIn ? recommendedCourses : allCourses
   return (
     <Row gutter={[30, 30]}>
       <Col span={24}>
@@ -29,6 +35,9 @@ function StoreScreen() {
         const categorizedCourses = courses.filter(
           course => course.category === category._id
         )
+        if (!categorizedCourses.length) {
+          return null;
+        }
         return (
           <Col span={24}>
             <Section title={category.title} subtitle={category.description}>

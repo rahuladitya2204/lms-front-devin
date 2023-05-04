@@ -57,6 +57,10 @@ const UploadPDFForm: React.FC = () => {
               files={item.files}
               uploadFileInput={
                 <MediaUpload
+                  source={{
+                    type: 'course.section.item.files',
+                    value: courseId + ''
+                  }}
                   uploadType="file"
                   prefixKey={`courses/${courseId}/${sectionId}/${
                     itemId
@@ -74,6 +78,10 @@ const UploadPDFForm: React.FC = () => {
         <Form.Item name="PDF File" label="PDF File" required>
           <MediaUpload
             isProtected
+            source={{
+              type: 'course.section.item.file',
+              value: courseId + ''
+            }}
             width="300px"
             onUpload={({ _id }, file) => {
               console.log(file, 'aaa')

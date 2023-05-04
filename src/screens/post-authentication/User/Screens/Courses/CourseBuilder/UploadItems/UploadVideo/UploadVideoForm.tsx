@@ -8,9 +8,9 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import { getMetadata } from 'video-metadata-thumbnails'
 import { getVideoThumbnails } from '../../utils'
+import styled from '@emotion/styled'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
-import styled from '@emotion/styled'
 
 const { Title } = Typography
 
@@ -81,6 +81,10 @@ const UploadVideoForm: React.FC = () => {
               }}
               files={item.files}
               uploadFileInput={<MediaUpload
+                source={{
+                  type: 'course.section.item.files',
+                  value: courseId+''
+                }}
                 uploadType="file"
                 prefixKey={`courses/${courseId}/${sectionId}/${
                   itemId
@@ -96,6 +100,10 @@ const UploadVideoForm: React.FC = () => {
         </Form.Item>{' '}
         <Form.Item name="context" label="Preview" required>
           <MediaUpload
+             source={{
+              type: 'course.section.item.file',
+              value: courseId+''
+            }}
             prefixKey={`courses/${courseId}/${sectionId}/${
               itemId
             }/lecture/user-uploaded`}

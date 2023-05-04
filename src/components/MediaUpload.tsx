@@ -28,6 +28,7 @@ interface MediaUploadPropsI {
   aspect?: number;
   listType?: string;
   prefixKey?: string;
+  source?: Types.FileSource;
   uploadType?: string;
   name?: string | string[];
   cropper?: boolean;
@@ -46,18 +47,13 @@ const CustomUpload = styled(Upload)(
   width: ${props.width} !important;
 }
 .ant-upload {
-  // min-width: 150px !important;
   margin: 0;
   display: block;
   border-radius: ${(props: { rounded?: boolean }) =>
     props.rounded ? '50% !important' : ''};
   object-fit: cover;
   overflow: hidden;
-  // min-height: 150px !important;
 }
-
-import { ImgCrop } from 'antd-img-crop';
-
 `
 )
 
@@ -73,7 +69,14 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   const UploadFile = file => {
     if (!file) return
     return uploadFiles({
-      files: [{ file: file, prefixKey: props.prefixKey, name: props.fileName }],
+      files: [
+        {
+          file: file,
+          prefixKey: props.prefixKey,
+          name: props.fileName,
+          source: props.source
+        }
+      ],
       isProtected: props.isProtected,
       onUploadProgress: e => {
         // console.log(e, 'e')

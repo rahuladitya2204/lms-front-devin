@@ -10,7 +10,8 @@ import {
   Space,
   Typography
 } from 'antd'
-import { useEffect } from 'react'
+import { Constants, Types } from '@adewaskar/lms-common'
+import { User, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor'
@@ -18,9 +19,8 @@ import CreateCategory from '@User/Screens/Courses/CourseCategory/CreateCategory'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
-import { Constants, Types } from '@adewaskar/lms-common'
-import { User, Utils } from '@adewaskar/lms-common'
 import { deepPatch } from '../../utils'
+import { useEffect } from 'react'
 import { useParams } from 'react-router'
 
 const LANGUAGES = [
@@ -86,8 +86,13 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       </Form.Item>
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
+          source={{
+            type: 'course.thumbnailImage',
+            value: courseId + ''
+          }}
           uploadType="image"
-          cropper aspect={16/9}
+          cropper
+          aspect={16 / 9}
           name="thumbnailImage"
           width="250px"
           // height="300px"

@@ -1,12 +1,7 @@
 import {
-  BookFilled,
-  BookOutlined,
-  CloudDownloadOutlined,
   FileImageOutlined,
   FilePdfFilled,
   FilePdfOutlined,
-  FileTextFilled,
-  FileTextOutlined,
   PlayCircleFilled,
   PlayCircleOutlined
 } from '@ant-design/icons'

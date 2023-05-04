@@ -185,6 +185,10 @@ function CourseBuilderScreen() {
             <Col span={24}>
               <Form.Item>
                 <MediaUpload
+                  source={{
+                    type: 'course.thumbnailImage',
+                    value: courseId + ''
+                  }}
                   uploadType="image"
                   prefixKey={`courses/${courseId}/thumbnailImage`}
                   cropper

@@ -2,12 +2,14 @@ import { Card, Progress, Typography } from 'antd'
 
 import Image from '@Components/Image'
 import { Types } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 
 const { Text } = Typography
 
 interface CourseCardPropsI {
   course: Types.Course;
+  enrolledAt: string;
   progress: number;
   onClick: () => void;
 }
@@ -34,7 +36,7 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
         // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
         title={
           <Text style={{ fontSize: 13 }} type="secondary">
-            Started July 9, 2020
+            Started {dayjs(props.enrolledAt).format('MMMM D, YYYY')}
           </Text>
         }
         description={

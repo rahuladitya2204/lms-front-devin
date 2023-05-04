@@ -46,6 +46,10 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
     >
       <Form.Item name="promoVideo" label="Promo Video" required>
         <MediaUpload
+          source={{
+            type: 'course.promoVideo',
+            value: courseId + ''
+          }}
           prefixKey={`courses/${courseId}/promo`}
           width="300px"
           name="promoVideo"

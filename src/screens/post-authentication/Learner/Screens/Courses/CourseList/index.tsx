@@ -6,17 +6,18 @@ import { Learner } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
 
 const LearnerCourseList: React.FC = () => {
-  const { data: courses } = Learner.Queries.useGetEnrolledCourses()
+  const { data: enrolledCourses } = Learner.Queries.useGetEnrolledCourses()
 
   const navigate = useNavigate()
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
-        {courses.map(({ course, progress }) => (
+        {enrolledCourses.map(({ course, progress, enrolledAt }) => (
           <Col span={6}>
             <CourseCard
               onClick={() => navigate(`${course._id}/player`)}
               course={course}
+              enrolledAt={enrolledAt}
               progress={progress}
             />
           </Col>
