@@ -17,7 +17,8 @@ function ThemeProvider(props: any) {
           token:
             props.type === 'learner'
               ? {
-                  colorPrimary: appDetails.branding.primaryColor
+                  colorPrimary: appDetails.branding.primaryColor,
+                  fontFamily: 'Jost'
                 }
               : UserTheme
         }}

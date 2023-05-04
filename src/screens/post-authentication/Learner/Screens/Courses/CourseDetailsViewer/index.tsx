@@ -88,7 +88,7 @@ function CourseDetailViewer () {
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const navigate = useNavigate();
   const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.course._id == course._id);
-  console.log(plan.finalPrice,'plan.finalPrice')
+
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
@@ -177,14 +177,14 @@ function CourseDetailViewer () {
                     </Col>
                   </Row>
                 </Col>
-                <Col span={24}>
+                {/* <Col span={24}>
                   <Alert
                     icon={<AlertOutlined />}
                     message="Only 2 days at this price"
                     type="error"
                     showIcon
                   />
-                </Col>
+                </Col> */}
                 <Col span={24}>
                   <Row gutter={[15, 15]}>
                     <Col span={24}>

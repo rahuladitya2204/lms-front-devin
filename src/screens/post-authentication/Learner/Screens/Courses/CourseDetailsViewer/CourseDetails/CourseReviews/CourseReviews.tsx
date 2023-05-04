@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, List, Progress, Rate, Row, Space, Typography } from 'antd'
+import { Avatar, Card, Col, Empty, List, Progress, Rate, Row, Space, Typography } from 'antd'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
@@ -42,7 +42,7 @@ function CourseReviews(props: CourseReviewsPropsI) {
       .sort(i => -i.rating)
     
     const { data: studentReviews } = Learner.Queries.useGetCourseReviews(props.course._id);
-  return (
+  return studentReviews.length?(
     <Row>
       <Col span={24}>
         <Title level={4}>Student Feedback</Title>
@@ -92,7 +92,7 @@ function CourseReviews(props: CourseReviewsPropsI) {
               </Row>
       </Col>
     </Row>
-  )
+  ) : <Empty description={'No Reviews'} />
 }
 
 export default CourseReviews
