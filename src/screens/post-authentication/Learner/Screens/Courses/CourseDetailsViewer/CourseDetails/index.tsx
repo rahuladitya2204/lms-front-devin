@@ -1,6 +1,7 @@
 import CourseCurriculum from './CourseCurriculum'
 import CourseInstructor from './CourseInstructor'
 import CourseOverview from './CourseOverview'
+import CourseReviews from './CourseReviews/CourseReviews'
 import { Tabs } from 'antd'
 import { Types } from '@adewaskar/lms-common'
 
@@ -17,8 +18,8 @@ function CourseDetails(props: CourseDetailsPropsI) {
       <Tabs.TabPane tab="Curriculum" key="Curiculum">
         <CourseCurriculum course={props.course} />
       </Tabs.TabPane>
-      <Tabs.TabPane tab="Instructor" key="instructor">
-        <CourseInstructor course={props.course} />
+      <Tabs.TabPane tab="Reviews" key="Reviews">
+        <CourseReviews course={props.course} />
       </Tabs.TabPane>
     </Tabs>
   )

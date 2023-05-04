@@ -20,9 +20,8 @@ interface CourseInstructorPropsI {
 }
 
 function CourseInstructor(props: CourseInstructorPropsI) {
-  const { data: instructor } = User.Queries.useGetInstructorDetails(
-    props.course.instructor
-  )
+  const { course } = props;
+  const instructor = course.instructor as unknown as Types.Instructor;
   return (
     <Fragment>
       <Row gutter={[25, 25]}>
@@ -34,7 +33,7 @@ function CourseInstructor(props: CourseInstructorPropsI) {
             <Col span={4}>
               <Avatar
                 size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
-                icon={<AntDesignOutlined />}
+                src={instructor.image}
               />
             </Col>
             <Col span={18}>

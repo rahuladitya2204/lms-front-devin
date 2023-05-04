@@ -52,18 +52,12 @@ function CourseCard(props: CourseCardPropsI) {
         }
       >
         <Card.Meta
-          // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
           title={<Space size='small' direction="vertical"  >
             <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
               <Rate disabled style={{ fontSize: 12 }} value={course.averageRating} /> <Text>{course.averageRating}({formatAvgCount(course.numberOfReviews) }) </Text>
             </Space>
             <Text style={{fontSize:20}} strong ellipsis>{course.title}</Text>
           </Space>}
-          // description={
-          //   <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
-          //     <Rate style={{ fontSize: 12 }} value={4} /> <Text>4.87 (3.8k+ reviews)</Text>
-          //   </Space>
-          // }
         />
           <Row justify={'space-between'} style={{marginTop:10}}>
             <Col>

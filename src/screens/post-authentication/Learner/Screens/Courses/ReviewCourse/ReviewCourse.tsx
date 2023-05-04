@@ -12,7 +12,7 @@ const { TextArea } = Input;
 const ReviewCourse: React.FC<ReviewCoursePropsI> = ({ course,closeModal }) => {
   const { mutate:reviewCourse} = Learner.Queries.useAddReviewForCourse();
   const [form] = Form.useForm();
-  const submitReview=(e:Partial<Types.Review>)=>{
+  const submitReview=(e:Partial<Types.CourseReview>)=>{
     console.log(e, 'reciew');
     reviewCourse({
       courseId: course._id,

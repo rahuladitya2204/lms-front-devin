@@ -1,9 +1,10 @@
-import { Card, Col, Progress, Rate, Row, Space, Typography } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Avatar, Card, Col, List, Progress, Rate, Row, Space, Typography } from 'antd'
+import { Common, Learner, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+import ReviewCard from './ReviewCard'
 import { formatAvgCount } from '@User/Screens/Courses/CourseBuilder/utils'
 
 const { Title, Text } = Typography
@@ -37,7 +38,10 @@ function CourseReviews(props: CourseReviewsPropsI) {
         share: share
       }
     })
-    .filter(i => i.count)
+    //   .filter(i => i.count)
+      .sort(i => -i.rating)
+    
+    const { data: studentReviews } = Learner.Queries.useGetCourseReviews(props.course._id);
   return (
     <Row>
       <Col span={24}>
@@ -74,7 +78,18 @@ function CourseReviews(props: CourseReviewsPropsI) {
               })}
             </Card>
           </Col>
-        </Row>
+              </Row>
+              <Row style={{marginTop:50}}>
+                  <Col span={24}>
+                  <List
+    itemLayout="horizontal"
+    dataSource={studentReviews}
+    renderItem={(review, index) => (
+     <ReviewCard review={review}/>
+    )}
+  />
+                  </Col>
+              </Row>
       </Col>
     </Row>
   )
