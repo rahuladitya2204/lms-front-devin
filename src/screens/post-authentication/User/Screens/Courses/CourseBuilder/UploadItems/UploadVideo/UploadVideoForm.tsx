@@ -1,11 +1,14 @@
-import { Button, Checkbox, Form, Input, Progress, Space, Typography } from 'antd'
+import { Button, Checkbox, Divider, Form, Input, Progress, Space, Typography } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { debounce, uniqueId } from 'lodash'
 
+import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
+import Image from '@Components/Image'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
+import ThumbnailList from './ThumbnailList'
 import { getMetadata } from 'video-metadata-thumbnails'
 import { getVideoThumbnails } from '../../utils'
 import styled from '@emotion/styled'
@@ -20,17 +23,20 @@ const FileListStyled=styled(FileList)`
     } */
 `
 
-const UploadVideoForm: React.FC = () => {
+const UploadVideoForm:any = () => {
+  const {
+    mutate: uploadFiles,
+    isLoading: loading
+  } = Common.Queries.useUploadFiles();
   const [form] = Form.useForm();
   const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo()
   const { id: courseId, sectionId, itemId } = useParams()
-  const { onFormChange, item } = useUploadItemForm(form)
+  const { onFormChange, item } = useUploadItemForm(form);
+  
   const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   });
-  const { data: videoUrl } = Common.Queries.useGetPresignedUrlFromFile(file._id, {
-    enabled:!!file._id
-  });
+
   const jobId = file?.metadata?.jobId;
   const {
     data: { status, progress }
@@ -40,13 +46,37 @@ const UploadVideoForm: React.FC = () => {
     retryDelay: 4000
   })
 
-  useEffect(() => {
-    // console.log('eee',videoUrl)
-    getVideoThumbnails(videoUrl).then(e=>{
-      console.log(e,'huhuhuhu')
-    }).catch(console.log)
-   },[videoUrl])
 
+  const fileId = file.encoded || file._id;
+
+  const uploadThumbnail = (file:File) => {
+    uploadFiles({
+      files: [
+        {
+          file: file,
+          prefixKey: `courses/${courseId}/${sectionId}/${
+            itemId
+          }/lecture`,
+          name: `thumbnailImage`,
+          source: {
+            type: 'course.section.item.file',
+            value: courseId+''
+          },
+        }
+      ],
+      onUploadProgress: e => {
+        // console.log(e, 'e')
+      },
+      onSuccess: ([uploadFile]) => {
+        onFormChange({
+          metadata: {
+            ...item.metadata,
+            thumbnail: uploadFile._id
+          }
+        })
+      }
+    })
+  }
   return (
     <Fragment>
       <Form onValuesChange={debounce(onFormChange,700)} form={form} layout="vertical">
@@ -98,6 +128,31 @@ const UploadVideoForm: React.FC = () => {
             />
           </Space>
         </Form.Item>{' '}
+        <Form.Item name="context" label="Thumbnail" required>
+        <MediaUpload width={'400'}
+                source={{
+                  type: 'course.section.item.thumbnail',
+                  value: courseId+''
+                }}
+                uploadType="image"
+                prefixKey={`courses/${courseId}/${sectionId}/${
+                  itemId
+                }/thumbnail}`}
+                onUpload={({ name, _id,url }) => {
+                  onFormChange({
+                    metadata: {
+                      ...item.metadata,
+                      thumbnail: url
+                    }
+                  })
+                }}
+                renderItem={() => (
+                  <Image preview={false} src={item.metadata?.thumbnail} />
+                )}
+          />
+  <ThumbnailList item={item} fileId={file._id} />
+
+</Form.Item>
         <Form.Item name="context" label="Preview" required>
           <MediaUpload
              source={{
@@ -137,8 +192,7 @@ const UploadVideoForm: React.FC = () => {
               <Progress percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
             </>
           ) : null}
-
-          {file._id ? <MediaPlayer fileId={file._id} /> : null}
+          {file._id ? <MediaPlayer fileId={fileId} /> : null}
         </Form.Item>
       </Form>
     </Fragment>

@@ -15,7 +15,7 @@ const LearnerCourseList: React.FC = () => {
         {enrolledCourses.map(({ course, progress, enrolledAt }) => (
           <Col span={6}>
             <CourseCard
-              onClick={() => navigate(`${course._id}/player`)}
+              onClick={() => navigate(`../enrolled-courses/${course._id}`)}
               course={course}
               enrolledAt={enrolledAt}
               progress={progress}

@@ -142,6 +142,7 @@ type CanvasElement = HTMLCanvasElement | OffscreenCanvas;
 
 function captureThumbnail(video: HTMLVideoElement, canvas: CanvasElement, context: CanvasRenderingContext2D, time: number): Promise<void> {
   return new Promise<void>((resolve) => {
+    console.log(time,'time')
     video.currentTime = time;
     video.addEventListener('seeked', () => {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -151,24 +152,35 @@ function captureThumbnail(video: HTMLVideoElement, canvas: CanvasElement, contex
 }
 
 // Main function to extract thumbnails
-export async function getVideoThumbnails(url: string): Promise<Blob[]> {
+export async function getVideoThumbnails(url: string,duration): Promise<Blob[]> {
   const video = document.createElement('video');
+  video.crossOrigin = 'anonymous'; // Add this line
   const canvas = document.createElement('canvas') as CanvasElement;
   const context = canvas.getContext('2d') as CanvasRenderingContext2D;
   const thumbnails: Blob[] = [];
 
-  const videoReady = new Promise<void>((resolve) => {
-    if (Hls.isSupported() && /\.m3u8$/.test(url)) {
+  const videoReady = new Promise<void>((resolve, reject) => {
+    // debugger;
+      if (false) {
       const hls = new Hls();
       hls.loadSource(url);
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         resolve();
       });
+      hls.on(Hls.Events.ERROR, (event, data) => {
+        console.error('HLS error:', event, data);
+        reject(new Error('HLS error: ' + data.details));
+      });
     } else {
       video.src = url;
       video.addEventListener('loadedmetadata', () => {
         resolve();
+      });
+      video.addEventListener('error', (event) => {
+        // debugger;
+        console.error('Video error:', event);
+        reject(new Error('Video error: ' + event));
       });
     }
   });
@@ -177,8 +189,6 @@ export async function getVideoThumbnails(url: string): Promise<Blob[]> {
 
   canvas.width = video.videoWidth;
   canvas.height = video.videoHeight;
-
-  const duration = video.duration;
   const intervals = duration / 4;
 
   for (let i = 1; i <= 3; i++) {

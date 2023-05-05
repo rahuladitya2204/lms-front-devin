@@ -18,7 +18,7 @@ interface MediaPlayerPropsI {
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
   const resetPlayer: any = Store.usePlayer(s => s.resetPlayerState)
-  const enabled = !!(!props.url && props.fileId)
+  const enabled = !!((!props.url && props.fileId))
   const { data: url } = Common.Queries.useGetPresignedUrlFromFile(
     props.fileId + '',
     {

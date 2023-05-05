@@ -25,6 +25,9 @@
        "@Components/*": [
          "components/*"
        ],
+       "@Icons/*": [
+        "icons/*"
+      ],
        "@Common": [
         "@adewaskar/lms-common"
       ],

@@ -15,18 +15,19 @@ import CourseBuilderScreen from './post-authentication/User/Screens/Courses/Cour
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseBuilder/CourseEditor'
-import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer2'
-import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer2/CoursePlayerItem'
+import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
+import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreatePackage from '@User/Screens/Packages/CreatePackage'
 import EmailTemplateEditor from '@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor'
 import EmailTemplatesScreen from '@User/Screens/CertificateTemplates/CertificateTemplatesScreen'
-import EnrolledCourseSuccessful from '@Learner/Screens/Courses/EnrolledCourse/EnrolledCourseSuccessful'
+import EnrolledCourseDetailScreen from '@Learner/Screens/EnrolledCourseDetail/EnrolledCourseDetailScreen'
+import EnrolledCourseSuccessful from '@Learner/Screens/LearnerShop/EnrolledCourse/EnrolledCourseSuccessful'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
 import LearnerAccount from '@Learner/Screens/Account/Account'
-import LearnerCart from '@Learner/Screens/Account/LearnerCartScreen/LearnerCartScreen'
+import LearnerCart from '@Learner/Screens/LearnerShop/LearnerCartScreen/LearnerCartScreen'
 import LearnerCourses from './post-authentication/Learner/Screens/Courses'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
@@ -153,6 +154,10 @@ const router = createBrowserRouter(
             <Route path="courses">
               <Route path="" element={<LearnerCourses />} />
               <Route path=":id" element={<CourseDetailViewer />} />
+            </Route>
+            <Route path="enrolled-courses">
+              {/* <Route path="" element={<LearnerCourses />} /> */}
+              <Route path=":courseId" element={<EnrolledCourseDetailScreen />} />
             </Route>
             <Route
                 path=":orderId/successful"

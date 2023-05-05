@@ -1,12 +1,12 @@
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
 import './style.css'
 
+import { BasicEditorOptions, editorOptions } from './constant'
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin } from 'antd'
 import React, { Fragment } from 'react'
 
 import SunEditor from 'suneditor-react'
-import { editorOptions } from './constant'
 import { variablePlugin } from './plugins/variable.plugin'
 
 interface SunEditorPropsI {
@@ -78,7 +78,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           height={`${props.height || 700}`}
           width={`${props.width}`}
           setOptions={{
-            ...editorOptions,
+            ...BasicEditorOptions,
             // plugins={defaultPlugins}
             // plugins: [variablePlugin(variables)],
             // attributesWhitelist: {

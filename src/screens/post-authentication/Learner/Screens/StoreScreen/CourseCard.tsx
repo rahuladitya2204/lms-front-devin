@@ -53,9 +53,9 @@ function CourseCard(props: CourseCardPropsI) {
       >
         <Card.Meta
           title={<Space size='small' direction="vertical"  >
-            <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
+           {course.numberOfReviews? <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
               <Rate disabled style={{ fontSize: 12 }} value={course.averageRating} /> <Text>{course.averageRating}({formatAvgCount(course.numberOfReviews) }) </Text>
-            </Space>
+            </Space>:null}
             <Text style={{fontSize:20}} strong ellipsis>{course.title}</Text>
           </Space>}
         />
@@ -83,7 +83,8 @@ function CourseCard(props: CourseCardPropsI) {
               <Text strong style={{fontSize: 20}}>
               {UnitTypeToStr(plan.finalPrice)}
               </Text>
-          </Space></Col>
+            </Space>
+          </Col>
         </Row>
             
 

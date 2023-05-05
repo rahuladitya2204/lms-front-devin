@@ -197,3 +197,19 @@ export const editorOptions = {
     ]
   ]
 }
+
+export const BasicEditorOptions = {
+  // plugins: [customDropdownPlugin],
+  buttonList: [
+    // ['backgroundPlugin'],
+    // ['variablePlugin'],
+    // default
+    ['undo', 'redo'],
+    [
+      'fontSize',
+      'blockquote'
+    ],
+    ['bold', 'underline', 'italic', 'strike'],
+    ['fontColor', 'hiliteColor'],
+  ]
+}

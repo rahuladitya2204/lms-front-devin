@@ -121,17 +121,6 @@ function CourseEditor() {
                 />
               )
             },
-            // {
-            //   label: `Certificate`,
-            //   key: '22',
-            //   children: (
-            //     <CourseCertificate
-            //       courseId={courseId}
-            //       course={course}
-            //       saveCourse={saveCourse}
-            //     />
-            //   )
-            // },
             {
               label: `Advanced`,
               key: '4',

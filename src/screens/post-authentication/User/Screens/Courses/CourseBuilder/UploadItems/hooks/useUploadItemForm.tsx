@@ -6,7 +6,7 @@ import { FormInstance } from "antd/lib/form/Form";
 import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 import { useEffect } from "react";
 
-function useUploadItemForm(form:FormInstance) {
+function useUploadItemForm(form?:FormInstance) {
   let { itemId, sectionId, id: courseId } = useParams();
   const { mutate: updateItem } = User.Queries.useUpdateCourseItem();
 
@@ -15,7 +15,9 @@ function useUploadItemForm(form:FormInstance) {
   const item = findSectionItem(itemId+'', sectionId+'', sections) || {title:'',description:''};
   
   useEffect(() => {
-    form.setFieldsValue(item)
+    if (form) {
+      form.setFieldsValue(item)
+    }
   }, [item]);
 
   const onFormChange = (data: Partial<Types.CourseSectionItem>) => {

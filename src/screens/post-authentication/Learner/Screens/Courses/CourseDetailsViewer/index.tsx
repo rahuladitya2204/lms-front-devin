@@ -127,7 +127,7 @@ function CourseDetailViewer () {
                 </Col>
                 <Col>
                   <MetaText strong>Categories</MetaText> <br />
-                  <MetaText>Design</MetaText>
+                  <MetaText>{course.category}</MetaText>
                 </Col>
                 <Col>
                   <MetaText strong>Review</MetaText> <br />

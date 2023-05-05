@@ -68,8 +68,10 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                   e.stopPropagation()
                   updateProgress({
                     courseId: props.courseId || '',
+                    sectionId: props.section._id,
                     action: e.target.checked ? 'ADD' : 'REMOVE',
-                    itemId: props.item._id
+                    itemId: props.item._id,
+                    data: null
                   })
                   props.toggleItemCheck(props.item._id, !!e.target.checked)
                 }}

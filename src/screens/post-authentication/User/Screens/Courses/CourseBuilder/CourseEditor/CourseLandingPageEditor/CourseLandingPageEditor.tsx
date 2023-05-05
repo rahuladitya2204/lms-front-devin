@@ -72,7 +72,6 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       <Form.Item name={'description'} required label="Landing Page Description">
         <SunEditorComponent name={'description'} />
       </Form.Item>
-      {/* <Button onClick={form.submit}>HSSHSHH</Button> */}
     </Form>
   )
 }

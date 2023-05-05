@@ -10,17 +10,17 @@ import {
   Typography
 } from 'antd'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import { Learner, Store } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
+import { useEffect, useState } from 'react'
 
+import ActionModal from '@Components/ActionModal'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
 import OrgLogo from '@Components/OrgLogo'
-import styled from '@emotion/styled'
-import { useEffect, useState } from 'react'
-import ActionModal from '@Components/ActionModal'
 import ReviewCourse from '../Courses/ReviewCourse/ReviewCourse'
+import styled from '@emotion/styled'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -56,9 +56,11 @@ const CustomHeader = styled(Header)`
 const { Search } = Input
 const { Text } = Typography
 function CoursePlayer() {
+  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const [showReview, setShowReview] = useState(false)
+  const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
 
-  const { id: courseId, itemId } = useParams()
+  const { id: courseId, itemId, sectionId } = useParams()
   const {
     data: { course, progress, review }
   } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '', {
@@ -70,7 +72,6 @@ function CoursePlayer() {
 
   useEffect(
     () => {
-      console.log(review, 'reeee')
       if (progress === 50 && !(review && typeof review !== 'undefined')) {
         setShowReview(true)
       }
@@ -80,6 +81,9 @@ function CoursePlayer() {
 
   useEffect(
     () => {
+      if (itemId && sectionId) {
+        return navigate(`section/${sectionId}/item/${itemId}`)
+      }
       if (sections[0]?.items[0]) {
         const sectionId = sections[0]._id
         const itemId = sections[0].items[0]._id
@@ -101,6 +105,7 @@ function CoursePlayer() {
   })
 
   const nextItem = allItems[currentItemIndex + 1]
+  const currentItem = allItems[currentItemIndex]
   const prevItem = allItems[currentItemIndex - 1]
 
   const next = () => {
@@ -110,6 +115,27 @@ function CoursePlayer() {
   const prev = () => {
     navigate(`section/${prevItem.section}/item/${prevItem._id}`)
   }
+
+  useEffect(
+    () => {
+      console.log(itemId, 'hello')
+      if (itemId && sectionId && courseId) {
+        // const currentTime = playerInstance?.currentTime
+        // console.log(currentTime, 'currentTime')
+        updateProgress({
+          courseId: courseId + '',
+          sectionId: sectionId + '',
+          action: 'LAST_PLAYED',
+          itemId: itemId,
+          data: {
+            // time: currentTime
+          }
+        })
+      }
+    },
+    [itemId, sectionId, courseId]
+  )
+
   return (
     <PlayerContainer>
       <ActionModal width={800} open={showReview}>

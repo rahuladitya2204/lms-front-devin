@@ -23,6 +23,23 @@ import { deepPatch } from '../../utils'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
 
+const { TextArea } = Input
+
+const DIFFICULTY_LEVELS = [
+  {
+    label: 'Beginner',
+    value: 'beginner'
+  },
+  {
+    label: 'Intermediate',
+    value: 'intermediate'
+  },
+  {
+    label: 'Advanced',
+    value: 'advanced'
+  }
+]
+
 const LANGUAGES = [
   {
     value: 'english',
@@ -110,11 +127,22 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       <Form.Item name="subtitle" required label="Subtitle">
         <Input />
       </Form.Item>
-      <Row>
-        <Col span={8}>
+      <Form.Item name={'description'} required label="Description">
+        <TextArea rows={4} placeholder="Enter the course description" />
+      </Form.Item>
+      <Row gutter={[40, 20]}>
+        <Col span={12}>
+          <Form.Item label="Difficulty Level" name={['difficultyLevel']}>
+            <Select options={DIFFICULTY_LEVELS} />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
           <Space>
             <Form.Item name={['category']} required label="Category">
-              <Select style={{ width: 200 }} placeholder="Select Category">
+              <Select
+                style={{ width: 300, marginLeft: 10 }}
+                placeholder="Select Category"
+              >
                 {categories.map(category => {
                   return (
                     <Option
@@ -141,15 +169,17 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             </ActionModal>
           </Space>
         </Col>
-        <Col span={8}>
+      </Row>
+      <Row gutter={[40, 20]}>
+        <Col span={12}>
           <Space>
             <Form.Item name="instructor" required label="Instructor">
-              <Select placeholder="Select Instructor" style={{ width: 200 }}>
+              <Select style={{ width: 300 }} placeholder="Select Instructor">
                 {instructors.map(instructor => {
                   return (
                     <Select.Option key={instructor._id} value={instructor._id}>
                       <Space>
-                        <Avatar size={30} src={instructor.image} />
+                        <Avatar size={20} src={instructor.image} />
                         <Typography.Text>{instructor.name}</Typography.Text>
                       </Space>
                     </Select.Option>
@@ -170,7 +200,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             </ActionModal>
           </Space>
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <Form.Item name="language" required label="Language">
             <Select
               showSearch

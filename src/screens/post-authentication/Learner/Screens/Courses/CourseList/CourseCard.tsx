@@ -1,7 +1,7 @@
 import { Card, Progress, Typography } from 'antd'
+import { Learner, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
-import { Types } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 
@@ -23,6 +23,10 @@ const CardHolder = styled(Card)`
 `
 
 const CourseCard: React.FC<CourseCardPropsI> = props => {
+  const { course: { _id: courseId } } = props
+  const {
+    data: { course, progress }
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId)
   return (
     <CardHolder
       hoverable
@@ -39,13 +43,9 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
             Started {dayjs(props.enrolledAt).format('MMMM D, YYYY')}
           </Text>
         }
-        description={
-          <Text strong>
-            The Complete JavaScript Course 2020: Real Projects!
-          </Text>
-        }
+        description={<Text strong>{course.title}</Text>}
       />
-      <Progress percent={props.progress} />
+      <Progress percent={progress} />
     </CardHolder>
   )
 }
