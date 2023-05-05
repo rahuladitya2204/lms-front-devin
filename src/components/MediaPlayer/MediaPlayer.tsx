@@ -8,6 +8,7 @@ interface MediaPlayerPropsI {
   file?: Types.FileType;
   fileId?: string;
   url?: string;
+  thumbnail?: string;
   watermark?: string | null;
   hls?: boolean;
   width?: number;
@@ -18,7 +19,7 @@ interface MediaPlayerPropsI {
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
   const resetPlayer: any = Store.usePlayer(s => s.resetPlayerState)
-  const enabled = !!((!props.url && props.fileId))
+  const enabled = !!(!props.url && props.fileId)
   const { data: url } = Common.Queries.useGetPresignedUrlFromFile(
     props.fileId + '',
     {
@@ -27,12 +28,15 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   )
   const Url = props.url || url
 
-  useEffect(() => {
-    return () => {
-      console.log('resetting player')
-      resetPlayer()
-    }
-  }, [props.url])
+  useEffect(
+    () => {
+      return () => {
+        console.log('resetting player')
+        resetPlayer()
+      }
+    },
+    [props.url]
+  )
   // return <VideoJs url={Url} />
   return (
     <div
@@ -42,7 +46,13 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
         position: 'relative'
       }}
     >
-      {Url ? <PlayrComponent notes={props.notes} url={Url} /> : null}
+      {Url ? (
+        <PlayrComponent
+          thumbnail={props.thumbnail}
+          notes={props.notes}
+          url={Url}
+        />
+      ) : null}
       {/* <VideoJsPlayer watermark={props.watermark} hls={props.hls}
         url={Url}
       /> */}

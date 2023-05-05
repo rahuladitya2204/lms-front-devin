@@ -25,7 +25,7 @@ function CoursePlayerItem() {
   const { data: file } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
-  const currentItemNotes = notes.filter(note => note.item === item._id) || [];
+  const currentItemNotes = notes.filter(note => note.item === item._id) || []
   let Component
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />
@@ -38,6 +38,7 @@ function CoursePlayerItem() {
         notes={currentItemNotes}
         watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
         fileId={file._id}
+        thumbnail={item.metadata?.thumbnail}
         height={550}
       />
     )

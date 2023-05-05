@@ -21,6 +21,7 @@ import { htmlToText } from 'html-to-text'
 interface VideoJsComponentPropsI {
   url?: string;
   watermark?: string | null;
+  thumbnail?: string;
   width?: number;
   height?: number;
   notes?: Types.CourseNote[];
@@ -38,6 +39,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       plyrRef.current = new Plyr('#playrrr', {
         volume: 0.1,
       })
+      
       setPlayer({
         playerInstance:plyrRef.current,
       })
@@ -77,6 +79,12 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
     }
   }, []);
 
+  useEffect(() => { 
+    if (props.thumbnail) {
+      plyrRef.current.poster = props.thumbnail;
+    }
+  },[props.thumbnail,plyrRef.current])
+
   useEffect(() => {
 
     const points = (props.notes || []).map(n => {
@@ -101,6 +109,9 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       // ref.current!.plyr.media = video;
   
       hls.on(Hls.Events.MANIFEST_PARSED, function () {
+        if (props.thumbnail) {
+          video.setAttribute('poster', props.thumbnail);
+        }
         // (ref.current!.plyr as PlyrInstance).play();
       });
     };
@@ -116,25 +127,6 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
             src: props.url
           }
         ],
-        // poster: '/path/to/poster.jpg',
-        // previewThumbnails: {
-        //   src: '/path/to/thumbnails.vtt',
-        // },
-        // tracks: [
-        //   {
-        //     kind: 'captions',
-        //     label: 'English',
-        //     srclang: 'en',
-        //     src: '/path/to/captions.en.vtt',
-        //     default: true,
-        //   },
-        //   {
-        //     kind: 'captions',
-        //     label: 'French',
-        //     srclang: 'fr',
-        //     src: '/path/to/captions.fr.vtt',
-        //   },
-        // ],
       };
     }
   }, [isHls, props.url]);

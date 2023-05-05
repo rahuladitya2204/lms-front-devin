@@ -1,21 +1,21 @@
-import { Button, Checkbox, Divider, Form, Input, Progress, Space, Typography } from 'antd'
+import { Button, Card, Checkbox, Divider, Form, Input, Progress, Space, Typography } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
-import { Fragment, useEffect, useState } from 'react'
 import { debounce, uniqueId } from 'lodash'
 
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
+import { Fragment } from 'react'
 import Image from '@Components/Image'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import ThumbnailList from './ThumbnailList'
+import { UploadOutlined } from '@ant-design/icons'
 import { getMetadata } from 'video-metadata-thumbnails'
-import { getVideoThumbnails } from '../../utils'
 import styled from '@emotion/styled'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
-const { Title } = Typography
+const { Title,Text } = Typography
 
 const FileListStyled=styled(FileList)`
     /* ul.ant-list-items{
@@ -45,38 +45,7 @@ const UploadVideoForm:any = () => {
     retry: true,
     retryDelay: 4000
   })
-
-
   const fileId = file.encoded || file._id;
-
-  const uploadThumbnail = (file:File) => {
-    uploadFiles({
-      files: [
-        {
-          file: file,
-          prefixKey: `courses/${courseId}/${sectionId}/${
-            itemId
-          }/lecture`,
-          name: `thumbnailImage`,
-          source: {
-            type: 'course.section.item.file',
-            value: courseId+''
-          },
-        }
-      ],
-      onUploadProgress: e => {
-        // console.log(e, 'e')
-      },
-      onSuccess: ([uploadFile]) => {
-        onFormChange({
-          metadata: {
-            ...item.metadata,
-            thumbnail: uploadFile._id
-          }
-        })
-      }
-    })
-  }
   return (
     <Fragment>
       <Form onValuesChange={debounce(onFormChange,700)} form={form} layout="vertical">
@@ -102,15 +71,9 @@ const UploadVideoForm:any = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-        <Form.Item label="Add Files" required>
-          <Space direction="horizontal">
-            <FileListStyled userType='user'
-              onDeleteFile={(fileId:string) => {
-                const files = item.files.filter(f => f.file !== fileId)
-                onFormChange({ files })
-              }}
-              files={item.files}
-              uploadFileInput={<MediaUpload
+        <Form.Item >
+          <Card title='Course Files' extra={<ActionModal cta={<Button icon={<UploadOutlined/> }> Upload Files</Button>}>
+            <MediaUpload
                 source={{
                   type: 'course.section.item.files',
                   value: courseId+''
@@ -124,12 +87,20 @@ const UploadVideoForm:any = () => {
                     files: [...item.files, { name, file: _id }]
                   })
                 }}
-              />}
+              />
+          </ActionModal>}>
+          <FileListStyled userType='user'
+              onDeleteFile={(fileId:string) => {
+                const files = item.files.filter(f => f.file !== fileId)
+                onFormChange({ files })
+              }}
+              files={item.files}
             />
-          </Space>
-        </Form.Item>{' '}
-        <Form.Item name="context" label="Thumbnail" required>
-        <MediaUpload width={'400'}
+         </Card>
+        </Form.Item>
+        {file._id ? <>
+          <Card style={{marginTop:20}} title='Thumbnail'>
+          <MediaUpload width={'200'}
                 source={{
                   type: 'course.section.item.thumbnail',
                   value: courseId+''
@@ -149,12 +120,15 @@ const UploadVideoForm:any = () => {
                 renderItem={() => (
                   <Image preview={false} src={item.metadata?.thumbnail} />
                 )}
-          />
+            />
+            <Divider/>
   <ThumbnailList item={item} fileId={file._id} />
 
-</Form.Item>
-        <Form.Item name="context" label="Preview" required>
-          <MediaUpload
+          </Card>
+          
+         </> : null}
+      
+        <Card style={{marginTop:20}} title='Video File' extra={[  <MediaUpload
              source={{
               type: 'course.section.item.file',
               value: courseId+''
@@ -164,7 +138,6 @@ const UploadVideoForm:any = () => {
             }/lecture/user-uploaded`}
             fileName={item.title}
             isProtected
-            width="300px"
             onUpload={({ _id }, file) => {
               // @ts-ignore
               transcodeVideo({
@@ -182,18 +155,20 @@ const UploadVideoForm:any = () => {
             height="250px"
             uploadType="video"
             renderItem={() => (
-              <Button>{file ? 'Replace Video' : 'Upload Video'}</Button>
+              <Button icon={<UploadOutlined/> }>{file._id ? 'Click to replace video' : 'Click to upload video'}</Button>
             )}
-          />
+          />]}>
+
+        
 
           {status === 'PROGRESSING' ? (
             <>
-              <Title> Processing Video...</Title>
-              <Progress percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
+              <Title level={3} style={{marginTop:0}}> Processing Video...</Title>
+              <Progress style={{marginBottom:20}} percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
             </>
           ) : null}
-          {file._id ? <MediaPlayer fileId={fileId} /> : null}
-        </Form.Item>
+            {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : null}
+            </Card>
       </Form>
     </Fragment>
   )

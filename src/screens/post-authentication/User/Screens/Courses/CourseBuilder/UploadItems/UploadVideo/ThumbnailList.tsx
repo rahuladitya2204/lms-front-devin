@@ -55,12 +55,12 @@ const ThumbnailList: any = (props: ThumbnailListPropsI) => {
         }
     }
     
-  useEffect(() => {
-      if (item.metadata?.duration && url) {
-          generateThumbnails(url);
-        }
+//   useEffect(() => {
+//       if (item.metadata?.duration && url) {
+//           generateThumbnails(url);
+//         }
     
-  }, [url]);
+//   }, []);
 
     const uploadThumbnail = (file: File) => {
         confirm({
@@ -74,8 +74,7 @@ const ThumbnailList: any = (props: ThumbnailListPropsI) => {
                         file: file,
                         prefixKey: `courses/${courseId}/${sectionId}/${
                           itemId
-                        }/lecture`,
-                        name: `thumbnailImage`,
+                        }/lecture/thumbnail`,
                         source: {
                           type: 'course.section.item.file',
                           value: courseId+''
@@ -100,11 +99,11 @@ const ThumbnailList: any = (props: ThumbnailListPropsI) => {
    
     }
     
-    const spinText=generating?'Generating Thumbnails':(uploading?'Uploading Thumbnail.':null)
+    const spinText = generating ? 'Generating Thumbnails..' : (uploading ? 'Uploading Thumbnail..' : null);
   return (
       <>
-          <Button type='primary' style={{marginBottom:20}} onClick={()=>generateThumbnails(url)}>Generate Thumbnails</Button>
-       <Spin spinning={generating || uploading} tip='Generating Thumbnail..'>
+          <Button size='small' type='primary' style={{marginBottom:20}} onClick={()=>generateThumbnails(url)}>Generate Thumbnails</Button>
+       <Spin spinning={generating || uploading} tip={spinText}>
           <Space size={[10,20]}>
               {thumbnails.map(({file,url} )=> {
             return <Space direction='vertical'>

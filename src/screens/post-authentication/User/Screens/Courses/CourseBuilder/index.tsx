@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { Button, Card, Col, Empty, Form, Row } from 'antd'
+import { Button, Card, Col, Empty, Form, Row, Spin } from 'antd'
 import { Constants, Types, User } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
@@ -18,7 +18,7 @@ import useMessage from '@Hooks/useMessage'
 
 function CourseBuilderScreen() {
   const message = useMessage()
-  const { id: courseId } = useParams()
+  const { id: courseId, sectionId, itemId } = useParams()
   const {
     mutate: updateCourse,
     isLoading: loading
@@ -29,7 +29,14 @@ function CourseBuilderScreen() {
       enabled: !!courseId
     }
   )
-
+  const {
+    mutate: deleteSectionApi,
+    isLoading: deletingSection
+  } = User.Queries.useDeleteCourseSection()
+  const {
+    mutate: deleteSectionItemApi,
+    isLoading: deletingSectionItem
+  } = User.Queries.useDeleteCourseSectionItem()
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
   const navigate = useNavigate()
 
@@ -100,6 +107,21 @@ function CourseBuilderScreen() {
 
   useEffect(
     () => {
+      if (!itemId) {
+        const firstSection = course.sections[0]
+        if (firstSection && firstSection.items.length) {
+          const firstItem = firstSection.items[0]
+          navigate(
+            `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
+          )
+        }
+      }
+    },
+    [course._id]
+  );
+
+  useEffect(
+    () => {
       setCourse(courseDetails)
     },
     [courseDetails]
@@ -115,42 +137,49 @@ function CourseBuilderScreen() {
     // saveCourse(COURSE)
   }
 
-  const deleteSection = (index: number) => {
-    const COURSE = cloneDeep(course)
-    COURSE.sections.splice(index, 1)
-    updateCourse({
-      id: courseId + '',
-      data: {
-        sections: COURSE.sections
+  const deleteSection = (sectionId: string) => {
+    deleteSectionApi(
+      {
+        data: {
+          courseId: courseId + '',
+          sectionId: sectionId
+        }
       },
-      cb: course => {
-        const lastSection = course.sections.pop()
-        const lastItem = lastSection?.items.pop()
-        if (lastSection && lastItem)
-          navigate(
-            `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
-          )
+      {
+        onSuccess: () => {
+          const lastSection = course.sections.pop()
+          const lastItem = lastSection?.items.pop()
+          if (lastSection && lastItem)
+            navigate(
+              `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
+            )
+        }
       }
-    })
+    )
   }
 
-  const deleteSectionItem = (sectionIndex: number, itemIndex: number) => {
+  const deleteSectionItem = (sectionId: string, itemId: string) => {
     const COURSE = cloneDeep(course)
-    COURSE.sections[sectionIndex].items.splice(itemIndex, 1)
-    updateCourse({
-      id: courseId + '',
-      data: {
-        sections: COURSE.sections
+    // COURSE.sections[sectionIndex].items.splice(itemIndex, 1)
+    deleteSectionItemApi(
+      {
+        data: {
+          courseId: courseId + '',
+          sectionId: sectionId,
+          itemId: itemId
+        }
       },
-      cb: course => {
-        const lastSection = course.sections.pop()
-        const lastItem = lastSection?.items.pop()
-        if (lastSection && lastItem)
-          navigate(
-            `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
-          )
+      {
+        onSuccess: () => {
+          const lastSection = course.sections.pop()
+          const lastItem = lastSection?.items.pop()
+          if (lastSection && lastItem)
+            navigate(
+              `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
+            )
+        }
       }
-    })
+    )
   }
 
   const onReorderSections = sections => {
@@ -207,14 +236,16 @@ function CourseBuilderScreen() {
               </Form.Item>
             </Col>
             <Col span={24}>
-              <CourseSectionsNavigator
-                deleteSectionItem={deleteSectionItem}
-                deleteSection={deleteSection}
-                onAddNewItem={onAddNewItem}
-                onAddSection={onAddSection}
-                sections={course.sections}
-                onReorderSections={onReorderSections}
-              />
+              <Spin spinning={deletingSection || deletingSectionItem}>
+                <CourseSectionsNavigator
+                  deleteSectionItem={deleteSectionItem}
+                  deleteSection={deleteSection}
+                  onAddNewItem={onAddNewItem}
+                  onAddSection={onAddSection}
+                  sections={course.sections}
+                  onReorderSections={onReorderSections}
+                />
+              </Spin>
             </Col>
           </Row>
         </Col>

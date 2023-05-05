@@ -55,9 +55,9 @@ const CourseListItem = styled(List.Item)`
 interface CourseSectionsNavigatorPropsI {
   sections: Types.CourseSection[];
   onAddSection: Function;
-  deleteSection: (index: number) => void;
+  deleteSection: (sId: string) => void;
   onReorderSections:(s: Types.CourseSection[]) => void;
-  deleteSectionItem: (sectionIndex: number, itemIndex: number) => void;
+  deleteSectionItem: (secId: string, itemID: string) => void;
   onAddNewItem: (
     type: string,
     item: Partial<Types.CourseSectionItem>,
@@ -82,23 +82,23 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     },
     [sections]
   );
-  const DeleteSectionItem = (secIndex: number, itemIndex: number) => {
+  const DeleteSectionItem = (sectionId: string, itemId: string) => {
     confirm({
       title: 'Are you sure?',
       content: `You want to delete this section item`,
       onOk() {
-        deleteSectionItem(secIndex, itemIndex)
+        deleteSectionItem(sectionId, itemId)
       },
       okText: 'Delete'
     })
   }
 
-  const DeleteSection = (secIndex: number) => {
+  const DeleteSection = (sectionId: string) => {
     confirm({
       title: 'Are you sure?',
       content: `You want to delete this section`,
       onOk() {
-        deleteSection(secIndex)
+        deleteSection(sectionId)
       },
       okText: 'Delete'
     })
@@ -185,7 +185,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                           title={'Delete this complete section of course'}
                         >
                           <Button
-                            onClick={() => DeleteSection(secIndex)}
+                            onClick={() => DeleteSection(section._id)}
                             size="small" danger
                             // type="ghost"
                           >
@@ -217,7 +217,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                                 >
                                   <DeleteOutlined
                                     onClick={() =>
-                                      DeleteSectionItem(secIndex, itemIndex)
+                                      DeleteSectionItem(section._id, item._id)
                                     }
                                   />
                                 </Tooltip>

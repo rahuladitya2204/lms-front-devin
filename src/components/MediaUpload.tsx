@@ -40,19 +40,23 @@ interface MediaUploadPropsI {
   renderItem?: () => ReactNode;
 }
 const CustomUpload = styled(Upload)(
-  props =>
+  (props: { width: number }) =>
     `
-.ant-upload-select {
+.ant-upload-wrapper {
   margin: 0;
-  width: ${props.width} !important;
 }
 .ant-upload {
   margin: 0;
   display: block;
-  border-radius: ${(props: { rounded?: boolean }) =>
+  border-radius: ${(props: { rounded?: boolean, width?: string }) =>
     props.rounded ? '50% !important' : ''};
   object-fit: cover;
   overflow: hidden;
+  width: ${props.width}px !important;
+}
+
+.ant-upload:hover {
+  border: 1px dashed grey;
 }
 `
 )

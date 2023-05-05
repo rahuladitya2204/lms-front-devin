@@ -181,7 +181,7 @@ const EnrolledCourseDetailScreen: React.FC<
                                     <Image
                                       height={70}
                                       width={100}
-                                      src={course.thumbnailImage}
+                                      src={item.metadata?.thumbnail}
                                     />
                                   </Col>
                                   <Col span={1} />
