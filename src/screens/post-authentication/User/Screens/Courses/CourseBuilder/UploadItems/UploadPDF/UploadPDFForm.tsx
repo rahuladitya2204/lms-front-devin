@@ -1,10 +1,12 @@
-import { Button, Card, Checkbox, Form, Input, Space } from 'antd'
+import { Button, Card, Checkbox, Form, Input, Space, Upload } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
 
+import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
 import PDFViewer from '@Components/PDFViewer'
+import { UploadOutlined } from '@ant-design/icons'
 import { getPDFReadingTime } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
@@ -47,66 +49,74 @@ const UploadPDFForm: React.FC = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-        <Form.Item label="Add Files" required>
-          <Space direction="horizontal">
-            <FileList
-              userType="user"
-              onDeleteFile={fileId => {
-                const files = item.files.filter(f => f.file !== fileId)
-                onFormChange({ files })
-              }}
-              files={item.files}
-              uploadFileInput={
-                <MediaUpload
-                  source={{
-                    type: 'course.section.item.files',
-                    value: courseId + ''
-                  }}
-                  uploadType="file"
-                  prefixKey={`courses/${courseId}/${sectionId}/${
-                    itemId
-                  }/files/${uniqueId()}`}
-                  onUpload={({ name, _id }) => {
-                    onFormChange({
-                      files: [...item.files, { name, file: _id }]
-                    })
-                  }}
-                />
-              }
-            />
-          </Space>
-        </Form.Item>
-        <Form.Item name="PDF File" label="PDF File" required>
-          <MediaUpload
-            isProtected
-            source={{
-              type: 'course.section.item.file',
-              value: courseId + ''
+        <Card
+          title="Course Files"
+          extra={
+            <ActionModal
+              cta={<Button icon={<UploadOutlined />}> Upload Files</Button>}
+            >
+              <MediaUpload
+                source={{
+                  type: 'course.section.item.files',
+                  value: courseId + ''
+                }}
+                uploadType="file"
+                prefixKey={`courses/${courseId}/${sectionId}/${
+                  itemId
+                }/files/${uniqueId()}`}
+                onUpload={({ name, _id }) => {
+                  onFormChange({
+                    files: [...item.files, { name, file: _id }]
+                  })
+                }}
+              />
+            </ActionModal>
+          }
+        >
+          <FileList
+            userType="user"
+            onDeleteFile={(fileId: string) => {
+              const files = item.files.filter(f => f.file !== fileId)
+              onFormChange({ files })
             }}
-            width="300px"
-            onUpload={({ _id }, file) => {
-              console.log(file, 'aaa')
-              getPDFReadingTime(file).then(time => {
-                onFormChange({
-                  file: _id,
-                  type: 'pdf',
-                  metadata: {
-                    duration: time
-                  }
-                })
-              })
-            }}
-            height="250px"
-            uploadType="pdf"
-            renderItem={() => (
-              <Button>{file?.url ? 'Replace PDF' : 'Upload PDF'}</Button>
-            )}
+            files={item.files}
           />
-        </Form.Item>
+        </Card>
+        <Card
+          style={{ height: 500 }}
+          title={'PDF File'}
+          extra={
+            <MediaUpload
+              isProtected
+              source={{
+                type: 'course.section.item.file',
+                value: courseId + ''
+              }}
+              width="300px"
+              onUpload={({ _id }, file) => {
+                getPDFReadingTime(file).then(time => {
+                  onFormChange({
+                    file: _id,
+                    type: 'pdf',
+                    metadata: {
+                      duration: time
+                    }
+                  })
+                })
+              }}
+              height="250px"
+              uploadType="pdf"
+              renderItem={() => (
+                <Button icon={<UploadOutlined />}>
+                  {file?.url ? 'Replace PDF' : 'Upload PDF'}
+                </Button>
+              )}
+            />
+          }
+        >
+          {file?._id ? <PDFViewer file={file} /> : `No File Uploaded`}
+        </Card>
       </Form>
-      <Card title={file.name}>
-        {file?._id ? <PDFViewer file={file} /> : null}
-      </Card>
     </Fragment>
   )
 }

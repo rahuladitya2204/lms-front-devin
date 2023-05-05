@@ -56,7 +56,7 @@ const CustomUpload = styled(Upload)(
 }
 
 .ant-upload:hover {
-  border: 1px dashed grey;
+  // border: 1px dashed grey;
 }
 `
 )
