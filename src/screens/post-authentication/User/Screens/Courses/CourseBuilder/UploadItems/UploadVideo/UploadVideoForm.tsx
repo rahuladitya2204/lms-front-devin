@@ -1,5 +1,6 @@
-import { Button, Card, Checkbox, Divider, Form, Input, Progress, Space, Typography } from 'antd'
+import { Button, Card, Checkbox, Col, Divider, Empty, Form, Input, Progress, Row, Space, Typography } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
+import { UploadOutlined, VideoCameraOutlined } from '@ant-design/icons'
 import { debounce, uniqueId } from 'lodash'
 
 import ActionModal from '@Components/ActionModal'
@@ -9,7 +10,6 @@ import Image from '@Components/Image'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import ThumbnailList from './ThumbnailList'
-import { UploadOutlined } from '@ant-design/icons'
 import { getMetadata } from 'video-metadata-thumbnails'
 import styled from '@emotion/styled'
 import { useParams } from 'react-router'
@@ -71,7 +71,8 @@ const UploadVideoForm:any = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-        <Form.Item >
+        <Row gutter={[20,20]}>
+          <Col span={24}>
           <Card title='Course Files' extra={<ActionModal cta={<Button icon={<UploadOutlined/> }> Upload Files</Button>}>
             <MediaUpload
                 source={{
@@ -96,9 +97,10 @@ const UploadVideoForm:any = () => {
               }}
               files={item.files}
             />
-         </Card>
-        </Form.Item>
+         </Card></Col>
+        
         {file._id ? <>
+          <Col span={24}>
           <Card style={{marginTop:20}} title='Thumbnail'>
           <MediaUpload width={'200'}
                 source={{
@@ -125,9 +127,9 @@ const UploadVideoForm:any = () => {
   <ThumbnailList item={item} fileId={file._id} />
 
           </Card>
-          
+          </Col>
          </> : null}
-      
+          <Col span={24}>
         <Card style={{marginTop:20}} title='Video File' extra={[  <MediaUpload
              source={{
               type: 'course.section.item.file',
@@ -167,8 +169,10 @@ const UploadVideoForm:any = () => {
               <Progress style={{marginBottom:20}} percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
             </>
           ) : null}
-            {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : null}
+              {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : <Empty description='No Video Uploaded'  />}
             </Card>
+          </Col>
+        </Row>
       </Form>
     </Fragment>
   )

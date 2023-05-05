@@ -1,4 +1,15 @@
-import { Avatar, Button, Card, Checkbox, Form, Input, Space } from 'antd'
+import {
+  Avatar,
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Space,
+  Switch
+} from 'antd'
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
@@ -6,6 +17,7 @@ import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
+import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { getReadingTime } from '../../utils'
 import { uniqueId } from 'lodash'
@@ -48,53 +60,45 @@ const AddTextItem: React.FC = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-
-        <Card
-          title="Course Files"
-          extra={
-            <ActionModal
-              cta={<Button icon={<UploadOutlined />}> Upload Files</Button>}
+        <Row gutter={[20, 20]}>
+          <Col span={24}>
+            <Card
+              style={{ marginBottom: 20 }}
+              title="Course Files"
+              extra={
+                <ActionModal
+                  cta={<Button icon={<UploadOutlined />}> Upload Files</Button>}
+                >
+                  <MediaUpload
+                    source={{
+                      type: 'course.section.item.files',
+                      value: courseId + ''
+                    }}
+                    uploadType="file"
+                    prefixKey={`courses/${courseId}/${sectionId}/${
+                      itemId
+                    }/files/${uniqueId()}`}
+                    onUpload={({ name, _id }) => {
+                      onFormChange({
+                        files: [...item.files, { name, file: _id }]
+                      })
+                    }}
+                  />
+                </ActionModal>
+              }
             >
-              <MediaUpload
-                source={{
-                  type: 'course.section.item.files',
-                  value: courseId + ''
+              <FileList
+                userType="user"
+                onDeleteFile={(fileId: string) => {
+                  const files = item.files.filter(f => f.file !== fileId)
+                  onFormChange({ files })
                 }}
-                uploadType="file"
-                prefixKey={`courses/${courseId}/${sectionId}/${
-                  itemId
-                }/files/${uniqueId()}`}
-                onUpload={({ name, _id }) => {
-                  onFormChange({
-                    files: [...item.files, { name, file: _id }]
-                  })
-                }}
+                files={item.files}
               />
-            </ActionModal>
-          }
-        >
-          <FileList
-            userType="user"
-            onDeleteFile={(fileId: string) => {
-              const files = item.files.filter(f => f.file !== fileId)
-              onFormChange({ files })
-            }}
-            files={item.files}
-          />
-        </Card>
-        <Form.Item name="description" label="Description" required>
-          <SunEditorComponent
-            // onChange={e => {
-            //   onFormChange({
-            //     description: e,
-            //     metadata: {
-            //       duration: readingTime(e)
-            //     }
-            //   })
-            // }}
-            name="description"
-          />
-        </Form.Item>
+            </Card>
+          </Col>
+        </Row>
+        <TextArea label="Description" name="description" />
       </Form>
     </Fragment>
   )
