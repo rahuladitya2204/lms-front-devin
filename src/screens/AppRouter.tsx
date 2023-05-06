@@ -35,6 +35,7 @@ import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
+import LiveSessionsScreen from '@User/Screens/LiveSession/LiveSessionsScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
@@ -125,6 +126,10 @@ const router = createBrowserRouter(
               <Route path="" element={<PackagesScreen />} />
               <Route path=":id/editor" element={<CreatePackage />} />
             </Route>
+            <Route path="live-session">
+              <Route path="" element={<LiveSessionsScreen />} />
+              {/* <Route path=":id/editor" element={<CreatePackage />} /> */}
+            </Route>
             <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
               <Route path="section/:sectionId">
                 <Route path="pdf/:itemId" element={<UploadPDFForm />} />
@@ -157,12 +162,15 @@ const router = createBrowserRouter(
             </Route>
             <Route path="enrolled-courses">
               {/* <Route path="" element={<LearnerCourses />} /> */}
-              <Route path=":courseId" element={<EnrolledCourseDetailScreen />} />
+              <Route
+                path=":courseId"
+                element={<EnrolledCourseDetailScreen />}
+              />
             </Route>
             <Route
-                path=":orderId/successful"
-                element={<EnrolledCourseSuccessful />}
-              />
+              path=":orderId/successful"
+              element={<EnrolledCourseSuccessful />}
+            />
           </Route>
           <Route path="app/courses/:id/player" element={<CoursePlayer />}>
             <Route

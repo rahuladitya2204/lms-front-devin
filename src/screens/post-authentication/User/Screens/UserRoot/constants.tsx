@@ -8,6 +8,7 @@ import {
   SettingOutlined,
   SoundOutlined,
   UsergroupAddOutlined,
+  VideoCameraOutlined,
 } from '@ant-design/icons'
 
 import { MenuProps } from 'antd'
@@ -35,6 +36,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         // icon: <AppstoreOutlined />
       },
     ]
+  },
+  {
+    title: 'Live Sessions',
+    icon: <VideoCameraOutlined />,
+    path: 'live-session',
   },
   {
     title: 'Users',
