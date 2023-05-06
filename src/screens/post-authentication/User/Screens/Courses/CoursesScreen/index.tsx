@@ -18,7 +18,7 @@ function CoursesScreen () {
       <Header title="Courses" extra={[CreateCourseCta]}>
         {courses.length ? (
           <List
-            itemLayout="vertical"
+            grid={{ gutter: 20, column: 4 }}
             size="large"
             // pagination={{
             //   onChange: (page) => {
@@ -27,7 +27,11 @@ function CoursesScreen () {
             //   pageSize: 3,
             // }}
             dataSource={courses}
-            renderItem={course => <CourseCard course={course} />}
+            renderItem={course => (
+              <div style={{ padding: 30 }}>
+                <CourseCard course={course} />
+              </div>
+            )}
           />
         ) : (
           <Card>

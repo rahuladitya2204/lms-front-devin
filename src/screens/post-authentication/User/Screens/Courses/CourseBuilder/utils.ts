@@ -208,3 +208,32 @@ export function formatAvgCount(num:number) {
     return num + "";
   }
 }
+
+
+export function generateGradientColors(primaryColor, numberOfColors = 5, lightnessChange = 0.2) {
+  const colors = [];
+  let currentColor = primaryColor;
+
+  for (let i = 0; i < numberOfColors; i++) {
+    const color = lightenColor(currentColor, lightnessChange * i);
+    colors.push(color);
+  }
+
+  return colors;
+}
+
+function lightenColor(color, amount) {
+  const num = parseInt(color.slice(1), 16),
+        amt = Math.round(2.55 * amount),
+        R = (num >> 16) + amt,
+        G = ((num >> 8) & 0x00ff) + amt,
+        B = (num & 0x0000ff) + amt;
+  return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
+}
+
+// Example usage
+const primaryColor = "#4B8DF8";
+const numberOfColors = 5;
+const lightnessChange = 0.1;
+const gradientColors = generateGradientColors(primaryColor, numberOfColors, lightnessChange);
+console.log(gradientColors);

@@ -1,5 +1,6 @@
 import { Checkbox, Col, Form, Image, Input, Row } from 'antd'
 
+import ColorPicker from './ColorPaletteCustomizer'
 import MediaUpload from '@Components/MediaUpload'
 import { Store } from '@adewaskar/lms-common'
 import { generate } from '@ant-design/colors'
@@ -29,7 +30,7 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
         <Row>
           <Col span={24}>
             <Form layout="vertical">
-              <Form.Item name="logo" required label="App Logo">
+              {/* <Form.Item name="logo" required label="App Logo">
                 <MediaUpload
                   cropper
                   uploadType={'image'}
@@ -41,7 +42,11 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
 
                   }}
                 />
-              </Form.Item>
+              </Form.Item> */}
+              <ColorPicker
+                onPrimaryColorSelected={console.log}
+                onColorPaletteGenerated={console.log}
+              />
               <Form.Item name={'primaryColor'} label={'Primary Color'}>
                 {color.map(c => (
                   <Checkbox onChange={formik.handleChange}>

@@ -63,41 +63,6 @@ const UploadPDFForm: React.FC = () => {
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Card
-              title="Course Files"
-              extra={
-                <ActionModal
-                  cta={<Button icon={<UploadOutlined />}> Upload Files</Button>}
-                >
-                  <MediaUpload
-                    source={{
-                      type: 'course.section.item.files',
-                      value: courseId + ''
-                    }}
-                    uploadType="file"
-                    prefixKey={`courses/${courseId}/${sectionId}/${
-                      itemId
-                    }/files/${uniqueId()}`}
-                    onUpload={({ name, _id }) => {
-                      onFormChange({
-                        files: [...item.files, { name, file: _id }]
-                      })
-                    }}
-                  />
-                </ActionModal>
-              }
-            >
-              <FileList
-                userType="user"
-                onDeleteFile={(fileId: string) => {
-                  const files = item.files.filter(f => f.file !== fileId)
-                  onFormChange({ files })
-                }}
-                files={item.files}
-              />
-            </Card>
-          </Col>
-          <Col span={24}>
-            <Card
               style={{ height: 500 }}
               title={'PDF File'}
               extra={
@@ -134,6 +99,41 @@ const UploadPDFForm: React.FC = () => {
               ) : (
                 <Empty description="No PDF Uploaded" />
               )}
+            </Card>
+          </Col>
+          <Col span={24}>
+            <Card
+              title="Extra Resources"
+              extra={
+                <ActionModal
+                  cta={<Button icon={<UploadOutlined />}> Upload Files</Button>}
+                >
+                  <MediaUpload
+                    source={{
+                      type: 'course.section.item.files',
+                      value: courseId + ''
+                    }}
+                    uploadType="file"
+                    prefixKey={`courses/${courseId}/${sectionId}/${
+                      itemId
+                    }/files/${uniqueId()}`}
+                    onUpload={({ name, _id }) => {
+                      onFormChange({
+                        files: [...item.files, { name, file: _id }]
+                      })
+                    }}
+                  />
+                </ActionModal>
+              }
+            >
+              <FileList
+                userType="user"
+                onDeleteFile={(fileId: string) => {
+                  const files = item.files.filter(f => f.file !== fileId)
+                  onFormChange({ files })
+                }}
+                files={item.files}
+              />
             </Card>
           </Col>
         </Row>

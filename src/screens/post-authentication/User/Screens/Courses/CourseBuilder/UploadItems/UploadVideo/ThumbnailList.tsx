@@ -102,12 +102,12 @@ const ThumbnailList: any = (props: ThumbnailListPropsI) => {
     const spinText = generating ? 'Generating Thumbnails..' : (uploading ? 'Uploading Thumbnail..' : null);
   return (
       <>
-          <Button size='small' type='primary' style={{marginBottom:20}} onClick={()=>generateThumbnails(url)}>Generate Thumbnails</Button>
-       <Spin spinning={generating || uploading} tip={spinText}>
+          <Button size='small' loading={generating} type='primary' style={{marginBottom:20}} onClick={()=>generateThumbnails(url)}>Generate Thumbnails</Button>
+       <Spin spinning={ uploading} tip={spinText}>
           <Space size={[10,20]}>
               {thumbnails.map(({file,url} )=> {
             return <Space direction='vertical'>
-              <Image preview width={200} src={url} />
+              <Image preview width={200} height={100} src={url} />
               <Button size='small' onClick={() => uploadThumbnail(file)}>Select as thumbnail</Button>
             </Space>
           })}

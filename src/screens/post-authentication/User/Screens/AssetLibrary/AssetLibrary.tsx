@@ -10,8 +10,8 @@ import {
   Typography
 } from 'antd'
 import { Common, Store, Types } from '@adewaskar/lms-common'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
+import { DeleteOutlined } from '@ant-design/icons'
 import FileTypeIcon from '@Components/FileTypeIcon'
 import Header from '@Components/Header'
 import dayjs from 'dayjs'
@@ -21,7 +21,7 @@ const { Text } = Typography
 
 function AssetLibraryScreen() {
   const { data, isLoading: loadingFiles } = Common.Queries.useGetFiles()
-  const organisation = Store.useGlobal(s => s.organisation);
+  const organisation = Store.useGlobal(s => s.organisation)
   const {
     mutate: deleteFile,
     isLoading: deletingFile
@@ -30,7 +30,14 @@ function AssetLibraryScreen() {
 
   return (
     <Header>
-      <Card bodyStyle={{ padding: 0 }} title={`Asset Library - ${Math.floor(organisation.storage.utilised/1000000) + 'mb'}`}>
+      <Card
+        bodyStyle={{ padding: 0 }}
+        title={`Asset Library - ${Math.ceil(
+          unit(organisation.storage.utilised, 'byte')
+            .to('megabyte')
+            .toJSON().value
+        )} MB`}
+      >
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loadingFiles || deletingFile}>
@@ -79,9 +86,11 @@ function AssetLibraryScreen() {
                 dataIndex="size"
                 key="size"
                 render={(_: any, record: { size: number }) => {
-                  const size = Math.ceil(unit(record.size, 'byte')
-                    .to('megabyte')
-                    .toJSON().value)
+                  const size = Math.ceil(
+                    unit(record.size, 'byte')
+                      .to('megabyte')
+                      .toJSON().value
+                  )
                   return (
                     <Space size="middle">
                       <Text strong>{size} MB</Text>
@@ -123,17 +132,17 @@ function AssetLibraryScreen() {
                 render={(_: any, record: Types.Instructor) => (
                   <Space size="middle">
                     <DeleteOutlined
-                      onClick={() => {
-                        confirm({
-                          title: 'Are you sure?',
-                          // icon: <ExclamationCircleOutlined />,
-                          content: `You want to delete this file`,
-                          onOk() {
-                            deleteFile({ id: record._id })
-                          },
-                          okText: 'Delete'
-                        })
-                      }}
+                      // onClick={() => {
+                      //   confirm({
+                      //     title: 'Are you sure?',
+                      //     // icon: <ExclamationCircleOutlined />,
+                      //     content: `You want to delete this file`,
+                      //     onOk() {
+                      //       deleteFile({ id: record._id })
+                      //     },
+                      //     okText: 'Delete'
+                      //   })
+                      // }}
                     />
                   </Space>
                 )}

@@ -1,4 +1,4 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Card, Empty, Form, Input } from 'antd'
 import { Fragment, useEffect, useLayoutEffect } from 'react'
 import { Types, User } from '@adewaskar/lms-common'
 
@@ -22,7 +22,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
   const courseId = props.courseId || id + ''
   const [form] = Form.useForm()
   const { useWatch } = Form
-  const promoVideoFile = useWatch(['promoVideo'], form)
+  const promoVideoFile = course.landingPage.promoVideo;
   useLayoutEffect(
     () => {
       form.setFieldsValue(course.landingPage)
@@ -36,7 +36,6 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       landingPage: data
     })
   }
-
   return (
     <Form
       onValuesChange={onValuesChange}
@@ -44,31 +43,41 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       layout="vertical"
       autoComplete="off"
     >
-      <Form.Item name="promoVideo" label="Promo Video" required>
-        <MediaUpload
-          source={{
-            type: 'course.promoVideo',
-            value: courseId + ''
-          }}
-          prefixKey={`courses/${courseId}/promo`}
-          width="300px"
-          name="promoVideo"
-          height="250px"
-          onUpload={d => {
-            console.log(d, 'eee')
-            onValuesChange({
-              promoVideo: d._id
-            })
-          }}
-          renderItem={() => (
-            <Button>{promoVideoFile ? 'Replace Video' : 'Upload Video'}</Button>
-          )}
-          // url={promoVideoFile}
-        />
+      <Card
+        style={{ marginTop: 20 }}
+        title="Promo Video"
+        extra={[
+          <MediaUpload
+            source={{
+              type: 'course.promoVideo',
+              value: courseId + ''
+            }}
+            prefixKey={`courses/${courseId}/promo`}
+            width="300px"
+            name="promoVideo"
+            height="250px"
+            onUpload={d => {
+              console.log(d, 'eee')
+              onValuesChange({
+                promoVideo: d._id
+              })
+            }}
+            renderItem={() => (
+              <Button>
+                {promoVideoFile ? 'Replace Promo Video' : 'Upload Promo Video'}
+              </Button>
+            )}
+            // url={promoVideoFile}
+          />
+        ]}
+      >
         {promoVideoFile ? (
           <MediaPlayer width={500} height={300} fileId={promoVideoFile} />
-        ) : null}
-      </Form.Item>
+        ) : (
+          <Empty description="Np promo video added" />
+        )}
+      </Card>
+
       <Form.Item name={'description'} required label="Landing Page Description">
         <SunEditorComponent name={'description'} />
       </Form.Item>

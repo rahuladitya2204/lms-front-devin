@@ -72,63 +72,7 @@ const UploadVideoForm:any = () => {
           </Checkbox>
         </Form.Item>
         <Row gutter={[20,20]}>
-          <Col span={24}>
-          <Card title='Course Files' extra={<ActionModal cta={<Button icon={<UploadOutlined/> }> Upload Files</Button>}>
-            <MediaUpload
-                source={{
-                  type: 'course.section.item.files',
-                  value: courseId+''
-                }}
-                uploadType="file"
-                prefixKey={`courses/${courseId}/${sectionId}/${
-                  itemId
-                }/files/${uniqueId()}`}
-                onUpload={({ name, _id }) => {
-                  onFormChange({
-                    files: [...item.files, { name, file: _id }]
-                  })
-                }}
-              />
-          </ActionModal>}>
-          <FileListStyled userType='user'
-              onDeleteFile={(fileId:string) => {
-                const files = item.files.filter(f => f.file !== fileId)
-                onFormChange({ files })
-              }}
-              files={item.files}
-            />
-         </Card></Col>
-        
-        {file._id ? <>
-          <Col span={24}>
-          <Card style={{marginTop:20}} title='Thumbnail'>
-          <MediaUpload width={'200'}
-                source={{
-                  type: 'course.section.item.thumbnail',
-                  value: courseId+''
-                }}
-                uploadType="image"
-                prefixKey={`courses/${courseId}/${sectionId}/${
-                  itemId
-                }/thumbnail}`}
-                onUpload={({ name, _id,url }) => {
-                  onFormChange({
-                    metadata: {
-                      ...item.metadata,
-                      thumbnail: url
-                    }
-                  })
-                }}
-                renderItem={() => (
-                  <Image preview={false} src={item.metadata?.thumbnail} />
-                )}
-            />
-            <Divider/>
-  <ThumbnailList item={item} fileId={file._id} />
-
-          </Card>
-          </Col>
-         </> : null}
+         
           <Col span={24}>
         <Card style={{marginTop:20}} title='Video File' extra={[  <MediaUpload
              source={{
@@ -160,8 +104,34 @@ const UploadVideoForm:any = () => {
               <Button icon={<UploadOutlined/> }>{file._id ? 'Click to replace video' : 'Click to upload video'}</Button>
             )}
           />]}>
+             {file._id?<> <div style={{marginBottom:20}}>
+              <ThumbnailList item={item} fileId={file._id} />
+ </div>
 
-        
+<Form.Item label='Thumbnail'>
+<MediaUpload width={'200'}
+                source={{
+                  type: 'course.section.item.thumbnail',
+                  value: courseId+''
+                }}
+                uploadType="image"
+                prefixKey={`courses/${courseId}/${sectionId}/${
+                  itemId
+                }/thumbnail}`}
+                onUpload={({ name, _id,url }) => {
+                  onFormChange({
+                    metadata: {
+                      ...item.metadata,
+                      thumbnail: url
+                    }
+                  })
+                }}
+                renderItem={() => (
+                  <Image preview={false} src={item.metadata?.thumbnail} />
+                )}
+            />
+</Form.Item></>:null}
+
 
           {status === 'PROGRESSING' ? (
             <>
@@ -170,6 +140,34 @@ const UploadVideoForm:any = () => {
             </>
           ) : null}
               {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : <Empty description='No Video Uploaded'  />}
+            </Card>
+          </Col>
+
+          <Col span={24}>
+          <Card title='Extra Resources' extra={<ActionModal cta={<Button icon={<UploadOutlined/> }> Upload Files</Button>}>
+            <MediaUpload
+                source={{
+                  type: 'course.section.item.files',
+                  value: courseId+''
+                }}
+                uploadType="file"
+                prefixKey={`courses/${courseId}/${sectionId}/${
+                  itemId
+                }/files/${uniqueId()}`}
+                onUpload={({ name, _id }) => {
+                  onFormChange({
+                    files: [...item.files, { name, file: _id }]
+                  })
+                }}
+              />
+          </ActionModal>}>
+          <FileListStyled userType='user'
+              onDeleteFile={(fileId:string) => {
+                const files = item.files.filter(f => f.file !== fileId)
+                onFormChange({ files })
+              }}
+              files={item.files}
+            />
             </Card>
           </Col>
         </Row>
