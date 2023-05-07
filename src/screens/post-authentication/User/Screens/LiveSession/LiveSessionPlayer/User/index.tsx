@@ -11,18 +11,18 @@ import {
 } from 'amazon-chime-sdk-component-library-react'
 
 import { ThemeProvider } from 'styled-components'
-import UserLiveSessionPlayer from '../Player/LiveSessionPlayer'
+import UserLiveSessionPlayer from './LiveSessionPlayer'
 import { Outlet, useParams } from 'react-router'
 import { User } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { Spin } from 'antd'
-import { NavigationProvider } from '../Player/providers/NavigationProvider'
-import { AppStateProvider } from '../Player/providers/AppStateProvider'
+import { AppStateProvider } from './Player/providers/AppStateProvider'
+import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 
 const UserLiveSessionPlayerEnter = () => {
   const { sessionId } = useParams()
   const logger = new ConsoleLogger('SDK', LogLevel.INFO)
-  const deviceController = new DefaultDeviceController(logger)
+  // const deviceController = new DefaultDeviceController(logger)
   // const meetingManager = new MeetingManager({
   //   logger: logger,
   //   deviceController: deviceController
@@ -39,14 +39,14 @@ const UserLiveSessionPlayerEnter = () => {
 
   console.log(session, 'tukur')
 
-  useEffect(
-    () => {
-      if (sessionId) {
-        startSession({ session: sessionId })
-      }
-    },
-    [sessionId]
-  )
+  // useEffect(
+  //   () => {
+  //     if (sessionId) {
+  //       startSession({ session: sessionId })
+  //     }
+  //   },
+  //   [sessionId]
+  // )
 
   return (
     <AppStateProvider>
@@ -62,7 +62,7 @@ const UserLiveSessionPlayerEnter = () => {
           <NavigationProvider>
             {/* @ts-ignore */}
             <RosterProvider>
-              {session?.metadata ? <Outlet /> : <Spin />}
+              <Outlet />
             </RosterProvider>
           </NavigationProvider>
         </MeetingProvider>

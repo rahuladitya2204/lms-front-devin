@@ -1,0 +1,7 @@
+div[data-testid="video-grid"]{
+    height: 80vh;
+}
+
+div[data-testid="roster-cell"]{
+    margin-top: 10px;
+}

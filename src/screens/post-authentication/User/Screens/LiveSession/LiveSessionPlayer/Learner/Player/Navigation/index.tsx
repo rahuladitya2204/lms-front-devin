@@ -12,8 +12,8 @@ import {
   Information
 } from 'amazon-chime-sdk-component-library-react'
 
-import { useNavigation } from '../providers/NavigationProvider'
 import { useAppState } from '../providers/AppStateProvider'
+import { useNavigation } from './NavigationProvider'
 
 const Navigation = () => {
   const { toggleRoster, toggleMetrics, closeNavbar } = useNavigation()

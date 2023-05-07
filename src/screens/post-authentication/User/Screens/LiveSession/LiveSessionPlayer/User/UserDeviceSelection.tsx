@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Button, Card } from 'antd';
+import { Button, Card, Typography } from 'antd';
 import {
   CameraSelection,
   QualitySelection,
@@ -8,8 +8,10 @@ import {
 } from 'amazon-chime-sdk-component-library-react';
 import { User } from '@adewaskar/lms-common';
 import { useNavigate } from 'react-router';
-import UserLiveSessionPlayer from '../Player/LiveSessionPlayer';
+import UserLiveSessionPlayer from './LiveSessionPlayer';
 import { useLiveSession } from './hooks';
+
+const { Text } = Typography;
 
 const UserDeviceSelection = () => {
   const [joined,setJoined]=useState(false)
@@ -20,6 +22,11 @@ const UserDeviceSelection = () => {
   const navigate = useNavigate();
 
   const { joinMeeting } = useLiveSession(sessionId + '');
+
+  const {
+    mutate: startSession,
+  } = User.Queries.useStartLiveSession()
+
   
   useEffect(() => {
     if(session.metadata.MeetingId){
@@ -28,22 +35,29 @@ const UserDeviceSelection = () => {
   },[session])
 
   const handleJoinMeeting = () => {
-    setJoined(true);
+    // setJoined(true);
+    navigate(`${session.metadata.MeetingId}/session`);
   }
 
   return (
     <>
       <Card style={{
-        display:joined?'none':'block'
+        display: joined ? 'none' : 'block',
+        width: 300,
+        margin: 'auto',
+        marginTop:170
       }}>
         <CameraSelection />
         <QualitySelection />
         <span style={{ display: 'block', marginBottom: '.5rem' }}>Video preview</span>
         <PreviewVideo />
-        <Button type="primary" onClick={handleJoinMeeting} block>
+        {false?<Text>Meeting has been started</Text>:<Button style={{margin: '10px 0'}} onClick={()=>startSession({session:sessionId+''})} block>
+          Start Meeting
+        </Button>}
+        <Button style={{margin: '10px 0'}} type="primary" onClick={handleJoinMeeting} block>
           Join Meeting
         </Button>
-      </Card>:
+      </Card>
       <div style={{
         display:!joined?'none':'block'
       }}>

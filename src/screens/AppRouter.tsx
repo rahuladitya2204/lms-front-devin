@@ -58,7 +58,7 @@ import LearnerDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/
 import UserDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/User/UserDeviceSelection'
 import UserLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/User/index'
 import LearnerLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/index'
-import UserLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/Player/LiveSessionPlayer'
+import UserLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/User/LiveSessionPlayer'
 
 const router = createBrowserRouter(
   createRoutesFromElements(

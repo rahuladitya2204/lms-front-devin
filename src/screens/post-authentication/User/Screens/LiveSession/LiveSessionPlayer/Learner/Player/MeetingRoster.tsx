@@ -9,7 +9,7 @@ import {
   useRosterState,
   RosterAttendee
 } from 'amazon-chime-sdk-component-library-react';
-import { useNavigation } from './providers/NavigationProvider';
+import { useNavigation } from './Navigation/NavigationProvider';
 
 const MeetingRoster = () => {
   const { roster } = useRosterState();

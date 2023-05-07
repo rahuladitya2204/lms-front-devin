@@ -13,9 +13,9 @@ import {
   Dots
 } from 'amazon-chime-sdk-component-library-react'
 
-import { useNavigation } from '../providers/NavigationProvider'
 import { StyledControls } from './Styled'
 import EndMeetingControl from '../EndMeetingControl'
+import { useNavigation } from '../Navigation/NavigationProvider'
 
 const MeetingControls = () => {
   const { toggleNavbar, closeRoster, showRoster } = useNavigation()

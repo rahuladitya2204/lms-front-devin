@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
-import { Button, Card } from 'antd';
+import { Button, Card, Typography } from 'antd';
 import {
   CameraSelection,
   QualitySelection,
@@ -8,8 +8,10 @@ import {
 } from 'amazon-chime-sdk-component-library-react';
 import { Learner } from '@adewaskar/lms-common';
 import { useNavigate } from 'react-router';
-import LearnerLiveSessionPlayer from '../Player/LiveSessionPlayer';
+import LearnerLiveSessionPlayer from './LiveSessionPlayer';
 import { useLiveSession } from './hooks';
+
+const { Text } = Typography;
 
 const LearnerDeviceSelection = () => {
   const [joined,setJoined]=useState(false)
@@ -34,8 +36,11 @@ const LearnerDeviceSelection = () => {
   return (
     <>
       <Card style={{
-        display:joined?'none':'block'
-      }}>
+        display: joined ? 'none' : 'block',
+        width: 300,
+        margin: 'auto',
+        marginTop:170
+      }}>{session.isStarted? <>
         <CameraSelection />
         <QualitySelection />
         <span style={{ display: 'block', marginBottom: '.5rem' }}>Video preview</span>
@@ -43,7 +48,10 @@ const LearnerDeviceSelection = () => {
         <Button type="primary" onClick={handleJoinMeeting} block>
           Join Meeting
         </Button>
-      </Card>:
+        </>:<Text>Meeting has not started yet</Text>}
+       
+       
+      </Card>
       <div style={{
         display:!joined?'none':'block'
       }}>

@@ -15,8 +15,8 @@ import { Outlet, useParams } from 'react-router'
 import { Learner } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { Spin } from 'antd'
-import { NavigationProvider } from '../Player/providers/NavigationProvider'
-import { AppStateProvider } from '../Player/providers/AppStateProvider'
+import { AppStateProvider } from './Player/providers/AppStateProvider'
+import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 
 const LearnerLiveSessionPlayerEnter = () => {
   const { sessionId } = useParams()
@@ -32,25 +32,25 @@ const LearnerLiveSessionPlayerEnter = () => {
 
   console.log(session, 'tukur')
   return (
-    <AppStateProvider>
-      <ThemeProvider theme={lightTheme}>
-        <GlobalStyles />
-        {/* @ts-ignore */}
-        <MeetingProvider
-          {...meetingConfig}
-          // // configuration={{}}
-          // manager={meetingManager}
-          // eventReporter={null}
-        >
-          <NavigationProvider>
-            {/* @ts-ignore */}
-            <RosterProvider>
-              {session?.metadata ? <Outlet /> : <Spin />}
-            </RosterProvider>
-          </NavigationProvider>
-        </MeetingProvider>
-      </ThemeProvider>
-    </AppStateProvider>
+      <AppStateProvider>
+        <ThemeProvider theme={lightTheme}>
+          <GlobalStyles />
+          {/* @ts-ignore */}
+          <MeetingProvider
+            {...meetingConfig}
+            // // configuration={{}}
+            // manager={meetingManager}
+            // eventReporter={null}
+          >
+            <NavigationProvider>
+              {/* @ts-ignore */}
+              <RosterProvider>
+                {session?.metadata ? <Outlet /> : <Spin />}
+              </RosterProvider>
+            </NavigationProvider>
+          </MeetingProvider>
+        </ThemeProvider>
+      </AppStateProvider>
   )
 }
 
