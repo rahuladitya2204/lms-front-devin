@@ -21,18 +21,11 @@ const UserDeviceSelection = () => {
   )
   const navigate = useNavigate();
 
-  const { joinMeeting } = useLiveSession(sessionId + '');
 
   const {
     mutate: startSession,
   } = User.Queries.useStartLiveSession()
 
-  
-  useEffect(() => {
-    if(session.metadata.MeetingId){
-      joinMeeting(session)
-    }
-  },[session])
 
   const handleJoinMeeting = () => {
     // setJoined(true);

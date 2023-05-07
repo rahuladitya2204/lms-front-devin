@@ -1,40 +1,38 @@
 // Copyright 2020-2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 // @ts-nocheck
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent } from 'react'
 import {
   Roster,
   RosterHeader,
   RosterGroup,
   useRosterState,
   RosterAttendee
-} from 'amazon-chime-sdk-component-library-react';
-import { useNavigation } from './Navigation/NavigationProvider';
+} from 'amazon-chime-sdk-component-library-react'
+import { useNavigation } from './Navigation/NavigationProvider'
 
 const MeetingRoster = () => {
-  const { roster } = useRosterState();
-  const [filter, setFilter] = useState('');
-  const { closeRoster } = useNavigation();
+  const { roster } = useRosterState()
+  const [filter, setFilter] = useState('')
+  const { closeRoster } = useNavigation()
 
-  let attendees = Object.values(roster);
-
+  let attendees = Object.values(roster)
+  console.log(attendees, 'teee')
   if (filter) {
     attendees = attendees.filter((attendee: any) =>
       attendee?.name.toLowerCase().includes(filter.trim().toLowerCase())
-    );
+    )
   }
 
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value);
-  };
+    setFilter(e.target.value)
+  }
 
   const attendeeItems = attendees.map((attendee: any) => {
-    const { chimeAttendeeId } = attendee || {};
-    return (
-      <RosterAttendee key={chimeAttendeeId} attendeeId={chimeAttendeeId} />
-    );
-  });
-
+    const { chimeAttendeeId } = attendee || {}
+    return <RosterAttendee key={chimeAttendeeId} attendeeId={chimeAttendeeId} />
+  })
+  console.log(attendeeItems, 'attendeeItems')
   return (
     <Roster className="roster">
       <RosterHeader
@@ -46,7 +44,7 @@ const MeetingRoster = () => {
       />
       <RosterGroup>{attendeeItems}</RosterGroup>
     </Roster>
-  );
-};
+  )
+}
 
-export default MeetingRoster;
+export default MeetingRoster

@@ -8,9 +8,42 @@ import { StyledContent, StyledLayout } from './Player/styled'
 import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
+import { useEffect } from 'react'
+import { useParams } from 'react-router'
+import { User } from '@adewaskar/lms-common'
+import { MeetingSessionConfiguration } from 'amazon-chime-sdk-js'
+import { useLiveSession } from './hooks'
 
 const LiveSessionPlayer = () => {
+  const { sessionId } = useParams()
+  const { data: session } = User.Queries.useGetLiveSessionDetails(
+    sessionId + ''
+  )
+
+  const { data: attendee } = User.Queries.useGetLiveSessionAttendeeDetails(
+    sessionId + ''
+  )
   // ... rest of the code
+  const { joinMeeting } = useLiveSession(sessionId + '')
+
+  useEffect(
+    () => {
+      if (session.metadata.MeetingId) {
+        joinMeeting(session)
+      }
+    },
+    [session]
+  )
+
+  useEffect(
+    () => {
+      const meetingSessionConfiguration = new MeetingSessionConfiguration(
+        session.metadata,
+        attendee
+      )
+    },
+    [session, attendee]
+  )
 
   return (
     <NavigationProvider>

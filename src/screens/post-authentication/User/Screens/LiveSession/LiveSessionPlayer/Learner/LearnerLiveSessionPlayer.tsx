@@ -1,123 +1,70 @@
+import './style.css'
 import {
-  AudioInputControl,
-  AudioOutputControl,
-  ContentShareControl,
-  ControlBar,
-  Roster,
-  VideoGrid,
-  VideoInputControl,
-  VideoTile,
   VideoTileGrid,
-  useMeetingManager,
-  useRosterState
+  UserActivityProvider,
+  LocalVideo
 } from 'amazon-chime-sdk-component-library-react'
-import { useEffect, useState } from 'react'
-
+import { StyledContent, StyledLayout } from './Player/styled'
+import MeetingControls from './Player/MeetingControls'
+import NavigationControl from './Player/Navigation/NavigationControl'
+import { NavigationProvider } from './Player/Navigation/NavigationProvider'
+import { useEffect } from 'react'
+import { useParams } from 'react-router'
 import { Learner } from '@adewaskar/lms-common'
 import { MeetingSessionConfiguration } from 'amazon-chime-sdk-js'
-import styled from 'styled-components'
-import { useParams } from 'react-router'
+import { useLiveSession } from './hooks'
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100vh; // Change from 100% to 100vh
-`
-
-
-const RosterWrapper = styled.div`
-  flex: 1;
-`;
-
-const ControlBarWrapper = styled.div`
-  background-color: #131c21;
-  padding: 1rem;
-`;
-
-const VideoGridWrapper = styled.div`
-  flex: 1;
-  position: relative;
-  background-color: black;
-  display: flex;
-  flex-wrap: wrap;
-  height: 100%; // Add this line
-`
-
-const LearnerLiveSessionPlayer = () => {
-  const { mutate: startSession } = Learner.Queries.useStartLiveSession()
+const LiveSessionPlayer = () => {
   const { sessionId } = useParams()
-  const meetingManager = useMeetingManager()
-  const { mutate: addAttendee } = Learner.Queries.useAddAttendee()
   const { data: session } = Learner.Queries.useGetLiveSessionDetails(
     sessionId + ''
   )
-  const { roster } = useRosterState()
 
-  const [hasJoinedMeeting, setHasJoinedMeeting] = useState(false)
+  const { data: attendee } = Learner.Queries.useGetLiveSessionAttendeeDetails(
+    sessionId + ''
+  )
+  // ... rest of the code
+  const { joinMeeting } = useLiveSession(sessionId + '')
 
   useEffect(
     () => {
-      startSession({ session: sessionId + '' })
+      if (session.metadata.MeetingId) {
+        joinMeeting(session)
+      }
     },
-    [sessionId]
+    [session]
   )
 
-  const joinMeeting = async () => {
-    addAttendee(
-      { session: sessionId + '' },
-      {
-        onSuccess: async data => {
-          console.log(data, session, 'taaa')
-          const meetingSessionConfiguration = new MeetingSessionConfiguration(
-            session.metadata,
-            data.Attendee
-          )
-
-          await meetingManager.join(meetingSessionConfiguration)
-          await meetingManager.start()
-          console.log('Meeting manager started')
-        }
-      }
-    )
-  }
-
-  const handleJoinMeeting = async () => {
-    await joinMeeting()
-    setHasJoinedMeeting(true)
-    console.log('Joined the meeting')
-  }
+  useEffect(
+    () => {
+      const meetingSessionConfiguration = new MeetingSessionConfiguration(
+        session.metadata,
+        attendee
+      )
+    },
+    [session, attendee]
+  )
 
   return (
-    <Container>
-      {!hasJoinedMeeting && <button onClick={handleJoinMeeting}>Join</button>}
-      {hasJoinedMeeting && (
-        <>
-          <RosterWrapper>
-            <Roster />
-          </RosterWrapper>
-          <VideoGridWrapper>
-          <VideoGrid>
-    <VideoTileGrid
-      // style={{
-      //   border: '1px solid grey',
-      //   gridArea: '',
-      // }}
-      // nameplate="Tile 1"
-    />
-  </VideoGrid>
-          </VideoGridWrapper>
-          <ControlBarWrapper>
-            <ControlBar showLabels layout="undocked-horizontal">
-              <AudioInputControl />
-              <AudioOutputControl />
-              <VideoInputControl />
-              <ContentShareControl />
-            </ControlBar>
-          </ControlBarWrapper>
-        </>
-      )}
-    </Container>
+    <NavigationProvider>
+      {/* @ts-ignore */}
+      <UserActivityProvider>
+        <StyledLayout showNav showRoster>
+          <StyledContent>
+            {/* <MeetingMetrics /> */}
+            <VideoTileGrid
+              className="videos"
+              // noRemoteVideoView={<MeetingDetails />}
+            />
+            {/* <LocalVideo /> */}
+
+            <MeetingControls />
+          </StyledContent>
+          <NavigationControl />
+        </StyledLayout>
+      </UserActivityProvider>
+    </NavigationProvider>
   )
 }
 
-export default LearnerLiveSessionPlayer
+export default LiveSessionPlayer
