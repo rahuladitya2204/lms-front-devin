@@ -30,6 +30,7 @@ import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerCart from '@Learner/Screens/LearnerShop/LearnerCartScreen/LearnerCartScreen'
 import LearnerCourses from './post-authentication/Learner/Screens/Courses'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
+import LearnerLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer'
 import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
@@ -53,6 +54,11 @@ import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDet
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
+import LearnerDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/LearnerDeviceSelection'
+import UserDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/User/UserDeviceSelection'
+import UserLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/User/index'
+import LearnerLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/index'
+import UserLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/Player/LiveSessionPlayer'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -140,6 +146,16 @@ const router = createBrowserRouter(
             </Route>
             <Route path="courses/:id/editor" element={<CourseEditor />} />
           </Route>
+          <Route
+            path="app/live-session/:sessionId/player"
+            element={<UserLiveSessionPlayerEnter />}
+          >
+            <Route path="" element={<UserDeviceSelection />} />
+            <Route
+              path=":meetingId/session"
+              element={<UserLiveSessionPlayer />}
+            />
+          </Route>
           <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
           <Route path="register" element={<UserRegister />} />
           <Route path="login" element={<UserLoginScreen />} />
@@ -176,6 +192,17 @@ const router = createBrowserRouter(
             <Route
               path="section/:sectionId/item/:itemId"
               element={<CoursePlayerItem />}
+            />
+          </Route>
+
+          <Route
+            path="app/live-session/:sessionId/player"
+            element={<LearnerLiveSessionPlayerEnter />}
+          >
+            <Route path="" element={<LearnerDeviceSelection />} />
+            <Route
+              path=":meetingId/session"
+              element={<LearnerLiveSessionPlayer />}
             />
           </Route>
 

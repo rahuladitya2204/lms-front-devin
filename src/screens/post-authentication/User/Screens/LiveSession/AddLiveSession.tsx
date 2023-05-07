@@ -1,8 +1,22 @@
-import { Button, Form, Input, Modal } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Col,
+  DatePicker,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Space,
+  TimePicker
+} from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
+import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 
 interface CreateLiveSessionComponentPropsI {
   children?: ReactNode;
@@ -11,7 +25,7 @@ interface CreateLiveSessionComponentPropsI {
   onFinish?: (data: Types.LiveSession) => void;
 }
 
-const AddLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
+const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
   const {
     mutate: createLiveSession,
     isLoading: createLiveSessionLoading
@@ -54,37 +68,71 @@ const AddLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
     <Form form={form} onFinish={onSubmit} layout="vertical">
       <Form.Item
         rules={[
-          { required: true, message: 'Please enter name of the LiveSession' }
+          { required: true, message: 'Please enter a title of the Live Stream' }
         ]}
-        name="name"
+        name="title"
         label="Name"
         required
       >
-        <Input placeholder="Name of the LiveSession" />
+        <Input placeholder="Enter a title for the live session" />
       </Form.Item>
       <Form.Item
         rules={[
           {
             required: true,
-            message: 'Please enter designation of the LiveSession'
+            message: 'Please enter a description of the Live Stream'
           }
         ]}
-        name="designation"
-        label="Designation"
+        label="Description"
+        name="description"
         required
       >
-        <Input placeholder="Designation of the LiveSession" />
+        <Input.TextArea />
       </Form.Item>
-      <Form.Item
-        rules={[
-          { required: true, message: 'Please enter email of the LiveSession' }
-        ]}
-        name="email"
-        label="Email"
-        required
-      >
-        <Input placeholder="Please enter email of the LiveSession" />
+      <Row gutter={[10, 10]}>
+        <Col span={12}>
+          <Form.Item
+            rules={[
+              {
+                required: true,
+                message: 'Please enter start time for the livestream'
+              }
+            ]}
+            name="startTime"
+            label="Start Date and Time"
+            required
+          >
+            <DatePicker showTime />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            rules={[
+              {
+                required: true,
+                message: 'Please enter duration of the Live Session'
+              }
+            ]}
+            name="duration"
+            label="Duration"
+            required
+          >
+            <Input
+              type="number"
+              placeholder="Please enter duration in minutes"
+            />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Form.Item label="Access Type" name="accessType">
+        <Select
+          options={[
+            { label: 'Learners', value: 'learners' },
+            { label: 'Open for all', value: 'open' }
+          ]}
+        />
       </Form.Item>
+
       <Button
         loading={createLiveSessionLoading || updateLiveSessionLoading}
         key="submit"
@@ -97,4 +145,4 @@ const AddLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
   )
 }
 
-export default AddLiveSession
+export default CreateLiveSession

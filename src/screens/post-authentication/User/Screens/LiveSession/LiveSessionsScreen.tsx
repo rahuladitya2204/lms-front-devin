@@ -1,5 +1,5 @@
 import { Button, Card, Col, Row, Space, Table } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditOutlined, VideoCameraOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
 import AddLiveSession from './AddLiveSession'
@@ -7,10 +7,11 @@ import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router'
 
 function LiveSessionsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetLiveSessions()
-
+  const navigate = useNavigate();
   return (
     <Header>
       <Card
@@ -25,32 +26,31 @@ function LiveSessionsScreen() {
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
-              <Table.Column title="Name" dataIndex="name" key="name" />
+              <Table.Column title="Title" dataIndex="title" key="title" />
               <Table.Column
-                title="Email Adress"
-                dataIndex="email"
-                key="email"
-              />
-              <Table.Column
-                title="Designation"
-                dataIndex="designation"
-                key="designation"
-              />
-              {/* <Table.Column
-                title="Last Login"
-                dataIndex="lastActive"
-
-              /> */}
-              <Table.Column title="Courses" dataIndex="courses" key="courses" />
-              <Table.Column title="Rating" dataIndex="rating" key="rating" />
-              <Table.Column
-                title="Joined On"
-                dataIndex="createdAt"
-                key="createdAt"
+                title="Start Date/Time"
+                dataIndex="startTime"
+                key="startTime"
                 render={(_: any, record: Types.LiveSession) => (
                   <Space size="middle">
-                    {dayjs(record.startTime).format('LL')}
+                    {dayjs(record.startTime).format('LLLL')}
                   </Space>
+                )}
+              />
+              <Table.Column
+                title="Duration"
+                dataIndex="duration"
+                key="duration"
+                render={(_: any, record: Types.LiveSession) => (
+                  <>{record.duration} mins</>
+                )}
+              />
+              <Table.Column
+                title="Total Attendees"
+                dataIndex="Attendees"
+                key="Attendees"
+                render={(_: any, record: Types.LiveSession) => (
+                  <>{record.attendees.length} </>
                 )}
               />
               <Table.Column
@@ -58,6 +58,16 @@ function LiveSessionsScreen() {
                 key="action"
                 render={(_: any, record: Types.LiveSession) => (
                   <Space size="middle">
+                    <VideoCameraOutlined
+                      onClick={() =>
+                        // navigate(`${record._id}/player`)
+                        window.open(
+                          `live-session/${record._id}/player`,
+                          '_blank'
+                        )
+                      }
+                      
+                    />
                     <EditOutlined
                       onClick={() =>
                         window.open(
