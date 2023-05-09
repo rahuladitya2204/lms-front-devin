@@ -7,12 +7,12 @@ import {
 } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
-import { User } from '@adewaskar/lms-common'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+import { User } from '@adewaskar/lms-common'
 
 function ViewRecording(props: { fileId: string }) {
-  const { data: file } = User.Queries.useGetFileDetails(props.fileId)
-  console.log(file, 'file')
+  // const { data: file } = User.Queries.useGetFileDetails(props.fileId)
+  // console.log(file, 'file')
   return (
     <ActionModal
       cta={
@@ -21,7 +21,7 @@ function ViewRecording(props: { fileId: string }) {
         </Button>
       }
     >
-      <MediaPlayer fileId={file.encoded} />
+      <MediaPlayer fileId={props.fileId} />
     </ActionModal>
   )
 }

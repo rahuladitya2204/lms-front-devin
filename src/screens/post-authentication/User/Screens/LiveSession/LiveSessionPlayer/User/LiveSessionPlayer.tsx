@@ -1,39 +1,56 @@
 import './style.css'
+
 import {
-  VideoTileGrid,
+  LocalVideo,
   UserActivityProvider,
-  LocalVideo
+  VideoTileGrid
 } from 'amazon-chime-sdk-component-library-react'
 import { StyledContent, StyledLayout } from './Player/styled'
-import MeetingControls from './Player/MeetingControls'
-import NavigationControl from './Player/Navigation/NavigationControl'
-import { NavigationProvider } from './Player/Navigation/NavigationProvider'
-import { useEffect } from 'react'
-import { useParams } from 'react-router'
-import { User } from '@adewaskar/lms-common'
-import { MeetingSessionConfiguration } from 'amazon-chime-sdk-js'
+import { Types, User } from '@adewaskar/lms-common'
+import { useEffect, useState } from 'react'
 import { useHandleMeetingEnd, useLiveSession } from './hooks'
 
+import MeetingControls from './Player/MeetingControls'
+import { MeetingSessionConfiguration } from 'amazon-chime-sdk-js'
+import NavigationControl from './Player/Navigation/NavigationControl'
+import { NavigationProvider } from './Player/Navigation/NavigationProvider'
+import { useParams } from 'react-router'
+
+let joined = false;
 const LiveSessionPlayer = () => {
+  // const [joined, setJoined] = useState(false)
   const { sessionId } = useParams()
   const { data: session } = User.Queries.useGetLiveSessionDetails(
     sessionId + ''
   )
+  const { joinMeeting, start } = useLiveSession(sessionId + '')
 
   const { data: attendee } = User.Queries.useGetLiveSessionAttendeeDetails(
-    sessionId + ''
+    sessionId + '',
+    {
+      enabled: !!session?.metadata?.MeetingId
+    }
   )
 
   useHandleMeetingEnd()
 
   useEffect(
     () => {
-      const meetingSessionConfiguration = new MeetingSessionConfiguration(
-        session.metadata,
-        attendee
-      )
+      if (session._id) {
+        if (attendee?.metadata?.AttendeeId) {
+          start(session, attendee)
+        } else {
+          if (!joined) {
+            console.log('joining', joined);
+            joined = true;
+            joinMeeting(session).then((attendee: any) => {
+              start(session, attendee)
+            })
+          }
+        }
+      }
     },
-    [session, attendee]
+    [attendee]
   )
 
   return (

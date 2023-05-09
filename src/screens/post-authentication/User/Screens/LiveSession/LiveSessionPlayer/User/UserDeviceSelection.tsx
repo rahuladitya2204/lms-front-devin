@@ -1,29 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import { Button, Card, Checkbox, Typography } from 'antd';
+import { Button, Card, Checkbox, Result, Typography } from 'antd';
 import {
   CameraSelection,
-  QualitySelection,
   PreviewVideo,
+  QualitySelection,
 } from 'amazon-chime-sdk-component-library-react';
+import React, { useEffect, useState } from 'react';
+import { SmileOutlined, VideoCameraOutlined } from '@ant-design/icons';
+
 import { User } from '@adewaskar/lms-common';
 import { useNavigate } from 'react-router';
-import UserLiveSessionPlayer from './LiveSessionPlayer';
-import { useLiveSession } from './hooks';
-import { VideoCameraOutlined } from '@ant-design/icons';
+import { useParams } from 'react-router';
 
 const { Text } = Typography;
 
 const UserDeviceSelection = () => {
-  const [joined, setJoined] = useState(false);
   const { sessionId } = useParams();
   const { data: session } = User.Queries.useGetLiveSessionDetails(
     sessionId + ''
   )
   const navigate = useNavigate();
-
-  const { joinMeeting } = useLiveSession(sessionId + '');
-
   const {
     mutate: startSession, isLoading: startinSession
   } = User.Queries.useStartLiveSession()
@@ -33,21 +28,25 @@ const UserDeviceSelection = () => {
     isLoading: endingSession
   } = User.Queries.useEndMeeting()
 
-  
-  useEffect(() => {
-    if(session?.metadata?.MeetingId){
-      joinMeeting(session)
-    }
-  },[session])
-
-  const handleJoinMeeting = () => {
-    // setJoined(true);
-    navigate(`${session.metadata.MeetingId}/session`);
+  const startMeeting = () => { 
+    startSession({ session: sessionId + '', enableRecording: recordMeeting }, {
+      onSuccess: (session) => {
+        navigate(`${session.metadata.MeetingId}/session`)
+      }
+    })
   }
+  
   const [recordMeeting, setRecordMeeting] = useState(false);
   return (
     <>
-      <Card style={{
+      
+      {session.startedAt&&session.endedAt? <Result
+    icon={<SmileOutlined />}
+    title="Meeting has ended"
+        extra={<Button type="primary" onClick={() => {
+      navigate('../app/live-session')
+    }}>ok</Button>}
+  />: <Card style={{
         width: 300,
         margin: 'auto',
         marginTop:170
@@ -56,16 +55,20 @@ const UserDeviceSelection = () => {
         <QualitySelection />
         <span style={{ display: 'block', marginBottom: '.5rem' }}>Video preview</span>
         <PreviewVideo />
-        <Checkbox onChange={e=>setRecordMeeting(e.target.checked)} value={recordMeeting}> <VideoCameraOutlined/>  Record Meeting</Checkbox>
-        {(session?.metadata?.MeetingId)?<Button loading={endingSession} style={{margin: '10px 0'}} onClick={()=>endMeeting({session:sessionId+''})} block>
-          End Meeting
-        </Button>:<Button loading={startinSession} style={{margin: '10px 0'}} onClick={()=>startSession({session:sessionId+'',enableRecording: recordMeeting})} block>
-          Start Meeting
-        </Button>}
-        <Button style={{margin: '10px 0'}} type="primary" onClick={handleJoinMeeting} block>
+        <Checkbox onChange={e => setRecordMeeting(e.target.checked)} value={recordMeeting}> <VideoCameraOutlined />  Record Meeting</Checkbox>
+        {session.startedAt&&!session.endedAt?   <Button style={{margin: '10px 0'}} type="primary" onClick={()=>navigate(`${session.metadata.MeetingId}/session`)} block>
           Join Meeting
-        </Button>
-      </Card>      
+        </Button>:null}
+        {(session.startedAt&&!session.endedAt)?<Button loading={endingSession} style={{margin: '10px 0'}} onClick={()=>endMeeting({session:sessionId+''})} block>
+          End Meeting
+        </Button> :null}
+        {(!session.startedAt&&!session.endedAt)?<Button loading={startinSession} type='primary' style={{margin: '10px 0'}} onClick={startMeeting} block>
+          Start Meeting
+        </Button> : null}
+        
+     
+      </Card> }
+
     </>
   );
 };

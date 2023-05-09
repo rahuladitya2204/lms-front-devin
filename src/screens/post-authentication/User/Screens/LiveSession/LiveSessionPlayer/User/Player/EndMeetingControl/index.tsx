@@ -1,24 +1,25 @@
 // Copyright 2020-2021 Amazon.com, Inc. or its affiliates. All Rights Reserved.
 // SPDX-License-Identifier: Apache-2.0
 
-import React, { useState } from 'react';
 // import { useHistory } from 'react-router-dom';
 import {
   ControlBarButton,
-  Phone,
   Modal,
   ModalBody,
-  ModalHeader,
   ModalButton,
   ModalButtonGroup,
+  ModalHeader,
+  Phone,
   useMeetingManager
 } from 'amazon-chime-sdk-component-library-react';
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
 
-import { endMeeting } from '../utils/api';
 import { StyledP } from './Styled';
-import { useAppState } from '../providers/AppStateProvider';
-import { useParams } from 'react-router';
 import { User } from '@adewaskar/lms-common';
+import { endMeeting } from '../utils/api';
+import { useAppState } from '../providers/AppStateProvider';
+
 // import routes from '../../constants/routes';
 
 const EndMeetingControl: React.FC = () => {
@@ -27,18 +28,20 @@ const EndMeetingControl: React.FC = () => {
   const meetingManager = useMeetingManager();
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (): void => setShowModal(!showModal);
-  const { meetingId } = useAppState();
-
+  const navigate=useNavigate()
   const leaveMeeting = async (): Promise<void> => {
-    // history.push(routes.HOME);
   };
 
   const endMeetingForAll = async (): Promise<void> => {
     try {
       if (sessionId) {
-        await endMeeting({session:sessionId + ''});
-        await meetingManager.leave();
-        // history.push(routes.HOME);
+        await endMeeting({ session: sessionId }, {
+          onSuccess:async ()=> {
+            await meetingManager.leave();
+            navigate('../');
+          }
+        });
+       
       }
     } catch (e) {
       console.log('Could not end meeting', e);

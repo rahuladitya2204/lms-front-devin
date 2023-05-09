@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 import { Button, Card, Typography } from 'antd';
 import {
   CameraSelection,
-  QualitySelection,
   PreviewVideo,
+  QualitySelection,
 } from 'amazon-chime-sdk-component-library-react';
+import React, { useEffect, useState } from 'react';
+
 import { Learner } from '@adewaskar/lms-common';
-import { useNavigate } from 'react-router';
 import { useLiveSession } from './hooks';
+import { useNavigate } from 'react-router';
+import { useParams } from 'react-router';
 
 const { Title } = Typography;
 

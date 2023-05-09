@@ -118,7 +118,7 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
             label="Scheduled For"
             required
           >
-            {/* <DatePicker value={date} showTime /> */}
+            <DatePicker value={date} showTime />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -172,10 +172,10 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
             message: 'Please enter a description of the Live Stream'
           }
         ]}
-     
+        name={["description"]}
         required
       >
-        <TextArea label="Description" name="description"/>
+        <TextArea label="Description" name={["description"]}/>
                     </Form.Item>
                   </Col>
       <Col span={12}>
@@ -190,7 +190,7 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
           </Col>
           <Col span={12}>
             <Form.Item label='Record Session' name={['recording', 'enabled']}>
-        <Checkbox>
+        <Checkbox name="recording.enabled">
           <VideoCameraOutlined /> 
         </Checkbox>
       </Form.Item>

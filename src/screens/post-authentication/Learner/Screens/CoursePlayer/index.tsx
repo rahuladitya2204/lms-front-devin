@@ -56,7 +56,6 @@ const CustomHeader = styled(Header)`
 const { Search } = Input
 const { Text } = Typography
 function CoursePlayer() {
-  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const [showReview, setShowReview] = useState(false)
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
 

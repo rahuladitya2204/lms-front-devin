@@ -19,9 +19,13 @@ interface SunEditorPropsI {
 }
 
 const TextArea = (props: SunEditorPropsI) => {
-    const [html,setHtml]=useState(false)
-    return <Form.Item name="description" label={<>{props.label}   <Tooltip placement="topLeft" title={`HTML`}>
-     <Switch onChange={e => setHtml(e)} style={{ marginLeft: 10 }} size='small' defaultChecked />
+  const form = Form.useFormInstance();
+  const [html, setHtml] = useState(false);
+    return <Form.Item name={props.name} label={<>{props.label}   <Tooltip placement="topLeft" title={`HTML`}>
+      <Switch onChange={e => {
+        setHtml(e)
+        form.resetFields(props.name as string[]);
+     }} style={{ marginLeft: 10 }} size='small' defaultChecked />
     </Tooltip>
        </>} required>
     {html ? (

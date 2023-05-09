@@ -1,51 +1,51 @@
 import './style.css'
+
+import { Learner, Types } from '@adewaskar/lms-common'
 import {
-  VideoTileGrid,
+  LocalVideo,
   UserActivityProvider,
-  LocalVideo
+  VideoTileGrid
 } from 'amazon-chime-sdk-component-library-react'
 import { StyledContent, StyledLayout } from './Player/styled'
+import { useHandleMeetingEnd, useLiveSession } from './hooks'
+
 import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
-import { Learner } from '@adewaskar/lms-common'
-import { MeetingSessionConfiguration } from 'amazon-chime-sdk-js'
-import { useHandleMeetingEnd, useLiveSession } from './hooks'
 
 const LiveSessionPlayer = () => {
   const { sessionId } = useParams()
   const { data: session } = Learner.Queries.useGetLiveSessionDetails(
     sessionId + ''
   )
+  const { joinMeeting, start } = useLiveSession(sessionId + '')
 
   const { data: attendee } = Learner.Queries.useGetLiveSessionAttendeeDetails(
     sessionId + ''
   )
-  // ... rest of the code
-  // const { joinMeeting } = useLiveSession(sessionId + '')
-
-  // useEffect(
-  //   () => {
-  //     if (session.metadata.MeetingId) {
-  //       joinMeeting(session)
-  //     }
-  //   },
-  //   [session]
-  // )
 
   useHandleMeetingEnd()
 
   useEffect(
     () => {
-      const meetingSessionConfiguration = new MeetingSessionConfiguration(
-        session.metadata,
-        attendee
-      )
+      // console.log(session.metadata.MeetingId, 'triggered')
+      console.log(session, attendee, 'attendee')
+      if (session?.metadata?.MeetingId) {
+        if (attendee?.metadata?.AttendeeId) {
+          start(session, attendee)
+        } else {
+          joinMeeting(session).then((attendee: any) => {
+            start(session, attendee)
+          })
+        }
+      }
     },
     [session, attendee]
   )
+
+  useEffect(() => {}, [attendee])
 
   return (
     <NavigationProvider>

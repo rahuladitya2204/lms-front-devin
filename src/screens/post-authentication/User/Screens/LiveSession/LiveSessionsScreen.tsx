@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Table } from 'antd'
+import { Button, Card, Col, Row, Space, Table, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined, VideoCameraOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
@@ -10,6 +10,8 @@ import { User } from '@adewaskar/lms-common'
 import ViewRecording from './RecordingPlayer'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
+
+const { Text } = Typography;
 
 function LiveSessionsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetLiveSessions()
@@ -31,18 +33,38 @@ function LiveSessionsScreen() {
                 key="scheduledAt"
                 render={(_: any, record: Types.LiveSession) => (
                   <Space size="middle">
-                    {dayjs(record.scheduledAt).format('LLLL')}
+                    {dayjs(record.scheduledAt).format('LLL')}
                   </Space>
                 )}
               />
-              <Table.Column
+                <Table.Column
+                title="Started At"
+                dataIndex="startedAt"
+                key="startedAt"
+                render={(_: any, record: Types.LiveSession) => (
+                  <Space size="middle">
+                    {dayjs(record.startedAt).format('LLL')}
+                  </Space>
+                )}
+              />
+                <Table.Column
+                title="Ended At"
+                dataIndex="endedAt"
+                key="endedAt"
+                render={(_: any, record: Types.LiveSession) => (
+                  <Space size="middle">
+                    {dayjs(record.endedAt).format('LLL')}
+                  </Space>
+                )}
+              />
+              {/* <Table.Column
                 title="Duration"
                 dataIndex="duration"
                 key="duration"
                 render={(_: any, record: Types.LiveSession) => (
                   <>{record.duration} mins</>
                 )}
-              />
+              /> */}
               <Table.Column
                 title="Total Attendees"
                 dataIndex="Attendees"
@@ -51,18 +73,13 @@ function LiveSessionsScreen() {
                   <>{record.attendees.length} </>
                 )}
               />
-                <Table.Column
-                title="Recording"
-                dataIndex="recording"
-                key="recording"
-                render={(_: any, record: Types.LiveSession) => record?.recording?.file?<ViewRecording fileId={record.recording.file} />:null}
-              />
               <Table.Column
                 title="Action"
                 key="action"
                 render={(_: any, record: Types.LiveSession) => (
                   <Space size="middle">
-                    <VideoCameraOutlined
+                    {record?.recording?.file ? <ViewRecording fileId={record.recording.file} /> : null}
+                    {!(record.startedAt&&record.endedAt)?<VideoCameraOutlined
                       onClick={() =>
                         // navigate(`${record._id}/player`)
                         window.open(
@@ -71,9 +88,7 @@ function LiveSessionsScreen() {
                         )
                       }
                       
-                    />
-                        <EditOutlined onClick={()=>navigate(`${record._id}/edit`)} />
-                    <DeleteOutlined />
+                    />:<Text>Meeting has ended</Text>}
                   </Space>
                 )}
               />

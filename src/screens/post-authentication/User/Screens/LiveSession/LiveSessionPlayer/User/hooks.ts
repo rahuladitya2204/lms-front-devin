@@ -1,12 +1,13 @@
-// hooks/useDeviceController.js
-import { useEffect, useState } from 'react'
 import {
-  DefaultDeviceController,
   ConsoleLogger,
+  DefaultDeviceController,
   LogLevel,
   MeetingSessionConfiguration
 } from 'amazon-chime-sdk-js'
-import { User } from '@adewaskar/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
+// hooks/useDeviceController.js
+import { useEffect, useState } from 'react'
+
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react'
 import { useNavigate } from 'react-router'
 
@@ -36,28 +37,32 @@ export const useLiveSession = (sessionId: string) => {
     console.log(session, 'session')
 
     return new Promise(resolve => {
-      if (session.metadata.MeetingId) {
-        addAttendee(
-          { session: sessionId + '' },
-          {
-            onSuccess: async data => {
-              console.log(session.metadata, data.Attendee, '11111111')
-              const meetingSessionConfiguration = new MeetingSessionConfiguration(
-                session.metadata,
-                data.Attendee
-              )
-              await meetingManager.join(meetingSessionConfiguration)
-              const res = await meetingManager.start()
-              resolve(res)
-            }
-          }
-        )
-      }
+      addAttendee(
+        { session: sessionId + '' },
+        {
+          onSuccess: resolve
+        }
+      )
     })
   }
 
+  const start = async (
+    session: Types.LiveSession,
+    attendee: Types.LiveSesionAttendee
+  ) => {
+    console.log('called', session, attendee.session)
+    const meetingSessionConfiguration = new MeetingSessionConfiguration(
+      session.metadata,
+      attendee.metadata
+    )
+    await meetingManager.join(meetingSessionConfiguration)
+    const res = await meetingManager.start()
+    return res
+  }
+
   return {
-    joinMeeting
+    joinMeeting,
+    start
   }
 }
 
