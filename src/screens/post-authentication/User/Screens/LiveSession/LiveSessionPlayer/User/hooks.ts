@@ -8,6 +8,7 @@ import {
 } from 'amazon-chime-sdk-js'
 import { User } from '@adewaskar/lms-common'
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react'
+import { useNavigate } from 'react-router'
 
 const useDeviceController = () => {
   const [deviceController, setDeviceController] = useState(null)
@@ -58,4 +59,36 @@ export const useLiveSession = (sessionId: string) => {
   return {
     joinMeeting
   }
+}
+
+export const useHandleMeetingEnd = (onMeetingEnd?: any) => {
+  const meetingManager = useMeetingManager()
+  const navigate = useNavigate()
+  useEffect(
+    () => {
+      if (!meetingManager?.meetingSession) {
+        return
+      }
+
+      const observer = {
+        audioVideoDidStop: (sessionStatus: any) => {
+          if (sessionStatus.statusCode() === sessionStatus.statusCode().Ended) {
+            console.log('The meeting was ended for all attendees')
+            navigate('../ended')
+            onMeetingEnd && onMeetingEnd()
+          } else {
+            // navigate('../ended')
+          }
+        }
+      }
+
+      meetingManager.meetingSession.audioVideo.addObserver(observer)
+
+      return () => {
+        // @ts-ignore
+        meetingManager?.meetingSession?.audioVideo?.removeObserver(observer)
+      }
+    },
+    [meetingManager, onMeetingEnd]
+  )
 }

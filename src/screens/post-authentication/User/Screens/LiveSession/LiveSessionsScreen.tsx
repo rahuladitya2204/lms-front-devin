@@ -4,8 +4,10 @@ import { DeleteOutlined, EditOutlined, VideoCameraOutlined } from '@ant-design/i
 import ActionModal from '@Components/ActionModal'
 import AddLiveSession from './AddLiveSession'
 import Header from '@Components/Header'
+import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import ViewRecording from './RecordingPlayer'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
@@ -13,27 +15,23 @@ function LiveSessionsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetLiveSessions()
   const navigate = useNavigate();
   return (
-    <Header>
+    <Header  title='Live Session' extra={
+[      <Button type="primary" onClick={()=>navigate(`create`)}>Create Live Session</Button>
+]    }> 
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'LiveSessions'}
-        extra={
-          <ActionModal cta={<Button type="primary">Add LiveSession</Button>}>
-            <AddLiveSession> </AddLiveSession>
-          </ActionModal>
-        }
       >
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
               <Table.Column title="Title" dataIndex="title" key="title" />
               <Table.Column
-                title="Start Date/Time"
-                dataIndex="startTime"
-                key="startTime"
+                title="Scheduled for"
+                dataIndex="scheduledAt"
+                key="scheduledAt"
                 render={(_: any, record: Types.LiveSession) => (
                   <Space size="middle">
-                    {dayjs(record.startTime).format('LLLL')}
+                    {dayjs(record.scheduledAt).format('LLLL')}
                   </Space>
                 )}
               />
@@ -53,6 +51,12 @@ function LiveSessionsScreen() {
                   <>{record.attendees.length} </>
                 )}
               />
+                <Table.Column
+                title="Recording"
+                dataIndex="recording"
+                key="recording"
+                render={(_: any, record: Types.LiveSession) => record?.recording?.file?<ViewRecording fileId={record.recording.file} />:null}
+              />
               <Table.Column
                 title="Action"
                 key="action"
@@ -68,14 +72,7 @@ function LiveSessionsScreen() {
                       }
                       
                     />
-                    <EditOutlined
-                      onClick={() =>
-                        window.open(
-                          `LiveSessions/${record._id}/editor`,
-                          '_blank'
-                        )
-                      }
-                    />
+                        <EditOutlined onClick={()=>navigate(`${record._id}/edit`)} />
                     <DeleteOutlined />
                   </Space>
                 )}

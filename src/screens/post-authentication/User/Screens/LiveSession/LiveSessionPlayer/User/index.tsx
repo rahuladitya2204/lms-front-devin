@@ -15,9 +15,13 @@ import UserLiveSessionPlayer from './LiveSessionPlayer'
 import { Outlet, useParams } from 'react-router'
 import { User } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
-import { Spin } from 'antd'
+import { Spin, Typography } from 'antd'
 import { AppStateProvider } from './Player/providers/AppStateProvider'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
+import Header from '@Components/Header'
+import dayjs from 'dayjs'
+
+const { Text } = Typography
 
 const UserLiveSessionPlayerEnter = () => {
   const { sessionId } = useParams()
@@ -32,12 +36,11 @@ const UserLiveSessionPlayerEnter = () => {
     logLevel: LogLevel.INFO,
     simulcastEnabled: true
   }
-  const {
-    mutate: startSession,
-    data: session
-  } = User.Queries.useStartLiveSession()
+  // const { mutate: startSession } = User.Queries.useStartLiveSession()
 
-  console.log(session, 'tukur')
+  const { data: session } = User.Queries.useGetLiveSessionDetails(
+    sessionId + ''
+  )
 
   // useEffect(
   //   () => {
@@ -62,7 +65,17 @@ const UserLiveSessionPlayerEnter = () => {
           <NavigationProvider>
             {/* @ts-ignore */}
             <RosterProvider>
+              {/* <Header
+                extra={[
+                  <Text strong>
+                    {' '}
+                    {dayjs(session.scheduledAt).format('LLLL')}
+                  </Text>
+                ]}
+                title={session.title}
+              > */}
               <Outlet />
+              {/* </Header> */}
             </RosterProvider>
           </NavigationProvider>
         </MeetingProvider>

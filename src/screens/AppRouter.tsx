@@ -19,6 +19,7 @@ import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
 import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
+import CreateLiveSession from '@User/Screens/LiveSession/AddLiveSession'
 import CreatePackage from '@User/Screens/Packages/CreatePackage'
 import EmailTemplateEditor from '@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor'
 import EmailTemplatesScreen from '@User/Screens/CertificateTemplates/CertificateTemplatesScreen'
@@ -29,8 +30,10 @@ import InstructorsScreen from './post-authentication/User/Screens/Users/Instruct
 import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerCart from '@Learner/Screens/LearnerShop/LearnerCartScreen/LearnerCartScreen'
 import LearnerCourses from './post-authentication/Learner/Screens/Courses'
+import LearnerDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/LearnerDeviceSelection'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer'
+import LearnerLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/index'
 import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
@@ -47,18 +50,17 @@ import UploadPDFForm from './post-authentication/User/Screens/Courses/CourseBuil
 import UploadVideoForm from './post-authentication/User/Screens/Courses/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
 import UserDashboard from '@User/Screens/UserDashboard/UserDashboard'
+import UserDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/User/UserDeviceSelection'
+import UserLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/User/LiveSessionPlayer'
+import UserLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/User/index'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
+import UserMeetingEnded from '@User/Screens/LiveSession/LiveSessionPlayer/User/UserMeetingEnded'
 import UserRegister from './post-authentication/User/Screens/Register'
 import UserRootScreen from './post-authentication/User/Screens/UserRoot/UserRootScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
-import LearnerDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/LearnerDeviceSelection'
-import UserDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/User/UserDeviceSelection'
-import UserLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/User/index'
-import LearnerLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/index'
-import UserLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/User/LiveSessionPlayer'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -134,6 +136,8 @@ const router = createBrowserRouter(
             </Route>
             <Route path="live-session">
               <Route path="" element={<LiveSessionsScreen />} />
+              <Route path="create" element={<CreateLiveSession />} />
+              <Route path=":sessionId/edit" element={<CreateLiveSession />} />
               {/* <Route path=":id/editor" element={<CreatePackage />} /> */}
             </Route>
             <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
@@ -155,6 +159,7 @@ const router = createBrowserRouter(
               path=":meetingId/session"
               element={<UserLiveSessionPlayer />}
             />
+            <Route path="ended" element={<UserMeetingEnded />} />
           </Route>
           <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
           <Route path="register" element={<UserRegister />} />
@@ -204,6 +209,7 @@ const router = createBrowserRouter(
               path=":meetingId/session"
               element={<LearnerLiveSessionPlayer />}
             />
+            <Route path="ended" element={<UserMeetingEnded />} />
           </Route>
 
           {/* <Route path="register" element={<LearnerRegister />} />

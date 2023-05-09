@@ -17,17 +17,20 @@ import {
 import { endMeeting } from '../utils/api';
 import { StyledP } from './Styled';
 import { useAppState } from '../providers/AppStateProvider';
+import { useNavigate } from 'react-router';
 // import routes from '../../constants/routes';
 
 const EndMeetingControl: React.FC = () => {
+  const navigate = useNavigate();
   const meetingManager = useMeetingManager();
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (): void => setShowModal(!showModal);
   const { meetingId } = useAppState();
-  // const history = useHistory();
+// const {}=
 
   const leaveMeeting = async (): Promise<void> => {
-    // history.push(routes.HOME);
+    // history.push(routes.HOME)
+    navigate('../../');
   };
 
   const endMeetingForAll = async (): Promise<void> => {
@@ -35,7 +38,7 @@ const EndMeetingControl: React.FC = () => {
       if (meetingId) {
         await endMeeting(meetingId);
         await meetingManager.leave();
-        // history.push(routes.HOME);
+        navigate('../../');
       }
     } catch (e) {
       console.log('Could not end meeting', e);

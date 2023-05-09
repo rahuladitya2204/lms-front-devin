@@ -1,5 +1,6 @@
 import {
   Button,
+  Card,
   Checkbox,
   Col,
   DatePicker,
@@ -13,19 +14,25 @@ import {
 } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
+import Header from '@Components/Header'
+import Image from '@Components/Image'
+import MediaUpload from '@Components/MediaUpload'
+import PriceFormItem from '@Components/PriceFormItem'
 import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
+import { useParams } from 'react-router'
 
 interface CreateLiveSessionComponentPropsI {
   children?: ReactNode;
-  data?: Types.LiveSession;
   closeModal?: Function;
   onFinish?: (data: Types.LiveSession) => void;
 }
 
 const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
+  const {sessionId} = useParams();
   const {
     mutate: createLiveSession,
     isLoading: createLiveSessionLoading
@@ -35,14 +42,19 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
     isLoading: updateLiveSessionLoading
   } = User.Queries.useUpdateLiveSession()
 
-  const [form] = Form.useForm()
+  const {data: sessionDetails}=User.Queries.useGetLiveSessionDetails(sessionId+'',{
+    enabled:!!sessionId
+  })
+
+  const [form] = Form.useForm<Types.CreateLiveSessionPayload>()
 
   const onSubmit = (e: Types.CreateLiveSessionPayload) => {
-    if (props.data) {
+    if (sessionId) {
       updateLiveSession(
-        { id: props.data._id, data: e },
+        { id: sessionId, data: e },
         {
           onSuccess: () => {
+            form.resetFields();
             props.closeModal && props.closeModal()
           }
         }
@@ -59,50 +71,54 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
 
   useEffect(
     () => {
-      form.setFieldsValue(props.data)
+      form.setFieldsValue(sessionDetails)
     },
-    [props.data]
+    [sessionDetails]
   )
-
+  console.log(sessionDetails, 'sessionDetails')
+  const image = Form.useWatch('image', form);
+  console.log(image, 'ahahahah')
+  const date = dayjs(Form.useWatch('scheduledAt', form))
   return (
-    <Form form={form} onFinish={onSubmit} layout="vertical">
-      <Form.Item
+    <Header title='Create Live Session' extra={[<Button
+      loading={createLiveSessionLoading || updateLiveSessionLoading}
+      key="submit"
+      type="primary"
+      onClick={form.submit}
+      >
+      Publish
+            </Button>]}>
+        <Card>
+      <Row>
+        <Col span={24}>
+      <>
+              <Form form={form} onFinish={onSubmit} layout="vertical">
+                <Row gutter={[20,20]}>
+                  <Col span={16}>
+                  <Form.Item
         rules={[
           { required: true, message: 'Please enter a title of the Live Stream' }
         ]}
         name="title"
-        label="Name"
+        label="Session Title"
         required
       >
         <Input placeholder="Enter a title for the live session" />
       </Form.Item>
-      <Form.Item
-        rules={[
-          {
-            required: true,
-            message: 'Please enter a description of the Live Stream'
-          }
-        ]}
-        label="Description"
-        name="description"
-        required
-      >
-        <Input.TextArea />
-      </Form.Item>
-      <Row gutter={[10, 10]}>
+                    <Row gutter={[10, 10]}>
         <Col span={12}>
-          <Form.Item
+ <Form.Item
             rules={[
               {
                 required: true,
                 message: 'Please enter start time for the livestream'
               }
             ]}
-            name="startTime"
-            label="Start Date and Time"
+            name="scheduledAt"
+            label="Scheduled For"
             required
           >
-            <DatePicker showTime />
+            {/* <DatePicker value={date} showTime /> */}
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -124,24 +140,83 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
           </Form.Item>
         </Col>
       </Row>
-      <Form.Item label="Access Type" name="accessType">
+                  </Col>
+                  <Col span={8}>
+        <MediaUpload
+                  source={{
+                    type: 'liveSession.thumbnail',
+                    value: sessionId + ''
+                  }}
+                  uploadType="image"
+                  // prefixKey={`live-sessions/${sessionId}/image`}
+                  cropper
+                  width="100%"
+                  // height="200px"
+                  aspect={16 / 9}
+                  renderItem={() => (
+                    <Image preview={false} src={image} />
+                  )}
+                      onUpload={file => {
+                    console.log(file,'uploaded image!')
+                    form.setFieldValue('image', file.url)
+                  }}
+                />
+        </Col>
+                </Row>
+                <Row gutter={[20, 20]}>
+                  <Col span={24}>
+                  <Form.Item
+        rules={[
+          {
+            required: true,
+            message: 'Please enter a description of the Live Stream'
+          }
+        ]}
+     
+        required
+      >
+        <TextArea label="Description" name="description"/>
+                    </Form.Item>
+                  </Col>
+      <Col span={12}>
+      <Form.Item name='type' label='Session Type'>
+<Select
+          options={[
+            { label: 'Webinar', value: 'webinar' },
+            { label: 'Conversational', value: 'conversational' }
+          ]}
+        />
+        </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item label='Record Session' name={['recording', 'enabled']}>
+        <Checkbox>
+          <VideoCameraOutlined /> 
+        </Checkbox>
+      </Form.Item>
+      </Col>
+      </Row>
+
+        <Row gutter={[20,20]}>
+                  <Col span={12}>
+                    <Form.Item label="Access Type" name="accessType">
         <Select
           options={[
-            { label: 'Learners', value: 'learners' },
+            { label: 'Learners', value: 'learner' },
             { label: 'Open for all', value: 'open' }
           ]}
         />
       </Form.Item>
-
-      <Button
-        loading={createLiveSessionLoading || updateLiveSessionLoading}
-        key="submit"
-        type="primary"
-        onClick={form.submit}
-      >
-        Submit
-      </Button>
+          </Col>
+          <Col span={12}>  <PriceFormItem name="price" label="Price" /></Col>
+      </Row>
     </Form>
+    </>
+        </Col>
+
+    </Row>
+    </Card>
+    </Header>
   )
 }
 

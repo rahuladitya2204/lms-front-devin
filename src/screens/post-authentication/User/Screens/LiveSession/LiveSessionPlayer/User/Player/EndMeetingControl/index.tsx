@@ -17,14 +17,17 @@ import {
 import { endMeeting } from '../utils/api';
 import { StyledP } from './Styled';
 import { useAppState } from '../providers/AppStateProvider';
+import { useParams } from 'react-router';
+import { User } from '@adewaskar/lms-common';
 // import routes from '../../constants/routes';
 
 const EndMeetingControl: React.FC = () => {
+  const { sessionId } = useParams();
+  const { mutate:endMeeting} = User.Queries.useEndMeeting();
   const meetingManager = useMeetingManager();
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (): void => setShowModal(!showModal);
   const { meetingId } = useAppState();
-  // const history = useHistory();
 
   const leaveMeeting = async (): Promise<void> => {
     // history.push(routes.HOME);
@@ -32,8 +35,8 @@ const EndMeetingControl: React.FC = () => {
 
   const endMeetingForAll = async (): Promise<void> => {
     try {
-      if (meetingId) {
-        await endMeeting(meetingId);
+      if (sessionId) {
+        await endMeeting({session:sessionId + ''});
         await meetingManager.leave();
         // history.push(routes.HOME);
       }

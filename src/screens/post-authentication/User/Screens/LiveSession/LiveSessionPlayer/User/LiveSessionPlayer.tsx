@@ -12,7 +12,7 @@ import { useEffect } from 'react'
 import { useParams } from 'react-router'
 import { User } from '@adewaskar/lms-common'
 import { MeetingSessionConfiguration } from 'amazon-chime-sdk-js'
-import { useLiveSession } from './hooks'
+import { useHandleMeetingEnd, useLiveSession } from './hooks'
 
 const LiveSessionPlayer = () => {
   const { sessionId } = useParams()
@@ -23,17 +23,8 @@ const LiveSessionPlayer = () => {
   const { data: attendee } = User.Queries.useGetLiveSessionAttendeeDetails(
     sessionId + ''
   )
-  // ... rest of the code
-  const { joinMeeting } = useLiveSession(sessionId + '')
 
-  useEffect(
-    () => {
-      if (session.metadata.MeetingId) {
-        joinMeeting(session)
-      }
-    },
-    [session]
-  )
+  useHandleMeetingEnd()
 
   useEffect(
     () => {

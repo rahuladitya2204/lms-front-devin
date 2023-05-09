@@ -17,6 +17,7 @@ import { useEffect } from 'react'
 import { Spin } from 'antd'
 import { AppStateProvider } from './Player/providers/AppStateProvider'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
+import Header from '@Components/Header'
 
 const LearnerLiveSessionPlayerEnter = () => {
   const { sessionId } = useParams()
@@ -32,25 +33,27 @@ const LearnerLiveSessionPlayerEnter = () => {
 
   console.log(session, 'tukur')
   return (
-      <AppStateProvider>
-        <ThemeProvider theme={lightTheme}>
-          <GlobalStyles />
-          {/* @ts-ignore */}
-          <MeetingProvider
-            {...meetingConfig}
-            // // configuration={{}}
-            // manager={meetingManager}
-            // eventReporter={null}
-          >
-            <NavigationProvider>
-              {/* @ts-ignore */}
-              <RosterProvider>
-                {session?.metadata ? <Outlet /> : <Spin />}
-              </RosterProvider>
-            </NavigationProvider>
-          </MeetingProvider>
-        </ThemeProvider>
-      </AppStateProvider>
+    <AppStateProvider>
+      <ThemeProvider theme={lightTheme}>
+        <GlobalStyles />
+        {/* @ts-ignore */}
+        <MeetingProvider
+          {...meetingConfig}
+          // // configuration={{}}
+          // manager={meetingManager}
+          // eventReporter={null}
+        >
+          <NavigationProvider>
+            {/* @ts-ignore */}
+            <RosterProvider>
+              <Header title={session.title}>
+                <Outlet />
+              </Header>
+            </RosterProvider>
+          </NavigationProvider>
+        </MeetingProvider>
+      </ThemeProvider>
+    </AppStateProvider>
   )
 }
 
