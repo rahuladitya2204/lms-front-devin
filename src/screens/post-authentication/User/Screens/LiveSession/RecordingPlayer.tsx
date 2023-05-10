@@ -1,27 +1,24 @@
 import { Button, Card, Col, Row, Space, Table } from 'antd'
-import {
-  DeleteOutlined,
-  EditOutlined,
-  VideoCameraOutlined,
-  VideoCameraTwoTone
-} from '@ant-design/icons'
+import { Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
+import { DownloadOutlined } from '@ant-design/icons'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
-import { User } from '@adewaskar/lms-common'
 
-function ViewRecording(props: { fileId: string }) {
-  // const { data: file } = User.Queries.useGetFileDetails(props.fileId)
-  // console.log(file, 'file')
+function ViewRecording({ session }: { session: Types.LiveSession }) {
+  const { data: file } = User.Queries.useGetFileDetails(session.recording.file)
+  console.log(file, 'file')
   return (
     <ActionModal
+      title={session.title}
+      width={900}
       cta={
-        <Button>
-          <VideoCameraTwoTone /> Recording
+        <Button size="small">
+          <DownloadOutlined /> Recording
         </Button>
       }
     >
-      <MediaPlayer fileId={props.fileId} />
+      <MediaPlayer height={500} fileId={file.encoded} />
     </ActionModal>
   )
 }

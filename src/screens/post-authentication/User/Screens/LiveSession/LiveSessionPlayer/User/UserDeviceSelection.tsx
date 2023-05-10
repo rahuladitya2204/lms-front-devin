@@ -4,10 +4,11 @@ import {
   PreviewVideo,
   QualitySelection,
 } from 'amazon-chime-sdk-component-library-react';
+import { Constants, User } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
-import { User } from '@adewaskar/lms-common';
+import { useLiveSession } from './hooks';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router';
 
@@ -18,6 +19,7 @@ const UserDeviceSelection = () => {
   const { data: session } = User.Queries.useGetLiveSessionDetails(
     sessionId + ''
   )
+  const {start }=useLiveSession(sessionId+'')
   const navigate = useNavigate();
   const {
     mutate: startSession, isLoading: startinSession
@@ -36,6 +38,11 @@ const UserDeviceSelection = () => {
     })
   }
   
+  useEffect(() => {
+    // @ts-ignore
+    start(session, { metadata: Constants.INITIAL_LIVE_SESSION_ATTENDEE_DETAILS.metadata});
+  },[])
+
   const [recordMeeting, setRecordMeeting] = useState(false);
   return (
     <>

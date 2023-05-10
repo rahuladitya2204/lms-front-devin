@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Table, Typography } from 'antd'
+import { Button, Card, Col, Row, Space, Table, Tag, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined, VideoCameraOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
@@ -78,17 +78,16 @@ function LiveSessionsScreen() {
                 key="action"
                 render={(_: any, record: Types.LiveSession) => (
                   <Space size="middle">
-                    {record?.recording?.file ? <ViewRecording fileId={record.recording.file} /> : null}
-                    {!(record.startedAt&&record.endedAt)?<VideoCameraOutlined
+                    {record.recording.status?<>{record?.recording.status==='completed' ? <ViewRecording session={record} /> : <Tag color='cyan'>Processing Recording</Tag> }</>:!(record.startedAt&&record.endedAt)?<Button type='primary'
                       onClick={() =>
                         // navigate(`${record._id}/player`)
                         window.open(
                           `live-session/${record._id}/player`,
                           '_blank'
                         )
-                      }
-                      
-                    />:<Text>Meeting has ended</Text>}
+                      } size='small'
+                        icon={<VideoCameraOutlined/>}
+                    >Start Meeting</Button>:<Text>Meeting has ended</Text>}
                   </Space>
                 )}
               />
