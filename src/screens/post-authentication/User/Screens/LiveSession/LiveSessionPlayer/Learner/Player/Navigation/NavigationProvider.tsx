@@ -70,8 +70,6 @@ const NavigationProvider = ({ children }: Props) => {
   };
 
   const toggleNavbar = (): void => {
-    console.log('helo')
-
     setShowNavbar(!showNavbar);
   };
 

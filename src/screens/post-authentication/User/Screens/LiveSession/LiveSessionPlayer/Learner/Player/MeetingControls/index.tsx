@@ -16,6 +16,7 @@ import {
 import { StyledControls } from './Styled'
 import EndMeetingControl from '../EndMeetingControl'
 import { useNavigation } from '../Navigation/NavigationProvider'
+import RecordControl from '../RecordControl'
 
 const MeetingControls = () => {
   const { toggleNavbar, closeRoster, showRoster } = useNavigation()
@@ -44,8 +45,9 @@ const MeetingControls = () => {
         />
         <AudioInputControl />
         <VideoInputControl />
-        {/* <ContentShareControl /> */}
+        <ContentShareControl />
         <AudioOutputControl />
+        {/* <RecordControl /> */}
         <EndMeetingControl />
       </ControlBar>
     </StyledControls>

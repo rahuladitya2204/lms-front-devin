@@ -4,9 +4,9 @@ import {
   PreviewVideo,
   QualitySelection,
 } from 'amazon-chime-sdk-component-library-react';
+import { Constants, Learner } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 
-import { Learner } from '@adewaskar/lms-common';
 import { useLiveSession } from './hooks';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router';
@@ -20,16 +20,12 @@ const LearnerDeviceSelection = () => {
   )
   const navigate = useNavigate();
 
-  const { joinMeeting } = useLiveSession(sessionId + '');
+  const { start } = useLiveSession(sessionId + '');
 
-  useEffect(
-    () => {
-      if (session?.metadata?.MeetingId) {
-        joinMeeting(session)
-      }
-    },
-    [session]
-  )
+  useEffect(() => {
+    // @ts-ignore
+    start(session, { metadata: Constants.INITIAL_LIVE_SESSION_ATTENDEE_DETAILS.metadata});
+  },[])
 
   const handleJoinMeeting = () => {
     // setJoined(true);

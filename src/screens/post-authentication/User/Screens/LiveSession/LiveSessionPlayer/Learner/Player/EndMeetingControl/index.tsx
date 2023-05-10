@@ -15,34 +15,30 @@ import {
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 
-import { Spin } from 'antd';
 import { StyledP } from './Styled';
 import { User } from '@adewaskar/lms-common';
+import { endMeeting } from '../utils/api';
+import { useAppState } from '../providers/AppStateProvider';
 
 // import routes from '../../constants/routes';
 
 const EndMeetingControl: React.FC = () => {
-  const navigate = useNavigate();
+  const { sessionId } = useParams();
+  const { mutate:endMeeting} = User.Queries.useEndMeeting();
   const meetingManager = useMeetingManager();
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (): void => setShowModal(!showModal);
-  const { sessionId } = useParams();
-  const { mutate: endMeeting,isLoading: endingMeeting} = User.Queries.useEndMeeting();
-// const {}=
-
+  const navigate=useNavigate()
   const leaveMeeting = async (): Promise<void> => {
-    // history.push(routes.HOME)
-    navigate('../../');
   };
 
   const endMeetingForAll = async (): Promise<void> => {
-    console.log(sessionId,'sessionId')
     try {
       if (sessionId) {
         await endMeeting({ session: sessionId }, {
           onSuccess:async ()=> {
             await meetingManager.leave();
-            navigate('../../');
+            navigate('../');
           }
         });
        
@@ -53,7 +49,7 @@ const EndMeetingControl: React.FC = () => {
   };
 
   return (
-    <Spin spinning={endingMeeting}>
+    <>
       <ControlBarButton icon={<Phone />} onClick={toggleModal} label="Leave" />
       {showModal && (
         <Modal size="md" onClose={toggleModal} rootId="modal-root">
@@ -83,7 +79,7 @@ const EndMeetingControl: React.FC = () => {
           />
         </Modal>
       )}
-    </Spin>
+    </>
   );
 };
 

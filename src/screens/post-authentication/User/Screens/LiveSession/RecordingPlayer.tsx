@@ -12,11 +12,7 @@ function ViewRecording({ session }: { session: Types.LiveSession }) {
     <ActionModal
       title={session.title}
       width={900}
-      cta={
-        <Button size="small">
-          <DownloadOutlined /> Recording
-        </Button>
-      }
+      cta={<Button size="small">View Recording</Button>}
     >
       <MediaPlayer height={500} fileId={file.encoded} />
     </ActionModal>

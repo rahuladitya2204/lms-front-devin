@@ -9,15 +9,15 @@ import {
   RosterProvider,
   lightTheme
 } from 'amazon-chime-sdk-component-library-react'
-
-import { ThemeProvider } from 'styled-components'
 import { Outlet, useParams } from 'react-router'
-import { Learner } from '@adewaskar/lms-common'
-import { useEffect } from 'react'
-import { Spin } from 'antd'
+
 import { AppStateProvider } from './Player/providers/AppStateProvider'
-import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 import Header from '@Components/Header'
+import { Learner } from '@adewaskar/lms-common'
+import { NavigationProvider } from './Player/Navigation/NavigationProvider'
+import { Spin } from 'antd'
+import { ThemeProvider } from 'styled-components'
+import { useEffect } from 'react'
 
 const LearnerLiveSessionPlayerEnter = () => {
   const { sessionId } = useParams()
@@ -46,9 +46,7 @@ const LearnerLiveSessionPlayerEnter = () => {
           <NavigationProvider>
             {/* @ts-ignore */}
             <RosterProvider>
-              <Header title={session.title}>
-                <Outlet />
-              </Header>
+              <Outlet />
             </RosterProvider>
           </NavigationProvider>
         </MeetingProvider>

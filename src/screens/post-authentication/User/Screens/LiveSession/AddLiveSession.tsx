@@ -80,7 +80,7 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
   console.log(image, 'ahahahah')
   const date = dayjs(Form.useWatch('scheduledAt', form))
   return (
-    <Header title='Create Live Session' extra={[<Button
+    <Header showBack title='Create Live Session' extra={[<Button
       loading={createLiveSessionLoading || updateLiveSessionLoading}
       key="submit"
       type="primary"

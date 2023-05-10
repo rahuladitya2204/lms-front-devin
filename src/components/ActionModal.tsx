@@ -19,14 +19,21 @@ function ActionModal(props: ActionModalPropsI) {
     setIsModalOpen(true)
   }
 
-  useEffect(()=>{
-    setIsModalOpen(!!props.open);
-  },[props.open])
+  useEffect(
+    () => {
+      setIsModalOpen(!!props.open)
+    },
+    [props.open]
+  )
 
   const closeModal = () => {
     setIsModalOpen(false)
     props.onClose && props.onClose()
   }
+  const childrenWithCloseModal = React.cloneElement(props.children, {
+    closeModal
+  })
+
   return (
     <Fragment>
       <span onClick={showModal}>{props.cta}</span>
@@ -37,7 +44,7 @@ function ActionModal(props: ActionModalPropsI) {
         open={isModalOpen}
         onCancel={closeModal}
       >
-        {React.cloneElement(props.children, { closeModal })}
+        {isModalOpen && childrenWithCloseModal}
       </Modal>
     </Fragment>
   )

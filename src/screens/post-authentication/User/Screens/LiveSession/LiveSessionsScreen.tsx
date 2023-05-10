@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Table, Tag, Typography } from 'antd'
+import { Button, Card, Col, Row, Space, Table, Tabs, Tag, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined, VideoCameraOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
@@ -13,13 +13,10 @@ import { useNavigate } from 'react-router'
 
 const { Text } = Typography;
 
-function LiveSessionsScreen() {
+function LiveSessionList() {
   const { data, isLoading: loading } = User.Queries.useGetLiveSessions()
-  const navigate = useNavigate();
   return (
-    <Header  title='Live Session' extra={
-[      <Button type="primary" onClick={()=>navigate(`create`)}>Create Live Session</Button>
-]    }> 
+ 
       <Card
         bodyStyle={{ padding: 0 }}
       >
@@ -53,7 +50,7 @@ function LiveSessionsScreen() {
                 key="endedAt"
                 render={(_: any, record: Types.LiveSession) => (
                   <Space size="middle">
-                    {dayjs(record.endedAt).format('LLL')}
+                    {record.endedAt ?dayjs(record.endedAt).format('LLL'):'-'}
                   </Space>
                 )}
               />
@@ -95,8 +92,24 @@ function LiveSessionsScreen() {
           </Col>
         </Row>
       </Card>
-    </Header>
   )
+}
+
+const LiveSessionsScreen = () => {
+  const navigate = useNavigate();
+
+  return    <Header  title='Live Session' extra={
+    [      <Button type="primary" onClick={()=>navigate(`create`)}>Create New Session</Button>
+    ]    }> 
+  <Tabs defaultActiveKey="1">
+  <Tabs.TabPane tab="Upcoming" key="1">
+    <LiveSessionList />
+  </Tabs.TabPane>
+  <Tabs.TabPane tab="Past" key="2">
+  <LiveSessionList />
+  </Tabs.TabPane>
+    </Tabs>
+    </Header>
 }
 
 export default LiveSessionsScreen

@@ -7,15 +7,17 @@ import {
   VideoTileGrid
 } from 'amazon-chime-sdk-component-library-react'
 import { StyledContent, StyledLayout } from './Player/styled'
+import { useEffect, useState } from 'react'
 import { useHandleMeetingEnd, useLiveSession } from './hooks'
 
 import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
-import { useEffect } from 'react'
 import { useParams } from 'react-router'
 
+let joined = false;
 const LiveSessionPlayer = () => {
+  // const [joined, setJoined] = useState(false)
   const { sessionId } = useParams()
   const { data: session } = Learner.Queries.useGetLiveSessionDetails(
     sessionId + ''
@@ -23,29 +25,32 @@ const LiveSessionPlayer = () => {
   const { joinMeeting, start } = useLiveSession(sessionId + '')
 
   const { data: attendee } = Learner.Queries.useGetLiveSessionAttendeeDetails(
-    sessionId + ''
+    sessionId + '',
+    {
+      enabled: !!session?.metadata?.MeetingId
+    }
   )
 
   useHandleMeetingEnd()
 
   useEffect(
     () => {
-      // console.log(session.metadata.MeetingId, 'triggered')
-      console.log(session, attendee, 'attendee')
-      if (session?.metadata?.MeetingId) {
+      if (session._id) {
         if (attendee?.metadata?.AttendeeId) {
           start(session, attendee)
         } else {
-          joinMeeting(session).then((attendee: any) => {
-            start(session, attendee)
-          })
+          if (!joined) {
+            console.log('joining', joined);
+            joined = true;
+            joinMeeting(session).then((attendee: any) => {
+              start(session, attendee)
+            })
+          }
         }
       }
     },
-    [session, attendee]
+    [attendee]
   )
-
-  useEffect(() => {}, [attendee])
 
   return (
     <NavigationProvider>

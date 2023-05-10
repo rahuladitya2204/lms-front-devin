@@ -1,14 +1,16 @@
 /*eslint-disable */
 
-import { Col, Input, Layout, Row, Space, Typography } from 'antd'
+import { Button, Col, Input, Layout, Row, Space, Typography } from 'antd'
 
+import { ArrowLeftOutlined } from '@ant-design/icons'
+import BackButton from './BackButton';
 import { PageHeaderProps } from '@ant-design/pro-layout'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router'
 
 interface HeaderPropsI extends PageHeaderProps {
   children?: React.ReactNode;
   title?: React.ReactNode;
+  showBack?: boolean;
   hideBack?: boolean;
   extra?: React.ReactNode[];
   theme?: string;
@@ -32,6 +34,13 @@ function Header(props: HeaderPropsI) {
             style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <Space align="center">
+              {props.showBack ? (
+                <BackButton>
+                  <Button type="ghost">
+                    <ArrowLeftOutlined />
+                  </Button>
+                </BackButton>
+              ) : null}
               <Title style={{ margin: '10px 0' }} level={4}>
                 {props.title}
               </Title>
