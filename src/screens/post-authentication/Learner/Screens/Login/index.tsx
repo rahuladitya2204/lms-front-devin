@@ -17,12 +17,9 @@ function LearnerLogin () {
   } = Learner.Queries.useLoginLearner()
   const { fetchOrganisation } = Store.useGlobal(state => state)
   const { orgId } = useParams()
-  useEffect(
-    () => {
-      fetchOrganisation()
-    },
-    []
-  )
+  useEffect(() => {
+    fetchOrganisation()
+  }, [])
   const params = useParams()
   useEffect(
     () => {
@@ -39,7 +36,7 @@ function LearnerLogin () {
     onSubmit: values => {
       loginUser({
         email: values.email,
-        password: values.password,
+        password: values.password
       })
     }
   })

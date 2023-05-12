@@ -8,7 +8,9 @@ import { Learner, Types } from '@adewaskar/lms-common'
 // hooks/useDeviceController.js
 import { useEffect, useState } from 'react'
 
+import { VideoCameraOutlined } from '@ant-design/icons'
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react'
+import useMessage from '@Hooks/useMessage'
 import { useNavigate } from 'react-router'
 
 const useDeviceController = () => {
@@ -32,6 +34,18 @@ export default useDeviceController
 
 export const useLiveSession = (sessionId: string) => {
   const meetingManager = useMeetingManager()
+  const message = useMessage()
+  const displayRecordingAlert = (session: Types.LiveSession) => {
+    console.log('11')
+    if (session.recording.enabled) {
+      message.open({
+        type: 'success',
+        content: 'Recording Video',
+        // icon: <VideoCameraOutlined />,
+        duration: Infinity
+      })
+    }
+  }
   const { mutate: addAttendee } = Learner.Queries.useAddAttendee()
   const joinMeeting = (session: any) => {
     console.log(session, 'session')
@@ -59,6 +73,7 @@ export const useLiveSession = (sessionId: string) => {
     )
     await meetingManager.join(meetingSessionConfiguration)
     const res = await meetingManager.start()
+    displayRecordingAlert(session)
     return res
   }
 

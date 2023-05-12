@@ -55,6 +55,7 @@ export const useLiveSession = (sessionId: string) => {
       session.metadata,
       attendee.metadata
     )
+
     await meetingManager.join(meetingSessionConfiguration)
     const res = await meetingManager.start()
     return res

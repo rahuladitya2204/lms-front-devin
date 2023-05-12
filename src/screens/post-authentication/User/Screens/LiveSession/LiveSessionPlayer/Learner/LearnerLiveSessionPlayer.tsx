@@ -1,23 +1,25 @@
 import './style.css'
 
 import { Learner, Types } from '@adewaskar/lms-common'
+import { StyledContent, StyledLayout } from './Player/styled'
 import {
-  LocalVideo,
   UserActivityProvider,
   VideoTileGrid
 } from 'amazon-chime-sdk-component-library-react'
-import { StyledContent, StyledLayout } from './Player/styled'
 import { useEffect, useState } from 'react'
 import { useHandleMeetingEnd, useLiveSession } from './hooks'
 
 import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
+import { VideoCameraOutlined } from '@ant-design/icons'
+import { useMeetingManager } from 'amazon-chime-sdk-component-library-react';
+import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
 
-let joined = false;
+let joined = false
 const LiveSessionPlayer = () => {
-  // const [joined, setJoined] = useState(false)
+  const message = useMessage()
   const { sessionId } = useParams()
   const { data: session } = Learner.Queries.useGetLiveSessionDetails(
     sessionId + ''
@@ -32,17 +34,18 @@ const LiveSessionPlayer = () => {
   )
 
   useHandleMeetingEnd()
-
   useEffect(
     () => {
       if (session._id) {
         if (attendee?.metadata?.AttendeeId) {
+          // displayRecordingAlert()
           start(session, attendee)
         } else {
           if (!joined) {
-            console.log('joining', joined);
-            joined = true;
+            console.log('joining', joined)
+            joined = true
             joinMeeting(session).then((attendee: any) => {
+              // displayRecordingAlert()
               start(session, attendee)
             })
           }
@@ -52,6 +55,20 @@ const LiveSessionPlayer = () => {
     [attendee]
   )
 
+  const meetingManager = useMeetingManager()
+
+  useEffect(
+    () => {
+      // This function is returned by the useEffect hook and will be run when the component is unmounted.
+      return () => {
+        if (meetingManager.audioVideo) {
+          meetingManager.audioVideo.stopLocalVideoTile()
+        }
+      }
+    },
+    [meetingManager]
+  ) // Depe
+  
   return (
     <NavigationProvider>
       {/* @ts-ignore */}

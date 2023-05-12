@@ -1,22 +1,18 @@
 import { Button, Card, Col, Row, Space, Table, Tabs, Tag, Typography } from 'antd'
-import { DeleteOutlined, EditOutlined, VideoCameraOutlined } from '@ant-design/icons'
 
-import ActionModal from '@Components/ActionModal'
-import AddLiveSession from './AddLiveSession'
 import Header from '@Components/Header'
-import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import { VideoCameraOutlined } from '@ant-design/icons'
 import ViewRecording from './RecordingPlayer'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
 const { Text } = Typography;
 
-function LiveSessionList() {
-  const { data, isLoading: loading } = User.Queries.useGetLiveSessions()
+function LiveSessionList(props:{filter:Types.GetLiveSessionsFilter}) {
+  const { data, isLoading: loading } = User.Queries.useGetLiveSessions(props.filter);
   return (
- 
       <Card
         bodyStyle={{ padding: 0 }}
       >
@@ -54,14 +50,6 @@ function LiveSessionList() {
                   </Space>
                 )}
               />
-              {/* <Table.Column
-                title="Duration"
-                dataIndex="duration"
-                key="duration"
-                render={(_: any, record: Types.LiveSession) => (
-                  <>{record.duration} mins</>
-                )}
-              /> */}
               <Table.Column
                 title="Total Attendees"
                 dataIndex="Attendees"
@@ -101,14 +89,16 @@ const LiveSessionsScreen = () => {
   return    <Header  title='Live Session' extra={
     [      <Button type="primary" onClick={()=>navigate(`create`)}>Create New Session</Button>
     ]    }> 
-  <Tabs defaultActiveKey="1">
+    {/* <Card> */}
+    <Tabs defaultActiveKey="1">
   <Tabs.TabPane tab="Upcoming" key="1">
-    <LiveSessionList />
+    <LiveSessionList filter={{status:'created'}} />
   </Tabs.TabPane>
   <Tabs.TabPane tab="Past" key="2">
-  <LiveSessionList />
+  <LiveSessionList filter={{status:'ended'}}  />
   </Tabs.TabPane>
     </Tabs>
+{/* </Card> */}
     </Header>
 }
 
