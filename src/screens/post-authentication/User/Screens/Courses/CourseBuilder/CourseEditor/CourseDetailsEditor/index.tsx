@@ -17,6 +17,7 @@ import { User, Utils } from '@adewaskar/lms-common'
 import ActionModal from '@Components/ActionModal'
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor'
 import CreateCategory from '@User/Screens/Courses/CourseCategory/CreateCategory'
+import GenerateWithAI from './GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
@@ -96,6 +97,16 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
     [generatedData]
   )
 
+  const generateWithAI = (fields: string[]) => {
+    return (
+      <GenerateWithAI
+        course={course}
+        fields={fields}
+        onValuesChange={onValuesChange}
+      />
+    )
+  }
+
   return (
     <Form
       form={form}
@@ -142,26 +153,20 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         <Input />
       </Form.Item>
       <Divider />
-      <Button size='small'
-        type="primary"
-        disabled={!course.title}
-        loading={generatingInfo}
-        onClick={() =>
-          generateCourseInfo({
-            data: {
-              title: course.title
-            }
-          })
-        }
-        style={{ marginBottom: 20 }}
+      <Form.Item
+        name="subtitle"
+        required
+        label="Subtitle"
+        extra={generateWithAI(['subtitle'])}
       >
-        Generate with AI
-      </Button>
-
-      <Form.Item name="subtitle" required label="Subtitle">
         <Input />
       </Form.Item>
-      <Form.Item name={'description'} required label="Description">
+      <Form.Item
+        name={'description'}
+        required
+        label="Description"
+        extra={generateWithAI(['description'])}
+      >
         <TextArea rows={4} placeholder="Enter the course description" />
       </Form.Item>
       <Row gutter={[40, 20]}>
