@@ -58,7 +58,6 @@ function CertificateTemplateEditor() {
   )
 
   const saveCertificateTemplate = (data: Types.CertificateTemplate) => {
-    console.log(data.template, 'daaaa');
     updateCertificateTemplate(
       {
         id: emailTemplateId + '',

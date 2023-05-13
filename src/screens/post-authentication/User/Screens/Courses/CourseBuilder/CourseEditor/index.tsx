@@ -1,6 +1,6 @@
 import { Button, Card, Form, Tabs } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
-import { EyeOutlined, UploadOutlined } from '@ant-design/icons'
+import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 
@@ -26,6 +26,8 @@ function CourseEditor() {
   const { data: courseDetails } = User.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId
   })
+
+  // const { } = User.Queries.useUpdateCourseStatus();
 
   useEffect(
     () => {
@@ -61,26 +63,24 @@ function CourseEditor() {
     <Header
       title="Course Editor"
       extra={[
-        <Fragment>
-          <Button
-            onClick={() => {
-              // const dataStr = STRINGIFY(JSON.stringify(course))
-              window.open(`${courseId}/preview`, '_blank')
-            }}
-            style={{ marginRight: 15 }}
-            icon={<EyeOutlined />}
-          >
-            Preview
-          </Button>,
-          <Button
-            loading={loading}
-            type="primary"
-            onClick={updateCourse}
-            icon={<UploadOutlined />}
-          >
-            Save Course
-          </Button>
-        </Fragment>
+        <Button
+          onClick={() => {
+            // const dataStr = STRINGIFY(JSON.stringify(course))
+            window.open(`${courseId}/preview`, '_blank')
+          }}
+          style={{ marginRight: 15 }}
+          icon={<UploadOutlined />}
+        >
+          Publish Course
+        </Button>,
+        <Button
+          loading={loading}
+          type="primary"
+          onClick={updateCourse}
+          icon={<SaveOutlined />}
+        >
+          Save Course
+        </Button>
       ]}
     >
       <Card>

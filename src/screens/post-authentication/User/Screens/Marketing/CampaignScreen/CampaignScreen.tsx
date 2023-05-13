@@ -1,5 +1,15 @@
-import { Button, Card, Col, Modal, Row, Space, Table, Tag } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Modal,
+  Row,
+  Space,
+  Table,
+  Tag
+} from 'antd'
+import { CheckOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import { CampaignStatus } from './Constant'
 import Header from '@Components/Header'
@@ -12,10 +22,10 @@ const { confirm } = Modal
 
 function CampaignsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetCampaigns()
-
+  const { mutate: executeCampaign } = User.Queries.useExecuteCampaign()
   const navigate = useNavigate()
 
-  const deleteCampaign = () => {
+  const deleteCampaign = (id: string) => {
     confirm({
       title: 'Are you sure?',
       // icon: <ExclamationCircleOutlined />,
@@ -29,16 +39,15 @@ function CampaignsScreen() {
   }
 
   return (
-    <Header>
-      <Card
-        bodyStyle={{ padding: 0 }}
-        title={'Campaigns'}
-        extra={
-          <Button onClick={() => navigate('../create-campaign')} type="primary">
-            Create Campaign
-          </Button>
-        }
-      >
+    <Header
+      title="Campaigns"
+      extra={[
+        <Button onClick={() => navigate('../create-campaign')} type="primary">
+          Create Campaign
+        </Button>
+      ]}
+    >
+      <Card bodyStyle={{ padding: 0 }}>
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
@@ -88,10 +97,43 @@ function CampaignsScreen() {
                 key="action"
                 render={(_: any, record: Types.Campaign) => (
                   <Space size="middle">
-                    <EditOutlined
+                    <Dropdown.Button
+                      // children={null}
+                      size="small"
+                      menu={{
+                        items: [
+                          {
+                            key: 'execute',
+                            label: 'Execute Campaign',
+                            icon: <CheckOutlined />,
+                            onClick: () =>
+                              executeCampaign({
+                                id: record._id
+                              })
+                          },
+                          {
+                            key: 'edit',
+                            label: 'Edit Campaign',
+                            icon: <EditOutlined />,
+                            onClick: () =>
+                              navigate(`../edit-campaign/${record._id}`)
+                          },
+                          {
+                            key: 'delete',
+                            label: 'Delete Campaign',
+                            icon: <DeleteOutlined />,
+                            onClick: () => deleteCampaign(record._id)
+                          }
+                        ]
+                      }}
+                      placement="bottomRight"
+                    >
+                      Action
+                    </Dropdown.Button>
+                    {/* <EditOutlined
                       onClick={() => navigate(`../edit-campaign/${record._id}`)}
                     />
-                    <DeleteOutlined onClick={e => deleteCampaign()} />
+                    <DeleteOutlined onClick={e => deleteCampaign()} /> */}
                   </Space>
                 )}
               />

@@ -22,7 +22,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
   const courseId = props.courseId || id + ''
   const [form] = Form.useForm()
   const { useWatch } = Form
-  const promoVideoFile = course.landingPage.promoVideo;
+  const promoVideoFile = course.landingPage.promoVideo
   useLayoutEffect(
     () => {
       form.setFieldsValue(course.landingPage)
@@ -44,7 +44,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       autoComplete="off"
     >
       <Card
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 20, marginBottom: 20 }}
         title="Promo Video"
         extra={[
           <MediaUpload

@@ -40,7 +40,7 @@ function GenerateWithAI(props: GenerateWithAIPropsI) {
         })
       }
       style={{ marginTop: 10 }}
-      icon={<StarFilled />}
+      icon={<StarOutlined style={{ fontSize: 12 }} />}
     >
       Generate with AI
     </Button>

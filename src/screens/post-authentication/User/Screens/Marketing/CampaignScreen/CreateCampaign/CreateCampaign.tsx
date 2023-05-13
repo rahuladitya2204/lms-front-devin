@@ -30,7 +30,7 @@ interface CreateCampaignComponentPropsI {
 }
 
 const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
-  const data = props.data || Constants.INITIAL_CAMPAIGN_DETAILS
+  const { id } = useParams()
   const params = useParams()
   const navigate = useNavigate()
   const message = useMessage()
@@ -42,6 +42,11 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     mutate: updateCampaignApi,
     isLoading: updateCampaignLoading
   } = User.Queries.useUpdateCampaign()
+
+  const {
+    mutate: executeCampaign,
+    isLoading: initiatingExecution
+  } = User.Queries.useExecuteCampaign()
 
   const { data: campaignDetails } = User.Queries.useGetCampaignDetails(
     params.id + '',
@@ -101,6 +106,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   return (
     <Header
+      showBack
       title="Create Campaign"
       extra={[
         <Button
@@ -108,7 +114,14 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
           loading={createCampaignLoading || updateCampaignLoading}
           onClick={onSubmit}
         >
-          Save Draft{' '}
+          Save Draft
+        </Button>,
+        <Button
+          type="primary"
+          loading={initiatingExecution}
+          onClick={() => executeCampaign({ id })}
+        >
+          Execute Campaign
         </Button>
       ]}
     >
@@ -164,4 +177,4 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   )
 }
 
-export default CreateCampaign;
+export default CreateCampaign

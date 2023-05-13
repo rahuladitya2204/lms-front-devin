@@ -17,16 +17,16 @@ import { User, Utils } from '@adewaskar/lms-common'
 import ActionModal from '@Components/ActionModal'
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor'
 import CreateCategory from '@User/Screens/Courses/CourseCategory/CreateCategory'
-import GenerateWithAI from './GenerateWithAiButton'
+import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import { deepPatch } from '../../utils'
-import { use } from 'video.js/dist/types/tech/middleware'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
 
 const { TextArea } = Input
+const { Text } = Typography
 
 const DIFFICULTY_LEVELS = [
   {
@@ -83,20 +83,6 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
     props.saveCourse(data)
   }
 
-  const {
-    mutate: generateCourseInfo,
-    isLoading: generatingInfo,
-    data: generatedData
-  } = User.Queries.useGetGenerativeCourseInfo()
-  console.log(generatedData, 'daaaa')
-
-  useEffect(
-    () => {
-      onValuesChange(generatedData)
-    },
-    [generatedData]
-  )
-
   const generateWithAI = (fields: string[]) => {
     return (
       <GenerateWithAI
@@ -152,7 +138,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       <Form.Item name="title" required label="Title">
         <Input />
       </Form.Item>
-      <Divider />
+
       <Form.Item
         name="subtitle"
         required

@@ -1,6 +1,7 @@
 import { Form, Tag } from "antd";
 
 import SunEditorComponent from "@Components/SunEditor/SunEditor";
+import TextArea from "@Components/Textarea";
 import { Types } from "@adewaskar/lms-common";
 import { deepPatch } from "@User/Screens/Courses/CourseBuilder/utils";
 import { useLayoutEffect } from "react";
@@ -26,8 +27,8 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
     };
     return <>
             <Form onValuesChange={onValuesChange} form={form} layout="vertical">
-        <Form.Item name={['email','subject']} label="Email Subject" required>
-            <SunEditorComponent name={['email','subject']} />
+        <Form.Item name={['email','subject']} required>
+           <TextArea label="Subject" name={['email','subject']} />
         </Form.Item>
         <Form.Item  name={['email','template']}  label="Email Body" required>
                 <SunEditorComponent  name={['email','template']}  />

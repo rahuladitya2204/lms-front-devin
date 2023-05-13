@@ -15,16 +15,15 @@ function PromosScreen() {
   const { data, isLoading: loading } = User.Queries.useGetPromos()
 
   return (
-    <Header>
-      <Card
-        bodyStyle={{ padding: 0 }}
-        title={'Promos'}
-        extra={
-          <ActionModal cta={<Button type="primary">Create Promo Code</Button>}>
-            <AddPromo> </AddPromo>
-          </ActionModal>
-        }
-      >
+    <Header
+      title={'Promos'}
+      extra={[
+        <ActionModal cta={<Button type="primary">Create Promo Code</Button>}>
+          <AddPromo> </AddPromo>
+        </ActionModal>
+      ]}
+    >
+      <Card bodyStyle={{ padding: 0 }}>
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
