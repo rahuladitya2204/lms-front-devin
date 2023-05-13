@@ -1,25 +1,22 @@
 import './style.css'
 
-import { Learner, Types } from '@adewaskar/lms-common'
 import { StyledContent, StyledLayout } from './Player/styled'
 import {
   UserActivityProvider,
   VideoTileGrid
 } from 'amazon-chime-sdk-component-library-react'
-import { useEffect, useState } from 'react'
 import { useHandleMeetingEnd, useLiveSession } from './hooks'
 
+import { Learner } from '@adewaskar/lms-common'
 import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
-import { VideoCameraOutlined } from '@ant-design/icons'
+import { useEffect } from 'react'
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react';
-import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
 
 let joined = false
 const LiveSessionPlayer = () => {
-  const message = useMessage()
   const { sessionId } = useParams()
   const { data: session } = Learner.Queries.useGetLiveSessionDetails(
     sessionId + ''

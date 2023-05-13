@@ -81,7 +81,7 @@ const UploadVideoForm:any = () => {
             }}
             prefixKey={`courses/${courseId}/${sectionId}/${
               itemId
-            }/lecture/user-uploaded`}
+            }/lecture/index`}
             fileName={item.title}
             isProtected
             onUpload={({ _id }, file) => {

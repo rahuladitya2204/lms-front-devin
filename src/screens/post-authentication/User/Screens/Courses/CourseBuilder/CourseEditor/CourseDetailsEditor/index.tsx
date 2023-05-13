@@ -3,6 +3,7 @@ import {
   Avatar,
   Button,
   Col,
+  Divider,
   Form,
   Input,
   Row,
@@ -20,6 +21,7 @@ import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import { deepPatch } from '../../utils'
+import { use } from 'video.js/dist/types/tech/middleware'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
 
@@ -61,6 +63,7 @@ interface CourseDetailsEditorPropsI {
 const STATUSES = Utils.getValuesFromMap(Constants.COURSE_STATUSES_MAP)
 
 function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
+  const { course } = props
   const [form] = Form.useForm()
   const { id } = useParams()
   const courseId = props.courseId || id
@@ -69,15 +72,29 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const thumbnailImage = useWatch(['thumbnailImage'], form)
   useEffect(
     () => {
-      form.setFieldsValue(props.course)
+      form.setFieldsValue(course)
     },
-    [props.course]
+    [course]
   )
 
   const onValuesChange = (d: Partial<Types.Course>) => {
-    const data = deepPatch(props.course, d)
+    const data = deepPatch(course, d)
     props.saveCourse(data)
   }
+
+  const {
+    mutate: generateCourseInfo,
+    isLoading: generatingInfo,
+    data: generatedData
+  } = User.Queries.useGetGenerativeCourseInfo()
+  console.log(generatedData, 'daaaa')
+
+  useEffect(
+    () => {
+      onValuesChange(generatedData)
+    },
+    [generatedData]
+  )
 
   return (
     <Form
@@ -124,6 +141,23 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       <Form.Item name="title" required label="Title">
         <Input />
       </Form.Item>
+      <Divider />
+      <Button size='small'
+        type="primary"
+        disabled={!course.title}
+        loading={generatingInfo}
+        onClick={() =>
+          generateCourseInfo({
+            data: {
+              title: course.title
+            }
+          })
+        }
+        style={{ marginBottom: 20 }}
+      >
+        Generate with AI
+      </Button>
+
       <Form.Item name="subtitle" required label="Subtitle">
         <Input />
       </Form.Item>

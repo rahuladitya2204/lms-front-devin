@@ -108,7 +108,7 @@ function CourseBuilderScreen() {
   useEffect(
     () => {
       if (!itemId) {
-        const firstSection = course.sections[0]
+        const firstSection = course.sections.find(s => s.items.length)
         if (firstSection && firstSection.items.length) {
           const firstItem = firstSection.items[0]
           navigate(
@@ -118,7 +118,7 @@ function CourseBuilderScreen() {
       }
     },
     [course._id]
-  );
+  )
 
   useEffect(
     () => {
@@ -189,13 +189,23 @@ function CourseBuilderScreen() {
     setCourse(COURSE)
     saveCourse(COURSE)
   }
-
+  const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
+    courseId
+  );
   return (
     <Header
       title={'Course Builder'}
       hideBack
       extra={[
-        <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>
+        <Button
+          onClick={() =>
+            updateCourseStatus({
+              status: Constants.COURSE_STATUSES_MAP.published.value
+            })
+          }
+          style={{ marginRight: 15 }}
+          icon={<UploadOutlined />}
+        >
           Publish Course
         </Button>,
         <Button

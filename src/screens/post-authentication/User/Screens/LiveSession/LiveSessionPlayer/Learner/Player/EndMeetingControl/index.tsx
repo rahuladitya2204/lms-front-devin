@@ -17,8 +17,6 @@ import { useNavigate, useParams } from 'react-router';
 
 import { StyledP } from './Styled';
 import { User } from '@adewaskar/lms-common';
-import { endMeeting } from '../utils/api';
-import { useAppState } from '../providers/AppStateProvider';
 
 // import routes from '../../constants/routes';
 

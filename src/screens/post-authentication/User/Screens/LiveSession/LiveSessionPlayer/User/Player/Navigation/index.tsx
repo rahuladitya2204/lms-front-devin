@@ -3,7 +3,6 @@
 
 import {
   Attendees,
-  Eye,
   Information,
   LeaveMeeting,
   Navbar,
@@ -13,13 +12,10 @@ import {
 
 import React from 'react'
 import { Space } from 'antd'
-import { useAppState } from '../providers/AppStateProvider'
 import { useNavigation } from './NavigationProvider'
 
 const Navigation = () => {
   const { toggleRoster, toggleMetrics, closeNavbar } = useNavigation()
-  const { theme, toggleTheme } = useAppState()
-
   return (
     <Navbar
       className="nav"

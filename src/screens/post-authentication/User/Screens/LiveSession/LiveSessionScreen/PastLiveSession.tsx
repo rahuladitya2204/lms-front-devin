@@ -4,13 +4,13 @@ import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
-import ViewRecording from './RecordingPlayer'
+import ViewRecording from '../RecordingPlayer'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
 const { Text } = Typography;
 
-function LiveSessionList(props:{filter:Types.GetLiveSessionsFilter}) {
+function PastLiveSession(props:{filter:Types.GetLiveSessionsFilter}) {
   const { data, isLoading: loading } = User.Queries.useGetLiveSessions(props.filter);
   return (
       <Card
@@ -20,16 +20,6 @@ function LiveSessionList(props:{filter:Types.GetLiveSessionsFilter}) {
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
               <Table.Column title="Title" dataIndex="title" key="title" />
-              <Table.Column
-                title="Scheduled for"
-                dataIndex="scheduledAt"
-                key="scheduledAt"
-                render={(_: any, record: Types.LiveSession) => (
-                  <Space size="middle">
-                    {dayjs(record.scheduledAt).format('LLL')}
-                  </Space>
-                )}
-              />
                 <Table.Column
                 title="Started At"
                 dataIndex="startedAt"
@@ -82,24 +72,4 @@ function LiveSessionList(props:{filter:Types.GetLiveSessionsFilter}) {
       </Card>
   )
 }
-
-const LiveSessionsScreen = () => {
-  const navigate = useNavigate();
-
-  return    <Header  title='Live Session' extra={
-    [      <Button type="primary" onClick={()=>navigate(`create`)}>Create New Session</Button>
-    ]    }> 
-    {/* <Card> */}
-    <Tabs defaultActiveKey="1">
-  <Tabs.TabPane tab="Upcoming" key="1">
-    <LiveSessionList filter={{status:'created'}} />
-  </Tabs.TabPane>
-  <Tabs.TabPane tab="Past" key="2">
-  <LiveSessionList filter={{status:'ended'}}  />
-  </Tabs.TabPane>
-    </Tabs>
-{/* </Card> */}
-    </Header>
-}
-
-export default LiveSessionsScreen
+export default PastLiveSession
