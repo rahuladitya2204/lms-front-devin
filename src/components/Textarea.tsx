@@ -9,6 +9,7 @@ const { TextArea: AntDTextArea } = Input
 interface SunEditorPropsI {
   height?: number;
   width?: number;
+  noHtml?: boolean;
   name?: string | string[];
   variables?: Types.Variable[];
   value?: string;
@@ -21,12 +22,12 @@ interface SunEditorPropsI {
 const TextArea = (props: SunEditorPropsI) => {
   const form = Form.useFormInstance();
   const [html, setHtml] = useState(false);
-    return <Form.Item name={props.name} label={<>{props.label}   <Tooltip placement="topLeft" title={`HTML`}>
+    return <Form.Item name={props.name} label={<>{props.label}  {props.noHtml? <Tooltip placement="topLeft" title={`HTML`}>
       <Switch onChange={e => {
         setHtml(e)
         form.resetFields(props.name as string[]);
      }} style={{ marginLeft: 10 }} size='small' defaultChecked />
-    </Tooltip>
+    </Tooltip>:null}
        </>} required>
     {html ? (
     <SunEditorComponent {...props} />

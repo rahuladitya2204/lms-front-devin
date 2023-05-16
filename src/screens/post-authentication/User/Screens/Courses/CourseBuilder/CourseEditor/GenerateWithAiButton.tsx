@@ -20,15 +20,17 @@ function GenerateWithAI(props: GenerateWithAIPropsI) {
 
   useEffect(
     () => {
-      props.onValuesChange(generatedData)
+      if (generatedData) {
+        props.onValuesChange(generatedData)
+      }
     },
     [generatedData]
   )
 
   return (
     <Button
-      size="small"
-      type="primary"
+      size="small" 
+      type="dashed" danger
       disabled={!props.course.title}
       loading={generatingInfo}
       onClick={() =>

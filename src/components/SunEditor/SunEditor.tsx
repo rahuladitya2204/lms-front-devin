@@ -15,6 +15,7 @@ interface SunEditorPropsI {
   name?: string | string[];
   variables?: Types.Variable[];
   value?: string;
+  mode?: string;
   onChange?: (d: string) => void;
   defaultValue?: string;
 }
@@ -30,6 +31,10 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     value = props.value
   }
   // console.log(value, 'va');
+  let options = editorOptions;
+  if (props.mode === 'basic') {
+    options = BasicEditorOptions;
+  }
   const handleImageUploadBefore = (
     files: any,
     info: any,
@@ -78,7 +83,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           height={`${props.height || 700}`}
           width={`${props.width}`}
           setOptions={{
-            ...BasicEditorOptions,
+            ...options,
             // plugins={defaultPlugins}
             // plugins: [variablePlugin(variables)],
             // attributesWhitelist: {

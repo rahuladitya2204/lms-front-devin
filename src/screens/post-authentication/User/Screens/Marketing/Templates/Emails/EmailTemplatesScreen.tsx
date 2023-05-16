@@ -4,7 +4,7 @@ import { Common, Types } from '@adewaskar/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
-import AddEmailTemplate from './AddEmailTemplate'
+import AddEmailTemplate from './CreateEmailTemplate'
 import { EmailTemplateStatusMap } from './Constant'
 import Header from '@Components/Header'
 import { User } from '@adewaskar/lms-common'

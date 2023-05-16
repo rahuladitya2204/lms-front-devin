@@ -1,10 +1,17 @@
-import { PlusOutlined } from '@ant-design/icons';
-import type { InputRef } from 'antd';
-import { Input, Tag } from 'antd';
+import { Form, Input, Space, Tag } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 
-const InputTags: React.FC = () => {
-  const [tags, setTags] = useState<string[]>(['Tag 1', 'Tag 2', 'Tag 3']);
+import type { InputRef } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+
+interface InputTagsPropsI{
+  values?: string[];
+  name?: string;
+  onChange?: (e: any) => void;
+}
+
+const InputTags: React.FC<InputTagsPropsI> = (props) => {
+  const [tags, setTags] = useState<string[]>(props.values || []);
   const [inputVisible, setInputVisible] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState('');
   const inputRef = useRef<InputRef>(null);
@@ -18,7 +25,14 @@ const InputTags: React.FC = () => {
   const handleClose = (removedTag: string) => {
     const newTags = tags.filter(tag => tag !== removedTag);
     setTags(newTags);
+    onChange(newTags)
   };
+
+  useEffect(() => { 
+    if (props.values) {
+      setTags(props.values);
+    }
+  }, [props.values]);
 
   const showInput = () => {
     setInputVisible(true);
@@ -28,13 +42,24 @@ const InputTags: React.FC = () => {
     setInputValue(e.target.value);
   };
 
+  const onChange = (value:string[]) => {
+    props.onChange && props.onChange(value);
+    // form.setFieldValue({
+    //   [props.name]: value
+    // });
+  }
+
   const handleInputConfirm = () => {
+    const newTags = [...tags, inputValue];
     if (inputValue && tags.indexOf(inputValue) === -1) {
-      setTags([...tags, inputValue]);
+      setTags(newTags);
     }
     setInputVisible(false);
     setInputValue('');
+    onChange(newTags)
   };
+
+
 
   const forMap = (tag: string) => {
     const tagElem = (
@@ -58,10 +83,8 @@ const InputTags: React.FC = () => {
   const tagChild = tags.map(forMap);
   return (
     <>
-      <div style={{ marginBottom: 16 }}>
-          {tagChild}
-      </div>
-      {inputVisible && (
+      <Space align='start' wrap>
+          {tagChild}    <span>{inputVisible && (
         <Input
           ref={inputRef}
           type="text"
@@ -74,10 +97,12 @@ const InputTags: React.FC = () => {
         />
       )}
       {!inputVisible && (
-        <Tag onClick={showInput} className="site-tag-plus">
+        <Tag color='volcano' onClick={showInput} className="site-tag-plus">
           <PlusOutlined /> New Tag
         </Tag>
-      )}
+      )}</span>
+     
+     </Space>
     </>
   );
 };

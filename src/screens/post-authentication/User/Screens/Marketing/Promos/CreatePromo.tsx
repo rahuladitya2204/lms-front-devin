@@ -11,6 +11,7 @@ import {
 } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
+import PriceFormItem from '@Components/PriceFormItem'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
@@ -32,6 +33,21 @@ const CreatePromo: React.FC<CreatePromoComponentPropsI> = props => {
     mutate: updatePromo,
     isLoading: updatePromoLoading
   } = User.Queries.useUpdatePromo()
+
+  const { data: promoDetails } = User.Queries.useGetPromoDetails(
+    props.data?._id + '',
+    {
+      enabled: !!props?.data?._id
+    }
+  )
+
+  useEffect(
+    () => {
+      form.setFieldsValue(promoDetails)
+    },
+    [promoDetails]
+  )
+
   const { listItems: courses } = User.Queries.useGetCourses()
   const [form] = Form.useForm()
 
@@ -79,38 +95,20 @@ const CreatePromo: React.FC<CreatePromoComponentPropsI> = props => {
             placeholder="Discount Percent"
           />
         </Form.Item>
-        <Space align="end">
-          <Form.Item
-            label="Minimum Course Value"
-            name={['minCourseValue', 'unit']}
-          >
-            <Select style={{ width: 70 }} defaultValue="rupee">
-              <Select.Option value="rupee">₹</Select.Option>
-              <Select.Option value="dollar">$</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item style={{ width: 130 }} name={['minCourseValue', 'value']}>
-            <Input type="number" />
-          </Form.Item>
-        </Space>
-
-        <Space align="end">
-          <Form.Item
-            label="Maximum Discount Value"
-            name={['maxDiscountValue', 'unit']}
-          >
-            <Select style={{ width: 70 }} defaultValue="rupee">
-              <Select.Option value="rupee">₹</Select.Option>
-              <Select.Option value="dollar">$</Select.Option>
-            </Select>
-          </Form.Item>
-          <Form.Item
-            style={{ width: 130 }}
-            name={['maxDiscountValue', 'value']}
-          >
-            <Input type="number" />
-          </Form.Item>
-        </Space>
+        <Row justify="space-between">
+          <Col>
+            <PriceFormItem
+              label="Minimum Course Value"
+              name={'minCourseValue'}
+            />
+          </Col>
+          <Col>
+            <PriceFormItem
+              label="Maximum Discount Value"
+              name={'maxDiscountValue'}
+            />
+          </Col>
+        </Row>
         <Space align="end" direction="horizontal" size={[20, 20]}>
           <Form.Item name="startDate" label="Start Date" required>
             <DatePicker

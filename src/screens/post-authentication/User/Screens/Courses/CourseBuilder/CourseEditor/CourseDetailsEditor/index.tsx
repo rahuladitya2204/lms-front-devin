@@ -162,70 +162,6 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Space>
-            <Form.Item name={['category']} required label="Category">
-              <Select
-                style={{ width: 300, marginLeft: 10 }}
-                placeholder="Select Category"
-              >
-                {categories.map(category => {
-                  return (
-                    <Option
-                      key={category.value}
-                      value={category.value}
-                      label={category.label}
-                    >
-                      {category.label}
-                    </Option>
-                  )
-                })}
-              </Select>
-            </Form.Item>
-            <ActionModal
-              cta={
-                <Button
-                  style={{ marginLeft: 10 }}
-                  shape="round"
-                  icon={<PlusOutlined />}
-                />
-              }
-            >
-              <CreateCategory> </CreateCategory>
-            </ActionModal>
-          </Space>
-        </Col>
-      </Row>
-      <Row gutter={[40, 20]}>
-        <Col span={12}>
-          <Space>
-            <Form.Item name="instructor" required label="Instructor">
-              <Select style={{ width: 300 }} placeholder="Select Instructor">
-                {instructors.map(instructor => {
-                  return (
-                    <Select.Option key={instructor._id} value={instructor._id}>
-                      <Space>
-                        <Avatar size={20} src={instructor.image} />
-                        <Typography.Text>{instructor.name}</Typography.Text>
-                      </Space>
-                    </Select.Option>
-                  )
-                })}
-              </Select>
-            </Form.Item>
-            <ActionModal
-              cta={
-                <Button
-                  style={{ marginLeft: 10 }}
-                  shape="round"
-                  icon={<PlusOutlined />}
-                />
-              }
-            >
-              <AddInstructor> </AddInstructor>
-            </ActionModal>
-          </Space>
-        </Col>
-        <Col span={12}>
           <Form.Item name="language" required label="Language">
             <Select
               showSearch
@@ -233,6 +169,81 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
               options={LANGUAGES}
             />
           </Form.Item>
+        </Col>
+      </Row>
+      <Row gutter={[40, 20]}>
+        <Col span={12}>
+          <Row gutter={[20, 20]}>
+            <Col flex={1}>
+              <Form.Item name="instructor" required label="Instructor">
+                <Select
+                  style={{ width: '100%' }}
+                  placeholder="Select Instructor"
+                >
+                  {instructors.map(instructor => {
+                    return (
+                      <Select.Option
+                        key={instructor._id}
+                        value={instructor._id}
+                      >
+                        <Space>
+                          <Avatar size={20} src={instructor.image} />
+                          <Typography.Text>{instructor.name}</Typography.Text>
+                        </Space>
+                      </Select.Option>
+                    )
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col>
+              <ActionModal
+                cta={
+                  <Button
+                    style={{ marginLeft: 10 }}
+                    shape="round"
+                    icon={<PlusOutlined />}
+                  />
+                }
+              >
+                <AddInstructor> </AddInstructor>
+              </ActionModal>
+            </Col>
+          </Row>
+        </Col>
+        <Col span={12}>
+          <Row gutter={[20, 20]} justify={'end'}>
+            <Col flex={1}>
+              <Form.Item name={['category']} required label="Category">
+                <Select style={{ width: '100%' }} placeholder="Select Category">
+                  {categories.map(category => {
+                    return (
+                      <Option
+                        key={category.value}
+                        value={category.value}
+                        label={category.label}
+                      >
+                        {category.label}
+                      </Option>
+                    )
+                  })}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col>
+              <ActionModal
+                cta={
+                  <Button
+                    style={{ marginLeft: 10 }}
+                    shape="round"
+                    icon={<PlusOutlined />}
+                  />
+                }
+              >
+                <CreateCategory> </CreateCategory>
+              </ActionModal>
+            </Col>
+          </Row>
         </Col>
       </Row>
     </Form>

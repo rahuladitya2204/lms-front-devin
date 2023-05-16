@@ -12,11 +12,13 @@ import {
   Typography
 } from 'antd'
 import { Fragment, useLayoutEffect } from 'react'
+import { convertToCommaSeparated, deepPatch } from '../../utils'
 
 import CourseCertificate from '../CourseCertificate/CourseCertificateScreen'
+import GenerateWithAI from '../GenerateWithAiButton'
+import InputTags from '@Components/InputTags'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
-import { deepPatch } from '../../utils'
 
 const { Title } = Typography
 const { useWatch } = Form
@@ -57,24 +59,47 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
     [props.course]
   )
 
+  const onValuesChange=(d:any) => {
+    const data = deepPatch(props.course.advanced, d)
+    props.saveCourse({
+      advanced: data
+    })
+  }
+  const keywords = props.course.keywords;
   return (
     <>
      <Form
-      onValuesChange={d => {
-        const data = deepPatch(props.course.advanced, d)
-        props.saveCourse({
-          advanced: data
-        })
-      }}
+      onValuesChange={onValuesChange}
       form={form}
       layout="vertical"
       autoComplete="off"
     >
       <Form.Item valuePropName="checked" name={['watermark', 'enabled']}>
         <Checkbox>Enable Water Mark</Checkbox>
+        </Form.Item>
+        
+        <Form.Item label='Course Keywords' name={['keywords']} extra={  <GenerateWithAI
+        course={props.course}
+        fields={['keywords']}
+          onValuesChange={(e: any) => {
+            if (e && e.keywords) {
+              const keywords = convertToCommaSeparated(e?.keywords?.toLowerCase());
+              console.log(keywords,'aaaa')
+              props.saveCourse({
+                keywords
+              });
+            }            
+        }}
+      />}>
+          <InputTags values={keywords} onChange={(e: any) => {
+              props.saveCourse({
+                keywords: e
+              });
+          }
+        } />
       </Form.Item>
 
-        <Card bodyStyle={{
+        {/* <Card bodyStyle={{
           display:sendEmail?'block':'none'
         }} title={<Title level={3}>Email Notification</Title>} extra={
               <Tooltip placement="topLeft" title={`Send email to learner on course enrollment`}>
@@ -82,7 +107,6 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
           <Form.Item style={{margin:0}}
         valuePropName="checked"
         name={['email', 'enabled']}
-        // label="Send email to learner on course enrollment."
       >
         <Switch />
             </Form.Item>
@@ -105,7 +129,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
           </Form.Item>
         </Fragment>
       ) : null}
-</Card>
+</Card> */}
       </Form>
       <Divider/>
       <CourseCertificate   courseId={props.courseId}

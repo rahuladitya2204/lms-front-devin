@@ -1,5 +1,4 @@
-import { Form, Tag } from "antd";
-
+import { Form } from "antd";
 import SunEditorComponent from "@Components/SunEditor/SunEditor";
 import TextArea from "@Components/Textarea";
 import { Types } from "@adewaskar/lms-common";
@@ -11,7 +10,7 @@ interface CreateEmailTemplatePropsI {
     updateCampaign: (d: Types.Campaign) => void;
 }
 
-const variables = [{ name: 'Course Name', value: 'course.title'}, { name: 'Learner Name', value: 'learner.name'}];
+// const variables = [{ name: 'Course Name', value: 'course.title'}, { name: 'Learner Name', value: 'learner.name'}];
 
 const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
     const [form] = Form.useForm();

@@ -1,13 +1,14 @@
 // @ts-nocheck
 
 import { Common, Types, User } from '@adewaskar/lms-common';
-import { Form, Space, Typography, } from 'antd';
+import { Form, Input, Space, Typography, } from 'antd';
 import React, { Fragment } from 'react';
 
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
+import TextArea from '@Components/Textarea';
 import { useParams } from 'react-router';
 
-const { Text } = Typography;
+const { Text,Title } = Typography;
 
 interface CreateEmailTemplateComponentPropsI {
   id?: string;
@@ -29,18 +30,20 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
 
   return (
     <Fragment>
-      {template.type==='default'?<><Form.Item label="Email Type" >
+      {template.type === 'default' ? <><Form.Item label={<Title style={{margin:0}} level={5} strong>Email Type</Title> } >
          <Text> {MailType.title}</Text>
         </Form.Item>
-        <Form.Item label="Description" >
+        <Form.Item label={<Title style={{margin:0}} level={5} strong>Description</Title> }  >
          <Text> {MailType.description}</Text>
         </Form.Item></>:<Form.Item label="Template Title" >
          <Text> {template.title}</Text>
         </Form.Item>}
         <Space direction='vertical' size={[30,30]} style={{width:'100%'}}>
-        <Form.Item name="subject" label="Subject of the email" required>
-           <SunEditorComponent variables={variables} name="subject"
-          />
+        <Form.Item name="subject"  label="Subject of the email" required>
+           {/* <SunEditorComponent variables={variables} name="subject"
+          /> */}
+          <Input.TextArea name={'subject'} />
+
 
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>

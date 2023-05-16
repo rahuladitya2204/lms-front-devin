@@ -47,7 +47,7 @@ function EmailTemplateEditor() {
   },[template])
 
   return (
-    <Header
+    <Header showBack
       title="Email Template Editor"
       extra={[
         <Fragment>

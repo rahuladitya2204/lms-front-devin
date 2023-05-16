@@ -59,13 +59,18 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   useEffect(
     () => {
-      setCampaign(campaignDetails)
+      if (campaignDetails._id) {
+        setCampaign(campaignDetails)
+      }
     },
     [campaignDetails]
   )
 
   const updateCampaign = (e: Partial<Types.Campaign>) => {
-    setCampaign(e)
+    setCampaign({
+      ...campaign,
+      ...e
+    })
   }
 
   const onSubmit = () => {
@@ -103,7 +108,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     }
     // onFinish && onFinish(e)
   }
-
+  console.log(campaign, 'aaaaa')
   return (
     <Header
       showBack

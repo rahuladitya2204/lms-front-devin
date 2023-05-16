@@ -237,3 +237,8 @@ const numberOfColors = 5;
 const lightnessChange = 0.1;
 const gradientColors = generateGradientColors(primaryColor, numberOfColors, lightnessChange);
 console.log(gradientColors);
+
+
+export function convertToCommaSeparated(inputString) {
+  return inputString.split('\n').map(item => item.replace(/[0-9]*\.? */, '').trim()).filter(i=>i);
+}

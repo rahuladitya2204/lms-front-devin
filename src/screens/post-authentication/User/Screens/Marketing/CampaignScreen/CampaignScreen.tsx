@@ -23,6 +23,7 @@ const { confirm } = Modal
 function CampaignsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetCampaigns()
   const { mutate: executeCampaign } = User.Queries.useExecuteCampaign()
+  // const { mutate: deleteCampaign } = User.Queries.usedeletec()
   const navigate = useNavigate()
 
   const deleteCampaign = (id: string) => {
@@ -71,7 +72,7 @@ function CampaignsScreen() {
                   dayjs(record.createdAt).format('DD/MM/YYYY')
                 }
               />
-              <Table.Column
+              {/* <Table.Column
                 title="Status"
                 dataIndex="status"
                 key="status"
@@ -82,7 +83,7 @@ function CampaignsScreen() {
                     </Tag>
                   ) : null
                 }
-              />
+              /> */}
               <Table.Column
                 title="Created At"
                 dataIndex="createdAt"

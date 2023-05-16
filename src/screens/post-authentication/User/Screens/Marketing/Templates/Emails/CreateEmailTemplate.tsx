@@ -3,6 +3,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import BASE_EMAIL_TEMPLATE from './BaseEmailTemplate'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
+import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
@@ -13,7 +14,7 @@ interface CreateEmailTemplateComponentPropsI {
   onFinish?: (data: Types.EmailTemplate) => void;
 }
 
-const AddEmailTemplate: React.FC<
+const CreateEmailTemplate: React.FC<
   CreateEmailTemplateComponentPropsI
 > = props => {
   const {
@@ -65,8 +66,8 @@ const AddEmailTemplate: React.FC<
         <Form.Item name="description" label="Template Description" required>
           <Input placeholder="Title of the Template" />
         </Form.Item>
-        <Form.Item name="subject" label="Template Subject" required>
-          <Input placeholder="Subject of the email" />
+        <Form.Item name="subject" required>
+          <TextArea label="Template Subject" name={['content']} />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
           <SunEditorComponent
@@ -74,12 +75,6 @@ const AddEmailTemplate: React.FC<
           />
         </Form.Item>
       </Form>
-      {/* <Button
-        key="back"
-        onClick={() => form.resetFields(['instructorName', 'title'])}
-      >
-        Clear
-      </Button>, */}
       <Button
         loading={createEmailTemplateLoading || updateEmailTemplateLoading}
         key="submit"
@@ -92,4 +87,4 @@ const AddEmailTemplate: React.FC<
   )
 }
 
-export default AddEmailTemplate
+export default CreateEmailTemplate
