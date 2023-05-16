@@ -50,14 +50,14 @@ const InputTags: React.FC<InputTagsPropsI> = (props) => {
   }
 
   const handleInputConfirm = () => {
-    const newTags = [...tags, inputValue];
     if (inputValue && tags.indexOf(inputValue) === -1) {
+      const newTags = [...tags, inputValue];
       setTags(newTags);
-    }
     setInputVisible(false);
     setInputValue('');
     onChange(newTags)
-  };
+  }
+};
 
 
 

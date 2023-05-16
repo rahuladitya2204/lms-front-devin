@@ -38,7 +38,9 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
               <Table.Column
                 title="Listing Price"
                 render={(text, record: Types.Plan) => {
-                  return `₹${record?.displayPrice?.value}`
+                  return record.type !== 'free'
+                    ? `₹${record?.displayPrice?.value}`
+                    : ''
                 }}
                 dataIndex="displayPrice.value"
                 key="displayPrice.value"
@@ -46,7 +48,9 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
               <Table.Column
                 title="Final Price"
                 render={(text, record: Types.Plan) => {
-                  return `₹${record.finalPrice.value}`
+                  return record.type !== 'free'
+                    ? `₹${record.finalPrice.value}`
+                    : ''
                 }}
                 dataIndex="finalPrice.value"
                 key="finalPrice.value"

@@ -1,4 +1,4 @@
-import { Button, Card, Form, Tabs } from 'antd'
+import { Button, Card, Form } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
@@ -10,6 +10,7 @@ import CourseDetailsEditor from './CourseDetailsEditor'
 import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import Header from '@Components/Header'
+import Tabs from '@Components/Tabs/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
@@ -90,7 +91,7 @@ function CourseEditor() {
           items={[
             {
               label: `Details`,
-              key: '1',
+              key: 'details',
               children: (
                 <CourseDetailsEditor
                   saveCourse={saveCourse}
@@ -101,7 +102,7 @@ function CourseEditor() {
             },
             {
               label: `Landing Page`,
-              key: '3',
+              key: 'landing-page',
               children: (
                 <CourseLandingPageEditor
                   courseId={courseId}
@@ -112,7 +113,7 @@ function CourseEditor() {
             },
             {
               label: `Pricing`,
-              key: '2',
+              key: 'pricing',
               children: (
                 <CoursePricingEditor
                   courseId={courseId}
@@ -123,7 +124,7 @@ function CourseEditor() {
             },
             {
               label: `Advanced`,
-              key: '4',
+              key: 'advanced',
               children: (
                 <CourseAdvancedSettings
                   courseId={courseId}

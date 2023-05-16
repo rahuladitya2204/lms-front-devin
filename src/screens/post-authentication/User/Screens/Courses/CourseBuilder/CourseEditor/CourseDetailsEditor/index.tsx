@@ -100,7 +100,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       autoComplete="off"
       onValuesChange={onValuesChange}
     >
-      <Form.Item name={['status']} required label="Course Status">
+      {/* <Form.Item name={['status']} required label="Course Status">
         <Select style={{ width: 200 }} placeholder="Select Status`">
           {STATUSES.map((category: any) => {
             return (
@@ -114,7 +114,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             )
           })}
         </Select>
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
           source={{
@@ -173,7 +173,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       </Row>
       <Row gutter={[40, 20]}>
         <Col span={12}>
-          <Row gutter={[20, 20]}>
+          <Row gutter={[0, 20]}>
             <Col flex={1}>
               <Form.Item name="instructor" required label="Instructor">
                 <Select
@@ -196,7 +196,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
                 </Select>
               </Form.Item>
             </Col>
-            <Col>
+            <Col style={{ display: 'flex', alignItems: 'center' }}>
               <ActionModal
                 cta={
                   <Button
@@ -212,7 +212,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           </Row>
         </Col>
         <Col span={12}>
-          <Row gutter={[20, 20]} justify={'end'}>
+          <Row gutter={[0, 20]} justify={'end'}>
             <Col flex={1}>
               <Form.Item name={['category']} required label="Category">
                 <Select style={{ width: '100%' }} placeholder="Select Category">
@@ -230,7 +230,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
                 </Select>
               </Form.Item>
             </Col>
-            <Col>
+            <Col style={{ display: 'flex', alignItems: 'center' }}>
               <ActionModal
                 cta={
                   <Button

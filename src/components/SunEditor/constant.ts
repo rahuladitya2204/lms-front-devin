@@ -29,7 +29,7 @@ export const editorOptions = {
       'save',
       'template'
     ],
-    ['-right', ':r-More Rich-default.more_plus', 'table', 'imageGallery'],
+    ['-right', ':r-More Rich-default.more_plus', 'table'],
     ['-right', 'image', 'video', 'audio', 'link'],
     // (min-width: 992)
     [
@@ -76,7 +76,6 @@ export const editorOptions = {
           'video',
           'audio',
           'math',
-          'imageGallery'
         ]
       ]
     ],
@@ -122,7 +121,6 @@ export const editorOptions = {
           'video',
           'audio',
           'math',
-          'imageGallery'
         ],
         [
           '-right',
@@ -180,7 +178,6 @@ export const editorOptions = {
           'video',
           'audio',
           'math',
-          'imageGallery'
         ],
         [
           '-right',

@@ -27,12 +27,14 @@ const PreviewTemplate: React.FC<CreateEmailTemplateComponentPropsI> = (props) =>
   const MailType = EmailTemplatesMap[template.emailType] ? EmailTemplatesMap[template.emailType] : {};
   const variables = MailType.variables;
   
-    const compiled=BaseTemplate.replace('{{{template}}}',props.htmlContent).replace('{{organisation.logo}}',organisation.logo)
+    const compiled=BaseTemplate.replace('{{{template}}}',props.htmlContent).replace('{{organisation.logo}}',organisation.logo).replace('{{organisation.name}}',organisation.name)
     
   return (
-      <Card>
+
+          <div className='sun-editor-editable' style={{width:'100%'}}>
           <HtmlViewer content={compiled} />
-    </Card>
+          </div>
+
   );
 };
 
