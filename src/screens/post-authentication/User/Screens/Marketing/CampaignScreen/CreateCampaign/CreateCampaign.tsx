@@ -1,18 +1,7 @@
 // @ts-nocheck
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  Input,
-  Row,
-  Select,
-  Space,
-  Tabs,
-  Tag
-} from 'antd'
+import { Button, Card, Col, Row, Tabs } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
-import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import AddRecipients from './AddRecipients/AddReciepients'

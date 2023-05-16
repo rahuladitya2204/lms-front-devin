@@ -1,9 +1,10 @@
 // @ts-nocheck
 
+import { Col, Form, Input, Row, Space, Typography, } from 'antd';
 import { Common, Types, User } from '@adewaskar/lms-common';
-import { Form, Input, Space, Typography, } from 'antd';
 import React, { Fragment } from 'react';
 
+import PreviewTemplate from './PreviewTemplate';
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
 import TextArea from '@Components/Textarea';
 import { useParams } from 'react-router';
@@ -29,7 +30,9 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
   
 
   return (
-    <Fragment>
+    <Row gutter={[20,20]}>
+      <Col span={12}>
+      <Fragment>
       {template.type === 'default' ? <><Form.Item label={<Title style={{margin:0}} level={5} strong>Email Type</Title> } >
          <Text> {MailType.title}</Text>
         </Form.Item>
@@ -54,6 +57,10 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
         </Form.Item>
         </Space>
     </Fragment>
+      </Col>
+      <Col span={12}>
+        <PreviewTemplate htmlContent={ content} /></Col>
+    </Row>
   );
 };
 
