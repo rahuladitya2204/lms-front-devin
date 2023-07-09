@@ -135,7 +135,14 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         />
       </Form.Item>
 
-      <Form.Item name="title" required label="Title">
+      <Form.Item
+        name="title"
+        required
+        label="Title"
+        rules={[
+          { required: true, message: 'Please enter a title for the course' }
+        ]}
+      >
         <Input />
       </Form.Item>
 
@@ -143,6 +150,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         name="subtitle"
         required
         label="Subtitle"
+        rules={[{ required: true, message: 'Please enter a subtitle!' }]}
         extra={generateWithAI(['subtitle'])}
       >
         <Input />
@@ -151,18 +159,35 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         name={'description'}
         required
         label="Description"
+        rules={[
+          {
+            required: true,
+            message: 'Please enter a description for the course'
+          }
+        ]}
         extra={generateWithAI(['description'])}
       >
         <TextArea rows={4} placeholder="Enter the course description" />
       </Form.Item>
       <Row gutter={[40, 20]}>
         <Col span={12}>
-          <Form.Item label="Difficulty Level" name={['difficultyLevel']}>
+          <Form.Item
+            label="Difficulty Level"
+            name={['difficultyLevel']}
+            rules={[
+              { required: true, message: 'Please select difficulty level!' }
+            ]}
+          >
             <Select options={DIFFICULTY_LEVELS} />
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Form.Item name="language" required label="Language">
+          <Form.Item
+            name="language"
+            required
+            label="Language"
+            rules={[{ required: true, message: 'Please select a language' }]}
+          >
             <Select
               showSearch
               placeholder="Select Language"
@@ -175,8 +200,15 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         <Col span={12}>
           <Row gutter={[0, 20]}>
             <Col flex={1}>
-              <Form.Item name="instructor" required label="Instructor">
-                <Select
+              <Form.Item
+                name="instructor"
+                required
+                label="Instructor"
+                rules={[
+                  { required: true, message: 'Please select a instructor' }
+                ]}
+              >
+                <Select 
                   style={{ width: '100%' }}
                   placeholder="Select Instructor"
                 >
@@ -214,7 +246,14 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         <Col span={12}>
           <Row gutter={[0, 20]} justify={'end'}>
             <Col flex={1}>
-              <Form.Item name={['category']} required label="Category">
+              <Form.Item
+                name={['category']}
+                required
+                label="Category"
+                rules={[
+                  { required: true, message: 'Please select a category' }
+                ]}
+              >
                 <Select style={{ width: '100%' }} placeholder="Select Category">
                   {categories.map(category => {
                     return (

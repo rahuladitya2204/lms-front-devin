@@ -30,7 +30,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   if (props.value) {
     value = props.value
   }
-  // console.log(value, 'va');
+
   let options = editorOptions;
   if (props.mode === 'basic') {
     options = BasicEditorOptions;

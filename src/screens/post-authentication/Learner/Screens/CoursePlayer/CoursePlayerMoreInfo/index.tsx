@@ -1,10 +1,10 @@
-import { Tabs, Typography } from 'antd'
-
 import CourseDiscussion from './CourseDiscussion'
 import CourseNotes from './CourseNotes/CourseNotes'
 import CourseOverview from '@Learner/Screens/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
 import React from 'react'
+import Tabs from '@Components/Tabs'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from 'antd'
 
 const { Text } = Typography
 interface CoursePlayerMoreInfoPropsI {
@@ -20,12 +20,12 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
     // },
     {
       label: <Text strong>Notes</Text>,
-      key: '212',
+      key: 'notes',
       children: <CourseNotes course={props.course} />
     },
     {
       label: <Text strong>Course Discussion</Text>,
-      key: '3',
+      key: 'discussion',
       children: <CourseDiscussion course={props.course} />
     }
     // {

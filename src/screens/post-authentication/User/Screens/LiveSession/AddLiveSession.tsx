@@ -75,9 +75,8 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
     },
     [sessionDetails]
   )
-  console.log(sessionDetails, 'sessionDetails')
   const image = Form.useWatch('image', form);
-  console.log(image, 'ahahahah')
+
   const date = dayjs(Form.useWatch('scheduledAt', form))
   return (
     <Header showBack title='Create Live Session' extra={[<Button

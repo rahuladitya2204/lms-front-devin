@@ -52,7 +52,6 @@ const CreatePromo: React.FC<CreatePromoComponentPropsI> = props => {
   const [form] = Form.useForm()
 
   const onSubmit = (e: Types.Promo) => {
-    console.log(e, 'ee')
     if (props.data) {
       updatePromo(
         { id: props.data._id, data: e },

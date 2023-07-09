@@ -11,17 +11,27 @@ interface CourseDetailsPropsI {
 
 function CourseDetails(props: CourseDetailsPropsI) {
   return (
-    <Tabs style={{ fontSize: 30 }} size="middle">
-      <Tabs.TabPane tab="Overview" key="overview">
-        <CourseOverview course={props.course} />
-      </Tabs.TabPane>
-      <Tabs.TabPane tab="Curriculum" key="Curiculum">
-        <CourseCurriculum course={props.course} />
-      </Tabs.TabPane>
-      <Tabs.TabPane tab="Reviews" key="Reviews">
-        <CourseReviews course={props.course} />
-      </Tabs.TabPane>
-    </Tabs>
+    <Tabs
+      items={[
+        {
+          key: 'overview',
+          label: `Overview`,
+          children: <CourseOverview course={props.course} />
+        },
+        {
+          key: 'curriculum',
+          label: `Curriculum`,
+          children: <CourseCurriculum course={props.course} />
+        },
+        {
+          key: 'reviews',
+          label: `Reviews`,
+          children: <CourseReviews course={props.course} />
+        }
+      ]}
+      style={{ fontSize: 30 }}
+      size="middle"
+    />
   )
 }
 

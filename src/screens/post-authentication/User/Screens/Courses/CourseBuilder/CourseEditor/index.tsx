@@ -10,7 +10,7 @@ import CourseDetailsEditor from './CourseDetailsEditor'
 import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import Header from '@Components/Header'
-import Tabs from '@Components/Tabs/Tabs'
+import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
@@ -60,11 +60,32 @@ function CourseEditor() {
     )
   }
 
+  const validatePublishCourse = () => {
+    return (
+      course.title &&
+      course.subtitle &&
+      course.description &&
+      course.difficultyLevel &&
+      course.language &&
+      course.instructor &&
+      course.category &&
+      course.landingPage.promoVideo &&
+      course.landingPage.description &&
+      course.plan &&
+      (course.keywords && course.keywords.length)
+    )
+  }
+
+  const validateDraftCourse = () => {
+    return course.title
+  }
+
   return (
     <Header
       title="Course Editor"
       extra={[
         <Button
+          disabled={!validatePublishCourse()}
           onClick={() => {
             // const dataStr = STRINGIFY(JSON.stringify(course))
             window.open(`${courseId}/preview`, '_blank')
@@ -75,12 +96,13 @@ function CourseEditor() {
           Publish Course
         </Button>,
         <Button
+          disabled={!validateDraftCourse()}
           loading={loading}
           type="primary"
           onClick={updateCourse}
           icon={<SaveOutlined />}
         >
-          Save Course
+          Save as draft
         </Button>
       ]}
     >

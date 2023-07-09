@@ -39,8 +39,7 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
   return (
     <Row>
       <Col span={24}>
-        <Card title="Notes">
-          {/* <Row>
+        {/* <Row>
             <Col span={24}>
               <CreateNote item={itemId + ''} courseId={course._id} />
             </Col>
@@ -56,19 +55,19 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
               )
             })}
           </Row> */}
-          <Row>
-            <Col span={24}>
-              <CreateNote item={itemId + ''} courseId={course._id} />
-            </Col>
-          </Row>
-          <List
-            itemLayout="horizontal"
-            dataSource={currentItemNotes}
-            renderItem={(note, index) => {
-              return <CourseNoteItem course={course} note={note} />
-            }}
-          />
-        </Card>
+        <Row>
+          <Col span={24}>
+            <CreateNote item={itemId + ''} courseId={course._id} />
+          </Col>
+        </Row>
+        <Divider />
+        <List
+          itemLayout="horizontal"
+          dataSource={currentItemNotes}
+          renderItem={(note, index) => {
+            return <CourseNoteItem course={course} note={note} />
+          }}
+        />
       </Col>
     </Row>
   )

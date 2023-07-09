@@ -51,19 +51,9 @@ class TemplateMarker extends Embed {
   }
 
   static value (node) {
-    // console.log(node, 'nodee')
-    // // console.log(
-    // //   {
-    // //     value: node.getAttribute('data-value'),
-    // //     title: node.getAttribute('data-title'),
-    // //     collection: node.getAttribute('data-collection')
-    // //   },
-    // //   'ooooooo'
-    // // )
     return {
       value: node.getAttribute('variable-value'),
       name: node.innerText
-      //   collection: node.getAttribute('data-collection')
     }
   }
 }

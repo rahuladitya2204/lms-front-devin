@@ -26,7 +26,6 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   const [form] = Form.useForm()
 
   const onSubmit = (e: Types.Package) => {
-    console.log(e, 'ee')
     if (props.data) {
       updatePackage(
         { id: props.data._id, data: e },

@@ -88,7 +88,7 @@ function CourseDetailViewer () {
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const navigate = useNavigate();
   const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.course._id == course._id);
-
+  const category = course?.category as unknown as Types.CourseCategory;
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
@@ -127,7 +127,7 @@ function CourseDetailViewer () {
                 </Col>
                 <Col>
                   <MetaText strong>Categories</MetaText> <br />
-                  <MetaText>{course.category}</MetaText>
+                  <MetaText>{category?.title}</MetaText>
                 </Col>
                 <Col>
                   <MetaText strong>Review</MetaText> <br />

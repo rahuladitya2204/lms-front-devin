@@ -81,7 +81,6 @@ function EmailSettingScreen() {
       { data },
       {
         onSuccess: (d) => {
-          console.log(d, 'd');
           setSender({
             ...sender,
             [data.type]: d.id

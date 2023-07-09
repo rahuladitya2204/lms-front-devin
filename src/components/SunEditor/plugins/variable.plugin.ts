@@ -31,7 +31,7 @@ export const variablePlugin = (
 
       // Input tag caching
       context.customSubmenu.textElement = listDiv.querySelector('input')
-      console.log(listDiv, variables, 'lili')
+      // console.log(listDiv, variables, 'lili')
       listDiv
         .querySelector('.se-form-group')
         ?.addEventListener('click', this.onClick.bind(core))
@@ -80,7 +80,6 @@ export const variablePlugin = (
       return listDiv
     },
     onClick: function(e) {
-      console.log(e.target, 'eee')
       const variable: Types.Variable = {
         name: e.target.innerHTML,
         value: e.target.getAttribute('variable-value')

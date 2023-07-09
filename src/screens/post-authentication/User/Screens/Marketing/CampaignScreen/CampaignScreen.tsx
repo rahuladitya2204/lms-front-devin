@@ -33,7 +33,7 @@ function CampaignsScreen() {
       content: `You want to delete this campaign?`,
       onOk() {
         // props.removeItemFromCart(id)
-        console.log('deleteing')
+        // console.log('deleteing')
       },
       okText: 'Delete Campaign'
     })

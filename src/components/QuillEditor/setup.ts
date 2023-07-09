@@ -78,7 +78,6 @@ function selectLocalImage (quill, uploadFiles) {
   // Listen upload local image and save to server
   input.onchange = () => {
     const file = input.files[0]
-    console.log(file, 'file')
     // file type is only image.
     if (/^image\//.test(file.type)) {
       uploadFiles({

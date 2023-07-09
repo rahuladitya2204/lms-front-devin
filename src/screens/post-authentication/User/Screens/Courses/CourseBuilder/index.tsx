@@ -195,7 +195,6 @@ function CourseBuilderScreen() {
   return (
     <Header
       title={'Course Builder'}
-      hideBack
       extra={[
         <Button
           onClick={() =>

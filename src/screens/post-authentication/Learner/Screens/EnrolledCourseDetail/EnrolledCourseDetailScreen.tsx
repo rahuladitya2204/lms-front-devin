@@ -260,6 +260,8 @@ const EnrolledCourseDetailScreen: React.FC<
                   <Row>
                     <Col span={24}>
                       <Title level={5}>Course Description</Title>
+                      <Text>{course.description}</Text>
+
                       <Divider />
                     </Col>
                     <Col span={24}>

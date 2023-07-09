@@ -37,7 +37,6 @@ const LiveSessionPlayer = () => {
   useHandleMeetingEnd()
 
   const displayRecordingAlert = (session: Types.LiveSession) => {
-    console.log('jahahahaha')
     if (session.recording.enabled) {
       message.open({
         type: 'success',

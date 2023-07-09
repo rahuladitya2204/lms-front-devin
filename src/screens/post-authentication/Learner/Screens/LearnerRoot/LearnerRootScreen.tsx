@@ -13,7 +13,7 @@ const LearnerRootScreen: React.FC = () => {
   return (
     <ThemeProvider type="learner">
       <AppProvider>
-        <ActionModal
+        <ActionModal width={600}
           title={
             <Title style={{ marginTop: 0 }} level={3}>
               Raise a ticket
