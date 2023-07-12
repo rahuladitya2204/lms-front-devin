@@ -17,6 +17,7 @@ import { Learner, Utils } from '@adewaskar/lms-common'
 import LearnerCartCourseItem from './CourseItem'
 import useMessage from '@Hooks/useMessage';
 import { useNavigate } from 'react-router';
+import { usePaymentCheckout } from '@Hooks/CommonHooks';
 
 const { Title, Text } = Typography
 const { UnitTypeToStr } = Utils;
@@ -24,7 +25,8 @@ const { UnitTypeToStr } = Utils;
 export default function LearnerCart() {
   const message = useMessage();
   const [form] = Form.useForm()
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const { openCheckout} = usePaymentCheckout();
   const { mutate: updateCart } = Learner.Queries.useUpdateCartItems()
   // @ts-ignore
   const { data: { items, promo,total,discount,totalBeforeDiscount } } = Learner.Queries.useGetCartDetails()
@@ -33,7 +35,9 @@ export default function LearnerCart() {
     updateCart({ data: { courseId: id }, action: 'remove' })
   }
 
-  const {mutate: createOrder } = Learner.Queries.useCreateOrder()
+  const { mutate: createOrder } = Learner.Queries.useCreateOrder();
+  const { mutate: createPaymentOrder,isLoading: creatingPaymentOrder } = Learner.Queries.useCreatePaymentOrder();
+  const { mutate: updatePaymentOrder } = Learner.Queries.useUpdateOrderStatus();
 
   const applyCode = ({ code }: { code: string }) => {
     updateCart({ data: { promoCode: code }, action: 'apply_code' },{
@@ -161,11 +165,30 @@ export default function LearnerCart() {
             createOrder(undefined, {
               onSuccess: (order) => {
                 console.log(order, 'order');
+                createPaymentOrder({
+                  amount: order.total.value,
+                  currency: 'INR',
+                }, {
+                  onSuccess: (pgOrder => {
+                    // @ts-ignore
+                    openCheckout(pgOrder, (payment) => {
+                      console.log(payment, 'paymentpayment');
+                      updatePaymentOrder({
+                        orderId: order._id,
+                        status:'successful'
+                      }, {
+                        onSuccess: () => {
+                          navigate(`../${order._id}/successful`);
+                        }
+                      });
+                    });
+                  })
+                })
                 // @ts-ignore
-                navigate(`../${order._id}/successful`);
+                // navigate(`../${order._id}/successful`);
               }
             });
-          }} style={{ marginTop: 20 }} block type="primary" size="large">
+          }} loading={creatingPaymentOrder} style={{ marginTop: 20 }} block type="primary" size="large">
             Checkout
           </Button>
         </Col>

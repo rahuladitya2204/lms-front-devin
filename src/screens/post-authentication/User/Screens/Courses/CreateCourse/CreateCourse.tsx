@@ -17,6 +17,7 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
   const [form] = Form.useForm()
 
   const onSubmit = (e: Types.Course) => {
+    console.log('Helo')
     createCourse(
       e,
       {

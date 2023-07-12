@@ -25,7 +25,7 @@ function StoreScreen () {
     },
     [params.orgId]
   )
-  const courses = isSignedIn ? recommendedCourses : allCourses
+  const courses = !isSignedIn ? recommendedCourses : allCourses
   return (
     <Row gutter={[30, 30]}>
       <Col span={24}>

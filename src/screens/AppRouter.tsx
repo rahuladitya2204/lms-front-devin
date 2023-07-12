@@ -41,6 +41,7 @@ import LearnersScreen from './post-authentication/User/Screens/Users/Learners/Le
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import LiveSessionsScreen from '@User/Screens/LiveSession/LiveSessionScreen/LiveSessions'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
+import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import RootScreen from './Root'
@@ -150,6 +151,7 @@ const router = createBrowserRouter(
             </Route>
             <Route path="courses/:id/editor" element={<CourseEditor />} />
           </Route>
+          <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route
             path="app/live-session/:sessionId/player"
             element={<UserLiveSessionPlayerEnter />}
@@ -193,6 +195,7 @@ const router = createBrowserRouter(
               element={<EnrolledCourseSuccessful />}
             />
           </Route>
+          <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route path="app/courses/:id/player" element={<CoursePlayer />}>
             <Route
               path="section/:sectionId/item/:itemId"

@@ -1,13 +1,15 @@
-import { Button, Checkbox, Form, Input } from 'antd'
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Button, Checkbox, Divider, Form, Input } from 'antd'
+import { Learner, Store, User } from '@adewaskar/lms-common'
 import { NavLink, useParams } from 'react-router-dom'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
+import { GoogleOutlined } from '@ant-design/icons'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { useFormik } from 'formik'
 import { useNavigate } from 'react-router'
+import useOauth from './useOauth'
 
 function LearnerLogin () {
   const navigate = useNavigate()
@@ -27,6 +29,7 @@ function LearnerLogin () {
     },
     [params.orgId]
   )
+  const Google = useOauth('google')
 
   const formik = useFormik({
     initialValues: {
@@ -98,6 +101,18 @@ function LearnerLogin () {
           </Typography.Text>
         </Form.Item>
       </Form>
+      <Divider dashed>or</Divider>
+
+      <Button
+        // style={{ marginTop: 20 }}
+        icon={<GoogleOutlined />}
+        loading={Google.loading}
+        block
+        onClick={Google.openWindow}
+        htmlType="submit"
+      >
+        Login with Google
+      </Button>
     </AuthenticationCard>
   )
 }

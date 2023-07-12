@@ -1,0 +1,39 @@
+import { Store, User, Utils } from '@adewaskar/lms-common'
+import { useEffect, useState } from 'react'
+
+import { useNavigate } from 'react-router'
+
+const useUserOauth = (provider: string) => {
+  const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
+  const { data: googleLoginUrl } = User.Queries.useGetProviderLoginUrl(provider)
+  const setIsSignedin = Store.useAuthentication(state => state.setIsSignedin)
+  useEffect(() => {
+    window.addEventListener(
+      'message',
+      function(e) {
+        if (e.data.type === 'oauth-completed') {
+          console.log(e.data, 'token')
+          const token = e.data.data.token
+          Utils.Storage.SetItem('user-auth-token', token)
+          setIsSignedin(true)
+          setLoading(false)
+          navigate(`../app/courses`)
+        }
+      },
+      false
+    )
+  }, [])
+
+  const openWindow = () => {
+    setLoading(true)
+    window.open(googleLoginUrl)
+  }
+
+  return {
+    openWindow,
+    loading
+  }
+}
+
+export default useUserOauth

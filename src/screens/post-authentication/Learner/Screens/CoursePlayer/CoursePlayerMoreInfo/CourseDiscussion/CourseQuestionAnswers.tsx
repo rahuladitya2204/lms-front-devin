@@ -20,9 +20,10 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
     props.questionId
   )
   const user = Store.useAuthentication(s => s.user)
+  console.log(user, 'ussss')
   const name = (user.name + '')
     .split(' ')
-    .map(n => n[0].toUpperCase())
+    .map(n => n[0] && n[0].toUpperCase())
     .join('')
 
   const answers = question.answers

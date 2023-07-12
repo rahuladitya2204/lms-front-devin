@@ -9,6 +9,8 @@ import { useEffect, useState } from 'react'
 
 import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
 import { getToken } from '@Network/index'
+import { razorpay } from 'config'
+import useRazorpay from "react-razorpay";
 
 export const useNavigateParams = () => {
   const navigate = useNavigate()
@@ -57,4 +59,27 @@ export const useAppInit = (type: string) => {
 
 
   return { isInitDone: loading }
+}
+
+
+export const usePaymentCheckout = () => {
+  const organisation = Store.useGlobal(s => s.organisation);
+  const Razorpay = useRazorpay();
+// @ts-ignore 
+  const openCheckout = (order,cb) => {
+    const rzpay = new Razorpay({
+      order_id: order.id,
+      currency: order.currency,
+      name:organisation.name,
+      description: "Test Transaction",
+      key: razorpay.id,
+      image: organisation.logo,
+      amount: order.amount,
+      handler:cb
+    });
+    console.log(rzpay,'rzpay')
+    return rzpay.open();
+  }
+
+  return { openCheckout };
 }
