@@ -59,7 +59,8 @@ function CourseCard(props: CourseCardProps) {
         // <SettingOutlined />
       ]}
     >
-      <Card.Meta description={(instructor?.name)?`By ${instructor?.name}`:null}
+      <Card.Meta
+        // description={(instructor?.name) ? `By ${instructor?.name}` : null}
         avatar={<Avatar src={instructor?.image} />}
         title={props.course.title || ''}
       />

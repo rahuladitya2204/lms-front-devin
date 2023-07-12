@@ -15,15 +15,39 @@ const UserDashboard: React.FC = () => {
   const navigate = useNavigate()
   return (
     <Header title="Dashboard">
-      <Row>
+      <Row gutter={[30, 30]}>
         <Col span={8}>
           <Card bordered={false}>
             <Statistic
-              title="Total Sales"
+              title="Total Revenue"
               value={`1080123`}
               precision={2}
               // valueStyle={{ color: '#cf1322' }}
               prefix={`$`}
+              // suffix="%"
+            />
+          </Card>
+        </Col>
+        <Col span={8}>
+          <Card bordered={false}>
+            <Statistic
+              title="New Signups"
+              value={`1080123`}
+              precision={2}
+              // valueStyle={{ color: '#cf1322' }}
+              // prefix={`$`}
+              // suffix="%"
+            />
+          </Card>
+        </Col>
+        <Col span={8}>
+          <Card bordered={false}>
+            <Statistic
+              title="New Enrollments"
+              value={`1080123`}
+              precision={2}
+              // valueStyle={{ color: '#cf1322' }}
+              // prefix={`$`}
               // suffix="%"
             />
           </Card>
