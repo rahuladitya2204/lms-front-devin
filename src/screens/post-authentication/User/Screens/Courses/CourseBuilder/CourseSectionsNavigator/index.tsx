@@ -1,11 +1,11 @@
-import { Button, Card, Collapse, List, Modal, Space, Tooltip, Typography } from 'antd'
+import { Button, Card, Collapse, Input, List, Modal, Space, Tooltip, Typography } from 'antd'
+import { DeleteOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons'
 import { useCallback, useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AddItem from '../AddItem'
 import CourseItemIcon from './CourseItemIcon'
 import CreateHeading from '../CreateNewItem/CreateHeading'
-import { DeleteOutlined } from '@ant-design/icons'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
@@ -15,7 +15,14 @@ import styled from '@emotion/styled'
 import update from 'immutability-helper'
 
 const { confirm } = Modal;
-const {Title ,Text} = Typography;
+const { Title, Text } = Typography;
+
+const CollapsePanel = styled(Collapse.Panel)`
+.ant-collapse-header-text{
+  width: 85%;
+
+}
+`
 
 const AddChapterButton = styled(Button)`
   /* margin-top: 10px; */
@@ -73,6 +80,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   deleteSectionItem,
   onReorderSections
 }) => {
+  const [secEditable,setSecEditable]=useState({})
   const [enableSectionReorder, setEnableSectionReorder] = useState(false);
   const [itemRearrengeIndex, setItemRearrengeIndex] = useState<number | null>(null);
   const [sectionList, setSectionList] = useState<Types.CourseSection[]>(sections)
@@ -125,12 +133,24 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     setSectionList(SList);
   }, []);
 
+  const onSectionTitleUpdate = (sectionId:string,title:string) => {
+    const SList = [...sectionList];
+    SList.forEach(section => {
+      if (section._id === sectionId) {
+        section.title = title;
+      }
+    });
+    setSectionList(SList);
+  }
+
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
                  <Card title={enableSectionReorder?(<Title level={4} style={{textAlign:'center'}}>Drag and Drop sections below</Title>):null
 }>
    <DndProvider backend={HTML5Backend}>
-        {sectionList.map((section, secIndex) => {
+          {sectionList.map((section, secIndex) => {
+                        // @ts-ignore
+                        const isSectionEditable = secEditable[section._id];
           return (
             <div style={{marginBottom:20}}>
 
@@ -145,12 +165,24 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                 bordered
                 enableSectionReorder={!enableSectionReorder}
                 defaultActiveKey={sectionList.map((s, i) => i)}
-                expandIconPosition="end"
+                expandIconPosition="start"
                 // ghost
               >
-                <Collapse.Panel
-                  key={secIndex}
-                  header={<span>{`${section.title}`}</span>}
+                  <CollapsePanel extra={<Button size='small' type='primary' icon={isSectionEditable ? <SaveOutlined size={12} onClick={e => {
+                    e.preventDefault();
+                    setSecEditable({
+                      ...secEditable,
+                      [section._id]: false
+                    })
+                    // onSectionTitleUpdate(section._id,)
+                  }} />:<EditOutlined onClick={(e) => {
+                    e.preventDefault();
+                    setSecEditable({...secEditable,[section._id]:true})
+                }} />}></Button>}
+                    key={secIndex}
+                    header={isSectionEditable?<Space.Compact style={{ width: '100%' }}>
+                      <Input onClick={e => e.preventDefault()} onChange={e => onSectionTitleUpdate(section._id,e.target.value)} style={{height: 25}} size='small' value={section.title} />
+                  </Space.Compact>:<span>{`${section.title}`} </span>}
                 >
                   <List
                     itemLayout="horizontal"
@@ -241,7 +273,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                     )}
                     />
 
-                </Collapse.Panel>
+                </CollapsePanel>
               </CustomCollapse>
               </MovableItem>
               </div>

@@ -1,57 +1,38 @@
-import { Card, Col, Layout, Menu, Row, Statistic } from 'antd'
-import { Outlet, useNavigate } from 'react-router'
-import React, { useState } from 'react'
+import { Card, Col, Layout, Menu, Row, Segmented, Statistic, Tabs, TabsProps } from 'antd'
 
-import AppProvider from 'screens/AppProvider'
-import { ArrowDownOutlined } from '@ant-design/icons'
+import DashboardOverview from './Overview/Overview';
 import Header from '@Components/Header'
-import LogoImage from './logo.svg'
-import ThemeProvider from 'screens/ThemeProvider'
-import styled from '@emotion/styled'
+import { useNavigate } from 'react-router'
 
 const { Content, Sider } = Layout
+
+const items: TabsProps['items'] = [
+    {
+      key: 'overview',
+      label: `Overview`,
+      children: <DashboardOverview/>,
+    },
+    {
+      key: 'sales',
+      label: `Sales`,
+      children: `Content of Tab Pane 2`,
+    },
+    {
+      key: '3',
+      label: `Tab 3`,
+      children: `Content of Tab Pane 3`,
+    },
+  ];
+  
 
 const UserDashboard: React.FC = () => {
   const navigate = useNavigate()
   return (
     <Header title="Dashboard">
       <Row gutter={[30, 30]}>
-        <Col span={8}>
-          <Card bordered={false}>
-            <Statistic
-              title="Total Revenue"
-              value={`1080123`}
-              precision={2}
-              // valueStyle={{ color: '#cf1322' }}
-              prefix={`$`}
-              // suffix="%"
-            />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card bordered={false}>
-            <Statistic
-              title="New Signups"
-              value={`1080123`}
-              precision={2}
-              // valueStyle={{ color: '#cf1322' }}
-              // prefix={`$`}
-              // suffix="%"
-            />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card bordered={false}>
-            <Statistic
-              title="New Enrollments"
-              value={`1080123`}
-              precision={2}
-              // valueStyle={{ color: '#cf1322' }}
-              // prefix={`$`}
-              // suffix="%"
-            />
-          </Card>
-        </Col>
+        <Col span={24}>
+          <Tabs defaultActiveKey="1" items={items}  />
+              </Col>
       </Row>
     </Header>
   )

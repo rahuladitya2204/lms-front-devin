@@ -159,101 +159,106 @@ const EnrolledCourseDetailScreen: React.FC<
             <Card bordered={false} style={{ width: '100%', marginTop: 50 }}>
               <Row>
                 <Col span={16}>
-                  {course.sections.map(section => {
-                    return (
-                      <Col span={24}>
-                        <Title level={3} style={{ marginTop: 0 }}>
-                          {section.title}
-                        </Title>
-                        <List
-                          split={false}
-                          size="small"
-                          bordered={false}
-                          dataSource={section.items}
-                          renderItem={item => (
-                            <List.Item>
-                              <Card
-                                style={{ width: '100%', borderRadius: 10 }}
-                                bodyStyle={{ padding: 0 }}
-                              >
-                                <Row>
-                                  <Col span={3}>
-                                    <Image
-                                      height={70}
-                                      width={100}
-                                      src={item.metadata?.thumbnail}
-                                    />
-                                  </Col>
-                                  <Col span={1} />
-                                  <Col
-                                    span={10}
-                                    style={{ marginTop: 10, marginBottom: 10 }}
-                                  >
-                                    <Title style={{ marginTop: 0 }} level={5}>
-                                      {item.title}
-                                    </Title>
-                                    <Space>
-                                      <Tag>
-                                        <StepForwardOutlined
-                                          style={{ marginRight: 3 }}
-                                        />
-                                        {Utils.formatSeconds(
-                                          item.metadata?.duration || 0
-                                        )}
-                                      </Tag>
-                                      {item.files.length ? (
+                  <Row gutter={[20, 30]}>
+                    {course.sections.map(section => {
+                      return (
+                        <Col span={24}>
+                          <Title level={3} style={{ marginTop: 0 }}>
+                            {section.title}
+                          </Title>
+                          <List
+                            split={false}
+                            size="small"
+                            bordered={false}
+                            dataSource={section.items}
+                            renderItem={item => (
+                              <List.Item>
+                                <Card
+                                  style={{ width: '100%', borderRadius: 10 }}
+                                  bodyStyle={{ padding: 0 }}
+                                >
+                                  <Row>
+                                    <Col span={3}>
+                                      <Image
+                                        height={70}
+                                        width={100}
+                                        src={item.metadata?.thumbnail}
+                                      />
+                                    </Col>
+                                    <Col span={1} />
+                                    <Col
+                                      span={10}
+                                      style={{
+                                        marginTop: 10,
+                                        marginBottom: 10
+                                      }}
+                                    >
+                                      <Title style={{ marginTop: 0 }} level={5}>
+                                        {item.title}
+                                      </Title>
+                                      <Space>
                                         <Tag>
-                                          <FileOutlined
+                                          <StepForwardOutlined
                                             style={{ marginRight: 3 }}
                                           />
-                                          {item.files.length}
+                                          {Utils.formatSeconds(
+                                            item.metadata?.duration || 0
+                                          )}
                                         </Tag>
-                                      ) : null}
-                                    </Space>
-                                  </Col>
-                                  <Col span={6} />
-                                  <Col
-                                    span={4}
-                                    style={{
-                                      display: 'flex',
-                                      alignItems: 'center'
-                                    }}
-                                  >
-                                    <Space>
-                                      <Progress
-                                        style={{
-                                          visibility: item.isCompleted
-                                            ? 'visible'
-                                            : 'hidden'
-                                        }}
-                                        width={32}
-                                        type="circle"
-                                        percent={100}
-                                      />
-                                      <Button
-                                        style={{ padding: '0 10px' }}
-                                        shape="round"
-                                        onClick={() =>
-                                          playItem(section._id, item._id)
-                                        }
-                                        // shape="round"
-                                        icon={
-                                          <img
-                                            style={{ width: 11 }}
-                                            src={PlayIcon}
-                                          />
-                                        }
-                                      />
-                                    </Space>
-                                  </Col>
-                                </Row>
-                              </Card>
-                            </List.Item>
-                          )}
-                        />
-                      </Col>
-                    )
-                  })}
+                                        {item.files.length ? (
+                                          <Tag>
+                                            <FileOutlined
+                                              style={{ marginRight: 3 }}
+                                            />
+                                            {item.files.length}
+                                          </Tag>
+                                        ) : null}
+                                      </Space>
+                                    </Col>
+                                    <Col span={6} />
+                                    <Col
+                                      span={4}
+                                      style={{
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                      }}
+                                    >
+                                      <Space>
+                                        <Progress
+                                          style={{
+                                            visibility: item.isCompleted
+                                              ? 'visible'
+                                              : 'hidden'
+                                          }}
+                                          width={32}
+                                          type="circle"
+                                          percent={100}
+                                        />
+                                        <Button
+                                          style={{ padding: '0 10px' }}
+                                          shape="round"
+                                          onClick={() =>
+                                            playItem(section._id, item._id)
+                                          }
+                                          // shape="round"
+                                          icon={
+                                            <img
+                                              style={{ width: 11 }}
+                                              src={PlayIcon}
+                                            />
+                                          }
+                                        />
+                                      </Space>
+                                    </Col>
+                                  </Row>
+                                </Card>
+                              </List.Item>
+                            )}
+                          />
+                        </Col>
+                      )
+                    })}
+                  </Row>
                 </Col>
                 <Col span={1} />
                 <Col span={7}>
