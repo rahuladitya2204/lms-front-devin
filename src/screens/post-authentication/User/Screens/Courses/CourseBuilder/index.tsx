@@ -1,19 +1,20 @@
-// @ts-nocheck
-
-import { Button, Card, Col, Empty, Form, Row, Spin } from 'antd'
+import { Alert, Button, Card, Col, Empty, Form, Row, Spin } from 'antd'
 import { Constants, Types, User } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
+import {
+  parseCoursePromptToCourseStructure,
+  updateCourseSectionItem
+} from './utils'
 import { useEffect, useState } from 'react'
 
 import CourseSectionsNavigator from './CourseSectionsNavigator'
-import CreateHeading from './CreateNewItem/CreateHeading'
+import GenerateWithAI from './CourseEditor/GenerateWithAiButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
-import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
 
 function CourseBuilderScreen() {
@@ -40,14 +41,25 @@ function CourseBuilderScreen() {
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
   const navigate = useNavigate()
 
-  const onAddSection = ({ title }: Partial<Types.CourseSection>) => {
+  const onAddSection = (section: Partial<Types.CourseSection>) => {
+    console.log(section, 'section')
     let COURSE = cloneDeep(course)
-    const newSection: Types.CourseSection = {
-      title: title + '',
-      items: [],
-      description: ''
+    if (section._id) {
+      COURSE.sections.forEach((sec, index) => {
+        if (sec._id === section._id) {
+          COURSE.sections[index] = { ...sec, ...section }
+        }
+      })
+    } else {
+      // @ts-ignore
+      const newSection: Types.CourseSection = {
+        title: section.title + '',
+        items: [],
+        description: ''
+      }
+      COURSE.sections.push(newSection)
     }
-    COURSE.sections.push(newSection)
+
     updateCourse({
       id: courseId || '',
       data: {
@@ -73,19 +85,39 @@ function CourseBuilderScreen() {
       metadata: item.metadata,
       section: sectionId
     }
-    COURSE.sections[index].items.push(newItem)
+    console.log(type, 'kutra')
+    if (item._id) {
+      COURSE.sections[index].items.forEach((i, itemIndex) => {
+        if (i._id === item._id) {
+          // @ts-ignore
+          COURSE.sections[index].items[itemIndex] = {
+            ...item,
+            ...newItem,
+            type
+          }
+          console.log(i, '-0-0')
+        }
+      })
+    } else {
+      // @ts-ignore
+      COURSE.sections[index].items.push(newItem)
+    }
     updateCourse({
       id: courseId || '',
       data: {
         sections: COURSE.sections
       },
       cb: course => {
-        const item = [...course.sections[index].items].pop()
-        navigate(`section/${sectionId}/${type}/${item?._id}`)
+        if (item._id) {
+          return navigate(`section/${sectionId}/${type}/${item._id}`)
+        }
+        const newlyAdedItem = [...course.sections[index].items].pop()
+        navigate(`section/${sectionId}/${type}/${newlyAdedItem?._id}`)
       }
     })
   }
 
+  // @ts-ignore
   const saveCourse = d => {
     if (course._id) {
       updateCourse(
@@ -111,9 +143,9 @@ function CourseBuilderScreen() {
         const firstSection = course.sections.find(s => s.items.length)
         if (firstSection && firstSection.items.length) {
           const firstItem = firstSection.items[0]
-          navigate(
-            `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
-          )
+          // navigate(
+          //   `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
+          // )
         }
       }
     },
@@ -182,7 +214,7 @@ function CourseBuilderScreen() {
     )
   }
 
-  const onReorderSections = sections => {
+  const onReorderSections = (sections: Types.CourseSection[]) => {
     console.log(sections.map(s => s.title), 'aaa')
     const COURSE = cloneDeep(course)
     COURSE.sections = sections
@@ -190,8 +222,8 @@ function CourseBuilderScreen() {
     saveCourse(COURSE)
   }
   const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
-    courseId
-  );
+    courseId + ''
+  )
   return (
     <Header
       title={'Course Builder'}
@@ -208,7 +240,7 @@ function CourseBuilderScreen() {
           Publish Course
         </Button>,
         <Button
-          onClick={() => saveCourse()}
+          // onClick={() => saveCourse()}
           loading={loading}
           type="primary"
           icon={<SaveOutlined />}
@@ -259,23 +291,35 @@ function CourseBuilderScreen() {
           </Row>
         </Col>
         <Col span={16}>
-          <Card>
-            {!course.sections.length ? (
-              <Empty
-                image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                imageStyle={{ height: 60 }}
-                description={<span>No Sections Added</span>}
-              >
-                {/* <Button type="primary" onClick={onAddSection}>
-                  Add Section
-                </Button> */}
-              </Empty>
-            ) : (
+          {!course.sections.length ? (
+            <Alert
+              message="Generate course structure using AI"
+              description="You can generate course outline using our AI"
+              type="info"
+              showIcon
+              action={
+                <GenerateWithAI
+                  course={course}
+                  fields={['sections']}
+                  onValuesChange={({ sections }: any) => {
+                    updateCourse({
+                      id: courseId || '',
+                      data: {
+                        // @ts-ignore
+                        sections: parseCoursePromptToCourseStructure(sections)
+                      }
+                    })
+                  }}
+                />
+              }
+            />
+          ) : (
+            <Card>
               <Outlet
                 context={[course.sections, updateCourseSection, saveCourse]}
               />
-            )}
-          </Card>
+            </Card>
+          )}
         </Col>
       </Row>
     </Header>

@@ -134,10 +134,10 @@ function CourseDetailViewer () {
                   <CustomRate
                     disabled
                     style={{ fontSize: 15 }}
-                    value={course.averageRating}
+                    value={course.analytics.reviews.count}
                   />{' '}
-                      {course.averageRating}
-                      ({formatAvgCount(course.numberOfReviews)} reviews)
+                      {course.analytics.averageRating}
+                      ({formatAvgCount(course.analytics.reviews.count)} reviews)
                   <MetaText />
                 </Col>
               </Row>

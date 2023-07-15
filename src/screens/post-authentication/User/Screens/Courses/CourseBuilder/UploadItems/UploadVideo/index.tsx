@@ -1,18 +1,27 @@
 import { Button, Form, Input } from 'antd';
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 
+import { AddItemProps } from '../UploadPDF';
 import { Types } from '@adewaskar/lms-common'
 
-const UploadVideo = (props:any) => {
+const UploadVideo = (props:AddItemProps) => {
     const onSubmit = ({title}: { title: string }) => {
-      props.onFinish({
+      props.onFinish&&props.onFinish({
         title: title
       });
       form.resetFields(['title']);
       props.closeModal && props.closeModal();
     }
     
-    const [form] = Form.useForm<{ title: string }>();
+  const [form] = Form.useForm<{ title: string }>();
+  
+  useEffect(() => {
+    if (props.item) {
+      form.setFieldsValue({
+        title: props.item.title
+      });
+    }
+  }, [props.item, form]);
 
   return (
     <Fragment>

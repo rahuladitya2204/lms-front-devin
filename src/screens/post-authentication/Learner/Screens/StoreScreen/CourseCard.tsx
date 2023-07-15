@@ -53,8 +53,8 @@ function CourseCard(props: CourseCardPropsI) {
       >
         <Card.Meta
           title={<Space size='small' direction="vertical"  >
-           {course.numberOfReviews? <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
-              <Rate disabled style={{ fontSize: 12 }} value={course.averageRating} /> <Text>{course.averageRating}({formatAvgCount(course.numberOfReviews) }) </Text>
+           {course.analytics.reviews.count? <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
+              <Rate disabled style={{ fontSize: 12 }} value={course.analytics.averageRating} /> <Text>{course.analytics.averageRating}({formatAvgCount(course.analytics.reviews.count) }) </Text>
             </Space>:null}
             <Text style={{fontSize:20}} strong ellipsis>{course.title}</Text>
           </Space>}

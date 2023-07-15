@@ -19,7 +19,6 @@ export default function PaidUsers () {
     </LineChart>
   )
   return (
-    <Card title="Paid Users">
       <LineChart
         width={400}
         height={250}
@@ -34,6 +33,5 @@ export default function PaidUsers () {
         <Line type="monotone" dataKey="pv" stroke="#8884d8" />
         <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
       </LineChart>
-    </Card>
   )
 }

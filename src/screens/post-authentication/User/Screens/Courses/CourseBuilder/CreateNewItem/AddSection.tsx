@@ -1,9 +1,7 @@
 import { Button, Form, Input, Modal } from 'antd';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
-import { Types } from '@adewaskar/lms-common'
-
-const CreateHeading: React.FC<Types.CreateItemPropsI> = (props) => {
+const AddSection: React.FC<any> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -14,21 +12,31 @@ const CreateHeading: React.FC<Types.CreateItemPropsI> = (props) => {
     setIsModalOpen(false);
   };
     
-    const onSubmit = ({headingName}: { headingName: string }) => {
-      props.onFinish({
-        title:headingName
+    const onSubmit = ({sectionTitle}: { sectionTitle: string }) => {
+      props.onFinish&&props.onFinish({
+        title:sectionTitle
       });
-      form.resetFields(['headingName']);
+      form.resetFields(['sectionTitle']);
         closeModal();
     }
     
-    const [form] = Form.useForm<{ headingName: string }>();
+  const [form] = Form.useForm<{ sectionTitle: string }>();
+  
+  useEffect(() => {
+    if (props.section) {
+      form.setFieldsValue({
+        sectionTitle: props.section.title
+      });
+    }
+  }, [props.section, form]);
+
 
   return (
     <Fragment>
+       {/* @ts-ignore */}
       <span onClick={showModal}>{props.children}</span>
       <Modal footer={[
-          <Button key="back" onClick={()=>form.resetFields(['headingName'])}>
+          <Button key="back" onClick={()=>form.resetFields(['sectionTitle'])}>
             Clear
           </Button>,
           <Button key="submit" type="primary" onClick={form.submit}>
@@ -37,7 +45,7 @@ const CreateHeading: React.FC<Types.CreateItemPropsI> = (props) => {
           ]} title="New Section" open={isModalOpen} onCancel={closeModal}>
               
               <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item required name="headingName" label="Section Heading">
+        <Form.Item required name="sectionTitle" label="Section Heading">
           <Input placeholder='Please enter heading for the new section' />
         </Form.Item></Form>
       
@@ -46,4 +54,4 @@ const CreateHeading: React.FC<Types.CreateItemPropsI> = (props) => {
   );
 };
 
-export default CreateHeading;
+export default AddSection;

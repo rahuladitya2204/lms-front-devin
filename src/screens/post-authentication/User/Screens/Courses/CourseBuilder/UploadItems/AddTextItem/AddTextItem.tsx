@@ -10,11 +10,12 @@ import {
   Space,
   Switch
 } from 'antd'
+import { Fragment, useEffect } from 'react'
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
+import { AddItemProps } from '../UploadPDF'
 import FileList from '@Components/FileList'
-import { Fragment } from 'react'
 import MediaUpload from '@Components/MediaUpload'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import TextArea from '@Components/Textarea'
@@ -23,10 +24,21 @@ import { getReadingTime } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
-const AddTextItem: React.FC = () => {
+const AddTextItem: React.FC<AddItemProps> = (props) => {
   const [form] = Form.useForm()
   const { onFormChange, item, courseId, sectionId, itemId } = useUploadItemForm(
     form
+  )
+
+  useEffect(
+    () => {
+      if (props.item) {
+        form.setFieldsValue({
+          title: props.item.title
+        })
+      }
+    },
+    [props.item, form]
   )
 
   return (

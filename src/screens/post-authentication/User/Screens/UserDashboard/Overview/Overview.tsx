@@ -23,9 +23,8 @@ const DATE_RANGES = [
 ]
 
 const DashboardOverview: React.FC = () => {
-
-  const [selectedRange, setSelectedRange] = useState('7 Days');
-  const selectedValue = DATE_RANGES.find(i => i.name === selectedRange)?.id || 7;
+  const [selectedRange, setSelectedRange] = useState('7 Days')
+  const selectedValue = DATE_RANGES.find(i => i.name === selectedRange)?.id || 7
   const startDate = dayjs()
     .subtract(selectedValue, 'day')
     .startOf('day')
@@ -33,7 +32,7 @@ const DashboardOverview: React.FC = () => {
   const endDate = dayjs()
     .endOf('day')
     .toISOString()
-  const { data: Analytics } = User.Queries.useGetOverviewReport({
+  const { data: Analytics, isLoading } = User.Queries.useGetOverviewReport({
     startDate,
     endDate
   })
@@ -53,7 +52,7 @@ const DashboardOverview: React.FC = () => {
             />
           </Col>
           <Col span={8}>
-            <Card bordered={false}>
+            <Card loading={isLoading} bordered={false}>
               <Statistic
                 title="Total Revenue"
                 value={Analytics?.totalRevenue}
@@ -65,7 +64,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card bordered={false}>
+            <Card loading={isLoading} bordered={false}>
               <Statistic
                 title="New Signups"
                 value={Analytics?.totalNewSignups}
@@ -77,9 +76,31 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card bordered={false}>
+            <Card loading={isLoading} bordered={false}>
               <Statistic
                 title="New Enrollments"
+                value={Analytics?.totalActiveUsers}
+                // valueStyle={{ color: '#cf1322' }}
+                // prefix={`$`}
+                // suffix="%"
+              />
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card loading={isLoading} bordered={false}>
+              <Statistic
+                title="Active Users"
+                value={Analytics?.totalActiveUsers}
+                // valueStyle={{ color: '#cf1322' }}
+                // prefix={`$`}
+                // suffix="%"
+              />
+            </Card>
+          </Col>
+          <Col span={8}>
+            <Card loading={isLoading} bordered={false}>
+              <Statistic
+                title="Total Time Spent"
                 value={Analytics?.totalActiveUsers}
                 // valueStyle={{ color: '#cf1322' }}
                 // prefix={`$`}
@@ -92,16 +113,24 @@ const DashboardOverview: React.FC = () => {
       <Col span={24}>
         <Row gutter={[30, 30]}>
           <Col span={12}>
-            <NewSignups />
+            <Card title="Revenue">
+              <NewSignups />
+            </Card>
           </Col>
           <Col span={12}>
-            <Transactions />
+            <Card title="Transactions">
+              <Transactions />
+            </Card>
           </Col>
           <Col span={12}>
-            <ActiveUsers />
+            <Card title="Active Users">
+              <ActiveUsers />
+            </Card>
           </Col>
           <Col span={12}>
-            <PaidUsers />
+            <Card title="Paid Users">
+              <PaidUsers />
+            </Card>
           </Col>
         </Row>
       </Col>

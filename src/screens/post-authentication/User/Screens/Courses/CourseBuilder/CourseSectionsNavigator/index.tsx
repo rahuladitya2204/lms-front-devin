@@ -4,8 +4,8 @@ import { useCallback, useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AddItem from '../AddItem'
+import AddSection from '../CreateNewItem/AddSection'
 import CourseItemIcon from './CourseItemIcon'
-import CreateHeading from '../CreateNewItem/CreateHeading'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
@@ -49,12 +49,29 @@ const CustomCollapse = styled(Collapse)((props: { enableSectionReorder: boolean 
     gap: 8px;
     justify-content: space-around;
   }
+
+  .ant-list-item {
+    span{
+      width: 100% !important;
+    }
+  }
 }
 `)
 
 const CourseListItem = styled(List.Item)`
   .ant-list-item {
     padding: 15px !important;
+    span{
+      width: 100% !important;
+    }
+  }
+  .delete-icon {
+      visibility: hidden;
+    }
+  &:hover{
+    .delete-icon {
+      visibility: visible;
+    }
   }
   background: ${(props: { isActive: boolean }) =>
     props.isActive ? '#e3e3e3' : 'auto'};
@@ -168,21 +185,13 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                 expandIconPosition="start"
                 // ghost
               >
-                  <CollapsePanel extra={<Button size='small' type='primary' icon={isSectionEditable ? <SaveOutlined size={12} onClick={e => {
-                    e.preventDefault();
-                    setSecEditable({
-                      ...secEditable,
-                      [section._id]: false
-                    })
-                    // onSectionTitleUpdate(section._id,)
-                  }} />:<EditOutlined onClick={(e) => {
-                    e.preventDefault();
-                    setSecEditable({...secEditable,[section._id]:true})
-                }} />}></Button>}
+                  <CollapsePanel extra={
+                     <AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>
+                      <EditOutlined style={{ cursor:'pointer' }} />
+                   </AddSection>
+                    }
                     key={secIndex}
-                    header={isSectionEditable?<Space.Compact style={{ width: '100%' }}>
-                      <Input onClick={e => e.preventDefault()} onChange={e => onSectionTitleUpdate(section._id,e.target.value)} style={{height: 25}} size='small' value={section.title} />
-                  </Space.Compact>:<span>{`${section.title}`} </span>}
+                    header={section.title}
                 >
                   <List
                     itemLayout="horizontal"
@@ -226,51 +235,65 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                         </Tooltip>
                       </Space>
                     }
-                    renderItem={(item, itemIndex) => (
-                           <MovableItem
-                      disabled={!(itemRearrengeIndex===secIndex)}
-                      key={item._id}
-                      index={itemIndex}
-                      moveItem={(dragIndex,hoverIndex)=>moveCourseItem(dragIndex,hoverIndex,section._id,item._id)}
-                      id={item._id}
-                    >
-                      <List.Item style={{ padding: 0 }}>
-                        <NavLink
-                          style={{ width: '100%' }}
-                          key={item._id}
-                          to={`section/${section._id}/${item.type}/${item._id}`}
-                          children={({ isActive }) => (
-                            <CourseListItem
-                              isActive={isActive}
-                              actions={[
-                                <Tooltip
-                                  placement="bottom"
-                                  title={'Delete Section item'}
-                                >
-                                  <DeleteOutlined
-                                    onClick={() =>
-                                      DeleteSectionItem(section._id, item._id)
-                                    }
-                                  />
-                                </Tooltip>
-                              ]}
-                            >
-                                    {/* <Tooltip placement="left" title={item.title}> */}
-
-                                    <List.Item.Meta
-                                style={{ cursor: 'pointer' }}
-                                title={<Text ellipsis>{item.title}</Text>}
-                                avatar={
-                                  <CourseItemIcon type="outlined" item={item} />
+                      renderItem={(item, itemIndex) => {
+                        const CourseSectionListItem = (isActive:boolean)=><CourseListItem
+                        isActive={isActive}
+                        actions={[
+                          <Tooltip
+                            placement="bottom"
+                            title={'Delete Section item'}
+                          >
+                            <Button className='delete-icon' size='small' icon={<DeleteOutlined
+                              onClick={(e) => {
+                                if (!item.type) {
+                                  e.stopPropagation()
                                 }
-                              />
-                              {/* </Tooltip> */}
-                            </CourseListItem>
-                          )}
+                                DeleteSectionItem(section._id, item._id)
+                              }
+                              }
+                            />}></Button>
+                          </Tooltip>
+                        ]}
+                      >
+                        {/* <Tooltip placement="left" title={item.title}> */}
+
+                        <List.Item.Meta
+                          style={{ cursor: 'pointer' }}
+                          title={<Text>{item.title}</Text>}
+                          avatar={
+                            <CourseItemIcon type="outlined" item={item} />
+                          }
                         />
-                      </List.Item>
-                      </MovableItem>
-                    )}
+                        {/* </Tooltip> */}
+                      </CourseListItem>
+                       return  <MovableItem
+                          disabled={!(itemRearrengeIndex === secIndex)}
+                          key={item._id}
+                          index={itemIndex}
+                          moveItem={(dragIndex, hoverIndex) => moveCourseItem(dragIndex, hoverIndex, section._id, item._id)}
+                          id={item._id}
+                        >
+                         <List.Item style={{ padding: 0 }}>
+                           {item.type?<NavLink
+                              style={{ width: '100%' }}
+                              key={item._id}
+                              to={`section/${section._id}/${item.type}/${item._id}`}
+                              children={({ isActive }) => CourseSectionListItem(isActive)}
+                            />: <ActionModal
+                            cta={
+                              CourseSectionListItem(false)
+                            }
+                          >
+                            <AddItem item={item}
+                              onAddNewItem={(key, value) =>
+                                onAddNewItem(key, value, secIndex)
+                              }
+                            />
+                          </ActionModal>}
+                            
+                          </List.Item>
+                        </MovableItem>
+                      }}
                     />
 
                 </CollapsePanel>
@@ -288,13 +311,13 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
           setEnableSectionReorder(false)
       }} block>
                 Save Order
-        </AddChapterButton>}</>:null}
-      
-        <CreateHeading onFinish={e => onAddSection(e)}>
+        </AddChapterButton>}</>:null} 
+        {/* @ts-ignore */}
+        <AddSection onFinish={e => onAddSection(e)}>
               <AddChapterButton block type="primary">
                 Add New Section
               </AddChapterButton>
-            </CreateHeading>
+            </AddSection>
         </Card>
 
     </Space>

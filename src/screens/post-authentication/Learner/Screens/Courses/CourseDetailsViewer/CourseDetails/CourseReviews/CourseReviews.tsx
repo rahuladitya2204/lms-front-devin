@@ -17,9 +17,13 @@ interface CourseReviewsPropsI {
 function CourseReviews(props: CourseReviewsPropsI) {
   const {
     landingPage,
-    averageRating,
+    analytics: {
+      averageRating,
     ratingMap,
-    numberOfReviews
+      reviews: {
+      count:numberOfReviews
+    }
+    }
   } = props.course
   const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrlFromFile(
     landingPage?.promoVideo,

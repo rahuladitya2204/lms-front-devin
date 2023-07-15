@@ -7,7 +7,8 @@ import {
   FileTextFilled,
   FileTextOutlined,
   PlayCircleFilled,
-  PlayCircleOutlined
+  PlayCircleOutlined,
+  QuestionCircleFilled
 } from '@ant-design/icons'
 
 import { Fragment } from 'react'
@@ -61,6 +62,9 @@ const CourseItemIcon = (props: CourseItemIconPropsI) => {
         Icon = FileTextFilled
       }
       break
+
+    default:
+      Icon = QuestionCircleFilled
   }
   return (
     <Fragment>

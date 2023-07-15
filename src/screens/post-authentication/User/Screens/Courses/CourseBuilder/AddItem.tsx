@@ -5,6 +5,7 @@ import CreateTextItem from './CreateNewItem/CreatTextItem'
 import { Types } from '@adewaskar/lms-common'
 import UploadPDF from './UploadItems/UploadPDF'
 import UploadVideo from './UploadItems/UploadVideo'
+import { extend } from 'lodash'
 
 const { Title } = Typography
 
@@ -42,13 +43,14 @@ interface AddItemPropsI {
   ) => void;
   children?: React.ReactNode;
   closeModal?: () => void;
+  item?: Partial<Types.CourseSectionItem>;
 }
 
 function AddItem(props: AddItemPropsI) {
   const [form] = Form.useForm()
-
+  console.log(props.item, 'ooooo')
   const onFinish = (type: string, item: Partial<Types.CourseSectionItem>) => {
-    props.onAddNewItem(type, item)
+    props.onAddNewItem(type, extend(props.item, item))
     props.closeModal && props.closeModal()
   }
   return (
@@ -74,8 +76,9 @@ function AddItem(props: AddItemPropsI) {
                       }
                     >
                       <Component
+                        item={props.item}
                         onFinish={(e: any) => {
-                          onFinish(item.type, e)
+                          onFinish(item.type, { ...props.item, ...e })
                         }}
                       />
                     </ActionModal>
@@ -103,8 +106,10 @@ function AddItem(props: AddItemPropsI) {
                       }
                     >
                       <Component
+                        // @ts-ignore
+                        item={props.item}
                         onFinish={e => {
-                          onFinish(item.type, e)
+                          onFinish(item.type, { ...props.item, ...e })
                         }}
                       />
                     </ActionModal>

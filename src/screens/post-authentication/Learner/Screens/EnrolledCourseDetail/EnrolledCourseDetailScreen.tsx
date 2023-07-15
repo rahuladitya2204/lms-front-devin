@@ -276,7 +276,7 @@ const EnrolledCourseDetailScreen: React.FC<
                       <Space direction="vertical">
                         <Text>
                           <UserSwitchOutlined />{' '}
-                          {formatAvgCount(course.analytics.enrolled.total)}{' '}
+                          {formatAvgCount(course.analytics.enrolled.count)}{' '}
                           Learners
                         </Text>
                         <Text>

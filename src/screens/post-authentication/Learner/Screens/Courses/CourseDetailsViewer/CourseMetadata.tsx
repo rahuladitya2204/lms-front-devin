@@ -60,7 +60,7 @@ interface CourseMetadataPropsI {
 
 function CourseMetadata(props: CourseMetadataPropsI) {
   data.duration.value = formatTime(props.course.totalDuration)
-  data.enrolled.value = `${props.course.analytics.enrolled.total} students`
+  data.enrolled.value = `${props.course.analytics.enrolled.count} students`
   data.lectures.value = props.course.totalItems
   data.certificate.value = props.course.certificate ? 'Yes' : ''
   data.language.value = props.course.language;

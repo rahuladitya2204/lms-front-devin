@@ -1,9 +1,13 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
-const UploadVideoa= (props:any) => {
+import { Types } from '@adewaskar/lms-common';
+
+export interface AddItemProps {item?:Partial<Types.CourseSectionItem>,onFinish?:Function,closeModal?:Function}
+
+const UploadVideoa= (props:AddItemProps) => {
   const onSubmit = ({title}: { title: string }) => {
-    props.onFinish({
+    props.onFinish&&props.onFinish({
       title: title
     });
     form.resetFields(['title']);
@@ -11,6 +15,15 @@ const UploadVideoa= (props:any) => {
   }
   
   const [form] = Form.useForm<{ title: string }>();
+
+  useEffect(() => {
+    if (props.item) {
+      form.setFieldsValue({
+        title: props.item.title
+      });
+    }
+  }, [props.item, form]);
+
 
   return (
     <Fragment>
