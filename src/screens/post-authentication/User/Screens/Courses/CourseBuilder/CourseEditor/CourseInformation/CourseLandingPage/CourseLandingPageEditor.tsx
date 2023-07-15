@@ -5,7 +5,7 @@ import { Types, User } from '@adewaskar/lms-common'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
-import { deepPatch } from '../../utils'
+import { deepPatch } from '../../../utils'
 // import { patchObject } from '../../utils'
 import { useParams } from 'react-router'
 

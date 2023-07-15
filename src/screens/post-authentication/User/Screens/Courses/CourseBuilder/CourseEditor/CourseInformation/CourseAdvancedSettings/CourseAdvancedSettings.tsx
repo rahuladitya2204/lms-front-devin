@@ -12,9 +12,9 @@ import {
   Typography
 } from 'antd'
 import { Fragment, useLayoutEffect } from 'react'
-import { convertToCommaSeparated, deepPatch } from '../../utils'
+import { convertToCommaSeparated, deepPatch } from '../../../utils'
 
-import CourseCertificate from '../CourseCertificate/CourseCertificateScreen'
+import CourseCertificate from './CourseCertificate/CourseCertificateScreen'
 import GenerateWithAI from '../GenerateWithAiButton'
 import InputTags from '@Components/InputTags'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'

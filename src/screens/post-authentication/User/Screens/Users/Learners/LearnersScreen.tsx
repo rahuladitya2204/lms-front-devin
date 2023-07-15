@@ -4,12 +4,13 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal'
 import AddLearner from './AddLearners'
 import Header from '@Components/Header'
+import LearnersTable from './LearnersTable'
 import ThemeProvider from 'screens/ThemeProvider'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 
-function LearnersScreen() {
+function LearnersScreen () {
   const { data, isLoading: loading } = User.Queries.useGetLearners()
 
   return (
@@ -25,49 +26,7 @@ function LearnersScreen() {
       >
         <Row>
           <Col span={24}>
-            <Table dataSource={data} loading={loading}>
-              <Table.Column title="Name" dataIndex="name" key="name" />
-              <Table.Column
-                title="Email Adress"
-                dataIndex="email"
-                key="email"
-              />
-
-              <Table.Column
-                title="Last Login"
-                dataIndex="lastActive"
-                key="lastActive"
-                render={(_: any, record: Types.Learner) => (
-                  <Space size="middle">
-                    {dayjs(record.lastActive).format('LLLL')}
-                  </Space>
-                )}
-              />
-              <Table.Column
-                title="Joined On"
-                dataIndex="createdAt"
-                key="createdAt"
-                render={(_: any, record: Types.Learner) => (
-                  <Space size="middle">
-                    {dayjs(record.createdAt).format('LL')}
-                  </Space>
-                )}
-              />
-              <Table.Column
-                title="Action"
-                key="action"
-                render={(_: any, record: Types.Learner) => (
-                  <Space size="middle">
-                    {/* <EditOutlined
-                      onClick={() =>
-                        window.open(`learners/${record._id}/editor`, '_blank')
-                      }
-                    /> */}
-                    <DeleteOutlined />
-                  </Space>
-                )}
-              />
-            </Table>
+            <LearnersTable />
           </Col>
         </Row>
       </Card>

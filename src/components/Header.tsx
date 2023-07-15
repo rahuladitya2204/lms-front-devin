@@ -3,7 +3,7 @@
 import { Button, Col, Input, Layout, Row, Space, Typography } from 'antd'
 
 import { ArrowLeftOutlined } from '@ant-design/icons'
-import BackButton from './BackButton';
+import BackButton from './BackButton'
 import { PageHeaderProps } from '@ant-design/pro-layout'
 import styled from '@emotion/styled'
 
@@ -34,13 +34,7 @@ function Header(props: HeaderPropsI) {
             style={{ display: 'flex', justifyContent: 'space-between' }}
           >
             <Space align="center">
-              {props.showBack ? (
-                <BackButton>
-                  <Button type="ghost">
-                    <ArrowLeftOutlined />
-                  </Button>
-                </BackButton>
-              ) : null}
+              {props.showBack ? <BackButton /> : null}
               <Title style={{ margin: '10px 0' }} level={4}>
                 {props.title}
               </Title>

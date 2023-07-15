@@ -9,7 +9,7 @@ import {
 import { useEffect, useState } from 'react'
 
 import CourseSectionsNavigator from './CourseSectionsNavigator'
-import GenerateWithAI from './CourseEditor/GenerateWithAiButton'
+import GenerateWithAI from './CourseEditor/CourseInformation/GenerateWithAiButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'

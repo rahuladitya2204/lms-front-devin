@@ -23,11 +23,16 @@ function Tabs(props: TabsProps) {
 
   const onChange = (activeKey: string) => {
     setActiveKey(activeKey)
-    navigate(`#${activeKey}`)
+    // navigate(`#${activeKey}`)
   }
 
   return (
-    <AppTabs activeKey={activeKey} onChange={onChange} items={props.items} />
+    <AppTabs
+      {...props}
+      activeKey={activeKey}
+      onChange={onChange}
+      items={props.items}
+    />
   )
 }
 

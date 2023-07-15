@@ -72,6 +72,7 @@ const router = createBrowserRouter(
             path="certificate-template/:id/editor"
             element={<CertificateTemplateEditor />}
           />
+          <Route path="app/courses/:id/editor" element={<CourseEditor />} />
           <Route path="app" element={<UserRootScreen />}>
             <Route path="dashboard" element={<UserDashboard />} />
             <Route path="settings" element={<SettingsScreen />} />
@@ -149,7 +150,6 @@ const router = createBrowserRouter(
                 {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
               </Route>
             </Route>
-            <Route path="courses/:id/editor" element={<CourseEditor />} />
           </Route>
           <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route

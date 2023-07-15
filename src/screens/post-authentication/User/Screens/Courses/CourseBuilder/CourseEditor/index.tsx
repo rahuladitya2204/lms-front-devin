@@ -1,15 +1,20 @@
-import { Button, Card, Form } from 'antd'
+import { Button, Card, Col, Form, Row } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
-import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
+import {
+  EyeOutlined,
+  InfoCircleFilled,
+  InfoCircleOutlined,
+  SaveOutlined,
+  UploadOutlined,
+  UserOutlined
+} from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 
+import BackButton from '@Components/BackButton'
 import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
-import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
-import CourseDetailsEditor from './CourseDetailsEditor'
-import CourseLandingPageEditor from './CourseLandingPageEditor/CourseLandingPageEditor'
-import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
-import Header from '@Components/Header'
+import CourseInformationEditor from './CourseInformation'
+import CourseLearners from './CourseLearners/CourseLearners'
 import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
@@ -81,86 +86,68 @@ function CourseEditor() {
   }
 
   return (
-    <Header
-      title="Course Editor"
-      extra={[
-        <Button
-          disabled={!validatePublishCourse()}
-          onClick={() => {
-            // const dataStr = STRINGIFY(JSON.stringify(course))
-            window.open(`${courseId}/preview`, '_blank')
-          }}
-          style={{ marginRight: 15 }}
-          icon={<UploadOutlined />}
-        >
-          Publish Course
-        </Button>,
-        <Button
-          disabled={!validateDraftCourse()}
-          loading={loading}
-          type="primary"
-          onClick={updateCourse}
-          icon={<SaveOutlined />}
-        >
-          Save as draft
-        </Button>
-      ]}
-    >
-      <Card>
-        {/* <Form onFinish={saveCourse} form={form} layout="vertical" autoComplete="off"> */}
-        <Tabs
-          defaultActiveKey="1"
-          items={[
-            {
-              label: `Details`,
-              key: 'details',
-              children: (
-                <CourseDetailsEditor
-                  saveCourse={saveCourse}
-                  course={course}
-                  courseId={courseId}
-                />
-              )
-            },
-            {
-              label: `Landing Page`,
-              key: 'landing-page',
-              children: (
-                <CourseLandingPageEditor
-                  courseId={courseId}
-                  course={course}
-                  saveCourse={saveCourse}
-                />
-              )
-            },
-            {
-              label: `Pricing`,
-              key: 'pricing',
-              children: (
-                <CoursePricingEditor
-                  courseId={courseId}
-                  course={course}
-                  saveCourse={saveCourse}
-                />
-              )
-            },
-            {
-              label: `Advanced`,
-              key: 'advanced',
-              children: (
-                <CourseAdvancedSettings
-                  courseId={courseId}
-                  course={course}
-                  saveCourse={saveCourse}
-                />
-              )
-            }
-          ]}
-        />
+    <Row gutter={[20, 20]}>
+      <Col span={24}>
+        <Card
+          title={
+            <span>
 
-        <Outlet />
-      </Card>
-    </Header>
+              <BackButton /> {course.title}
+            </span>
+          }
+          extra={[
+            <Button
+              disabled={!validatePublishCourse()}
+              onClick={() => {
+                // const dataStr = STRINGIFY(JSON.stringify(course))
+                window.open(`${courseId}/preview`, '_blank')
+              }}
+              style={{ marginRight: 15 }}
+              icon={<UploadOutlined />}
+            >
+              Publish Course
+            </Button>,
+            <Button
+              disabled={!validateDraftCourse()}
+              loading={loading}
+              type="primary"
+              onClick={updateCourse}
+              icon={<SaveOutlined />}
+            >
+              Save as draft
+            </Button>
+          ]}
+        >
+          <Tabs
+            tabPosition={'left'}
+            style={{ minHeight: '100vh' }}
+            items={[
+              {
+                label: (
+                  <span>
+                    <InfoCircleOutlined />Information
+                  </span>
+                ),
+                key: 'information',
+                children: <CourseInformationEditor />
+              },
+              {
+                label: (
+                  <span>
+                    <UserOutlined />Learners
+                  </span>
+                ),
+                key: 'learners',
+                children: <CourseLearners courseId={course._id} />
+              }
+            ]}
+          />
+        </Card>
+      </Col>
+      {/* <Col span={20}>
+          <CourseInformationEditor />
+        </Col> */}
+    </Row>
   )
 }
 
