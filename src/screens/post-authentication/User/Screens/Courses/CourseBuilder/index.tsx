@@ -143,9 +143,9 @@ function CourseBuilderScreen() {
         const firstSection = course.sections.find(s => s.items.length)
         if (firstSection && firstSection.items.length) {
           const firstItem = firstSection.items[0]
-          // navigate(
-          //   `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
-          // )
+          navigate(
+            `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
+          )
         }
       }
     },
