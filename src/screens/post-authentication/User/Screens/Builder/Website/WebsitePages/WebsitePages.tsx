@@ -7,12 +7,14 @@ import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import { useNavigate } from 'react-router'
 
 interface WebsitePagesPropsI {
   //   courseId: string;
 }
 
 function WebsitePages(props: WebsitePagesPropsI) {
+  const navigate = useNavigate()
   const {
     data: { pages },
     isLoading: loading
@@ -52,7 +54,9 @@ function WebsitePages(props: WebsitePagesPropsI) {
         <Table.Column
           title="Customize"
           render={(_: any, record: Types.Learner) => (
-            <Button size="small">Edit</Button>
+            <Button onClick={() => navigate('builder')} size="small">
+              Edit
+            </Button>
           )}
         />
 

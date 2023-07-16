@@ -54,6 +54,7 @@
     "file-loader": "^6.2.0",
     "formik": "^2.2.9",
     "fs-extra": "^10.0.0",
+    "grapesjs-react": "^4.0.1",
     "hls.js": "^1.4.0",
     "html-to-text": "^9.0.5",
     "html-webpack-plugin": "^5.5.0",

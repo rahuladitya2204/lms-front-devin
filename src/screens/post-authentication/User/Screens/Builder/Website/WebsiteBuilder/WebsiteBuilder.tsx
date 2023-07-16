@@ -2,7 +2,7 @@ import { Button, Col, Row, Tabs, Typography } from 'antd'
 
 import Header from '@Components/Header'
 import { User } from '@adewaskar/lms-common'
-import WebsitePages from './WebsitePages/WebsitePages'
+import WebsitePages from '../WebsitePages/WebsitePages'
 
 interface WebsiteBuilderScreenPropsI {}
 
