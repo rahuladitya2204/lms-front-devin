@@ -83,10 +83,15 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     ]
   },
   {
-    title: 'Builder',
+    title: 'Website & App',
     icon: <FundProjectionScreenOutlined />,
     path: 'builder',
     children: [
+      {
+        title: 'Website Builder',
+        path: 'website',
+        icon: <AppstoreOutlined />
+      },
       {
         title: 'App Builder',
         path: 'app',

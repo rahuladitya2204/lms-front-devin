@@ -62,6 +62,7 @@ import UserRegister from './post-authentication/User/Screens/Register'
 import UserRootScreen from './post-authentication/User/Screens/UserRoot/UserRootScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
+import WebsiteBuilderScreen from '@User/Screens/Builder/WebsiteBuilder/WebsiteBuilder'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
 
@@ -74,7 +75,10 @@ const router = createBrowserRouter(
             path="certificate-template/:id/editor"
             element={<CertificateTemplateEditor />}
           />
-          <Route path="app/products/courses/:id/editor" element={<CourseEditor />} />
+          <Route
+            path="app/products/courses/:id/editor"
+            element={<CourseEditor />}
+          />
           <Route
             path="app/products/courses/:id/builder"
             element={<CourseBuilderScreen />}
@@ -104,6 +108,10 @@ const router = createBrowserRouter(
               <Route path="app">
                 <Route path="" element={<AppBuilderScreen />} />
                 <Route path=":id/editor" element={<InstructorEditor />} />
+              </Route>
+              <Route path="website">
+                <Route path="" element={<WebsiteBuilderScreen />} />
+                {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
               </Route>
             </Route>
             <Route path="marketing">
