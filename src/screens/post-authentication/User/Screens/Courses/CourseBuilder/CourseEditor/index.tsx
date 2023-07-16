@@ -107,7 +107,7 @@ function CourseEditor() {
           <Tabs
             onTabClick={e => {
               if (e === 'builder') {
-                navigate(`../app/courses/${course._id}/builder`)
+                navigate(`../app/products/courses/${course._id}/builder`)
               }
             }}
             tabPosition={'left'}

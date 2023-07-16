@@ -172,7 +172,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
    <DndProvider backend={HTML5Backend}>
         {sectionList.map((section, secIndex) => {
           const AddItemCTA = <ActionModal
-            cta={`Add Item`}
+            cta={`Add Chapter Item`}
           >
             <AddItem
               onAddNewItem={(key, value) =>
