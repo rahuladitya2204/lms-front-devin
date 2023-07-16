@@ -1,6 +1,7 @@
 import { Button, Card, Form, Select, Space } from 'antd'
 import { Fragment, useEffect } from 'react'
 
+import BackButton from '@Components/BackButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
@@ -84,8 +85,8 @@ function CertificateTemplateEditor() {
   const bgImage = useWatch(['background', 'url'], form);
   const layout = useWatch(['layout'], form);
   return (
-    <Header
-      title={template.title}
+    <Header 
+      title={<span>{template.title}</span>}
       extra={[
         <Fragment>
           <Button
@@ -104,7 +105,7 @@ function CertificateTemplateEditor() {
       ]}
     >
       <Form form={form} onFinish={saveCertificateTemplate} layout="vertical" autoComplete="off">
-      <Form.Item name={['background','url']} label="Background Image" >
+      {/* <Form.Item name={['background','url']} label="Background Image" >
            <MediaUpload
                     uploadType="image"
                     name={['background','url']}
@@ -119,7 +120,7 @@ function CertificateTemplateEditor() {
               form.setFieldValue(['background', 'url'], file.url);
             }}
                   />
-        </Form.Item>
+        </Form.Item> */}
         <Form.Item name={['layout']} label="Layout" >
         <Select
       style={{ width: 300 }}

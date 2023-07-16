@@ -5,6 +5,7 @@ import {
   DashboardOutlined,
   FolderOpenOutlined,
   FundProjectionScreenOutlined,
+  MoneyCollectOutlined,
   SettingOutlined,
   SoundOutlined,
   UsergroupAddOutlined,
@@ -21,13 +22,13 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     path: 'dashboard',
   },
   {
-    title: 'Courses',
+    title: 'Products',
     icon: <BookOutlined />,
-    path: 'courses',
+    path: 'products',
     children: [
       {
-        title: 'All Courses',
-        path: '',
+        title: 'Courses',
+        path: 'courses',
         // icon: <AppstoreOutlined />
       },
       {
@@ -112,6 +113,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         title: 'My Account',
         path: 'account',
         icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Payments',
+        path: 'payments',
+        icon: <MoneyCollectOutlined />
       },
     ]
   },

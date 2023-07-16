@@ -8,6 +8,7 @@ import {
 } from './utils'
 import { useEffect, useState } from 'react'
 
+import BackButton from '@Components/BackButton'
 import CourseSectionsNavigator from './CourseSectionsNavigator'
 import GenerateWithAI from './CourseEditor/CourseInformation/GenerateWithAiButton'
 import Header from '@Components/Header'
@@ -16,6 +17,7 @@ import MediaUpload from '@Components/MediaUpload'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import useMessage from '@Hooks/useMessage'
+import { validatePublishCourse } from './CourseEditor'
 
 function CourseBuilderScreen() {
   const message = useMessage()
@@ -143,9 +145,11 @@ function CourseBuilderScreen() {
         const firstSection = course.sections.find(s => s.items.length)
         if (firstSection && firstSection.items.length) {
           const firstItem = firstSection.items[0]
-          navigate(
-            `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
-          )
+          if (firstItem.type) {
+            navigate(
+              `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
+            )
+          }
         }
       }
     },
@@ -181,7 +185,7 @@ function CourseBuilderScreen() {
         onSuccess: () => {
           const lastSection = course.sections.pop()
           const lastItem = lastSection?.items.pop()
-          if (lastSection && lastItem)
+          if (lastSection && lastItem && lastItem.type)
             navigate(
               `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
             )
@@ -205,7 +209,7 @@ function CourseBuilderScreen() {
         onSuccess: () => {
           const lastSection = course.sections.pop()
           const lastItem = lastSection?.items.pop()
-          if (lastSection && lastItem)
+          if (lastSection && lastItem && lastItem.type)
             navigate(
               `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
             )
@@ -226,7 +230,12 @@ function CourseBuilderScreen() {
   )
   return (
     <Header
-      title={'Course Builder'}
+      title={
+        <span>
+          {' '}
+          <BackButton onClick={() => navigate('../app/products/courses')} /> {course.title}
+        </span>
+      }
       extra={[
         <Button
           onClick={() =>
@@ -234,6 +243,7 @@ function CourseBuilderScreen() {
               status: Constants.COURSE_STATUSES_MAP.published.value
             })
           }
+          disabled={!validatePublishCourse(course)}
           style={{ marginRight: 15 }}
           icon={<UploadOutlined />}
         >

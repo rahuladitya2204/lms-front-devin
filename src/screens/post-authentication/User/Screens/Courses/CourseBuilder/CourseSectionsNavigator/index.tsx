@@ -1,6 +1,6 @@
-import { Button, Card, Collapse, Input, List, Modal, Space, Tooltip, Typography } from 'antd'
-import { DeleteOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons'
-import { useCallback, useEffect, useState } from 'react'
+import { Button, Card, Collapse, Dropdown, Input, List, Modal, Space, Tooltip, Typography } from 'antd'
+import { DeleteOutlined, DownOutlined, EditOutlined, MoreOutlined, PlusCircleOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons'
+import { Fragment, useCallback, useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AddItem from '../AddItem'
@@ -21,6 +21,13 @@ const CollapsePanel = styled(Collapse.Panel)`
 .ant-collapse-header-text{
   width: 85%;
 
+}
+`
+
+const AddItemListCta = styled(List.Item)`
+.ant-list-item{
+  border-top: 1px solid #dbd9d9;
+  border-bottom: 1px solid #dbd9d9;
 }
 `
 
@@ -98,7 +105,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   onReorderSections
 }) => {
   const [secEditable,setSecEditable]=useState({})
-  const [enableSectionReorder, setEnableSectionReorder] = useState(false);
+  const [enableSectionReorder, setEnableSectionReorder] = useState(true);
   const [itemRearrengeIndex, setItemRearrengeIndex] = useState<number | null>(null);
   const [sectionList, setSectionList] = useState<Types.CourseSection[]>(sections)
   useEffect(
@@ -162,12 +169,33 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
-                 <Card title={enableSectionReorder?(<Title level={4} style={{textAlign:'center'}}>Drag and Drop sections below</Title>):null
-}>
    <DndProvider backend={HTML5Backend}>
-          {sectionList.map((section, secIndex) => {
-                        // @ts-ignore
-                        const isSectionEditable = secEditable[section._id];
+        {sectionList.map((section, secIndex) => {
+          const AddItemCTA = <ActionModal
+            cta={`Add Item`}
+          >
+            <AddItem
+              onAddNewItem={(key, value) =>
+                onAddNewItem(key, value, secIndex)
+              }
+            />
+          </ActionModal>;
+            const SectionOptionDropdown = <Dropdown menu={{
+              items: [
+                {
+                  label:  AddItemCTA,
+                    key:'add'
+                },{
+              label:<AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>
+              Rename 
+           </AddSection>,
+              key: 'rename',
+            }, {
+              label: <span onClick={() => DeleteSection(section._id)}>Delete Section</span>,
+              key: 'delete',
+              }] }} trigger={['click']}>
+                <MoreOutlined />
+            </Dropdown>
           return (
             <div style={{marginBottom:20}}>
 
@@ -186,9 +214,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                 // ghost
               >
                   <CollapsePanel extra={
-                     <AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>
-                      <EditOutlined style={{ cursor:'pointer' }} />
-                   </AddSection>
+                   SectionOptionDropdown
                     }
                     key={secIndex}
                     header={section.title}
@@ -198,65 +224,27 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                     style={{ marginBottom: 20 }}
                     size="small"
                     dataSource={section.items}
-                    footer={
-                      <Space>
-                        <ActionModal
-                          cta={
-                            <Button size="small" type="primary">
-                              Add Item{' '}
-                            </Button>
-                          }
-                        >
-                          <AddItem
-                            onAddNewItem={(key, value) =>
-                              onAddNewItem(key, value, secIndex)
-                            }
-                          />
-                        </ActionModal>
-                        { itemRearrengeIndex!==secIndex?  <Button disabled={section.items.length<2} onClick={e=>setItemRearrengeIndex(secIndex)} size="small" >
-                          Rearrange {' '}
-                        </Button> : <Button onClick={e => {
-                            setItemRearrengeIndex(null);
-                            onReorderSections(sectionList);
-                        }} size="small" type="primary">
-                          Save Order {' '}
-                          </Button>}
-                        <Tooltip
-                          placement="bottom"
-                          title={'Delete this complete section of course'}
-                        >
-                          <Button
-                            onClick={() => DeleteSection(section._id)}
-                            size="small" danger
-                            // type="ghost"
-                          >
-                            Delete Section{' '}
-                          </Button>
-                        </Tooltip>
-                      </Space>
-                    }
+
                       renderItem={(item, itemIndex) => {
+                        const SectionItemOptionDropdown = <Dropdown menu={{
+                          items: [
+                            {
+                              label: <span onClick={(e) => {
+                                  e.stopPropagation()
+                                DeleteSectionItem(section._id, item._id)
+                              }}>Delete Chapter Item</span>,
+                              key: 'delete',
+                          icon:<DeleteOutlined/>
+                            }]
+                        }} trigger={['click']}>
+                            <MoreOutlined />
+                        </Dropdown>
                         const CourseSectionListItem = (isActive:boolean)=><CourseListItem
                         isActive={isActive}
-                        actions={[
-                          <Tooltip
-                            placement="bottom"
-                            title={'Delete Section item'}
-                          >
-                            <Button className='delete-icon' size='small' icon={<DeleteOutlined
-                              onClick={(e) => {
-                                if (!item.type) {
-                                  e.stopPropagation()
-                                }
-                                DeleteSectionItem(section._id, item._id)
-                              }
-                              }
-                            />}></Button>
-                          </Tooltip>
+                          actions={[
+                            SectionItemOptionDropdown
                         ]}
                       >
-                        {/* <Tooltip placement="left" title={item.title}> */}
-
                         <List.Item.Meta
                           style={{ cursor: 'pointer' }}
                           title={<Text>{item.title}</Text>}
@@ -264,9 +252,9 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                             <CourseItemIcon type="outlined" item={item} />
                           }
                         />
-                        {/* </Tooltip> */}
                       </CourseListItem>
-                       return  <MovableItem
+                        return <Fragment>
+                          <MovableItem
                           disabled={!(itemRearrengeIndex === secIndex)}
                           key={item._id}
                           index={itemIndex}
@@ -290,9 +278,30 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                               }
                             />
                           </ActionModal>}
-                            
                           </List.Item>
-                        </MovableItem>
+                          </MovableItem>
+
+                          {(itemIndex == section.items.length - 1) ?
+                            <ActionModal
+                            cta={<AddItemListCta
+                              >
+                                <List.Item.Meta
+                                  style={{ cursor: 'pointer' }}
+                                  title={AddItemCTA}
+                                  avatar={
+                                    <PlusOutlined/>
+                                  }
+                                />
+                              </AddItemListCta>}
+                          >
+                            <AddItem
+                              onAddNewItem={(key, value) =>
+                                onAddNewItem(key, value, secIndex)
+                              }
+                            />
+                          </ActionModal>
+                            :null}
+                       </Fragment>
                       }}
                     />
 
@@ -303,23 +312,13 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
           )
         })}
         </DndProvider>
-        {sectionList.length>1 ? <>
-          {!enableSectionReorder? <AddChapterButton style={{marginTop:0,marginBottom:10}} onClick={e=>setEnableSectionReorder(!enableSectionReorder)} block>
-                Rearrange Sections
-      </AddChapterButton> : <AddChapterButton style={{marginTop:0,marginBottom:10}} onClick={e => {
-          onReorderSections(sectionList);
-          setEnableSectionReorder(false)
-      }} block>
-                Save Order
-        </AddChapterButton>}</>:null} 
+
         {/* @ts-ignore */}
         <AddSection onFinish={e => onAddSection(e)}>
               <AddChapterButton block type="primary">
                 Add New Section
               </AddChapterButton>
             </AddSection>
-        </Card>
-
     </Space>
   )
 }

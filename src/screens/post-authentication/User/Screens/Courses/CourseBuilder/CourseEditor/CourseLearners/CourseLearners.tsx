@@ -1,4 +1,4 @@
-import { Space, Table } from 'antd'
+import { Button, Card, Space, Table } from 'antd'
 
 import { DeleteOutlined } from '@ant-design/icons'
 import { Types } from '@adewaskar/lms-common'
@@ -15,27 +15,32 @@ function CourseLearners(props: CourseLearnersPropsI) {
     props.courseId + ''
   )
   return (
-    <Table dataSource={data} loading={loading}>
-      <Table.Column
-        title="Name"
-        dataIndex="name"
-        render={(_: any, record: Types.EnrolledCourse) => capitalize(record.learner.name)}
-      />
-      <Table.Column
-        title="Enrolled At"
-        dataIndex="email"
-        key="email"
-        render={(_: any, record: Types.EnrolledCourse) => (
-          <Space size="middle">{dayjs(record.enrolledAt).format('LL')}</Space>
-        )}
-      />
-      <Table.Column
-        title="Email"
-        dataIndex="learner.email"
-        key="learner.email"
-        render={(_: any, record: Types.EnrolledCourse) => record.learner.email}
-      />
-      {/* <Table.Column
+    <Card title='Course Learners' extra={[<Button>Add Learner</Button>]}> 
+      <Table dataSource={data} loading={loading}>
+        <Table.Column
+          title="Name"
+          dataIndex="name"
+          render={(_: any, record: Types.EnrolledCourse) =>
+            capitalize(record.learner.name)
+          }
+        />
+        <Table.Column
+          title="Enrolled At"
+          dataIndex="email"
+          key="email"
+          render={(_: any, record: Types.EnrolledCourse) => (
+            <Space size="middle">{dayjs(record.enrolledAt).format('LL')}</Space>
+          )}
+        />
+        <Table.Column
+          title="Email"
+          dataIndex="learner.email"
+          key="learner.email"
+          render={(_: any, record: Types.EnrolledCourse) =>
+            record.learner.email
+          }
+        />
+        {/* <Table.Column
         title="Last Login"
         dataIndex="lastActive"
         key="lastActive"
@@ -51,21 +56,22 @@ function CourseLearners(props: CourseLearnersPropsI) {
           <Space size="middle">{dayjs(record.createdAt).format('LL')}</Space>
         )}
       /> */}
-      <Table.Column
-        title="Action"
-        key="action"
-        render={(_: any, record: Types.Learner) => (
-          <Space size="middle">
-            {/* <EditOutlined
+        <Table.Column
+          title="Action"
+          key="action"
+          render={(_: any, record: Types.Learner) => (
+            <Space size="middle">
+              {/* <EditOutlined
             onClick={() =>
               window.open(`learners/${record._id}/editor`, '_blank')
             }
           /> */}
-            <DeleteOutlined />
-          </Space>
-        )}
-      />
-    </Table>
+              <DeleteOutlined />
+            </Space>
+          )}
+        />
+      </Table>
+    </Card>
   )
 }
 

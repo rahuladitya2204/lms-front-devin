@@ -42,10 +42,10 @@ const AddSection: React.FC<any> = (props) => {
           <Button key="submit" type="primary" onClick={form.submit}>
             Submit
           </Button>,
-          ]} title="New Section" open={isModalOpen} onCancel={closeModal}>
+          ]} open={isModalOpen} onCancel={closeModal}>
               
               <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item required name="sectionTitle" label="Section Heading">
+        <Form.Item required name="sectionTitle" label="Section Title">
           <Input placeholder='Please enter heading for the new section' />
         </Form.Item></Form>
       

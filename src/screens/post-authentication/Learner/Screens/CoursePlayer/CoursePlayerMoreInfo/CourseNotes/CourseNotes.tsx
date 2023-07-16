@@ -62,6 +62,7 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
         </Row>
         <Divider />
         <List
+          locale={{ emptyText: 'No Notes Added' }}
           itemLayout="horizontal"
           dataSource={currentItemNotes}
           renderItem={(note, index) => {

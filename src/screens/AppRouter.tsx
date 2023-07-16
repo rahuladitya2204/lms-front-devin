@@ -15,6 +15,7 @@ import CourseBuilderScreen from './post-authentication/User/Screens/Courses/Cour
 import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseBuilder/CourseEditor'
+import CourseInformationEditor from '@User/Screens/Courses/CourseBuilder/CourseEditor/CourseInformation'
 import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
 import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
@@ -43,6 +44,7 @@ import LiveSessionsScreen from '@User/Screens/LiveSession/LiveSessionScreen/Live
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
+import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
@@ -72,7 +74,18 @@ const router = createBrowserRouter(
             path="certificate-template/:id/editor"
             element={<CertificateTemplateEditor />}
           />
-          <Route path="app/courses/:id/editor" element={<CourseEditor />} />
+          <Route path="app/products/courses/:id/editor" element={<CourseEditor />} />
+          <Route
+            path="app/products/courses/:id/builder"
+            element={<CourseBuilderScreen />}
+          >
+            <Route path="section/:sectionId">
+              <Route path="pdf/:itemId" element={<UploadPDFForm />} />
+              <Route path="video/:itemId" element={<UploadVideoForm />} />
+              <Route path="text/:itemId" element={<AddTextItem />} />
+              {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
+            </Route>
+          </Route>
           <Route path="app" element={<UserRootScreen />}>
             <Route path="dashboard" element={<UserDashboard />} />
             <Route path="settings" element={<SettingsScreen />} />
@@ -128,13 +141,16 @@ const router = createBrowserRouter(
             </Route>{' '}
             <Route path="settings">
               <Route path="account" element={<UserAccount />} />
+              <Route path="payments" element={<PaymentSettings />} />
             </Route>{' '}
             <Route path="tickets" element={<UsersTicketsScreen />} />
             <Route path="tickets/:id" element={<UserTicketDetail />} />
-            <Route path="courses" element={<CoursesScreen />} />
-            <Route path="courses/packages">
-              <Route path="" element={<PackagesScreen />} />
-              <Route path=":id/editor" element={<CreatePackage />} />
+            <Route path="products">
+              <Route path="courses" element={<CoursesScreen />} />
+              <Route path="packages">
+                <Route path="" element={<PackagesScreen />} />
+                <Route path=":id/editor" element={<CreatePackage />} />
+              </Route>
             </Route>
             <Route path="live-session">
               <Route path="" element={<LiveSessionsScreen />} />
@@ -142,14 +158,10 @@ const router = createBrowserRouter(
               <Route path=":sessionId/edit" element={<CreateLiveSession />} />
               {/* <Route path=":id/editor" element={<CreatePackage />} /> */}
             </Route>
-            <Route path="courses/:id/builder" element={<CourseBuilderScreen />}>
-              <Route path="section/:sectionId">
-                <Route path="pdf/:itemId" element={<UploadPDFForm />} />
-                <Route path="video/:itemId" element={<UploadVideoForm />} />
-                <Route path="text/:itemId" element={<AddTextItem />} />
-                {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
-              </Route>
-            </Route>
+            <Route
+              path="courses/:id/editor/information"
+              element={<CourseInformationEditor />}
+            />
           </Route>
           <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route

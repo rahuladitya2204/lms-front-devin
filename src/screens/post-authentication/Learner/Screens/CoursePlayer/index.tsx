@@ -55,10 +55,10 @@ const CustomHeader = styled(Header)`
 `
 const { Search } = Input
 const { Text } = Typography
+
 function CoursePlayer() {
   const [showReview, setShowReview] = useState(false)
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
-
   const { id: courseId, itemId, sectionId } = useParams()
   const {
     data: { course, progress, review }
@@ -66,7 +66,8 @@ function CoursePlayer() {
     enabled: !!courseId
   })
   const navigate = useNavigate()
-
+  const [searchText, setSearchText] = useState('')
+  console.log(searchText, 'aaa')
   const sections = course.sections
 
   useEffect(
@@ -221,8 +222,9 @@ function CoursePlayer() {
         </Col>
         <Col span={6}>
           <Search
+            value={searchText}
             placeholder="Search in course.."
-            // onSearch={onSearch}
+            onChange={e => setSearchText(e.target.value)}
             size="large"
             style={{ marginBottom: 20 }}
           />

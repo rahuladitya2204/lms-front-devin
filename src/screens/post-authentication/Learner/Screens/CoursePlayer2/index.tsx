@@ -208,7 +208,7 @@ function CoursePlayer() {
         <Col span={6}>
           <Search
             placeholder="Search in course.."
-            // onSearch={onSearch}
+            onChange={console.log}
             size="large"
             style={{ marginBottom: 20 }}
           />

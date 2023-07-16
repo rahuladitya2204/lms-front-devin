@@ -14,21 +14,14 @@ import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
-function CourseInformationEditor() {
-  const message = useMessage()
+function CourseInformationEditor(props: any) {
   const { id } = useParams()
   const courseId = id + ''
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
-  const {
-    mutate: updateCourseApi,
-    isLoading: loading
-  } = User.Queries.useUpdateCourse()
 
   const { data: courseDetails } = User.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId
   })
-
-  // const { } = User.Queries.useUpdateCourseStatus();
 
   useEffect(
     () => {
@@ -36,52 +29,8 @@ function CourseInformationEditor() {
     },
     [courseDetails]
   )
-
-  const saveCourse = (e: Partial<Course>) => {
-    setCourse({
-      ...course,
-      ...e
-    })
-  }
-  const updateCourse = () => {
-    updateCourseApi(
-      {
-        id: courseId,
-        data: course
-      },
-      {
-        onSuccess: () => {
-          message.open({
-            type: 'success',
-            content: 'Saved'
-          })
-        }
-      }
-    )
-  }
-
-  const validatePublishCourse = () => {
-    return (
-      course.title &&
-      course.subtitle &&
-      course.description &&
-      course.difficultyLevel &&
-      course.language &&
-      course.instructor &&
-      course.category &&
-      course.landingPage.promoVideo &&
-      course.landingPage.description &&
-      course.plan &&
-      (course.keywords && course.keywords.length)
-    )
-  }
-
-  const validateDraftCourse = () => {
-    return course.title
-  }
-
   return (
-    <Fragment>
+    <Card>
       {/* <Form onFinish={saveCourse} form={form} layout="vertical" autoComplete="off"> */}
       <Tabs
         defaultActiveKey="1"
@@ -91,9 +40,9 @@ function CourseInformationEditor() {
             key: 'details',
             children: (
               <CourseDetailsEditor
-                saveCourse={saveCourse}
-                course={course}
-                courseId={courseId}
+                saveCourse={props.saveCourse}
+                course={props.course}
+                courseId={props.courseId}
               />
             )
           },
@@ -102,9 +51,9 @@ function CourseInformationEditor() {
             key: 'landing-page',
             children: (
               <CourseLandingPageEditor
-                courseId={courseId}
-                course={course}
-                saveCourse={saveCourse}
+                saveCourse={props.saveCourse}
+                course={props.course}
+                courseId={props.courseId}
               />
             )
           },
@@ -113,9 +62,9 @@ function CourseInformationEditor() {
             key: 'pricing',
             children: (
               <CoursePricingEditor
-                courseId={courseId}
-                course={course}
-                saveCourse={saveCourse}
+                saveCourse={props.saveCourse}
+                course={props.course}
+                courseId={props.courseId}
               />
             )
           },
@@ -124,9 +73,9 @@ function CourseInformationEditor() {
             key: 'advanced',
             children: (
               <CourseAdvancedSettings
-                courseId={courseId}
-                course={course}
-                saveCourse={saveCourse}
+                saveCourse={props.saveCourse}
+                course={props.course}
+                courseId={props.courseId}
               />
             )
           }
@@ -134,7 +83,7 @@ function CourseInformationEditor() {
       />
 
       <Outlet />
-    </Fragment>
+    </Card>
   )
 }
 

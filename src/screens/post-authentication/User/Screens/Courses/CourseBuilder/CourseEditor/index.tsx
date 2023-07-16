@@ -4,15 +4,18 @@ import {
   EyeOutlined,
   InfoCircleFilled,
   InfoCircleOutlined,
+  SafetyCertificateOutlined,
   SaveOutlined,
+  ToolOutlined,
   UploadOutlined,
   UserOutlined
 } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
-import { Outlet, useParams } from 'react-router'
+import { Outlet, useNavigate, useParams } from 'react-router'
 
 import BackButton from '@Components/BackButton'
 import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
+import CourseCertificate from './CourseInformation/CourseAdvancedSettings/CourseCertificate/CourseCertificateScreen'
 import CourseInformationEditor from './CourseInformation'
 import CourseLearners from './CourseLearners/CourseLearners'
 import Tabs from '@Components/Tabs'
@@ -65,39 +68,22 @@ function CourseEditor() {
     )
   }
 
-  const validatePublishCourse = () => {
-    return (
-      course.title &&
-      course.subtitle &&
-      course.description &&
-      course.difficultyLevel &&
-      course.language &&
-      course.instructor &&
-      course.category &&
-      course.landingPage.promoVideo &&
-      course.landingPage.description &&
-      course.plan &&
-      (course.keywords && course.keywords.length)
-    )
-  }
-
   const validateDraftCourse = () => {
     return course.title
   }
-
+  const navigate = useNavigate()
   return (
     <Row gutter={[20, 20]}>
       <Col span={24}>
         <Card
           title={
             <span>
-
               <BackButton /> {course.title}
             </span>
           }
           extra={[
             <Button
-              disabled={!validatePublishCourse()}
+              disabled={!validatePublishCourse(course)}
               onClick={() => {
                 // const dataStr = STRINGIFY(JSON.stringify(course))
                 window.open(`${courseId}/preview`, '_blank')
@@ -119,6 +105,11 @@ function CourseEditor() {
           ]}
         >
           <Tabs
+            onTabClick={e => {
+              if (e === 'builder') {
+                navigate(`../app/courses/${course._id}/builder`)
+              }
+            }}
             tabPosition={'left'}
             style={{ minHeight: '100vh' }}
             items={[
@@ -129,7 +120,21 @@ function CourseEditor() {
                   </span>
                 ),
                 key: 'information',
-                children: <CourseInformationEditor />
+                children: (
+                  <CourseInformationEditor
+                    saveCourse={saveCourse}
+                    course={course}
+                    courseId={courseId}
+                  />
+                )
+              },
+              {
+                label: (
+                  <span>
+                    <ToolOutlined />Builder
+                  </span>
+                ),
+                key: 'builder'
               },
               {
                 label: (
@@ -139,6 +144,21 @@ function CourseEditor() {
                 ),
                 key: 'learners',
                 children: <CourseLearners courseId={course._id} />
+              },
+              {
+                label: (
+                  <span>
+                    <SafetyCertificateOutlined />Certificate
+                  </span>
+                ),
+                key: 'certificate',
+                children: (
+                  <CourseCertificate
+                    courseId={course._id}
+                    course={course}
+                    saveCourse={saveCourse}
+                  />
+                )
               }
             ]}
           />
@@ -152,3 +172,20 @@ function CourseEditor() {
 }
 
 export default CourseEditor
+
+export const validatePublishCourse = (course: Types.Course) => {
+  return (
+    course.title &&
+    course.subtitle &&
+    course.description &&
+    course.difficultyLevel &&
+    course.language &&
+    course.instructor &&
+    course.category &&
+    course.sections.length &&
+    course.landingPage.promoVideo &&
+    course.landingPage.description &&
+    course.plan &&
+    (course.keywords && course.keywords.length)
+  )
+}
