@@ -1,10 +1,10 @@
 // @ts-nocheck
 import 'grapesjs/dist/css/grapes.min.css'
 
+import { Button, Spin } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
-import { Button } from 'antd'
 import Header from '@Components/Header'
 import { SaveOutlined } from '@ant-design/icons'
 import grapesjs from 'grapesjs'
@@ -15,7 +15,7 @@ import { useParams } from 'react-router'
 const WebsiteBuilderScreen = () => {
   const { pageId } = useParams()
   const editorRef = useRef()
-
+  const [loading, setLoading] = useState(false)
   const { mutate: uploadFiles } = Common.Queries.useUploadFiles()
   const { data: resetPage } = User.Queries.useGetResetWebsitePage()
   const { data: { code: { html, css, js } } } = User.Queries.useGetWebsitePage(
@@ -40,6 +40,7 @@ const WebsiteBuilderScreen = () => {
             const file = e.target.files[0]
             if (file instanceof File) {
               console.log(file, 'file')
+              // setLoading(true)
               // Insert a temporary image element with a loading image source
               uploadFiles({
                 files: [{ file: file, prefixKey: 'jjijijij' }],
@@ -49,7 +50,7 @@ const WebsiteBuilderScreen = () => {
                 },
                 onSuccess: ([uploadedFile]) => {
                   if (editor && uploadedFile && uploadedFile.url) {
-                    console.log('File uploaded:', uploadedFile);
+                    console.log('File uploaded:', uploadedFile)
                     // editor.AssetManager
                     // After the upload, add the uploaded image to the asset manager
                     editor.AssetManager.add(uploadedFile.url)
@@ -58,6 +59,7 @@ const WebsiteBuilderScreen = () => {
                       'Undefined object detected. Please check your upload response.'
                     )
                   }
+                  // setLoading(false)
                 }
               })
 
@@ -75,6 +77,20 @@ const WebsiteBuilderScreen = () => {
             return false
           }
         }
+      })
+
+      editor.on('asset:upload:start', () => {
+        startAnimation()
+      })
+
+      // The upload is ended (completed or not)
+      editor.on('asset:upload:end', () => {
+        endAnimation()
+      })
+
+      // Error handling
+      editor.on('asset:upload:error', err => {
+        notifyError(err)
       })
 
       if (html) editor.setComponents(html)
@@ -137,10 +153,7 @@ const WebsiteBuilderScreen = () => {
         </Button>
       ]}
     >
-      <div>
-        <div ref={editorRef} />
-        <button onClick={saveWebpage}>Log Current HTML/CSS/JS</button>
-      </div>
+      <div>{loading ? <Spin /> : <div ref={editorRef} />}</div>
     </Header>
   )
 }
