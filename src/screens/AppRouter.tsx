@@ -64,9 +64,9 @@ import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDet
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
 import WebsiteBuilderScreen from '@User/Screens/Builder/Website/WebsiteBuilder/WebsiteBuilder'
 import WebsitePages from '@User/Screens/Builder/Website/WebsitePages/WebsitePages'
+import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
-import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -92,6 +92,8 @@ const router = createBrowserRouter(
               {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
             </Route>
           </Route>
+          <Route path="app/platform/website/builder/:pageId" element={<WebsiteBuilderScreen />} />
+
           <Route path="app" element={<UserRootScreen />}>
             <Route path="dashboard" element={<UserDashboard />} />
             <Route path="settings" element={<SettingsScreen />} />
@@ -113,7 +115,6 @@ const router = createBrowserRouter(
               </Route>
               <Route path="website">
                 <Route path="" element={<WebsiteScreen />} />
-                <Route path="builder" element={<WebsiteBuilderScreen />} />
                 {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
               </Route>
             </Route>

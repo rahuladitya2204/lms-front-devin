@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@adewaskar/lms-common": "^1.0.483",
+    "@adewaskar/lms-common": "^1.0.485",
     "@ant-design/compatible": "^5.0.0",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.34",
@@ -54,6 +54,9 @@
     "file-loader": "^6.2.0",
     "formik": "^2.2.9",
     "fs-extra": "^10.0.0",
+    "grapesjs": "^0.21.3",
+    "grapesjs-blocks-basic": "^1.0.2",
+    "grapesjs-preset-webpage": "^1.0.3",
     "grapesjs-react": "^4.0.1",
     "hls.js": "^1.4.0",
     "html-to-text": "^9.0.5",
