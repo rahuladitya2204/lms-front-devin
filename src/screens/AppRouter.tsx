@@ -62,8 +62,8 @@ import UserRegister from './post-authentication/User/Screens/Register'
 import UserRootScreen from './post-authentication/User/Screens/UserRoot/UserRootScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
+import WebpageViewer from '@User/Screens/Builder/Website/WebsiteBuilder/WebpageViewer'
 import WebsiteBuilderScreen from '@User/Screens/Builder/Website/WebsiteBuilder/WebsiteBuilder'
-import WebsitePages from '@User/Screens/Builder/Website/WebsitePages/WebsitePages'
 import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
@@ -73,6 +73,10 @@ const router = createBrowserRouter(
     <Route path="/" element={<RootScreen />}>
       <Route path=":orgId">
         <Route path="user">
+          <Route
+            path="webpage-viewer/:pageId"
+            element={<WebpageViewer />}
+          />
           <Route
             path="certificate-template/:id/editor"
             element={<CertificateTemplateEditor />}
@@ -92,8 +96,10 @@ const router = createBrowserRouter(
               {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
             </Route>
           </Route>
-          <Route path="app/platform/website/builder/:pageId" element={<WebsiteBuilderScreen />} />
-
+          <Route
+            path="app/platform/website/builder/:pageId"
+            element={<WebsiteBuilderScreen />}
+          />
           <Route path="app" element={<UserRootScreen />}>
             <Route path="dashboard" element={<UserDashboard />} />
             <Route path="settings" element={<SettingsScreen />} />

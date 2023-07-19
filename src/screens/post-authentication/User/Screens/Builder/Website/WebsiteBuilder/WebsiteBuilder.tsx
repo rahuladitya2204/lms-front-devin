@@ -43,7 +43,7 @@ const WebsiteBuilderScreen = () => {
               // setLoading(true)
               // Insert a temporary image element with a loading image source
               uploadFiles({
-                files: [{ file: file, prefixKey: 'jjijijij' }],
+                files: [{ file: file, prefixKey: `website-asset/${Date.now()}` }],
                 isProtected: false,
                 onUploadProgress: e => {
                   // console.log(e, 'e')

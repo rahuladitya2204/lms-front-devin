@@ -3,6 +3,8 @@ import { Learner, Types } from '@adewaskar/lms-common'
 import React, { ReactNode } from 'react'
 
 import { User } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
+import { useNavigate } from 'react-router'
 
 interface CreateCourseComponentPropsI {
   children?: ReactNode;
@@ -10,6 +12,8 @@ interface CreateCourseComponentPropsI {
 }
 
 const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
+  const navigate = useNavigate()
+  const message = useMessage()
   const {
     mutate: createCourse,
     isLoading: loading
@@ -18,14 +22,16 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
 
   const onSubmit = (e: Types.Course) => {
     console.log('Helo')
-    createCourse(
-      e,
-      {
-        onSuccess: () => {
-          props.closeModal && props.closeModal()
-        }
+    createCourse(e, {
+      onSuccess: course => {
+        navigate(`${course._id}/editor`)
+        message.open({
+          type: 'success',
+          content: 'Have fun creating a course!'
+        })
+        props.closeModal && props.closeModal()
       }
-    )
+    })
   }
 
   const { listItems: categories } = User.Queries.useGetCourseCategories()

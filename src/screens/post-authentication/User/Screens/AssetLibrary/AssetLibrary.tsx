@@ -20,7 +20,7 @@ import { unit } from 'mathjs'
 const { Text } = Typography
 
 function AssetLibraryScreen() {
-  const { data, isLoading: loadingFiles } = Common.Queries.useGetFiles()
+  const { data, isLoading: loadingFiles } = Common.Queries.useGetFiles();
   const organisation = Store.useGlobal(s => s.organisation)
   const {
     mutate: deleteFile,

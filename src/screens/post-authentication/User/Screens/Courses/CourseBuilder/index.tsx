@@ -250,7 +250,7 @@ function CourseBuilderScreen() {
           Publish Course
         </Button>,
         <Button
-          // onClick={() => saveCourse()}
+          onClick={() => saveCourse(course)}
           loading={loading}
           type="primary"
           icon={<SaveOutlined />}

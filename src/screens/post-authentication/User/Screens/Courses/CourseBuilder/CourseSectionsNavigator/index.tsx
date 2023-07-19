@@ -11,6 +11,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
+import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
 
@@ -137,13 +138,16 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   }
 
   const moveSection = useCallback((dragIndex: number, hoverIndex: number) => {
-    setSectionList(prevCards =>
-      update(prevCards, {
-        $splice: [[dragIndex, 1], [hoverIndex, 0, prevCards[dragIndex]]]
-      })
+    setSectionList(prevCards => {
+      const prevSections = cloneDeep(prevCards);
+      const sections = update(prevSections, {
+        $splice: [[dragIndex, 1], [hoverIndex, 0, prevSections[dragIndex]]]
+      });
+      onReorderSections(sections)
+      return sections;
+    }
     )
   }, []);
-
 
   const moveCourseItem = useCallback((dragIndex: number, hoverIndex: number, sectonId: string, itemId:string) => {
     const SList = [...sectionList];
@@ -156,16 +160,6 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     });
     setSectionList(SList);
   }, []);
-
-  const onSectionTitleUpdate = (sectionId:string,title:string) => {
-    const SList = [...sectionList];
-    SList.forEach(section => {
-      if (section._id === sectionId) {
-        section.title = title;
-      }
-    });
-    setSectionList(SList);
-  }
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
@@ -198,7 +192,6 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
             </Dropdown>
           return (
             <div style={{marginBottom:20}}>
-
             <MovableItem disabled={!enableSectionReorder}
               key={section._id}
               index={secIndex}
@@ -239,7 +232,10 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                         }} trigger={['click']}>
                             <MoreOutlined />
                         </Dropdown>
-                        const CourseSectionListItem = (isActive:boolean)=><CourseListItem
+                        const CourseSectionListItem = (isActive: boolean) => <CourseListItem onClick={e => {
+                          e.stopPropagation();
+                          console.log('sss')
+                        }}
                         isActive={isActive}
                           actions={[
                             SectionItemOptionDropdown
