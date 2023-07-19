@@ -232,10 +232,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                         }} trigger={['click']}>
                             <MoreOutlined />
                         </Dropdown>
-                        const CourseSectionListItem = (isActive: boolean) => <CourseListItem onClick={e => {
-                          e.stopPropagation();
-                          console.log('sss')
-                        }}
+                        const CourseSectionListItem = (isActive: boolean) => <CourseListItem
                         isActive={isActive}
                           actions={[
                             SectionItemOptionDropdown

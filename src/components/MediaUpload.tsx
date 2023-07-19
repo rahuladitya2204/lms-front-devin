@@ -1,28 +1,17 @@
 //@ts-nocheck
 
-import {
-  ClockCircleOutlined,
-  InboxOutlined,
-  LoadingOutlined,
-  PlusOutlined
-} from '@ant-design/icons'
+import { ClockCircleOutlined, InboxOutlined, LoadingOutlined, PlusOutlined } from '@ant-design/icons'
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin, Upload, UploadProps } from 'antd'
-import React, { ReactNode, useState } from 'react'
+import React, { useState } from 'react'
 
 import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop'
 import styled from '@emotion/styled'
 
-const UPLOAD: UploadProps = {
-  onDrop(e) {
-    // console.log('Dropped file', e.dataTransfer.file)
-  }
-}
-
-interface MediaUploadPropsI {
+interface MediaUploadProps {
   onUpload?: (d: Types.FileType, file: File) => void;
-  children?: ReactNode;
+  children?: React.ReactNode;
   isProtected?: boolean;
   closeModal?: () => void;
   aspect?: number;
@@ -37,42 +26,42 @@ interface MediaUploadPropsI {
   height?: string;
   width?: string;
   extra?: UploadProps;
-  renderItem?: () => ReactNode;
+  renderItem?: () => React.ReactNode;
 }
+
 const CustomUpload = styled(Upload)(
-  (props: { width: number }) =>
-    `
-.ant-upload-wrapper {
-  margin: 0;
-}
+  ({ rounded, width = 'auto' }) => `
 .ant-upload {
   margin: 0;
   display: block;
-  border-radius: ${(props: { rounded?: boolean, width?: string }) =>
-    props.rounded ? '50% !important' : ''};
+  border-radius: ${rounded ? '50% !important' : ''};
   object-fit: cover;
   overflow: hidden;
-  width: ${props.width}px !important;
-}
-
-.ant-upload:hover {
-  // border: 1px dashed grey;
+  width: ${width}px !important;
 }
 `
 )
 
-const MediaUpload: React.FC<MediaUploadPropsI> = props => {
-  const {
-    mutate: uploadFiles,
-    isLoading: loading
-  } = Common.Queries.useUploadFiles()
+const UPLOAD: UploadProps = {
+  onDrop(e) {
+    // console.log('Dropped file', e.dataTransfer.file)
+  }
+}
+
+const MediaUpload: React.FC<MediaUploadProps> = (props) => {
+  const { mutate: uploadFiles, isLoading: loading } = Common.Queries.useUploadFiles()
   const [file, setFile] = useState(null)
-  const [fileList, setFileList] = useState(null)
   const form = Form.useFormInstance()
-  // const value = Form.useWatch([props.name], form);
-  const UploadFile = file => {
+  const UploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  )
+
+  UPLOAD.customRequest = () => {
     if (!file) return
-    return uploadFiles({
+    uploadFiles({
       files: [
         {
           file: file,
@@ -95,107 +84,47 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       }
     })
   }
-  UPLOAD.customRequest = () => {
-    UploadFile(file)
-  }
-  UPLOAD.onChange = ({ file, fileList }) => {
+
+  UPLOAD.onChange = ({ file }) => {
     setFile(file)
-    setFileList(fileList)
   }
 
-  const UploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  )
-
-  let UploadComponent = (
-    <CustomUpload
-      {...UPLOAD}
-      type="video/*"
-      beforeUpload={info => {
-        setFile(info)
-      }}
-      name="avatar"
-      listType="picture-card"
-      className="avatar-uploader"
-      showUploadList={false}
-      iconRender={() => <ClockCircleOutlined />}
-      // @ts-ignore
-      width={props.width || 'auto'}
-    >
-      {props.renderItem ? props.renderItem() : UploadButton}
-    </CustomUpload>
-  )
+  let uploadProps = {
+    ...UPLOAD,
+    beforeUpload: (info) => { setFile(info) },
+    name: "avatar",
+    listType: "picture-card",
+    className: "avatar-uploader",
+    showUploadList: false,
+    iconRender: () => <ClockCircleOutlined />,
+    width: props.width || 'auto',
+    children: props.renderItem ? props.renderItem() : UploadButton
+  }
 
   if (props.uploadType === 'pdf') {
-    UploadComponent = (
-      <CustomUpload
-        {...UPLOAD}
-        type="video/*"
-        beforeUpload={info => {
-          setFile(info)
-        }}
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        iconRender={() => <ClockCircleOutlined />}
-        accept="application/pdf"
-        width={props.width || 'auto'}
-      >
-        {props.renderItem ? props.renderItem() : UploadButton}
-      </CustomUpload>
-    )
+    uploadProps = { ...uploadProps, type: "application/pdf", accept: "application/pdf" }
   }
 
   if (props.uploadType === 'image') {
-    const ImageUploadComponent = (
-      <CustomUpload
-        accept="image/png,image/jpeg"
-        {...UPLOAD}
-        fileList={fileList}
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        iconRender={() => <ClockCircleOutlined />}
-        width={props.width || 'auto'}
-      >
-        {props.renderItem ? props.renderItem() : UploadButton}
-      </CustomUpload>
-    )
-    UploadComponent = props.cropper ? (
-      <ImgCrop
-        aspect={props.aspect}
-        // rotationSlider
-        onModalOk={e => {
-          UploadFile(e)
-        }}
-      >
-        {ImageUploadComponent}
-      </ImgCrop>
-    ) : (
-      ImageUploadComponent
-    )
+    uploadProps = { ...uploadProps, accept: "image/png,image/jpeg" }
   }
+
+  let UploadComponent = props.cropper && props.uploadType === 'image' ? (
+    <ImgCrop
+      aspect={props.aspect}
+      onModalOk={e => { UploadFile(e) }}
+    >
+      <CustomUpload {...uploadProps} />
+    </ImgCrop>
+  ) : (
+    <CustomUpload {...uploadProps} />
+  )
 
   if (props.uploadType === 'file') {
     UploadComponent = (
       <Dragger
-        {...UPLOAD}
-        beforeUpload={info => {
-          setFile(info)
-        }}
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
+        {...uploadProps}
         multiple
-        iconRender={() => <ClockCircleOutlined />}
-        // @ts-ignore
-        width={props.width || 'auto'}
       >
         <p className="ant-upload-drag-icon">
           <InboxOutlined />
@@ -218,4 +147,4 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   )
 }
 
-export default MediaUpload
+export default MediaUpload;
