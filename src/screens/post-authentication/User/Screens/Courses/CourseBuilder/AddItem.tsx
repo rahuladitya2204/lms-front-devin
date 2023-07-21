@@ -1,4 +1,4 @@
-import { Col, Form, Modal, Radio, Row, Space, Typography } from 'antd'
+import { Col, Divider, Form, Modal, Radio, Row, Space, Typography } from 'antd'
 
 import ActionModal from '@Components/ActionModal'
 import CreateTextItem from './CreateNewItem/CreatTextItem'
@@ -48,7 +48,6 @@ interface AddItemPropsI {
 
 function AddItem(props: AddItemPropsI) {
   const [form] = Form.useForm()
-  console.log(props.item, 'ooooo')
   const onFinish = (type: string, item: Partial<Types.CourseSectionItem>) => {
     props.onAddNewItem(type, extend(props.item, item))
     props.closeModal && props.closeModal()

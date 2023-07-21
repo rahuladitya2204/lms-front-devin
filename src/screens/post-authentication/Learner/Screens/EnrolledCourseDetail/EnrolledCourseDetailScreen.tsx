@@ -96,13 +96,28 @@ const EnrolledCourseDetailScreen: React.FC<
                       </Space>
                     </Col>
                     <Col>
-                      <Button
-                        onClick={continueLearning}
-                        icon={<PlayCircleOutlined />}
-                        type="primary"
-                      >
-                        Continue Learning
-                      </Button>
+                      {lastPlayed ? (
+                        <Button
+                          onClick={continueLearning}
+                          icon={<PlayCircleOutlined />}
+                          type="primary"
+                        >
+                          Continue Learning
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={() => {
+                            playItem(
+                              course.sections[0]._id,
+                              course.sections[0].items[0]._id
+                            )
+                          }}
+                          icon={<PlayCircleOutlined />}
+                          type="primary"
+                        >
+                          Start Learning
+                        </Button>
+                      )}
                     </Col>
                   </Row>
                   <Progress

@@ -1,6 +1,6 @@
-import { Button, Card, Col, Form, Row } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
 import {
+  ClockCircleOutlined,
   EyeOutlined,
   InfoCircleFilled,
   InfoCircleOutlined,
@@ -10,6 +10,7 @@ import {
   UploadOutlined,
   UserOutlined
 } from '@ant-design/icons'
+import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
@@ -21,6 +22,8 @@ import CourseLearners from './CourseLearners/CourseLearners'
 import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
+
+const { confirm } = Modal
 
 function CourseEditor() {
   const message = useMessage()
@@ -36,7 +39,10 @@ function CourseEditor() {
     enabled: !!courseId
   })
 
-  // const { } = User.Queries.useUpdateCourseStatus();
+  const {
+    mutate: publishCourse,
+    isLoading: publishingCourse
+  } = User.Queries.usePublishCourse()
 
   useEffect(
     () => {
@@ -73,119 +79,121 @@ function CourseEditor() {
   }
   const navigate = useNavigate()
   return (
-    <Row gutter={[20, 20]}>
-      <Col span={24}>
-        <Card
-          title={
-            <span>
-              <BackButton /> {course.title}
-            </span>
-          }
-          extra={[
-            <Button
-              disabled={!validatePublishCourse(course)}
-              onClick={() => {
-                // const dataStr = STRINGIFY(JSON.stringify(course))
-                window.open(`${courseId}/preview`, '_blank')
-              }}
-              style={{ marginRight: 15 }}
-              icon={<UploadOutlined />}
-            >
-              Publish Course
-            </Button>,
-            <Button
-              disabled={!validateDraftCourse()}
-              loading={loading}
-              type="primary"
-              onClick={updateCourse}
-              icon={<SaveOutlined />}
-            >
-              Save as draft
-            </Button>
-          ]}
-        >
-          <Tabs
-            onTabClick={e => {
-              if (e === 'builder') {
-                navigate(`../app/products/courses/${course._id}/builder`)
-              }
-            }}
-            tabPosition={'left'}
-            style={{ minHeight: '100vh' }}
-            items={[
-              {
-                label: (
-                  <span>
-                    <InfoCircleOutlined />Information
-                  </span>
-                ),
-                key: 'information',
-                children: (
-                  <CourseInformationEditor
-                    saveCourse={saveCourse}
-                    course={course}
-                    courseId={courseId}
-                  />
-                )
-              },
-              {
-                label: (
-                  <span>
-                    <ToolOutlined />Builder
-                  </span>
-                ),
-                key: 'builder'
-              },
-              {
-                label: (
-                  <span>
-                    <UserOutlined />Learners
-                  </span>
-                ),
-                key: 'learners',
-                children: <CourseLearners courseId={course._id} />
-              },
-              {
-                label: (
-                  <span>
-                    <SafetyCertificateOutlined />Certificate
-                  </span>
-                ),
-                key: 'certificate',
-                children: (
-                  <CourseCertificate
-                    courseId={course._id}
-                    course={course}
-                    saveCourse={saveCourse}
-                  />
-                )
-              }
+    <Spin spinning={publishingCourse}>
+      <Row gutter={[20, 20]}>
+        <Col span={24}>
+          <Card
+            title={
+              <span>
+                <BackButton /> {course.title}
+              </span>
+            }
+            extra={[
+              <Button
+                disabled={!Utils.validatePublishCourse(course)}
+                onClick={() => {
+                  confirm({
+                    title: 'Are you sure?',
+                    content: `You want to publish this course?`,
+                    onOk() {
+                      publishCourse({
+                        courseId: course._id
+                      })
+                    },
+                    okText: 'Yes, Publish'
+                  })
+                }}
+                style={{ marginRight: 15 }}
+                icon={<UploadOutlined />}
+              >
+                Publish Course
+              </Button>,
+              <Button
+                disabled={!validateDraftCourse()}
+                loading={loading}
+                type="primary"
+                onClick={updateCourse}
+                icon={<SaveOutlined />}
+              >
+                Save as draft
+              </Button>
             ]}
-          />
-        </Card>
-      </Col>
-      {/* <Col span={20}>
+          >
+            <Tabs
+              onTabClick={e => {
+                if (e === 'builder') {
+                  navigate(`../app/products/courses/${course._id}/builder`)
+                }
+              }}
+              tabPosition={'left'}
+              style={{ minHeight: '100vh' }}
+              items={[
+                {
+                  label: (
+                    <span>
+                      <InfoCircleOutlined />Information
+                    </span>
+                  ),
+                  key: 'information',
+                  children: (
+                    <CourseInformationEditor
+                      saveCourse={saveCourse}
+                      course={course}
+                      courseId={courseId}
+                    />
+                  )
+                },
+                {
+                  label: (
+                    <span>
+                      <ToolOutlined />Builder
+                    </span>
+                  ),
+                  key: 'builder'
+                },
+                {
+                  label: (
+                    <span>
+                      <ClockCircleOutlined />Drip
+                    </span>
+                  ),
+                  key: 'drip',
+                  children: <CourseLearners courseId={course._id} />
+                },
+                {
+                  label: (
+                    <span>
+                      <UserOutlined />Learners
+                    </span>
+                  ),
+                  key: 'learners',
+                  children: <CourseLearners courseId={course._id} />
+                },
+                {
+                  label: (
+                    <span>
+                      <SafetyCertificateOutlined />Certificate
+                    </span>
+                  ),
+                  key: 'certificate',
+                  children: (
+                    <CourseCertificate
+                      courseId={course._id}
+                      course={course}
+                      saveCourse={saveCourse}
+                    />
+                  )
+                }
+              ]}
+            />
+          </Card>
+        </Col>
+        {/* <Col span={20}>
           <CourseInformationEditor />
         </Col> */}
-    </Row>
+      </Row>
+    </Spin>
   )
 }
 
 export default CourseEditor
-
-export const validatePublishCourse = (course: Types.Course) => {
-  return (
-    course.title &&
-    course.subtitle &&
-    course.description &&
-    course.difficultyLevel &&
-    course.language &&
-    course.instructor &&
-    course.category &&
-    course.sections.length &&
-    course.landingPage.promoVideo &&
-    course.landingPage.description &&
-    course.plan &&
-    (course.keywords && course.keywords.length)
-  )
-}

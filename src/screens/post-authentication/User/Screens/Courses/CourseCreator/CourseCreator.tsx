@@ -1,4 +1,3 @@
-import CourseDetailsEditor from '../CourseBuilder/CourseEditor/CourseInformation/CourseDetailsEditor/CourseDetails'
 import CourseEditor from '../CourseBuilder/CourseEditor'
 import { Tabs } from 'antd'
 

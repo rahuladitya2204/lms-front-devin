@@ -84,7 +84,6 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
           onValuesChange={(e: any) => {
             if (e && e.keywords) {
               const keywords = convertToCommaSeparated(e?.keywords?.toLowerCase());
-              console.log(keywords,'aaaa')
               props.saveCourse({
                 keywords
               });

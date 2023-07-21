@@ -97,7 +97,6 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     }
     // onFinish && onFinish(e)
   }
-  console.log(campaign, 'aaaaa')
   return (
     <Header
       showBack

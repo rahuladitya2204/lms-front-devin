@@ -67,7 +67,6 @@ function CoursePlayer() {
   })
   const navigate = useNavigate()
   const [searchText, setSearchText] = useState('')
-  console.log(searchText, 'aaa')
   const sections = course.sections
 
   useEffect(

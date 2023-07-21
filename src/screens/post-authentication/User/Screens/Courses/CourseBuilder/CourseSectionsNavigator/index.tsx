@@ -219,7 +219,10 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                     dataSource={section.items}
 
                       renderItem={(item, itemIndex) => {
-                        const SectionItemOptionDropdown = <Dropdown menu={{
+                        // This propagation is being stopped to prevent dropdown also making list item clickable
+                        const SectionItemOptionDropdown = <span onClick={e=>e.stopPropagation()}>
+                          <Dropdown menu={{
+                          // onCli
                           items: [
                             {
                               label: <span onClick={(e) => {
@@ -232,6 +235,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                         }} trigger={['click']}>
                             <MoreOutlined />
                         </Dropdown>
+                        </span>
                         const CourseSectionListItem = (isActive: boolean) => <CourseListItem
                         isActive={isActive}
                           actions={[

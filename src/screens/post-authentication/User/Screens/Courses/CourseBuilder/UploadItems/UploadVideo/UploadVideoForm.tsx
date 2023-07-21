@@ -41,8 +41,8 @@ const UploadVideoForm:any = () => {
   const {
     data: { status, progress }
   } = User.Queries.useGetTranscodeVideoStatus(jobId, {
-    enabled: !!jobId,
     retry: true,
+    enabled:true,
     retryDelay: 4000
   })
   const fileId = file.encoded || file._id;

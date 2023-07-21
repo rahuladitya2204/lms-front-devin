@@ -1,5 +1,5 @@
-import { Alert, Button, Card, Col, Empty, Form, Row, Spin } from 'antd'
-import { Constants, Types, User } from '@adewaskar/lms-common'
+import { Alert, Button, Card, Col, Empty, Form, Modal, Row, Spin } from 'antd'
+import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import {
@@ -15,9 +15,9 @@ import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { cloneDeep } from 'lodash'
-import styled from '@emotion/styled'
 import useMessage from '@Hooks/useMessage'
-import { validatePublishCourse } from './CourseEditor'
+
+const { confirm } = Modal
 
 function CourseBuilderScreen() {
   const message = useMessage()
@@ -219,7 +219,6 @@ function CourseBuilderScreen() {
   }
 
   const onReorderSections = (sections: Types.CourseSection[]) => {
-    console.log(sections.map(s => s.title), 'aaa')
     const COURSE = cloneDeep(course)
     COURSE.sections = sections
     setCourse(COURSE)
@@ -228,22 +227,33 @@ function CourseBuilderScreen() {
   const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
     courseId + ''
   )
+  const { mutate: publishCourse } = User.Queries.usePublishCourse()
   return (
     <Header
       title={
         <span>
           {' '}
-          <BackButton onClick={() => navigate('../app/products/courses')} /> {course.title}
+          <BackButton
+            onClick={() => navigate('../app/products/courses')}
+          />{' '}
+          {course.title}
         </span>
       }
       extra={[
         <Button
-          onClick={() =>
-            updateCourseStatus({
-              status: Constants.COURSE_STATUSES_MAP.published.value
+          onClick={() => {
+            confirm({
+              title: 'Are you sure?',
+              content: `You want to publish this course?`,
+              onOk() {
+                publishCourse({
+                  courseId: course._id
+                })
+              },
+              okText: 'Yes, Publish'
             })
-          }
-          disabled={!validatePublishCourse(course)}
+          }}
+          disabled={!Utils.validatePublishCourse(course)}
           style={{ marginRight: 15 }}
           icon={<UploadOutlined />}
         >
