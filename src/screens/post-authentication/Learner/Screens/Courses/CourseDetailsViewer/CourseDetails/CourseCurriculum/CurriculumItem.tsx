@@ -3,7 +3,7 @@ import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { LockOutlined, PlayCircleOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
-import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
+import CourseItemIcon from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 
 interface CourseCurriculumItemPropsI {

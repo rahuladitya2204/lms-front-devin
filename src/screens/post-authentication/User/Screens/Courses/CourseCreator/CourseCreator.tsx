@@ -1,4 +1,4 @@
-import CourseEditor from '../CourseBuilder/CourseEditor'
+import CourseEditor from '../CourseEditor'
 import { Tabs } from 'antd'
 
 export default function CourseCreator () {

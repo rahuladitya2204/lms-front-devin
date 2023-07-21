@@ -19,7 +19,7 @@ import React, { useEffect, useState } from 'react'
 
 import CourseNoteItem from './NoteItem'
 import CreateNote from './CreateNote'
-import { formatSeconds } from '@User/Screens/Courses/CourseBuilder/utils'
+import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
 
 const { Text } = Typography

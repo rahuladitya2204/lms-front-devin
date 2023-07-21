@@ -1,7 +1,7 @@
 import { Form, Input, Select, Space, Tag } from 'antd'
 
 import { Types } from '@adewaskar/lms-common'
-import { deepPatch } from '@User/Screens/Courses/CourseBuilder/utils'
+import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useLayoutEffect } from 'react'
 
 interface CampaignFormPropsI {

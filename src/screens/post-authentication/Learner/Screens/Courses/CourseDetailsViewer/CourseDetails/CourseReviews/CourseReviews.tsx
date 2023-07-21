@@ -5,7 +5,7 @@ import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import ReviewCard from './ReviewCard'
-import { formatAvgCount } from '@User/Screens/Courses/CourseBuilder/utils'
+import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 
 const { Title, Text } = Typography
 

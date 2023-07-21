@@ -13,7 +13,7 @@ import { Constants, Types } from '@adewaskar/lms-common'
 import Image from '@Components/Image'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
-import { formatAvgCount } from '@User/Screens/Courses/CourseBuilder/utils'
+import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
 

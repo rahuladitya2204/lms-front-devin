@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 
 import BackButton from '@Components/BackButton'
 import CourseSectionsNavigator from './CourseSectionsNavigator'
-import GenerateWithAI from './CourseEditor/CourseInformation/GenerateWithAiButton'
+import GenerateWithAI from '../CourseInformation/GenerateWithAiButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'

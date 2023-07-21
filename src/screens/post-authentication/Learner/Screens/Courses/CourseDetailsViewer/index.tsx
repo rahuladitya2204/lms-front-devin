@@ -21,7 +21,7 @@ import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
-import { formatAvgCount } from '@User/Screens/Courses/CourseBuilder/utils';
+import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 import image from './bg.svg'
 import styled from '@emotion/styled'
 

@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import { findSectionItem } from '@User/Screens/Courses/CourseBuilder/utils'
+import { findSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { getToken } from '@Network/index'
 import { razorpay } from 'config'
 import useRazorpay from "react-razorpay";

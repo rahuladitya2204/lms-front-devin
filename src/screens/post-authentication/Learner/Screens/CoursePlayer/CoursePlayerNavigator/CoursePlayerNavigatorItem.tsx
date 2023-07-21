@@ -11,12 +11,12 @@ import {
 } from 'antd'
 import { Unit, unit } from 'mathjs'
 
-import CourseItemIcon from '@User/Screens/Courses/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
+import CourseItemIcon from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import { DownloadOutlined } from '@ant-design/icons'
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
-import { downloadFile } from '@User/Screens/Courses/CourseBuilder/utils'
+import { downloadFile } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import styled from '@emotion/styled'
 
 const { Text } = Typography

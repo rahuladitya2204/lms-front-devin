@@ -4,7 +4,7 @@ import PreviewTemplate from "@User/Screens/Marketing/Templates/Emails/EmailTempl
 import SunEditorComponent from "@Components/SunEditor/SunEditor";
 import TextArea from "@Components/Textarea";
 import { Types } from "@adewaskar/lms-common";
-import { deepPatch } from "@User/Screens/Courses/CourseBuilder/utils";
+import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useLayoutEffect } from "react";
 
 const { useWatch } = Form;

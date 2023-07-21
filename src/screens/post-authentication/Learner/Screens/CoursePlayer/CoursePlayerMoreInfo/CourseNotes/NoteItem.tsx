@@ -22,7 +22,7 @@ import React, { useState } from 'react'
 
 import CreateNote from './CreateNote'
 import HtmlViewer from '@Components/HtmlViewer'
-import { formatSeconds } from '@User/Screens/Courses/CourseBuilder/utils'
+import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
 
 const { Text } = Typography

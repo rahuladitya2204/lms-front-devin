@@ -33,10 +33,11 @@ function CourseInformationEditor(props: any) {
     <Card>
       {/* <Form onFinish={saveCourse} form={form} layout="vertical" autoComplete="off"> */}
       <Tabs
-        defaultActiveKey="1"
+        // defaultActiveKey="1"
         items={[
           {
             label: `Details`,
+            active: true,
             key: 'details',
             children: (
               <CourseDetailsEditor

@@ -17,6 +17,7 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import BackButton from '@Components/BackButton'
 import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
 import CourseCertificate from './CourseInformation/CourseAdvancedSettings/CourseCertificate/CourseCertificateScreen'
+import CourseDrip from './CourseDrip/CourseDrip'
 import CourseInformationEditor from './CourseInformation'
 import CourseLearners from './CourseLearners/CourseLearners'
 import Tabs from '@Components/Tabs'
@@ -30,6 +31,7 @@ function CourseEditor() {
   const { id } = useParams()
   const courseId = id + ''
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
+
   const {
     mutate: updateCourseApi,
     isLoading: loading
@@ -52,6 +54,7 @@ function CourseEditor() {
   )
 
   const saveCourse = (e: Partial<Course>) => {
+    console.log(e, 'eeee')
     setCourse({
       ...course,
       ...e
@@ -120,9 +123,10 @@ function CourseEditor() {
             ]}
           >
             <Tabs
+              navigateWithHash
               onTabClick={e => {
                 if (e === 'builder') {
-                  navigate(`../app/products/courses/${course._id}/builder`)
+                  window.open(`../${course._id}/builder`)
                 }
               }}
               tabPosition={'left'}
@@ -158,7 +162,9 @@ function CourseEditor() {
                     </span>
                   ),
                   key: 'drip',
-                  children: <CourseLearners courseId={course._id} />
+                  children: (
+                    <CourseDrip saveCourse={saveCourse} course={course} />
+                  )
                 },
                 {
                   label: (

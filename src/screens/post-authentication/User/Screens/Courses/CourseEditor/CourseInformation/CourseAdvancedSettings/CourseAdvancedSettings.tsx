@@ -12,7 +12,7 @@ import {
   Typography
 } from 'antd'
 import { Fragment, useLayoutEffect } from 'react'
-import { convertToCommaSeparated, deepPatch } from '../../../utils'
+import { convertToCommaSeparated, deepPatch } from '../../CourseBuilder/utils'
 
 import CourseCertificate from './CourseCertificate/CourseCertificateScreen'
 import GenerateWithAI from '../GenerateWithAiButton'

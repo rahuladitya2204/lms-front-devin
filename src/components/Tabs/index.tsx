@@ -2,7 +2,11 @@ import { Tabs as AppTabs, Button, Card, Form, TabsProps } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router'
 
-function Tabs(props: TabsProps) {
+interface AppTabPropsI extends TabsProps {
+  navigateWithHash?: boolean;
+}
+
+function Tabs(props: AppTabPropsI) {
   const location = useLocation()
   const navigate = useNavigate()
   const [activeKey, setActiveKey] = useState('')
@@ -10,20 +14,24 @@ function Tabs(props: TabsProps) {
   // On component mount, set the active tab based on the URL hash
   useEffect(
     () => {
-      if (location.hash) {
-        setActiveKey(location.hash.replace('#', ''))
+      if (props.navigateWithHash) {
+        if (location.hash) {
+          setActiveKey(location.hash.replace('#', ''))
+        }
       } else {
         if (props.items?.length) {
           setActiveKey(props.items[0].key)
         }
       }
     },
-    [location]
+    [location, props.navigateWithHash]
   )
 
   const onChange = (activeKey: string) => {
     setActiveKey(activeKey)
-    // navigate(`#${activeKey}`)
+    if (props.navigateWithHash) {
+      navigate(`#${activeKey}`)
+    }
   }
 
   return (

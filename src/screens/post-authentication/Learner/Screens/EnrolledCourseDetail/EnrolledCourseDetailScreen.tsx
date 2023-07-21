@@ -31,7 +31,7 @@ import { Learner, Utils } from '@adewaskar/lms-common'
 import {
   formatAvgCount,
   formatSeconds
-} from '@User/Screens/Courses/CourseBuilder/utils'
+} from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useNavigate, useParams } from 'react-router'
 
 import Image from '@Components/Image'

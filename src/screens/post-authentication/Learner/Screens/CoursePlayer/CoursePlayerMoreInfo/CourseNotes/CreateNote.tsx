@@ -13,7 +13,7 @@ import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { useEffect, useState } from 'react'
 
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
-import { formatSeconds } from '@User/Screens/Courses/CourseBuilder/utils'
+import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
 
 const { Text } = Typography

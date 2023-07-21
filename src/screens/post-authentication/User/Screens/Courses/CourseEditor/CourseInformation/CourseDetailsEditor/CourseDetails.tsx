@@ -21,7 +21,7 @@ import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
-import { deepPatch } from '../../../utils'
+import { deepPatch } from '../../CourseBuilder/utils'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
 
