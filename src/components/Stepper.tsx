@@ -3,8 +3,10 @@ import { Button, Space, Steps, message, theme } from 'antd';
 import React, { useState } from 'react';
 
 interface StepperPropsI {
+  position?: string;
     steps: {
-        title: string;
+      title: string;
+      validator?: () => boolean;
       content: React.ReactNode;
     }[]
 }
@@ -29,25 +31,32 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
       minHeight:300
   };
 
+  const StepperCta = <Space direction='horizontal' style={{ marginBottom: 24, justifyContent: 'space-between', width: '100%' }}>
+  { (
+      <Button style={{margin: '0 8px',visibility:(current > 0)?'visible':'hidden'}} icon={<ArrowLeftOutlined/>} onClick={() => prev()}>
+        Previous
+      </Button>
+    )}
+    {(
+      // @ts-ignore
+      <Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>}  ghost type="primary" onClick={() => next()}>
+        Next
+      </Button>
+    )}
+ 
+  </Space>;
+
   return (
     <>
-      <Space direction='horizontal' style={{ marginBottom: 24, justifyContent: 'space-between', width: '100%' }}>
-      { (
-          <Button style={{margin: '0 8px',visibility:(current > 0)?'visible':'hidden'}} icon={<ArrowLeftOutlined/>} onClick={() => prev()}>
-            Previous
-          </Button>
-        )}
-      { (
-          <Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>}  ghost type="primary" onClick={() => next()}>
-            Next
-          </Button>
-        )}
+     {props.position!=='bottom'?StepperCta:null}
      
-      </Space>
       <Steps current={current} items={items} />
       {steps.map((step,index) => {
         return <div style={{...contentStyle,display:index===current?'block':'none'}}>{step.content}</div>;
       })}
+
+    {props.position==='bottom'?StepperCta:null}
+
     </>
   );
 };

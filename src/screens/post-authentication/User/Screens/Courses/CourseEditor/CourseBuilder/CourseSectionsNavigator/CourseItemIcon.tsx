@@ -6,6 +6,8 @@ import {
   FilePdfOutlined,
   FileTextFilled,
   FileTextOutlined,
+  FileWordFilled,
+  FileWordOutlined,
   PlayCircleFilled,
   PlayCircleOutlined,
   QuestionCircleFilled
@@ -52,6 +54,14 @@ const CourseItemIcon = (props: CourseItemIconPropsI) => {
         Icon = PlayCircleOutlined
       } else {
         Icon = PlayCircleFilled
+      }
+      break
+
+    case 'quiz':
+      if (props.type === 'outlined') {
+        Icon = FileWordOutlined
+      } else {
+        Icon = FileWordFilled
       }
       break
 

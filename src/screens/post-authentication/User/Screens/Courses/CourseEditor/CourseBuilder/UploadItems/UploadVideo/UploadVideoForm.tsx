@@ -101,7 +101,7 @@ const UploadVideoForm:any = () => {
             height="250px"
             uploadType="video"
             renderItem={() => (
-              <Button icon={<UploadOutlined/> }>{file._id ? 'Click to replace video' : 'Click to upload video'}</Button>
+              <Button icon={<UploadOutlined/> }>{file._id ? 'Replace video' : 'Upload Lecture'}</Button>
             )}
           />]}>
              {file._id?<> <div style={{marginBottom:20}}>

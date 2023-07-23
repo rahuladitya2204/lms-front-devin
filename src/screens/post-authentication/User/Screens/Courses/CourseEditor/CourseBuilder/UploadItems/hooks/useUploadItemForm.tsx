@@ -36,7 +36,7 @@ function useUploadItemForm(form?:FormInstance) {
     // saveCourse();
   }
 
-  return { onFormChange, form, item,sectionId,courseId,itemId };
+  return { onFormChange, form, item, sectionId, courseId, itemId };
   } 
   
 

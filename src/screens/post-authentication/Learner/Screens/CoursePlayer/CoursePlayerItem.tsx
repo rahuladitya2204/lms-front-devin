@@ -6,6 +6,7 @@ import ErrorBoundary from '@Components/ErrorBoundary'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
+import CoursePlayerQuiz from './CoursePlayerItems/CourseQuizItem/QuizItem'
 
 function CoursePlayerItem() {
   const user = Store.useAuthentication(s => s.user)
@@ -29,6 +30,10 @@ function CoursePlayerItem() {
   let Component
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />
+  }
+
+  if (item.type === 'quiz') {
+    Component = <CoursePlayerQuiz item={item} />
   }
 
   if (item.type === 'video') {

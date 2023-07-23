@@ -6,6 +6,7 @@ import { Types } from '@adewaskar/lms-common'
 import UploadPDF from './UploadItems/UploadPDF'
 import UploadVideo from './UploadItems/UploadVideo'
 import { extend } from 'lodash'
+import CreateQuizItem from './CreateNewItem/CreateQuizItem'
 
 const { Title } = Typography
 
@@ -32,6 +33,12 @@ const CREATE_NEW_ITEM = [
       'Create your textual lessons in the course. It can also be used to embed iFrame, add HTML code through the Source option.',
     component: CreateTextItem,
     type: 'text'
+  },
+  {
+    title: 'Quiz',
+    description: 'Learners can attempt it any time and view instant results.',
+    component: CreateQuizItem,
+    type: 'quiz'
   }
 ]
 

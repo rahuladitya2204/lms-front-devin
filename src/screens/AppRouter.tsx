@@ -67,16 +67,14 @@ import WebsiteBuilderScreen from '@User/Screens/Builder/Website/WebsiteBuilder/W
 import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
+import CreateQuizForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/CreateQuizForm/CreateQuizForm'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootScreen />}>
       <Route path=":orgId">
         <Route path="user">
-          <Route
-            path="webpage-viewer/:pageId"
-            element={<WebpageViewer />}
-          />
+          <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
           <Route
             path="certificate-template/:id/editor"
             element={<CertificateTemplateEditor />}
@@ -93,6 +91,7 @@ const router = createBrowserRouter(
               <Route path="pdf/:itemId" element={<UploadPDFForm />} />
               <Route path="video/:itemId" element={<UploadVideoForm />} />
               <Route path="text/:itemId" element={<AddTextItem />} />
+              <Route path="quiz/:itemId" element={<CreateQuizForm />} />
               {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
             </Route>
           </Route>
