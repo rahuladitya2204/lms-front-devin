@@ -8,7 +8,7 @@ interface StepperPropsI {
   alertMessage: React.ReactNode | string;
   prevCta?:(s: any, a: any)=>React.ReactNode;
     steps: {
-      title: string;
+      title?: string;
       validator?: () => boolean;
       content: React.ReactNode;
       data: any;

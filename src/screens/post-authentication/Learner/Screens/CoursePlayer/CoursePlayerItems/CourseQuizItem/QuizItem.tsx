@@ -10,8 +10,9 @@ interface CoursePlayerItemsPropsI {
 
 const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({ item }) => {
   const [isQuizStarted, setIsQuizStarted] = useState(false)
+  const [isEnded, setIsEnded] = useState(false)
   return (
-    <Card style={{ margin: 30 }}>
+    <div style={{ margin: 30 }}>
       {isQuizStarted ? (
         <Fragment>
           {/* @ts-ignore */}
@@ -37,7 +38,7 @@ const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({ item }) => {
           </Row>
         </Fragment>
       )}
-    </Card>
+    </div>
   )
 }
 

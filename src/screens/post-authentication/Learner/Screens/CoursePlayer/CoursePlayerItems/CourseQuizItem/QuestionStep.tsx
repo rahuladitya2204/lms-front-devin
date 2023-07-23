@@ -1,17 +1,17 @@
-// @ts-nocheck
-
 import React from 'react'
 import { Card, Checkbox, Col, List, Radio, Row, Typography } from 'antd'
 import { Types } from '@adewaskar/lms-common'
 
 interface CoursePlayerItemsPropsI {
   question: Types.CourseQuizQuestion;
+  isAnswerChecked: boolean;
   answerGiven: number;
   saveAnswerByLearner: (answerIndex: number) => void;
 }
 
 const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
   question,
+  isAnswerChecked,
   answerGiven,
   saveAnswerByLearner
 }) => {
@@ -27,14 +27,18 @@ const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
           <List.Item>
             {question.type === 'single' ? (
               <Radio.Group
+                disabled={isAnswerChecked}
                 onChange={e => saveAnswerByLearner(index)}
+                // @ts-ignore
                 value={answerGiven && answerGiven[0]}
               >
                 <List.Item.Meta avatar={<Radio value={index}>{item}</Radio>} />
               </Radio.Group>
             ) : (
               <Checkbox.Group
+                disabled={isAnswerChecked}
                 onChange={e => saveAnswerByLearner(index)}
+                // @ts-ignore
                 value={answerGiven}
               >
                 <List.Item.Meta
