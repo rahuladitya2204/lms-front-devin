@@ -40,7 +40,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
   const deleteQuestion = (questionId: string) => {
     const newQuestions = [...courseQuiz.questions]
     const index = courseQuiz.questions.findIndex(
-      (s: Types.CourseQuestion) => s._id == questionId
+      (s: Types.CourseQuizQuestion) => s._id == questionId
     )
     newQuestions.splice(index, 1)
     onFormChange({
@@ -73,7 +73,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
         }}
       >
         <Form.Item name="title" label="Title" required>
-          <Input placeholder="Enter Text Content's title" />
+          <Input placeholder="Enter Quiz Title" />
         </Form.Item>
         <Form.Item name="description">
           <TextArea label="Description" name="description" />
@@ -119,7 +119,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
               <List
                 bordered
                 dataSource={courseQuiz.questions}
-                renderItem={(item: Types.CourseQuestion) => (
+                renderItem={(item: Types.CourseQuizQuestion) => (
                   <List.Item
                     style={{ cursor: 'pointer' }}
                     extra={[

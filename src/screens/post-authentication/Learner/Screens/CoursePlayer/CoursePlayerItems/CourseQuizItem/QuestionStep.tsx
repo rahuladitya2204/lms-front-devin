@@ -2,37 +2,46 @@
 
 import React from 'react'
 import { Card, Checkbox, Col, List, Radio, Row, Typography } from 'antd'
-import Stepper from '@Components/Stepper'
 import { Types } from '@adewaskar/lms-common'
 
 interface CoursePlayerItemsPropsI {
   question: Types.CourseQuizQuestion;
-  answerGivenIndex: number;
+  answerGiven: number;
   saveAnswerByLearner: (answerIndex: number) => void;
 }
 
 const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
   question,
-  answerGivenIndex,
+  answerGiven,
   saveAnswerByLearner
 }) => {
   return (
-    <div style={{ margin: 30, overflow: 'scroll', height: '100%' }}>
+    <div style={{ margin: 30 }}>
       <Typography.Text strong> {question?.title || ''}</Typography.Text>
       <List
+        bordered
         size="large"
-        // bordered
         style={{ marginTop: 20 }}
         dataSource={question.answers}
-        // extra={<Radio />}
         renderItem={(item, index) => (
           <List.Item>
-            <Radio.Group
-              onChange={e => saveAnswerByLearner(e.target.value)}
-              value={answerGivenIndex}
-            >
-              <List.Item.Meta avatar={<Radio value={index}>{item}</Radio>} />
-            </Radio.Group>
+            {question.type === 'single' ? (
+              <Radio.Group
+                onChange={e => saveAnswerByLearner(index)}
+                value={answerGiven && answerGiven[0]}
+              >
+                <List.Item.Meta avatar={<Radio value={index}>{item}</Radio>} />
+              </Radio.Group>
+            ) : (
+              <Checkbox.Group
+                onChange={e => saveAnswerByLearner(index)}
+                value={answerGiven}
+              >
+                <List.Item.Meta
+                  avatar={<Checkbox value={index}>{item}</Checkbox>}
+                />
+              </Checkbox.Group>
+            )}
           </List.Item>
         )}
       />

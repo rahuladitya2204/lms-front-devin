@@ -1,19 +1,23 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
-import { Button, Space, Steps, message, theme } from 'antd';
-import React, { useState } from 'react';
+import { Button, Space, Steps } from 'antd';
+import React, { Fragment, useState } from 'react';
 
 interface StepperPropsI {
   position?: string;
+  nextCta?: (s: any, a: any) => React.ReactNode;
+  alertMessage: React.ReactNode | string;
+  prevCta?:(s: any, a: any)=>React.ReactNode;
     steps: {
       title: string;
       validator?: () => boolean;
       content: React.ReactNode;
+      data: any;
     }[]
 }
 
 
-const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
-    const steps = props.steps;
+const Stepper: React.FC<StepperPropsI> = (props) => {
+    const steps = props.steps || [];
   const [current, setCurrent] = useState(0);
 
   const next = () => {
@@ -32,16 +36,21 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
   };
 
   const StepperCta = <Space direction='horizontal' style={{ marginBottom: 24, justifyContent: 'space-between', width: '100%' }}>
-  { (
+{ props.prevCta?props.prevCta(steps[current]?.data,prev):(
       <Button style={{margin: '0 8px',visibility:(current > 0)?'visible':'hidden'}} icon={<ArrowLeftOutlined/>} onClick={() => prev()}>
         Previous
       </Button>
     )}
     {(
-      // @ts-ignore
-      <Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>}  ghost type="primary" onClick={() => next()}>
+      <Fragment>
+        {
+          (current === steps.length - 1) ? <Button style={{ visibility: (current < steps.length - 1) ? 'visible' : 'hidden' }} icon={<ArrowRightOutlined />} ghost type="primary" onClick={() => next()}>
+        Finish
+        </Button>: props.nextCta?props.nextCta(steps[current]?.data,next):(<Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>}  ghost type="primary" onClick={() => next()}>
         Next
-      </Button>
+      </Button>)
+        }
+     </Fragment>
     )}
  
   </Space>;
@@ -49,12 +58,11 @@ const Stepper: React.FC<StepperPropsI> = (props = { steps: [] }) => {
   return (
     <>
      {props.position!=='bottom'?StepperCta:null}
-     
       <Steps current={current} items={items} />
+      {props.alertMessage?<div style={{marginTop: 20}}>{props.alertMessage}</div>:null}
       {steps.map((step,index) => {
         return <div style={{...contentStyle,display:index===current?'block':'none'}}>{step.content}</div>;
       })}
-
     {props.position==='bottom'?StepperCta:null}
 
     </>
