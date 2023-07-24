@@ -1,10 +1,10 @@
 import { Types } from '@adewaskar/lms-common'
 import create from 'zustand'
 
-interface Question extends Types.CourseQuizQuestion {
-  answered: number[];
-  isAnswerChecked: boolean;
-  isCorrectAnswer: boolean;
+export interface Question extends Types.CourseQuizQuestion {
+  answered?: number[];
+  isAnswerChecked?: boolean;
+  isCorrectAnswer?: boolean;
 }
 
 type QuizStore = {
@@ -12,6 +12,7 @@ type QuizStore = {
   saveAnswer: (questionIndex: number, answerIndex: number) => void,
   checkAnswer: (questionIndex: number) => void
   setQuestions: (questions: Question[]) => void,
+  resetQuestions:()=>void;
 
 }
 
@@ -20,6 +21,15 @@ export const useQuizStore =
   QuizStore >
   (set => ({
     questions: [],
+    resetQuestions: () => set((state) => {
+      const newQuestions = [...state.questions]
+      newQuestions.forEach(q=>{
+        delete q.isAnswerChecked;
+        delete q.isCorrectAnswer;
+        delete q.answered;
+      })
+      return { questions: newQuestions }
+    }),  
     setQuestions: (questions) => set(() => ({ questions })),  
     saveAnswer: (questionIndex, answerIndex) =>
       set(state => {
@@ -47,7 +57,7 @@ export const useQuizStore =
         const question = newQuestions[questionIndex]
         question.isAnswerChecked = true
         question.isCorrectAnswer =
-          question.answered.join(',') === question.correctOptions.join(',')
+          question?.answered?.join(',') === question.correctOptions.join(',')
         return { questions: newQuestions }
       })
   }))

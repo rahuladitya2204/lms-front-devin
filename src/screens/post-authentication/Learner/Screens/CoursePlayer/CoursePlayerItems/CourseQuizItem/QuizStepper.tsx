@@ -5,6 +5,8 @@ import CourseQuestionStep from './QuestionStep'
 import { Button, Result, Space } from 'antd'
 import { Alert } from 'antd'
 import { useQuizStore } from './useQuizStore'
+import { StarFilled } from '@ant-design/icons'
+import QuizResult from './QuizResult'
 
 interface CoursePlayerItemsPropsI {
   quiz: Types.CourseQuiz;
@@ -38,20 +40,7 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
   }
 
   if (isEnded) {
-    return (
-      <Result
-        status="success"
-        title="Great job! You are ready to move on to the next lecture."
-        subTitle="You got 4 out of 5 correct.
-        "
-        extra={[
-          <Button key="buy">Retry Quiz</Button>,
-          <Button type="primary" key="console">
-            Continue
-          </Button>
-        ]}
-      />
-    )
+    return <QuizResult questions={questions} />
   }
   console.log(questions, 'quess')
   return (
@@ -63,7 +52,7 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
           const isAnswerChecked = question.isAnswerChecked
           const isCorrectAnswer =
             isAnswerChecked &&
-            question.answered.join(',') === question.correctOptions.join(',')
+            question?.answered?.join(',') === question.correctOptions.join(',')
 
           return {
             content: (
@@ -72,7 +61,7 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
                   ? isCorrectAnswer ? CorrectAnswerAlert : WrongAnswerAlert
                   : null}
                 <CourseQuestionStep
-                  isAnswerChecked={isAnswerChecked}
+                  isAnswerChecked={!!isAnswerChecked}
                   //   @ts-ignore
                   answerGiven={question.answered}
                   saveAnswerByLearner={answerIndex =>
