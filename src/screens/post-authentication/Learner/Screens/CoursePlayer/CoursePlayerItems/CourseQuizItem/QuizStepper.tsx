@@ -2,10 +2,9 @@ import React, { Fragment, useEffect, useState } from 'react'
 import Stepper from '@Components/Stepper'
 import { Types } from '@adewaskar/lms-common'
 import CourseQuestionStep from './QuestionStep'
-import { Button, Result, Space } from 'antd'
+import { Button, Space } from 'antd'
 import { Alert } from 'antd'
 import { useQuizStore } from './useQuizStore'
-import { StarFilled } from '@ant-design/icons'
 import QuizResult from './QuizResult'
 
 interface CoursePlayerItemsPropsI {
@@ -16,9 +15,12 @@ interface CoursePlayerItemsPropsI {
 const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
   const [isEnded, setIsEnded] = useState(false)
   const questions = useQuizStore(state => state.questions)
-  const saveAnswer = useQuizStore(state => state.saveAnswer)
-  const checkAnswer = useQuizStore(state => state.checkAnswer)
-  const setQuestions = useQuizStore(state => state.setQuestions)
+  const {
+    saveAnswer,
+    checkAnswer,
+    setQuestions,
+    resetQuestions
+  } = useQuizStore(state => state)
 
   useEffect(
     () => {
@@ -40,7 +42,15 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
   }
 
   if (isEnded) {
-    return <QuizResult questions={questions} />
+    return (
+      <QuizResult
+        onReset={() => {
+          resetQuestions()
+          setIsEnded(false)
+        }}
+        questions={questions}
+      />
+    )
   }
   console.log(questions, 'quess')
   return (

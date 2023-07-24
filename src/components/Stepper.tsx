@@ -1,10 +1,11 @@
 import { ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { Button, Space, Steps } from 'antd';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 
 interface StepperPropsI {
   position?: string;
   nextCta?: (s: any, a: any) => React.ReactNode;
+  currentStep?: number;
   submitCta?: (s: any, a: any) => React.ReactNode;
   alertMessage: React.ReactNode | string;
   prevCta?:(s: any, a: any)=>React.ReactNode;
@@ -28,6 +29,10 @@ const Stepper: React.FC<StepperPropsI> = (props) => {
   const prev = () => {
     setCurrent(current - 1);
   };
+
+  useEffect(() => {
+    props.currentStep && setCurrent(props.currentStep);
+  },[props.currentStep])
 
   const items = steps.map((item) => ({ key: item.title, title: item.title }));
 
