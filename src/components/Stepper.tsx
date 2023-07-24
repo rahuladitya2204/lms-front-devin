@@ -5,6 +5,7 @@ import React, { Fragment, useState } from 'react';
 interface StepperPropsI {
   position?: string;
   nextCta?: (s: any, a: any) => React.ReactNode;
+  submitCta?: (s: any, a: any) => React.ReactNode;
   alertMessage: React.ReactNode | string;
   prevCta?:(s: any, a: any)=>React.ReactNode;
     steps: {
@@ -44,9 +45,9 @@ const Stepper: React.FC<StepperPropsI> = (props) => {
     {(
       <Fragment>
         {
-          (current === steps.length - 1) ? <Button style={{ visibility: (current < steps.length - 1) ? 'visible' : 'hidden' }} icon={<ArrowRightOutlined />} ghost type="primary" onClick={() => next()}>
+          (current === steps.length - 1) ? (props.submitCta?props.submitCta(steps[current]?.data,next): <Button style={{ visibility: (current < steps.length - 1) ? 'visible' : 'visible' }} icon={<ArrowRightOutlined />} ghost type="primary" onClick={() => next()}>
         Finish
-        </Button>: props.nextCta?props.nextCta(steps[current]?.data,next):(<Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>}  ghost type="primary" onClick={() => next()}>
+        </Button>): props.nextCta?props.nextCta(steps[current]?.data,next):(<Button style={{visibility:(current < steps.length - 1)?'visible':'hidden'}} icon={<ArrowRightOutlined/>}  ghost type="primary" onClick={() => next()}>
         Next
       </Button>)
         }

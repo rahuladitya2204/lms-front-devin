@@ -1,51 +1,30 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import Stepper from '@Components/Stepper'
 import { Types } from '@adewaskar/lms-common'
 import CourseQuestionStep from './QuestionStep'
 import { Button, Result, Space } from 'antd'
 import { Alert } from 'antd'
+import { useQuizStore } from './useQuizStore'
 
 interface CoursePlayerItemsPropsI {
-    quiz: Types.CourseQuiz;
-    onEnd:()=>void;
+  quiz: Types.CourseQuiz;
+  onEnd: () => void;
 }
 
-const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz,onEnd }) => {
-  const [isEnded, setIsEnded] = useState(false);
-  const [questionsAnswered, setQuestionsAnswered] = useState<any>({})
-  const [checkedAnswer, setCheckedAnswer] = useState<any>({})
-  const saveAnswer = (questionIndex: number, answerIndex: number) => {
-    const answers = { ...questionsAnswered }
-    if (!answers[questionIndex]) {
-      answers[questionIndex] = []
-    }
-    if (quiz.questions[questionIndex].type === 'single') {
-      answers[questionIndex] = [answerIndex]
-    } else {
-      const index = answers[questionIndex].indexOf(answerIndex)
-      if (index === -1) {
-        answers[questionIndex].push(answerIndex)
-      } else {
-        answers[questionIndex].splice(index, 1)
-      }
-    }
-    setQuestionsAnswered(answers)
-  }
+const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
+  const [isEnded, setIsEnded] = useState(false)
+  const questions = useQuizStore(state => state.questions)
+  const saveAnswer = useQuizStore(state => state.saveAnswer)
+  const checkAnswer = useQuizStore(state => state.checkAnswer)
+  const setQuestions = useQuizStore(state => state.setQuestions)
 
-  const checkAnswer = (
-    question: Types.CourseQuizQuestion,
-    questionIndex: number
-  ) => {
-    console.log(
-      questionsAnswered[questionIndex],
-      question.correctOptions,
-      'question.correctOptions'
-    )
-     setCheckedAnswer({
-        ...checkedAnswer,
-        [questionIndex]: true
-      })
-  }
+  useEffect(
+    () => {
+      // @ts-ignore
+      setQuestions(quiz.questions)
+    },
+    [quiz]
+  )
 
   const CorrectAnswerAlert = (
     <Alert showIcon message="Good Job!" type="success" />
@@ -53,6 +32,11 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz,onEnd }) => {
   const WrongAnswerAlert = (
     <Alert showIcon message="Incorrect Answer!" type="error" />
   )
+
+  const checkResult = () => {
+    setIsEnded(true)
+  }
+
   if (isEnded) {
     return (
       <Result
@@ -61,27 +45,26 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz,onEnd }) => {
         subTitle="You got 4 out of 5 correct.
         "
         extra={[
-            <Button key="buy">Retry Quiz</Button>,
-            <Button type="primary" key="console">
+          <Button key="buy">Retry Quiz</Button>,
+          <Button type="primary" key="console">
             Continue
-          </Button>,
+          </Button>
         ]}
       />
     )
   }
-    return (
+  console.log(questions, 'quess')
+  return (
     //   @ts-ignore
     <Stepper
       position="bottom"
       steps={
-        quiz?.questions?.map((question, index) => {
-          console.log(checkedAnswer, 'checkedAnswer')
-          const isAnswerChecked = checkedAnswer[index]
+        questions?.map((question, index) => {
+          const isAnswerChecked = question.isAnswerChecked
           const isCorrectAnswer =
             isAnswerChecked &&
-            questionsAnswered[index].join(',') ===
-              question.correctOptions.join(',')
-          console.log(isCorrectAnswer, 'isCorrectAnswer')
+            question.answered.join(',') === question.correctOptions.join(',')
+
           return {
             content: (
               <Fragment>
@@ -90,7 +73,8 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz,onEnd }) => {
                   : null}
                 <CourseQuestionStep
                   isAnswerChecked={isAnswerChecked}
-                  answerGiven={questionsAnswered[index]}
+                  //   @ts-ignore
+                  answerGiven={question.answered}
                   saveAnswerByLearner={answerIndex =>
                     saveAnswer(index, answerIndex)
                   }
@@ -102,30 +86,49 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz,onEnd }) => {
               question,
               questionIndex: index
             }
-            // validator: () => !!questionsAnswered[index]
           }
         }) || []
       }
-      nextCta={({ question, questionIndex }, next) => {
-        return (
-          <Space>
-            <Button type="text">Skip Question</Button>
-            {checkedAnswer[questionIndex] ? (
-              <Button type="primary" onClick={e => next()}>
-                Next
-              </Button>
-            ) : (
-              <Button
-                type="primary"
-                disabled={!questionsAnswered[questionIndex]}
-                onClick={e => checkAnswer(question, questionIndex)}
-              >
-                Check Answer
-              </Button>
-            )}
-          </Space>
+      submitCta={({ questionIndex, question }) =>
+        question.isAnswerChecked ? (
+          <Button type="primary" onClick={e => checkResult()}>
+            See Results
+          </Button>
+        ) : (
+          <Button
+            type="primary"
+            disabled={!question.answered}
+            onClick={e => checkAnswer(questionIndex)}
+          >
+            Check Answer
+          </Button>
         )
-      }}
+      }
+      //   @ts-ignore
+      nextCta={
+        questions.length
+          ? ({ question, questionIndex }, next) => {
+              return (
+                <Space>
+                  <Button type="text">Skip Question</Button>
+                  {question.isAnswerChecked ? (
+                    <Button type="primary" onClick={e => next()}>
+                      Next
+                    </Button>
+                  ) : (
+                    <Button
+                      type="primary"
+                      disabled={!question.answered}
+                      onClick={e => checkAnswer(questionIndex)}
+                    >
+                      Check Answer
+                    </Button>
+                  )}
+                </Space>
+              )
+            }
+          : console.log
+      }
     />
   )
 }

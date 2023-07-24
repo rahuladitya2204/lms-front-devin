@@ -10,7 +10,6 @@ interface CoursePlayerItemsPropsI {
 
 const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({ item }) => {
   const [isQuizStarted, setIsQuizStarted] = useState(false)
-  const [isEnded, setIsEnded] = useState(false)
   return (
     <div style={{ margin: 30 }}>
       {isQuizStarted ? (
@@ -30,10 +29,14 @@ const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({ item }) => {
               </Typography.Text>
             </Col>
             <Col span={24}>
-              <Button type="primary" onClick={e => setIsQuizStarted(true)}>
+              <Button>Skip Quiz</Button>
+              <Button
+                style={{ marginLeft: 15 }}
+                type="primary"
+                onClick={e => setIsQuizStarted(true)}
+              >
                 Start Quiz
               </Button>
-              <Button style={{ marginLeft: 15 }}>Skip Quiz</Button>
             </Col>
           </Row>
         </Fragment>
