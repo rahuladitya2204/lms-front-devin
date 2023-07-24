@@ -1,21 +1,37 @@
 import React, { Fragment, useState } from 'react'
-import { Button, Card, Col, Divider, Row, Typography } from 'antd'
+import { Button, Card, Col, Divider, Result, Row, Typography } from 'antd'
 import Stepper from '@Components/Stepper'
 import { Types } from '@adewaskar/lms-common'
 import QuizStepper from './QuizStepper'
+import { StarFilled } from '@ant-design/icons'
 
 interface CoursePlayerItemsPropsI {
   item: Types.CourseSectionItem;
+  onEnd: () => void;
 }
 
-const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({ item }) => {
+const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({
+  item,
+  onEnd
+}) => {
   const [isQuizStarted, setIsQuizStarted] = useState(false)
+  if (item.isCompleted) {
+    return (
+      <Result
+        status="success"
+        extra={<Button type="primary">Go to next lecture</Button>}
+        title="Great job! You are ready to move on to the next lecture."
+        subTitle="You have completed this quiz."
+        icon={<StarFilled />}
+      />
+    )
+  }
   return (
     <div style={{ margin: 30 }}>
       {isQuizStarted ? (
         <Fragment>
           {/* @ts-ignore */}
-          <QuizStepper quiz={item.quiz} />{' '}
+          <QuizStepper onEnd={onEnd} quiz={item.quiz} />{' '}
         </Fragment>
       ) : (
         <Fragment>

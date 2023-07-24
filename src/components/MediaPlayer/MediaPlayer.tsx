@@ -1,7 +1,7 @@
 import { Common, Store, Types } from '@adewaskar/lms-common'
 
 import PlayrComponent from './Playr/Playr'
-import VideoJs from './Videojs/Videojs'
+
 import { useEffect } from 'react'
 
 interface MediaPlayerPropsI {

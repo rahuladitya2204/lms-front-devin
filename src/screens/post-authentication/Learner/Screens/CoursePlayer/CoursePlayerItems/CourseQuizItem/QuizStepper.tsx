@@ -47,7 +47,8 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
         onReset={() => {
           resetQuestions()
           setIsEnded(false)
-        }}
+            }}
+            onEnd={onEnd}
         questions={questions}
       />
     )

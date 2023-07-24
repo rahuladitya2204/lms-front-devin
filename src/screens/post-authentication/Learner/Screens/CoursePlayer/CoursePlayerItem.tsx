@@ -9,6 +9,7 @@ import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 import CoursePlayerQuiz from './CoursePlayerItems/CourseQuizItem/QuizItem'
 
 function CoursePlayerItem() {
+  const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   const user = Store.useAuthentication(s => s.user)
   const WATERMERK = useMemo(
     () => {
@@ -19,7 +20,18 @@ function CoursePlayerItem() {
     },
     [user]
   )
-  const { node: item, courseId } = useGetNodeFromRouterOutlet()
+  const { node: item, courseId, sectionId } = useGetNodeFromRouterOutlet()
+
+  const onEnd = () => {
+    updateProgress({
+      courseId: courseId + '',
+      sectionId: sectionId + '',
+      action: 'ADD',
+      itemId: item._id,
+      data: null
+    })
+  }
+
   const {
     data: { course, notes }
   } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '')
@@ -33,7 +45,7 @@ function CoursePlayerItem() {
   }
 
   if (item.type === 'quiz') {
-    Component = <CoursePlayerQuiz item={item} />
+    Component = <CoursePlayerQuiz onEnd={onEnd} item={item} />
   }
 
   if (item.type === 'video') {
