@@ -40,7 +40,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
   const deleteQuestion = (questionId: string) => {
     const newQuestions = [...courseQuiz.questions]
     const index = courseQuiz.questions.findIndex(
-      (s: Types.CourseQuizQuestion) => s._id == questionId
+      (s: Types.CourseQuizQuestion) => s._id === questionId
     )
     newQuestions.splice(index, 1)
     onFormChange({
@@ -66,9 +66,14 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
         form={form}
         layout="vertical"
         onValuesChange={e => {
+          console.log(e, 'eee')
           const data: Partial<Types.CourseSectionItem> = {
-            ...e
+            ...e,
+            metadata: {
+              duration: 100
+            }
           }
+          console.log(data, 'aaaaa')
           onFormChange(data)
         }}
       >
@@ -124,7 +129,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                     style={{ cursor: 'pointer' }}
                     extra={[
                       <Typography.Text>
-                        4 options{' '}
+                        {item.answers.length} options{' '}
                         <Tooltip title="Delete Question">
                           <DeleteOutlined
                             onClick={() => {

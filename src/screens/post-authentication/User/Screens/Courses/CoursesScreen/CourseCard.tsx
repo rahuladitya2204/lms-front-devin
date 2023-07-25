@@ -38,7 +38,7 @@ function CourseCard(props: CourseCardProps) {
       }
       actions={[
         <InfoCircleOutlined
-          onClick={() => navigate(`${props.course._id}/editor`)}
+          onClick={() => navigate(`${props.course._id}/editor#information`)}
         />,
         <Tooltip placement="bottom" title={'Go to course builder'}>
           <ToolOutlined

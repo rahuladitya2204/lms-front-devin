@@ -23,7 +23,9 @@ export default function QuizResult({
             <Button key="buy" onClick={onReset}>
               Retry Quiz
             </Button>,
-            <Button type="primary" onClick={onEnd}>Continue</Button>
+            <Button type="primary" onClick={onEnd}>
+              Continue
+            </Button>
           ]}
           status="success"
           title="Great job! You are ready to move on to the next lecture."

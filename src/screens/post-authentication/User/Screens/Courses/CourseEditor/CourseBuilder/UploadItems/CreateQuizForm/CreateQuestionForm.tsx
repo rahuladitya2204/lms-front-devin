@@ -6,6 +6,7 @@ import {
   Col,
   Form,
   Input,
+  Modal,
   Radio,
   Row,
   Select,
@@ -14,9 +15,9 @@ import {
 import { Fragment, useEffect, useState } from 'react'
 
 import { Constants, Types } from '@adewaskar/lms-common'
-import { PlusCircleFilled } from '@ant-design/icons';
+import {  DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 
-
+const {confirm}=Modal;
 interface CreateQuestionFormPropsI {
     saveQuestion?: (d: Types.CourseQuizQuestion) => void;
   question?: Types.CourseQuizQuestion;
@@ -61,7 +62,7 @@ const CreateQuestionForm: React.FC<CreateQuestionFormPropsI> = props => {
       style={{ width: 240 }}
       options={[
         { value: 'single', label: 'Single Choice' },
-        { value: 'multiple', label: 'Multiple' },
+        { value: 'multiple', label: 'Multiple Choice' },
         { value: 'subjective', label: 'Subjective' },
       ]}
     />
@@ -86,8 +87,6 @@ const CreateQuestionForm: React.FC<CreateQuestionFormPropsI> = props => {
                   </Form.Item>
                 </Col>
                 <Col>
-
-                  {/* @ts-ignore */}
                     <OptionSelectedFormControl
                       checked={correctOptions.indexOf(index) > -1}
                       onChange={e => {
@@ -111,11 +110,22 @@ const CreateQuestionForm: React.FC<CreateQuestionFormPropsI> = props => {
                       setCorrectOptions(options)
                     }}
                     style={{ marginLeft: 20 }} />
+                  
+                  <DeleteTwoTone onClick={e => {
+                    confirm({
+                      title: 'Are you sure?',
+                      content: `You want to delete this answer`,
+                      onOk() {
+                        remove(index)
+                      },
+                      okText: 'Delete Answer'
+                    })
+                  }} style={{ marginLeft: 10 ,fontSize:15}} />
                 </Col>
              </Row>
 
             ))}
-                    <Button icon={<PlusCircleFilled/>}>Add Option</Button>
+                    <Button onClick={e=>add()} icon={<PlusCircleTwoTone/>}>Add Option</Button>
           </>
         )}
       </Form.List>
