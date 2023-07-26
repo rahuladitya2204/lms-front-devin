@@ -15,6 +15,7 @@ import Hls from 'hls.js'
 import { LiveCaption } from './Caption'
 import Plyr from 'plyr'
 import { htmlToText } from 'html-to-text'
+import ErrorBoundary from '@Components/ErrorBoundary'
 
 // import 'plyr/dist/plyr.css'
 
@@ -30,7 +31,7 @@ interface VideoJsComponentPropsI {
 }
 const PlyrComponent = (props: VideoJsComponentPropsI) => {
   const isHls = props.url?.includes('.m3u8');
-  const hlsRef=useRef(null)
+  const hlsRef = useRef(null);
   const setPlayer = Store.usePlayer(s => s.setPlayerState);
   const videoRef = useRef(null)
   const plyrRef = useRef(null)
@@ -75,7 +76,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
 
     return () => {
       if (plyrRef.current) {
-        plyrRef.current.destroy()
+        plyrRef?.current?.destroy()
         plyrRef.current = null;
         setPlayer({
           currentTime: null
@@ -163,7 +164,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
   }, [props.url]);
 
   return (
-    <div>
+    <ErrorBoundary>
       {isHls?<video
         ref={videoRef}
         className="plyr"
@@ -183,7 +184,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
        <source src={props.url} />
       </video>}
       <div id="captions" class="captions"></div>
-    </div>
+    </ErrorBoundary>
   )
 }
 

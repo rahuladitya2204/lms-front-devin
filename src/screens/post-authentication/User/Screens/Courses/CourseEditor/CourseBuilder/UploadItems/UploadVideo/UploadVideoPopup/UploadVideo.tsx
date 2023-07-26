@@ -1,10 +1,13 @@
 // @ts-nocheck
 import MediaUpload from '@Components/MediaUpload'
-import { Tabs } from 'antd'
+import { Button, Col, Row, Tabs } from 'antd'
 import ExternalVideo from './ExternalVideo'
 import { Types, User } from '@adewaskar/lms-common'
 import { useParams } from 'react-router'
 import { getMetadata } from 'video-metadata-thumbnails'
+import { render } from '@testing-library/react'
+import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+import { Form } from 'react-router-dom'
 
 interface UploadVideoPropsI {
   onUpload: (d: Partial<Types.CourseSectionItem>) => void;
@@ -14,6 +17,7 @@ interface UploadVideoPropsI {
 export default function UploadVideo(props: UploadVideoPropsI) {
   const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo()
   const { id: courseId, sectionId, itemId } = useParams()
+  console.log(props.item, 'ititti')
   return (
     <Tabs
       onTabClick={e => {
@@ -30,33 +34,45 @@ export default function UploadVideo(props: UploadVideoPropsI) {
           label: 'Upload',
           key: 'upload',
           children: (
-            <MediaUpload
-              source={{
-                type: 'course.section.item.file',
-                value: courseId + ''
-              }}
-              prefixKey={`courses/${courseId}/${sectionId}/${
-                itemId
-              }/lecture/index`}
-              fileName={props.item.title}
-              isProtected
-              onUpload={({ _id }, file) => {
-                // @ts-ignore
-                transcodeVideo({
-                  fileId: _id
-                })
-                getMetadata(file).then(r => {
-                  props.onUpload({
-                    file: _id,
-                    metadata: {
-                      duration: r.duration
-                    }
-                  })
-                })
-              }}
-              height="250px"
-              uploadType="video"
-            />
+            <Row>
+              <Col span={24}>
+                <MediaUpload
+                  source={{
+                    type: 'course.section.item.file',
+                    value: courseId + ''
+                  }}
+                  prefixKey={`courses/${courseId}/${sectionId}/${
+                    itemId
+                  }/lecture/index`}
+                  fileName={props.item.title}
+                  isProtected
+                  renderItem={() => (
+                    <Button type="primary">Select Video</Button>
+                  )}
+                  onUpload={({ _id }, file) => {
+                    // @ts-ignore
+                    transcodeVideo({
+                      fileId: _id
+                    })
+                    getMetadata(file).then(r => {
+                      props.onUpload({
+                        file: _id,
+                        metadata: {
+                          duration: r.duration
+                        }
+                      })
+                    })
+                  }}
+                  height="250px"
+                  uploadType="video"
+                />
+                {/* {props?.item?.file ? (
+                  <Form.Item label="Preview">
+                    <MediaPlayer file={props.item.file} />
+                  </Form.Item>
+                ) : null} */}
+              </Col>
+            </Row>
           )
           // children: <UploadFile />
         },

@@ -22,7 +22,7 @@ export default function ExternalVideo(props: ExternalVideoPropsI) {
         <Input />
       </Form.Item> */}
 
-      {link ? (
+      {link && link.includes(`${props.platform.value}.com`) ? (
         <Form.Item label="Preview">
           <MediaPlayer
             url={link}

@@ -67,7 +67,7 @@ const UploadVideoForm:any = () => {
         <Row gutter={[20,20]}>
          
           <Col span={24}>
-        <Card style={{marginTop:20}} title='Video File' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id || item.external?.url) ? 'Replace video' : 'Upload Lecture'}</Button>}>
+        <Card style={{marginTop:20}} title='Lecture Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id || item.external?.url) ? 'Replace video' : 'Upload Lecture'}</Button>}>
           <UploadVideo item={item} onUpload={(item) => {
               onFormChange(item)
             }
