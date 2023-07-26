@@ -26,7 +26,9 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
   const { course: { _id: courseId } } = props
   const {
     data: { course, progress }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId)
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId,{
+    enabled:!!courseId
+  })
   return (
     <CardHolder
       hoverable

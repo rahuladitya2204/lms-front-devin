@@ -52,7 +52,9 @@ const EnrolledCourseDetailScreen: React.FC<
   const { courseId } = useParams()
   const {
     data: { course, progress, completed, lastPlayed }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '')
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '',{
+    enabled:!!courseId
+  })
 
   const { data: instructor } = Learner.Queries.useGetInstructorDetails(
     course.instructor + ''

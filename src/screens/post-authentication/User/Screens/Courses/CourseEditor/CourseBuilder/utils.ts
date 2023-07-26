@@ -4,6 +4,7 @@ import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/legacy/build/pdf'
 import Hls from 'hls.js'
 import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
+import { jsonrepair } from 'jsonrepair'
 
 GlobalWorkerOptions.workerSrc = new URL(
   '/pdf.worker.min.js',
@@ -263,6 +264,29 @@ export const parseCoursePromptToCourseStructure = (response) => {
 
     return { title, items };
   });
+}
 
-  return sections
+export const parseAIJson=(str)=>  {
+  const startIndex = str.indexOf('json-start') + 10;
+  const endIndex = str.indexOf('json-end');
+  let jsonString = str.slice(startIndex, endIndex).trim();
+
+  // Repair JSON
+  try {
+      jsonString = JSONRepair.repair(jsonString);
+  } catch (error) {
+      console.error("Unable to repair JSON. Error near: ", jsonString.slice(Math.max(error.index - 10, 0), error.index + 10));
+      console.error(error);
+  }
+
+  // Convert JSON string to JavaScript object
+  let jsObject;
+  try {
+      jsObject = JSON.parse(jsonString);
+  } catch (error) {
+      console.error("Unable to parse JSON. Error near: ", jsonString.slice(Math.max(error.index - 10, 0), error.index + 10));
+      console.error(error);
+  }
+
+  return jsObject;
 }

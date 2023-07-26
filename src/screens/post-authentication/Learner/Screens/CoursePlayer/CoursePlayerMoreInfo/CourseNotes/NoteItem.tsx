@@ -24,6 +24,7 @@ import CreateNote from './CreateNote'
 import HtmlViewer from '@Components/HtmlViewer'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
+import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
 const { confirm } = Modal
@@ -33,7 +34,7 @@ interface CourseNoteItemPropsI {
 }
 const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   const { mutate: deleteNoteApi } = Learner.Queries.useDeleteNote()
-  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
+  const playerInstance = Store.usePlayer(s => s.state.playerInstance);
   const { sectionId, itemId } = useParams()
   const section = props.course.sections.find(s => s._id === sectionId)
   const item = section?.items.find(i => i._id === itemId)

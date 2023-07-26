@@ -319,7 +319,7 @@ function CourseBuilderScreen() {
               showIcon
               action={
                 <GenerateWithAI
-                  course={course}
+                  courseId={course._id}
                   fields={['sections']}
                   onValuesChange={({ sections }: any) => {
                     updateCourse({

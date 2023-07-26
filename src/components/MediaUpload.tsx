@@ -125,7 +125,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       // @ts-ignore
       width={props.width || 'auto'}
     >
-      {props.renderItem ? props.renderItem() : UploadButton}
+      {props.renderItem ? props.renderItem(file) : UploadButton}
     </CustomUpload>
   )
 

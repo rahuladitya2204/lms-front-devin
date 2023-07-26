@@ -5,6 +5,7 @@ import React from 'react'
 import Tabs from '@Components/Tabs'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
+import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
 interface CoursePlayerMoreInfoPropsI {
@@ -12,6 +13,8 @@ interface CoursePlayerMoreInfoPropsI {
 }
 
 const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
+  useWatchTime(props.course._id);
+
   const TAB_ITEMS = [
     // {
     //   label: <Text strong>Overview</Text>,

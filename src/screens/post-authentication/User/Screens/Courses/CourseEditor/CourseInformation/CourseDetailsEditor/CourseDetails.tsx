@@ -86,7 +86,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const generateWithAI = (fields: string[]) => {
     return (
       <GenerateWithAI
-        course={course}
+        courseId={course._id}
         fields={fields}
         onValuesChange={onValuesChange}
       />

@@ -79,7 +79,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
         </Form.Item>
         
         <Form.Item label='Course Keywords' name={['keywords']} extra={  <GenerateWithAI
-        course={props.course}
+        courseId={props.course._id}
         fields={['keywords']}
           onValuesChange={(e: any) => {
             if (e && e.keywords) {

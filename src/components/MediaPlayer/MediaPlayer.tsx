@@ -10,6 +10,7 @@ interface MediaPlayerPropsI {
   url?: string;
   thumbnail?: string;
   watermark?: string | null;
+  platform?: string;
   hls?: boolean;
   width?: number;
   height?: number;
@@ -48,6 +49,7 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
     >
       {Url ? (
         <PlayrComponent
+          platform={props.platform}
           thumbnail={props.thumbnail}
           notes={props.notes}
           url={Url}

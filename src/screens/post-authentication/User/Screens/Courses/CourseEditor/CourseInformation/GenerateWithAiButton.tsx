@@ -6,12 +6,17 @@ import { Button } from 'antd'
 import { useEffect } from 'react'
 
 interface GenerateWithAIPropsI {
-  course: Types.Course;
+  courseId: string;
+  extra?: any;
   onValuesChange: Function;
   fields: string[];
 }
 
 function GenerateWithAI(props: GenerateWithAIPropsI) {
+  const { data: course } = User.Queries.useGetCourseDetails(props.courseId, {
+    enabled: !!props.courseId
+  })
+  console.log(props.courseId, 'popopop')
   const {
     mutate: generateCourseInfo,
     isLoading: generatingInfo,
@@ -29,16 +34,18 @@ function GenerateWithAI(props: GenerateWithAIPropsI) {
 
   return (
     <Button
-      size="small" 
-      type="dashed" danger
-      disabled={!props.course.title}
+      size="small"
+      type="dashed"
+      danger
+      disabled={!course.title}
       loading={generatingInfo}
       onClick={() =>
         generateCourseInfo({
           data: {
-            title: props.course.title
+            title: course.title
           },
-          fields: props.fields
+          fields: props.fields,
+          extra: props.extra
         })
       }
       style={{ marginTop: 10 }}

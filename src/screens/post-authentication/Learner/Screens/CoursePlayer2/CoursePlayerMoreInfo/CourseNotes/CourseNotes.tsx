@@ -32,7 +32,10 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
   const { course } = props
   const { itemId, sectionId } = useParams()
   const { data: { notes } } = Learner.Queries.useGetEnrolledCourseDetails(
-    course._id + ''
+    course._id + '',
+    {
+      enabled: !!course._id
+    }
   )
   console.log(playerInstance?.getCurrentTime)
 

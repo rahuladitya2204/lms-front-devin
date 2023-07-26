@@ -16,13 +16,24 @@ import { Fragment, useEffect, useState } from 'react'
 
 import { Constants, Types } from '@adewaskar/lms-common'
 import {  DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
+import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton';
+import { useParams } from 'react-router';
 
 const {confirm}=Modal;
+
+export const QUESTION_TYPES=[
+  { value: 'single', label: 'Single Choice' },
+  { value: 'multiple', label: 'Multiple Choice' },
+  { value: 'subjective', label: 'Subjective' },
+];
 interface CreateQuestionFormPropsI {
-    saveQuestion?: (d: Types.CourseQuizQuestion) => void;
+  saveQuestion?: (d: Types.CourseQuizQuestion) => void;
   question?: Types.CourseQuizQuestion;
   closeModal?: Function;
+  section: Types.CourseSection;
+  courseId: string;
 }
+
 
 const CreateQuestionForm: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm()
@@ -60,11 +71,7 @@ const CreateQuestionForm: React.FC<CreateQuestionFormPropsI> = props => {
         <Form.Item label='Question Type' name={'type'}>
         <Select
       style={{ width: 240 }}
-      options={[
-        { value: 'single', label: 'Single Choice' },
-        { value: 'multiple', label: 'Multiple Choice' },
-        { value: 'subjective', label: 'Subjective' },
-      ]}
+      options={QUESTION_TYPES}
     />
 
         </Form.Item>

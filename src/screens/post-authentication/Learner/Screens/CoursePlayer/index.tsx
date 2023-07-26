@@ -117,7 +117,6 @@ function CoursePlayer() {
 
   useEffect(
     () => {
-      console.log(itemId, 'hello')
       if (itemId && sectionId && courseId) {
         // const currentTime = playerInstance?.currentTime
         // console.log(currentTime, 'currentTime')

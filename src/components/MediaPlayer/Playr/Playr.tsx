@@ -22,6 +22,7 @@ interface VideoJsComponentPropsI {
   url?: string;
   watermark?: string | null;
   thumbnail?: string;
+  platform?: string;
   width?: number;
   height?: number;
   notes?: Types.CourseNote[];
@@ -29,6 +30,7 @@ interface VideoJsComponentPropsI {
 }
 const PlyrComponent = (props: VideoJsComponentPropsI) => {
   const isHls = props.url?.includes('.m3u8');
+  const hlsRef=useRef(null)
   const setPlayer = Store.usePlayer(s => s.setPlayerState);
   const videoRef = useRef(null)
   const plyrRef = useRef(null)
@@ -57,6 +59,9 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         setPlayer({
           playing:true
         });
+        // if(isHls){
+          // hlsRef.current.attachMedia(video)
+        // }
         // liveCaption.start();
       })
 
@@ -104,10 +109,11 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         loader: CustomXhrLoader,
       });
       hls.loadSource(props.url + '')
-      hls.attachMedia(video);
-      // @ts-ignore
-      // ref.current!.plyr.media = video;
-  
+      
+      plyrRef.current.on('play', () => {
+        hls.attachMedia(video);
+      })
+      
       hls.on(Hls.Events.MANIFEST_PARSED, function () {
         if (props.thumbnail) {
           video.setAttribute('poster', props.thumbnail);
@@ -130,6 +136,31 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       };
     }
   }, [isHls, props.url]);
+
+
+  useEffect(() => {
+    if (props.url?.includes('youtube.com')) {
+      const youtubeVideoId = new URLSearchParams(new URL(props.url).search).get('v');
+      plyrRef.current.source = {
+        type: 'video',
+        sources: [{
+          src: youtubeVideoId,
+          provider: 'youtube',
+        }],
+      };
+    }
+
+    if (props.url?.includes("vimeo.com")) {
+      const vimeoVideoId = new URL(props.url).pathname.split("/").pop();
+      plyrRef.current.source = {
+        type: 'video',
+        sources: [{
+          src: vimeoVideoId,
+          provider: 'vimeo',
+        }],
+      };
+    }
+  }, [props.url]);
 
   return (
     <div>

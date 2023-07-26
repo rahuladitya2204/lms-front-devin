@@ -10,12 +10,13 @@ import Image from '@Components/Image'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import ThumbnailList from './ThumbnailList'
-import { getMetadata } from 'video-metadata-thumbnails'
 import styled from '@emotion/styled'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
+import UploadVideo from './UploadVideoPopup/UploadVideo'
+import { getMetadata } from 'video-metadata-thumbnails'
 
-const { Title,Text } = Typography
+const { Title } = Typography
 
 const FileListStyled=styled(FileList)`
     /* ul.ant-list-items{
@@ -24,12 +25,7 @@ const FileListStyled=styled(FileList)`
 `
 
 const UploadVideoForm:any = () => {
-  const {
-    mutate: uploadFiles,
-    isLoading: loading
-  } = Common.Queries.useUploadFiles();
   const [form] = Form.useForm();
-  const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo()
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, item } = useUploadItemForm(form);
   
@@ -42,7 +38,7 @@ const UploadVideoForm:any = () => {
     data: { status, progress }
   } = User.Queries.useGetTranscodeVideoStatus(jobId, {
     retry: true,
-    enabled:true,
+    enabled:!!item.file,
     retryDelay: 4000
   })
   const fileId = file.encoded || file._id;
@@ -57,9 +53,6 @@ const UploadVideoForm:any = () => {
         >
           <Input placeholder="Enter Video Title" />
         </Form.Item>
-        {/* <Form.Item name="description" label="Description">
-          <Input placeholder="Enter Description" />
-        </Form.Item> */}
         <Form.Item>
           <Checkbox
             checked={item.isPreview}
@@ -74,36 +67,13 @@ const UploadVideoForm:any = () => {
         <Row gutter={[20,20]}>
          
           <Col span={24}>
-        <Card style={{marginTop:20}} title='Video File' extra={[  <MediaUpload
-             source={{
-              type: 'course.section.item.file',
-              value: courseId+''
-            }}
-            prefixKey={`courses/${courseId}/${sectionId}/${
-              itemId
-            }/lecture/index`}
-            fileName={item.title}
-            isProtected
-            onUpload={({ _id }, file) => {
-              // @ts-ignore
-              transcodeVideo({
-                fileId: _id
-              })
-              getMetadata(file).then(r => {
-                onFormChange({
-                  file: _id,
-                  metadata: {
-                    duration: r.duration
-                  }
-                })
-              })
-            }}
-            height="250px"
-            uploadType="video"
-            renderItem={() => (
-              <Button icon={<UploadOutlined/> }>{file._id ? 'Replace video' : 'Upload Lecture'}</Button>
-            )}
-          />]}>
+        <Card style={{marginTop:20}} title='Video File' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id || item.external?.url) ? 'Replace video' : 'Upload Lecture'}</Button>}>
+          <UploadVideo item={item} onUpload={(item) => {
+              onFormChange(item)
+            }
+          
+                } />
+              </ActionModal>]}>
              {file._id?<> <div style={{marginBottom:20}}>
               <ThumbnailList item={item} fileId={file._id} />
  </div>
@@ -139,7 +109,7 @@ const UploadVideoForm:any = () => {
               <Progress style={{marginBottom:20}} percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
             </>
           ) : null}
-              {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : <Empty description='No Video Uploaded'  />}
+              {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : (item.external?.url?<MediaPlayer platform={item.external.platform} url={item.external.url} />:<Empty description='No Video Uploaded'  />)}
             </Card>
           </Col>
 

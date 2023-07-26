@@ -34,7 +34,9 @@ function CoursePlayerItem() {
 
   const {
     data: { course, notes }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '')
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '', {
+    enabled: !!courseId
+  })
   const { data: file } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
@@ -47,15 +49,27 @@ function CoursePlayerItem() {
   if (item.type === 'quiz') {
     Component = <CoursePlayerQuiz onEnd={onEnd} item={item} />
   }
+  const fileId = file.encoded || file._id
 
   if (item.type === 'video') {
-    Component = (
+    Component = !item.external?.url ? (
       <MediaPlayer
         hls
         thumbnail={item.metadata?.thumbnail}
         notes={currentItemNotes}
         watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
-        fileId={file._id}
+        fileId={fileId}
+        url=""
+        height={550}
+      />
+    ) : (
+      <MediaPlayer
+        hls
+        thumbnail={item.metadata?.thumbnail}
+        notes={currentItemNotes}
+        watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
+        platform={item.external?.platform}
+        url={item.external?.url}
         height={550}
       />
     )

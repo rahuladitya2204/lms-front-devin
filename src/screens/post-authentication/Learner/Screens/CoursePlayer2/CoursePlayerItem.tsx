@@ -21,7 +21,9 @@ function CoursePlayerItem() {
   const { node: item, courseId } = useGetNodeFromRouterOutlet()
   const {
     data: { course, notes }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '')
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '', {
+    enabled: !!courseId
+  })
   const { data: file } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
@@ -30,6 +32,7 @@ function CoursePlayerItem() {
   if (item.type === 'text') {
     Component = <CoursePlayerTextItem item={item} />
   }
+  const fileId = file.encoded || file._id
 
   if (item.type === 'video') {
     Component = (
@@ -37,7 +40,7 @@ function CoursePlayerItem() {
         hls
         notes={currentItemNotes}
         watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
-        fileId={file._id}
+        fileId={fileId}
         thumbnail={item.metadata?.thumbnail}
         height={550}
       />

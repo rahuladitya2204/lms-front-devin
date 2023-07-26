@@ -11,6 +11,7 @@ import {
   Row,
   Space,
   Switch,
+  Tag,
   Tooltip,
   Typography
 } from 'antd'
@@ -22,21 +23,28 @@ import FileList from '@Components/FileList'
 import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea'
 import { Constants, Types } from '@adewaskar/lms-common'
-import { getReadingTime } from '../../utils'
+import { parseAIJson } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 import { AddItemProps } from '../UploadPDF'
 import CreateQuestionForm from './CreateQuestionForm'
+import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton'
 
 const { confirm } = Modal
 
 const CreateQuizForm: React.FC<AddItemProps> = props => {
   const [form] = Form.useForm()
-  const { onFormChange, item, courseId, sectionId, itemId } = useUploadItemForm(
-    form
-  )
+  const {
+    onFormChange,
+    item,
+    currentItemIndex,
+    courseId,
+    sectionId,
+    itemId,
+    section
+  } = useUploadItemForm(form)
   const courseQuiz = item?.quiz || Constants.INITIAL_COURSE_QUIZ
-
+  console.log(courseId, 'courseId')
   const deleteQuestion = (questionId: string) => {
     const newQuestions = [...courseQuiz.questions]
     const index = courseQuiz.questions.findIndex(
@@ -59,7 +67,6 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
     },
     [props.item]
   )
-
   return (
     <Fragment>
       <Form
@@ -100,25 +107,53 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
               style={{ marginBottom: 20 }}
               title="Questions"
               extra={
-                <ActionModal
-                  width={650}
-                  cta={
-                    <Button type="primary" icon={<PlusOutlined />}>
-                      Add
-                    </Button>
-                  }
-                >
-                  <CreateQuestionForm
-                    saveQuestion={question => {
+                courseQuiz.questions.length ? (
+                  [
+                    <ActionModal
+                      width={650}
+                      cta={
+                        <Button type="primary" icon={<PlusOutlined />}>
+                          Add
+                        </Button>
+                      }
+                    >
+                      <CreateQuestionForm
+                        courseId={courseId + ''}
+                        // @ts-ignore
+                        section={section}
+                        saveQuestion={question => {
+                          onFormChange({
+                            quiz: {
+                              ...courseQuiz,
+                              questions: [...courseQuiz.questions, question]
+                            }
+                          })
+                        }}
+                      />
+                    </ActionModal>
+                  ]
+                ) : (
+                  <GenerateWithAI
+                    courseId={courseId + ''}
+                    fields={['quiz']}
+                    extra={{
+                      sectionTitle: section?.title,
+                      chaptersCovered: section?.items
+                        .slice(0, currentItemIndex)
+                        .map(i => i.title)
+                        .join(',')
+                    }}
+                    onValuesChange={({ quiz }: any) => {
+                      console.log(quiz, 'quiz')
                       onFormChange({
                         quiz: {
                           ...courseQuiz,
-                          questions: [...courseQuiz.questions, question]
+                          questions: parseAIJson(quiz)
                         }
                       })
                     }}
                   />
-                </ActionModal>
+                )
               }
             >
               <List
@@ -129,7 +164,12 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                     style={{ cursor: 'pointer' }}
                     extra={[
                       <Typography.Text>
-                        {item.answers.length} options{' '}
+                        {item.type === 'single' ? (
+                          <Tag color="magenta">Single Choice</Tag>
+                        ) : (
+                          <Tag color="volcano">Multiple Choice</Tag>
+                        )}
+                        <Tag color="blue">{item.answers.length} Options</Tag>
                         <Tooltip title="Delete Question">
                           <DeleteOutlined
                             onClick={() => {
@@ -156,6 +196,9 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                       }
                     >
                       <CreateQuestionForm
+                        // @ts-ignore
+                        section={section}
+                        courseId={courseId + ''}
                         saveQuestion={question => {
                           const newQuestions = [...courseQuiz.questions]
                           newQuestions.forEach((q, index) => {

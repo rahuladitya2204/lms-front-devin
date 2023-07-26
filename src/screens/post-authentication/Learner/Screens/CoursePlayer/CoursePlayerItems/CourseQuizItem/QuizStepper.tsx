@@ -53,7 +53,6 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
       />
     )
   }
-  console.log(questions, 'quess')
   return (
     //   @ts-ignore
     <Stepper
