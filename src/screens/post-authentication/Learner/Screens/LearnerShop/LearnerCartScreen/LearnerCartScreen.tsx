@@ -175,9 +175,10 @@ export default function LearnerCart() {
                       console.log(payment, 'paymentpayment');
                       updatePaymentOrder({
                         orderId: order._id,
-                        status:'successful'
+                        status: 'successful',
+                        data: payment
                       }, {
-                        onSuccess: () => {
+                        onSuccess: (e) => {
                           navigate(`../${order._id}/successful`);
                         }
                       });

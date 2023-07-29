@@ -1,11 +1,12 @@
-import { Button, Card, Space, Table } from 'antd'
+import { Button, Card, Dropdown, Modal, Space, Table } from 'antd'
 
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, MoreOutlined } from '@ant-design/icons'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 
+const { confirm } = Modal
 interface CourseLearnersPropsI {
   courseId: string;
 }
@@ -14,8 +15,13 @@ function CourseLearners(props: CourseLearnersPropsI) {
   const { data, isLoading: loading } = User.Queries.useGetCourseLearners(
     props.courseId + ''
   )
+
+  const {
+    mutate: removeLearnerFromCourse
+  } = User.Queries.useRemoveLearnerFromCourse()
+
   return (
-    <Card title='Course Learners' extra={[<Button>Add Learner</Button>]}> 
+    <Card title="Course Learners" extra={[<Button>Add Learner</Button>]}>
       <Table dataSource={data} loading={loading}>
         <Table.Column
           title="Name"
@@ -59,16 +65,49 @@ function CourseLearners(props: CourseLearnersPropsI) {
         <Table.Column
           title="Action"
           key="action"
-          render={(_: any, record: Types.Learner) => (
-            <Space size="middle">
-              {/* <EditOutlined
-            onClick={() =>
-              window.open(`learners/${record._id}/editor`, '_blank')
-            }
-          /> */}
-              <DeleteOutlined />
-            </Space>
-          )}
+          render={(_: any, record: Types.EnrolledCourse) => {
+            return (
+              <Space>
+                <Button
+                  onClick={() => {
+                    confirm({
+                      title: 'Are you sure?',
+                      // icon: <ExclamationCircleOutlined />,
+                      content: `You want to refund this course to the user`,
+                      onOk() {
+                        removeLearnerFromCourse({
+                          courseId: props.courseId,
+                          learnerId: record.learner._id
+                        })
+                      },
+                      okText: 'Initiate Refund'
+                    })
+                  }}
+                  size="small"
+                  type="primary"
+                >
+                  Refund
+                </Button>
+                {/* <Dropdown
+                  menu={{
+                    items: [
+                      {
+                        label: `Refund Course`,
+                        key: 'refund'
+                      },
+                      {
+                        label: `Revoke Access`,
+                        key: 'revoke'
+                      }
+                    ]
+                  }}
+                  trigger={['click']}
+                >
+                  <MoreOutlined />
+                </Dropdown> */}
+              </Space>
+            )
+          }}
         />
       </Table>
     </Card>

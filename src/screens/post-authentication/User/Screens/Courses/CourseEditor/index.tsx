@@ -54,7 +54,6 @@ function CourseEditor() {
   )
 
   const saveCourse = (e: Partial<Course>) => {
-    console.log(e, 'eeee')
     setCourse({
       ...course,
       ...e
@@ -147,14 +146,14 @@ function CourseEditor() {
                     />
                   )
                 },
-                {
-                  label: (
-                    <span>
-                      <ToolOutlined />Builder
-                    </span>
-                  ),
-                  key: 'builder'
-                },
+                // {
+                //   label: (
+                //     <span>
+                //       <ToolOutlined />Builder
+                //     </span>
+                //   ),
+                //   key: 'builder'
+                // },
                 {
                   label: (
                     <span>

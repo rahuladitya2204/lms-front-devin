@@ -91,7 +91,7 @@ const EnrolledCourseDetailScreen: React.FC<
                           //   @ts-ignore
                           src={instructor.image}
                         >
-                          {/* @ts-ignore */}
+
                         </Avatar>
                         {/* @ts-ignore  */}
                         {instructor.name}
@@ -195,16 +195,16 @@ const EnrolledCourseDetailScreen: React.FC<
                                   bodyStyle={{ padding: 0 }}
                                 >
                                   <Row>
-                                    <Col span={3}>
+                                    {/* <Col span={3}>
                                       <Image
                                         height={70}
                                         width={100}
                                         src={item.metadata?.thumbnail}
                                       />
-                                    </Col>
+                                    </Col> */}
                                     <Col span={1} />
                                     <Col
-                                      span={10}
+                                      span={12}
                                       style={{
                                         marginTop: 10,
                                         marginBottom: 10

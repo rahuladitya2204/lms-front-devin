@@ -20,14 +20,14 @@ export default function UploadVideo(props: UploadVideoPropsI) {
   console.log(props.item, 'ititti')
   return (
     <Tabs
-      onTabClick={e => {
-        props.onUpload({
-          file: null,
-          external: {
-            platform: e
-          }
-        })
-      }}
+      // onTabClick={e => {
+      //   props.onUpload({
+      //     file: null,
+      //     external: {
+      //       platform: e
+      //     }
+      //   })
+      // }}
       defaultActiveKey="1"
       items={[
         {

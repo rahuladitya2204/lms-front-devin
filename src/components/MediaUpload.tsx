@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons'
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin, Upload, UploadProps } from 'antd'
-import React, { ReactNode, useState } from 'react'
+import React, { Fragment, ReactNode, useState } from 'react'
 
 import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop'
@@ -111,7 +111,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   )
 
   let UploadComponent = (
-    <CustomUpload
+    <Dragger
       {...UPLOAD}
       type="video/*"
       beforeUpload={info => {
@@ -125,8 +125,8 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       // @ts-ignore
       width={props.width || 'auto'}
     >
-      {props.renderItem ? props.renderItem(file) : UploadButton}
-    </CustomUpload>
+      {props.renderItem ? props.renderItem(file) : <DraggerBody />}
+    </Dragger>
   )
 
   if (props.uploadType === 'pdf') {
@@ -219,3 +219,20 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
 }
 
 export default MediaUpload
+
+const DraggerBody = () => {
+  return (
+    <Fragment>
+      <p className="ant-upload-drag-icon">
+        <InboxOutlined />
+      </p>
+      <p className="ant-upload-text">
+        Click or drag file to this area to upload
+      </p>
+      <p className="ant-upload-hint">
+        Support for a single or bulk upload. Strictly prohibited from uploading
+        company data or other banned files.
+      </p>
+    </Fragment>
+  )
+}

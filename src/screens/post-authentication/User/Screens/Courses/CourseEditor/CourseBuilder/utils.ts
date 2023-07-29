@@ -143,7 +143,6 @@ type CanvasElement = HTMLCanvasElement | OffscreenCanvas;
 
 function captureThumbnail(video: HTMLVideoElement, canvas: CanvasElement, context: CanvasRenderingContext2D, time: number): Promise<void> {
   return new Promise<void>((resolve) => {
-    console.log(time,'time')
     video.currentTime = time;
     video.addEventListener('seeked', () => {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
@@ -244,27 +243,6 @@ export function convertToCommaSeparated(inputString) {
   return inputString.split('\n').map(item => item.replace(/[0-9]*\.? */, '').trim()).filter(i=>i);
 }
 
-export const parseCoursePromptToCourseStructure = (response) => {
-  response = response.replace(/\n/g, '');
-  // Split the response into sections
-  const sectionsRaw = response.split('SECTION END:').filter(Boolean);
-
-  const sections = sectionsRaw.map(sectionRaw => {
-    // Remove the 'SECTION START:' prefix and split into items
-    const itemsRaw = sectionRaw.replace('SECTION START:', '').trim().split('ITEM END:').filter(Boolean);
-    
-    const items = itemsRaw.map(itemRaw => {
-      // Remove the 'ITEM START:' prefix and trim whitespace
-      const title = itemRaw.replace('ITEM START:', '').trim();
-      return { title };
-    });
-
-    // Get the title from the first item and then remove it from the items list
-    const title = items.shift().title;
-
-    return { title, items };
-  });
-}
 
 export const parseAIJson=(str)=>  {
   const startIndex = str.indexOf('json-start') + 10;

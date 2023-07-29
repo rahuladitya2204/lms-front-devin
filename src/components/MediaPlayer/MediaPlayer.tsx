@@ -32,7 +32,6 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
   useEffect(
     () => {
       return () => {
-        console.log('resetting player')
         resetPlayer()
       }
     },

@@ -264,7 +264,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                               key={item._id}
                               to={`section/${section._id}/${item.type}/${item._id}`}
                               children={({ isActive }) => CourseSectionListItem(isActive)}
-                            />: <ActionModal
+                            />: <ActionModal width={650}
                             cta={
                               CourseSectionListItem(false)
                             }
@@ -278,7 +278,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                           </List.Item>
                           </MovableItem>
 
-                          {(itemIndex == section.items.length - 1) ?
+                          {(itemIndex === section.items.length - 1) ?
                             <ActionModal
                             cta={<AddItemListCta
                               >

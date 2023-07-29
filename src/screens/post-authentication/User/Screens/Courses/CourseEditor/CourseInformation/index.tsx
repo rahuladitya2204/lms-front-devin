@@ -30,7 +30,7 @@ function CourseInformationEditor(props: any) {
     [courseDetails]
   )
   return (
-    <Card>
+    <Fragment>
       {/* <Form onFinish={saveCourse} form={form} layout="vertical" autoComplete="off"> */}
       <Tabs
         // defaultActiveKey="1"
@@ -84,7 +84,7 @@ function CourseInformationEditor(props: any) {
       />
 
       <Outlet />
-    </Card>
+    </Fragment>
   )
 }
 

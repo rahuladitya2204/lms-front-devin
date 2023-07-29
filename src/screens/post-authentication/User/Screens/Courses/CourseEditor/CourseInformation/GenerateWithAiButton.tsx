@@ -16,7 +16,6 @@ function GenerateWithAI(props: GenerateWithAIPropsI) {
   const { data: course } = User.Queries.useGetCourseDetails(props.courseId, {
     enabled: !!props.courseId
   })
-  console.log(props.courseId, 'popopop')
   const {
     mutate: generateCourseInfo,
     isLoading: generatingInfo,

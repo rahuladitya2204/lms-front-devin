@@ -1,11 +1,8 @@
-import { Alert, Button, Card, Col, Empty, Form, Modal, Row, Spin } from 'antd'
+import { Alert, Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
 import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
-import {
-  parseCoursePromptToCourseStructure,
-  updateCourseSectionItem
-} from './utils'
+import { parseAIJson, updateCourseSectionItem } from './utils'
 import { useEffect, useState } from 'react'
 
 import BackButton from '@Components/BackButton'
@@ -16,12 +13,14 @@ import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { cloneDeep } from 'lodash'
 import useMessage from '@Hooks/useMessage'
+import ActionModal from '@Components/ActionModal'
+import SetCourseRules from './SetRules'
 
 const { confirm } = Modal
 
 function CourseBuilderScreen() {
   const message = useMessage()
-  const { id: courseId, sectionId, itemId } = useParams()
+  const { id: courseId, itemId } = useParams()
   const {
     mutate: updateCourse,
     isLoading: loading
@@ -87,7 +86,6 @@ function CourseBuilderScreen() {
       metadata: item.metadata,
       section: sectionId
     }
-    console.log(type, 'kutra')
     if (item._id) {
       COURSE.sections[index].items.forEach((i, itemIndex) => {
         if (i._id === item._id) {
@@ -97,7 +95,6 @@ function CourseBuilderScreen() {
             ...newItem,
             type
           }
-          console.log(i, '-0-0')
         }
       })
     } else {
@@ -119,8 +116,7 @@ function CourseBuilderScreen() {
     })
   }
 
-  // @ts-ignore
-  const saveCourse = d => {
+  const saveCourse = (d: Partial<Types.Course>) => {
     if (course._id) {
       updateCourse(
         {
@@ -224,9 +220,9 @@ function CourseBuilderScreen() {
     setCourse(COURSE)
     saveCourse(COURSE)
   }
-  const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
-    courseId + ''
-  )
+  // const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
+  //   courseId + ''
+  // )
   const { mutate: publishCourse } = User.Queries.usePublishCourse()
   return (
     <Header
@@ -294,6 +290,34 @@ function CourseBuilderScreen() {
                     })
                   }}
                 />
+                <Row
+                  justify={'space-between'}
+                  style={{ margin: '20px 0 0', marginTop: 20 }}
+                  gutter={[20, 20]}
+                >
+                  <Col flex={1}>
+                    <Button block>Preview</Button>
+                  </Col>
+                  <Col flex={1}>
+                    <ActionModal
+                      title="Set Rules"
+                      cta={
+                        <Button block type="primary">
+                          Set Rules
+                        </Button>
+                      }
+                    >
+                      <SetCourseRules
+                        onSubmit={d =>
+                          saveCourse({
+                            rules: d
+                          })
+                        }
+                        data={course.rules}
+                      />
+                    </ActionModal>
+                  </Col>
+                </Row>
               </Form.Item>
             </Col>
             <Col span={24}>
@@ -321,14 +345,21 @@ function CourseBuilderScreen() {
                 <GenerateWithAI
                   courseId={course._id}
                   fields={['sections']}
-                  onValuesChange={({ sections }: any) => {
-                    updateCourse({
-                      id: courseId || '',
-                      data: {
-                        // @ts-ignore
-                        sections: parseCoursePromptToCourseStructure(sections)
+                  onValuesChange={({ sections: { sections } }: any) => {
+                    updateCourse(
+                      {
+                        id: courseId || '',
+                        data: {
+                          // @ts-ignore
+                          sections: parseAIJson(sections)
+                        }
+                      },
+                      {
+                        onSuccess: () => {
+                          navigate('')
+                        }
                       }
-                    })
+                    )
                   }}
                 />
               }
