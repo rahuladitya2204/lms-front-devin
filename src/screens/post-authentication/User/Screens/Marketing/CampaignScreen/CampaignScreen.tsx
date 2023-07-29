@@ -17,6 +17,7 @@ import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
+import MoreButton from '@Components/MoreButton'
 
 const { confirm } = Modal
 
@@ -98,43 +99,32 @@ function CampaignsScreen() {
                 key="action"
                 render={(_: any, record: Types.Campaign) => (
                   <Space size="middle">
-                    <Dropdown.Button
-                      // children={null}
-                      size="small"
-                      menu={{
-                        items: [
-                          {
-                            key: 'execute',
-                            label: 'Execute Campaign',
-                            icon: <CheckOutlined />,
-                            onClick: () =>
-                              executeCampaign({
-                                id: record._id
-                              })
-                          },
-                          {
-                            key: 'edit',
-                            label: 'Edit Campaign',
-                            icon: <EditOutlined />,
-                            onClick: () =>
-                              navigate(`../edit-campaign/${record._id}`)
-                          },
-                          {
-                            key: 'delete',
-                            label: 'Delete Campaign',
-                            icon: <DeleteOutlined />,
-                            onClick: () => deleteCampaign(record._id)
-                          }
-                        ]
-                      }}
-                      placement="bottomRight"
-                    >
-                      Action
-                    </Dropdown.Button>
-                    {/* <EditOutlined
-                      onClick={() => navigate(`../edit-campaign/${record._id}`)}
+                    <MoreButton
+                      items={[
+                        {
+                          key: 'execute',
+                          label: 'Execute Campaign',
+                          icon: <CheckOutlined />,
+                          onClick: () =>
+                            executeCampaign({
+                              id: record._id
+                            })
+                        },
+                        {
+                          key: 'edit',
+                          label: 'Edit Campaign',
+                          icon: <EditOutlined />,
+                          onClick: () =>
+                            navigate(`../edit-campaign/${record._id}`)
+                        },
+                        {
+                          key: 'delete',
+                          label: 'Delete Campaign',
+                          icon: <DeleteOutlined />,
+                          onClick: () => deleteCampaign(record._id)
+                        }
+                      ]}
                     />
-                    <DeleteOutlined onClick={e => deleteCampaign()} /> */}
                   </Space>
                 )}
               />

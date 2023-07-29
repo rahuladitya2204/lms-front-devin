@@ -1,10 +1,21 @@
-import { Button, Card, Dropdown, Modal, Space, Table } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Modal,
+  Row,
+  Space,
+  Table,
+  Typography
+} from 'antd'
 
 import { DeleteOutlined, MoreOutlined } from '@ant-design/icons'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import Container from '@Components/Container'
 
 const { confirm } = Modal
 interface CourseLearnersPropsI {
@@ -21,7 +32,7 @@ function CourseLearners(props: CourseLearnersPropsI) {
   } = User.Queries.useRemoveLearnerFromCourse()
 
   return (
-    <Card title="Course Learners" extra={[<Button>Add Learner</Button>]}>
+    <Container title="Course Learners" extra={[<Button>Add Learner</Button>]}>
       <Table dataSource={data} loading={loading}>
         <Table.Column
           title="Name"
@@ -47,21 +58,21 @@ function CourseLearners(props: CourseLearnersPropsI) {
           }
         />
         {/* <Table.Column
-        title="Last Login"
-        dataIndex="lastActive"
-        key="lastActive"
-        render={(_: any, record: Types.Learner) => (
-          <Space size="middle">{dayjs(record.lastActive).format('LLLL')}</Space>
-        )}
-      />
-      <Table.Column
-        title="Joined On"
-        dataIndex="createdAt"
-        key="createdAt"
-        render={(_: any, record: Types.Learner) => (
-          <Space size="middle">{dayjs(record.createdAt).format('LL')}</Space>
-        )}
-      /> */}
+title="Last Login"
+dataIndex="lastActive"
+key="lastActive"
+render={(_: any, record: Types.Learner) => (
+  <Space size="middle">{dayjs(record.lastActive).format('LLLL')}</Space>
+)}
+/>
+<Table.Column
+title="Joined On"
+dataIndex="createdAt"
+key="createdAt"
+render={(_: any, record: Types.Learner) => (
+  <Space size="middle">{dayjs(record.createdAt).format('LL')}</Space>
+)}
+/> */}
         <Table.Column
           title="Action"
           key="action"
@@ -89,28 +100,28 @@ function CourseLearners(props: CourseLearnersPropsI) {
                   Refund
                 </Button>
                 {/* <Dropdown
-                  menu={{
-                    items: [
-                      {
-                        label: `Refund Course`,
-                        key: 'refund'
-                      },
-                      {
-                        label: `Revoke Access`,
-                        key: 'revoke'
-                      }
-                    ]
-                  }}
-                  trigger={['click']}
-                >
-                  <MoreOutlined />
-                </Dropdown> */}
+          menu={{
+            items: [
+              {
+                label: `Refund Course`,
+                key: 'refund'
+              },
+              {
+                label: `Revoke Access`,
+                key: 'revoke'
+              }
+            ]
+          }}
+          trigger={['click']}
+        >
+          <MoreOutlined />
+        </Dropdown> */}
               </Space>
             )
           }}
         />
       </Table>
-    </Card>
+    </Container>
   )
 }
 

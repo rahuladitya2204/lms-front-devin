@@ -7,6 +7,8 @@ import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
+import MoreButton from '@Components/MoreButton'
+import { MenuItemType } from 'antd/es/menu/hooks/useItems'
 
 function TicketsScreen() {
   const { data: tickets, isLoading: loading } = User.Queries.useGetTickets()
@@ -111,78 +113,59 @@ function TicketsScreen() {
               <Table.Column
                 title="Action"
                 key="action"
-                render={(_: any, record: Types.Ticket) => (
-                  <Dropdown.Button
-                    menu={{
-                      items: [
-                        // record.status !== 'closed'
-                        //   ? {
-                        //       label: <a>Mark as Blocked</a>,
-                        //       key: '0123'
-                        //     }
-                        //   : null,
-                        record.status !== 'closed'
-                          ? {
-                              label: (
-                                <a
-                                  onClick={() => {
-                                    updateTicketStatus({
-                                      id: record._id + '',
-                                      status: 'in-progress'
-                                    })
-                                  }}
-                                >
-                                  Mark In Progress
-                                </a>
-                              ),
-                              key: '0'
-                            }
-                          : null,
-                        record.status !== 'closed'
-                          ? {
-                              label: (
-                                <a
-                                  onClick={() => {
-                                    updateTicketStatus({
-                                      id: record._id + '',
-                                      status: 'closed'
-                                    })
-                                  }}
-                                >
-                                  Close Ticket
-                                </a>
-                              ),
-                              key: '1'
-                            }
-                          : null,
-                        record.status === 'closed'
-                          ? {
-                              label: (
-                                <a
-                                  onClick={() => {
-                                    updateTicketStatus({
-                                      id: record._id + '',
-                                      status: 'opened'
-                                    })
-                                  }}
-                                >
-                                  Reopen Ticket
-                                </a>
-                              ),
-                              key: '2'
-                            }
-                          : null
-                        // {
-                        //   label: <a>2nd menu item</a>,
-                        //   key: '1'
-                        // }
-                      ]
-                    }}
-                    trigger={['click']}
-                  >
-                    More
-                  </Dropdown.Button>
-                )}
+                render={(_: any, record: Types.Ticket) => {
+                  const items: MenuItemType[] = []
+                  if (record.status !== 'closed') {
+                    items.push(
+                      {
+                        label: `Mark In Progress`,
+                        key: '0',
+                        onClick: () => {
+                          updateTicketStatus({
+                            id: record._id + '',
+                            status: 'in-progress'
+                          })
+                        }
+                      },
+                      {
+                        label: `Close Ticket`,
+                        key: '1',
+                        onClick: () => {
+                          updateTicketStatus({
+                            id: record._id + '',
+                            status: 'closed'
+                          })
+                        }
+                      }
+                    )
+                  } else {
+                  }
+
+                  if (record.status !== 'closed') {
+                    items.push({
+                      label: 'Mark In Progress',
+                      key: '0',
+                      onClick: () => {
+                        updateTicketStatus({
+                          id: record._id + '',
+                          status: 'in-progress'
+                        })
+                      }
+                    })
+                  } else {
+                    items.push({
+                      label: 'Reopen Ticket',
+                      onClick: () => {
+                        updateTicketStatus({
+                          id: record._id + '',
+                          status: 'opened'
+                        })
+                      },
+                      key: '2'
+                    })
+                  }
+                  return <MoreButton items={items} />
+                }}
               />
             </Table>
           </Col>

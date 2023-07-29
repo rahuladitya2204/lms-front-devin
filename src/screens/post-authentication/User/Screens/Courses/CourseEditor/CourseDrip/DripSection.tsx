@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   Col,
+  Collapse,
   DatePicker,
   Divider,
   Input,
@@ -98,6 +99,19 @@ function DripSection({ section, updateSection }: DripSectionPropsI) {
     >
       {section.drip?.enabled ? (
         <Row>
+          {/* <Col span={24}>
+            <Collapse
+              collapsible="header"
+              defaultActiveKey={['1']}
+              items={[
+                {
+                  key: '1',
+                  label: 'This panel can only be collapsed by clicking text',
+                  children: <p>{text}</p>
+                }
+              ]}
+            />
+          </Col> */}
           <Col span={16}>
             <Row>
               <Col span={24}>

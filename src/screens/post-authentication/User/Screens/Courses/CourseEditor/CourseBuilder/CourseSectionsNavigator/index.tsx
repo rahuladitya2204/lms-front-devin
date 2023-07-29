@@ -1,5 +1,5 @@
 import { Button, Card, Collapse, Dropdown, Input, List, Modal, Space, Tooltip, Typography } from 'antd'
-import { DeleteOutlined, DownOutlined, EditOutlined, MoreOutlined, PlusCircleOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons'
+import { DeleteOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
@@ -14,6 +14,7 @@ import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
+import MoreButton from '@Components/MoreButton'
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -174,22 +175,20 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
               }
             />
           </ActionModal>;
-            const SectionOptionDropdown = <Dropdown menu={{
-              items: [
-                {
-                  label:  AddItemCTA,
-                    key:'add'
-                },{
-              label:<AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>
-              Rename 
-           </AddSection>,
-              key: 'rename',
-            }, {
-              label: <span onClick={() => DeleteSection(section._id)}>Delete Section</span>,
-              key: 'delete',
-              }] }} trigger={['click']}>
-                <MoreOutlined />
-            </Dropdown>
+          const SectionOptionDropdown = <MoreButton
+            items={[
+              {
+                label:  AddItemCTA,
+                  key:'add'
+              },{
+            label:<AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>
+            Rename 
+         </AddSection>,
+            key: 'rename',
+          }, {
+            label: <span onClick={() => DeleteSection(section._id)}>Delete Section</span>,
+            key: 'delete',
+            }]} />
           return (
             <div style={{marginBottom:20}}>
             <MovableItem disabled={!enableSectionReorder}
@@ -221,9 +220,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                       renderItem={(item, itemIndex) => {
                         // This propagation is being stopped to prevent dropdown also making list item clickable
                         const SectionItemOptionDropdown = <span onClick={e=>e.stopPropagation()}>
-                          <Dropdown menu={{
-                          // onCli
-                          items: [
+                          <MoreButton items={[
                             {
                               label: <span onClick={(e) => {
                                   e.stopPropagation()
@@ -231,10 +228,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                               }}>Delete Chapter Item</span>,
                               key: 'delete',
                           icon:<DeleteOutlined/>
-                            }]
-                        }} trigger={['click']}>
-                            <MoreOutlined />
-                        </Dropdown>
+                            }]} />
                         </span>
                         const CourseSectionListItem = (isActive: boolean) => <CourseListItem
                         isActive={isActive}

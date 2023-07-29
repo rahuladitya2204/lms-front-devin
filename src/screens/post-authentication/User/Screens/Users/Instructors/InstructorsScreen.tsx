@@ -7,21 +7,22 @@ import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
+import Container from '@Components/Container'
+import MoreButton from '@Components/MoreButton'
 
 function InstructorsScreen() {
   const { data, isLoading: loading } = User.Queries.useGetInstructors()
 
   return (
-    <Header>
-      <Card
-        bodyStyle={{ padding: 0 }}
-        title={'Instructors'}
-        extra={
-          <ActionModal cta={<Button type="primary">Add Instructor</Button>}>
-            <AddInstructor> </AddInstructor>
-          </ActionModal>
-        }
-      >
+    <Header
+      title={'Instructors'}
+      extra={[
+        <ActionModal cta={<Button type="primary">Add Instructor</Button>}>
+          <AddInstructor> </AddInstructor>
+        </ActionModal>
+      ]}
+    >
+      <Container>
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
@@ -49,7 +50,7 @@ function InstructorsScreen() {
                 key="createdAt"
                 render={(_: any, record: Types.Instructor) => (
                   <Space size="middle">
-                    {dayjs(record.createdAt).format("LL")}
+                    {dayjs(record.createdAt).format('LL')}
                   </Space>
                 )}
               />
@@ -57,23 +58,41 @@ function InstructorsScreen() {
                 title="Action"
                 key="action"
                 render={(_: any, record: Types.Instructor) => (
-                  <Space size="middle">
-                    <EditOutlined
-                      onClick={() =>
-                        window.open(
-                          `instructors/${record._id}/editor`,
-                          '_blank'
-                        )
+                  <MoreButton
+                    items={[
+                      {
+                        label: 'Edit Details',
+                        onClick: () => {
+                          window.open(
+                            `instructors/${record._id}/editor`,
+                            '_blank'
+                          )
+                        },
+                        key: 'edit',
+                        icon: <EditOutlined />
+                      },
+                      {
+                        label: (
+                          <span
+                            onClick={e => {
+                              e.stopPropagation()
+                              // DeleteSectionItem(section._id, item._id)
+                            }}
+                          >
+                            Delete Chapter Item
+                          </span>
+                        ),
+                        key: 'delete',
+                        icon: <DeleteOutlined />
                       }
-                    />
-                    <DeleteOutlined />
-                  </Space>
+                    ]}
+                  />
                 )}
               />
             </Table>
           </Col>
         </Row>
-      </Card>
+      </Container>
     </Header>
   )
 }

@@ -16,11 +16,12 @@ import FileTypeIcon from '@Components/FileTypeIcon'
 import Header from '@Components/Header'
 import dayjs from 'dayjs'
 import { unit } from 'mathjs'
+import MoreButton from '@Components/MoreButton'
 
 const { Text } = Typography
 
 function AssetLibraryScreen() {
-  const { data, isLoading: loadingFiles } = Common.Queries.useGetFiles();
+  const { data, isLoading: loadingFiles } = Common.Queries.useGetFiles()
   const organisation = Store.useGlobal(s => s.organisation)
   const {
     mutate: deleteFile,
@@ -130,21 +131,25 @@ function AssetLibraryScreen() {
                 title="Action"
                 key="action"
                 render={(_: any, record: Types.Instructor) => (
-                  <Space size="middle">
-                    <DeleteOutlined
-                      // onClick={() => {
-                      //   confirm({
-                      //     title: 'Are you sure?',
-                      //     // icon: <ExclamationCircleOutlined />,
-                      //     content: `You want to delete this file`,
-                      //     onOk() {
-                      //       deleteFile({ id: record._id })
-                      //     },
-                      //     okText: 'Delete'
-                      //   })
-                      // }}
-                    />
-                  </Space>
+                  <MoreButton
+                    items={[
+                      {
+                        label: 'Delete File',
+                        key: 'delete',
+                        onClick: () => {
+                          confirm({
+                            title: 'Are you sure?',
+                            // icon: <ExclamationCircleOutlined />,
+                            content: `You want to delete this file`,
+                            onOk() {
+                              deleteFile({ id: record._id })
+                            },
+                            okText: 'Delete'
+                          })
+                        }
+                      }
+                    ]}
+                  />
                 )}
               />
             </Table>

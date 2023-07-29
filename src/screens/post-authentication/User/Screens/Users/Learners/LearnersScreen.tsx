@@ -9,27 +9,27 @@ import ThemeProvider from 'screens/ThemeProvider'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
+import Container from '@Components/Container'
 
 function LearnersScreen () {
   const { data, isLoading: loading } = User.Queries.useGetLearners()
 
   return (
-    <Header>
-      <Card
-        bodyStyle={{ padding: 0 }}
-        title={'Learners'}
-        extra={
-          <ActionModal cta={<Button type="primary">Add Learner</Button>}>
-            <AddLearner> </AddLearner>
-          </ActionModal>
-        }
-      >
+    <Header
+      title={'Learners'}
+      extra={[
+        <ActionModal cta={<Button type="primary">Add Learner</Button>}>
+          <AddLearner> </AddLearner>
+        </ActionModal>
+      ]}
+    >
+      <Container>
         <Row>
           <Col span={24}>
             <LearnersTable />
           </Col>
         </Row>
-      </Card>
+      </Container>
     </Header>
   )
 }

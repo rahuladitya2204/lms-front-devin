@@ -10,6 +10,7 @@ import Header from '@Components/Header'
 import { User } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
+import MoreButton from '@Components/MoreButton'
 
 function EmailTemplatesScreen() {
   // @ts-ignore
@@ -120,14 +121,21 @@ function EmailTemplatesScreen() {
                 title=""
                 key="action"
                 render={(_: any, record: Types.EmailTemplate) => (
-                  <Space size="middle">
-                    <EditOutlined
-                      onClick={() =>
-                       navigate(`${record._id}/editor`)
-                      }
-                    />
-                    {/* <DeleteOutlined /> */}
-                  </Space>
+                  <MoreButton items={[{
+                    key: 'edit',
+                    label: 'Edit Template',
+                    icon: <EditOutlined />,
+                    onClick: () =>
+                    navigate(`${record._id}/editor`)
+                  }]}></MoreButton>
+                  
+                  // <Space size="middle">
+                  //   <EditOutlined
+                      // onClick={() =>
+                      //  navigate(`${record._id}/editor`)
+                      // }
+                  //   />
+                  // </Space>
                 )}
               />
             </Table>
