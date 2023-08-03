@@ -20,7 +20,8 @@ export default function TicketDetail() {
   const { data: ticket,isLoading:loading } = User.Queries.useGetTicketDetails(id + '');
   const createdBy = ticket.createdBy as unknown as Types.Learner;
   const { token } = useToken();
-  const name = (createdBy.name+'').split(' ').map(n => n[0].toUpperCase()).join('');
+  console.log(createdBy,'createdBy')
+  const name = createdBy?(createdBy?.name[0]):''
     const [form] = Form.useForm()
 
     const { mutate: replyToTicket } = User.Queries.useReplyToTicket();
@@ -67,7 +68,7 @@ export default function TicketDetail() {
             <li>
               <Comment
                 // actions={actions}
-                author={<Text strong>{isFromSupportAgent?'Me':createdBy.name }</Text>}
+                author={<Text strong>{isFromSupportAgent?'Me':createdBy?.name }</Text>}
                 avatar={
                   <Avatar style={{ backgroundColor: token.colorPrimary}} >
                   {isFromSupportAgent?'ME':name}

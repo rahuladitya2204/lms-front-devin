@@ -2,6 +2,11 @@
 import { Image as AntDImage, ImageProps } from 'antd'
 
 import styled from '@emotion/styled'
+import { Common } from '@adewaskar/lms-common'
+
+interface ImagePropsI extends ImageProps {
+  file?: string;
+}
 
 const ImageHolder = styled.div(
   (props: { width?: number, height: number }) => `
@@ -20,7 +25,12 @@ const ImageComponent = styled(AntDImage)`
 `
 const FALLBACK = `/images/not-found.png`
 
-function Image(props: ImageProps) {
+function Image(props: ImagePropsI) {
+  const { data: url } = Common.Queries.useGetPresignedUrlFromFile(props.file, {
+    enabled: !!props.file
+  })
+  const Url = props.src || url
+
   return (
     <ImageHolder width={props.width} height={props.height}>
       <ImageComponent
@@ -28,7 +38,7 @@ function Image(props: ImageProps) {
         width="100%"
         height="100%"
         {...props}
-        src={props.src || FALLBACK}
+        src={Url || FALLBACK}
         fallback={FALLBACK}
       />
     </ImageHolder>
