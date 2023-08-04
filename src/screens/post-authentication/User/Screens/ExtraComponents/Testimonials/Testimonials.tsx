@@ -1,39 +1,47 @@
 import { Table } from 'antd'
-import AddOutcome, { Outcome } from './AddOutcome'
 import { Types } from '@adewaskar/lms-common'
 import MoreButton from '@Components/MoreButton'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal'
+import AddTestimonial from './AddTestomonial'
 
-interface LiveSessionOutcomesProps {
-  outcomes: Outcome[];
+interface TestimonialsProps {
+  testimonials: Types.Testimonial[];
   deleteItem: (index: number) => void;
-  submit: (index: number, d: Outcome) => void;
+  submit: (index: number, d: Types.Testimonial) => void;
 }
 
-export default function LiveSessionOutcomes({
-  outcomes,
+export default function Testimonials<T>({
+  testimonials,
   deleteItem,
   submit
-}: LiveSessionOutcomesProps) {
+}: TestimonialsProps) {
   return (
-    <Table dataSource={outcomes}>
-      <Table.Column title="Title" dataIndex="title" key="title" />
+    <Table dataSource={testimonials}>
+      <Table.Column title="Name" dataIndex="name" key="title" />
       <Table.Column
-        title="Description"
-        dataIndex="description"
+        title="Designation"
+        dataIndex="designation"
         key="description"
+      />
+      <Table.Column
+        title="Testimonial"
+        dataIndex="testimonial"
+        key="testimonial"
       />
       <Table.Column
         title="Action"
         key="action"
-        render={(_: any, record: Outcome, index: number) => (
+        render={(_: any, record: Types.Testimonial, index: number) => (
           <MoreButton
             items={[
               {
                 label: (
                   <ActionModal cta={<span>Edit</span>}>
-                    <AddOutcome submit={e => submit(index, e)} data={record} />
+                    <AddTestimonial
+                      submit={e => submit(index, e)}
+                      data={record}
+                    />
                   </ActionModal>
                 ),
                 key: 'edit',

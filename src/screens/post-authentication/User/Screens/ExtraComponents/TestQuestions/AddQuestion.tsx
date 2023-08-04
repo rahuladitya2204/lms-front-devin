@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Button,
   Card,
   Checkbox,
@@ -16,10 +15,8 @@ import { Fragment, useEffect, useState } from 'react'
 
 import { Constants, Types } from '@adewaskar/lms-common'
 import {  DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
-import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton';
-import { useParams } from 'react-router';
 
-const {confirm}=Modal;
+const { confirm } = Modal;
 
 export const QUESTION_TYPES=[
   { value: 'single', label: 'Single Choice' },
@@ -27,32 +24,30 @@ export const QUESTION_TYPES=[
   { value: 'subjective', label: 'Subjective' },
 ];
 interface CreateQuestionFormPropsI {
-  saveQuestion?: (d: Types.CourseQuizQuestion) => void;
-  question?: Types.CourseQuizQuestion;
+  submit?: (d: Types.CourseQuizQuestion) => void;
+  data?: Types.CourseQuizQuestion;
   closeModal?: Function;
-  section: Types.CourseSection;
-  courseId: string;
 }
 
 
-const CreateQuestionForm: React.FC<CreateQuestionFormPropsI> = props => {
+const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm()
   const [correctOptions, setCorrectOptions] = useState<number[]>([]);
   useEffect(
     () => {
-      if (props.question) {
-        setCorrectOptions(props.question.correctOptions);
-          form.setFieldsValue(props.question);
+      if (props.data) {
+        setCorrectOptions(props.data.correctOptions);
+          form.setFieldsValue(props.data);
       }
           else
       {
         form.setFieldsValue(Constants.INITIAL_COURSE_QUESTION);
     }
     },
-    [props.question]
+    [props.data]
   ) 
-    const saveQuestion = (e: Types.CourseQuizQuestion) => {
-      props.saveQuestion && props.saveQuestion({ ...e, correctOptions });
+    const submit = (e: Types.CourseQuizQuestion) => {
+      props.submit && props.submit({ ...e, correctOptions });
       props.closeModal && props.closeModal();
     }
   
@@ -61,7 +56,7 @@ const CreateQuestionForm: React.FC<CreateQuestionFormPropsI> = props => {
 
   return (
     <Fragment>
-      <Form name='quiz' onFinish={saveQuestion}
+      <Form name='quiz' onFinish={submit}
         form={form}
         layout="vertical"
       >
@@ -147,4 +142,4 @@ const CreateQuestionForm: React.FC<CreateQuestionFormPropsI> = props => {
   )
 }
 
-export default CreateQuestionForm
+export default AddQuestion

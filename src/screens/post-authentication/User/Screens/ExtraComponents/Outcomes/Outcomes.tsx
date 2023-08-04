@@ -1,50 +1,39 @@
 import { Table } from 'antd'
+import AddOutcome, { Outcome } from './AddOutcome'
 import { Types } from '@adewaskar/lms-common'
 import MoreButton from '@Components/MoreButton'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal'
-import AddTestimonial from './AddTestomonial'
 
-interface LiveSessionTestimonialsProps {
-  testimonials: Types.Testimonial[];
+interface OutcomesProps {
+  outcomes: Outcome[];
   deleteItem: (index: number) => void;
-  liveSession: Types.LiveSession;
-  submit: (index: number, d: Types.Testimonial) => void;
+  submit: (index: number, d: Outcome) => void;
 }
 
-export default function LiveSessionTestimonials({
-  testimonials,
-  liveSession,
+export default function Outcomes({
+  outcomes,
   deleteItem,
   submit
-}: LiveSessionTestimonialsProps) {
+}: OutcomesProps) {
   return (
-    <Table dataSource={testimonials}>
-      <Table.Column title="Name" dataIndex="name" key="title" />
+    <Table dataSource={outcomes}>
+      <Table.Column title="Title" dataIndex="title" key="title" />
       <Table.Column
-        title="Designation"
-        dataIndex="designation"
+        title="Description"
+        dataIndex="description"
         key="description"
-      />
-      <Table.Column
-        title="Testimonial"
-        dataIndex="testimonial"
-        key="testimonial"
       />
       <Table.Column
         title="Action"
         key="action"
-        render={(_: any, record: Types.Testimonial, index: number) => (
+        render={(_: any, record: Outcome, index: number) => (
           <MoreButton
             items={[
               {
                 label: (
                   <ActionModal cta={<span>Edit</span>}>
-                    <AddTestimonial
-                      liveSession={liveSession}
-                      submit={e => submit(index, e)}
-                      data={record}
-                    />
+                    <AddOutcome submit={e => submit(index, e)} data={record} />
                   </ActionModal>
                 ),
                 key: 'edit',

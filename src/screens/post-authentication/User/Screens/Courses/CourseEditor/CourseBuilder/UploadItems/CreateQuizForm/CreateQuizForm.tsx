@@ -27,8 +27,9 @@ import { parseAIJson } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 import { AddItemProps } from '../UploadPDF'
-import CreateQuestionForm from './CreateQuestionForm'
+import CreateQuestionForm from '../../../../../ExtraComponents/TestQuestions/AddQuestion'
 import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton'
+import Questions from '@User/Screens/ExtraComponents/TestQuestions/Questions'
 
 const { confirm } = Modal
 
@@ -106,33 +107,8 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
             <Card
               style={{ marginBottom: 20 }}
               title="Questions"
-              extra={
-                courseQuiz.questions.length ? (
-                  [
-                    <ActionModal
-                      width={650}
-                      cta={
-                        <Button type="primary" icon={<PlusOutlined />}>
-                          Add
-                        </Button>
-                      }
-                    >
-                      <CreateQuestionForm
-                        courseId={courseId + ''}
-                        // @ts-ignore
-                        section={section}
-                        saveQuestion={question => {
-                          onFormChange({
-                            quiz: {
-                              ...courseQuiz,
-                              questions: [...courseQuiz.questions, question]
-                            }
-                          })
-                        }}
-                      />
-                    </ActionModal>
-                  ]
-                ) : (
+              extra={[
+                courseQuiz.questions.length ? null : (
                   <GenerateWithAI
                     courseId={courseId + ''}
                     fields={['quiz']}
@@ -153,10 +129,52 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                       })
                     }}
                   />
-                )
-              }
+                ),
+                <ActionModal
+                  width={650}
+                  cta={
+                    <Button
+                      style={{ marginLeft: 10 }}
+                      size="small"
+                      type="primary"
+                      icon={<PlusOutlined />}
+                    >
+                      Add
+                    </Button>
+                  }
+                >
+                  <CreateQuestionForm
+                    submit={question => {
+                      onFormChange({
+                        quiz: {
+                          ...courseQuiz,
+                          questions: [...courseQuiz.questions, question]
+                        }
+                      })
+                    }}
+                  />
+                </ActionModal>
+              ]}
             >
-              <List
+              <Questions
+                onUpdate={question => {
+                  const newQuestions = [...courseQuiz.questions]
+                  newQuestions.forEach((q, index) => {
+                    if (q._id === item._id) {
+                      newQuestions[index] = question
+                    }
+                  })
+                  onFormChange({
+                    quiz: {
+                      ...courseQuiz,
+                      questions: newQuestions
+                    }
+                  })
+                }}
+                data={courseQuiz.questions}
+                deleteItem={item => deleteQuestion(item._id)}
+              />
+              {/* <List
                 bordered
                 dataSource={courseQuiz.questions}
                 renderItem={(item: Types.CourseQuizQuestion) => (
@@ -196,10 +214,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                       }
                     >
                       <CreateQuestionForm
-                        // @ts-ignore
-                        section={section}
-                        courseId={courseId + ''}
-                        saveQuestion={question => {
+                        submit={question => {
                           const newQuestions = [...courseQuiz.questions]
                           newQuestions.forEach((q, index) => {
                             if (q._id === item._id) {
@@ -213,12 +228,12 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                             }
                           })
                         }}
-                        question={item}
+                        data={item}
                       />
                     </ActionModal>
                   </List.Item>
                 )}
-              />
+              /> */}
             </Card>
           </Col>
           <Col span={24}>

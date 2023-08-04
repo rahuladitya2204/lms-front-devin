@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 
 interface AddTestimonialPropsI {
   data?: Types.Testimonial;
-  liveSession: Types.LiveSession;
   closeModal?: () => void;
   submit: (d: Types.Testimonial) => void;
 }
@@ -33,15 +32,15 @@ export default function AddTestimonial(props: AddTestimonialPropsI) {
     <Form onFinish={onSubmit} layout="vertical" form={form}>
       <Form.Item label="Avatar" name="image">
         <MediaUpload
-          source={{
-            type: 'liveSession',
-            value: props.liveSession._id
-          }}
+          // source={{
+          //   type: 'liveSession',
+          //   value: props.liveSession._id
+          // }}
           uploadType="image"
           name="image"
           width="200"
           height="300px"
-          prefixKey={`live-sessions/${props.liveSession._id}/testimonials`}
+          // prefixKey={`live-sessions/${props.liveSession._id}/testimonials`}
           renderItem={() => (
             <Image
               width={100}

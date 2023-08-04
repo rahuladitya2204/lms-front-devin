@@ -6,6 +6,7 @@ import {
   FolderOpenOutlined,
   FundProjectionScreenOutlined,
   MoneyCollectOutlined,
+  PaperClipOutlined,
   SettingOutlined,
   SoundOutlined,
   UsergroupAddOutlined,
@@ -42,6 +43,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     title: 'Live Sessions',
     icon: <VideoCameraOutlined />,
     path: 'live-session',
+  },
+  {
+    title: 'Live Tests',
+    icon: <PaperClipOutlined />,
+    path: 'live-tests',
   },
   {
     title: 'Users',

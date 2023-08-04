@@ -23,10 +23,10 @@ import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { useParams } from 'react-router'
 import ActionModal from '@Components/ActionModal'
-import AddOutcome, { Outcome } from './Outcomes/AddOutcome'
-import LiveSessionOutcomes from './Outcomes/Outcomes'
-import AddTestimonial from './Testimonials/AddTestomonial'
-import LiveSessionTestimonials from './Testimonials/Testimonials'
+import AddOutcome, { Outcome } from '../../ExtraComponents/Outcomes/AddOutcome'
+import LiveSessionOutcomes from '../../ExtraComponents/Outcomes/Outcomes'
+import AddTestimonial from '../../ExtraComponents/Testimonials/AddTestomonial'
+import LiveSessionTestimonials from '../../ExtraComponents/Testimonials/Testimonials'
 
 interface CreateLiveSessionComponentPropsI {
   children?: ReactNode;
@@ -230,7 +230,7 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
                 setOutcomes([...outcomes, e]);
               }}/>
             </ActionModal>}>
-              <LiveSessionOutcomes deleteItem={index => {
+              <LiveSessionOutcomes deleteItem={(index:number) => {
                   const OUTCOMES = [...outcomes];
                   OUTCOMES.splice(index,1)
                 setOutcomes(OUTCOMES);
@@ -241,12 +241,12 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
          }}  />
             </Card>
             <Card title='Testimonials' extra={<ActionModal cta={<Button type='primary'>Add Testimonial</Button>}>
-              <AddTestimonial liveSession={sessionDetails} submit={(e: Types.Testimonial) => {
+              <AddTestimonial submit={(e: Types.Testimonial) => {
                 console.log(e,'e')
                 setTestimonials([...testimonials, e]);
               }}/>
             </ActionModal>}>
-              <LiveSessionTestimonials liveSession={sessionDetails} deleteItem={index => {
+              <LiveSessionTestimonials deleteItem={index => {
                   const TESTIMONIALS = [...testimonials];
                   TESTIMONIALS.splice(index,1)
                 setTestimonials(TESTIMONIALS);

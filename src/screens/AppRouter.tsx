@@ -68,6 +68,8 @@ import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
 import CreateQuizForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/CreateQuizForm/CreateQuizForm'
+import LiveTestsScreen from '@User/Screens/LiveTests/LiveTestsList/LiveTestsScreen'
+import CreateLiveTest from '@User/Screens/LiveTests/CreateLiveTest'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -169,11 +171,15 @@ const router = createBrowserRouter(
                 <Route path=":id/editor" element={<CreatePackage />} />
               </Route>
             </Route>
+            <Route path="live-tests">
+              <Route path="" element={<LiveTestsScreen />} />
+              <Route path="create" element={<CreateLiveTest />} />
+              <Route path=":sessionId/edit" element={<CreateLiveTest />} />
+            </Route>
             <Route path="live-session">
               <Route path="" element={<LiveSessionsScreen />} />
               <Route path="create" element={<CreateLiveSession />} />
               <Route path=":sessionId/edit" element={<CreateLiveSession />} />
-              {/* <Route path=":id/editor" element={<CreatePackage />} /> */}
             </Route>
             <Route
               path="courses/:id/editor/information"
