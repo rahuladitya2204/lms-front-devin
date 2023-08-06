@@ -7,21 +7,23 @@ import { useNavigate } from 'react-router'
 
 const LearnerCourseList: React.FC = () => {
   const { data: enrolledCourses } = Learner.Queries.useGetEnrolledCourses()
-  console.log(enrolledCourses,'enrolledCourses')
+  console.log(enrolledCourses, 'enrolledCourses')
   const navigate = useNavigate()
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
-        {enrolledCourses.map(({ course, progress, enrolledAt }) => (
-          <Col span={6}>
-            <CourseCard
-              onClick={() => navigate(`../enrolled-courses/${course._id}`)}
-              course={course}
-              enrolledAt={enrolledAt}
-              progress={progress}
-            />
-          </Col>
-        ))}
+        {enrolledCourses.map(
+          ({ product, enrolledAt, metadata: { progress } }) => (
+            <Col span={6}>
+              <CourseCard
+                onClick={() => navigate(`../enrolled-courses/${product.id}`)}
+                courseId={product.id}
+                enrolledAt={enrolledAt}
+                progress={progress}
+              />
+            </Col>
+          )
+        )}
       </Row>
     </Fragment>
   )

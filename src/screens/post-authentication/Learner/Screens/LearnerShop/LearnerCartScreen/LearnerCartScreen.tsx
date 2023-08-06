@@ -32,15 +32,14 @@ export default function LearnerCart() {
   const { data: { items, promo,total,discount,totalBeforeDiscount } } = Learner.Queries.useGetCartDetails()
 
   const removeItemFromCart = (id: string) => {
-    updateCart({ data: { courseId: id }, action: 'remove' })
+    updateCart({ data: { product: { id: id, type: 'course' } }, action: 'remove' });
   }
 
-  const { mutate: createOrder } = Learner.Queries.useCreateOrder();
-  const { mutate: createPaymentOrder,isLoading: creatingPaymentOrder } = Learner.Queries.useCreatePaymentOrder();
+  const { mutate: createOrder,isLoading: isCreatingOrder } = Learner.Queries.useCreateOrderFromCart();
   const { mutate: updatePaymentOrder } = Learner.Queries.useUpdateOrderStatus();
 
   const applyCode = ({ code }: { code: string }) => {
-    updateCart({ data: { promoCode: code }, action: 'apply_code' },{
+    updateCart({ data: { promoCode: code }, action: 'apply_code' }, {
       onSuccess: () => {
         message.open({
           type: 'success',
@@ -66,10 +65,10 @@ export default function LearnerCart() {
             itemLayout="horizontal"
             dataSource={items}
        // @ts-ignore
-            renderItem={({ course, price, discount }, index) => (
+            renderItem={({ product, price, discount }, index) => (
               <LearnerCartCourseItem
                 removeItemFromCart={removeItemFromCart}
-                course={course}
+                course={product.id}
                 price={price}
                 discount={discount}
               />
@@ -163,33 +162,25 @@ export default function LearnerCart() {
           {/* <Title level={2}>Total: 6,998</Title> */}
           <Button onClick={() => {
             createOrder(undefined, {
-              onSuccess: (order) => {
-                console.log(order, 'order');
-                createPaymentOrder({
-                  amount: order.total.value,
-                  currency: 'INR',
-                }, {
-                  onSuccess: (pgOrder => {
-                    // @ts-ignore
-                    openCheckout(pgOrder, (payment) => {
-                      console.log(payment, 'paymentpayment');
-                      updatePaymentOrder({
-                        orderId: order._id,
-                        status: 'successful',
-                        data: payment
-                      }, {
-                        onSuccess: (e) => {
-                          navigate(`../${order._id}/successful`);
-                        }
-                      });
-                    });
-                  })
-                })
+              onSuccess: ({pgOrder,order}:any) => {
+                console.log(pgOrder,order, 'order');
+                openCheckout({pgOrder,order}, (payment:any) => {
+                  console.log(payment, 'paymentpayment');
+                  updatePaymentOrder({
+                    orderId: order._id,
+                    status: 'successful',
+                    data: payment
+                  }, {
+                    onSuccess: (e) => {
+                      navigate(`../${order._id}/successful`);
+                    }
+                  });
+                });
                 // @ts-ignore
                 // navigate(`../${order._id}/successful`);
               }
             });
-          }} loading={creatingPaymentOrder} style={{ marginTop: 20 }} block type="primary" size="large">
+          }} loading={isCreatingOrder} style={{ marginTop: 20 }} block type="primary" size="large">
             Checkout
           </Button>
         </Col>

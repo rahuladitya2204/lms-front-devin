@@ -51,14 +51,17 @@ const EnrolledCourseDetailScreen: React.FC<
   const navigate = useNavigate()
   const { courseId } = useParams()
   const {
-    data: { course, progress, completed, lastPlayed }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '',{
-    enabled:!!courseId
+    data: { metadata: { progress, completed, lastPlayed } }
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: 'course',
+    id: courseId + ''
+  }, {
+    enabled: !!courseId
   })
 
-  const { data: instructor } = Learner.Queries.useGetInstructorDetails(
-    course.instructor + ''
-  )
+  const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
+
+  const { instructor } = course
 
   const continueLearning = () => {
     navigate(
@@ -90,9 +93,7 @@ const EnrolledCourseDetailScreen: React.FC<
                           style={{ marginBottom: 20 }}
                           //   @ts-ignore
                           src={instructor.image}
-                        >
-
-                        </Avatar>
+                        />
                         {/* @ts-ignore  */}
                         {instructor.name}
                       </Space>

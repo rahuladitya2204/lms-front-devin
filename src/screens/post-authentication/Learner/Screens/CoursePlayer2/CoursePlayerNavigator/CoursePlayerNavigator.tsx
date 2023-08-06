@@ -10,12 +10,9 @@ interface CoursePlayerNavigatorPropsI {
 }
 
 function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
-  const { data: { course } } = Learner.Queries.useGetEnrolledCourseDetails(
-    props.courseId,
-    {
-      enabled: !!props.courseId
-    }
-  )
+  const { data: course } = Learner.Queries.useGetCourseDetails(props.courseId, {
+    enabled: !!props.courseId
+  })
   const sections = course.sections
   return (
     <Fragment>

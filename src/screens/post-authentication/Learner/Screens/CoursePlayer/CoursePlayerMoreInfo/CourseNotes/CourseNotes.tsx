@@ -31,8 +31,11 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
   const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { course } = props
   const { itemId, sectionId } = useParams()
-  const { data: { notes } } = Learner.Queries.useGetEnrolledCourseDetails(
-    course._id + '',
+  const { data: { notes } } = Learner.Queries.useGetEnrolledProductDetails(
+    {
+      type: 'course',
+      id: course._id + ''
+    },
     {
       enabled: !!course._id
     }

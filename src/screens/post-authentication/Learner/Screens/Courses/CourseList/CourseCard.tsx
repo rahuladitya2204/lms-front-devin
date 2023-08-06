@@ -8,7 +8,7 @@ import styled from '@emotion/styled'
 const { Text } = Typography
 
 interface CourseCardPropsI {
-  course: Types.Course;
+  courseId: string;
   enrolledAt: string;
   progress: number;
   onClick: () => void;
@@ -23,20 +23,22 @@ const CardHolder = styled(Card)`
 `
 
 const CourseCard: React.FC<CourseCardPropsI> = props => {
-  const { course: { _id: courseId } } = props
-  const {
-    data: { course, progress }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId,{
-    enabled:!!courseId
-  })
+  const { data: { progress } } = Learner.Queries.useGetEnrolledProductDetails(
+    {
+      type: 'course',
+      id :props.courseId
+    },
+    {
+      enabled: !!props.courseId
+    }
+  )
+  const { data: course } = Learner.Queries.useGetCourseDetails(props.courseId)
   return (
     <CardHolder
       hoverable
       onClick={props.onClick}
       bodyStyle={{ padding: 10 }}
-      cover={
-        <Image height={180} alt="example" src={props.course.thumbnailImage} />
-      }
+      cover={<Image height={180} alt="example" src={course.thumbnailImage} />}
     >
       <Card.Meta
         // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}

@@ -67,11 +67,11 @@ function CourseDetailViewer () {
     enabled: !!courseId
   });
   const addItemToCart = (course:Types.Course) => {
-    updateCart({ data: { courseId: course._id }, action: 'add' });
+    updateCart({ data: { product: { type: 'course', id: course._id } }, action: 'add' });
   }
   console.log(courses,'ospssss')
   const isEnrolled = !!(courses.find((e) => {
-    return e.course._id === courseId;
+    return e.product.id === courseId;
   }));
   useEffect(
     () => {
@@ -87,7 +87,7 @@ function CourseDetailViewer () {
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const navigate = useNavigate();
-  const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.course._id == course._id);
+  const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
   const category = course?.category as unknown as Types.CourseCategory;
   return (
     <Container>

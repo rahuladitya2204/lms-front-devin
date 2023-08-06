@@ -12,11 +12,7 @@ import {
 
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
-import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router'
-
-const { Text } = Typography
 
 function UpcomingLiveTest(props: { filter: Types.GetLiveTestssFilter }) {
   const { data, isLoading: loading } = User.Queries.useGetLiveTests(
@@ -39,24 +35,32 @@ function UpcomingLiveTest(props: { filter: Types.GetLiveTestssFilter }) {
               )}
             />
 
-            {/* <Table.Column
-                title="Action"
-                key="action"
-                render={(_: any, record: Types.LiveTest) => (
-                  <Space size="middle">
-                    {record.recording.status?<>{record?.recording.status==='completed' ? <ViewRecording session={record} /> : <Tag color='cyan'>Processing Recording</Tag> }</>:!(record.startedAt&&record.endedAt)?<Button type='primary'
-                      onClick={() =>
-                        // navigate(`${record._id}/player`)
-                        window.open(
-                          `live-session/${record._id}/player`,
-                          '_blank'
-                        )
-                      } size='small'
-                        icon={<VideoCameraOutlined/>}
-                    >Start Meeting</Button>:<Text>Meeting has ended</Text>}
-                  </Space>
-                )}
-              /> */}
+            <Table.Column
+              title="Max Score"
+              dataIndex="maxScore"
+              key="maxScore"
+              render={(_: any, record: Types.LiveTest) => (
+                <Space size="middle">{record.maxScore}</Space>
+              )}
+            />
+
+            <Table.Column
+              title="Duration(in mins)"
+              dataIndex="duration"
+              key="duration"
+              render={(_: any, record: Types.LiveTest) => (
+                <Space size="middle">{record.duration}</Space>
+              )}
+            />
+
+            <Table.Column
+              title="Batch Limit"
+              dataIndex="batchLimit"
+              key="batchLimit"
+              render={(_: any, record: Types.LiveTest) => (
+                <Space size="middle">{record.batchLimit}</Space>
+              )}
+            />
           </Table>
         </Col>
       </Row>

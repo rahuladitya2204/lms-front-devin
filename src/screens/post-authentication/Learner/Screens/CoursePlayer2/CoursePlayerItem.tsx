@@ -19,11 +19,17 @@ function CoursePlayerItem() {
     [user]
   )
   const { node: item, courseId } = useGetNodeFromRouterOutlet()
-  const {
-    data: { course, notes }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '', {
-    enabled: !!courseId
-  })
+  const { data: { notes } } = Learner.Queries.useGetEnrolledProductDetails(
+    {
+      type: 'course',
+      id: courseId + ''
+    },
+    {
+      enabled: !!courseId
+    }
+  )
+
+  const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
   const { data: file } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })

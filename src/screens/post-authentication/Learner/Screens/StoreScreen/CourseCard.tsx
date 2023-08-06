@@ -79,7 +79,8 @@ function CourseCard(props: CourseCardPropsI) {
           </Col>
           <Col>
           <Space direction='vertical' align='end' size={0}>
-              <Text style={{textAlign:'right',textDecoration:'line-through'}} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text>
+              <Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
+                {UnitTypeToStr(plan.displayPrice)}</Text>
               <Text strong style={{fontSize: 20}}>
               {UnitTypeToStr(plan.finalPrice)}
               </Text>

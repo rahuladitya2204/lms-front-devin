@@ -16,7 +16,7 @@ const useWatchTime = (courseId: string) => {
       if (player) {
         const timeUpdateHandler = () => {
           const currentTimestamp = Date.now()
-          console.log(currentTimestamp, 'currentTimestamp')
+          // console.log(currentTimestamp, 'currentTimestamp')
           const timeSpent = currentTimestamp - lastTimestamp.current
           watchTime.current += timeSpent
 

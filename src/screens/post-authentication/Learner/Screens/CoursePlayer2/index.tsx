@@ -61,9 +61,13 @@ const { Search } = Input
 const { Text } = Typography
 function CoursePlayer() {
   const [showReview, setShowReview] = useState(false)
-  const { id: courseId, itemId } = useParams()
-  const { data: { course, progress,review } } = Learner.Queries.useGetEnrolledCourseDetails(
-    courseId + '',
+  const { id: courseId, itemId } = useParams();
+  const {data: course}=Learner.Queries.useGetCourseDetails(courseId+'')
+  const { data: {  metadata:{progress} ,review} } = Learner.Queries.useGetEnrolledProductDetails(
+    {
+      type: 'course',
+      id: courseId + ''
+    },
     {
       enabled: !!courseId
     }

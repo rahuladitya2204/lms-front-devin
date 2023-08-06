@@ -40,7 +40,8 @@ import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
-import LiveSessionsScreen from '@User/Screens/LiveSession/LiveSessionScreen/LiveSessions'
+import UserLiveSessionsScreen from '@User/Screens/LiveSession/LiveSessionScreen/LiveSessions'
+import LearnerLiveSessionsScreen from '@Learner/Screens/LiveSession/LiveSessions/LiveSessionScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
@@ -70,6 +71,7 @@ import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/
 import CreateQuizForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/CreateQuizForm/CreateQuizForm'
 import LiveTestsScreen from '@User/Screens/LiveTests/LiveTestsList/LiveTestsScreen'
 import CreateLiveTest from '@User/Screens/LiveTests/CreateLiveTest'
+import LiveSessionDetailScreen from '@Learner/Screens/LiveSession/LiveSessionDetail'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -177,7 +179,7 @@ const router = createBrowserRouter(
               <Route path=":sessionId/edit" element={<CreateLiveTest />} />
             </Route>
             <Route path="live-session">
-              <Route path="" element={<LiveSessionsScreen />} />
+              <Route path="" element={<UserLiveSessionsScreen />} />
               <Route path="create" element={<CreateLiveSession />} />
               <Route path=":sessionId/edit" element={<CreateLiveSession />} />
             </Route>
@@ -217,6 +219,10 @@ const router = createBrowserRouter(
             <Route path="courses">
               <Route path="" element={<LearnerCourses />} />
               <Route path=":id" element={<CourseDetailViewer />} />
+            </Route>
+            <Route path="live-session">
+              <Route path="" element={<LearnerLiveSessionsScreen />} />
+              <Route path=":sessionId" element={<LiveSessionDetailScreen />} />
             </Route>
             <Route path="enrolled-courses">
               {/* <Route path="" element={<LearnerCourses />} /> */}

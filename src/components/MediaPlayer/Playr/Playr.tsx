@@ -111,9 +111,9 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       });
       hls.loadSource(props.url + '')
       
-      plyrRef.current.on('play', () => {
+      // plyrRef.current.on('play', () => {
         hls.attachMedia(video);
-      })
+      // })
       
       hls.on(Hls.Events.MANIFEST_PARSED, function () {
         if (props.thumbnail) {

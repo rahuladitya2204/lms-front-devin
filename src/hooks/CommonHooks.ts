@@ -1,4 +1,4 @@
-import { Common, Store, Types } from '@adewaskar/lms-common'
+import { Common, Constants, Store, Types } from '@adewaskar/lms-common'
 import {
   createSearchParams,
   useNavigate,
@@ -66,15 +66,16 @@ export const usePaymentCheckout = () => {
   const organisation = Store.useGlobal(s => s.organisation);
   const Razorpay = useRazorpay();
 // @ts-ignore 
-  const openCheckout = (order,cb) => {
+  const openCheckout = ({pgOrder,order},cb) => {
     const rzpay = new Razorpay({
-      order_id: order.id,
-      currency: order.currency,
+      order_id: pgOrder.id,
+      callback_url:`${Constants.config.SERVER_URL}/learner/${order._id}/successful`,
+      currency: pgOrder.currency,
       name:organisation.name,
-      description: "Test Transaction",
+      // description: "Test Transaction",
       key: razorpay.id,
       image: organisation.logo,
-      amount: order.amount,
+      amount: pgOrder.amount,
       handler:cb
     });
     console.log(rzpay,'rzpay')

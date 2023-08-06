@@ -14,7 +14,7 @@ import {
   Typography
 } from 'antd'
 import { CloseOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Constants, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 
@@ -23,7 +23,7 @@ const { confirm } = Modal
 const { UnitTypeToStr } = Utils
 
 interface LearnerCartCourseItemPropsI {
-  course: Types.Course;
+  course: string;
   discount: Types.ValueUnitType;
   price: Types.ValueUnitType;
   removeItemFromCart: (id: string) => void;
@@ -32,7 +32,7 @@ interface LearnerCartCourseItemPropsI {
 export default function LearnerCartCourseItem(
   props: LearnerCartCourseItemPropsI
 ) {
-  const course = props.course
+  const { data: course } = Learner.Queries.useGetCourseDetails(props.course)
   const removeItemFromCart = (id: string) => {
     confirm({
       title: 'Are you sure?',
@@ -71,7 +71,7 @@ export default function LearnerCartCourseItem(
       ]}
     >
       <List.Item.Meta
-        avatar={<Avatar shape="square" src={course.thumbnailImage} />}
+        avatar={<Avatar shape="square" src={course?.thumbnailImage} />}
         title={<a href="https://ant.design">{course.title}</a>}
         // description={`By ${instructor.name}`}
       />

@@ -61,10 +61,15 @@ function CoursePlayer() {
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   const { id: courseId, itemId, sectionId } = useParams()
   const {
-    data: { course, progress, review }
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId + '', {
+    data: { metadata: { progress }, review }
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: 'course',
+    id: courseId + ''
+  }, {
     enabled: !!courseId
   })
+  const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
+
   const navigate = useNavigate()
   const [searchText, setSearchText] = useState('')
   const sections = course.sections
