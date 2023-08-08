@@ -19,7 +19,7 @@ import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigat
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'
 import OrgLogo from '@Components/OrgLogo'
-import ReviewCourse from '../Courses/ReviewCourse/ReviewCourse'
+import ReviewCourse from '../Products/Courses/ReviewCourse/ReviewCourse'
 import styled from '@emotion/styled'
 
 const ControlButton = styled(Button)`

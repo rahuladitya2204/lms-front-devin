@@ -1,11 +1,13 @@
+import dayjs from 'dayjs';
 import React, { useEffect, useState } from 'react'
 
 interface CountdownProps {
-  targetDate: Date;
+  targetDate: string;
 }
 
-const Countdown: React.FC<CountdownProps> = ({ targetDate }) => {
-const [timeLeft, setTimeLeft] = useState<string>('');
+const Countdown: React.FC<CountdownProps> = ({ targetDate: TDate }) => {
+  const targetDate = dayjs(TDate).toDate();
+  const [timeLeft, setTimeLeft] = useState<string>('');
   useEffect(
     () => {
       const intervalId = setInterval(() => {

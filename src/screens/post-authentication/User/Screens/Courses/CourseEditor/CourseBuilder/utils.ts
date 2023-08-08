@@ -51,6 +51,27 @@ export const updateCourseSectionItem = (
   return SECTIONS
 }
 
+export const updateLiveTestSectionItem = (
+  sections: Types.LiveTestSection[],
+  sectionId: string,
+  item: Types.LiveTestSectionItem
+) => {
+  const SECTIONS = cloneDeep(sections)
+  SECTIONS.forEach(section => {
+    if (section._id === sectionId) {
+      section.items.forEach((secItem, itemIndex) => {
+        if (secItem._id === item._id) {
+          section.items[itemIndex] = {
+            ...secItem,
+            ...item
+          }
+        }
+      })
+    }
+  })
+  return SECTIONS
+}
+
 export const STRINGIFY = function(data: unknown) {
   return btoa(unescape(encodeURIComponent(JSON.stringify(data))))
 }
@@ -251,7 +272,7 @@ export const parseAIJson=(str)=>  {
 
   // Repair JSON
   try {
-      jsonString = JSONRepair.repair(jsonString);
+      jsonString = jsonrepair(jsonString);
   } catch (error) {
       console.error("Unable to repair JSON. Error near: ", jsonString.slice(Math.max(error.index - 10, 0), error.index + 10));
       console.error(error);

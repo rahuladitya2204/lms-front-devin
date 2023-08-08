@@ -7,6 +7,7 @@ import { PlusOutlined } from '@ant-design/icons';
 interface InputTagsPropsI{
   values?: string[];
   name?: string;
+  ctaText?: string;
   onChange?: (e: any) => void;
 }
 
@@ -89,7 +90,7 @@ const InputTags: React.FC<InputTagsPropsI> = (props) => {
           ref={inputRef}
           type="text"
           size="small"
-          style={{ width: 78 }}
+          style={{ width: 78 }} placeholder='Enter a keyword'
           value={inputValue}
           onChange={handleInputChange}
           onBlur={handleInputConfirm}
@@ -98,7 +99,7 @@ const InputTags: React.FC<InputTagsPropsI> = (props) => {
       )}
       {!inputVisible && (
         <Tag color='volcano' onClick={showInput} className="site-tag-plus">
-          <PlusOutlined /> New Tag
+          <PlusOutlined /> {props.ctaText || 'New Tag'}
         </Tag>
       )}</span>
      

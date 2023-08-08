@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Card,
   Checkbox,   
@@ -18,7 +19,9 @@ import { Fragment, useEffect, useState } from 'react'
 import { Constants, Types } from '@adewaskar/lms-common'
 import {  DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import ActionModal from '@Components/ActionModal';
-import GenerateQuestionWithAI from './GenerateQuestionWithAI';
+import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
+import { useOutletContext, useParams } from 'react-router';
+import useUpdateLiveTestForm from './hooks/useUpdateLiveTest';
 
 const { confirm } = Modal;
 
@@ -37,6 +40,9 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
+ const {item}= useUpdateLiveTestForm(form)
+  const { sectionId, itemId } = useParams();
+  const { updateLiveTestSection } = useOutletContext<any>();
   const [correctOptions, setCorrectOptions] = useState<number[]>([]);
   useEffect(
     () => {
@@ -59,21 +65,36 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const questionType = Form.useWatch('type', form);
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
-
+    console.log(correctOptions,'corrrr')
   return (
-    <Row gutter={[10,10]}>
+    <Row gutter={[10,30]}>
       <Col span={24}>
-        <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
-          <GenerateQuestionWithAI submit={d => {
-            setCorrectOptions(d.correctOptions)
-            form.setFieldsValue(d);
-    }}/>
-        </ActionModal>
-        <Divider/>
+      <Alert
+              message="Generate question with AI"
+              description="You can generate question outline using our AI"
+              type="info"
+              showIcon
+              action={
+                <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
+                <GenerateQuestionWithAI submit={d => {
+                  setCorrectOptions(d.correctOptions)
+                    form.setFieldsValue(d);
+                    updateLiveTestSection(sectionId,itemId,d)
+
+          }}/>
+              </ActionModal>
+              }
+            />
+  
+        {/* <Divider/> */}
    </Col>
       <Col span={24}>
    
-      <Form name='quiz' onFinish={submit} onValuesChange={props.onFormChange?props.onFormChange:console.log}
+        <Card bordered={false}>
+        <Form name='quiz' onFinish={submit} onValuesChange={(v,e) => updateLiveTestSection(sectionId,itemId ,{
+        ...props.data,
+        ...e
+      })}
 
         form={form}
         layout="vertical"
@@ -171,10 +192,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
             </Card>
           </Col>
               </Row>
-              <Button onClick={form.submit} type='primary'>
-                Save Question
-              </Button>
         </Form>
+       </Card>
         </Col>
     </Row>
   )

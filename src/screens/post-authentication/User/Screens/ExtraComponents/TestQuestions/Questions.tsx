@@ -20,7 +20,7 @@ export default function Questions<T>({
 }: QuestionsProps) {
   return (
     <List
-      bordered
+      bordered={false}
       dataSource={data}
       renderItem={(item: Types.CourseQuizQuestion, index: number) => (
         <List.Item

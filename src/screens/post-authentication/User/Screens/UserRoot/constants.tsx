@@ -47,7 +47,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Live Tests',
     icon: <PaperClipOutlined />,
-    path: 'live-tests',
+    path: 'live-test',
   },
   {
     title: 'Users',

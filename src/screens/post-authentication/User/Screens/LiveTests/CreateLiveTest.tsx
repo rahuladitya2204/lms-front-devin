@@ -8,6 +8,7 @@ import {
     Input,
     Row,
     Select,
+    Switch,
     Table,
   } from 'antd'
   import React, { Fragment, ReactNode, useEffect, useState } from 'react'
@@ -42,7 +43,7 @@ import Questions from '../ExtraComponents/TestQuestions/Questions'
     const [questions, setQuestions] = useState<Types.LiveTestQuestion[]>([]);
     const [outcomes, setOutcomes] = useState<Outcome[]>([]);
   const [testimonials, setTestimonials] = useState<Types.Testimonial[]>([]);
-
+    const [showAdvanced, setShowAdvanced] = useState(false);
     const {
       mutate: createLiveTest,
       isLoading: createLiveTestLoading
@@ -63,7 +64,8 @@ import Questions from '../ExtraComponents/TestQuestions/Questions'
         ...e,
           questions,
           testimonials,
-outcomes      }
+          outcomes
+      }
       if (testId) {
         updateLiveTest(
           { id: testId, data:data },
@@ -81,26 +83,22 @@ outcomes      }
           }
         })
       }
-      // onFinish && onFinish(e)
     }
-  
-    // useEffect(
-    //   () => {
-    //     form.setFieldsValue(liveTestDetails)
-    //   },
-    //   [liveTestDetails]
-    // )
+
     const image = Form.useWatch('image', form);
-  
+    const title = Form.useWatch('title', form);
+    const duration = Form.useWatch('duration', form);
+    // const scheduledAt = Form.useWatch('scheduledAt', form);
     const date = dayjs(Form.useWatch('scheduledAt', form))
-  
+
+    const isValidForDraft = title && date && questions.length;
   
     return (
       <Header showBack title='Create Live Test' extra={[
         <Button
         loading={createLiveTestLoading || updateLiveTestLoading}
         key="submit"
-        // type="primary"
+        disabled={!isValidForDraft}
         onClick={form.submit}
         >
         Save as Draft
@@ -228,11 +226,16 @@ outcomes      }
                 <ActionModal
                   width={650}
                   cta={
-                    <Button
+                    <Button disabled={!(title&&duration)}
                       style={{ marginLeft: 10 }}
                       size="small"
                       type="primary"
                       icon={<PlusOutlined />}
+                      onClick={e => {
+                        if (!(title && duration)) {
+                          e.stopPropagation();
+                        }
+                      }}
                     >
                       Add
                     </Button>
@@ -264,43 +267,50 @@ outcomes      }
                 }}
               />
             </Card>
-                            </Col>
-                            <Col span={24}>
-                            <Card title='Outcomes' extra={<ActionModal cta={<Button type='primary'>Add Outcome</Button>}>
-                <AddOutcome submit={(e: Outcome) => {
-                  console.log(e,'e')
-                  setOutcomes([...outcomes, e]);
-                }}/>
-              </ActionModal>}>
-                <LiveTestOutcomes deleteItem={index => {
-                    const OUTCOMES = [...outcomes];
-                    OUTCOMES.splice(index,1)
-                  setOutcomes(OUTCOMES);
-                }} outcomes={outcomes} submit={(index: number,e:Outcome) => {
-                  const OUTCOMES = [...outcomes];
-                  OUTCOMES[index] = e;
-                  setOutcomes(OUTCOMES)
-           }}  />
-              </Card>
-                            </Col>
-                            <Col span={24}>
-                            <Card title='Testimonials' extra={<ActionModal cta={<Button type='primary'>Add Testimonial</Button>}>
-                <AddTestimonial submit={(e: Types.Testimonial) => {
-                  console.log(e,'e')
-                  setTestimonials([...testimonials, e]);
-                }}/>
-              </ActionModal>}>
-                <LiveTestTestimonials deleteItem={(index:number) => {
-                    const TESTIMONIALS = [...testimonials];
-                    TESTIMONIALS.splice(index,1)
-                  setTestimonials(TESTIMONIALS);
-                }} testimonials={testimonials} submit={(index: number,e:Types.Testimonial) => {
-                  const TESTIMONIALS = [...testimonials];
-                  TESTIMONIALS[index] = e;
-                  setTestimonials(TESTIMONIALS)
-           }}  />
-             </Card>
-                            </Col>
+                </Col>
+                <Col span={24}>
+                <Form.Item label='Advanced'>
+                  <Switch checked={showAdvanced} onChange={setShowAdvanced} />
+                </Form.Item>
+                </Col>
+                {showAdvanced?<Fragment><Col span={24}>
+               
+                           
+               <Card title='Outcomes' extra={<ActionModal cta={<Button type='primary'>Add Outcome</Button>}>
+   <AddOutcome submit={(e: Outcome) => {
+     console.log(e,'e')
+     setOutcomes([...outcomes, e]);
+   }}/>
+ </ActionModal>}>
+   <LiveTestOutcomes deleteItem={index => {
+       const OUTCOMES = [...outcomes];
+       OUTCOMES.splice(index,1)
+     setOutcomes(OUTCOMES);
+   }} outcomes={outcomes} submit={(index: number,e:Outcome) => {
+     const OUTCOMES = [...outcomes];
+     OUTCOMES[index] = e;
+     setOutcomes(OUTCOMES)
+}}  />
+ </Card>
+               </Col>
+               <Col span={24}>
+               <Card title='Testimonials' extra={<ActionModal cta={<Button type='primary'>Add Testimonial</Button>}>
+   <AddTestimonial submit={(e: Types.Testimonial) => {
+     console.log(e,'e')
+     setTestimonials([...testimonials, e]);
+   }}/>
+ </ActionModal>}>
+   <LiveTestTestimonials deleteItem={(index:number) => {
+       const TESTIMONIALS = [...testimonials];
+       TESTIMONIALS.splice(index,1)
+     setTestimonials(TESTIMONIALS);
+   }} testimonials={testimonials} submit={(index: number,e:Types.Testimonial) => {
+     const TESTIMONIALS = [...testimonials];
+     TESTIMONIALS[index] = e;
+     setTestimonials(TESTIMONIALS)
+}}  />
+</Card>
+               </Col></Fragment>: null}
            </Row>
           </Col>
   

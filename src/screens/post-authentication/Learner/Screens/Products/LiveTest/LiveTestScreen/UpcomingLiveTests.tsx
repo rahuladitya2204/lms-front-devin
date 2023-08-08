@@ -5,8 +5,8 @@ import Image from '@Components/Image'
 
 const { Meta } = Card
 
-function UpcomingLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
-  const { data, isLoading: loading } = Learner.Queries.useGetLiveSessions(
+function UpcomingLiveTest(props: { filter: Types.GetLiveTestssFilter }) {
+  const { data, isLoading: loading } = Learner.Queries.useGetLiveTests(
     props.filter
   )
   return (
@@ -34,10 +34,10 @@ function UpcomingLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
               // ]}
             >
               <Meta
-                avatar={
-                  <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
-                }
-                title="Card title"
+                // avatar={
+                //   <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
+                // }
+                title={item.title}
                 description="This is the description"
               />
             </Card>
@@ -52,7 +52,7 @@ function UpcomingLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
               title="Scheduled for"
               dataIndex="scheduledAt"
               key="scheduledAt"
-              render={(_: any, record: Types.LiveSession) => (
+              render={(_: any, record: Types.LiveTest) => (
                 <Space size="middle">
                   {dayjs(record.scheduledAt).format('LLL')}
                 </Space>
@@ -64,7 +64,7 @@ function UpcomingLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
               title="Duration(in mins)"
               dataIndex="duration"
               key="duration"
-              render={(_: any, record: Types.LiveSession) => (
+              render={(_: any, record: Types.LiveTest) => (
                 <Space size="middle">{record.duration}</Space>
               )}
             />
@@ -73,7 +73,7 @@ function UpcomingLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
               title="Batch Limit"
               dataIndex="batchLimit"
               key="batchLimit"
-              render={(_: any, record: Types.LiveSession) => (
+              render={(_: any, record: Types.LiveTest) => (
                 <Space size="middle">{record.batchLimit}</Space>
               )}
             />
@@ -83,4 +83,4 @@ function UpcomingLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
     </Card>
   )
 }
-export default UpcomingLiveSession
+export default UpcomingLiveTest

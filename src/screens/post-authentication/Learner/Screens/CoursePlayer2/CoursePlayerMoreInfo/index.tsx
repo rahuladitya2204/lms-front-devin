@@ -1,6 +1,6 @@
 import CourseDiscussion from './CourseDiscussion'
 import CourseNotes from './CourseNotes/CourseNotes'
-import CourseOverview from '@Learner/Screens/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
+import CourseOverview from '@Learner/Screens/Products/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
 import React from 'react'
 import Tabs from '@Components/Tabs'
 import { Types } from '@adewaskar/lms-common'
