@@ -1,4 +1,4 @@
-import { Types } from '@adewaskar/lms-common';
+import { Constants, Types } from '@adewaskar/lms-common';
 import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, useEffect, useState } from 'react';
 
@@ -10,7 +10,10 @@ interface AddItemPropsI {
 
 const AddItem: React.FC<AddItemPropsI> = (props) => {
     const onSubmit = (d: Types.LiveTestQuestion) => {
-      props.onFinish&&props.onFinish(d);
+      props.onFinish && props.onFinish({
+        ...d,
+        answers:['','','',''],
+      });
       form.resetFields();
         props.closeModal&&props.closeModal();
     }

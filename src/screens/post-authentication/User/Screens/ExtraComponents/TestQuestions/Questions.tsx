@@ -10,7 +10,7 @@ const { confirm } = Modal
 interface QuestionsProps {
   data: Types.CourseQuizQuestion[];
   deleteItem: (item: Types.CourseQuizQuestion, index: number) => void;
-  onUpdate: (index: number, d: Types.CourseQuizQuestion) => void;
+  onUpdate: (index: number, d: Types.LiveTestQuestion) => void;
 }
 
 export default function Questions<T>({
@@ -22,7 +22,7 @@ export default function Questions<T>({
     <List
       bordered={false}
       dataSource={data}
-      renderItem={(item: Types.CourseQuizQuestion, index: number) => (
+      renderItem={(item: Types.TestQuestion, index: number) => (
         <List.Item
           style={{ cursor: 'pointer' }}
           extra={[

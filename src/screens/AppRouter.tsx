@@ -77,8 +77,8 @@ import LiveSessionDetailScreen from '@Learner/Screens/Products/LiveSession/LiveS
 import LiveTestPlayer from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayer'
 import LiveTestPlayeritem from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayerItem'
 import LiveTestRules from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestRules'
-import LiveTestBuilderScreen from '@User/Screens/LiveTests/LiveTestBuilder/LiveTestBuilder'
-import AddQuestion from '@User/Screens/LiveTests/LiveTestBuilder/AddQuestion'
+import LiveTestBuilderScreen from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/LiveTestBuilder'
+import AddQuestion from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/AddQuestion'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -188,11 +188,11 @@ const router = createBrowserRouter(
                 <Route path="" element={<PackagesScreen />} />
                 <Route path=":id/editor" element={<CreatePackage />} />
               </Route>
-            </Route>
-            <Route path="live-test">
-              <Route path="" element={<UserLiveTestScreen />} />
-              <Route path="create" element={<CreateLiveTest />} />
-              <Route path=":sessionId/edit" element={<CreateLiveTest />} />
+              <Route path="live-test">
+                <Route path="" element={<UserLiveTestScreen />} />
+                <Route path="create" element={<CreateLiveTest />} />
+                <Route path=":sessionId/edit" element={<CreateLiveTest />} />
+              </Route>
             </Route>
             <Route path="live-session">
               <Route path="" element={<UserLiveSessionsScreen />} />

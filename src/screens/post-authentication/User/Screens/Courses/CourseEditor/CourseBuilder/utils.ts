@@ -14,13 +14,13 @@ GlobalWorkerOptions.workerSrc = new URL(
 export const findSectionItem = (
   itemId: string,
   sectionId: string,
-  sections: Types.CourseSection[]
-): Types.CourseSectionItem => {
-  let node: Types.CourseSectionItem
+  sections
+) => {
+  let node:any;
   sections.forEach(section => {
     if (section._id === sectionId) {
       section.items.forEach(item => {
-        if (item._id == itemId) {
+        if (item._id === itemId) {
           node = item
         }
       })

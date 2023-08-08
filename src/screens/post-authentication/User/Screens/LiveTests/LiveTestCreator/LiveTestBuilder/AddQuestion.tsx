@@ -5,23 +5,29 @@ import {
   Checkbox,   
   Col,
   Divider,
+  Empty,
   Form,
   Input,
   Modal,
+  Progress,
   Radio,
   Row,
   Select,
   Switch,
+  Typography,
 
 } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 
-import { Constants, Types } from '@adewaskar/lms-common'
-import {  DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
+import { Constants, Types, User } from '@adewaskar/lms-common'
+import {  DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
 import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import { useOutletContext, useParams } from 'react-router';
 import useUpdateLiveTestForm from './hooks/useUpdateLiveTest';
+import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
+import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
+const { Title } = Typography;
 
 const { confirm } = Modal;
 
@@ -40,7 +46,8 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
- const {item}= useUpdateLiveTestForm(form)
+  const { sections } = useOutletContext<any>();
+  const { item } = useUpdateLiveTestForm(sections, form);
   const { sectionId, itemId } = useParams();
   const { updateLiveTestSection } = useOutletContext<any>();
   const [correctOptions, setCorrectOptions] = useState<number[]>([]);
@@ -52,7 +59,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       }
           else
       {
-        form.setFieldsValue(Constants.INITIAL_COURSE_QUESTION);
+        form.setFieldsValue(Constants.INITIAL_LIVE_TEST_QUESTION);
     }
     },
     [props.data]
@@ -65,7 +72,29 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const questionType = Form.useWatch('type', form);
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
-    console.log(correctOptions,'corrrr')
+
+  
+  const { data: file } = User.Queries.useGetFileDetails(item?.solution?.file + '', {
+    enabled: !!item?.solution?.file
+  });
+
+  const jobId = file?.metadata?.jobId;
+  const {
+    data: { status, progress }
+  } = User.Queries.useGetTranscodeVideoStatus(jobId, {
+    retry: true,
+    enabled:!!item?.solution?.file,
+    retryDelay: 4000
+  })
+  const fileId = file.encoded || file._id;
+
+  const updateItem = (item:Types.LiveTestQuestion) => {
+    updateLiveTestSection(sectionId,itemId ,{
+      ...props.data,
+      ...item
+    })
+  }
+
   return (
     <Row gutter={[10,30]}>
       <Col span={24}>
@@ -91,10 +120,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       <Col span={24}>
    
         <Card bordered={false}>
-        <Form name='quiz' onFinish={submit} onValuesChange={(v,e) => updateLiveTestSection(sectionId,itemId ,{
-        ...props.data,
-        ...e
-      })}
+        <Form name='quiz' onFinish={submit} onValuesChange={(v,e) => updateItem(e)}
 
         form={form}
         layout="vertical"
@@ -194,6 +220,33 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               </Row>
         </Form>
        </Card>
+        </Col>
+      <Col span={24}>
+      <Card style={{marginTop:20}} title='Solution Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id) ? 'Replace video' : 'Upload Lecture'}</Button>}>
+        <UploadVideo item={item}
+          onUpload={(item) => {
+            console.log(item, 'item')
+            // @ts-ignore
+            updateItem({
+              ...item,
+              solution: {
+                type: 'video',
+                file: item.file+''
+              }
+            })
+            }
+          
+                }
+                 />
+              </ActionModal>]}>
+          {status === 'PROGRESSING' ? (
+            <>
+              <Title level={3} style={{marginTop:0}}> Processing Video...</Title>
+              <Progress style={{marginBottom:20}} percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
+            </>
+          ) : null}
+              {file._id ? <MediaPlayer fileId={fileId} /> :<Empty description='No Video Uploaded'  />}
+            </Card>
         </Col>
     </Row>
   )

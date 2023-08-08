@@ -129,7 +129,7 @@ const UploadPDFForm: React.FC = () => {
               <FileList
                 userType="user"
                 onDeleteFile={(fileId: string) => {
-                  const files = item.files.filter(f => f.file !== fileId)
+                  const files = item.files.filter((f: any) => f.file !== fileId)
                   onFormChange({ files })
                 }}
                 files={item.files}

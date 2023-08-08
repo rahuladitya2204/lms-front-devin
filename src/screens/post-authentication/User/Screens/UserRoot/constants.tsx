@@ -33,6 +33,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         // icon: <AppstoreOutlined />
       },
       {
+        title: 'Live Tests',
+        // icon: <PaperClipOutlined />,
+        path: 'live-test',
+      },
+      {
         title: 'Packages',
         path: 'packages',
         // icon: <AppstoreOutlined />
@@ -43,11 +48,6 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     title: 'Live Sessions',
     icon: <VideoCameraOutlined />,
     path: 'live-session',
-  },
-  {
-    title: 'Live Tests',
-    icon: <PaperClipOutlined />,
-    path: 'live-test',
   },
   {
     title: 'Users',

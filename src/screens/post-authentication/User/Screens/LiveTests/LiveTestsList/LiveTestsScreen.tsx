@@ -5,8 +5,7 @@ import Header from '@Components/Header'
 import Tabs from '@Components/Tabs'
 // import UpcomingLiveTest from './UpcomingLiveTest'
 import { useNavigate } from 'react-router'
-import UpcomingLiveTest from './UpcomingLiveTests'
-import PastLiveTests from './PastLiveTests'
+import LiveTestsList from './LiveTestsList'
 
 const { Text } = Typography
 
@@ -29,12 +28,12 @@ const LiveTestsScreen = () => {
           {
             key: 'upcoming',
             label: `Upcoming`,
-            children: <UpcomingLiveTest filter={{ status: 'created' }} />
+            children: <LiveTestsList filter={{ status: 'created' }} />
           },
           {
             key: 'past',
             label: `Past`,
-            children: <PastLiveTests filter={{ status: 'ended' }} />
+            children: <LiveTestsList filter={{ status: 'ended' }} />
           }
         ]}
       />

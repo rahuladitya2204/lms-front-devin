@@ -81,7 +81,6 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
               duration: 100
             }
           }
-          console.log(data, 'aaaaa')
           onFormChange(data)
         }}
       >
@@ -265,7 +264,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
               <FileList
                 userType="user"
                 onDeleteFile={(fileId: string) => {
-                  const files = item.files.filter(f => f.file !== fileId)
+                  const files = item.files.filter((f: any) => f.file !== fileId)
                   onFormChange({ files })
                 }}
                 files={item.files}

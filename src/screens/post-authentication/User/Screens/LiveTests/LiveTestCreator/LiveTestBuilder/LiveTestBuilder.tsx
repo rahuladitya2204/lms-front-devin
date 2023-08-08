@@ -113,7 +113,6 @@ function LiveTestBuilderScreen() {
 
     const saveLiveTest = (d: Partial<Types.LiveTest>) => {
     const Data={ ...liveTest, ...d };
-        console.log(Data, 'aaaaaa');
     if (liveTest._id) {
       updateLiveTest(
         {
@@ -168,9 +167,13 @@ function LiveTestBuilderScreen() {
       sectionId,
       item
     )
-    // console.log(sectionId,item,LIVE_TEST, 'aaaa');
 
-    setLiveTest(LIVE_TEST)
+    updateLiveTest({
+      id: testId || '',
+      data: {
+        sections: LIVE_TEST.sections
+      }
+    })
   }
 
   const deleteSection = (sectionId: string) => {
@@ -234,7 +237,7 @@ function LiveTestBuilderScreen() {
         <span>
           {' '}
           <BackButton
-            onClick={() => navigate('../app/products/liveTests')}
+            onClick={() => navigate('../app/products/live-test')}
           />{' '}
           {liveTest.title}
         </span>

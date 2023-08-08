@@ -29,7 +29,6 @@ import {
   import LiveTestTestimonials from '../ExtraComponents/Testimonials/Testimonials'
 import AddQuestion from '../ExtraComponents/TestQuestions/AddQuestion'
 import { PlusOutlined } from '@ant-design/icons'
-import GenerateWithAI from '../Courses/CourseEditor/CourseInformation/GenerateWithAiButton'
 import Questions from '../ExtraComponents/TestQuestions/Questions'
   
   interface CreateLiveTestComponentPropsI {

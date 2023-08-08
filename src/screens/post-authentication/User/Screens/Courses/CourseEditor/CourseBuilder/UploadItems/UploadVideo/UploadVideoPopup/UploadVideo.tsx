@@ -17,7 +17,6 @@ interface UploadVideoPropsI {
 export default function UploadVideo(props: UploadVideoPropsI) {
   const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo()
   const { id: courseId, sectionId, itemId } = useParams()
-  console.log(props.item, 'ititti')
   return (
     <Tabs
       // onTabClick={e => {

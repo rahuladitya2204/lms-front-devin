@@ -224,7 +224,7 @@ const LiveTestSectionsNavigator: React.FC<LiveTestSectionsNavigatorPropsI> = ({
                               label: <span onClick={(e) => {
                                   e.stopPropagation()
                                 DeleteSectionItem(section._id, item._id)
-                              }}>Delete Chapter Item</span>,
+                              }}>Delete Question</span>,
                               key: 'delete',
                           icon:<DeleteOutlined/>
                             }]} />

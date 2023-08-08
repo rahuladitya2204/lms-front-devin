@@ -24,7 +24,7 @@ import { getReadingTime } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
-const AddTextItem: React.FC<AddItemProps> = (props) => {
+const AddTextItem: React.FC<AddItemProps> = props => {
   const [form] = Form.useForm()
   const { onFormChange, item, courseId, sectionId, itemId } = useUploadItemForm(
     form
@@ -102,7 +102,7 @@ const AddTextItem: React.FC<AddItemProps> = (props) => {
               <FileList
                 userType="user"
                 onDeleteFile={(fileId: string) => {
-                  const files = item.files.filter(f => f.file !== fileId)
+                  const files = item.files.filter((f: any) => f.file !== fileId)
                   onFormChange({ files })
                 }}
                 files={item.files}
