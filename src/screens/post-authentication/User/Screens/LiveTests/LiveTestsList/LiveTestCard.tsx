@@ -3,7 +3,7 @@ import {
   EyeOutlined,
   FormatPainterOutlined,
   InfoCircleOutlined,
-  ToolOutlined,
+  ToolOutlined
 } from '@ant-design/icons'
 
 import Image from '@Components/Image'
@@ -22,17 +22,13 @@ const LiveTestCardHolder = styled(Card)`
 `
 
 function LiveTestCard(props: LiveTestCardProps) {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   return (
-    <LiveTestCardHolder hoverable
-
+    <LiveTestCardHolder
+      hoverable
       cover={
         <Badge.Ribbon color="orange" text="Unpublished">
-          <Image height={200}
-            alt="example"
-            src={props.liveTest.image}
-
-          />
+          <Image height={200} alt="example" src={props.liveTest.image} />
         </Badge.Ribbon>
       }
       actions={[
@@ -46,22 +42,22 @@ function LiveTestCard(props: LiveTestCardProps) {
         </Tooltip>,
         <Tooltip placement="bottom" title={'Build landing page'}>
           <FormatPainterOutlined
-            onClick={() =>
-              navigate(`${props.liveTest._id}/editor`)
-            }
+            onClick={() => navigate(`${props.liveTest._id}/editor`)}
           />
         </Tooltip>,
-        <EyeOutlined onClick={() => {
-          navigate(`${props.liveTest._id}/player`)
-        }} />,
+        <EyeOutlined
+          onClick={() => {
+            navigate(`${props.liveTest._id}/player`)
+          }}
+        />
         // <WechatOutlined />,
         // <SettingOutlined />
       ]}
     >
-      {/* <Card.Meta
-        avatar={<Avatar src={instructor?.image} />}
+      <Card.Meta
+        // avatar={<Avatar src={instructor?.image} />}
         title={props.liveTest.title || ''}
-      /> */}
+      />
     </LiveTestCardHolder>
   )
 }

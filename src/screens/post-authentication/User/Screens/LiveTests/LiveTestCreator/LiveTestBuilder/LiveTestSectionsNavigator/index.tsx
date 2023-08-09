@@ -177,7 +177,8 @@ const LiveTestSectionsNavigator: React.FC<LiveTestSectionsNavigatorPropsI> = ({
           const SectionOptionDropdown = <MoreButton
             items={[
               {
-                label:  AddItemCTA,
+                label: 'Add Question',
+                onClick: () => onAddNewItem({title:'New Question',answers:['','','','']},secIndex),
                   key:'add'
               },{
             label:<AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>

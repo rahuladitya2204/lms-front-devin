@@ -43,7 +43,7 @@ function LiveTestBuilderScreen() {
     const navigate = useNavigate()
 
   const onAddSection = (section: Partial<Types.LiveTestSection>) => {
-    console.log(section, 'section')
+    // console.log(section, 'section')
     let LIVE_TEST = cloneDeep(liveTest)
     if (section._id) {
       LIVE_TEST.sections.forEach((sec, index) => {
@@ -101,13 +101,15 @@ function LiveTestBuilderScreen() {
       data: {
         sections: LIVE_TEST.sections
       }
-      //   cb: liveTest => {
-      //     if (item._id) {
-      //       return navigate(`section/${sectionId}/${type}/${item._id}`)
-      //     }
-      //     const newlyAdedItem = [...liveTest.sections[index].items].pop()
-      //     navigate(`section/${sectionId}/${type}/${newlyAdedItem?._id}`)
-      //   }
+    },{
+      onSuccess: liveTest => {
+        // console.log(liveTest, 1212123);
+        if (item._id) {
+          return navigate(`section/${sectionId}/${item._id}`)
+        }
+        const newlyAdedItem = [...liveTest.sections[index].items].pop()
+        navigate(`section/${sectionId}/${newlyAdedItem?._id}`)
+      }
     })
   }
 
@@ -131,22 +133,22 @@ function LiveTestBuilderScreen() {
     }
   }
 
-  //   useEffect(
-  //     () => {
-  //       if (!itemId) {
-  //         const firstSection = liveTest.sections.find(s => s.items.length)
-  //         if (firstSection && firstSection.items.length) {
-  //           const firstItem = firstSection.items[0]
-  //           if (firstItem.type) {
-  //             navigate(
-  //               `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
-  //             )
-  //           }
-  //         }
-  //       }
-  //     },
-  //     [liveTest._id]
-  //   )
+    useEffect(
+      () => {
+        if (!itemId) {
+          const firstSection = liveTest.sections.find(s => s.items.length)
+          if (firstSection && firstSection.items.length) {
+            const firstItem = firstSection.items[0]
+            if (firstItem.type) {
+              navigate(
+                `section/${firstSection._id}/${firstItem._id}`
+              )
+            }
+          }
+        }
+      },
+      [liveTest._id]
+    )
 
   useEffect(
     () => {
@@ -188,9 +190,9 @@ function LiveTestBuilderScreen() {
         onSuccess: () => {
           const lastSection = liveTest.sections.pop()
           const lastItem = lastSection?.items.pop()
-          if (lastSection && lastItem && lastItem.type)
+          if (lastSection && lastItem)
             navigate(
-              `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
+              `section/${lastSection._id}/${lastItem._id}`
             )
         }
       }
@@ -212,9 +214,9 @@ function LiveTestBuilderScreen() {
         onSuccess: () => {
           const lastSection = liveTest.sections.pop()
           const lastItem = lastSection?.items.pop()
-          if (lastSection && lastItem && lastItem.type)
+          if (lastSection && lastItem)
             navigate(
-              `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
+              `section/${lastSection._id}/${lastItem._id}`
             )
         }
       }

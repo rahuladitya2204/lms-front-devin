@@ -78,7 +78,8 @@ import LiveTestPlayer from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/Li
 import LiveTestPlayeritem from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayerItem'
 import LiveTestRules from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestRules'
 import LiveTestBuilderScreen from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/LiveTestBuilder'
-import AddQuestion from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/AddQuestion'
+import AddQuestion from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/AddQuestionItem'
+import LiveTestEditor from '@User/Screens/LiveTests/LiveTestCreator'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -93,6 +94,10 @@ const router = createBrowserRouter(
           <Route
             path="app/products/courses/:id/editor"
             element={<CourseEditor />}
+          />
+            <Route
+            path="app/products/live-test/:id/editor"
+            element={<LiveTestEditor />}
           />
           <Route
             path="app/products/courses/:id/builder"

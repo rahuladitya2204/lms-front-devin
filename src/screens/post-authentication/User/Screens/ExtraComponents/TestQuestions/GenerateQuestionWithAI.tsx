@@ -1,4 +1,4 @@
-import InputTags from '@Components/InputTags'
+import InputTags from '@Components/InputTags/InputTags'
 import { parseAIJson } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { Types, User } from '@adewaskar/lms-common'
 import { Button, Col, Form, Input, Row, Select } from 'antd'
@@ -27,7 +27,7 @@ const TAXONOMY_LEVELS = [
 ]
 
 interface GenerateQuestionWithAIPropsI {
-  submit: (d: Types.CourseQuizQuestion) => void;
+  submit: (d: Types.LiveTestQuestion) => void;
   closeModal?: Function;
 }
 
@@ -35,7 +35,7 @@ export default function GenerateQuestionWithAI({
   submit,
   closeModal
 }: GenerateQuestionWithAIPropsI) {
-  const [keywords, setKeywords] = useState([])
+  const [keywords, setKeywords] = useState<string[]>([])
   const [form] = Form.useForm()
   const {
     mutate: generateQuestion,

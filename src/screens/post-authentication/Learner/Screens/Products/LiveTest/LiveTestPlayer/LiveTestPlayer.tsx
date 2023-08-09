@@ -1,43 +1,30 @@
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
-import { CheckCircleOutlined, CheckOutlined, ClockCircleOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Collapse, Row, Tag, Timeline } from 'antd'
+import { ClockCircleOutlined } from '@ant-design/icons'
+import {
+  Button,
+  Card,
+  Col,
+  Collapse,
+  Progress,
+  Row,
+  Tag,
+  Timeline,
+  Typography
+} from 'antd'
 import dayjs from 'dayjs'
+import { i } from 'mathjs'
 import { useMemo } from 'react'
-import { useParams } from 'react-router'
+import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
 
 interface LiveTestPlayerPropsI {}
 
-const Sections = [
-  {
-    title: 'Beginner Level',
-    questions: [
-      { title: 'sdfsdfsdfsfdsdf' },
-      { title: 'sdfsdfsdfsfdsdf' },
-      { title: 'sdfsdfsdfsfdsdf' }
-    ]
-  },
-  {
-    title: 'Medium Level',
-    questions: [
-      { title: 'sdfsdfsdfsfdsdf' },
-      { title: 'sdfsdfsdfsfdsdf' },
-      { title: 'sdfsdfsdfsfdsdf' }
-    ]
-  },
-  {
-    title: 'Advanced Level',
-    questions: [
-      { title: 'sdfsdfsdfsfdsdf' },
-      { title: 'sdfsdfsdfsfdsdf' },
-      { title: 'sdfsdfsdfsfdsdf' }
-    ]
-  }
-]
+const { Title } = Typography
 
 export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
   const { testId } = useParams()
+  const navigate = useNavigate()
   const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '')
   const endTime = useMemo(
     () =>
@@ -48,24 +35,7 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
         : '',
     [testId]
   )
-  const TimeLinez = (
-    <Timeline
-      items={[
-        {
-          children: 'Create a services site 2015-09-01'
-        },
-        {
-          children: 'Solve initial network problems 2015-09-01'
-        },
-        {
-          children: 'Technical testing 2015-09-01'
-        },
-        {
-          children: 'Network problems being solved 2015-09-01'
-        }
-      ]}
-    />
-  )
+  // const currentQuestion=
   return (
     <Header
       title={liveTest.title}
@@ -77,28 +47,36 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
       ]}
     >
       <Row>
-        <Col span={2} />
-        <Col span={20}>
-          <Row>
+        <Col span={1} />
+        <Col span={22}>
+          <Row gutter={[20, 30]}>
             <Col span={8}>
               <Row gutter={[20, 20]}>
                 <Col span={24}>
                   <Card>Midterm Test</Card>
                 </Col>
                 <Col span={24}>
-                  <Collapse>
-                    {Sections.map(section => {
+                  <Collapse
+                    bordered={false}
+                    defaultActiveKey={liveTest.sections.map(e => e._id)}
+                  >
+                    {liveTest.sections.map(section => {
                       return (
                         <Collapse.Panel
-                          key={section.title}
+                          extra={<Tag>{section.items.length} Questions</Tag>}
+                          key={section._id}
                           header={section.title}
                         >
                           <Timeline
-                            items={section.questions.map(question => {
+                            items={section.items.map(question => {
                               return {
-                                children: question.title,
-                                dot: <CheckCircleOutlined />,
-                                color: 'green'
+                                children: (
+                                  <div onClick={() => navigate(question._id)}>
+                                    {question.title}
+                                  </div>
+                                ),
+                                // dot: <CheckCircleOutlined />,
+                                color: 'blue'
                               }
                             })}
                           />
@@ -109,9 +87,27 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
                 </Col>
               </Row>
             </Col>
+            <Col span={16}>
+              <Title
+                level={5}
+                style={{
+                  textAlign: 'center',
+                  display: 'block',
+                  margin: 0,
+                  marginBottom: 10
+                }}
+              >
+                15 Questions Left
+                <Progress strokeLinecap="butt" percent={75} format={() => ``} />
+              </Title>
+
+              <Card>
+                <Outlet />
+              </Card>
+            </Col>
           </Row>
         </Col>
-        <Col span={2} />
+        <Col span={1} />
       </Row>
     </Header>
   )

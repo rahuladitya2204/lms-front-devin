@@ -1,23 +1,23 @@
 import { Button, Card, Col, Form, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-import CreateCoursePlan from './CreateCoursePlan'
+import CreateLiveTestPlan from './CreateLiveTestPlan'
 import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
-interface CoursePricingEditorPropsI {
-  courseId: string;
-  saveCourse: Function;
+interface LiveTestPricingEditorPropsI {
+  liveTestId: string;
+  saveLiveTest: Function;
 
-  course: Types.Course;
+  livetest: Types.LiveTest;
 }
 
-function CoursePricingEditor(props: CoursePricingEditorPropsI) {
+function LiveTestPricingEditor(props: LiveTestPricingEditorPropsI) {
   const message = useMessage()
   const { data, isLoading: loading } = User.Queries.useGetProductPlans(
-    props.courseId
+    props.liveTestId
   )
   return (
     <Fragment>
@@ -25,9 +25,9 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
         bodyStyle={{ padding: 0 }}
         title={'Pricing Plan'}
         extra={
-          <CreateCoursePlan courseId={props.courseId}>
+          <CreateLiveTestPlan liveTestId={props.liveTestId}>
             <Button>Add Plan</Button>
-          </CreateCoursePlan>
+          </CreateLiveTestPlan>
         }
       >
         <Row>
@@ -60,9 +60,12 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
                 key="action"
                 render={(_: any, record: Types.Plan) => (
                   <Space size="middle">
-                    <CreateCoursePlan courseId={props.courseId} plan={record}>
+                    <CreateLiveTestPlan
+                      liveTestId={props.liveTestId}
+                      plan={record}
+                    >
                       <EditOutlined />
-                    </CreateCoursePlan>
+                    </CreateLiveTestPlan>
                     <DeleteOutlined />
                   </Space>
                 )}
@@ -75,4 +78,4 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
   )
 }
 
-export default CoursePricingEditor
+export default LiveTestPricingEditor

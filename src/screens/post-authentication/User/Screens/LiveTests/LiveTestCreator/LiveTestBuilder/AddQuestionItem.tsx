@@ -27,6 +27,8 @@ import { useOutletContext, useParams } from 'react-router';
 import useUpdateLiveTestForm from './hooks/useUpdateLiveTest';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
+import TextArea from '@Components/Textarea';
+import SunEditorComponent from '@Components/SunEditor/SunEditor';
 const { Title } = Typography;
 
 const { confirm } = Modal;
@@ -51,18 +53,18 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const { sectionId, itemId } = useParams();
   const { updateLiveTestSection } = useOutletContext<any>();
   const [correctOptions, setCorrectOptions] = useState<number[]>([]);
+
   useEffect(
     () => {
-      if (props.data) {
-        setCorrectOptions(props.data.correctOptions);
-          form.setFieldsValue(props.data);
+      if (item&&item._id) {
+        setCorrectOptions(item.correctOptions);
       }
           else
       {
         form.setFieldsValue(Constants.INITIAL_LIVE_TEST_QUESTION);
     }
     },
-    [props.data]
+    [item]
   ) 
     const submit = (e: Types.LiveTestQuestion) => {
       props.submit && props.submit({ ...e, correctOptions });
@@ -71,6 +73,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     }
   
   const questionType = Form.useWatch('type', form);
+  
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
 
   
@@ -105,7 +108,13 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               showIcon
               action={
                 <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
-                <GenerateQuestionWithAI submit={d => {
+                  <GenerateQuestionWithAI submit={d => {
+                    // @ts-ignore
+                    if (d.solutionHtml) {
+                    // @ts-ignore
+                    d.solution={html:d.solutionHtml};
+                    }
+                    console.log(d,'ooopo')
                   setCorrectOptions(d.correctOptions)
                     form.setFieldsValue(d);
                     updateLiveTestSection(sectionId,itemId,d)
@@ -131,7 +140,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               message: "Enter questions's title"
             }
           ]}>
-          <Input.TextArea placeholder="Enter the question title" />
+          <Input.TextArea style={{height:150}} placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={12}>
@@ -214,13 +223,26 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                     <Button onClick={e=>add()} icon={<PlusCircleTwoTone/>}>Add Option</Button>
           </>
         )}
-      </Form.List>
-            </Card>
+                  </Form.List>
+                  
+                </Card>
           </Col>
               </Row>
         </Form>
        </Card>
-        </Col>
+      </Col>
+      <Col span={24}>
+          
+      <Card title='Solution Text'>
+      <Form.Item name={['solution', 'html']} required>
+      <SunEditorComponent
+        height={350}
+        value={form.getFieldValue(['solution', 'html'])}
+        onChange={(e: string) => form.setFieldsValue({ solution: { html: e } })}
+      />
+    </Form.Item>
+                </Card>
+      </Col>
       <Col span={24}>
       <Card style={{marginTop:20}} title='Solution Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id) ? 'Replace video' : 'Upload Lecture'}</Button>}>
         <UploadVideo item={item}
@@ -230,8 +252,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
             updateItem({
               ...item,
               solution: {
-                type: 'video',
-                file: item.file+''
+                // type: 'video',
+                video: item.file+''
               }
             })
             }

@@ -6,27 +6,27 @@ import ActionModal from '@Components/ActionModal'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
-interface CreateCoursePlanPropsI {
+interface CreateLiveTestPlanPropsI {
   children?: React.ReactNode;
-  courseId: string;
+  liveTestId: string;
   plan?: Types.Plan;
   closeModal?: Function;
 }
 
-function CreateCoursePlan(props: CreateCoursePlanPropsI) {
+function CreateLiveTestPlan(props: CreateLiveTestPlanPropsI) {
   const [form] = Form.useForm()
   const message = useMessage()
 
   const {
-    mutate: createProductPlan,
+    mutate: createLiveTestPlan,
     isLoading: isCreating
   } = User.Queries.useCreateProductPlan()
   const {
-    mutate: updateCoursePlan,
+    mutate: updateLiveTestPlan,
     isLoading: isUpdating
   } = User.Queries.useUpdateProductPlan()
   const planId = props?.plan?._id || ''
-  const courseId = props.courseId || ''
+  const liveTestId = props.liveTestId || ''
   useEffect(
     () => {
       form.setFieldsValue(props.plan)
@@ -38,14 +38,14 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
     form.validateFields()
     const body = {
       product: {
-        id: courseId,
-        type: 'course'
+        id: liveTestId,
+        type: 'live-test'
       },
       data: e
     }
 
     if (planId) {
-      updateCoursePlan(
+      updateLiveTestPlan(
         {
           ...body,
           planId
@@ -61,7 +61,7 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
         }
       )
     } else {
-      createProductPlan(body, {
+      createLiveTestPlan(body, {
         onSuccess: () => {
           message.open({
             type: 'success',
@@ -155,4 +155,4 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
   )
 }
 
-export default CreateCoursePlan
+export default CreateLiveTestPlan
