@@ -6,7 +6,7 @@ function BackButton(props: any) {
   const navigate = useNavigate()
   return (
     <span onClick={(e) => (props.onClick ? props.onClick(e) : navigate(-1))}>
-      <Button type="ghost">
+      <Button ghost>
         <ArrowLeftOutlined />
       </Button>
     </span>

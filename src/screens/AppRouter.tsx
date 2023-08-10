@@ -95,7 +95,7 @@ const router = createBrowserRouter(
             path="app/products/courses/:id/editor"
             element={<CourseEditor />}
           />
-            <Route
+          <Route
             path="app/products/live-test/:id/editor"
             element={<LiveTestEditor />}
           />
@@ -234,7 +234,10 @@ const router = createBrowserRouter(
           <Route path="app/live-test/:testId">
             <Route path="rules" element={<LiveTestRules />} />
             <Route path="player" element={<LiveTestPlayer />}>
-              <Route path=":questionId" element={<LiveTestPlayeritem />} />
+              <Route
+                path="section/:sectionId/:questionId"
+                element={<LiveTestPlayeritem />}
+              />
             </Route>
           </Route>
           <Route path="app" element={<LearnerRootScreen />}>

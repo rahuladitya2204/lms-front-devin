@@ -1,7 +1,7 @@
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
-import { ClockCircleOutlined } from '@ant-design/icons'
+import { CaretRightOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import {
   Button,
   Card,
@@ -9,6 +9,7 @@ import {
   Collapse,
   Progress,
   Row,
+  Space,
   Tag,
   Timeline,
   Typography
@@ -17,6 +18,7 @@ import dayjs from 'dayjs'
 import { i } from 'mathjs'
 import { useMemo } from 'react'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
+import LiveTestQuestionNavigator from './LiveTestQuestionNavigator/LiveTestQuestionNavigator'
 
 interface LiveTestPlayerPropsI {}
 
@@ -53,37 +55,7 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
             <Col span={8}>
               <Row gutter={[20, 20]}>
                 <Col span={24}>
-                  <Card>Midterm Test</Card>
-                </Col>
-                <Col span={24}>
-                  <Collapse
-                    bordered={false}
-                    defaultActiveKey={liveTest.sections.map(e => e._id)}
-                  >
-                    {liveTest.sections.map(section => {
-                      return (
-                        <Collapse.Panel
-                          extra={<Tag>{section.items.length} Questions</Tag>}
-                          key={section._id}
-                          header={section.title}
-                        >
-                          <Timeline
-                            items={section.items.map(question => {
-                              return {
-                                children: (
-                                  <div onClick={() => navigate(question._id)}>
-                                    {question.title}
-                                  </div>
-                                ),
-                                // dot: <CheckCircleOutlined />,
-                                color: 'blue'
-                              }
-                            })}
-                          />
-                        </Collapse.Panel>
-                      )
-                    })}
-                  </Collapse>
+                  <LiveTestQuestionNavigator liveTestId={testId + ''} />
                 </Col>
               </Row>
             </Col>

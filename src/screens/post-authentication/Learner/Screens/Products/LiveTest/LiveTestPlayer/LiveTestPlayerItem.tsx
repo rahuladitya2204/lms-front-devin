@@ -1,25 +1,46 @@
-import { Button, Checkbox, Col, Radio, Row, Typography } from 'antd'
-import { Fragment, useState } from 'react'
+import { Button, Checkbox, Col, Progress, Radio, Row, Typography } from 'antd'
+import { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import useQuestion from './hooks/useQuestion'
 import { ArrowLeftOutlined } from '@ant-design/icons';
+import Countdown from '@Components/Countdown';
+import dayjs from 'dayjs';
+import { Learner } from '@adewaskar/lms-common';
 
 const { Title, Text } = Typography
 
 interface LiveTestPlayeritemPropsI {}
 
 export default function LiveTestPlayeritem(props: LiveTestPlayeritemPropsI) {
-  const { currentQuestion } = useQuestion()
+  const { questionId,testId } = useParams();
+  const { currentQuestion } = useQuestion();
+  const [targetDate, setTargetDate] = useState('');
+  const { mutate: submitAnswer} = Learner.Queries.useSubmitLiveTestAnswer();
   const OptionSelectedFormControl =
-    currentQuestion.type === 'single' ? Radio : Checkbox
-  const [answersGiven, setAnswersGiven] = useState<number[]>([])
+    currentQuestion.type === 'single' ? Radio : Checkbox;
+  const [answersGiven, setAnswersGiven] = useState<number[]>([]);
+  useEffect(() => {
+    setTargetDate(dayjs().add(1.5, 'minute').toString());
+  }, [questionId]);
   return (
     <Fragment>
       <Row gutter={[20,30]}>
         <Col span={24}>
-          <Text type="secondary" >
+          <Row align={'middle'}>
+            <Col>
+              <Progress style={{ marginRight: 20 }}
+                type="circle"
+                width={50}
+                percent={100}
+                format={() => <Text strong><Countdown hideHour targetDate={targetDate} /></Text>} />
+            </Col>
+            <Col flex={1}>
+            <Title style={{margin:0}} level={5} type="secondary" >
             Question 5
-          </Text>
+          </Title>
+            </Col>
+          </Row>
+        
           <Title level={5}>{currentQuestion.title}</Title>
 
           {currentQuestion.type==='single'?<Text style={{ marginTop: 20,fontSize:16 }} type="secondary">
@@ -61,7 +82,13 @@ export default function LiveTestPlayeritem(props: LiveTestPlayeritemPropsI) {
           </Row>
         </Col>
         <Col flex={1} style={{display: 'flex',flexDirection:'row-reverse'}}>
-        <Button type='primary' style={{marginLeft:20,width: 110}}> Submit</Button>
+        <Button type='primary' style={{marginLeft:20,width: 110}} onClick={()=>{
+          submitAnswer({
+            testId:testId + '',
+            questionId:questionId + '',
+            answers: answersGiven
+          })
+        }} > Submit</Button>
         <Button style={{width: 110}}> Skip</Button>
         </Col>
       </Row>
