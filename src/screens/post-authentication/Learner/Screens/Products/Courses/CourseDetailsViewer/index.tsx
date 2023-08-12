@@ -88,7 +88,7 @@ function CourseDetailViewer () {
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const navigate = useNavigate();
   const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
-  const category = course?.category as unknown as Types.CourseCategory;
+  const category = course?.category as unknown as Types.ProductCategory;
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">

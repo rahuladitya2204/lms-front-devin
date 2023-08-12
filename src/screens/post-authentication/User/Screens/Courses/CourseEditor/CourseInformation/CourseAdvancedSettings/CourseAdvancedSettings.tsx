@@ -50,7 +50,6 @@ interface CourseAdvancedSettingsPropsI {
 
 function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
   const [form] = Form.useForm()
-  const sendEmail = useWatch(['email', 'enabled'], form)
 
   useLayoutEffect(
     () => {
@@ -97,43 +96,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
           }
         } />
       </Form.Item>
-
-        {/* <Card bodyStyle={{
-          display:sendEmail?'block':'none'
-        }} title={<Title level={3}>Email Notification</Title>} extra={
-              <Tooltip placement="topLeft" title={`Send email to learner on course enrollment`}>
-
-          <Form.Item style={{margin:0}}
-        valuePropName="checked"
-        name={['email', 'enabled']}
-      >
-        <Switch />
-            </Form.Item>
-          </Tooltip>}>
-        
-      {sendEmail ? (
-        <Fragment>
-          <Form.Item name={['email', 'subject']} label="Email Subject">
-            <Input />
-          </Form.Item>
-
-          <Form.Item name={['email', 'cc']} label="Add Cc">
-            <Input />
-          </Form.Item>
-          <Form.Item name={['email', 'content']} required label="Email Body">
-            <SunEditorComponent
-              variables={VARIABLES}
-              name={['email', 'content']}
-            />
-          </Form.Item>
-        </Fragment>
-      ) : null}
-</Card> */}
       </Form>
-      <Divider/>
-      <CourseCertificate   courseId={props.courseId}
-                  course={props.course}
-                  saveCourse={props.saveCourse}/>
     </>
   )
 }

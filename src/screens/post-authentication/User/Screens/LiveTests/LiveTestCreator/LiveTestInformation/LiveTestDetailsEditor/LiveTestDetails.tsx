@@ -1,9 +1,12 @@
-import { Col, DatePicker, Form, Input, Row, Select } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd'
+import { Constants, Types, User } from '@adewaskar/lms-common'
 
+import ActionModal from '@Components/ActionModal'
+import CreateCategory from '@User/Screens/Courses/ProductCategory/CreateCategory'
 import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
+import { PlusOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from 'react'
@@ -34,8 +37,12 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
   const [form] = Form.useForm()
   const { id } = useParams()
   const liveTestId = props.liveTestId || id
-  // const { data: instructors } = User.Queries.useGetInstructors()
+  const { data: instructors } = User.Queries.useGetInstructors()
   const image = useWatch(['image'], form)
+  const { listItems: categories } = User.Queries.useGetProductCategories(
+    'live-test'
+  )
+
   useEffect(
     () => {
       if (liveTest.scheduledAt) {
@@ -242,6 +249,39 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
                 <CreateCategory> </CreateCategory>
               </ActionModal>
             </Col> */}
+          </Row>
+        </Col>
+        <Col span={12}>
+          <Row gutter={[0, 20]} justify={'end'}>
+            <Col flex={1}>
+              <Form.Item
+                name={['category']}
+                required
+                label="Category"
+                rules={[
+                  { required: true, message: 'Please select a category' }
+                ]}
+              >
+                <Select
+                  options={categories}
+                  style={{ width: '100%' }}
+                  placeholder="Select Category"
+                />
+              </Form.Item>
+            </Col>
+            <Col style={{ display: 'flex', alignItems: 'center' }}>
+              <ActionModal
+                cta={
+                  <Button
+                    style={{ marginLeft: 10 }}
+                    shape="round"
+                    icon={<PlusOutlined />}
+                  />
+                }
+              >
+                <CreateCategory type="live-test"> </CreateCategory>
+              </ActionModal>
+            </Col>
           </Row>
         </Col>
       </Row>

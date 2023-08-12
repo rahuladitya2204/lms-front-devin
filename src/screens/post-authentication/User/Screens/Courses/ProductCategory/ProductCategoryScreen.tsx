@@ -7,8 +7,14 @@ import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
-function CourseCategoryScreen() {
-  const { data, isLoading: loading } = User.Queries.useGetCourseCategories()
+interface ProductCategoryScreenPropsI {
+  type: string;
+}
+
+function ProductCategoryScreen(props: ProductCategoryScreenPropsI) {
+  const { data, isLoading: loading } = User.Queries.useGetProductCategories(
+    props.type
+  )
 
   return (
     <Header>
@@ -39,7 +45,7 @@ function CourseCategoryScreen() {
               <Table.Column
                 title="Action"
                 key="action"
-                render={(_: any, record: Types.CourseCategory) => (
+                render={(_: any, record: Types.ProductCategory) => (
                   <Space size="middle">
                     <ActionModal cta={<EditOutlined />}>
                       <CreateCategory data={record} />
@@ -57,4 +63,4 @@ function CourseCategoryScreen() {
   )
 }
 
-export default CourseCategoryScreen
+export default ProductCategoryScreen

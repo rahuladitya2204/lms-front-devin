@@ -87,7 +87,10 @@ function CourseEditor() {
           <Card
             title={
               <span>
-                <BackButton /> {course.title}
+                <BackButton
+                  onClick={() => navigate(`../app/products/courses`)}
+                />{' '}
+                {course.title}
               </span>
             }
             extra={[

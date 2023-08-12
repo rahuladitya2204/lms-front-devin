@@ -1,11 +1,12 @@
 import { Button, Checkbox, Col, Progress, Radio, Row, Typography } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
-import { useParams } from 'react-router'
-import useQuestion from './hooks/useQuestion'
+
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import Countdown from '@Components/Countdown';
-import dayjs from 'dayjs';
 import { Learner } from '@adewaskar/lms-common';
+import dayjs from 'dayjs';
+import { useParams } from 'react-router'
+import useQuestion from './hooks/useQuestion'
 
 const { Title, Text } = Typography
 
@@ -13,7 +14,7 @@ interface LiveTestPlayeritemPropsI {}
 
 export default function LiveTestPlayeritem(props: LiveTestPlayeritemPropsI) {
   const { questionId,testId } = useParams();
-  const { currentQuestion } = useQuestion();
+  const { currentQuestion, currentQuestionIndex } = useQuestion();
   const [targetDate, setTargetDate] = useState('');
   const { mutate: submitAnswer} = Learner.Queries.useSubmitLiveTestAnswer();
   const OptionSelectedFormControl =
@@ -32,16 +33,16 @@ export default function LiveTestPlayeritem(props: LiveTestPlayeritemPropsI) {
       <Row gutter={[20,30]}>
         <Col span={24}>
           <Row align={'middle'}>
-            <Col>
+            {/* <Col>
               <Progress style={{ marginRight: 20 }}
                 type="circle"
                 width={50}
                 percent={100}
                 format={() => <Text strong><Countdown hideHour targetDate={targetDate} /></Text>} />
-            </Col>
+            </Col> */}
             <Col flex={1}>
             <Title style={{margin:0}} level={5} type="secondary" >
-            Question 5
+            Question {currentQuestionIndex+1}
           </Title>
             </Col>
           </Row>
@@ -92,6 +93,10 @@ export default function LiveTestPlayeritem(props: LiveTestPlayeritemPropsI) {
             testId:testId + '',
             questionId:questionId + '',
             answers: answersGiven
+          }, {
+            onSuccess: () => {
+              
+            }
           })
         }} disabled={!answersGiven.length}> Submit</Button>
         <Button style={{width: 110}}> Skip</Button>

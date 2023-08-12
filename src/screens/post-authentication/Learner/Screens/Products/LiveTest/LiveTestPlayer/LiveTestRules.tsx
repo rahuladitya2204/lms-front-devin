@@ -10,12 +10,14 @@ import {
   Tag,
   Typography
 } from 'antd'
-import { Fragment } from 'react'
 import { TERMS, TEST_RULES } from './constant'
+import { useNavigate, useParams } from 'react-router'
+
+import Countdown from '@Components/Countdown'
+import { Fragment } from 'react'
 import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
-import { useParams } from 'react-router'
-import Countdown from '@Components/Countdown'
+import dayjs from 'dayjs'
 
 const { Title, Text } = Typography
 
@@ -23,23 +25,24 @@ interface LiveTestRulesPropsI {}
 
 export default function LiveTestRules(props: LiveTestRulesPropsI) {
   const { testId } = useParams()
-  const { data: liveSession } = Learner.Queries.useGetLiveTestDetails(
-    testId + ''
-  )
+  const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '')
   const [form] = Form.useForm()
   const rule1 = Form.useWatch('rule-1', form)
   const rule2 = Form.useWatch('rule-2', form)
   const rule3 = Form.useWatch('rule-3', form)
   const isValid = rule1 && rule2 && rule3
-
+  const endingAt = dayjs(liveTest.scheduledAt)
+    .add(liveTest.duration, 'minutes')
+    .toString()
+  const navigate = useNavigate()
   return (
     <Header
-      title={liveSession.title}
+      title={liveTest.title}
       extra={[
         <Tag color="blue">
-          Starting in: <Countdown targetDate={liveSession.scheduledAt} />
+          Time Left: <Countdown targetDate={endingAt} />
         </Tag>,
-        <Tag color="blue">Time Limit: {liveSession.duration} mins</Tag>
+        <Tag color="cyan">Time Limit: {liveTest.duration} mins</Tag>
       ]}
     >
       <Row>
@@ -77,6 +80,7 @@ export default function LiveTestRules(props: LiveTestRulesPropsI) {
                 <Col flex={'reverse'}>
                   <Button>Back</Button>
                   <Button
+                    onClick={() => navigate('../player')}
                     disabled={!isValid}
                     style={{ marginLeft: 10 }}
                     type="primary"

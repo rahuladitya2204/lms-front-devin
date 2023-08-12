@@ -1,9 +1,9 @@
 import { Button, Typography } from 'antd'
 
-import Tabs from '@Components/Tabs'
-import { useNavigate } from 'react-router'
-import UpcomingLiveSession from './UpcomingLiveTests'
 import PastLiveSession from './PastLiveTests'
+import Tabs from '@Components/Tabs'
+import UpcomingLiveSession from './UpcomingLiveTests'
+import { useNavigate } from 'react-router'
 
 const LiveSessionsScreen = () => {
   const navigate = useNavigate()

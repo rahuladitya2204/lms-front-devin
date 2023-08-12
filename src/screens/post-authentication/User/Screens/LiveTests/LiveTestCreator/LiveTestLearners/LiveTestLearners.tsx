@@ -10,11 +10,11 @@ import {
   Typography
 } from 'antd'
 
+import Container from '@Components/Container'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
-import Container from '@Components/Container'
 
 const { confirm } = Modal
 interface LiveTestLearnersPropsI {
@@ -31,7 +31,7 @@ function LiveTestLearners(props: LiveTestLearnersPropsI) {
   } = User.Queries.useRemoveLearnerFromCourse()
 
   return (
-    <Container title="LiveTest Learners" extra={[<Button>Add Learner</Button>]}>
+    <Container title="Live Test Learners" extra={[<Button>Add Learner</Button>]}>
       <Table dataSource={data} loading={loading}>
         <Table.Column
           title="Name"

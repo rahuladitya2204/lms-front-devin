@@ -13,7 +13,6 @@ import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
 import CertificateTemplateEditor from '@User/Screens/CertificateTemplates/CertificateTemplateEditor'
 import CourseBuilderScreen from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseBuilderScreen'
-import CourseCategoryScreen from '@User/Screens/Courses/CourseCategory/CourseCategoryScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Products/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseEditor'
 import CourseInformationEditor from '@User/Screens/Courses/CourseEditor/CourseInformation'
@@ -56,6 +55,7 @@ import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
+import ProductCategoryScreen from '@User/Screens/Courses/ProductCategory/ProductCategoryScreen'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
@@ -178,7 +178,7 @@ const router = createBrowserRouter(
               element={<EmailTemplateEditor />}
             />{' '}
             <Route path="category">
-              <Route path="" element={<CourseCategoryScreen />} />
+              {/* <Route path="" element={<ProductCategoryScreen />} /> */}
               {/* <Route path=":id/editor" element={<LearnerEditor />} /> */}
             </Route>{' '}
             <Route path="settings">
@@ -262,7 +262,7 @@ const router = createBrowserRouter(
             />
           </Route>
           <Route path="app/live-test/:testId">
-            <Route path="rules" element={<LiveTestRules />} />
+            <Route path="start" element={<LiveTestRules />} />
             <Route path="player" element={<LiveTestPlayer />}>
               <Route
                 path="section/:sectionId/:questionId"

@@ -16,7 +16,7 @@ import { User, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor'
-import CreateCategory from '@User/Screens/Courses/CourseCategory/CreateCategory'
+import CreateCategory from '@User/Screens/Courses/ProductCategory/CreateCategory'
 import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
@@ -69,7 +69,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const { id } = useParams()
   const courseId = props.courseId || id
   const { data: instructors } = User.Queries.useGetInstructors()
-  const { listItems: categories } = User.Queries.useGetCourseCategories()
+  const { listItems: categories } = User.Queries.useGetProductCategories('course')
   const thumbnailImage = useWatch(['thumbnailImage'], form)
   useEffect(
     () => {

@@ -1,4 +1,5 @@
 import { Constants, Learner, Types } from '@adewaskar/lms-common'
+
 import { useParams } from 'react-router'
 
 export default function useQuestion() {
@@ -7,10 +8,12 @@ export default function useQuestion() {
     testId + ''
   )
   const questions = sections.map(e => e.items).flat()
-  const currentQuestion: Types.LiveTestStatusQuestion =
-    questions.find(q => q._id === questionId) ||
-    Constants.INITIAL_LIVE_TEST_QUESTION
+  const currentQuestionIndex: number = questions.findIndex(
+    q => q._id === questionId
+  )
   return {
-    currentQuestion
+    currentQuestion:
+      questions[currentQuestionIndex] || Constants.INITIAL_LIVE_TEST_QUESTION,
+    currentQuestionIndex
   }
 }

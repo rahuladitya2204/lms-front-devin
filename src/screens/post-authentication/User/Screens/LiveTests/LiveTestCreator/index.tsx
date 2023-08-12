@@ -1,4 +1,5 @@
 import { Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
+import { Constants, Types } from '@adewaskar/lms-common'
 import {
   InfoCircleOutlined,
   SafetyCertificateOutlined,
@@ -6,7 +7,6 @@ import {
   UploadOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Types } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -83,7 +83,12 @@ function LiveTestEditor() {
           <Card
             title={
               <span>
-                <BackButton /> {liveTest.title}
+                <BackButton
+                  onClick={() =>
+                    navigate(`../app/products/live-test`)
+                  }
+                />{' '}
+                {liveTest.title}
               </span>
             }
             extra={[

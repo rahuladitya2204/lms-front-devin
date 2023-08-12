@@ -6,7 +6,8 @@ import { User } from '@adewaskar/lms-common'
 
 interface CreateCategoryComponentPropsI {
   children?: ReactNode;
-  data?: Types.CourseCategory;
+  type?: string;
+  data?: Types.ProductCategory;
   onFinish?: () => void;
 }
 
@@ -14,18 +15,22 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
   const {
     mutate: createCategory,
     isLoading: createCategoryLoading
-  } = User.Queries.useCreateCourseCategory()
+  } = User.Queries.useCreateProductCategory()
   const {
     mutate: updateCategory,
     isLoading: updateCategoryLoading
-  } = User.Queries.useUpdateCourseCategory()
+  } = User.Queries.useUpdateProductCategory()
   const [form] = Form.useForm()
 
-  const onSubmit = (e: Types.CourseCategory) => {
+  const onSubmit = (e: Types.ProductCategory) => {
     if (props.data) {
       updateCategory({ id: props.data._id, data: e })
     } else {
-      createCategory({ data: e })
+      const D = { ...e }
+      if (props.type) {
+        D.type = props.type
+      }
+      createCategory({ data: D })
     }
     props.onFinish && props.onFinish()
   }

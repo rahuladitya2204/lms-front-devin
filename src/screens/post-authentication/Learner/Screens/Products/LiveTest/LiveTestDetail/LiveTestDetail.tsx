@@ -1,5 +1,6 @@
 import { Alert, Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
 import { Enum, Learner, Utils } from '@adewaskar/lms-common'
+import { useNavigate, useParams } from 'react-router'
 
 import { CalendarOutlined } from '@ant-design/icons'
 import Countdown from '@Components/Countdown'
@@ -10,7 +11,6 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
-import { useParams } from 'react-router'
 
 const { Text, Paragraph } = Typography
 
@@ -19,6 +19,7 @@ interface LiveTestDetailScreenPropsI {}
 export default function LiveTestDetailScreen(
   props: LiveTestDetailScreenPropsI
 ) {
+  const navigate = useNavigate();
   const { testId } = useParams()
   const {
     data: enrolledDetails
@@ -43,7 +44,7 @@ export default function LiveTestDetailScreen(
       }
         
       case Enum.LiveTestStatus.IN_PROGRESS: {
-        return <Button type='primary'>
+        return <Button onClick={()=>navigate('start')} block type='primary'>
           Join Test
         </Button>
         break;

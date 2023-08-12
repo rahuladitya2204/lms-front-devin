@@ -56,6 +56,7 @@ function CreateCoursePlan(props: CreateCoursePlanPropsI) {
               type: 'success',
               content: 'Saved Plan Details'
             })
+            form.resetFields();
             props.closeModal && props.closeModal()
           }
         }

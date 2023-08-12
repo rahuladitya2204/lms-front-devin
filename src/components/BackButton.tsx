@@ -1,12 +1,13 @@
 import { ArrowLeftOutlined } from '@ant-design/icons'
 import { Button } from 'antd'
+import { ButtonProps } from 'antd/lib'
 import { useNavigate } from 'react-router'
 
-function BackButton(props: any) {
+function BackButton(props: ButtonProps) {
   const navigate = useNavigate()
   return (
-    <span onClick={(e) => (props.onClick ? props.onClick(e) : navigate(-1))}>
-      <Button ghost>
+    <span onClick={e => (props.onClick ? props.onClick(e) : navigate(-1))}>
+      <Button size='small' style={{ marginRight: 10 }}>
         <ArrowLeftOutlined />
       </Button>
     </span>

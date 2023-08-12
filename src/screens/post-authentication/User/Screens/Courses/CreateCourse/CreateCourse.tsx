@@ -34,7 +34,7 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
     })
   }
 
-  const { listItems: categories } = User.Queries.useGetCourseCategories()
+  const { listItems: categories } = User.Queries.useGetProductCategories('course')
 
   // const { listItems: instructors } = User.Queries.useGetInstructors()
   return (

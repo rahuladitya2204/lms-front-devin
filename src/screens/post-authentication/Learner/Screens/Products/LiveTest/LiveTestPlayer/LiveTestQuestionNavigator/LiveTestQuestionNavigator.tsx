@@ -1,4 +1,3 @@
-import { Learner } from '@adewaskar/lms-common'
 import {
   CheckCircleFilled,
   CheckCircleOutlined,
@@ -8,8 +7,10 @@ import {
   ReadOutlined
 } from '@ant-design/icons'
 import { Collapse, List, Progress, Tag, Timeline, Typography } from 'antd'
-import { Fragment } from 'react'
 import { useNavigate, useParams } from 'react-router'
+
+import { Fragment } from 'react'
+import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -74,7 +75,7 @@ export default function LiveTestQuestionNavigator(
                   <LiveTestListItem
                     isActive={isActive}
                     extra={[
-                      <Tag color="blue">{item.score}</Tag>,
+                      item.score ? <Tag color="blue">Score: {item.score}</Tag> : null,
                       <Tag icon={<ClockCircleOutlined />}>12 mins</Tag>
                     ]}
                   >
