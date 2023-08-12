@@ -35,15 +35,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
           </Col>
         ) : null}
         <Col span={24}>
-          {/* <Title level={4}>Course Description</Title> */}
-          <Paragraph
-            style={{ fontSize: 16 }}
-            // ellipsis={{
-            //   rows: 2,
-            //   expandable: true,
-            //   symbol: 'readmore'
-            // }}
-          >
+          <Paragraph style={{ fontSize: 16 }}>
             <HtmlViewer content={landingPage.description} />
           </Paragraph>
         </Col>

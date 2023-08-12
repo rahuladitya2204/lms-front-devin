@@ -6,6 +6,7 @@ import {
 } from 'react-router-dom'
 
 import AddPromo from '@User/Screens/Marketing/Promos/CreatePromo'
+import AddQuestion from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/AddQuestionItem'
 import AddTextItem from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
@@ -21,7 +22,9 @@ import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreateLiveSession from '@User/Screens/LiveSession/CreateLiveSession/CreateLiveSession'
+import CreateLiveTest from '@User/Screens/LiveTests/CreateLiveTest'
 import CreatePackage from '@User/Screens/Packages/CreatePackage'
+import CreateQuizForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/CreateQuizForm/CreateQuizForm'
 import EmailTemplateEditor from '@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor'
 import EmailTemplatesScreen from '@User/Screens/CertificateTemplates/CertificateTemplatesScreen'
 import EnrolledCourseDetailScreen from '@Learner/Screens/EnrolledCourseDetail/EnrolledCourseDetailScreen'
@@ -35,13 +38,20 @@ import LearnerDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer'
 import LearnerLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/index'
+import LearnerLiveSessionsScreen from '@Learner/Screens/Products/LiveSession/LiveSessions/LiveSessionScreen'
+import LearnerLiveTestDetailScreen from '@Learner/Screens/Products/LiveTest/LiveTestDetail/LiveTestDetail'
+import LearnerLiveTestScreen from '@Learner/Screens/Products/LiveTest/LiveTestScreen/LiveTestsScreen'
 import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
-import UserLiveSessionsScreen from '@User/Screens/LiveSession/LiveSessionScreen/LiveSessions'
-import LearnerLiveSessionsScreen from '@Learner/Screens/Products/LiveSession/LiveSessions/LiveSessionScreen'
+import LiveSessionDetailScreen from '@Learner/Screens/Products/LiveSession/LiveSessionDetail'
+import LiveTestBuilderScreen from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/LiveTestBuilder'
+import LiveTestEditor from '@User/Screens/LiveTests/LiveTestCreator'
+import LiveTestPlayer from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayer'
+import LiveTestPlayeritem from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayerItem'
+import LiveTestRules from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestRules'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
@@ -57,6 +67,8 @@ import UserDashboard from '@User/Screens/UserDashboard/UserDashboard'
 import UserDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/User/UserDeviceSelection'
 import UserLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/User/LiveSessionPlayer'
 import UserLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/User/index'
+import UserLiveSessionsScreen from '@User/Screens/LiveSession/LiveSessionScreen/LiveSessions'
+import UserLiveTestScreen from '@User/Screens/LiveTests/LiveTestsList/LiveTestsScreen'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserMeetingEnded from '@User/Screens/LiveSession/LiveSessionPlayer/User/UserMeetingEnded'
 import UserRegister from './post-authentication/User/Screens/Register'
@@ -68,18 +80,6 @@ import WebsiteBuilderScreen from '@User/Screens/Builder/Website/WebsiteBuilder/W
 import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
-import CreateQuizForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/CreateQuizForm/CreateQuizForm'
-import UserLiveTestScreen from '@User/Screens/LiveTests/LiveTestsList/LiveTestsScreen'
-import LearnerLiveTestScreen from '@Learner/Screens/Products/LiveTest/LiveTestScreen/LiveTestsScreen'
-import LearnerLiveTestDetailScreen from '@Learner/Screens/Products/LiveTest/LiveTestDetail'
-import CreateLiveTest from '@User/Screens/LiveTests/CreateLiveTest'
-import LiveSessionDetailScreen from '@Learner/Screens/Products/LiveSession/LiveSessionDetail'
-import LiveTestPlayer from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayer'
-import LiveTestPlayeritem from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayerItem'
-import LiveTestRules from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestRules'
-import LiveTestBuilderScreen from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/LiveTestBuilder'
-import AddQuestion from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/AddQuestionItem'
-import LiveTestEditor from '@User/Screens/LiveTests/LiveTestCreator'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -231,15 +231,6 @@ const router = createBrowserRouter(
         </Route>
 
         <Route path="learner">
-          <Route path="app/live-test/:testId">
-            <Route path="rules" element={<LiveTestRules />} />
-            <Route path="player" element={<LiveTestPlayer />}>
-              <Route
-                path="section/:sectionId/:questionId"
-                element={<LiveTestPlayeritem />}
-              />
-            </Route>
-          </Route>
           <Route path="app" element={<LearnerRootScreen />}>
             <Route path="cart" element={<LearnerCart />} />
             <Route path="store" element={<LearnerStoreScreen />} />
@@ -269,6 +260,15 @@ const router = createBrowserRouter(
               path=":orderId/successful"
               element={<EnrolledCourseSuccessful />}
             />
+          </Route>
+          <Route path="app/live-test/:testId">
+            <Route path="rules" element={<LiveTestRules />} />
+            <Route path="player" element={<LiveTestPlayer />}>
+              <Route
+                path="section/:sectionId/:questionId"
+                element={<LiveTestPlayeritem />}
+              />
+            </Route>
           </Route>
           <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route path="app/courses/:id/player" element={<CoursePlayer />}>

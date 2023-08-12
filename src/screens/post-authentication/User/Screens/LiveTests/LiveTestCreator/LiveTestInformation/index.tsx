@@ -4,9 +4,10 @@ import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 
+import Header from '@Components/Header'
 import LiveTestDetailsEditor from './LiveTestDetailsEditor/LiveTestDetails'
 import LiveTestLandingPageEditor from './LiveTestLandingPage/LiveTestLandingPageEditor'
-import Header from '@Components/Header'
+import LiveTestPricingEditor from '../LiveTestPricingEditor/LiveTestPricingEditor'
 import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
@@ -57,18 +58,18 @@ function LiveTestInformationEditor(props: any) {
                 liveTestId={props.liveTestId}
               />
             )
+          },
+          {
+            label: `Pricing`,
+            key: 'pricing',
+            children: (
+              <LiveTestPricingEditor
+                saveLiveTest={props.saveLiveTest}
+                liveTest={props.liveTest}
+                liveTestId={props.liveTestId}
+              />
+            )
           }
-          // {
-          //   label: `Pricing`,
-          //   key: 'pricing',
-          //   children: (
-          //     <LiveTestPricingEditor
-          //       saveLiveTest={props.saveLiveTest}
-          //       liveTest={props.liveTest}
-          //       liveTestId={props.liveTestId}
-          //     />
-          //   )
-          // },
           // {
           //   label: `Advanced`,
           //   key: 'advanced',

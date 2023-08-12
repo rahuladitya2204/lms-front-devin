@@ -1,7 +1,3 @@
-import Countdown from '@Components/Countdown'
-import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
-import { CaretRightOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import {
   Button,
   Card,
@@ -14,11 +10,16 @@ import {
   Timeline,
   Typography
 } from 'antd'
+import { CaretRightOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
+import { useEffect, useMemo } from 'react'
+
+import Countdown from '@Components/Countdown'
+import Header from '@Components/Header'
+import { Learner } from '@adewaskar/lms-common'
+import LiveTestQuestionNavigator from './LiveTestQuestionNavigator/LiveTestQuestionNavigator'
 import dayjs from 'dayjs'
 import { i } from 'mathjs'
-import { useMemo } from 'react'
-import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
-import LiveTestQuestionNavigator from './LiveTestQuestionNavigator/LiveTestQuestionNavigator'
 
 interface LiveTestPlayerPropsI {}
 
@@ -28,6 +29,9 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
   const { testId } = useParams()
   const navigate = useNavigate()
   const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '')
+  const {
+    data: { totalAnswered, totalQuestions }
+  } = Learner.Queries.useGetLiveTestStatus(testId + '')
   const endTime = useMemo(
     () =>
       liveTest.scheduledAt
@@ -37,6 +41,18 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
         : '',
     [testId]
   )
+
+  useEffect(
+    () => {
+      if (liveTest.sections[0]?.items[0]) {
+        const sectionId = liveTest.sections[0]._id
+        const itemId = liveTest.sections[0].items[0]._id
+        navigate(`section/${sectionId}/${itemId}`)
+      }
+    },
+    [liveTest.sections]
+  )
+
   // const currentQuestion=
   return (
     <Header
@@ -69,8 +85,15 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
                   marginBottom: 10
                 }}
               >
-                15 Questions Left
-                <Progress strokeLinecap="butt" percent={75} format={() => ``} />
+                {totalQuestions - totalAnswered} Questions Left
+                <Progress
+                  strokeLinecap="butt"
+                  percent={
+                    (1 - (totalQuestions - totalAnswered) / totalQuestions) *
+                    100
+                  }
+                  format={() => ``}
+                />
               </Title>
 
               <Card>

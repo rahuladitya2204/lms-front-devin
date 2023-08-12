@@ -58,6 +58,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     () => {
       if (item&&item._id) {
         setCorrectOptions(item.correctOptions);
+        form.setFieldsValue(item);
       }
           else
       {

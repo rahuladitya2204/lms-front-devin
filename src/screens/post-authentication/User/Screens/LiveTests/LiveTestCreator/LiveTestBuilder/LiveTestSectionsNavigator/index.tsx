@@ -22,16 +22,9 @@ const { Title, Text } = Typography;
 const CollapsePanel = styled(Collapse.Panel)`
 .ant-collapse-header-text{
   width: 85%;
-
 }
 `
 
-const AddItemListCta = styled(List.Item)`
-.ant-list-item{
-  border-top: 1px solid #dbd9d9;
-  border-bottom: 1px solid #dbd9d9;
-}
-`
 
 const AddChapterButton = styled(Button)`
   /* margin-top: 10px; */

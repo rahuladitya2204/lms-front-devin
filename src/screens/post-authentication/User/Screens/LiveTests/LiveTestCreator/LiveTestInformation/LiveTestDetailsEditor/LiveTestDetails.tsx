@@ -1,48 +1,15 @@
-import {
-  AutoComplete,
-  Avatar,
-  Button,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Row,
-  Select,
-  Space,
-  Typography
-} from 'antd'
+import { Col, DatePicker, Form, Input, Row, Select } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
-import { User, Utils } from '@adewaskar/lms-common'
 
-import ActionModal from '@Components/ActionModal'
-import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor'
-// import CreateCategory from '@User/Screens/LiveTests/LiveTestCategory/CreateCategory'
 import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import { PlusOutlined } from '@ant-design/icons'
-// import { deepPatch } from '../../LiveTestBuilder/utils'
+import dayjs from 'dayjs'
+import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
-import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 
 const { TextArea } = Input
-const { Text } = Typography
-
-const DIFFICULTY_LEVELS = [
-  {
-    label: 'Beginner',
-    value: 'beginner'
-  },
-  {
-    label: 'Intermediate',
-    value: 'intermediate'
-  },
-  {
-    label: 'Advanced',
-    value: 'advanced'
-  }
-]
 
 const LANGUAGES = [
   {
@@ -55,24 +22,27 @@ const LANGUAGES = [
   }
 ]
 const { useWatch } = Form
-const { Option } = Select
+
 interface LiveTestDetailsEditorPropsI {
   liveTestId?: string;
   saveLiveTest: Function;
   liveTest: Types.LiveTest;
 }
 
-const STATUSES = Utils.getValuesFromMap(Constants.COURSE_STATUSES_MAP)
-
 function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
   const { liveTest } = props
   const [form] = Form.useForm()
   const { id } = useParams()
   const liveTestId = props.liveTestId || id
-  const { data: instructors } = User.Queries.useGetInstructors()
+  // const { data: instructors } = User.Queries.useGetInstructors()
   const image = useWatch(['image'], form)
   useEffect(
     () => {
+      if (liveTest.scheduledAt) {
+        // @ts-ignore
+        liveTest.scheduledAt = dayjs(liveTest.scheduledAt)
+      }
+
       form.setFieldsValue(liveTest)
     },
     [liveTest]
@@ -92,7 +62,8 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
       />
     )
   }
-
+  // const date = dayjs(Form.useWatch('scheduledAt', form))
+  // console.log(date, 'date')
   return (
     <Form
       form={form}
@@ -172,13 +143,11 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
       <Row gutter={[40, 20]}>
         <Col span={12}>
           <Form.Item
-            label="Difficulty Level"
-            name={['difficultyLevel']}
-            rules={[
-              { required: true, message: 'Please select difficulty level!' }
-            ]}
+            label="Duration(in minutes)"
+            name={['duration']}
+            rules={[{ required: true, message: 'Please select duration!' }]}
           >
-            <Select options={DIFFICULTY_LEVELS} />
+            <Input type="number" placeholder="Enter duration in mins" />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -197,7 +166,7 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
         </Col>
       </Row>
       <Row gutter={[40, 20]}>
-        <Col span={12}>
+        {/* <Col span={12}>
           <Row gutter={[0, 20]}>
             <Col flex={1}>
               <Form.Item
@@ -242,32 +211,23 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
               </ActionModal>
             </Col>
           </Row>
-        </Col>
+        </Col> */}
         <Col span={12}>
           <Row gutter={[0, 20]} justify={'end'}>
             <Col flex={1}>
-              {/* <Form.Item
-                name={['category']}
-                required
-                label="Category"
+              <Form.Item
                 rules={[
-                  { required: true, message: 'Please select a category' }
+                  {
+                    required: true,
+                    message: 'Please enter start time for the live test'
+                  }
                 ]}
+                name="scheduledAt"
+                label="Scheduled For"
+                required
               >
-                <Select style={{ width: '100%' }} placeholder="Select Category">
-                  {categories.map(category => {
-                    return (
-                      <Option
-                        key={category.value}
-                        value={category.value}
-                        label={category.label}
-                      >
-                        {category.label}
-                      </Option>
-                    )
-                  })}
-                </Select>
-              </Form.Item> */}
+                <DatePicker showTime />
+              </Form.Item>
             </Col>
             {/* <Col style={{ display: 'flex', alignItems: 'center' }}>
               <ActionModal

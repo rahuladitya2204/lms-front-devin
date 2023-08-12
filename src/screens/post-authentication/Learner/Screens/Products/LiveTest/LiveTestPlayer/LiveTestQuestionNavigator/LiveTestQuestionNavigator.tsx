@@ -1,5 +1,12 @@
 import { Learner } from '@adewaskar/lms-common'
-import { ClockCircleOutlined, ReadOutlined } from '@ant-design/icons'
+import {
+  CheckCircleFilled,
+  CheckCircleOutlined,
+  CheckCircleTwoTone,
+  ClockCircleOutlined,
+  InfoCircleOutlined,
+  ReadOutlined
+} from '@ant-design/icons'
 import { Collapse, List, Progress, Tag, Timeline, Typography } from 'antd'
 import { Fragment } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -45,13 +52,16 @@ export default function LiveTestQuestionNavigator(
   const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(
     props.liveTestId + ''
   )
-  console.log(liveTest, 'liveTest')
+  //    const { data: { sections } } = Learner.Queries.useGetLiveTestStatus(
+  const { data: { sections } } = Learner.Queries.useGetLiveTestStatus(
+    props.liveTestId + ''
+  )
   return (
     <Collapse
       defaultActiveKey={liveTest.sections.map(s => s._id)}
       bordered={false}
     >
-      {liveTest.sections.map(section => {
+      {sections.map(section => {
         return (
           <CollapsePanel key={section._id} header={section.title}>
             <List
@@ -71,7 +81,13 @@ export default function LiveTestQuestionNavigator(
                     <List.Item.Meta
                       style={{ cursor: 'pointer' }}
                       title={<Text>{`Question ${itemIndex + 1}`}</Text>}
-                      avatar={<ReadOutlined />}
+                      avatar={
+                        item.isAnswered ? (
+                          <CheckCircleTwoTone style={{ color: 'green' }} />
+                        ) : (
+                          <InfoCircleOutlined />
+                        )
+                      }
                     />
                   </LiveTestListItem>
                 )

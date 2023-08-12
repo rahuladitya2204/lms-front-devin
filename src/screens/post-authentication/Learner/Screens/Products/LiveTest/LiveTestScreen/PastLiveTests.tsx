@@ -1,82 +1,62 @@
-import {
-  Button,
-  Card,
-  Col,
-  Row,
-  Space,
-  Table,
-  Tabs,
-  Tag,
-  Typography
-} from 'antd'
-
+import { Avatar, Card, Col, List, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
+import { CalendarOutlined } from '@ant-design/icons'
+import Image from '@Components/Image'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
+const { Meta } = Card
 const { Text } = Typography
 
 function PastLiveTest(props: { filter: Types.GetLiveTestssFilter }) {
-  const { data, isLoading: loading } = Learner.Queries.useGetLiveTests(
-    props.filter
-  )
+  const navigate = useNavigate()
+  const {
+    data,
+    isLoading: loading
+  } = Learner.Queries.useGetEnrolledProductList('live-test')
   return (
-    <Card bodyStyle={{ padding: 0 }}>
-      <Row>
-        <Col span={24}>
-          <Table dataSource={data} loading={loading}>
-            <Table.Column title="Title" dataIndex="title" key="title" />
-            <Table.Column
-              title="Started At"
-              dataIndex="startedAt"
-              key="startedAt"
-              render={(_: any, record: Types.LiveTest) => (
-                <Space size="middle">
-                  {dayjs(record.startedAt).format('LLL')}
-                </Space>
-              )}
+    <List
+      grid={{
+        gutter: 16,
+        xs: 1,
+        sm: 2,
+        md: 4,
+        lg: 4,
+        xl: 6,
+        xxl: 3
+      }}
+      dataSource={data}
+      renderItem={({ product: { data: liveTest } }) => (
+        <List.Item>
+          <Card
+            onClick={() => {
+              navigate(liveTest?._id)
+            }}
+            style={{ width: 300 }}
+            // @ts-ignore
+            cover={<Image alt="example" src={liveTest.image} />}
+            // actions={[
+            //   <SettingOutlined key="setting" />,
+            //   <EditOutlined key="edit" />,
+            //   <EllipsisOutlined key="ellipsis" />
+            // ]}
+          >
+            <Meta
+              // avatar={
+              //   <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
+              // }
+              // @ts-ignore
+              title={liveTest.title}
+              description={
+                <Text>Date: {dayjs(liveTest?.scheduledFor).format('LL')}</Text>
+              }
+              avatar={<CalendarOutlined />}
             />
-            <Table.Column
-              title="Ended At"
-              dataIndex="endedAt"
-              key="endedAt"
-              render={(_: any, record: Types.LiveTest) => (
-                <Space size="middle">
-                  {record.endedAt ? dayjs(record.endedAt).format('LLL') : '-'}
-                </Space>
-              )}
-            />
-            <Table.Column
-              title="Recording"
-              dataIndex="recording"
-              key="recording"
-              render={(_: any, record: Types.LiveTest) => (
-                <Button size="small">View Recording</Button>
-              )}
-            />
-            {/* <Table.Column
-                title="Action"
-                key="action"
-                render={(_: any, record: Types.LiveTest) => (
-                  <Space size="middle">
-                    {record.recording.status?<>{record?.recording.status==='completed' ? <ViewRecording session={record} /> : <Tag color='cyan'>Processing Recording</Tag> }</>:!(record.startedAt&&record.endedAt)?<Button type='primary'
-                      onClick={() =>
-                        // navigate(`${record._id}/player`)
-                        window.open(
-                          `live-session/${record._id}/player`,
-                          '_blank'
-                        )
-                      } size='small'
-                        icon={<VideoCameraOutlined/>}
-                    >Start Meeting</Button>:<Text>Meeting has ended</Text>}
-                  </Space>
-                )}
-              /> */}
-          </Table>
-        </Col>
-      </Row>
-    </Card>
+          </Card>
+        </List.Item>
+      )}
+    />
   )
 }
 export default PastLiveTest

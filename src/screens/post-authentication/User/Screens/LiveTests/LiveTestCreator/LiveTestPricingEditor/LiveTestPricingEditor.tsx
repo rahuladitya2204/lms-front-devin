@@ -11,7 +11,7 @@ interface LiveTestPricingEditorPropsI {
   liveTestId: string;
   saveLiveTest: Function;
 
-  livetest: Types.LiveTest;
+  liveTest: Types.LiveTest;
 }
 
 function LiveTestPricingEditor(props: LiveTestPricingEditorPropsI) {

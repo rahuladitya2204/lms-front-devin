@@ -22,6 +22,11 @@ export default function LiveTestPlayeritem(props: LiveTestPlayeritemPropsI) {
   useEffect(() => {
     setTargetDate(dayjs().add(1.5, 'minute').toString());
   }, [questionId]);
+
+  useEffect(() => {
+    if(currentQuestion.answerGiven)
+    setAnswersGiven(currentQuestion.answerGiven)
+  },[currentQuestion])
   return (
     <Fragment>
       <Row gutter={[20,30]}>
@@ -88,7 +93,7 @@ export default function LiveTestPlayeritem(props: LiveTestPlayeritemPropsI) {
             questionId:questionId + '',
             answers: answersGiven
           })
-        }} > Submit</Button>
+        }} disabled={!answersGiven.length}> Submit</Button>
         <Button style={{width: 110}}> Skip</Button>
         </Col>
       </Row>

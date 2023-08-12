@@ -1,3 +1,4 @@
+import AddOutcome, { Outcome } from '../ExtraComponents/Outcomes/AddOutcome'
 import {
     Button,
     Card,
@@ -10,28 +11,27 @@ import {
     Select,
     Switch,
     Table,
-  } from 'antd'
-  import React, { Fragment, ReactNode, useEffect, useState } from 'react'
-  
-  import Header from '@Components/Header'
-  import Image from '@Components/Image'
-  import MediaUpload from '@Components/MediaUpload'
-  import PriceFormItem from '@Components/PriceFormItem'
-  import TextArea from '@Components/Textarea'
-  import { Types } from '@adewaskar/lms-common'
-  import { User } from '@adewaskar/lms-common'
-  import dayjs from 'dayjs'
-  import { useParams } from 'react-router'
-  import ActionModal from '@Components/ActionModal'
-  import AddOutcome, { Outcome } from '../ExtraComponents/Outcomes/AddOutcome'
-  import LiveTestOutcomes from '../ExtraComponents/Outcomes/Outcomes'
-  import AddTestimonial from '../ExtraComponents/Testimonials/AddTestomonial'
-  import LiveTestTestimonials from '../ExtraComponents/Testimonials/Testimonials'
+} from 'antd'
+import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+
+import ActionModal from '@Components/ActionModal'
 import AddQuestion from '../ExtraComponents/TestQuestions/AddQuestion'
+import AddTestimonial from '../ExtraComponents/Testimonials/AddTestomonial'
+import Header from '@Components/Header'
+import Image from '@Components/Image'
+import LiveTestOutcomes from '../ExtraComponents/Outcomes/Outcomes'
+import LiveTestTestimonials from '../ExtraComponents/Testimonials/Testimonials'
+import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
+import PriceFormItem from '@Components/PriceFormItem'
 import Questions from '../ExtraComponents/TestQuestions/Questions'
-  
-  interface CreateLiveTestComponentPropsI {
+import TextArea from '@Components/Textarea'
+import { Types } from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
+import { useParams } from 'react-router'
+
+interface CreateLiveTestComponentPropsI {
     children?: ReactNode;
     closeModal?: Function;
     onFinish?: (data: Types.LiveTest) => void;
@@ -88,7 +88,8 @@ import Questions from '../ExtraComponents/TestQuestions/Questions'
     const title = Form.useWatch('title', form);
     const duration = Form.useWatch('duration', form);
     // const scheduledAt = Form.useWatch('scheduledAt', form);
-    const date = dayjs(Form.useWatch('scheduledAt', form))
+    const date = dayjs(Form.useWatch('scheduledAt', form));
+    console.log(date,'taaa')
 
     const isValidForDraft = title && date && questions.length;
   
