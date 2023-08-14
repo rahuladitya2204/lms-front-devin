@@ -14,9 +14,9 @@ function useUploadItemForm(form?:FormInstance) {
   const section = course.sections.find(s => s._id === sectionId);
   const { mutate: updateItem } = User.Queries.useUpdateCourseItem();
 
-  const [sections] = useOutletContext<[Types.CourseSection[],(sectionId:string,data:Types.CourseSectionItem)=>void,Function]>();
+  const [items] = useOutletContext<[Types.CourseSection[],(sectionId:string,data:Types.CourseSectionItem)=>void,Function]>();
 
-  const item = findSectionItem(itemId+'', sectionId+'', sections) || {title:'',description:''};
+  const item = findSectionItem(itemId+'', items) || {title:'',description:''};
   const currentItemIndex = section?.items.findIndex(i => i._id === item._id);
 
   useEffect(() => {

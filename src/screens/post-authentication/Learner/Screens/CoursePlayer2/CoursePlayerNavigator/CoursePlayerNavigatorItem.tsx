@@ -1,18 +1,19 @@
-import { List, Progress, Typography, theme } from 'antd'
-import { Unit, unit } from 'mathjs'
-import PlayIcon from './icons/play.svg'
-import PauseIcon from './icons/pause.svg'
 import {
   CheckCircleFilled,
   PauseOutlined,
   PlayCircleFilled,
   PlayCircleOutlined
 } from '@ant-design/icons'
-import { Store, Utils } from '@adewaskar/lms-common'
+import { List, Progress, Typography, theme } from 'antd'
 import { NavLink, useParams } from 'react-router-dom'
-import { Types } from '@adewaskar/lms-common'
+import { Store, Utils } from '@adewaskar/lms-common'
+import { Unit, unit } from 'mathjs'
 
+import PauseIcon from './icons/pause.svg'
+import PlayIcon from './icons/play.svg'
+import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
+
 const { useToken } = theme
 
 const { Text } = Typography
@@ -53,7 +54,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
 
   return (
     <NavLink
-      to={`section/${props.section._id}/item/${props.item._id}`}
+      to={`${props.item._id}`}
       children={({ isActive }) => (
         <CourseListItem
           extra={[

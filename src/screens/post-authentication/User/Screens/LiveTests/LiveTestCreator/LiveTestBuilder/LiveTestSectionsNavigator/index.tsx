@@ -2,19 +2,19 @@ import { Button, Card, Collapse, Dropdown, Input, List, Modal, Space, Tooltip, T
 import { DeleteOutlined, PhoneOutlined, PlusOutlined, ReadOutlined, SaveOutlined } from '@ant-design/icons'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 
+import ActionModal from '@Components/ActionModal'
+import AddItem from './AddItem'
+import AddQuestion from '@User/Screens/ExtraComponents/TestQuestions/AddQuestion'
+import AddSection from './AddSection'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import MoreButton from '@Components/MoreButton'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
-import MoreButton from '@Components/MoreButton'
-import AddSection from './AddSection'
-import AddQuestion from '@User/Screens/ExtraComponents/TestQuestions/AddQuestion'
-import ActionModal from '@Components/ActionModal'
-import AddItem from './AddItem'
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -249,7 +249,7 @@ const LiveTestSectionsNavigator: React.FC<LiveTestSectionsNavigatorPropsI> = ({
                          <NavLink
                               style={{ width: '100%' }}
                               key={item._id}
-                              to={`section/${section._id}/${item._id}`}
+                              to={`${item._id}`}
                               children={({ isActive }) => LiveTestSectionListItem(isActive)}
                               />
                           </List.Item>

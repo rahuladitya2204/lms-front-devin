@@ -10,16 +10,13 @@ function useUpdateLiveTestForm(
   sections: Types.LiveTestSection[],
   form?: FormInstance
 ) {
-  let { itemId, sectionId, id: testId } = useParams()
+  let { itemId, id: testId } = useParams()
   const { data: liveTest } = User.Queries.useGetLiveTestDetails(testId + '', {
     enabled: !!testId
   })
-  const section = liveTest.sections.find(s => s._id === sectionId)
-
-  const item = findSectionItem(itemId + '', sectionId + '', sections)
-  const currentItemIndex = item
-    ? section?.items.findIndex(i => i._id === item._id)
-    : -1
+  const items = sections.map(s => s.items).flat()
+  const item = findSectionItem(itemId + '' + '', items)
+  const currentItemIndex = item ? items.findIndex(i => i._id === item._id) : -1
 
   useEffect(
     () => {
@@ -30,7 +27,7 @@ function useUpdateLiveTestForm(
     [item]
   )
 
-  return { form, item, sectionId, testId, itemId, section, currentItemIndex }
+  return { form, item, testId, itemId, currentItemIndex }
 }
 
 export default useUpdateLiveTestForm

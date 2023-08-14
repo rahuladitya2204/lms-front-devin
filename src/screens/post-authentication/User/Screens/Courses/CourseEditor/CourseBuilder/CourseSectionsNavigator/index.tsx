@@ -8,13 +8,13 @@ import AddSection from '../CreateNewItem/AddSection'
 import CourseItemIcon from './CourseItemIcon'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import MoreButton from '@Components/MoreButton'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
-import MoreButton from '@Components/MoreButton'
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -256,7 +256,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                            {item.type?<NavLink
                               style={{ width: '100%' }}
                               key={item._id}
-                              to={`section/${section._id}/${item.type}/${item._id}`}
+                              to={`${item.type}/${item._id}`}
                               children={({ isActive }) => CourseSectionListItem(isActive)}
                             />: <ActionModal width={650}
                             cta={

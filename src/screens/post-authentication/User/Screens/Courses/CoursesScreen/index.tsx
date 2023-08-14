@@ -18,7 +18,7 @@ function CoursesScreen () {
       <Header title="Courses" extra={[CreateCourseCta]}>
         {courses.length ? (
           <List
-            grid={{ gutter: 20, column: 4 }}
+            grid={{ gutter: 20, column: 4, sm: 3 }}
             size="large"
             // pagination={{
             //   onChange: (page) => {

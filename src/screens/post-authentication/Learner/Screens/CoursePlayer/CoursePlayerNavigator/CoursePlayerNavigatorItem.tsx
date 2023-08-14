@@ -49,7 +49,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   return (
     <NavLink
-      to={`section/${props.section._id}/item/${props.item._id}`}
+      to={`${props.item._id}`}
       children={({ isActive }) => (
         <CourseListItem
           // extra={[

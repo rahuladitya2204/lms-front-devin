@@ -26,6 +26,7 @@ function StoreScreen () {
     [params.orgId]
   )
   const courses = !isSignedIn ? recommendedCourses : allCourses
+  console.log(categories, courses, 'categorizedCourses')
   return (
     <Row gutter={[30, 30]}>
       <Col span={24}>
@@ -36,7 +37,7 @@ function StoreScreen () {
           course => course.category === category._id
         )
         if (!categorizedCourses.length) {
-          return null;
+          return null
         }
         return (
           <Col span={24}>

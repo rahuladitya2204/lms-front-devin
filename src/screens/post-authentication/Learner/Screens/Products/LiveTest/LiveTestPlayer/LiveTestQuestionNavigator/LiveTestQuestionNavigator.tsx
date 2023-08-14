@@ -98,7 +98,7 @@ export default function LiveTestQuestionNavigator(
                       <NavLink
                         style={{ width: '100%' }}
                         key={item._id}
-                        to={`section/${section._id}/${item._id}`}
+                        to={`${item._id}`}
                         children={({ isActive }) =>
                           LiveTestSectionListItem(isActive)
                         }

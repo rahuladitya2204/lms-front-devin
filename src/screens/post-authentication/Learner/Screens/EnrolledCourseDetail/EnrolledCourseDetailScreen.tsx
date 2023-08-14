@@ -65,15 +65,13 @@ const EnrolledCourseDetailScreen: React.FC<
 
   const continueLearning = () => {
     navigate(
-      `../../courses/${lastPlayed.course}/player/section/${
-        lastPlayed.section
-      }/item/${lastPlayed.item}`
+      `../../courses/${lastPlayed.course}/player/${lastPlayed.item}`
     )
   }
 
   const playItem = (sectionId: string, itemId: string) => {
     navigate(
-      `../../courses/${courseId}/player/section/${sectionId}/item/${itemId}`
+      `../../courses/${courseId}/player/${itemId}`
     )
   }
 

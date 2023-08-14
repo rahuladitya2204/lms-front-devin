@@ -103,7 +103,7 @@ const router = createBrowserRouter(
             path="app/products/courses/:id/builder"
             element={<CourseBuilderScreen />}
           >
-            <Route path="section/:sectionId">
+            <Route path="">
               <Route path="pdf/:itemId" element={<UploadPDFForm />} />
               <Route path="video/:itemId" element={<UploadVideoForm />} />
               <Route path="text/:itemId" element={<AddTextItem />} />
@@ -115,7 +115,7 @@ const router = createBrowserRouter(
             path="app/products/live-test/:id/builder"
             element={<LiveTestBuilderScreen />}
           >
-            <Route path="section/:sectionId">
+            <Route path="">
               <Route path=":itemId" element={<AddQuestion />} />
               {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
             </Route>
@@ -264,16 +264,13 @@ const router = createBrowserRouter(
           <Route path="app/live-test/:testId">
             <Route path="start" element={<LiveTestRules />} />
             <Route path="player" element={<LiveTestPlayer />}>
-              <Route
-                path="section/:sectionId/:questionId"
-                element={<LiveTestPlayeritem />}
-              />
+              <Route path=":questionId" element={<LiveTestPlayeritem />} />
             </Route>
           </Route>
           <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route path="app/courses/:id/player" element={<CoursePlayer />}>
             <Route
-              path="section/:sectionId/item/:itemId"
+              path=":itemId"
               element={<CoursePlayerItem />}
             />
           </Route>

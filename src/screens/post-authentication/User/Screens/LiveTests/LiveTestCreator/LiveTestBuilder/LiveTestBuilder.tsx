@@ -4,16 +4,16 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 
+import ActionModal from '@Components/ActionModal'
 import BackButton from '@Components/BackButton'
-import LiveTestSectionsNavigator from './LiveTestSectionsNavigator'
+import GenerateWithAI from '@User/Screens/Courses/CourseEditor/CourseInformation/GenerateWithAiButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
+import LiveTestSectionsNavigator from './LiveTestSectionsNavigator'
 import MediaUpload from '@Components/MediaUpload'
 import { cloneDeep } from 'lodash'
-import useMessage from '@Hooks/useMessage'
-import ActionModal from '@Components/ActionModal'
-import GenerateWithAI from '@User/Screens/Courses/CourseEditor/CourseInformation/GenerateWithAiButton'
 import { updateLiveTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
+import useMessage from '@Hooks/useMessage'
 
 const { confirm } = Modal
 
@@ -105,10 +105,10 @@ function LiveTestBuilderScreen() {
       onSuccess: liveTest => {
         // console.log(liveTest, 1212123);
         if (item._id) {
-          return navigate(`section/${sectionId}/${item._id}`)
+          return navigate(`${item._id}`)
         }
         const newlyAdedItem = [...liveTest.sections[index].items].pop()
-        navigate(`section/${sectionId}/${newlyAdedItem?._id}`)
+        navigate(`${newlyAdedItem?._id}`)
       }
     })
   }
@@ -132,23 +132,20 @@ function LiveTestBuilderScreen() {
       )
     }
   }
-
-    useEffect(
-      () => {
-        if (!itemId) {
-          const firstSection = liveTest.sections.find(s => s.items.length)
-          if (firstSection && firstSection.items.length) {
-            const firstItem = firstSection.items[0]
-            if (firstItem.type) {
-              navigate(
-                `section/${firstSection._id}/${firstItem._id}`
-              )
-            }
-          }
-        }
-      },
-      [liveTest._id]
-    )
+  useEffect(
+    () => {
+      if (!itemId) {
+        const firstItem = (liveTest?.sections
+          ?.map((i: any) => i.items)
+          .flat())[0]
+          // .find((i: any) => i._id === itemId)
+        console.log()
+        if(firstItem)
+        navigate(`${firstItem._id}`)
+      }
+    },
+    [liveTest._id]
+  )
 
   useEffect(
     () => {
@@ -192,7 +189,7 @@ function LiveTestBuilderScreen() {
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem)
             navigate(
-              `section/${lastSection._id}/${lastItem._id}`
+              `${lastItem._id}`
             )
         }
       }
@@ -216,7 +213,7 @@ function LiveTestBuilderScreen() {
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem)
             navigate(
-              `section/${lastSection._id}/${lastItem._id}`
+              `${lastItem._id}`
             )
         }
       }

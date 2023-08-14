@@ -47,7 +47,7 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
       if (liveTest.sections[0]?.items[0]) {
         const sectionId = liveTest.sections[0]._id
         const itemId = liveTest.sections[0].items[0]._id
-        navigate(`section/${sectionId}/${itemId}`)
+        navigate(`${itemId}`)
       }
     },
     [liveTest.sections]

@@ -5,16 +5,16 @@ import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { parseAIJson, updateCourseSectionItem } from './utils'
 import { useEffect, useState } from 'react'
 
+import ActionModal from '@Components/ActionModal'
 import BackButton from '@Components/BackButton'
 import CourseSectionsNavigator from './CourseSectionsNavigator'
 import GenerateWithAI from '../CourseInformation/GenerateWithAiButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
+import SetCourseRules from './SetRules'
 import { cloneDeep } from 'lodash'
 import useMessage from '@Hooks/useMessage'
-import ActionModal from '@Components/ActionModal'
-import SetCourseRules from './SetRules'
 
 const { confirm } = Modal
 
@@ -108,10 +108,10 @@ function CourseBuilderScreen() {
       },
       cb: course => {
         if (item._id) {
-          return navigate(`section/${sectionId}/${type}/${item._id}`)
+          return navigate(`${type}/${item._id}`)
         }
         const newlyAdedItem = [...course.sections[index].items].pop()
-        navigate(`section/${sectionId}/${type}/${newlyAdedItem?._id}`)
+        navigate(`${type}/${newlyAdedItem?._id}`)
       }
     })
   }
@@ -143,7 +143,7 @@ function CourseBuilderScreen() {
           const firstItem = firstSection.items[0]
           if (firstItem.type) {
             navigate(
-              `section/${firstSection._id}/${firstItem.type}/${firstItem._id}`
+              `${firstItem.type}/${firstItem._id}`
             )
           }
         }
@@ -183,7 +183,7 @@ function CourseBuilderScreen() {
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem && lastItem.type)
             navigate(
-              `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
+              `${lastItem.type}/${lastItem._id}`
             )
         }
       }
@@ -207,7 +207,7 @@ function CourseBuilderScreen() {
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem && lastItem.type)
             navigate(
-              `section/${lastSection._id}/${lastItem.type}/${lastItem._id}`
+              `${lastItem.type}/${lastItem._id}`
             )
         }
       }
@@ -223,6 +223,7 @@ function CourseBuilderScreen() {
   // const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
   //   courseId + ''
   // )
+  const items = course.sections.map(s => s.items).flat();
   const { mutate: publishCourse } = User.Queries.usePublishCourse()
   return (
     <Header
@@ -367,7 +368,7 @@ function CourseBuilderScreen() {
           ) : (
             <Card>
               <Outlet
-                context={[course.sections, updateCourseSection, saveCourse]}
+                context={[items, updateCourseSection, saveCourse]}
               />
             </Card>
           )}

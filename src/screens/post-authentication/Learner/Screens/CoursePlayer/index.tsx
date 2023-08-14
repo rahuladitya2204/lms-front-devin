@@ -86,12 +86,12 @@ function CoursePlayer() {
   useEffect(
     () => {
       if (itemId && sectionId) {
-        return navigate(`section/${sectionId}/item/${itemId}`)
+        return navigate(`${itemId}`)
       }
       if (sections[0]?.items[0]) {
         const sectionId = sections[0]._id
         const itemId = sections[0].items[0]._id
-        navigate(`section/${sectionId}/item/${itemId}`)
+        navigate(`${itemId}`)
       }
     },
     [sections]
@@ -113,11 +113,11 @@ function CoursePlayer() {
   const prevItem = allItems[currentItemIndex - 1]
 
   const next = () => {
-    navigate(`section/${nextItem.section}/item/${nextItem._id}`)
+    navigate(`${nextItem._id}`)
   }
 
   const prev = () => {
-    navigate(`section/${prevItem.section}/item/${prevItem._id}`)
+    navigate(`${prevItem._id}`)
   }
 
   useEffect(

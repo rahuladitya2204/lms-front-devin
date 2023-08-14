@@ -38,16 +38,16 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
   )
 
   const sections = course.sections
+  // console.log(sections, 'sec')
   return (
     <Fragment>
       {sections.map((section, index) => {
         const itemsCompleted = section.items.filter(item => item.isCompleted)
         const sectionProgress = Math.ceil(
           itemsCompleted.length / section.items.length * 100
-        )
+        );
         return (
           <CustomCollapse
-            // bordered={false}
             expandIconPosition="end"
             defaultActiveKey={sections.map((s, i) => s._id)}
           >
@@ -82,13 +82,6 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
           </CustomCollapse>
         )
       })}
-      {/* {sections.map((section, sectionIndex) => {
-        return (
-          <CustomCollapse>
-         
-          </CustomCollapse>
-        )
-      })} */}
     </Fragment>
   )
 }

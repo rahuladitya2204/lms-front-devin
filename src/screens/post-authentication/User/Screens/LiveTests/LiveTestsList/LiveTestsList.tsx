@@ -38,7 +38,7 @@ function LiveTestsList(props: { filter: Types.GetLiveTestssFilter }) {
     <Fragment>
       {data.length ? (
         <List
-          grid={{ gutter: 20, column: 4 }}
+          grid={{ gutter: 20, column: 3 }}
           size="large"
           // pagination={{
           //   onChange: (page) => {
