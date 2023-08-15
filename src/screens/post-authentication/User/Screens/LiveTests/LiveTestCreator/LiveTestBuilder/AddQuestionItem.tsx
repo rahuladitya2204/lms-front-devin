@@ -2,7 +2,7 @@ import {
   Alert,
   Button,
   Card,
-  Checkbox,   
+  Checkbox,
   Col,
   Divider,
   Empty,
@@ -15,20 +15,20 @@ import {
   Select,
   Switch,
   Typography,
-
 } from 'antd'
-import { Fragment, useEffect, useState } from 'react'
-
 import { Constants, Types, User } from '@adewaskar/lms-common'
-import {  DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
+import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
+import { Fragment, useEffect, useState } from 'react'
+import { useOutletContext, useParams } from 'react-router';
+
 import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
-import { useOutletContext, useParams } from 'react-router';
-import useUpdateLiveTestForm from './hooks/useUpdateLiveTest';
-import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
-import TextArea from '@Components/Textarea';
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
+import TextArea from '@Components/Textarea';
+import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
+import useUpdateLiveTestForm from './hooks/useUpdateLiveTest';
+
 const { Title } = Typography;
 
 const { confirm } = Modal;
@@ -118,7 +118,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                     console.log(d,'ooopo')
                   setCorrectOptions(d.correctOptions)
                     form.setFieldsValue(d);
-                    updateLiveTestSection(sectionId,itemId,d)
+                    d.isAiGenerated = true;
+                    updateLiveTestSection(sectionId, itemId, d);
+                    // setIsAiGenerated(true);
 
           }}/>
               </ActionModal>
@@ -130,7 +132,10 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       <Col span={24}>
    
         <Card bordered={false}>
-        <Form name='quiz' onFinish={submit} onValuesChange={(v,e) => updateItem(e)}
+          <Form name='quiz' onFinish={submit} onValuesChange={(v, e) => {
+            console.log(e,'hi')
+            updateItem(e)
+        }}
 
         form={form}
         layout="vertical"
@@ -183,7 +188,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                   </Form.Item>
                 </Col>
                 <Col>
-                    <OptionSelectedFormControl
+                    <OptionSelectedFormControl disabled={!!item.isAiGenerated}
                       checked={correctOptions.indexOf(index) > -1}
                       onChange={e => {
                       let options=[...correctOptions]

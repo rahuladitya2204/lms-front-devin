@@ -171,7 +171,10 @@ const LiveTestSectionsNavigator: React.FC<LiveTestSectionsNavigatorPropsI> = ({
             items={[
               {
                 label: 'Add Question',
-                onClick: () => onAddNewItem({title:'New Question',answers:['','','','']},secIndex),
+                onClick: () => {
+                  onAddNewItem({ title: 'New Question', answers: ['', '', '', ''] }, secIndex);
+                  // if(section.items.length==0)
+                },
                   key:'add'
               },{
             label:<AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Collapse, List, Progress, Space, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
@@ -30,22 +31,20 @@ interface CoursePlayerNavigatorPropsI {
 }
 
 function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
-  const { data: course } = Learner.Queries.useGetCourseDetails(
-    props.courseId + '',
-    {
-      enabled: !!props.courseId
-    }
-  )
+  const {
+    data: { product: { data: course } }
+  } = Learner.Queries.useGetEnrolledCourseDetails(props.courseId, {
+    enabled: !!props.courseId
+  })
+  const sections = course.sections || []
 
-  const sections = course.sections
-  // console.log(sections, 'sec')
   return (
     <Fragment>
-      {sections.map((section, index) => {
+      {sections?.map((section, index) => {
         const itemsCompleted = section.items.filter(item => item.isCompleted)
         const sectionProgress = Math.ceil(
           itemsCompleted.length / section.items.length * 100
-        );
+        )
         return (
           <CustomCollapse
             expandIconPosition="end"

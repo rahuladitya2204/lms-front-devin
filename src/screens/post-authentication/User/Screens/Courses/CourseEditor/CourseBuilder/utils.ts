@@ -48,12 +48,10 @@ export const updateCourseSectionItem = (
 
 export const updateLiveTestSectionItem = (
   sections: Types.LiveTestSection[],
-  sectionId: string,
   item: Types.LiveTestSectionItem
 ) => {
   const SECTIONS = cloneDeep(sections)
   SECTIONS.forEach(section => {
-    if (section._id === sectionId) {
       section.items.forEach((secItem, itemIndex) => {
         if (secItem._id === item._id) {
           section.items[itemIndex] = {
@@ -62,7 +60,6 @@ export const updateLiveTestSectionItem = (
           }
         }
       })
-    }
   })
   return SECTIONS
 }

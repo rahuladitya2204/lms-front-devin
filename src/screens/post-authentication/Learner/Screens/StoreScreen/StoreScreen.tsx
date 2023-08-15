@@ -1,4 +1,4 @@
-import { Carousel, Col, Row } from 'antd'
+import { Carousel, Col, List, Row } from 'antd'
 import { Learner, Store } from '@adewaskar/lms-common'
 
 import CourseCard from './CourseCard'
@@ -44,15 +44,19 @@ function StoreScreen () {
             <Section title={category.title} subtitle={category.description}>
               <Row>
                 <Col span={24}>
-                  <Row gutter={[30, 30]}>
-                    {categorizedCourses.map(course => {
+                  <List
+                    grid={{ gutter: 10, column: 4, sm: 6, xs: 6 }}
+                    size="large"
+                    dataSource={categorizedCourses}
+                    renderItem={course => <CourseCard course={course} />}
+                  />
+                  {/* {categorizedCourses.map(course => {
                       return (
                         <Col span={6}>
                           <CourseCard course={course} />
                         </Col>
                       )
-                    })}
-                  </Row>
+                    })} */}
                 </Col>
               </Row>
             </Section>

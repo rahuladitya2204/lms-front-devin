@@ -1,7 +1,7 @@
 import {
   Button,
   Card,
-  Checkbox,   
+  Checkbox,
   Col,
   Divider,
   Form,
@@ -11,12 +11,11 @@ import {
   Row,
   Select,
   Switch,
-
 } from 'antd'
+import { Constants, Types } from '@adewaskar/lms-common'
+import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import { Fragment, useEffect, useState } from 'react'
 
-import { Constants, Types } from '@adewaskar/lms-common'
-import {  DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from './GenerateQuestionWithAI';
 
@@ -74,7 +73,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       <Col span={24}>
    
       <Form name='quiz' onFinish={submit} onValuesChange={props.onFormChange?props.onFormChange:console.log}
-
         form={form}
         layout="vertical"
       >

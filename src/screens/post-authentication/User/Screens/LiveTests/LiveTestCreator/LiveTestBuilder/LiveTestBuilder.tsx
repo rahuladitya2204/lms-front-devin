@@ -163,7 +163,6 @@ function LiveTestBuilderScreen() {
     const LIVE_TEST = cloneDeep(liveTest)
     LIVE_TEST.sections = updateLiveTestSectionItem(
       LIVE_TEST.sections,
-      sectionId,
       item
     )
 

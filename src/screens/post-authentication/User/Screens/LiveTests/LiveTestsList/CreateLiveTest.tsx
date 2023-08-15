@@ -17,15 +17,16 @@ const CreateLiveTest: React.FC<CreateLiveTestPropsI> = props => {
   const {
     mutate: createLiveTest,
     isLoading: loading
-  } = User.Queries.useCreateLiveTest();
+  } = User.Queries.useCreateLiveTest()
   const [form] = Form.useForm()
 
   const onSubmit = (e: Types.LiveTest) => {
     console.log('Helo')
     createLiveTest(e, {
-      onSuccess: liveTest => {
+      onSuccess: ({ data: liveTest }) => {
+        console.log(liveTest, 'here it is')
         // @ts-ignore
-        navigate(`${liveTest._id}/editor`)
+        navigate(`${liveTest._id}/editor#information`)
         message.open({
           type: 'success',
           content: 'Have fun creating a liveTest!'
@@ -42,7 +43,9 @@ const CreateLiveTest: React.FC<CreateLiveTestPropsI> = props => {
         label="Title"
         required
         tooltip="Title of your liveTest"
-        rules={[{ required: true, message: 'Please mention title for liveTest' }]}
+        rules={[
+          { required: true, message: 'Please mention title for liveTest' }
+        ]}
       >
         <Input placeholder="Enter your liveTest title" />
       </Form.Item>

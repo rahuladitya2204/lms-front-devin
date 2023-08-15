@@ -1,8 +1,6 @@
 import { Button, Checkbox, Col, Progress, Radio, Row, Typography } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import Countdown from '@Components/Countdown';
 import { Learner } from '@adewaskar/lms-common';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router'
