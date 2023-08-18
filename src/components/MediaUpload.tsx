@@ -91,7 +91,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
           form.setFieldValue(props.name, uploadFile._id)
         }
         console.log(uploadFile, file, '1133')
-        props.onUpload && props.onUpload(uploadFile, file)
+        props.onUpload && props.onUpload(uploadFile, file.originFileObj)
         props.closeModal && props.closeModal()
       }
     })

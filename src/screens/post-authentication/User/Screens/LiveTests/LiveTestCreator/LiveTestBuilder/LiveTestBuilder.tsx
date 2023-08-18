@@ -74,7 +74,6 @@ function LiveTestBuilderScreen() {
   ) => {
     // debugger;
     let LIVE_TEST = cloneDeep(liveTest)
-    const sectionId = LIVE_TEST.sections[index]._id
     const newItem: Partial<Types.LiveTestQuestion> = {
       ...item
     }
@@ -108,7 +107,7 @@ function LiveTestBuilderScreen() {
           return navigate(`${item._id}`)
         }
         const newlyAdedItem = [...liveTest.sections[index].items].pop()
-        navigate(`${newlyAdedItem?._id}`)
+        navigate(`../app/products/live-test/${LIVE_TEST._id}/builder/${newlyAdedItem?._id}`)
       }
     })
   }

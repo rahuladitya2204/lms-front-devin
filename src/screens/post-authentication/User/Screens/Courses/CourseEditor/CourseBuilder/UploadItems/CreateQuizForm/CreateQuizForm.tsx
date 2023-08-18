@@ -15,21 +15,21 @@ import {
   Tooltip,
   Typography
 } from 'antd'
-import { Fragment, useEffect } from 'react'
+import { Constants, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
+import { Fragment, useEffect } from 'react'
 
 import ActionModal from '@Components/ActionModal'
+import { AddItemProps } from '../UploadPDF'
+import CreateQuestionForm from '../../../../../ExtraComponents/TestQuestions/AddQuestion'
 import FileList from '@Components/FileList'
+import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton'
 import MediaUpload from '@Components/MediaUpload'
+import Questions from '@User/Screens/ExtraComponents/TestQuestions/Questions'
 import TextArea from '@Components/Textarea'
-import { Constants, Types } from '@adewaskar/lms-common'
 import { parseAIJson } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
-import { AddItemProps } from '../UploadPDF'
-import CreateQuestionForm from '../../../../../ExtraComponents/TestQuestions/AddQuestion'
-import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton'
-import Questions from '@User/Screens/ExtraComponents/TestQuestions/Questions'
 
 const { confirm } = Modal
 
@@ -49,7 +49,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
   const deleteQuestion = (questionId: string) => {
     const newQuestions = [...courseQuiz.questions]
     const index = courseQuiz.questions.findIndex(
-      (s: Types.CourseQuizQuestion) => s._id === questionId
+      (s: Types.TestQuestion) => s._id === questionId
     )
     newQuestions.splice(index, 1)
     onFormChange({
@@ -176,7 +176,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
               {/* <List
                 bordered
                 dataSource={courseQuiz.questions}
-                renderItem={(item: Types.CourseQuizQuestion) => (
+                renderItem={(item: Types.TestQuestion) => (
                   <List.Item
                     style={{ cursor: 'pointer' }}
                     extra={[

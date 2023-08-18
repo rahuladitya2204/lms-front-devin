@@ -157,16 +157,6 @@ const LiveTestSectionsNavigator: React.FC<LiveTestSectionsNavigatorPropsI> = ({
     <Space direction="vertical" style={{ width: '100%' }}>
    <DndProvider backend={HTML5Backend}>
         {sectionList.map((section, secIndex) => {
-          const AddItemCTA = 
-            <ActionModal
-            cta={`Add Question`}
-          >
-            <AddItem
-              onFinish={(question) =>
-                onAddNewItem(question, secIndex)
-              }
-            />
-          </ActionModal>;
           const SectionOptionDropdown = <MoreButton
             items={[
               {

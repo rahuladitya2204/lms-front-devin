@@ -1,15 +1,16 @@
-import { List, Modal, Table, Tag, Tooltip, Typography } from 'antd'
-import { Types } from '@adewaskar/lms-common'
-import MoreButton from '@Components/MoreButton'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { List, Modal, Table, Tag, Tooltip, Typography } from 'antd'
+
 import ActionModal from '@Components/ActionModal'
 import AddQuestion from './AddQuestion'
+import MoreButton from '@Components/MoreButton'
+import { Types } from '@adewaskar/lms-common'
 
 const { confirm } = Modal
 
 interface QuestionsProps {
-  data: Types.CourseQuizQuestion[];
-  deleteItem: (item: Types.CourseQuizQuestion, index: number) => void;
+  data: Types.TestQuestion[];
+  deleteItem: (item: Types.TestQuestion, index: number) => void;
   onUpdate: (index: number, d: Types.LiveTestQuestion) => void;
 }
 

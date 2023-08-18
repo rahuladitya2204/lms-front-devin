@@ -36,7 +36,7 @@ export default function LiveTestDetailScreen(
       case Enum.LiveTestStatus.PUBLISHED: {
         return  <Alert
         style={{ marginBottom: 20 }}
-        message="You re enrolled for this test"
+        message="You're enrolled for this test"
         type="success"
         showIcon
       />

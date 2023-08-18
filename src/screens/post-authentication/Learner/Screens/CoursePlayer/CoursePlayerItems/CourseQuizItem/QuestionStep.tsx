@@ -1,9 +1,10 @@
-import React from 'react'
 import { Card, Checkbox, Col, List, Radio, Row, Typography } from 'antd'
+
+import React from 'react'
 import { Types } from '@adewaskar/lms-common'
 
 interface CoursePlayerItemsPropsI {
-  question: Types.CourseQuizQuestion;
+  question: Types.TestQuestion;
   isAnswerChecked: boolean;
   answerGiven: number;
   saveAnswerByLearner: (answerIndex: number) => void;

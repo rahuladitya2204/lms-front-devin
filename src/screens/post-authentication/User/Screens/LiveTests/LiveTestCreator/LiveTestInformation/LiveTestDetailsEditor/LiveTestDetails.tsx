@@ -70,7 +70,7 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
     )
   }
   // const date = dayjs(Form.useWatch('scheduledAt', form))
-  // console.log(date, 'date')
+  console.log(liveTest, 'date')
   return (
     <Form
       form={form}
@@ -128,7 +128,7 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
         name="subtitle"
         required
         label="Subtitle"
-        rules={[{ required: true, message: 'Please enter a subtitle!' }]}
+        // rules={[{ required: true, message: 'Please enter a subtitle!' }]}
         extra={generateWithAI(['subtitle'])}
       >
         <Input />

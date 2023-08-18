@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import {
   InfoCircleOutlined,
   SafetyCertificateOutlined,
@@ -93,7 +93,7 @@ function LiveTestEditor() {
             }
             extra={[
               <Button
-                // disabled={!Utils.validatePublishLiveTest(liveTest)}
+                disabled={!Utils.validatePublishLiveTest(liveTest)}
                 onClick={() => {
                   confirm({
                     title: 'Are you sure?',

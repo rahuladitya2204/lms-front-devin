@@ -7,13 +7,13 @@ import {
   Row,
   Space
 } from 'antd'
-import { BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { BarChartOutlined, BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Constants, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
-import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
+import { capitalize } from 'lodash'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'
 
@@ -21,8 +21,8 @@ const { Text } = Typography
 
 const { UnitTypeToStr } = Utils;
 
-interface CourseCardPropsI {
-  course: Types.Course;
+interface LiveTestCardPropsI {
+  liveTest: Types.LiveTest;
 }
 
 const CustomCard = styled(Card)`
@@ -30,54 +30,61 @@ cursor: pointer;
 margin-left: 30px;
 `
 
-function CourseCard(props: CourseCardPropsI) {
-  const { course } = props;
+function LiveTestCard(props: LiveTestCardPropsI) {
+  const { liveTest } = props;
   const navigate = useNavigate();
-  const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  const instructor = course.instructor as unknown as Types.Instructor;
-  const formattedDuration = Utils.formatTime(course.totalDuration)
+  const plan = liveTest.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
+  // const instructor = liveTest.instructor as unknown as Types.Instructor;
+  const formattedDuration = Utils.formatTime(liveTest.duration*60)
   return (
-    <Badge.Ribbon text="Best Seller" color="orange">
+    // <Badge.Ribbon text="Best Seller" color="orange">
       <CustomCard hoverable
         onClick={() =>
           navigate(
-            `../courses/${course._id}`
+            `../liveTests/${liveTest._id}`
           )
         } bodyStyle={{padding: 15}}
         cover={
           <Image alt="example" style={{height: 140}}
             src={
-             course.thumbnailImage
+             liveTest.image
             }
           /> 
         }
       >
         <Card.Meta
           title={<Space size='small' direction="vertical"  >
-           {course.analytics.reviews.count? <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
-              <Rate disabled style={{ fontSize: 12 }} value={course.analytics.averageRating} /> <Text>{course.analytics.averageRating}({formatAvgCount(course.analytics.reviews.count) }) </Text>
-            </Space>:null}
-            <Text style={{fontSize:20}} strong ellipsis>{course.title}</Text>
+            {/* {liveTest.analytics.reviews.count ?
+              <Space size='small' direction="horizontal" align='center' style={{ display: 'flex' }}>
+              <Rate disabled style={{ fontSize: 12 }} value={liveTest.analytics.averageRating} />
+              <Text>{liveTest.analytics.averageRating}({formatAvgCount(liveTest.analytics.reviews.count)}) </Text>
+            </Space>:null} */}
+            <Text style={{fontSize:20}} strong ellipsis>{liveTest.title}</Text>
           </Space>}
         />
           <Row justify={'space-between'} style={{marginTop:10}}>
-            <Col>
-            <Text style={{fontSize: 13}} type="secondary">
-                  <BookOutlined /> {course.totalItems} Lessons
+            {/* <Col>
+            <Text style={{fontSize: 13}}>
+                  <BookOutlined /> {liveTest.totalItems} Lessons
             </Text>
-            </Col>
+          </Col> */}
+          {/* <Col>
+            <Text style={{fontSize: 13}}>
+            <BarChartOutlined /> {capitalize(liveTest.difficultyLevel)}
+            </Text>
+            </Col> */}
             <Col>
-            <Text style={{fontSize: 13}} type="secondary">
+            <Text style={{fontSize: 13}}>
                   <ClockCircleOutlined /> {formattedDuration}
                 </Text></Col>
         </Row>
         <Divider style={{marginTop:10,marginBottom:10}}/>
         <Row justify={'space-between'}>
-          <Col>
+          {/* <Col>
           <Text ellipsis style={{ fontSize: 14,width: 100 }} type='secondary'>
                {instructor.name}
             </Text>
-          </Col>
+          </Col> */}
           <Col>
           <Space direction='vertical' align='end' size={0}>
               <Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
@@ -92,8 +99,8 @@ function CourseCard(props: CourseCardPropsI) {
 
 
       </CustomCard>
-    </Badge.Ribbon>
+    // </Badge.Ribbon>
   )
 }
 
-export default CourseCard
+export default LiveTestCard

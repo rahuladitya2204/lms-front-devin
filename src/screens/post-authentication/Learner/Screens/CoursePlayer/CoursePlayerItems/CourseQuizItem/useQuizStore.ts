@@ -1,7 +1,7 @@
 import { Types } from '@adewaskar/lms-common'
 import create from 'zustand'
 
-export interface Question extends Types.CourseQuizQuestion {
+export interface Question extends Types.TestQuestion {
   answered?: number[];
   isAnswerChecked?: boolean;
   isCorrectAnswer?: boolean;

@@ -10,11 +10,11 @@ import Image from '@Components/Image'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import ThumbnailList from './ThumbnailList'
+import UploadVideo from './UploadVideoPopup/UploadVideo'
+import { getMetadata } from 'video-metadata-thumbnails'
 import styled from '@emotion/styled'
 import { useParams } from 'react-router'
 import useUploadItemForm from '../hooks/useUploadItemForm'
-import UploadVideo from './UploadVideoPopup/UploadVideo'
-import { getMetadata } from 'video-metadata-thumbnails'
 
 const { Title } = Typography
 
@@ -69,6 +69,7 @@ const UploadVideoForm:any = () => {
           <Col span={24}>
         <Card style={{marginTop:20}} title='Lecture Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id || item.external?.url) ? 'Replace video' : 'Upload Lecture'}</Button>}>
           <UploadVideo item={item} onUpload={(item) => {
+            console.log(item,'item')
               onFormChange(item)
             }
           

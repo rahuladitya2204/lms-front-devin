@@ -70,3 +70,7 @@ code {
   margin-bottom: 0 !important;
   border-radius: 0 !important;
 }
+
+.ant-layout {
+  background-color: #F5F7FE;
+}

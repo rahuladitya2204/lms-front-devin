@@ -21,56 +21,21 @@ import Image from '@Components/Image'
 import { Link } from 'react-router-dom'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
-import Search from 'antd/es/input/Search'
-import { useState } from 'react'
+import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 
 const { Content } = Layout
 const { Text, Title } = Typography
 
 const LearnerHeader: React.FC = () => {
-  const { data: { items } } = Learner.Queries.useGetCartDetails();
+  const { data: { items } } = Learner.Queries.useGetCartDetails()
   const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
-  const [text, setText] = useState('')
-  const {
-    data: searchedCourses,
-    isLoading: loading
-  } = Learner.Queries.useGetCoursesOfOrganisation({
-    searchValue: text
-  })
+
   const { isSignedIn } = Store.useAuthentication(state => state)
 
-  const listItems = searchedCourses.map(c => {
-    const instructor = c.instructor as  unknown as Types.Instructor;
-    return {
-      label: (
-        <Space
-          align="center"
-          style={{ justifyContent: 'center', alignItems: 'center' }}
-        >
-          <Avatar
-            shape="square"
-            style={{ background: 'transparent' }}
-            size={45}
-            icon={<Image src={c.thumbnailImage} />}
-          />{' '}
-          <Space direction="vertical" align="baseline">
-            <Title style={{ margin: 0 }} level={5}>
-              {c.title}
-            </Title>
-            <Text style={{ margin: 0 }}>
-              Taught By: {instructor.name}
-            </Text>
-          </Space>
-        </Space>
-      ),
-      value: c.title
-    }
-  })
   const navigate = useNavigate()
   const logout = () => {
     logoutLearner()
   }
-
 
   return (
     <Header
@@ -79,23 +44,7 @@ const LearnerHeader: React.FC = () => {
         <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
           <OrgLogo />
           <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
-            <AutoComplete
-              onSelect={(e,a) => console.log(e,a)}
-              popupClassName="certain-category-search-dropdown"
-              dropdownMatchSelectWidth={500}
-              style={{ width: 250 }}
-              options={listItems}
-            >
-              <Search
-                placeholder="Search for courses.."
-                allowClear
-                value={text}
-                loading={loading}
-                onChange={(e: any) => setText(e.target.value)}
-                onSearch={e => console.log(e, 'eee')}
-                style={{ width: 500 }}
-              />
-            </AutoComplete>
+            <SearchLearnerCourses />
           </Space>
           {/* <Search
               placeholder="Search Courses"
@@ -112,16 +61,16 @@ const LearnerHeader: React.FC = () => {
         <Link to={`store`} style={{ margin: '0 10px' }}>
           <Text strong>Blogs</Text>
         </Link>,
-           <Link to={`live-test`} style={{ margin: '0 10px' }}>
-           <Text strong>Live Tests</Text>
-        </Link>,
-              <Link to={`live-session`} style={{ margin: '0 10px' }}>
-              <Text strong>Webinars</Text>
-            </Link>,
         ...(isSignedIn
           ? [
               <Link to={`courses`} style={{ margin: '0 10px' }}>
                 <Text strong>My Courses</Text>
+              </Link>,
+              <Link to={`live-test`} style={{ margin: '0 10px' }}>
+                <Text strong>Live Tests</Text>
+              </Link>,
+              <Link to={`live-session`} style={{ margin: '0 10px' }}>
+                <Text strong>Webinars</Text>
               </Link>
             ]
           : [
@@ -136,7 +85,7 @@ const LearnerHeader: React.FC = () => {
 
         isSignedIn ? (
           <Space>
-                <Badge count={items.length} showZero={false}>
+            <Badge count={items.length} showZero={false}>
               <Button
                 onClick={() => {
                   navigate('cart')
@@ -146,7 +95,8 @@ const LearnerHeader: React.FC = () => {
                 icon={<ShoppingCartOutlined />}
               />
             </Badge>
-            <Dropdown  trigger={['click']}
+            <Dropdown
+              trigger={['click']}
               placement="bottomLeft"
               overlay={
                 <Menu>

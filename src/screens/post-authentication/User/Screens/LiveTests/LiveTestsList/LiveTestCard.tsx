@@ -8,6 +8,7 @@ import {
 
 import Image from '@Components/Image'
 import { Types } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
@@ -55,6 +56,9 @@ function LiveTestCard(props: LiveTestCardProps) {
       ]}
     >
       <Card.Meta
+        description={`Scheduled At: ${dayjs(props.liveTest.scheduledAt).format(
+          'LLL'
+        )}`}
         // avatar={<Avatar src={instructor?.image} />}
         title={props.liveTest.title || ''}
       />

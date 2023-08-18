@@ -13,7 +13,8 @@ import { NavLink, useParams } from 'react-router-dom'
 import { Store, User } from '@adewaskar/lms-common'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
-import BgImage from './image.png'
+import BgImage from './image.svg'
+// import BgImage from './image2.svg'
 import { GoogleOutlined } from '@ant-design/icons'
 import Image from '@Components/Image'
 import { Typography } from 'antd'
@@ -52,21 +53,31 @@ function UserLoginScreen () {
       <Col
         style={{
           backgroundColor: '#140342',
-          // display: 'flex',
-          // justifyContent: 'center'
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center'
         }}
-        span={12}
+        span={14}
       >
-        <Image width={500} src={BgImage} />
+        <Image width={'90%'} src={BgImage} />
       </Col>
-      <Col span={12} flex={1} style={{ backgroundColor: '#FEFBF4' }}>
+      <Col
+        span={10}
+        flex={1}
+        style={{
+          backgroundColor: '#FEFBF4',
+          justifyContent: 'center',
+          display: 'flex',
+          alignItems: 'center'
+        }}
+      >
         <Row align={'middle'}>
           <Col
             span={24}
             flex={1}
             style={{ justifyContent: 'center', display: 'flex' }}
           >
-            <Card style={{ width: 400, marginTop: 150 }}>
+            <Card style={{ width: 350 }}>
               <AuthenticationCard title={<Image src={organisation.logo} />}>
                 <Form
                   initialValues={{

@@ -1,13 +1,14 @@
+import { Button, Col, Row, Tabs } from 'antd'
+import { Types, User } from '@adewaskar/lms-common'
+
+import ExternalVideo from './ExternalVideo'
+import { Form } from 'react-router-dom'
+import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 // @ts-nocheck
 import MediaUpload from '@Components/MediaUpload'
-import { Button, Col, Row, Tabs } from 'antd'
-import ExternalVideo from './ExternalVideo'
-import { Types, User } from '@adewaskar/lms-common'
-import { useParams } from 'react-router'
 import { getMetadata } from 'video-metadata-thumbnails'
 import { render } from '@testing-library/react'
-import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
-import { Form } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 interface UploadVideoPropsI {
   onUpload: (d: Partial<Types.CourseSectionItem>) => void;
@@ -53,6 +54,7 @@ export default function UploadVideo(props: UploadVideoPropsI) {
                     transcodeVideo({
                       fileId: _id
                     })
+                    console.log(file, _id, 'fff')
                     getMetadata(file).then(r => {
                       props.onUpload({
                         file: _id,
@@ -81,11 +83,11 @@ export default function UploadVideo(props: UploadVideoPropsI) {
           children: (
             <ExternalVideo
               onSubmit={d => {
-                console.log('Heo')
                 props.onUpload({
                   metadata: {
                     duration: 100
                   },
+                  // @ts-ignore
                   file: null,
                   external: {
                     platform: 'youtube',
@@ -107,6 +109,7 @@ export default function UploadVideo(props: UploadVideoPropsI) {
                   metadata: {
                     duration: 100
                   },
+                  // @ts-ignore
                   file: null,
                   external: {
                     platform: 'vimeo',

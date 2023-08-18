@@ -146,7 +146,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               message: "Enter questions's title"
             }
           ]}>
-          <Input.TextArea style={{height:150}} placeholder="Enter the question title" />
+          <Input.TextArea readOnly={item.isAiGenerated} style={{height:150}} placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={12}>
@@ -184,7 +184,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 ]}
                 {...field}
                 >
-                    <Input.TextArea placeholder={`Answer ${index + 1}`}/> 
+                    <Input.TextArea readOnly={item.isAiGenerated} placeholder={`Answer ${index + 1}`}/> 
                   </Form.Item>
                 </Col>
                 <Col>

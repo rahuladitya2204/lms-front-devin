@@ -142,9 +142,7 @@ function CourseBuilderScreen() {
         if (firstSection && firstSection.items.length) {
           const firstItem = firstSection.items[0]
           if (firstItem.type) {
-            navigate(
-              `${firstItem.type}/${firstItem._id}`
-            )
+            navigate(`${firstItem.type}/${firstItem._id}`)
           }
         }
       }
@@ -182,9 +180,7 @@ function CourseBuilderScreen() {
           const lastSection = course.sections.pop()
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem && lastItem.type)
-            navigate(
-              `${lastItem.type}/${lastItem._id}`
-            )
+            navigate(`${lastItem.type}/${lastItem._id}`)
         }
       }
     )
@@ -206,9 +202,7 @@ function CourseBuilderScreen() {
           const lastSection = course.sections.pop()
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem && lastItem.type)
-            navigate(
-              `${lastItem.type}/${lastItem._id}`
-            )
+            navigate(`${lastItem.type}/${lastItem._id}`)
         }
       }
     )
@@ -223,7 +217,7 @@ function CourseBuilderScreen() {
   // const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
   //   courseId + ''
   // )
-  const items = course.sections.map(s => s.items).flat();
+  const items = course.sections.map(s => s.items).flat()
   const { mutate: publishCourse } = User.Queries.usePublishCourse()
   return (
     <Header
@@ -346,13 +340,14 @@ function CourseBuilderScreen() {
                 <GenerateWithAI
                   courseId={course._id}
                   fields={['sections']}
-                  onValuesChange={({ sections: { sections } }: any) => {
+                  onValuesChange={({ sections }: any) => {
+                    console.log(sections, 'parseAIJson')
                     updateCourse(
                       {
                         id: courseId || '',
                         data: {
                           // @ts-ignore
-                          sections: parseAIJson(sections)
+                          sections: parseAIJson(sections).sections
                         }
                       },
                       {
@@ -367,9 +362,7 @@ function CourseBuilderScreen() {
             />
           ) : (
             <Card>
-              <Outlet
-                context={[items, updateCourseSection, saveCourse]}
-              />
+              <Outlet context={[items, updateCourseSection, saveCourse]} />
             </Card>
           )}
         </Col>
