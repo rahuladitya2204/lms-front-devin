@@ -24,7 +24,7 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
     console.log('Helo')
     createCourse(e, {
       onSuccess: course => {
-        navigate(`${course._id}/editor`)
+        navigate(`${course._id}/editor#information`)
         message.open({
           type: 'success',
           content: 'Have fun creating a course!'
@@ -34,9 +34,6 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
     })
   }
 
-  const { listItems: categories } = User.Queries.useGetProductCategories('course')
-
-  // const { listItems: instructors } = User.Queries.useGetInstructors()
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical">
       <Form.Item

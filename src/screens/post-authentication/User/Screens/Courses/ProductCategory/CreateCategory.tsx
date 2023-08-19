@@ -7,6 +7,7 @@ import { User } from '@adewaskar/lms-common'
 interface CreateCategoryComponentPropsI {
   children?: ReactNode;
   type?: string;
+  closeModal?: Function;
   data?: Types.ProductCategory;
   onFinish?: () => void;
 }
@@ -30,7 +31,14 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
       if (props.type) {
         D.type = props.type
       }
-      createCategory({ data: D })
+      createCategory(
+        { data: D },
+        {
+          onSuccess: () => {
+            props.closeModal && props.closeModal()
+          }
+        }
+      )
     }
     props.onFinish && props.onFinish()
   }

@@ -2,7 +2,6 @@ import { Alert, Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
 import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
-import { parseAIJson, updateCourseSectionItem } from './utils'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
@@ -14,6 +13,7 @@ import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import SetCourseRules from './SetRules'
 import { cloneDeep } from 'lodash'
+import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
 
 const { confirm } = Modal
@@ -341,13 +341,12 @@ function CourseBuilderScreen() {
                   courseId={course._id}
                   fields={['sections']}
                   onValuesChange={({ sections }: any) => {
-                    console.log(sections, 'parseAIJson')
                     updateCourse(
                       {
                         id: courseId || '',
                         data: {
                           // @ts-ignore
-                          sections: parseAIJson(sections).sections
+                          sections: sections.sections
                         }
                       },
                       {

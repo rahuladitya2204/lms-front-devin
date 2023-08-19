@@ -11,6 +11,7 @@ import { render } from '@testing-library/react'
 import { useParams } from 'react-router'
 
 interface UploadVideoPropsI {
+  prefixKey: string;
   onUpload: (d: Partial<Types.CourseSectionItem>) => void;
   item: Types.CourseSectionItem;
 }
@@ -41,9 +42,7 @@ export default function UploadVideo(props: UploadVideoPropsI) {
                     type: 'course.section.item.file',
                     value: courseId + ''
                   }}
-                  prefixKey={`courses/${courseId}/${sectionId}/${
-                    itemId
-                  }/lecture/index`}
+                  prefixKey={props.prefixKey}
                   fileName={props.item.title}
                   isProtected
                   renderItem={() => (

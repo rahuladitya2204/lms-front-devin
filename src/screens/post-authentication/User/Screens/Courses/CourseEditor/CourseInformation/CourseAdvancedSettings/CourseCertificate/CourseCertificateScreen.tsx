@@ -100,7 +100,7 @@ function CourseCertificate(props: CourseCertificatePropsI) {
           {certificateId ? <>
             <Tooltip placement="right" title={'Edit Template Design'}>
 <Button onClick={e => {
-          window.open(`../../../certificate-template/${certificateId}/editor`)
+          window.open(`../../../../certificate-template/${certificateId}/editor`)
       }} icon={<EditOutlined />} style={{ marginLeft: 10 }}>
           {/* Edit Certificate */}
         </Button></Tooltip>

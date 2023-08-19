@@ -91,13 +91,13 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
           form.setFieldValue(props.name, uploadFile._id)
         }
         console.log(uploadFile, file, '1133')
-        props.onUpload && props.onUpload(uploadFile, file.originFileObj)
+        props.onUpload && props.onUpload(uploadFile, file)
         props.closeModal && props.closeModal()
       }
     })
   }
   UPLOAD.customRequest = () => {
-    UploadFile(file)
+    UploadFile(file.originFileObj)
   }
   UPLOAD.onChange = ({ file, fileList }) => {
     setFile(file)

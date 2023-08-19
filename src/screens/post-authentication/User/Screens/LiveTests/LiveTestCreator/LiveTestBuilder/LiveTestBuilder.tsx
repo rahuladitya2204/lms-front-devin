@@ -1,12 +1,13 @@
-import { Alert, Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
+import { Alert, Button, Col, Form, Modal, Row, Spin } from 'antd'
 import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
 
+import AITestPaperBuilder from './AITestBuilder/AITestBuilder'
 import ActionModal from '@Components/ActionModal'
 import BackButton from '@Components/BackButton'
-import GenerateWithAI from '@User/Screens/Courses/CourseEditor/CourseInformation/GenerateWithAiButton'
+import GenerateWithAI from './AITestBuilder/GenerateWithAiButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import LiveTestSectionsNavigator from './LiveTestSectionsNavigator'
@@ -40,7 +41,7 @@ function LiveTestBuilderScreen() {
   } = User.Queries.useDeleteLiveTestSectionItem()
   const [liveTest, setLiveTest] =
         useState<Types.LiveTest>(Constants.INITIAL_LIVE_TEST_DETAILS)
-    const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const onAddSection = (section: Partial<Types.LiveTestSection>) => {
     // console.log(section, 'section')
@@ -95,30 +96,36 @@ function LiveTestBuilderScreen() {
       // @ts-ignore
       LIVE_TEST.sections[index].items.push(newItem)
     }
-    updateLiveTest({
-      id: testId || '',
-      data: {
-        sections: LIVE_TEST.sections
-      }
-    },{
-      onSuccess: liveTest => {
-        // console.log(liveTest, 1212123);
-        if (item._id) {
-          return navigate(`${item._id}`)
+    updateLiveTest(
+      {
+        id: testId || '',
+        data: {
+          sections: LIVE_TEST.sections
         }
-        const newlyAdedItem = [...liveTest.sections[index].items].pop()
-        navigate(`../app/products/live-test/${LIVE_TEST._id}/builder/${newlyAdedItem?._id}`)
+      },
+      {
+        onSuccess: liveTest => {
+          if (item._id) {
+            return navigate(`${item._id}`)
+          }
+          const newlyAdedItem = [...liveTest.sections[index].items].pop()
+          navigate(
+            `../app/products/live-test/${LIVE_TEST._id}/builder/${
+              newlyAdedItem?._id
+            }`
+          )
+        }
       }
-    })
+    )
   }
 
-    const saveLiveTest = (d: Partial<Types.LiveTest>) => {
-    const Data={ ...liveTest, ...d };
+  const saveLiveTest = (d: Partial<Types.LiveTest>) => {
+    const Data = { ...liveTest, ...d }
     if (liveTest._id) {
       updateLiveTest(
         {
           id: testId + '',
-          data:Data
+          data: Data
         },
         {
           onSuccess: () => {
@@ -134,13 +141,10 @@ function LiveTestBuilderScreen() {
   useEffect(
     () => {
       if (!itemId) {
-        const firstItem = (liveTest?.sections
-          ?.map((i: any) => i.items)
-          .flat())[0]
-          // .find((i: any) => i._id === itemId)
+        const firstItem = liveTest?.sections?.map((i: any) => i.items).flat()[0]
+        // .find((i: any) => i._id === itemId)
         console.log()
-        if(firstItem)
-        navigate(`${firstItem._id}`)
+        if (firstItem) navigate(`${firstItem._id}`)
       }
     },
     [liveTest._id]
@@ -154,16 +158,13 @@ function LiveTestBuilderScreen() {
   )
 
   const updateLiveTestSection = (
-      sectionId: string,
-      itemId:string,
+    sectionId: string,
+    itemId: string,
     item: Types.LiveTestQuestion
   ) => {
-    item._id=itemId;
+    item._id = itemId
     const LIVE_TEST = cloneDeep(liveTest)
-    LIVE_TEST.sections = updateLiveTestSectionItem(
-      LIVE_TEST.sections,
-      item
-    )
+    LIVE_TEST.sections = updateLiveTestSectionItem(LIVE_TEST.sections, item)
 
     updateLiveTest({
       id: testId || '',
@@ -185,10 +186,7 @@ function LiveTestBuilderScreen() {
         onSuccess: () => {
           const lastSection = liveTest.sections.pop()
           const lastItem = lastSection?.items.pop()
-          if (lastSection && lastItem)
-            navigate(
-              `${lastItem._id}`
-            )
+          if (lastSection && lastItem) navigate(`${lastItem._id}`)
         }
       }
     )
@@ -209,10 +207,7 @@ function LiveTestBuilderScreen() {
         onSuccess: () => {
           const lastSection = liveTest.sections.pop()
           const lastItem = lastSection?.items.pop()
-          if (lastSection && lastItem)
-            navigate(
-              `${lastItem._id}`
-            )
+          if (lastSection && lastItem) navigate(`${lastItem._id}`)
         }
       }
     )
@@ -253,7 +248,7 @@ function LiveTestBuilderScreen() {
               okText: 'Yes, Publish'
             })
           }}
-          //   disabled={!Utils.validatePublishLiveTest(liveTest)}
+            disabled={!Utils.validatePublishLiveTest(liveTest)}
           style={{ marginRight: 15 }}
           icon={<UploadOutlined />}
         >
@@ -320,7 +315,42 @@ function LiveTestBuilderScreen() {
           </Row>
         </Col>
         <Col span={16}>
-          <Outlet context={{updateLiveTestSection,sections: liveTest.sections}} />
+          {!liveTest.sections.length ? (
+            <Alert
+              message="Generate Live Test Paper structure using AI"
+              description="You can generate liveTest outline using our AI"
+              type="info"
+              showIcon
+              action={
+                <ActionModal width={600} title='Test Builder' cta={ <Button size='small'>Generate Live Test Paper</Button>}>
+                  <AITestPaperBuilder
+                    liveTestId={liveTest._id + ''}
+                    onValuesChange={(sections: any) => {
+                      console.log(sections, 'parseAIJson')
+                      updateLiveTest(
+                        {
+                          id: liveTest._id || '',
+                          data: {
+                            // @ts-ignore
+                            sections: sections
+                          }
+                        },
+                        {
+                          onSuccess: () => {
+                            navigate('')
+                          }
+                        }
+                      )
+                    }}
+                  />
+                </ActionModal>
+              }
+            />
+          ) : (
+            <Outlet
+              context={{ updateLiveTestSection, sections: liveTest.sections }}
+            />
+          )}
         </Col>
       </Row>
     </Header>

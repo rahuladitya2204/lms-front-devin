@@ -2,9 +2,11 @@ import {
   Button,
   Card,
   Checkbox,
+  Col,
   Divider,
   Form,
   Input,
+  Row,
   Space,
   Switch,
   Tag,
@@ -42,6 +44,7 @@ const VARIABLES = [
   }
 ]
 
+const { Paragraph } = Typography;
 interface CourseAdvancedSettingsPropsI {
   courseId: string;
   saveCourse: Function;
@@ -50,6 +53,7 @@ interface CourseAdvancedSettingsPropsI {
 
 function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
   const [form] = Form.useForm()
+  const sendEmail = useWatch(['email', 'enabled'], form)
 
   useLayoutEffect(
     () => {
@@ -95,7 +99,53 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
               });
           }
         } />
-      </Form.Item>
+        </Form.Item>
+        
+        <Card bordered={false} bodyStyle={{
+          display:sendEmail?'block':'none'
+        }} title={<Title level={3}>Email Notification</Title>} extra={
+              <Tooltip placement="topLeft" title={`Send email to learner on course enrollment`}>
+
+          <Form.Item style={{margin:0}}
+        valuePropName="checked"
+        name={['email', 'enabled']}
+        // label="Send email to learner on course enrollment."
+      >
+        <Switch />
+            </Form.Item>
+          </Tooltip>}>
+        
+      {sendEmail ? (
+        <Fragment>
+          <Form.Item name={['email', 'subject']} label="Email Subject">
+            <Input />
+          </Form.Item>
+
+          <Form.Item name={['email', 'cc']} label="Add Cc">
+            <Input />
+          </Form.Item>
+          <Form.Item name={['email', 'content']} required label="Email Body">
+            <SunEditorComponent
+              variables={VARIABLES} height={300}
+              name={['email', 'content']}
+            />
+          </Form.Item>
+            </Fragment>
+      ) : null}
+        </Card>
+        <Divider/>
+        <Form.Item  style={{marginTop:20}}>
+          <Row>
+          <Col style={{width: 200}}>
+              <Button type='primary' danger>Delete Course</Button>
+            </Col>
+            <Col flex={1}>      
+          <Paragraph style={{marginTop:20}}>This will permanently delete your course. Though Learners who have purchased it will continue to have access till their subscription ends.
+              </Paragraph>
+            </Col>
+         
+          </Row>
+        </Form.Item>
       </Form>
     </>
   )

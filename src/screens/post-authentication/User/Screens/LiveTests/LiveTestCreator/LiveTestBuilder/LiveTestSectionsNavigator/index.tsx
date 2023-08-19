@@ -1,17 +1,14 @@
-import { Button, Card, Collapse, Dropdown, Input, List, Modal, Space, Tooltip, Typography } from 'antd'
-import { DeleteOutlined, PhoneOutlined, PlusOutlined, ReadOutlined, SaveOutlined } from '@ant-design/icons'
+import { Button, Collapse, List, Modal, Space, Tooltip, Typography } from 'antd'
+import { CheckCircleTwoTone, DeleteOutlined, ReadOutlined } from '@ant-design/icons'
 import { Fragment, useCallback, useEffect, useState } from 'react'
+import { Types, Utils } from '@adewaskar/lms-common'
 
-import ActionModal from '@Components/ActionModal'
-import AddItem from './AddItem'
-import AddQuestion from '@User/Screens/ExtraComponents/TestQuestions/AddQuestion'
 import AddSection from './AddSection'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import MoreButton from '@Components/MoreButton'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import { NavLink } from 'react-router-dom'
-import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
@@ -205,22 +202,26 @@ const LiveTestSectionsNavigator: React.FC<LiveTestSectionsNavigatorPropsI> = ({
 
                       renderItem={(item, itemIndex) => {
                         // This propagation is being stopped to prevent dropdown also making list item clickable
-                        const SectionItemOptionDropdown = <span onClick={e=>e.stopPropagation()}>
+                        const SectionItemOptionDropdown = <span onClick={e => e.stopPropagation()}>
                           <MoreButton items={[
                             {
                               label: <span onClick={(e) => {
-                                  e.stopPropagation()
+                                e.stopPropagation()
                                 DeleteSectionItem(section._id, item._id)
                               }}>Delete Question</span>,
                               key: 'delete',
-                          icon:<DeleteOutlined/>
+                              icon: <DeleteOutlined />
                             }]} />
-                        </span>
+                        </span>;
+                        const actions=[
+                          SectionItemOptionDropdown
+                        ]
+                        if (Utils.validateTestQuestion(item)) {
+                          actions.unshift(<CheckCircleTwoTone color='green' />)
+                        }
                         const LiveTestSectionListItem = (isActive: boolean) => <LiveTestListItem
                         isActive={isActive}
-                          actions={[
-                            SectionItemOptionDropdown
-                        ]}
+                          actions={actions}
                       >
                         <List.Item.Meta
                           style={{ cursor: 'pointer' }}

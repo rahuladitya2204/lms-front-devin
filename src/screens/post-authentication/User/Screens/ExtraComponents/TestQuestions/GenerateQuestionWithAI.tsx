@@ -1,8 +1,8 @@
-import InputTags from '@Components/InputTags/InputTags'
-import { parseAIJson } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { Types, User } from '@adewaskar/lms-common'
 import { Button, Col, Form, Input, Row, Select } from 'antd'
-import { useState } from 'react'
+import { Types, User } from '@adewaskar/lms-common'
+import { useEffect, useState } from 'react'
+
+import InputTags from '@Components/InputTags/InputTags'
 
 const DIFFICULTY_LEVELS = [
   { label: 'Easy', value: 'easy' },
@@ -27,21 +27,34 @@ const TAXONOMY_LEVELS = [
 ]
 
 interface GenerateQuestionWithAIPropsI {
-  submit: (d: Types.LiveTestQuestion) => void;
+  submit?: (d: Types.LiveTestQuestion) => void;
   closeModal?: Function;
+  onSubmit?: Function;
+  data?: Partial<Types.LiveTestQuestionMeta>;
 }
 
 export default function GenerateQuestionWithAI({
   submit,
+  onSubmit,
+  data,
   closeModal
 }: GenerateQuestionWithAIPropsI) {
   const [keywords, setKeywords] = useState<string[]>([])
-  const [form] = Form.useForm()
+  const [form] = Form.useForm<Types.LiveTestQuestionMeta>()
   const {
     mutate: generateQuestion,
     isLoading: loading
   } = User.Queries.useGenerateQuestionWithAI()
-  const onSubmit = (data: Types.QuestionPrompt) => {
+  const ONSUBMIT = (data: Types.QuestionPrompt) => {
+    if (onSubmit) {
+       onSubmit( {
+        ...data,
+        // @ts-ignore
+        keywords
+      })
+      return closeModal && closeModal()
+
+    }
     generateQuestion(
       {
         data: {
@@ -51,19 +64,25 @@ export default function GenerateQuestionWithAI({
       },
       {
         onSuccess: d => {
-          submit(parseAIJson(d))
+          submit&&submit(d)
           closeModal && closeModal()
         }
       }
     )
   }
 
+  useEffect(() => {
+    if (data) {
+      form.setFieldsValue(data)
+    }
+   },[data])
+
   return (
     <Form
       form={form}
       initialValues={INITIAL_VALUES}
       layout="vertical"
-      onFinish={onSubmit}
+      onFinish={ONSUBMIT}
     >
       <Form.Item
         name="subject"

@@ -279,7 +279,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
                   />
                 }
               >
-                <CreateCategory> </CreateCategory>
+                <CreateCategory type='course'> </CreateCategory>
               </ActionModal>
             </Col>
           </Row>

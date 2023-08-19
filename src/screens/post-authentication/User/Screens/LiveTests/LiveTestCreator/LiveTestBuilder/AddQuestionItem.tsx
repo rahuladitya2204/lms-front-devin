@@ -4,7 +4,6 @@ import {
   Card,
   Checkbox,
   Col,
-  Divider,
   Empty,
   Form,
   Input,
@@ -13,7 +12,6 @@ import {
   Radio,
   Row,
   Select,
-  Switch,
   Typography,
 } from 'antd'
 import { Constants, Types, User } from '@adewaskar/lms-common'
@@ -25,7 +23,6 @@ import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
-import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import useUpdateLiveTestForm from './hooks/useUpdateLiveTest';
 
@@ -49,7 +46,7 @@ interface CreateQuestionFormPropsI {
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
   const { sections } = useOutletContext<any>();
-  const { item } = useUpdateLiveTestForm(sections, form);
+  const { item,liveTestId } = useUpdateLiveTestForm(sections, form);
   const { sectionId, itemId } = useParams();
   const { updateLiveTestSection } = useOutletContext<any>();
   const [correctOptions, setCorrectOptions] = useState<number[]>([]);
@@ -63,9 +60,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           else
       {
         form.setFieldsValue(Constants.INITIAL_LIVE_TEST_QUESTION);
-    }
+      }
     },
-    [item]
+    [item,liveTestId]
   ) 
     const submit = (e: Types.LiveTestQuestion) => {
       props.submit && props.submit({ ...e, correctOptions });
@@ -78,8 +75,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
 
   
-  const { data: file } = User.Queries.useGetFileDetails(item?.solution?.file + '', {
-    enabled: !!item?.solution?.file
+  const { data: file } = User.Queries.useGetFileDetails(item?.solution?.video + '', {
+    enabled: !!item?.solution?.video
   });
 
   const jobId = file?.metadata?.jobId;
@@ -87,7 +84,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     data: { status, progress }
   } = User.Queries.useGetTranscodeVideoStatus(jobId, {
     retry: true,
-    enabled:!!item?.solution?.file,
+    enabled:!!item?.solution?.video,
     retryDelay: 4000
   })
   const fileId = file.encoded || file._id;
@@ -251,7 +248,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       </Col>
       <Col span={24}>
       <Card style={{marginTop:20}} title='Solution Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id) ? 'Replace video' : 'Upload Lecture'}</Button>}>
-        <UploadVideo item={item}
+        <UploadVideo prefixKey={`live-test/${liveTestId}/${
+                    itemId
+                  }/solution/video/index`} item={item}
           onUpload={(item) => {
             console.log(item, 'item')
             // @ts-ignore

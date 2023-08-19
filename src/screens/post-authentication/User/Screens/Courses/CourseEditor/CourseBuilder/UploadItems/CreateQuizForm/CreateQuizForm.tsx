@@ -27,7 +27,6 @@ import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton'
 import MediaUpload from '@Components/MediaUpload'
 import Questions from '@User/Screens/ExtraComponents/TestQuestions/Questions'
 import TextArea from '@Components/Textarea'
-import { parseAIJson } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
@@ -123,7 +122,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                       onFormChange({
                         quiz: {
                           ...courseQuiz,
-                          questions: parseAIJson(quiz)
+                          questions: quiz
                         }
                       })
                     }}

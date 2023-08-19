@@ -39,7 +39,7 @@ const UploadVideoForm:any = () => {
   } = User.Queries.useGetTranscodeVideoStatus(jobId, {
     retry: true,
     enabled:!!item.file,
-    retryDelay: 4000
+    retryDelay: 1000
   })
   const fileId = file.encoded || file._id;
   return (
@@ -68,7 +68,9 @@ const UploadVideoForm:any = () => {
          
           <Col span={24}>
         <Card style={{marginTop:20}} title='Lecture Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id || item.external?.url) ? 'Replace video' : 'Upload Lecture'}</Button>}>
-          <UploadVideo item={item} onUpload={(item) => {
+          <UploadVideo prefixKey={`courses/${courseId}/${sectionId}/${
+                    itemId
+                  }/lecture/index`} item={item} onUpload={(item) => {
             console.log(item,'item')
               onFormChange(item)
             }
