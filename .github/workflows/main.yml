@@ -15,7 +15,7 @@ jobs:
 
     - name: Install dependencies and build
       run: |
-        npm install --force
+        npm ci
         npm run build
 
     - name: Deploy to S3
