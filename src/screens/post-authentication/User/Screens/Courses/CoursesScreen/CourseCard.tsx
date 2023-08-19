@@ -1,4 +1,5 @@
 import { Avatar, Badge, Card, Tooltip } from 'antd'
+import { Enum, Types } from '@adewaskar/lms-common'
 import {
   EyeOutlined,
   FormatPainterOutlined,
@@ -7,7 +8,6 @@ import {
 } from '@ant-design/icons'
 
 import Image from '@Components/Image'
-import { Types } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
@@ -24,17 +24,18 @@ const CourseCardHolder = styled(Card)`
 function CourseCard(props: CourseCardProps) {
   const navigate = useNavigate();
   const instructor = props.course.instructor as unknown as Types.Instructor;
+  const coverImage = <Image height={200}
+    alt="example"
+    src={props.course.thumbnailImage}
+
+  />;
   return (
     <CourseCardHolder hoverable
 
-      cover={
+      cover={props.course.status===Enum.CourseStatus.PUBLISHED?
         <Badge.Ribbon color="orange" text="Unpublished">
-          <Image height={200}
-            alt="example"
-            src={props.course.thumbnailImage}
-
-          />
-        </Badge.Ribbon>
+         {coverImage}
+        </Badge.Ribbon>:coverImage
       }
       actions={[
         <InfoCircleOutlined

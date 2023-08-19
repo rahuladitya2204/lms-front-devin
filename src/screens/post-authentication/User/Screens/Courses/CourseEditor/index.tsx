@@ -101,6 +101,7 @@ function CourseEditor() {
                     title: 'Are you sure?',
                     content: `You want to publish this course?`,
                     onOk() {
+                      console.log(course, 'course')
                       publishCourse({
                         courseId: course._id
                       })

@@ -166,11 +166,8 @@ function LiveTestBuilderScreen() {
     const LIVE_TEST = cloneDeep(liveTest)
     LIVE_TEST.sections = updateLiveTestSectionItem(LIVE_TEST.sections, item)
 
-    updateLiveTest({
-      id: testId || '',
-      data: {
-        sections: LIVE_TEST.sections
-      }
+    saveLiveTest({
+      sections: LIVE_TEST.sections
     })
   }
 
@@ -194,7 +191,6 @@ function LiveTestBuilderScreen() {
 
   const deleteSectionItem = (sectionId: string, itemId: string) => {
     const LIVE_TEST = cloneDeep(liveTest)
-    // LIVE_TEST.sections[sectionIndex].items.splice(itemIndex, 1)
     deleteSectionItemApi(
       {
         data: {

@@ -15,9 +15,13 @@ function useUploadItemForm(form?:FormInstance) {
 
   const [items] = useOutletContext<[Types.CourseSection[],(sectionId:string,data:Types.CourseSectionItem)=>void,Function]>();
   const item = findSectionItem(itemId+'', items) || {title:'',description:''};
-  const currentItemIndex = course.sections.map(s=>s.items).flat().findIndex(i => i._id === item._id);
-  const section = course.sections.find(i => i.items[currentItemIndex]._id === item._id) || {_id:'',items:[],title:''}
-  console.log(section,'section')
+  const currentItemIndex = course.sections.map(s=>s.items).flat().findIndex(i => i._id === item?._id);
+  const section = course.sections.find(section => {
+    if (section.items.find(i => i._id === item._id)) {
+      return section;
+    }
+  }) || {_id:'',items:[],title:''}
+  // console.log(section,'section')
   useEffect(() => {
     if (form) {
       form.setFieldsValue(item)

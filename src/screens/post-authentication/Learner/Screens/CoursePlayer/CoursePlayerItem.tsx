@@ -1,12 +1,12 @@
 import { Common, Learner, Store } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 
+import CoursePlayerQuiz from './CoursePlayerItems/CourseQuizItem/QuizItem'
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
 import ErrorBoundary from '@Components/ErrorBoundary'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
-import CoursePlayerQuiz from './CoursePlayerItems/CourseQuizItem/QuizItem'
 
 function CoursePlayerItem() {
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
@@ -41,7 +41,7 @@ function CoursePlayerItem() {
       enabled: !!courseId
     }
   )
-
+  console.log(item, 'itmi')
   const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
   const { data: file } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file

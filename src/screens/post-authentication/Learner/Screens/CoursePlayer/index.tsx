@@ -62,12 +62,15 @@ function CoursePlayer() {
   const { id: courseId, itemId, sectionId } = useParams()
   const {
     data: { metadata: { progress }, review }
-  } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'course',
-    id: courseId + ''
-  }, {
-    enabled: !!courseId
-  })
+  } = Learner.Queries.useGetEnrolledProductDetails(
+    {
+      type: 'course',
+      id: courseId + ''
+    },
+    {
+      enabled: !!courseId
+    }
+  )
   const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
 
   const navigate = useNavigate()
@@ -138,7 +141,7 @@ function CoursePlayer() {
     },
     [itemId, sectionId, courseId]
   )
-
+  const items = sections.map(i => i.items).flat()
   return (
     <PlayerContainer>
       <ActionModal width={800} open={showReview}>
@@ -213,7 +216,7 @@ function CoursePlayer() {
                     />
                   </Tooltip>
                 ) : null}
-                <Outlet context={[sections, course._id]} />
+                <Outlet context={[items, course._id]} />
               </div>
             </Col>
             <Col span={24}>

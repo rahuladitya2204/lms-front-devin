@@ -1,5 +1,16 @@
-import { Alert, Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
-import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
+import {
+  Alert,
+  Button,
+  Card,
+  Col,
+  Form,
+  Modal,
+  Row,
+  Spin,
+  Tag,
+  Typography
+} from 'antd'
+import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
@@ -15,6 +26,8 @@ import SetCourseRules from './SetRules'
 import { cloneDeep } from 'lodash'
 import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
+
+const { Paragraph } = Typography
 
 const { confirm } = Modal
 
@@ -43,7 +56,7 @@ function CourseBuilderScreen() {
   const navigate = useNavigate()
 
   const onAddSection = (section: Partial<Types.CourseSection>) => {
-    console.log(section, 'section')
+    // console.log(section, 'section')
     let COURSE = cloneDeep(course)
     if (section._id) {
       COURSE.sections.forEach((sec, index) => {
@@ -218,6 +231,7 @@ function CourseBuilderScreen() {
   //   courseId + ''
   // )
   const items = course.sections.map(s => s.items).flat()
+  // console.log(course.sections, items, 'nodeee')
   const { mutate: publishCourse } = User.Queries.usePublishCourse()
   return (
     <Header
@@ -231,25 +245,30 @@ function CourseBuilderScreen() {
         </span>
       }
       extra={[
-        <Button
-          onClick={() => {
-            confirm({
-              title: 'Are you sure?',
-              content: `You want to publish this course?`,
-              onOk() {
-                publishCourse({
-                  courseId: course._id
-                })
-              },
-              okText: 'Yes, Publish'
-            })
-          }}
-          disabled={!Utils.validatePublishCourse(course)}
-          style={{ marginRight: 15 }}
-          icon={<UploadOutlined />}
-        >
-          Publish Course
-        </Button>,
+        // @ts-ignore
+        course.status === Enum.CourseStatus.PUBLISHED ? (
+          <Tag color="green">Course is Live</Tag>
+        ) : (
+          <Button
+            onClick={() => {
+              confirm({
+                title: 'Are you sure?',
+                content: `You want to publish this course?`,
+                onOk() {
+                  publishCourse({
+                    courseId: course._id
+                  })
+                },
+                okText: 'Yes, Publish'
+              })
+            }}
+            disabled={!Utils.validatePublishCourse(course)}
+            style={{ marginRight: 15 }}
+            icon={<UploadOutlined />}
+          >
+            Publish Course
+          </Button>
+        ),
         <Button
           onClick={() => saveCourse(course)}
           loading={loading}
