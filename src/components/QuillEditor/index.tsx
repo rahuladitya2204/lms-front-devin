@@ -1,5 +1,5 @@
 // @ts-nocheck
-import 'react-quill/dist/quill.snow.css'
+import './quill.css'
 import './custom-style.css'
 
 import { Form, Spin } from 'antd'

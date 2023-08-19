@@ -97,7 +97,7 @@
     "react-draggable": "^4.4.5",
     "react-pdf": "^5.7.2",
     "react-player": "^2.10.1",
-    "react-quill": "^0.0.2",
+    "react-quill": "^2.0.0",
     "react-razorpay": "^1.2.0",
     "react-refresh": "^0.11.0",
     "react-router": "^6.4.2",

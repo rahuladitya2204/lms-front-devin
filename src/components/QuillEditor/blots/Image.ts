@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import 'react-quill/dist/quill.snow.css'
+import '../quill.css'
 
 // @ts-nocheck
 import { Quill } from 'react-quill'
