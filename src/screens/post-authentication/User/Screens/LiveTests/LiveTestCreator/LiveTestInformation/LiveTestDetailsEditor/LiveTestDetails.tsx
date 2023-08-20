@@ -69,8 +69,6 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
       />
     )
   }
-  // const date = dayjs(Form.useWatch('scheduledAt', form))
-  console.log(liveTest, 'date')
   return (
     <Form
       form={form}

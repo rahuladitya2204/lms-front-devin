@@ -70,7 +70,7 @@ export const usePaymentCheckout = () => {
   const openCheckout = ({pgOrder,order},cb) => {
     const rzpay = new Razorpay({
       order_id: pgOrder.id,
-      callback_url:`${Constants.config.SERVER_URL}/learner/${order._id}/successful`,
+      callback_url:`${Constants.config.API_URL}/learner/${order._id}/successful`,
       currency: pgOrder.currency,
       name:organisation.name,
       // description: "Test Transaction",
