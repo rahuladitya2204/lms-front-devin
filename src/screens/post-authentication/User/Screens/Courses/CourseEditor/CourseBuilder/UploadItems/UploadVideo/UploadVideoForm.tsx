@@ -44,11 +44,13 @@ const UploadVideoForm:any = () => {
     retryDelay: 1000
   })
 
-  const { data: summary, mutate: generateSummaryApi,isLoading:generatingSummary} = User.Queries.useGenerateCourseItemSummary();
+  const { data: summary, mutate: generateSummaryApi, isLoading: generatingSummary } = User.Queries.useGenerateCourseItemInfo({});
   const generateSummary = (courseId:string,itemId:string) => {
     generateSummaryApi({ data: { courseId, itemId } }, {
-      onSuccess: summaryText => {
-        form.setFieldValue('summary', summaryText);
+      onSuccess: ({ summary, topics }) => {
+        console.log(topics,'123123')
+        form.setFieldValue('summary', summary);
+        form.setFieldValue('topics', topics);
       }
     });
   }
@@ -64,14 +66,6 @@ const UploadVideoForm:any = () => {
           tooltip="This is a required field"
         >
           <Input placeholder="Enter Video Title" />
-        </Form.Item>
-        <Form.Item
-         
-          label="Topics"
-          required
-          tooltip="This is a required field"
-        >
-        <InputTags name="topics" ctaText='Enter Topics'/>
         </Form.Item>
         <Form.Item>
           <Checkbox
@@ -141,7 +135,18 @@ const UploadVideoForm:any = () => {
           required
         >
           <SunEditorComponent height={300} name={'summary'} />
-        </Form.Item></>:null}
+                </Form.Item>
+              
+                <Form.Item
+         
+         label="Topics"
+         required
+         tooltip="This is a required field"
+       >
+       <InputTags name="topics" ctaText='Enter Topics'/>
+                </Form.Item>
+              
+              </> : null}
             </Card>
           </Col>
 

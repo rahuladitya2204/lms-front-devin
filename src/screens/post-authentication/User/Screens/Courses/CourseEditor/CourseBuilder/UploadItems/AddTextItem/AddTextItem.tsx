@@ -34,13 +34,14 @@ const AddTextItem: React.FC<AddItemProps> = props => {
     data: summary,
     mutate: generateSummaryApi,
     isLoading: generatingSummary
-  } = User.Queries.useGenerateCourseItemSummary()
+  } = User.Queries.useGenerateCourseItemInfo({})
   const generateSummary = (courseId: string, itemId: string) => {
     generateSummaryApi(
       { data: { courseId, itemId } },
       {
-        onSuccess: summaryText => {
-          form.setFieldValue('summary', summaryText)
+        onSuccess: ({ summary,topics }) => {
+          form.setFieldValue('summary', summary)
+          form.setFieldValue('topics', topics);
         }
       }
     )
