@@ -109,10 +109,10 @@ export default function GenerateQuestionWithAI({
         <Input type="text" />
       </Form.Item>
       <Form.Item label="Keywords">
-        <InputTags
+        <InputTags name='keywords'
           ctaText="Enter Keyword"
           values={keywords}
-          onChange={setKeywords}
+          // onChange={setKeywords}
         />
       </Form.Item>
       <Row gutter={[20, 20]}>

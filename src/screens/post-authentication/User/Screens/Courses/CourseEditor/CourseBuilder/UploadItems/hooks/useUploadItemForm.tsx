@@ -1,15 +1,14 @@
-import { Constants, Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 import { useOutletContext, useParams } from "react-router";
 
-import { Form } from "antd";
 import { FormInstance } from "antd/lib/form/Form";
 import { findSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from "react";
 
 function useUploadItemForm(form?:FormInstance) {
   let { itemId, id: courseId } = useParams();
-  const {data: course}=User.Queries.useGetCourseDetails(courseId+'',{
-    enabled:!!courseId
+  const { data: course } = User.Queries.useGetCourseDetails(courseId + '', {
+    enabled: !!courseId
   });
   const { mutate: updateItem } = User.Queries.useUpdateCourseItem();
 
@@ -43,7 +42,7 @@ function useUploadItemForm(form?:FormInstance) {
       })
     // saveCourse();
   }
-
+  // console.log(item,'item')
   return { onFormChange, form, item, sectionId: section._id, courseId, itemId,section,currentItemIndex };
   } 
   

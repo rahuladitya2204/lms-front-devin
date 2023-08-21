@@ -41,7 +41,7 @@ function LiveTestCard(props: LiveTestCardPropsI) {
       <CustomCard hoverable
         onClick={() =>
           navigate(
-            `../liveTests/${liveTest._id}`
+            `../live-test/${liveTest._id}`
           )
         } bodyStyle={{padding: 15}}
         cover={
@@ -95,11 +95,7 @@ function LiveTestCard(props: LiveTestCardPropsI) {
             </Space>
           </Col>
         </Row>
-            
-
-
       </CustomCard>
-    // </Badge.Ribbon>
   )
 }
 

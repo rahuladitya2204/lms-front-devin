@@ -1,5 +1,5 @@
-import { Alert, Button, Col, Form, Modal, Row, Spin } from 'antd'
-import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
+import { Alert, Button, Col, Form, Modal, Row, Spin, Tag } from 'antd'
+import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
@@ -231,6 +231,9 @@ function LiveTestBuilderScreen() {
         </span>
       }
       extra={[
+        liveTest.status === Enum.LiveTestStatus.PUBLISHED ? (
+          <Tag color='green'>Test is published</Tag>
+        ):
         <Button
           onClick={() => {
             confirm({
@@ -248,7 +251,7 @@ function LiveTestBuilderScreen() {
           style={{ marginRight: 15 }}
           icon={<UploadOutlined />}
         >
-          Publish Test
+          Publish
         </Button>,
         <Button
           onClick={() => saveLiveTest(liveTest)}

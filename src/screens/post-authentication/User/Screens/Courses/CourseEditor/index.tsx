@@ -6,6 +6,7 @@ import {
   InfoCircleOutlined,
   SafetyCertificateOutlined,
   SaveOutlined,
+  SettingOutlined,
   ToolOutlined,
   UploadOutlined,
   UserOutlined
@@ -127,11 +128,6 @@ function CourseEditor() {
           >
             <Tabs
               navigateWithHash
-              onTabClick={e => {
-                if (e === 'builder') {
-                  window.open(`../${course._id}/builder`)
-                }
-              }}
               tabPosition={'left'}
               style={{ minHeight: '100vh' }}
               items={[
@@ -150,6 +146,20 @@ function CourseEditor() {
                     />
                   )
                 },
+                // {
+                //   label: (
+                //     <span
+                //       onClick={e => {
+                //         window.open(`../${course._id}/builder`)
+                //         e.stopPropagation()
+                //       }}
+                //     >
+                //       <SettingOutlined />Builder
+                //     </span>
+                //   ),
+                //   key: 'builder',
+                //   children: null
+                // },
                 // {
                 //   label: (
                 //     <span>

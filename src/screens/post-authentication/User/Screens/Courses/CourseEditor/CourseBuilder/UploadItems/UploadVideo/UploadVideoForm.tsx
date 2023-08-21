@@ -7,6 +7,7 @@ import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
 import Image from '@Components/Image'
+import InputTags from '@Components/InputTags/InputTags'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import ThumbnailList from './ThumbnailList'
@@ -53,6 +54,14 @@ const UploadVideoForm:any = () => {
         >
           <Input placeholder="Enter Video Title" />
         </Form.Item>
+        <Form.Item
+         
+          label="Topics"
+          required
+          tooltip="This is a required field"
+        >
+        <InputTags name="topics" ctaText='Enter Topics'/>
+        </Form.Item>
         <Form.Item>
           <Checkbox
             checked={item.isPreview}
@@ -64,6 +73,14 @@ const UploadVideoForm:any = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
+
+        {/* <Form.Item
+          label="Generate Summary from video"
+          required
+        >
+          <Input.TextArea placeholder="Enter Video Title" />
+        </Form.Item> */}
+        
         <Row gutter={[20,20]}>
          
           <Col span={24}>

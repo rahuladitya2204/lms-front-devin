@@ -23,6 +23,7 @@ import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
+import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import useUpdateLiveTestForm from './hooks/useUpdateLiveTest';
 
@@ -53,17 +54,16 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 
   useEffect(
     () => {
-      if (item&&item._id) {
+      if (item && item._id) {
         setCorrectOptions(item.correctOptions);
         form.setFieldsValue(item);
       }
-          else
-      {
+      else {
         form.setFieldsValue(Constants.INITIAL_LIVE_TEST_QUESTION);
       }
     },
-    [item,liveTestId]
-  ) 
+    [item, liveTestId]
+  );
     const submit = (e: Types.LiveTestQuestion) => {
       props.submit && props.submit({ ...e, correctOptions });
       form.resetFields();
@@ -97,6 +97,13 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   }
 
   return (
+    <Form name='quiz' onFinish={submit} onValuesChange={(v, e) => {
+      updateItem(e)
+  }}
+
+  form={form}
+  layout="vertical"
+>
     <Row gutter={[10,30]}>
       <Col span={24}>
       <Alert
@@ -107,14 +114,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               action={
                 <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
                   <GenerateQuestionWithAI submit={d => {
-                    // @ts-ignore
-                    if (d.solutionHtml) {
-                    // @ts-ignore
-                    d.solution={html:d.solutionHtml};
-                    }
                     console.log(d,'ooopo')
                   setCorrectOptions(d.correctOptions)
-                    form.setFieldsValue(d);
+                    // form.setFieldsValue(d);
                     d.isAiGenerated = true;
                     updateLiveTestSection(sectionId, itemId, d);
                     // setIsAiGenerated(true);
@@ -127,16 +129,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
         {/* <Divider/> */}
    </Col>
       <Col span={24}>
-   
+    
         <Card bordered={false}>
-          <Form name='quiz' onFinish={submit} onValuesChange={(v, e) => {
-            console.log(e,'hi')
-            updateItem(e)
-        }}
-
-        form={form}
-        layout="vertical"
-      >
+      
         <Form.Item name="title" label="Title" required   rules={[
             {
               required: true,
@@ -231,7 +226,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 </Card>
           </Col>
               </Row>
-        </Form>
        </Card>
       </Col>
       <Col span={24}>
@@ -275,7 +269,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               {file._id ? <MediaPlayer fileId={fileId} /> :<Empty description='No Video Uploaded'  />}
             </Card>
         </Col>
+
     </Row>
+    </Form>
   )
 }
 

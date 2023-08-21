@@ -1,38 +1,78 @@
+import { AutoComplete, Form, Input, Tag } from 'antd';
+
+import { PlusOutlined } from '@ant-design/icons';
 import React from 'react';
-import { WithContext as ReactTags } from 'react-tag-input';
-import './style.css'
+
 interface InputTagsPropsI {
-  values?: string[];
-  name?: string;
   ctaText?: string;
-  onChange?: (tags: string[]) => void;
+  name: string | string[];
+  values?: string[];
 }
 
-const InputTags: React.FC<InputTagsPropsI> = (props) => {
-  const [tags, setTags] = React.useState(
-    (props.values || []).map((value) => ({ id: value, text: value }))
-  );
+const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, values = [],name }) => {
+  const [inputValue, setInputValue] = React.useState('');
+  const [inputVisible, setInputVisible] = React.useState(false);
+  
+  const form = Form.useFormInstance();
+  const tags: string[] = form.getFieldValue(name) || [];
 
-  const handleDelete = (i: number) => {
-    const newTags = tags.slice(0);
-    newTags.splice(i, 1);
-    setTags(newTags);
-    props.onChange && props.onChange(newTags.map((tag) => tag.text));
+  const handleClose = (removedTag: string) => {
+    const newTags = tags.filter(tag => tag !== removedTag);
+    form.setFieldValue(name, newTags);
   };
 
-  const handleAddition = (tag: { id: string; text: string }) => {
-    setTags([...tags, tag]);
-    props.onChange && props.onChange([...tags, tag].map((tag) => tag.text));
+  const handleInputChange = (e: any) => {
+    setInputValue(e);
+  };
+
+  const handleInputConfirm = () => {
+    let newTags = [...tags];
+    if (inputValue && tags.indexOf(inputValue) === -1) {
+      newTags = [...tags, inputValue];
+    }
+    form.setFieldValue(name, newTags);
+    setInputVisible(false);
+    setInputValue('');
+  };
+
+  const handleSelect = (selectedValue: string) => {
+    if (tags.indexOf(selectedValue) === -1) {
+      const newTags = [...tags, selectedValue];
+      form.setFieldValue(name, newTags);
+      setInputValue('');
+    }
   };
 
   return (
-    <ReactTags
-      tags={tags}
-      handleDelete={handleDelete}
-      handleAddition={handleAddition}
-      allowDragDrop={false}
-      placeholder={props.ctaText || 'New Tag'}
-    />
+    <>
+      {tags.map((tag, index) => (
+        <Tag key={tag} closable={true} onClose={() => handleClose(tag)}>
+          {tag}
+        </Tag>
+      ))}
+      {inputVisible && (
+        <AutoComplete
+          style={{ width: 200 }}
+          options={values.map(value => ({ value }))}
+          value={inputValue}
+          onSelect={handleSelect}
+          onSearch={handleInputChange}
+          onBlur={() => setInputVisible(false)}
+        >
+          <Input
+            type="text"
+            size="small"
+            onPressEnter={handleInputConfirm}
+            style={{ width: 200 }}
+          />
+        </AutoComplete>
+      )}
+      {!inputVisible && (
+        <Tag onClick={() => setInputVisible(true)} style={{ background: '#fff', borderStyle: 'dashed' }}>
+          <PlusOutlined /> {ctaText ? ctaText : 'New Tag'}
+        </Tag>
+      )}
+    </>
   );
 };
 

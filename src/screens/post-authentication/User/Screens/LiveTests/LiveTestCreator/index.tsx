@@ -1,5 +1,5 @@
-import { Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
-import { Constants, Types, Utils } from '@adewaskar/lms-common'
+import { Button, Card, Col, Form, Modal, Row, Spin, Tag } from 'antd'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import {
   InfoCircleOutlined,
   SafetyCertificateOutlined,
@@ -23,7 +23,7 @@ function LiveTestEditor() {
   const message = useMessage()
   const { id } = useParams()
   const liveTestId = id + ''
-  const [liveTest, setLiveTest] = useState(Constants.INITIAL_LIVE_TEST_DETAILS)
+  const [liveTest, setLiveTest] = useState<Types.LiveTest>(Constants.INITIAL_LIVE_TEST_DETAILS)
 
   const {
     mutate: updateLiveTestApi,
@@ -84,33 +84,35 @@ function LiveTestEditor() {
             title={
               <span>
                 <BackButton
-                  onClick={() =>
-                    navigate(`../app/products/live-test`)
-                  }
+                  onClick={() => navigate(`../app/products/live-test`)}
                 />{' '}
                 {liveTest.title}
               </span>
             }
             extra={[
-              <Button
-                disabled={!Utils.validatePublishLiveTest(liveTest)}
-                onClick={() => {
-                  confirm({
-                    title: 'Are you sure?',
-                    content: `You want to publish this liveTest?`,
-                    onOk() {
-                      publishLiveTest({
-                        liveTestId: liveTest._id
-                      })
-                    },
-                    okText: 'Yes, Publish'
-                  })
-                }}
-                style={{ marginRight: 15 }}
-                icon={<UploadOutlined />}
-              >
-                Publish Live Test
-              </Button>,
+              liveTest.status === Enum.LiveTestStatus.PUBLISHED ? (
+                <Tag color='green'>Test is published</Tag>
+              ) : (
+                <Button
+                  disabled={!Utils.validatePublishLiveTest(liveTest)}
+                  onClick={() => {
+                    confirm({
+                      title: 'Are you sure?',
+                      content: `You want to publish this liveTest?`,
+                      onOk() {
+                        publishLiveTest({
+                          liveTestId: liveTest._id+''
+                        })
+                      },
+                      okText: 'Yes, Publish'
+                    })
+                  }}
+                  style={{ marginRight: 15 }}
+                  icon={<UploadOutlined />}
+                >
+                  Publish Live Test
+                </Button>
+              ),
               <Button
                 disabled={!validateDraftLiveTest()}
                 loading={loading}
@@ -162,7 +164,7 @@ function LiveTestEditor() {
                     </span>
                   ),
                   key: 'learners',
-                  children: <LiveTestLearners liveTestId={liveTest._id} />
+                  children: <LiveTestLearners liveTestId={liveTest._id+''} />
                 },
                 {
                   label: (
