@@ -12,6 +12,7 @@ import {
 } from 'antd'
 import { Fragment, useEffect } from 'react'
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons'
+import { Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import { AddItemProps } from '../UploadPDF'
@@ -19,7 +20,6 @@ import FileList from '@Components/FileList'
 import MediaUpload from '@Components/MediaUpload'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import TextArea from '@Components/Textarea'
-import { Types } from '@adewaskar/lms-common'
 import { getReadingTime } from '../../utils'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
@@ -29,6 +29,22 @@ const AddTextItem: React.FC<AddItemProps> = props => {
   const { onFormChange, item, courseId, sectionId, itemId } = useUploadItemForm(
     form
   )
+
+  const {
+    data: summary,
+    mutate: generateSummaryApi,
+    isLoading: generatingSummary
+  } = User.Queries.useGenerateCourseItemSummary()
+  const generateSummary = (courseId: string, itemId: string) => {
+    generateSummaryApi(
+      { data: { courseId, itemId } },
+      {
+        onSuccess: summaryText => {
+          form.setFieldValue('summary', summaryText)
+        }
+      }
+    )
+  }
 
   useEffect(
     () => {
@@ -110,7 +126,31 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             </Card>
           </Col>
         </Row>
-        <TextArea label="Description" name="description" />
+        <Form.Item name="description" label="Description">
+          <SunEditorComponent />
+        </Form.Item>
+
+        {item.description ? (
+          <Form.Item
+            name={'summary'}
+            label={
+              <span>
+                Generate Summary from description{' '}
+                <Button
+                  loading={generatingSummary}
+                  onClick={() => generateSummary(courseId + '', itemId + '')}
+                  type="primary"
+                  size="small"
+                >
+                  Generate
+                </Button>
+              </span>
+            }
+            required
+          >
+            <SunEditorComponent height={300} name={'summary'} />
+          </Form.Item>
+        ) : null}
       </Form>
     </Fragment>
   )

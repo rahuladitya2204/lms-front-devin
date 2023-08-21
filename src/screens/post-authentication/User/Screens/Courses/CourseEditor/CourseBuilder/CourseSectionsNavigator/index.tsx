@@ -272,7 +272,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                           </List.Item>
                           </MovableItem>
 
-                          {(itemIndex === section.items.length - 1) ?
+                          {((itemIndex === section.items.length - 1)) ?
                             <ActionModal
                             cta={<AddItemListCta
                               >

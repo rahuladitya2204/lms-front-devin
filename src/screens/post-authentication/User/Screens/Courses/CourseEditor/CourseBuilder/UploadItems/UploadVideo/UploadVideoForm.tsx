@@ -10,6 +10,8 @@ import Image from '@Components/Image'
 import InputTags from '@Components/InputTags/InputTags'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
+import SunEditorComponent from '@Components/SunEditor/SunEditor'
+import TextArea from '@Components/Textarea'
 import ThumbnailList from './ThumbnailList'
 import UploadVideo from './UploadVideoPopup/UploadVideo'
 import { getMetadata } from 'video-metadata-thumbnails'
@@ -29,7 +31,6 @@ const UploadVideoForm:any = () => {
   const [form] = Form.useForm();
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, item } = useUploadItemForm(form);
-  
   const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   });
@@ -42,6 +43,16 @@ const UploadVideoForm:any = () => {
     enabled:!!jobId,
     retryDelay: 1000
   })
+
+  const { data: summary, mutate: generateSummaryApi,isLoading:generatingSummary} = User.Queries.useGenerateCourseItemSummary();
+  const generateSummary = (courseId:string,itemId:string) => {
+    generateSummaryApi({ data: { courseId, itemId } }, {
+      onSuccess: summaryText => {
+        form.setFieldValue('summary', summaryText);
+      }
+    });
+  }
+
   const fileId = file.encoded || file._id;
   return (
     <Fragment>
@@ -73,13 +84,6 @@ const UploadVideoForm:any = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-
-        {/* <Form.Item
-          label="Generate Summary from video"
-          required
-        >
-          <Input.TextArea placeholder="Enter Video Title" />
-        </Form.Item> */}
         
         <Row gutter={[20,20]}>
          
@@ -98,8 +102,8 @@ const UploadVideoForm:any = () => {
               <ThumbnailList item={item} fileId={file._id} />
  </div>
 
-<Form.Item label='Thumbnail'>
-<MediaUpload width={'200'}
+          <Form.Item label='Thumbnail'>
+          <MediaUpload width={'200'}
                 source={{
                   type: 'course.section.item.thumbnail',
                   value: courseId+''
@@ -129,7 +133,15 @@ const UploadVideoForm:any = () => {
               <Progress style={{marginBottom:20}} percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
             </>
           ) : null}
-              {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : (item.external?.url?<MediaPlayer platform={item.external.platform} url={item.external.url} />:<Empty description='No Video Uploaded'  />)}
+              {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : (item.external?.url ? <MediaPlayer platform={item.external.platform} url={item.external.url} /> : <Empty description='No Video Uploaded' />)}
+              
+             {file.transcription?<> <Divider/>
+              <Form.Item name={'summary'}
+          label={<span>Generate Summary from video <Button loading={generatingSummary} onClick={()=>generateSummary(courseId+'',itemId+'')} type='primary' size='small'>Generate</Button></span>}
+          required
+        >
+          <SunEditorComponent height={300} name={'summary'} />
+        </Form.Item></>:null}
             </Card>
           </Col>
 
