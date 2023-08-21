@@ -17,6 +17,7 @@ import { Types, User } from '@adewaskar/lms-common'
 import ActionModal from '@Components/ActionModal'
 import { AddItemProps } from '../UploadPDF'
 import FileList from '@Components/FileList'
+import InputTags from '@Components/InputTags/InputTags'
 import MediaUpload from '@Components/MediaUpload'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import TextArea from '@Components/Textarea'
@@ -32,16 +33,18 @@ const AddTextItem: React.FC<AddItemProps> = props => {
 
   const {
     data: summary,
-    mutate: generateSummaryApi,
+    mutate: generateInfoApi,
     isLoading: generatingSummary
-  } = User.Queries.useGenerateCourseItemInfo({})
-  const generateSummary = (courseId: string, itemId: string) => {
-    generateSummaryApi(
-      { data: { courseId, itemId } },
+  } = User.Queries.useGenerateCourseItemInfo()
+  const generateInfo = (fields: Types.LooseObject) => {
+    generateInfoApi(
       {
-        onSuccess: ({ summary,topics }) => {
+        data: { courseId: courseId + '', itemId: itemId + '', fields }
+      },
+      {
+        onSuccess: ({ summary, topics }) => {
           form.setFieldValue('summary', summary)
-          form.setFieldValue('topics', topics);
+          form.setFieldValue('topics', topics)
         }
       }
     )
@@ -136,14 +139,18 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             name={'summary'}
             label={
               <span>
-                Generate Summary from description{' '}
+                Summary{' '}
                 <Button
                   loading={generatingSummary}
-                  onClick={() => generateSummary(courseId + '', itemId + '')}
+                  onClick={() =>
+                    generateInfo({
+                      summary: ''
+                    })
+                  }
                   type="primary"
                   size="small"
                 >
-                  Generate
+                  Generate with AI
                 </Button>
               </span>
             }
@@ -152,6 +159,26 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             <SunEditorComponent height={300} name={'summary'} />
           </Form.Item>
         ) : null}
+
+        <Form.Item
+          label={
+            <span>
+              Topics{' '}
+              <Button
+                loading={generatingSummary}
+                onClick={() => generateInfo({ topics: '' })}
+                type="primary"
+                size="small"
+              >
+                Generate with AI
+              </Button>
+            </span>
+          }
+          required
+          tooltip="This is a required field"
+        >
+          <InputTags name="topics" ctaText="Enter Topics" />
+        </Form.Item>
       </Form>
     </Fragment>
   )

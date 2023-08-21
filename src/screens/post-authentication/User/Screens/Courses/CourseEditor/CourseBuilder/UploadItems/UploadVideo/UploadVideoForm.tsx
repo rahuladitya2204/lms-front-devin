@@ -1,5 +1,5 @@
 import { Button, Card, Checkbox, Col, Divider, Empty, Form, Input, Progress, Row, Space, Typography } from 'antd'
-import { Common, User } from '@adewaskar/lms-common'
+import { Common, Types, User } from '@adewaskar/lms-common'
 import { UploadOutlined, VideoCameraOutlined } from '@ant-design/icons'
 import { debounce, uniqueId } from 'lodash'
 
@@ -44,9 +44,9 @@ const UploadVideoForm:any = () => {
     retryDelay: 1000
   })
 
-  const { data: summary, mutate: generateSummaryApi, isLoading: generatingSummary } = User.Queries.useGenerateCourseItemInfo({});
-  const generateSummary = (courseId:string,itemId:string) => {
-    generateSummaryApi({ data: { courseId, itemId } }, {
+  const {  mutate: generateItemInfoApi, isLoading: generatingSummary } = User.Queries.useGenerateCourseItemInfo();
+  const generateItemInfo = (fields:Types.LooseObject) => {
+    generateItemInfoApi({ data: { courseId:courseId+'', itemId:itemId+'' ,fields} }, {
       onSuccess: ({ summary, topics }) => {
         console.log(topics,'123123')
         form.setFieldValue('summary', summary);
@@ -131,7 +131,7 @@ const UploadVideoForm:any = () => {
               
              {file.transcription?<> <Divider/>
               <Form.Item name={'summary'}
-          label={<span>Generate Summary from video <Button loading={generatingSummary} onClick={()=>generateSummary(courseId+'',itemId+'')} type='primary' size='small'>Generate</Button></span>}
+                  label={<span>Summary <Button loading={generatingSummary} onClick={() => generateItemInfo({ summary: '' })} type='primary' size='small'>Generate</Button></span>}
           required
         >
           <SunEditorComponent height={300} name={'summary'} />
@@ -139,7 +139,8 @@ const UploadVideoForm:any = () => {
               
                 <Form.Item
          
-         label="Topics"
+         label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ summary: '' })} type='primary' size='small'>Generate</Button></span>}
+
          required
          tooltip="This is a required field"
        >
