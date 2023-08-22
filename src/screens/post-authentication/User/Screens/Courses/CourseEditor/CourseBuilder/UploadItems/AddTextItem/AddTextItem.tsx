@@ -36,30 +36,24 @@ const AddTextItem: React.FC<AddItemProps> = props => {
     mutate: generateInfoApi,
     isLoading: generatingSummary
   } = User.Queries.useGenerateCourseItemInfo()
-  const generateInfo = (fields: Types.LooseObject) => {
-    generateInfoApi(
-      {
-        data: { courseId: courseId + '', itemId: itemId + '', fields }
-      },
-      {
-        onSuccess: ({ summary, topics }) => {
-          form.setFieldValue('summary', summary)
-          form.setFieldValue('topics', topics)
+  const generateItemInfo = (fields: Types.LooseObject) => {
+    generateInfoApi({ data: { courseId:courseId+'', itemId:itemId+'' ,fields} }, {
+      onSuccess: ({ summary, topics }) => {
+        if (summary) {
+          onFormChange({ summary: summary });
         }
+        if (topics&&topics.length) {
+          onFormChange({ topics: topics });
+        }
+        console.log(topics,'123123')
+        // form.setFieldValue('summary', summary);
       }
-    )
+    });
   }
 
-  useEffect(
-    () => {
-      if (props.item) {
-        form.setFieldsValue({
-          title: props.item.title
-        })
-      }
-    },
-    [props.item, form]
-  )
+  useEffect(() => { 
+    form.setFieldsValue(props.item);
+  },[item])
 
   return (
     <Fragment>
@@ -143,7 +137,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
                 <Button
                   loading={generatingSummary}
                   onClick={() =>
-                    generateInfo({
+                    generateItemInfo({
                       summary: 1
                     })
                   }
@@ -166,7 +160,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
               Topics{' '}
               <Button
                 loading={generatingSummary}
-                onClick={() => generateInfo({ topics: 1 })}
+                onClick={() => generateItemInfo({ topics: 1 })}
                 type="primary"
                 size="small"
               >

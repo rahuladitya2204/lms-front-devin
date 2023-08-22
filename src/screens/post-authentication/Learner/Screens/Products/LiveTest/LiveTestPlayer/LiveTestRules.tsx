@@ -25,6 +25,7 @@ interface LiveTestRulesPropsI {}
 
 export default function LiveTestRules(props: LiveTestRulesPropsI) {
   const { testId } = useParams()
+  const { mutate: startTest } = Learner.Queries.useStartLiveTest()
   const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '')
   const [form] = Form.useForm()
   const rule1 = Form.useWatch('rule-1', form)
@@ -80,7 +81,18 @@ export default function LiveTestRules(props: LiveTestRulesPropsI) {
                 <Col flex={'reverse'}>
                   <Button>Back</Button>
                   <Button
-                    onClick={() => navigate('../player')}
+                    onClick={() => {
+                      startTest(
+                        {
+                          testId: liveTest._id + ''
+                        },
+                        {
+                          onSuccess: () => {
+                            navigate('../player')
+                          }
+                        }
+                      )
+                    }}
                     disabled={!isValid}
                     style={{ marginLeft: 10 }}
                     type="primary"

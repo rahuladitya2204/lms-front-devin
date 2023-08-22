@@ -28,12 +28,24 @@ const LiveTestsScreen = () => {
           {
             key: 'upcoming',
             label: `Upcoming`,
-            children: <LiveTestsList filter={{ status: Enum.LiveTestStatus.PUBLISHED }} />
+            children: (
+              <LiveTestsList
+                filter={{
+                  status: [
+                    Enum.LiveTestStatus.DRAFT,
+                    Enum.LiveTestStatus.PUBLISHED,
+                    Enum.LiveTestStatus.IN_PROGRESS
+                  ]
+                }}
+              />
+            )
           },
           {
             key: 'past',
             label: `Past`,
-            children: <LiveTestsList filter={{ status: Enum.LiveTestStatus.ENDED }} />
+            children: (
+              <LiveTestsList filter={{ status: [Enum.LiveTestStatus.ENDED] }} />
+            )
           }
         ]}
       />

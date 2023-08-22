@@ -3,6 +3,7 @@ import {
   Card,
   Col,
   Collapse,
+  Modal,
   Progress,
   Row,
   Space,
@@ -21,6 +22,8 @@ import LiveTestQuestionNavigator from './LiveTestQuestionNavigator/LiveTestQuest
 import dayjs from 'dayjs'
 import { i } from 'mathjs'
 
+const { confirm } = Modal
+
 interface LiveTestPlayerPropsI {}
 
 const { Title } = Typography
@@ -28,6 +31,7 @@ const { Title } = Typography
 export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
   const { testId } = useParams()
   const navigate = useNavigate()
+  const { mutate: endTest } = Learner.Queries.useEndLiveTest()
   const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '')
   const {
     data: { totalAnswered, totalQuestions }
@@ -61,7 +65,22 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
         <Tag icon={<ClockCircleOutlined />} color="blue">
           <Countdown targetDate={endTime} />
         </Tag>,
-        <Button type="primary">Finish Test</Button>
+        <Button
+          onClick={() => {
+            confirm({
+              title: 'Are you sure?',
+              // icon: <ExclamationCircleOutlined />,
+              content: `You want to submit this test?`,
+              onOk() {
+                endTest({ testId: liveTest._id + '' })
+              },
+              okText: 'Yes, Submit'
+            })
+          }}
+          type="primary"
+        >
+          Submit Test
+        </Button>
       ]}
     >
       <Row>

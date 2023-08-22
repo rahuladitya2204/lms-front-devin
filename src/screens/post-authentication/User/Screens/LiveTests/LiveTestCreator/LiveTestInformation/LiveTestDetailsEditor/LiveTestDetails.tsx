@@ -1,5 +1,5 @@
 import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd'
-import { Constants, Types, User } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import CreateCategory from '@User/Screens/Courses/ProductCategory/CreateCategory'
@@ -69,6 +69,7 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
       />
     )
   }
+  const isPublished = liveTest.status === Enum.LiveTestStatus.PUBLISHED;
   return (
     <Form
       form={form}
@@ -228,10 +229,13 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
                   }
                 ]}
                 name="scheduledAt"
-                label="Scheduled For"
+                label={`Scheduled For ${isPublished?'(Cannot change date/time once published)':''}`}
                 required
               >
-                <DatePicker showTime />
+                <DatePicker
+                  disabled={isPublished}
+                  showTime
+                />
               </Form.Item>
             </Col>
             {/* <Col style={{ display: 'flex', alignItems: 'center' }}>

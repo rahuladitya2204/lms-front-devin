@@ -1,11 +1,11 @@
 import { Button, Card, Checkbox, Col, Divider, Empty, Form, Input, Progress, Row, Space, Typography } from 'antd'
 import { Common, Types, User } from '@adewaskar/lms-common'
+import { Fragment, useEffect } from 'react'
 import { UploadOutlined, VideoCameraOutlined } from '@ant-design/icons'
 import { debounce, uniqueId } from 'lodash'
 
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
-import { Fragment } from 'react'
 import Image from '@Components/Image'
 import InputTags from '@Components/InputTags/InputTags'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
@@ -35,25 +35,44 @@ const UploadVideoForm:any = () => {
     enabled: !!item.file
   });
 
-  const jobId = file?.metadata?.jobId;
+  const videoJobId = file?.metadata?.video?.jobId;
   const {
-    data: { status, progress }
-  } = User.Queries.useGetTranscodeVideoStatus(jobId, {
+    data: transcoding
+  } = User.Queries.useGetTranscodeVideoStatus(videoJobId, {
     retry: true,
-    enabled:!!jobId,
+    enabled:!!videoJobId,
     retryDelay: 1000
-  })
+  });
+
+  const transcribeJobId = file?.metadata?.transcribe?.jobId;
+  const {
+    data: transcribing
+  } = User.Queries.useGetTranscribeVideoStatus(transcribeJobId, {
+    retry: true,
+    enabled:!!transcribeJobId,
+    retryDelay: 1000
+  });
 
   const {  mutate: generateItemInfoApi, isLoading: generatingSummary } = User.Queries.useGenerateCourseItemInfo();
-  const generateItemInfo = (fields:Types.LooseObject) => {
+
+  const generateItemInfo = (fields: Types.LooseObject) => {
     generateItemInfoApi({ data: { courseId:courseId+'', itemId:itemId+'' ,fields} }, {
       onSuccess: ({ summary, topics }) => {
+        if (summary) {
+          onFormChange({ summary: summary });
+        }
+        if (topics&&topics.length) {
+          onFormChange({ topics: topics });
+        }
         console.log(topics,'123123')
-        form.setFieldValue('summary', summary);
-        form.setFieldValue('topics', topics);
+        // form.setFieldValue('summary', summary);
       }
     });
   }
+
+  useEffect(() => { 
+    form.setFieldsValue(item);
+  },[item])
 
   const fileId = file.encoded || file._id;
   return (
@@ -121,12 +140,17 @@ const UploadVideoForm:any = () => {
 </Form.Item></>:null}
 
 
-          {status === 'PROGRESSING' ? (
-            <>
-              <Title level={3} style={{marginTop:0}}> Processing Video...</Title>
-              <Progress style={{marginBottom:20}} percent={progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
-            </>
-          ) : null}
+            <Row>
+            {transcoding.status === 'PROGRESSING' ? (
+<Col span={24}>
+              <Progress format={()=>`Processing Video`} style={{marginBottom:20}} percent={transcoding.progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
+                  </Col>          ) : null}
+
+                {transcribing.status === 'PROGRESSING' ? (
+                  <Col span={24}>
+                    <Progress format={() => `Generating Trancripts`} style={{ marginBottom: 20 }} percent={transcribing.progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
+                  </Col>) : null}
+              </Row>
               {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : (item.external?.url ? <MediaPlayer platform={item.external.platform} url={item.external.url} /> : <Empty description='No Video Uploaded' />)}
               
              {file.transcription?<> <Divider/>

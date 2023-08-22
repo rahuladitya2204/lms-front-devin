@@ -79,7 +79,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     enabled: !!item?.solution?.video
   });
 
-  const jobId = file?.metadata?.jobId;
+  const jobId = file?.metadata?.video.jobId;
   const {
     data: { status, progress }
   } = User.Queries.useGetTranscodeVideoStatus(jobId, {
@@ -92,10 +92,11 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const updateItem = (item:Types.LiveTestQuestion) => {
     updateLiveTestSection(sectionId,itemId ,{
       ...props.data,
-      ...item
+      ...item,
+      correctOptions
     })
   }
-
+  console.log(correctOptions,'setCorrectOptions')
   return (
     <Form name='quiz' onFinish={submit} onValuesChange={(v, e) => {
       updateItem(e)

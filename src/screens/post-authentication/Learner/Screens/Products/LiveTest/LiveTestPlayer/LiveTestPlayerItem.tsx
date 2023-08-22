@@ -23,8 +23,12 @@ export default function LiveTestPlayeritem(props: LiveTestPlayeritemPropsI) {
   }, [questionId]);
 
   useEffect(() => {
-    if(currentQuestion.answerGiven)
-    setAnswersGiven(currentQuestion.answerGiven)
+    if (currentQuestion.answerGiven) {
+      setAnswersGiven(currentQuestion.answerGiven)
+    }
+    else {
+      setAnswersGiven([])
+    }
   },[currentQuestion])
   return (
     <Fragment>
