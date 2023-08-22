@@ -131,7 +131,7 @@ const UploadVideoForm:any = () => {
               
              {file.transcription?<> <Divider/>
               <Form.Item name={'summary'}
-                  label={<span>Summary <Button loading={generatingSummary} onClick={() => generateItemInfo({ summary: '' })} type='primary' size='small'>Generate</Button></span>}
+                  label={<span>Summary <Button loading={generatingSummary} onClick={() => generateItemInfo({ summary: 1 })} type='primary' size='small'>Generate</Button></span>}
           required
         >
           <SunEditorComponent height={300} name={'summary'} />
@@ -139,7 +139,7 @@ const UploadVideoForm:any = () => {
               
                 <Form.Item
          
-         label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ summary: '' })} type='primary' size='small'>Generate</Button></span>}
+         label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button></span>}
 
          required
          tooltip="This is a required field"

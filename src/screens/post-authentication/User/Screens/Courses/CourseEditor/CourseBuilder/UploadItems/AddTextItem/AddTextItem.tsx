@@ -144,7 +144,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
                   loading={generatingSummary}
                   onClick={() =>
                     generateInfo({
-                      summary: ''
+                      summary: 1
                     })
                   }
                   type="primary"
@@ -166,7 +166,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
               Topics{' '}
               <Button
                 loading={generatingSummary}
-                onClick={() => generateInfo({ topics: '' })}
+                onClick={() => generateInfo({ topics: 1 })}
                 type="primary"
                 size="small"
               >

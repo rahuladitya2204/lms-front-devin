@@ -26,10 +26,10 @@ import { useNavigate } from 'react-router'
 const { Text } = Typography
 
 function LiveTestsList(props: { filter: Types.GetLiveTestssFilter }) {
-  const { data, isLoading: loading } = User.Queries
-    .useGetLiveTests
+  const { data, isLoading: loading } = User.Queries.useGetLiveTests(
     // props.filter
-    ()
+    props.filter
+  )
   const CreateLiveTestCta = (
     <ActionModal cta={<Button type="primary">Create Live Test</Button>}>
       <CreateLiveTest />
@@ -37,22 +37,26 @@ function LiveTestsList(props: { filter: Types.GetLiveTestssFilter }) {
   )
   return (
     <Fragment>
-      <List
-        grid={{ gutter: 20, column: 4 }}
-        size="large"
-        // pagination={{
-        //   onChange: (page) => {
-        //     console.log(page);
-        //   },
-        //   pageSize: 3,
-        // }}
-        dataSource={data}
-        renderItem={liveTest => (
-          <div style={{ padding: 30 }}>
-            <LiveTestCard liveTest={liveTest} />
-          </div>
-        )}
-      />
+      {!data.length ? (
+        <Empty description={`No Live Tests found`} />
+      ) : (
+        <List
+          grid={{ gutter: 20, column: 4 }}
+          size="large"
+          // pagination={{
+          //   onChange: (page) => {
+          //     console.log(page);
+          //   },
+          //   pageSize: 3,
+          // }}
+          dataSource={data}
+          renderItem={liveTest => (
+            <div style={{ padding: 30 }}>
+              <LiveTestCard liveTest={liveTest} />
+            </div>
+          )}
+        />
+      )}
     </Fragment>
   )
 }

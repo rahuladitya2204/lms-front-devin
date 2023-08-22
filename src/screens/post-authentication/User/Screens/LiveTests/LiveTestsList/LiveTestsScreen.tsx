@@ -2,6 +2,7 @@ import { Button, Typography } from 'antd'
 
 import ActionModal from '@Components/ActionModal'
 import CreateLiveTest from './CreateLiveTest'
+import { Enum } from '@adewaskar/lms-common'
 import Header from '@Components/Header'
 import LiveTestsList from './LiveTestsList'
 // import PastLiveTest from './PastLiveTest'
@@ -27,12 +28,12 @@ const LiveTestsScreen = () => {
           {
             key: 'upcoming',
             label: `Upcoming`,
-            children: <LiveTestsList filter={{ status: 'created' }} />
+            children: <LiveTestsList filter={{ status: Enum.LiveTestStatus.PUBLISHED }} />
           },
           {
             key: 'past',
             label: `Past`,
-            children: <LiveTestsList filter={{ status: 'ended' }} />
+            children: <LiveTestsList filter={{ status: Enum.LiveTestStatus.ENDED }} />
           }
         ]}
       />

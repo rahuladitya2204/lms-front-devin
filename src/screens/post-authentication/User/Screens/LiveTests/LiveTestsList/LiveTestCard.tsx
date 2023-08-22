@@ -1,4 +1,5 @@
 import { Avatar, Badge, Card, Tooltip } from 'antd'
+import { Enum, Types } from '@adewaskar/lms-common'
 import {
   EyeOutlined,
   FormatPainterOutlined,
@@ -7,7 +8,7 @@ import {
 } from '@ant-design/icons'
 
 import Image from '@Components/Image'
-import { Types } from '@adewaskar/lms-common'
+import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
@@ -22,33 +23,36 @@ const LiveTestCardHolder = styled(Card)`
   }
 `
 
-function LiveTestCard(props: LiveTestCardProps) {
+function LiveTestCard({ liveTest }: LiveTestCardProps) {
   const navigate = useNavigate()
+  const ThumbnailImage = <Image height={200} alt="example" src={liveTest.image} />
   return (
     <LiveTestCardHolder
       hoverable
       cover={
-        <Badge.Ribbon color="orange" text="Unpublished">
-          <Image height={200} alt="example" src={props.liveTest.image} />
-        </Badge.Ribbon>
+        liveTest.status === Enum.LiveTestStatus.ENDED ? (
+          <Badge.Ribbon color="red" text={capitalize(liveTest.status)}>
+            {ThumbnailImage}
+          </Badge.Ribbon>
+        ) : (
+          ThumbnailImage
+        )
       }
       actions={[
         <InfoCircleOutlined
-          onClick={() => navigate(`${props.liveTest._id}/editor#information`)}
+          onClick={() => navigate(`${liveTest._id}/editor#information`)}
         />,
         <Tooltip placement="bottom" title={'Go to Live Test builder'}>
-          <ToolOutlined
-            onClick={() => navigate(`${props.liveTest._id}/builder`)}
-          />
+          <ToolOutlined onClick={() => navigate(`${liveTest._id}/builder`)} />
         </Tooltip>,
         <Tooltip placement="bottom" title={'Build landing page'}>
           <FormatPainterOutlined
-            onClick={() => navigate(`${props.liveTest._id}/editor`)}
+            onClick={() => navigate(`${liveTest._id}/editor`)}
           />
         </Tooltip>,
         <EyeOutlined
           onClick={() => {
-            navigate(`${props.liveTest._id}/player`)
+            navigate(`${liveTest._id}/player`)
           }}
         />
         // <WechatOutlined />,
@@ -56,11 +60,13 @@ function LiveTestCard(props: LiveTestCardProps) {
       ]}
     >
       <Card.Meta
-        description={`Scheduled At: ${dayjs(props.liveTest.scheduledAt).format(
-          'LLL'
-        )}`}
+        description={
+          liveTest.status === Enum.LiveTestStatus.PUBLISHED
+            ? `Scheduled At: ${dayjs(liveTest.scheduledAt).format('LLL')}`
+            : `Ended At: ${dayjs(liveTest.endedAt).format('LLL')}`
+        }
         // avatar={<Avatar src={instructor?.image} />}
-        title={props.liveTest.title || ''}
+        title={liveTest.title || ''}
       />
     </LiveTestCardHolder>
   )
