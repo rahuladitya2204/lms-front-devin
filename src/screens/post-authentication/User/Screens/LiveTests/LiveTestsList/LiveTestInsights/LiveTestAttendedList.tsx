@@ -38,7 +38,9 @@ const LiveTestAttendedList = () => {
       <Table.Column
         title="Result"
         render={(_: any, record: Types.LiveTestLearnerResult) => (
-          <Tag color={record.status === 'passed' ? 'green-inverse' : 'red-inverse'}>
+          <Tag
+            color={record.status === 'passed' ? 'green-inverse' : 'red-inverse'}
+          >
             {capitalize(record.status)}
           </Tag>
         )}
@@ -60,6 +62,14 @@ const LiveTestAttendedList = () => {
           `${Math.ceil(record.timeSpent / 3600)} min`
         }
         key="result"
+      />
+
+      <Table.Column
+        title="Percentile"
+        render={(_: any, record: Types.LiveTestLearnerResult) => (
+          <Tag color='orange-inverse'>{record.percentile}</Tag>
+        )}
+        key="percentile"
       />
 
       <Table.Column

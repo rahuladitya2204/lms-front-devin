@@ -33,17 +33,15 @@ const LiveTestStatus = () => {
         </span>
       }
       extra={[
-        !result ? (
-          <Button
-            onClick={() => {
-              calculateResult(testId + '')
-            }}
-            loading={generatingResult}
-            type="primary"
-          >
-            Generate Result
-          </Button>
-        ) : null
+        <Button
+          onClick={() => {
+            calculateResult(testId + '')
+          }}
+          loading={generatingResult}
+          type="primary"
+        >
+          Generate Result
+        </Button>
       ]}
     >
       <Row gutter={[20, 30]}>
