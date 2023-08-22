@@ -16,6 +16,10 @@ const { Text } = Typography
 const LiveTestStatus = () => {
   const navigate = useNavigate()
   const { testId } = useParams()
+  const {
+    mutate: calculateResult,
+    isLoading: generatingResult
+  } = User.Queries.useCalculateLiveTestResult()
   const { data: liveTest } = User.Queries.useGetLiveTestDetails(testId + '')
   const result = liveTest.result
   // console.log(result, 'result')
@@ -24,12 +28,23 @@ const LiveTestStatus = () => {
       title={
         <span>
           {' '}
-          <BackButton
-            onClick={() => navigate('..')}
-          />{' '}
-          Live Test: {liveTest.title}
+          <BackButton onClick={() => navigate('..')} /> Live Test:{' '}
+          {liveTest.title}
         </span>
       }
+      extra={[
+        !result ? (
+          <Button
+            onClick={() => {
+              calculateResult(testId + '')
+            }}
+            loading={generatingResult}
+            type="primary"
+          >
+            Generate Result
+          </Button>
+        ) : null
+      ]}
     >
       <Row gutter={[20, 30]}>
         {result ? (
@@ -76,7 +91,7 @@ const LiveTestStatus = () => {
                   <Card>
                     <Statistic
                       title="Finished Students"
-                      value={89}
+                      value={result.completedTest}
                       prefix={<UserOutlined />}
                     />
                   </Card>

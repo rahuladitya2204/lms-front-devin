@@ -47,6 +47,7 @@ import LearnersScreen from './post-authentication/User/Screens/Users/Learners/Le
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import LiveSessionDetailScreen from '@Learner/Screens/Products/LiveSession/LiveSessionDetail'
 import LiveTestBuilderScreen from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/LiveTestBuilder'
+import LiveTestCompleted from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestCompleted'
 import LiveTestEditor from '@User/Screens/LiveTests/LiveTestCreator'
 import LiveTestPlayer from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayer'
 import LiveTestPlayeritem from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayerItem'
@@ -268,6 +269,7 @@ const router = createBrowserRouter(
             <Route path="player" element={<LiveTestPlayer />}>
               <Route path=":questionId" element={<LiveTestPlayeritem />} />
             </Route>
+            <Route path='completed' element={<LiveTestCompleted/>} />
           </Route>
           <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route path="app/courses/:id/player" element={<CoursePlayer />}>

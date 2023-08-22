@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card, Tooltip } from 'antd'
+import { Avatar, Badge, Card, Tag, Tooltip } from 'antd'
 import {
   BarChartOutlined,
   EyeOutlined,
@@ -66,9 +66,15 @@ function LiveTestCard({ liveTest }: LiveTestCardProps) {
     >
       <Card.Meta
         description={
-          liveTest.status === Enum.LiveTestStatus.PUBLISHED
-            ? `Scheduled At: ${dayjs(liveTest.scheduledAt).format('LLL')}`
-            : `Ended At: ${dayjs(liveTest.endedAt).format('LLL')}`
+          liveTest.status === Enum.LiveTestStatus.PUBLISHED ? (
+            `Scheduled At: ${dayjs(liveTest.scheduledAt).format('LLL')}`
+          ) : liveTest.status === Enum.LiveTestStatus.ENDED ? (
+            `Ended At: ${dayjs(liveTest.endedAt).format('LLL')}`
+          ) : liveTest.status === Enum.LiveTestStatus.IN_PROGRESS ? (
+            <Tag color="green">In Progress</Tag>
+          ) : (
+            ''
+          )
         }
         // avatar={<Avatar src={instructor?.image} />}
         title={liveTest.title || ''}

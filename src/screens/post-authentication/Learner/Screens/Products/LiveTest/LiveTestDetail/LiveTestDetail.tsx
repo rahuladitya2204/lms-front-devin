@@ -26,6 +26,10 @@ export default function LiveTestDetailScreen(
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'live-test',
     id: testId + ''
+  },
+    {
+    // @ts-ignore
+    refetchInterval: 2000
   })
   const isEnrolled = !!enrolledDetails._id
   const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '', {

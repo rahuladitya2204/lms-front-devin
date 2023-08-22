@@ -159,18 +159,6 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
       <Row gutter={[40, 20]}>
         <Col span={8}>
           <Form.Item
-            // label=""
-            label={`Duration(in minutes) ${
-              isPublished ? '(Cannot change duration once published)' : ''
-            }`}
-            name={['duration']}
-            rules={[{ required: true, message: 'Please select duration!' }]}
-          >
-            <Input type="number" placeholder="Enter duration in mins" />
-          </Form.Item>
-        </Col>
-        <Col span={8}>
-          <Form.Item
             rules={[
               {
                 required: true,
@@ -184,6 +172,22 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
             <Input
               type="number"
               placeholder="Please enter minimum passing score"
+            />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            // label=""
+            label={`Duration(in minutes) ${
+              isPublished ? '(Cannot change duration once published)' : ''
+            }`}
+            name={['duration']}
+            rules={[{ required: true, message: 'Please select duration!' }]}
+          >
+            <Input
+              disabled={isPublished}
+              type="number"
+              placeholder="Enter duration in mins"
             />
           </Form.Item>
         </Col>

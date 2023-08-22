@@ -12,12 +12,12 @@ import {
   Typography
 } from 'antd'
 import { CaretRightOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { Enum, Learner } from '@adewaskar/lms-common'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo } from 'react'
 
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
 import LiveTestQuestionNavigator from './LiveTestQuestionNavigator/LiveTestQuestionNavigator'
 import dayjs from 'dayjs'
 import { i } from 'mathjs'
@@ -34,7 +34,7 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
   const { mutate: endTest } = Learner.Queries.useEndLiveTest()
   const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '')
   const {
-    data: { totalAnswered, totalQuestions }
+    data: { totalAnswered, totalQuestions, status }
   } = Learner.Queries.useGetLiveTestStatus(testId + '')
   const endTime = useMemo(
     () =>
@@ -56,7 +56,11 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
     },
     [liveTest.sections]
   )
-
+  const endTestNow =
+    status === Enum.LiveTestStatus.ENDED || totalAnswered === totalQuestions
+  if (endTestNow) {
+    navigate('../completed')
+  }
   // const currentQuestion=
   return (
     <Header
@@ -72,7 +76,14 @@ export default function LiveTestPlayer(props: LiveTestPlayerPropsI) {
               // icon: <ExclamationCircleOutlined />,
               content: `You want to submit this test?`,
               onOk() {
-                endTest({ testId: liveTest._id + '' })
+                endTest(
+                  { testId: liveTest._id + '' },
+                  {
+                    onSuccess: () => {
+                      navigate('../completed')
+                    }
+                  }
+                )
               },
               okText: 'Yes, Submit'
             })
