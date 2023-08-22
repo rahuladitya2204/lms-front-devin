@@ -1,4 +1,13 @@
-import { Button, Col, DatePicker, Form, Input, Row, Select } from 'antd'
+import {
+  Button,
+  Col,
+  DatePicker,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Select
+} from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
@@ -69,7 +78,7 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
       />
     )
   }
-  const isPublished = liveTest.status === Enum.LiveTestStatus.PUBLISHED;
+  const isPublished = liveTest.status === Enum.LiveTestStatus.PUBLISHED
   return (
     <Form
       form={form}
@@ -146,16 +155,67 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
       >
         <TextArea rows={4} placeholder="Enter the liveTest description" />
       </Form.Item>
+      <Divider />
       <Row gutter={[40, 20]}>
-        <Col span={12}>
+        <Col span={8}>
           <Form.Item
-            label="Duration(in minutes)"
+            // label=""
+            label={`Duration(in minutes) ${
+              isPublished ? '(Cannot change duration once published)' : ''
+            }`}
             name={['duration']}
             rules={[{ required: true, message: 'Please select duration!' }]}
           >
             <Input type="number" placeholder="Enter duration in mins" />
           </Form.Item>
         </Col>
+        <Col span={8}>
+          <Form.Item
+            rules={[
+              {
+                required: true,
+                message: 'Please enter minimum passing score'
+              }
+            ]}
+            name="passingScore"
+            label="Minimum Passing Score"
+            required
+          >
+            <Input
+              type="number"
+              placeholder="Please enter minimum passing score"
+            />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Row gutter={[0, 20]} justify={'end'}>
+            <Col flex={1}>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please enter start time for the live test'
+                  }
+                ]}
+                name="scheduledAt"
+                label={`Scheduled For ${
+                  isPublished ? '(Cannot change date/time once published)' : ''
+                }`}
+                required
+              >
+                <DatePicker
+                  style={{ width: '100%' }}
+                  disabled={isPublished}
+                  showTime
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+      <Divider />
+
+      <Row gutter={[40, 20]}>
         <Col span={12}>
           <Form.Item
             name="language"
@@ -169,89 +229,6 @@ function LiveTestDetailsEditor(props: LiveTestDetailsEditorPropsI) {
               options={LANGUAGES}
             />
           </Form.Item>
-        </Col>
-      </Row>
-      <Row gutter={[40, 20]}>
-        {/* <Col span={12}>
-          <Row gutter={[0, 20]}>
-            <Col flex={1}>
-              <Form.Item
-                name="instructor"
-                required
-                label="Instructor"
-                rules={[
-                  { required: true, message: 'Please select a instructor' }
-                ]}
-              >
-                <Select
-                  style={{ width: '100%' }}
-                  placeholder="Select Instructor"
-                >
-                  {instructors.map(instructor => {
-                    return (
-                      <Select.Option
-                        key={instructor._id}
-                        value={instructor._id}
-                      >
-                        <Space>
-                          <Avatar size={20} src={instructor.image} />
-                          <Typography.Text>{instructor.name}</Typography.Text>
-                        </Space>
-                      </Select.Option>
-                    )
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col style={{ display: 'flex', alignItems: 'center' }}>
-              <ActionModal
-                cta={
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    shape="round"
-                    icon={<PlusOutlined />}
-                  />
-                }
-              >
-                <AddInstructor> </AddInstructor>
-              </ActionModal>
-            </Col>
-          </Row>
-        </Col> */}
-        <Col span={12}>
-          <Row gutter={[0, 20]} justify={'end'}>
-            <Col flex={1}>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: 'Please enter start time for the live test'
-                  }
-                ]}
-                name="scheduledAt"
-                label={`Scheduled For ${isPublished?'(Cannot change date/time once published)':''}`}
-                required
-              >
-                <DatePicker
-                  disabled={isPublished}
-                  showTime
-                />
-              </Form.Item>
-            </Col>
-            {/* <Col style={{ display: 'flex', alignItems: 'center' }}>
-              <ActionModal
-                cta={
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    shape="round"
-                    icon={<PlusOutlined />}
-                  />
-                }
-              >
-                <CreateCategory> </CreateCategory>
-              </ActionModal>
-            </Col> */}
-          </Row>
         </Col>
         <Col span={12}>
           <Row gutter={[0, 20]} justify={'end'}>

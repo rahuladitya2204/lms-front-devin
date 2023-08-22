@@ -28,7 +28,10 @@ export default function LiveTestDetailScreen(
     id: testId + ''
   })
   const isEnrolled = !!enrolledDetails._id
-  const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '');
+  const { data: liveTest } = Learner.Queries.useGetLiveTestDetails(testId + '', {
+    // @ts-ignore
+    refetchInterval: 2000
+  });
   console.log(liveTest.status, 'liveTest.status');
   const ENROLLED_CTA = useMemo(() => { 
     switch (liveTest.status) {

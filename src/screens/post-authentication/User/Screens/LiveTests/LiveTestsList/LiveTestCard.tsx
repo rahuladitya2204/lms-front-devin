@@ -1,11 +1,12 @@
 import { Avatar, Badge, Card, Tooltip } from 'antd'
-import { Enum, Types } from '@adewaskar/lms-common'
 import {
+  BarChartOutlined,
   EyeOutlined,
   FormatPainterOutlined,
   InfoCircleOutlined,
   ToolOutlined
 } from '@ant-design/icons'
+import { Enum, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import { capitalize } from 'lodash'
@@ -25,7 +26,9 @@ const LiveTestCardHolder = styled(Card)`
 
 function LiveTestCard({ liveTest }: LiveTestCardProps) {
   const navigate = useNavigate()
-  const ThumbnailImage = <Image height={200} alt="example" src={liveTest.image} />
+  const ThumbnailImage = (
+    <Image height={200} alt="example" src={liveTest.image} />
+  )
   return (
     <LiveTestCardHolder
       hoverable
@@ -45,16 +48,18 @@ function LiveTestCard({ liveTest }: LiveTestCardProps) {
         <Tooltip placement="bottom" title={'Go to Live Test builder'}>
           <ToolOutlined onClick={() => navigate(`${liveTest._id}/builder`)} />
         </Tooltip>,
-        <Tooltip placement="bottom" title={'Build landing page'}>
-          <FormatPainterOutlined
-            onClick={() => navigate(`${liveTest._id}/editor`)}
+        // <Tooltip placement="bottom" title={'Build landing page'}>
+        //   <FormatPainterOutlined
+        //     onClick={() => navigate(`${liveTest._id}/editor`)}
+        //   />
+        // </Tooltip>,
+        <Tooltip placement="bottom" title={'Analysis'}>
+          <BarChartOutlined
+            onClick={() => {
+              navigate(`${liveTest._id}/status`)
+            }}
           />
-        </Tooltip>,
-        <EyeOutlined
-          onClick={() => {
-            navigate(`${liveTest._id}/player`)
-          }}
-        />
+        </Tooltip>
         // <WechatOutlined />,
         // <SettingOutlined />
       ]}

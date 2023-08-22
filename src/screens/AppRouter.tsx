@@ -51,6 +51,7 @@ import LiveTestEditor from '@User/Screens/LiveTests/LiveTestCreator'
 import LiveTestPlayer from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayer'
 import LiveTestPlayeritem from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayerItem'
 import LiveTestRules from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestRules'
+import LiveTestStatus from '@User/Screens/LiveTests/LiveTestsList/LiveTestInsights/LiveTestStatus'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
@@ -195,6 +196,7 @@ const router = createBrowserRouter(
               </Route>
               <Route path="live-test">
                 <Route path="" element={<UserLiveTestScreen />} />
+                <Route path=":testId/status" element={<LiveTestStatus />} />
                 <Route path="create" element={<CreateLiveTest />} />
                 <Route path=":sessionId/edit" element={<CreateLiveTest />} />
               </Route>
