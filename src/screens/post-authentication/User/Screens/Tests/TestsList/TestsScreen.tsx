@@ -20,7 +20,7 @@ const TestsScreen = () => {
     </ActionModal>
   )
   return (
-    <Header title="Testss" extra={[CreateCourseCta]}>
+    <Header title="Tests" extra={[CreateCourseCta]}>
       {/* <Card> */}
       <Tabs
         // defaultActiveKey="1"

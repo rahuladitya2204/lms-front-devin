@@ -83,7 +83,7 @@ function StoreScreen () {
       {tests.length ? (
         <Col span={24}>
           <Section
-            title={`Upcoming Testss`}
+            title={`Upcoming Tests`}
             // subtitle={category.description}
           >
             <Row>

@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router'
 
 const { Text } = Typography
 
-function TestsList(props: { filter: Types.GetTestssFilter }) {
+function TestsList(props: { filter: Types.GetTestsFilter }) {
   const { data, isLoading: loading } = User.Queries.useGetTests(
     // props.filter
     props.filter
@@ -38,7 +38,7 @@ function TestsList(props: { filter: Types.GetTestssFilter }) {
   return (
     <Fragment>
       {!data.length ? (
-        <Empty description={`No Testss found`} />
+        <Empty description={`No Tests found`} />
       ) : (
         <List
           grid={{ gutter: 20, column: 4 }}

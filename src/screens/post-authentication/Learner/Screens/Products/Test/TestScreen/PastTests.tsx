@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router'
 const { Meta } = Card
 const { Text } = Typography
 
-function PastTest(props: { filter: Types.GetTestssFilter }) {
+function PastTest(props: { filter: Types.GetTestsFilter }) {
   const navigate = useNavigate()
   const {
     data,

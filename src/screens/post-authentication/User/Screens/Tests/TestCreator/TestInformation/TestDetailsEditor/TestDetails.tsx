@@ -6,7 +6,9 @@ import {
   Form,
   Input,
   Row,
-  Select
+  Select,
+  Switch,
+  Typography
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 
@@ -22,6 +24,8 @@ import { useEffect } from 'react'
 import { useParams } from 'react-router'
 
 const { TextArea } = Input
+
+const { Text } = Typography
 
 const LANGUAGES = [
   {
@@ -48,9 +52,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const testId = props.testId || id
   const { data: instructors } = User.Queries.useGetInstructors()
   const image = useWatch(['image'], form)
-  const { listItems: categories } = User.Queries.useGetProductCategories(
-    'test'
-  )
+  const { listItems: categories } = User.Queries.useGetProductCategories('test')
 
   useEffect(
     () => {
@@ -79,6 +81,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
     )
   }
   const isPublished = Test.status === Enum.TestStatus.PUBLISHED
+  const isLive = Form.useWatch('isLive', form)
   return (
     <Form
       form={form}
@@ -202,16 +205,39 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                   }
                 ]}
                 name="scheduledAt"
-                label={`Scheduled For ${
-                  isPublished ? '(Cannot change date/time once published)' : ''
-                }`}
+                style={{ width: '100%' }}
+                label={
+                  <Row align="middle" justify={'space-between'}>
+                    <Col flex={1}>
+                      {isLive
+                        ? 'Schedule Date'
+                        : `Live ${
+                            isPublished
+                              ? '(Cannot change date/time once published)'
+                              : ''
+                          }`}
+                    </Col>
+                    <Col>
+                      <Form.Item
+                        style={{ margin: 0, marginLeft: 10 }}
+                        valuePropName="checked"
+                        name={['isLive']}
+                        // label="Send email to learner on course enrollment."
+                      >
+                        <Switch checkedChildren="Live" unCheckedChildren="No" />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                }
                 required
               >
-                <DatePicker
-                  style={{ width: '100%' }}
-                  disabled={isPublished}
-                  showTime
-                />
+                {isLive ? (
+                  <DatePicker
+                    style={{ width: '100%' }}
+                    disabled={isPublished}
+                    showTime
+                  />
+                ) : null}
               </Form.Item>
             </Col>
           </Row>
