@@ -32,42 +32,50 @@ export default function TestDetailScreen(
     refetchInterval: 2000
   })
   const isEnrolled = !!enrolledDetails._id
-  const { data: Test } = Learner.Queries.useGetTestDetails(testId + '', {
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '', {
     // @ts-ignore
     refetchInterval: 2000
   });
-  console.log(Test.status, 'Test.status');
+  console.log(test.status, 'test.status');
   const ENROLLED_CTA = useMemo(() => { 
-    switch (Test.status) {
+    if (test.isLive) {
+      switch (test.status) {
 
-      case Enum.TestStatus.PUBLISHED: {
-        return  <Alert
-        style={{ marginBottom: 20 }}
-        message="You're enrolled for this test"
-        type="success"
-        showIcon
-      />
-        break;
-      }
-        
-      case Enum.TestStatus.IN_PROGRESS: {
-        return <Button onClick={()=>navigate('start')} block type='primary'>
-          Join Test
-        </Button>
-        break;
-      }
-        
-      case Enum.TestStatus.ENDED: {
-        return <Alert
-        style={{ marginBottom: 20 }}
-        message="The test has ended"
-        type='error'
-        showIcon
-      />
-        break;
+        case Enum.TestStatus.PUBLISHED: {
+          return  <Alert
+          style={{ marginBottom: 20 }}
+          message="You're enrolled for this test"
+          type="success"
+          showIcon
+        />
+          break;
+        }
+          
+        case Enum.TestStatus.IN_PROGRESS: {
+          return <Button onClick={()=>navigate('start')} block type='primary'>
+            Join Test
+          </Button>
+          break;
+        }
+          
+        case Enum.TestStatus.ENDED: {
+          return <Alert
+          style={{ marginBottom: 20 }}
+          message="The test has ended"
+          type='error'
+          showIcon
+        />
+          break;
+        }
       }
     }
-  },[Test])
+    else {
+      return <Button onClick={()=>navigate('start')} block type='primary'>
+      Start Test
+    </Button>
+    }
+ 
+  },[test])
 
   return (
     <Row>
@@ -75,7 +83,7 @@ export default function TestDetailScreen(
         <Row gutter={[30, 30]}>
           <Col span={15}>
             <Row>
-              {Test.landingPage.promoVideo ? (
+              {test.landingPage.promoVideo ? (
                 <Col span={24}>
                   <Card
                     style={{ margin: '20px 0' }}
@@ -84,14 +92,14 @@ export default function TestDetailScreen(
                   >
                     <MediaPlayer
                       height={400}
-                      fileId={Test.landingPage.promoVideo}
+                      fileId={test.landingPage.promoVideo}
                     />
                   </Card>
                 </Col>
               ) : null}
               <Col span={24}>
                 <Paragraph style={{ fontSize: 16 }}>
-                  <HtmlViewer content={Test.landingPage.description} />
+                  <HtmlViewer content={test.landingPage.description} />
                 </Paragraph>
               </Col>
             </Row>
@@ -100,7 +108,7 @@ export default function TestDetailScreen(
             <Card
               bodyStyle={{ padding: 10, paddingBottom: 20 }}
               // style={{ height: '100%' }}
-              title={Test.title}
+              title={test.title}
             >
               <Row gutter={[20, 40]} align="stretch">
                 <Col span={24}>
@@ -108,14 +116,14 @@ export default function TestDetailScreen(
                     width={'100%'}
                     height={200}
                     preview={false}
-                    src={Test.image}
+                    src={test.image}
                   />
                 </Col>
                 <Col span={24} flex={1}>
                   <Col span={24}>
                     <Row gutter={[10, 10]}>
                       <Col span={24}>
-                        <TestMetadata Test={Test} />
+                        <TestMetadata Test={test} />
                       </Col>
                       <Col span={24}>
                         {
@@ -170,7 +178,7 @@ export default function TestDetailScreen(
           </Col>
         </Row>
       </Col>
-      <Col>{Test.description}</Col>
+      <Col>{test.description}</Col>
     </Row>
   )
 }

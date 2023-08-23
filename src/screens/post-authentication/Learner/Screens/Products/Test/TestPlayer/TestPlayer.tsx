@@ -58,9 +58,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   )
   const endTestNow =
     status === Enum.TestStatus.ENDED || totalAnswered === totalQuestions
-  if (endTestNow) {
-    navigate('../completed')
-  }
+  // if (endTestNow) {
+  //   navigate('../completed')
+  // }
   // const currentQuestion=
   return (
     <Header

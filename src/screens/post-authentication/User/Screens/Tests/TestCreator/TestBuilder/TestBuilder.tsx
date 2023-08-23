@@ -11,7 +11,7 @@ import GenerateWithAI from './AITestBuilder/GenerateWithAiButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import TestSectionsNavigator from './LiveSectionsNavigator'
+import TestSectionsNavigator from './TestSectionsNavigator'
 import { cloneDeep } from 'lodash'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
@@ -141,10 +141,13 @@ function TestBuilderScreen() {
   useEffect(
     () => {
       if (!itemId) {
-        const firstItem = Test?.sections?.map((i: any) => i.items).flat()[0]
-        // .find((i: any) => i._id === itemId)
-        console.log()
-        if (firstItem) navigate(`${firstItem._id}`)
+        const firstSection = Test.sections.find(s => s.items.length)
+        if (firstSection && firstSection.items.length) {
+          const firstItem = firstSection.items[0]
+          if (firstItem.type) {
+            navigate(`${firstItem._id}`)
+          }
+        }
       }
     },
     [Test._id]

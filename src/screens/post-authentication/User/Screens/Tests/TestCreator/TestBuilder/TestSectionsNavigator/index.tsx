@@ -1,6 +1,7 @@
 import { Button, Collapse, List, Modal, Space, Tooltip, Typography } from 'antd'
 import { CheckCircleTwoTone, DeleteOutlined, ReadOutlined } from '@ant-design/icons'
 import { Fragment, useCallback, useEffect, useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { Types, Utils } from '@adewaskar/lms-common'
 
 import AddSection from './AddSection'
@@ -8,7 +9,6 @@ import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import MoreButton from '@Components/MoreButton'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
-import { NavLink } from 'react-router-dom'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
@@ -149,7 +149,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
     });
     setSectionList(SList);
   }, []);
-
+  const navigate = useNavigate();
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
    <DndProvider backend={HTML5Backend}>
@@ -206,7 +206,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                           <MoreButton items={[
                             {
                               label: <span onClick={(e) => {
-                                e.stopPropagation()
+                                // e.stopPropagation()
                                 DeleteSectionItem(section._id, item._id)
                               }}>Delete Question</span>,
                               key: 'delete',
@@ -243,7 +243,10 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                          <NavLink
                               style={{ width: '100%' }}
                               key={item._id}
-                              to={`${item._id}`}
+                                to={item._id} onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(item._id)
+                                }}
                               children={({ isActive }) => TestSectionListItem(isActive)}
                               />
                           </List.Item>
