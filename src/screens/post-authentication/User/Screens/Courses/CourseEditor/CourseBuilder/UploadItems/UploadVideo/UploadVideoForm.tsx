@@ -34,7 +34,7 @@ const UploadVideoForm:any = () => {
   const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   });
-
+  const { data: topics } = User.Queries.useGetTopics();
   const videoJobId = file?.metadata?.video?.jobId;
   const {
     data: transcoding
@@ -97,7 +97,13 @@ const UploadVideoForm:any = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-        
+        <Form.Item
+        name="topics"
+        label="Topics"
+        rules={[{ required: true, message: "Please input your topics!" }]}
+      >
+       <InputTags name="topics" onChange={(v)=>onFormChange({topics:v})} ctaText='Enter Topics'/>
+                </Form.Item>
         <Row gutter={[20,20]}>
          
           <Col span={24}>
@@ -160,18 +166,9 @@ const UploadVideoForm:any = () => {
         >
           <SunEditorComponent height={300} name={'summary'} />
                 </Form.Item>
-              
-                <Form.Item
-         
-         label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button></span>}
-
-         required
-         tooltip="This is a required field"
-       >
-       <InputTags name="topics" ctaText='Enter Topics'/>
-                </Form.Item>
-              
-              </> : null}
+                </> : null}
+           
+               
             </Card>
           </Col>
 

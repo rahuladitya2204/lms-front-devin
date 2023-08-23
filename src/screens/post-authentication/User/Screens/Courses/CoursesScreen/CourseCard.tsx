@@ -1,11 +1,12 @@
 import { Avatar, Badge, Card, Tooltip } from 'antd'
-import { Enum, Types } from '@adewaskar/lms-common'
 import {
+  BarChartOutlined,
   EyeOutlined,
   FormatPainterOutlined,
   InfoCircleOutlined,
   ToolOutlined,
 } from '@ant-design/icons'
+import { Enum, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import styled from '@emotion/styled'
@@ -53,8 +54,8 @@ function CourseCard(props: CourseCardProps) {
             }
           />
         </Tooltip>,
-        <EyeOutlined onClick={() => {
-          navigate(`${props.course._id}/player`)
+        <BarChartOutlined onClick={() => {
+          navigate(`${props.course._id}/analytics`)
         }} />,
         // <WechatOutlined />,
         // <SettingOutlined />

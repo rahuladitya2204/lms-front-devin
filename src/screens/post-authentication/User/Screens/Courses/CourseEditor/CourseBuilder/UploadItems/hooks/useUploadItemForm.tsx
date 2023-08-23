@@ -20,7 +20,7 @@ function useUploadItemForm(form?:FormInstance) {
       return section;
     }
   }) || {_id:'',items:[],title:''}
-  // console.log(section,'section')
+
   useEffect(() => {
     if (form) {
       form.setFieldsValue(item)

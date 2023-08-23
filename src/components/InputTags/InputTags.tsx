@@ -1,18 +1,24 @@
 import { AutoComplete, Form, Input, Tag } from 'antd';
+import React, { useRef } from 'react';
 
 import { PlusOutlined } from '@ant-design/icons';
-import React from 'react';
 
+interface ValueObject {
+  id: string;
+  title: string
+}
 interface InputTagsPropsI {
   ctaText?: string;
   name: string | string[];
-  values?: string[];
+  onChange?: (values: string[]) => void;
+  options?: ValueObject[]
+  values?: string[]
 }
 
-const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, values = [],name }) => {
+const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, values = [],name,onChange ,options}) => {
   const [inputValue, setInputValue] = React.useState('');
   const [inputVisible, setInputVisible] = React.useState(false);
-  
+  const inpRef = useRef(null);
   const form = Form.useFormInstance();
   const tags: string[] = form.getFieldValue(name) || [];
 
@@ -31,6 +37,7 @@ const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, values = [],name }) => 
       newTags = [...tags, inputValue];
     }
     form.setFieldValue(name, newTags);
+    onChange && onChange(newTags);
     setInputVisible(false);
     setInputValue('');
   };
@@ -47,7 +54,7 @@ const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, values = [],name }) => 
     <>
       {tags.map((tag, index) => (
         <Tag key={tag} closable={true} onClose={() => handleClose(tag)}>
-          {tag}
+         {tag}
         </Tag>
       ))}
       {inputVisible && (
@@ -60,7 +67,7 @@ const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, values = [],name }) => 
           onBlur={() => setInputVisible(false)}
         >
           <Input
-            type="text"
+            type="text" ref={inpRef}
             size="small"
             onPressEnter={handleInputConfirm}
             style={{ width: 200 }}
@@ -68,7 +75,11 @@ const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, values = [],name }) => 
         </AutoComplete>
       )}
       {!inputVisible && (
-        <Tag onClick={() => setInputVisible(true)} style={{ background: '#fff', borderStyle: 'dashed' }}>
+        <Tag onClick={() => {
+          setInputVisible(true)
+          // @ts-ignore
+          setTimeout(()=>inpRef?.current?.focus(),0);
+        }} style={{ background: '#fff', borderStyle: 'dashed' }}>
           <PlusOutlined /> {ctaText ? ctaText : 'New Tag'}
         </Tag>
       )}

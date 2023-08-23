@@ -12,6 +12,7 @@ import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
 import CertificateTemplateEditor from '@User/Screens/CertificateTemplates/CertificateTemplateEditor'
+import CourseAnalytics from '@User/Screens/Courses/CourseAnalytics/CourseAnalytics'
 import CourseBuilderScreen from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseBuilderScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Products/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseEditor'
@@ -190,7 +191,10 @@ const router = createBrowserRouter(
             <Route path="tickets" element={<UsersTicketsScreen />} />
             <Route path="tickets/:id" element={<UserTicketDetail />} />
             <Route path="products">
-              <Route path="courses" element={<CoursesScreen />} />
+              <Route path="courses">
+                <Route path="" element={<CoursesScreen />} />
+                <Route path=":id/analytics" element={<CourseAnalytics />} />
+              </Route>
               <Route path="packages">
                 <Route path="" element={<PackagesScreen />} />
                 <Route path=":id/editor" element={<CreatePackage />} />
@@ -269,14 +273,11 @@ const router = createBrowserRouter(
             <Route path="player" element={<LiveTestPlayer />}>
               <Route path=":questionId" element={<LiveTestPlayeritem />} />
             </Route>
-            <Route path='completed' element={<LiveTestCompleted/>} />
+            <Route path="completed" element={<LiveTestCompleted />} />
           </Route>
           <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route path="app/courses/:id/player" element={<CoursePlayer />}>
-            <Route
-              path=":itemId"
-              element={<CoursePlayerItem />}
-            />
+            <Route path=":itemId" element={<CoursePlayerItem />} />
           </Route>
 
           <Route

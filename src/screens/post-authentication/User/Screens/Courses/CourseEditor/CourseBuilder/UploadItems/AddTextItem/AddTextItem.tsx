@@ -37,23 +37,29 @@ const AddTextItem: React.FC<AddItemProps> = props => {
     isLoading: generatingSummary
   } = User.Queries.useGenerateCourseItemInfo()
   const generateItemInfo = (fields: Types.LooseObject) => {
-    generateInfoApi({ data: { courseId:courseId+'', itemId:itemId+'' ,fields} }, {
-      onSuccess: ({ summary, topics }) => {
-        if (summary) {
-          onFormChange({ summary: summary });
+    generateInfoApi(
+      { data: { courseId: courseId + '', itemId: itemId + '', fields } },
+      {
+        onSuccess: ({ summary, topics }) => {
+          if (summary) {
+            onFormChange({ summary: summary })
+          }
+          if (topics && topics.length) {
+            onFormChange({ topics: topics })
+          }
+          console.log(topics, '123123')
+          // form.setFieldValue('summary', summary);
         }
-        if (topics&&topics.length) {
-          onFormChange({ topics: topics });
-        }
-        console.log(topics,'123123')
-        // form.setFieldValue('summary', summary);
       }
-    });
+    )
   }
 
-  useEffect(() => { 
-    form.setFieldsValue(props.item);
-  },[item])
+  useEffect(
+    () => {
+      form.setFieldsValue(props.item)
+    },
+    [item]
+  )
 
   return (
     <Fragment>
@@ -85,6 +91,17 @@ const AddTextItem: React.FC<AddItemProps> = props => {
           >
             Avail this as a free lecture
           </Checkbox>
+        </Form.Item>
+        <Form.Item
+          name="topics"
+          label="Topics"
+          rules={[{ required: true, message: 'Please input your topics!' }]}
+        >
+          <InputTags
+            name="topics"
+            onChange={v => onFormChange({ topics: v })}
+            ctaText="Enter Topics"
+          />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={24}>
