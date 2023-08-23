@@ -27,10 +27,10 @@ export const QUESTION_TYPES=[
   { value: 'subjective', label: 'Subjective' },
 ];
 interface CreateQuestionFormPropsI {
-  submit?: (d: Types.LiveTestQuestion) => void;
-  data?: Types.LiveTestQuestion;
+  submit?: (d: Types.TestQuestion) => void;
+  data?: Types.TestQuestion;
   closeModal?: Function;
-  onFormChange?: (d: Partial<Types.LiveTestQuestion>) => void;
+  onFormChange?: (d: Partial<Types.TestQuestion>) => void;
 }
 
 
@@ -50,7 +50,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     },
     [props.data]
   ) 
-    const submit = (e: Types.LiveTestQuestion) => {
+    const submit = (e: Types.TestQuestion) => {
       props.submit && props.submit({ ...e, correctOptions });
       form.resetFields();
       props.closeModal && props.closeModal();

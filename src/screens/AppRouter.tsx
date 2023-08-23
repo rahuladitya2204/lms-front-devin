@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 import AddPromo from '@User/Screens/Marketing/Promos/CreatePromo'
-import AddQuestion from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/AddQuestionItem'
+import AddQuestion from '@User/Screens/Tests/TestCreator/TestBuilder/AddQuestionItem'
 import AddTextItem from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
@@ -22,9 +22,9 @@ import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreateLiveSession from '@User/Screens/LiveSession/CreateLiveSession/CreateLiveSession'
-import CreateLiveTest from '@User/Screens/LiveTests/CreateLiveTest'
 import CreatePackage from '@User/Screens/Packages/CreatePackage'
 import CreateQuizForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/CreateQuizForm/CreateQuizForm'
+import CreateTest from '@User/Screens/Tests/CreateTest'
 import EmailTemplateEditor from '@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor'
 import EmailTemplatesScreen from '@User/Screens/CertificateTemplates/CertificateTemplatesScreen'
 import EnrolledCourseDetailScreen from '@Learner/Screens/EnrolledCourseDetail/EnrolledCourseDetailScreen'
@@ -39,21 +39,14 @@ import LearnerEditor from './post-authentication/User/Screens/Users/Learners/Lea
 import LearnerLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer'
 import LearnerLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/Learner/index'
 import LearnerLiveSessionsScreen from '@Learner/Screens/Products/LiveSession/LiveSessions/LiveSessionScreen'
-import LearnerLiveTestDetailScreen from '@Learner/Screens/Products/LiveTest/LiveTestDetail/LiveTestDetail'
-import LearnerLiveTestScreen from '@Learner/Screens/Products/LiveTest/LiveTestScreen/LiveTestsScreen'
 import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
+import LearnerTestDetailScreen from '@Learner/Screens/Products/Test/TestDetail/TestDetail'
+import LearnerTestScreen from '@Learner/Screens/Products/Test/TestScreen/TestsScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import LiveSessionDetailScreen from '@Learner/Screens/Products/LiveSession/LiveSessionDetail'
-import LiveTestBuilderScreen from '@User/Screens/LiveTests/LiveTestCreator/LiveTestBuilder/LiveTestBuilder'
-import LiveTestCompleted from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestCompleted'
-import LiveTestEditor from '@User/Screens/LiveTests/LiveTestCreator'
-import LiveTestPlayer from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayer'
-import LiveTestPlayeritem from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestPlayerItem'
-import LiveTestRules from '@Learner/Screens/Products/LiveTest/LiveTestPlayer/LiveTestRules'
-import LiveTestStatus from '@User/Screens/LiveTests/LiveTestsList/LiveTestInsights/LiveTestStatus'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
@@ -63,6 +56,13 @@ import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
 import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
+import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
+import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
+import TestEditor from '@User/Screens/Tests/TestCreator'
+import TestPlayer from '@Learner/Screens/Products/Test/TestPlayer/TestPlayer'
+import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem'
+import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
+import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
 import UploadPDFForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
@@ -71,11 +71,11 @@ import UserDeviceSelection from '@User/Screens/LiveSession/LiveSessionPlayer/Use
 import UserLiveSessionPlayer from '@User/Screens/LiveSession/LiveSessionPlayer/User/LiveSessionPlayer'
 import UserLiveSessionPlayerEnter from '@User/Screens/LiveSession/LiveSessionPlayer/User/index'
 import UserLiveSessionsScreen from '@User/Screens/LiveSession/LiveSessionScreen/LiveSessions'
-import UserLiveTestScreen from '@User/Screens/LiveTests/LiveTestsList/LiveTestsScreen'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserMeetingEnded from '@User/Screens/LiveSession/LiveSessionPlayer/User/UserMeetingEnded'
 import UserRegister from './post-authentication/User/Screens/Register'
 import UserRootScreen from './post-authentication/User/Screens/UserRoot/UserRootScreen'
+import UserTestScreen from '@User/Screens/Tests/TestsList/TestsScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
 import WebpageViewer from '@User/Screens/Builder/Website/WebsiteBuilder/WebpageViewer'
@@ -99,8 +99,8 @@ const router = createBrowserRouter(
             element={<CourseEditor />}
           />
           <Route
-            path="app/products/live-test/:id/editor"
-            element={<LiveTestEditor />}
+            path="app/products/test/:id/editor"
+            element={<TestEditor />}
           />
           <Route
             path="app/products/courses/:id/builder"
@@ -115,8 +115,8 @@ const router = createBrowserRouter(
             </Route>
           </Route>
           <Route
-            path="app/products/live-test/:id/builder"
-            element={<LiveTestBuilderScreen />}
+            path="app/products/test/:id/builder"
+            element={<TestBuilderScreen />}
           >
             <Route path="">
               <Route path=":itemId" element={<AddQuestion />} />
@@ -199,11 +199,11 @@ const router = createBrowserRouter(
                 <Route path="" element={<PackagesScreen />} />
                 <Route path=":id/editor" element={<CreatePackage />} />
               </Route>
-              <Route path="live-test">
-                <Route path="" element={<UserLiveTestScreen />} />
-                <Route path=":testId/status" element={<LiveTestStatus />} />
-                <Route path="create" element={<CreateLiveTest />} />
-                <Route path=":sessionId/edit" element={<CreateLiveTest />} />
+              <Route path="test">
+                <Route path="" element={<UserTestScreen />} />
+                <Route path=":testId/status" element={<TestStatus />} />
+                <Route path="create" element={<CreateTest />} />
+                <Route path=":sessionId/edit" element={<CreateTest />} />
               </Route>
             </Route>
             <Route path="live-session">
@@ -248,9 +248,9 @@ const router = createBrowserRouter(
               <Route path="" element={<LearnerCourses />} />
               <Route path=":id" element={<CourseDetailViewer />} />
             </Route>
-            <Route path="live-test">
-              <Route path="" element={<LearnerLiveTestScreen />} />
-              <Route path=":testId" element={<LearnerLiveTestDetailScreen />} />
+            <Route path="test">
+              <Route path="" element={<LearnerTestScreen />} />
+              <Route path=":testId" element={<LearnerTestDetailScreen />} />
             </Route>
             <Route path="live-session">
               <Route path="" element={<LearnerLiveSessionsScreen />} />
@@ -268,12 +268,12 @@ const router = createBrowserRouter(
               element={<EnrolledCourseSuccessful />}
             />
           </Route>
-          <Route path="app/live-test/:testId">
-            <Route path="start" element={<LiveTestRules />} />
-            <Route path="player" element={<LiveTestPlayer />}>
-              <Route path=":questionId" element={<LiveTestPlayeritem />} />
+          <Route path="app/test/:testId">
+            <Route path="start" element={<TestRules />} />
+            <Route path="player" element={<TestPlayer />}>
+              <Route path=":questionId" element={<TestPlayeritem />} />
             </Route>
-            <Route path="completed" element={<LiveTestCompleted />} />
+            <Route path="completed" element={<TestCompleted />} />
           </Route>
           <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
           <Route path="app/courses/:id/player" element={<CoursePlayer />}>

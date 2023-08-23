@@ -1,0 +1,139 @@
+import {
+  Button,
+  Card,
+  Col,
+  Collapse,
+  Modal,
+  Progress,
+  Row,
+  Space,
+  Tag,
+  Timeline,
+  Typography
+} from 'antd'
+import { CaretRightOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { Enum, Learner } from '@adewaskar/lms-common'
+import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
+import { useEffect, useMemo } from 'react'
+
+import Countdown from '@Components/Countdown'
+import Header from '@Components/Header'
+import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
+import dayjs from 'dayjs'
+import { i } from 'mathjs'
+
+const { confirm } = Modal
+
+interface TestPlayerPropsI {}
+
+const { Title } = Typography
+
+export default function TestPlayer(props: TestPlayerPropsI) {
+  const { testId } = useParams()
+  const navigate = useNavigate()
+  const { mutate: endTest } = Learner.Queries.useEndTest()
+  const { data: Test } = Learner.Queries.useGetTestDetails(testId + '')
+  const {
+    data: { totalAnswered, totalQuestions, status }
+  } = Learner.Queries.useGetTestStatus(testId + '')
+  const endTime = useMemo(
+    () =>
+      Test.scheduledAt
+        ? dayjs(Test.scheduledAt)
+            .add(Test.duration, 'minutes')
+            .toISOString()
+        : '',
+    [testId]
+  )
+
+  useEffect(
+    () => {
+      if (Test.sections[0]?.items[0]) {
+        const sectionId = Test.sections[0]._id
+        const itemId = Test.sections[0].items[0]._id
+        navigate(`${itemId}`)
+      }
+    },
+    [Test.sections]
+  )
+  const endTestNow =
+    status === Enum.TestStatus.ENDED || totalAnswered === totalQuestions
+  if (endTestNow) {
+    navigate('../completed')
+  }
+  // const currentQuestion=
+  return (
+    <Header
+      title={Test.title}
+      extra={[
+        <Tag icon={<ClockCircleOutlined />} color="blue">
+          <Countdown targetDate={endTime} />
+        </Tag>,
+        <Button
+          onClick={() => {
+            confirm({
+              title: 'Are you sure?',
+              // icon: <ExclamationCircleOutlined />,
+              content: `You want to submit this test?`,
+              onOk() {
+                endTest(
+                  { testId: Test._id + '' },
+                  {
+                    onSuccess: () => {
+                      navigate('../completed')
+                    }
+                  }
+                )
+              },
+              okText: 'Yes, Submit'
+            })
+          }}
+          type="primary"
+        >
+          Submit Test
+        </Button>
+      ]}
+    >
+      <Row>
+        <Col span={1} />
+        <Col span={22}>
+          <Row gutter={[20, 30]}>
+            <Col span={8}>
+              <Row gutter={[20, 20]}>
+                <Col span={24}>
+                  <TestQuestionNavigator testId={testId + ''} />
+                </Col>
+              </Row>
+            </Col>
+            <Col span={16}>
+              <Title
+                level={5}
+                style={{
+                  textAlign: 'center',
+                  display: 'block',
+                  margin: 0,
+                  marginBottom: 10
+                }}
+              >
+                {totalQuestions - totalAnswered} Questions Left
+                <Progress
+                  strokeLinecap="butt"
+                  percent={
+                    (1 - (totalQuestions - totalAnswered) / totalQuestions) *
+                    100
+                  }
+                  format={() => ``}
+                />
+              </Title>
+
+              <Card>
+                <Outlet />
+              </Card>
+            </Col>
+          </Row>
+        </Col>
+        <Col span={1} />
+      </Row>
+    </Header>
+  )
+}

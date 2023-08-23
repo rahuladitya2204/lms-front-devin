@@ -46,9 +46,9 @@ export const updateCourseSectionItem = (
   return SECTIONS
 }
 
-export const updateLiveTestSectionItem = (
-  sections: Types.LiveTestSection[],
-  item: Types.LiveTestSectionItem
+export const updateTestSectionItem = (
+  sections: Types.TestSection[],
+  item: Types.TestSectionItem
 ) => {
   const SECTIONS = cloneDeep(sections)
   SECTIONS.forEach(section => {

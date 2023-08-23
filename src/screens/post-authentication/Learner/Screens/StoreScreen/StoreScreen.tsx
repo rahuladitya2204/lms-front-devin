@@ -5,9 +5,9 @@ import BGImage from './image.svg'
 import CourseCard from './Cards/CourseCard'
 import HomeCarousel from './Carousel'
 import Image from '@Components/Image'
-import LiveTestCard from './Cards/LiveTestCard'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import Section from '@Components/Section'
+import TestCard from './Cards/TestCard'
 import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
@@ -19,7 +19,7 @@ function StoreScreen () {
 
   const params = useParams()
   const {
-    data: { courses, liveSessions, liveTests }
+    data: { courses, liveSessions, tests }
   } = Learner.Queries.useGetRecommendedProducts()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
 
@@ -80,10 +80,10 @@ function StoreScreen () {
           </Col>
         )
       })}
-      {liveTests.length ? (
+      {tests.length ? (
         <Col span={24}>
           <Section
-            title={`Upcoming Live Tests`}
+            title={`Upcoming Testss`}
             // subtitle={category.description}
           >
             <Row>
@@ -91,8 +91,8 @@ function StoreScreen () {
                 <List
                   grid={{ gutter: 10, column: 4, sm: 6, xs: 6 }}
                   size="large"
-                  dataSource={liveTests}
-                  renderItem={liveTest => <LiveTestCard liveTest={liveTest} />}
+                  dataSource={tests}
+                  renderItem={test => <TestCard test={test} />}
                 />
               </Col>
             </Row>

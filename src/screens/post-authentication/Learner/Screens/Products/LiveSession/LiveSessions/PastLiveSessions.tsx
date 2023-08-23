@@ -9,7 +9,6 @@ import {
   Tag,
   Typography
 } from 'antd'
-
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import dayjs from 'dayjs'
@@ -31,7 +30,7 @@ function PastLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
               title="Started At"
               dataIndex="startedAt"
               key="startedAt"
-              render={(_: any, record: Types.LiveTest) => (
+              render={(_: any, record: Types.Test) => (
                 <Space size="middle">
                   {dayjs(record.startedAt).format('LLL')}
                 </Space>
@@ -41,7 +40,7 @@ function PastLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
               title="Ended At"
               dataIndex="endedAt"
               key="endedAt"
-              render={(_: any, record: Types.LiveTest) => (
+              render={(_: any, record: Types.Test) => (
                 <Space size="middle">
                   {record.endedAt ? dayjs(record.endedAt).format('LLL') : '-'}
                 </Space>
@@ -51,14 +50,14 @@ function PastLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
               title="Recording"
               dataIndex="recording"
               key="recording"
-              render={(_: any, record: Types.LiveTest) => (
+              render={(_: any, record: Types.Test) => (
                 <Button size="small">View Recording</Button>
               )}
             />
             {/* <Table.Column
                 title="Action"
                 key="action"
-                render={(_: any, record: Types.LiveTest) => (
+                render={(_: any, record: Types.Test) => (
                   <Space size="middle">
                     {record.recording.status?<>{record?.recording.status==='completed' ? <ViewRecording session={record} /> : <Tag color='cyan'>Processing Recording</Tag> }</>:!(record.startedAt&&record.endedAt)?<Button type='primary'
                       onClick={() =>

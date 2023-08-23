@@ -27,10 +27,10 @@ const TAXONOMY_LEVELS = [
 ]
 
 interface GenerateQuestionWithAIPropsI {
-  submit?: (d: Types.LiveTestQuestion) => void;
+  submit?: (d: Types.TestQuestion) => void;
   closeModal?: Function;
   onSubmit?: Function;
-  data?: Partial<Types.LiveTestQuestionMeta>;
+  data?: Partial<Types.TestQuestionMeta>;
 }
 
 export default function GenerateQuestionWithAI({
@@ -40,7 +40,7 @@ export default function GenerateQuestionWithAI({
   closeModal
 }: GenerateQuestionWithAIPropsI) {
   const [keywords, setKeywords] = useState<string[]>([])
-  const [form] = Form.useForm<Types.LiveTestQuestionMeta>()
+  const [form] = Form.useForm<Types.TestQuestionMeta>()
   const {
     mutate: generateQuestion,
     isLoading: loading

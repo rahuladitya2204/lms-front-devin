@@ -1,0 +1,90 @@
+import {
+  CalendarOutlined,
+  CheckCircleOutlined,
+  ClockCircleOutlined,
+  ReadOutlined,
+  SafetyCertificateOutlined
+} from '@ant-design/icons'
+import { List, Typography } from 'antd'
+import { Types, Utils } from '@adewaskar/lms-common'
+
+import dayjs from 'dayjs'
+import styled from '@emotion/styled'
+
+const { Text } = Typography
+
+const ListItem = styled(List.Item)`
+  padding: 5px 15px;
+`
+
+const data = {
+  scheduledFor: {
+    title: 'Date',
+    icon: <CalendarOutlined />,
+    value: ''
+  },
+  duration: {
+    title: 'Duration',
+    icon: <ClockCircleOutlined />,
+    value: '43 Weeks'
+  },
+  enrolled: {
+    title: 'Enrolled',
+    icon: <CheckCircleOutlined />,
+    value: '1'
+  },
+  language: {
+    title: 'Language',
+    icon: <CheckCircleOutlined />,
+    value: 'English'
+  },
+  // skillLevel: {
+  //   title: 'Skill Level',
+  //   icon: <CheckCircleOutlined />,
+  //   value: 'Beginner'
+  // },
+  certificate: {
+    title: 'Certificate',
+    icon: <SafetyCertificateOutlined />,
+    value: 'Yes'
+  }
+}
+
+interface TestMetadataPropsI {
+  Test: Types.Test;
+}
+
+function TestMetadata(props: TestMetadataPropsI) {
+  data.scheduledFor.value = dayjs(props.Test.scheduledAt).format('LLL')
+  data.duration.value = formatTime(props.Test.duration)
+  data.enrolled.value = `${props.Test.analytics.enrolled.count} students`
+  data.certificate.value = props.Test.certificate ? 'Yes' : ''
+  // @ts-ignore
+  const dataSource = Object.keys(data).map(key => data[key])
+  return (
+    <List
+      itemLayout="horizontal"
+      dataSource={dataSource}
+      renderItem={item => (
+        <ListItem actions={[<Text>{item.value}</Text>]}>
+          <List.Item.Meta
+            avatar={item.icon}
+            title={<Text>{item.title}</Text>}
+          />
+        </ListItem>
+      )}
+    />
+  )
+}
+
+export default TestMetadata
+
+function formatTime(minute: number) {
+  const seconds = minute * 60
+  if (minute < 60) {
+    return `${minute} mins`
+  } else {
+    const hours = Math.floor(seconds / 3600)
+    return `${hours} hr`
+  }
+}

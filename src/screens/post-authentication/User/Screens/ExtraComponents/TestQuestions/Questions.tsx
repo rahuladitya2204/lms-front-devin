@@ -11,7 +11,7 @@ const { confirm } = Modal
 interface QuestionsProps {
   data: Types.TestQuestion[];
   deleteItem: (item: Types.TestQuestion, index: number) => void;
-  onUpdate: (index: number, d: Types.LiveTestQuestion) => void;
+  onUpdate: (index: number, d: Types.TestQuestion) => void;
 }
 
 export default function Questions<T>({
