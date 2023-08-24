@@ -250,7 +250,7 @@ function TestBuilderScreen() {
           </span>
         }
         extra={[
-          <Tag>{savingTest?'Saving Changes...':`Changes will be automatically saved`}</Tag>,
+          <Spin spinning={savingTest}><Tag>Changes will be automatically saved</Tag></Spin>,
           // @ts-ignore
           test.status === Enum.CourseStatus.PUBLISHED ? (
             <Tag color="green">Test is Published</Tag>

@@ -37,7 +37,7 @@ function CourseBuilderScreen() {
   const { id: courseId, itemId } = useParams()
   const {
     mutate: updateCourse,
-    isLoading: loading
+    isLoading: savingCourse
   } = User.Queries.useUpdateCourse()
   const { data: courseDetails } = User.Queries.useGetCourseDetails(
     courseId + '',
@@ -267,7 +267,8 @@ function CourseBuilderScreen() {
           </span>
         }
         extra={[
-          <Tag>Changes will be automatically saved</Tag>,
+          <Spin spinning={savingCourse}>
+          <Tag>Changes will be automatically saved</Tag></Spin>,
           // @ts-ignore
           course.status === Enum.CourseStatus.PUBLISHED ? (
             <Tag color="green">Course is Live</Tag>

@@ -119,7 +119,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                   setCorrectOptions(d.correctOptions)
                     // form.setFieldsValue(d);
                     d.isAiGenerated = true;
-                    updateTestSection(sectionId, itemId, d);
+                    updateTestSection( itemId, d);
                     // setIsAiGenerated(true);
 
           }}/>
