@@ -89,14 +89,14 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   })
   const fileId = file.encoded || file._id;
 
-  const updateItem = (item:Types.TestQuestion) => {
-    updateTestSection(sectionId,itemId ,{
+  const updateItem = (item:Partial<Types.TestQuestion>) => {
+    updateTestSection(itemId ,{
       ...props.data,
       ...item,
-      correctOptions
+      // correctOptions
     })
   }
-  console.log(correctOptions,'setCorrectOptions')
+  // console.log(correctOptions,'setCorrectOptions')
   return (
     <Form name='quiz' onFinish={submit} onValuesChange={(v, e) => {
       updateItem(e)
@@ -115,7 +115,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               action={
                 <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
                   <GenerateQuestionWithAI submit={d => {
-                    console.log(d,'ooopo')
+                    // console.log(d,'ooopo')
                   setCorrectOptions(d.correctOptions)
                     // form.setFieldsValue(d);
                     d.isAiGenerated = true;
@@ -201,8 +201,12 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                       {
                         options.splice(indexOfOption, 1);
                       }
-                      setCorrectOptions(options)
-                    }}
+                        console.log(options,'options')
+                        updateItem({
+                          correctOptions: [...options]
+                        });
+                      setCorrectOptions(options);
+                      }}
                     style={{ marginLeft: 20 }} />
                   
                   <DeleteTwoTone onClick={e => {
@@ -247,7 +251,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                     itemId
                   }/solution/video/index`} item={item}
           onUpload={(item) => {
-            console.log(item, 'item')
+            // console.log(item, 'item')
             // @ts-ignore
             updateItem({
               ...item,

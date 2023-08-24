@@ -93,7 +93,12 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
             }            
         }}
       />}>
-          <InputTags values={keywords} name='keywords'/>
+          <InputTags onChange={keywords => {
+            // console.log(keywords,'kkj')
+            props.saveCourse({
+              keywords
+            })
+          }} values={keywords} name='keywords'/>
         </Form.Item>
         
         <Card bordered={false} bodyStyle={{

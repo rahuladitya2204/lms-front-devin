@@ -111,7 +111,7 @@ const UploadVideoForm:any = () => {
           <UploadVideo prefixKey={`courses/${courseId}/${
                     itemId
                   }/lecture/index`} item={item} onUpload={(item) => {
-            console.log(item,'item')
+            // console.log(item,'item')
               onFormChange(item)
             }
           

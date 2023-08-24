@@ -81,7 +81,7 @@ export default function TestDetailScreen(
         style={{ marginBottom: 20 }}
         message="You have attended this test."
         type="success"
-        showIcon action={<Button>View Result</Button>}
+        showIcon action={<Button size='small'>View Result</Button>}
       />
       }
      

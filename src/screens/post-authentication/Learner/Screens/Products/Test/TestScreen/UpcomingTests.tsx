@@ -58,8 +58,8 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
         return (
           <List.Item>
             {/* @ts-ignore */}
-            {test.product.data.isLive ? (
-              <Badge.Ribbon text='live'>{CardComponent}</Badge.Ribbon>
+            {test?.product?.data?.isLive ? (
+              <Badge.Ribbon text="live">{CardComponent}</Badge.Ribbon>
             ) : (
               CardComponent
             )}

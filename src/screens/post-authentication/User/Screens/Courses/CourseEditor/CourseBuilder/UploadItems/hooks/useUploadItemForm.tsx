@@ -2,16 +2,19 @@ import { Types, User } from '@adewaskar/lms-common'
 import { useOutletContext, useParams } from "react-router";
 
 import { FormInstance } from "antd/lib/form/Form";
+import { debounce } from 'lodash';
 import { findSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from "react";
+import useMessage from '@Hooks/useMessage';
 
 function useUploadItemForm(form?:FormInstance) {
   let { itemId, id: courseId } = useParams();
   const { data: course } = User.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  const { mutate: updateItem } = User.Queries.useUpdateCourseItem();
-
+  const message = useMessage();
+  const { mutate: updateItemApi } = User.Queries.useUpdateCourseItem();
+  const updateItem = debounce(updateItemApi, 300);
   const [items] = useOutletContext<[Types.CourseSection[],(sectionId:string,data:Types.CourseSectionItem)=>void,Function]>();
   const item = findSectionItem(itemId+'', items) || {title:'',description:''};
   const currentItemIndex = course.sections.map(s=>s.items).flat().findIndex(i => i._id === item?._id);
@@ -39,6 +42,13 @@ function useUploadItemForm(form?:FormInstance) {
       sectionId:section._id+'',
       itemId: itemId+'',
       data: newItem,
+    }, {
+      onSuccess: () => {
+        message.open({
+          type: 'success',
+          content: `Saved`
+        })
+        }
       })
     // saveCourse();
   }

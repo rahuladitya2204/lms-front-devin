@@ -15,6 +15,7 @@ import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
+import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
 import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
 import CourseCertificate from './CourseInformation/CourseAdvancedSettings/CourseCertificate/CourseCertificateScreen'
@@ -82,136 +83,138 @@ function CourseEditor() {
   }
   const navigate = useNavigate()
   return (
-    <Spin spinning={publishingCourse}>
-      <Row gutter={[20, 20]}>
-        <Col span={24}>
-          <Card
-            title={
-              <span>
-                <BackButton
-                  onClick={() => navigate(`../app/products/courses`)}
-                />{' '}
-                {course.title}
-              </span>
-            }
-            extra={[
-              <Button
-                disabled={!Utils.validatePublishCourse(course)}
-                onClick={() => {
-                  confirm({
-                    title: 'Are you sure?',
-                    content: `You want to publish this course?`,
-                    onOk() {
-                      console.log(course, 'course')
-                      publishCourse({
-                        courseId: course._id
-                      })
-                    },
-                    okText: 'Yes, Publish'
-                  })
-                }}
-                style={{ marginRight: 15 }}
-                icon={<UploadOutlined />}
-              >
-                Publish Course
-              </Button>,
-              <Button
-                disabled={!validateDraftCourse()}
-                loading={loading}
-                type="primary"
-                onClick={updateCourse}
-                icon={<SaveOutlined />}
-              >
-                Save as draft
-              </Button>
-            ]}
-          >
-            <Tabs
-              navigateWithHash
-              tabPosition={'left'}
-              style={{ minHeight: '100vh' }}
-              items={[
-                {
-                  label: (
-                    <span>
-                      <InfoCircleOutlined />Information
-                    </span>
-                  ),
-                  key: 'information',
-                  children: (
-                    <CourseInformationEditor
-                      saveCourse={saveCourse}
-                      course={course}
-                      courseId={courseId}
-                    />
-                  )
-                },
-                // {
-                //   label: (
-                //     <span
-                //       onClick={e => {
-                //         window.open(`../${course._id}/builder`)
-                //         e.stopPropagation()
-                //       }}
-                //     >
-                //       <SettingOutlined />Builder
-                //     </span>
-                //   ),
-                //   key: 'builder',
-                //   children: null
-                // },
-                // {
-                //   label: (
-                //     <span>
-                //       <ToolOutlined />Builder
-                //     </span>
-                //   ),
-                //   key: 'builder'
-                // },
-                {
-                  label: (
-                    <span>
-                      <ClockCircleOutlined />Drip
-                    </span>
-                  ),
-                  key: 'drip',
-                  children: (
-                    <CourseDrip saveCourse={saveCourse} course={course} />
-                  )
-                },
-                {
-                  label: (
-                    <span>
-                      <UserOutlined />Learners
-                    </span>
-                  ),
-                  key: 'learners',
-                  children: <CourseLearners courseId={course._id} />
-                },
-                {
-                  label: (
-                    <span>
-                      <SafetyCertificateOutlined />Certificate
-                    </span>
-                  ),
-                  key: 'certificate',
-                  children: (
-                    <CourseCertificate
-                      courseId={course._id}
-                      course={course}
-                      saveCourse={saveCourse}
-                    />
-                  )
-                }
+    <AppProvider>
+      <Spin spinning={publishingCourse}>
+        <Row gutter={[20, 20]}>
+          <Col span={24}>
+            <Card
+              title={
+                <span>
+                  <BackButton
+                    onClick={() => navigate(`../app/products/courses`)}
+                  />{' '}
+                  {course.title}
+                </span>
+              }
+              extra={[
+                <Button
+                  disabled={!Utils.validatePublishCourse(course)}
+                  onClick={() => {
+                    confirm({
+                      title: 'Are you sure?',
+                      content: `You want to publish this course?`,
+                      onOk() {
+                        console.log(course, 'course')
+                        publishCourse({
+                          courseId: course._id
+                        })
+                      },
+                      okText: 'Yes, Publish'
+                    })
+                  }}
+                  style={{ marginRight: 15 }}
+                  icon={<UploadOutlined />}
+                >
+                  Publish Course
+                </Button>,
+                <Button
+                  disabled={!validateDraftCourse()}
+                  loading={loading}
+                  type="primary"
+                  onClick={updateCourse}
+                  icon={<SaveOutlined />}
+                >
+                  Save as draft
+                </Button>
               ]}
-            />
-          </Card>
-        </Col>
-        {/* <Col span={20}>
+            >
+              <Tabs
+                navigateWithHash
+                tabPosition={'left'}
+                style={{ minHeight: '100vh' }}
+                items={[
+                  {
+                    label: (
+                      <span>
+                        <InfoCircleOutlined />Information
+                      </span>
+                    ),
+                    key: 'information',
+                    children: (
+                      <CourseInformationEditor
+                        saveCourse={saveCourse}
+                        course={course}
+                        courseId={courseId}
+                      />
+                    )
+                  },
+                  // {
+                  //   label: (
+                  //     <span
+                  //       onClick={e => {
+                  //         window.open(`../${course._id}/builder`)
+                  //         e.stopPropagation()
+                  //       }}
+                  //     >
+                  //       <SettingOutlined />Builder
+                  //     </span>
+                  //   ),
+                  //   key: 'builder',
+                  //   children: null
+                  // },
+                  // {
+                  //   label: (
+                  //     <span>
+                  //       <ToolOutlined />Builder
+                  //     </span>
+                  //   ),
+                  //   key: 'builder'
+                  // },
+                  {
+                    label: (
+                      <span>
+                        <ClockCircleOutlined />Drip
+                      </span>
+                    ),
+                    key: 'drip',
+                    children: (
+                      <CourseDrip saveCourse={saveCourse} course={course} />
+                    )
+                  },
+                  {
+                    label: (
+                      <span>
+                        <UserOutlined />Learners
+                      </span>
+                    ),
+                    key: 'learners',
+                    children: <CourseLearners courseId={course._id} />
+                  },
+                  {
+                    label: (
+                      <span>
+                        <SafetyCertificateOutlined />Certificate
+                      </span>
+                    ),
+                    key: 'certificate',
+                    children: (
+                      <CourseCertificate
+                        courseId={course._id}
+                        course={course}
+                        saveCourse={saveCourse}
+                      />
+                    )
+                  }
+                ]}
+              />
+            </Card>
+          </Col>
+          {/* <Col span={20}>
           <CourseInformationEditor />
         </Col> */}
-      </Row>
-    </Spin>
+        </Row>
+      </Spin>
+    </AppProvider>
   )
 }
 

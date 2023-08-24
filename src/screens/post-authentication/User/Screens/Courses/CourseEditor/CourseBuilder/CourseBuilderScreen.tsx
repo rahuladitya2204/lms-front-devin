@@ -13,9 +13,11 @@ import {
 import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
+import { cloneDeep, debounce } from 'lodash'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
+import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
 import CourseSectionsNavigator from './CourseSectionsNavigator'
 import GenerateWithAI from '../CourseInformation/GenerateWithAiButton'
@@ -23,7 +25,6 @@ import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import SetCourseRules from './SetRules'
-import { cloneDeep } from 'lodash'
 import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
 
@@ -44,6 +45,14 @@ function CourseBuilderScreen() {
       enabled: !!courseId
     }
   )
+  const savedDetails = (text?: string) => {
+    message.open({
+      type: 'success',
+      content: text || `Saved`
+    })
+  }
+  // const updateCourse = debounce(console.log, 600)
+
   const {
     mutate: deleteSectionApi,
     isLoading: deletingSection
@@ -74,12 +83,22 @@ function CourseBuilderScreen() {
       COURSE.sections.push(newSection)
     }
 
-    updateCourse({
-      id: courseId || '',
-      data: {
-        sections: COURSE.sections
+    updateCourse(
+      {
+        id: courseId || '',
+        data: {
+          sections: COURSE.sections
+        }
+      },
+      {
+        onSuccess: () => {
+          message.open({
+            type: 'success',
+            content: `Saved`
+          })
+        }
       }
-    })
+    )
   }
 
   const onAddNewItem = (
@@ -130,6 +149,7 @@ function CourseBuilderScreen() {
   }
 
   const saveCourse = (d: Partial<Types.Course>) => {
+    console.log('Saved')
     if (course._id) {
       updateCourse(
         {
@@ -190,6 +210,7 @@ function CourseBuilderScreen() {
       },
       {
         onSuccess: () => {
+          savedDetails('Section Deleted')
           const lastSection = course.sections.pop()
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem && lastItem.type)
@@ -234,158 +255,161 @@ function CourseBuilderScreen() {
   // console.log(course.sections, items, 'nodeee')
   const { mutate: publishCourse } = User.Queries.usePublishCourse()
   return (
-    <Header
-      title={
-        <span>
-          {' '}
-          <BackButton
-            onClick={() => navigate('../app/products/courses')}
-          />{' '}
-          {course.title}
-        </span>
-      }
-      extra={[
-        // @ts-ignore
-        course.status === Enum.CourseStatus.PUBLISHED ? (
-          <Tag color="green">Course is Live</Tag>
-        ) : (
-          <Button
-            onClick={() => {
-              confirm({
-                title: 'Are you sure?',
-                content: `You want to publish this course?`,
-                onOk() {
-                  publishCourse({
-                    courseId: course._id
-                  })
-                },
-                okText: 'Yes, Publish'
-              })
-            }}
-            disabled={!Utils.validatePublishCourse(course)}
-            style={{ marginRight: 15 }}
-            icon={<UploadOutlined />}
-          >
-            Publish Course
-          </Button>
-        ),
-        <Button
-          onClick={() => saveCourse(course)}
-          loading={loading}
-          type="primary"
-          icon={<SaveOutlined />}
-        >
-          Save
-        </Button>
-      ]}
-    >
-      <Row gutter={[16, 16]}>
-        <Col span={8}>
-          <Row>
-            <Col span={24}>
-              <Form.Item>
-                <MediaUpload
-                  source={{
-                    type: 'course.thumbnailImage',
-                    value: courseId + ''
-                  }}
-                  uploadType="image"
-                  prefixKey={`courses/${courseId}/thumbnailImage`}
-                  cropper
-                  width="100%"
-                  // height="200px"
-                  aspect={16 / 9}
-                  renderItem={() => (
-                    <Image preview={false} src={course.thumbnailImage} />
-                  )}
-                  onUpload={file => {
-                    saveCourse({
-                      thumbnailImage: file.url
-                    })
-                  }}
-                />
-                <Row
-                  justify={'space-between'}
-                  style={{ margin: '20px 0 0', marginTop: 20 }}
-                  gutter={[20, 20]}
-                >
-                  <Col flex={1}>
-                    <Button block>Preview</Button>
-                  </Col>
-                  <Col flex={1}>
-                    <ActionModal
-                      title="Set Rules"
-                      cta={
-                        <Button block type="primary">
-                          Set Rules
-                        </Button>
-                      }
-                    >
-                      <SetCourseRules
-                        onSubmit={d =>
-                          saveCourse({
-                            rules: d
-                          })
-                        }
-                        data={course.rules}
-                      />
-                    </ActionModal>
-                  </Col>
-                </Row>
-              </Form.Item>
-            </Col>
-            <Col span={24}>
-              <Spin spinning={deletingSection || deletingSectionItem}>
-                <CourseSectionsNavigator
-                  deleteSectionItem={deleteSectionItem}
-                  deleteSection={deleteSection}
-                  onAddNewItem={onAddNewItem}
-                  onAddSection={onAddSection}
-                  sections={course.sections}
-                  onReorderSections={onReorderSections}
-                />
-              </Spin>
-            </Col>
-          </Row>
-        </Col>
-        <Col span={16}>
-          {!course.sections.length ? (
-            <Alert
-              message="Generate course structure using AI"
-              description="You can generate course outline using our AI"
-              type="info"
-              showIcon
-              action={
-                <GenerateWithAI
-                  courseId={course._id}
-                  fields={['sections']}
-                  onValuesChange={({ sections }: any) => {
-                    updateCourse(
-                      {
-                        id: courseId || '',
-                        data: {
-                          // @ts-ignore
-                          sections: sections.sections
-                        }
-                      },
-                      {
-                        onSuccess: () => {
-                          navigate('')
-                        }
-                      }
-                    )
-                  }}
-                />
-              }
-            />
+    <AppProvider>
+      <Header
+        title={
+          <span>
+            {' '}
+            <BackButton
+              onClick={() => navigate('../app/products/courses')}
+            />{' '}
+            {course.title}
+          </span>
+        }
+        extra={[
+          <Tag>Changes will be automatically saved</Tag>,
+          // @ts-ignore
+          course.status === Enum.CourseStatus.PUBLISHED ? (
+            <Tag color="green">Course is Live</Tag>
           ) : (
-            <Card>
-              <Outlet context={[items, updateCourseSection, saveCourse]} />
-            </Card>
-          )}
-        </Col>
-      </Row>
-    </Header>
+            <Button
+              onClick={() => {
+                confirm({
+                  title: 'Are you sure?',
+                  content: `You want to publish this course?`,
+                  onOk() {
+                    publishCourse({
+                      courseId: course._id
+                    })
+                  },
+                  okText: 'Yes, Publish'
+                })
+              }}
+              disabled={!Utils.validatePublishCourse(course)}
+              style={{ marginRight: 15 }}
+              icon={<UploadOutlined />}
+            >
+              Publish Course
+            </Button>
+          )
+          // <Button
+          //   onClick={() => saveCourse(course)}
+          //   loading={loading}
+          //   type="primary"
+          //   icon={<SaveOutlined />}
+          // >
+          //   Save
+          // </Button>
+        ]}
+      >
+        <Row gutter={[16, 16]}>
+          <Col span={8}>
+            <Row>
+              <Col span={24}>
+                <Form.Item>
+                  <MediaUpload
+                    source={{
+                      type: 'course.thumbnailImage',
+                      value: courseId + ''
+                    }}
+                    uploadType="image"
+                    prefixKey={`courses/${courseId}/thumbnailImage`}
+                    cropper
+                    width="100%"
+                    // height="200px"
+                    aspect={16 / 9}
+                    renderItem={() => (
+                      <Image preview={false} src={course.thumbnailImage} />
+                    )}
+                    onUpload={file => {
+                      saveCourse({
+                        thumbnailImage: file.url
+                      })
+                    }}
+                  />
+                  <Row
+                    justify={'space-between'}
+                    style={{ margin: '20px 0 0', marginTop: 20 }}
+                    gutter={[20, 20]}
+                  >
+                    <Col flex={1}>
+                      <Button block>Preview</Button>
+                    </Col>
+                    <Col flex={1}>
+                      <ActionModal
+                        title="Set Rules"
+                        cta={
+                          <Button block type="primary">
+                            Set Rules
+                          </Button>
+                        }
+                      >
+                        <SetCourseRules
+                          onSubmit={d =>
+                            saveCourse({
+                              rules: d
+                            })
+                          }
+                          data={course.rules}
+                        />
+                      </ActionModal>
+                    </Col>
+                  </Row>
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Spin spinning={deletingSection || deletingSectionItem}>
+                  <CourseSectionsNavigator
+                    deleteSectionItem={deleteSectionItem}
+                    deleteSection={deleteSection}
+                    onAddNewItem={onAddNewItem}
+                    onAddSection={onAddSection}
+                    sections={course.sections}
+                    onReorderSections={onReorderSections}
+                  />
+                </Spin>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={16}>
+            {!course.sections.length ? (
+              <Alert
+                message="Generate course structure using AI"
+                description="You can generate course outline using our AI"
+                type="info"
+                showIcon
+                action={
+                  <GenerateWithAI
+                    courseId={course._id}
+                    fields={['sections']}
+                    onValuesChange={({ sections }: any) => {
+                      updateCourse(
+                        {
+                          id: courseId || '',
+                          data: {
+                            // @ts-ignore
+                            sections: sections.sections
+                          }
+                        },
+                        {
+                          onSuccess: () => {
+                            navigate('')
+                          }
+                        }
+                      )
+                    }}
+                  />
+                }
+              />
+            ) : (
+              <Card>
+                <Outlet context={[items, updateCourseSection, saveCourse]} />
+              </Card>
+            )}
+          </Col>
+        </Row>
+      </Header>
+    </AppProvider>
   )
 }
 
