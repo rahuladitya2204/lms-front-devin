@@ -11,7 +11,7 @@ interface GenerateWithAIPropsI {
 }
 
 function GenerateWithAI(props: GenerateWithAIPropsI) {
-  const { data: Test } = User.Queries.useGetTestDetails(props.testId, {
+  const { data: test } = User.Queries.useGetTestDetails(props.testId, {
     enabled: !!props.testId
   })
   const {
@@ -34,12 +34,12 @@ function GenerateWithAI(props: GenerateWithAIPropsI) {
       size="small"
       type="dashed"
       danger
-      disabled={!Test.title}
+      disabled={!test.title}
       loading={generatingInfo}
       onClick={() =>
         generateTestInfo({
           data: {
-            title: Test.title
+            title: test.title
           },
           fields: props.fields,
           extra: props.extra

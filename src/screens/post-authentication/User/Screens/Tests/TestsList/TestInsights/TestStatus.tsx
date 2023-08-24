@@ -20,8 +20,8 @@ const TestStatus = () => {
     mutate: calculateResult,
     isLoading: generatingResult
   } = User.Queries.useCalculateTestResult()
-  const { data: Test } = User.Queries.useGetTestDetails(testId + '')
-  const result = Test.result
+  const { data: test } = User.Queries.useGetTestDetails(testId + '')
+  const result = test.result
   // console.log(result, 'result')
   return (
     <Header
@@ -29,7 +29,7 @@ const TestStatus = () => {
         <span>
           {' '}
           <BackButton onClick={() => navigate('..')} /> Tests:{' '}
-          {Test.title}
+          {test.title}
         </span>
       }
       extra={[
@@ -48,8 +48,8 @@ const TestStatus = () => {
         {result ? (
           <Col span={24}>
             <Card
-              title={Test.title}
-              extra={<Tag>{dayjs(Test.scheduledAt).format('LLL')}</Tag>}
+              title={test.title}
+              extra={<Tag>{dayjs(test.scheduledAt).format('LLL')}</Tag>}
             >
               <Row gutter={[20, 20]}>
                 <Col span={8}>

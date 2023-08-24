@@ -13,24 +13,24 @@ interface TestLandingPageEditorPropsI {
   testId: string;
   saveTest: Function;
 
-  Test: Types.Test;
+  test: Types.Test;
 }
 
 function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
   const { id } = useParams()
-  const { Test } = props
+  const { test } = props
   const testId = props.testId || id + ''
   const [form] = Form.useForm()
-  const promoVideoFile = Test.landingPage.promoVideo
+  const promoVideoFile = test.landingPage.promoVideo
   useLayoutEffect(
     () => {
-      form.setFieldsValue(Test.landingPage)
+      form.setFieldsValue(test.landingPage)
     },
-    [Test]
+    [test]
   )
 
   const onValuesChange = (d: Partial<Types.TestLandingPage>) => {
-    const data = deepPatch(Test.landingPage, d)
+    const data = deepPatch(test.landingPage, d)
     props.saveTest({
       landingPage: data
     })
@@ -48,7 +48,7 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
         extra={[
           <MediaUpload
             source={{
-              type: 'Test.promoVideo',
+              type: 'test.promoVideo',
               value: testId + ''
             }}
             prefixKey={`Tests/${testId}/promo`}

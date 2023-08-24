@@ -27,15 +27,15 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
         // xxl: 3
       }}
       dataSource={data}
-      renderItem={({ product: { data: Test } }) => (
+      renderItem={({ product: { data: test } }) => (
         <List.Item>
           <Card
             onClick={() => {
-              navigate(Test?._id)
+              navigate(test?._id)
             }}
             style={{ width: 300 }}
             // @ts-ignore
-            cover={<Image alt="example" src={Test.image} />}
+            cover={<Image alt="example" src={test.image} />}
             // actions={[
             //   <SettingOutlined key="setting" />,
             //   <EditOutlined key="edit" />,
@@ -47,9 +47,9 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
               //   <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
               // }
               // @ts-ignore
-              title={Test.title}
+              title={test.title}
               description={
-                <Text>Date: {dayjs(Test?.scheduledFor).format('LL')}</Text>
+                <Text>Date: {dayjs(test?.scheduledFor).format('LL')}</Text>
               }
               avatar={<CalendarOutlined />}
             />

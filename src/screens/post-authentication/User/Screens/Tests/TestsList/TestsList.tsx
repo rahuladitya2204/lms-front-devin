@@ -50,9 +50,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           //   pageSize: 3,
           // }}
           dataSource={data}
-          renderItem={Test => (
+          renderItem={test => (
             <div style={{ padding: 30 }}>
-              <TestCard Test={Test} />
+              <TestCard test={test} />
             </div>
           )}
         />

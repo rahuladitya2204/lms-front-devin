@@ -20,8 +20,8 @@ const { Text } = Typography
 const TestAttendedList = () => {
   const { testId } = useParams()
   const { data } = User.Queries.useGetTestResult(testId + '')
-  const { data: Test } = User.Queries.useGetTestDetails(testId + '')
-  const TOTAL_POSSIBLE_SCORE = Test.sections.reduce((acc, section) => {
+  const { data: test } = User.Queries.useGetTestDetails(testId + '')
+  const TOTAL_POSSIBLE_SCORE = test.sections.reduce((acc, section) => {
     const sectionScore = section.items.reduce(
       (sectionAcc, item) => sectionAcc + (item.score || 0),
       0

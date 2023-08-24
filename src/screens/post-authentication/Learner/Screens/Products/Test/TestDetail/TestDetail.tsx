@@ -70,9 +70,21 @@ export default function TestDetailScreen(
       }
     }
     else {
-      return <Button onClick={()=>navigate('start')} block type='primary'>
-      Start Test
-    </Button>
+      console.log(enrolledDetails,'enrolledDetails')
+      if (!enrolledDetails.metadata.test.startedAt) {
+        return <Button onClick={()=>navigate('start')} block type='primary'>
+        Start Test
+      </Button>
+      }
+      if(enrolledDetails.metadata.test.endedAt) {
+        return  <Alert
+        style={{ marginBottom: 20 }}
+        message="You have attended this test."
+        type="success"
+        showIcon action={<Button>View Result</Button>}
+      />
+      }
+     
     }
  
   },[test])
@@ -123,7 +135,7 @@ export default function TestDetailScreen(
                   <Col span={24}>
                     <Row gutter={[10, 10]}>
                       <Col span={24}>
-                        <TestMetadata Test={test} />
+                        <TestMetadata test={test} />
                       </Col>
                       <Col span={24}>
                         {
@@ -159,7 +171,7 @@ export default function TestDetailScreen(
                   <Col span={24}>
                     <Row gutter={[10, 10]}>
                       <Col span={24}>
-                        <TestMetadata Test={Test} />
+                        <TestMetadata test={test} />
                       </Col>
                       <Col span={24}>
                         <ProductCheckoutButton

@@ -26,24 +26,28 @@ interface TestRulesPropsI {}
 export default function TestRules(props: TestRulesPropsI) {
   const { testId } = useParams()
   const { mutate: startTest } = Learner.Queries.useStartTest()
-  const { data: Test } = Learner.Queries.useGetTestDetails(testId + '')
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
+  const { data: enrolledProduct } = Learner.Queries.useGetEnrolledProductDetails({
+    type: 'test',
+    id: testId + ''
+  });
   const [form] = Form.useForm()
   const rule1 = Form.useWatch('rule-1', form)
   const rule2 = Form.useWatch('rule-2', form)
   const rule3 = Form.useWatch('rule-3', form)
   const isValid = rule1 && rule2 && rule3
-  const endingAt = dayjs(Test.scheduledAt)
-    .add(Test.duration, 'minutes')
+  const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
+    .add(test.duration, 'minutes')
     .toString()
   const navigate = useNavigate()
   return (
     <Header
-      title={Test.title}
+      title={test.title}
       extra={[
         <Tag color="blue">
           Time Left: <Countdown targetDate={endingAt} />
         </Tag>,
-        <Tag color="cyan">Time Limit: {Test.duration} mins</Tag>
+        <Tag color="cyan">Time Limit: {test.duration} mins</Tag>
       ]}
     >
       <Row>
@@ -84,7 +88,7 @@ export default function TestRules(props: TestRulesPropsI) {
                     onClick={() => {
                       startTest(
                         {
-                          testId: Test._id + ''
+                          testId: test._id + ''
                         },
                         {
                           onSuccess: () => {

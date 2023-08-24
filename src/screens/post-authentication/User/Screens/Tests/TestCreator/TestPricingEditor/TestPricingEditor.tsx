@@ -11,7 +11,7 @@ interface TestPricingEditorPropsI {
   testId: string;
   saveTest: Function;
 
-  Test: Types.Test;
+  test: Types.Test;
 }
 
 function TestPricingEditor(props: TestPricingEditorPropsI) {

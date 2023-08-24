@@ -42,11 +42,11 @@ const { useWatch } = Form
 interface TestDetailsEditorPropsI {
   testId?: string;
   saveTest: Function;
-  Test: Types.Test;
+  test: Types.Test;
 }
 
 function TestDetailsEditor(props: TestDetailsEditorPropsI) {
-  const { Test } = props
+  const { test } = props
   const [form] = Form.useForm()
   const { id } = useParams()
   const testId = props.testId || id
@@ -56,31 +56,31 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
   useEffect(
     () => {
-      if (Test.scheduledAt) {
+      if (test.scheduledAt) {
         // @ts-ignore
-        Test.scheduledAt = dayjs(Test.scheduledAt)
+        test.scheduledAt = dayjs(test.scheduledAt)
       }
 
-      form.setFieldsValue(Test)
+      form.setFieldsValue(test)
     },
-    [Test]
+    [test]
   )
 
   const onValuesChange = (d: Partial<Types.Test>) => {
-    const data = deepPatch(Test, d)
+    const data = deepPatch(test, d)
     props.saveTest(data)
   }
 
   const generateWithAI = (fields: string[]) => {
     return (
       <GenerateWithAI
-        courseId={Test._id + ''}
+        courseId={test._id + ''}
         fields={fields}
         onValuesChange={onValuesChange}
       />
     )
   }
-  const isPublished = Test.status === Enum.TestStatus.PUBLISHED
+  const isPublished = test.status === Enum.TestStatus.PUBLISHED
   const isLive = Form.useWatch('isLive', form)
   return (
     <Form
@@ -107,7 +107,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
       <Form.Item name="image" required label="Thumbnail">
         <MediaUpload
           source={{
-            type: 'Test.image',
+            type: 'test.image',
             value: testId + ''
           }}
           uploadType="image"
@@ -156,7 +156,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         ]}
         extra={generateWithAI(['description'])}
       >
-        <TextArea rows={4} placeholder="Enter the Test description" />
+        <TextArea rows={4} placeholder="Enter the test description" />
       </Form.Item>
       <Divider />
       <Row gutter={[40, 20]}>

@@ -15,9 +15,9 @@ import useMessage from '@Hooks/useMessage'
 function TestInformationEditor(props: any) {
   const { id } = useParams()
   const testId = id + ''
-  const [Test, setTest] = useState(Constants.INITIAL_LIVE_TEST_DETAILS)
+  const [test, setTest] = useState(Constants.INITIAL_LIVE_TEST_DETAILS)
 
-  const { data: TestDetails } = User.Queries.useGetTestDetails(
+  const { data: testDetails } = User.Queries.useGetTestDetails(
     testId,
     {
       enabled: !!testId
@@ -26,9 +26,9 @@ function TestInformationEditor(props: any) {
 
   useEffect(
     () => {
-      setTest(TestDetails)
+      setTest(testDetails)
     },
-    [TestDetails]
+    [testDetails]
   )
   return (
     <Fragment>
@@ -43,7 +43,7 @@ function TestInformationEditor(props: any) {
             children: (
               <TestDetailsEditor
                 saveTest={props.saveTest}
-                Test={props.Test}
+                test={props.test}
                 testId={props.testId}
               />
             )
@@ -54,7 +54,7 @@ function TestInformationEditor(props: any) {
             children: (
               <TestLandingPageEditor
                 saveTest={props.saveTest}
-                Test={props.Test}
+                test={props.test}
                 testId={props.testId}
               />
             )
@@ -65,7 +65,7 @@ function TestInformationEditor(props: any) {
             children: (
               <TestPricingEditor
                 saveTest={props.saveTest}
-                Test={props.Test}
+                test={props.test}
                 testId={props.testId}
               />
             )
@@ -76,7 +76,7 @@ function TestInformationEditor(props: any) {
           //   children: (
           //     <TestAdvancedSettings
           //       saveTest={props.saveTest}
-          //       Test={props.Test}
+          //       test={props.test}
           //       testId={props.testId}
           //     />
           //   )

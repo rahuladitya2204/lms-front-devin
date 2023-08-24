@@ -52,7 +52,7 @@ interface CreateTestComponentPropsI {
       isLoading: updateTestLoading
     } = User.Queries.useUpdateTest()
   
-      const { data: TestDetails } = User.Queries.useGetTestDetails(testId + '', {
+      const { data: testDetails } = User.Queries.useGetTestDetails(testId + '', {
           enabled: !!testId
       });
   
@@ -166,7 +166,7 @@ interface CreateTestComponentPropsI {
                     <Col span={8}>
           <MediaUpload
                     source={{
-                      type: 'Test.thumbnail',
+                      type: 'test.thumbnail',
                       value: testId + ''
                     }}
                     uploadType="image"

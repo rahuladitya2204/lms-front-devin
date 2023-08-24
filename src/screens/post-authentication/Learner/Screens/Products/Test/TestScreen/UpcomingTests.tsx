@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, List, Typography } from 'antd'
+import { Avatar, Badge, Card, Col, List, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import { CalendarOutlined } from '@ant-design/icons'
@@ -18,7 +18,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
   return (
     <List
       grid={{
-        gutter: 20,
+        gutter: 20
         // xs: 1,
         // sm: 2,
         // md: 4,
@@ -27,15 +27,15 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
         // xxl: 3
       }}
       dataSource={data}
-      renderItem={({ product: { data: Test } }) => (
-        <List.Item>
+      renderItem={({ product: { data: test } }) => {
+        const CardComponent = (
           <Card
             onClick={() => {
-              navigate(Test?._id)
+              navigate(test?._id)
             }}
             style={{ width: 300 }}
             // @ts-ignore
-            cover={<Image alt="example" src={Test.image} />}
+            cover={<Image alt="example" src={test.image} />}
             // actions={[
             //   <SettingOutlined key="setting" />,
             //   <EditOutlined key="edit" />,
@@ -47,15 +47,25 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
               //   <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
               // }
               // @ts-ignore
-              title={Test.title}
+              title={test.title}
               description={
-                <Text>Date: {dayjs(Test?.scheduledFor).format('LL')}</Text>
+                <Text>Date: {dayjs(test?.scheduledFor).format('LL')}</Text>
               }
               avatar={<CalendarOutlined />}
             />
           </Card>
-        </List.Item>
-      )}
+        )
+        return (
+          <List.Item>
+            {/* @ts-ignore */}
+            {test.product.data.isLive ? (
+              <Badge.Ribbon text='live'>{CardComponent}</Badge.Ribbon>
+            ) : (
+              CardComponent
+            )}
+          </List.Item>
+        )
+      }}
     />
   )
 }

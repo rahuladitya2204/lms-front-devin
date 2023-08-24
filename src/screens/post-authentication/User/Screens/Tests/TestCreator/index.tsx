@@ -23,14 +23,14 @@ function TestEditor() {
   const message = useMessage()
   const { id } = useParams()
   const testId = id + ''
-  const [Test, setTest] = useState<Types.Test>(Constants.INITIAL_LIVE_TEST_DETAILS)
+  const [test, setTest] = useState<Types.Test>(Constants.INITIAL_LIVE_TEST_DETAILS)
 
   const {
     mutate: updateTestApi,
     isLoading: loading
   } = User.Queries.useUpdateTest()
 
-  const { data: TestDetails } = User.Queries.useGetTestDetails(
+  const { data: testDetails } = User.Queries.useGetTestDetails(
     testId,
     {
       enabled: !!testId
@@ -44,14 +44,14 @@ function TestEditor() {
 
   useEffect(
     () => {
-      setTest(TestDetails)
+      setTest(testDetails)
     },
-    [TestDetails]
+    [testDetails]
   )
 
   const saveTest = (e: Partial<Types.Test>) => {
     setTest({
-      ...Test,
+      ...test,
       ...e
     })
   }
@@ -59,7 +59,7 @@ function TestEditor() {
     updateTestApi(
       {
         id: testId,
-        data: Test
+        data: test
       },
       {
         onSuccess: () => {
@@ -73,7 +73,7 @@ function TestEditor() {
   }
 
   const validateDraftTest = () => {
-    return Test.title
+    return test.title
   }
   const navigate = useNavigate()
   return (
@@ -86,22 +86,22 @@ function TestEditor() {
                 <BackButton
                   onClick={() => navigate(`../app/products/test`)}
                 />{' '}
-                {Test.title}
+                {test.title}
               </span>
             }
             extra={[
-              Test.status === Enum.TestStatus.PUBLISHED ? (
+              test.status === Enum.TestStatus.PUBLISHED ? (
                 <Tag color='green'>Test is published</Tag>
               ) : (
                 <Button
-                  disabled={!Utils.validatePublishTest(Test)}
+                  disabled={!Utils.validatePublishTest(test)}
                   onClick={() => {
                     confirm({
                       title: 'Are you sure?',
                       content: `You want to publish this Test?`,
                       onOk() {
                         publishTest({
-                          testId: Test._id+''
+                          testId: test._id+''
                         })
                       },
                       okText: 'Yes, Publish'
@@ -128,7 +128,7 @@ function TestEditor() {
               navigateWithHash
               onTabClick={e => {
                 if (e === 'builder') {
-                  window.open(`../${Test._id}/builder`)
+                  window.open(`../${test._id}/builder`)
                 }
               }}
               tabPosition={'left'}
@@ -144,7 +144,7 @@ function TestEditor() {
                   children: (
                     <TestInformationEditor
                       saveTest={saveTest}
-                      Test={Test}
+                      test={test}
                       testId={testId}
                     />
                   )
@@ -164,7 +164,7 @@ function TestEditor() {
                     </span>
                   ),
                   key: 'learners',
-                  children: <TestLearners testId={Test._id+''} />
+                  children: <TestLearners testId={test._id+''} />
                 },
                 {
                   label: (
@@ -176,8 +176,8 @@ function TestEditor() {
                   children: null
                   //   (
                   //   <TestCertificate
-                  //     testId={Test._id}
-                  //     Test={Test}
+                  //     testId={test._id}
+                  //     test={test}
                   //     saveTest={saveTest}
                   //   />
                   // )

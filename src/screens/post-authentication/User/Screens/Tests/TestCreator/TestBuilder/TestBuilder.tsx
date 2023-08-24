@@ -25,7 +25,7 @@ function TestBuilderScreen() {
     mutate: updateTest,
     isLoading: loading
   } = User.Queries.useUpdateTest()
-  const { data: TestDetails } = User.Queries.useGetTestDetails(
+  const { data: testDetails } = User.Queries.useGetTestDetails(
     testId + '',
     {
       enabled: !!testId
@@ -39,13 +39,13 @@ function TestBuilderScreen() {
     mutate: deleteSectionItemApi,
     isLoading: deletingSectionItem
   } = User.Queries.useDeleteTestSectionItem()
-  const [Test, setTest] =
+  const [test, setTest] =
         useState<Types.Test>(Constants.INITIAL_LIVE_TEST_DETAILS)
   const navigate = useNavigate()
 
   const onAddSection = (section: Partial<Types.TestSection>) => {
     // console.log(section, 'section')
-    let LIVE_TEST = cloneDeep(Test)
+    let LIVE_TEST = cloneDeep(test)
     if (section._id) {
       LIVE_TEST.sections.forEach((sec, index) => {
         if (sec._id === section._id) {
@@ -74,11 +74,11 @@ function TestBuilderScreen() {
     index: number
   ) => {
     // debugger;
-    let LIVE_TEST = cloneDeep(Test)
+    let LIVE_TEST = cloneDeep(test)
     const newItem: Partial<Types.TestQuestion> = {
       ...item
     }
-    // console.log(Test, 'livviviv')
+    // console.log(test, 'livviviv')
 
     if (item._id) {
       LIVE_TEST.sections[index].items.forEach(
@@ -104,11 +104,11 @@ function TestBuilderScreen() {
         }
       },
       {
-        onSuccess: Test => {
+        onSuccess: test => {
           if (item._id) {
             return navigate(`${item._id}`)
           }
-          const newlyAdedItem = [...Test.sections[index].items].pop()
+          const newlyAdedItem = [...test.sections[index].items].pop()
           navigate(
             `../app/products/test/${LIVE_TEST._id}/builder/${
               newlyAdedItem?._id
@@ -120,8 +120,8 @@ function TestBuilderScreen() {
   }
 
   const saveTest = (d: Partial<Types.Test>) => {
-    const Data = { ...Test, ...d }
-    if (Test._id) {
+    const Data = { ...test, ...d }
+    if (test._id) {
       updateTest(
         {
           id: testId + '',
@@ -141,7 +141,7 @@ function TestBuilderScreen() {
   useEffect(
     () => {
       if (!itemId) {
-        const firstSection = Test.sections.find(s => s.items.length)
+        const firstSection = test.sections.find(s => s.items.length)
         if (firstSection && firstSection.items.length) {
           const firstItem = firstSection.items[0]
           if (firstItem.type) {
@@ -150,14 +150,14 @@ function TestBuilderScreen() {
         }
       }
     },
-    [Test._id]
+    [test._id]
   )
 
   useEffect(
     () => {
-      setTest(TestDetails)
+      setTest(testDetails)
     },
-    [TestDetails]
+    [testDetails]
   )
 
   const updateTestSection = (
@@ -166,7 +166,7 @@ function TestBuilderScreen() {
     item: Types.TestQuestion
   ) => {
     item._id = itemId
-    const LIVE_TEST = cloneDeep(Test)
+    const LIVE_TEST = cloneDeep(test)
     LIVE_TEST.sections = updateTestSectionItem(LIVE_TEST.sections, item)
 
     saveTest({
@@ -184,7 +184,7 @@ function TestBuilderScreen() {
       },
       {
         onSuccess: () => {
-          const lastSection = Test.sections.pop()
+          const lastSection = test.sections.pop()
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem) navigate(`${lastItem._id}`)
         }
@@ -193,7 +193,7 @@ function TestBuilderScreen() {
   }
 
   const deleteSectionItem = (sectionId: string, itemId: string) => {
-    const LIVE_TEST = cloneDeep(Test)
+    const LIVE_TEST = cloneDeep(test)
     deleteSectionItemApi(
       {
         data: {
@@ -204,7 +204,7 @@ function TestBuilderScreen() {
       },
       {
         onSuccess: () => {
-          const lastSection = Test.sections.pop()
+          const lastSection = test.sections.pop()
           const lastItem = lastSection?.items.pop()
           if (lastSection && lastItem) navigate(`${lastItem._id}`)
         }
@@ -213,7 +213,7 @@ function TestBuilderScreen() {
   }
 
   const onReorderSections = (sections: Types.TestSection[]) => {
-    const LIVE_TEST = cloneDeep(Test)
+    const LIVE_TEST = cloneDeep(test)
     LIVE_TEST.sections = sections
     setTest(LIVE_TEST)
     saveTest(LIVE_TEST)
@@ -230,11 +230,11 @@ function TestBuilderScreen() {
           <BackButton
             onClick={() => navigate('../app/products/test')}
           />{' '}
-          {Test.title}
+          {test.title}
         </span>
       }
       extra={[
-        Test.status === Enum.TestStatus.PUBLISHED ? (
+        test.status === Enum.TestStatus.PUBLISHED ? (
           <Tag color='green'>Test is published</Tag>
         ):
         <Button
@@ -244,20 +244,20 @@ function TestBuilderScreen() {
               content: `You want to publish this Test?`,
               onOk() {
                 // publishTest({
-                //   testId: Test._id
+                //   testId: test._id
                 // })
               },
               okText: 'Yes, Publish'
             })
           }}
-            disabled={!Utils.validatePublishTest(Test)}
+            disabled={!Utils.validatePublishTest(test)}
           style={{ marginRight: 15 }}
           icon={<UploadOutlined />}
         >
           Publish
         </Button>,
         <Button
-          onClick={() => saveTest(Test)}
+          onClick={() => saveTest(test)}
           loading={loading}
           type="primary"
           icon={<SaveOutlined />}
@@ -273,7 +273,7 @@ function TestBuilderScreen() {
               <Form.Item>
                 <MediaUpload
                   source={{
-                    type: 'Test.thumbnailImage',
+                    type: 'test.thumbnailImage',
                     value: testId + ''
                   }}
                   uploadType="image"
@@ -283,7 +283,7 @@ function TestBuilderScreen() {
                   // height="200px"
                   aspect={16 / 9}
                   renderItem={() => (
-                    <Image preview={false} src={Test.image} />
+                    <Image preview={false} src={test.image} />
                   )}
                   onUpload={file => {
                     saveTest({
@@ -309,7 +309,7 @@ function TestBuilderScreen() {
                   deleteSection={deleteSection}
                   onAddNewItem={onAddNewItem}
                   onAddSection={onAddSection}
-                  sections={Test.sections}
+                  sections={test.sections}
                   onReorderSections={onReorderSections}
                 />
               </Spin>
@@ -317,21 +317,21 @@ function TestBuilderScreen() {
           </Row>
         </Col>
         <Col span={16}>
-          {!Test.sections.length ? (
+          {!test.sections.length ? (
             <Alert
               message="Generate Tests Paper structure using AI"
-              description="You can generate Test outline using our AI"
+              description="You can generate test outline using our AI"
               type="info"
               showIcon
               action={
                 <ActionModal width={600} title='Test Builder' cta={ <Button size='small'>Generate Tests Paper</Button>}>
                   <AITestPaperBuilder
-                    testId={Test._id + ''}
+                    testId={test._id + ''}
                     onValuesChange={(sections: any) => {
                       console.log(sections, 'parseAIJson')
                       updateTest(
                         {
-                          id: Test._id || '',
+                          id: test._id || '',
                           data: {
                             // @ts-ignore
                             sections: sections
@@ -350,7 +350,7 @@ function TestBuilderScreen() {
             />
           ) : (
             <Outlet
-              context={{ updateTestSection, sections: Test.sections }}
+              context={{ updateTestSection, sections: test.sections }}
             />
           )}
         </Col>

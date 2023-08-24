@@ -50,7 +50,7 @@ export default function TestQuestionNavigator(
   props: TestQuestionNavigatorPropsI
 ) {
   const navigate = useNavigate()
-  const { data: Test } = Learner.Queries.useGetTestDetails(
+  const { data: test } = Learner.Queries.useGetTestDetails(
     props.testId + ''
   )
   //    const { data: { sections } } = Learner.Queries.useGetTestStatus(
@@ -59,7 +59,7 @@ export default function TestQuestionNavigator(
   )
   return (
     <Collapse
-      defaultActiveKey={Test.sections.map(s => s._id)}
+      defaultActiveKey={test.sections.map(s => s._id)}
       bordered={false}
     >
       {sections.map(section => {

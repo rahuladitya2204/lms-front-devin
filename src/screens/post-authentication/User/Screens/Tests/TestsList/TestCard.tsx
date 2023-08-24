@@ -15,7 +15,7 @@ import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
 
 interface TestCardProps {
-  Test: Types.Test;
+  test: Types.Test;
 }
 
 const TestCardHolder = styled(Card)`
@@ -24,17 +24,17 @@ const TestCardHolder = styled(Card)`
   }
 `
 
-function TestCard({ Test }: TestCardProps) {
+function TestCard({ test }: TestCardProps) {
   const navigate = useNavigate()
   const ThumbnailImage = (
-    <Image height={200} alt="example" src={Test.image} />
+    <Image height={200} alt="example" src={test.image} />
   )
   return (
     <TestCardHolder
       hoverable
       cover={
-        Test.status === Enum.TestStatus.ENDED ? (
-          <Badge.Ribbon color="red" text={capitalize(Test.status)}>
+        test.status === Enum.TestStatus.ENDED ? (
+          <Badge.Ribbon color="red" text={capitalize(test.status)}>
             {ThumbnailImage}
           </Badge.Ribbon>
         ) : (
@@ -43,20 +43,20 @@ function TestCard({ Test }: TestCardProps) {
       }
       actions={[
         <InfoCircleOutlined
-          onClick={() => navigate(`${Test._id}/editor#information`)}
+          onClick={() => navigate(`${test._id}/editor#information`)}
         />,
         <Tooltip placement="bottom" title={'Go to Tests builder'}>
-          <ToolOutlined onClick={() => navigate(`${Test._id}/builder`)} />
+          <ToolOutlined onClick={() => navigate(`${test._id}/builder`)} />
         </Tooltip>,
         // <Tooltip placement="bottom" title={'Build landing page'}>
         //   <FormatPainterOutlined
-        //     onClick={() => navigate(`${Test._id}/editor`)}
+        //     onClick={() => navigate(`${test._id}/editor`)}
         //   />
         // </Tooltip>,
         <Tooltip placement="bottom" title={'Analysis'}>
           <BarChartOutlined
             onClick={() => {
-              navigate(`${Test._id}/status`)
+              navigate(`${test._id}/status`)
             }}
           />
         </Tooltip>
@@ -66,18 +66,18 @@ function TestCard({ Test }: TestCardProps) {
     >
       <Card.Meta
         description={
-          Test.status === Enum.TestStatus.PUBLISHED ? (
-            `Scheduled At: ${dayjs(Test.scheduledAt).format('LLL')}`
-          ) : Test.status === Enum.TestStatus.ENDED ? (
-            `Ended At: ${dayjs(Test.endedAt).format('LLL')}`
-          ) : Test.status === Enum.TestStatus.IN_PROGRESS ? (
+          test.status === Enum.TestStatus.PUBLISHED ? (
+            `Scheduled At: ${dayjs(test.scheduledAt).format('LLL')}`
+          ) : test.status === Enum.TestStatus.ENDED ? (
+            `Ended At: ${dayjs(test.endedAt).format('LLL')}`
+          ) : test.status === Enum.TestStatus.IN_PROGRESS ? (
             <Tag color="green">In Progress</Tag>
           ) : (
             ''
           )
         }
         // avatar={<Avatar src={instructor?.image} />}
-        title={Test.title || ''}
+        title={test.title || ''}
       />
     </TestCardHolder>
   )

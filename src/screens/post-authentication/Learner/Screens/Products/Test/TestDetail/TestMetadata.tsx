@@ -51,14 +51,16 @@ const data = {
 }
 
 interface TestMetadataPropsI {
-  Test: Types.Test;
+  test: Types.Test;
 }
 
 function TestMetadata(props: TestMetadataPropsI) {
-  data.scheduledFor.value = dayjs(props.Test.scheduledAt).format('LLL')
-  data.duration.value = formatTime(props.Test.duration)
-  data.enrolled.value = `${props.Test.analytics.enrolled.count} students`
-  data.certificate.value = props.Test.certificate ? 'Yes' : ''
+  data.scheduledFor.value = props.test.isLive
+    ? dayjs(props.test.scheduledAt).format('LLL')
+    : 'Can be taken anytime'
+  data.duration.value = formatTime(props.test.duration)
+  data.enrolled.value = `${props.test.analytics.enrolled.count} students`
+  data.certificate.value = props.test.certificate ? 'Yes' : ''
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (

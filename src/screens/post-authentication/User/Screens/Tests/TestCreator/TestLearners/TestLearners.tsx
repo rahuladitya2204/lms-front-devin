@@ -85,7 +85,7 @@ render={(_: any, record: Types.Learner) => (
                     confirm({
                       title: 'Are you sure?',
                       // icon: <ExclamationCircleOutlined />,
-                      content: `You want to refund this Test to the user`,
+                      content: `You want to refund this test to the user`,
                       onOk() {
                         removeLearnerFromTest({
                           courseId: props.testId,

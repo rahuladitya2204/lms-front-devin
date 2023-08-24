@@ -23,10 +23,10 @@ const CreateTest: React.FC<CreateTestPropsI> = props => {
   const onSubmit = (e: Types.Test) => {
     console.log('Helo')
     createTest(e, {
-      onSuccess: ({ data: Test }) => {
-        console.log(Test, 'here it is')
+      onSuccess: ({ data: test }) => {
+        console.log(test, 'here it is')
         // @ts-ignore
-        navigate(`${Test._id}/editor#information`)
+        navigate(`${test._id}/editor#information`)
         message.open({
           type: 'success',
           content: 'Have fun creating a Test!'
@@ -47,7 +47,7 @@ const CreateTest: React.FC<CreateTestPropsI> = props => {
           { required: true, message: 'Please mention title for Test' }
         ]}
       >
-        <Input placeholder="Enter your Test title" />
+        <Input placeholder="Enter your test title" />
       </Form.Item>
       <Button
         loading={loading}

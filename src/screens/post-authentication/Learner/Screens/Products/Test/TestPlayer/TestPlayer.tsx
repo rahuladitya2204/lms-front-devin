@@ -32,39 +32,47 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { testId } = useParams()
   const navigate = useNavigate()
   const { mutate: endTest } = Learner.Queries.useEndTest()
-  const { data: Test } = Learner.Queries.useGetTestDetails(testId + '')
+  const {
+    data: enrolledProduct
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: 'test',
+    id: testId + ''
+  })
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const {
     data: { totalAnswered, totalQuestions, status }
   } = Learner.Queries.useGetTestStatus(testId + '')
+  console.log(dayjs(enrolledProduct?.metadata?.test?.startedAt).format('LLL'))
   const endTime = useMemo(
     () =>
-      Test.scheduledAt
-        ? dayjs(Test.scheduledAt)
-            .add(Test.duration, 'minutes')
+      enrolledProduct?.metadata?.test?.startedAt
+        ? dayjs(enrolledProduct.metadata.test.startedAt)
+            .add(test.duration, 'minutes')
             .toISOString()
         : '',
-    [testId]
+    [testId, enrolledProduct]
   )
 
   useEffect(
     () => {
-      if (Test.sections[0]?.items[0]) {
-        const sectionId = Test.sections[0]._id
-        const itemId = Test.sections[0].items[0]._id
+      if (test.sections[0]?.items[0]) {
+        const sectionId = test.sections[0]._id
+        const itemId = test.sections[0].items[0]._id
         navigate(`${itemId}`)
       }
     },
-    [Test.sections]
+    [test.sections]
   )
   const endTestNow =
-    status === Enum.TestStatus.ENDED || totalAnswered === totalQuestions
-  // if (endTestNow) {
-  //   navigate('../completed')
-  // }
+    enrolledProduct.metadata.test.endedAt ||
+    enrolledProduct.metadata.test.submitedAt
+  if (endTestNow) {
+    navigate('../completed')
+  }
   // const currentQuestion=
   return (
     <Header
-      title={Test.title}
+      title={test.title}
       extra={[
         <Tag icon={<ClockCircleOutlined />} color="blue">
           <Countdown targetDate={endTime} />
@@ -77,7 +85,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
               content: `You want to submit this test?`,
               onOk() {
                 endTest(
-                  { testId: Test._id + '' },
+                  { testId: test._id + '' },
                   {
                     onSuccess: () => {
                       navigate('../completed')

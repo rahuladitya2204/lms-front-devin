@@ -67,7 +67,7 @@ function WhatsappTemplateEditor() {
       ]}
     >
       <Form initialValues={template} form={form} onFinish={saveWhatsappTemplate} layout="vertical" autoComplete="off">
-        <Card extra={<Button danger>Send Test Mail</Button>}>
+        <Card extra={<Button danger>Send test Mail</Button>}>
           <WhatsappTemplateDetailsEditor id={template._id} />
         </Card>
       </Form>
