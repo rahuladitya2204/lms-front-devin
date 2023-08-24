@@ -89,7 +89,7 @@ function StoreScreen () {
             <Row>
               <Col span={24}>
                 <List
-                  grid={{ gutter: 10, column: 4, sm: 6, xs: 6 }}
+                  grid={{ gutter: 20, column: 4, sm: 6, xs: 1, md: 8 }}
                   size="large"
                   dataSource={tests}
                   renderItem={test => <TestCard test={test} />}

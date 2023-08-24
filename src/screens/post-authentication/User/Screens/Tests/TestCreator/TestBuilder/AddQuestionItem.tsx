@@ -79,12 +79,12 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     enabled: !!item?.solution?.video
   });
 
-  const jobId = file?.metadata?.video.jobId;
+  const jobId = file?.metadata?.video?.jobId;
   const {
     data: { status, progress }
   } = User.Queries.useGetTranscodeVideoStatus(jobId, {
     retry: true,
-    enabled:!!item?.solution?.video,
+    enabled:!!jobId,
     retryDelay: 4000
   })
   const fileId = file.encoded || file._id;
@@ -246,7 +246,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 </Card>
       </Col>
       <Col span={24}>
-      <Card style={{marginTop:20}} title='Solution Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id) ? 'Replace video' : 'Upload Lecture'}</Button>}>
+      <Card style={{marginTop:20}} title='Solution Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id) ? 'Replace video' : 'Upload Solution Video'}</Button>}>
         <UploadVideo prefixKey={`test/${testId}/${
                     itemId
                   }/solution/video/index`} item={item}

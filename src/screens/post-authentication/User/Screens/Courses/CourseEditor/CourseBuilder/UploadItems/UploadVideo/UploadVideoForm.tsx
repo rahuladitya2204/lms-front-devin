@@ -32,7 +32,9 @@ const UploadVideoForm:any = () => {
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, item } = useUploadItemForm(form);
   const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
-    enabled: !!item.file
+    enabled: !item?.file?.metadata?.transcription,
+    // @ts-ignore
+    refetchInterval: 1000
   });
   const { data: topics } = User.Queries.useGetTopics();
   const videoJobId = file?.metadata?.video?.jobId;
@@ -40,11 +42,12 @@ const UploadVideoForm:any = () => {
     data: transcoding
   } = User.Queries.useGetTranscodeVideoStatus(videoJobId, {
     retry: true,
-    enabled:!!videoJobId,
-    retryDelay: 1000
+    enabled: !item?.file?.metadata?.video,
+    // @ts-ignore
+    refetchInterval: 1000
   });
 
-  const transcribeJobId = file?.metadata?.transcribe?.jobId;
+  const transcribeJobId = file?.metadata?.transcription?.jobId;
   const {
     data: transcribing
   } = User.Queries.useGetTranscribeVideoStatus(transcribeJobId, {
@@ -73,7 +76,7 @@ const UploadVideoForm:any = () => {
   useEffect(() => { 
     form.setFieldsValue(item);
   },[item])
-
+  console.log(transcribing,'transcribing')
   const fileId = file.encoded || file._id;
   return (
     <Fragment>
@@ -99,7 +102,7 @@ const UploadVideoForm:any = () => {
         </Form.Item>
         <Form.Item
         name="topics"
-        label="Topics"
+        label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button></span>}
         rules={[{ required: true, message: "Please input your topics!" }]}
       >
        <InputTags name="topics" onChange={(v)=>onFormChange({topics:v})} ctaText='Enter Topics'/>

@@ -28,6 +28,7 @@ interface TestCardPropsI {
 const CustomCard = styled(Card)`
 cursor: pointer;
 margin-left: 30px;
+margin-bottom: 20px;
 `
 
 function TestCard(props: TestCardPropsI) {
