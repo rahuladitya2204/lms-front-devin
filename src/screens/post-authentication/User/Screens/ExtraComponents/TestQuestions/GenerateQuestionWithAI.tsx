@@ -111,7 +111,7 @@ export default function GenerateQuestionWithAI({
       <Form.Item label="Keywords">
         <InputTags name='keywords'
           ctaText="Enter Keyword"
-          values={keywords}
+          options={keywords}
           // onChange={setKeywords}
         />
       </Form.Item>

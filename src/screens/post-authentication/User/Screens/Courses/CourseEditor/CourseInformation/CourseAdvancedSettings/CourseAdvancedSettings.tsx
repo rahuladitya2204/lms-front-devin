@@ -98,7 +98,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
             props.saveCourse({
               keywords
             })
-          }} values={keywords} name='keywords'/>
+          }} name='keywords'/>
         </Form.Item>
         
         <Card bordered={false} bodyStyle={{

@@ -30,12 +30,11 @@ const FileListStyled=styled(FileList)`
 const UploadVideoForm:any = () => {
   const [form] = Form.useForm();
   const { id: courseId, sectionId, itemId } = useParams()
-  const { onFormChange, item } = useUploadItemForm(form);
+  const { onFormChange, item ,handleTopicsChange,topics} = useUploadItemForm(form);
   // const jobs = item?.file?.metadata;
   const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
     enabled:!!item.file
   });
-  const { data: topics } = User.Queries.useGetTopics();
   const videoJobId = file?.metadata?.video?.jobId;
   const {
     data: transcoding
@@ -64,7 +63,7 @@ const UploadVideoForm:any = () => {
           onFormChange({ summary: summary });
         }
         if (topics&&topics.length) {
-          onFormChange({ topics: topics });
+          handleTopicsChange(topics)
         }
         // console.log(topics,'123123')
         // form.setFieldValue('summary', summary);
@@ -72,29 +71,29 @@ const UploadVideoForm:any = () => {
     });
   }
 
-  useEffect(() => {
-    // Convert topics from array of objects to array of strings
-    const topicStrings = item.topics?.map(topic => topic.title) || []; // ADDED
-    form.setFieldsValue({ ...item, topics: topicStrings }); // MODIFIED
-  }, [item]);
+  // useEffect(() => {
+  //   // Convert topics from array of objects to array of strings
+  //   const topicStrings = item.topics?.map(topic => topic.title) || []; // ADDED
+  //   form.setFieldsValue({ ...item, topics: topicStrings }); // MODIFIED
+  // }, [item]);
 
-  const handleTopicsChange = (topicStrings: string[]) => { // ADDED
-    // Convert array of strings back to array of objects
-    const existingTopicTitles = topics.map(t => t.title);
-    const newTopics = topicStrings.map(title => {
-      if (existingTopicTitles.includes(title)) {
-        // Existing topic, return with its ID
-        return {
-          title,
-          topicId: topics.find(t => t.title === title)?._id || ''
-        };
-      } else {
-        // New topic, return without ID
-        return { title, topicId: '' };
-      }
-    });
-    onFormChange({ topics: newTopics });
-  };
+  // const handleTopicsChange = (topicStrings: string[]) => { // ADDED
+  //   // Convert array of strings back to array of objects
+  //   const existingTopicTitles = topics.map(t => t.title);
+  //   const newTopics = topicStrings.map(title => {
+  //     if (existingTopicTitles.includes(title)) {
+  //       // Existing topic, return with its ID
+  //       return {
+  //         title,
+  //         topicId: topics.find(t => t.title === title)?._id || ''
+  //       };
+  //     } else {
+  //       // New topic, return without ID
+  //       return { title, topicId: '' };
+  //     }
+  //   });
+  //   onFormChange({ topics: newTopics });
+  // };
 
   // console.log(transcribing,'transcribing')
   const fileId = file.encoded || file._id;
@@ -125,7 +124,7 @@ const UploadVideoForm:any = () => {
           label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button></span>}
           rules={[{ required: true, message: "Please input your topics!" }]}
         >
-          <InputTags name="topics" onChange={handleTopicsChange} ctaText='Enter Topics' /> {/* MODIFIED */}
+          <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText='Enter Topics' /> {/* MODIFIED */}
         </Form.Item>
         <Row gutter={[20,20]}>
          

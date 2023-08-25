@@ -23,12 +23,31 @@ function useUploadItemForm(form?:FormInstance) {
       return section;
     }
   }) || {_id:'',items:[],title:''}
+  const { data: topics } = User.Queries.useGetTopics();
 
   useEffect(() => {
-    if (form) {
-      form.setFieldsValue(item)
-    }
+    // Convert topics from array of objects to array of strings
+    const topicStrings = item.topics?.map(topic => topic.title) || []; // ADDED
+    form?.setFieldsValue({ ...item, topics: topicStrings }); // MODIFIED
   }, [item]);
+
+  const handleTopicsChange = (topicStrings: string[]) => { // ADDED
+    // Convert array of strings back to array of objects
+    const existingTopicTitles = topics.map(t => t.title);
+    const newTopics = topicStrings.map(title => {
+      if (existingTopicTitles.includes(title)) {
+        // Existing topic, return with its ID
+        return {
+          title,
+          topicId: topics.find(t => t.title === title)?._id || ''
+        };
+      } else {
+        // New topic, return without ID
+        return { title, topicId: '' };
+      }
+    });
+    onFormChange({ topics: newTopics });
+  };
 
   const onFormChange = (data: Partial<Types.CourseSectionItem>) => {
 
@@ -39,7 +58,6 @@ function useUploadItemForm(form?:FormInstance) {
 
     updateItem({
       courseId:courseId+'',
-      sectionId:section._id+'',
       itemId: itemId+'',
       data: newItem,
     }, {
@@ -53,7 +71,7 @@ function useUploadItemForm(form?:FormInstance) {
     // saveCourse();
   }
   // console.log(item,'item')
-  return { onFormChange, form, item, sectionId: section._id, courseId, itemId,section,currentItemIndex };
+  return { onFormChange, handleTopicsChange,form,topics, item, sectionId: section._id, courseId, itemId,section,currentItemIndex };
   } 
   
 

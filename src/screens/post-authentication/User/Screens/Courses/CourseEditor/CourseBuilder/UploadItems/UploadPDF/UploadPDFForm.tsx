@@ -15,6 +15,7 @@ import { Common, User } from '@adewaskar/lms-common'
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
 import { Fragment } from 'react'
+import InputTags from '@Components/InputTags/InputTags'
 import MediaUpload from '@Components/MediaUpload'
 import PDFViewer from '@Components/PDFViewer'
 import { UploadOutlined } from '@ant-design/icons'
@@ -24,9 +25,15 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const UploadPDFForm: React.FC = () => {
   const [form] = Form.useForm()
-  const { onFormChange, item, itemId, courseId, sectionId } = useUploadItemForm(
-    form
-  )
+  const {
+    onFormChange,
+    item,
+    itemId,
+    courseId,
+    sectionId,
+    handleTopicsChange,
+    topics
+  } = useUploadItemForm(form)
   const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
@@ -59,6 +66,31 @@ const UploadPDFForm: React.FC = () => {
           >
             Avail this as a free lecture
           </Checkbox>
+        </Form.Item>
+        <Form.Item
+          name="topics"
+          label={
+            <span>
+              Topics{' '}
+              {/* <Button
+                loading={generatingSummary}
+                onClick={() => generateItemInfo({ topics: 1 })}
+                type="primary"
+                size="small"
+              >
+                Generate
+              </Button> */}
+            </span>
+          }
+          rules={[{ required: true, message: 'Please input your topics!' }]}
+        >
+          <InputTags
+            options={topics.map(i => i.title)}
+            name="topics"
+            onChange={handleTopicsChange}
+            ctaText="Enter Topics"
+          />{' '}
+
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={24}>

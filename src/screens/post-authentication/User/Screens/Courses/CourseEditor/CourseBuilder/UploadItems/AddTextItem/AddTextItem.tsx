@@ -27,10 +27,15 @@ import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const AddTextItem: React.FC<AddItemProps> = props => {
   const [form] = Form.useForm()
-  const { onFormChange, item, courseId, sectionId, itemId } = useUploadItemForm(
-    form
-  )
-  const { data: topics } = User.Queries.useGetTopics();
+  const {
+    onFormChange,
+    topics,
+    handleTopicsChange,
+    item,
+    courseId,
+    sectionId,
+    itemId
+  } = useUploadItemForm(form)
 
   const {
     data: summary,
@@ -46,7 +51,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             onFormChange({ summary: summary })
           }
           if (topics && topics.length) {
-            onFormChange({ topics: topics })
+            handleTopicsChange(topics)
           }
           console.log(topics, '123123')
           // form.setFieldValue('summary', summary);
@@ -55,33 +60,6 @@ const AddTextItem: React.FC<AddItemProps> = props => {
     )
   }
 
-  useEffect(
-    () => {
-      // Convert topics from array of objects to array of strings
-      const topicStrings = item.topics?.map(topic => topic.title) || [] // ADDED
-      form.setFieldsValue({ ...item, topics: topicStrings }) // MODIFIED
-    },
-    [item]
-  )
-
-  const handleTopicsChange = (topicStrings: string[]) => {
-    // ADDED
-    // Convert array of strings back to array of objects
-    const existingTopicTitles = topics.map(t => t.title)
-    const newTopics = topicStrings.map(title => {
-      if (existingTopicTitles.includes(title)) {
-        // Existing topic, return with its ID
-        return {
-          title,
-          topicId: topics.find(t => t.title === title)?._id || ''
-        }
-      } else {
-        // New topic, return without ID
-        return { title, topicId: '' }
-      }
-    })
-    onFormChange({ topics: newTopics })
-  }
   return (
     <Fragment>
       <Form

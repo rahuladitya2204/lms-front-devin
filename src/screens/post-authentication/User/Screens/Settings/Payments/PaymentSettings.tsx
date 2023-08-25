@@ -39,7 +39,6 @@ function PaymentSettings() {
   )
 
   const save = (e: any) => {
-    console.log(e, 'sss')
     updateOrgSetting(
       {
         data: {

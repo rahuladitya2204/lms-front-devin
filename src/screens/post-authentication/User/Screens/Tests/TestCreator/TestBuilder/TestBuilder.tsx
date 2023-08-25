@@ -180,7 +180,6 @@ function TestBuilderScreen() {
     itemId: string,
     item: Types.TestQuestion
   ) => {
-    console.log(item, 'itemhelu')
 
     item._id = itemId
     const LIVE_TEST = cloneDeep(test)

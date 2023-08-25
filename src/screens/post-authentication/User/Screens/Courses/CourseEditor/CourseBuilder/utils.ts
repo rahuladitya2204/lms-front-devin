@@ -15,6 +15,7 @@ export const findSectionItem = (
   itemId: string,
   items
 ) => {
+
   let node: any;
   items.forEach(item => {
     if (item._id === itemId) {

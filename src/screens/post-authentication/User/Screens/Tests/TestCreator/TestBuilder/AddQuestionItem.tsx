@@ -21,10 +21,12 @@ import { useOutletContext, useParams } from 'react-router';
 
 import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
+import InputTags from '@Components/InputTags/InputTags';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
 import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
+import { debounce } from 'lodash';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
 const { Title } = Typography;
@@ -46,24 +48,23 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
-  const { sections } = useOutletContext<any>();
-  const { item,testId } = useUpdateTestForm(sections, form);
-  const { sectionId, itemId } = useParams();
   const { updateTestSection } = useOutletContext<any>();
-  const [correctOptions, setCorrectOptions] = useState<number[]>([]);
 
-  useEffect(
-    () => {
-      if (item && item._id) {
-        setCorrectOptions(item.correctOptions);
-        form.setFieldsValue(item);
-      }
-      else {
-        form.setFieldsValue(Constants.INITIAL_LIVE_TEST_QUESTION);
-      }
-    },
-    [item, testId]
-  );
+  const { item,testId,handleTopicsChange,topics,onFormChange,correctOptions, setCorrectOptions} = useUpdateTestForm( form);
+  const {  itemId } = useParams();
+
+  // useEffect(
+  //   () => {
+  //     if (item && item._id) {
+  //       setCorrectOptions(item.correctOptions);
+  //       form.setFieldsValue(item);
+  //     }
+  //     else {
+  //       form.setFieldsValue(Constants.INITIAL_LIVE_TEST_QUESTION);
+  //     }
+  //   },
+  //   [item, testId]
+  // );
     const submit = (e: Types.TestQuestion) => {
       props.submit && props.submit({ ...e, correctOptions });
       form.resetFields();
@@ -89,19 +90,11 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   })
   const fileId = file.encoded || file._id;
 
-  const updateItem = (item:Partial<Types.TestQuestion>) => {
-    updateTestSection(itemId ,{
-      ...props.data,
-      ...item,
-      // correctOptions
-    })
-  }
+
   // console.log(correctOptions,'setCorrectOptions')
   return (
-    <Form name='quiz' onFinish={submit} onValuesChange={(v, e) => {
-      updateItem(e)
-  }}
-
+    <Form name='quiz' onFinish={submit}
+      onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
   form={form}
   layout="vertical"
 >
@@ -119,7 +112,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                   setCorrectOptions(d.correctOptions)
                     // form.setFieldsValue(d);
                     d.isAiGenerated = true;
-                    updateTestSection( itemId, d);
+                    // updateTestSection( itemId, d);
+                    onFormChange(d)
                     // setIsAiGenerated(true);
 
           }}/>
@@ -139,7 +133,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               message: "Enter questions's title"
             }
           ]}>
-          <Input.TextArea readOnly={item.isAiGenerated} style={{height:150}} placeholder="Enter the question title" />
+          <Input.TextArea readOnly={item?.isAiGenerated} style={{height:150}} placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={12}>
@@ -160,7 +154,18 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           ]}>
           <Input placeholder="Enter the score for this question" />
         </Form.Item>
-          </Col>
+              </Col>
+              <Col span={12}>
+              <Form.Item
+          // name="topics"
+                  label={<span>Topics
+                    {/* <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button> */}
+                  </span>}
+          rules={[{ required: true, message: "Please input your topics!" }]}
+        >
+          <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText='Enter Topics' /> 
+        </Form.Item>
+              </Col>
        </Row>
         <Row gutter={[20, 20]}>
           <Col span={24}>
@@ -202,9 +207,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                         options.splice(indexOfOption, 1);
                       }
                         console.log(options,'options')
-                        updateItem({
-                          correctOptions: [...options]
-                        });
+                        // onFormChange({
+                        //   correctOptions: [...options]
+                        // });
                       setCorrectOptions(options);
                       }}
                     style={{ marginLeft: 20 }} />
@@ -253,7 +258,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           onUpload={(item) => {
             // console.log(item, 'item')
             // @ts-ignore
-            updateItem({
+            onFormChange({
               ...item,
               solution: {
                 // type: 'video',
