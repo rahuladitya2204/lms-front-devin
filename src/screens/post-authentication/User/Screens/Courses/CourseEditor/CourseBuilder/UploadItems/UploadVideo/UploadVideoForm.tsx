@@ -54,9 +54,9 @@ const UploadVideoForm:any = () => {
     retryDelay: 1000
   });
 
-  const {  mutate: generateItemInfoApi, isLoading: generatingSummary } = User.Queries.useGenerateCourseItemInfo();
+  const {  mutate: generateItemInfoApi, isLoading: generatingSummary ,data: generatingInfo} = User.Queries.useGenerateCourseItemInfo();
 
-  const generateItemInfo = (fields: Types.LooseObject) => {
+  const generateItemInfo = (fields: string[]) => {
     generateItemInfoApi({ data: { courseId:courseId+'', itemId:itemId+'' ,fields} }, {
       onSuccess: ({ summary, topics }) => {
         if (summary) {
@@ -121,7 +121,7 @@ const UploadVideoForm:any = () => {
         </Form.Item>
         <Form.Item
           name="topics"
-          label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button></span>}
+          label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo(['topics'])} type='primary' size='small'>Generate</Button></span>}
           rules={[{ required: true, message: "Please input your topics!" }]}
         >
           <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText='Enter Topics' /> {/* MODIFIED */}
@@ -183,7 +183,7 @@ const UploadVideoForm:any = () => {
               
              {file.transcription?<> <Divider/>
               <Form.Item name={'summary'}
-                  label={<span>Summary <Button loading={generatingSummary} onClick={() => generateItemInfo({ summary: 1 })} type='primary' size='small'>Generate</Button></span>}
+                  label={<span>Summary <Button loading={generatingSummary} onClick={() => generateItemInfo(['summary'])} type='primary' size='small'>Generate</Button></span>}
           required
         >
           <SunEditorComponent height={300} name={'summary'} />

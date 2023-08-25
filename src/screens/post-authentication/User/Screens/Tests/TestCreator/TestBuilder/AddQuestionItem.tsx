@@ -89,7 +89,18 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     retryDelay: 4000
   })
   const fileId = file.encoded || file._id;
-
+  const {  mutate: generateItemInfoApi, isLoading: generatingSummary ,data: generatedInfo} = User.Queries.useGetGenerativeTestItemInfo();
+  const generateItemInfo = (fields: string[]) => {
+    generateItemInfoApi({ data: { testId:testId+'', itemId:itemId+'' ,fields} }, {
+      onSuccess: ({  topics }) => {
+        if (topics&&topics.length) {
+          handleTopicsChange(topics)
+        }
+        // console.log(topics,'123123')
+        // form.setFieldValue('summary', summary);
+      }
+    });
+  }
 
   // console.log(correctOptions,'setCorrectOptions')
   return (
@@ -155,11 +166,11 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           <Input placeholder="Enter the score for this question" />
         </Form.Item>
               </Col>
-              <Col span={12}>
+              <Col span={24}>
               <Form.Item
           // name="topics"
                   label={<span>Topics
-                    {/* <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button> */}
+                    <Button loading={( generatingSummary)} onClick={() => generateItemInfo(['topics'])} type='primary' size='small'>Generate</Button>
                   </span>}
           rules={[{ required: true, message: "Please input your topics!" }]}
         >

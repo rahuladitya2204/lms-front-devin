@@ -42,7 +42,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
     mutate: generateInfoApi,
     isLoading: generatingSummary
   } = User.Queries.useGenerateCourseItemInfo()
-  const generateItemInfo = (fields: Types.LooseObject) => {
+  const generateItemInfo = (fields: string[]) => {
     generateInfoApi(
       { data: { courseId: courseId + '', itemId: itemId + '', fields } },
       {
@@ -98,7 +98,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
               Topics{' '}
               <Button
                 loading={generatingSummary}
-                onClick={() => generateItemInfo({ topics: 1 })}
+                onClick={() => generateItemInfo(['topics'])}
                 type="primary"
                 size="small"
               >
@@ -166,9 +166,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
                 <Button
                   loading={generatingSummary}
                   onClick={() =>
-                    generateItemInfo({
-                      summary: 1
-                    })
+                    generateItemInfo(['summary'])
                   }
                   type="primary"
                   size="small"
@@ -189,7 +187,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
               Topics{' '}
               <Button
                 loading={generatingSummary}
-                onClick={() => generateItemInfo({ topics: 1 })}
+                onClick={() => generateItemInfo(['topics'])}
                 type="primary"
                 size="small"
               >
