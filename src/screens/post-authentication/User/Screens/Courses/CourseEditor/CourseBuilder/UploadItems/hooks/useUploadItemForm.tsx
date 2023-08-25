@@ -16,7 +16,7 @@ function useUploadItemForm(form?:FormInstance) {
   const { mutate: updateItemApi } = User.Queries.useUpdateCourseItem();
   const updateItem = debounce(updateItemApi, 300);
   const [items] = useOutletContext<[Types.CourseSection[],(sectionId:string,data:Types.CourseSectionItem)=>void,Function]>();
-  const item = findSectionItem(itemId+'', items) || {title:'',description:''};
+  const item:Types.CourseSectionItem = findSectionItem(itemId+'', items) || {title:'',description:''};
   const currentItemIndex = course.sections.map(s=>s.items).flat().findIndex(i => i._id === item?._id);
   const section = course.sections.find(section => {
     if (section.items.find(i => i._id === item._id)) {

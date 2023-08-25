@@ -30,6 +30,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
   const { onFormChange, item, courseId, sectionId, itemId } = useUploadItemForm(
     form
   )
+  const { data: topics } = User.Queries.useGetTopics();
 
   const {
     data: summary,
@@ -56,11 +57,31 @@ const AddTextItem: React.FC<AddItemProps> = props => {
 
   useEffect(
     () => {
-      form.setFieldsValue(props.item)
+      // Convert topics from array of objects to array of strings
+      const topicStrings = item.topics?.map(topic => topic.title) || [] // ADDED
+      form.setFieldsValue({ ...item, topics: topicStrings }) // MODIFIED
     },
     [item]
   )
 
+  const handleTopicsChange = (topicStrings: string[]) => {
+    // ADDED
+    // Convert array of strings back to array of objects
+    const existingTopicTitles = topics.map(t => t.title)
+    const newTopics = topicStrings.map(title => {
+      if (existingTopicTitles.includes(title)) {
+        // Existing topic, return with its ID
+        return {
+          title,
+          topicId: topics.find(t => t.title === title)?._id || ''
+        }
+      } else {
+        // New topic, return without ID
+        return { title, topicId: '' }
+      }
+    })
+    onFormChange({ topics: newTopics })
+  }
   return (
     <Fragment>
       <Form
@@ -94,14 +115,27 @@ const AddTextItem: React.FC<AddItemProps> = props => {
         </Form.Item>
         <Form.Item
           name="topics"
-          label="Topics"
+          label={
+            <span>
+              Topics{' '}
+              <Button
+                loading={generatingSummary}
+                onClick={() => generateItemInfo({ topics: 1 })}
+                type="primary"
+                size="small"
+              >
+                Generate
+              </Button>
+            </span>
+          }
           rules={[{ required: true, message: 'Please input your topics!' }]}
         >
           <InputTags
             name="topics"
-            onChange={v => onFormChange({ topics: v })}
+            onChange={handleTopicsChange}
             ctaText="Enter Topics"
-          />
+          />{' '}
+          {/* MODIFIED */}
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={24}>

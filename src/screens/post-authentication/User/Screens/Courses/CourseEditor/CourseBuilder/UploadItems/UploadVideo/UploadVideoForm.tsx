@@ -31,10 +31,9 @@ const UploadVideoForm:any = () => {
   const [form] = Form.useForm();
   const { id: courseId, sectionId, itemId } = useParams()
   const { onFormChange, item } = useUploadItemForm(form);
+  // const jobs = item?.file?.metadata;
   const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
-    enabled: !item?.file?.metadata?.transcription,
-    // @ts-ignore
-    refetchInterval: 1000
+    enabled:!!item.file
   });
   const { data: topics } = User.Queries.useGetTopics();
   const videoJobId = file?.metadata?.video?.jobId;
@@ -42,7 +41,7 @@ const UploadVideoForm:any = () => {
     data: transcoding
   } = User.Queries.useGetTranscodeVideoStatus(videoJobId, {
     retry: true,
-    enabled: !item?.file?.metadata?.video,
+    enabled: !!file?.metadata?.video,
     // @ts-ignore
     refetchInterval: 1000
   });
@@ -67,16 +66,37 @@ const UploadVideoForm:any = () => {
         if (topics&&topics.length) {
           onFormChange({ topics: topics });
         }
-        console.log(topics,'123123')
+        // console.log(topics,'123123')
         // form.setFieldValue('summary', summary);
       }
     });
   }
 
-  useEffect(() => { 
-    form.setFieldsValue(item);
-  },[item])
-  console.log(transcribing,'transcribing')
+  useEffect(() => {
+    // Convert topics from array of objects to array of strings
+    const topicStrings = item.topics?.map(topic => topic.title) || []; // ADDED
+    form.setFieldsValue({ ...item, topics: topicStrings }); // MODIFIED
+  }, [item]);
+
+  const handleTopicsChange = (topicStrings: string[]) => { // ADDED
+    // Convert array of strings back to array of objects
+    const existingTopicTitles = topics.map(t => t.title);
+    const newTopics = topicStrings.map(title => {
+      if (existingTopicTitles.includes(title)) {
+        // Existing topic, return with its ID
+        return {
+          title,
+          topicId: topics.find(t => t.title === title)?._id || ''
+        };
+      } else {
+        // New topic, return without ID
+        return { title, topicId: '' };
+      }
+    });
+    onFormChange({ topics: newTopics });
+  };
+
+  // console.log(transcribing,'transcribing')
   const fileId = file.encoded || file._id;
   return (
     <Fragment>
@@ -101,12 +121,12 @@ const UploadVideoForm:any = () => {
           </Checkbox>
         </Form.Item>
         <Form.Item
-        name="topics"
-        label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button></span>}
-        rules={[{ required: true, message: "Please input your topics!" }]}
-      >
-       <InputTags name="topics" onChange={(v)=>onFormChange({topics:v})} ctaText='Enter Topics'/>
-                </Form.Item>
+          name="topics"
+          label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo({ topics: 1 })} type='primary' size='small'>Generate</Button></span>}
+          rules={[{ required: true, message: "Please input your topics!" }]}
+        >
+          <InputTags name="topics" onChange={handleTopicsChange} ctaText='Enter Topics' /> {/* MODIFIED */}
+        </Form.Item>
         <Row gutter={[20,20]}>
          
           <Col span={24}>
