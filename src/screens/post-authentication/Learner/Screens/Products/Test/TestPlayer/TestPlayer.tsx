@@ -65,7 +65,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   )
   const endTestNow =
     enrolledProduct.metadata.test.endedAt ||
-    enrolledProduct.metadata.test.submitedAt
+    enrolledProduct.metadata.test.submittedAt
   if (endTestNow) {
     navigate('../completed')
   }

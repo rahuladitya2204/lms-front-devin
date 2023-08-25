@@ -1,6 +1,7 @@
 import { Card, Col, Divider, List, Row, Tag, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
+import { CheckCircleTwoTone } from '@ant-design/icons'
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer'
 import { useParams } from 'react-router'
@@ -95,7 +96,10 @@ export default function LearnerTestResult() {
                                           style={{
                                             background: isCorrectOption
                                               ? '#f6ffed'
-                                              : ''
+                                              : answeredByLearner &&
+                                                !isCorrectOption
+                                                ? '#fff1f0'
+                                                : ''
                                           }}
                                         >
                                           <Col>
@@ -113,10 +117,17 @@ export default function LearnerTestResult() {
                                             </Text>
                                           </Col>
                                           <Col style={{ marginRight: 10 }}>
-                                            <Text strong>
-                                              {answeredByLearner
-                                                ? 'You Answered'
-                                                : ''}
+                                            <Text strong type="secondary">
+                                              {answeredByLearner ? (
+                                                <span>
+                                                  {' '}
+                                                              {/* <CheckCircleTwoTone /> */}
+                                                              You
+                                                  Answered
+                                                </span>
+                                              ) : (
+                                                ''
+                                              )}
                                             </Text>
                                           </Col>
                                           <Divider style={{ margin: 0 }} />

@@ -29,7 +29,12 @@ function useUpdateTestForm(form: FormInstance) {
     // Convert topics from array of objects to array of strings
     const topicStrings = item.topics?.map((topic:Types.ProductTopic) => topic.title) || []; // ADDED
     form?.setFieldsValue({ ...item, topics: topicStrings }); // MODIFIED
+    setCorrectOptions(item.correctOptions)
   }, [item]);
+
+  useEffect(() => { 
+    onFormChange({correctOptions})
+  },[correctOptions])
 
   const handleTopicsChange = (topicStrings: string[]) => {
     console.log(topicStrings,'topicStrings')

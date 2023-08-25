@@ -70,18 +70,18 @@ export default function TestDetailScreen(
       }
     }
     else {
-      console.log(enrolledDetails,'enrolledDetails')
+      console.log(enrolledDetails.metadata.test,'enrolledDetails')
       if (!enrolledDetails.metadata.test.startedAt) {
         return <Button onClick={()=>navigate('start')} block type='primary'>
         Start Test
       </Button>
       }
-      if(enrolledDetails.metadata.test.endedAt) {
+      if((enrolledDetails.metadata.test.endedAt || enrolledDetails.metadata.test.submittedAt)) {
         return  <Alert
         style={{ marginBottom: 20 }}
         message="You have attended this test."
         type="success"
-        showIcon action={<Button size='small'>View Result</Button>}
+        showIcon action={<Button size='small' onClick={()=>navigate('result')}>View Result</Button>}
       />
       }
      
