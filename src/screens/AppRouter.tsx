@@ -42,6 +42,7 @@ import LearnerLiveSessionsScreen from '@Learner/Screens/Products/LiveSession/Liv
 import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTestDetailScreen from '@Learner/Screens/Products/Test/TestDetail/TestDetail'
+import LearnerTestResult from '@Learner/Screens/Products/Test/TestResult/TestResult'
 import LearnerTestScreen from '@Learner/Screens/Products/Test/TestScreen/TestsScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
@@ -251,7 +252,8 @@ const router = createBrowserRouter(
             <Route path="test">
               <Route path="" element={<LearnerTestScreen />} />
               <Route path=":testId" element={<LearnerTestDetailScreen />} />
-            </Route>
+              <Route path=":testId/result" element={<LearnerTestResult />} />
+</Route>
             <Route path="live-session">
               <Route path="" element={<LearnerLiveSessionsScreen />} />
               <Route path=":sessionId" element={<LiveSessionDetailScreen />} />
