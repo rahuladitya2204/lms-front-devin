@@ -43,15 +43,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     data: { totalAnswered, totalQuestions, status }
   } = Learner.Queries.useGetTestStatus(testId + '')
   console.log(dayjs(enrolledProduct?.metadata?.test?.startedAt).format('LLL'))
-  const endTime = useMemo(
-    () =>
-      enrolledProduct?.metadata?.test?.startedAt
-        ? dayjs(enrolledProduct.metadata.test.startedAt)
-            .add(test.duration, 'minutes')
-            .toISOString()
-        : '',
-    [testId, enrolledProduct]
-  )
+  const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
+    .add(test.duration, 'minutes')
+    .toString()
 
   useEffect(
     () => {
@@ -66,16 +60,17 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const endTestNow =
     enrolledProduct.metadata.test.endedAt ||
     enrolledProduct.metadata.test.submittedAt
+
   if (endTestNow) {
     navigate('../completed')
   }
-  // const currentQuestion=
+
   return (
     <Header
       title={test.title}
       extra={[
         <Tag icon={<ClockCircleOutlined />} color="blue">
-          <Countdown targetDate={endTime} />
+          <Countdown targetDate={endingAt} />
         </Tag>,
         <Button
           onClick={() => {
