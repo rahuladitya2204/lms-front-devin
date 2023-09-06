@@ -1,5 +1,5 @@
-import { Card, Col, List, Row, Typography } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Card, Col, List, Row, Skeleton, Typography } from 'antd'
+import { Common, Learner, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer'
@@ -13,31 +13,44 @@ interface CourseOverviewPropsI {
 }
 
 function CourseOverview(props: CourseOverviewPropsI) {
-  const { landingPage } = props.course
-  const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrlFromFile(
-    landingPage?.promoVideo,
-    {
-      enabled: !!landingPage?.promoVideo
-    }
-  )
+  const {
+    data: course,
+    isLoading: loadingCourse
+  } = Learner.Queries.useGetCourseDetails(props.course._id)
+  const { landingPage } = course
+  const {
+    data: PromoVideoUrl,
+    isLoading: loadingVideoUrl
+  } = Common.Queries.useGetPresignedUrlFromFile(landingPage?.promoVideo, {
+    enabled: !!landingPage?.promoVideo
+  })
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
         {!props.hidePreview ? (
           <Col span={24}>
-            <Card
-              style={{ margin: '20px 0' }}
-              bordered={false}
-              bodyStyle={{ padding: 0 }}
-            >
-              <MediaPlayer height={400} url={PromoVideoUrl} />
-            </Card>
+            {!loadingVideoUrl ? (
+              <Card
+                style={{ margin: '20px 0' }}
+                bordered={false}
+                bodyStyle={{ padding: 0 }}
+              >
+                {' '}
+                <MediaPlayer height={400} url={PromoVideoUrl} />
+              </Card>
+            ) : (
+              <Skeleton active style={{ height: 400 }} />
+            )}
           </Col>
         ) : null}
         <Col span={24}>
-          <Paragraph style={{ fontSize: 16 }}>
-            <HtmlViewer content={landingPage.description} />
-          </Paragraph>
+          {loadingCourse ? (
+            <Skeleton paragraph={{ rows: 30 }} active />
+          ) : (
+            <Paragraph style={{ fontSize: 16 }}>
+              <HtmlViewer content={landingPage.description} />
+            </Paragraph>
+          )}
         </Col>
       </Row>
     </Fragment>

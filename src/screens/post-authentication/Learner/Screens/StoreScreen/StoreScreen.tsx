@@ -7,6 +7,7 @@ import HomeCarousel from './Carousel'
 import Image from '@Components/Image'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import Section from '@Components/Section'
+import { Skeleton } from 'antd'
 import TestCard from './Cards/TestCard'
 import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
@@ -19,7 +20,8 @@ function StoreScreen () {
 
   const params = useParams()
   const {
-    data: { courses, liveSessions, tests }
+    data: { courses, liveSessions, tests },
+    isLoading
   } = Learner.Queries.useGetRecommendedProducts()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
 
@@ -56,6 +58,23 @@ function StoreScreen () {
       <Divider>
         <Title>Expore our products</Title>
       </Divider>
+      {isLoading?<Col span={24}>    <Row gutter={[50, 50]}>
+        <Col span={24}>
+          <Skeleton paragraph	 />
+        </Col>
+        <Col span={6} sm={6} xs={6}>
+          <Skeleton active />
+        </Col>
+        <Col span={6} sm={6} xs={6}>
+          <Skeleton active />
+        </Col>
+        <Col span={6} sm={6} xs={6}>
+          <Skeleton active />
+        </Col>
+        <Col span={6} sm={6} xs={6}>
+          <Skeleton active />
+        </Col>
+      </Row></Col> : <>
       {categories.map(category => {
         const categorizedCourses = courses.filter(
           course => course.category === category._id
@@ -98,7 +117,8 @@ function StoreScreen () {
             </Row>
           </Section>
         </Col>
-      ) : null}
+      ) : null}</>}
+  
     </Row>
   )
 }

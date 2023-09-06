@@ -1,6 +1,8 @@
 import { Network } from '@adewaskar/lms-common'
 import { Utils } from '@adewaskar/lms-common'
 
+Network.Axios.defaults.baseURL = `http://localhost:4000`;
+
 Network.Axios.defaults.transformRequest = [
   (data, headers) => {
     const token = getToken()

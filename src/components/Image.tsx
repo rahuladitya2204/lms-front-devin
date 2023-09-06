@@ -1,8 +1,9 @@
 // @ts-nocheck
 import { Image as AntDImage, ImageProps } from 'antd'
 
-import styled from '@emotion/styled'
 import { Common } from '@adewaskar/lms-common'
+import { Skeleton } from 'antd';
+import styled from '@emotion/styled'
 
 interface ImagePropsI extends ImageProps {
   file?: string;
@@ -23,6 +24,7 @@ height:${props.height ? props.height : 'auto'}px;
 const ImageComponent = styled(AntDImage)`
   object-fit: cover !important;
 `
+
 const FALLBACK = `/images/not-found.png`
 
 function Image(props: ImagePropsI) {
@@ -39,7 +41,7 @@ function Image(props: ImagePropsI) {
         height="100%"
         {...props}
         src={Url || FALLBACK}
-        fallback={FALLBACK}
+        fallback={<Skeleton.Image active />}
       />
     </ImageHolder>
   )
