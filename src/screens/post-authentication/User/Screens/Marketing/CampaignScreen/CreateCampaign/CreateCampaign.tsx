@@ -7,6 +7,7 @@ import { useNavigate, useParams } from 'react-router'
 import AddRecipients from './AddRecipients/AddReciepients'
 import CampaignForm from './CampaignForm/CampaignForm'
 import CreateEmailTemplate from './CreateTemplate/CreateEmailTemplate'
+import CreateWhatsappTemplate from './CreateTemplate/CreateWhatsappTemplate'
 import Header from '@Components/Header'
 import Stepper from '@Components/Stepper'
 import { User } from '@adewaskar/lms-common'
@@ -147,16 +148,30 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                     <Tabs
                       defaultActiveKey="1234321"
                       items={[
-                        {
-                          key: '112',
-                          label: `Email`,
-                          children: (
-                            <CreateEmailTemplate
-                              updateCampaign={updateCampaign}
-                              campaign={campaign}
-                            />
-                          )
-                        }
+                        campaign.channel.includes('email')
+                          ? {
+                              key: 'email',
+                              label: `Email`,
+                              children: (
+                                <CreateEmailTemplate
+                                  updateCampaign={updateCampaign}
+                                  campaign={campaign}
+                                />
+                              )
+                            }
+                          : null,
+                        campaign.channel.includes('whatsapp')
+                          ? {
+                              key: 'whatsapp',
+                              label: `Whatsapp`,
+                              children: (
+                                <CreateWhatsappTemplate
+                                  updateCampaign={updateCampaign}
+                                  campaign={campaign}
+                                />
+                              )
+                            }
+                          : null
                       ]}
                     />
                   )

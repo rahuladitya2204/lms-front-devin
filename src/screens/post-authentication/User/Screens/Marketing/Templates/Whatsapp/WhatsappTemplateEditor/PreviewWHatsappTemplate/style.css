@@ -1,0 +1,55 @@
+#whatsapp-chat {
+    /* position: fixed; */
+    width: 350px;
+    border-radius: 10px;
+    bottom: 90px;
+    right: 30px;
+    overflow: hidden;
+    margin: auto;
+    margin-top: 50px;
+  }
+  
+  .whatsapp-chat-header {
+    background: #095e54;
+    color: #fff;
+    padding: 20px;
+  }
+  
+  .whatsapp-chat-avatar img {
+    border-radius: 100%;
+    width: 50px;
+    float: left;
+    margin: 0 10px 0 0;
+  }
+  
+  .whatsapp-chat-name {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  
+  .whatsapp-chat-body {
+    position: relative;
+    padding: 20px;
+    height: 500px;
+    background-color: #ebebeb;  /* Lightened background color */
+  }
+  
+  .whatsapp-chat-body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: url("https://elfsight.com/assets/chats/patterns/whatsapp.png");
+    opacity: 0.5;  /* Adjusted opacity */
+    pointer-events: none;
+    z-index: -1;
+  }
+  
+  .whatsapp-message {
+    padding: 7px 14px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+  }
+  

@@ -1,7 +1,7 @@
-import { Button, Col, Divider, Form, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 
-import PreviewTemplate from "@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor/PreviewTemplate";
+import PreviewWhatsappTemplate from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor/PreviewWHatsappTemplate/PreviewTemplate";
 import SunEditorComponent from "@Components/SunEditor/SunEditor";
 import TextArea from "@Components/Textarea";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
@@ -9,14 +9,14 @@ import { useLayoutEffect } from "react";
 
 const { useWatch } = Form;
 
-interface CreateEmailTemplatePropsI {
+interface CreateWhatsappTemplatePropsI {
     campaign: Types.Campaign;
     updateCampaign: (d: Types.Campaign) => void;
 }
 
 // const variables = [{ name: 'Course Name', value: 'course.title'}, { name: 'Learner Name', value: 'learner.name'}];
 
-const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
+const CreateWhatsappTemplate = (props:CreateWhatsappTemplatePropsI) => {
     const [form] = Form.useForm<Types.CreateCampaignPayload>();
     const { mutate: generateContent,isLoading: loadingCampaign} = User.Queries.useGenerateCampaignContent();
     useLayoutEffect(
@@ -29,7 +29,7 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
         const data = deepPatch({...props.campaign}, d)
         props.updateCampaign(data)
     };
-    const content = useWatch(['email','body'], form);
+    const content = useWatch(['whatsapp','body'], form);
     return <>
         <Row gutter={[20,20]}>
             <Col span={12}>
@@ -37,12 +37,12 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
                     generateContent({
                         title: props.campaign.title,
                         description: props.campaign.description,
-                        channel: [`email`]
+                        channel: [`whatsapp`]
                     }, {
                         onSuccess: ({ data: { subject, content } }) => {
                             console.log(subject,content,'aaaa')
                             form.setFieldsValue({
-                                email: {
+                                whatsapp: {
                                     subject,
                                     body: content
                                 }
@@ -51,19 +51,19 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
                     })
                 }}>Generate with AI</Button> <Divider/>
             <Form onValuesChange={onValuesChange} form={form} layout="vertical">
-        <Form.Item name={['email','subject']} required>
-           <TextArea label="Subject" name={['email','subject']} />
+        <Form.Item name={['whatsapp','subject']} required>
+           <TextArea label="Subject" name={['whatsapp','subject']} />
         </Form.Item>
-        <Form.Item  name={['email','body']}  label="Email Body" required>
-                <SunEditorComponent  name={['email','body']}  />
+        <Form.Item  name={['whatsapp','body']}  label="Whatsapp Body" required>
+                <SunEditorComponent name={['whatsapp','body']}  />
         </Form.Item>
         </Form>
             </Col>
             <Col span={12}>
-                <PreviewTemplate htmlContent={content} />
+                <PreviewWhatsappTemplate content={content} />
             </Col>
            </Row>
         </>
 }
 
-export default CreateEmailTemplate;
+export default CreateWhatsappTemplate;
