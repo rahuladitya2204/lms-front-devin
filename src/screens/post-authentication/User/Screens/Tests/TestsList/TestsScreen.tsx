@@ -22,7 +22,7 @@ const TestsScreen = () => {
   return (
     <Header title="Tests" extra={[CreateCourseCta]}>
       {/* <Card> */}
-      <Tabs
+      <Tabs navigateWithHash
         // defaultActiveKey="1"
         items={[
           {

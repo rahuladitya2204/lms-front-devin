@@ -143,12 +143,12 @@ function CourseDetailViewer () {
                   <Col>
                     <Avatar
                       size={64}
-                      src={instructor.image || <UserOutlined color="black" />}
+                      src={instructor?.image || <UserOutlined color="black" />}
                     />
                   </Col>
                   <Col>
                     <MetaText strong>Created By</MetaText> <br />
-                    <MetaText>{instructor.name}</MetaText>
+                    <MetaText>{instructor?.name}</MetaText>
                   </Col>
                 </Row>
               </Col>
