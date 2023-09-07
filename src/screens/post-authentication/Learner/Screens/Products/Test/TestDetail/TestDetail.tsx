@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
+import { Alert, Button, Card, Col, Row, Skeleton, Space, Tag, Typography } from 'antd'
 import { Enum, Learner, Utils } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
@@ -26,16 +26,9 @@ export default function TestDetailScreen(
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'test',
     id: testId + ''
-  },
-    {
-    // @ts-ignore
-    refetchInterval: 2000
   })
   const isEnrolled = !!enrolledDetails._id
-  const { data: test } = Learner.Queries.useGetTestDetails(testId + '', {
-    // @ts-ignore
-    refetchInterval: 2000
-  });
+  const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   console.log(test.status, 'test.status');
   const ENROLLED_CTA = useMemo(() => { 
     if (test.isLive) {
@@ -91,7 +84,8 @@ export default function TestDetailScreen(
 
   return (
     <Row>
-      <Col span={24}>
+            <Col span={24}>{test.description}</Col>
+<Col span={24}>
         <Row gutter={[30, 30]}>
           <Col span={15}>
             <Row>
@@ -110,9 +104,11 @@ export default function TestDetailScreen(
                 </Col>
               ) : null}
               <Col span={24}>
+                {loadingTest? <Skeleton active paragraph={{ rows: 20 }} />:
                 <Paragraph style={{ fontSize: 16 }}>
                   <HtmlViewer content={test.landingPage.description} />
                 </Paragraph>
+}
               </Col>
             </Row>
           </Col>
@@ -121,8 +117,21 @@ export default function TestDetailScreen(
               bodyStyle={{ padding: 10, paddingBottom: 20 }}
               // style={{ height: '100%' }}
               title={test.title}
-            >
-              <Row gutter={[20, 40]} align="stretch">
+            > {loadingTest ?
+              <>
+                <Row gutter={[20, 10]}>
+                  <Col span={24}>
+                    <Image width={'100%'} height={200} preview={false} />
+                  </Col>
+                  <Col span={24}>
+                    <Skeleton.Button block />
+                  </Col>
+                  <Col span={24}>
+                    <Skeleton.Button block />
+                    <Skeleton active paragraph={{ rows: 6 }} />
+                  </Col>
+                </Row>
+              </>:<>    <Row gutter={[20, 40]} align="stretch">
                 <Col span={24}>
                   <Image
                     width={'100%'}
@@ -185,12 +194,12 @@ export default function TestDetailScreen(
                     </Row>
                   </Col>
                 )} */}
-              </Row>
+              </Row></> }
+          
             </Card>
           </Col>
         </Row>
       </Col>
-      <Col>{test.description}</Col>
     </Row>
   )
 }

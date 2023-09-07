@@ -13,10 +13,14 @@ interface CourseOverviewPropsI {
 }
 
 function CourseOverview(props: CourseOverviewPropsI) {
+  const courseId = props.course._id
   const {
     data: course,
     isLoading: loadingCourse
-  } = Learner.Queries.useGetCourseDetails(props.course._id)
+  } = Learner.Queries.useGetCourseDetails(courseId, {
+    enabled: !!courseId
+  })
+  console.log(course, 'cococo')
   const { landingPage } = course
   const {
     data: PromoVideoUrl,

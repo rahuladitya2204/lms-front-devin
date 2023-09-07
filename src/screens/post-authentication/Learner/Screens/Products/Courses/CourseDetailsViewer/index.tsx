@@ -6,6 +6,7 @@ import {
   Col,
   Rate,
   Row,
+  Skeleton,
   Tag,
   Typography
 } from 'antd';
@@ -28,6 +29,16 @@ import styled from '@emotion/styled'
 const { UnitTypeToStr } = Utils;
 
 const { Title, Text, Paragraph } = Typography
+
+const ThumbnailSkeleton = styled(Skeleton.Image)`
+.ant-skeleton-image{
+  width: 100%;
+  height: 20px;
+}
+.ant-skeleton-active{
+  display: block !important; 
+}
+`
 
 const Container = styled.div`
   /* background-image: url(${image}); */
@@ -63,7 +74,7 @@ function CourseDetailViewer () {
   const { data: courses } = Learner.Queries.useGetEnrolledCourses()
   const { mutate: updateCart } = Learner.Queries.useUpdateCartItems()
 
-  const { data } = Learner.Queries.useGetCourseDetails(courseId + '', {
+  const { data,isLoading: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
   const addItemToCart = (course:Types.Course) => {
@@ -94,55 +105,72 @@ function CourseDetailViewer () {
       <Row gutter={[20, 20]} justify="space-between">
         <Col span={24}>
           <Row gutter={[30,30]} style={{lineHeight: 0}} >
-          <Col span={16}>
-          <Row justify="space-between" align="top" gutter={[20, 20]}>
-            <Col span={24}>
-              <Row gutter={[30, 30]}>
+            <Col span={16}>
+              {loadingCourse ? <Row justify="space-between" align="top" gutter={[20, 20]}>
                 <Col span={24}>
-                  <CourseTitle className="course-title" level={3}>
-                    {course.title}
-                  </CourseTitle>
-                  <Col span={24} />
-                  <CourseSubTitle className="course-title">
-                    {course.subtitle}
-                  </CourseSubTitle>
+                <Skeleton  paragraph={{ rows: 3 }} />
+
                 </Col>
-              </Row>
-            </Col>
-            <Col span={24}>
-              <Row justify="space-between" align="middle">
-                <Col>
-                  <Row justify="start" align="middle" gutter={[20,20]}>
-                    <Col>
-                      <Avatar
-                        size={64}
-                        src={instructor.image || <UserOutlined color="black" />}
-                      />
-                    </Col>
-                    <Col>
-                      <MetaText strong>Created By</MetaText> <br />
-                      <MetaText>{instructor.name}</MetaText>
-                    </Col>
-                  </Row>
+                <Col span={8}>
+                  <Skeleton avatar paragraph={{ rows: 1 }} />
                 </Col>
-                <Col>
-                  <MetaText strong>Categories</MetaText> <br />
-                  <MetaText>{category?.title}</MetaText>
+                <Col span={8}>
+                  <Skeleton paragraph={{ rows: 1 }} />
                 </Col>
-                <Col>
-                  <MetaText strong>Review</MetaText> <br />
-                  <CustomRate
-                    disabled
-                    style={{ fontSize: 15 }}
-                    value={course.analytics.reviews.count}
-                  />{' '}
-                      {course.analytics.averageRating}
-                      ({formatAvgCount(course.analytics.reviews.count)} reviews)
-                  <MetaText />
+                <Col span={8}>
+                  <Skeleton paragraph={{ rows: 1 }} />
                 </Col>
-              </Row>
-            </Col>
-          </Row>
+              </Row> :
+                <Row justify="space-between" align="top" gutter={[20, 20]}>
+          
+          <Col span={24}>
+            <Row gutter={[30, 30]}>
+              <Col span={24}>
+                <CourseTitle className="course-title" level={3}>
+                  {course.title}
+                </CourseTitle>
+                <Col span={24} />
+                <CourseSubTitle className="course-title">
+                  {course.subtitle}
+                </CourseSubTitle>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={24}>
+            <Row justify="space-between" align="middle">
+              <Col>
+                <Row justify="start" align="middle" gutter={[20,20]}>
+                  <Col>
+                    <Avatar
+                      size={64}
+                      src={instructor.image || <UserOutlined color="black" />}
+                    />
+                  </Col>
+                  <Col>
+                    <MetaText strong>Created By</MetaText> <br />
+                    <MetaText>{instructor.name}</MetaText>
+                  </Col>
+                </Row>
+              </Col>
+              <Col>
+                <MetaText strong>Categories</MetaText> <br />
+                <MetaText>{category?.title}</MetaText>
+              </Col>
+              <Col>
+                <MetaText strong>Review</MetaText> <br />
+                <CustomRate
+                  disabled
+                  style={{ fontSize: 15 }}
+                  value={course.analytics.reviews.count}
+                />{' '}
+                    {course.analytics.averageRating}
+                    ({formatAvgCount(course.analytics.reviews.count)} reviews)
+                <MetaText />
+              </Col>
+            </Row>
+          </Col>
+        </Row>}
+      
 
           <Row>
             <Col style={{ marginTop: 15 }} span={24}>
@@ -156,55 +184,71 @@ function CourseDetailViewer () {
             bordered hoverable
             style={{ padding: 0 }}
             bodyStyle={{ padding: 5 }}
-          >
-            {/* <Card bordered={false} bodyStyle={{ padding: 15 }}> */}
-                  <Row gutter={[20, 10]}>
-                  <Col span={24}>
-                    <Image  width={'100%'} height={200} preview={false} src={course.thumbnailImage} />
-</Col>
-                    <Col span={24}>
-                      <Row justify="space-between" align='middle'>
-                    <Col>
-                        <Row align='middle' gutter={[5, 5]}>
-                         {/* @ts-ignore */}
-                          <Col><Text strong style={{ fontSize: 24 }}>{UnitTypeToStr(plan.finalPrice)}</Text></Col>
-                         {/* @ts-ignore */}
-                         <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text></Col>
-                      </Row>
-                    </Col>
-                    <Col>
-                      <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
-                    </Col>
+              >
+                {loadingCourse ?
+                  <>
+                    <Row gutter={[20, 10]}>
+                      <Col span={24}>
+                      <Image  width={'100%'} height={200} preview={false} />
+                      </Col>
+                      <Col span={24}>
+                      <Skeleton.Button block/>
+                      </Col>
+                      <Col span={24}>
+                      <Skeleton.Button block/>
+   <Skeleton active paragraph={{ rows: 10 }} /> 
+                      </Col>
                   </Row>
-                </Col>
-                {/* <Col span={24}>
-                  <Alert
-                    icon={<AlertOutlined />}
-                    message="Only 2 days at this price"
-                    type="error"
-                    showIcon
-                  />
-                </Col> */}
+                  </> : <>  <Row gutter={[20, 10]}>
                 <Col span={24}>
+                  <Image  width={'100%'} height={200} preview={false} src={course.thumbnailImage} />
+</Col>
+                  <Col span={24}>
+                    <Row justify="space-between" align='middle'>
+                  <Col>
+                      <Row align='middle' gutter={[5, 5]}>
+                       {/* @ts-ignore */}
+                        <Col><Text strong style={{ fontSize: 24 }}>{UnitTypeToStr(plan.finalPrice)}</Text></Col>
+                       {/* @ts-ignore */}
+                       <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text></Col>
+                    </Row>
+                  </Col>
+                  <Col>
+                    <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
+                  </Col>
+                </Row>
+              </Col>
+              {/* <Col span={24}>
+                <Alert
+                  icon={<AlertOutlined />}
+                  message="Only 2 days at this price"
+                  type="error"
+                  showIcon
+                />
+              </Col> */}
+                <Col span={24}>
+                  
                   <Row gutter={[15, 15]}>
-                    <Col span={24}>
-                      {!isEnrolled?<Button disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
-                        {isAddedToCart?`Added to cart`:`Add To Cart`}
-                      </Button>:null}
-                    </Col>
-                    <Col span={24}>
-                     {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
-                        Go to Course
-                      </Button>: <Button onClick={()=>enrollForCourse(course._id)}size="large" type="primary" block>
-                        Enroll Now
-                      </Button>}
-                    </Col>{' '}
-                    <Col span={24}>
-                      <CourseMetadata course={course} />
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
+                  <Col span={24}>
+                    {!isEnrolled?<Button disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
+                      {isAddedToCart?`Added to cart`:`Add To Cart`}
+                    </Button>:null}
+                  </Col>
+                  <Col span={24}>
+                   {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
+                      Go to Course
+                    </Button>: <Button onClick={()=>enrollForCourse(course._id)}size="large" type="primary" block>
+                      Enroll Now
+                    </Button>}
+                  </Col>{' '}
+                  <Col span={24}>
+                    <CourseMetadata course={course} />
+                  </Col>
+                </Row>
+              
+              </Col>
+            </Row></>}
+                
             {/* </Card> */}
           </Card>
             </Col></Row>

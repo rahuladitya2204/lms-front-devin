@@ -5,8 +5,8 @@ import {
   ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { List, Typography } from 'antd'
-import { Types, Utils } from '@adewaskar/lms-common'
+import { Learner, Types, Utils } from '@adewaskar/lms-common'
+import { List, Skeleton, Typography } from 'antd'
 
 import styled from '@emotion/styled'
 
@@ -59,11 +59,21 @@ interface CourseMetadataPropsI {
 }
 
 function CourseMetadata(props: CourseMetadataPropsI) {
-  data.duration.value = formatTime(props.course.totalDuration)
-  data.enrolled.value = `${props.course.analytics.enrolled.count} students`
-  data.lectures.value = props.course.totalItems
-  data.certificate.value = props.course.certificate ? 'Yes' : ''
-  data.language.value = props.course.language;
+  const courseId = props.course._id
+  const {
+    data: course,
+    isLoading: loadingCourse
+  } = Learner.Queries.useGetCourseDetails(courseId, {
+    enabled: !!courseId
+  })
+  // if (loadingCourse) {
+  //   return <Skeleton paragraph={{ rows: 10 }} active />
+  // }
+  data.duration.value = formatTime(course.totalDuration)
+  data.enrolled.value = `${course.analytics.enrolled.count} students`
+  data.lectures.value = course.totalItems
+  data.certificate.value = course.certificate ? 'Yes' : ''
+  data.language.value = course.language
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (

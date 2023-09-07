@@ -17,6 +17,9 @@ function Tabs(props: AppTabPropsI) {
       if (props.navigateWithHash) {
         if (location.hash) {
           setActiveKey(location.hash.replace('#', ''))
+        } else {
+          // @ts-ignore
+          setActiveKey(props.items[0].key)
         }
       } else {
         if (props.items?.length) {

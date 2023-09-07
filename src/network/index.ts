@@ -1,9 +1,9 @@
 import { Network } from '@adewaskar/lms-common'
 import { Utils } from '@adewaskar/lms-common'
 
-if (process.env.REACT_APP_BUILD_ENV !== 'production') {
+// if (process.env.REACT_APP_BUILD_ENV !== 'production') {
   Network.Axios.defaults.baseURL = `http://localhost:4000`
-}
+// }
 
 Network.Axios.defaults.transformRequest = [
   (data, headers) => {
