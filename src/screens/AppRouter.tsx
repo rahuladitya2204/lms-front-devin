@@ -88,6 +88,7 @@ import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootScreen />}>
+      <Route path="login" element={<UserLoginScreen />} />
       <Route path=":orgId">
         <Route path="user">
           <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
@@ -99,10 +100,7 @@ const router = createBrowserRouter(
             path="app/products/courses/:id/editor"
             element={<CourseEditor />}
           />
-          <Route
-            path="app/products/test/:id/editor"
-            element={<TestEditor />}
-          />
+          <Route path="app/products/test/:id/editor" element={<TestEditor />} />
           <Route
             path="app/products/courses/:id/builder"
             element={<CourseBuilderScreen />}
@@ -231,7 +229,6 @@ const router = createBrowserRouter(
           </Route>
           <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
           <Route path="register" element={<UserRegister />} />
-          <Route path="login" element={<UserLoginScreen />} />
           <Route
             path="*"
             // element={<Navigate to="dashboard/home" replace />}
@@ -253,7 +250,7 @@ const router = createBrowserRouter(
               <Route path="" element={<LearnerTestScreen />} />
               <Route path=":testId" element={<LearnerTestDetailScreen />} />
               <Route path=":testId/result" element={<LearnerTestResult />} />
-</Route>
+            </Route>
             <Route path="live-session">
               <Route path="" element={<LearnerLiveSessionsScreen />} />
               <Route path=":sessionId" element={<LiveSessionDetailScreen />} />

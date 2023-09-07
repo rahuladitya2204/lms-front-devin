@@ -41,7 +41,7 @@ function UserLoginScreen () {
         email: values.email,
         password: values.password,
         onSuccess: orgId => {
-          navigate(`../app/products/courses`)
+          navigate(`../${orgId}/user/app/products/courses`)
         }
       })
     }
