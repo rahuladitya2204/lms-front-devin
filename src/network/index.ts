@@ -9,7 +9,13 @@ Network.Axios.defaults.transformRequest = [
   (data, headers) => {
     const token = getToken()
     const orgId = Utils.Storage.GetItem('orgId')
-    headers.set('x-org', orgId)
+    if (orgId) {
+      headers.set('x-org', orgId)
+    }
+    const orgAlias = Utils.Storage.GetItem('orgAlias')
+    if (orgAlias) {
+      headers.set('x-org-alias', orgAlias)
+    }
     if (window.location.pathname.includes('/learner/')) {
       headers.set('x-user-type', 'learner')
     } else {

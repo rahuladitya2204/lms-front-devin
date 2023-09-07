@@ -1,7 +1,7 @@
 import { Col, Layout, Menu, Row } from 'antd'
 import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import AppProvider from 'screens/AppProvider'
 import LogoImage from './logo.svg'
@@ -22,6 +22,7 @@ const { Content, Sider } = Layout
 
 const UserRootScreen: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
+
   // const { colorPallete } = Store.useGlobal(s => s)
   const navigate = useNavigate()
   return (

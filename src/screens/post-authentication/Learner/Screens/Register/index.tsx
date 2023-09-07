@@ -9,14 +9,17 @@ import { useEffect } from 'react'
 import { useFormik } from 'formik'
 
 function LearnerRegister() {
-  const { mutate: Signup, isLoading: loading } = Learner.Queries.useRegisterLearner()
+  const {
+    mutate: Signup,
+    isLoading: loading
+  } = Learner.Queries.useRegisterLearner()
   const params = useParams()
-  useEffect(
-    () => {
-      Utils.Storage.SetItem('orgId', params.orgId + '')
-    },
-    [params.orgId]
-  )
+  // useEffect(
+  //   () => {
+  //     Utils.Storage.SetItem('orgId', params.orgId + '')
+  //   },
+  //   [params.orgId]
+  // )
 
   const formik = useFormik({
     initialValues: {
@@ -25,11 +28,19 @@ function LearnerRegister() {
       name: ''
     },
     onSubmit: (values: Types.SignupData) => {
-      Signup({
-        email: values.email,
-        password: values.password,
-        name: values.name
-      })
+      Signup(
+        {
+          email: values.email,
+          password: values.password,
+          name: values.name
+        },
+        {
+          onSuccess: user => {
+            // @ts-ignore
+            Utils.Storage.SetItem('orgId', user.organisation)
+          }
+        }
+      )
     }
   })
   return (

@@ -26,7 +26,6 @@ import useOauth from './useOauth'
 function UserLoginScreen () {
   const navigate = useNavigate()
   const { organisation, fetchOrganisation } = Store.useGlobal(state => state)
-  const { orgId } = useParams()
   useEffect(() => {
     fetchOrganisation()
   }, [])
@@ -41,7 +40,7 @@ function UserLoginScreen () {
         email: values.email,
         password: values.password,
         onSuccess: orgId => {
-          navigate(`../${orgId}/user/app/products/courses`)
+          navigate(`../app/products/courses`)
         }
       })
     }

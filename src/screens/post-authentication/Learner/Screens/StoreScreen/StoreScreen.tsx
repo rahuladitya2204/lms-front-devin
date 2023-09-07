@@ -25,13 +25,6 @@ function StoreScreen () {
   } = Learner.Queries.useGetRecommendedProducts()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
 
-  useEffect(
-    () => {
-      Utils.Storage.SetItem('orgId', params.orgId + '')
-    },
-    [params.orgId]
-  )
-
   return (
     <Row gutter={[30, 30]}>
       {/* <Col span={24}>

@@ -18,17 +18,16 @@ function LearnerLogin () {
     isLoading: loading
   } = Learner.Queries.useLoginLearner()
   const { fetchOrganisation } = Store.useGlobal(state => state)
-  const { orgId } = useParams()
   useEffect(() => {
     fetchOrganisation()
   }, [])
   const params = useParams()
-  useEffect(
-    () => {
-      Utils.Storage.SetItem('orgId', params.orgId + '')
-    },
-    [params.orgId]
-  )
+  // useEffect(
+  //   () => {
+  //     Utils.Storage.SetItem('orgId', params.orgId + '')
+  //   },
+  //   [params.orgId]
+  // )
   const Google = useOauth('google')
 
   const formik = useFormik({
@@ -37,10 +36,17 @@ function LearnerLogin () {
       password: ''
     },
     onSubmit: values => {
-      loginUser({
-        email: values.email,
-        password: values.password
-      })
+      loginUser(
+        {
+          email: values.email,
+          password: values.password
+        },
+        {
+          onSuccess: user => {
+            Utils.Storage.SetItem('orgId', user.organisation)
+          }
+        }
+      )
     }
   })
 

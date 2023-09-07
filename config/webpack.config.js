@@ -192,6 +192,20 @@ module.exports = function (webpackEnv) {
 
   return {
     target: ['browserslist'],
+    devServer: {
+      host: '0.0.0.0',
+      port: 3000,
+      disableHostCheck: true,
+      historyApiFallback: true,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods':
+          'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+        'Access-Control-Allow-Headers':
+          'X-Requested-With, content-type, Authorization'
+      }
+      // Other devServer settings...
+    },
     // Webpack noise constrained to errors and warnings
     stats: 'errors-warnings',
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
@@ -324,8 +338,14 @@ module.exports = function (webpackEnv) {
         '@Store': path.resolve(__dirname, '../src/store'),
         '@Network': path.resolve(__dirname, '../src/network'),
         '@Utils': path.resolve(__dirname, '../src/utils'),
-        '@User': path.resolve(__dirname, '../src/screens/post-authentication/User'),
-        '@Learner': path.resolve(__dirname, '../src/screens/post-authentication/Learner'),
+        '@User': path.resolve(
+          __dirname,
+          '../src/screens/post-authentication/User'
+        ),
+        '@Learner': path.resolve(
+          __dirname,
+          '../src/screens/post-authentication/Learner'
+        ),
         // Allows for better profiling with ReactDevTools
         ...(isEnvProductionProfile && {
           'react-dom$': 'react-dom/profiling',
