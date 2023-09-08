@@ -6,7 +6,7 @@ import {
   List,
   Progress,
   Row,
-  Tabs,
+  Skeleton,
   Tag,
   Typography
 } from 'antd'
@@ -14,6 +14,7 @@ import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts'
 
 import HtmlViewer from '@Components/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
+import Tabs from '@Components/Tabs'
 import TestMetrics from './TestMetrics'
 import { capitalize } from 'lodash'
 import { useParams } from 'react-router'
@@ -22,39 +23,22 @@ const { Title, Text, Paragraph } = Typography
 
 const LearnerTestResult = function() {
   const { testId } = useParams()
-  const { data: { test, charts } } = Learner.Queries.useGetTestResult(
-    testId + ''
-  )
-
-  const COLORS = ['#52c41a', '#FF4040', '#D3D3D3'] // Green for correct, Red for wrong, Grey for unattempted
-
-  //   const renderCustomizedLabel = ({
-  //     cx,
-  //     cy,
-  //     midAngle,
-  //     innerRadius,
-  //     outerRadius,
-  //     percent,
-  //     index
-  //   }) => {
-  //     const RADIAN = Math.PI / 180
-  //     const radius = innerRadius + (outerRadius - innerRadius) * 0.5
-  //     const x = cx + radius * Math.cos(-midAngle * RADIAN)
-  //     const y = cy + radius * Math.sin(-midAngle * RADIAN)
-
-  //     return (
-  //       <text
-  //         x={x}
-  //         y={y}
-  //         fill="white"
-  //         textAnchor={x > cx ? 'start' : 'end'}
-  //         dominantBaseline="central"
-  //       >
-  //         {`${(percent * 100).toFixed(0)}%`}
-  //       </text>
-  //     )
-  //   }
-
+  const {
+    data: { test, charts },
+    isLoading: loadingResult
+  } = Learner.Queries.useGetTestResult(testId + '')
+  if (loadingResult) {
+    return (
+      <Row gutter={[20, 30]}>
+        <Col span={24}>
+          <LoadingSkeleton />
+        </Col>
+        <Col span={24}>
+          <LoadingSkeleton />
+        </Col>
+      </Row>
+    )
+  }
   return (
     <Row gutter={[20, 20]}>
       {test?.sections?.map((section, sectionIndex) => {
@@ -182,19 +166,65 @@ const LearnerTestResult = function() {
 export default function TestResult() {
   return (
     <Tabs
-      defaultActiveKey="1"
+      navigateWithHash
+      defaultActiveKey="analysis"
       items={[
         {
-          key: '1',
+          key: 'analysis',
           label: 'Analysis',
           children: <TestMetrics />
         },
         {
-          key: '2',
+          key: 'solutions',
           label: 'Solutions',
           children: <LearnerTestResult />
         }
       ]}
     />
+  )
+}
+
+export const LoadingSkeleton = () => {
+  return (
+    <Row gutter={[20, 20]}>
+      <Col span={24}>
+        <Card title={<Skeleton.Button block />}>
+          <Row gutter={[20, 20]}>
+            <Col span={24}>
+              <Skeleton paragraph={{ rows: 3 }} />
+            </Col>
+            <Col span={24}>
+              <Row justify={'space-between'}>
+                <Col>
+                  <Skeleton.Button />
+                </Col>
+                <Col>
+                  <Skeleton.Button />
+                </Col>
+              </Row>
+            </Col>
+            <Col span={24}>
+              <Row gutter={[20, 10]}>
+                <Col span={24}>
+                  <Skeleton.Input block />
+                </Col>
+                <Col span={24}>
+                  <Skeleton.Input block />
+                </Col>
+                <Col span={24}>
+                  <Skeleton.Input block />
+                </Col>
+                <Col span={24}>
+                  <Skeleton.Input block />
+                </Col>
+              </Row>{' '}
+            </Col>
+            <Col span={24}>
+              <Skeleton paragraph={{ rows: 3 }} />
+            </Col>
+          </Row>
+        </Card>
+      </Col>
+    </Row>
   )
 }
