@@ -13,11 +13,12 @@ import { CheckOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import { CampaignStatus } from './Constant'
 import Header from '@Components/Header'
+import MoreButton from '@Components/MoreButton'
+import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
-import MoreButton from '@Components/MoreButton'
 
 const { confirm } = Modal
 
@@ -53,7 +54,9 @@ function CampaignsScreen() {
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
-              <Table.Column title="Title" dataIndex="title" key="title" />
+              <Table.Column title="Title" dataIndex="title" key="title"  render={(_: any, record: Types.Campaign) =>
+                <NavLink to={`../edit-campaign/${record._id}`}>{ record.title}</NavLink>
+                } />
               {/* <Table.Column title="Subject" dataIndex="subject" key="subject" /> */}
               <Table.Column
                 title="Channel"

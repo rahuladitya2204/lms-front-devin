@@ -19,12 +19,12 @@ import TestMetrics from './TestMetrics'
 import { capitalize } from 'lodash'
 import { useParams } from 'react-router'
 
-const { Title, Text, Paragraph } = Typography
+const { Title, Text } = Typography
 
 const LearnerTestResult = function() {
   const { testId } = useParams()
   const {
-    data: { test, charts },
+    data: { test },
     isLoading: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   if (loadingResult) {

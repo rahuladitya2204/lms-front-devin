@@ -113,22 +113,22 @@ const DashboardOverview: React.FC = () => {
       <Col span={24}>
         <Row gutter={[30, 30]}>
           <Col span={12}>
-            <Card title="Revenue">
+            <Card loading={isLoading} title="Revenue">
               <NewSignups />
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Transactions">
+            <Card loading={isLoading} title="Transactions">
               <Transactions />
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Active Users">
+            <Card loading={isLoading} title="Active Users">
               <ActiveUsers />
             </Card>
           </Col>
           <Col span={12}>
-            <Card title="Paid Users">
+            <Card loading={isLoading} title="Paid Users">
               <PaidUsers />
             </Card>
           </Col>
