@@ -421,11 +421,29 @@ function CourseBuilderScreen() {
                   />
                 }
               />
-            ) : (
+            ) : null}
               <Card>
-                <Outlet context={[items, updateCourseSection, saveCourse]} />
+                  {loadingCourse ? <>
+                    <Row gutter={[20,20]}>
+                      <Col span={24}>
+                      <Skeleton.Input block />
+                    <Skeleton paragraph={{rows: 1}} />
+
+                      </Col>
+                      <Col span={24}>
+                      <Card>
+                    <Image style={{height: 400}} />
+                    </Card>
+                      </Col>
+                      <Col span={24}>
+                      <Card>
+                    <Image style={{height: 400}} />
+                    </Card>
+                      </Col>
+                    </Row>
+                 
+                  </> : <Outlet context={[items, updateCourseSection, saveCourse]} />}
               </Card>
-            )}
           </Col>
         </Row>
       </Header>
