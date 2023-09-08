@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, Form, Input, List, Tooltip, Typography, theme } from 'antd'
+import { Avatar, Button, Card, Col, Form, Input, List, Row, Skeleton, Tooltip, Typography, theme } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
@@ -17,9 +17,9 @@ export default function TicketDetail() {
   const { token } = useToken()
     const [form] = Form.useForm()
     const { id } = useParams();
-    const { data: ticket } = Learner.Queries.useGetTicketDetails(id + '');
-  const createdBy = ticket.createdBy as unknown as Types.Learner;
-  const name = (createdBy.name+'').split(' ').map(n => n[0].toUpperCase()).join('');
+    const { data: ticket ,isLoading: loadingTicket} = Learner.Queries.useGetTicketDetails(id + '');
+  const createdBy = ((ticket.createdBy as unknown as Types.Learner) || {});
+  const name = (createdBy?.name+'').split(' ').map(n => n[0].toUpperCase()).join('');
     const { mutate: replyToTicket } = Learner.Queries.useReplyToTicket();
     
     const postReply = ({ message }:Partial<Types.TicketReply>) => {
@@ -38,8 +38,39 @@ export default function TicketDetail() {
 
   return (
       <>
-          <TicketItem ticket={ticket} />
-          <Card style={{ marginTop:20}}>
+      {loadingTicket ? <Card title={<><Skeleton.Button style={{ marginLeft: 20, width: 100 }} />
+        <Skeleton.Button style={{ marginLeft: 20, width: 100 }} />
+        <Skeleton.Button style={{ marginLeft: 20, width: 100 }} />
+        <Skeleton.Button style={{ marginLeft: 20, width: 100 }} /></>}>
+        <Skeleton/>
+      </Card> : <TicketItem ticket={ticket} />}
+      
+      {loadingTicket ? <Card style={{ marginTop: 20 }}>
+        <Row gutter={[20,20]}>
+          <Col span={24}>
+            <Skeleton.Input block size='large' />
+          </Col>
+          <Col span={24}>
+          <Skeleton.Button/>
+          </Col>
+          <Col span={24}>
+            <Skeleton paragraph={{ rows: 1 }} />
+          </Col>
+          <Col span={24}>
+            <Skeleton.Avatar/>
+          </Col>
+          <Col span={24}>
+            <Skeleton.Avatar/>
+          </Col>
+          <Col span={24}>
+            <Skeleton.Avatar/>
+          </Col>
+          <Col span={24}>
+            <Skeleton.Avatar/>
+          </Col>
+        </Row>
+
+      </Card>:    <Card style={{ marginTop:20}}>
               <Form form={form} layout='vertical' onFinish={postReply}>
               <Form.Item name='message' label='Reply'>
               <Input.TextArea rows={4} placeholder='Post a reply' />
@@ -84,7 +115,8 @@ export default function TicketDetail() {
         /></>
        
       ) : null}
-          </Card>
+          </Card>}
+      
       </>
   )
 }

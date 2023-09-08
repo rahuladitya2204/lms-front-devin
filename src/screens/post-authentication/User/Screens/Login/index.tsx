@@ -27,7 +27,7 @@ function UserLoginScreen () {
   const navigate = useNavigate()
   const { organisation, fetchOrganisation } = Store.useGlobal(state => state)
   useEffect(() => {
-    fetchOrganisation()
+    fetchOrganisation('user')
   }, [])
   const { mutate: loginUser, isLoading: loading } = User.Queries.useLoginUser()
   const formik = useFormik({

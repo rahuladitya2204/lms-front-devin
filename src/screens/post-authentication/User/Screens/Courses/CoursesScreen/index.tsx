@@ -24,15 +24,15 @@ function CoursesScreen() {
            <Card>
            <Skeleton active paragraph />
            <Skeleton.Avatar />
-             <Row justify={'space-between'}>
-               <Col>
-                 <Skeleton.Button style={{ marginTop: 20 }} block /></Col>
-                 <Col>
-                 <Skeleton.Button style={{ marginTop: 20 }} block /></Col>
-                 <Col>
-                 <Skeleton.Button style={{ marginTop: 20 }} block /></Col>
-                 <Col>
-               <Skeleton.Button style={{ marginTop: 20 }} block /></Col>
+             <Row justify={'space-between'} gutter={[20,20]}>
+               <Col span={6}>
+                 <Skeleton.Button style={{ marginTop: 20 }} /></Col>
+                 <Col span={6}>
+                 <Skeleton.Button style={{ marginTop: 20 }} /></Col>
+                 <Col span={6}>
+                 <Skeleton.Button style={{ marginTop: 20 }} /></Col>
+                 <Col span={6}>
+               <Skeleton.Button style={{ marginTop: 20 }} /></Col>
            </Row>
 </Card>        </Col>)} 
         </Row></> : <Fragment>

@@ -19,7 +19,7 @@ function LearnerLogin () {
   } = Learner.Queries.useLoginLearner()
   const { fetchOrganisation } = Store.useGlobal(state => state)
   useEffect(() => {
-    fetchOrganisation()
+    fetchOrganisation('learner')
   }, [])
   const params = useParams()
   // useEffect(

@@ -3,6 +3,7 @@ import { Common, Learner, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer'
+import Image from '@Components/Image'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 
 const { Title, Paragraph } = Typography
@@ -42,7 +43,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
                 <MediaPlayer height={400} url={PromoVideoUrl} />
               </Card>
             ) : (
-              <Skeleton.Image active  />
+              <Image height={400} />
             )}
           </Col>
         ) : null}

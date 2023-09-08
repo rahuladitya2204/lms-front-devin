@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, Divider, Form, Input, List, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd'
+import { Avatar, Button, Card, Col, Divider, Form, Input, List, Row, Skeleton, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd'
 import { Store, Types, User } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
@@ -43,9 +43,34 @@ export default function TicketDetail() {
     <Header hideBack
       title={<Text>Support Ticket: {ticket.id}</Text> }
     >
-      <Spin spinning={loading}>
-        <TicketItem ticket={ticket}/>
-          <Card style={{ marginTop:20}}>
+      {loading ? <>
+       
+        <Card><Skeleton /></Card>
+        <Card style={{ marginTop: 20 }}>
+        <Row>
+          <Col span={24}>
+          <Skeleton.Input style={{height: 50}} block size='large'/>
+            </Col>
+            <Col span={24}>
+          <Skeleton style={{width: '100%'}} paragraph={{rows: 1}}/>
+            </Col>
+            <Col span={24}>
+            <Skeleton style={{width: '100%'}} paragraph={{rows: 1}}/>
+            </Col>
+            <Col span={24}>
+            <Skeleton style={{width: '100%'}} paragraph={{rows: 1}}/>
+            </Col>
+            <Col span={24}>
+            <Skeleton style={{width: '100%'}} paragraph={{rows: 1}}/>
+            </Col>
+            <Col span={24}>
+            <Skeleton style={{width: '100%'}} paragraph={{rows: 1}}/>
+          </Col>
+        </Row>
+
+</Card>
+      </> : <>
+      <TicketItem ticket={ticket} />  <Card style={{ marginTop:20}}>
               <Form form={form} layout='vertical' onFinish={postReply}>
               <Form.Item name='message' label='Reply'>
               <Input.TextArea rows={4} placeholder='Post a reply' />
@@ -89,8 +114,9 @@ export default function TicketDetail() {
         /></>
        
       ) : null}
-        </Card>
-        </Spin>
+        </Card></>}
+       
+        
       </Header>
   )
 }

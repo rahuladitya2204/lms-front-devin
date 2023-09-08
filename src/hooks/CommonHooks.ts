@@ -38,14 +38,14 @@ export const useAppInit = (type: string) => {
   } = Common.Queries.useValidateUser()
 
   useEffect(() => {
-    initApp();
+    initApp(type);
   }, [type,token]);
 
 
-  const initApp = async () => {
+  const initApp = async (userType: string) => {
     try {
       setLoading(true);
-      await fetchOrganisation();
+      await fetchOrganisation(userType);
       if (token) {
         await validateUser({
           type: type,
