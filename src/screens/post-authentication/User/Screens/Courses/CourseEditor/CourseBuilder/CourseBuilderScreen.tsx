@@ -6,6 +6,7 @@ import {
   Form,
   Modal,
   Row,
+  Skeleton,
   Spin,
   Tag,
   Typography
@@ -39,12 +40,12 @@ function CourseBuilderScreen() {
     mutate: updateCourse,
     isLoading: savingCourse
   } = User.Queries.useUpdateCourse()
-  const { data: courseDetails } = User.Queries.useGetCourseDetails(
-    courseId + '',
-    {
-      enabled: !!courseId
-    }
-  )
+  const {
+    data: courseDetails,
+    isLoading: loadingCourse
+  } = User.Queries.useGetCourseDetails(courseId + '', {
+    enabled: !!courseId
+  })
   const savedDetails = (text?: string) => {
     message.open({
       type: 'success',
@@ -268,7 +269,8 @@ function CourseBuilderScreen() {
         }
         extra={[
           <Spin spinning={savingCourse}>
-          <Tag>Changes will be automatically saved</Tag></Spin>,
+            <Tag>Changes will be automatically saved</Tag>
+          </Spin>,
           // @ts-ignore
           course.status === Enum.CourseStatus.PUBLISHED ? (
             <Tag color="green">Course is Live</Tag>
@@ -308,31 +310,39 @@ function CourseBuilderScreen() {
             <Row>
               <Col span={24}>
                 <Form.Item>
-                  <MediaUpload
-                    source={{
-                      type: 'course.thumbnailImage',
-                      value: courseId + ''
-                    }}
-                    uploadType="image"
-                    prefixKey={`courses/${courseId}/thumbnailImage`}
-                    cropper
-                    width="100%"
-                    // height="200px"
-                    aspect={16 / 9}
-                    renderItem={() => (
-                      <Image preview={false} src={course.thumbnailImage} />
-                    )}
-                    onUpload={file => {
-                      saveCourse({
-                        thumbnailImage: file.url
-                      })
-                    }}
-                  />
+                  {loadingCourse? <Image preview={false} src={course.thumbnailImage} />:
+              <MediaUpload
+                source={{
+                  type: 'course.thumbnailImage',
+                  value: courseId + ''
+                }}
+                uploadType="image"
+                prefixKey={`courses/${courseId}/thumbnailImage`}
+                cropper
+                width="100%"
+                // height="200px"
+                aspect={16 / 9}
+                renderItem={() => (
+                  <Image preview={false} src={course.thumbnailImage} />
+                )}
+                onUpload={file => {
+                  saveCourse({
+                    thumbnailImage: file.url
+                  })
+                }}
+              />}                     
                   <Row
                     justify={'space-between'}
                     style={{ margin: '20px 0 0', marginTop: 20 }}
                     gutter={[20, 20]}
                   >
+                    {loadingCourse ? <>
+                      <Col flex={1}>
+                      <Skeleton.Button block/>
+                      </Col>
+                      <Col flex={1}>
+                      <Skeleton.Button block/>
+                    </Col> </> : <>
                     <Col flex={1}>
                       <Button block>Preview</Button>
                     </Col>
@@ -354,21 +364,30 @@ function CourseBuilderScreen() {
                           data={course.rules}
                         />
                       </ActionModal>
-                    </Col>
+                    </Col></>}
+             
                   </Row>
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Spin spinning={deletingSection || deletingSectionItem}>
-                  <CourseSectionsNavigator
-                    deleteSectionItem={deleteSectionItem}
-                    deleteSection={deleteSection}
-                    onAddNewItem={onAddNewItem}
-                    onAddSection={onAddSection}
-                    sections={course.sections}
-                    onReorderSections={onReorderSections}
-                  />
-                </Spin>
+                {loadingCourse ? (
+                  <Row gutter={[20, 10]}>
+                    <Col span={24}>
+                      <Skeleton paragraph={{ rows: 20 }} />
+                    </Col>
+                  </Row>
+                ) : (
+                  <Spin spinning={deletingSection || deletingSectionItem}>
+                    <CourseSectionsNavigator
+                      deleteSectionItem={deleteSectionItem}
+                      deleteSection={deleteSection}
+                      onAddNewItem={onAddNewItem}
+                      onAddSection={onAddSection}
+                      sections={course.sections}
+                      onReorderSections={onReorderSections}
+                    />
+                  </Spin>
+                )}
               </Col>
             </Row>
           </Col>

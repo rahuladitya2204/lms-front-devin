@@ -18,13 +18,7 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
   return (
     <List
       grid={{
-        gutter: 20,
-        // xs: 1,
-        // sm: 2,
-        // md: 4,
-        // lg: 4,
-        // xl: 6,
-        // xxl: 3
+        gutter: 20
       }}
       dataSource={data}
       renderItem={({ product: { data: test } }) => (

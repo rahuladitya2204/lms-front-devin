@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card, Col, List, Typography } from 'antd'
+import { Avatar, Badge, Card, Col, List, Row, Skeleton, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import { CalendarOutlined } from '@ant-design/icons'
@@ -15,10 +15,37 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
     data,
     isLoading: loading
   } = Learner.Queries.useGetEnrolledProductList('test')
+  if (loading) {
+    const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1]
+    return (
+      <Row gutter={[60, 100]}>
+        {SkeletonArr.map(() => (
+          <Col span={6}>
+            <Card>
+              <Skeleton active paragraph />
+              <Skeleton.Avatar />
+              {/* <Row justify={'space-between'}>
+                <Col>
+                  <Skeleton.Button style={{ marginTop: 20 }} block />
+                </Col>
+                <Col>
+                  <Skeleton.Button style={{ marginTop: 20 }} block />
+                </Col>
+                <Col>
+                  <Skeleton.Button style={{ marginTop: 20 }} block />
+                </Col>
+              </Row>{' '} */}
+            </Card>{' '}
+          </Col>
+        ))}
+      </Row>
+    )
+  }
   return (
     <List
       grid={{
-        gutter: 20
+        gutter: 20,
+        column: 4
         // xs: 1,
         // sm: 2,
         // md: 4,

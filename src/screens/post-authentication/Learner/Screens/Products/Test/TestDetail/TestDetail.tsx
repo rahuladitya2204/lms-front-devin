@@ -84,9 +84,10 @@ export default function TestDetailScreen(
 
   return (
     <Row>
-            <Col span={24}>{test.description}</Col>
+   {loadingTest?<Skeleton paragraph={{rows:1}} />:<Col span={24}>{test.description}</Col>}
+         
 <Col span={24}>
-        <Row gutter={[30, 30]}>
+ <Row gutter={[30, 30]}>
           <Col span={15}>
             <Row>
               {test.landingPage.promoVideo ? (
@@ -119,17 +120,20 @@ export default function TestDetailScreen(
               title={test.title}
             > {loadingTest ?
               <>
+                                   {/* <Skeleton active paragraph={{ rows: 1 }} /> */}
                 <Row gutter={[20, 10]}>
                   <Col span={24}>
                     <Image width={'100%'} height={200} preview={false} />
                   </Col>
-                  <Col span={24}>
+                  {/* <Col span={24}>
                     <Skeleton.Button block />
-                  </Col>
+                  </Col> */}
                   <Col span={24}>
-                    <Skeleton.Button block />
                     <Skeleton active paragraph={{ rows: 6 }} />
-                  </Col>
+                    </Col>
+                    <Col span={24}>
+                    <Skeleton.Button block />
+                    </Col>
                 </Row>
               </>:<>    <Row gutter={[20, 40]} align="stretch">
                 <Col span={24}>

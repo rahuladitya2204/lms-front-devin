@@ -53,7 +53,7 @@ function StoreScreen () {
       </Divider>
       {isLoading?<Col span={24}>    <Row gutter={[50, 50]}>
         <Col span={24}>
-          <Skeleton paragraph	 />
+          <Skeleton paragraph={{rows: 1}}	 />
         </Col>
         <Col span={6} sm={6} xs={6}>
           <Skeleton active />

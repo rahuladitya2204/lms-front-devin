@@ -8,7 +8,7 @@ import { useEffect } from 'react'
 export default function RootScreen () {
   let userType = window.location.href.includes('learner') ? 'learner' : 'user'
   const { isInitDone } = useAppInit(userType)
-  const { data: config } = Common.Queries.useGetAppConfig(userType)
+  // const { data: config } = Common.Queries.useGetAppConfig(userType)
   // const orgId = Utils.Storage.GetItem('orgId');
   // useEffect(
   //   () => {

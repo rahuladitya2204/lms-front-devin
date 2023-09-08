@@ -108,7 +108,7 @@ function CourseDetailViewer () {
             <Col span={16}>
               {loadingCourse ? <Row justify="space-between" align="top" gutter={[20, 20]}>
                 <Col span={24}>
-                <Skeleton  paragraph={{ rows: 3 }} />
+                <Skeleton  paragraph={{ rows: 1 }} />
 
                 </Col>
                 <Col span={8}>

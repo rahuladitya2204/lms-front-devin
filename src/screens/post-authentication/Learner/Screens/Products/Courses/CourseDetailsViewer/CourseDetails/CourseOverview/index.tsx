@@ -39,11 +39,10 @@ function CourseOverview(props: CourseOverviewPropsI) {
                 bordered={false}
                 bodyStyle={{ padding: 0 }}
               >
-                {' '}
                 <MediaPlayer height={400} url={PromoVideoUrl} />
               </Card>
             ) : (
-              <Skeleton active style={{ height: 400 }} />
+              <Skeleton.Image active  />
             )}
           </Col>
         ) : null}
