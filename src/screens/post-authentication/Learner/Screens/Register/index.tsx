@@ -86,7 +86,7 @@ function LearnerRegister() {
             Submit
           </Button>
         </Form.Item>
-        <Form.Item style={{ textAlign: 'center' }}>
+        {/* <Form.Item style={{ textAlign: 'center' }}>
           <Typography.Text>
             Already have an account?{' '}
             <NavLink
@@ -94,7 +94,7 @@ function LearnerRegister() {
               children={<Button type="link">Log In</Button>}
             />
           </Typography.Text>
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </AuthenticationCard>
   )

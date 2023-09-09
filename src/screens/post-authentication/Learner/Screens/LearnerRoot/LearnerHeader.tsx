@@ -27,10 +27,13 @@ const { Content } = Layout
 const { Text, Title } = Typography
 
 const LearnerHeader: React.FC = () => {
-  const { data: { items } } = Learner.Queries.useGetCartDetails()
   const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
 
   const { isSignedIn } = Store.useAuthentication(state => state)
+
+  const { data: { items } } = Learner.Queries.useGetCartDetails({
+    enabled: !!isSignedIn
+  })
 
   const navigate = useNavigate()
   const logout = () => {
