@@ -76,7 +76,7 @@ function CampaignsScreen() {
                   dayjs(record.createdAt).format('DD/MM/YYYY')
                 }
               />
-              {/* <Table.Column
+              <Table.Column
                 title="Status"
                 dataIndex="status"
                 key="status"
@@ -87,7 +87,7 @@ function CampaignsScreen() {
                     </Tag>
                   ) : null
                 }
-              /> */}
+              />
               <Table.Column
                 title="Created At"
                 dataIndex="createdAt"

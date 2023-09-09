@@ -40,13 +40,17 @@ const CreateWhatsappTemplate = (props:CreateWhatsappTemplatePropsI) => {
                         channel: [`whatsapp`]
                     }, {
                         onSuccess: ({ data: { subject, content } }) => {
-                            console.log(subject,content,'aaaa')
-                            form.setFieldsValue({
+                            const D = {
                                 whatsapp: {
                                     subject,
                                     body: content
                                 }
-                            })
+                            };
+                            console.log(subject,content,'aaaa')
+                            form.setFieldsValue(D)
+                            form.setFieldsValue(D);
+                            onValuesChange(D)
+
                         }
                     })
                 }}>Generate with AI</Button> <Divider/>

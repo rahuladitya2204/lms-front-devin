@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Modal, Row, Spin, Tag } from 'antd'
+import { Button, Card, Col, Form, Modal, Row, Skeleton, Spin, Tag } from 'antd'
 import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import {
   InfoCircleOutlined,
@@ -30,7 +30,7 @@ function TestEditor() {
     isLoading: loading
   } = User.Queries.useUpdateTest()
 
-  const { data: testDetails } = User.Queries.useGetTestDetails(
+  const { data: testDetails ,isLoading: loadingTest} = User.Queries.useGetTestDetails(
     testId,
     {
       enabled: !!testId
@@ -124,7 +124,59 @@ function TestEditor() {
               </Button>
             ]}
           >
-            <Tabs
+            {loadingTest ? <>
+              <Row gutter={[20,20]}>
+                <Col span={2}>
+                  <Row style={{marginTop:20}}>
+                    <Col span={24}>
+                    <Skeleton.Button active block/>
+                    </Col>
+                  </Row>
+                  <Row style={{marginTop:20}}>
+                    <Col span={24}>
+                    <Skeleton.Button active block/>
+                    </Col>
+                  </Row>
+                  <Row style={{marginTop:20}}>
+                    <Col span={24}>
+                    <Skeleton.Button active block/>
+                    </Col>
+                 </Row>
+                </Col>
+                <Col span={22}>
+                  <Row gutter={[20,20]}>
+                    <Col><Skeleton.Button active/></Col>
+                    <Col><Skeleton.Button active/></Col>
+                    <Col><Skeleton.Button active/></Col>
+                  </Row>
+                  <Row style={{ marginTop: 30 }} gutter={[20, 40]}>
+                    <Col span={24}>
+                      <Skeleton.Image active />
+                    </Col>
+                    <Col span={24}>
+                      <Skeleton.Input active block/>
+                    </Col>
+                    <Col span={24}>
+                      <Skeleton.Input active block/>
+                    </Col>
+                    <Col span={24}>
+                      <Skeleton.Input active block/>
+                    </Col>
+                    <Col span={24}>
+                      <Skeleton.Input active block/>
+                    </Col>
+                    <Col span={24}>
+                      <Skeleton.Input active block/>
+                    </Col>
+                    <Col span={24}>
+                      <Skeleton.Input active block/>
+                    </Col>
+                    <Col span={24}>
+                      <Skeleton.Input active block/>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row></>:<Tabs
               navigateWithHash
               onTabClick={e => {
                 if (e === 'builder') {
@@ -183,7 +235,8 @@ function TestEditor() {
                   // )
                 }
               ]}
-            />
+            />}
+            
           </Card>
         </Col>
         {/* <Col span={20}>

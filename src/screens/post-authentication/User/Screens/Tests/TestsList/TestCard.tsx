@@ -26,11 +26,10 @@ const TestCardHolder = styled(Card)`
 
 function TestCard({ test }: TestCardProps) {
   const navigate = useNavigate()
-  const ThumbnailImage = (
-    <Image height={200} alt="example" src={test.image} />
-  )
+  const ThumbnailImage = <Image height={200} alt="example" src={test.image} />
   return (
     <TestCardHolder
+      bodyStyle={{ height: 115 }}
       hoverable
       cover={
         test.status === Enum.TestStatus.ENDED ? (
@@ -73,7 +72,9 @@ function TestCard({ test }: TestCardProps) {
           ) : test.status === Enum.TestStatus.IN_PROGRESS ? (
             <Tag color="green">In Progress</Tag>
           ) : (
-            ''
+                  <Tag color="blue">
+                    Ongoing Test
+            </Tag>
           )
         }
         // avatar={<Avatar src={instructor?.image} />}

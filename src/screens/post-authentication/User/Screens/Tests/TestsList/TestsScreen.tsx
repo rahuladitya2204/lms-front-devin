@@ -15,7 +15,7 @@ const { Text } = Typography
 const TestsScreen = () => {
   const navigate = useNavigate()
   const CreateCourseCta = (
-    <ActionModal cta={<Button type="primary">Create Tests</Button>}>
+    <ActionModal cta={<Button type="primary">Create Test</Button>}>
       <CreateTest />
     </ActionModal>
   )

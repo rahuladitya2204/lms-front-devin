@@ -1,20 +1,21 @@
 import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons'
 // @ts-nocheck
 import { FloatButton, Layout, Typography } from 'antd'
+import { Store, Utils } from '@adewaskar/lms-common'
+import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import CreateTicket from '../Tickets/CreateTicket'
 import LearnerHeader from './LearnerHeader'
 import ThemeProvider from 'screens/ThemeProvider'
-import { Utils } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
-import { useParams } from 'react-router'
 
 const { Title } = Typography
 const LearnerRootScreen: React.FC = () => {
   const { orgId } = useParams()
-
+  const navigate = useNavigate()
+  const { isSignedIn } = Store.useAuthentication(s => s)
   useEffect(
     () => {
       if (orgId) {
@@ -22,8 +23,17 @@ const LearnerRootScreen: React.FC = () => {
       }
     },
     [orgId]
-  );
-  
+  )
+
+  useEffect(
+    () => {
+      if (!isSignedIn) {
+        navigate('../app/store')
+      }
+    },
+    [isSignedIn]
+  )
+
   return (
     <ThemeProvider type="learner">
       <AppProvider>

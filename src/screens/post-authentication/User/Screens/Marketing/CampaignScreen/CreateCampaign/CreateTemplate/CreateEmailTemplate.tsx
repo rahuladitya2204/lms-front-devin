@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Row } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 
 import PreviewTemplate from "@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor/PreviewTemplate";
@@ -39,20 +39,22 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
                         description: props.campaign.description,
                         channel: [`email`]
                     }, {
-                        onSuccess: ({ data: { subject, content } }) => {
-                            console.log(subject,content,'aaaa')
-                            form.setFieldsValue({
+                        onSuccess: ({ data }) => {
+                            const D = {
                                 email: {
-                                    subject,
-                                    body: content
+                                    body: data.content,
+                                    subject: data.subject
                                 }
-                            })
+                            };
+                            console.log(data,'aaaa')
+                            form.setFieldsValue(D);
+                            onValuesChange(D)
                         }
                     })
                 }}>Generate with AI</Button> <Divider/>
             <Form onValuesChange={onValuesChange} form={form} layout="vertical">
-        <Form.Item name={['email','subject']} required>
-           <TextArea label="Subject" name={['email','subject']} />
+        <Form.Item label="Subject"  name={['email','subject']} required>
+           <Input.TextArea />
         </Form.Item>
         <Form.Item  name={['email','body']}  label="Email Body" required>
                 <SunEditorComponent  name={['email','body']}  />

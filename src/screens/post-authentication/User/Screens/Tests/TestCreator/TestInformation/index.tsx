@@ -32,9 +32,7 @@ function TestInformationEditor(props: any) {
   )
   return (
     <Fragment>
-      {/* <Form onFinish={saveTest} form={form} layout="vertical" autoComplete="off"> */}
       <Tabs
-        // defaultActiveKey="1"
         items={[
           {
             label: `Details`,

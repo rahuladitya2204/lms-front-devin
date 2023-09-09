@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Button, Card, Col, Row, Tabs } from 'antd'
+import { Button, Card, Col, Modal, Row, Tabs } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import React, { ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -13,6 +13,7 @@ import Stepper from '@Components/Stepper'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
+const { confirm } = Modal
 interface CreateCampaignComponentPropsI {
   children?: ReactNode;
   data?: Partial<Types.Campaign>;
@@ -63,7 +64,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     })
   }
 
-  const onSubmit = () => {
+  const saveDraft = (cb?: Function) => {
     // if (!isFormValid) {
     //   return
     // }
@@ -76,10 +77,15 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
         { id: campaign._id, data: data },
         {
           onSuccess: r => {
-            message.open({
-              type: 'success',
-              content: 'Campaign Draft Saved'
-            })
+            if (cb) {
+              cb()
+            } else {
+              message.open({
+                type: 'success',
+                content: 'Campaign Draft Saved'
+              })
+            }
+
             // navigate('../campaign')
           }
         }
@@ -106,14 +112,26 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
         <Button
           // disabled={!isFormValid}
           loading={createCampaignLoading || updateCampaignLoading}
-          onClick={onSubmit}
+          onClick={saveDraft}
         >
           Save Draft
         </Button>,
         <Button
           type="primary"
           loading={initiatingExecution}
-          onClick={() => executeCampaign({ id })}
+          onClick={() => {
+            confirm({
+              title: 'Are you sure?',
+              // icon: <ExclamationCircleOutlined />,
+              content: `You want to execute this campaign?`,
+              onOk() {
+                saveDraft(() => {
+                  executeCampaign({ id })
+                })
+              },
+              okText: 'Delete File'
+            })
+          }}
         >
           Execute Campaign
         </Button>

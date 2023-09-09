@@ -94,7 +94,7 @@ interface CreateTestComponentPropsI {
     const isValidForDraft = title && date && questions.length;
   
     return (
-      <Header showBack title='Create Tests' extra={[
+      <Header showBack title='Create Test' extra={[
         <Button
         loading={createTestLoading || updateTestLoading}
         key="submit"

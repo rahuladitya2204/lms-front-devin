@@ -43,13 +43,17 @@ export const useAppInit = (type: string) => {
 
 
   const initApp = async (userType: string) => {
+    const { setIsSignedin } = Store.useAuthentication.getState()
     try {
       setLoading(true);
       await fetchOrganisation(userType);
       if (token) {
         await validateUser({
           type: type,
-          onSuccess: () => { }
+          onSuccess: () => {
+            console.log('Signed In')
+            setIsSignedin(true)
+           }
         });
       }
     }

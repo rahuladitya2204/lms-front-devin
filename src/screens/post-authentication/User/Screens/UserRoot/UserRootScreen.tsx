@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 import AppProvider from 'screens/AppProvider'
 import LogoImage from './logo.svg'
+import { Store } from '@adewaskar/lms-common'
 import ThemeProvider from 'screens/ThemeProvider'
 import styled from '@emotion/styled'
 
@@ -22,8 +23,20 @@ const { Content, Sider } = Layout
 
 const UserRootScreen: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
+  // const { isSignedIn } = Store.useAuthentication(s => s)
 
-  // const { colorPallete } = Store.useGlobal(s => s)
+  // useEffect(
+  //   () => {
+  //     // console.log()
+  //     if (!isSignedIn) {
+  //       navigate('../app/store')
+  //     }
+  //     else {
+  //       navigate('../login')
+  //     }
+  //   },
+  //   [isSignedIn]
+  // )
   const navigate = useNavigate()
   return (
     <ThemeProvider type="user">
