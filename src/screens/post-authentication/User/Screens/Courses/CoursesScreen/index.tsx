@@ -5,7 +5,7 @@ import ActionModal from '@Components/ActionModal'
 import CourseCard from './CourseCard'
 import CreateCourseComponent from '../CreateCourse/CreateCourse'
 import { Fragment } from 'react'
-import Header from '@Components/Header'
+import UserHeader from '@User/Screens/UserRoot/UserHeader'
 
 function CoursesScreen () {
   const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1].map(
@@ -19,7 +19,7 @@ function CoursesScreen () {
   )
   console.log(courses, '111')
   return (
-    <Header title="Courses" extra={[CreateCourseCta]}>
+    <UserHeader title="Courses" extra={[CreateCourseCta]}>
       {/* {!courses.length && !loading ? ( */}
       <List
         grid={{ gutter: 20, column: 4, sm: 3 }}
@@ -48,7 +48,7 @@ function CoursesScreen () {
           </Empty>
         </Card>
       )} */}
-    </Header>
+    </UserHeader>
   )
 }
 

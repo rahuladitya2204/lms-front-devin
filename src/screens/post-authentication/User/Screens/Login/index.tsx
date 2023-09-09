@@ -1,169 +1,328 @@
-import {
-  Button,
-  Card,
-  Checkbox,
-  Col,
-  Divider,
-  Form,
-  Input,
-  Row,
-  Space
-} from 'antd'
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, Row } from 'antd'
+import { ContactsFilled, GoogleOutlined } from '@ant-design/icons'
 import { NavLink, useParams } from 'react-router-dom'
 import { Store, User } from '@adewaskar/lms-common'
+import { useEffect, useState } from 'react'
 
+import ActionModal from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import BgImage from './image.svg'
-// import BgImage from './image2.svg'
-import { GoogleOutlined } from '@ant-design/icons'
-import Image from '@Components/Image'
+import { RegisterUser } from '@adewaskar/lms-common/lib/cjs/types/User/Api'
+import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
-import { useEffect } from 'react'
-import { useFormik } from 'formik'
+import UserRegister from '../Register'
+import { Utils } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
 import { useNavigate } from 'react-router'
 import useOauth from './useOauth'
 
-function UserLoginScreen () {
+function UserLogin () {
   const navigate = useNavigate()
-  const { organisation, fetchOrganisation } = Store.useGlobal(state => state)
-  useEffect(() => {
-    fetchOrganisation('user')
-  }, [])
-  const { mutate: loginUser, isLoading: loading } = User.Queries.useLoginUser()
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: ''
-    },
-    onSubmit: values => {
-      loginUser({
-        email: values.email,
-        password: values.password,
-        onSuccess: orgId => {
-          navigate(`../app/products/courses`)
-        }
-      })
-    }
-  })
-  const Google = useOauth('google')
 
-  return (
-    <Row style={{ minHeight: '100vh' }}>
+  // const { fetchOrganisation } = Store.useGlobal(state => state);
+  // const isSignedIn=Store.useAuthentication(s=>s.isSignedIn)
+  // useEffect(() => {
+  //   if (isSignedIn) {
+      
+  //   }
+  //   fetchOrganisation('user')
+  // }, [])
+  const params = useParams()
+
+  const [form] = Form.useForm()
+  const { mutate: sendOtp} = User.Queries.useSendLoginOtp();
+  const { mutate: verifyOtp} = User.Queries.useVerifyLoginOtp();
+
+
+  return ( <Row style={{ minHeight: '100vh' }}>
+  <Col
+    style={{
+      backgroundColor: '#140342',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+    span={14}
+  >
+    <Image width={'90%'} src={BgImage} />
+  </Col>
+  <Col
+    span={10}
+    flex={1}
+    style={{
+      backgroundColor: '#FEFBF4',
+      justifyContent: 'center',
+      display: 'flex',
+      alignItems: 'center'
+    }}
+  >
+    <Row align={'middle'}>
       <Col
-        style={{
-          backgroundColor: '#140342',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-        span={14}
-      >
-        <Image width={'90%'} src={BgImage} />
-      </Col>
-      <Col
-        span={10}
+        span={24}
         flex={1}
-        style={{
-          backgroundColor: '#FEFBF4',
-          justifyContent: 'center',
-          display: 'flex',
-          alignItems: 'center'
-        }}
+        style={{ justifyContent: 'center', display: 'flex' }}
       >
-        <Row align={'middle'}>
-          <Col
-            span={24}
-            flex={1}
-            style={{ justifyContent: 'center', display: 'flex' }}
-          >
-            <Card style={{ width: 350 }}>
-              <AuthenticationCard title={<Image src={organisation.logo} />}>
-                <Form
-                  initialValues={{
-                    remember: true
-                  }}
-                  layout="vertical"
-                  onSubmitCapture={formik.handleSubmit}
-                >
-                  <Form.Item
-                    label="Email"
-                    name="email"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please enter your email!'
-                      },
-                      {
-                        type: 'email',
-                        message: 'Please enter a valid email address!'
-                      }
-                    ]}
-                  >
-                    <Input
-                      onChange={formik.handleChange}
-                      value={formik.values.email}
-                    />
-                  </Form.Item>
-
-                  <Form.Item
-                    label="Password"
-                    name="password"
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please enter your password!'
-                      }
-                    ]}
-                  >
-                    <Input
-                      onChange={formik.handleChange}
-                      value={formik.values.password}
-                    />
-                  </Form.Item>
-
-                  <Form.Item name="remember" valuePropName="checked">
-                    <Checkbox>Remember me</Checkbox>
-                  </Form.Item>
-
-                  <Form.Item>
-                    <Button
-                      loading={loading}
-                      block
-                      type="primary"
-                      htmlType="submit"
-                    >
-                      Submit
-                    </Button>
-                  </Form.Item>
-                  <Form.Item style={{ textAlign: 'center' }}>
-                    <Typography.Text>
-                      Don't have an account?{' '}
-                      <NavLink
-                        to={'/signup'}
-                        children={<Button type="link">Sign up?</Button>}
-                      />
-                    </Typography.Text>
-                  </Form.Item>
-                </Form>
-                <Divider dashed>or</Divider>
-
-                <Button
-                  // style={{ marginTop: 20 }}
-                  icon={<GoogleOutlined />}
-                  loading={Google.loading}
-                  block
-                  onClick={Google.openWindow}
-                  htmlType="submit"
-                >
-                  Login with Google
-                </Button>
-              </AuthenticationCard>
-            </Card>
-          </Col>
-        </Row>
+        <Card style={{ width: 350 }}>
+        <AuthenticationCard>
+      <Tabs
+        items={[
+          {
+            label: 'Login with OTP',
+            key: 'otp',
+            children: (
+      <OtpForm/>
+            )
+          },
+          {
+            label: 'Login with Email',
+            key: 'email',
+            children: (
+            <EmailForm/>
+            )
+          }
+        ]}
+      />
+    </AuthenticationCard>
+        </Card>
       </Col>
     </Row>
+  </Col>
+</Row>
+
   )
 }
 
-export default UserLoginScreen
+export default UserLogin
+
+
+const OtpForm = () => {
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const message = useMessage();
+  const [otpSent, setOtpSent] = useState(false);
+  const [contactNo, setContactNo] = useState('');
+  const { mutate: sendOtpApi,isLoading: sendingOtp} = User.Queries.useSendLoginOtp();
+  const { mutate: verifyOtpApi,isLoading: verifyingOtp} = User.Queries.useVerifyLoginOtp();
+  const sendOtp = async (d:{contactNo: string}) => {
+    try {
+      sendOtpApi(d,
+        {
+          onSuccess: user => {
+            setOtpSent(true)          }
+        }
+      )
+    } catch (error) {
+      console.log('Otp Failed:', error)
+    }
+  }
+
+  const verifyOtp = async (d: {  code: string }) => {
+    console.log(form.getFieldsValue(), 'llklklkl');
+    try {
+      const values = await form.validateFields()
+      verifyOtpApi({
+        code: d.code,
+        contactNo
+      },
+        {
+          onSuccess: user => {
+            message.open({
+              type: 'success',
+              content: `OTP Verified`
+            })
+            navigate(`../app/products/courses`)
+          },
+          onError: () => {
+              message.open({
+                type: 'error',
+                content: `Invalid OTP`
+              })
+            }
+        }
+      )
+    } catch (error) {
+      console.log('Otp Failed:', error)
+    }
+  }
+  return <>
+  {otpSent?   <Form
+  form={form}
+  initialValues={{
+    remember: true
+  }}
+  layout="vertical"
+  onFinish={verifyOtp}
+>
+  <Form.Item
+    label="Enter OTP"
+    name="code"
+    rules={[
+      {
+        required: true,
+        message: 'Please otp sent to you number!'
+      }
+    ]}
+  >
+    <Input />
+  </Form.Item>
+
+  <Form.Item>
+    <Button
+      loading={verifyingOtp}
+      block
+      type="primary"
+      htmlType="submit"
+    >
+      Verify OTP
+    </Button>
+  </Form.Item>
+</Form>:   <Form onValuesChange={e=>setContactNo(e.contactNo)}
+  form={form}
+  initialValues={{
+    remember: true
+  }}
+  layout="vertical"
+  onFinish={sendOtp}
+>
+  <Form.Item
+    label="Enter Mobile Number"
+    name="contactNo"
+    rules={[
+      {
+        required: true,
+        message: 'Please enter your mobile number!'
+      }
+    ]}
+  >
+    <Input />
+  </Form.Item>
+
+  <Form.Item>
+    <Button
+      loading={sendingOtp}
+      block
+      type="primary"
+      htmlType="submit"
+    >
+      Send OTP
+    </Button>
+  </Form.Item>
+  <Form.Item style={{ textAlign: 'center' }}>
+    <Typography.Text>
+      Don't have an account?{' '}
+      <ActionModal
+        width={300}
+        title="Login"
+        cta={<Button type="link">Sign up?</Button>}
+      >
+        <UserRegister />
+      </ActionModal>
+    </Typography.Text>
+  </Form.Item>
+</Form>}
+  </>
+}
+
+const EmailForm = () => {
+  const [form] = Form.useForm()
+  const Google = useOauth('google')
+  const {
+    mutate: loginUser,
+    isLoading: loading
+  } = User.Queries.useLoginUser();
+
+  const handleSubmit = async () => {
+    try {
+      const values = await form.validateFields()
+      loginUser(
+        {
+          email: values.email,
+          password: values.password
+        },
+        {
+          onSuccess: user => {
+            Utils.Storage.SetItem('orgId', user.organisation)
+          }
+        }
+      )
+    } catch (error) {
+      console.log('Validation failed:', error)
+    }
+  }
+  
+  return   <>
+  <Form
+    form={form}
+    initialValues={{
+      remember: true
+    }}
+    layout="vertical"
+    onFinish={handleSubmit}
+  >
+    <Form.Item
+      label="Email"
+      name="email"
+      rules={[
+        {
+          required: true,
+          message: 'Please enter your email!'
+        }
+      ]}
+    >
+      <Input />
+    </Form.Item>
+
+    <Form.Item
+      label="Password"
+      name="password"
+      rules={[
+        {
+          required: true,
+          message: 'Please enter your password!'
+        }
+      ]}
+    >
+      <Input.Password />
+    </Form.Item>
+
+    <Form.Item name="remember" valuePropName="checked">
+      <Checkbox>Remember me</Checkbox>
+    </Form.Item>
+
+    <Form.Item>
+      <Button
+        loading={loading}
+        block
+        type="primary"
+        htmlType="submit"
+      >
+        Submit
+      </Button>
+    </Form.Item>
+    <Form.Item style={{ textAlign: 'center' }}>
+      <Typography.Text>
+        Don't have an account?{' '}
+        <ActionModal
+          width={300}
+          title="Login"
+          cta={<Button type="link">Sign up?</Button>}
+        >
+          <UserRegister />
+        </ActionModal>
+      </Typography.Text>
+    </Form.Item>
+  </Form>
+
+  <Divider dashed>or</Divider>
+
+  <Button
+    icon={<GoogleOutlined />}
+    loading={Google.loading}
+    block
+    onClick={Google.openWindow}
+    htmlType="submit"
+  >
+    Login with Google
+  </Button>
+</>
+}

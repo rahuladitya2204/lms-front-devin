@@ -2,7 +2,7 @@ import { Button, Card, Form, Tabs } from 'antd'
 import { Fragment, useEffect } from 'react'
 import { Outlet, useParams } from 'react-router'
 
-import Header from '@Components/Header'
+import Header from '@User/Screens/UserRoot/UserHeader'
 import InstructorDetailsEditor from './InstructorDetailsEditor'
 import { Types } from '@adewaskar/lms-common'
 import { UploadOutlined } from '@ant-design/icons'

@@ -1,7 +1,7 @@
 import { Card, Col, Layout, Menu, Row, Segmented, Statistic, Tabs, TabsProps } from 'antd'
 
 import DashboardOverview from './Overview/Overview';
-import Header from '@Components/Header'
+import UserHeader from '../UserRoot/UserHeader';
 import { useNavigate } from 'react-router'
 
 const { Content, Sider } = Layout
@@ -28,13 +28,13 @@ const items: TabsProps['items'] = [
 const UserDashboard: React.FC = () => {
   const navigate = useNavigate()
   return (
-    <Header title="Dashboard">
+    <UserHeader title="Dashboard">
       <Row gutter={[30, 30]}>
         <Col span={24}>
           <Tabs defaultActiveKey="1" items={items}  />
               </Col>
       </Row>
-    </Header>
+    </UserHeader>
   )
 }
 

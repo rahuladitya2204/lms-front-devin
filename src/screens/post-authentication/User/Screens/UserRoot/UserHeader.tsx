@@ -21,13 +21,24 @@ import Image from '@Components/Image'
 import { Link } from 'react-router-dom'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
+import { PageHeaderProps } from '@ant-design/pro-layout';
 import Search from 'antd/es/input/Search'
 import { useState } from 'react'
+
+interface HeaderPropsI extends PageHeaderProps {
+  children?: React.ReactNode;
+  title?: React.ReactNode;
+  showBack?: boolean;
+  hideBack?: boolean;
+  extra?: React.ReactNode[];
+  theme?: string;
+  bgColor?: string;
+}
 
 const { Content } = Layout
   const { Text, Title } = Typography
   
-  const UserHeader: React.FC = () => {
+  const UserHeader: React.FC<HeaderPropsI> = (props) => {
     const { data: { items } } = Learner.Queries.useGetCartDetails();
     const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
     const [text, setText] = useState('')
@@ -47,12 +58,12 @@ const { Content } = Layout
             align="center"
             style={{ justifyContent: 'center', alignItems: 'center' }}
           >
-            <Avatar
+            {/* <Avatar
               shape="square"
               style={{ background: 'transparent' }}
               size={45}
               icon={<Image src={c.thumbnailImage} />}
-            />{' '}
+            />{' '} */}
             <Space direction="vertical" align="baseline">
               <Title style={{ margin: 0 }} level={5}>
                 {c.title}
@@ -106,31 +117,17 @@ const { Content } = Layout
         }
         bgColor="#fff"
         extra={[
-          <Link to={`store`} style={{ margin: '0 10px' }}>
-            <Text strong>Store</Text>
-          </Link>,
-          <Link to={`store`} style={{ margin: '0 10px' }}>
-            <Text strong>Blogs</Text>
-          </Link>,
-          ...(isSignedIn
-            ? [
-                <Link to={`courses`} style={{ margin: '0 10px' }}>
-                  <Text strong>My Courses</Text>
-                </Link>
-              ]
-            : [
-                <ActionModal
-                  width={300}
-                  title="Login"
-                  cta={<Button style={{ margin: '0 10px' }}>Login</Button>}
-                >
-                  <LoginScreen />
-                </ActionModal>
-              ]),
+          ...(props.extra || []),
+          // <Link to={`store`} style={{ margin: '0 10px' }}>
+          //   <Text strong>Store</Text>
+          // </Link>,
+          // <Link to={`store`} style={{ margin: '0 10px' }}>
+          //   <Text strong>Blogs</Text>
+          // </Link>,
   
           isSignedIn ? (
             <Space>
-                  <Badge count={items.length} showZero={false}>
+                  {/* <Badge count={items.length} showZero={false}>
                 <Button
                   onClick={() => {
                     navigate('cart')
@@ -139,7 +136,7 @@ const { Content } = Layout
                   shape="circle"
                   icon={<ShoppingCartOutlined />}
                 />
-              </Badge>
+              </Badge> */}
               <Dropdown  trigger={['click']}
                 placement="bottomLeft"
                 overlay={

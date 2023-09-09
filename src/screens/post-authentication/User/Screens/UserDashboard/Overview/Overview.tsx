@@ -52,7 +52,7 @@ const DashboardOverview: React.FC = () => {
             />
           </Col>
           <Col span={8}>
-            <Card loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isLoading} bordered={false}>
               <Statistic
                 title="Total Revenue"
                 value={Analytics?.totalRevenue}
@@ -64,7 +64,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isLoading} bordered={false}>
               <Statistic
                 title="New Signups"
                 value={Analytics?.totalNewSignups}
@@ -76,7 +76,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isLoading} bordered={false}>
               <Statistic
                 title="New Enrollments"
                 value={Analytics?.totalActiveUsers}
@@ -87,7 +87,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isLoading} bordered={false}>
               <Statistic
                 title="Active Users"
                 value={Analytics?.totalActiveUsers}
@@ -98,7 +98,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isLoading} bordered={false}>
               <Statistic
                 title="Total Time Spent"
                 value={Analytics?.totalActiveUsers}
