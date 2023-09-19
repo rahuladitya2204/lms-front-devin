@@ -35,7 +35,14 @@ export const useAppInit = (type: string) => {
   const [loading, setLoading] = useState(false);
   const {
     mutate: validateUser,
-  } = Common.Queries.useValidateUser()
+  } = Common.Queries.useValidateUser();
+  const { setIsSignedin, isSignedIn } = Store.useAuthentication.getState();
+
+  useEffect(() => {
+    if (isSignedIn && type === 'user') {
+      fetchOrganisation(`user`)
+    }
+   },[])
 
   useEffect(() => {
     initApp(type);
@@ -44,6 +51,7 @@ export const useAppInit = (type: string) => {
 
   const initApp = async (userType: string) => {
     const { setIsSignedin, isSignedIn } = Store.useAuthentication.getState();
+
     try {
       setLoading(true);
       if (isSignedIn && userType === 'user') {

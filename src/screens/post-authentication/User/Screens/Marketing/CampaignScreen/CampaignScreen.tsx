@@ -12,7 +12,7 @@ import {
 import { CheckOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import { CampaignStatus } from './Constant'
-import Header from '@Components/Header'
+import Header from '@User/Screens/UserRoot/UserHeader'
 import MoreButton from '@Components/MoreButton'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
@@ -82,8 +82,8 @@ function CampaignsScreen() {
                 key="status"
                 render={(_: any, record: Types.Campaign) =>
                   record.status ? (
-                    <Tag color={CampaignStatus[record.status].color}>
-                      {CampaignStatus[record.status].title}
+                    <Tag color={CampaignStatus[record?.status]?.color}>
+                      {CampaignStatus[record?.status]?.title}
                     </Tag>
                   ) : null
                 }

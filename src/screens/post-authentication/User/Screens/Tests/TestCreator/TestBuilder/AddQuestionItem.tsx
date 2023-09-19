@@ -119,6 +119,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               action={
                 <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
                   <GenerateQuestionWithAI submit={d => {
+                    console.log(d,'ddd12121212')
                     // console.log(d,'ooopo')
                   setCorrectOptions(d.correctOptions)
                     // form.setFieldsValue(d);

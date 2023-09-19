@@ -3,12 +3,12 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
 import AddPackage from './CreatePackage'
+import Container from '@Components/Container'
 import CreatePackage from './CreatePackage'
-import Header from '@Components/Header'
+import Header from '@User/Screens/UserRoot/UserHeader'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
-import Container from '@Components/Container'
 
 const { Text } = Typography
 

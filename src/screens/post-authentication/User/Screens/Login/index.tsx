@@ -1,13 +1,14 @@
+import { ArrowLeftOutlined, ContactsFilled, GoogleOutlined } from '@ant-design/icons'
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, Row } from 'antd'
-import { ContactsFilled, GoogleOutlined } from '@ant-design/icons'
+import { Constants, Store, User } from '@adewaskar/lms-common'
 import { NavLink, useParams } from 'react-router-dom'
-import { Store, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import BgImage from './image.svg'
 import { RegisterUser } from '@adewaskar/lms-common/lib/cjs/types/User/Api'
+import SelectFormGroup from '@Components/SelectFormGroup'
 import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
 import UserRegister from '../Register'
@@ -100,15 +101,32 @@ const OtpForm = () => {
   const [form] = Form.useForm();
   const message = useMessage();
   const [otpSent, setOtpSent] = useState(false);
-  const [contactNo, setContactNo] = useState('');
+  const [otpData, setOtpData] = useState({
+    contactNo: '',
+    countryCode: '91'
+  });
   const { mutate: sendOtpApi,isLoading: sendingOtp} = User.Queries.useSendLoginOtp();
   const { mutate: verifyOtpApi,isLoading: verifyingOtp} = User.Queries.useVerifyLoginOtp();
-  const sendOtp = async (d:{contactNo: string}) => {
+  const sendOtp = async () => {
     try {
-      sendOtpApi(d,
+      sendOtpApi({
+        contactNo:otpData.countryCode+otpData.contactNo
+      },
         {
           onSuccess: user => {
-            setOtpSent(true)          }
+            setOtpSent(true);
+            message.open({
+              type: 'success',
+              content: 'OTP has been sent'
+            })
+          },
+          onError: () => {
+            console.log('errr')
+            message.open({
+              type: 'error',
+              content: 'User not found'
+            })
+          }
         }
       )
     } catch (error) {
@@ -122,7 +140,8 @@ const OtpForm = () => {
       const values = await form.validateFields()
       verifyOtpApi({
         code: d.code,
-        contactNo
+        contactNo: otpData.countryCode+otpData.contactNo,
+        // countryCode: otp.countryCode
       },
         {
           onSuccess: user => {
@@ -152,7 +171,10 @@ const OtpForm = () => {
   }}
   layout="vertical"
   onFinish={verifyOtp}
->
+    >
+      <Button onClick={() => {
+        setOtpSent(false);
+      }} style={{marginBottom:10}} type='link' size='small' icon={<ArrowLeftOutlined/>}>Back</Button>
   <Form.Item
     label="Enter OTP"
     name="code"
@@ -166,25 +188,36 @@ const OtpForm = () => {
     <Input />
   </Form.Item>
 
-  <Form.Item>
+      <Form.Item>
+ 
     <Button
       loading={verifyingOtp}
-      block
+      block style={{marginBottom: 15}}
       type="primary"
       htmlType="submit"
     >
       Verify OTP
+        </Button>
+        <Button onClick={sendOtp}
+      loading={sendingOtp}
+      block
+    >
+      Resend OTP
     </Button>
   </Form.Item>
-</Form>:   <Form onValuesChange={e=>setContactNo(e.contactNo)}
+    </Form> : <Form onValuesChange={e => setOtpData({
+  ...otpData,
+  ...e.otp
+})}
   form={form}
   initialValues={{
     remember: true
   }}
   layout="vertical"
   onFinish={sendOtp}
->
-  <Form.Item
+      >
+        
+  {/* <Form.Item
     label="Enter Mobile Number"
     name="contactNo"
     rules={[
@@ -195,7 +228,20 @@ const OtpForm = () => {
     ]}
   >
     <Input />
-  </Form.Item>
+  </Form.Item> */}
+        <SelectFormGroup
+          prefixValue='+91'
+          prefixName={[
+          'otp','countryCode'
+        ]}
+          name={['otp', 'contactNo']}
+          prefixValues={Constants.COUNTRY_CODES.map(c => {
+            return {
+              label: <span>{c.code} { c.flag}</span>,
+              value: c.dial_code
+           }
+          })}
+          label='Enter Mobile Number' />
 
   <Form.Item>
     <Button
@@ -224,6 +270,7 @@ const OtpForm = () => {
 }
 
 const EmailForm = () => {
+  const navigate = useNavigate();
   const [form] = Form.useForm()
   const Google = useOauth('google')
   const {
@@ -242,6 +289,7 @@ const EmailForm = () => {
         {
           onSuccess: user => {
             Utils.Storage.SetItem('orgId', user.organisation)
+            navigate(`../app/products/courses`)
           }
         }
       )

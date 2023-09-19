@@ -1,6 +1,6 @@
 import { Button, Typography } from 'antd'
 
-import Header from '@Components/Header'
+import Header from '@User/Screens/UserRoot/UserHeader'
 import PastLiveSession from './PastLiveSession'
 import Tabs from '@Components/Tabs'
 import UpcomingLiveSession from './UpcomingLiveSession'

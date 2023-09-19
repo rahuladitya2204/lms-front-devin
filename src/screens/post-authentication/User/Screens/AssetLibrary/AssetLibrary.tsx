@@ -13,10 +13,10 @@ import { Common, Store, Types } from '@adewaskar/lms-common'
 
 import { DeleteOutlined } from '@ant-design/icons'
 import FileTypeIcon from '@Components/FileTypeIcon'
-import Header from '@Components/Header'
+import Header from '@User/Screens/UserRoot/UserHeader'
+import MoreButton from '@Components/MoreButton'
 import dayjs from 'dayjs'
 import { unit } from 'mathjs'
-import MoreButton from '@Components/MoreButton'
 
 const { Text } = Typography
 

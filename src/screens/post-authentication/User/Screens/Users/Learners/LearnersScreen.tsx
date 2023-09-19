@@ -3,13 +3,13 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
 import AddLearner from './AddLearners'
-import Header from '@Components/Header'
+import Container from '@Components/Container'
+import Header from '@User/Screens/UserRoot/UserHeader'
 import LearnersTable from './LearnersTable'
 import ThemeProvider from 'screens/ThemeProvider'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
-import Container from '@Components/Container'
 
 function LearnersScreen () {
   const { data, isLoading: loading } = User.Queries.useGetLearners()

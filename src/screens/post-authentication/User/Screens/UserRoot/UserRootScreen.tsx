@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 
 import AppProvider from 'screens/AppProvider'
 import LogoImage from './logo.svg'
+import OrgLogo from '@Components/OrgLogo'
 import { Store } from '@adewaskar/lms-common'
 import ThemeProvider from 'screens/ThemeProvider'
 import styled from '@emotion/styled'
@@ -13,10 +14,12 @@ const LogoHolder = styled.div`
   padding: 20px;
 `
 
-const Logo = styled.img`
-  width: 115px;
-  margin: auto;
-  display: block;
+const Logo = styled(OrgLogo)`
+  img {
+    width: 115px;
+    margin: auto;
+    display: block;
+  }
 `
 
 const { Content, Sider } = Layout
@@ -49,7 +52,7 @@ const UserRootScreen: React.FC = () => {
             onCollapse={value => setCollapsed(value)}
           >
             <LogoHolder>
-              <Logo src={LogoImage} />
+              <Logo />
             </LogoHolder>
             <Menu
               onClick={e => navigate(e.key)}

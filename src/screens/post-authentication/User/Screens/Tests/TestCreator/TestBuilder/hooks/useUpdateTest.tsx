@@ -21,7 +21,7 @@ function useUpdateTestForm(form: FormInstance) {
   const { mutate: updateItemApi } = User.Queries.useUpdateTestItem()
   const updateItem = debounce(updateItemApi, 300)
   const item =
-    findSectionItem(itemId + '', items);
+    findSectionItem(itemId + '', items) || {};
   const currentItemIndex = item ? items.findIndex(i => i._id === item._id) : -1
 
 
@@ -58,7 +58,7 @@ function useUpdateTestForm(form: FormInstance) {
 
   const onFormChange = (data: Partial<Types.TestQuestion>) => {
     console.log(data,'ddddd')
-    delete data.correctOptions;
+    // delete data.correctOptions;
     const newItem = {
       ...item,
       ...data,

@@ -1,14 +1,14 @@
 import { Button, Card, Col, Dropdown, Row, Space, Table, Tag } from 'antd'
 import { DeleteOutlined, DownOutlined, EditOutlined } from '@ant-design/icons'
 
-import Header from '@Components/Header'
+import Header from '@User/Screens/UserRoot/UserHeader'
+import { MenuItemType } from 'antd/es/menu/hooks/useItems'
+import MoreButton from '@Components/MoreButton'
 import { StatusMap } from '@Learner/Screens/Tickets/Constants'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
-import MoreButton from '@Components/MoreButton'
-import { MenuItemType } from 'antd/es/menu/hooks/useItems'
 
 function TicketsScreen() {
   const { data: tickets, isLoading: loading } = User.Queries.useGetTickets()
