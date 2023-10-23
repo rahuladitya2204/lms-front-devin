@@ -85,6 +85,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
         courseId={props.course._id}
         fields={['keywords']}
           onValuesChange={(e: any) => {
+            console.log(e,'eeeee')
             if (e && e.keywords) {
               const keywords = convertToCommaSeparated(e?.keywords?.toLowerCase());
               props.saveCourse({

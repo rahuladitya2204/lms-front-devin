@@ -59,7 +59,7 @@ const TestAttendedList = () => {
       <Table.Column
         title="Time Spent"
         render={(_: any, record: Types.TestLearnerResult) =>
-          `${Math.ceil(record.timeSpent / 3600)} min`
+          `${Math.ceil(record.timeSpent / 3600000)} min`
         }
         key="result"
       />
@@ -67,7 +67,7 @@ const TestAttendedList = () => {
       <Table.Column
         title="Percentile"
         render={(_: any, record: Types.TestLearnerResult) => (
-          <Tag color='orange-inverse'>{record.percentile}</Tag>
+          <Tag color="orange-inverse">{record.percentile}</Tag>
         )}
         key="percentile"
       />

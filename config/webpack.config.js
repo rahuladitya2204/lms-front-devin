@@ -193,10 +193,13 @@ module.exports = function (webpackEnv) {
   return {
     target: ['browserslist'],
     devServer: {
-      host: '0.0.0.0',
+      host: 'org1.nimblebee.local',
       port: 3000,
       disableHostCheck: true,
-      historyApiFallback: true,
+      historyApiFallback: {
+        disableDotRule: true,
+        index: '/learner/app/store/'
+      },
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods':

@@ -10,6 +10,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import MoreButton from '@Components/MoreButton'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import { cloneDeep } from 'lodash'
+import { htmlToText } from 'html-to-text'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
 
@@ -225,7 +226,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                       >
                         <List.Item.Meta
                           style={{ cursor: 'pointer' }}
-                          title={<Text>{item.title}</Text>}
+                          title={<Text>{htmlToText(item.title)}</Text>}
                           avatar={
                             <ReadOutlined />
                           }

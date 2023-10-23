@@ -45,7 +45,7 @@ const LearnerHeader: React.FC = () => {
       hideBack
       title={
         <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-          <OrgLogo />
+          <OrgLogo style={{ width: 60 }} />
           <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
             <SearchLearnerCourses />
           </Space>

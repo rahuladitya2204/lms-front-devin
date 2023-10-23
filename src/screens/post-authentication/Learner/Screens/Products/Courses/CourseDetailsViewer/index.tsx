@@ -72,7 +72,7 @@ function CourseDetailViewer () {
   const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
   const { mutate: enroll } = Learner.Queries.useEnrollForCourse();
   const { data: courses } = Learner.Queries.useGetEnrolledCourses()
-  const { mutate: updateCart } = Learner.Queries.useUpdateCartItems()
+  const { mutate: updateCart,isLoading: addingToCart } = Learner.Queries.useUpdateCartItems()
 
   const { data,isLoading: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
@@ -230,7 +230,7 @@ function CourseDetailViewer () {
                   
                   <Row gutter={[15, 15]}>
                   <Col span={24}>
-                    {!isEnrolled?<Button disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
+                    {!isEnrolled?<Button loading={addingToCart} disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
                       {isAddedToCart?`Added to cart`:`Add To Cart`}
                     </Button>:null}
                   </Col>

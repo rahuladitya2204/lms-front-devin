@@ -144,8 +144,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               required: true,
               message: "Enter questions's title"
             }
-          ]}>
-          <Input.TextArea readOnly={item?.isAiGenerated} style={{height:150}} placeholder="Enter the question title" />
+            ]}>
+              {/* @ts-ignore */}
+          <SunEditorComponent html readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={12}>

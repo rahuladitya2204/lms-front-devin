@@ -74,7 +74,8 @@ const AddTextItem: React.FC<AddItemProps> = props => {
               duration: getReadingTime(e.description)
             }
           }
-          onFormChange(data)
+          console.log(data, 'data')
+          // onFormChange(data)
         }}
       >
         <Form.Item name="title" label="Title" required>
@@ -154,7 +155,13 @@ const AddTextItem: React.FC<AddItemProps> = props => {
           </Col>
         </Row>
         <Form.Item name="description" label="Description">
-          <SunEditorComponent />
+          <SunEditorComponent
+            // onChange={e =>
+            //   onFormChange({
+            //     description: e
+            //   })
+            // }
+          />
         </Form.Item>
 
         {item.description ? (
@@ -165,9 +172,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
                 Summary{' '}
                 <Button
                   loading={generatingSummary}
-                  onClick={() =>
-                    generateItemInfo(['summary'])
-                  }
+                  onClick={() => generateItemInfo(['summary'])}
                   type="primary"
                   size="small"
                 >

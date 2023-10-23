@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Modal, Row, Spin } from 'antd'
+import { Button, Card, Col, Form, Modal, Row, Spin, Tag } from 'antd'
 import {
   ClockCircleOutlined,
   EyeOutlined,
@@ -11,7 +11,7 @@ import {
   UploadOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
@@ -97,26 +97,30 @@ function CourseEditor() {
                 </span>
               }
               extra={[
-                <Button
-                  disabled={!Utils.validatePublishCourse(course)}
-                  onClick={() => {
-                    confirm({
-                      title: 'Are you sure?',
-                      content: `You want to publish this course?`,
-                      onOk() {
-                        console.log(course, 'course')
-                        publishCourse({
-                          courseId: course._id
-                        })
-                      },
-                      okText: 'Yes, Publish'
-                    })
-                  }}
-                  style={{ marginRight: 15 }}
-                  icon={<UploadOutlined />}
-                >
-                  Publish Course
-                </Button>,
+                course.status === Enum.CourseStatus.PUBLISHED ? (
+                  <Tag color="green">Course is Live</Tag>
+                ) : (
+                  <Button
+                    disabled={!Utils.validatePublishCourse(course)}
+                    onClick={() => {
+                      confirm({
+                        title: 'Are you sure?',
+                        content: `You want to publish this course?`,
+                        onOk() {
+                          console.log(course, 'course')
+                          publishCourse({
+                            courseId: course._id
+                          })
+                        },
+                        okText: 'Yes, Publish'
+                      })
+                    }}
+                    style={{ marginRight: 15 }}
+                    icon={<UploadOutlined />}
+                  >
+                    Publish Course
+                  </Button>
+                ),
                 <Button
                   disabled={!validateDraftCourse()}
                   loading={loading}

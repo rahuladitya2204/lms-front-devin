@@ -145,10 +145,10 @@ function TestBuilderScreen() {
         },
         {
           onSuccess: () => {
-            message.open({
-              type: 'success',
-              content: 'Saved Test'
-            })
+            // message.open({
+            //   type: 'success',
+            //   content: 'Saved Test'
+            // })
           }
         }
       )
@@ -249,7 +249,7 @@ function TestBuilderScreen() {
           </span>
         }
         extra={[
-          <Spin spinning={savingTest}><Tag>Changes will be automatically saved</Tag></Spin>,
+          <Tag>{savingTest?'Saving..':`Changes will be automatically saved`}</Tag>,
           // @ts-ignore
           test.status === Enum.CourseStatus.PUBLISHED ? (
             <Tag color="green">Test is Published</Tag>

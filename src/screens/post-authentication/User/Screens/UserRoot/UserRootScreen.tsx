@@ -2,11 +2,12 @@ import { Col, Layout, Menu, Row } from 'antd'
 import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useEffect, useState } from 'react'
+import { Store, User } from '@adewaskar/lms-common'
 
 import AppProvider from 'screens/AppProvider'
+import LoadingScreen from '@Components/LoadingScreen'
 import LogoImage from './logo.svg'
 import OrgLogo from '@Components/OrgLogo'
-import { Store } from '@adewaskar/lms-common'
 import ThemeProvider from 'screens/ThemeProvider'
 import styled from '@emotion/styled'
 
@@ -26,21 +27,14 @@ const { Content, Sider } = Layout
 
 const UserRootScreen: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
-  // const { isSignedIn } = Store.useAuthentication(s => s)
+  const { isLoading } = User.Queries.useInitUser()
 
-  // useEffect(
-  //   () => {
-  //     // console.log()
-  //     if (!isSignedIn) {
-  //       navigate('../app/store')
-  //     }
-  //     else {
-  //       navigate('../login')
-  //     }
-  //   },
-  //   [isSignedIn]
-  // )
   const navigate = useNavigate()
+
+  // if (isLoading) {
+  //   return <LoadingScreen />
+  // }
+
   return (
     <ThemeProvider type="user">
       <AppProvider>

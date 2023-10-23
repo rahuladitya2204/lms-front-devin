@@ -14,7 +14,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { questionId,testId } = useParams();
   const { currentQuestion, currentQuestionIndex } = useQuestion();
   const [targetDate, setTargetDate] = useState('');
-  const { mutate: submitAnswer} = Learner.Queries.useSubmitTestAnswer();
+  const { mutate: submitAnswer,isLoading: submittingAnswer} = Learner.Queries.useSubmitTestAnswer();
   const OptionSelectedFormControl =
     currentQuestion.type === 'single' ? Radio : Checkbox;
   const [answersGiven, setAnswersGiven] = useState<number[]>([]);
@@ -90,7 +90,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
           </Row>
         </Col>
         <Col flex={1} style={{display: 'flex',flexDirection:'row-reverse'}}>
-        <Button type='primary' style={{marginLeft:20,width: 110}} onClick={()=>{
+        <Button loading={submittingAnswer} type='primary' style={{marginLeft:20,width: 110}} onClick={()=>{
           submitAnswer({
             testId:testId + '',
             questionId:questionId + '',

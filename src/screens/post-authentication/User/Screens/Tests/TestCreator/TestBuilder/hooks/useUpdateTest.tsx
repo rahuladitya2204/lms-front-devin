@@ -1,7 +1,6 @@
 import { Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
-import { Constants } from '@adewaskar/lms-common'
 import { FormInstance } from 'antd/lib/form/Form'
 import { debounce } from 'lodash'
 import { findSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
@@ -18,7 +17,7 @@ function useUpdateTestForm(form: FormInstance) {
   })
   const items = test.sections.map(s => s.items).flat()
 
-  const { mutate: updateItemApi } = User.Queries.useUpdateTestItem()
+  const { mutate: updateItemApi,isLoading } = User.Queries.useUpdateTestItem()
   const updateItem = debounce(updateItemApi, 300)
   const item =
     findSectionItem(itemId + '', items) || {};
@@ -57,7 +56,6 @@ function useUpdateTestForm(form: FormInstance) {
   }
 
   const onFormChange = (data: Partial<Types.TestQuestion>) => {
-    console.log(data,'ddddd')
     // delete data.correctOptions;
     const newItem = {
       ...item,
@@ -72,10 +70,10 @@ function useUpdateTestForm(form: FormInstance) {
       },
       {
         onSuccess: () => {
-          message.open({
-            type: 'success',
-            content: `Saved`
-          })
+          // message.open({
+          //   type: 'success',
+          //   content: `Saved`
+          // })
         }
       }
     )
@@ -91,7 +89,8 @@ function useUpdateTestForm(form: FormInstance) {
     onFormChange:onFormChange,
     topics,
     handleTopicsChange,
-    correctOptions, setCorrectOptions
+    correctOptions, setCorrectOptions,
+    isLoading
   }
 }
 

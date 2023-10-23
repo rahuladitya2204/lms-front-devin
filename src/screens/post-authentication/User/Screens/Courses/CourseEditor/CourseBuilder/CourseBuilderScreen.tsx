@@ -47,10 +47,10 @@ function CourseBuilderScreen() {
     enabled: !!courseId
   })
   const savedDetails = (text?: string) => {
-    message.open({
-      type: 'success',
-      content: text || `Saved`
-    })
+    // message.open({
+    //   type: 'success',
+    //   content: text || `Saved`
+    // })
   }
   // const updateCourse = debounce(console.log, 600)
 
@@ -288,7 +288,7 @@ function CourseBuilderScreen() {
                   okText: 'Yes, Publish'
                 })
               }}
-              disabled={!Utils.validatePublishCourse(course)}
+              // disabled={!Utils.validatePublishCourse(course)}
               style={{ marginRight: 15 }}
               icon={<UploadOutlined />}
             >
