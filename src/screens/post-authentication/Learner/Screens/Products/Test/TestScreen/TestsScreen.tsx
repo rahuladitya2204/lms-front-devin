@@ -1,13 +1,13 @@
 import { Button, Typography } from 'antd'
 
-import PastLiveSession from './PastTests'
+import PastEvent from './PastTests'
 import PastTest from './PastTests'
 import Tabs from '@Components/Tabs'
-import UpcomingLiveSession from './UpcomingTests'
+import UpcomingEvent from './UpcomingTests'
 import UpcomingTest from './UpcomingTests'
 import { useNavigate } from 'react-router'
 
-const LiveSessionsScreen = () => {
+const EventsScreen = () => {
   const navigate = useNavigate()
 
   return (
@@ -29,4 +29,4 @@ const LiveSessionsScreen = () => {
   )
 }
 
-export default LiveSessionsScreen
+export default EventsScreen

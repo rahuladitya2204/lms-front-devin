@@ -30,7 +30,7 @@ const useDeviceController = () => {
 
 export default useDeviceController
 
-export const useLiveSession = (sessionId: string) => {
+export const useEvent = (sessionId: string) => {
   const meetingManager = useMeetingManager()
   const { mutate: addAttendee } = User.Queries.useAddAttendee()
   const joinMeeting = (session: any) => {
@@ -47,7 +47,7 @@ export const useLiveSession = (sessionId: string) => {
   }
 
   const start = async (
-    session: Types.LiveSession,
+    session: Types.Event,
     attendee: Types.LiveSesionAttendee
   ) => {
     console.log('called', session, attendee.session)

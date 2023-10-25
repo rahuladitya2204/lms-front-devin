@@ -16,8 +16,8 @@ import { useNavigate } from 'react-router'
 
 const { Text } = Typography
 
-function PastLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
-  const { data, isLoading: loading } = Learner.Queries.useGetLiveSessions(
+function PastEvent(props: { filter: Types.GetEventsFilter }) {
+  const { data, isLoading: loading } = Learner.Queries.useGetEvents(
     props.filter
   )
   return (
@@ -63,7 +63,7 @@ function PastLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
                       onClick={() =>
                         // navigate(`${record._id}/player`)
                         window.open(
-                          `live-session/${record._id}/player`,
+                          `event/${record._id}/player`,
                           '_blank'
                         )
                       } size='small'
@@ -78,4 +78,4 @@ function PastLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
     </Card>
   )
 }
-export default PastLiveSession
+export default PastEvent

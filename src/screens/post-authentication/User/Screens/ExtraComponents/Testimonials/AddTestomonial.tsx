@@ -1,7 +1,8 @@
+import { Button, Form, Image, Input } from 'antd'
+
 import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
-import { Button, Form, Image, Input } from 'antd'
 import { useEffect } from 'react'
 
 interface AddTestimonialPropsI {
@@ -33,14 +34,14 @@ export default function AddTestimonial(props: AddTestimonialPropsI) {
       <Form.Item label="Avatar" name="image">
         <MediaUpload
           // source={{
-          //   type: 'liveSession',
-          //   value: props.liveSession._id
+          //   type: 'event',
+          //   value: props.event._id
           // }}
           uploadType="image"
           name="image"
           width="200"
           height="300px"
-          // prefixKey={`live-sessions/${props.liveSession._id}/testimonials`}
+          // prefixKey={`events/${props.event._id}/testimonials`}
           renderItem={() => (
             <Image
               width={100}

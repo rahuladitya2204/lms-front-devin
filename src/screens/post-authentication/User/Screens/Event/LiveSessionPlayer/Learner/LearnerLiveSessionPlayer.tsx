@@ -5,7 +5,7 @@ import {
   UserActivityProvider,
   VideoTileGrid
 } from 'amazon-chime-sdk-component-library-react'
-import { useHandleMeetingEnd, useLiveSession } from './hooks'
+import { useHandleMeetingEnd, useEvent } from './hooks'
 
 import { Learner } from '@adewaskar/lms-common'
 import MeetingControls from './Player/MeetingControls'
@@ -16,14 +16,14 @@ import { useMeetingManager } from 'amazon-chime-sdk-component-library-react';
 import { useParams } from 'react-router'
 
 let joined = false
-const LiveSessionPlayer = () => {
+const EventPlayer = () => {
   const { sessionId } = useParams()
-  const { data: session } = Learner.Queries.useGetLiveSessionDetails(
+  const { data: session } = Learner.Queries.useGetEventDetails(
     sessionId + ''
   )
-  const { joinMeeting, start } = useLiveSession(sessionId + '')
+  const { joinMeeting, start } = useEvent(sessionId + '')
 
-  const { data: attendee } = Learner.Queries.useGetLiveSessionAttendeeDetails(
+  const { data: attendee } = Learner.Queries.useGetEventAttendeeDetails(
     sessionId + '',
     {
       enabled: !!session?.metadata?.MeetingId
@@ -88,4 +88,4 @@ const LiveSessionPlayer = () => {
   )
 }
 
-export default LiveSessionPlayer
+export default EventPlayer

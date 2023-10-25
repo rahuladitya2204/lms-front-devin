@@ -20,7 +20,7 @@ function StoreScreen () {
 
   const params = useParams()
   const {
-    data: { courses, liveSessions, tests },
+    data: { courses, events, tests },
     isLoading
   } = Learner.Queries.useGetRecommendedProducts()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()

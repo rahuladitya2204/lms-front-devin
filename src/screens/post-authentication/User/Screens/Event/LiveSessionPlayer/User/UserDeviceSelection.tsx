@@ -8,7 +8,7 @@ import { Constants, User } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
-import { useLiveSession } from './hooks';
+import { useEvent } from './hooks';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router';
 
@@ -16,14 +16,14 @@ const { Text } = Typography;
 
 const UserDeviceSelection = () => {
   const { sessionId } = useParams();
-  const { data: session } = User.Queries.useGetLiveSessionDetails(
+  const { data: session } = User.Queries.useGetEventDetails(
     sessionId + ''
   )
-  const {start }=useLiveSession(sessionId+'')
+  const {start }=useEvent(sessionId+'')
   const navigate = useNavigate();
   const {
     mutate: startSession, isLoading: startinSession
-  } = User.Queries.useStartLiveSession()
+  } = User.Queries.useStartEvent()
 
   const {
     mutate: endMeeting,
@@ -51,7 +51,7 @@ const UserDeviceSelection = () => {
     icon={<SmileOutlined />}
     title="Meeting has ended"
         extra={<Button type="primary" onClick={() => {
-      navigate('../app/live-session')
+      navigate('../app/event')
     }}>ok</Button>}
   />: <Card style={{
         width: 300,

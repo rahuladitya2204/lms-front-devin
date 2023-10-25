@@ -7,7 +7,7 @@ import {
 import { Constants, Learner } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 
-import { useLiveSession } from './hooks';
+import { useEvent } from './hooks';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router';
 
@@ -15,12 +15,12 @@ const { Title } = Typography;
 
 const LearnerDeviceSelection = () => {
   const { sessionId } = useParams();
-  const { data: session } = Learner.Queries.useGetLiveSessionDetails(
+  const { data: session } = Learner.Queries.useGetEventDetails(
     sessionId + ''
   )
   const navigate = useNavigate();
 
-  const { start } = useLiveSession(sessionId + '');
+  const { start } = useEvent(sessionId + '');
 
   useEffect(() => {
     // @ts-ignore

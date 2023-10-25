@@ -2,11 +2,11 @@ import { Button, Typography } from 'antd'
 
 import Tabs from '@Components/Tabs'
 import { useNavigate } from 'react-router'
-import UpcomingLiveSession from './UpcomingLiveSessions'
-import PastLiveSession from './PastLiveSessions'
+import UpcomingEvent from './UpcomingEvents'
+import PastEvent from './PastEvents'
 
 
-const LiveSessionsScreen = () => {
+const EventsScreen = () => {
   const navigate = useNavigate()
 
   return (
@@ -16,16 +16,16 @@ const LiveSessionsScreen = () => {
         {
           key: 'upcoming',
           label: `Upcoming`,
-          children: <UpcomingLiveSession filter={{ status: 'created' }} />
+          children: <UpcomingEvent filter={{ status: 'created' }} />
         },
         {
           key: 'past',
           label: `Past`,
-          children: <PastLiveSession filter={{ status: 'ended' }} />
+          children: <PastEvent filter={{ status: 'ended' }} />
         }
       ]}
     />
   )
 }
 
-export default LiveSessionsScreen
+export default EventsScreen

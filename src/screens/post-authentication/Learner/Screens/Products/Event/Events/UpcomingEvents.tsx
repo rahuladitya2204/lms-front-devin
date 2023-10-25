@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router'
 
 const { Meta } = Card
 
-function UpcomingLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
-  const { data, isLoading: loading } = Learner.Queries.useGetLiveSessions(
+function UpcomingEvent(props: { filter: Types.GetEventsFilter }) {
+  const { data, isLoading: loading } = Learner.Queries.useGetEvents(
     props.filter
   )
   const navigate = useNavigate()
@@ -61,4 +61,4 @@ function UpcomingLiveSession(props: { filter: Types.GetLiveSessionsFilter }) {
     />
   )
 }
-export default UpcomingLiveSession
+export default UpcomingEvent

@@ -8,7 +8,7 @@ import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 
-const LiveSessionPlayer = () => {
+const EventPlayer = () => {
   // ... rest of the code
 
   return (
@@ -31,4 +31,4 @@ const LiveSessionPlayer = () => {
   )
 }
 
-export default LiveSessionPlayer
+export default EventPlayer

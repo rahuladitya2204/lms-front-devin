@@ -17,7 +17,7 @@ import { ThemeProvider } from 'styled-components'
 
 const { Text } = Typography
 
-const UserLiveSessionPlayerEnter = () => {
+const UserEventPlayerEnter = () => {
   const { sessionId } = useParams()
   // const logger = new ConsoleLogger('SDK', LogLevel.INFO)
 
@@ -42,4 +42,4 @@ const UserLiveSessionPlayerEnter = () => {
   )
 }
 
-export default UserLiveSessionPlayerEnter
+export default UserEventPlayerEnter

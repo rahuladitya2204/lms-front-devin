@@ -15,7 +15,7 @@ import { Learner } from '@adewaskar/lms-common'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 import { ThemeProvider } from 'styled-components'
 
-const LearnerLiveSessionPlayerEnter = () => {
+const LearnerEventPlayerEnter = () => {
   const { sessionId } = useParams()
   const logger = new ConsoleLogger('SDK', LogLevel.INFO)
   const deviceController = new DefaultDeviceController(logger)
@@ -23,7 +23,7 @@ const LearnerLiveSessionPlayerEnter = () => {
     logLevel: LogLevel.INFO,
     simulcastEnabled: true
   }
-  const { data: session } = Learner.Queries.useGetLiveSessionDetails(
+  const { data: session } = Learner.Queries.useGetEventDetails(
     sessionId + ''
   )
 
@@ -49,4 +49,4 @@ const LearnerLiveSessionPlayerEnter = () => {
   )
 }
 
-export default LearnerLiveSessionPlayerEnter
+export default LearnerEventPlayerEnter

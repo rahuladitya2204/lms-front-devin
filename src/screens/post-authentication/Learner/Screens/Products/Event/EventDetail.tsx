@@ -1,29 +1,30 @@
-import ProductCheckoutButton from '@Components/CheckoutButton'
+import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
+import { Learner, Utils } from '@adewaskar/lms-common'
+
+import { CalendarOutlined } from '@ant-design/icons'
 import Countdown from '@Components/Countdown'
 import Image from '@Components/Image'
-import { Learner, Utils } from '@adewaskar/lms-common'
-import { CalendarOutlined } from '@ant-design/icons'
-import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
+import ProductCheckoutButton from '@Components/CheckoutButton'
 import dayjs from 'dayjs'
 import { useParams } from 'react-router'
 
 const { Text, Title } = Typography
 
-interface LiveSessionDetailScreenPropsI {}
+interface EventDetailScreenPropsI {}
 
-export default function LiveSessionDetailScreen(
-  props: LiveSessionDetailScreenPropsI
+export default function EventDetailScreen(
+  props: EventDetailScreenPropsI
 ) {
   const { sessionId } = useParams()
   const {
     data: enrolledDetails
   } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'live-session',
+    type: 'event',
     id: sessionId + ''
   })
   const isEnrolled = !!enrolledDetails._id
   console.log(isEnrolled, 'enrolledDetails')
-  const { data: liveSession } = Learner.Queries.useGetLiveSessionDetails(
+  const { data: event } = Learner.Queries.useGetEventDetails(
     sessionId + ''
   )
   // const now = new Date().getTime()
@@ -32,17 +33,17 @@ export default function LiveSessionDetailScreen(
       <Col span={24}>
         <Row gutter={[30, 30]}>
           <Col span={15}>
-            <Image src={liveSession.image} />
+            <Image src={event.image} />
           </Col>
           <Col span={9}>
-            <Card style={{ height: '100%' }} title={liveSession.title}>
+            <Card style={{ height: '100%' }} title={event.title}>
               <Row gutter={[20, 40]} align="stretch">
                 <Col span={24} flex={1}>
                   <Row gutter={[20, 10]}>
                     <Col span={24}>
                       <CalendarOutlined />
                       <Text strong style={{ marginLeft: 10 }}>
-                        {dayjs(liveSession.scheduledAt).format('LLL')}
+                        {dayjs(event.scheduledAt).format('LLL')}
                       </Text>
                     </Col>
                     <Col span={24}>
@@ -51,18 +52,18 @@ export default function LiveSessionDetailScreen(
                         Zoom Meeting
                       </Text>
                     </Col>
-                    {!liveSession.startedAt ? (
+                    {!event.startedAt ? (
                       <Col span={24}>
                         <Tag color="blue">
                           Starting in{' '}
                           <Countdown
-                            targetDate={liveSession.scheduledAt}
+                            targetDate={event.scheduledAt}
                           />{' '}
                         </Tag>
                       </Col>
                     ) : (
                       <Col span={24}>
-                        {!liveSession.endedAt ? (
+                        {!event.endedAt ? (
                           <Tag color="volcano">Session has started</Tag>
                         ) : (
                           <Tag color="volcano">Session has ended</Tag>
@@ -72,11 +73,11 @@ export default function LiveSessionDetailScreen(
                   </Row>
                 </Col>
                 {isEnrolled ? (
-                  liveSession.startedAt ? (
+                  event.startedAt ? (
                     <Col span={24}>
                       <Row gutter={[10, 10]}>
                         <Col span={24}>
-                          {!liveSession.endedAt ? (
+                          {!event.endedAt ? (
                             <Button type="primary" block>
                               Join Session
                             </Button>
@@ -101,16 +102,16 @@ export default function LiveSessionDetailScreen(
                             }}
                             type="secondary"
                           >
-                            {Utils.UnitTypeToStr(liveSession.price)}
+                            {Utils.UnitTypeToStr(event.price)}
                           </Text>
                           <Text strong style={{ fontSize: 20 }}>
-                            {Utils.UnitTypeToStr(liveSession.price)}
+                            {Utils.UnitTypeToStr(event.price)}
                           </Text>
                         </Space>
                       </Col>
                       <Col span={24}>
                         <ProductCheckoutButton
-                          product={{ type: 'live-session', id: sessionId + '' }}
+                          product={{ type: 'event', id: sessionId + '' }}
                           block
                           type="primary"
                         >
@@ -125,7 +126,7 @@ export default function LiveSessionDetailScreen(
           </Col>
         </Row>
       </Col>
-      <Col>{liveSession.description}</Col>
+      <Col>{event.description}</Col>
     </Row>
   )
 }

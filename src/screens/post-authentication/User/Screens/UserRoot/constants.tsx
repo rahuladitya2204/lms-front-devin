@@ -45,9 +45,9 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     ]
   },
   {
-    title: 'Live Sessions',
+    title: 'Events',
     icon: <VideoCameraOutlined />,
-    path: 'live-session',
+    path: 'event',
   },
   {
     title: 'Users',

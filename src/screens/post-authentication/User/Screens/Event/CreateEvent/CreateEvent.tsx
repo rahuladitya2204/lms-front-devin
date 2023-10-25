@@ -1,3 +1,4 @@
+import AddOutcome, { Outcome } from '../../ExtraComponents/Outcomes/AddOutcome'
 import {
   Button,
   Card,
@@ -12,8 +13,12 @@ import {
 } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
+import ActionModal from '@Components/ActionModal'
+import AddTestimonial from '../../ExtraComponents/Testimonials/AddTestomonial'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
+import EventOutcomes from '../../ExtraComponents/Outcomes/Outcomes'
+import EventTestimonials from '../../ExtraComponents/Testimonials/Testimonials'
 import MediaUpload from '@Components/MediaUpload'
 import PriceFormItem from '@Components/PriceFormItem'
 import TextArea from '@Components/Textarea'
@@ -22,46 +27,41 @@ import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { useParams } from 'react-router'
-import ActionModal from '@Components/ActionModal'
-import AddOutcome, { Outcome } from '../../ExtraComponents/Outcomes/AddOutcome'
-import LiveSessionOutcomes from '../../ExtraComponents/Outcomes/Outcomes'
-import AddTestimonial from '../../ExtraComponents/Testimonials/AddTestomonial'
-import LiveSessionTestimonials from '../../ExtraComponents/Testimonials/Testimonials'
 
-interface CreateLiveSessionComponentPropsI {
+interface CreateEventComponentPropsI {
   children?: ReactNode;
   closeModal?: Function;
-  onFinish?: (data: Types.LiveSession) => void;
+  onFinish?: (data: Types.Event) => void;
 }
 
-const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
+const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
   const { sessionId } = useParams();
   const [outcomes, setOutcomes] = useState<Outcome[]>([]);
   const [testimonials, setTestimonials] = useState<Types.Testimonial[]>([]);
 
   const {
-    mutate: createLiveSession,
-    isLoading: createLiveSessionLoading
-  } = User.Queries.useCreateLiveSession()
+    mutate: createEvent,
+    isLoading: createEventLoading
+  } = User.Queries.useCreateEvent()
   const {
-    mutate: updateLiveSession,
-    isLoading: updateLiveSessionLoading
-  } = User.Queries.useUpdateLiveSession()
+    mutate: updateEvent,
+    isLoading: updateEventLoading
+  } = User.Queries.useUpdateEvent()
 
-  const {data: sessionDetails}=User.Queries.useGetLiveSessionDetails(sessionId+'',{
+  const {data: sessionDetails}=User.Queries.useGetEventDetails(sessionId+'',{
     enabled:!!sessionId
   })
 
-  const [form] = Form.useForm<Types.CreateLiveSessionPayload>()
+  const [form] = Form.useForm<Types.CreateEventPayload>()
 
-  const onSubmit = (e: Types.CreateLiveSessionPayload) => {
+  const onSubmit = (e: Types.CreateEventPayload) => {
     const data= {
       ...e,
       testimonials,
       outcomes
     }
     if (sessionId) {
-      updateLiveSession(
+      updateEvent(
         { id: sessionId, data:data },
         {
           onSuccess: () => {
@@ -71,7 +71,7 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
         }
       )
     } else {
-      createLiveSession(data, {
+      createEvent(data, {
         onSuccess: () => {
           props.closeModal && props.closeModal()
         }
@@ -92,8 +92,8 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
 
 
   return (
-    <Header showBack title='Create Live Session' extra={[<Button
-      loading={createLiveSessionLoading || updateLiveSessionLoading}
+    <Header showBack title='Create Event' extra={[<Button
+      loading={createEventLoading || updateEventLoading}
       key="submit"
       type="primary"
       onClick={form.submit}
@@ -138,7 +138,7 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
             rules={[
               {
                 required: true,
-                message: 'Please enter duration of the Live Session'
+                message: 'Please enter duration of the Event'
               }
             ]}
             name="duration"
@@ -156,11 +156,11 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
                   <Col span={8}>
         <MediaUpload
                   source={{
-                    type: 'liveSession.thumbnail',
+                    type: 'event.thumbnail',
                     value: sessionId + ''
                   }}
                   uploadType="image"
-                  // prefixKey={`live-sessions/${sessionId}/image`}
+                  // prefixKey={`events/${sessionId}/image`}
                   cropper
                   width="100%"
                   // height="200px"
@@ -230,7 +230,7 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
                 setOutcomes([...outcomes, e]);
               }}/>
             </ActionModal>}>
-              <LiveSessionOutcomes deleteItem={(index:number) => {
+              <EventOutcomes deleteItem={(index:number) => {
                   const OUTCOMES = [...outcomes];
                   OUTCOMES.splice(index,1)
                 setOutcomes(OUTCOMES);
@@ -246,7 +246,7 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
                 setTestimonials([...testimonials, e]);
               }}/>
             </ActionModal>}>
-              <LiveSessionTestimonials deleteItem={index => {
+              <EventTestimonials deleteItem={index => {
                   const TESTIMONIALS = [...testimonials];
                   TESTIMONIALS.splice(index,1)
                 setTestimonials(TESTIMONIALS);
@@ -264,4 +264,4 @@ const CreateLiveSession: React.FC<CreateLiveSessionComponentPropsI> = props => {
   )
 }
 
-export default CreateLiveSession
+export default CreateEvent

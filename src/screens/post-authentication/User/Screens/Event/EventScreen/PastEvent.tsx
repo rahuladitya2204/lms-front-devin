@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router'
 
 const { Text } = Typography;
 
-function UpcomingLiveSession(props:{filter:Types.GetLiveSessionsFilter}) {
-  const { data, isLoading: loading } = User.Queries.useGetLiveSessions(props.filter);
+function PastEvent(props:{filter:Types.GetEventsFilter}) {
+  const { data, isLoading: loading } = User.Queries.useGetEvents(props.filter);
   return (
       <Card
         bodyStyle={{ padding: 0 }}
@@ -20,27 +20,44 @@ function UpcomingLiveSession(props:{filter:Types.GetLiveSessionsFilter}) {
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
               <Table.Column title="Title" dataIndex="title" key="title" />
-              <Table.Column
-                title="Scheduled for"
-                dataIndex="scheduledAt"
-                key="scheduledAt"
-                render={(_: any, record: Types.LiveSession) => (
+                <Table.Column
+                title="Started At"
+                dataIndex="startedAt"
+                key="startedAt"
+                render={(_: any, record: Types.Event) => (
                   <Space size="middle">
-                    {dayjs(record.scheduledAt).format('LLL')}
+                    {dayjs(record.startedAt).format('LLL')}
                   </Space>
                 )}
               />
-
+                <Table.Column
+                title="Ended At"
+                dataIndex="endedAt"
+                key="endedAt"
+                render={(_: any, record: Types.Event) => (
+                  <Space size="middle">
+                    {record.endedAt ?dayjs(record.endedAt).format('LLL'):'-'}
+                  </Space>
+                )}
+              />
+              <Table.Column
+                title="Total Attendees"
+                dataIndex="Attendees"
+                key="Attendees"
+                render={(_: any, record: Types.Event) => (
+                  <>{record.attendees.length} </>
+                )}
+              />
               <Table.Column
                 title="Action"
                 key="action"
-                render={(_: any, record: Types.LiveSession) => (
+                render={(_: any, record: Types.Event) => (
                   <Space size="middle">
                     {record.recording.status?<>{record?.recording.status==='completed' ? <ViewRecording session={record} /> : <Tag color='cyan'>Processing Recording</Tag> }</>:!(record.startedAt&&record.endedAt)?<Button type='primary'
                       onClick={() =>
                         // navigate(`${record._id}/player`)
                         window.open(
-                          `live-session/${record._id}/player`,
+                          `event/${record._id}/player`,
                           '_blank'
                         )
                       } size='small'
@@ -55,4 +72,4 @@ function UpcomingLiveSession(props:{filter:Types.GetLiveSessionsFilter}) {
       </Card>
   )
 }
-export default UpcomingLiveSession
+export default PastEvent

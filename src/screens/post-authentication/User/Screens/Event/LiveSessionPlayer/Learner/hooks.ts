@@ -32,10 +32,10 @@ const useDeviceController = () => {
 
 export default useDeviceController
 
-export const useLiveSession = (sessionId: string) => {
+export const useEvent = (sessionId: string) => {
   const meetingManager = useMeetingManager()
   const message = useMessage()
-  const displayRecordingAlert = (session: Types.LiveSession) => {
+  const displayRecordingAlert = (session: Types.Event) => {
     console.log('11')
     if (session.recording.enabled) {
       message.open({
@@ -63,7 +63,7 @@ export const useLiveSession = (sessionId: string) => {
   }
 
   const start = async (
-    session: Types.LiveSession,
+    session: Types.Event,
     attendee: Types.LiveSesionAttendee
   ) => {
     console.log('called', session, attendee.session)

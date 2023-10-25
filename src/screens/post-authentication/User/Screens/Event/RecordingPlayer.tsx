@@ -4,7 +4,7 @@ import { Types, User } from '@adewaskar/lms-common'
 import ActionModal from '@Components/ActionModal'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 
-function ViewRecording({ session }: { session: Types.LiveSession }) {
+function ViewRecording({ session }: { session: Types.Event }) {
   const { data: file } = User.Queries.useGetFileDetails(session.recording.file)
   return (
     <ActionModal

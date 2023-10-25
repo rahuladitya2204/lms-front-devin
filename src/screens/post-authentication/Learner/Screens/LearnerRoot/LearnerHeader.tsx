@@ -72,7 +72,7 @@ const LearnerHeader: React.FC = () => {
               <Link to={`test`} style={{ margin: '0 10px' }}>
                 <Text strong>Tests</Text>
               </Link>,
-              <Link to={`live-session`} style={{ margin: '0 10px' }}>
+              <Link to={`event`} style={{ margin: '0 10px' }}>
                 <Text strong>Webinars</Text>
               </Link>
             ]

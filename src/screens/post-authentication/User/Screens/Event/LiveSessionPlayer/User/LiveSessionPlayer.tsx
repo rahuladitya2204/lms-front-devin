@@ -8,7 +8,7 @@ import {
 import { StyledContent, StyledLayout } from './Player/styled'
 import { Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
-import { useHandleMeetingEnd, useLiveSession } from './hooks'
+import { useHandleMeetingEnd, useEvent } from './hooks'
 
 import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
@@ -18,16 +18,16 @@ import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
 
 let joined = false
-const LiveSessionPlayer = () => {
+const EventPlayer = () => {
   const message = useMessage()
   // const [joined, setJoined] = useState(false)
   const { sessionId } = useParams()
-  const { data: session } = User.Queries.useGetLiveSessionDetails(
+  const { data: session } = User.Queries.useGetEventDetails(
     sessionId + ''
   )
-  const { joinMeeting, start } = useLiveSession(sessionId + '')
+  const { joinMeeting, start } = useEvent(sessionId + '')
 
-  const { data: attendee } = User.Queries.useGetLiveSessionAttendeeDetails(
+  const { data: attendee } = User.Queries.useGetEventAttendeeDetails(
     sessionId + '',
     {
       enabled: !!session?.metadata?.MeetingId
@@ -36,7 +36,7 @@ const LiveSessionPlayer = () => {
 
   useHandleMeetingEnd()
 
-  const displayRecordingAlert = (session: Types.LiveSession) => {
+  const displayRecordingAlert = (session: Types.Event) => {
     if (session.recording.enabled) {
       message.open({
         type: 'success',
@@ -105,4 +105,4 @@ const LiveSessionPlayer = () => {
   )
 }
 
-export default LiveSessionPlayer
+export default EventPlayer

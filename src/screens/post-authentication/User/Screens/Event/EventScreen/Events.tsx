@@ -1,19 +1,19 @@
 import { Button, Typography } from 'antd'
 
 import Header from '@User/Screens/UserRoot/UserHeader'
-import PastLiveSession from './PastLiveSession'
+import PastEvent from './PastEvent'
 import Tabs from '@Components/Tabs'
-import UpcomingLiveSession from './UpcomingLiveSession'
+import UpcomingEvent from './UpcomingEvent'
 import { useNavigate } from 'react-router'
 
 const { Text } = Typography
 
-const LiveSessionsScreen = () => {
+const EventsScreen = () => {
   const navigate = useNavigate()
 
   return (
     <Header
-      title="Live Session"
+      title="Event"
       extra={[
         <Button type="primary" onClick={() => navigate(`create`)}>
           Create New Session
@@ -27,12 +27,12 @@ const LiveSessionsScreen = () => {
           {
             key: 'upcoming',
             label: `Upcoming`,
-            children: <UpcomingLiveSession filter={{ status: 'created' }} />
+            children: <UpcomingEvent filter={{ status: 'created' }} />
           },
           {
             key: 'past',
             label: `Past`,
-            children: <PastLiveSession filter={{ status: 'ended' }} />
+            children: <PastEvent filter={{ status: 'ended' }} />
           }
         ]}
       />
@@ -40,4 +40,4 @@ const LiveSessionsScreen = () => {
   )
 }
 
-export default LiveSessionsScreen
+export default EventsScreen
