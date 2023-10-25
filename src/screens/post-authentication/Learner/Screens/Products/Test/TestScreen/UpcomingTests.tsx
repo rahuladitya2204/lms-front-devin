@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card, Col, List, Row, Skeleton, Typography } from 'antd'
+import { Avatar, Badge, Button, Card, Col, List, Row, Skeleton, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import { CalendarOutlined } from '@ant-design/icons'
@@ -63,11 +63,9 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
             style={{ width: 300 }}
             // @ts-ignore
             cover={<Image alt="example" src={test.image} />}
-            // actions={[
-            //   <SettingOutlined key="setting" />,
-            //   <EditOutlined key="edit" />,
-            //   <EllipsisOutlined key="ellipsis" />
-            // ]}
+            actions={[
+              // <Button block>View Result</Button>
+            ]}
           >
             <Meta
               // avatar={

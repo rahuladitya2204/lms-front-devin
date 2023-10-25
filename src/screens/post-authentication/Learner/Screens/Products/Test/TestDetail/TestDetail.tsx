@@ -26,11 +26,17 @@ export default function TestDetailScreen(
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'test',
     id: testId + ''
+  }, {
+    enabled:!!testId
   })
   const isEnrolled = !!enrolledDetails._id
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   console.log(test.status, 'test.status');
-  const ENROLLED_CTA = useMemo(() => { 
+  const testStartDate =
+  enrolledDetails.metadata.test.startedAt || test.startedAt;
+
+const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
+const ENROLLED_CTA = useMemo(() => { 
     if (test.isLive) {
       switch (test.status) {
 
@@ -64,12 +70,12 @@ export default function TestDetailScreen(
     }
     else {
       console.log(enrolledDetails.metadata.test,'enrolledDetails')
-      if (!enrolledDetails.metadata.test.startedAt) {
+      if (!testStartDate) {
         return <Button onClick={()=>navigate('start')} block type='primary'>
         Start Test
       </Button>
       }
-      if((enrolledDetails.metadata.test.endedAt || enrolledDetails.metadata.test.submittedAt)) {
+      if((testStartDate && enrolledDetails.metadata.test.endedAt)) {
         return  <Alert
         style={{ marginBottom: 20 }}
         message="You have attended this test."

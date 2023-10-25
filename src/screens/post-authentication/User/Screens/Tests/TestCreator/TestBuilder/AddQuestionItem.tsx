@@ -200,7 +200,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 </Col>
                 <Col>
                     <OptionSelectedFormControl disabled={!!item.isAiGenerated}
-                      checked={correctOptions.indexOf(index) > -1}
+                      checked={correctOptions?.indexOf(index) > -1}
                       onChange={e => {
                       let options=[...correctOptions]
                       const indexOfOption=options.indexOf(index);

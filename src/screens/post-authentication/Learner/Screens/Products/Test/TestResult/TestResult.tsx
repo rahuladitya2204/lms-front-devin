@@ -53,7 +53,7 @@ const LearnerTestResult = function() {
                     return (
                       <Col span={24} key={item._id}>
                         <Title level={5}>Question {itemIndex + 1}</Title>
-                        <Text>{item.title}</Text>
+                        <HtmlViewer content={item.title}></HtmlViewer>
                         <Row gutter={[20, 20]}>
                           <Col span={24}>
                             <Row>

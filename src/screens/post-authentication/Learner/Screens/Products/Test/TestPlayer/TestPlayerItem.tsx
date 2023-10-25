@@ -1,6 +1,7 @@
 import { Button, Checkbox, Col, Progress, Radio, Row, Typography } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 
+import HtmlViewer from '@Components/HtmlViewer';
 import { Learner } from '@adewaskar/lms-common';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router'
@@ -48,8 +49,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
           </Title>
             </Col>
           </Row>
-        
-          <Title level={5}>{currentQuestion.title}</Title>
+          <HtmlViewer content={ currentQuestion.title} ></HtmlViewer>
 
           {currentQuestion.type==='single'?<Text style={{ marginTop: 20,fontSize:16 }} type="secondary">
             Select one among others
