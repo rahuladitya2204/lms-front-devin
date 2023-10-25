@@ -64,9 +64,9 @@ export default function EventDetailScreen(
                     ) : (
                       <Col span={24}>
                         {!event.endedAt ? (
-                          <Tag color="volcano">Session has started</Tag>
+                          <Tag color="volcano">Event has started</Tag>
                         ) : (
-                          <Tag color="volcano">Session has ended</Tag>
+                          <Tag color="volcano">Event has ended</Tag>
                         )}
                       </Col>
                     )}

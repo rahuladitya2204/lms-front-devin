@@ -24,7 +24,7 @@ const LearnerDeviceSelection = () => {
 
   useEffect(() => {
     // @ts-ignore
-    start(session, { metadata: Constants.INITIAL_LIVE_SESSION_ATTENDEE_DETAILS.metadata});
+    start(session, { metadata: Constants.INITIAL_EVENT_ATTENDEE_DETAILS.metadata});
   },[])
 
   const handleJoinMeeting = () => {

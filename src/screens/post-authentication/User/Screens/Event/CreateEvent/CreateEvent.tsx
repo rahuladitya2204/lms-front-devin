@@ -22,11 +22,11 @@ import EventTestimonials from '../../ExtraComponents/Testimonials/Testimonials'
 import MediaUpload from '@Components/MediaUpload'
 import PriceFormItem from '@Components/PriceFormItem'
 import TextArea from '@Components/Textarea'
-import { Types } from '@adewaskar/lms-common'
+import { Enum, Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 
 interface CreateEventComponentPropsI {
   children?: ReactNode;
@@ -35,10 +35,10 @@ interface CreateEventComponentPropsI {
 }
 
 const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
-  const { sessionId } = useParams();
+  const { eventId } = useParams();
   const [outcomes, setOutcomes] = useState<Outcome[]>([]);
   const [testimonials, setTestimonials] = useState<Types.Testimonial[]>([]);
-
+  const navigate = useNavigate();
   const {
     mutate: createEvent,
     isLoading: createEventLoading
@@ -48,8 +48,8 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
     isLoading: updateEventLoading
   } = User.Queries.useUpdateEvent()
 
-  const {data: sessionDetails}=User.Queries.useGetEventDetails(sessionId+'',{
-    enabled:!!sessionId
+  const {data: eventDetails,isLoading: loadingEvent}=User.Queries.useGetEventDetails(eventId+'',{
+    enabled:!!eventId
   })
 
   const [form] = Form.useForm<Types.CreateEventPayload>()
@@ -60,13 +60,14 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
       testimonials,
       outcomes
     }
-    if (sessionId) {
+    if (eventId) {
       updateEvent(
-        { id: sessionId, data:data },
+        { id: eventId, data:data },
         {
           onSuccess: () => {
             form.resetFields();
-            props.closeModal && props.closeModal()
+            props.closeModal && props.closeModal();
+            navigate('../')
           }
         }
       )
@@ -82,9 +83,12 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
 
   useEffect(
     () => {
-      form.setFieldsValue(sessionDetails)
+      const scheduledAt=dayjs(eventDetails.scheduledAt);
+      console.log(eventDetails, 'eventDetails')
+      // @ts-ignore
+      form.setFieldsValue({...eventDetails,scheduledAt})
     },
-    [sessionDetails]
+    [eventDetails]
   )
   const image = Form.useWatch('image', form);
 
@@ -99,8 +103,9 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
       onClick={form.submit}
       >
       Publish
-            </Button>]}>
-        <Card>
+    </Button>
+    ]}>
+        <Card loading={loadingEvent}>
       <Row>
         <Col span={24}>
       <>
@@ -112,7 +117,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
           { required: true, message: 'Please enter a title of the Live Stream' }
         ]}
         name="title"
-        label="Session Title"
+        label="Event Title"
         required
       >
         <Input placeholder="Enter a title for the live session" />
@@ -157,10 +162,10 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
         <MediaUpload
                   source={{
                     type: 'event.thumbnail',
-                    value: sessionId + ''
+                    value: eventId + ''
                   }}
                   uploadType="image"
-                  // prefixKey={`events/${sessionId}/image`}
+                  // prefixKey={`events/${eventId}/image`}
                   cropper
                   width="100%"
                   // height="200px"
@@ -191,11 +196,13 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
                     </Form.Item>
                   </Col>
       <Col span={12}>
-      <Form.Item name='type' label='Session Type'>
+      <Form.Item name='type' label='Event Type'>
 <Select
           options={[
-            { label: 'Webinar', value: 'webinar' },
-            { label: 'Conversational', value: 'conversational' }
+            { label: 'Webinar', value: Enum.EventType.WEBINAR },
+                          { label: 'Conversational', value: Enum.EventType.CONVERSATIONAL },
+                          { label: 'Offline', value: Enum.EventType.OFFLINE }
+
           ]}
         />
         </Form.Item>

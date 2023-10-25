@@ -16,7 +16,7 @@ const EventsScreen = () => {
       title="Event"
       extra={[
         <Button type="primary" onClick={() => navigate(`create`)}>
-          Create New Session
+          Create New Event
         </Button>
       ]}
     >

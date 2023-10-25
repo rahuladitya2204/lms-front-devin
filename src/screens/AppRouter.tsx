@@ -203,7 +203,7 @@ const router = createBrowserRouter(
         <Route path="event">
           <Route path="" element={<EventsScreen />} />
           <Route path="create" element={<CreateEvent />} />
-          <Route path=":sessionId/edit" element={<CreateEvent />} />
+          <Route path=":eventId/edit" element={<CreateEvent />} />
         </Route>
         <Route
           path="courses/:id/editor/information"
