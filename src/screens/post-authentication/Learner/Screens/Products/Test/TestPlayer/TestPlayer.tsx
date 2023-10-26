@@ -98,7 +98,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         </Button>
       ]}
     >
-      <ProctoringComponent />
+      {/* <ProctoringComponent /> */}
       <Row>
         <Col span={1} />
         <Col span={22}>

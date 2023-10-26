@@ -139,7 +139,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           <Col span={12}>
           <Form.Item label='Question Type' name={'type'}>
         <Select  disabled={isTestEnded}
-      style={{ width: 240 }}
+      style={{ width: '100%' }}
       options={QUESTION_TYPES}
     />
 
@@ -174,60 +174,54 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
         {(fields, { add, remove }) => (
           <>
             {fields.map((field, index) => (
-             <Row justify={'center'}>
-                    <Col flex={1}>
-                    <Form.Item 
+    <Row justify={'center'}>
+        <Col flex={1}>
+            <Form.Item 
                 rules={[
-                  { required: true, message: 'Please enter the answer.' },
+                    { required: true, message: 'Please enter the answer.' },
                 ]}
                 {...field}
-                >
-                    <TextArea height={150} html={{level:1}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
-                  </Form.Item>
-                </Col>
-                <Col>
-                    <OptionSelectedFormControl disabled={!!item.isAiGenerated}
-                      checked={correctOptions?.indexOf(index) > -1}
-                      onChange={e => {
-                      let options=[...correctOptions]
-                      const indexOfOption=options.indexOf(index);
-                      if (e.target.checked) {
+            >
+                <TextArea height={150} html={{level:1}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
+            </Form.Item>
+        </Col>
+        <Col>
+            <OptionSelectedFormControl 
+                value={index} // Assigning value to OptionSelectedFormControl
+                checked={correctOptions.includes(index)} // Calculating checked status
+                disabled={!!item.isAiGenerated}
+                onChange={e => {
+                    let options=[...correctOptions];
+                    const indexOfOption = options.indexOf(index);
+                    if (e.target.checked) {
                         if (indexOfOption === -1) {
-                          if (questionType === 'single') {
-                            options = [index];
-                          }
-                          else
-                          {
-                            options.push(index)
-                          }
+                            if (questionType === 'single') {
+                                options = [index];
+                            } else {
+                                options.push(index);
+                            }
                         }
-                      }
-                      else
-                      {
+                    } else {
                         options.splice(indexOfOption, 1);
-                      }
-                        console.log(options,'options')
-                        // onFormChange({
-                        //   correctOptions: [...options]
-                        // });
-                      setCorrectOptions(options);
-                      }}
-                    style={{ marginLeft: 20 }} />
-                  
-                  <DeleteTwoTone onClick={e => {
-                    confirm({
-                      title: 'Are you sure?',
-                      content: `You want to delete this answer`,
-                      onOk() {
-                        remove(index)
-                      },
-                      okText: 'Delete Answer'
-                    })
-                  }} style={{ marginLeft: 10 ,fontSize:15}} />
-                </Col>
-             </Row>
+                    }
+                    setCorrectOptions(options);
+                }}
+                style={{ marginLeft: 20 }}
+            />
+            <DeleteTwoTone onClick={e => {
+                confirm({
+                    title: 'Are you sure?',
+                    content: `You want to delete this answer`,
+                    onOk() {
+                        remove(index);
+                    },
+                    okText: 'Delete Answer'
+                });
+            }} style={{ marginLeft: 10 ,fontSize: 15 }} />
+        </Col>
+    </Row>
+))}
 
-            ))}
                     <Button onClick={e=>add()} icon={<PlusCircleTwoTone/>}>Add Option</Button>
           </>
         )}

@@ -32,7 +32,7 @@ function useUpdateTestForm(form: FormInstance) {
 
   const updateItem = useCallback(
     debounce((testId, itemId, data) => {
-      if (!isProgrammaticChange.current && !isEqual(initialItemRef.current, data)) {
+      if (!isProgrammaticChange.current) {
         updateItemApi(
           {
             testId: testId + '',
@@ -42,7 +42,6 @@ function useUpdateTestForm(form: FormInstance) {
           {
             onSuccess: () => {
               if (isMounted.current) {
-                initialItemRef.current = data;
                 message.open({
                   type: 'success',
                   content: `Saved`
@@ -55,30 +54,11 @@ function useUpdateTestForm(form: FormInstance) {
     }, 300),
     []
   );
-  
-  useEffect(() => {
-    const topicStrings = item.topics?.map(topic => topic.title) || [];
-    isProgrammaticChange.current = true;
-    form.setFieldsValue({ ...item, topics: topicStrings });
-  
-    if (!isEqual(item.correctOptions, correctOptions)) {
-      console.log(item.correctOptions,`1item.correctOptions`)
-      setCorrectOptions(item.correctOptions);
-    }
-  
-    isProgrammaticChange.current = false;
-    initialItemRef.current = item;
-  
-    return () => {
-      updateItem.cancel(); // Cancel debounced function on unmount
-    };
-  }, [item, form, updateItem, correctOptions]);
 
   useEffect(() => {
     const topicStrings = item.topics?.map(topic => topic.title) || [];
     isProgrammaticChange.current = true;
     form.setFieldsValue({ ...item, topics: topicStrings });
-    console.log(item.correctOptions,`1item.correctOptions`)
     setCorrectOptions(item.correctOptions);
     isProgrammaticChange.current = false;
 
@@ -90,6 +70,8 @@ function useUpdateTestForm(form: FormInstance) {
   }, [item, form, updateItem]);
 
   useEffect(() => {
+    console.log(correctOptions,'correctOptionscorrectOptions')
+    if(correctOptions.length)
     onFormChange({ correctOptions });
   }, [correctOptions]);
 
