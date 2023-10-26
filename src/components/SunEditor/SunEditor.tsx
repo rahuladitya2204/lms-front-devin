@@ -16,6 +16,7 @@ interface SunEditorPropsI {
   variables?: Types.Variable[];
   value?: string;
   mode?: string;
+  readonly?: boolean;
   onChange?: (d: string) => void;
   defaultValue?: string;
 }
@@ -72,7 +73,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   return (
     <Fragment>
       <Spin spinning={loading}>
-        <SunEditor
+        <SunEditor readOnly={props.readonly}
           setContents={value}
           onChange={e => {
             if (props.name) {

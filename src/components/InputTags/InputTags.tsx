@@ -72,7 +72,7 @@ const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, options = [], name, onC
           />
         </AutoComplete>
       )}
-      {!inputVisible && (
+      {!inputVisible &&ctaText && (
         <Tag onClick={() => {
           setInputVisible(true);
           // @ts-ignore

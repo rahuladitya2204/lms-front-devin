@@ -119,7 +119,7 @@ interface CreateTestComponentPropsI {
                     <Col span={16}>
                     <Form.Item
           rules={[
-            { required: true, message: 'Please enter a title of the Live Stream' }
+            { required: true, message: 'Please enter a title of the tests' }
           ]}
           name="title"
           label="Test Title"
@@ -191,7 +191,7 @@ interface CreateTestComponentPropsI {
           rules={[
             {
               required: true,
-              message: 'Please enter a description of the Live Stream'
+              message: 'Please enter a description of the tests'
             }
           ]}
           name={["description"]}

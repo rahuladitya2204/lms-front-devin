@@ -1,5 +1,5 @@
-import { Button, Collapse, List, Modal, Space, Tooltip, Typography } from 'antd'
-import { CheckCircleTwoTone, DeleteOutlined, ReadOutlined } from '@ant-design/icons'
+import { Button, Collapse, List, Modal, Space, Tag, Tooltip, Typography } from 'antd'
+import { CheckCircleTwoTone, DeleteOutlined, ReadOutlined, WarningTwoTone } from '@ant-design/icons'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Types, Utils } from '@adewaskar/lms-common'
@@ -214,11 +214,18 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                               icon: <DeleteOutlined />
                             }]} />
                         </span>;
-                        const actions=[
+                        const actions = [
                           SectionItemOptionDropdown
-                        ]
-                        if (Utils.validateTestQuestion(item)) {
-                          actions.unshift(<CheckCircleTwoTone color='green' />)
+                        ];
+                        const isQuestionValid = Utils.validateTestQuestion(item);
+                        if (!isQuestionValid) {
+                          actions.unshift(<WarningTwoTone twoToneColor="red" />)
+                        }
+                        if (item.score) {
+                          actions.unshift(<Tag style={{textAlign:'center'}} color='blue'>Score: {item.score }</Tag>)
+                        }
+                        if (item.type) {
+                          actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
                         }
                         const TestSectionListItem = (isActive: boolean) => <TestListItem
                         isActive={isActive}
@@ -226,7 +233,8 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                       >
                         <List.Item.Meta
                           style={{ cursor: 'pointer' }}
-                          title={<Text>{htmlToText(item.title)}</Text>}
+                          // title={<Text>{htmlToText(item.title)}</Text>}
+                          title={<Text>{`Question ${itemIndex+1}`}</Text>}
                           avatar={
                             <ReadOutlined />
                           }
@@ -240,7 +248,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                           moveItem={(dragIndex, hoverIndex) => moveTestItem(dragIndex, hoverIndex, section._id, item._id)}
                           id={item._id}
                         >
-                         <List.Item style={{ padding: 0 }}>
+                            <List.Item style={{ padding: 0, background: isQuestionValid ?'transparent':'#fff1f0' }}>
                          <NavLink
                               style={{ width: '100%' }}
                               key={item._id}

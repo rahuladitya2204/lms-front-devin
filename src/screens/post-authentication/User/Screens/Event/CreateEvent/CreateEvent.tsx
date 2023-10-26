@@ -27,6 +27,8 @@ import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { useNavigate, useParams } from 'react-router'
+import LocationSelector from '@Components/LocationSelector'
+import LocationAutocomplete from '@Components/LocationSelector'
 
 interface CreateEventComponentPropsI {
   children?: ReactNode;
@@ -114,7 +116,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
                   <Col span={16}>
                   <Form.Item
         rules={[
-          { required: true, message: 'Please enter a title of the Live Stream' }
+          { required: true, message: 'Please enter a title of the events' }
         ]}
         name="title"
         label="Event Title"
@@ -186,13 +188,14 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
         rules={[
           {
             required: true,
-            message: 'Please enter a description of the Live Stream'
+            message: 'Please enter a description of the events'
           }
         ]}
         name={["description"]}
         required
       >
-        <TextArea label="Description" name={["description"]}/>
+                      <TextArea html label="Description" name={["description"]} />
+                      
                     </Form.Item>
                   </Col>
       <Col span={12}>
@@ -213,7 +216,13 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
           <VideoCameraOutlined /> 
         </Checkbox>
       </Form.Item>
-      </Col>
+                  </Col>
+                  <Col span={12}>
+                  <Form.Item label='Event Location'>
+    <LocationAutocomplete onLocationChange={console.log} />
+  </Form.Item>
+
+  </Col>
       </Row>
 
         <Row gutter={[20,20]}>

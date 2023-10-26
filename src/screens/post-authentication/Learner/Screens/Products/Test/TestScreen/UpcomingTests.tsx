@@ -1,4 +1,15 @@
-import { Avatar, Badge, Button, Card, Col, List, Row, Skeleton, Typography } from 'antd'
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  Col,
+  List,
+  Row,
+  Skeleton,
+  Tag,
+  Typography
+} from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import { CalendarOutlined } from '@ant-design/icons'
@@ -63,16 +74,22 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
             style={{ width: 300 }}
             // @ts-ignore
             cover={<Image alt="example" src={test.image} />}
-            actions={[
-              // <Button block>View Result</Button>
-            ]}
+            actions={
+              [
+                // <Button block>View Result</Button>
+              ]
+            }
           >
             <Meta
               // avatar={
               //   <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
               // }
-              // @ts-ignore
-              title={test.title}
+              title={
+                <Text>
+                  {/* @ts-ignore */}
+                  {test.title} {test.isLive ? <Tag>Live Test</Tag> : null}{' '}
+                </Text>
+              }
               description={
                 <Text>Date: {dayjs(test?.scheduledFor).format('LL')}</Text>
               }

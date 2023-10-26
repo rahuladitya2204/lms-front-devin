@@ -1,7 +1,6 @@
 import { Alert, Button, Col, Form, Modal, Row, Spin, Tag } from 'antd'
 import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { cloneDeep, debounce } from 'lodash'
 import { useEffect, useState } from 'react'
 
@@ -25,8 +24,8 @@ function TestBuilderScreen() {
     mutate: updateTestApi,
     isLoading: savingTest
   } = User.Queries.useUpdateTest()
-  const updateTest = debounce(updateTestApi, 1000);
-  const { data: testDetails } = User.Queries.useGetTestDetails(testId + '', {
+  const updateTest = debounce(updateTestApi, 1000)
+  const { data: testDetails,isLoading: loadingTest } = User.Queries.useGetTestDetails(testId + '', {
     enabled: !!testId
   })
   const {
@@ -54,11 +53,13 @@ function TestBuilderScreen() {
       // @ts-ignore
       const newSection: Types.TestSection = {
         title: section.title + '',
-        items: [{
-          ...Constants.INITIAL_LIVE_TEST_QUESTION,
-          title: 'New Question',
-          _id: undefined
-        }]
+        items: [
+          {
+            ...Constants.INITIAL_LIVE_TEST_QUESTION,
+            title: 'New Question',
+            _id: undefined
+          }
+        ]
       }
       LIVE_TEST.sections.push(newSection)
     }
@@ -176,11 +177,7 @@ function TestBuilderScreen() {
     [testDetails]
   )
 
-  const updateTestSection = (
-    itemId: string,
-    item: Types.TestQuestion
-  ) => {
-
+  const updateTestSection = (itemId: string, item: Types.TestQuestion) => {
     item._id = itemId
     const LIVE_TEST = cloneDeep(test)
     LIVE_TEST.sections = updateTestSectionItem(LIVE_TEST.sections, item)
@@ -238,51 +235,26 @@ function TestBuilderScreen() {
   //   testId + ''
   // )
   const { mutate: publishTest } = User.Queries.usePublishTest()
+  const isTestEnded = test.isLive && test.status === Enum.TestStatus.ENDED;
   return (
     <AppProvider>
       <Header
         title={
           <span>
             {' '}
-            <BackButton onClick={() => navigate('../app/products/test')} />{' '}
-            {test.title}
+            <BackButton onClick={() => navigate('../app/products/test')} />
+            {test.title} {(!test.isLive) ? <Tag color='blur'>Live Test</Tag> : null}
           </span>
         }
         extra={[
-          <Tag>{savingTest?'Saving..':`Changes will be automatically saved`}</Tag>,
-          // @ts-ignore
-          test.status === Enum.CourseStatus.PUBLISHED ? (
+          <Tag>
+            {(savingTest || loadingTest) ? 'Saving..' : `Changes will be automatically saved`}
+          </Tag>,
+          test.status === Enum.TestStatus.PUBLISHED ? (
             <Tag color="green">Test is Published</Tag>
-          ) : (
-            // <Button
-            //   onClick={() => {
-            //     confirm({
-            //       title: 'Are you sure?',
-            //       content: `You want to publish this Test?`,
-            //       onOk() {
-            //         // publishTest({
-            //         //   testId: test._id
-            //         // })
-            //       },
-            //       okText: 'Yes, Publish'
-            //     })
-            //   }}
-            //   disabled={!Utils.validatePublishTest(test)}
-            //   style={{ marginRight: 15 }}
-            //   icon={<UploadOutlined />}
-            // >
-            //   Publish
-            // </Button>
-              null
-          ),
-          // <Button
-          //   onClick={() => saveTest(test)}
-          //   loading={loading}
-          //   type="primary"
-          //   icon={<SaveOutlined />}
-          // >
-          //   Save
-          // </Button>
+          ) : isTestEnded ? (
+            <Tag color="green">Test has ended</Tag>
+          ) : null
         ]}
       >
         <Row gutter={[16, 16]}>
@@ -322,7 +294,7 @@ function TestBuilderScreen() {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Spin spinning={deletingSection || deletingSectionItem}>
+                <Spin tip='Saving..' spinning={deletingSection || deletingSectionItem || loadingTest}>
                   <TestSectionsNavigator
                     deleteSectionItem={deleteSectionItem}
                     deleteSection={deleteSection}

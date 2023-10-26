@@ -56,6 +56,7 @@ function useUpdateTestForm(form: FormInstance) {
   }
 
   const onFormChange = (data: Partial<Types.TestQuestion>) => {
+    console.log(data,'loioikl')
     // delete data.correctOptions;
     const newItem = {
       ...item,

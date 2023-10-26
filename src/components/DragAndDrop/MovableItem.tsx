@@ -1,12 +1,10 @@
 // @ts-nocheck
-import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import {  useDrag, useDrop } from 'react-dnd';
 import type { Identifier, XYCoord } from 'dnd-core'
-import React, { useState } from 'react';
+import React from 'react';
 
 import type { FC } from 'react'
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import styled from '@emotion/styled';
-import update from 'immutability-helper';
 import { useRef } from 'react'
 
 export const ItemTypes = {

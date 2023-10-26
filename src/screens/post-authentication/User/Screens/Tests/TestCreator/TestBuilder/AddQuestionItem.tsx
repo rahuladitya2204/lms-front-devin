@@ -14,7 +14,7 @@ import {
   Select,
   Typography,
 } from 'antd'
-import { Constants, Types, User } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
 import { Fragment, useEffect, useState } from 'react'
 import { useOutletContext, useParams } from 'react-router';
@@ -53,18 +53,10 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const { item,testId,handleTopicsChange,topics,onFormChange,correctOptions, setCorrectOptions} = useUpdateTestForm( form);
   const {  itemId } = useParams();
 
-  // useEffect(
-  //   () => {
-  //     if (item && item._id) {
-  //       setCorrectOptions(item.correctOptions);
-  //       form.setFieldsValue(item);
-  //     }
-  //     else {
-  //       form.setFieldsValue(Constants.INITIAL_LIVE_TEST_QUESTION);
-  //     }
-  //   },
-  //   [item, testId]
-  // );
+  const {data: test }=User.Queries.useGetTestDetails(testId+'')
+  
+  const isTestEnded = test.status === Enum.TestStatus.ENDED;;
+
     const submit = (e: Types.TestQuestion) => {
       props.submit && props.submit({ ...e, correctOptions });
       form.resetFields();
@@ -111,7 +103,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 >
     <Row gutter={[10,30]}>
       <Col span={24}>
-      <Alert
+     {!isTestEnded? <Alert
               message="Generate question with AI"
               description="You can generate question outline using our AI"
               type="info"
@@ -124,16 +116,15 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                   setCorrectOptions(d.correctOptions)
                     // form.setFieldsValue(d);
                     d.isAiGenerated = true;
-                    // updateTestSection( itemId, d);
-                    onFormChange(d)
+                    updateTestSection( itemId, d);
+                    // onFormChange(d)
                     // setIsAiGenerated(true);
 
           }}/>
               </ActionModal>
               }
-            />
-  
-        {/* <Divider/> */}
+            />:null}
+
    </Col>
       <Col span={24}>
     
@@ -146,12 +137,12 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
             }
             ]}>
               {/* @ts-ignore */}
-          <SunEditorComponent html readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
+          <SunEditorComponent readonly={isTestEnded} html readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={12}>
           <Form.Item label='Question Type' name={'type'}>
-        <Select
+        <Select  disabled={isTestEnded}
       style={{ width: 240 }}
       options={QUESTION_TYPES}
     />
@@ -165,18 +156,18 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               message: "Enter the score for this question"
             }
           ]}>
-          <Input placeholder="Enter the score for this question" />
+          <Input  readOnly={isTestEnded} placeholder="Enter the score for this question" />
         </Form.Item>
               </Col>
               <Col span={24}>
               <Form.Item
           // name="topics"
                   label={<span>Topics
-                    <Button loading={( generatingSummary)} onClick={() => generateItemInfo(['topics'])} type='primary' size='small'>Generate</Button>
+                   {!isTestEnded? <Button loading={( generatingSummary)} onClick={() => generateItemInfo(['topics'])} type='primary' size='small'>Generate</Button>:null}
                   </span>}
           rules={[{ required: true, message: "Please input your topics!" }]}
         >
-          <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText='Enter Topics' /> 
+          <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText={!isTestEnded?`Enter Topics`:''} /> 
         </Form.Item>
               </Col>
        </Row>
@@ -195,7 +186,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 ]}
                 {...field}
                 >
-                    <Input.TextArea readOnly={item.isAiGenerated} placeholder={`Answer ${index + 1}`}/> 
+                    <Input.TextArea readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
                   </Form.Item>
                 </Col>
                 <Col>
