@@ -82,7 +82,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     }}
                     style={{ marginLeft: 20 }}
                   >
-                    <Text style={{fontSize: 19}}>{answer}</Text>
+                    <HtmlViewer content={ answer} ></HtmlViewer>
                   </OptionSelectedFormControl>
                 </Col>
               )

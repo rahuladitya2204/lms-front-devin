@@ -21,6 +21,7 @@ import Header from '@Components/Header'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import dayjs from 'dayjs'
 import { i } from 'mathjs'
+import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 
 const { confirm } = Modal
 
@@ -62,7 +63,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     enrolledProduct.metadata.test.submittedAt
 
   if (endTestNow) {
-    navigate('../completed')
+    // navigate('../completed')
   }
 
   return (
@@ -97,6 +98,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         </Button>
       ]}
     >
+      <ProctoringComponent />
       <Row>
         <Col span={1} />
         <Col span={22}>
