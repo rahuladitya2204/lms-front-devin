@@ -6,6 +6,7 @@ import React, { Fragment } from 'react';
 
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
 import { useParams } from 'react-router';
+import TextArea from '@Components/Textarea';
 
 const { Text } = Typography;
 
@@ -39,12 +40,12 @@ const WhatsappTemplateDetailsEditor: React.FC<CreateWhatsappTemplateComponentPro
         </Form.Item>}
         <Space direction='vertical' size={[30,30]} style={{width:'100%'}}>
         <Form.Item name="subject" label="Subject of the whatsapp" required>
-           <SunEditorComponent variables={variables} name="subject"
+           <TextArea html variables={variables} name="subject"
           />
 
         </Form.Item>
         <Form.Item name="content" label="Body of the whatsapp" required>
-        <SunEditorComponent
+        <TextArea html
               variables={variables}
               name={['content']}
             />

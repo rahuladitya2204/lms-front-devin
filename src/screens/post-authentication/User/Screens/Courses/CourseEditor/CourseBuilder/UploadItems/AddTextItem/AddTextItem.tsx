@@ -75,7 +75,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             }
           }
           console.log(data, 'data')
-          // onFormChange(data)
+          onFormChange(data)
         }}
       >
         <Form.Item name="title" label="Title" required>

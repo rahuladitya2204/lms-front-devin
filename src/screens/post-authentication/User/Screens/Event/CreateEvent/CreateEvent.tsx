@@ -85,10 +85,13 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
 
   useEffect(
     () => {
-      const scheduledAt=dayjs(eventDetails.scheduledAt);
-      console.log(eventDetails, 'eventDetails')
-      // @ts-ignore
-      form.setFieldsValue({...eventDetails,scheduledAt})
+      if (eventDetails.scheduledAt) {
+        const scheduledAt=dayjs(eventDetails.scheduledAt);
+        console.log(eventDetails, 'eventDetails')
+        // @ts-ignore
+        form.setFieldsValue({...eventDetails,scheduledAt})
+        
+      }
     },
     [eventDetails]
   )
@@ -126,7 +129,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
       </Form.Item>
                     <Row gutter={[10, 10]}>
         <Col span={12}>
- <Form.Item
+        <Form.Item
             rules={[
               {
                 required: true,
@@ -137,7 +140,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
             label="Scheduled For"
             required
           >
-            <DatePicker value={date} showTime  />
+            <DatePicker style={{width: '100%'}} value={date} showTime  />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -194,7 +197,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
         name={["description"]}
         required
       >
-                      <TextArea html label="Description" name={["description"]} />
+                      <TextArea height={250} html label="Description" name={["description"]} />
                       
                     </Form.Item>
                   </Col>
