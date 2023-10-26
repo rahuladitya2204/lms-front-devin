@@ -1,6 +1,7 @@
 import {
   AppstoreOutlined,
   BookOutlined,
+  CalendarOutlined,
   CustomerServiceOutlined,
   DashboardOutlined,
   FolderOpenOutlined,
@@ -46,7 +47,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   },
   {
     title: 'Events',
-    icon: <VideoCameraOutlined />,
+    icon: <CalendarOutlined />,
     path: 'event',
   },
   {

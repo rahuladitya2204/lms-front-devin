@@ -112,13 +112,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
                   <GenerateQuestionWithAI submit={d => {
                     console.log(d,'ddd12121212')
-                    // console.log(d,'ooopo')
                   setCorrectOptions(d.correctOptions)
-                    // form.setFieldsValue(d);
                     d.isAiGenerated = true;
                     updateTestSection( itemId, d);
-                    // onFormChange(d)
-                    // setIsAiGenerated(true);
 
           }}/>
               </ActionModal>
@@ -137,7 +133,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
             }
             ]}>
               {/* @ts-ignore */}
-          <SunEditorComponent readonly={isTestEnded} html readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
+          <TextArea html readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={12}>
@@ -186,7 +182,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 ]}
                 {...field}
                 >
-                    <Input.TextArea readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
+                    <TextArea height={150} html={{level:1}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
                   </Form.Item>
                 </Col>
                 <Col>
@@ -246,8 +242,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           
       <Card title='Solution Text'>
       <Form.Item name={['solution', 'html']} required>
-      <SunEditorComponent
-        height={350}
+      <TextArea
+        height={350} html
         value={form.getFieldValue(['solution', 'html'])}
         onChange={(e: string) => form.setFieldsValue({ solution: { html: e } })}
       />

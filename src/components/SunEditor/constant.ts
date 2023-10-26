@@ -1,4 +1,27 @@
-export const editorOptions = {
+export const BasicEditorOptions = {
+  buttonList: [
+    ['undo', 'redo'],
+    ['bold', 'underline', 'italic', 'strike'],
+    ['fontColor', 'hiliteColor'],
+    ['removeFormat']
+  ]
+}
+
+export const IntermediateEditorOptions = {
+  buttonList: [
+    ['undo', 'redo'],
+    ['font', 'fontSize', 'formatBlock'],
+    ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
+    ['fontColor', 'hiliteColor', 'textStyle'],
+    ['removeFormat'],
+    ['outdent', 'indent'],
+    ['align', 'horizontalRule', 'list', 'lineHeight'],
+    ['-right', ':r-More Rich-default.more_plus', 'table'],
+    ['-right', 'link']
+  ]
+}
+
+export const AdvancedEditorOptions = {
   // plugins: [customDropdownPlugin],
   buttonList: [
     // ['backgroundPlugin'],
@@ -192,21 +215,5 @@ export const editorOptions = {
         ]
       ]
     ]
-  ]
-}
-
-export const BasicEditorOptions = {
-  // plugins: [customDropdownPlugin],
-  buttonList: [
-    // ['backgroundPlugin'],
-    // ['variablePlugin'],
-    // default
-    ['undo', 'redo'],
-    [
-      'fontSize',
-      'blockquote'
-    ],
-    ['bold', 'underline', 'italic', 'strike'],
-    ['fontColor', 'hiliteColor'],
   ]
 }

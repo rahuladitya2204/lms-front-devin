@@ -29,7 +29,6 @@ import SetCourseRules from './SetRules'
 import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
 
-const { Paragraph } = Typography
 
 const { confirm } = Modal
 
@@ -370,14 +369,7 @@ function CourseBuilderScreen() {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                {loadingCourse ? (
-                  <Row gutter={[20, 10]}>
-                    <Col span={24}>
-                      <Skeleton paragraph={{ rows: 20 }} />
-                    </Col>
-                  </Row>
-                ) : (
-                  <Spin spinning={deletingSection || deletingSectionItem}>
+              <Spin tip='Saving..' spinning={deletingSection || deletingSectionItem || loadingCourse}>
                     <CourseSectionsNavigator
                       deleteSectionItem={deleteSectionItem}
                       deleteSection={deleteSection}
@@ -387,7 +379,6 @@ function CourseBuilderScreen() {
                       onReorderSections={onReorderSections}
                     />
                   </Spin>
-                )}
               </Col>
             </Row>
           </Col>
@@ -422,8 +413,9 @@ function CourseBuilderScreen() {
                 }
               />
             ) : null}
-              <Card>
-                  {loadingCourse ? <>
+            <Card>
+            <Outlet context={[items, updateCourseSection, saveCourse]} />
+                  {/* {loadingCourse ? <>
                     <Row gutter={[20,20]}>
                       <Col span={24}>
                       <Skeleton.Input block />
@@ -442,7 +434,7 @@ function CourseBuilderScreen() {
                       </Col>
                     </Row>
                  
-                  </> : <Outlet context={[items, updateCourseSection, saveCourse]} />}
+                  </> : <Outlet context={[items, updateCourseSection, saveCourse]} />} */}
               </Card>
           </Col>
         </Row>

@@ -13,7 +13,7 @@ import { useParams } from 'react-router'
 interface UploadVideoPropsI {
   prefixKey: string;
   onUpload: (d: Partial<Types.CourseSectionItem>) => void;
-  item: Types.CourseSectionItem;
+  item: Types.CourseSectionItem | Types.TestQuestion;
 }
 
 export default function UploadVideo(props: UploadVideoPropsI) {
