@@ -11,6 +11,7 @@ import { Enum, Types } from '@adewaskar/lms-common'
 import Image from '@Components/Image'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
+import dayjs from 'dayjs'
 
 interface CourseCardProps {
   course: Types.Course;
@@ -30,11 +31,14 @@ function CourseCard(props: CourseCardProps) {
     src={props.course.thumbnailImage}
 
   />;
+
+  const isPublished = props.course.status === Enum.CourseStatus.PUBLISHED;
+  const isDraft = props.course.status === Enum.CourseStatus.DRAFT;
   return (
     <CourseCardHolder hoverable
 
-      cover={props.course.status===Enum.CourseStatus.PUBLISHED?
-        <Badge.Ribbon color="orange" text="Unpublished">
+      cover={(isDraft || isPublished)?
+        <Badge.Ribbon color={isDraft?"orange":"green"} text={isDraft?"Draft":"Published"}>
          {coverImage}
         </Badge.Ribbon>:coverImage
       }
@@ -62,7 +66,8 @@ function CourseCard(props: CourseCardProps) {
       ]}
     >
       <Card.Meta
-        // description={(instructor?.name) ? `By ${instructor?.name}` : null}
+        // @ts-ignore
+        description={`Last Updated: ${dayjs(props.course.updatedAt).format('l')}`}
         avatar={<Avatar src={instructor?.image} />}
         title={props.course.title || ''}
       />

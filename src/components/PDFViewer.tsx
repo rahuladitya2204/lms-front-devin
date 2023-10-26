@@ -1,11 +1,12 @@
-import { Common, Types } from '@adewaskar/lms-common'
-import { Document, Page } from 'react-pdf/dist/esm/entry.webpack'
 import React, { useState } from 'react'
-
-import { Spin } from 'antd'
+import { Common } from '@adewaskar/lms-common'
+import { Viewer, Worker } from '@react-pdf-viewer/core'
+import '@react-pdf-viewer/core/lib/styles/index.css'
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
+import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 
 interface PDFViewerPropsI {
-  file: Types.FileType;
+  file: { _id: string };
 }
 
 const PDFViewer = (props: PDFViewerPropsI) => {
@@ -17,27 +18,22 @@ const PDFViewer = (props: PDFViewerPropsI) => {
     }
   )
 
-  const [numPages, setNumPages] = React.useState(null)
-
-  function onDocumentLoadSuccess({ numPages }: any) {
-    setNumPages(numPages)
-    setLoading(false)
-  }
+  const defaultLayoutPluginInstance = defaultLayoutPlugin()
 
   return (
-    <Spin spinning={loading}>
-      <div>
-        <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
-          {Array.from(new Array(numPages), (el, index) => (
-            <Page
-              // onLoadSuccess={e => console.log(e, 'csss')}
-              key={`page_${index + 1}`}
-              pageNumber={index + 1}
-            />
-          ))}
-        </Document>
-      </div>
-    </Spin>
+    <div className="pdf-container" style={{ height: '100%', overflow: 'scroll' }}>
+      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.10.377/build/pdf.worker.min.js">
+        {loading && <div>Loading...</div>}
+        {url && (
+          <Viewer
+            fileUrl={url}
+            plugins={[defaultLayoutPluginInstance]}
+            onDocumentLoad={() => setLoading(false)}
+            onZoom={() => setLoading(false)}
+          />
+        )}
+      </Worker>
+    </div>
   )
 }
 

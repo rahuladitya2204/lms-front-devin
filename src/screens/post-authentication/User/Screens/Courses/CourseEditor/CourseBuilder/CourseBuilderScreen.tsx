@@ -369,7 +369,7 @@ function CourseBuilderScreen() {
                 </Form.Item>
               </Col>
               <Col span={24}>
-              <Spin tip='Saving..' spinning={deletingSection || deletingSectionItem || loadingCourse}>
+              <Spin tip='Please wait..' spinning={deletingSection || deletingSectionItem || loadingCourse}>
                     <CourseSectionsNavigator
                       deleteSectionItem={deleteSectionItem}
                       deleteSection={deleteSection}

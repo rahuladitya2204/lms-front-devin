@@ -90,12 +90,11 @@ const UploadPDFForm: React.FC = () => {
             onChange={handleTopicsChange}
             ctaText="Enter Topics"
           />{' '}
-
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Card
-              style={{ height: 500 }}
+              style={{ height: 500, overflow: 'scroll' }}
               title={'PDF File'}
               extra={
                 <MediaUpload
