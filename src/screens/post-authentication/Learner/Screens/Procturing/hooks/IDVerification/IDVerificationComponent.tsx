@@ -16,7 +16,7 @@ const IDVerificationComponent: React.FC<IDVerificationComponentProps> = (props) 
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const preExistingImageUrl = 'https://upload-junk.s3.us-west-2.amazonaws.com/Screenshot+2023-10-27+at+10.29.49+AM.png'; // Replace with the actual URL
+  const preExistingImageUrl = 'https://img-c.udemycdn.com/user/200_H/82986288_f805.jpg'; // Replace with the actual URL
 
   const capture = async () => {
     setLoading(true);

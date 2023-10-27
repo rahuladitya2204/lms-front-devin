@@ -88,7 +88,7 @@ export default function TestRules(props: TestRulesPropsI) {
                 style={{ display: 'flex', flexDirection: 'row-reverse' }}
               >
                 <Col flex={'reverse'}>
-                  <Button>Back</Button>
+                  {/* <Button>Back</Button> */}
                   {/* <Button
                     onClick={() => {
                       startTest(
@@ -108,7 +108,17 @@ export default function TestRules(props: TestRulesPropsI) {
                   >
                     Submit
                   </Button> */}
-                  <ActionModal cta={<Button>Verify</Button>}>
+                  <ActionModal
+                    cta={
+                      <Button
+                        disabled={!isValid}
+                        style={{ marginLeft: 20, width: 200 }}
+                        type="primary"
+                      >
+                        Verify and Start Test
+                      </Button>
+                    }
+                  >
                     <IDVerificationComponent
                       onMatch={() => {
                         notification.success({
