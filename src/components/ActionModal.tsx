@@ -7,6 +7,7 @@ interface ActionModalPropsI {
   onClose?: () => void;
   title?: string | React.ReactNode;
   width?: number;
+  height?: number;
   open?: boolean;
   cta?: React.ReactNode;
   footer?: (f: Function) => React.ReactNode[];
@@ -51,3 +52,7 @@ function ActionModal(props: ActionModalPropsI) {
 }
 
 export default ActionModal
+
+export interface ActionModalI {
+  onClose?: () => void;
+}

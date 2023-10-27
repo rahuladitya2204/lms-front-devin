@@ -8,7 +8,8 @@ import {
   Row,
   Space,
   Tag,
-  Typography
+  Typography,
+  notification
 } from 'antd'
 import { TERMS, TEST_RULES } from './constant'
 import { useNavigate, useParams } from 'react-router'
@@ -18,6 +19,8 @@ import { Fragment } from 'react'
 import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
+import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
+import ActionModal from '@Components/ActionModal'
 
 const { Title, Text } = Typography
 
@@ -27,10 +30,12 @@ export default function TestRules(props: TestRulesPropsI) {
   const { testId } = useParams()
   const { mutate: startTest } = Learner.Queries.useStartTest()
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
-  const { data: enrolledProduct } = Learner.Queries.useGetEnrolledProductDetails({
+  const {
+    data: enrolledProduct
+  } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'test',
     id: testId + ''
-  });
+  })
   const [form] = Form.useForm()
   const rule1 = Form.useWatch('rule-1', form)
   const rule2 = Form.useWatch('rule-2', form)
@@ -84,7 +89,7 @@ export default function TestRules(props: TestRulesPropsI) {
               >
                 <Col flex={'reverse'}>
                   <Button>Back</Button>
-                  <Button
+                  {/* <Button
                     onClick={() => {
                       startTest(
                         {
@@ -102,7 +107,28 @@ export default function TestRules(props: TestRulesPropsI) {
                     type="primary"
                   >
                     Submit
-                  </Button>
+                  </Button> */}
+                  <ActionModal cta={<Button>Verify</Button>}>
+                    <IDVerificationComponent
+                      onMatch={() => {
+                        notification.success({
+                          message: 'Success',
+                          description: 'ID Verified!'
+                        })
+
+                        startTest(
+                          {
+                            testId: test._id + ''
+                          },
+                          {
+                            onSuccess: () => {
+                              navigate('../player')
+                            }
+                          }
+                        )
+                      }}
+                    />
+                  </ActionModal>
                 </Col>
               </Row>
             </Col>
