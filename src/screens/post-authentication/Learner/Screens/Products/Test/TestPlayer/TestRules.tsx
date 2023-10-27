@@ -49,9 +49,9 @@ export default function TestRules(props: TestRulesPropsI) {
     <Header
       title={test.title}
       extra={[
-        <Tag color="blue">
-          Time Left: <Countdown targetDate={endingAt} />
-        </Tag>,
+        // <Tag color="blue">
+        //   Time Left: <Countdown targetDate={endingAt} />
+        // </Tag>,
         <Tag color="cyan">Time Limit: {test.duration} mins</Tag>
       ]}
     >
