@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Col, Row, Skeleton, Space, Tag, Typography } from 'antd'
+import { Alert, Button, Card, Col, Row, Skeleton, Space, Tag, Typography, message } from 'antd'
 import { Enum, Learner, Utils } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
@@ -11,6 +11,7 @@ import ProductCheckoutButton from '@Components/CheckoutButton'
 import TestMetadata from './TestMetadata'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
+import useMessage from '@Hooks/useMessage'
 
 const { Text, Paragraph } = Typography
 
@@ -75,18 +76,26 @@ const ENROLLED_CTA = useMemo(() => {
         Start Test
       </Button>
       }
-      if((testStartDate && enrolledDetails.metadata.test.endedAt)) {
-        return  <Alert
-        style={{ marginBottom: 20 }}
-        message="You have attended this test."
-        type="success"
-        showIcon action={<Button size='small' onClick={()=>navigate('result')}>View Result</Button>}
-      />
+      if ((testStartDate)) {
+        if (testEndDate) {
+          return  <Alert
+          style={{ marginBottom: 20 }}
+          message="You have attended this test."
+          type="success"
+          showIcon action={<Button size='small' onClick={()=>navigate('result')}>View Result</Button>}
+        />
+        }
+        else {
+          return <Button onClick={()=>navigate('start')} block type='primary'>
+          Continue Test
+        </Button>
+       }
       }
      
     }
  
   },[test])
+  const message = useMessage();
 
   return (
     <Row>
@@ -164,7 +173,11 @@ const ENROLLED_CTA = useMemo(() => {
                                 ENROLLED_CTA
                               }
                             </> :
-                            <ProductCheckoutButton
+                              <ProductCheckoutButton onSuccess={() => {
+                                message.open({
+                                  type: 'success',
+                                  content: `Enrolled SUccessfully`
+                                })                            }}
                           product={{ type: 'test', id: testId + '' }}
                           block
                           type="primary"

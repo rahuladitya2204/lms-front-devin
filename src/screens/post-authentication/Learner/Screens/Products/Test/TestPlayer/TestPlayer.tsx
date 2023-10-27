@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -32,7 +33,10 @@ const { Title } = Typography
 export default function TestPlayer(props: TestPlayerPropsI) {
   const { testId } = useParams()
   const navigate = useNavigate()
-  const { mutate: endTest } = Learner.Queries.useEndTest()
+  const {
+    mutate: endTest,
+    isLoading: submittingTest
+  } = Learner.Queries.useEndTest()
   const {
     data: enrolledProduct
   } = Learner.Queries.useGetEnrolledProductDetails({
@@ -69,6 +73,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   return (
     <Header
       title={test.title}
+      subTitle={'asd'}
       extra={[
         <Tag icon={<ClockCircleOutlined />} color="blue">
           <Countdown targetDate={endingAt} />
@@ -92,13 +97,18 @@ export default function TestPlayer(props: TestPlayerPropsI) {
               okText: 'Yes, Submit'
             })
           }}
-          type="primary"
+          type="primary" loading={submittingTest}
         >
           Submit Test
         </Button>
       ]}
     >
       <ProctoringComponent />
+      <Alert
+        message="Please Note: This exam is being proctured. Any suspicious activity will be reported and submit the test immediately."
+        type="info"
+        showIcon
+      />
       <Row>
         <Col span={1} />
         <Col span={22}>

@@ -7,14 +7,14 @@ import Image from '@Components/Image'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import dayjs from 'dayjs'
 import { useParams } from 'react-router'
+import useMessage from '@Hooks/useMessage'
 
 const { Text, Title } = Typography
 
 interface EventDetailScreenPropsI {}
 
-export default function EventDetailScreen(
-  props: EventDetailScreenPropsI
-) {
+export default function EventDetailScreen(props: EventDetailScreenPropsI) {
+  const message = useMessage()
   const { sessionId } = useParams()
   const {
     data: enrolledDetails
@@ -24,9 +24,7 @@ export default function EventDetailScreen(
   })
   const isEnrolled = !!enrolledDetails._id
   console.log(isEnrolled, 'enrolledDetails')
-  const { data: event } = Learner.Queries.useGetEventDetails(
-    sessionId + ''
-  )
+  const { data: event } = Learner.Queries.useGetEventDetails(sessionId + '')
   // const now = new Date().getTime()
   return (
     <Row>
@@ -56,9 +54,7 @@ export default function EventDetailScreen(
                       <Col span={24}>
                         <Tag color="blue">
                           Starting in{' '}
-                          <Countdown
-                            targetDate={event.scheduledAt}
-                          />{' '}
+                          <Countdown targetDate={event.scheduledAt} />{' '}
                         </Tag>
                       </Col>
                     ) : (
@@ -111,6 +107,12 @@ export default function EventDetailScreen(
                       </Col>
                       <Col span={24}>
                         <ProductCheckoutButton
+                          onSuccess={() => {
+                            message.open({
+                              type: 'success',
+                              content: `Enrolled SUccessfully`
+                            })
+                          }}
                           product={{ type: 'event', id: sessionId + '' }}
                           block
                           type="primary"

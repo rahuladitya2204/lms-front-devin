@@ -67,13 +67,13 @@ const LearnerHeader: React.FC = () => {
         ...(isSignedIn
           ? [
               <Link to={`courses`} style={{ margin: '0 10px' }}>
-                <Text strong>My Courses</Text>
+                <Text strong>Courses</Text>
               </Link>,
               <Link to={`test`} style={{ margin: '0 10px' }}>
                 <Text strong>Tests</Text>
               </Link>,
               <Link to={`event`} style={{ margin: '0 10px' }}>
-                <Text strong>Webinars</Text>
+                <Text strong>Events</Text>
               </Link>
             ]
           : [

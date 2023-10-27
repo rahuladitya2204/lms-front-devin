@@ -64,16 +64,18 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
         // xl: 6,
         // xxl: 3
       }}
-      dataSource={data}
+      dataSource={data.filter(pd => {
+        return !(pd.product?.data?.endedAt || pd.metadata.test.endedAt)
+      })}
       renderItem={({ product: { data: test } }) => {
         const CardComponent = (
           <Card
             onClick={() => {
               navigate(test?._id)
             }}
-            style={{ width: 300 }}
+            // style={{ width: 300 }}
             // @ts-ignore
-            cover={<Image alt="example" src={test.image} />}
+            cover={<Image height={200} alt="example" src={test.image} />}
             actions={
               [
                 // <Button block>View Result</Button>
@@ -87,11 +89,16 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
               title={
                 <Text>
                   {/* @ts-ignore */}
-                  {test.title} {test.isLive ? <Tag>Live Test</Tag> : null}{' '}
+                  {test.title}{' '}
+                  {test?.isLive ? <Tag color="cyan">Live Test</Tag> : null}{' '}
                 </Text>
               }
               description={
-                <Text>Date: {dayjs(test?.scheduledFor).format('LL')}</Text>
+                test?.scheduledAt ? (
+                  <Text>Date: {dayjs(test?.scheduledAt).format('LLL')}</Text>
+                ) : (
+                  <Tag color="orange-inverse">Not taken yet</Tag>
+                )
               }
               avatar={<CalendarOutlined />}
             />

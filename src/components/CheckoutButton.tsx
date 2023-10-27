@@ -7,6 +7,7 @@ interface ProductCheckoutButtonPropsI extends ButtonProps {
     type: string,
     id: string
   };
+  onSuccess: () => void;
 }
 
 export default function ProductCheckoutButton(
@@ -29,6 +30,18 @@ export default function ProductCheckoutButton(
           {
             onSuccess: ({ pgOrder, order }: any) => {
               console.log(pgOrder, order, 'order')
+              if (!order.total.value) {
+                return updatePaymentOrder(
+                  {
+                    orderId: order._id,
+                    status: 'successful',
+                    data: {}
+                  },
+                  {
+                    onSuccess: props.onSuccess
+                  }
+                )
+              }
               openCheckout({ pgOrder, order }, (payment: any) => {
                 console.log(payment, 'paymentpayment')
                 updatePaymentOrder(
@@ -38,14 +51,10 @@ export default function ProductCheckoutButton(
                     data: payment
                   },
                   {
-                    onSuccess: e => {
-                      //   navigate(`../${order._id}/successful`)
-                    }
+                    onSuccess: props.onSuccess
                   }
                 )
               })
-              // @ts-ignore
-              // navigate(`../${order._id}/successful`);
             }
           }
         )

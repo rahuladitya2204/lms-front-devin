@@ -76,7 +76,7 @@ export default function TestQuestionNavigator(
                     isActive={isActive}
                     extra={[
                       item.score ? <Tag color="blue">Score: {item.score}</Tag> : null,
-                      <Tag icon={<ClockCircleOutlined />}>12 mins</Tag>
+                      // <Tag icon={<ClockCircleOutlined />}>12 mins</Tag>
                     ]}
                   >
                     <List.Item.Meta

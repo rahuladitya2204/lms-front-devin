@@ -91,6 +91,7 @@ function useUpdateTestForm(form: FormInstance) {
   };
 // @ts-ignore
   const onFormChange = (data) => {
+    console.log(data,'lopiki')
     if (!isEqual(initialItemRef.current, { ...item, ...data })) {
       const newItem = {
         ...item,
@@ -105,6 +106,10 @@ function useUpdateTestForm(form: FormInstance) {
     item,
     testId: testId,
     itemId,
+    updateItem: (data: Types.TestQuestion) => {
+      initialItemRef.current = data;
+      onFormChange(data)
+    },
     currentItemIndex,
     onFormChange,
     topics,

@@ -5,6 +5,7 @@ import { Types, User } from '@adewaskar/lms-common'
 import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import { useState } from 'react'
+import { uniqueId } from 'lodash';
 
 const { confirm } = Modal;
 
@@ -33,8 +34,25 @@ export default function AITestPaperBuilder({
             return s;
         })
         generateTest({ data:e },{
-            onSuccess: (s) => {
-                console.log(s, 'e');
+          onSuccess: (s: Types.TestSection[]) => {
+            if(!s){
+              return;
+            }
+            s = s.map(s => {
+              s.items = s.items.map(d => {
+                if (d) {
+                  // @ts-ignore
+                  d.topics = d?.topics?.map(topic => {
+                    return {
+                      title: topic,
+                      // topicId: uniqueId()
+                    }
+                  })
+                }
+                return d;
+              })
+              return s;
+                })
                 onValuesChange(s);
                 closeModal && closeModal();
             }

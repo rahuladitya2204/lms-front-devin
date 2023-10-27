@@ -133,7 +133,8 @@ export default function GenerateQuestionWithAI({
             <Select
               options={[
                 { label: 'Single Choice', value: 'single' },
-                { label: 'Multiple Choice', value: 'multiple' }
+                { label: 'Multiple Choice', value: 'multiple' },
+                { label: 'Subjective', value: 'subjective' }
               ]}
             />
           </Form.Item>

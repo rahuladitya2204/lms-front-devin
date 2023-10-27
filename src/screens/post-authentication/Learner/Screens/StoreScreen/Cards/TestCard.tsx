@@ -88,11 +88,16 @@ function TestCard(props: TestCardPropsI) {
           </Col> */}
           <Col>
           <Space direction='vertical' align='end' size={0}>
-              <Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
+            {plan.type!=='free'?<>
+            <Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
                 {UnitTypeToStr(plan.displayPrice)}</Text>
               <Text strong style={{fontSize: 20}}>
               {UnitTypeToStr(plan.finalPrice)}
-              </Text>
+              </Text></> :
+              <Text strong style={{ fontSize: 20 }}>
+
+              Free
+            </Text>}
             </Space>
           </Col>
         </Row>

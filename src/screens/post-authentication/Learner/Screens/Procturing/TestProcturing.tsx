@@ -38,6 +38,7 @@ const ProctoringComponent: React.FC = () => {
   }, []);
 
   const handleViolation = (type: string, message: string) => {
+    // type = 'Violation';
     const currentTime = Date.now();
 
     if (!lastViolationTimeRef.current[type] || currentTime - (lastViolationTimeRef.current[type] as number) > violationCooldown) {
@@ -56,28 +57,42 @@ const ProctoringComponent: React.FC = () => {
     }
   };
 
+  const [stream, setStream] = useState<MediaStream | null>(null);
+
   const startVideo = async () => {
-    if (videoRef.current) {
-      const video = videoRef.current;
-      try {
-        video.srcObject = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        video.play();
-      } catch (err) {
-        console.error('Error starting video stream:', err);
-        notification.error({
-          message: 'Video Error',
-          description: 'There was an error accessing the video stream.',
-        });
+    try {
+      const videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = videoStream;
       }
+      setStream(videoStream);
+    } catch (err) {
+      console.error('Error starting video stream:', err);
+      notification.error({
+        message: 'Video Error',
+        description: 'There was an error accessing the video stream.',
+      });
     }
   };
-
+  
+  const stopVideo = () => {
+    if (stream) {
+      stream.getTracks().forEach(track => track.stop());
+      setStream(null);
+    } else {
+      console.log("Stream not found");
+    }
+  };
   useEffect(() => {
     startVideo();
     setIsProctoring(true);
+    return () => {
+      // Cleanup function to stop the video and release the camera resources
+      stopVideo();
+    };
+
   }, []);
+  
 
   useEffect(() => {
     const loadModels = async () => {

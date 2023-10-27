@@ -26,7 +26,7 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import SunEditorComponent from '@Components/SunEditor/SunEditor';
 import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
-import { debounce } from 'lodash';
+import { debounce, uniqueId } from 'lodash';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
 const { Title } = Typography;
@@ -50,7 +50,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
   const { updateTestSection } = useOutletContext<any>();
 
-  const { item,testId,handleTopicsChange,topics,onFormChange,correctOptions, setCorrectOptions} = useUpdateTestForm( form);
+  const { item,testId,handleTopicsChange,topics,onFormChange,correctOptions, setCorrectOptions,updateItem} = useUpdateTestForm( form);
   const {  itemId } = useParams();
 
   const {data: test }=User.Queries.useGetTestDetails(testId+'')
@@ -111,10 +111,19 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               action={
                 <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
                   <GenerateQuestionWithAI submit={d => {
-                    console.log(d,'ddd12121212')
-                  setCorrectOptions(d.correctOptions)
+                    console.log(d, 'ddd12121212');
+                    if (d.topics) {
+                      // @ts-ignore
+                      d.topics = d?.topics?.map(topic => {
+                        return {
+                          title: topic,
+                          topicId: uniqueId()
+                        }
+                      })
+                    }
+                  // setCorrectOptions(d.correctOptions)
                     d.isAiGenerated = true;
-                    updateTestSection( itemId, d);
+                    updateItem(d);
 
           }}/>
               </ActionModal>
@@ -188,7 +197,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
         <Col>
             <OptionSelectedFormControl 
                 value={index} // Assigning value to OptionSelectedFormControl
-                checked={correctOptions.includes(index)} // Calculating checked status
+                checked={correctOptions?.includes(index)} // Calculating checked status
                 disabled={!!item.isAiGenerated}
                 onChange={e => {
                     let options=[...correctOptions];

@@ -53,19 +53,22 @@ const LearnerTestResult = function() {
                     return (
                       <Col span={24} key={item._id}>
                         <Title level={5}>Question {itemIndex + 1}</Title>
-                        <HtmlViewer content={item.title}></HtmlViewer>
+                        <HtmlViewer content={item.title} />
                         <Row gutter={[20, 20]}>
                           <Col span={24}>
                             <Row>
                               <Col span={24} style={{ marginTop: 10 }}>
                                 <Row justify={'space-between'} align={'middle'}>
                                   <Col>
-                                    {item.isCorrect ? (
-                                      <Tag color="green">
+                                    {item.isAnswered ? (
+                                      <>
+                                        { item.isCorrect?<Tag color="green">
                                         Answered Correctly
-                                      </Tag>
+                                      </Tag>:<Tag color="red">
+                                        Wrongly Answered
+                                      </Tag>}</>
                                     ) : (
-                                      <Tag color="red">Wrongly Answered</Tag>
+                                      <Tag color="blue">Not Answered</Tag>
                                     )}
                                   </Col>
                                   <Col>
@@ -117,7 +120,7 @@ const LearnerTestResult = function() {
                                               display: 'block'
                                             }}
                                           >
-                                            {answer || ''}
+                                            <HtmlViewer content={answer} />
                                           </Text>
                                         </Col>
                                         <Col style={{ marginRight: 10 }}>
