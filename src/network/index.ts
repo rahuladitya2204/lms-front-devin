@@ -7,20 +7,19 @@ if (process.env.REACT_APP_BUILD_ENV !== 'production') {
 
 Network.Axios.defaults.transformRequest = [
   (data, headers) => {
-    const token = getToken()
     const orgId = Utils.Storage.GetItem('orgId')
     if (orgId) {
       headers.set('x-org', orgId)
     }
     const orgAlias = Utils.Storage.GetItem('orgAlias')
+    const userType = Utils.Storage.GetItem('userType')
+    const token = getToken(userType)
     if (orgAlias) {
       headers.set('x-org-alias', orgAlias)
     }
-    if (window.location.pathname.includes('/learner/')) {
-      headers.set('x-user-type', 'learner')
-    } else {
-      headers.set('x-user-type', 'user')
-    }
+
+    headers.set('x-user-type', userType)
+
     if (token) {
       headers.set('x-auth', token)
     }
@@ -32,12 +31,10 @@ Network.Axios.defaults.transformRequest = [
   }
 ]
 
-export const getToken = () => {
-  let token
-  if (window.location.pathname.includes('/learner/')) {
-    token = Utils.Storage.GetItem('learner-auth-token')
-  } else {
-    token = Utils.Storage.GetItem('user-auth-token')
+export const getToken = (userType?: string) => {
+  if (!userType) {
+    userType = Utils.Storage.GetItem('userType')
   }
+  const token = Utils.Storage.GetItem(`${userType}-auth-token`)
   return token
 }

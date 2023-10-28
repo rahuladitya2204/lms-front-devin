@@ -25,14 +25,14 @@ const LearnerRootScreen: React.FC = () => {
     [orgId]
   )
 
-  useEffect(
-    () => {
-      if (!isSignedIn) {
-        navigate('../app/store')
-      }
-    },
-    [isSignedIn]
-  )
+  // useEffect(
+  //   () => {
+  //     if (!isSignedIn) {
+  //       navigate('../app/store')
+  //     }
+  //   },
+  //   [isSignedIn]
+  // )
 
   return (
     <ThemeProvider type="learner">

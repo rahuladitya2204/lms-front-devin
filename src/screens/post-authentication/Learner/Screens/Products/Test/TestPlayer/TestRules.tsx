@@ -14,13 +14,12 @@ import {
 import { TERMS, TEST_RULES } from './constant'
 import { useNavigate, useParams } from 'react-router'
 
-import Countdown from '@Components/Countdown'
-import { Fragment } from 'react'
 import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
 import ActionModal from '@Components/ActionModal'
+import Countdown from '@Components/Countdown'
 
 const { Title, Text } = Typography
 
@@ -41,17 +40,22 @@ export default function TestRules(props: TestRulesPropsI) {
   const rule2 = Form.useWatch('rule-2', form)
   const rule3 = Form.useWatch('rule-3', form)
   const isValid = rule1 && rule2 && rule3
+  const testStartDate =
+    enrolledProduct.metadata.test.startedAt || test.startedAt
   const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
     .add(test.duration, 'minutes')
     .toString()
   const navigate = useNavigate()
   return (
     <Header
+      showBack
       title={test.title}
       extra={[
-        // <Tag color="blue">
-        //   Time Left: <Countdown targetDate={endingAt} />
-        // </Tag>,
+        testStartDate ? (
+          <Tag color="blue">
+            Time Left: <Countdown targetDate={endingAt} />
+          </Tag>
+        ) : null,
         <Tag color="cyan">Time Limit: {test.duration} mins</Tag>
       ]}
     >

@@ -17,26 +17,24 @@ export default function RootScreen () {
     },
     [window.location.hostname]
   )
-  const userType = subdomain === 'app' ? 'user' : 'learner'
+  const userType = Utils.Storage.GetItem('userType')
 
-  useEffect(
-    () => {
-      Utils.Storage.SetItem('userType', userType)
-      console.log(isSignedIn, userType, 'oioioi')
-      if (userType === 'user') {
-        if (isSignedIn && window.location.pathname === '/') {
-          navigate('app/dashboard')
-        } else {
-          // navigate('login')
-        }
-      }
+  // useEffect(
+  //   () => {
+  //     if (userType === 'user') {
+  //       if (isSignedIn && window.location.pathname === '/') {
+  //         navigate('app/dashboard')
+  //       } else {
+  //         // navigate('login')
+  //       }
+  //     }
 
-      if (userType === 'learner' && window.location.pathname === '/') {
-        navigate('learner/app/store')
-      }
-    },
-    [userType, isSignedIn]
-  )
+  //     if (userType === 'learner' && window.location.pathname === '/') {
+  //       navigate('learner/app/store')
+  //     }
+  //   },
+  //   [userType, isSignedIn]
+  // )
   // console.log(subdomain, userType, 'user type')
   const { isInitDone } = useAppInit(userType)
   useEffect(() => {

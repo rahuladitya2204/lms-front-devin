@@ -152,7 +152,7 @@ function CoursePlayer() {
         // bgColor="black"
         title={
           <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-            <OrgLogo />
+          <OrgLogo style={{ width: 60 }} />
             <Divider type="vertical" />
             <Text style={{ fontSize: 16 }}>{course.title}</Text>
           </Space>

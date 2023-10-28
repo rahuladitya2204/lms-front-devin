@@ -1,11 +1,12 @@
 import './App.less'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect, useMemo } from 'react'
 
 import AppRouter from './screens/AppRouter'
 import { Global } from '@emotion/react'
 import { theme } from 'antd'
+import { Store, Utils } from '@adewaskar/lms-common'
 
 const { defaultAlgorithm, darkAlgorithm } = theme
 
@@ -19,6 +20,24 @@ const queryClient = new QueryClient({
 })
 
 function App () {
+  let subdomain = useMemo(
+    () => {
+      const hostname = window.location.hostname
+      const parts = hostname.split('.')
+      const subdomain = parts.length > 2 ? parts[0] : null
+      return subdomain
+    },
+    [window.location.hostname]
+  )
+  const userType = subdomain === 'app' ? 'user' : 'learner'
+
+  useEffect(
+    () => {
+      Utils.Storage.SetItem('userType', userType)
+    },
+    [userType]
+  )
+
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
@@ -31,7 +50,7 @@ function App () {
           }}
         />
 
-        <AppRouter />
+        <AppRouter userType={userType} />
       </QueryClientProvider>
     </Fragment>
   )
