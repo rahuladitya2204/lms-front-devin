@@ -294,7 +294,7 @@ function TestBuilderScreen() {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Spin tip='Saving..' spinning={deletingSection || deletingSectionItem || loadingTest}>
+                <Spin tip='Please wait..' spinning={deletingSection || deletingSectionItem || loadingTest}>
                   <TestSectionsNavigator
                     deleteSectionItem={deleteSectionItem}
                     deleteSection={deleteSection}

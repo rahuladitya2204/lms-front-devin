@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card, Tag, Tooltip } from 'antd'
+import { Avatar, Badge, Card, Space, Tag, Tooltip } from 'antd'
 import {
   BarChartOutlined,
   EyeOutlined,
@@ -29,11 +29,14 @@ function TestCard({ test }: TestCardProps) {
   const ThumbnailImage = <Image height={200} alt="example" src={test.image} />
   return (
     <TestCardHolder
-      bodyStyle={{ height: 115 }}
+      // bodyStyle={{ height: 115 }}
       hoverable
       cover={
-        test.status === Enum.TestStatus.ENDED ? (
-          <Badge.Ribbon color="red" text={capitalize(test.status)}>
+        test.isLive ? (
+          <Badge.Ribbon
+            color="orange"
+            text={`Live: ${dayjs(test.scheduledAt).format('LLL')}`}
+          >
             {ThumbnailImage}
           </Badge.Ribbon>
         ) : (
@@ -47,11 +50,6 @@ function TestCard({ test }: TestCardProps) {
         <Tooltip placement="bottom" title={'Go to Tests builder'}>
           <ToolOutlined onClick={() => navigate(`${test._id}/builder`)} />
         </Tooltip>,
-        // <Tooltip placement="bottom" title={'Build landing page'}>
-        //   <FormatPainterOutlined
-        //     onClick={() => navigate(`${test._id}/editor`)}
-        //   />
-        // </Tooltip>,
         <Tooltip placement="bottom" title={'Analysis'}>
           <BarChartOutlined
             onClick={() => {
@@ -65,17 +63,9 @@ function TestCard({ test }: TestCardProps) {
     >
       <Card.Meta
         description={
-          test.status === Enum.TestStatus.PUBLISHED ? (
-            `Scheduled At: ${dayjs(test.scheduledAt).format('LLL')}`
-          ) : test.status === Enum.TestStatus.ENDED ? (
-            `Ended At: ${dayjs(test.endedAt).format('LLL')}`
-          ) : test.status === Enum.TestStatus.IN_PROGRESS ? (
-            <Tag color="green">In Progress</Tag>
-          ) : (
-                  <Tag color="blue">
-                    Ongoing Test
-            </Tag>
-          )
+          <Space>
+            <Tag color="blue">Enrolled: {test.analytics.enrolled.count}</Tag>
+          </Space>
         }
         // avatar={<Avatar src={instructor?.image} />}
         title={test.title || ''}

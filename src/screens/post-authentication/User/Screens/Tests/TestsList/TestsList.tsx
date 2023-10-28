@@ -13,9 +13,6 @@ import {
   Typography
 } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
-
-import ActionModal from '@Components/ActionModal'
-import CreateTest from '../CreateTest'
 import { Fragment } from 'react'
 import TestCard from './TestCard'
 import { User } from '@adewaskar/lms-common'
@@ -30,6 +27,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     // props.filter
     props.filter
   )
+  // const filteredData=data.filter(pd => {
+  //   return !pd.endedAt;
+  // })
   return (
     <Fragment>
       <Fragment>
@@ -42,7 +42,11 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           //   },
           //   pageSize: 3,
           // }}
-          dataSource={loading ? SkeletonArr : data}
+          dataSource={
+            loading
+              ? SkeletonArr
+              : data.filter(test => props.filter.status.includes(test.status))
+          }
           renderItem={test => (
             <div style={{ padding: 30 }}>
               {loading ? <SkeletonCard /> : <TestCard test={test} />}

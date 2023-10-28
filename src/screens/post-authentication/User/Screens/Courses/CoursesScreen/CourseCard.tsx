@@ -51,13 +51,13 @@ function CourseCard(props: CourseCardProps) {
             onClick={() => navigate(`${props.course._id}/builder`)}
           />
         </Tooltip>,
-        <Tooltip placement="bottom" title={'Build landing page'}>
-          <FormatPainterOutlined
-            onClick={() =>
-              navigate(`${props.course._id}/editor`)
-            }
-          />
-        </Tooltip>,
+        // <Tooltip placement="bottom" title={'Build landing page'}>
+        //   <FormatPainterOutlined
+        //     onClick={() =>
+        //       navigate(`${props.course._id}/editor`)
+        //     }
+        //   />
+        // </Tooltip>,
         <BarChartOutlined onClick={() => {
           navigate(`${props.course._id}/analytics`)
         }} />,
