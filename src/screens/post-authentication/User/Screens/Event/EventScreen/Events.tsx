@@ -1,10 +1,11 @@
-import { Button, Typography } from 'antd'
+import { Button, Col, Row, Typography } from 'antd'
 
 import Header from '@User/Screens/UserRoot/UserHeader'
 import PastEvent from './PastEvent'
 import Tabs from '@Components/Tabs'
 import UpcomingEvent from './UpcomingEvent'
 import { useNavigate } from 'react-router'
+import Calendar from '@Components/Calendar/Calendar'
 
 const { Text } = Typography
 
@@ -20,9 +21,7 @@ const EventsScreen = () => {
         </Button>
       ]}
     >
-      {/* <Card> */}
-      <Tabs
-        // defaultActiveKey="1"
+      {/* <Tabs
         items={[
           {
             key: 'upcoming',
@@ -35,7 +34,19 @@ const EventsScreen = () => {
             children: <PastEvent filter={{ status: 'ended' }} />
           }
         ]}
-      />
+      /> */}
+      <Row>
+        <Col span={2} />
+        <Col span={20}>
+          <Calendar
+            onDayClick={e => {
+              console.log(e, 'c')
+            }}
+            events={[]}
+          />
+        </Col>
+        <Col span={2} />
+      </Row>
     </Header>
   )
 }

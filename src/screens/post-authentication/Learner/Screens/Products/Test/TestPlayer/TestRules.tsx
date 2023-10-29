@@ -17,9 +17,9 @@ import { useNavigate, useParams } from 'react-router'
 import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
-import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
 import ActionModal from '@Components/ActionModal'
 import Countdown from '@Components/Countdown'
+import IDVerificationComponent from '@Learner/Screens/Procturing/IDVerification/IDVerificationComponent'
 
 const { Title, Text } = Typography
 

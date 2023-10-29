@@ -1,4 +1,4 @@
-import { Carousel, Col, Divider, List, Row, Typography } from 'antd'
+import { Calendar, Carousel, Col, Divider, List, Row, Typography } from 'antd'
 import { Learner, Store } from '@adewaskar/lms-common'
 
 import BGImage from './image.svg'
@@ -31,7 +31,7 @@ function StoreScreen () {
         <HomeCarousel />
       </Col> */}
       <Col span={24}>
-        <Row align={'middle'}>
+        <Row align={'middle'} gutter={[20,20]}>
           <Col span={12} flex={1}>
             <Title>
               Find your Preferred <br /> Courses & Improve Your Skills
@@ -41,10 +41,11 @@ function StoreScreen () {
               <br />
               world-class universities and companies.
             </Paragraph>
-            <SearchLearnerCourses />
+            {/* <SearchLearnerCourses /> */}
           </Col>
           <Col span={12}>
-            <Image preview={false} src={BGImage} />
+          {/* <Calendar fullscreen={false} /> */}
+          <Image preview={false} src={BGImage} />
           </Col>
         </Row>
       </Col>

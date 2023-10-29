@@ -1,8 +1,8 @@
 import React from 'react';
 import dayjs, { Dayjs } from 'dayjs';
-import { Badge, Calendar } from 'antd';
+import { Badge, Calendar as LibCalendar } from 'antd';
 import type { BadgeProps, CalendarProps } from 'antd';
-import 'antd/dist/antd.css';
+// import 'antd/dist/antd.css';
 import { Types } from '@adewaskar/lms-common';
 
 // interface Event {
@@ -14,7 +14,8 @@ import { Types } from '@adewaskar/lms-common';
 // }
 
 interface AppProps {
-  events: Types.Event[];
+    events: Types.Event[];
+    onDayClick?: (date: Date) => void;
 }
 
 const getListData = (value: Dayjs, events: Types.Event[]) => {
@@ -33,13 +34,13 @@ const getMonthData = (value: Dayjs, events: Types.Event[]) => {
   return eventsInMonth.length;
 };
 
-const App: React.FC<AppProps> = ({ events }) => {
+const Calendar: React.FC<AppProps> = ({ events ,onDayClick}) => {
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value, events);
     return (
       <ul className="events">
         {listData.map((item, index) => (
-          <li key={index}>
+          <li key={index} onClick={() => onDayClick&&onDayClick(value.toDate())}>
             <Badge status={item.type as BadgeProps['status']} text={item.content} />
           </li>
         ))}
@@ -63,5 +64,7 @@ const App: React.FC<AppProps> = ({ events }) => {
     return info.originNode;
   };
 
-  return <Calendar cellRender={cellRender} />;
+  return <LibCalendar cellRender={cellRender} />;
 };
+
+export default Calendar;
