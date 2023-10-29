@@ -25,6 +25,7 @@ import HtmlViewer from '@Components/HtmlViewer'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
 import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
+import MoreButton from '@Components/MoreButton'
 
 const { Text } = Typography
 const { confirm } = Modal
@@ -34,7 +35,7 @@ interface CourseNoteItemPropsI {
 }
 const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   const { mutate: deleteNoteApi } = Learner.Queries.useDeleteNote()
-  const playerInstance = Store.usePlayer(s => s.state.playerInstance);
+  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { sectionId, itemId } = useParams()
   const section = props.course.sections.find(s => s._id === sectionId)
   const item = section?.items.find(i => i._id === itemId)
@@ -74,50 +75,74 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   ) : (
     <List.Item
       actions={[
-        <Dropdown  trigger={['click']}
-          menu={{
-            items: [
-              {
-                key: '1',
-                label: (
-                  <a
-                    onClick={() => {
-                      if (playerInstance) {
-                        playerInstance.currentTime = 3
-                      }
-                    }}
-                  >
-                   <PlayCircleOutlined/> Play
-                  </a>
-                )
+        // <Dropdown
+        //   trigger={['click']}
+        //   menu={{
+        //     items: [
+        //       {
+        //         key: '1',
+        //         label: (
+        //           <a
+        //             onClick={() => {
+        //               if (playerInstance) {
+        //                 playerInstance.currentTime = 3
+        //               }
+        //             }}
+        //           >
+        //             <PlayCircleOutlined /> Play
+        //           </a>
+        //         )
+        //       },
+        //       {
+        //         key: '2',
+        //         label: (
+        //           <a onClick={e => setSelectedNote(props.note)}>
+        //             <EditOutlined /> Edit
+        //           </a>
+        //         )
+        //       },
+        //       {
+        //         key: '3',
+        //         label: (
+        //           <a onClick={deleteNote}>
+        //             <DeleteOutlined /> Delete
+        //           </a>
+        //         )
+        //       }
+        //     ]
+        //   }}
+        //   placement="bottomRight"
+        // >
+        //   <Button size="small" icon={<CaretDownOutlined />} />
+        // </Dropdown>,
+        <MoreButton
+          items={[
+            {
+              label: `Play`,
+              onClick: () => {
+                if (playerInstance) {
+                  playerInstance.currentTime = 3
+                }
               },
-              {
-                key: '2',
-                label: (
-                  <a
-                    onClick={e => setSelectedNote(props.note)}
-                  >
-                   <EditOutlined/> Edit
-                  </a>
-                )
+              key: 'play',
+              icon: <PlayCircleOutlined />
+            },
+            {
+              label: `Edit`,
+              onClick: () => {
+                setSelectedNote(props.note)
               },
-              {
-                key: '3',
-                label: (
-                  <a
-                    onClick={deleteNote}
-                  >
-                  <DeleteOutlined/>  Delete
-                  </a>
-                )
-              }
-            ]
-          }}
-          placement="bottomRight"
-        >
-          <Button size='small' icon={<CaretDownOutlined />}></Button>
-        </Dropdown>,
-
+              key: 'edit',
+              icon: <EditOutlined />
+            },
+            {
+              label: `Delete`,
+              onClick: deleteNote,
+              key: 'play',
+              icon: <DeleteOutlined />
+            }
+          ]}
+        />
       ]}
     >
       <List.Item.Meta

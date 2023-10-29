@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
+import TextArea from '@Components/Textarea'
 
 const { Text } = Typography
 
@@ -26,7 +27,10 @@ interface CourseNotesPropsI {
 }
 const CreateNote: React.FC<CourseNotesPropsI> = props => {
   const message = useMessage()
-  const { mutate: createNote } = Learner.Queries.useCreateNote()
+  const {
+    mutate: createNote,
+    isLoading: savingNote
+  } = Learner.Queries.useCreateNote()
   const { mutate: updateNote } = Learner.Queries.useUpdateNote()
   const { currentTime } = Store.usePlayer((s: any) => s.state)
   const time = formatSeconds(props.selectedNote?.time || currentTime)
@@ -102,7 +106,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
                 }
                 name="content"
               >
-                <SunEditorComponent height={100} name="content" />
+                <TextArea html={{ level: 1 }} height={100} name="content" />
               </Form.Item>
             </Col>
             <Col
@@ -114,7 +118,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
                   Update Note
                 </Button>
               ) : (
-                <Button type="primary" onClick={form.submit}>
+                <Button loading={savingNote} type="primary" onClick={form.submit}>
                   Save Note
                 </Button>
               )}

@@ -28,10 +28,12 @@ interface CourseNotesPropsI {
   course: Types.Course;
 }
 const CourseNotes: React.FC<CourseNotesPropsI> = props => {
-  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
+  // const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { course } = props
-  const { itemId, sectionId } = useParams()
-  const { data: { notes } } = Learner.Queries.useGetEnrolledProductDetails(
+  const { itemId } = useParams()
+  const {
+    data: { metadata: { notes } }
+  } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: 'course',
       id: course._id + ''
@@ -40,7 +42,7 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
       enabled: !!course._id
     }
   )
-
+  console.log(notes, 'notes')
   const currentItemNotes = notes.filter(note => note.item === itemId) || []
   return (
     <Row>

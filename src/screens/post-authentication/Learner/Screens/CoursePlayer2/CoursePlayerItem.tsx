@@ -19,7 +19,9 @@ function CoursePlayerItem() {
     [user]
   )
   const { node: item, courseId } = useGetNodeFromRouterOutlet()
-  const { data: { notes } } = Learner.Queries.useGetEnrolledProductDetails(
+  const {
+    data: { metadata: { notes } }
+  } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: 'course',
       id: courseId + ''

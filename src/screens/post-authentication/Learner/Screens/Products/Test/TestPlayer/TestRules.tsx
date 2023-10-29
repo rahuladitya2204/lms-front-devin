@@ -19,7 +19,7 @@ import { Learner } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import ActionModal from '@Components/ActionModal'
 import Countdown from '@Components/Countdown'
-import IDVerificationComponent from '@Learner/Screens/Procturing/IDVerification/IDVerificationComponent'
+import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
 
 const { Title, Text } = Typography
 

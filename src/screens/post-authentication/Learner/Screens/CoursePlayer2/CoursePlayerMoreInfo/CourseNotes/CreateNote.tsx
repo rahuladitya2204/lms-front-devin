@@ -15,6 +15,7 @@ import React, { useEffect, useState } from 'react'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
+import TextArea from '@Components/Textarea'
 
 const { Text } = Typography
 
@@ -102,7 +103,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
                 }
                 name="content"
               >
-                <SunEditorComponent height={100} name="content" />
+                <TextArea html={{ level: 2 }} height={100} name="content" />
               </Form.Item>
             </Col>
             <Col
