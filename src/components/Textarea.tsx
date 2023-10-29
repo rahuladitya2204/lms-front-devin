@@ -21,17 +21,13 @@ interface TextAreaProps extends LibTextAreaProps {
   variables?: { value: string, name: string }[];
 }
 
-// interface ComProps extends SunEditorPropsI
-
 const TextArea: React.FC<TextAreaProps> = props => {
   const { html = { level: 2 }, name, label, ...restProps } = props
 
   return (
     <Form.Item name={name} label={label}>
       {html ? (
-        <TextArea
-          html
-          onFocus={props.onFocus}
+        <SunEditorComponent
           // @ts-ignore
           level={props?.html?.level || 2}
           readOnly={props.readOnly}

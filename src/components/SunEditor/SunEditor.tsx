@@ -11,7 +11,6 @@ import { Form, Spin } from 'antd'
 import React, { Fragment } from 'react'
 import SunEditor from 'suneditor-react'
 import { variablePlugin } from './plugins/variable.plugin'
-import TextArea from '@Components/Textarea'
 
 export interface SunEditorPropsI {
   height?: number;
@@ -92,8 +91,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   return (
     <Fragment>
       <Spin spinning={loading}>
-        <TextArea
-          html
+        <SunEditor
           onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}
