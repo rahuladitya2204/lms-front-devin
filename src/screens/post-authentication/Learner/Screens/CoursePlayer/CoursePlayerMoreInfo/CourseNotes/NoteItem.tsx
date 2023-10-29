@@ -38,7 +38,8 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { sectionId, itemId } = useParams()
   const section = props.course.sections.find(s => s._id === sectionId)
-  const item = section?.items.find(i => i._id === itemId)
+  const item = section?.items.find(i => i._id === itemId);
+  const {name } = Store.useAuthentication(s => s.learner);
   const time = formatSeconds(props.note.time)
   const [selectedNote, setSelectedNote] = useState<Types.CourseNote>(Constants.INITIAL_COURSE_NOTE_DETAILS);
   const deleteNote = () => {
@@ -150,9 +151,9 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
         title={
           <Row>
             <Col>
-              <Text strong>{section?.title}</Text>
+              <Text strong>{name}</Text>
               <Divider type="vertical" />
-              <Text>{item?.title}</Text>
+              {/* <Text>{item?.title}</Text> */}
             </Col>
           </Row>
         }

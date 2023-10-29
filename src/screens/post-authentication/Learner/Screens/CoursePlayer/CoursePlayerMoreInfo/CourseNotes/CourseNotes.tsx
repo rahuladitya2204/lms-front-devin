@@ -10,16 +10,11 @@ import {
   Typography
 } from 'antd'
 import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
-import {
-  DeleteOutlined,
-  EditOutlined,
-  PlayCircleOutlined
-} from '@ant-design/icons'
+
 import React, { useEffect, useState } from 'react'
 
 import CourseNoteItem from './NoteItem'
 import CreateNote from './CreateNote'
-import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
 
 const { Text } = Typography
