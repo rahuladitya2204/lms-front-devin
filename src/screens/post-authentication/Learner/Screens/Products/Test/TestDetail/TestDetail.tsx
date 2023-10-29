@@ -12,6 +12,8 @@ import TestMetadata from './TestMetadata'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
 import useMessage from '@Hooks/useMessage'
+import CompletedTestCard from './CompletedTestMetadata'
+import { useQueryClient } from '@tanstack/react-query'
 
 const { Text, Paragraph } = Typography
 
@@ -20,6 +22,7 @@ interface TestDetailScreenPropsI {}
 export default function TestDetailScreen(
   props: TestDetailScreenPropsI
 ) {
+  const qc = useQueryClient();
   const navigate = useNavigate();
   const { testId } = useParams()
   const {
@@ -32,7 +35,7 @@ export default function TestDetailScreen(
   })
   const isEnrolled = !!enrolledDetails._id
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
-  console.log(test.status, 'test.status');
+  console.log(enrolledDetails, 'test.status');
   const testStartDate =
   enrolledDetails.metadata.test.startedAt || test.startedAt;
 
@@ -94,7 +97,7 @@ const ENROLLED_CTA = useMemo(() => {
      
     }
  
-  },[test])
+  },[test,enrolledDetails])
   const message = useMessage();
 
   return (
@@ -163,7 +166,7 @@ const ENROLLED_CTA = useMemo(() => {
                   <Col span={24}>
                     <Row gutter={[10, 10]}>
                       <Col span={24}>
-                        <TestMetadata test={test} />
+                        {testEndDate? <CompletedTestCard test={test} />:<TestMetadata test={test} />}
                       </Col>
                       <Col span={24}>
                         {
@@ -174,6 +177,7 @@ const ENROLLED_CTA = useMemo(() => {
                               }
                             </> :
                               <ProductCheckoutButton onSuccess={() => {
+                                qc.invalidateQueries([`GET_ENROLLED_PRODUCT_DETAILS`, testId, 'test']);
                                 message.open({
                                   type: 'success',
                                   content: `You have enrolled successfully`

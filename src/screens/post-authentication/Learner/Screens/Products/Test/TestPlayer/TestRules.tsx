@@ -28,7 +28,10 @@ interface TestRulesPropsI {}
 export default function TestRules(props: TestRulesPropsI) {
   const isVerificationOn = false
   const { testId } = useParams()
-  const { mutate: startTest } = Learner.Queries.useStartTest()
+  const {
+    mutate: startTest,
+    isLoading: startingTest
+  } = Learner.Queries.useStartTest()
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const {
     data: enrolledProduct
@@ -43,6 +46,7 @@ export default function TestRules(props: TestRulesPropsI) {
   const isValid = rule1 && rule2 && rule3
   const testStartDate =
     enrolledProduct.metadata.test.startedAt || test.startedAt
+  const testEndDate = enrolledProduct.metadata.test.endedAt || test.endedAt
   const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
     .add(test.duration, 'minutes')
     .toString()
@@ -118,6 +122,7 @@ export default function TestRules(props: TestRulesPropsI) {
                       disabled={!isValid}
                       style={{ marginLeft: 20, width: 200 }}
                       type="primary"
+                      loading={startingTest}
                       onClick={() => {
                         startTest(
                           {
@@ -131,7 +136,9 @@ export default function TestRules(props: TestRulesPropsI) {
                         )
                       }}
                     >
-                      Start Test
+                      {testStartDate && !testEndDate
+                        ? 'Continue Test'
+                        : 'Start Test'}
                     </Button>
                   ) : (
                     <ActionModal
