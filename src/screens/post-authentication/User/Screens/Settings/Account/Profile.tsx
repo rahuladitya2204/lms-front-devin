@@ -26,15 +26,17 @@ export default function UserProfile() {
   const { data: url } = User.Queries.useGetProviderLoginUrl('facebook');
   return (
     <Card>
-      <Form onFinish={onSubmit} form={form}>
+      <Form layout='vertical' onFinish={onSubmit} form={form}>
         <Form.Item name="image" required label="Profile Image">
+          <div style={{width:150,height:100}}>
           <MediaUpload
             width="100px"
-            renderItem={() => <Image src={logo} />}
+            renderItem={() => <Image width={'100%'} src={logo} />}
             onUpload={e => {
               form.setFieldValue(['logo'], e.url);
             }}
           />
+          </div>
         </Form.Item>
         <Form.Item>
           <Button

@@ -1,12 +1,9 @@
-import { Button, Card, Form, Input, Select, Tabs } from 'antd'
+import { Button, Card, Col, Divider, Form, Input, Row, Select } from 'antd'
 import { Fragment, useEffect } from 'react'
 import { Types, User } from '@adewaskar/lms-common'
 
-import EmailSettingScreen from '../EmailSetting/EmailSettingScreen'
 import Header from '@Components/Header'
-import { Outlet } from 'react-router'
 import { SaveOutlined } from '@ant-design/icons'
-import TicketCategorysScreen from '../SupportTickets/TicketCategoriesScreen'
 import { currencies } from './constants'
 import useMessage from '@Hooks/useMessage'
 
@@ -14,6 +11,10 @@ const PAYMENT_GATEWAYS = [
   {
     label: 'Razorpay',
     value: 'razorpay'
+  },
+  {
+    label: 'Stripe',
+    value: 'stripe'
   }
 ]
 
@@ -28,17 +29,25 @@ function PaymentSettings() {
   const [form] = Form.useForm()
   const message = useMessage()
 
-  const { data: { payment: paymentSetting } } = User.Queries.useGetOrgSetting()
-  const { mutate: updateOrgSetting } = User.Queries.useUpdateOrgSetting()
+  const {
+    data: { payment: paymentSetting },
+    isLoading: loadingSettings
+  } = User.Queries.useGetOrgSetting()
+  const {
+    mutate: updateOrgSetting,
+    isLoading: updatingSetting
+  } = User.Queries.useUpdateOrgSetting()
 
   useEffect(
     () => {
+      console.log(paymentSetting, 121212)
       form.setFieldsValue(paymentSetting)
     },
     [paymentSetting]
   )
 
   const save = (e: any) => {
+    console.log(e, 'epopi')
     updateOrgSetting(
       {
         data: {
@@ -55,19 +64,24 @@ function PaymentSettings() {
       }
     )
   }
-  console.log(paymentSetting, 'paymentSetting')
+  // console.log(paymentSetting, 'paymentSetting')
   return (
     <Header
       title="Payments"
       extra={[
         <Fragment>
-          <Button onClick={form.submit} type="primary" icon={<SaveOutlined />}>
+          <Button
+            loading={updatingSetting}
+            onClick={form.submit}
+            type="primary"
+            icon={<SaveOutlined />}
+          >
             Save
           </Button>
         </Fragment>
       ]}
     >
-      <Card title="Global">
+      <Card loading={loadingSettings} title="Global">
         <Form onFinish={save} layout="vertical" form={form} autoComplete="off">
           <Form.Item label="Currency" name={['global', 'currency']}>
             <Select
@@ -93,6 +107,7 @@ function PaymentSettings() {
               options={TAXES_APPLICABLE}
             />
           </Form.Item>
+
           <Form.Item
             label="Tax Rate"
             name={['global', 'tax', 'rate']}
@@ -100,19 +115,41 @@ function PaymentSettings() {
           >
             <Input type="number" />
           </Form.Item>
+          <Divider>Payment Gateway</Divider>
 
           <Form.Item
             label="Payment Gateway"
-            name={['global', 'gateway']}
+            name={['global', 'gateway', 'id']}
             // rules={[{ required: true, message: 'Please input your username!' }]}
           >
             <Select
               style={{ width: 200 }}
               //   showSearch
-              defaultValue={'razorpay'}
+              // defaultValue={PAYMENT_GATEWAYS}
               options={PAYMENT_GATEWAYS}
             />{' '}
           </Form.Item>
+          <Row gutter={[20, 20]}>
+            <Col span={24}>
+              <Form.Item
+                label="Access Key"
+                name={['global', 'gateway', 'access', 'key']}
+                // rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              {' '}
+              <Form.Item
+                label="Access Secret"
+                name={['global', 'gateway', 'access', 'secret']}
+                // rules={[{ required: true, message: 'Please input your username!' }]}
+              >
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Card>
     </Header>
