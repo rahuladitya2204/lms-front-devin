@@ -12,6 +12,7 @@ interface SunEditorPropsI {
   height?: number;
   width?: number;
   name?: string | string[];
+  onFocus?: () => void;
   variables?: Types.Variable[];
   value?: string;
   mode?: string;
@@ -86,7 +87,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   return (
     <Fragment>
       <Spin spinning={loading}>
-        <SunEditor
+        <SunEditor onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}
           onChange={e => {

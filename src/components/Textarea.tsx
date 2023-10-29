@@ -12,6 +12,7 @@ interface TextAreaProps {
   onChange?: (d: string) => void;
   label?: string;
   defaultValue?: string;
+  onFocus?: () => void;
   readOnly?: boolean;
   placeholder?: string;
   html?: { level: number } | boolean;
@@ -24,6 +25,7 @@ const TextArea: React.FC<TextAreaProps> = props => {
     <Form.Item name={name} label={label}>
       {html ? (
         <SunEditorComponent
+          onFocus={props.onFocus}
           // @ts-ignore
           level={props?.html?.level || 2}
           readOnly={props.readOnly}
@@ -32,6 +34,7 @@ const TextArea: React.FC<TextAreaProps> = props => {
       ) : (
         // @ts-ignore
         <AntDTextArea
+          onFocus={props.onFocus}
           placeholder={props.placeholder}
           readOnly={props.readOnly}
           {...restProps}

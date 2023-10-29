@@ -31,6 +31,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
     mutate: createNote,
     isLoading: savingNote
   } = Learner.Queries.useCreateNote()
+  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { mutate: updateNote } = Learner.Queries.useUpdateNote()
   const { currentTime } = Store.usePlayer((s: any) => s.state)
   const time = formatSeconds(props.selectedNote?.time || currentTime)
@@ -90,7 +91,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
     },
     [props.selectedNote]
   )
-
+  const noteContent = Form.useWatch('content', form)
   return (
     <Form layout="vertical" onFinish={onSave} form={form}>
       <Row justify="start">
@@ -106,7 +107,12 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
                 }
                 name="content"
               >
-                <TextArea html={{ level: 1 }} height={100} name="content" />
+                <TextArea
+                  onFocus={() => playerInstance.pause()}
+                  html={{ level: 1 }}
+                  height={100}
+                  name="content"
+                />
               </Form.Item>
             </Col>
             <Col
@@ -118,7 +124,12 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
                   Update Note
                 </Button>
               ) : (
-                <Button loading={savingNote} type="primary" onClick={form.submit}>
+                <Button
+                  loading={savingNote}
+                  disabled={!noteContent}
+                  type="primary"
+                  onClick={form.submit}
+                >
                   Save Note
                 </Button>
               )}
