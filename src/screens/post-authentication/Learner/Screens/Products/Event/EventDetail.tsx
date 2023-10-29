@@ -110,7 +110,7 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
                           onSuccess={() => {
                             message.open({
                               type: 'success',
-                              content: `Enrolled SUccessfully`
+                              content: `You have enrolled successfully`
                             })
                           }}
                           product={{ type: 'event', id: sessionId + '' }}

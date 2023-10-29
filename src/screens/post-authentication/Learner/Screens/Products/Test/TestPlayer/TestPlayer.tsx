@@ -31,6 +31,7 @@ interface TestPlayerPropsI {}
 const { Title } = Typography
 
 export default function TestPlayer(props: TestPlayerPropsI) {
+  const isProcturingOn = false
   const { testId } = useParams()
   const navigate = useNavigate()
   const {
@@ -97,13 +98,14 @@ export default function TestPlayer(props: TestPlayerPropsI) {
               okText: 'Yes, Submit'
             })
           }}
-          type="primary" loading={submittingTest}
+          type="primary"
+          loading={submittingTest}
         >
           Submit Test
         </Button>
       ]}
     >
-      <ProctoringComponent />
+      {isProcturingOn ? <ProctoringComponent /> : null}
       <Alert
         message="Please Note: This exam is being proctured. Any suspicious activity will be reported and submit the test immediately."
         type="info"

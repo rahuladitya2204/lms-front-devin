@@ -3,32 +3,34 @@ import { Learner, Types } from '@adewaskar/lms-common'
 
 const { Title } = Typography
 
-interface ReviewCoursePropsI {
-  course: Types.Course;
+interface ReviewTestPropsI {
+  testId: string;
   closeModal?: Function;
+  onSubmit: () => void;
 }
 const { TextArea } = Input;
 
-const ReviewCourse: React.FC<ReviewCoursePropsI> = ({ course,closeModal }) => {
-  const { mutate:reviewCourse} = Learner.Queries.useAddReviewForProduct();
+const ReviewTest: React.FC<ReviewTestPropsI> = ({ testId,closeModal ,onSubmit}) => {
+  const { mutate:reviewTest,isLoading: submittingReview} = Learner.Queries.useAddReviewForProduct();
   const [form] = Form.useForm();
   const submitReview=(e:Partial<Types.ProductReview>)=>{
     console.log(e, 'reciew');
-    reviewCourse({
+    reviewTest({
       product: {
-        id: course._id,
-        type:'course'
+        type: 'test',
+        id:testId
       },
       data:e
     }, {
       onSuccess: () => {
+        onSubmit();
         closeModal && closeModal();
        }
     })
   }
   return  <>
    <Space style={{width:'100%'}} align='center' direction='vertical'>
-   <Title level={3}>How would you rate your experience with the course</Title>
+   <Title level={3}>How would you rate your experience with the test</Title>
 <Form onFinish={submitReview} style={{textAlign:'center'}} layout='vertical' form={form}>
 <Form.Item name="rating">
           <Rate style={{ marginBottom: 30 }}  />
@@ -36,7 +38,7 @@ const ReviewCourse: React.FC<ReviewCoursePropsI> = ({ course,closeModal }) => {
 <Form.Item name="comment">
           <TextArea style={{width: 300}} rows={4} />
         </Form.Item>
-        <Button onClick={form.submit}>Submit</Button>
+        <Button loading={submittingReview} onClick={form.submit}>Submit</Button>
 </Form>
 
     </Space>
@@ -44,4 +46,4 @@ const ReviewCourse: React.FC<ReviewCoursePropsI> = ({ course,closeModal }) => {
   
 }
 
-export default ReviewCourse
+export default ReviewTest

@@ -33,6 +33,7 @@ import LocationAutocomplete from '@Components/LocationSelector'
 interface CreateEventComponentPropsI {
   children?: ReactNode;
   closeModal?: Function;
+  onSuccess?: () => void;
   onFinish?: (data: Types.Event) => void;
 }
 
@@ -68,14 +69,17 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
         {
           onSuccess: () => {
             form.resetFields();
-            props.closeModal && props.closeModal();
             navigate('../')
+            props.onSuccess && props.onSuccess();
+            props.closeModal && props.closeModal();
           }
         }
       )
     } else {
       createEvent(data, {
         onSuccess: () => {
+          navigate('../')
+          props.onSuccess && props.onSuccess();
           props.closeModal && props.closeModal()
         }
       })
@@ -107,7 +111,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
       type="primary"
       onClick={form.submit}
       >
-      Publish
+      Publish Event
     </Button>
     ]}>
         <Card loading={loadingEvent}>

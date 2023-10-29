@@ -45,7 +45,10 @@ function CourseReviews(props: CourseReviewsPropsI) {
     //   .filter(i => i.count)
       .sort(i => -i.rating)
     
-    const { data: studentReviews } = Learner.Queries.useGetCourseReviews(props.course._id);
+  const { data: studentReviews } = Learner.Queries.useGetProductReviews({
+    type: 'course',
+    id:props.course._id
+    });
   return studentReviews.length?(
     <Row>
       <Col span={24}>

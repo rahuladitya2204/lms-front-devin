@@ -6,12 +6,13 @@ import Tabs from '@Components/Tabs'
 import UpcomingEvent from './UpcomingEvent'
 import { useNavigate } from 'react-router'
 import Calendar from '@Components/Calendar/Calendar'
+import { User } from '@adewaskar/lms-common'
 
 const { Text } = Typography
 
 const EventsScreen = () => {
   const navigate = useNavigate()
-
+  const { data: events } = User.Queries.useGetEvents()
   return (
     <Header
       title="Event"
@@ -42,7 +43,7 @@ const EventsScreen = () => {
             onDayClick={e => {
               console.log(e, 'c')
             }}
-            events={[]}
+            events={events}
           />
         </Col>
         <Col span={2} />

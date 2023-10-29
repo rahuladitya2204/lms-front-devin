@@ -1,32 +1,23 @@
 import { Button, Checkbox, Divider, Form, Input } from 'antd'
-import { ContactsFilled, GoogleOutlined } from '@ant-design/icons'
+import {  GoogleOutlined } from '@ant-design/icons'
 import { Learner, Store, User } from '@adewaskar/lms-common'
-import { NavLink, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import LearnerRegister from '../Register'
-import { RegisterLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api'
 import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
-import { useNavigate } from 'react-router'
 import useOauth from './useOauth'
 
 function LearnerLogin () {
-  const navigate = useNavigate()
 
   const { fetchOrganisation } = Store.useGlobal(state => state)
   useEffect(() => {
     fetchOrganisation('learner')
   }, [])
-  const params = useParams()
-
-  const [form] = Form.useForm()
-  const { mutate: sendOtp} = Learner.Queries.useSendLoginOtp();
-  const { mutate: verifyOtp} = Learner.Queries.useVerifyLoginOtp();
 
 
   return (
@@ -183,6 +174,9 @@ const OtpForm = () => {
 }
 
 const EmailForm = () => {
+  const orgName = Store.useGlobal(s => s.organisation.name);
+  const learnerName = Store.useAuthentication(s => s.learner.name);
+  const message = useMessage();
   const [form] = Form.useForm()
   const Google = useOauth('google')
   const {
@@ -196,11 +190,22 @@ const EmailForm = () => {
       loginUser(
         {
           email: values.email,
-          password: values.password
+          password: values.password,
+          onSuccess: (user) => {
+            message.open({
+              type: 'success',
+              // @ts-ignore
+              content: `Welcome to ${orgName}, ${user.name}`
+            })
+          }
         },
         {
           onSuccess: user => {
-            Utils.Storage.SetItem('orgId', user.organisation)
+            Utils.Storage.SetItem('orgId', user.organisation);
+            // message.open({
+            //   type: 'success',
+            //   content: `Welcome to ${orgName}, ${learnerName}`
+            // })
           }
         }
       )

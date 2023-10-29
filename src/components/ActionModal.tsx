@@ -54,5 +54,5 @@ function ActionModal(props: ActionModalPropsI) {
 export default ActionModal
 
 export interface ActionModalI {
-  onClose?: () => void;
+  closeModal?: () => void;
 }

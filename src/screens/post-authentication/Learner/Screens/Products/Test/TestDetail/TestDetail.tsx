@@ -176,7 +176,7 @@ const ENROLLED_CTA = useMemo(() => {
                               <ProductCheckoutButton onSuccess={() => {
                                 message.open({
                                   type: 'success',
-                                  content: `Enrolled SUccessfully`
+                                  content: `You have enrolled successfully`
                                 })                            }}
                           product={{ type: 'test', id: testId + '' }}
                           block

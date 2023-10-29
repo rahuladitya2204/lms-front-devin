@@ -6,7 +6,7 @@ import { capitalize } from 'lodash'
 const { Title, Paragraph } = Typography
 
 interface ReviewCardPropsI {
-  review: Types.CourseReview;
+  review: Types.ProductReview;
 }
 
 function ReviewCard(props: ReviewCardPropsI) {

@@ -1,8 +1,10 @@
 import { Button, Result } from 'antd'
 
-import { useNavigate } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
+import ReviewTest from '../TestReview/ReviewTest'
 
 export default function TestCompleted () {
+  const { testId } = useParams()
   const navigate = useNavigate()
   return (
     <Result
@@ -20,6 +22,10 @@ export default function TestCompleted () {
           Go Home {`:-)`}
         </Button>
       ]}
-    />
+    >
+      <ReviewTest onSubmit={() => {
+        navigate('../')
+      }} testId={testId + ''} />
+    </Result>
   )
 }
