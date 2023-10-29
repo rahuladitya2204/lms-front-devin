@@ -1,5 +1,5 @@
 import { Common, Learner, Store } from '@adewaskar/lms-common'
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 
 import CoursePlayerQuiz from './CoursePlayerItems/CourseQuizItem/QuizItem'
 import CoursePlayerTextItem from './CoursePlayerItems/Text'
@@ -7,8 +7,10 @@ import ErrorBoundary from '@Components/ErrorBoundary'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
+import { Spin } from 'antd'
 
 function CoursePlayerItem() {
+  const [loading, setLoading] = useState(false)
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   const user = Store.useAuthentication(s => s.user)
   const WATERMERK = useMemo(
@@ -43,9 +45,9 @@ function CoursePlayerItem() {
       enabled: !!courseId
     }
   )
-  console.log(item, 'itmi')
+
   const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
-  const { data: file } = Learner.Queries.useGetFileDetails(item.file + '', {
+  const { data: file,isLoading: loadingFile } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
   const currentItemNotes = notes.filter(note => note.item === item._id) || []
@@ -58,10 +60,12 @@ function CoursePlayerItem() {
     Component = <CoursePlayerQuiz onEnd={onEnd} item={item} />
   }
   const fileId = file.encoded || file._id
-
+  console.log(loading, 'is loadindin')
   if (item.type === 'video') {
     Component = !item.external?.url ? (
       <MediaPlayer
+        onLoadingStarted={() => setLoading(true)}
+        onLoadingEnded={() => setLoading(false)}
         hls
         thumbnail={item.metadata?.thumbnail}
         notes={currentItemNotes}
@@ -72,6 +76,8 @@ function CoursePlayerItem() {
     ) : (
       <MediaPlayer
         hls
+        onLoadingStarted={() => setLoading(true)}
+        onLoadingEnded={() => setLoading(false)}
         thumbnail={item.metadata?.thumbnail}
         notes={currentItemNotes}
         watermark={course.advanced.watermark?.enabled ? WATERMERK : null}
@@ -88,7 +94,9 @@ function CoursePlayerItem() {
   return (
     // @ts-ignore
     <ErrorBoundary fallbackComponent={Component}>
-      <Fragment>{Component}</Fragment>
+      <Spin spinning={loading || loadingFile}>
+        <div style={{ height: 550, width: '100%' }}>{Component}</div>
+      </Spin>
     </ErrorBoundary>
   )
 }

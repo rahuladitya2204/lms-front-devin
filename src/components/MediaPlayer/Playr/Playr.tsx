@@ -4,6 +4,7 @@ import './plyr.css'
 import './style.css'
 
 import React, {
+  Fragment,
   useEffect,
   useRef,
   useState,
@@ -28,6 +29,8 @@ interface VideoJsComponentPropsI {
   height?: number;
   notes?: Types.CourseNote[];
   onEnded?: () => void;
+  onLoadingStarted?:()=> void;
+  onLoadingEnded?:()=> void;
 }
 const PlyrComponent = (props: VideoJsComponentPropsI) => {
   const isHls = props.url?.includes('.m3u8');
@@ -35,6 +38,27 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
   const setPlayer = Store.usePlayer(s => s.setPlayerState);
   const videoRef = useRef(null)
   const plyrRef = useRef(null)
+
+  useEffect(() => {
+    const video = videoRef.current;
+  
+    const handleLoadedData = () => {
+      props.onLoadingEnded && props.onLoadingEnded();
+    };
+  
+    const handleWaiting = () => {
+      props.onLoadingStarted&&props.onLoadingStarted();
+    };
+  
+    video.addEventListener('loadeddata', handleLoadedData);
+    video.addEventListener('waiting', handleWaiting);
+  
+    return () => {
+      video.removeEventListener('loadeddata', handleLoadedData);
+      video.removeEventListener('waiting', handleWaiting);
+    };
+  }, []);
+  
 
   useEffect(() => {
     if (videoRef.current) {
@@ -162,10 +186,11 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       };
     }
   }, [props.url]);
-
+// console.log(isLoading,'loadddd')
   return (
     <ErrorBoundary>
-      {isHls?<video
+     <Fragment>
+     {isHls?<video
         ref={videoRef}
         className="plyr"
         controls
@@ -184,6 +209,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
        <source src={props.url} />
       </video>}
       <div id="captions" class="captions"></div>
+     </Fragment>
     </ErrorBoundary>
   )
 }

@@ -1,6 +1,6 @@
-import { Button, Card, Checkbox, Col, Divider, Empty, Form, Input, Progress, Row, Space, Typography } from 'antd'
+import { Button, Card, Checkbox, Col, Divider, Empty, Form, Input, Progress, Row, Space, Spin, Typography } from 'antd'
 import { Common, Types, User } from '@adewaskar/lms-common'
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { UploadOutlined, VideoCameraOutlined } from '@ant-design/icons'
 import { debounce, uniqueId } from 'lodash'
 
@@ -30,9 +30,10 @@ const FileListStyled=styled(FileList)`
 const UploadVideoForm:any = () => {
   const [form] = Form.useForm();
   const { id: courseId, sectionId, itemId } = useParams()
-  const { onFormChange, item ,handleTopicsChange,topics} = useUploadItemForm(form);
+  const { onFormChange, item, handleTopicsChange, topics } = useUploadItemForm(form);
+  const [loading, setLoading] = useState(false);
   // const jobs = item?.file?.metadata;
-  const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
+  const { data: file,isLoading: loadingFile } = User.Queries.useGetFileDetails(item.file + '', {
     enabled:!!item.file
   });
   const videoJobId = file?.metadata?.video?.jobId;
@@ -97,6 +98,7 @@ const UploadVideoForm:any = () => {
 
   // console.log(transcribing,'transcribing')
   const fileId = file.encoded || file._id;
+  const loadingVideo = loadingFile || loading;
   return (
     <Fragment>
       <Form onValuesChange={debounce(onFormChange,700)} form={form} layout="vertical">
@@ -129,7 +131,8 @@ const UploadVideoForm:any = () => {
         <Row gutter={[20,20]}>
          
           <Col span={24}>
-        <Card style={{marginTop:20}} title='Lecture Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id || item.external?.url) ? 'Replace video' : 'Upload Lecture'}</Button>}>
+            <Spin spinning={loadingVideo}>
+            <Card style={{marginTop:20}} title='Lecture Video' extra={[  <ActionModal cta={<Button icon={<UploadOutlined />}>{(file._id || item.external?.url) ? 'Replace video' : 'Upload Lecture'}</Button>}>
           <UploadVideo prefixKey={`courses/${courseId}/${
                     itemId
                   }/lecture/index`} item={item} onUpload={(item) => {
@@ -179,7 +182,7 @@ const UploadVideoForm:any = () => {
                     <Progress format={() => `Generating Trancripts`} style={{ marginBottom: 20 }} percent={transcribing.progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
                   </Col>) : null}
               </Row>
-              {file._id ? <MediaPlayer thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : (item.external?.url ? <MediaPlayer platform={item.external.platform} url={item.external.url} /> : <Empty description='No Video Uploaded' />)}
+              {file._id ? <MediaPlayer onLoadingStarted={()=>setLoading(true)} onLoadingEnded={()=>setLoading(false)} thumbnail={item.metadata?.thumbnail} fileId={fileId} /> : (item.external?.url ? <MediaPlayer platform={item.external.platform} url={item.external.url} /> : <Empty description='No Video Uploaded' />)}
               
              {file.transcription?<> <Divider/>
               <Form.Item name={'summary'}
@@ -192,6 +195,7 @@ const UploadVideoForm:any = () => {
            
                
             </Card>
+     </Spin>
           </Col>
 
           <Col span={24}>

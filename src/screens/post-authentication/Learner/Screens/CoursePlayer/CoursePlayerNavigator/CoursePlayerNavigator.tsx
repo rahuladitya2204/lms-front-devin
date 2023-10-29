@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { Collapse, List, Progress, Space, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
@@ -27,6 +26,7 @@ const { Text, Title } = Typography
 
 interface CoursePlayerNavigatorPropsI {
   courseId: string;
+  searchText: string;
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
@@ -36,51 +36,75 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
   } = Learner.Queries.useGetEnrolledCourseDetails(props.courseId, {
     enabled: !!props.courseId
   })
-  const sections = course.sections || []
+  const sections: Types.CourseSection[] = course?.sections || []
+  const text = props.searchText.toLowerCase()
 
   return (
     <Fragment>
-      {sections?.map((section, index) => {
-        const itemsCompleted = section.items.filter(item => item.isCompleted)
-        const sectionProgress = Math.ceil(
-          itemsCompleted.length / section.items.length * 100
-        )
-        return (
-          <CustomCollapse
-            expandIconPosition="end"
-            defaultActiveKey={sections.map((s, i) => s._id)}
-          >
-            <Panel
-              header={
-                <Space>
-                  <Progress
-                    format={() => <Text strong>{index + 1}</Text>}
-                    type="circle"
-                    percent={sectionProgress}
-                    size={35}
-                  />
-                  <Typography.Title level={5}>{section.title}</Typography.Title>
-                </Space>
-              }
-              key={section._id}
+      {sections
+        .filter(s => {
+          const sectionTitle = s.title.toLowerCase()
+          // const isMatch = s.title
+          //   .toLowerCase()
+          //   .includes(text)
+          // if (!isMatch) {
+          //   {
+          //     return false
+          //   }
+          // }
+          return (
+            s.items.filter(item => {
+              const title = item.title.toLowerCase()
+              return title.includes(text)
+            }).length || sectionTitle.includes(text)
+          )
+        })
+        ?.map((section, index) => {
+          const itemsCompleted = section.items.filter(item => item.isCompleted)
+          const sectionProgress = Math.ceil(
+            itemsCompleted.length / section.items.length * 100
+          )
+          return (
+            <CustomCollapse
+              expandIconPosition="end"
+              defaultActiveKey={sections.map((s, i) => s._id)}
             >
-              <List
-                // itemLayout="horizontal"
-                dataSource={section.items}
-                renderItem={(item, itemIndex) => (
-                  <CoursePlayerNavigatorItem
-                    courseId={props.courseId}
-                    section={section}
-                    toggleItemCheck={props.toggleItemCheck}
-                    item={item}
-                    itemIndex={index + itemIndex + 1}
-                  />
-                )}
-              />
-            </Panel>
-          </CustomCollapse>
-        )
-      })}
+              <Panel
+                header={
+                  <Space>
+                    <Progress
+                      format={() => <Text strong>{index + 1}</Text>}
+                      type="circle"
+                      percent={sectionProgress}
+                      size={35}
+                    />
+                    <Typography.Title level={5}>
+                      {section.title}
+                    </Typography.Title>
+                  </Space>
+                }
+                key={section._id}
+              >
+                <List
+                  // itemLayout="horizontal"
+                  dataSource={section.items.filter(item => {
+                    const title = item.title.toLowerCase()
+                    return title.includes(props.searchText.toLowerCase())
+                  })}
+                  renderItem={(item, itemIndex) => (
+                    <CoursePlayerNavigatorItem
+                      courseId={props.courseId}
+                      section={section}
+                      toggleItemCheck={props.toggleItemCheck}
+                      item={item}
+                      itemIndex={index + itemIndex + 1}
+                    />
+                  )}
+                />
+              </Panel>
+            </CustomCollapse>
+          )
+        })}
     </Fragment>
   )
 }

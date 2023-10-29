@@ -8,13 +8,14 @@ import {
   Input,
   Row,
   Space,
+  Spin,
   Upload
 } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import InputTags from '@Components/InputTags/InputTags'
 import MediaUpload from '@Components/MediaUpload'
 import PDFViewer from '@Components/PDFViewer'
@@ -34,9 +35,14 @@ const UploadPDFForm: React.FC = () => {
     handleTopicsChange,
     topics
   } = useUploadItemForm(form)
-  const { data: file } = User.Queries.useGetFileDetails(item.file + '', {
-    enabled: !!item.file
-  })
+  const [loading, setLoading] = useState(false)
+  const { data: file, isLoading: loadingFile } = User.Queries.useGetFileDetails(
+    item.file + '',
+    {
+      enabled: !!item.file
+    }
+  )
+  const loadingPdf = loading || loadingFile
   return (
     <Fragment>
       <Form
@@ -93,44 +99,50 @@ const UploadPDFForm: React.FC = () => {
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={24}>
-            <Card
-              style={{ height: 500, overflow: 'scroll' }}
-              title={'PDF File'}
-              extra={
-                <MediaUpload
-                  isProtected
-                  source={{
-                    type: 'course.section.item.file',
-                    value: courseId + ''
-                  }}
-                  width="300px"
-                  onUpload={({ _id }, file) => {
-                    getPDFReadingTime(file).then(time => {
-                      onFormChange({
-                        file: _id,
-                        type: 'pdf',
-                        metadata: {
-                          duration: time
-                        }
+            <Spin spinning={loadingPdf}>
+              <Card
+                style={{ height: 500, overflow: 'scroll' }}
+                title={'PDF File'}
+                extra={
+                  <MediaUpload
+                    isProtected
+                    source={{
+                      type: 'course.section.item.file',
+                      value: courseId + ''
+                    }}
+                    width="300px"
+                    onUpload={({ _id }, file) => {
+                      getPDFReadingTime(file).then(time => {
+                        onFormChange({
+                          file: _id,
+                          type: 'pdf',
+                          metadata: {
+                            duration: time
+                          }
+                        })
                       })
-                    })
-                  }}
-                  height="250px"
-                  uploadType="pdf"
-                  renderItem={() => (
-                    <Button icon={<UploadOutlined />}>
-                      {file?.url ? 'Replace PDF' : 'Upload PDF'}
-                    </Button>
-                  )}
-                />
-              }
-            >
-              {file?._id ? (
-                <PDFViewer file={file} />
-              ) : (
-                <Empty description="No PDF Uploaded" />
-              )}
-            </Card>
+                    }}
+                    height="250px"
+                    uploadType="pdf"
+                    renderItem={() => (
+                      <Button icon={<UploadOutlined />}>
+                        {file?.url ? 'Replace PDF' : 'Upload PDF'}
+                      </Button>
+                    )}
+                  />
+                }
+              >
+                {file?._id ? (
+                  <PDFViewer
+                    onLoadingStarted={() => setLoading(true)}
+                    onLoadingEnded={() => setLoading(false)}
+                    file={file}
+                  />
+                ) : (
+                  <Empty description="No PDF Uploaded" />
+                )}
+              </Card>
+            </Spin>
           </Col>
           <Col span={24}>
             <Card

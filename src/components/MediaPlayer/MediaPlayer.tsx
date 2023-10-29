@@ -16,6 +16,8 @@ interface MediaPlayerPropsI {
   height?: number;
   notes?: Types.CourseNote[];
   onEnded?: () => void;
+  onLoadingStarted?: () => void;
+  onLoadingEnded?: () => void;
 }
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
@@ -52,11 +54,10 @@ export const MediaPlayer = (props: MediaPlayerPropsI) => {
           thumbnail={props.thumbnail}
           notes={props.notes}
           url={Url}
+          onLoadingStarted={props.onLoadingStarted}
+          onLoadingEnded={props.onLoadingEnded}
         />
       ) : null}
-      {/* <VideoJsPlayer watermark={props.watermark} hls={props.hls}
-        url={Url}
-      /> */}
     </div>
   )
 }

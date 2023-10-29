@@ -152,7 +152,7 @@ function CoursePlayer() {
         // bgColor="black"
         title={
           <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-          <OrgLogo style={{ width: 60 }} />
+            <OrgLogo style={{ width: 60 }} />
             <Divider type="vertical" />
             <Text style={{ fontSize: 16 }}>{course.title}</Text>
           </Space>
@@ -184,7 +184,7 @@ function CoursePlayer() {
                   padding: 0,
                   position: 'relative',
                   background: '#fff',
-                  overflow: 'scroll'
+                  // overflow: 'scroll'
                 }}
                 // bodyStyle={{}}
               >
@@ -236,6 +236,7 @@ function CoursePlayer() {
           />
 
           <CoursePlayerCollapsible
+            searchText={searchText}
             courseId={course._id}
             toggleItemCheck={toggleItemCheck}
           />

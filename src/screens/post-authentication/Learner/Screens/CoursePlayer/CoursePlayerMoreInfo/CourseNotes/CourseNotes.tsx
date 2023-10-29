@@ -32,7 +32,7 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
     //   enabled: !!course._id
     // }
   )
-  console.log(notes, 'notes')
+
   const currentItemNotes = notes.filter(note => note.item === itemId) || []
   return (
     <Row>
