@@ -59,7 +59,7 @@ const CreateWhatsappTemplate = (props:CreateWhatsappTemplatePropsI) => {
            <TextArea label="Subject" name={['whatsapp','subject']} />
         </Form.Item>
         <Form.Item  name={['whatsapp','body']}  label="Whatsapp Body" required>
-                <SunEditorComponent name={['whatsapp','body']}  />
+                <TextArea html name={['whatsapp','body']}  />
         </Form.Item>
         </Form>
             </Col>

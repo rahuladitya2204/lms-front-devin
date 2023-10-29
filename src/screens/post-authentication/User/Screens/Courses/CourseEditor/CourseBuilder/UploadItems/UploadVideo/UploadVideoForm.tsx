@@ -189,7 +189,7 @@ const UploadVideoForm:any = () => {
                   label={<span>Summary <Button loading={generatingSummary} onClick={() => generateItemInfo(['summary'])} type='primary' size='small'>Generate</Button></span>}
           required
         >
-          <SunEditorComponent height={300} name={'summary'} />
+          <TextArea html height={300} name={'summary'} />
                 </Form.Item>
                 </> : null}
            

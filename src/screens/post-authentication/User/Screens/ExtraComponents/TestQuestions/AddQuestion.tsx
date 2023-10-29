@@ -18,6 +18,7 @@ import { Fragment, useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from './GenerateQuestionWithAI';
+import TextArea from '@Components/Textarea';
 
 const { confirm } = Modal;
 
@@ -82,7 +83,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               message: "Enter questions's title"
             }
           ]}>
-          <Input.TextArea placeholder="Enter the question title" />
+          <TextArea placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={12}>
@@ -120,7 +121,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 ]}
                 {...field}
                 >
-                    <Input.TextArea placeholder={`Answer ${index + 1}`}/> 
+                    <TextArea placeholder={`Answer ${index + 1}`}/> 
                   </Form.Item>
                 </Col>
                 <Col>

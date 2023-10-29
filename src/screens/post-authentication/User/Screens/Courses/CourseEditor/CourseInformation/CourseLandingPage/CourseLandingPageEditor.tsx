@@ -8,6 +8,7 @@ import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { deepPatch } from '../../CourseBuilder/utils'
 // import { patchObject } from '../../utils'
 import { useParams } from 'react-router'
+import TextArea from '@Components/Textarea'
 
 interface CourseLandingPageEditorPropsI {
   courseId: string;
@@ -79,7 +80,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
       </Card>
 
       <Form.Item name={'description'} required label="Landing Page Description">
-        <SunEditorComponent name={'description'} />
+        <TextArea html name={'description'} />
       </Form.Item>
     </Form>
   )

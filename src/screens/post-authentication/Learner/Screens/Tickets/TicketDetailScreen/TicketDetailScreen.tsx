@@ -4,6 +4,7 @@ import { Learner, Store, Types } from '@adewaskar/lms-common'
 import { Comment } from '@ant-design/compatible';
 import TicketItem from '../TicketsScreen/TicketItem';
 import { useParams } from 'react-router';
+import TextArea from '@Components/Textarea';
 
 const { useToken } = theme
 
@@ -73,7 +74,7 @@ export default function TicketDetail() {
       </Card>:    <Card style={{ marginTop:20}}>
               <Form form={form} layout='vertical' onFinish={postReply}>
               <Form.Item name='message' label='Reply'>
-              <Input.TextArea rows={4} placeholder='Post a reply' />
+              <TextArea rows={4} placeholder='Post a reply' />
                   </Form.Item>
                   <Button         key="submit"
  type='primary' onClick={form.submit}> Reply</Button>

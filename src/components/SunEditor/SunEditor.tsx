@@ -1,14 +1,19 @@
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
 import './style.css'
 
-import { AdvancedEditorOptions, BasicEditorOptions, IntermediateEditorOptions } from './constant'
+import {
+  AdvancedEditorOptions,
+  BasicEditorOptions,
+  IntermediateEditorOptions
+} from './constant'
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin } from 'antd'
 import React, { Fragment } from 'react'
 import SunEditor from 'suneditor-react'
 import { variablePlugin } from './plugins/variable.plugin'
+import TextArea from '@Components/Textarea'
 
-interface SunEditorPropsI {
+export interface SunEditorPropsI {
   height?: number;
   width?: number;
   name?: string | string[];
@@ -23,7 +28,7 @@ interface SunEditorPropsI {
 }
 
 const SunEditorComponent = (props: SunEditorPropsI) => {
-  const level = props.level || 2;
+  const level = props.level || 2
   const form = Form.useFormInstance()
   const {
     mutate: uploadFiles,
@@ -87,7 +92,9 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   return (
     <Fragment>
       <Spin spinning={loading}>
-        <SunEditor onFocus={props.onFocus}
+        <TextArea
+          html
+          onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}
           onChange={e => {
@@ -96,7 +103,9 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
             }
             props.onChange && props.onChange(e)
           }}
+          // @ts-ignore
           height={`${props.height || 700}`}
+          // @ts-ignore
           width={`${props.width}`}
           setOptions={{
             ...options

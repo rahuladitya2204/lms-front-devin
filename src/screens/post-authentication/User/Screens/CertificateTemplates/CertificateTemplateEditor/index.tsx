@@ -12,6 +12,7 @@ import { uniqueId } from 'lodash'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
 import { useWatch } from 'antd/es/form/Form'
+import TextArea from '@Components/Textarea'
 
 const SIZES = {
   portrait: {
@@ -132,7 +133,7 @@ function CertificateTemplateEditor() {
         </Form.Item>
         <Form.Item name="template" label="Design">
            {/* @ts-ignore */}
-          <SunEditor name="template" {...SIZES[layout]} />
+          <TextArea html name="template" {...SIZES[layout]} />
       </Form.Item>
       </Form>
     </Header>

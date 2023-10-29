@@ -70,7 +70,7 @@ const CreateEmailTemplate: React.FC<
           <TextArea label="Template Subject" name={['content']} />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-          <SunEditorComponent
+          <TextArea html
             onChange={(e: any) => form.setFieldValue(['content'], e)}
           />
         </Form.Item>

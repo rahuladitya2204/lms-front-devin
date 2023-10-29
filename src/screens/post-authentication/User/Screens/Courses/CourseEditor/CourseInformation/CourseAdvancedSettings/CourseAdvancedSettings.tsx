@@ -21,6 +21,7 @@ import GenerateWithAI from '../GenerateWithAiButton'
 import InputTags from '@Components/InputTags/InputTags'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
+import TextArea from '@Components/Textarea'
 
 const { Title } = Typography
 const { useWatch } = Form
@@ -126,7 +127,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
             <Input />
           </Form.Item>
           <Form.Item name={['email', 'content']} required label="Email Body">
-            <SunEditorComponent
+            <TextArea html
               variables={VARIABLES} height={300}
               name={['email', 'content']}
             />

@@ -155,7 +155,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
           </Col>
         </Row>
         <Form.Item name="description" label="Description">
-          <SunEditorComponent
+          <TextArea html
             // onChange={e =>
             //   onFormChange({
             //     description: e
@@ -182,7 +182,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             }
             required
           >
-            <SunEditorComponent height={300} name={'summary'} />
+            <TextArea html height={300} name={'summary'} />
           </Form.Item>
         ) : null}
 

@@ -8,6 +8,7 @@ import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/util
 import { useLayoutEffect } from 'react'
 // import { patchObject } from '../../utils'
 import { useParams } from 'react-router'
+import TextArea from '@Components/Textarea'
 
 interface TestLandingPageEditorPropsI {
   testId: string;
@@ -78,7 +79,7 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
       </Card>
 
       <Form.Item name={'description'} required label="Landing Page Description">
-        <SunEditorComponent name={'description'} />
+        <TextArea html name={'description'} />
       </Form.Item>
     </Form>
   )

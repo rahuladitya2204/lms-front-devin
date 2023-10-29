@@ -4,6 +4,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import FileList from '@Components/FileList';
 import MediaUpload from '@Components/MediaUpload'
+import TextArea from '@Components/Textarea';
 
 interface CreateTicketComponentPropsI {
   children?: ReactNode;
@@ -99,7 +100,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
         />
         <Form.Item name="description" label="Description" 
         rules={[{ required: true, message: 'Please add some details about the issue' }]}>
-          <Input.TextArea placeholder="Please enter email of the Ticket" />
+          <TextArea placeholder="Please enter email of the Ticket" />
         </Form.Item>
         {/* <Form.Item name="contactName" label="Contact Name" required>
           <Input placeholder="Your name" />

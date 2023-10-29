@@ -4,6 +4,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import TextArea from '@Components/Textarea'
 
 interface CreateWhatsappTemplateComponentPropsI {
   children?: ReactNode;
@@ -68,7 +69,7 @@ const AddWhatsappTemplate: React.FC<
           <Input placeholder="Subject of the whatsapp" />
         </Form.Item>
         <Form.Item name="content" label="Body of the whatsapp" required>
-          <SunEditorComponent
+          <TextArea html
             onChange={(e: any) => form.setFieldValue(['content'], e)}
           />
         </Form.Item>

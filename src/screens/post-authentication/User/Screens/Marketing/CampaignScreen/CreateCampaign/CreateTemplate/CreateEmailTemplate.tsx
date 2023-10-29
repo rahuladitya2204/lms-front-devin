@@ -54,10 +54,10 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
                 }}>Generate with AI</Button> <Divider/>
             <Form onValuesChange={onValuesChange} form={form} layout="vertical">
         <Form.Item label="Subject"  name={['email','subject']} required>
-           <Input.TextArea />
+           <TextArea />
         </Form.Item>
         <Form.Item  name={['email','body']}  label="Email Body" required>
-                <SunEditorComponent  name={['email','body']}  />
+                <TextArea html  name={['email','body']}  />
         </Form.Item>
         </Form>
             </Col>
