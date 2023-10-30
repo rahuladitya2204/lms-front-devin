@@ -47,6 +47,7 @@ export default function AddProduct (props: AddProductPropsI) {
   const onSubmit = ({product}: {product:Types.Product}) => {
     const item={
       type: product.type,
+      id: product.id,
   data: data?.find((e:any) => e._id === product.id)
     }
     console.log(product.id, data,item ,'1233');

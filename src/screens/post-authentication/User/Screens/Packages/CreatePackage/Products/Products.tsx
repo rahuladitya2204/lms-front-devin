@@ -19,7 +19,15 @@ export default function Products({
   return (
     <Table dataSource={products}>
       <Table.Column title="Product Type" dataIndex="type" key="type" />{' '}
-      <Table.Column title="Product Title" dataIndex="title" key="title" />
+      <Table.Column
+        title="Product Title"
+        dataIndex="data.title"
+        key="data.title"
+        render={(_: any, record: Types.Product, index: number) =>
+          // @ts-ignore
+          record.data.title
+        }
+      />
       <Table.Column
         title="Action"
         key="action"

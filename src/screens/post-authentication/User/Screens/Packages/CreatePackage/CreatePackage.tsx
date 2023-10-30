@@ -49,7 +49,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
     isLoading: updatePackageLoading
   } = User.Queries.useUpdatePackage()
 
-  const {data: eventDetails,isLoading: loadingPackage}=User.Queries.useGetPackageDetails(packageId+'',{
+  const {data: packageDetails,isLoading: loadingPackage}=User.Queries.useGetPackageDetails(packageId+'',{
     enabled:!!packageId
   })
 
@@ -73,7 +73,9 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
       )
     } else {
       // @ts-ignore
-      createPackage(data, {
+      createPackage(
+        { data:data },
+         {
         onSuccess: () => {
           navigate('../')
           props.onSuccess && props.onSuccess();
@@ -81,14 +83,9 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
         }
       })
     }
-    // onFinish && onFinish(e)
   }
-
-  const image = Form.useWatch('image', form);
-
-  const date = dayjs(Form.useWatch('scheduledAt', form))
-
-
+  const image = Form.useWatch('thumbnailImage', form);
+  const { data: promoCodes} = User.Queries.useGetPromos();
   return (
     <Header showBack title='Create Package' extra={[<Button
       loading={createPackageLoading || updatePackageLoading}
@@ -108,7 +105,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
                   <Col span={16}>
                   <Form.Item
         rules={[
-          { required: true, message: 'Please enter a title of the events' }
+          { required: true, message: 'Please enter a title of the packages' }
         ]}
         name="title"
         label="Package Title"
@@ -116,7 +113,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
       >
         <Input placeholder="Enter a title for the live session" />
       </Form.Item>
-                    <Row gutter={[10, 10]}>
+                    {/* <Row gutter={[10, 10]}>
         <Col span={12}>
         <Form.Item
             rules={[
@@ -150,16 +147,16 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
             />
           </Form.Item>
         </Col>
-      </Row>
+      </Row> */}
                   </Col>
                   <Col span={8}>
         <MediaUpload
                   source={{
-                    type: 'event.thumbnail',
+                    type: 'package.thumbnail',
                     value: packageId + ''
                   }}
                   uploadType="image"
-                  // prefixKey={`events/${packageId}/image`}
+                  // prefixKey={`packages/${packageId}/image`}
                   cropper
                   width="100%"
                   // height="200px"
@@ -169,7 +166,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
                   )}
                       onUpload={file => {
                     console.log(file,'uploaded image!')
-                    form.setFieldValue('image', file.url)
+                    form.setFieldValue('thumbnailImage', file.url)
                   }}
                 />
         </Col>
@@ -180,7 +177,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
         rules={[
           {
             required: true,
-            message: 'Please enter a description of the events'
+            message: 'Please enter a description of the packages'
           }
         ]}
         name={["description"]}
@@ -190,31 +187,13 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
                       
                     </Form.Item>
                   </Col>
-      {/* <Col span={12}>
-      <Form.Item name='type' label='Package Type'>
+      <Col span={12}>
+      <Form.Item name='promoCodes' label='Promo Codes'>
 <Select
-          options={[
-            { label: 'Webinar', value: Enum.PackageType.WEBINAR },
-                          { label: 'Conversational', value: Enum.PackageType.CONVERSATIONAL },
-                          { label: 'Offline', value: Enum.PackageType.OFFLINE }
-
-          ]}
+          options={promoCodes.map(pc=>({label: pc.code,value:pc._id}))}
         />
         </Form.Item>
-          </Col> */}
-          <Col span={12}>
-            <Form.Item label='Record Session' name={['recording', 'enabled']}>
-        <Checkbox name="recording.enabled">
-          <VideoCameraOutlined /> 
-        </Checkbox>
-      </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                  <Form.Item label='Package Location'>
-    <LocationAutocomplete onLocationChange={console.log} />
-  </Form.Item>
-
-  </Col>
+          </Col>
       </Row>
 
         <Row gutter={[20,20]}>

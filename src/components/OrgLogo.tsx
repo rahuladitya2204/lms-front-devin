@@ -7,7 +7,7 @@ function OrgLogo(props: any) {
   const { organisation } = Store.useGlobal(s => s)
   return (
     <Image
-      onClick={() => navigate('../app/store')}
+      // onClick={() => navigate('../app/store')}
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
       width={100}
       preview={false}

@@ -19,13 +19,13 @@ function PackagesScreen() {
     >
       <Container>
         <Table dataSource={data} loading={loading}>
-          <Table.Column title="Package Name" dataIndex="name" key="name" />
+          <Table.Column title="Package Name" dataIndex="title" key="title" />
           <Table.Column
             title="Total Courses"
             dataIndex="totalCourses"
             key="totalCourses"
             render={(_: any, record: Types.Package) => (
-              <Space size="middle">{record.courses.length}</Space>
+              <Space size="middle">{record.products.length}</Space>
             )}
           />
           <Table.Column
