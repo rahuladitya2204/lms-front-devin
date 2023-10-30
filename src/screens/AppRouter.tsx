@@ -22,7 +22,7 @@ import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreateEvent from '@User/Screens/Event/CreateEvent/CreateEvent'
-import CreatePackage from '@User/Screens/Packages/CreatePackage'
+import CreatePackage from '@User/Screens/Packages/CreatePackage/CreatePackage'
 import CreateQuizForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/CreateQuizForm/CreateQuizForm'
 import CreateTest from '@User/Screens/Tests/CreateTest'
 import EmailTemplateEditor from '@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor'
@@ -258,7 +258,8 @@ const router = (userType: string) => {
             </Route>
             <Route path="packages">
               <Route path="" element={<PackagesScreen />} />
-              <Route path=":id/editor" element={<CreatePackage />} />
+              <Route path="create" element={<CreatePackage />} />
+            <Route path=":packageId/edit" element={<CreatePackage />} />
             </Route>
             <Route path="test">
               <Route path="" element={<UserTestScreen />} />

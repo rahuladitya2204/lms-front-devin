@@ -25,7 +25,7 @@ import GenerateWithAI from '../CourseInformation/GenerateWithAiButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import SetCourseRules from './SetRules'
+import SetCourseRules from './SetCourseRules'
 import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
 

@@ -22,7 +22,7 @@ const EventsScreen = () => {
         </Button>
       ]}
     >
-      {/* <Tabs
+      <Tabs
         items={[
           {
             key: 'upcoming',
@@ -35,8 +35,8 @@ const EventsScreen = () => {
             children: <PastEvent filter={{ status: 'ended' }} />
           }
         ]}
-      /> */}
-      <Row>
+      />
+      {/* <Row>
         <Col span={2} />
         <Col span={20}>
           <Calendar
@@ -47,7 +47,7 @@ const EventsScreen = () => {
           />
         </Col>
         <Col span={2} />
-      </Row>
+      </Row> */}
     </Header>
   )
 }

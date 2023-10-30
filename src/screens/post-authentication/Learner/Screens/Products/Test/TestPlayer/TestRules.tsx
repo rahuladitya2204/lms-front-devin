@@ -26,7 +26,6 @@ const { Title, Text } = Typography
 interface TestRulesPropsI {}
 
 export default function TestRules(props: TestRulesPropsI) {
-  const isVerificationOn = false
   const { testId } = useParams()
   const {
     mutate: startTest,
@@ -39,6 +38,7 @@ export default function TestRules(props: TestRulesPropsI) {
     type: 'test',
     id: testId + ''
   })
+  const isVerificationOn = test.rules.identityVerification.enabled
   const [form] = Form.useForm()
   const rule1 = Form.useWatch('rule-1', form)
   const rule2 = Form.useWatch('rule-2', form)

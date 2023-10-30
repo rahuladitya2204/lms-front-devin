@@ -1,27 +1,20 @@
-import { Button, Card, Col, Row, Space, Table, Tag, Typography } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-
-import ActionModal from '@Components/ActionModal'
-import AddPackage from './CreatePackage'
+import { Button, Space, Table } from 'antd'
 import Container from '@Components/Container'
-import CreatePackage from './CreatePackage'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-
-const { Text } = Typography
+import { useNavigate } from 'react-router'
 
 function PackagesScreen() {
   const { data, isLoading: loading } = User.Queries.useGetPackages()
-
+  const navigate = useNavigate()
   return (
     <Header
       title={'Packages'}
       extra={[
-        <ActionModal cta={<Button type="primary">Create New Package</Button>}>
-          <AddPackage> </AddPackage>
-        </ActionModal>
+        <Button onClick={() => navigate(`create`)} type="primary">
+          Create New Package
+        </Button>
       ]}
     >
       <Container>
@@ -40,10 +33,10 @@ function PackagesScreen() {
             key="action"
             render={(_: any, record: Types.Package) => (
               <Space size="middle">
-                <ActionModal cta={<EditOutlined />}>
+                {/* <ActionModal cta={<EditOutlined />}>
                   <CreatePackage data={record} />
                 </ActionModal>
-                <DeleteOutlined />
+                <DeleteOutlined /> */}
               </Space>
             )}
           />

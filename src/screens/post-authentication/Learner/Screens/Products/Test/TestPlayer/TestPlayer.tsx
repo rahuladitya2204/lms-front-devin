@@ -31,7 +31,6 @@ interface TestPlayerPropsI {}
 const { Title } = Typography
 
 export default function TestPlayer(props: TestPlayerPropsI) {
-  const isProcturingOn = false
   const { testId } = useParams()
   const navigate = useNavigate()
   const {
@@ -45,6 +44,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     id: testId + ''
   })
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
+  const isProcturingOn = test.rules.procturing.enabled
   const {
     data: { totalAnswered, totalQuestions, status }
   } = Learner.Queries.useGetTestStatus(testId + '')

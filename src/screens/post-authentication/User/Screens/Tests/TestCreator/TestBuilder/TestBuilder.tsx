@@ -14,17 +14,18 @@ import MediaUpload from '@Components/MediaUpload'
 import TestSectionsNavigator from './TestSectionsNavigator'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
+import SetTestRules from './SetTestRules'
 
 const { confirm } = Modal
 
 function TestBuilderScreen() {
   const message = useMessage()
-  const { id: testId, itemId } = useParams()
   const {
     mutate: updateTestApi,
     isLoading: savingTest
   } = User.Queries.useUpdateTest()
   const updateTest = debounce(updateTestApi, 1000)
+  const { id: testId, itemId } = useParams()
   const { data: testDetails,isLoading: loadingTest } = User.Queries.useGetTestDetails(testId + '', {
     enabled: !!testId
   })
@@ -287,9 +288,21 @@ function TestBuilderScreen() {
                     style={{ margin: '20px 0 0', marginTop: 20 }}
                     gutter={[20, 20]}
                   >
-                    <Col flex={1}>
-                      <Button block>Set Rules</Button>
+                        <Col flex={1}>
+                      <Button block>Preview</Button>
                     </Col>
+                    <Col flex={1}>
+                    <ActionModal
+                        title="Set Rules"
+                        cta={
+                          <Button block type="primary">
+                            Set Rules
+                          </Button>
+                        }
+                      >
+                                             <SetTestRules testId={testId + ''} />
+
+                      </ActionModal>                    </Col>
                   </Row>
                 </Form.Item>
               </Col>
