@@ -159,7 +159,7 @@ const ENROLLED_CTA = useMemo(() => {
                     width={'100%'}
                     height={200}
                     preview={false}
-                    src={test.image}
+                    src={test.thumbnailImage}
                   />
                 </Col>
                 <Col span={24} flex={1}>

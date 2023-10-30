@@ -9,6 +9,7 @@ import {
   Row,
   Select,
   Table,
+  Typography,
 } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
@@ -27,6 +28,7 @@ import LocationSelector from '@Components/LocationSelector'
 import LocationAutocomplete from '@Components/LocationSelector'
 import AddProduct from './Products/AddProduct'
 import Products from './Products/Products'
+import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 
 interface CreatePackageComponentPropsI {
   // data: Types.Package;
@@ -36,9 +38,11 @@ interface CreatePackageComponentPropsI {
   onFinish?: (data: Types.Package) => void;
 }
 
+const { Text } = Typography;
+
 const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   const { packageId } = useParams();
-  const [products, setProducts] = useState<{id:string,data:any}[]>([]);
+  const [products, setProducts] = useState<Types.Product[]>([]);
   const navigate = useNavigate();
   const {
     mutate: createPackage,
@@ -47,17 +51,27 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   const {
     mutate: updatePackage,
     isLoading: updatePackageLoading
-  } = User.Queries.useUpdatePackage()
+  } = User.Queries.useUpdatePackage();
+
 
   const {data: packageDetails,isLoading: loadingPackage}=User.Queries.useGetPackageDetails(packageId+'',{
     enabled:!!packageId
   })
+  useEffect(() => { 
+    console.log(packageDetails,'packageDetailspackageDetails')
+    form.setFieldsValue(packageDetails)
+    // @ts-ignore
+    if (packageDetails?.products?.length) {
+      setProducts(products)
+    }
+  },[packageDetails])
 
   const [form] = Form.useForm<Types.Package>()
 
   const onSubmit = (e: Types.Package) => {
     const data= {
       ...e,
+      products: products
     }
     if (packageId) {
       updatePackage(
@@ -196,19 +210,16 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
           </Col>
       </Row>
 
-        <Row gutter={[20,20]}>
+                <Card actions={[<ActionModal cta={<Button>Add Plan</Button>}>
+                  <CreatePlan product={{type:'package'}}/>
+                </ActionModal>]}>
+                <Row gutter={[20,20]}>
                   <Col span={12}>
-                    <Form.Item label="Access Type" name="accessType">
-        <Select
-          options={[
-            { label: 'Learners', value: 'learner' },
-            { label: 'Open for all', value: 'open' }
-          ]}
-        />
-      </Form.Item>
+                      <Text>{ }</Text>
           </Col>
           <Col span={12}>  <PriceFormItem name="price" label="Price" /></Col>
       </Row>
+     </Card>
     </Form>
             </>
             <Card title='Add Product'

@@ -1,11 +1,12 @@
 import { Button, Card, Col, Form, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-import CreateTestPlan from './CreateTestPlan'
 import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
+import CreatePlan from '../../../ExtraComponents/CreatePlan'
+import ActionModal from '@Components/ActionModal'
 
 interface TestPricingEditorPropsI {
   testId: string;
@@ -25,9 +26,9 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
         bodyStyle={{ padding: 0 }}
         title={'Pricing Plan'}
         extra={
-          <CreateTestPlan testId={props.testId}>
-            <Button>Add Plan</Button>
-          </CreateTestPlan>
+          <ActionModal cta={<Button>Add Plan</Button>}>
+            <CreatePlan product={{ type: 'test', id: props.testId }} />
+          </ActionModal>
         }
       >
         <Row>
@@ -40,7 +41,7 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
                 render={(text, record: Types.Plan) => {
                   return record.type !== 'free'
                     ? `₹${record?.displayPrice?.value}`
-                    : ''
+                    : 'Free'
                 }}
                 dataIndex="displayPrice.value"
                 key="displayPrice.value"
@@ -50,7 +51,7 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
                 render={(text, record: Types.Plan) => {
                   return record.type !== 'free'
                     ? `₹${record.finalPrice.value}`
-                    : ''
+                    : 'Free'
                 }}
                 dataIndex="finalPrice.value"
                 key="finalPrice.value"
@@ -60,12 +61,12 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
                 key="action"
                 render={(_: any, record: Types.Plan) => (
                   <Space size="middle">
-                    <CreateTestPlan
-                      testId={props.testId}
-                      plan={record}
-                    >
-                      <EditOutlined />
-                    </CreateTestPlan>
+                    <ActionModal cta={<EditOutlined />}>
+                      <CreatePlan
+                        product={{ type: 'test', id: props.testId }}
+                        plan={record}
+                      />
+                    </ActionModal>
                     <DeleteOutlined />
                   </Space>
                 )}

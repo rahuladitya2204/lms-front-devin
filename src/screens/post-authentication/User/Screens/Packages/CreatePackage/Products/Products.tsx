@@ -1,9 +1,11 @@
-import { Table } from 'antd'
+import { Space, Table } from 'antd'
 import { Types } from '@adewaskar/lms-common'
 import MoreButton from '@Components/MoreButton'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal'
 import AddProduct from './AddProduct'
+import Image from '@Components/Image'
+import ProductRow from './ProductRow'
 
 interface ProductsProps {
   products: Types.Product[];
@@ -23,10 +25,9 @@ export default function Products({
         title="Product Title"
         dataIndex="data.title"
         key="data.title"
-        render={(_: any, record: Types.Product, index: number) =>
-          // @ts-ignore
-          record.data.title
-        }
+        render={(_: any, record: Types.Product, index: number) => (
+          <ProductRow product={record} />
+        )}
       />
       <Table.Column
         title="Action"

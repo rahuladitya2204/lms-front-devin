@@ -51,7 +51,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const { id } = useParams()
   const testId = props.testId || id
   const { data: instructors } = User.Queries.useGetInstructors()
-  const image = useWatch(['image'], form)
+  const image = useWatch(['thumbnailImage'], form)
   const { listItems: categories } = User.Queries.useGetProductCategories('test')
 
   useEffect(
@@ -104,7 +104,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           })}
         </Select>
       </Form.Item> */}
-      <Form.Item name="image" required label="Thumbnail">
+      <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
           source={{
             type: 'test.image',
@@ -113,13 +113,13 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           uploadType="image"
           cropper
           aspect={16 / 9}
-          name="image"
+          name="thumbnailImage"
           width="200"
           height="300px"
-          prefixKey={`Tests/${testId}/image`}
+          prefixKey={`Tests/${testId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={image} />}
           onUpload={e => {
-            onValuesChange({ image: e.url })
+            onValuesChange({ thumbnailImage: e.url })
           }}
         />
       </Form.Item>

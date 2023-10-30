@@ -23,10 +23,9 @@ import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import InputTags from '@Components/InputTags/InputTags';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
-import SunEditorComponent from '@Components/SunEditor/SunEditor';
 import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
-import { debounce, uniqueId } from 'lodash';
+import {  uniqueId } from 'lodash';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
 const { Title } = Typography;

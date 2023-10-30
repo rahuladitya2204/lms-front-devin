@@ -110,7 +110,7 @@ function TestEditor() {
                   style={{ marginRight: 15 }}
                   icon={<UploadOutlined />}
                 >
-                  Publish Tests
+                  Publish Test
                 </Button>
               ),
               <Button

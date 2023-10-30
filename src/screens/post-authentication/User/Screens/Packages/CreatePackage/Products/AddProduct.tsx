@@ -1,6 +1,7 @@
 import { Types, User } from '@adewaskar/lms-common'
 import { Button, Form, Select } from 'antd'
 import { useEffect, useMemo } from 'react';
+import ProductRow from './ProductRow';
 
 const PRODUCT_TYPES = [{ label: 'Course', value: 'course' }, { label: 'Test', value: 'test' }, { label: 'Event', value: 'event' }];
 
@@ -69,9 +70,9 @@ export default function AddProduct (props: AddProductPropsI) {
       <Select options={PRODUCT_TYPES} />
       </Form.Item>
       <Form.Item label="Select Product"  name={['product','id']}>
-        <Select options={data?.map(i => {
+        <Select mode="multiple"  options={data?.map(i => {
           return {
-            label: i.title,
+            label: <ProductRow product={{id: i._id,type: product.type}} />,
             value: i._id
           }
       })} />

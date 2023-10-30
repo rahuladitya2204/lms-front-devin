@@ -58,6 +58,11 @@ function TestBuilderScreen() {
           {
             ...Constants.INITIAL_LIVE_TEST_QUESTION,
             title: 'New Question',
+            correctOptions: [],
+            answers: [],
+            solution: {
+              html:''
+            },
             _id: undefined
           }
         ]
@@ -275,11 +280,11 @@ function TestBuilderScreen() {
                     // height="200px"
                     aspect={16 / 9}
                     renderItem={() => (
-                      <Image preview={false} src={test.image} />
+                      <Image preview={false} src={test.thumbnailImage} />
                     )}
                     onUpload={file => {
                       saveTest({
-                        image: file.url
+                        thumbnailImage: file.url
                       })
                     }}
                   />

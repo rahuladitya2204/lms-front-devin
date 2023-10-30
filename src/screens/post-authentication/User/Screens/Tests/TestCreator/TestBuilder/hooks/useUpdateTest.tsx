@@ -71,7 +71,7 @@ function useUpdateTestForm(form: FormInstance) {
 
   useEffect(() => {
     console.log(correctOptions,'correctOptionscorrectOptions')
-    if(correctOptions.length)
+    if(correctOptions?.length)
     onFormChange({ correctOptions });
   }, [correctOptions]);
 

@@ -4,6 +4,8 @@ import Header from '@User/Screens/UserRoot/UserHeader'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
+import MoreButton from '@Components/MoreButton'
+import { EditOutlined } from '@ant-design/icons'
 
 function PackagesScreen() {
   const { data, isLoading: loading } = User.Queries.useGetPackages()
@@ -31,13 +33,26 @@ function PackagesScreen() {
           <Table.Column
             title="Action"
             key="action"
-            render={(_: any, record: Types.Package) => (
-              <Space size="middle">
-                {/* <ActionModal cta={<EditOutlined />}>
-                  <CreatePackage data={record} />
-                </ActionModal>
-                <DeleteOutlined /> */}
-              </Space>
+            render={(_: any, record: Types.Package, index: number) => (
+              <MoreButton
+                items={[
+                  {
+                    label: 'Edit',
+                    key: 'edit',
+                    icon: <EditOutlined />,
+                    onClick: () => navigate(`${record._id}/edit`)
+                  }
+                  // {
+                  //   label: 'Delete ',
+                  //   onClick: () => {
+                  //     deleteItem(index)
+                  //     //   window.open(`instructors/${record._id}/editor`, '_blank')
+                  //   },
+                  //   key: 'edit',
+                  //   icon: <DeleteOutlined />
+                  // }
+                ]}
+              />
             )}
           />
         </Table>

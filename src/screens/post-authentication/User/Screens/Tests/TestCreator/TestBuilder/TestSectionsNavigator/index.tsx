@@ -160,7 +160,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
               {
                 label: 'Add Question',
                 onClick: () => {
-                  onAddNewItem({ title: 'New Question', answers: ['', '', '', ''] }, secIndex);
+                  onAddNewItem({ title: 'New Question', answers: ['', '', '', ''],correctOptions:[],solution:{html:''} }, secIndex);
                   // if(section.items.length==0)
                 },
                   key:'add'

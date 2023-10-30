@@ -105,12 +105,13 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         </Button>
       ]}
     >
-      {isProcturingOn ? <ProctoringComponent /> : null}
-      <Alert
+      {isProcturingOn ? <><ProctoringComponent />   <Alert
+        style={{ marginBottom: 50 }}
         message="Please Note: This exam is being proctured. Any suspicious activity will be reported and submit the test immediately."
         type="info"
         showIcon
-      />
+      /></>: null}
+    
       <Row>
         <Col span={1} />
         <Col span={22}>

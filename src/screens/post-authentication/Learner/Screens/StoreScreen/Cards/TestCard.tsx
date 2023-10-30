@@ -48,7 +48,7 @@ function TestCard(props: TestCardPropsI) {
         cover={
           <Image alt="example" style={{height: 140}}
             src={
-             test.image
+             test.thumbnailImage
             }
           /> 
         }
