@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@adewaskar/lms-common": "^1.0.722",
+    "@adewaskar/lms-common": "^1.0.724",
     "@ant-design/compatible": "^5.0.0",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.34",
@@ -81,7 +81,7 @@
     "mathjs": "^11.3.3",
     "mini-css-extract-plugin": "^2.4.5",
     "pdf-viewer-reactjs": "^2.2.3",
-    "pdfjs-dist": "^2.10.377",
+    "pdfjs-dist": "^3.11.174",
     "plyr": "^3.7.8",
     "plyr-react": "^5.2.0",
     "postcss": "^8.4.4",

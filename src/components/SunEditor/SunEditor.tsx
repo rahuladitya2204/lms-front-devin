@@ -33,7 +33,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     mutate: uploadFiles,
     isLoading: loading
   } = Common.Queries.useUploadFiles()
-  let value = Form.useWatch(props.name + '', form)
+  let value = Form.useWatch(props.name + '', form);
   if (props.value) {
     value = props.value
   }
@@ -83,10 +83,10 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     }
   }
 
-  const variables = [
-    { name: 'Course Name', value: 'course.title' },
-    { name: 'Learner Name', value: 'learner.name' }
-  ]
+  // const variables = [
+  //   { name: 'Course Name', value: 'course.title' },
+  //   { name: 'Learner Name', value: 'learner.name' }
+  // ]
 
   return (
     <Fragment>

@@ -1,13 +1,6 @@
-import {
-  CheckCircleFilled,
-  CheckCircleOutlined,
-  CheckCircleTwoTone,
-  ClockCircleOutlined,
-  InfoCircleOutlined,
-  ReadOutlined
-} from '@ant-design/icons'
-import { Collapse, List, Progress, Tag, Timeline, Typography } from 'antd'
-import { useNavigate, useParams } from 'react-router'
+import { CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons'
+import { Collapse, List, Tag, Typography } from 'antd'
+import { useNavigate } from 'react-router'
 
 import { Fragment } from 'react'
 import { Learner } from '@adewaskar/lms-common'
@@ -50,18 +43,13 @@ export default function TestQuestionNavigator(
   props: TestQuestionNavigatorPropsI
 ) {
   const navigate = useNavigate()
-  const { data: test } = Learner.Queries.useGetTestDetails(
-    props.testId + ''
-  )
+  const { data: test } = Learner.Queries.useGetTestDetails(props.testId + '')
   //    const { data: { sections } } = Learner.Queries.useGetTestStatus(
   const { data: { sections } } = Learner.Queries.useGetTestStatus(
     props.testId + ''
   )
   return (
-    <Collapse
-      defaultActiveKey={test.sections.map(s => s._id)}
-      bordered={false}
-    >
+    <Collapse defaultActiveKey={test.sections.map(s => s._id)} bordered={false}>
       {sections.map(section => {
         return (
           <CollapsePanel key={section._id} header={section.title}>
@@ -75,7 +63,9 @@ export default function TestQuestionNavigator(
                   <TestListItem
                     isActive={isActive}
                     extra={[
-                      item.score ? <Tag color="blue">Score: {item.score}</Tag> : null,
+                      item.score ? (
+                        <Tag color="blue">Score: {item.score}</Tag>
+                      ) : null
                       // <Tag icon={<ClockCircleOutlined />}>12 mins</Tag>
                     ]}
                   >

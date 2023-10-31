@@ -43,21 +43,21 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
             // style={{ width: 300 }}
             // @ts-ignore
             cover={<Image height={200} alt="example" src={test.image} />}
-            actions={[
-              isTestAttempted ? (
-                testEndDate ? (
-                  <Button
-                    onClick={() => {
-                      navigate(`${test?._id}/result`)
-                    }}
-                    // style={{ marginLeft: 10, marginRight: 10 }}
-                    // block
-                  >
-                    View Result
-                  </Button>
-                ) : null
-              ) : null
-            ]}
+            // actions={[
+            //   isTestAttempted ? (
+            //     testEndDate ? (
+            //       <Button
+            //         onClick={() => {
+            //           navigate(`${test?._id}/result`)
+            //         }}
+            //         // style={{ marginLeft: 10, marginRight: 10 }}
+            //         // block
+            //       >
+            //         View Result
+            //       </Button>
+            //     ) : null
+            //   ) : null
+            // ]}
           >
             <Meta
               // avatar={

@@ -12,6 +12,7 @@ function OrgLogo(props: any) {
       width={100}
       preview={false}
       src={organisation.logo}
+      {...props}
     />
   )
 }

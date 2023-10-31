@@ -108,7 +108,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
                 name="content"
               >
                 <TextArea
-                  onFocus={() => playerInstance.pause()}
+                  onFocus={() => playerInstance?.pause()}
                   html={{ level: 1 }}
                   height={100}
                   name="content"

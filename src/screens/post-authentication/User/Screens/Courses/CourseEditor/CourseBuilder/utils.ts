@@ -11,21 +11,6 @@ GlobalWorkerOptions.workerSrc = new URL(
   window.location.origin
 ).href
 
-export const findSectionItem = (
-  itemId: string,
-  items
-) => {
-
-  let node: any;
-  items.forEach(item => {
-    if (item._id === itemId) {
-      node = item
-    }
-  })
-  // @ts-ignore
-  return node
-}
-
 export const updateCourseSectionItem = (
   sections: Types.CourseSection[],
   sectionId: string,

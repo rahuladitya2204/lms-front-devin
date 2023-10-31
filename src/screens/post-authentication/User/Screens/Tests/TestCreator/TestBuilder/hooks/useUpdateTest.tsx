@@ -4,21 +4,17 @@ import { debounce, isEqual } from 'lodash';
 import { useParams } from 'react-router';
 import useMessage from '@Hooks/useMessage';
 import { Types, User } from '@adewaskar/lms-common';
-import { findSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 
 function useUpdateTestForm(form: FormInstance) {
   const message = useMessage();
   const [correctOptions, setCorrectOptions] = useState<number[]>([]);
   const { data: topics } = User.Queries.useGetTopics();
   let { itemId, id: testId } = useParams();
-  const { data: test } = User.Queries.useGetTestDetails(testId + '', {
+  const { data: item } = User.Queries.useGetTestItemDetails(testId + '',itemId+'', {
     enabled: !!testId
   });
-  const items = test ? test.sections.map(s => s.items).flat() : [];
 
   const { mutate: updateItemApi, isLoading } = User.Queries.useUpdateTestItem();
-  const item: Types.TestQuestion = findSectionItem(itemId + '', items) || {};
-  const currentItemIndex = item ? items.findIndex(i => i._id === item._id) : -1;
 
   const isMounted = useRef(true);
   const isProgrammaticChange = useRef(false);
@@ -27,6 +23,7 @@ function useUpdateTestForm(form: FormInstance) {
   useEffect(() => {
     return () => {
       isMounted.current = false;
+      form.resetFields();
     };
   }, []);
 
@@ -91,7 +88,6 @@ function useUpdateTestForm(form: FormInstance) {
   };
 // @ts-ignore
   const onFormChange = (data) => {
-    console.log(data,'lopiki')
     if (!isEqual(initialItemRef.current, { ...item, ...data })) {
       const newItem = {
         ...item,
@@ -110,7 +106,6 @@ function useUpdateTestForm(form: FormInstance) {
       initialItemRef.current = data;
       onFormChange(data)
     },
-    currentItemIndex,
     onFormChange,
     topics,
     handleTopicsChange,

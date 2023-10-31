@@ -14,7 +14,7 @@ import {
   AlertOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -25,6 +25,11 @@ import { Learner } from '@adewaskar/lms-common'
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 import image from './bg.svg'
 import styled from '@emotion/styled'
+import ActionModal from '@Components/ActionModal';
+import { LoginLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api';
+import LearnerLogin from '@Learner/Screens/Login';
+import ProductCheckoutButton from '@Components/CheckoutButton';
+import useMessage from '@Hooks/useMessage';
 
 const { UnitTypeToStr } = Utils;
 
@@ -91,9 +96,8 @@ function CourseDetailViewer () {
     [data]
   )
 
-  const enrollForCourse = (courseId:string) => {
-    enroll(courseId);
-  }
+  const message = useMessage();
+  const isSignedIn= Store.useAuthentication(s => s.isSignedIn);
   const instructor = course.instructor as unknown as Types.Instructor;
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const { data: {items} } = Learner.Queries.useGetCartDetails();
@@ -229,7 +233,7 @@ function CourseDetailViewer () {
                 <Col span={24}>
                   
                   <Row gutter={[15, 15]}>
-                  <Col span={24}>
+                  {isSignedIn?<><Col span={24}>
                     {!isEnrolled?<Button loading={addingToCart} disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
                       {isAddedToCart?`Added to cart`:`Add To Cart`}
                     </Button>:null}
@@ -237,10 +241,33 @@ function CourseDetailViewer () {
                   <Col span={24}>
                    {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
                       Go to Course
-                    </Button>: <Button onClick={()=>enrollForCourse(course._id)}size="large" type="primary" block>
-                      Enroll Now
-                    </Button>}
-                  </Col>{' '}
+                            </Button> :
+                                <ProductCheckoutButton
+                                onSuccess={() => {
+                                  message.open({
+                                    type: 'success',
+                                    content: `You have enrolled successfully`
+                                  })
+                                }}
+                                product={{ type: 'course', id: courseId + '' }}
+                                block
+                                type="primary"
+                              >
+                                Enroll Now
+                              </ProductCheckoutButton>
+                    //           <Button onClick={() => enrollForCourse(course._id)} size="large" type="primary" block>
+                    //   Enroll Now
+                    // </Button>
+                            }
+                          </Col>{' '}</> :
+                          <Col span={24}>
+                            <ActionModal width={300}
+                              cta={<Button size="large" type="primary" block>
+                      Login to buy this course
+                          </Button>}>
+                            <LearnerLogin/>
+                    </ActionModal></Col>
+                  }
                   <Col span={24}>
                     <CourseMetadata course={course} />
                   </Col>

@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import { findSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { getToken } from '@Network/index'
 import { razorpay } from 'config'
 import useRazorpay from "react-razorpay";
@@ -24,9 +23,8 @@ export const useNavigateParams = () => {
 export const useGetNodeFromRouterOutlet = () => {
   const { itemId,sectionId } = useParams();
   const [items, courseId] = useOutletContext<Types.CourseSection[][]>();
-  const node: Types.CourseSectionItem = findSectionItem(itemId + '', items) || {};
   // console.log(items,itemId, 'nodeee');
-  return { node, courseId,sectionId };
+  return {  courseId,sectionId };
 }
 
 export const useAppInit = (type: string) => {

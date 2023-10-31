@@ -253,7 +253,7 @@ function CourseBuilderScreen() {
   // )
   const items = course.sections.map(s => s.items).flat()
   // console.log(course.sections, items, 'nodeee')
-  const { mutate: publishCourse } = User.Queries.usePublishCourse()
+  const { mutate: publishCourse,isLoading: publishingCourse } = User.Queries.usePublishCourse()
   return (
     <AppProvider>
       <Header
@@ -286,7 +286,8 @@ function CourseBuilderScreen() {
                   },
                   okText: 'Yes, Publish'
                 })
-              }}
+                }}
+                loading={publishingCourse}
               // disabled={!Utils.validatePublishCourse(course)}
               style={{ marginRight: 15 }}
               icon={<UploadOutlined />}

@@ -23,6 +23,7 @@ export default function ProductCheckoutButton(
 
   return (
     <Button
+      size="large"
       onClick={() => {
         console.log('112')
         createOrder(

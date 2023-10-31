@@ -14,9 +14,8 @@ import {
   Select,
   Typography,
 } from 'antd'
-import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
+import { Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
-import { Fragment, useEffect, useState } from 'react'
 import { useOutletContext, useParams } from 'react-router';
 
 import ActionModal from '@Components/ActionModal';
@@ -47,11 +46,9 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
-  const { updateTestSection } = useOutletContext<any>();
-
-  const { item,testId,handleTopicsChange,topics,onFormChange,correctOptions, setCorrectOptions,updateItem} = useUpdateTestForm( form);
-  const {  itemId } = useParams();
-
+  const { handleTopicsChange,topics,onFormChange,correctOptions, setCorrectOptions,updateItem} = useUpdateTestForm( form);
+  const {  itemId,id: testId } = useParams();
+  
   const {data: test }=User.Queries.useGetTestDetails(testId+'')
   
   const isTestEnded = test.status === Enum.TestStatus.ENDED;;
@@ -66,6 +63,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
 
+  const {data: item } = User.Queries.useGetTestItemDetails(testId+'', itemId+'');
   
   const { data: file } = User.Queries.useGetFileDetails(item?.solution?.video + '', {
     enabled: !!item?.solution?.video
@@ -189,7 +187,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                     { required: true, message: 'Please enter the answer.' },
                 ]}
                 {...field}
-            >
+                  >
                 <TextArea height={150} html={{level:1}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
             </Form.Item>
         </Col>

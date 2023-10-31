@@ -152,7 +152,10 @@ function CoursePlayer() {
         // bgColor="black"
         title={
           <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-            <OrgLogo style={{ width: 60 }} />
+            <OrgLogo
+              onClick={() => navigate('../app/store')}
+              style={{ width: 60 }}
+            />
             <Divider type="vertical" />
             <Text style={{ fontSize: 16 }}>{course.title}</Text>
           </Space>
@@ -183,7 +186,7 @@ function CoursePlayer() {
                   height: 550,
                   padding: 0,
                   position: 'relative',
-                  background: '#fff',
+                  background: '#fff'
                   // overflow: 'scroll'
                 }}
                 // bodyStyle={{}}

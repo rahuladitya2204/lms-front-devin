@@ -5,6 +5,7 @@ import '@react-pdf-viewer/core/lib/styles/index.css'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import { Spin } from 'antd'
+import ErrorBoundary from './ErrorBoundary'
 
 interface PDFViewerPropsI {
   file: { _id: string };
@@ -28,20 +29,22 @@ const PDFViewer = (props: PDFViewerPropsI) => {
       className="pdf-container"
       style={{ height: '100%', overflow: 'scroll' }}
     >
-      <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.10.377/build/pdf.worker.min.js">
-        {url && (
-          <Spin spinning={loading || loadingFile}>
-            <div style={{ height: '100%' }}>
-              <Viewer
-                fileUrl={url}
-                plugins={[defaultLayoutPluginInstance]}
-                onDocumentLoad={() => setLoading(false)}
-                onZoom={() => setLoading(false)}
-              />
-            </div>
-          </Spin>
-        )}
-      </Worker>
+      <ErrorBoundary>
+        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js">
+          {url && (
+            <Spin spinning={loading || loadingFile}>
+              <div style={{ height: '100%' }}>
+                <Viewer
+                  fileUrl={url}
+                  plugins={[defaultLayoutPluginInstance]}
+                  onDocumentLoad={() => setLoading(false)}
+                  onZoom={() => setLoading(false)}
+                />
+              </div>
+            </Spin>
+          )}
+        </Worker>
+      </ErrorBoundary>
     </div>
   )
 }

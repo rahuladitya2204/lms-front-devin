@@ -99,6 +99,15 @@ function CourseEditor() {
               extra={[
                 course.status === Enum.CourseStatus.PUBLISHED ? (
                   <Tag color="green">Course is Live</Tag>
+                ) : !course.sections.length ? (
+                  <Button
+                    style={{ marginRight: 20 }}
+                    onClick={() => {
+                      navigate(`../app/products/courses/${course._id}/builder`)
+                    }}
+                  >
+                    Go to Course Builder
+                  </Button>
                 ) : (
                   <Button
                     disabled={!Utils.validatePublishCourse(course)}

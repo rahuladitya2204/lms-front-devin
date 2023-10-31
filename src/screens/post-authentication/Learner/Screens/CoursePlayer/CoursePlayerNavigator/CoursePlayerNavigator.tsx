@@ -32,7 +32,8 @@ interface CoursePlayerNavigatorPropsI {
 
 function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
   const {
-    data: { product: { data: course } }
+    data: { product: { data: course } },
+    isLoading: loadingCourse
   } = Learner.Queries.useGetEnrolledCourseDetails(props.courseId, {
     enabled: !!props.courseId
   })
@@ -86,6 +87,7 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
                 key={section._id}
               >
                 <List
+                  loading={loadingCourse}
                   // itemLayout="horizontal"
                   dataSource={section.items.filter(item => {
                     const title = item.title.toLowerCase()

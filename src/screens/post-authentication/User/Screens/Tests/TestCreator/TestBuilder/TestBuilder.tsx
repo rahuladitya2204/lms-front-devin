@@ -59,7 +59,7 @@ function TestBuilderScreen() {
             ...Constants.INITIAL_LIVE_TEST_QUESTION,
             title: 'New Question',
             correctOptions: [],
-            answers: [],
+            answers: [null,null,null,null],
             solution: {
               html:''
             },

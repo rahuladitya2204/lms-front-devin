@@ -8,6 +8,7 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 import { Spin } from 'antd'
+import { useParams } from 'react-router'
 
 function CoursePlayerItem() {
   const [loading, setLoading] = useState(false)
@@ -22,12 +23,15 @@ function CoursePlayerItem() {
     },
     [user]
   )
-  const { node: item, courseId, sectionId } = useGetNodeFromRouterOutlet()
-
+  const { id: courseId, itemId } = useParams()
+  const { data: item } = Learner.Queries.useGetCourseItemDetails(
+    courseId + '',
+    itemId + ''
+  )
   const onEnd = () => {
     updateProgress({
       courseId: courseId + '',
-      sectionId: sectionId + '',
+      sectionId: '' + '',
       action: 'ADD',
       itemId: item._id,
       data: null
@@ -47,7 +51,10 @@ function CoursePlayerItem() {
   )
 
   const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
-  const { data: file,isLoading: loadingFile } = Learner.Queries.useGetFileDetails(item.file + '', {
+  const {
+    data: file,
+    isLoading: loadingFile
+  } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })
   const currentItemNotes = notes.filter(note => note.item === item._id) || []
