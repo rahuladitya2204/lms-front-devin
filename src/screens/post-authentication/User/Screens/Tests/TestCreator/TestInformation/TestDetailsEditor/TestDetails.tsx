@@ -71,15 +71,6 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
     props.saveTest(data)
   }
 
-  const generateWithAI = (fields: string[]) => {
-    return (
-      <GenerateWithAI
-        courseId={test._id + ''}
-        fields={fields}
-        onValuesChange={onValuesChange}
-      />
-    )
-  }
   const isPublished = test.status === Enum.TestStatus.PUBLISHED
   const isLive = Form.useWatch('isLive', form)
   return (
@@ -135,13 +126,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Input />
       </Form.Item>
 
-      <Form.Item
-        name="subtitle"
-        required
-        label="Subtitle"
-        // rules={[{ required: true, message: 'Please enter a subtitle!' }]}
-        extra={generateWithAI(['subtitle'])}
-      >
+      <Form.Item name="subtitle" required label="Subtitle">
         <Input />
       </Form.Item>
       <Form.Item
@@ -154,7 +139,6 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             message: 'Please enter a description for the Test'
           }
         ]}
-        extra={generateWithAI(['description'])}
       >
         <TextArea rows={4} placeholder="Enter the test description" />
       </Form.Item>

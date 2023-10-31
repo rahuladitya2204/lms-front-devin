@@ -84,8 +84,25 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
         .toDate()
         .getTime()
   )
-  data.score.value = `${enrolledDetails.metadata.test.totalScore}`
-  data.result.value = <Tag color='green-inverse'>Passed</Tag>
+  // @ts-ignore
+  const isPassed = test.learnerScore >= test.passingScore
+  data.result.value = isPassed ? (
+    <Tag style={{ marginRight: 0 }} color="green-inverse">
+      Passed
+    </Tag>
+  ) : (
+    <Tag style={{ marginRight: 0 }} color="red-inverse">
+      Failed
+    </Tag>
+  )
+
+  const {
+    data: { test: testResult },
+    isLoading: loadingResult
+  } = Learner.Queries.useGetTestResult(testId + '')
+  // @ts-ignore
+  data.score.value = `${testResult.learnerScore}/${testResult.passingScore}`
+
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (
@@ -93,10 +110,10 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
       itemLayout="horizontal"
       dataSource={dataSource}
       renderItem={item => (
-        <ListItem actions={[<Text>{item.value}</Text>]}>
+        <ListItem actions={[<Text strong>{item.value}</Text>]}>
           <List.Item.Meta
             avatar={item.icon}
-            title={<Text>{item.title}</Text>}
+            title={<Text strong>{item.title}</Text>}
           />
         </ListItem>
       )}

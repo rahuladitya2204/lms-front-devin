@@ -67,7 +67,6 @@ function CoursePlayerItem() {
     Component = <CoursePlayerQuiz onEnd={onEnd} item={item} />
   }
   const fileId = file.encoded || file._id
-  console.log(loading, 'is loadindin')
   if (item.type === 'video') {
     Component = !item.external?.url ? (
       <MediaPlayer

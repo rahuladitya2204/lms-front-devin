@@ -9,7 +9,7 @@ interface CoursePlayerItemsPropsI {
 
 const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = props => {
   return (
-    <div style={{ margin: 30, overflow: 'scroll' }}>
+    <div style={{ height: '100%', overflow: 'scroll' }}>
       <Typography.Text>{props.item?.title || ''}</Typography.Text>
       <div dangerouslySetInnerHTML={{ __html: props.item?.description }} />
     </div>

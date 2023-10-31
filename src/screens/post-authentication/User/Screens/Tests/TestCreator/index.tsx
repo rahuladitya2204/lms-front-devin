@@ -92,7 +92,11 @@ function TestEditor() {
             extra={[
               test.status === Enum.TestStatus.PUBLISHED ? (
                 <Tag color='green'>Test is published</Tag>
-              ) : (
+              ) : !test.sections.length ? <Button
+              onClick={() => {
+                navigate(`../app/products/test/${test._id}/builder`)
+                  }}
+                  style={{ marginRight: 10 }}>Go to Test Builder</Button> : (
                 <Button
                   disabled={!Utils.validatePublishTest(test)}
                   onClick={() => {
@@ -124,59 +128,7 @@ function TestEditor() {
               </Button>
             ]}
           >
-            {loadingTest ? <>
-              <Row gutter={[20,20]}>
-                <Col span={2}>
-                  <Row style={{marginTop:20}}>
-                    <Col span={24}>
-                    <Skeleton.Button active block/>
-                    </Col>
-                  </Row>
-                  <Row style={{marginTop:20}}>
-                    <Col span={24}>
-                    <Skeleton.Button active block/>
-                    </Col>
-                  </Row>
-                  <Row style={{marginTop:20}}>
-                    <Col span={24}>
-                    <Skeleton.Button active block/>
-                    </Col>
-                 </Row>
-                </Col>
-                <Col span={22}>
-                  <Row gutter={[20,20]}>
-                    <Col><Skeleton.Button active/></Col>
-                    <Col><Skeleton.Button active/></Col>
-                    <Col><Skeleton.Button active/></Col>
-                  </Row>
-                  <Row style={{ marginTop: 30 }} gutter={[20, 40]}>
-                    <Col span={24}>
-                      <Skeleton.Image active />
-                    </Col>
-                    <Col span={24}>
-                      <Skeleton.Input active block/>
-                    </Col>
-                    <Col span={24}>
-                      <Skeleton.Input active block/>
-                    </Col>
-                    <Col span={24}>
-                      <Skeleton.Input active block/>
-                    </Col>
-                    <Col span={24}>
-                      <Skeleton.Input active block/>
-                    </Col>
-                    <Col span={24}>
-                      <Skeleton.Input active block/>
-                    </Col>
-                    <Col span={24}>
-                      <Skeleton.Input active block/>
-                    </Col>
-                    <Col span={24}>
-                      <Skeleton.Input active block/>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row></>:<Tabs
+           <Tabs
               navigateWithHash
               onTabClick={e => {
                 if (e === 'builder') {
@@ -235,7 +187,7 @@ function TestEditor() {
                   // )
                 }
               ]}
-            />}
+            />
             
           </Card>
         </Col>

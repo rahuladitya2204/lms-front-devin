@@ -101,7 +101,7 @@ function CourseEditor() {
                   <Tag color="green">Course is Live</Tag>
                 ) : !course.sections.length ? (
                   <Button
-                    style={{ marginRight: 20 }}
+                    style={{ marginRight: 10 }}
                     onClick={() => {
                       navigate(`../app/products/courses/${course._id}/builder`)
                     }}

@@ -75,7 +75,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
             }}
             // style={{ width: 300 }}
             // @ts-ignore
-            cover={<Image height={200} alt="example" src={test.image} />}
+            cover={<Image height={200} alt="example" src={test.thumbnailImage} />}
             actions={
               [
                 // <Button block>View Result</Button>

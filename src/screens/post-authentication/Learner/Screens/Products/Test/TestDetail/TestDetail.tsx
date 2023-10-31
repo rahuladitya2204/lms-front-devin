@@ -14,6 +14,7 @@ import { useMemo } from 'react'
 import useMessage from '@Hooks/useMessage'
 import CompletedTestCard from './CompletedTestMetadata'
 import { useQueryClient } from '@tanstack/react-query'
+import Title from 'antd/es/typography/Title'
 
 const { Text, Paragraph } = Typography
 
@@ -75,7 +76,7 @@ const ENROLLED_CTA = useMemo(() => {
     else {
       console.log(enrolledDetails.metadata.test,'enrolledDetails')
       if (!testStartDate) {
-        return <Button onClick={()=>navigate('start')} block type='primary'>
+        return <Button size='large' onClick={()=>navigate('start')} block type='primary'>
         Start Test
       </Button>
       }
@@ -102,7 +103,10 @@ const ENROLLED_CTA = useMemo(() => {
 
   return (
     <Row>
-   {loadingTest?<Skeleton paragraph={{rows:1}} />:<Col span={24}>{test.description}</Col>}
+      {loadingTest ? <Skeleton paragraph={{ rows: 1 }} /> : <Col span={24}>
+        <Title level={3}>{test.title}</Title>
+        {/* <Title level={4}>{test.description}  </Title> */}
+      </Col>}
          
 <Col span={24}>
  <Row gutter={[30, 30]}>

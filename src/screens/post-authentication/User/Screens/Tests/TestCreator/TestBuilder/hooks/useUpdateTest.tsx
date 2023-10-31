@@ -67,7 +67,6 @@ function useUpdateTestForm(form: FormInstance) {
   }, [item, form, updateItem]);
 
   useEffect(() => {
-    console.log(correctOptions,'correctOptionscorrectOptions')
     if(correctOptions?.length)
     onFormChange({ correctOptions });
   }, [correctOptions]);

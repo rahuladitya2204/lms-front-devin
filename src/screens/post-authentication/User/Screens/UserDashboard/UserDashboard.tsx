@@ -17,11 +17,11 @@ const items: TabsProps['items'] = [
       label: `Sales`,
       children: `Content of Tab Pane 2`,
     },
-    {
-      key: '3',
-      label: `Tab 3`,
-      children: `Content of Tab Pane 3`,
-    },
+    // {
+    //   key: '3',
+    //   label: `Tab 3`,
+    //   children: `Content of Tab Pane 3`,
+    // },
   ];
   
 
