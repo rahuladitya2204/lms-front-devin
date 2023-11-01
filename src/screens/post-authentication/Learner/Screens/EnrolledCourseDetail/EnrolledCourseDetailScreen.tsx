@@ -16,6 +16,8 @@ import {
 import {
   CalendarOutlined,
   CheckCircleFilled,
+  ClockCircleOutlined,
+  EditOutlined,
   FileOutlined,
   FundProjectionScreenOutlined,
   GlobalOutlined,
@@ -51,28 +53,30 @@ const EnrolledCourseDetailScreen: React.FC<
   const navigate = useNavigate()
   const { courseId } = useParams()
   const {
-    data: { metadata: { progress, completed, lastPlayed } }
-  } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'course',
-    id: courseId + ''
-  }, {
-    enabled: !!courseId
-  })
+    data: {
+      metadata: { progress, completed, notes, lastPlayed, watchTime },
+      plan: { expiresAt }
+    }
+  } = Learner.Queries.useGetEnrolledProductDetails(
+    {
+      type: 'course',
+      id: courseId + ''
+    },
+    {
+      enabled: !!courseId
+    }
+  )
 
   const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
 
   const { instructor } = course
 
   const continueLearning = () => {
-    navigate(
-      `../../courses/${lastPlayed.course}/player/${lastPlayed.item}`
-    )
+    navigate(`../../courses/${lastPlayed.course}/player/${lastPlayed.item}`)
   }
 
   const playItem = (sectionId: string, itemId: string) => {
-    navigate(
-      `../../courses/${courseId}/player/${itemId}`
-    )
+    navigate(`../../courses/${courseId}/player/${itemId}`)
   }
 
   return (
@@ -136,25 +140,21 @@ const EnrolledCourseDetailScreen: React.FC<
                     </Col>
 
                     <Col>
-                      <FundProjectionScreenOutlined />{' '}
-                      <Text strong>
-                        {completed.length}/{course.totalItems} Lessons
-                      </Text>
+                      <EditOutlined />{' '}
+                      <Text strong>{notes.length} Notes Taken</Text>
                     </Col>
 
                     <Col>
-                      <FundProjectionScreenOutlined />{' '}
-                      <Text strong>
-                        {completed.length}/{course.totalItems} Lessons
-                      </Text>
+                      <ClockCircleOutlined />{' '}
+                      <Text strong>{watchTime} Mins Watched</Text>
                     </Col>
 
-                    <Col>
-                      <FundProjectionScreenOutlined />{' '}
-                      <Text strong>
-                        {completed.length}/{course.totalItems} Lessons
-                      </Text>
-                    </Col>
+                    {expiresAt ? (
+                      <Col>
+                        <CalendarOutlined />{' '}
+                        <Text strong>{dayjs(expiresAt).format('LLL')}</Text>
+                      </Col>
+                    ) : null}
                   </Row>
                 </Col>
                 <Col span={1} />
@@ -194,16 +194,16 @@ const EnrolledCourseDetailScreen: React.FC<
                                   bodyStyle={{ padding: 0 }}
                                 >
                                   <Row>
-                                    {/* <Col span={3}>
+                                    <Col span={3}>
                                       <Image
                                         height={70}
                                         width={100}
                                         src={item.metadata?.thumbnail}
                                       />
-                                    </Col> */}
+                                    </Col>
                                     <Col span={1} />
                                     <Col
-                                      span={12}
+                                      flex={1}
                                       style={{
                                         marginTop: 10,
                                         marginBottom: 10
@@ -233,7 +233,7 @@ const EnrolledCourseDetailScreen: React.FC<
                                     </Col>
                                     <Col span={6} />
                                     <Col
-                                      span={4}
+                                      span={3}
                                       style={{
                                         display: 'flex',
                                         alignItems: 'center'

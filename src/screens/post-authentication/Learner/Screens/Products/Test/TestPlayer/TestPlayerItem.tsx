@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Progress, Radio, Row, Typography } from 'antd'
+import { Button, Checkbox, Col, Progress, Radio, Row, Spin, Typography } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 
 import HtmlViewer from '@Components/HtmlViewer';
@@ -6,14 +6,16 @@ import { Learner } from '@adewaskar/lms-common';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router'
 import useQuestion from './hooks/useQuestion'
+import { useTestItemTime } from '@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime';
 
 const { Title, Text } = Typography
 
 interface TestPlayeritemPropsI {}
 
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
-  const { questionId,testId } = useParams();
-  const { currentQuestion, currentQuestionIndex } = useQuestion();
+  const { questionId, testId } = useParams();
+  useTestItemTime();
+  const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   const [targetDate, setTargetDate] = useState('');
   const { mutate: submitAnswer,isLoading: submittingAnswer} = Learner.Queries.useSubmitTestAnswer();
   const OptionSelectedFormControl =
@@ -32,7 +34,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     }
   },[currentQuestion])
   return (
-    <Fragment>
+    <Spin spinning={loading}>
       <Row gutter={[20,30]}>
         <Col span={24}>
           <Row align={'middle'}>
@@ -104,6 +106,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         <Button style={{width: 110}}> Skip</Button>
         </Col>
       </Row>
-    </Fragment>
+    </Spin>
   )
 }

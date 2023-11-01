@@ -85,6 +85,7 @@ import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/W
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
 import EventsScreen from '@User/Screens/Event/EventScreen/Events'
 import { Store } from '@adewaskar/lms-common'
+import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -106,7 +107,8 @@ const router = (userType: string) => {
                 <Route path="" element={<LearnerTestScreen />} />
                 <Route path=":testId" element={<LearnerTestDetailScreen />} />
                 <Route path=":testId/result" element={<LearnerTestResult />} />
-              </Route>
+                <Route path=":testId/result-table" element={<TestResultTable />} />
+  </Route>
               <Route path="event">
                 <Route path="" element={<LearnerEventsScreen />} />
                 <Route path=":sessionId" element={<EventDetailScreen />} />
@@ -129,7 +131,8 @@ const router = (userType: string) => {
                 <Route path=":questionId" element={<TestPlayeritem />} />
               </Route>
               <Route path="completed" element={<TestCompleted />} />
-            </Route>
+              {/* <Route path="result-table" element={<TestResultTable />} /> */}
+ </Route>
             <Route
               path="oauth/:provider/redirect"
               element={<OauthRedirect />}

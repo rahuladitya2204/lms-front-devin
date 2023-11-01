@@ -1,5 +1,5 @@
 import { CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons'
-import { Collapse, List, Tag, Typography } from 'antd'
+import { Collapse, List, Spin, Tag, Typography } from 'antd'
 import { useNavigate } from 'react-router'
 
 import { Fragment } from 'react'
@@ -45,62 +45,68 @@ export default function TestQuestionNavigator(
   const navigate = useNavigate()
   const { data: test } = Learner.Queries.useGetTestDetails(props.testId + '')
   //    const { data: { sections } } = Learner.Queries.useGetTestStatus(
-  const { data: { sections } } = Learner.Queries.useGetTestStatus(
+  const { data: { sections }, isLoading } = Learner.Queries.useGetTestStatus(
     props.testId + ''
   )
   return (
-    <Collapse defaultActiveKey={test.sections.map(s => s._id)} bordered={false}>
-      {sections.map(section => {
-        return (
-          <CollapsePanel key={section._id} header={section.title}>
-            <List
-              itemLayout="horizontal"
-              style={{ marginBottom: 20 }}
-              size="small"
-              dataSource={section.items}
-              renderItem={(item, itemIndex) => {
-                const TestSectionListItem = (isActive: boolean) => (
-                  <TestListItem
-                    isActive={isActive}
-                    extra={[
-                      item.score ? (
-                        <Tag color="blue">Score: {item.score}</Tag>
-                      ) : null
-                      // <Tag icon={<ClockCircleOutlined />}>12 mins</Tag>
-                    ]}
-                  >
-                    <List.Item.Meta
-                      style={{ cursor: 'pointer' }}
-                      title={<Text>{`Question ${itemIndex + 1}`}</Text>}
-                      avatar={
-                        item.isAnswered ? (
-                          <CheckCircleTwoTone style={{ color: 'green' }} />
-                        ) : (
-                          <InfoCircleOutlined />
-                        )
-                      }
-                    />
-                  </TestListItem>
-                )
-                return (
-                  <Fragment>
-                    <List.Item style={{ padding: 0 }}>
-                      <NavLink
-                        style={{ width: '100%' }}
-                        key={item._id}
-                        to={`${item._id}`}
-                        children={({ isActive }) =>
-                          TestSectionListItem(isActive)
+    <Spin spinning={isLoading}>
+      {' '}
+      <Collapse
+        defaultActiveKey={test.sections.map(s => s._id)}
+        bordered={false}
+      >
+        {sections.map(section => {
+          return (
+            <CollapsePanel key={section._id} header={section.title}>
+              <List
+                itemLayout="horizontal"
+                style={{ marginBottom: 20 }}
+                size="small"
+                dataSource={section.items}
+                renderItem={(item, itemIndex) => {
+                  const TestSectionListItem = (isActive: boolean) => (
+                    <TestListItem
+                      isActive={isActive}
+                      extra={[
+                        item.score ? (
+                          <Tag color="blue">Score: {item.score}</Tag>
+                        ) : null
+                        // <Tag icon={<ClockCircleOutlined />}>12 mins</Tag>
+                      ]}
+                    >
+                      <List.Item.Meta
+                        style={{ cursor: 'pointer' }}
+                        title={<Text>{`Question ${itemIndex + 1}`}</Text>}
+                        avatar={
+                          item.isAnswered ? (
+                            <CheckCircleTwoTone style={{ color: 'green' }} />
+                          ) : (
+                            <InfoCircleOutlined />
+                          )
                         }
                       />
-                    </List.Item>
-                  </Fragment>
-                )
-              }}
-            />
-          </CollapsePanel>
-        )
-      })}
-    </Collapse>
+                    </TestListItem>
+                  )
+                  return (
+                    <Fragment>
+                      <List.Item style={{ padding: 0 }}>
+                        <NavLink
+                          style={{ width: '100%' }}
+                          key={item._id}
+                          to={`${item._id}`}
+                          children={({ isActive }) =>
+                            TestSectionListItem(isActive)
+                          }
+                        />
+                      </List.Item>
+                    </Fragment>
+                  )
+                }}
+              />
+            </CollapsePanel>
+          )
+        })}
+      </Collapse>
+    </Spin>
   )
 }

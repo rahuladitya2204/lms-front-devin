@@ -39,11 +39,12 @@ const UploadVideoForm:any = () => {
   const videoJobId = file?.metadata?.video?.jobId;
   const {
     data: transcoding
+    // @ts-ignore
   } = User.Queries.useGetTranscodeVideoStatus(videoJobId, {
     retry: true,
-    enabled: !!file?.metadata?.video,
+    enabled: !!(file?.metadata?.video),
     // @ts-ignore
-    refetchInterval: 1000
+    // refetchInterval: 1000
   });
 
   const transcribeJobId = file?.metadata?.transcription?.jobId;

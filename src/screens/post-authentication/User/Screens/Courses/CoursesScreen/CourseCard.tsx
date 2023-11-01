@@ -1,4 +1,4 @@
-import { Avatar, Badge, Card, Space, Tag, Tooltip, Typography } from 'antd'
+import { Avatar, Badge, Card, Col, Row, Space, Tag, Tooltip, Typography } from 'antd'
 import {
   BarChartOutlined,
   InfoCircleOutlined,
@@ -68,11 +68,15 @@ function CourseCard(props: CourseCardProps) {
       <Card.Meta
         // @ts-ignore
         description={
-          <Space>
+          <Row gutter={[20,10]}>
+            <Col span={24}>
             <Tag color="blue">Enrolled: {props.course.analytics.enrolled.count}</Tag>
-            {/* @ts-ignore */}
-            <Text>Last Updated: {dayjs(props.course.updatedAt).format('l')}</Text>
-        </Space>
+           </Col>
+
+            <Col span={24}>
+              <Text style={{fontSize:14}}>Last Updated: {dayjs(props.course.updatedAt).format('l')}</Text>
+              </Col>
+        </Row>
           }
         avatar={<Avatar src={instructor?.image} />}
         title={props.course.title || ''} 
