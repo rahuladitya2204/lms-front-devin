@@ -42,13 +42,13 @@ const LearnerCourseList: React.FC = () => {
     <Fragment>
       <Row gutter={[30, 30]}>
         {enrolledCourses.map(
-          ({ product, enrolledAt, metadata: { progress } }) => (
+          (enrolledProduct) => (
             <Col span={6}>
               <CourseCard
-                onClick={() => navigate(`../enrolled-courses/${product.id}`)}
-                courseId={product.id}
-                enrolledAt={enrolledAt}
-                progress={progress}
+                onClick={() => navigate(`../enrolled-courses/${enrolledProduct.product.id}`)}
+                courseId={enrolledProduct.product.id}
+                enrolledProduct={enrolledProduct}
+                progress={enrolledProduct.progress}
               />
             </Col>
           )

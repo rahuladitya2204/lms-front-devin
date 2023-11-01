@@ -1,4 +1,4 @@
-import { Card, Progress, Typography } from 'antd'
+import { Card, Progress, Space, Tag, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
@@ -9,7 +9,7 @@ const { Text } = Typography
 
 interface CourseCardPropsI {
   courseId: string;
-  enrolledAt: string;
+  enrolledProduct: Types.EnrolledProductDetails;
   progress: number;
   onClick: () => void;
 }
@@ -26,12 +26,13 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
   const { data: { progress } } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: 'course',
-      id :props.courseId
+      id: props.courseId
     },
     {
       enabled: !!props.courseId
     }
   )
+  const { enrolledProduct } = props
   const { data: course } = Learner.Queries.useGetCourseDetails(props.courseId)
   return (
     <CardHolder
@@ -43,13 +44,21 @@ const CourseCard: React.FC<CourseCardPropsI> = props => {
       <Card.Meta
         // avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
         title={
-          <Text style={{ fontSize: 13 }} type="secondary">
-            Started {dayjs(props.enrolledAt).format('MMMM D, YYYY')}
-          </Text>
+          <Space direction="vertical">
+            <Text style={{ fontSize: 13 }}>
+              Started {dayjs(enrolledProduct.enrolledAt).format('MMMM D, YYYY')}
+            </Text>
+          </Space>
         }
         description={<Text strong>{course.title}</Text>}
       />
       <Progress percent={progress} />
+      {enrolledProduct.plan.expiresAt ? (
+        <Tag color='blue'>
+          Expires at{' '}
+          {dayjs(enrolledProduct.plan.expiresAt).format('MMMM D, YYYY')}
+        </Tag>
+      ) : null}
     </CardHolder>
   )
 }

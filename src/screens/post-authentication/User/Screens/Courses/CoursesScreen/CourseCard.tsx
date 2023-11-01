@@ -1,8 +1,6 @@
-import { Avatar, Badge, Card, Tooltip } from 'antd'
+import { Avatar, Badge, Card, Space, Tag, Tooltip, Typography } from 'antd'
 import {
   BarChartOutlined,
-  EyeOutlined,
-  FormatPainterOutlined,
   InfoCircleOutlined,
   ToolOutlined,
 } from '@ant-design/icons'
@@ -11,7 +9,9 @@ import { Enum, Types } from '@adewaskar/lms-common'
 import Image from '@Components/Image'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
+
+const { Text } = Typography;
 
 interface CourseCardProps {
   course: Types.Course;
@@ -67,9 +67,15 @@ function CourseCard(props: CourseCardProps) {
     >
       <Card.Meta
         // @ts-ignore
-        description={`Last Updated: ${dayjs(props.course.updatedAt).format('l')}`}
+        description={
+          <Space>
+            <Tag color="blue">Enrolled: {props.course.analytics.enrolled.count}</Tag>
+            {/* @ts-ignore */}
+            <Text>Last Updated: {dayjs(props.course.updatedAt).format('l')}</Text>
+        </Space>
+          }
         avatar={<Avatar src={instructor?.image} />}
-        title={props.course.title || ''}
+        title={props.course.title || ''} 
       />
     </CourseCardHolder>
   )
