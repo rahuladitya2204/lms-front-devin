@@ -6,6 +6,8 @@ import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
+import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
+import ActionModal from '@Components/ActionModal'
 
 interface CoursePricingEditorPropsI {
   courseId: string;
@@ -25,9 +27,9 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
         bodyStyle={{ padding: 0 }}
         title={'Pricing Plan'}
         extra={
-          <CreateCoursePlan courseId={props.courseId}>
-            <Button>Add Plan</Button>
-          </CreateCoursePlan>
+          <ActionModal cta={<Button>Add Plan</Button>}>
+            <CreatePlan product={{ type: 'course', id: props.courseId }} />
+          </ActionModal>
         }
       >
         <Row>
@@ -60,9 +62,12 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
                 key="action"
                 render={(_: any, record: Types.Plan) => (
                   <Space size="middle">
-                    <CreateCoursePlan courseId={props.courseId} plan={record}>
-                      <EditOutlined />
-                    </CreateCoursePlan>
+                    <ActionModal cta={<EditOutlined />}>
+                      <CreatePlan
+                        product={{ type: 'course', id: props.courseId }}
+                        plan={record}
+                      />
+                    </ActionModal>
                     <DeleteOutlined />
                   </Space>
                 )}

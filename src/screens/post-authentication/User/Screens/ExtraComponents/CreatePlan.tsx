@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Radio, Row, Select, Space } from 'antd'
+import { Button, Col, Divider, Form, Input, Radio, Row, Select, Space, Switch } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 
@@ -73,7 +73,8 @@ function CreatePlan(props: CreatePlanPropsI) {
     }
   }
   const planType = Form.useWatch('type', form)
-
+  const trialEnabled = Form.useWatch(['subscription','trial','enabled'], form)
+  console.log(planType,'plan type')
   return (
     <Form
       initialValues={Constants.INITIAL_COURSE_PLAN_DETAILS}
@@ -88,12 +89,12 @@ function CreatePlan(props: CreatePlanPropsI) {
         <Radio.Group>
           <Radio.Button value="free">Free</Radio.Button>
           <Radio.Button value="one-time">One Time Payment</Radio.Button>
-          <Radio.Button value={'recurring'}>
+          <Radio.Button value={'subscription'}>
             Recurring Subscription
           </Radio.Button>
         </Radio.Group>
       </Form.Item>
-      {planType === 'one-time' || planType === 'recurring' ? (
+      {planType === 'one-time' || planType === 'subscription' ? (
         <Row gutter={[30, 30]}>
           <Col span={12}>
             <Space align="end">
@@ -126,6 +127,42 @@ function CreatePlan(props: CreatePlanPropsI) {
           </Col>
         </Row>
       ) : null}
+      {planType === 'subscription' ? <>
+        <Divider/>
+        <Row gutter={[20,20]}>
+          <Col span={12}>
+          <Form.Item label="Subscription Duration (days)" name={['subscription', 'duration']}>
+            <Input type="number" />
+          </Form.Item> 
+          </Col>
+          <Col span={12}>
+          <Form.Item label="Subscription Type" name={['subscription', 'type']}>
+            <Select>
+              <Select.Option value="monthly">Monthly</Select.Option>
+              <Select.Option value="yearly">Yearly</Select.Option>
+            </Select>
+          </Form.Item>
+          </Col>
+          <Col span={12}>     <Form.Item label="Auto Renew" name={['subscription', 'autoRenew']} valuePropName="checked">
+            <Switch />
+          </Form.Item></Col>
+          <Col span={12}>
+          <Form.Item label="Grace Period (days)" name={['subscription', 'gracePeriod']}>
+            <Input type="number" />
+          </Form.Item>
+          </Col>
+        </Row>
+  
+ 
+       
+          <Form.Item label="Trial Period" name={['subscription', 'trial', 'enabled']} valuePropName="checked">
+            <Switch />
+          </Form.Item>
+          {trialEnabled && (
+            <Form.Item label="Trial Duration (days)" name={['subscription', 'trial', 'days']}>
+              <Input type="number" />
+            </Form.Item>
+          )}</>:null}
       <Row>
         {' '}
         <Col span={24}>

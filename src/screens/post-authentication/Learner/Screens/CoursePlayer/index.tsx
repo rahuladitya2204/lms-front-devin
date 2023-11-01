@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -10,9 +11,9 @@ import {
   Typography
 } from 'antd'
 import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Learner, Store, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
@@ -61,7 +62,7 @@ function CoursePlayer() {
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   const { id: courseId, itemId, sectionId } = useParams()
   const {
-    data: { metadata: { progress }, review }
+    data: { metadata: { progress }, review, plan: { trialExpiresAt } }
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: 'course',
@@ -142,8 +143,23 @@ function CoursePlayer() {
     [itemId, sectionId, courseId]
   )
   const items = sections.map(i => i.items).flat()
+  const showTrialBanner = useMemo(
+    () =>
+      Utils.isTrialExpiringSoon(trialExpiresAt, {
+        value: 1,
+        unit: 'day'
+      }),
+    [trialExpiresAt]
+  )
   return (
     <PlayerContainer>
+      {showTrialBanner ? (
+        <Alert
+          style={{ textAlign: 'center' }}
+          message="Your trial is about to expire"
+          banner
+        />
+      ) : null}
       <ActionModal width={800} open={showReview}>
         <ReviewCourse course={course} />
       </ActionModal>
