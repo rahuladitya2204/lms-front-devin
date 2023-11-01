@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Row } from 'antd'
+import { Button, Card, Col, Form, Row, Spin } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
@@ -17,12 +17,12 @@ function TestInformationEditor(props: any) {
   const testId = id + ''
   const [test, setTest] = useState(Constants.INITIAL_LIVE_TEST_DETAILS)
 
-  const { data: testDetails } = User.Queries.useGetTestDetails(
-    testId,
-    {
-      enabled: !!testId
-    }
-  )
+  const {
+    data: testDetails,
+    isLoading: loadingTest
+  } = User.Queries.useGetTestDetails(testId, {
+    enabled: !!testId
+  })
 
   useEffect(
     () => {
@@ -31,7 +31,7 @@ function TestInformationEditor(props: any) {
     [testDetails]
   )
   return (
-    <Fragment>
+    <Spin spinning={loadingTest}>
       <Tabs
         items={[
           {
@@ -83,7 +83,7 @@ function TestInformationEditor(props: any) {
       />
 
       <Outlet />
-    </Fragment>
+    </Spin>
   )
 }
 

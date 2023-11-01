@@ -200,7 +200,7 @@ const UploadVideoForm:any = () => {
           </Col>
 
           <Col span={24}>
-          <Card title='Extra Resources' extra={<ActionModal cta={<Button icon={<UploadOutlined/> }> Upload Files</Button>}>
+          <Card title='Extra Resources' extra={<ActionModal processing={loadingVideo} cta={<Button icon={<UploadOutlined/> }> Upload Files</Button>}>
             <MediaUpload
                 source={{
                   type: 'course.section.item.files',

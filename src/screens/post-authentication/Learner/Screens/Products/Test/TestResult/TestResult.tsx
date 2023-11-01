@@ -18,6 +18,7 @@ import Tabs from '@Components/Tabs'
 import TestMetrics from './TestMetrics'
 import { capitalize } from 'lodash'
 import { useParams } from 'react-router'
+import TestResultTable from './TestResultTable'
 
 const { Title, Text } = Typography
 
@@ -180,7 +181,7 @@ export default function TestResult() {
         {
           key: 'solutions',
           label: 'Solutions',
-          children: <LearnerTestResult />
+          children: <TestResultTable />
         }
       ]}
     />

@@ -4,10 +4,13 @@ import { Modal } from 'antd'
 
 interface ActionModalPropsI {
   children?: any;
+  closable?: boolean;
   onClose?: () => void;
   title?: string | React.ReactNode;
   width?: number;
+  keyboardClosable?: boolean;
   height?: number;
+  processing?: boolean;
   open?: boolean;
   cta?: React.ReactNode;
   footer?: (f: Function) => React.ReactNode[];
@@ -34,11 +37,13 @@ function ActionModal(props: ActionModalPropsI) {
   const childrenWithCloseModal = React.cloneElement(props.children, {
     closeModal
   })
-
   return (
     <Fragment>
       <span onClick={showModal}>{props.cta}</span>
       <Modal
+        keyboard={!!props.keyboardClosable && !props.processing}
+        maskClosable={false}
+        closable={!!props.closable || !props.processing}
         width={props.width}
         footer={props.footer ? props.footer(closeModal) : null}
         title={props.title}

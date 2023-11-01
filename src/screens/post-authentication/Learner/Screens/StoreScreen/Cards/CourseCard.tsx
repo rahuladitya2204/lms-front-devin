@@ -68,11 +68,11 @@ function CourseCard(props: CourseCardPropsI) {
                   <BookOutlined /> {course.totalItems} Lessons
             </Text>
           </Col>
-          <Col>
+          {/* <Col>
             <Text style={{fontSize: 13}}>
             <BarChartOutlined /> {capitalize(course.difficultyLevel)}
             </Text>
-            </Col>
+            </Col> */}
             <Col>
             <Text style={{fontSize: 13}}>
                   <ClockCircleOutlined /> {formattedDuration}
@@ -80,21 +80,19 @@ function CourseCard(props: CourseCardPropsI) {
         </Row>
         <Divider style={{marginTop:10,marginBottom:10}}/>
         <Row justify={'space-between'}>
-          <Col>
-          <Text ellipsis style={{ fontSize: 14,width: 100 }} type='secondary'>
+            <Col>
+            <Text ellipsis style={{ fontSize: 14,width: 100 }} type='secondary'>
                {instructor.name}
             </Text>
-          </Col>
-          <Col>
-          <Space direction='vertical' align='end' size={0}>
-              <Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
-                {UnitTypeToStr(plan.displayPrice)}</Text>
-              <Text strong style={{fontSize: 20}}>
+    </Col>
+            <Col>
+            <Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
+                {UnitTypeToStr(plan.displayPrice)}</Text> < br/>
+            <Text strong style={{fontSize: 20}}>
               {UnitTypeToStr(plan.finalPrice)}
               </Text>
-            </Space>
-          </Col>
-        </Row>
+            </Col>
+          </Row>
       </CustomCard>
     // </Badge.Ribbon>
   )

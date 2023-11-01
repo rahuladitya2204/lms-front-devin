@@ -93,7 +93,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 
   // console.log(correctOptions,'setCorrectOptions')
   return (
-    <Form name='test' onFinish={submit}
+    <Form name='test' onFinish={submit} initialValues={item}
       onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
   form={form}
   layout="vertical"

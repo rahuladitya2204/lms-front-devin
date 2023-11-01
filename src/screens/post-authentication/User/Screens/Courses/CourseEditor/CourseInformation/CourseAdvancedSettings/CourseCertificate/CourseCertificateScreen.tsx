@@ -49,6 +49,7 @@ interface CourseCertificatePropsI {
 }
 
 function CourseCertificate(props: CourseCertificatePropsI) {
+  console.log(props,'props')
   const [form] = Form.useForm()
   const {
     listItems: certificateTemplates

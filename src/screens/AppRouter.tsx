@@ -107,7 +107,7 @@ const router = (userType: string) => {
                 <Route path="" element={<LearnerTestScreen />} />
                 <Route path=":testId" element={<LearnerTestDetailScreen />} />
                 <Route path=":testId/result" element={<LearnerTestResult />} />
-                <Route path=":testId/result-table" element={<TestResultTable />} />
+                {/* <Route path=":testId/result-table" element={<TestResultTable />} /> */}
   </Route>
               <Route path="event">
                 <Route path="" element={<LearnerEventsScreen />} />

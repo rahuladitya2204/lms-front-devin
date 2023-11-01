@@ -172,6 +172,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         aspect={props.aspect}
         // rotationSlider
         onModalOk={e => {
+          // console.log(e, 'eeee')
           UploadFile(e)
         }}
       >
