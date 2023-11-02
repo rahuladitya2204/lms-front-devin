@@ -7,13 +7,19 @@ import {
   Dropdown,
   Layout,
   Menu,
+  Modal,
   Row,
   Space,
+  Spin,
   Typography
 } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 import { Outlet, useNavigate } from 'react-router'
-import { ShoppingCartOutlined, UserOutlined } from '@ant-design/icons'
+import {
+  LogoutOutlined,
+  ShoppingCartOutlined,
+  UserOutlined
+} from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
@@ -23,11 +29,16 @@ import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 
+const { confirm } = Modal
+
 const { Content } = Layout
 const { Text, Title } = Typography
 
 const LearnerHeader: React.FC = () => {
-  const { mutate: logoutLearner } = Learner.Queries.useLogoutLearner()
+  const {
+    mutate: logoutLearner,
+    isLoading: loggingOut
+  } = Learner.Queries.useLogoutLearner()
 
   const { isSignedIn } = Store.useAuthentication(state => state)
 
@@ -37,10 +48,18 @@ const LearnerHeader: React.FC = () => {
 
   const navigate = useNavigate()
   const logout = () => {
-    logoutLearner(undefined, {
-      onSuccess: () => {
-        navigate('../store')
-      }
+    confirm({
+      title: 'Are you sure?',
+      icon: <LogoutOutlined />,
+      content: `You want to logout?`,
+      onOk() {
+        logoutLearner(undefined, {
+          onSuccess: () => {
+            // navigate('../app/store')
+          }
+        })
+      },
+      okText: 'Yes, Logout'
     })
   }
 
@@ -137,13 +156,15 @@ const LearnerHeader: React.FC = () => {
       style={{ padding: 0 }}
     >
       <Content style={{ margin: '0 16px' }}>
-        <Row style={{ paddingTop: 20 }}>
-          <Col span={2} />
-          <Col span={20}>
-            <Outlet />
-          </Col>
-          <Col span={2} />
-        </Row>
+        <Spin tip="Please wait.. Logging you out." spinning={loggingOut}>
+          <Row style={{ paddingTop: 20 }}>
+            <Col span={2} />
+            <Col span={20}>
+              <Outlet />
+            </Col>
+            <Col span={2} />
+          </Row>
+        </Spin>
       </Content>
     </Header>
   )
