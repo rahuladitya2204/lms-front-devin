@@ -8,7 +8,7 @@ import {
 } from './constant'
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin } from 'antd'
-import React, { Fragment } from 'react'
+import React, { Fragment, useRef } from 'react'
 import SunEditor from 'suneditor-react'
 import { variablePlugin } from './plugins/variable.plugin'
 
@@ -29,11 +29,18 @@ export interface SunEditorPropsI {
 const SunEditorComponent = (props: SunEditorPropsI) => {
   const level = props.level || 2
   const form = Form.useFormInstance()
+  const editorRef = useRef()
   const {
     mutate: uploadFiles,
     isLoading: loading
   } = Common.Queries.useUploadFiles()
-  let value = Form.useWatch(props.name + '', form);
+
+  // @ts-ignore
+  const getSunEditorInstance = sunEditor => {
+    editorRef.current = sunEditor
+  }
+
+  let value = Form.useWatch(props.name + '', form)
   if (props.value) {
     value = props.value
   }
@@ -46,11 +53,8 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     options = AdvancedEditorOptions
   }
 
-  const handleImageUploadBefore = (
-    files: any,
-    info: any,
-    editorInstance: any
-  ) => {
+  const handleImageUploadBefore = (files: any, info: any) => {
+    const editorInstance = editorRef.current
     // Only allow image upload for level 3
     if (level === 3) {
       const file = files[0]
@@ -63,11 +67,10 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
             // console.log(e, 'e')
           },
           onSuccess: ([uploadFile]) => {
-            console.log(uploadFile, 'kokokok')
-            const loadingImageUrl = uploadFile.url
-            const imageElement = editorInstance.util.createElement('IMG')
-            imageElement.src = loadingImageUrl
-            editorInstance.insertNode(imageElement)
+            console.log(editorInstance, uploadFile, 'kokokok')
+            const imageHtml = `<img src="${uploadFile.url}" alt="Image" />`
+            // @ts-ignore
+            editorInstance.insertHTML(imageHtml)
           }
         })
 
@@ -92,6 +95,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     <Fragment>
       <Spin spinning={loading}>
         <SunEditor
+          getSunEditorInstance={getSunEditorInstance}
           onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}

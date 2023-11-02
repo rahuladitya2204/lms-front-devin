@@ -18,16 +18,17 @@ interface CreateEmailTemplateComponentPropsI {
 const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> = (props) => {
   const { id } = useParams();
   const templateId = props.id || id;
-  const { data: template } = User.Queries.useGetEmailTemplateDetails(templateId);
+  const { data: template,isLoading: loadingTemplate } = User.Queries.useGetEmailTemplateDetails(templateId);
   const { useWatch } = Form;
   const form = Form.useFormInstance<Types.EmailTemplate>();
 
   const subject = useWatch(['subject'], form);
   const content = useWatch(['content'], form);
-  const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user');
+  const { data: { EmailTemplatesMap },isLoading: loadingTemplates } = Common.Queries.useGetAppConfig('user');
   const MailType = EmailTemplatesMap[template.emailType] ? EmailTemplatesMap[template.emailType] : {};
   const variables = MailType.variables;
   
+  const isLoading=loadingTemplates || loadingTemplate
 
   return (
     <Row gutter={[20,20]}>
@@ -48,7 +49,7 @@ const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> =
 
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-        <TextArea html
+        <TextArea html={{level:3}}
               variables={variables}
               name={['content']}
             />

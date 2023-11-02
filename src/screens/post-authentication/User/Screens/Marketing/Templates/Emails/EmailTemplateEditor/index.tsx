@@ -16,7 +16,7 @@ function EmailTemplateEditor() {
     isLoading: loading
   } = User.Queries.useUpdateEmailTemplate()
 
-  const { data: template } = User.Queries.useGetEmailTemplateDetails(
+  const { data: template,isLoading: loadingTemplate } = User.Queries.useGetEmailTemplateDetails(
     emailTemplateId + '',
     {
       enabled: !!emailTemplateId
@@ -67,7 +67,7 @@ function EmailTemplateEditor() {
       ]}
     >
       <Form initialValues={template} form={form} onFinish={saveEmailTemplate} layout="vertical" autoComplete="off">
-        <Card extra={<Button danger>Send test Mail</Button>}>
+        <Card loading={loadingTemplate} extra={<Button danger>Send test Mail</Button>}>
           <EmailTemplateDetailsEditor id={template._id} />
         </Card>
       </Form>
