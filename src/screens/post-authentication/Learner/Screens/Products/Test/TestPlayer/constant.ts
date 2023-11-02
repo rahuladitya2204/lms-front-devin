@@ -1,69 +1,67 @@
 export const TEST_RULES = [
   {
     ruleId: 1,
-    rule:
-      'Ensure you have a reliable internet connection throughout the duration of the exam.'
+    rule: 'Ensure a stable internet connection to avoid any interruptions.'
   },
   {
     ruleId: 2,
-    rule: 'Ensure your device is fully charged or connected to a power source.'
+    rule:
+      'Verify that your device is charged or plugged into a power source to prevent power issues.'
   },
   {
     ruleId: 3,
     rule:
-      "Find a quiet and comfortable space to take the exam where you won't be disturbed."
+      'Secure a quiet environment where you can concentrate without disturbances.'
   },
   {
     ruleId: 4,
-    rule: 'Do not open any other browsers or tabs during the exam.'
+    rule:
+      'Refrain from using any other electronic devices or opening unrelated websites and applications.'
   },
   {
     ruleId: 5,
     rule:
-      'Do not use any unauthorized resources, such as books, notes, or websites, unless explicitly allowed.'
+      'Avoid the use of unauthorized materials or information sources during the activity.'
   },
   {
     ruleId: 6,
     rule:
-      'Do not collaborate with or seek help from other individuals during the exam.'
+      'Do not communicate with others or receive assistance in any form that has not been expressly permitted.'
   },
   {
     ruleId: 7,
     rule:
-      'Ensure you understand the format of the exam and the types of questions you will be asked.'
+      'Familiarize yourself with the structure and expectations of the activity beforehand.'
+  },
+  {
+    ruleId: 8,
+    rule:
+      'Commit to staying on the designated platform until the activity is fully concluded.'
   },
   {
     ruleId: 9,
     rule:
-      'Do not exit the exam page or browser until you have completed and submitted your exam.'
-  },
-  {
-    ruleId: 10,
-    rule:
-      'Pay attention to the time limit for the exam and manage your time effectively.'
+      'Be conscious of any time limitations and manage your activity period wisely.'
   }
 ]
-
 export const TERMS = [
   {
     termId: 'rule-1',
-    term:
-      'I confirm that I am the registered student and will be the one taking this online exam.',
-    pledge:
-      'I pledge to uphold the highest standards of academic integrity during this online exam.'
+    term: 'I verify that I am the individual assigned to undertake this task.',
+    pledge: 'I pledge to uphold integrity and authenticity in my participation.'
   },
   {
     termId: 'rule-2',
     term:
-      'I acknowledge that any attempt to cheat or plagiarize will result in disciplinary action.',
+      'I acknowledge that any breach of the rules may lead to appropriate consequences.',
     pledge:
-      'I pledge that all responses provided in this online exam are entirely my own work.'
+      'I pledge to present work that is solely my own and free from any form of dishonesty.'
   },
   {
     termId: 'rule-3',
     term:
-      'I understand that this online exam is timed and that I must complete the exam within the designated time period.',
+      'I am aware of the time allocated for this task and the necessity to adhere to it.',
     pledge:
-      'I pledge to manage my time effectively and not to use any external aid or resource, unless explicitly allowed.'
+      'I pledge to manage the allotted time efficiently and to complete the task within the given duration.'
   }
 ]

@@ -56,7 +56,7 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
         }
       )
     }
-  };
+  }
 
   useEffect(
     () => {
@@ -70,6 +70,8 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
       rules: d
     })
   }
+
+  const isLive = test.isLive
 
   return (
     <Form form={form} onFinish={onSubmit}>
@@ -101,7 +103,47 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
         </Col>
       </Row>
 
-      <Typography.Text>Verify ID of the student giving exam.</Typography.Text>
+      <Divider>Test Results</Divider>
+     {!isLive?<> <Row justify={'space-between'} align="middle">
+        <Col>Show Result Immediately</Col>
+        <Col>
+          <Form.Item
+            valuePropName="checked"
+            name={['results', 'showImmediate']}
+            help
+          >
+            <SwitchButton style={{ marginTop: 20 }} />
+          </Form.Item>
+        </Col>
+      </Row></> : <>
+      <Row justify={'space-between'} align="middle">
+        <Col>Show Result Leaderboard</Col>
+        <Col>
+          <Form.Item
+            valuePropName="checked"
+            name={['results', 'showLeaderboard']}
+            help
+          >
+            <SwitchButton style={{ marginTop: 20 }} />
+          </Form.Item>
+        </Col>
+        </Row>
+      </>}
+
+      <Row justify={'space-between'} align="middle">
+        <Col>Show Correct Answer Rate(Percent)</Col>
+        <Col>
+          <Form.Item
+            valuePropName="checked"
+            name={['results', 'showCorrectAnswerPercent']}
+            help
+          >
+            <SwitchButton style={{ marginTop: 20 }} />
+          </Form.Item>
+        </Col>
+      </Row>
+
+      {/* <Typography.Text>Verify ID of the student giving exam.</Typography.Text> */}
       <Divider />
       {/* <Row justify={'space-between'} align="middle">
         <Col>Enforce complete video viewing</Col>

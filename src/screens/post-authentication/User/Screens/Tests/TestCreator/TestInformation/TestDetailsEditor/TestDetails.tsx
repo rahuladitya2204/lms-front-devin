@@ -172,7 +172,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             rules={[{ required: true, message: 'Please select duration!' }]}
           >
             <Input
-              disabled={isPublished}
+              // disabled={isPublished}
               type="number"
               placeholder="Enter duration in mins"
             />

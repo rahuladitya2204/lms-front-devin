@@ -17,9 +17,9 @@ const TestStatus = () => {
   const navigate = useNavigate()
   const { testId } = useParams()
   const {
-    mutate: calculateResult,
+    mutate: evaluateLiveTestResult,
     isLoading: generatingResult
-  } = User.Queries.useCalculateTestResult()
+  } = User.Queries.useEvaluateLiveTestResult()
   const { data: test } = User.Queries.useGetTestDetails(testId + '')
   const result = test.result
   // console.log(result, 'result')
@@ -35,7 +35,7 @@ const TestStatus = () => {
       extra={[
         <Button
           onClick={() => {
-            calculateResult(testId + '')
+            evaluateLiveTestResult(testId + '')
           }}
           loading={generatingResult}
           type="primary"
@@ -118,7 +118,7 @@ const TestStatus = () => {
             </Card>
           </Col>
         ) : null}
-        <Col span={24}>
+        {/* <Col span={24}>
           <Alert
             message="Exam results arent published yet"
             type="success"
@@ -131,7 +131,7 @@ const TestStatus = () => {
             ]}
             closable
           />
-        </Col>
+        </Col> */}
         <Col span={24}>
           <Card>
             <Tabs

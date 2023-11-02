@@ -69,7 +69,7 @@ export default function TestRules(props: TestRulesPropsI) {
         <Col span={16}>
           <Row>
             <Col span={24}>
-              <Title style={{ textAlign: 'center' }}>Coding Assesment</Title>
+              <Title style={{ textAlign: 'center' }}>Online Assesment</Title>
               <List
                 itemLayout="horizontal"
                 dataSource={TEST_RULES}
@@ -97,26 +97,6 @@ export default function TestRules(props: TestRulesPropsI) {
                 style={{ display: 'flex', flexDirection: 'row-reverse' }}
               >
                 <Col flex={'reverse'}>
-                  {/* <Button>Back</Button> */}
-                  {/* <Button
-                    onClick={() => {
-                      startTest(
-                        {
-                          testId: test._id + ''
-                        },
-                        {
-                          onSuccess: () => {
-                            navigate('../player')
-                          }
-                        }
-                      )
-                    }}
-                    disabled={!isValid}
-                    style={{ marginLeft: 10 }}
-                    type="primary"
-                  >
-                    Submit
-                  </Button> */}
                   {!isVerificationOn ? (
                     <Button
                       disabled={!isValid}

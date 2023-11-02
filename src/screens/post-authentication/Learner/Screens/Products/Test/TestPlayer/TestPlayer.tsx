@@ -90,7 +90,14 @@ export default function TestPlayer(props: TestPlayerPropsI) {
                   { testId: test._id + '' },
                   {
                     onSuccess: () => {
-                      navigate('../completed')
+                      if (test.isLive) {
+                        navigate('../completed')  
+                      }
+                      else {
+                        if (test.rules.results.showImmediate) {
+                          navigate('../result-table')  
+                        }
+                      }
                     }
                   }
                 )
