@@ -21,7 +21,7 @@ export default function TicketDetail() {
     const { data: ticket ,isLoading: loadingTicket} = Learner.Queries.useGetTicketDetails(id + '');
   const createdBy = ((ticket.createdBy as unknown as Types.Learner) || {});
   const name = (createdBy?.name+'').split(' ').map(n => n[0].toUpperCase()).join('');
-    const { mutate: replyToTicket } = Learner.Queries.useReplyToTicket();
+    const { mutate: replyToTicket,isLoading: postingReply } = Learner.Queries.useReplyToTicket();
     
     const postReply = ({ message }:Partial<Types.TicketReply>) => {
         console.log(message,'message')
@@ -74,9 +74,9 @@ export default function TicketDetail() {
       </Card>:    <Card style={{ marginTop:20}}>
               <Form form={form} layout='vertical' onFinish={postReply}>
               <Form.Item name='message' label='Reply'>
-              <TextArea rows={4} placeholder='Post a reply' />
+              <TextArea html={{level:1}} height={100} rows={4} placeholder='Post a reply' />
                   </Form.Item>
-                  <Button         key="submit"
+                  <Button  loading={postingReply}       key="submit"
  type='primary' onClick={form.submit}> Reply</Button>
               </Form>
               

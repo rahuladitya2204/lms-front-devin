@@ -5,6 +5,7 @@ import { Learner, Types } from '@adewaskar/lms-common'
 import FileList from '@Components/FileList'
 import { StatusMap } from '@Learner/Screens/Tickets/Constants'
 import dayjs from 'dayjs'
+import HtmlViewer from '@Components/HtmlViewer'
 
 const { Text, Title } = Typography
 
@@ -39,7 +40,7 @@ export default function TicketItem({ ticket,hideAttachments }: TicketItemPropsI)
           {ticket.subject}
         </Title>
 
-        <Text>{ticket.description}</Text>
+        <HtmlViewer>{ticket.description}</HtmlViewer>
         {(!hideAttachments && ticket.files.length)?<><Divider style={{ width: '100%' }} />
         <Space direction="vertical">
           <Title style={{ marginTop: 0 }} level={4}>

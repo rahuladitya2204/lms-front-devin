@@ -11,6 +11,7 @@ import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import useOauth from './useOauth'
+import ResetPassword from './RequestResetPassword'
 
 function LearnerLogin () {
 
@@ -262,7 +263,13 @@ const EmailForm = () => {
       >
         Submit
       </Button>
-    </Form.Item>
+      </Form.Item>
+      <Form.Item>
+        <ActionModal width={300} cta={<Button 
+        block>Forgot Password</Button>}>
+          <ResetPassword/>
+        </ActionModal>
+      </Form.Item>
     <Form.Item style={{ textAlign: 'center' }}>
       <Typography.Text>
         Don't have an account?{' '}

@@ -86,6 +86,7 @@ import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/
 import EventsScreen from '@User/Screens/Event/EventScreen/Events'
 import { Store } from '@adewaskar/lms-common'
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
+import ResetPassword from '@Learner/Screens/Login/ResetPassword'
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -95,7 +96,8 @@ const router = (userType: string) => {
           <>
            <Route path="app" element={<LearnerRootScreen />}>
               <Route path="cart" element={<LearnerCart />} />
-              <Route path="store" element={<LearnerStoreScreen />} />
+              <Route path="reset-password" element={<ResetPassword />} />
+  <Route path="store" element={<LearnerStoreScreen />} />
               <Route path="account" element={<LearnerAccount />} />
               <Route path="tickets" element={<LearnersTicketsScreen />} />
               <Route path="tickets/:id" element={<LearnerTicketDetail />} />
@@ -108,7 +110,7 @@ const router = (userType: string) => {
                 <Route path=":testId" element={<LearnerTestDetailScreen />} />
                 <Route path=":testId/result" element={<LearnerTestResult />} />
                 {/* <Route path=":testId/result-table" element={<TestResultTable />} /> */}
-  </Route>
+  </Route>\
               <Route path="event">
                 <Route path="" element={<LearnerEventsScreen />} />
                 <Route path=":sessionId" element={<EventDetailScreen />} />

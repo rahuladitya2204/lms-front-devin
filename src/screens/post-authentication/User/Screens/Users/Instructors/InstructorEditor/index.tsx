@@ -31,7 +31,7 @@ function InstructorEditor() {
     [instructor]
   )
 
-  const saveInstructor = (data: Types.Instructor) => {
+  const saveInstructor = (data: Partial<Types.Instructor>) => {
     updateInstructor(
       {
         id: instructorId + '',
@@ -78,7 +78,10 @@ function InstructorEditor() {
                 label: `Profile Details`,
                 key: '1',
                 children: (
-                  <InstructorDetailsEditor instructorId={instructor._id} />
+                  <InstructorDetailsEditor
+                    saveInstructor={saveInstructor}
+                    instructorId={instructor._id}
+                  />
                 )
               },
               {

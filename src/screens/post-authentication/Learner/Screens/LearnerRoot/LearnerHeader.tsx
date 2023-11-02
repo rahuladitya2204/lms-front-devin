@@ -38,7 +38,9 @@ const LearnerHeader: React.FC = () => {
   const navigate = useNavigate()
   const logout = () => {
     logoutLearner(undefined, {
-      onSuccess: () => {}
+      onSuccess: () => {
+        navigate('../store')
+      }
     })
   }
 

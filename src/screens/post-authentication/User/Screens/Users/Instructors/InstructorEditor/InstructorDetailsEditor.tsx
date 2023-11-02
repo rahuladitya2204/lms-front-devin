@@ -8,6 +8,7 @@ import { Types } from '@adewaskar/lms-common'
 
 interface CreateInstructorComponentPropsI {
   instructorId: string;
+  saveInstructor: (d:Partial<Types.Instructor>) => void;
 }
 
 const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (props) => {
@@ -23,8 +24,10 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
             cropper
             width='100px'
             renderItem={() => <Image src={image+''} />}
-            onUpload={e => {
-
+            onUpload={file=> {
+              props.saveInstructor({
+                image: file.url
+              })
   }} />
 
 </Form.Item>

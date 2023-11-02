@@ -7,6 +7,7 @@ import TicketItem from '../TicketsScreen/TicketItem';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router';
 import TextArea from '@Components/Textarea';
+import HtmlViewer from '@Components/HtmlViewer';
 
 const { useToken } = theme
 
@@ -25,7 +26,7 @@ export default function TicketDetail() {
   const name = createdBy?(createdBy?.name[0]):''
     const [form] = Form.useForm()
 
-    const { mutate: replyToTicket } = User.Queries.useReplyToTicket();
+    const { mutate: replyToTicket,isLoading: postingReply } = User.Queries.useReplyToTicket();
     
     const postReply = ({ message }:Partial<Types.TicketReply>) => {
         replyToTicket({
@@ -74,9 +75,9 @@ export default function TicketDetail() {
       <TicketItem ticket={ticket} />  <Card style={{ marginTop:20}}>
               <Form form={form} layout='vertical' onFinish={postReply}>
               <Form.Item name='message' label='Reply'>
-              <TextArea placeholder='Post a reply' />
+              <TextArea html={{level: 1}} height={100} placeholder='Post a reply' />
                   </Form.Item>
-                  <Button         key="submit"
+                  <Button    loading={postingReply}     key="submit"
  type='primary' onClick={form.submit}> Reply</Button>
               </Form>
               
@@ -102,7 +103,7 @@ export default function TicketDetail() {
 
                 }
                 content={
-                  <div dangerouslySetInnerHTML={{ __html: item.message }} />
+                  <HtmlViewer content={ item.message} />
                 }
                 datetime={
                   <Tooltip title="2016-11-22 11:22:33">
