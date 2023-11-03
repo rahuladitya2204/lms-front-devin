@@ -61,7 +61,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         </Col>
         <Col span={24}>
           <Row gutter={[0,20]}>
-            {currentQuestion.answers.map((answer: string, index: number) => {
+            {currentQuestion.options.map((answer: string, index: number) => {
               return (
                 <Col span={24}>
                   <OptionSelectedFormControl

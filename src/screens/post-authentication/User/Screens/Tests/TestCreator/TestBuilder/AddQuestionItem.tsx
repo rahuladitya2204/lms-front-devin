@@ -14,8 +14,8 @@ import {
   Select,
   Typography,
 } from 'antd'
-import { Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
+import { Enum, Types, User } from '@adewaskar/lms-common'
 import { useOutletContext, useParams } from 'react-router';
 
 import ActionModal from '@Components/ActionModal';
@@ -24,7 +24,7 @@ import InputTags from '@Components/InputTags/InputTags';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
-import {  uniqueId } from 'lodash';
+import { uniqueId } from 'lodash';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
 const { Title } = Typography;
@@ -176,7 +176,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Card style={{ marginBottom: 20 }} title="Answers">
-            <Form.List name="answers">
+            <Form.List name="options">
         {(fields, { add, remove }) => (
           <>
             {fields.map((field, index) => (

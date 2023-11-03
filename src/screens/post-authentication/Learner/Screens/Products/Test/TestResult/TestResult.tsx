@@ -16,9 +16,9 @@ import HtmlViewer from '@Components/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
 import Tabs from '@Components/Tabs'
 import TestMetrics from './TestMetrics'
+import TestResultTable from './TestResultTable'
 import { capitalize } from 'lodash'
 import { useParams } from 'react-router'
-import TestResultTable from './TestResultTable'
 
 const { Title, Text } = Typography
 
@@ -92,9 +92,9 @@ const LearnerTestResult = function() {
                                     borderRadius: 5
                                   }}
                                   bordered
-                                  dataSource={item.answers}
+                                  dataSource={item.options}
                                   renderItem={(answer, answerIndex) => {
-                                    const answeredByLearner = item.answers.includes(
+                                    const answeredByLearner = item.options.includes(
                                       answerIndex
                                     )
                                     const isCorrectOption = item.correctOptions.includes(

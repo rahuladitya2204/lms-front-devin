@@ -11,10 +11,10 @@ import BackButton from '@Components/BackButton'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
+import SetTestRules from './SetTestRules'
 import TestSectionsNavigator from './TestSectionsNavigator'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
-import SetTestRules from './SetTestRules'
 
 const { confirm } = Modal
 
@@ -59,7 +59,7 @@ function TestBuilderScreen() {
             ...Constants.INITIAL_LIVE_TEST_QUESTION,
             title: 'New Question',
             correctOptions: [],
-            answers: [null,null,null,null],
+            options: [null,null,null,null],
             solution: {
               html:''
             },

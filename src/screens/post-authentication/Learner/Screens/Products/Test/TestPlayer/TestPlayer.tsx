@@ -19,10 +19,10 @@ import { useEffect, useMemo } from 'react'
 
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
+import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import dayjs from 'dayjs'
 import { i } from 'mathjs'
-import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 
 const { confirm } = Modal
 
@@ -90,14 +90,11 @@ export default function TestPlayer(props: TestPlayerPropsI) {
                   { testId: test._id + '' },
                   {
                     onSuccess: () => {
-                      if (test.isLive) {
-                        navigate('../completed')  
+                      if (!test.isLive) {
+                       return navigate('../result-table')  
                       }
-                      else {
-                        if (test.rules.results.showImmediate) {
-                          navigate('../result-table')  
-                        }
-                      }
+                      navigate('../completed')  
+
                     }
                   }
                 )

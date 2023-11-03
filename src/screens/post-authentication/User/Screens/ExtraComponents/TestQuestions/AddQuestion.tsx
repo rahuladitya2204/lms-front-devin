@@ -109,7 +109,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Card style={{ marginBottom: 20 }} title="Answers">
-            <Form.List name="answers">
+            <Form.List name="options">
         {(fields, { add, remove }) => (
           <>
             {fields.map((field, index) => (

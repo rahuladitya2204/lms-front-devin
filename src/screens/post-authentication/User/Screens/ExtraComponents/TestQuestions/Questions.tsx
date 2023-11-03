@@ -33,7 +33,7 @@ export default function Questions<T>({
               ) : (
                 <Tag color="volcano">Multiple Choice</Tag>
               )}
-              <Tag color="blue">{item.answers.length} Options</Tag>
+              <Tag color="blue">{item.options.length} Options</Tag>
               <Tooltip title="Delete Question">
                 <DeleteOutlined
                   onClick={() => {

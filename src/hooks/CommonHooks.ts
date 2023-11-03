@@ -8,7 +8,6 @@ import {
 import { useEffect, useState } from 'react'
 
 import { getToken } from '@Network/index'
-import { razorpay } from 'config'
 import useRazorpay from "react-razorpay";
 
 export const useNavigateParams = () => {
@@ -79,7 +78,8 @@ export const useAppInit = (type: string) => {
 
 
 export const usePaymentCheckout = () => {
-  const organisation = Store.useGlobal(s => s.organisation);
+// @ts-ignore 
+const organisation: Types.LearnerOrganisation = Store.useGlobal(s => s.organisation);
   const Razorpay = useRazorpay();
 // @ts-ignore 
   const openCheckout = ({pgOrder,order},cb) => {
@@ -89,7 +89,7 @@ export const usePaymentCheckout = () => {
       currency: pgOrder.currency,
       name:organisation.name,
       // description: "Test Transaction",
-      key: razorpay.id,
+      key: organisation.paymentGateway.key,
       image: organisation.logo,
       amount: pgOrder.amount,
       handler:cb

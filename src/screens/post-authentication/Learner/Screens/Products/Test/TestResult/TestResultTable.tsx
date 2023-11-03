@@ -1,10 +1,12 @@
+import { Card, Space, Table, Tag, Tooltip, Typography } from 'antd';
+import { Learner, Types } from '@adewaskar/lms-common';
+
+import { GlobalOutlined } from '@ant-design/icons';
+import Header from '@Components/Header';
+import HtmlViewer from '@Components/HtmlViewer';
 // TestResult.tsx
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { Learner } from '@adewaskar/lms-common';
-import { Card, Table, Tag, Typography } from 'antd';
-import Header from '@Components/Header';
-import HtmlViewer from '@Components/HtmlViewer';
 
 const { Text,Title } = Typography;
 
@@ -13,13 +15,15 @@ interface TestResultItem {
   title: string;
   isCorrect: boolean;
   timeSpent: number;
+  globalCorrectPercentage: number;
 }
 
 const TestResultTable: React.FC = () => {
   const { testId } = useParams<{ testId: string }>();
   const { data: {test:testResult}, isLoading } = Learner.Queries.useGetTestResult(testId || '');
 
-  const processedData: TestResultItem[] | undefined = testResult?.sections?.map((section, sectionIndex) => {
+  // @ts-ignore
+  const processedData: TestResultItem[] = testResult?.sections?.map((section, sectionIndex) => {
     return section.items.map((item, itemIndex) => {
       return {
           questionIndex: itemIndex + 1,
@@ -31,7 +35,8 @@ const TestResultTable: React.FC = () => {
                    // @ts-ignore
                    solutionHtml: item?.solution?.html,
               // @ts-ignore
-              timeSpent: item.timeSpent,
+        timeSpent: item.timeSpent,
+        globalCorrectPercentage: item.globalCorrectPercentage
       };
     });
   }).flat();
@@ -56,15 +61,20 @@ title="Title"
 dataIndex="title"
 key="title"
 render={title => (
-  <span>{title.length > 20 ? `${title.substring(0, 20)}...` : <HtmlViewer content={title}></HtmlViewer> }</span>
+  <span>{title.length > 20 ? <HtmlViewer content={`${title.substring(0, 20)}...`}></HtmlViewer> : <HtmlViewer content={title}></HtmlViewer> }</span>
 )}
 />
 <Table.Column
 title="Result"
 dataIndex="isCorrect"
 key="isCorrect"
-render={isCorrect => (
-<Tag color={isCorrect ? 'green' : 'red'}>{isCorrect ? 'Correct' : 'Incorrect'}</Tag>
+render={(_,record:TestResultItem) => (
+  <Space>
+  <Tag color={record.isCorrect ? 'green' : 'red'}>{record.isCorrect ? 'Correct' : 'Incorrect'}</Tag>
+  <Tooltip placement="right" title={`${Math.ceil(record.globalCorrectPercentage)}%`}>
+  <GlobalOutlined/>
+        </Tooltip>
+</Space>
 )}
 />
 <Table.Column

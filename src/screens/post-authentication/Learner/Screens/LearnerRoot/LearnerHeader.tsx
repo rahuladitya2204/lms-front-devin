@@ -14,12 +14,12 @@ import {
   Typography
 } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
-import { Outlet, useNavigate } from 'react-router'
 import {
   LogoutOutlined,
   ShoppingCartOutlined,
   UserOutlined
 } from '@ant-design/icons'
+import { Outlet, useNavigate } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
@@ -87,9 +87,9 @@ const LearnerHeader: React.FC = () => {
         <Link to={`store`} style={{ margin: '0 10px' }}>
           <Text strong>Store</Text>
         </Link>,
-        <Link to={`store`} style={{ margin: '0 10px' }}>
-          <Text strong>Blogs</Text>
-        </Link>,
+        // <Link to={`store`} style={{ margin: '0 10px' }}>
+        //   <Text strong>Blogs</Text>
+        // </Link>,
         ...(isSignedIn
           ? [
               <Link to={`courses`} style={{ margin: '0 10px' }}>

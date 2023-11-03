@@ -23,7 +23,7 @@ const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
         bordered
         size="large"
         style={{ marginTop: 20 }}
-        dataSource={question.answers}
+        dataSource={question.options}
         renderItem={(item, index) => (
           <List.Item>
             {question.type === 'single' ? (

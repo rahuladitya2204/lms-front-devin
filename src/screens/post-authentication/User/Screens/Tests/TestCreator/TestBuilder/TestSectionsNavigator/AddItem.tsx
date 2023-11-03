@@ -12,7 +12,7 @@ const AddItem: React.FC<AddItemPropsI> = (props) => {
     const onSubmit = (d: Types.TestQuestion) => {
       props.onFinish && props.onFinish({
         ...d,
-        answers:['','','',''],
+        options:['','','',''],
       });
       form.resetFields();
         props.closeModal&&props.closeModal();
