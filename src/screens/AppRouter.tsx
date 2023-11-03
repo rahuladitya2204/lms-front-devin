@@ -116,8 +116,8 @@ const router = (userType: string) => {
             </Route>
             <Route path="app/test/:testId">
               <Route path="start" element={<TestRules />} />
-              <Route path="player" element={<TestPlayer />}>
-                <Route path=":questionId" element={<TestPlayeritem />} />
+              <Route path="player" element={<Suspense  fallback={<LoadingScreen />}><TestPlayer /></Suspense>}>
+                <Route path=":questionId" element={<Suspense  fallback={<LoadingScreen />}><TestPlayeritem /></Suspense>} />
               </Route>
               <Route path="completed" element={<TestCompleted />} />
               {/* <Route path="result-table" element={<TestResultTable />} /> */}
@@ -126,8 +126,8 @@ const router = (userType: string) => {
               path="oauth/:provider/redirect"
               element={<OauthRedirect />}
             />
-            <Route path="app/courses/:id/player" element={<CoursePlayer />}>
-              <Route path=":itemId" element={<CoursePlayerItem />} />
+            <Route path="app/courses/:id/player" element={<Suspense  fallback={<LoadingScreen />}><CoursePlayer /></Suspense>}>
+              <Route path=":itemId" element={<Suspense  fallback={<LoadingScreen />}><CoursePlayerItem /></Suspense>} />
             </Route>
 
             <Route
@@ -160,7 +160,7 @@ const router = (userType: string) => {
         <Route path="app/products/test/:id/editor" element={<TestEditor />} />
         <Route
           path="app/products/courses/:id/builder"
-          element={<CourseBuilderScreen />}
+          element={<Suspense  fallback={<LoadingScreen />}><CourseBuilderScreen /></Suspense>}
         >
           <Route path="">
             <Route path="pdf/:itemId" element={<UploadPDFForm />} />
