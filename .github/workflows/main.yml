@@ -28,3 +28,5 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_REGION: 'us-west-2'  # or your AWS region
         SOURCE_DIR: 'build'
+        REACT_APP_API_URL: 'http://api.nimblebee.io'
+        NODE_OPTIONS: --max_old_space_size=4096
