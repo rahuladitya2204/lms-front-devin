@@ -17,6 +17,9 @@ jobs:
       run: |
         npm install --legacy-peer-deps
         CI=false npm run build
+      env:
+        NODE_OPTIONS: --max-old-space-size=4096  # Correctly placed in the build step
+
 
     - name: Deploy to S3
       uses: jakejarvis/s3-sync-action@master
@@ -29,4 +32,3 @@ jobs:
         AWS_REGION: 'us-west-2'  # or your AWS region
         SOURCE_DIR: 'build'
         REACT_APP_API_URL: 'http://api.nimblebee.io'
-        NODE_OPTIONS: --max_old_space_size=4096
