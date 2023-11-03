@@ -32,3 +32,14 @@ jobs:
         AWS_REGION: 'us-west-2'  # or your AWS region
         SOURCE_DIR: 'build'
         REACT_APP_API_URL: 'https://api.nimblebee.io'
+
+    # Invalidate CloudFront Distribution Cache
+    - name: Invalidate CloudFront Distribution
+      run: |
+        aws cloudfront create-invalidation --distribution-id $DISTRIBUTION_ID --paths "/*"
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'us-west-2'
+        DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} # Your CloudFront distribution ID
+
