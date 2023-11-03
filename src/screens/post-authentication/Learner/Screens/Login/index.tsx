@@ -1,17 +1,18 @@
 import { Button, Checkbox, Divider, Form, Input } from 'antd'
-import {  GoogleOutlined } from '@ant-design/icons'
-import { Learner, Store, User } from '@adewaskar/lms-common'
+import { Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
+import { GoogleOutlined } from '@ant-design/icons'
 import LearnerRegister from '../Register'
+import ResetPassword from './RequestResetPassword'
+import SelectFormGroup from '@Components/SelectFormGroup'
 import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import useOauth from './useOauth'
-import ResetPassword from './RequestResetPassword'
 
 function LearnerLogin () {
 
@@ -53,14 +54,33 @@ const OtpForm = () => {
   const message = useMessage();
   const [otpSent, setOtpSent] = useState(false);
   const [contactNo, setContactNo] = useState('');
+  const [otpData, setOtpData] = useState({
+    contactNo: '',
+    countryCode: '91'
+  });
   const { mutate: sendOtpApi,isLoading: sendingOtp} = Learner.Queries.useSendLoginOtp();
   const { mutate: verifyOtpApi,isLoading: verifyingOtp} = Learner.Queries.useVerifyLoginOtp();
+  const fullContactNo = otpData.countryCode + otpData.contactNo;
+  console.log(otpData,'otpData')
   const sendOtp = async (d:{contactNo: string}) => {
     try {
-      sendOtpApi(d,
+      sendOtpApi({
+        contactNo:fullContactNo
+      },
         {
           onSuccess: user => {
-            setOtpSent(true)          }
+            message.open({
+              type: 'success',
+              content:`OTP has been sent to ${fullContactNo}`
+            })
+            setOtpSent(true)
+          },
+          onError: () => {
+            message.open({
+              type: 'error',
+              content:'Mobile Number not registered with us, Please Register by clicking on Signup'
+            })
+          }
         }
       )
     } catch (error) {
@@ -74,7 +94,7 @@ const OtpForm = () => {
       const values = await form.validateFields()
       verifyOtpApi({
         code: d.code,
-        contactNo
+        contactNo: fullContactNo
       },
         {
           onSuccess: user => {
@@ -127,7 +147,13 @@ const OtpForm = () => {
       Verify OTP
     </Button>
   </Form.Item>
-</Form>:   <Form onValuesChange={e=>setContactNo(e.contactNo)}
+    </Form> : <Form onValuesChange={e => {
+        console.log(e,'eeeee')
+        setOtpData({
+          ...otpData,
+          ...e.otp
+        })
+    }}
   form={form}
   initialValues={{
     remember: true
@@ -135,18 +161,20 @@ const OtpForm = () => {
   layout="vertical"
   onFinish={sendOtp}
 >
-  <Form.Item
-    label="Enter Mobile Number"
-    name="contactNo"
-    rules={[
-      {
-        required: true,
-        message: 'Please enter your mobile number!'
-      }
-    ]}
-  >
-    <Input />
-  </Form.Item>
+<SelectFormGroup
+          prefixValue='+91'
+          prefixName={[
+            'otp','countryCode'
+          ]}
+          name={['otp', 'contactNo']}
+          prefixValues={Constants.COUNTRY_CODES.map(c => {
+            return {
+              label: <span>{c.code} {c.flag}</span>,
+              value: c.dial_code
+            }
+          })}
+          label='Enter Mobile Number'
+        />
 
   <Form.Item>
     <Button
@@ -163,7 +191,7 @@ const OtpForm = () => {
       Don't have an account?{' '}
       <ActionModal
         width={300}
-        title="Login"
+        title="Sign up"
         cta={<Button type="link">Sign up?</Button>}
       >
         <LearnerRegister />

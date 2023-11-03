@@ -106,11 +106,12 @@ const OtpForm = () => {
     countryCode: '91'
   });
   const { mutate: sendOtpApi,isLoading: sendingOtp} = User.Queries.useSendLoginOtp();
-  const { mutate: verifyOtpApi,isLoading: verifyingOtp} = User.Queries.useVerifyLoginOtp();
+  const { mutate: verifyOtpApi, isLoading: verifyingOtp } = User.Queries.useVerifyLoginOtp();
+  const fullContactNo = otpData.countryCode + otpData.contactNo;
   const sendOtp = async () => {
     try {
       sendOtpApi({
-        contactNo:otpData.countryCode+otpData.contactNo
+        contactNo:fullContactNo
       },
         {
           onSuccess: user => {
@@ -140,7 +141,7 @@ const OtpForm = () => {
       const values = await form.validateFields()
       verifyOtpApi({
         code: d.code,
-        contactNo: otpData.countryCode+otpData.contactNo,
+        contactNo: fullContactNo,
         // countryCode: otp.countryCode
       },
         {
@@ -163,6 +164,7 @@ const OtpForm = () => {
       console.log('Otp Failed:', error)
     }
   }
+  console.log(otpData,'otp data')
   return <>
   {otpSent?   <Form
   form={form}
@@ -216,19 +218,6 @@ const OtpForm = () => {
   layout="vertical"
   onFinish={sendOtp}
       >
-        
-  {/* <Form.Item
-    label="Enter Mobile Number"
-    name="contactNo"
-    rules={[
-      {
-        required: true,
-        message: 'Please enter your mobile number!'
-      }
-    ]}
-  >
-    <Input />
-  </Form.Item> */}
         <SelectFormGroup
           prefixValue='+91'
           prefixName={[

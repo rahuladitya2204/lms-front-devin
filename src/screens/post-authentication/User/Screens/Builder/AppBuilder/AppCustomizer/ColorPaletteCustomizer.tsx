@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 
 import { Button } from 'antd';
+import { getPaletteFromImage } from './utils';
 import { prominent } from 'color.js';
 
 interface ColorPickerProps {
@@ -28,7 +29,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({ onPrimaryColorSelected, onCol
             // @ts-ignore
           onPrimaryColorSelected(primaryColor);
 
-          const palette = await prominent(imageUrl, { amount: 5 });
+          const palette = await getPaletteFromImage(imageUrl);
             // @ts-ignore
             onColorPaletteGenerated(palette);
         }

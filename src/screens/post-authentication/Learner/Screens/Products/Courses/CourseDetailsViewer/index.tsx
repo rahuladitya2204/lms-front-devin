@@ -18,17 +18,17 @@ import { Constants, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
+import ActionModal from '@Components/ActionModal';
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
+import LearnerLogin from '@Learner/Screens/Login';
+import { LoginLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api';
+import ProductCheckoutButton from '@Components/CheckoutButton';
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 import image from './bg.svg'
 import styled from '@emotion/styled'
-import ActionModal from '@Components/ActionModal';
-import { LoginLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api';
-import LearnerLogin from '@Learner/Screens/Login';
-import ProductCheckoutButton from '@Components/CheckoutButton';
 import useMessage from '@Hooks/useMessage';
 
 const { UnitTypeToStr } = Utils;
@@ -234,7 +234,7 @@ function CourseDetailViewer () {
                   
                   <Row gutter={[15, 15]}>
                   {isSignedIn?<><Col span={24}>
-                    {!isEnrolled?<Button loading={addingToCart} disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" type="primary" block>
+                    {!isEnrolled?<Button loading={addingToCart} disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" block>
                       {isAddedToCart?`Added to cart`:`Add To Cart`}
                     </Button>:null}
                   </Col>

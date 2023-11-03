@@ -11,7 +11,7 @@ interface AppCustomizerScreenPropsI {}
 
 const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
   const { organisation } = Store.useGlobal(s => s)
-  const { color } = useGetPalette()
+  const { colors } = useGetPalette()
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -19,10 +19,11 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
     },
     onSubmit: values => {}
   })
-  const colors = generate('#1890ff', {
-    theme: 'dark',
-    backgroundColor: '#141414'
-  })
+  // const colors = generate('#1890ff', {
+  //   theme: 'dark',
+  //   backgroundColor: '#141414'
+  // })
+  console.log(colors, 'dldldld')
   // useEff
   return (
     <Row>
@@ -48,7 +49,7 @@ const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
                 onColorPaletteGenerated={console.log}
               />
               <Form.Item name={'primaryColor'} label={'Primary Color'}>
-                {color.map(c => (
+                {colors.map(c => (
                   <Checkbox onChange={formik.handleChange}>
                     <Input
                       style={{ width: 60, height: 50, marginRight: 10 }}

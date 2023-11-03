@@ -12,13 +12,15 @@ function UserRegisterScreen() {
     initialValues: {
       email: '',
       password: '',
-      name: ''
+      name: '',
+      contactNo: ''
     },
     onSubmit: (values: Types.SignupData) => {
       Signup({
         email: values.email,
         password: values.password,
-        name: values.name
+        name: values.name,
+        contactNo: values.contactNo
       })
     }
   })

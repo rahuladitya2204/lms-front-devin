@@ -12,13 +12,15 @@ function SettingsScreen() {
     initialValues: {
       email: '',
       password: '',
-      name: ''
+      name: '',
+      contactNo: ''
     },
     onSubmit: (values: Types.SignupData) => {
       Signup({
         email: values.email,
         password: values.password,
-        name: values.name
+        name: values.name,
+        contactNo: values.contactNo
       })
     }
   })
@@ -33,6 +35,10 @@ function SettingsScreen() {
         onSubmitCapture={formik.handleSubmit}
       >
         <Form.Item label="Name" name="name">
+          <Input onChange={formik.handleChange} />
+        </Form.Item>
+
+        <Form.Item label="Contact No" name="contactNo">
           <Input onChange={formik.handleChange} />
         </Form.Item>
 

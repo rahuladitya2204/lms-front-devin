@@ -1,5 +1,5 @@
 import { Card, Space, Table, Tag, Tooltip, Typography } from 'antd';
-import { Learner, Types } from '@adewaskar/lms-common';
+import { Learner, Types, Utils } from '@adewaskar/lms-common';
 
 import { GlobalOutlined } from '@ant-design/icons';
 import Header from '@Components/Header';
@@ -81,7 +81,7 @@ render={(_,record:TestResultItem) => (
 title="Time Spent (s)"
 dataIndex="timeSpent"
 key="timeSpent"
-render={timeSpent => <span>{ Math.ceil(timeSpent/60)} mins</span>}
+render={timeSpent => <span>{Utils.formatTime(timeSpent)}</span>}
     />
          <Table.Column
 title="Score"

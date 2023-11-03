@@ -27,7 +27,7 @@ export default function LearnerCart() {
   const [form] = Form.useForm()
   const navigate = useNavigate();
   const { openCheckout} = usePaymentCheckout();
-  const { mutate: updateCart } = Learner.Queries.useUpdateCartItems()
+  const { mutate: updateCart,isLoading: updatingCart } = Learner.Queries.useUpdateCartItems()
   // @ts-ignore
   const { data: { items, promo,total,discount,totalBeforeDiscount } } = Learner.Queries.useGetCartDetails()
 
@@ -77,7 +77,7 @@ export default function LearnerCart() {
         </Col>
         <Col span={2} />
         <Col span={7}>
-<Row>
+<Row gutter={[10,20]}>
   <Col flex={1}>
   <Form form={form} onFinish={applyCode} layout='horizontal'>
               <Form.Item name="code">
@@ -85,11 +85,11 @@ export default function LearnerCart() {
               </Form.Item>
             </Form>
             </Col>
-            <Col style={{marginLeft:20}}>
+            <Col>
             <Button onClick={form.submit}>Apply Code</Button>
           </Col>
 </Row>
-                     <List header={<Text strong>Cart Totals</Text>} bordered>
+                     <List loading={updatingCart} header={<Text strong>Cart Totals</Text>} bordered>
            {totalBeforeDiscount? <List.Item style={{ display: 'block' }}>
               <Space
                 style={{ display: 'flex', justifyContent: 'space-between' }}

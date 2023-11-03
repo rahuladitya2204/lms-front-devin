@@ -55,7 +55,7 @@ const LearnerHeader: React.FC = () => {
       onOk() {
         logoutLearner(undefined, {
           onSuccess: () => {
-            // navigate('../app/store')
+            navigate('../app/store')
           }
         })
       },

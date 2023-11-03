@@ -1,11 +1,12 @@
-import React from 'react'
 import { Button, Checkbox, Form, Input, Typography } from 'antd'
-import { useParams } from 'react-router-dom'
-import AuthenticationCard from '@Components/AuthenticationCard'
 import { Learner, Types } from '@adewaskar/lms-common'
-import { Utils } from '@adewaskar/lms-common'
+
 import { ActionModalI } from '@Components/ActionModal'
+import AuthenticationCard from '@Components/AuthenticationCard'
+import React from 'react'
+import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
+import { useParams } from 'react-router-dom'
 
 interface LearnerRegisterPropsI extends ActionModalI {}
 
@@ -23,7 +24,8 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
         {
           email: values.email,
           password: values.password,
-          name: values.name
+          name: values.name,
+          contactNo: values.contactNo
         },
         {
           onSuccess: user => {
@@ -72,7 +74,22 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
         >
           <Input />
         </Form.Item>
+        {/* Added Contact Number Input */}
 
+        <Form.Item
+          name="contactNo"
+          label="Contact Number"
+          rules={[
+            { required: true, message: 'Please input your contact number!' },
+            {
+              min: 10,
+              message: 'Contact number should be at least 10 digits long!'
+            }
+          ]}
+          hasFeedback
+        >
+          <Input />
+        </Form.Item>
         <Form.Item
           name="email"
           label="Email"
@@ -81,7 +98,6 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
         >
           <Input />
         </Form.Item>
-
         <Form.Item
           name="password"
           label="Password"
@@ -90,11 +106,9 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
         >
           <Input.Password />
         </Form.Item>
-
         <Form.Item name="remember" valuePropName="checked">
           <Checkbox>Remember me</Checkbox>
         </Form.Item>
-
         <Form.Item>
           <Button loading={loading} block type="primary" htmlType="submit">
             Submit
