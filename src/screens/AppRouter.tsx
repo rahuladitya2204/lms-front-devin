@@ -1,3 +1,4 @@
+import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, TestPlayer, TestPlayeritem, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, UserRootScreen, WebpageViewer, WebsiteBuilderScreen } from './route-list'
 import {
   Route,
   RouterProvider,
@@ -13,12 +14,9 @@ import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
 import CertificateTemplateEditor from '@User/Screens/CertificateTemplates/CertificateTemplateEditor'
 import CourseAnalytics from '@User/Screens/Courses/CourseAnalytics/CourseAnalytics'
-import CourseBuilderScreen from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseBuilderScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Products/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseEditor'
 import CourseInformationEditor from '@User/Screens/Courses/CourseEditor/CourseInformation'
-import CoursePlayer from './post-authentication/Learner/Screens/CoursePlayer'
-import CoursePlayerItem from './post-authentication/Learner/Screens/CoursePlayer/CoursePlayerItem'
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreateEvent from '@User/Screens/Event/CreateEvent/CreateEvent'
@@ -29,17 +27,15 @@ import EmailTemplateEditor from '@User/Screens/Marketing/Templates/Emails/EmailT
 import EmailTemplatesScreen from '@User/Screens/CertificateTemplates/CertificateTemplatesScreen'
 import EnrolledCourseDetailScreen from '@Learner/Screens/EnrolledCourseDetail/EnrolledCourseDetailScreen'
 import EnrolledCourseSuccessful from '@Learner/Screens/LearnerShop/EnrolledCourse/EnrolledCourseSuccessful'
+import EventDetailScreen from '@Learner/Screens/Products/Event/EventDetail'
+import EventsScreen from '@User/Screens/Event/EventScreen/Events'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
 import InstructorsScreen from './post-authentication/User/Screens/Users/Instructors/InstructorsScreen'
 import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerCart from '@Learner/Screens/LearnerShop/LearnerCartScreen/LearnerCartScreen'
 import LearnerCourses from './post-authentication/Learner/Screens/Products/Courses'
-import LearnerDeviceSelection from '@User/Screens/Event/LiveSessionPlayer/Learner/LearnerDeviceSelection'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
-import LearnerLiveSessionPlayer from '@User/Screens/Event/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer'
-import LearnerLiveSessionPlayerEnter from '@User/Screens/Event/LiveSessionPlayer/Learner/index'
 import LearnerEventsScreen from '@Learner/Screens/Products/Event/Events/EventScreen'
-import LearnerRootScreen from './post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTestDetailScreen from '@Learner/Screens/Products/Test/TestDetail/TestDetail'
 import LearnerTestResult from '@Learner/Screens/Products/Test/TestResult/TestResult'
@@ -47,46 +43,35 @@ import LearnerTestScreen from '@Learner/Screens/Products/Test/TestScreen/TestsSc
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
-import EventDetailScreen from '@Learner/Screens/Products/Event/EventDetail'
-import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
+import LoadingScreen from '@Components/LoadingScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
-import ProductCategoryScreen from '@User/Screens/Courses/ProductCategory/ProductCategoryScreen'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
+import ResetPassword from '@Learner/Screens/Login/ResetPassword'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
+import { Suspense } from 'react'
 import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
-import TestPlayer from '@Learner/Screens/Products/Test/TestPlayer/TestPlayer'
-import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem'
+import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
 import UploadPDFForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
 import UserDashboard from '@User/Screens/UserDashboard/UserDashboard'
-import UserDeviceSelection from '@User/Screens/Event/LiveSessionPlayer/User/UserDeviceSelection'
-import UserLiveSessionPlayer from '@User/Screens/Event/LiveSessionPlayer/User/LiveSessionPlayer'
-import UserLiveSessionPlayerEnter from '@User/Screens/Event/LiveSessionPlayer/User/index'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserMeetingEnded from '@User/Screens/Event/LiveSessionPlayer/User/UserMeetingEnded'
 import UserRegister from './post-authentication/User/Screens/Register'
-import UserRootScreen from './post-authentication/User/Screens/UserRoot/UserRootScreen'
 import UserTestScreen from '@User/Screens/Tests/TestsList/TestsScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
-import WebpageViewer from '@User/Screens/Builder/Website/WebsiteBuilder/WebpageViewer'
-import WebsiteBuilderScreen from '@User/Screens/Builder/Website/WebsiteBuilder/WebsiteBuilder'
 import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
-import EventsScreen from '@User/Screens/Event/EventScreen/Events'
-import { Store } from '@adewaskar/lms-common'
-import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
-import ResetPassword from '@Learner/Screens/Login/ResetPassword'
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -94,7 +79,9 @@ const router = (userType: string) => {
       <Route path="/" element={<RootScreen />}>
         {userType === 'learner' ? (
           <>
-           <Route path="app" element={<LearnerRootScreen />}>
+            <Route path="app" element={<Suspense  fallback={<LoadingScreen />}>
+              <LearnerRootScreen />
+           </Suspense> }>
               <Route path="cart" element={<LearnerCart />} />
               <Route path="reset-password" element={<ResetPassword />} />
   <Route path="store" element={<LearnerStoreScreen />} />
@@ -196,7 +183,9 @@ const router = (userType: string) => {
           path="app/platform/website/builder/:pageId"
           element={<WebsiteBuilderScreen />}
         />
-        <Route path="app" element={<UserRootScreen />}>
+        <Route path="app" element={<Suspense  fallback={<LoadingScreen />}>
+              <UserRootScreen />
+           </Suspense> }>
           <Route path="dashboard" element={<UserDashboard />} />
           <Route path="settings" element={<SettingsScreen />} />
           <Route path="asset-library" element={<AssetLibraryScreen />} />

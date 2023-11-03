@@ -15,14 +15,14 @@ import {
 import { CaretRightOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
-import { useEffect, useMemo } from 'react'
+import { lazy, useEffect, useMemo } from 'react'
 
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
-import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import dayjs from 'dayjs'
-import { i } from 'mathjs'
+
+const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
 const { confirm } = Modal
 
