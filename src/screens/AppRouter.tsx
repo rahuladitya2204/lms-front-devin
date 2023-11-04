@@ -1,4 +1,4 @@
-import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, NotFoundScreen, TestPlayer, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, WebpageViewer, WebsiteBuilderScreen } from './route-list'
+import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, NotFoundScreen, TestPlayer, TestPlayeritem, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, WebpageViewer, WebsiteBuilderScreen } from './route-list'
 import {
   Route,
   RouterProvider,
@@ -59,7 +59,6 @@ import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
-import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem'
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
@@ -122,7 +121,7 @@ const router = (userType: string) => {
             <Route path="app/test/:testId">
               <Route path="start" element={<TestRules />} /> 
               <Route path="player" element={<Suspense  fallback={<LoadingScreen />}><TestPlayer /></Suspense>}>
-                <Route path=":questionId" element={<TestPlayeritem />} />
+                <Route path=":questionId" element={<Suspense  fallback={<LoadingScreen />}><TestPlayeritem /></Suspense>}/>
               </Route>
               <Route path="completed" element={<TestCompleted />} />
               {/* <Route path="result-table" element={<TestResultTable />} /> */}
@@ -132,7 +131,7 @@ const router = (userType: string) => {
               element={<OauthRedirect />}
             />
             <Route path="app/courses/:id/player" element={<Suspense fallback={<LoadingScreen />}><CoursePlayer /></Suspense>}>
-              <Route path=":itemId" element={<CoursePlayerItem/>} />
+              <Route path=":itemId" element={<Suspense fallback={<LoadingScreen />}><CoursePlayerItem/></Suspense>} />
             </Route>
 
             <Route

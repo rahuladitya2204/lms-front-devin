@@ -1,18 +1,51 @@
+import { ArrowLeftOutlined, GoogleOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Divider, Form, Input } from 'antd'
 import { Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
-import { GoogleOutlined } from '@ant-design/icons'
 import LearnerRegister from '../Register'
 import ResetPassword from './RequestResetPassword'
 import SelectFormGroup from '@Components/SelectFormGroup'
 import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 import useMessage from '@Hooks/useMessage'
-import useOauth from './useOauth'
+import useOauth from './useOauth';
+
+// Define breakpoints for responsive design
+const breakpoints = {
+  tablet: 768,
+  mobile: 500
+};
+
+// Define a media query function for convenience
+const mq = (breakpoint:number) => `@media (max-width: ${breakpoint}px)`;
+
+// Define a styled component for the AuthenticationCard
+const StyledAuthenticationCard = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 800px; // This can be whatever max width you want for larger screens
+  margin: 0 auto; // This centers the card horizontally
+
+  // Apply a media query for tablet devices
+  ${mq(breakpoints.tablet)} {
+    max-width: 500px;
+  }
+
+  // Apply a media query for mobile devices
+  ${mq(breakpoints.mobile)} {
+    width: 100%;
+    box-shadow: none; // Assuming you want to remove the shadow on mobile
+  }
+`;
+
 
 function LearnerLogin () {
 
@@ -23,7 +56,7 @@ function LearnerLogin () {
 
 
   return (
-    <AuthenticationCard>
+    <StyledAuthenticationCard>
       <Tabs
         items={[
           {
@@ -42,7 +75,7 @@ function LearnerLogin () {
           }
         ]}
       />
-    </AuthenticationCard>
+    </StyledAuthenticationCard>
   )
 }
 
@@ -123,7 +156,11 @@ const OtpForm = () => {
   }}
   layout="vertical"
   onFinish={verifyOtp}
->
+    >
+            <Button onClick={() => {
+        setOtpSent(false);
+      }} style={{marginBottom:10}} type='link' size='small' icon={<ArrowLeftOutlined/>}>Back</Button>
+
   <Form.Item
     label="Enter OTP"
     name="code"

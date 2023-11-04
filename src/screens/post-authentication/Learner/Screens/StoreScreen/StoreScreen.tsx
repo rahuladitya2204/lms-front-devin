@@ -10,6 +10,7 @@ import Section from '@Components/Section'
 import { Skeleton } from 'antd'
 import TestCard from './Cards/TestCard'
 import { Utils } from '@adewaskar/lms-common'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
@@ -24,13 +25,13 @@ function StoreScreen () {
     isLoading
   } = Learner.Queries.useGetRecommendedProducts()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
-
+  const { isTablet,isMobile} = useBreakpoint();
   return (
     <Row gutter={[30, 30]}>
       {/* <Col span={24}>
         <HomeCarousel />
       </Col> */}
-      <Col span={24}>
+      {!isMobile?<Col span={24}>
         <Row align={'middle'} gutter={[20,20]}>
           <Col span={12} flex={1}>
             <Title>
@@ -48,7 +49,7 @@ function StoreScreen () {
           <Image preview={false} src={BGImage} />
           </Col>
         </Row>
-      </Col>
+      </Col>:null}
       <Divider>
         <Title>Expore our products</Title>
       </Divider>
@@ -82,7 +83,15 @@ function StoreScreen () {
               <Row>
                 <Col span={24}>
                   <List
-                    grid={{ gutter: 10, column: 4, sm: 6, xs: 6 }}
+   grid={{
+    gutter: 16,
+    xs: 1,
+    sm: 2,
+    md: 3,
+    lg: 4,
+    xl: 4,
+    xxl: 4,
+                    }}
                     size="large"
                     dataSource={categorizedCourses}
                     renderItem={course => <CourseCard course={course} />}
@@ -102,8 +111,15 @@ function StoreScreen () {
             <Row>
               <Col span={24}>
                 <List
-                  grid={{ gutter: 20, column: 4, sm: 6, xs: 1, md: 8 }}
-                  size="large"
+   grid={{
+    gutter: 16,
+    xs: 1,
+    sm: 2,
+    md: 3,
+    lg: 4,
+    xl: 4,
+    xxl: 4,
+                    }}                  size="large"
                   dataSource={tests}
                   renderItem={test => <TestCard test={test} />}
                 />

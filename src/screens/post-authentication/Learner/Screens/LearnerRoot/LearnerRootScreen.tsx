@@ -9,6 +9,7 @@ import AppProvider from 'screens/AppProvider'
 import CreateTicket from '../Tickets/CreateTicket'
 import LearnerHeader from './LearnerHeader'
 import ThemeProvider from 'screens/ThemeProvider'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
@@ -49,28 +50,32 @@ const LearnerRootScreen: React.FC = () => {
   //   [isSignedIn]
   // )
 
+  const { isMobile } = useBreakpoint()
+
   return (
     <ThemeProvider type="learner">
       <AppProvider>
         {isSignedIn ? (
-          <ActionModal
-            width={600}
-            title={
-              <Title style={{ marginTop: 0 }} level={3}>
-                Raise a ticket
-              </Title>
-            }
-            cta={
-              <FloatButton
-                style={{ width: 60, height: 60 }}
-                shape="circle"
-                type="primary"
-                icon={<CustomerServiceOutlined size={5600} />}
-              />
-            }
-          >
-            <CreateTicket />
-          </ActionModal>
+          !isMobile ? (
+            <ActionModal
+              width={600}
+              title={
+                <Title style={{ marginTop: 0 }} level={3}>
+                  Raise a ticket
+                </Title>
+              }
+              cta={
+                <FloatButton
+                  style={{ width: 60, height: 60 }}
+                  shape="circle"
+                  type="primary"
+                  icon={<CustomerServiceOutlined size={5600} />}
+                />
+              }
+            >
+              <CreateTicket />
+            </ActionModal>
+          ) : null
         ) : null}
         <Layout>
           <Layout className="site-layout">

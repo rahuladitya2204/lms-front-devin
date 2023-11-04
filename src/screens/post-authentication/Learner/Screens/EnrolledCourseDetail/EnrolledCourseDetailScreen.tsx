@@ -4,7 +4,6 @@ import {
   Card,
   Col,
   Divider,
-  FloatButton,
   Layout,
   List,
   Progress,
@@ -15,7 +14,6 @@ import {
 } from 'antd'
 import {
   CalendarOutlined,
-  CheckCircleFilled,
   ClockCircleOutlined,
   EditOutlined,
   FileOutlined,
@@ -78,7 +76,7 @@ const EnrolledCourseDetailScreen: React.FC<
   const playItem = (sectionId: string, itemId: string) => {
     navigate(`../../courses/${courseId}/player/${itemId}`)
   }
-
+  
   return (
     <Row>
       <Col span={24}>
@@ -86,7 +84,7 @@ const EnrolledCourseDetailScreen: React.FC<
           <Col span={24}>
             <Card size="small" title={null}>
               <Row>
-                <Col span={18}>
+                <Col span={18} xs={0}>
                   <Title style={{ marginTop: 0 }}>{course.title}</Title>
                   <Row justify="space-between">
                     <Col>

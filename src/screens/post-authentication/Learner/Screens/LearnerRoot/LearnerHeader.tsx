@@ -5,6 +5,7 @@ import {
   Button,
   Col,
   Dropdown,
+  Grid,
   Layout,
   Menu,
   Modal,
@@ -16,6 +17,7 @@ import {
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 import {
   LogoutOutlined,
+  MenuFoldOutlined,
   ShoppingCartOutlined,
   UserOutlined
 } from '@ant-design/icons'
@@ -28,11 +30,19 @@ import { Link } from 'react-router-dom'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
+import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { confirm } = Modal
 
 const { Content } = Layout
 const { Text, Title } = Typography
+
+const menuItems = [
+  { title: 'Store', link: 'store' },
+  { title: 'Courses', link: 'courses' },
+  { title: 'Tests', link: 'test' },
+  { title: 'Events', link: 'event' }
+]
 
 const LearnerHeader: React.FC = () => {
   const {
@@ -45,7 +55,9 @@ const LearnerHeader: React.FC = () => {
   const { data: { items } } = Learner.Queries.useGetCartDetails({
     enabled: !!isSignedIn
   })
-
+  const screen = useBreakpoint()
+  // console.log(screen, 'scrrrr')
+  const isMobileOrTablet = screen.isMobile || screen.isTablet
   const navigate = useNavigate()
   const logout = () => {
     confirm({
@@ -72,9 +84,11 @@ const LearnerHeader: React.FC = () => {
             onClick={() => navigate('../app/store')}
             style={{ width: 60 }}
           />
-          <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
-            <SearchLearnerCourses />
-          </Space>
+          {!isMobileOrTablet ? (
+            <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
+              <SearchLearnerCourses />
+            </Space>
+          ) : null}
           {/* <Search
               placeholder="Search Courses"
               // onSearch={onSearch}
@@ -84,33 +98,50 @@ const LearnerHeader: React.FC = () => {
       }
       bgColor="#fff"
       extra={[
-        <Link to={`store`} style={{ margin: '0 10px' }}>
-          <Text strong>Store</Text>
-        </Link>,
         // <Link to={`store`} style={{ margin: '0 10px' }}>
         //   <Text strong>Blogs</Text>
         // </Link>,
-        ...(isSignedIn
+        ...(isMobileOrTablet
           ? [
-              <Link to={`courses`} style={{ margin: '0 10px' }}>
-                <Text strong>Courses</Text>
-              </Link>,
-              <Link to={`test`} style={{ margin: '0 10px' }}>
-                <Text strong>Tests</Text>
-              </Link>,
-              <Link to={`event`} style={{ margin: '0 10px' }}>
-                <Text strong>Events</Text>
-              </Link>
-            ]
-          : [
-              <ActionModal
-                width={300}
-                title="Login"
-                cta={<Button style={{ margin: '0 10px' }}>Login</Button>}
+              <Dropdown
+                trigger={['click']}
+                placement="bottomLeft"
+                overlay={
+                  <Menu>
+                    {menuItems.map(item => {
+                      return (
+                        <Menu.Item
+                          onClick={() => {
+                            navigate(item.link)
+                          }}
+                        >
+                          {item.title}
+                        </Menu.Item>
+                      )
+                    })}
+                  </Menu>
+                }
               >
-                <LoginScreen />
-              </ActionModal>
-            ]),
+                <Button shape="circle" icon={<MenuFoldOutlined />} />
+              </Dropdown>
+            ]
+          : isSignedIn
+            ? menuItems.map(item => {
+                return (
+                  <Link to={item.link} style={{ margin: '0 10px' }}>
+                    <Text strong>{item.title}</Text>
+                  </Link>
+                )
+              })
+            : [
+                <ActionModal
+                  width={300}
+                  title="Login"
+                  cta={<Button style={{ margin: '0 10px' }}>Login</Button>}
+                >
+                  <LoginScreen />
+                </ActionModal>
+              ]),
 
         isSignedIn ? (
           <Space>

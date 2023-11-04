@@ -100,7 +100,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
         />
         <Form.Item name="description" label="Description" 
         rules={[{ required: true, message: 'Please add some details about the issue' }]}>
-          <TextArea placeholder="Please enter email of the Ticket" />
+          <TextArea height={200} placeholder="Please enter email of the Ticket" />
         </Form.Item>
         {/* <Form.Item name="contactName" label="Contact Name" required>
           <Input placeholder="Your name" />

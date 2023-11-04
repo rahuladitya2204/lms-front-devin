@@ -12,42 +12,31 @@ import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
 import UserRegister from '../Register'
 import { Utils } from '@adewaskar/lms-common'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useNavigate } from 'react-router'
 import useOauth from './useOauth'
 
 function UserLogin () {
-  const navigate = useNavigate()
-
-  // const { fetchOrganisation } = Store.useGlobal(state => state);
-  // const isSignedIn=Store.useAuthentication(s=>s.isSignedIn)
-  // useEffect(() => {
-  //   if (isSignedIn) {
-      
-  //   }
-  //   fetchOrganisation('user')
-  // }, [])
-  const params = useParams()
-
-  const [form] = Form.useForm()
-  const { mutate: sendOtp} = User.Queries.useSendLoginOtp();
-  const { mutate: verifyOtp} = User.Queries.useVerifyLoginOtp();
-
-
+  const { isTablet,isMobile} = useBreakpoint();
   return ( <Row style={{ minHeight: '100vh' }}>
   <Col
     style={{
       backgroundColor: '#140342',
-      display: 'flex',
+      display: ((isTablet || isMobile)?'none':'flex'),
       justifyContent: 'center',
       alignItems: 'center'
     }}
-    span={14}
+      // span={14} 
+      lg={14} // Visible on large screens
+      md={{ span: 0 }}
+      sm={{ span: 0 }}
+      xs={{ span: 0 }}
   >
     <Image preview={false} width={'90%'} src={BgImage} />
   </Col>
   <Col
-    span={10}
+    span={24}
     flex={1}
     style={{
       backgroundColor: '#FEFBF4',
@@ -117,7 +106,7 @@ const OtpForm = () => {
             setOtpSent(true);
             message.open({
               type: 'success',
-              content: 'OTP has been sent'
+              content:`OTP has been sent to ${fullContactNo}`
             })
           },
           onError: () => {

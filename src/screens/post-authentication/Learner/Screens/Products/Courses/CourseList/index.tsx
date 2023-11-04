@@ -1,4 +1,4 @@
-import { Card, Col, Row, Skeleton } from 'antd'
+import { Card, Col, List, Row, Skeleton } from 'antd'
 import React, { Fragment } from 'react'
 
 import CourseCard from './CourseCard'
@@ -40,20 +40,29 @@ const LearnerCourseList: React.FC = () => {
   }
   return (
     <Fragment>
-      <Row gutter={[30, 30]}>
-        {enrolledCourses.map(
-          (enrolledProduct) => (
-            <Col span={6}>
-              <CourseCard
-                onClick={() => navigate(`../enrolled-courses/${enrolledProduct.product.id}`)}
-                courseId={enrolledProduct.product.id}
-                enrolledProduct={enrolledProduct}
-                progress={enrolledProduct.progress}
-              />
-            </Col>
-          )
+      <List
+        grid={{
+          gutter: 16,
+          xs: 1,
+          sm: 2,
+          md: 3,
+          lg: 4,
+          xl: 4,
+          xxl: 4
+        }}
+        size="large"
+        dataSource={enrolledCourses}
+        renderItem={enrolledProduct => (
+          <CourseCard
+            onClick={() =>
+              navigate(`../enrolled-courses/${enrolledProduct.product.id}`)
+            }
+            courseId={enrolledProduct.product.id}
+            enrolledProduct={enrolledProduct}
+            progress={enrolledProduct.progress}
+          />
         )}
-      </Row>
+      />
     </Fragment>
   )
 }
