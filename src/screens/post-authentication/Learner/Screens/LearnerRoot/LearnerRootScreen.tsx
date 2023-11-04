@@ -1,16 +1,15 @@
-import { CommentOutlined, CustomerServiceOutlined } from '@ant-design/icons'
-// @ts-nocheck
 import { FloatButton, Layout, Typography } from 'antd'
 import { Store, Utils } from '@adewaskar/lms-common'
-import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import CreateTicket from '../Tickets/CreateTicket'
+import { CustomerServiceOutlined } from '@ant-design/icons'
 import LearnerHeader from './LearnerHeader'
 import ThemeProvider from 'screens/ThemeProvider'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'
+import { useParams } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 
 const { Title } = Typography
@@ -77,10 +76,8 @@ const LearnerRootScreen: React.FC = () => {
             </ActionModal>
           ) : null
         ) : null}
-        <Layout>
-          <Layout className="site-layout">
-            <LearnerHeader />
-          </Layout>
+        <Layout className="site-layout">
+          <LearnerHeader />
         </Layout>
       </AppProvider>
     </ThemeProvider>

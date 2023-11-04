@@ -25,13 +25,6 @@ const CustomCollapse = styled(Collapse)`
   }
 `
 
-const PlayerSkeleton = () => {
-  return <>
-    <div style={{ border: '1px solid #d9d9d9',borderRadius:'10px',marginTop:20,padding:10 }}>
-      <Skeleton active avatar paragraph={{ rows: 3 }} />
-      </div></>
-}
-
 interface CoursePlayerNavigatorPropsI {
   courseId: string;
   searchText: string;
@@ -55,15 +48,7 @@ function CoursePlayerNavigator({
   const sections: Types.CourseSection[] = course?.sections || []
   const text = searchText.toLowerCase()
 
-  return loadingCourse ? (
-    <>
-        <Skeleton.Input block />
-  <PlayerSkeleton />
-      <PlayerSkeleton />
-      <PlayerSkeleton />
-      {/* <PlayerSkeleton/> */}
-    </>
-  ) : (
+  return (
     <Fragment>
       {sections
         .filter(s => {
@@ -97,7 +82,9 @@ function CoursePlayerNavigator({
                       percent={sectionProgress}
                       width={isMobile ? 25 : 35}
                     />
-                    <Title level={isMobile ? 5 : 4} style={{marginTop:0}}>{section.title}</Title>
+                    <Title level={isMobile ? 5 : 4} style={{ marginTop: 0 }}>
+                      {section.title}
+                    </Title>
                   </Space>
                 }
                 key={section._id}

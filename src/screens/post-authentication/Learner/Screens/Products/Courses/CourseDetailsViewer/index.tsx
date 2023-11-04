@@ -74,42 +74,18 @@ const CourseSubTitle = styled(Paragraph)`
 
 function CourseDetailViewer () {
   const { id: courseId } = useParams();
-  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
-  const { mutate: enroll } = Learner.Queries.useEnrollForCourse();
-  const { data: courses } = Learner.Queries.useGetEnrolledCourses()
-  const { mutate: updateCart,isLoading: addingToCart } = Learner.Queries.useUpdateCartItems()
-
-  const { data,isLoading: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
+  const { data: course,isLoading: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  const addItemToCart = (course:Types.Course) => {
-    updateCart({ data: { product: { type: 'course', id: course._id } }, action: 'add' });
-  }
-  console.log(courses,'ospssss')
-  const isEnrolled = !!(courses.find((e) => {
-    return e.product.id === courseId;
-  }));
-  useEffect(
-    () => {
-      setCourse(data)
-    },
-    [data]
-  )
-
-  const message = useMessage();
-  const isSignedIn= Store.useAuthentication(s => s.isSignedIn);
   const instructor = course.instructor as unknown as Types.Instructor;
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  const { data: {items} } = Learner.Queries.useGetCartDetails();
-  const navigate = useNavigate();
-  const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
   const category = course?.category as unknown as Types.ProductCategory;
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
         <Col span={24}>
           <Row gutter={[30,30]} style={{lineHeight: 0}} >
-            <Col span={16}>
+            <Col xs={24} sm={24} md={24} lg={16} >
               {loadingCourse ? <Row justify="space-between" align="top" gutter={[20, 20]}>
                 <Col span={24}>
                 <Skeleton  paragraph={{ rows: 1 }} />
@@ -128,7 +104,13 @@ function CourseDetailViewer () {
                 <Row justify="space-between" align="top" gutter={[20, 20]}>
           
           <Col span={24}>
-            <Row gutter={[30, 30]}>
+                    <Row gutter={[30, 30]}>
+                      <Col md={0}>
+                        <CourseCard plan={plan} courseId={courseId+''} />
+                        {/* Replace with card image */}
+                    {/* <CourseMetadata course={course} /> */}
+                    </Col>
+
               <Col span={24}>
                 <CourseTitle className="course-title" level={3}>
                   {course.title}
@@ -138,11 +120,12 @@ function CourseDetailViewer () {
                   {course.subtitle}
                 </CourseSubTitle>
               </Col>
+              <Col ></Col>
             </Row>
           </Col>
           <Col span={24}>
             <Row justify="space-between" align="middle">
-              <Col>
+              <Col xs={24} sm={18} md={16} lg={12}>
                 <Row justify="start" align="middle" gutter={[20,20]}>
                   <Col>
                     <Avatar
@@ -156,11 +139,11 @@ function CourseDetailViewer () {
                   </Col>
                 </Row>
               </Col>
-              <Col>
+              <Col xs={0} sm={0} md={0} lg={6}>
                 <MetaText strong>Categories</MetaText> <br />
                 <MetaText>{category?.title}</MetaText>
               </Col>
-              <Col>
+              <Col xs={24} sm={6} md={7} lg={6}>
                 <MetaText strong>Review</MetaText> <br />
                 <CustomRate
                   disabled
@@ -182,102 +165,10 @@ function CourseDetailViewer () {
             </Col>
           </Row>
         </Col>
-        <Col span={8}>
-          <Card
-            cover
-            bordered hoverable
-            style={{ padding: 0 }}
-            bodyStyle={{ padding: 5 }}
-              >
-                {loadingCourse ?
-                  <>
-                    <Row gutter={[20, 10]}>
-                      <Col span={24}>
-                      <Image  width={'100%'} height={200} preview={false} />
-                      </Col>
-                      <Col span={24}>
-                      <Skeleton.Button block/>
-                      </Col>
-                      <Col span={24}>
-                      <Skeleton.Button block/>
-   <Skeleton active paragraph={{ rows: 10 }} /> 
-                      </Col>
-                  </Row>
-                  </> : <>  <Row gutter={[20, 10]}>
-                <Col span={24}>
-                  <Image  width={'100%'} height={200} preview={false} src={course.thumbnailImage} />
-</Col>
-                  <Col span={24}>
-                    <Row justify="space-between" align='middle'>
-                  <Col>
-                      <Row align='middle' gutter={[5, 5]}>
-                       {/* @ts-ignore */}
-                        <Col><Text strong style={{ fontSize: 24 }}>{UnitTypeToStr(plan.finalPrice)}</Text></Col>
-                       {/* @ts-ignore */}
-                       <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text></Col>
-                    </Row>
-                  </Col>
-                  <Col>
-                    <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
-                  </Col>
-                </Row>
-              </Col>
-              {/* <Col span={24}>
-                <Alert
-                  icon={<AlertOutlined />}
-                  message="Only 2 days at this price"
-                  type="error"
-                  showIcon
-                />
-              </Col> */}
-                <Col span={24}>
-                  
-                  <Row gutter={[15, 15]}>
-                  {isSignedIn?<><Col span={24}>
-                    {!isEnrolled?<Button loading={addingToCart} disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" block>
-                      {isAddedToCart?`Added to cart`:`Add To Cart`}
-                    </Button>:null}
-                  </Col>
-                  <Col span={24}>
-                   {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
-                      Go to Course
-                            </Button> :
-                                <ProductCheckoutButton
-                                onSuccess={() => {
-                                  message.open({
-                                    type: 'success',
-                                    content: `You have enrolled successfully`
-                                  })
-                                }}
-                                product={{ type: 'course', id: courseId + '' }}
-                                block
-                                type="primary"
-                              >
-                                Enroll Now
-                              </ProductCheckoutButton>
-                    //           <Button onClick={() => enrollForCourse(course._id)} size="large" type="primary" block>
-                    //   Enroll Now
-                    // </Button>
-                            }
-                          </Col>{' '}</> :
-                          <Col span={24}>
-                            <ActionModal width={300}
-                              cta={<Button size="large" type="primary" block>
-                      Login to buy this course
-                          </Button>}>
-                            <LearnerLogin/>
-                    </ActionModal></Col>
-                  }
-                  <Col span={24}>
-                    <CourseMetadata course={course} />
-                  </Col>
-                </Row>
-              
-              </Col>
-            </Row></>}
-                
-            {/* </Card> */}
-          </Card>
+        <Col xs={0} sm={0} md={0} lg={8}>
+              <CourseCard plan={plan} courseId={courseId+''}>
+                <CourseMetadata course={course} />
+       </CourseCard>
             </Col></Row>
         </Col>
       </Row>
@@ -286,3 +177,114 @@ function CourseDetailViewer () {
 }
 
 export default CourseDetailViewer
+
+
+const CourseCard = ({courseId,plan,children}: {
+  courseId: string,
+  plan: Types.Plan,
+  children?:React.ReactNode
+}) => {
+  const { data: course,isLoading: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
+    enabled: !!courseId
+  });
+  const message = useMessage();
+  const navigate = useNavigate();
+
+  const { mutate: updateCart,isLoading: addingToCart } = Learner.Queries.useUpdateCartItems()
+  const addItemToCart = (course:Types.Course) => {
+    updateCart({ data: { product: { type: 'course', id: course._id } }, action: 'add' });
+  }
+  const { data: {items} } = Learner.Queries.useGetCartDetails();
+  const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
+  const isSignedIn= Store.useAuthentication(s => s.isSignedIn);
+
+  const { data: courses } = Learner.Queries.useGetEnrolledCourses()
+  const isEnrolled = !!(courses.find((e) => {
+    return e.product.id === courseId;
+  }));
+  return    <Card
+  cover
+  bordered hoverable
+  style={{ padding: 0 }}
+  bodyStyle={{ padding: 5 }}
+    >
+      {loadingCourse ?
+        <>
+          <Row gutter={[20, 10]}>
+            <Col span={24}>
+            <Image  width={'100%'} height={200} preview={false} />
+            </Col>
+            <Col span={24}>
+            <Skeleton.Button block/>
+            </Col>
+            <Col span={24}>
+            <Skeleton.Button block/>
+<Skeleton active paragraph={{ rows: 10 }} /> 
+            </Col>
+        </Row>
+        </> : <>  <Row gutter={[20, 10]}>
+      <Col span={24}>
+        <Image  width={'100%'} height={200} preview={false} src={course.thumbnailImage} />
+</Col>
+        <Col span={24}>
+          <Row justify="space-between" align='middle'>
+        <Col>
+            <Row align='middle' gutter={[5, 5]}>
+              <Col><Text strong style={{ fontSize: 24 }}>{UnitTypeToStr(plan.finalPrice)}</Text></Col>
+             <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text></Col>
+          </Row>
+        </Col>
+        <Col>
+          <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
+        </Col>
+      </Row>
+    </Col>
+      <Col span={24}>
+        <Row gutter={[15, 15]}>
+        {isSignedIn?<><Col span={24}>
+          {!isEnrolled?<Button loading={addingToCart} disabled={!!isAddedToCart} onClick={()=>addItemToCart(course)} size="large" block>
+            {isAddedToCart?`Added to cart`:`Add To Cart`}
+          </Button>:null}
+        </Col>
+        <Col span={24}>
+         {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
+            Go to Course
+                  </Button> :
+                      <ProductCheckoutButton
+                      onSuccess={() => {
+                        message.open({
+                          type: 'success',
+                          content: `You have enrolled successfully`
+                        })
+                      }}
+                      product={{ type: 'course', id: courseId + '' }}
+                      block
+                      type="primary"
+                    >
+                      Enroll Now
+                    </ProductCheckoutButton>
+          //           <Button onClick={() => enrollForCourse(course._id)} size="large" type="primary" block>
+          //   Enroll Now
+          // </Button>
+                  }
+                </Col>{' '}</> :
+                <Col span={24}>
+                  <ActionModal width={300}
+                    cta={<Button size="large" type="primary" block>
+            Login to buy this course
+                </Button>}>
+                  <LearnerLogin/>
+          </ActionModal></Col>
+            }
+            {children? <Col span={24}>
+          {children}
+        </Col>:null}
+       
+      </Row>
+    
+    </Col>
+  </Row></>}
+      
+  {/* </Card> */}
+</Card>
+}

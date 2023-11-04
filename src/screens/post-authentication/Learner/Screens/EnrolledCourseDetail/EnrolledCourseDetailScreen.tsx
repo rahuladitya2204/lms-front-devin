@@ -258,18 +258,13 @@ const EnrolledCourseDetailScreen: React.FC<
                                           percent={100}
                                         />
                                         <Button
-                                          style={{ padding: '0 10px' }}
-                                          shape="round"
+                                          // style={{ padding: '0 10px' }}
+                                          shape="circle"
                                           onClick={() =>
                                             playItem(section._id, item._id)
                                           }
                                           // shape="round"
-                                          icon={
-                                            <img
-                                              style={{ width: 11 }}
-                                              src={PlayIcon}
-                                            />
-                                          }
+                                          icon={<PlayCircleOutlined />}
                                         />
                                       </Space>
                                     </Col>

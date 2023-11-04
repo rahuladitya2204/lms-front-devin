@@ -50,10 +50,10 @@ function StoreScreen () {
           </Col>
         </Row>
       </Col>:null}
-      <Divider>
-        <Title>Expore our products</Title>
-      </Divider>
-      {isLoading?<Col span={24}>    <Row gutter={[50, 50]}>
+   
+      {isLoading ? <Col span={24}>
+   
+        <Row gutter={[50, 50]}>
         <Col span={24}>
           <Skeleton paragraph={{rows: 1}}	 />
         </Col>
@@ -69,7 +69,10 @@ function StoreScreen () {
         <Col span={6} sm={6} xs={6}>
           <Skeleton active />
         </Col>
-      </Row></Col> : <>
+        </Row></Col> : <>
+        <Divider>
+        <Title level={isMobile?2:1}>Expore our products</Title>
+        </Divider>
       {categories.map(category => {
         const categorizedCourses = courses.filter(
           course => course.category === category._id

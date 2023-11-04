@@ -22,7 +22,7 @@ const useBreakpoint = () => {
     window.addEventListener('resize', calcInnerWidth)
     return () => window.removeEventListener('resize', calcInnerWidth)
   }, [])
-
+  // console.log()
   return {
     isMobile: breakpoint === 'isMobile',
     isTablet: breakpoint === 'isTablet',
