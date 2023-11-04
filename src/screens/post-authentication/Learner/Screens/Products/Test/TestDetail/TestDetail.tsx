@@ -1,8 +1,9 @@
 import { Alert, Button, Card, Col, Row, Skeleton, Space, Tag, Typography, message } from 'antd'
-import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
+import { CalendarOutlined, InfoOutlined } from '@ant-design/icons'
+import { Constants, Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
-import { CalendarOutlined } from '@ant-design/icons'
+import ActionDrawer from '@Components/AcrtionDrawer'
 import CompletedTestCard from './CompletedTestMetadata'
 import Countdown from '@Components/Countdown'
 import HtmlViewer from '@Components/HtmlViewer'
@@ -12,6 +13,7 @@ import ProductCheckoutButton from '@Components/CheckoutButton'
 import TestMetadata from './TestMetadata'
 import Title from 'antd/es/typography/Title'
 import dayjs from 'dayjs'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import { useMemo } from 'react'
 import useMessage from '@Hooks/useMessage'
 import { useQueryClient } from '@tanstack/react-query'
@@ -35,8 +37,9 @@ export default function TestDetailScreen(
   })
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   console.log(enrolledDetails, 'test.status');
-  const plan = test.plan as unknown as Types.Plan;
+  const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
+  const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
   return (
     <Row>
       {loadingTest ? <Skeleton paragraph={{ rows: 1 }} /> : <>
@@ -80,7 +83,7 @@ export default function TestDetailScreen(
           <Col xs={0} sm={0} md={0} lg={8}>
             {/* @ts-ignore */}
             <TestCard testId={testId + ''} plan={test.plan} >
-              {testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />}
+              {Metadata}
             </TestCard>
           </Col>
         </Row>
@@ -107,6 +110,7 @@ const isEnrolled = !!enrolledDetails._id
   console.log(enrolledDetails, 'test.status');
   const testStartDate =
   enrolledDetails.metadata.test.startedAt || test.startedAt;
+  const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
 
 const ENROLLED_CTA = useMemo(() => { 
     if (test.isLive) {
@@ -167,11 +171,12 @@ const ENROLLED_CTA = useMemo(() => {
  
   },[test,enrolledDetails])
   const message = useMessage();
-
+  const { isMobile,isTablet} = useBreakpoint();
   return   <Card
   bodyStyle={{ padding: 10, paddingBottom: 20 }}
   // style={{ height: '100%' }}
-  title={test.title}
+    title={test.title} extra={(isMobile || isTablet) ? <ActionDrawer title="Test Details"
+      cta={<Button icon={<InfoOutlined />}>Show More</Button>} > {Metadata} </ActionDrawer>:null}
 > {loadingTest ?
   <>
                        {/* <Skeleton active paragraph={{ rows: 1 }} /> */}
