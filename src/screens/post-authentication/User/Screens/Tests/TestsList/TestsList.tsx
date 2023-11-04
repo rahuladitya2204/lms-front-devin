@@ -13,6 +13,7 @@ import {
   Typography
 } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
+
 import { Fragment } from 'react'
 import TestCard from './TestCard'
 import { User } from '@adewaskar/lms-common'
@@ -21,7 +22,7 @@ const { Text } = Typography
 
 function TestsList(props: { filter: Types.GetTestsFilter }) {
   const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1].map(
-    () => Constants.INITIAL_LIVE_TEST_DETAILS
+    () => Constants.INITIAL_TEST_DETAILS
   )
   const { data, isLoading: loading } = User.Queries.useGetTests(
     // props.filter

@@ -15,7 +15,7 @@ import useMessage from '@Hooks/useMessage'
 function TestInformationEditor(props: any) {
   const { id } = useParams()
   const testId = id + ''
-  const [test, setTest] = useState(Constants.INITIAL_LIVE_TEST_DETAILS)
+  const [test, setTest] = useState(Constants.INITIAL_TEST_DETAILS)
 
   const {
     data: testDetails,

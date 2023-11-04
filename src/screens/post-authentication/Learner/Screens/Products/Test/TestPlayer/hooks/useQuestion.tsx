@@ -13,7 +13,7 @@ export default function useQuestion() {
   )
   return {
     currentQuestion:
-      questions[currentQuestionIndex] || Constants.INITIAL_LIVE_TEST_QUESTION,
+      questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION,
     currentQuestionIndex,
     loading: isLoading
   }

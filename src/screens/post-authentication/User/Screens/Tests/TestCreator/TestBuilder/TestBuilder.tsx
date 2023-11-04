@@ -38,16 +38,16 @@ function TestBuilderScreen() {
     isLoading: deletingSectionItem
   } = User.Queries.useDeleteTestSectionItem()
   const [test, setTest] =
-        useState<Types.Test>(Constants.INITIAL_LIVE_TEST_DETAILS)
+        useState<Types.Test>(Constants.INITIAL_TEST_DETAILS)
   const navigate = useNavigate()
 
   const onAddSection = (section: Partial<Types.TestSection>) => {
     // console.log(section, 'section')
-    let LIVE_TEST = cloneDeep(test)
+    let TEST = cloneDeep(test)
     if (section._id) {
-      LIVE_TEST.sections.forEach((sec, index) => {
+      TEST.sections.forEach((sec, index) => {
         if (sec._id === section._id) {
-          LIVE_TEST.sections[index] = { ...sec, ...section }
+          TEST.sections[index] = { ...sec, ...section }
         }
       })
     } else {
@@ -56,7 +56,7 @@ function TestBuilderScreen() {
         title: section.title + '',
         items: [
           {
-            ...Constants.INITIAL_LIVE_TEST_QUESTION,
+            ...Constants.INITIAL_TEST_QUESTION,
             title: 'New Question',
             correctOptions: [],
             options: [null,null,null,null],
@@ -67,14 +67,14 @@ function TestBuilderScreen() {
           }
         ]
       }
-      LIVE_TEST.sections.push(newSection)
+      TEST.sections.push(newSection)
     }
 
     updateTest(
       {
         id: testId || '',
         data: {
-          sections: LIVE_TEST.sections
+          sections: TEST.sections
         }
       },
       {
@@ -85,7 +85,7 @@ function TestBuilderScreen() {
           const newlyAdedItem = test.sections.pop().items.pop()
           console.log(test.sections, 'newlyAdedItem')
           navigate(
-            `../app/products/test/${LIVE_TEST._id}/builder/${
+            `../app/products/test/${TEST._id}/builder/${
               newlyAdedItem?._id
             }`
           )
@@ -96,18 +96,18 @@ function TestBuilderScreen() {
 
   const onAddNewItem = (item: Partial<Types.TestQuestion>, index: number) => {
     // debugger;
-    let LIVE_TEST = cloneDeep(test)
+    let TEST = cloneDeep(test)
     const newItem: Partial<Types.TestQuestion> = {
       ...item
     }
     // console.log(test, 'livviviv')
 
     if (item._id) {
-      LIVE_TEST.sections[index].items.forEach(
+      TEST.sections[index].items.forEach(
         (i: Types.TestQuestion, itemIndex: number) => {
           if (i._id === item._id) {
             // @ts-ignore
-            LIVE_TEST.sections[index].items[itemIndex] = {
+            TEST.sections[index].items[itemIndex] = {
               ...item,
               ...newItem
             }
@@ -116,13 +116,13 @@ function TestBuilderScreen() {
       )
     } else {
       // @ts-ignore
-      LIVE_TEST.sections[index].items.push(newItem)
+      TEST.sections[index].items.push(newItem)
     }
     updateTest(
       {
         id: testId || '',
         data: {
-          sections: LIVE_TEST.sections
+          sections: TEST.sections
         }
       },
       {
@@ -133,7 +133,7 @@ function TestBuilderScreen() {
           const newlyAdedItem = [...test.sections[index].items].pop()
           // console.log(test.sections, 'newlyAdedItem')
           navigate(
-            `../app/products/test/${LIVE_TEST._id}/builder/${
+            `../app/products/test/${TEST._id}/builder/${
               newlyAdedItem?._id
             }`
           )
@@ -185,11 +185,11 @@ function TestBuilderScreen() {
 
   const updateTestSection = (itemId: string, item: Types.TestQuestion) => {
     item._id = itemId
-    const LIVE_TEST = cloneDeep(test)
-    LIVE_TEST.sections = updateTestSectionItem(LIVE_TEST.sections, item)
+    const TEST = cloneDeep(test)
+    TEST.sections = updateTestSectionItem(TEST.sections, item)
 
     saveTest({
-      sections: LIVE_TEST.sections
+      sections: TEST.sections
     })
   }
 
@@ -212,7 +212,7 @@ function TestBuilderScreen() {
   }
 
   const deleteSectionItem = (sectionId: string, itemId: string) => {
-    const LIVE_TEST = cloneDeep(test)
+    const TEST = cloneDeep(test)
     deleteSectionItemApi(
       {
         data: {
@@ -232,10 +232,10 @@ function TestBuilderScreen() {
   }
 
   const onReorderSections = (sections: Types.TestSection[]) => {
-    const LIVE_TEST = cloneDeep(test)
-    LIVE_TEST.sections = sections
-    setTest(LIVE_TEST)
-    saveTest(LIVE_TEST)
+    const TEST = cloneDeep(test)
+    TEST.sections = sections
+    setTest(TEST)
+    saveTest(TEST)
   }
   // const { mutate: updateTestStatus } = User.Queries.useUpdateTestStatus(
   //   testId + ''

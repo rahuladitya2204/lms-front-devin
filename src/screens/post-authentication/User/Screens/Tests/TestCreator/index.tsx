@@ -23,7 +23,7 @@ function TestEditor() {
   const message = useMessage()
   const { id } = useParams()
   const testId = id + ''
-  const [test, setTest] = useState<Types.Test>(Constants.INITIAL_LIVE_TEST_DETAILS)
+  const [test, setTest] = useState<Types.Test>(Constants.INITIAL_TEST_DETAILS)
 
   const {
     mutate: updateTestApi,
