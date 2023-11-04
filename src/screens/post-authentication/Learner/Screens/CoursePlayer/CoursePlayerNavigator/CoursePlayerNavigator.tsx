@@ -1,14 +1,17 @@
-import { Collapse, List, Progress, Space, Typography } from 'antd'
+// @ts-nocheck
+import { Collapse, List, Progress, Skeleton, Space, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
+import React, { Fragment } from 'react'
 
 import CoursePlayerNavigatorItem from './CoursePlayerNavigatorItem'
-import { Fragment } from 'react'
 import styled from '@emotion/styled'
 
 const { Panel } = Collapse
+const { Text, Title } = Typography
 
 const CustomCollapse = styled(Collapse)`
   margin-top: 10px;
+
   div.ant-collapse {
     border-radius: 0 !important;
   }
@@ -18,41 +21,53 @@ const CustomCollapse = styled(Collapse)`
   }
 
   .ant-list-item {
-    padding: 15px;
+    padding: ${({ isMobile }) => (isMobile ? '8px' : '15px')};
   }
 `
 
-const { Text, Title } = Typography
+const PlayerSkeleton = () => {
+  return <>
+    <div style={{ border: '1px solid #d9d9d9',borderRadius:'10px',marginTop:20,padding:10 }}>
+      <Skeleton active avatar paragraph={{ rows: 3 }} />
+      </div></>
+}
 
 interface CoursePlayerNavigatorPropsI {
   courseId: string;
   searchText: string;
   toggleItemCheck: (itemID: string, value: boolean) => void;
+  isMobile?: boolean;
 }
 
-function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
+function CoursePlayerNavigator({
+  courseId,
+  searchText,
+  toggleItemCheck,
+  isMobile = false
+}: CoursePlayerNavigatorPropsI) {
   const {
     data: { product: { data: course } },
     isLoading: loadingCourse
-  } = Learner.Queries.useGetEnrolledCourseDetails(props.courseId, {
-    enabled: !!props.courseId
+  } = Learner.Queries.useGetEnrolledCourseDetails(courseId, {
+    enabled: !!courseId
   })
-  const sections: Types.CourseSection[] = course?.sections || []
-  const text = props.searchText.toLowerCase()
 
-  return (
+  const sections: Types.CourseSection[] = course?.sections || []
+  const text = searchText.toLowerCase()
+
+  return loadingCourse ? (
+    <>
+        <Skeleton.Input block />
+  <PlayerSkeleton />
+      <PlayerSkeleton />
+      <PlayerSkeleton />
+      {/* <PlayerSkeleton/> */}
+    </>
+  ) : (
     <Fragment>
       {sections
         .filter(s => {
           const sectionTitle = s.title.toLowerCase()
-          // const isMatch = s.title
-          //   .toLowerCase()
-          //   .includes(text)
-          // if (!isMatch) {
-          //   {
-          //     return false
-          //   }
-          // }
           return (
             s.items.filter(item => {
               const title = item.title.toLowerCase()
@@ -65,10 +80,13 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
           const sectionProgress = Math.ceil(
             itemsCompleted.length / section.items.length * 100
           )
+
           return (
             <CustomCollapse
+              isMobile={isMobile}
               expandIconPosition="end"
-              defaultActiveKey={sections.map((s, i) => s._id)}
+              defaultActiveKey={sections.map(s => s._id)}
+              key={section._id}
             >
               <Panel
                 header={
@@ -77,29 +95,27 @@ function CoursePlayerNavigator(props: CoursePlayerNavigatorPropsI) {
                       format={() => <Text strong>{index + 1}</Text>}
                       type="circle"
                       percent={sectionProgress}
-                      size={35}
+                      width={isMobile ? 25 : 35}
                     />
-                    <Typography.Title level={5}>
-                      {section.title}
-                    </Typography.Title>
+                    <Title level={isMobile ? 5 : 4} style={{marginTop:0}}>{section.title}</Title>
                   </Space>
                 }
                 key={section._id}
               >
                 <List
                   loading={loadingCourse}
-                  // itemLayout="horizontal"
                   dataSource={section.items.filter(item => {
                     const title = item.title.toLowerCase()
-                    return title.includes(props.searchText.toLowerCase())
+                    return title.includes(text)
                   })}
                   renderItem={(item, itemIndex) => (
                     <CoursePlayerNavigatorItem
-                      courseId={props.courseId}
+                      courseId={courseId}
                       section={section}
-                      toggleItemCheck={props.toggleItemCheck}
+                      toggleItemCheck={toggleItemCheck}
                       item={item}
                       itemIndex={index + itemIndex + 1}
+                      key={item._id}
                     />
                   )}
                 />

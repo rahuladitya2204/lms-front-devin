@@ -6,6 +6,7 @@ import {
   Divider,
   Input,
   Row,
+  Skeleton,
   Space,
   Tooltip,
   Typography
@@ -29,6 +30,13 @@ import OrgLogo from '@Components/OrgLogo'
 import ReviewCourse from '../Products/Courses/ReviewCourse/ReviewCourse'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
+
+const PlayerSkeleton = () => {
+  return <>
+    <div style={{ border: '1px solid #d9d9d9',borderRadius:'10px',marginTop:20,padding:10 }}>
+      <Skeleton active avatar paragraph={{ rows: 3 }} />
+      </div></>
+}
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -69,7 +77,7 @@ function CoursePlayer() {
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   const { id: courseId, itemId, sectionId } = useParams()
   const {
-    data: { metadata: { progress }, review, plan: { trialExpiresAt } }
+    data: { metadata: { progress }, review, plan: { trialExpiresAt } }, isLoading: loadingEnrolledCourse
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: 'course',
@@ -79,7 +87,7 @@ function CoursePlayer() {
       enabled: !!courseId
     }
   )
-  const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
+  const { data: course,isLoading:loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '')
 
   const navigate = useNavigate()
   const [searchText, setSearchText] = useState('')
@@ -160,19 +168,29 @@ function CoursePlayer() {
     [trialExpiresAt]
   );
 
-  const CourseNavigator=<> <Search
+  const isLoading = loadingEnrolledCourse || loadingCourse;
+  const CourseNavigator=<> 
+{isLoading?<>
+        <Skeleton.Input block />
+  <PlayerSkeleton />
+      <PlayerSkeleton />
+      <PlayerSkeleton />
+      {/* <PlayerSkeleton/> */}
+    </> : <>
+    <Search
   value={searchText}
   placeholder="Search in course.."
   onChange={e => setSearchText(e.target.value)}
   size="large"
   style={{ marginBottom: 20 }}
-/>
-
-<CoursePlayerCollapsible
+/><CoursePlayerCollapsible
+      isMobile={isMobile || isTablet}
   searchText={searchText}
   courseId={course._id}
   toggleItemCheck={toggleItemCheck}
-/></>
+    /></>}
+   
+  </>
   return (
     <PlayerContainer>
       {showTrialBanner ? (

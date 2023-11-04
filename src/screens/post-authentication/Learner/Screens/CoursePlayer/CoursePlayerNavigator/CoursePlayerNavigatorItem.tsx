@@ -78,7 +78,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
               />
             }
             title={
-              <Text style={{ marginTop: 0 }} ellipsis>
+              <Text ellipsis>
                 {props.itemIndex}. {props.item.title}
               </Text>
             }
