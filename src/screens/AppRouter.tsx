@@ -1,4 +1,4 @@
-import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, NotFoundScreen, TestPlayer, TestPlayeritem, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, WebpageViewer, WebsiteBuilderScreen } from './route-list'
+import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, NotFoundScreen, TestPlayer, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, WebpageViewer, WebsiteBuilderScreen } from './route-list'
 import {
   Route,
   RouterProvider,
@@ -59,6 +59,7 @@ import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
+import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem'
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
@@ -78,7 +79,7 @@ import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
 
-const router = (userType: string,isSignedIn:boolean) => {
+const router = (userType: string) => {
   return createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootScreen />}>
@@ -121,7 +122,7 @@ const router = (userType: string,isSignedIn:boolean) => {
             <Route path="app/test/:testId">
               <Route path="start" element={<TestRules />} /> 
               <Route path="player" element={<Suspense  fallback={<LoadingScreen />}><TestPlayer /></Suspense>}>
-                <Route path=":questionId" element={<Suspense  fallback={<LoadingScreen />}><TestPlayeritem /></Suspense>} />
+                <Route path=":questionId" element={<TestPlayeritem />} />
               </Route>
               <Route path="completed" element={<TestCompleted />} />
               {/* <Route path="result-table" element={<TestResultTable />} /> */}
@@ -130,8 +131,8 @@ const router = (userType: string,isSignedIn:boolean) => {
               path="oauth/:provider/redirect"
               element={<OauthRedirect />}
             />
-            <Route path="app/courses/:id/player" element={<Suspense  fallback={<LoadingScreen />}><CoursePlayer /></Suspense>}>
-              <Route path=":itemId" element={<Suspense  fallback={<LoadingScreen />}><CoursePlayerItem /></Suspense>} />
+            <Route path="app/courses/:id/player" element={<Suspense fallback={<LoadingScreen />}><CoursePlayer /></Suspense>}>
+              <Route path=":itemId" element={<CoursePlayerItem/>} />
             </Route>
 
             <Route
@@ -149,7 +150,6 @@ const router = (userType: string,isSignedIn:boolean) => {
             <Route path="*" element={<NotFoundScreen />} />
  </>
         ) : <>
-            {/* {false ? <Route path="login" element={<UserLoginScreen />} /> : } */}
             <>
             <Route path="login" element={<UserLoginScreen />} />
             <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
@@ -292,7 +292,7 @@ const router = (userType: string,isSignedIn:boolean) => {
 
             </>
         <Route path="register" element={<UserRegister />} />
-        <Route path='/' element={<ReturnUserToHome/>} />
+        {/* <Route path='/' element={<ReturnUserToHome/>} /> */}
         <Route path="*" element={<NotFoundScreen />} />
 
         </>}
@@ -306,9 +306,7 @@ const router = (userType: string,isSignedIn:boolean) => {
 
 function AppRouter(props: { userType: string }) {
   const { userType} = props;
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
-  console.log(props.userType,'props.userType')
-  return <ThemeProvider><RouterProvider router={router(userType,isSignedIn)} /></ThemeProvider> 
+  return  <ThemeProvider><RouterProvider router={router(userType)} /></ThemeProvider> 
 }
 
 export default AppRouter
@@ -323,17 +321,17 @@ const ReturnLearnerToStore = () => {
   return null;
 }
 
-const ReturnUserToHome = () => {
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
-  console.log('User: I am in return to store')
-  const navigate = useNavigate();
-  useEffect(() => { 
-    if (!isSignedIn) {
-      navigate('/login')
-    }
-    else {
-      navigate('/app/dashboard')
-    }
-  },[isSignedIn])
-  return null;
-}
+// const ReturnUserToHome = () => {
+//   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
+//   console.log('User: I am in return to store')
+//   const navigate = useNavigate();
+//   useEffect(() => { 
+//     if (isSignedIn) {
+//       navigate('/login')
+//     }
+//     else {
+//       navigate('/app/dashboard')
+//     }
+//   },[isSignedIn])
+//   return null;
+// }

@@ -24,12 +24,13 @@ export default function RootScreen () {
     const sd = subdomain + ''
     Learner.Api.ValidateOrgAlias(sd)
       .then(() => {
-        Utils.Storage.SetItem('orgAlias', sd)
-        return fetchOrganisation(userType)
-      })
-      .then(() => {
         setAliasValid(true)
+        Utils.Storage.SetItem('orgAlias', sd)
+        // fetchOrganisation(userType)
       })
+      // .then(() => {
+      //   setAliasValid(true)
+      // })
       .catch(() => {
         console.log('invalid')
         setAliasValid(false)
