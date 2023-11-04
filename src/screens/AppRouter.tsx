@@ -1,4 +1,16 @@
-import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, NotFoundScreen, TestPlayer, TestPlayeritem, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, WebpageViewer, WebsiteBuilderScreen } from './route-list'
+import {
+  CourseBuilderScreen,
+  LearnerDeviceSelection,
+  LearnerLiveSessionPlayer,
+  LearnerLiveSessionPlayerEnter,
+  LearnerRootScreen,
+  NotFoundScreen,
+  UserDeviceSelection,
+  UserLiveSessionPlayer,
+  UserLiveSessionPlayerEnter,
+  WebpageViewer,
+  WebsiteBuilderScreen
+} from './route-list';
 import {
   Route,
   RouterProvider,
@@ -19,6 +31,8 @@ import CourseAnalytics from '@User/Screens/Courses/CourseAnalytics/CourseAnalyti
 import CourseDetailViewer from './post-authentication/Learner/Screens/Products/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseEditor'
 import CourseInformationEditor from '@User/Screens/Courses/CourseEditor/CourseInformation'
+import CoursePlayer from '@Learner/Screens/CoursePlayer';
+import CoursePlayerItem from '@Learner/Screens/CoursePlayer/CoursePlayerItem';
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
 import CreateEvent from '@User/Screens/Event/CreateEvent/CreateEvent'
@@ -59,6 +73,8 @@ import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
+import TestPlayer from '@Learner/Screens/Products/Test/TestPlayer/TestPlayer';
+import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem';
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
@@ -120,8 +136,8 @@ const router = (userType: string) => {
             </Route>
             <Route path="app/test/:testId">
               <Route path="start" element={<TestRules />} /> 
-              <Route path="player" element={<Suspense  fallback={<LoadingScreen />}><TestPlayer /></Suspense>}>
-                <Route path=":questionId" element={<Suspense  fallback={<LoadingScreen />}><TestPlayeritem /></Suspense>}/>
+              <Route path="player" element={<TestPlayer/>}>
+                <Route path=":questionId" element={<TestPlayeritem/>}/>
               </Route>
               <Route path="completed" element={<TestCompleted />} />
               {/* <Route path="result-table" element={<TestResultTable />} /> */}
@@ -130,8 +146,8 @@ const router = (userType: string) => {
               path="oauth/:provider/redirect"
               element={<OauthRedirect />}
             />
-            <Route path="app/courses/:id/player" element={<Suspense fallback={<LoadingScreen />}><CoursePlayer /></Suspense>}>
-              <Route path=":itemId" element={<Suspense fallback={<LoadingScreen />}><CoursePlayerItem/></Suspense>} />
+            <Route path="app/courses/:id/player" element={<CoursePlayer />}>
+              <Route path=":itemId" element={<CoursePlayerItem/>} />
             </Route>
 
             <Route

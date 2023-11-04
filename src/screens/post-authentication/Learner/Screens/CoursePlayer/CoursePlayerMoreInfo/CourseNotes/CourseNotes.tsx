@@ -39,6 +39,11 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
   const currentItemNotes = notes.filter(note => note.item === itemId) || []
   return (
     <Row>
+         <Col span={24}>
+            <CreateNote item={itemId + ''} courseId={course._id} />
+      </Col>
+      <Divider />
+
       <Col span={24}>
     
         {loadingNotes?<>  <Skeleton avatar paragraph={{ rows: 1 }} />
@@ -46,16 +51,13 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
             <Skeleton avatar paragraph={{ rows: 1 }} /></>: <List loading={fetchingNotes}
           locale={{ emptyText: 'No Notes Added' }}
           itemLayout="horizontal"
-          dataSource={currentItemNotes}
+          dataSource={currentItemNotes.sort((a,b)=>a.time-b.time)}
           renderItem={(note, index) => {
             return <CourseNoteItem course={course} note={note} />
           }}
         />}
-               <Divider />
     <Row>
-          <Col span={24}>
-            <CreateNote item={itemId + ''} courseId={course._id} />
-          </Col>
+       
         </Row>
       </Col>
     </Row>

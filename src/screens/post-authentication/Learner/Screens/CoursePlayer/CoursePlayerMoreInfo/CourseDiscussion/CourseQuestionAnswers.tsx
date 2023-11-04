@@ -5,6 +5,7 @@ import React, { Fragment } from 'react'
 import { Comment } from '@ant-design/compatible'
 import CreateAnswer from './CreateAnswer'
 import HtmlViewer from '@Components/HtmlViewer'
+import dayjs from 'dayjs'
 
 const { Text } = Typography
 const { useToken } = theme
@@ -18,7 +19,8 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
   const { token } = useToken()
   const {
     data: question,
-    isFetching: loadingQuestion
+    isFetching: loadingQuestion,
+    isLoading: loadingFirstQuestion
   } = Learner.Queries.useGetCourseQuestionDetails(
     props.courseId,
     props.questionId
@@ -33,7 +35,9 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
   const answers = question.answers
   return (
     <Fragment>
-      {loadingQuestion?<>
+            <CreateAnswer question={question} />
+
+      {loadingFirstQuestion?<>
             <Skeleton avatar paragraph={{ rows: 1 }} />
             <Skeleton avatar paragraph={{ rows: 1 }} />
             <Skeleton avatar paragraph={{ rows: 1 }} />
@@ -41,12 +45,13 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
           className="comment-list"
           header={`${answers.length} replies`}
           itemLayout="horizontal"
-          dataSource={answers}
+          // @ts-ignore
+          dataSource={answers.sort((a,b)=>a.date-b.date)}
           renderItem={item => (
             <li>
               <Comment
                 // actions={actions}
-                author={<Text strong>Aditya Dewaskar</Text>}
+                author={<Text strong>{user.name}</Text>}
                 avatar={
                   <Avatar style={{ backgroundColor: token.colorPrimary }}>
                     {name}
@@ -54,8 +59,8 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
                 }
                 content={<HtmlViewer content={item.answer} />}
                 datetime={
-                  <Tooltip title="2016-11-22 11:22:33">
-                    <span>8 hours ago</span>
+                  <Tooltip title={dayjs(item.date).format('LLL')}>
+                    <span>{dayjs(item.date).fromNow() }</span>
                   </Tooltip>
                 }
               />
@@ -63,7 +68,6 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
           )}
         />}
 
-      <CreateAnswer question={question} />
     </Fragment>
   )
 }

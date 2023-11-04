@@ -1,5 +1,5 @@
 import { ArrowUpOutlined, CommentOutlined } from '@ant-design/icons'
-import { Avatar, Card, Col, List, Row, Skeleton, Typography } from 'antd'
+import { Avatar, Button, Card, Col, List, Row, Skeleton, Typography } from 'antd'
 
 import { Comment } from '@ant-design/compatible'
 import CreateQuestion from './CreateQuestion'
@@ -17,16 +17,27 @@ interface CourseQuestionsListPropsI {
 const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
   const {
     data: questions,
-    isFetching: loadingQuestions
+    isFetching: loadingQuestions,
+    isLoading: loadingFirstQuestions
   } = Learner.Queries.useGetCourseQuestions(props.course._id)
 
   const upvote = () => {}
 
   return (
     <Row>
+            <Col span={24}>
+        <Card>
+          <Comment
+            avatar={
+              <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+            }
+            content={<CreateQuestion course={props.course} />}
+          />
+        </Card>
+      </Col>
       {questions.length ? (
         <Col span={24}>
-          {loadingQuestions ? <>
+          {loadingFirstQuestions ? <>
             <Skeleton avatar paragraph={{ rows: 1 }} />
             <Skeleton avatar paragraph={{ rows: 1 }} />
             <Skeleton avatar paragraph={{ rows: 1 }} />
@@ -34,21 +45,24 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
             loading={loadingQuestions}
             className="comment-list"
             header={`${questions?.length} Comments`}
-            itemLayout="horizontal"
-            dataSource={questions}
+              itemLayout="horizontal"
+              // @ts-ignore
+            dataSource={questions.sort((a,b)=>a.date-b.date)}
             renderItem={question => {
               return (
                 <List.Item
                   key={question._id}
                   actions={[
-                    <Text strong>
-                      <ArrowUpOutlined /> {question.answers.length}
-                    </Text>,
-                    <Text strong>
-                      <CommentOutlined
-                        onClick={() => props.selectQuestion(question)}
-                      />
-                    </Text>
+                    <Button icon={<ArrowUpOutlined /> }> Upvote <Text style={{marginLeft:10}} strong>
+                     {question.answers.length}
+                  </Text></Button>,
+                    <Button type='primary' icon={<CommentOutlined
+                      
+                    />} onClick={() => props.selectQuestion(question)}>
+                      Comment
+                      <Text strong>
+                 
+                  </Text></Button>
                   ]}
                 >
                   <List.Item.Meta
@@ -75,17 +89,6 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
           />}
         </Col>
       ) : null}
-
-      <Col span={24}>
-        <Card>
-          <Comment
-            avatar={
-              <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
-            }
-            content={<CreateQuestion course={props.course} />}
-          />
-        </Card>
-      </Col>
     </Row>
   )
 }

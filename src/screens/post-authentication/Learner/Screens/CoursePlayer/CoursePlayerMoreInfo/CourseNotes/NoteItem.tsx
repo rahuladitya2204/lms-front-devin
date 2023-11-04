@@ -22,10 +22,10 @@ import React, { useState } from 'react'
 
 import CreateNote from './CreateNote'
 import HtmlViewer from '@Components/HtmlViewer'
+import MoreButton from '@Components/MoreButton'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
 import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
-import MoreButton from '@Components/MoreButton'
 
 const { Text } = Typography
 const { confirm } = Modal
@@ -76,58 +76,14 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   ) : (
     <List.Item
       actions={[
-        // <Dropdown
-        //   trigger={['click']}
-        //   menu={{
-        //     items: [
-        //       {
-        //         key: '1',
-        //         label: (
-        //           <a
-        //             onClick={() => {
-        //               if (playerInstance) {
-        //                 playerInstance.currentTime = 3
-        //               }
-        //             }}
-        //           >
-        //             <PlayCircleOutlined /> Play
-        //           </a>
-        //         )
-        //       },
-        //       {
-        //         key: '2',
-        //         label: (
-        //           <a onClick={e => setSelectedNote(props.note)}>
-        //             <EditOutlined /> Edit
-        //           </a>
-        //         )
-        //       },
-        //       {
-        //         key: '3',
-        //         label: (
-        //           <a onClick={deleteNote}>
-        //             <DeleteOutlined /> Delete
-        //           </a>
-        //         )
-        //       }
-        //     ]
-        //   }}
-        //   placement="bottomRight"
-        // >
-        //   <Button size="small" icon={<CaretDownOutlined />} />
-        // </Dropdown>,
+          <Button onClick={ () => {
+            if (playerInstance) {
+              playerInstance.currentTime = 3
+            }
+          }} icon={<PlayCircleOutlined/> }>Play Here</Button>,
         <MoreButton
           items={[
-            {
-              label: `Play`,
-              onClick: () => {
-                if (playerInstance) {
-                  playerInstance.currentTime = 3
-                }
-              },
-              key: 'play',
-              icon: <PlayCircleOutlined />
-            },
+
             {
               label: `Edit`,
               onClick: () => {

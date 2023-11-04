@@ -40,16 +40,24 @@ function CoursePlayerNavigator({
 }: CoursePlayerNavigatorPropsI) {
   const {
     data: { product: { data: course } },
-    isFetching: loadingCourse
-  } = Learner.Queries.useGetEnrolledCourseDetails(courseId, {
-    enabled: !!courseId
-  })
+    isFetching: loadingCourse,
+    isLoading
+  } = Learner.Queries.useGetEnrolledProductDetails(
+    {
+      type: 'course',
+      id: courseId
+    },
+    {
+      enabled: !!courseId
+    }
+  )
 
   const sections: Types.CourseSection[] = course?.sections || []
   const text = searchText.toLowerCase()
 
   return (
     <Fragment>
+      {loadingCourse ? 'fetching' : ''} {isLoading ? 'loading' : ''}
       {sections
         .filter(s => {
           const sectionTitle = s.title.toLowerCase()

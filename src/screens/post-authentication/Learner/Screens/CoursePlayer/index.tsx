@@ -24,7 +24,6 @@ import ActionDrawer from '@Components/AcrtionDrawer'
 import ActionModal from '@Components/ActionModal'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
-import CoursePlayerNavigator from './CoursePlayerNavigator/CoursePlayerNavigator'
 import Header from '@Components/Header'
 import OrgLogo from '@Components/OrgLogo'
 import ReviewCourse from '../Products/Courses/ReviewCourse/ReviewCourse'
@@ -77,7 +76,7 @@ function CoursePlayer() {
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   const { id: courseId, itemId, sectionId } = useParams()
   const {
-    data: { metadata: { progress }, review, plan: { trialExpiresAt } }, isFetching: loadingEnrolledCourse
+    data: { metadata: { progress }, review, plan: { trialExpiresAt } },isLoading: loadingFirstEnrolledCourseDetail, isFetching: loadingEnrolledCourse
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: 'course',
@@ -87,7 +86,7 @@ function CoursePlayer() {
       enabled: !!courseId
     }
   )
-  const { data: course,isFetching:loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '')
+  const { data: course,isFetching:loadingCourse,isLoading: loadingCourseFirst } = Learner.Queries.useGetCourseDetails(courseId + '')
 
   const navigate = useNavigate()
   const [searchText, setSearchText] = useState('')
@@ -170,7 +169,7 @@ function CoursePlayer() {
 
   const isFetching = loadingEnrolledCourse || loadingCourse;
   const CourseNavigator=<> 
-{isFetching?<>
+{(loadingCourseFirst || loadingFirstEnrolledCourseDetail)?<>
         <Skeleton.Input block />
   <PlayerSkeleton />
       <PlayerSkeleton />
@@ -183,7 +182,8 @@ function CoursePlayer() {
   onChange={e => setSearchText(e.target.value)}
   size="large"
   style={{ marginBottom: 20 }}
-/><CoursePlayerCollapsible
+        />
+        <CoursePlayerCollapsible
       isMobile={isMobile || isTablet}
   searchText={searchText}
   courseId={course._id}

@@ -7,8 +7,10 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
+import relativeTime from 'dayjs/plugin/relativeTime';
 import reportWebVitals from './reportWebVitals';
 
+dayjs.extend(relativeTime)
 dayjs.extend(localizedFormat)
 
 const root = ReactDOM.createRoot(
