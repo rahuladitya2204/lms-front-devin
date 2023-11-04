@@ -12,7 +12,7 @@ interface ProductCategoryScreenPropsI {
 }
 
 function ProductCategoryScreen(props: ProductCategoryScreenPropsI) {
-  const { data, isLoading: loading } = User.Queries.useGetProductCategories(
+  const { data, isFetching: loading } = User.Queries.useGetProductCategories(
     props.type
   )
 

@@ -1,12 +1,12 @@
 import { Button, Card, Col, Form, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
+import ActionModal from '@Components/ActionModal'
+import CreatePlan from '../../../ExtraComponents/CreatePlan'
 import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
-import CreatePlan from '../../../ExtraComponents/CreatePlan'
-import ActionModal from '@Components/ActionModal'
 
 interface TestPricingEditorPropsI {
   testId: string;
@@ -17,7 +17,7 @@ interface TestPricingEditorPropsI {
 
 function TestPricingEditor(props: TestPricingEditorPropsI) {
   const message = useMessage()
-  const { data, isLoading: loading } = User.Queries.useGetProductPlans(
+  const { data, isFetching: loading } = User.Queries.useGetProductPlans(
     props.testId
   )
   return (

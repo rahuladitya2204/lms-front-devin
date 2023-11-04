@@ -30,7 +30,7 @@ function TestEditor() {
     isLoading: loading
   } = User.Queries.useUpdateTest()
 
-  const { data: testDetails ,isLoading: loadingTest} = User.Queries.useGetTestDetails(
+  const { data: testDetails ,isFetching: loadingTest} = User.Queries.useGetTestDetails(
     testId,
     {
       enabled: !!testId

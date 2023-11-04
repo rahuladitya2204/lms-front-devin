@@ -5,8 +5,8 @@ import {
   ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { List, Tag, Typography } from 'antd'
 import { Learner, Types, Utils } from '@adewaskar/lms-common'
+import { List, Tag, Typography } from 'antd'
 
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
@@ -98,7 +98,7 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
 
   const {
     data: { test: testResult },
-    isLoading: loadingResult
+    isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   // @ts-ignore
   data.score.value = `${testResult.learnerScore}/${testResult.passingScore}`

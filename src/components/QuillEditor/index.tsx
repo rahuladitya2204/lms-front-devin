@@ -43,7 +43,7 @@ function QuillEditor(props: QuillEditorPropsI) {
   const form = Form.useFormInstance()
   const {
     mutate: uploadFiles,
-    isLoading: loading
+    isFetching: loading
   } = Common.Queries.useUploadFiles()
   const [inited, setInited] = useState(false)
   const quillRef = useRef(null)

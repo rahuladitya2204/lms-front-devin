@@ -15,7 +15,7 @@ function EmailTemplatesScreen() {
   const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
 
   const navigate = useNavigate()
-  const { data, isLoading: loading } = User.Queries.useGetEmailTemplates()
+  const { data, isFetching: loading } = User.Queries.useGetEmailTemplates()
   return (
     <Row>
       <Col span={24}>

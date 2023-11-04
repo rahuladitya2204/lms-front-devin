@@ -17,7 +17,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
   const courseId = props.course._id
   const {
     data: course,
-    isLoading: loadingCourse
+    isFetching: loadingCourse
   } = Learner.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId
   })
@@ -25,7 +25,7 @@ function CourseOverview(props: CourseOverviewPropsI) {
   const { landingPage } = course
   const {
     data: PromoVideoUrl,
-    isLoading: loadingVideoUrl
+    isFetching: loadingVideoUrl
   } = Common.Queries.useGetPresignedUrlFromFile(landingPage?.promoVideo, {
     enabled: !!landingPage?.promoVideo
   })

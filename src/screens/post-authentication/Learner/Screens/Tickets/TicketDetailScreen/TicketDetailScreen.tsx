@@ -2,9 +2,9 @@ import { Avatar, Button, Card, Col, Form, Input, List, Row, Skeleton, Tooltip, T
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
+import TextArea from '@Components/Textarea';
 import TicketItem from '../TicketsScreen/TicketItem';
 import { useParams } from 'react-router';
-import TextArea from '@Components/Textarea';
 
 const { useToken } = theme
 
@@ -18,7 +18,7 @@ export default function TicketDetail() {
   const { token } = useToken()
     const [form] = Form.useForm()
     const { id } = useParams();
-    const { data: ticket ,isLoading: loadingTicket} = Learner.Queries.useGetTicketDetails(id + '');
+    const { data: ticket ,isFetching: loadingTicket} = Learner.Queries.useGetTicketDetails(id + '');
   const createdBy = ((ticket.createdBy as unknown as Types.Learner) || {});
   const name = (createdBy?.name+'').split(' ').map(n => n[0].toUpperCase()).join('');
     const { mutate: replyToTicket,isLoading: postingReply } = Learner.Queries.useReplyToTicket();

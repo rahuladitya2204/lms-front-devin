@@ -14,12 +14,6 @@ import { useNavigate } from 'react-router'
 import { useState } from 'react'
 
 function TemplatesScreen () {
-  // @ts-ignore
-  const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
-
-  const navigate = useNavigate()
-  const { data, isLoading: loading } = User.Queries.useGetEmailTemplates()
-  const [type, setType] = useState('default')
   return (
     <Header>
       <Tabs style={{ fontSize: 30 }} size="middle">

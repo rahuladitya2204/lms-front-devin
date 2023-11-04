@@ -1,14 +1,15 @@
 import { Button, Card, Col, Modal, Row, Space, Table } from 'antd'
+
+import { DeleteOutlined } from '@ant-design/icons'
+import MoreButton from '@Components/MoreButton'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
-import MoreButton from '@Components/MoreButton'
-import { DeleteOutlined } from '@ant-design/icons'
 
 const confirm = Modal.confirm
 
 function LearnersTable() {
-  const { data, isLoading: loading } = User.Queries.useGetLearners()
+  const { data, isFetching: loading } = User.Queries.useGetLearners()
   return (
     <Table dataSource={data} loading={loading}>
       <Table.Column title="Name" dataIndex="name" key="name" />

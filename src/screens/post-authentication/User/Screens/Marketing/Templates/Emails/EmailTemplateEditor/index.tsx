@@ -16,7 +16,7 @@ function EmailTemplateEditor() {
     isLoading: loading
   } = User.Queries.useUpdateEmailTemplate()
 
-  const { data: template,isLoading: loadingTemplate } = User.Queries.useGetEmailTemplateDetails(
+  const { data: template,isFetching: loadingTemplate } = User.Queries.useGetEmailTemplateDetails(
     emailTemplateId + '',
     {
       enabled: !!emailTemplateId

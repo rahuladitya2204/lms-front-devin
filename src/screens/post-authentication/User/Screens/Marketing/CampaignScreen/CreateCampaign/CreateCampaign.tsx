@@ -27,16 +27,16 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   const message = useMessage()
   const {
     mutate: createCampaign,
-    isLoading: createCampaignLoading
+    isFetching: createCampaignLoading
   } = User.Queries.useCreateCampaign()
   const {
     mutate: updateCampaignApi,
-    isLoading: updateCampaignLoading
+    isFetching: updateCampaignLoading
   } = User.Queries.useUpdateCampaign()
 
   const {
     mutate: executeCampaign,
-    isLoading: initiatingExecution
+    isFetching: initiatingExecution
   } = User.Queries.useExecuteCampaign()
 
   const { data: campaignDetails } = User.Queries.useGetCampaignDetails(

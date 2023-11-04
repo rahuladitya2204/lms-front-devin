@@ -24,7 +24,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
   const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1].map(
     () => Constants.INITIAL_TEST_DETAILS
   )
-  const { data, isLoading: loading } = User.Queries.useGetTests(
+  const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
     props.filter
   )

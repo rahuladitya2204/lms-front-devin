@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router'
 const LearnerCourseList: React.FC = () => {
   const {
     data: enrolledCourses,
-    isLoading: loading
+    isFetching: loading
   } = Learner.Queries.useGetEnrolledCourses()
   console.log(enrolledCourses, 'enrolledCourses')
   const navigate = useNavigate()

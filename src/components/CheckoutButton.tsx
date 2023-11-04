@@ -1,6 +1,7 @@
-import { usePaymentCheckout } from '@Hooks/CommonHooks'
-import { Learner } from '@adewaskar/lms-common'
 import { Button, ButtonProps } from 'antd'
+
+import { Learner } from '@adewaskar/lms-common'
+import { usePaymentCheckout } from '@Hooks/CommonHooks'
 
 interface ProductCheckoutButtonPropsI extends ButtonProps {
   product: {

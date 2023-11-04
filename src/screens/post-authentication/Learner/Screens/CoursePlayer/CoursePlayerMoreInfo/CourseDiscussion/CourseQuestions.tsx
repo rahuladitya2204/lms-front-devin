@@ -17,7 +17,7 @@ interface CourseQuestionsListPropsI {
 const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
   const {
     data: questions,
-    isLoading: loadingQuestions
+    isFetching: loadingQuestions
   } = Learner.Queries.useGetCourseQuestions(props.course._id)
 
   const upvote = () => {}

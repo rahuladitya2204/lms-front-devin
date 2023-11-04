@@ -26,7 +26,7 @@ function TestBuilderScreen() {
   } = User.Queries.useUpdateTest()
   const updateTest = debounce(updateTestApi, 1000)
   const { id: testId, itemId } = useParams()
-  const { data: testDetails,isLoading: loadingTest } = User.Queries.useGetTestDetails(testId + '', {
+  const { data: testDetails,isFetching: loadingTest } = User.Queries.useGetTestDetails(testId + '', {
     enabled: !!testId
   })
   const {

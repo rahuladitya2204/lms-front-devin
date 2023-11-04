@@ -26,8 +26,6 @@ const { Content, Sider } = Layout
 
 const UserRootScreen: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
-  const { isLoading } = User.Queries.useInitUser()
-
   const navigate = useNavigate()
 
   return (

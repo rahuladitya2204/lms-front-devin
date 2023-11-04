@@ -32,7 +32,7 @@ const DashboardOverview: React.FC = () => {
   const endDate = dayjs()
     .endOf('day')
     .toISOString()
-  const { data: Analytics, isLoading } = User.Queries.useGetOverviewReport({
+  const { data: Analytics, isFetching } = User.Queries.useGetOverviewReport({
     startDate,
     endDate
   })
@@ -52,7 +52,7 @@ const DashboardOverview: React.FC = () => {
             />
           </Col>
           <Col span={8}>
-            <Card style={{height: 160}} loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isFetching} bordered={false}>
               <Statistic
                 title="Total Revenue"
                 value={Analytics?.totalRevenue}
@@ -64,7 +64,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card style={{height: 160}} loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isFetching} bordered={false}>
               <Statistic
                 title="New Signups"
                 value={Analytics?.totalNewSignups}
@@ -76,7 +76,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card style={{height: 160}} loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isFetching} bordered={false}>
               <Statistic
                 title="New Enrollments"
                 value={Analytics?.totalActiveUsers}
@@ -87,7 +87,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card style={{height: 160}} loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isFetching} bordered={false}>
               <Statistic
                 title="Active Users"
                 value={Analytics?.totalActiveUsers}
@@ -98,7 +98,7 @@ const DashboardOverview: React.FC = () => {
             </Card>
           </Col>
           <Col span={8}>
-            <Card style={{height: 160}} loading={isLoading} bordered={false}>
+            <Card style={{height: 160}} loading={isFetching} bordered={false}>
               <Statistic
                 title="Total Time Spent"
                 value={Analytics?.totalActiveUsers}
@@ -113,22 +113,22 @@ const DashboardOverview: React.FC = () => {
       <Col span={24}>
         <Row gutter={[30, 30]}>
           <Col span={12}>
-            <Card loading={isLoading} title="Revenue">
+            <Card loading={isFetching} title="Revenue">
               <NewSignups />
             </Card>
           </Col>
           <Col span={12}>
-            <Card loading={isLoading} title="Transactions">
+            <Card loading={isFetching} title="Transactions">
               <Transactions />
             </Card>
           </Col>
           <Col span={12}>
-            <Card loading={isLoading} title="Active Users">
+            <Card loading={isFetching} title="Active Users">
               <ActiveUsers />
             </Card>
           </Col>
           <Col span={12}>
-            <Card loading={isLoading} title="Paid Users">
+            <Card loading={isFetching} title="Paid Users">
               <PaidUsers />
             </Card>
           </Col>

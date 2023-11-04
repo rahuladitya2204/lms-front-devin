@@ -3,11 +3,11 @@ import { Store, Types, User } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
 import Header from '@Components/Header';
+import HtmlViewer from '@Components/HtmlViewer';
+import TextArea from '@Components/Textarea';
 import TicketItem from '../TicketsScreen/TicketItem';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router';
-import TextArea from '@Components/Textarea';
-import HtmlViewer from '@Components/HtmlViewer';
 
 const { useToken } = theme
 

@@ -4,7 +4,7 @@ import { useParams } from 'react-router'
 
 export default function useQuestion() {
   const { questionId, testId } = useParams()
-  const { data: { sections }, isLoading } = Learner.Queries.useGetTestStatus(
+  const { data: { sections }, isFetching } = Learner.Queries.useGetTestStatus(
     testId + ''
   )
   const questions = sections.map(e => e.items).flat()
@@ -15,6 +15,6 @@ export default function useQuestion() {
     currentQuestion:
       questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION,
     currentQuestionIndex,
-    loading: isLoading
+    loading: isFetching
   }
 }

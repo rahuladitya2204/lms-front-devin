@@ -74,7 +74,7 @@ const CourseSubTitle = styled(Paragraph)`
 
 function CourseDetailViewer () {
   const { id: courseId } = useParams();
-  const { data: course,isLoading: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
+  const { data: course,isFetching: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
   const instructor = course.instructor as unknown as Types.Instructor;
@@ -184,7 +184,7 @@ const CourseCard = ({courseId,plan,children}: {
   plan: Types.Plan,
   children?:React.ReactNode
 }) => {
-  const { data: course,isLoading: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
+  const { data: course,isFetching: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
   const message = useMessage();

@@ -12,7 +12,7 @@ const { Text } = Typography;
 
 function UpcomingEvent(props: { filter: Types.GetEventsFilter }) {
   const navigate = useNavigate();
-  const { data, isLoading: loading } = User.Queries.useGetEvents(props.filter);
+  const { data, isFetching: loading } = User.Queries.useGetEvents(props.filter);
   return (
       <Card
         bodyStyle={{ padding: 0 }}

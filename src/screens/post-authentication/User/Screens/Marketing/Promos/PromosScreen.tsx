@@ -12,7 +12,7 @@ import dayjs from 'dayjs'
 const { Text } = Typography
 
 function PromosScreen() {
-  const { data, isLoading: loading } = User.Queries.useGetPromos()
+  const { data, isFetching: loading } = User.Queries.useGetPromos()
 
   return (
     <Header

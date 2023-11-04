@@ -21,7 +21,7 @@ function GrapesJSComponent({ html = '', css = '', js = '' }) {
   const editorRef = useRef()
   const {
     mutate: uploadFiles,
-    isLoading: loading
+    isFetching: loading
   } = Common.Queries.useUploadFiles()
 
   useEffect(

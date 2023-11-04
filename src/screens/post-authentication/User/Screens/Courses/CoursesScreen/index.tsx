@@ -11,7 +11,7 @@ function CoursesScreen () {
   const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1].map(
     () => Constants.INITIAL_COURSE_DETAILS
   )
-  const { data: courses, isLoading: loading } = User.Queries.useGetCourses()
+  const { data: courses, isFetching: loading } = User.Queries.useGetCourses()
   const CreateCourseCta = (
     <ActionModal cta={<Button type="primary">Create Course</Button>}>
       <CreateCourseComponent />

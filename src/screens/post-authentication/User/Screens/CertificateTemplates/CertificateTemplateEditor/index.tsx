@@ -6,13 +6,13 @@ import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import SunEditor from '@Components/SunEditor/SunEditor'
+import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { uniqueId } from 'lodash'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
 import { useWatch } from 'antd/es/form/Form'
-import TextArea from '@Components/Textarea'
 
 const SIZES = {
   portrait: {

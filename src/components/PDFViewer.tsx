@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
-import { Common } from '@adewaskar/lms-common'
-import { Viewer, Worker } from '@react-pdf-viewer/core'
 import '@react-pdf-viewer/core/lib/styles/index.css'
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
-import { Spin } from 'antd'
+
+import React, { useState } from 'react'
+import { Viewer, Worker } from '@react-pdf-viewer/core'
+
+import { Common } from '@adewaskar/lms-common'
 import ErrorBoundary from './ErrorBoundary'
+import { Spin } from 'antd'
+import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 
 interface PDFViewerPropsI {
   file: { _id: string };
@@ -17,7 +19,7 @@ const PDFViewer = (props: PDFViewerPropsI) => {
   const [loading, setLoading] = useState(true)
   const {
     data: url,
-    isLoading: loadingFile
+    isFetching: loadingFile
   } = Common.Queries.useGetPresignedUrlFromFile(props.file._id, {
     enabled: !!props.file._id
   })

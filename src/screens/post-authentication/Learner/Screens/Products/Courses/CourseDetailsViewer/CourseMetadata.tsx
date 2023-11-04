@@ -62,7 +62,7 @@ function CourseMetadata(props: CourseMetadataPropsI) {
   const courseId = props.course._id
   const {
     data: course,
-    isLoading: loadingCourse
+    isFetching: loadingCourse
   } = Learner.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId
   })

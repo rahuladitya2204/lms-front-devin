@@ -20,7 +20,7 @@ interface TestResultItem {
 
 const TestResultTable: React.FC = () => {
   const { testId } = useParams<{ testId: string }>();
-  const { data: {test:testResult}, isLoading } = Learner.Queries.useGetTestResult(testId || '');
+  const { data: {test:testResult}, isFetching } = Learner.Queries.useGetTestResult(testId || '');
 
   // @ts-ignore
   const processedData: TestResultItem[] = testResult?.sections?.map((section, sectionIndex) => {
@@ -44,7 +44,7 @@ const TestResultTable: React.FC = () => {
   return (
     <Table bordered pagination={false}
     dataSource={processedData}
-    loading={isLoading}   expandable={{
+    loading={isFetching}   expandable={{
         expandedRowRender: (record) => <>
             <Title level={4}>Solution</Title>
             <div>

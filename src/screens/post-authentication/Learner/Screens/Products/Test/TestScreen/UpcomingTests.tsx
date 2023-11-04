@@ -24,7 +24,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
   const navigate = useNavigate()
   const {
     data,
-    isLoading: loading
+    isFetching: loading
   } = Learner.Queries.useGetEnrolledProductList('test')
   if (loading) {
     const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1]

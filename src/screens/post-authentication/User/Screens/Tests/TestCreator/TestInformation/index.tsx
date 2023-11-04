@@ -19,7 +19,7 @@ function TestInformationEditor(props: any) {
 
   const {
     data: testDetails,
-    isLoading: loadingTest
+    isFetching: loadingTest
   } = User.Queries.useGetTestDetails(testId, {
     enabled: !!testId
   })

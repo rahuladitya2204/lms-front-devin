@@ -33,7 +33,7 @@ const UploadVideoForm:any = () => {
   const { onFormChange, item, handleTopicsChange, topics } = useUploadItemForm(form);
   const [loading, setLoading] = useState(false);
   // const jobs = item?.file?.metadata;
-  const { data: file,isLoading: loadingFile } = User.Queries.useGetFileDetails(item.file + '', {
+  const { data: file,isFetching: loadingFile } = User.Queries.useGetFileDetails(item.file + '', {
     enabled:!!item.file
   });
   const videoJobId = file?.metadata?.video?.jobId;

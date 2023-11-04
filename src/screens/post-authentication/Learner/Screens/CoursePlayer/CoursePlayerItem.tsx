@@ -6,8 +6,8 @@ import CoursePlayerTextItem from './CoursePlayerItems/Text'
 import ErrorBoundary from '@Components/ErrorBoundary'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
-import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 import { Spin } from 'antd'
+import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
 import { useParams } from 'react-router'
 
 function CoursePlayerItem() {
@@ -53,7 +53,7 @@ function CoursePlayerItem() {
   const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
   const {
     data: file,
-    isLoading: loadingFile
+    isFetching: loadingFile
   } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })

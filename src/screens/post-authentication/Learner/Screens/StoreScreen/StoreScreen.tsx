@@ -22,7 +22,7 @@ function StoreScreen () {
   const params = useParams()
   const {
     data: { courses, events, tests },
-    isLoading
+    isFetching
   } = Learner.Queries.useGetRecommendedProducts()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
   const { isTablet,isMobile} = useBreakpoint();
@@ -51,7 +51,7 @@ function StoreScreen () {
         </Row>
       </Col>:null}
    
-      {isLoading ? <Col span={24}>
+      {isFetching ? <Col span={24}>
    
         <Row gutter={[50, 50]}>
         <Col span={24}>

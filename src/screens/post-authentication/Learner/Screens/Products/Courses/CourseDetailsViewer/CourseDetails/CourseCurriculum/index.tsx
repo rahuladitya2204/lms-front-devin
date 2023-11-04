@@ -13,7 +13,7 @@ function CourseCurriculum(props: CourseCurriculumPropsI) {
   const courseId = props.course._id
   const {
     data: course,
-    isLoading: loadingCourse
+    isFetching: loadingCourse
   } = Learner.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId
   })

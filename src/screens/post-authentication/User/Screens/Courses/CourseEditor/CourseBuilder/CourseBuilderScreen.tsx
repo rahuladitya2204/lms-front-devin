@@ -29,7 +29,6 @@ import SetCourseRules from './SetCourseRules'
 import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
 
-
 const { confirm } = Modal
 
 function CourseBuilderScreen() {

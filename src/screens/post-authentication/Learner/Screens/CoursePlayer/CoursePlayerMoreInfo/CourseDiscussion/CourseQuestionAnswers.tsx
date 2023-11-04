@@ -18,7 +18,7 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
   const { token } = useToken()
   const {
     data: question,
-    isLoading: loadingQuestion
+    isFetching: loadingQuestion
   } = Learner.Queries.useGetCourseQuestionDetails(
     props.courseId,
     props.questionId

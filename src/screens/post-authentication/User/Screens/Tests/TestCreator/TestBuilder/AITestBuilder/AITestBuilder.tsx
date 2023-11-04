@@ -4,8 +4,8 @@ import { Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
-import { useState } from 'react'
 import { uniqueId } from 'lodash';
+import { useState } from 'react'
 
 const { confirm } = Modal;
 

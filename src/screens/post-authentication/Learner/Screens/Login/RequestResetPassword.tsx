@@ -1,6 +1,7 @@
-import useMessage from '@Hooks/useMessage'
-import { Learner } from '@adewaskar/lms-common'
 import { Button, Form, Input } from 'antd'
+
+import { Learner } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
 
 const RequestResetPassword = () => {
   const [form] = Form.useForm()

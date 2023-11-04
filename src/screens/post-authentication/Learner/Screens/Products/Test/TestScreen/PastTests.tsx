@@ -1,7 +1,7 @@
 import { Avatar, Badge, Button, Card, Col, List, Tag, Typography } from 'antd'
+import { CalendarOutlined, EditOutlined } from '@ant-design/icons'
 import { Learner, Types } from '@adewaskar/lms-common'
 
-import { CalendarOutlined, EditOutlined } from '@ant-design/icons'
 import Image from '@Components/Image'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
@@ -13,7 +13,7 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
   const navigate = useNavigate()
   const {
     data,
-    isLoading: loading
+    isFetching: loading
   } = Learner.Queries.useGetEnrolledProductList('test')
   console.log(data, 'tests')
   return (

@@ -35,7 +35,7 @@ export default function TestMetrics() {
   const { testId } = useParams()
   const {
     data: { test, charts },
-    isLoading: loadingResult
+    isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
 
   const COLORS = ['#52c41a', '#FF4040', '#D3D3D3'] // Green for correct, Red for wrong, Grey for unattempted

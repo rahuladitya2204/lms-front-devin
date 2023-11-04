@@ -1,6 +1,6 @@
 import { Avatar, Card, Col, List, Row, Space, Table } from 'antd'
-
 import { Learner, Types } from '@adewaskar/lms-common'
+
 import Image from '@Components/Image'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router'
 const { Meta } = Card
 
 function UpcomingEvent(props: { filter: Types.GetEventsFilter }) {
-  const { data, isLoading: loading } = Learner.Queries.useGetEvents(
+  const { data, isFetching: loading } = Learner.Queries.useGetEvents(
     props.filter
   )
   const navigate = useNavigate()

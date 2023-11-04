@@ -11,7 +11,7 @@ export default function SearchLearnerCourses() {
     const [text, setText] = useState('')
     const {
         data: searchedCourses,
-        isLoading: loading
+        isFetching: loading
       } = Learner.Queries.useGetCoursesOfOrganisation({
         searchValue: text
       })

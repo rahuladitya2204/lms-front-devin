@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router'
 const { Text } = Typography;
 
 function PastEvent(props:{filter:Types.GetEventsFilter}) {
-  const { data, isLoading: loading } = User.Queries.useGetEvents(props.filter);
+  const { data, isFetching: loading } = User.Queries.useGetEvents(props.filter);
   return (
       <Card
         bodyStyle={{ padding: 0 }}

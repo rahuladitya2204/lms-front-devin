@@ -13,7 +13,7 @@ interface CourseCurriculumItemPropsI {
 function CourseCurriculumItem({ item }: CourseCurriculumItemPropsI) {
   const {
     data: { url },
-    isLoading: loading
+    isFetching: loading
   } = Learner.Queries.useGetFileDetails(item.file + '', {
     enabled: !!item.file
   })

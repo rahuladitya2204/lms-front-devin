@@ -11,7 +11,7 @@ import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
 function TicketsScreen() {
-  const { data: tickets, isLoading: loading } = User.Queries.useGetTickets()
+  const { data: tickets, isFetching: loading } = User.Queries.useGetTickets()
   const { mutate: updateTicketStatus } = User.Queries.useUpdateTicketStatus()
   const navigate = useNavigate()
   return (

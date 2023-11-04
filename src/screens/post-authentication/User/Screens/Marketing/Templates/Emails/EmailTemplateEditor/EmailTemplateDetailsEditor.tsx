@@ -18,17 +18,17 @@ interface CreateEmailTemplateComponentPropsI {
 const EmailTemplateDetailsEditor: React.FC<CreateEmailTemplateComponentPropsI> = (props) => {
   const { id } = useParams();
   const templateId = props.id || id;
-  const { data: template,isLoading: loadingTemplate } = User.Queries.useGetEmailTemplateDetails(templateId);
+  const { data: template,isFetching: loadingTemplate } = User.Queries.useGetEmailTemplateDetails(templateId);
   const { useWatch } = Form;
   const form = Form.useFormInstance<Types.EmailTemplate>();
 
   const subject = useWatch(['subject'], form);
   const content = useWatch(['content'], form);
-  const { data: { EmailTemplatesMap },isLoading: loadingTemplates } = Common.Queries.useGetAppConfig('user');
+  const { data: { EmailTemplatesMap },isFetching: loadingTemplates } = Common.Queries.useGetAppConfig('user');
   const MailType = EmailTemplatesMap[template.emailType] ? EmailTemplatesMap[template.emailType] : {};
   const variables = MailType.variables;
   
-  const isLoading=loadingTemplates || loadingTemplate
+  const isFetching=loadingTemplates || loadingTemplate
 
   return (
     <Row gutter={[20,20]}>

@@ -12,7 +12,7 @@ import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 
 function LearnersScreen () {
-  const { data, isLoading: loading } = User.Queries.useGetLearners()
+  const { data, isFetching: loading } = User.Queries.useGetLearners()
 
   return (
     <Header

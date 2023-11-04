@@ -31,22 +31,22 @@ function EmailSettingScreen() {
   const message = useMessage()
   const {
     data: setting,
-    isLoading: loadingSetting
+    isFetching: loadingSetting
   } = User.Queries.useGetOrgSetting()
   const {
     mutate: updateSetting,
-    isLoading: updatingSetting
+    isFetching: updatingSetting
   } = User.Queries.useUpdateOrgSetting()
 
   const {
     mutate: verifyMailAddress,
-    isLoading: verifyingMail
+    isFetching: verifyingMail
   } = User.Queries.useVerifyMailAddress()
 
 
   const {
     mutate: validateMailAddress,
-    isLoading: validateingMail
+    isFetching: validateingMail
   } = User.Queries.useValidateMailAddress()
 
   useEffect(

@@ -1,14 +1,15 @@
 import { Button, Space, Table } from 'antd'
+
 import Container from '@Components/Container'
+import { EditOutlined } from '@ant-design/icons'
 import Header from '@User/Screens/UserRoot/UserHeader'
+import MoreButton from '@Components/MoreButton'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
-import MoreButton from '@Components/MoreButton'
-import { EditOutlined } from '@ant-design/icons'
 
 function PackagesScreen() {
-  const { data, isLoading: loading } = User.Queries.useGetPackages()
+  const { data, isFetching: loading } = User.Queries.useGetPackages()
   const navigate = useNavigate()
   return (
     <Header

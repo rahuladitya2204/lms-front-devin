@@ -14,12 +14,12 @@ import {
 import { TERMS, TEST_RULES } from './constant'
 import { useNavigate, useParams } from 'react-router'
 
-import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
 import ActionModal from '@Components/ActionModal'
 import Countdown from '@Components/Countdown'
+import Header from '@Components/Header'
 import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
+import { Learner } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 
 const { Title, Text } = Typography
 

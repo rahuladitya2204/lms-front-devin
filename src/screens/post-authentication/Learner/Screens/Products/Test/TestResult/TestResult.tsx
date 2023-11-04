@@ -26,7 +26,7 @@ const LearnerTestResult = function() {
   const { testId } = useParams()
   const {
     data: { test },
-    isLoading: loadingResult
+    isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   if (loadingResult) {
     return (

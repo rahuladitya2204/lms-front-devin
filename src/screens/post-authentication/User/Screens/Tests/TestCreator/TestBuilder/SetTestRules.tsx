@@ -8,8 +8,8 @@ import {
   Switch,
   Typography
 } from 'antd'
-
 import { Types, User } from '@adewaskar/lms-common'
+
 import styled from 'styled-components'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
@@ -30,7 +30,7 @@ const SwitchButton = styled(Switch)`
 export default function SetTestRules(props: SetTestRulesPropsI) {
   const [form] = Form.useForm()
   const testId = props.testId
-  const { data: test, isLoading: loadingTest } = User.Queries.useGetTestDetails(
+  const { data: test, isFetching: loadingTest } = User.Queries.useGetTestDetails(
     testId + '',
     {
       enabled: !!testId

@@ -12,7 +12,7 @@ import { useState } from 'react'
 
 function WhatsappTemplatesScreen() {
   // const navigate = useNavigate();
-  const { data, isLoading: loading } = User.Queries.useGetWhatsappTemplates()
+  const { data, isFetching: loading } = User.Queries.useGetWhatsappTemplates()
   const {mutate: sendForApproval } = User.Queries.useSendTemplateForApproval();
   return (
       <Card

@@ -31,7 +31,7 @@ function PaymentSettings() {
 
   const {
     data: { payment: paymentSetting },
-    isLoading: loadingSettings
+    isFetching: loadingSettings
   } = User.Queries.useGetOrgSetting()
   const {
     mutate: updateOrgSetting,

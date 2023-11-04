@@ -1,11 +1,11 @@
 import { CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons'
 import { Collapse, List, Spin, Tag, Typography } from 'antd'
-import { useNavigate } from 'react-router'
 
 import { Fragment } from 'react'
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
+import { useNavigate } from 'react-router'
 
 interface TestQuestionNavigatorPropsI {
   testId: string;
@@ -45,11 +45,11 @@ export default function TestQuestionNavigator(
   const navigate = useNavigate()
   const { data: test } = Learner.Queries.useGetTestDetails(props.testId + '')
   //    const { data: { sections } } = Learner.Queries.useGetTestStatus(
-  const { data: { sections }, isLoading } = Learner.Queries.useGetTestStatus(
+  const { data: { sections }, isFetching } = Learner.Queries.useGetTestStatus(
     props.testId + ''
   )
   return (
-    <Spin spinning={isLoading}>
+    <Spin spinning={isFetching}>
       {' '}
       <Collapse
         defaultActiveKey={test.sections.map(s => s._id)}

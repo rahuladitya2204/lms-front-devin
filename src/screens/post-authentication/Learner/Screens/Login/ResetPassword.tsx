@@ -1,6 +1,7 @@
-import React from 'react'
-import { Card, Form, Input, Button } from 'antd'
+import { Button, Card, Form, Input } from 'antd'
+
 import { Learner } from '@adewaskar/lms-common'
+import React from 'react'
 import { useNavigate } from 'react-router'
 
 const ResetPasswordForm = () => {

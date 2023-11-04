@@ -27,7 +27,8 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
   const { itemId } = useParams()
   const {
     data: notes,
-    isFetching: loadingNotes
+    isLoading: loadingNotes,
+    isFetching: fetchingNotes
   } = Learner.Queries.useGetCourseNotes(
     course._id
     // {
@@ -42,7 +43,7 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
     
         {loadingNotes?<>  <Skeleton avatar paragraph={{ rows: 1 }} />
             <Skeleton avatar paragraph={{ rows: 1 }} />
-            <Skeleton avatar paragraph={{ rows: 1 }} /></>: <List
+            <Skeleton avatar paragraph={{ rows: 1 }} /></>: <List loading={fetchingNotes}
           locale={{ emptyText: 'No Notes Added' }}
           itemLayout="horizontal"
           dataSource={currentItemNotes}

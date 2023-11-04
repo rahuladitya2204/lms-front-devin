@@ -11,7 +11,7 @@ import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 
 function InstructorsScreen() {
-  const { data, isLoading: loading } = User.Queries.useGetInstructors()
+  const { data, isFetching: loading } = User.Queries.useGetInstructors()
 
   return (
     <Header

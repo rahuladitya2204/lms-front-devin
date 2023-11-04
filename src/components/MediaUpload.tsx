@@ -64,7 +64,7 @@ const CustomUpload = styled(Upload)(
 const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   const {
     mutate: uploadFiles,
-    isLoading: loading
+    isFetching: loading
   } = Common.Queries.useUploadFiles()
   const [file, setFile] = useState(null)
   const [fileList, setFileList] = useState(null)

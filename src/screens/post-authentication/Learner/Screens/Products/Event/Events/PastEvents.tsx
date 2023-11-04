@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router'
 const { Text } = Typography
 
 function PastEvent(props: { filter: Types.GetEventsFilter }) {
-  const { data, isLoading: loading } = Learner.Queries.useGetEvents(
+  const { data, isFetching: loading } = Learner.Queries.useGetEvents(
     props.filter
   )
   return (

@@ -11,24 +11,24 @@ import {
   Table,
   Typography,
 } from 'antd'
+import { Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
+import AddProduct from './Products/AddProduct'
+import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
+import LocationAutocomplete from '@Components/LocationSelector'
+import LocationSelector from '@Components/LocationSelector'
 import MediaUpload from '@Components/MediaUpload'
 import PriceFormItem from '@Components/PriceFormItem'
+import Products from './Products/Products'
 import TextArea from '@Components/Textarea'
-import { Enum, Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
-import { useNavigate, useParams } from 'react-router'
-import LocationSelector from '@Components/LocationSelector'
-import LocationAutocomplete from '@Components/LocationSelector'
-import AddProduct from './Products/AddProduct'
-import Products from './Products/Products'
-import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 
 interface CreatePackageComponentPropsI {
   // data: Types.Package;

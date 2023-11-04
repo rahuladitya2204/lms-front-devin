@@ -11,24 +11,24 @@ import {
   Select,
   Table,
 } from 'antd'
+import { Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
 import AddTestimonial from '../../ExtraComponents/Testimonials/AddTestomonial'
-import Header from '@Components/Header'
-import Image from '@Components/Image'
 import EventOutcomes from '../../ExtraComponents/Outcomes/Outcomes'
 import EventTestimonials from '../../ExtraComponents/Testimonials/Testimonials'
+import Header from '@Components/Header'
+import Image from '@Components/Image'
+import LocationAutocomplete from '@Components/LocationSelector'
+import LocationSelector from '@Components/LocationSelector'
 import MediaUpload from '@Components/MediaUpload'
 import PriceFormItem from '@Components/PriceFormItem'
 import TextArea from '@Components/Textarea'
-import { Enum, Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
-import { useNavigate, useParams } from 'react-router'
-import LocationSelector from '@Components/LocationSelector'
-import LocationAutocomplete from '@Components/LocationSelector'
 
 interface CreateEventComponentPropsI {
   children?: ReactNode;
@@ -51,7 +51,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
     isLoading: updateEventLoading
   } = User.Queries.useUpdateEvent()
 
-  const {data: eventDetails,isLoading: loadingEvent}=User.Queries.useGetEventDetails(eventId+'',{
+  const {data: eventDetails,isFetching: loadingEvent}=User.Queries.useGetEventDetails(eventId+'',{
     enabled:!!eventId
   })
 

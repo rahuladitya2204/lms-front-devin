@@ -23,7 +23,7 @@ import { useNavigate } from 'react-router'
 const { confirm } = Modal
 
 function CampaignsScreen() {
-  const { data, isLoading: loading } = User.Queries.useGetCampaigns()
+  const { data, isFetching: loading } = User.Queries.useGetCampaigns()
   const { mutate: executeCampaign } = User.Queries.useExecuteCampaign()
   // const { mutate: deleteCampaign } = User.Queries.usedeletec()
   const navigate = useNavigate()

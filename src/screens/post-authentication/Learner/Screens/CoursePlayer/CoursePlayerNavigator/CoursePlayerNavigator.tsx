@@ -40,7 +40,7 @@ function CoursePlayerNavigator({
 }: CoursePlayerNavigatorPropsI) {
   const {
     data: { product: { data: course } },
-    isLoading: loadingCourse
+    isFetching: loadingCourse
   } = Learner.Queries.useGetEnrolledCourseDetails(courseId, {
     enabled: !!courseId
   })

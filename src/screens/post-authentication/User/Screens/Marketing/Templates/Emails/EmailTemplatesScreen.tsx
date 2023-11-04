@@ -7,17 +7,17 @@ import ActionModal from '@Components/ActionModal'
 import AddEmailTemplate from './CreateEmailTemplate'
 import { EmailTemplateStatusMap } from './Constant'
 import Header from '@Components/Header'
+import MoreButton from '@Components/MoreButton'
 import { User } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
-import MoreButton from '@Components/MoreButton'
 
 function EmailTemplatesScreen() {
   // @ts-ignore
   const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
 
   const navigate = useNavigate();
-  const { data, isLoading: loading } = User.Queries.useGetEmailTemplates()
+  const { data, isFetching: loading } = User.Queries.useGetEmailTemplates()
   const [type, setType] = useState('default')
   return (
     <Header>

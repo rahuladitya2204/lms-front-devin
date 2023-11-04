@@ -9,6 +9,7 @@ import {
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin } from 'antd'
 import React, { Fragment, useRef } from 'react'
+
 import SunEditor from 'suneditor-react'
 import { variablePlugin } from './plugins/variable.plugin'
 

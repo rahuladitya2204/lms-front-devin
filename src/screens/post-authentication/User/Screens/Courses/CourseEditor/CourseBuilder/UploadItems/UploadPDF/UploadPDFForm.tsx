@@ -12,10 +12,10 @@ import {
   Upload
 } from 'antd'
 import { Common, User } from '@adewaskar/lms-common'
+import { Fragment, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import FileList from '@Components/FileList'
-import { Fragment, useState } from 'react'
 import InputTags from '@Components/InputTags/InputTags'
 import MediaUpload from '@Components/MediaUpload'
 import PDFViewer from '@Components/PDFViewer'
@@ -36,7 +36,7 @@ const UploadPDFForm: React.FC = () => {
     topics
   } = useUploadItemForm(form)
   const [loading, setLoading] = useState(false)
-  const { data: file, isLoading: loadingFile } = User.Queries.useGetFileDetails(
+  const { data: file, isFetching: loadingFile } = User.Queries.useGetFileDetails(
     item.file + '',
     {
       enabled: !!item.file

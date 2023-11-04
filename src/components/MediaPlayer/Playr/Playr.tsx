@@ -12,11 +12,11 @@ import React, {
 import { Store, Types } from '@adewaskar/lms-common'
 
 import { CustomXhrLoader } from './Hls'
+import ErrorBoundary from '@Components/ErrorBoundary'
 import Hls from 'hls.js'
 import { LiveCaption } from './Caption'
 import Plyr from 'plyr'
 import { htmlToText } from 'html-to-text'
-import ErrorBoundary from '@Components/ErrorBoundary'
 
 // import 'plyr/dist/plyr.css'
 
@@ -186,7 +186,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
       };
     }
   }, [props.url]);
-// console.log(isLoading,'loadddd')
+// console.log(isFetching,'loadddd')
   return (
     <ErrorBoundary>
      <Fragment>

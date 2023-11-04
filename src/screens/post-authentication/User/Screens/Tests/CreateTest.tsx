@@ -52,10 +52,6 @@ interface CreateTestComponentPropsI {
       isLoading: updateTestLoading
     } = User.Queries.useUpdateTest()
   
-      const { data: testDetails } = User.Queries.useGetTestDetails(testId + '', {
-          enabled: !!testId
-      });
-  
     const [form] = Form.useForm<Types.CreateTestPayload>()
   
     const onSubmit = (e: Types.CreateTestPayload) => {

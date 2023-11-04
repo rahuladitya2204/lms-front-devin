@@ -77,7 +77,7 @@ function CoursePlayer() {
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
   const { id: courseId, itemId, sectionId } = useParams()
   const {
-    data: { metadata: { progress }, review, plan: { trialExpiresAt } }, isLoading: loadingEnrolledCourse
+    data: { metadata: { progress }, review, plan: { trialExpiresAt } }, isFetching: loadingEnrolledCourse
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: 'course',
@@ -87,7 +87,7 @@ function CoursePlayer() {
       enabled: !!courseId
     }
   )
-  const { data: course,isLoading:loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '')
+  const { data: course,isFetching:loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '')
 
   const navigate = useNavigate()
   const [searchText, setSearchText] = useState('')
@@ -168,9 +168,9 @@ function CoursePlayer() {
     [trialExpiresAt]
   );
 
-  const isLoading = loadingEnrolledCourse || loadingCourse;
+  const isFetching = loadingEnrolledCourse || loadingCourse;
   const CourseNavigator=<> 
-{isLoading?<>
+{isFetching?<>
         <Skeleton.Input block />
   <PlayerSkeleton />
       <PlayerSkeleton />
