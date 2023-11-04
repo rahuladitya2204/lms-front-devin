@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
-import Plyr from 'plyr'
 import { Learner, Store } from '@adewaskar/lms-common'
+import { useEffect, useRef } from 'react'
+
+import Plyr from 'plyr'
 
 const WATCHTIME_UPDATE_API_DELAY = 60000
 
@@ -13,7 +14,7 @@ const useWatchTime = (courseId: string) => {
   } = Learner.Queries.useUpdateCourseWatchTime()
   useEffect(
     () => {
-      if (player) {
+      if (player && player.on) {
         const timeUpdateHandler = () => {
           const currentTimestamp = Date.now()
           // console.log(currentTimestamp, 'currentTimestamp')
@@ -32,11 +33,11 @@ const useWatchTime = (courseId: string) => {
           }
         }
         player.on('timeupdate', timeUpdateHandler)
-        // return () => {
-        //   if (player) {
-        //     player.off('timeupdate', timeUpdateHandler)
-        //   }
-        // }
+        return () => {
+          if (player) {
+            player.off('timeupdate', timeUpdateHandler)
+          }
+        }
       }
 
       // Clean up event listener when the component is unmounted

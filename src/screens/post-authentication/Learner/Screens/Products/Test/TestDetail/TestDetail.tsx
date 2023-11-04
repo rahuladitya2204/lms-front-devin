@@ -26,23 +26,25 @@ interface TestDetailScreenPropsI {}
 export default function TestDetailScreen(
   props: TestDetailScreenPropsI
 ) {
-  const { testId } = useParams()
+  const { testId } = useParams();
+
   const {
-    data: enrolledDetails
+    data: enrolledDetails,
+    isLoading: loadingEnrolledTest
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'test',
     id: testId + ''
   }, {
     enabled:!!testId
   })
-  const { data: test,isFetching: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
-  console.log(enrolledDetails, 'test.status');
+  const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
+  const isLoading = loadingEnrolledTest || loadingTest;
   return (
     <Row>
-      {loadingTest ? <Skeleton paragraph={{ rows: 1 }} /> : <>
+      {isLoading ? <Skeleton paragraph={{ rows: 1 }} /> : <>
       <Col md={24} sm={24} lg={0}>
           <TestCard plan={plan} testId={testId+''} />
           {/* Replace with card image */}
@@ -97,14 +99,16 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const qc = useQueryClient();
   const navigate = useNavigate();
   const {
-    data: enrolledDetails
+    data: enrolledDetails,
+    isLoading: loaindEnrolledTestDetails
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'test',
     id: testId + ''
   }, {
     enabled:!!testId
   })
-  const { data: test,isFetching: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
+  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
+  const isLoading = loaindEnrolledTestDetails || loadingTest;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
 const isEnrolled = !!enrolledDetails._id
   console.log(enrolledDetails, 'test.status');
@@ -177,7 +181,7 @@ const ENROLLED_CTA = useMemo(() => {
   // style={{ height: '100%' }}
     title={test.title} extra={(isMobile || isTablet) ? <ActionDrawer title="Test Details"
       cta={<Button icon={<InfoOutlined />}>Show More</Button>} > {Metadata} </ActionDrawer>:null}
-> {loadingTest ?
+> {isLoading ?
   <>
                        {/* <Skeleton active paragraph={{ rows: 1 }} /> */}
     <Row gutter={[20, 10]}>
@@ -208,13 +212,20 @@ const ENROLLED_CTA = useMemo(() => {
           <Row justify="space-between" align='middle'>
         <Col>
             <Row align='middle' gutter={[5, 5]}>
-              <Col><Text strong style={{ fontSize: 24 }}>{UnitTypeToStr(plan.finalPrice)}</Text></Col>
-             <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text></Col>
+                  <Col>
+                    <Text strong style={{ fontSize: 24 }}>{plan.type === 'free' ? <>
+                      <Title style={{ marginTop: 0 }} level={3}>Free</Title>
+                    </> : UnitTypeToStr(plan.finalPrice)}
+                    </Text>
+                  </Col>
+                  <Col>
+                    {plan.displayPrice.value?<Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text>:null}
+                  </Col>
           </Row>
         </Col>
-        <Col>
+       {plan.type!=='free' ?<Col>
           <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
-        </Col>
+        </Col>:null}
       </Row>
     </Col>
       <Col span={24}>

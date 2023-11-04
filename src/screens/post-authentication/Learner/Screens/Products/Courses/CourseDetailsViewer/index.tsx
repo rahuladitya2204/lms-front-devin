@@ -196,19 +196,20 @@ const CourseCard = ({courseId,plan,children}: {
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
-  const isSignedIn= Store.useAuthentication(s => s.isSignedIn);
+  const {isSignedIn,isLoading: validatingUser}= Store.useAuthentication(s => s);
 
-  const { data: courses } = Learner.Queries.useGetEnrolledCourses()
+  const { data: courses,isFetching: loadingENrolledCourses } = Learner.Queries.useGetEnrolledCourses()
   const isEnrolled = !!(courses.find((e) => {
     return e.product.id === courseId;
   }));
+  const isLoading = loadingENrolledCourses || loadingCourse || validatingUser;
   return    <Card
   cover
   bordered hoverable
   style={{ padding: 0 }}
   bodyStyle={{ padding: 5 }}
     >
-      {loadingCourse ?
+      {isLoading ?
         <>
           <Row gutter={[20, 10]}>
             <Col span={24}>

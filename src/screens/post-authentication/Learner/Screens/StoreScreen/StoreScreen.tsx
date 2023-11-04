@@ -57,16 +57,16 @@ function StoreScreen () {
         <Col span={24}>
           <Skeleton paragraph={{rows: 1}}	 />
         </Col>
-        <Col span={6} sm={6} xs={6}>
+        <Col lg={6} md={8} sm={12} xs={24}>
           <Skeleton active />
         </Col>
-        <Col span={6} sm={6} xs={6}>
+        <Col lg={6} md={8} sm={12} xs={24}>
           <Skeleton active />
         </Col>
-        <Col span={6} sm={6} xs={6}>
+        <Col lg={6} md={8} sm={12} xs={24}>
           <Skeleton active />
         </Col>
-        <Col span={6} sm={6} xs={6}>
+        <Col lg={6} md={8} sm={12} xs={24}>
           <Skeleton active />
         </Col>
         </Row></Col> : <>
