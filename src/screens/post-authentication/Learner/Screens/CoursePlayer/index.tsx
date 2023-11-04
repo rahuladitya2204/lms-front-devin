@@ -10,18 +10,25 @@ import {
   Tooltip,
   Typography
 } from 'antd'
-import { CaretLeftOutlined, CaretRightOutlined } from '@ant-design/icons'
+import {
+  CaretLeftOutlined,
+  CaretRightOutlined,
+  PlayCircleOutlined
+} from '@ant-design/icons'
 import { Learner, Store, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo, useState } from 'react'
 
+import ActionDrawer from '@Components/AcrtionDrawer'
 import ActionModal from '@Components/ActionModal'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
+import CoursePlayerNavigator from './CoursePlayerNavigator/CoursePlayerNavigator'
 import Header from '@Components/Header'
 import OrgLogo from '@Components/OrgLogo'
 import ReviewCourse from '../Products/Courses/ReviewCourse/ReviewCourse'
 import styled from '@emotion/styled'
+import useBreakpoint from '@Hooks/useBreakpoint'
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -142,6 +149,7 @@ function CoursePlayer() {
     },
     [itemId, sectionId, courseId]
   )
+  const { isMobile,isTablet,isDesktop} = useBreakpoint();
   const items = sections.map(i => i.items).flat()
   const showTrialBanner = useMemo(
     () =>
@@ -150,7 +158,21 @@ function CoursePlayer() {
         unit: 'day'
       }),
     [trialExpiresAt]
-  )
+  );
+
+  const CourseNavigator=<> <Search
+  value={searchText}
+  placeholder="Search in course.."
+  onChange={e => setSearchText(e.target.value)}
+  size="large"
+  style={{ marginBottom: 20 }}
+/>
+
+<CoursePlayerCollapsible
+  searchText={searchText}
+  courseId={course._id}
+  toggleItemCheck={toggleItemCheck}
+/></>
   return (
     <PlayerContainer>
       {showTrialBanner ? (
@@ -173,28 +195,25 @@ function CoursePlayer() {
               style={{ width: 60 }}
             />
             <Divider type="vertical" />
-            <Text style={{ fontSize: 16 }}>{course.title}</Text>
+            {!isMobile?<Text style={{ fontSize: 16 }}>{course.title}</Text>:null}
           </Space>
         }
         subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
         style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
-        // extra={[
-        //   <Text strong style={{ paddingRight: 10 }}>
-        //     Your Progress<Progress
-        //       style={{ marginLeft: 10 }}
-        //       type="circle"
-        //       percent={progress}
-        //       width={40}
-        //     />
-        //   </Text>
-        // ]}
+        extra={[
+          !isDesktop?<ActionDrawer
+          cta={isMobile?<Button shape='circle' icon={<PlayCircleOutlined />} />:<Button  icon={<PlayCircleOutlined />} >Show Playlist</Button>}
+        >
+         {CourseNavigator}
+        </ActionDrawer>:null
+        ]}
       />{' '}
       <Row
         style={{ padding: '20px 10px', background: '#f4f4f4' }}
         gutter={[10, 40]}
         justify="space-between"
       >
-        <Col span={18}>
+        <Col lg={18} md={24} sm={24} xs={24}>
           <Row>
             <Col span={24}>
               <div
@@ -245,20 +264,8 @@ function CoursePlayer() {
             </Col>
           </Row>
         </Col>
-        <Col span={6}>
-          <Search
-            value={searchText}
-            placeholder="Search in course.."
-            onChange={e => setSearchText(e.target.value)}
-            size="large"
-            style={{ marginBottom: 20 }}
-          />
-
-          <CoursePlayerCollapsible
-            searchText={searchText}
-            courseId={course._id}
-            toggleItemCheck={toggleItemCheck}
-          />
+        <Col lg={6} md={0} sm={0} xs={0}>
+         {CourseNavigator}
         </Col>
       </Row>
     </PlayerContainer>

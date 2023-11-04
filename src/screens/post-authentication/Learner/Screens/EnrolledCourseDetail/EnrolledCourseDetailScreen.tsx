@@ -37,6 +37,7 @@ import { useNavigate, useParams } from 'react-router'
 import Image from '@Components/Image'
 import PlayIcon from '@Icons/play.svg'
 import dayjs from 'dayjs'
+import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { Title, Text } = Typography
 const { Content } = Layout
@@ -76,7 +77,9 @@ const EnrolledCourseDetailScreen: React.FC<
   const playItem = (sectionId: string, itemId: string) => {
     navigate(`../../courses/${courseId}/player/${itemId}`)
   }
-  
+
+  const { isMobile, isTablet } = useBreakpoint()
+
   return (
     <Row>
       <Col span={24}>
@@ -84,7 +87,7 @@ const EnrolledCourseDetailScreen: React.FC<
           <Col span={24}>
             <Card size="small" title={null}>
               <Row>
-                <Col span={18} xs={0}>
+                <Col lg={18} md={18} sm={24} xs={24}>
                   <Title style={{ marginTop: 0 }}>{course.title}</Title>
                   <Row justify="space-between">
                     <Col>
@@ -98,7 +101,11 @@ const EnrolledCourseDetailScreen: React.FC<
                         {instructor.name}
                       </Space>
                     </Col>
-                    <Col>
+                    <Col
+                      // xs={24}
+                      flex={1}
+                      style={{ display: 'flex', justifyContent: 'flex-end' }}
+                    >
                       {lastPlayed ? (
                         <Button
                           onClick={continueLearning}
@@ -109,6 +116,8 @@ const EnrolledCourseDetailScreen: React.FC<
                         </Button>
                       ) : (
                         <Button
+                          size={isMobile ? 'large' : 'middle'}
+                          block={isMobile}
                           onClick={() => {
                             playItem(
                               course.sections[0]._id,
@@ -130,25 +139,25 @@ const EnrolledCourseDetailScreen: React.FC<
                     format={() => null}
                   />
                   <Row gutter={[30, 10]}>
-                    <Col>
+                    <Col sm={12} xs={24} md={8} lg={5}>
                       <FundProjectionScreenOutlined />{' '}
                       <Text strong>
                         {completed.length}/{course.totalItems} Lessons
                       </Text>
                     </Col>
 
-                    <Col>
+                    <Col sm={12} xs={24} md={8} lg={5}>
                       <EditOutlined />{' '}
                       <Text strong>{notes.length} Notes Taken</Text>
                     </Col>
 
-                    <Col>
+                    <Col sm={12} xs={24} md={8} lg={5}>
                       <ClockCircleOutlined />{' '}
                       <Text strong>{watchTime} Mins Watched</Text>
                     </Col>
 
                     {expiresAt ? (
-                      <Col>
+                      <Col sm={12} xs={24} md={8} lg={5}>
                         <CalendarOutlined />{' '}
                         <Text strong>{dayjs(expiresAt).format('LLL')}</Text>
                       </Col>
@@ -156,7 +165,7 @@ const EnrolledCourseDetailScreen: React.FC<
                   </Row>
                 </Col>
                 <Col span={1} />
-                <Col span={5} style={{ display: 'flex' }}>
+                <Col lg={5} md={5} sm={0} xs={0}>
                   <Image
                     style={{ borderRadius: 5 }}
                     src={course.thumbnailImage}
@@ -171,8 +180,8 @@ const EnrolledCourseDetailScreen: React.FC<
         <Row>
           <Col span={24}>
             <Card bordered={false} style={{ width: '100%', marginTop: 50 }}>
-              <Row>
-                <Col span={16}>
+              <Row gutter={[30, 30]}>
+                <Col lg={17} md={24} sm={24} xs={24}>
                   <Row gutter={[20, 30]}>
                     {course.sections.map(section => {
                       return (
@@ -274,8 +283,8 @@ const EnrolledCourseDetailScreen: React.FC<
                     })}
                   </Row>
                 </Col>
-                <Col span={1} />
-                <Col span={7}>
+                {/* <Col span={1} /> */}
+                <Col lg={7} md={0} sm={0} xs={0}>
                   <Row>
                     <Col span={24}>
                       <Title level={5}>Course Description</Title>
