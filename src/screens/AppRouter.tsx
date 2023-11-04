@@ -3,8 +3,10 @@ import {
   Route,
   RouterProvider,
   createBrowserRouter,
-  createRoutesFromElements
+  createRoutesFromElements,
+  useNavigate
 } from 'react-router-dom'
+import { Suspense, useEffect } from 'react'
 
 import AddPromo from '@User/Screens/Marketing/Promos/CreatePromo'
 import AddQuestion from '@User/Screens/Tests/TestCreator/TestBuilder/AddQuestionItem'
@@ -52,7 +54,6 @@ import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import ResetPassword from '@Learner/Screens/Login/ResetPassword'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
-import { Suspense } from 'react'
 import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
@@ -142,11 +143,9 @@ const router = (userType: string) => {
               />
               <Route path="ended" element={<UserMeetingEnded />} />
             </Route>
-
-            {/* <Route path="register" element={<LearnerRegister />} />
-          <Route path="login" element={<LearnerLogin />} /> */}
-
-          </>
+            <Route path='/' element={<ReturnLearnerToStore/>} />
+            <Route path="*" element={<NotFoundScreen />} />
+ </>
         ) : <>
          <Route path="login" element={<UserLoginScreen />} />
         <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
@@ -307,3 +306,22 @@ function AppRouter(props: { userType: string }) {
 }
 
 export default AppRouter
+
+
+const ReturnLearnerToStore = () => {
+  console.log('I am in return to store')
+  const navigate = useNavigate();
+  useEffect(() => { 
+    navigate('/app/store')
+  },[])
+  return null;
+}
+
+const ReturnUserToHome = () => {
+  console.log('I am in return to store')
+  const navigate = useNavigate();
+  useEffect(() => { 
+    navigate('/app/store')
+  },[])
+  return null;
+}

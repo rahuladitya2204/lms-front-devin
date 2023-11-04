@@ -19,25 +19,7 @@ export default function RootScreen () {
     [window.location.hostname]
   )
   const userType = Utils.Storage.GetItem('userType')
-
-  // useEffect(
-  //   () => {
-  //     if (userType === 'user') {
-  //       if (isSignedIn && window.location.pathname === '/') {
-  //         navigate('app/dashboard')
-  //       } else {
-  //         // navigate('login')
-  //       }
-  //     }
-
-  //     if (userType === 'learner' && window.location.pathname === '/') {
-  //       navigate('learner/app/store')
-  //     }
-  //   },
-  //   [userType, isSignedIn]
-  // )
-  // console.log(subdomain, userType, 'user type')
-  const { isInitDone } = useAppInit(userType)
+  const { isInitDone } = useAppInit(userType,!!isAliasValid)
   useEffect(() => {
     const sd = subdomain + ''
     Learner.Api.ValidateOrgAlias(sd)
@@ -54,7 +36,7 @@ export default function RootScreen () {
   if (isAliasValid === false) {
     return <NotFoundScreen />
   }
-  return isInitDone ? (
+  return (isInitDone&&isAliasValid) ? (
     <div>
       <Outlet />
     </div>

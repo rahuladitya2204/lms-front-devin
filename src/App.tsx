@@ -2,11 +2,11 @@ import './App.less'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import React, { Fragment, useEffect, useMemo } from 'react'
+import { Store, Utils } from '@adewaskar/lms-common'
 
 import AppRouter from './screens/AppRouter'
 import { Global } from '@emotion/react'
 import { theme } from 'antd'
-import { Store, Utils } from '@adewaskar/lms-common'
 
 const { defaultAlgorithm, darkAlgorithm } = theme
 

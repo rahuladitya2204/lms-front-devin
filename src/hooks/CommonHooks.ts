@@ -26,7 +26,7 @@ export const useGetNodeFromRouterOutlet = () => {
   return {  courseId,sectionId };
 }
 
-export const useAppInit = (type: string) => {
+export const useAppInit = (type: string, enabled:boolean) => {
   const token = getToken();
   const { fetchOrganisation } = Store.useGlobal();
   const [loading, setLoading] = useState(false);
@@ -36,14 +36,16 @@ export const useAppInit = (type: string) => {
   const { setIsSignedin, isSignedIn } = Store.useAuthentication.getState();
 
   useEffect(() => {
-    if (isSignedIn && type === 'user') {
+    if (isSignedIn && type === 'user'&&enabled) {
       fetchOrganisation(`user`)
     }
-   },[])
+   },[enabled])
 
   useEffect(() => {
-    initApp(type);
-  }, [type,token]);
+    if (enabled) {
+      initApp(type);
+    }
+  }, [type, token, enabled]);
 
 
   const initApp = async (userType: string) => {

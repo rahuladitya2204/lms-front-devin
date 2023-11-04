@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router'
 function OrgLogo(props: any) {
   const navigate = useNavigate()
   const { organisation } = Store.useGlobal(s => s)
+  if (!organisation.logo) {
+    return null
+  }
   return (
     <Image
       // onClick={() => navigate('../app/store')}
