@@ -1,17 +1,7 @@
-import {
-  ArrowUpOutlined,
-  CommentOutlined,
-} from '@ant-design/icons'
-import {
-  Avatar,
-  Card,
-  Col,
-  List,
-  Row,
-  Typography
-} from 'antd'
+import { ArrowUpOutlined, CommentOutlined } from '@ant-design/icons'
+import { Avatar, Card, Col, List, Row, Skeleton, Typography } from 'antd'
 
-import { Comment } from '@ant-design/compatible';
+import { Comment } from '@ant-design/compatible'
 import CreateQuestion from './CreateQuestion'
 import { Learner } from '@adewaskar/lms-common'
 import React from 'react'
@@ -25,7 +15,10 @@ interface CourseQuestionsListPropsI {
 }
 
 const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
-  const { data: questions } = Learner.Queries.useGetCourseQuestions(props.course._id)
+  const {
+    data: questions,
+    isLoading: loadingQuestions
+  } = Learner.Queries.useGetCourseQuestions(props.course._id)
 
   const upvote = () => {}
 
@@ -33,7 +26,12 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
     <Row>
       {questions.length ? (
         <Col span={24}>
-          <List
+          {loadingQuestions ? <>
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+          </> : <List
+            loading={loadingQuestions}
             className="comment-list"
             header={`${questions?.length} Comments`}
             itemLayout="horizontal"
@@ -54,8 +52,14 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
                   ]}
                 >
                   <List.Item.Meta
-                    avatar={<Avatar src={'https://joeschmoe.io/api/v1/random'} />}
-                    title={<Text ellipsis strong>{question.title}</Text>}
+                    avatar={
+                      <Avatar src={'https://joeschmoe.io/api/v1/random'} />
+                    }
+                    title={
+                      <Text ellipsis strong>
+                        {question.title}
+                      </Text>
+                    }
                     description={
                       <Text ellipsis>
                         {' '}
@@ -68,7 +72,7 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
                 </List.Item>
               )
             }}
-          />
+          />}
         </Col>
       ) : null}
 

@@ -6,12 +6,11 @@ import {
   Divider,
   List,
   Row,
+  Skeleton,
   Tag,
   Typography
 } from 'antd'
 import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
-
-import React, { useEffect, useState } from 'react'
 
 import CourseNoteItem from './NoteItem'
 import CreateNote from './CreateNote'
@@ -26,7 +25,10 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
   // const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { course } = props
   const { itemId } = useParams()
-  const { data: notes } = Learner.Queries.useGetCourseNotes(
+  const {
+    data: notes,
+    isFetching: loadingNotes
+  } = Learner.Queries.useGetCourseNotes(
     course._id
     // {
     //   enabled: !!course._id
@@ -37,36 +39,23 @@ const CourseNotes: React.FC<CourseNotesPropsI> = props => {
   return (
     <Row>
       <Col span={24}>
-        {/* <Row>
-            <Col span={24}>
-              <CreateNote item={itemId + ''} courseId={course._id} />
-            </Col>
-            {currentItemNotes.map(note => {
-              return (
-                <Col span={24} style={{ marginBottom: 20 }}>
-                  <Divider />
-                  <CourseNoteItem
-                    course={course}
-                    note={note}
-                  />
-                </Col>
-              )
-            })}
-          </Row> */}
-        <Row>
-          <Col span={24}>
-            <CreateNote item={itemId + ''} courseId={course._id} />
-          </Col>
-        </Row>
-        <Divider />
-        <List
+    
+        {loadingNotes?<>  <Skeleton avatar paragraph={{ rows: 1 }} />
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+            <Skeleton avatar paragraph={{ rows: 1 }} /></>: <List
           locale={{ emptyText: 'No Notes Added' }}
           itemLayout="horizontal"
           dataSource={currentItemNotes}
           renderItem={(note, index) => {
             return <CourseNoteItem course={course} note={note} />
           }}
-        />
+        />}
+               <Divider />
+    <Row>
+          <Col span={24}>
+            <CreateNote item={itemId + ''} courseId={course._id} />
+          </Col>
+        </Row>
       </Col>
     </Row>
   )

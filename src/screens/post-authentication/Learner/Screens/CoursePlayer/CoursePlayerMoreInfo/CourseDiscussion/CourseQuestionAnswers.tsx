@@ -1,9 +1,10 @@
-import { Avatar, List, Tooltip, Typography, theme } from 'antd'
+import { Avatar, List, Skeleton, Tooltip, Typography, theme } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { Fragment } from 'react'
 
 import { Comment } from '@ant-design/compatible'
 import CreateAnswer from './CreateAnswer'
+import HtmlViewer from '@Components/HtmlViewer'
 
 const { Text } = Typography
 const { useToken } = theme
@@ -15,7 +16,10 @@ interface CourseQuestionAnswersPropsI {
 
 const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
   const { token } = useToken()
-  const { data: question } = Learner.Queries.useGetCourseQuestionDetails(
+  const {
+    data: question,
+    isLoading: loadingQuestion
+  } = Learner.Queries.useGetCourseQuestionDetails(
     props.courseId,
     props.questionId
   )
@@ -29,8 +33,11 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
   const answers = question.answers
   return (
     <Fragment>
-      {answers.length ? (
-        <List
+      {loadingQuestion?<>
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+          </>:  <List loading={loadingQuestion}
           className="comment-list"
           header={`${answers.length} replies`}
           itemLayout="horizontal"
@@ -45,9 +52,7 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
                     {name}
                   </Avatar>
                 }
-                content={
-                  <div dangerouslySetInnerHTML={{ __html: item.answer }} />
-                }
+                content={<HtmlViewer content={item.answer} />}
                 datetime={
                   <Tooltip title="2016-11-22 11:22:33">
                     <span>8 hours ago</span>
@@ -56,8 +61,7 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
               />
             </li>
           )}
-        />
-      ) : null}
+        />}
 
       <CreateAnswer question={question} />
     </Fragment>
