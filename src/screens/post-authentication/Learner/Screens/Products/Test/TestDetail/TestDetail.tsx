@@ -40,12 +40,12 @@ export default function TestDetailScreen(
   return (
     <Row>
       {loadingTest ? <Skeleton paragraph={{ rows: 1 }} /> : <>
-      <Col md={0}>
+      <Col md={24} sm={24} lg={0}>
           <TestCard plan={plan} testId={testId+''} />
           {/* Replace with card image */}
       {/* <CourseMetadata course={course} /> */}
       </Col>
-        <Col lg={24} xs={0}>
+        <Col lg={24} md={24} xs={0}>
         <Title level={3}>{test.title}</Title>
         </Col>
       </>}
