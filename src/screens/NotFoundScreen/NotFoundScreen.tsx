@@ -1,14 +1,20 @@
 import { Button, Result } from 'antd'
 
+import Image from '@Components/Image'
 import React from 'react'
+import notFound from './image.svg'
 
 const NotFoundScreen: React.FC = () => (
-  <Result
-    status="404"
-    title="404"
-    subTitle="Sorry, the page you visited does not exist."
-    // extra={<Button type="primary">Back Home</Button>}
-  />
+  <div
+    style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh'
+    }}
+  >
+    <Image width={'100%'} style={{ flex: 1 }} src={notFound} />
+  </div>
 )
 
 export default NotFoundScreen

@@ -10,9 +10,9 @@ import {
   Tag,
   Typography
 } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { Learner, Types, Utils } from '@adewaskar/lms-common'
 
-import { CalendarOutlined } from '@ant-design/icons'
 import Image from '@Components/Image'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
@@ -68,7 +68,8 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
         return !(pd.product?.data?.endedAt || pd.metadata.test.endedAt)
       })}
       renderItem={({ product: { data: test } }) => {
-        const CardComponent = (
+        const formattedDuration = Utils.formatTime(test?.duration*60)
+  const CardComponent = (
           <Card
             onClick={() => {
               navigate(test?._id)
@@ -94,11 +95,13 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
                 </Text>
               }
               description={
-                test?.scheduledAt ? (
+                <>
+                  <Tag icon={<ClockCircleOutlined/>} >{formattedDuration}</Tag>
+                  {test?.scheduledAt ? (
                   <Text>Date: {dayjs(test?.scheduledAt).format('LLL')}</Text>
                 ) : (
-                  <Tag color="orange-inverse">Not taken yet</Tag>
-                )
+               ''
+                ) }</>
               }
               avatar={<CalendarOutlined />}
             />

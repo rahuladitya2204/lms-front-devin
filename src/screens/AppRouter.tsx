@@ -1,4 +1,4 @@
-import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, TestPlayer, TestPlayeritem, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, UserRootScreen, WebpageViewer, WebsiteBuilderScreen } from './route-list'
+import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, NotFoundScreen, TestPlayer, TestPlayeritem, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, UserRootScreen, WebpageViewer, WebsiteBuilderScreen } from './route-list'
 import {
   Route,
   RouterProvider,
@@ -44,6 +44,7 @@ import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/Tic
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import LoadingScreen from '@Components/LoadingScreen'
+import MaintainenceScreen from './MaintainenceScreen/MaintainenceScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
@@ -115,7 +116,7 @@ const router = (userType: string) => {
               />
             </Route>
             <Route path="app/test/:testId">
-              <Route path="start" element={<TestRules />} />
+              <Route path="start" element={<TestRules />} /> 
               <Route path="player" element={<Suspense  fallback={<LoadingScreen />}><TestPlayer /></Suspense>}>
                 <Route path=":questionId" element={<Suspense  fallback={<LoadingScreen />}><TestPlayeritem /></Suspense>} />
               </Route>
@@ -291,7 +292,9 @@ const router = (userType: string) => {
           // element={<Navigate to="dashboard/home" replace />}
         /> */}
         </>}
-        {/* <Route path="*" element={<NotFoundScreen />} /> */}
+        <Route path="lost" element={<NotFoundScreen />} />
+        <Route path="under-maintenance" element={<MaintainenceScreen />} />
+<Route path="*" element={<NotFoundScreen />} />
       </Route>
     )
   )

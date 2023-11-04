@@ -1,13 +1,14 @@
-import { Common, Store, Utils } from '@adewaskar/lms-common'
+import { Common, Learner, Store, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import LoadingScreen from '@Components/LoadingScreen'
+import MaintainenceScreen from './MaintainenceScreen/MaintainenceScreen'
+import { NotFoundScreen } from './route-list'
 import { useAppInit } from '@Hooks/CommonHooks'
 
 export default function RootScreen () {
-  const navigate = useNavigate()
-  const { isSignedIn } = Store.useAuthentication(s => s)
+  const [isAliasValid, setAliasValid] = useState<boolean | null>(null)
   let subdomain = useMemo(
     () => {
       const hostname = window.location.hostname
@@ -38,10 +39,21 @@ export default function RootScreen () {
   // console.log(subdomain, userType, 'user type')
   const { isInitDone } = useAppInit(userType)
   useEffect(() => {
-    // console.log(subdomain, 'subdomain')
-    Utils.Storage.SetItem('orgAlias', subdomain + '')
+    const sd = subdomain + ''
+    Learner.Api.ValidateOrgAlias(sd)
+      .then(() => {
+        Utils.Storage.SetItem('orgAlias', sd)
+        setAliasValid(true)
+      })
+      .catch(() => {
+        console.log('invalid')
+        setAliasValid(false)
+      })
+    // console.log(sd, 'sd')
   }, [])
-
+  if (isAliasValid === false) {
+    return <NotFoundScreen />
+  }
   return isInitDone ? (
     <div>
       <Outlet />
