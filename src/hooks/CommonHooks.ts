@@ -36,7 +36,7 @@ export const useAppInit = (type: string, enabled:boolean) => {
   const { setIsSignedin, isSignedIn } = Store.useAuthentication.getState();
 
   useEffect(() => {
-    if (isSignedIn && type === 'user'&&enabled) {
+    if (isSignedIn && type === 'user' &&enabled) {
       fetchOrganisation(`user`)
     }
    },[enabled])

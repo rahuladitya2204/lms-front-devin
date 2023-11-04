@@ -7,7 +7,6 @@ import { useEffect, useState } from 'react'
 import ActionModal from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import BgImage from './image.svg'
-import { RegisterUser } from '@adewaskar/lms-common/lib/cjs/types/User/Api'
 import SelectFormGroup from '@Components/SelectFormGroup'
 import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
@@ -45,7 +44,7 @@ function UserLogin () {
     }}
     span={14}
   >
-    <Image width={'90%'} src={BgImage} />
+    <Image preview={false} width={'90%'} src={BgImage} />
   </Col>
   <Col
     span={10}
@@ -247,7 +246,7 @@ const OtpForm = () => {
       Don't have an account?{' '}
       <ActionModal
         width={300}
-        title="Login"
+        title="Sign up"
         cta={<Button type="link">Sign up?</Button>}
       >
         <UserRegister />
@@ -259,6 +258,7 @@ const OtpForm = () => {
 }
 
 const EmailForm = () => {
+  const message = useMessage();
   const navigate = useNavigate();
   const [form] = Form.useForm()
   const Google = useOauth('google')
@@ -279,6 +279,12 @@ const EmailForm = () => {
           onSuccess: user => {
             Utils.Storage.SetItem('orgId', user.organisation)
             navigate(`../app/products/courses`)
+          },
+          onError: () => {
+            message.open({
+              type: "error",
+              content: 'Please enter valid details'
+            })
           }
         }
       )

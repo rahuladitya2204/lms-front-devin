@@ -1,4 +1,4 @@
-import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, NotFoundScreen, TestPlayer, TestPlayeritem, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, UserRootScreen, WebpageViewer, WebsiteBuilderScreen } from './route-list'
+import { CourseBuilderScreen, CoursePlayer, CoursePlayerItem, LearnerDeviceSelection, LearnerLiveSessionPlayer, LearnerLiveSessionPlayerEnter, LearnerRootScreen, NotFoundScreen, TestPlayer, TestPlayeritem, UserDeviceSelection, UserLiveSessionPlayer, UserLiveSessionPlayerEnter, WebpageViewer, WebsiteBuilderScreen } from './route-list'
 import {
   Route,
   RouterProvider,
@@ -54,6 +54,7 @@ import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import ResetPassword from '@Learner/Screens/Login/ResetPassword'
 import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
+import { Store } from '@adewaskar/lms-common'
 import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
@@ -61,6 +62,7 @@ import TestEditor from '@User/Screens/Tests/TestCreator'
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
+import ThemeProvider from './ThemeProvider'
 import UploadPDFForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
@@ -68,6 +70,7 @@ import UserDashboard from '@User/Screens/UserDashboard/UserDashboard'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserMeetingEnded from '@User/Screens/Event/LiveSessionPlayer/User/UserMeetingEnded'
 import UserRegister from './post-authentication/User/Screens/Register'
+import UserRootScreen from '@User/Screens/UserRoot/UserRootScreen'
 import UserTestScreen from '@User/Screens/Tests/TestsList/TestsScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
@@ -75,7 +78,7 @@ import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
 
-const router = (userType: string) => {
+const router = (userType: string,isSignedIn:boolean) => {
   return createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootScreen />}>
@@ -86,7 +89,7 @@ const router = (userType: string) => {
            </Suspense> }>
               <Route path="cart" element={<LearnerCart />} />
               <Route path="reset-password" element={<ResetPassword />} />
-  <Route path="store" element={<LearnerStoreScreen />} />
+              <Route path="store" element={<LearnerStoreScreen />} />
               <Route path="account" element={<LearnerAccount />} />
               <Route path="tickets" element={<LearnersTicketsScreen />} />
               <Route path="tickets/:id" element={<LearnerTicketDetail />} />
@@ -99,13 +102,12 @@ const router = (userType: string) => {
                 <Route path=":testId" element={<LearnerTestDetailScreen />} />
                 <Route path=":testId/result" element={<LearnerTestResult />} />
                 <Route path=":testId/result-table" element={<TestResultTable />} />
-  </Route>\
+              </Route>
               <Route path="event">
                 <Route path="" element={<LearnerEventsScreen />} />
                 <Route path=":sessionId" element={<EventDetailScreen />} />
               </Route>
               <Route path="enrolled-courses">
-                {/* <Route path="" element={<LearnerCourses />} /> */}
                 <Route
                   path=":courseId"
                   element={<EnrolledCourseDetailScreen />}
@@ -147,8 +149,10 @@ const router = (userType: string) => {
             <Route path="*" element={<NotFoundScreen />} />
  </>
         ) : <>
-         <Route path="login" element={<UserLoginScreen />} />
-        <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
+            {/* {false ? <Route path="login" element={<UserLoginScreen />} /> : } */}
+            <>
+            <Route path="login" element={<UserLoginScreen />} />
+            <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
         <Route
           path="certificate-template/:id/editor"
           element={<CertificateTemplateEditor />}
@@ -285,11 +289,12 @@ const router = (userType: string) => {
           <Route path="ended" element={<UserMeetingEnded />} />
         </Route>
         <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
+
+            </>
         <Route path="register" element={<UserRegister />} />
-        {/* <Route
-          path="*"
-          // element={<Navigate to="dashboard/home" replace />}
-        /> */}
+        <Route path='/' element={<ReturnUserToHome/>} />
+        <Route path="*" element={<NotFoundScreen />} />
+
         </>}
         <Route path="lost" element={<NotFoundScreen />} />
         <Route path="under-maintenance" element={<MaintainenceScreen />} />
@@ -301,15 +306,16 @@ const router = (userType: string) => {
 
 function AppRouter(props: { userType: string }) {
   const { userType} = props;
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   console.log(props.userType,'props.userType')
-  return <RouterProvider router={router(userType)} />
+  return <ThemeProvider><RouterProvider router={router(userType,isSignedIn)} /></ThemeProvider> 
 }
 
 export default AppRouter
 
 
 const ReturnLearnerToStore = () => {
-  console.log('I am in return to store')
+  console.log('Learner: I am in return to store')
   const navigate = useNavigate();
   useEffect(() => { 
     navigate('/app/store')
@@ -318,10 +324,16 @@ const ReturnLearnerToStore = () => {
 }
 
 const ReturnUserToHome = () => {
-  console.log('I am in return to store')
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
+  console.log('User: I am in return to store')
   const navigate = useNavigate();
   useEffect(() => { 
-    navigate('/app/store')
-  },[])
+    if (!isSignedIn) {
+      navigate('/login')
+    }
+    else {
+      navigate('/app/dashboard')
+    }
+  },[isSignedIn])
   return null;
 }

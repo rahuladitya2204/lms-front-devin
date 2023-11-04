@@ -1,10 +1,9 @@
 import { Common, Learner, Store, Utils } from '@adewaskar/lms-common'
-import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo, useState } from 'react'
 
 import LoadingScreen from '@Components/LoadingScreen'
-import MaintainenceScreen from './MaintainenceScreen/MaintainenceScreen'
 import { NotFoundScreen } from './route-list'
+import { Outlet } from 'react-router'
 import { useAppInit } from '@Hooks/CommonHooks'
 
 export default function RootScreen () {
@@ -19,12 +18,16 @@ export default function RootScreen () {
     [window.location.hostname]
   )
   const userType = Utils.Storage.GetItem('userType')
-  const { isInitDone } = useAppInit(userType,!!isAliasValid)
+  const { isInitDone } = useAppInit(userType, !!isAliasValid)
+  const { fetchOrganisation } = Store.useGlobal(state => state)
   useEffect(() => {
     const sd = subdomain + ''
     Learner.Api.ValidateOrgAlias(sd)
       .then(() => {
         Utils.Storage.SetItem('orgAlias', sd)
+        return fetchOrganisation(userType)
+      })
+      .then(() => {
         setAliasValid(true)
       })
       .catch(() => {
@@ -36,7 +39,7 @@ export default function RootScreen () {
   if (isAliasValid === false) {
     return <NotFoundScreen />
   }
-  return (isInitDone&&isAliasValid) ? (
+  return isInitDone && isAliasValid ? (
     <div>
       <Outlet />
     </div>

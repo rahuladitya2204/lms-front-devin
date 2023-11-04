@@ -5,6 +5,7 @@ import React, { Fragment, useEffect, useMemo } from 'react'
 import { Store, Utils } from '@adewaskar/lms-common'
 
 import AppRouter from './screens/AppRouter'
+import ErrorBoundary from '@Components/ErrorBoundary'
 import { Global } from '@emotion/react'
 import { theme } from 'antd'
 
@@ -50,7 +51,9 @@ function App () {
           }}
         />
 
-        <AppRouter userType={userType} />
+        <ErrorBoundary>
+          <AppRouter userType={userType} />
+        </ErrorBoundary>
       </QueryClientProvider>
     </Fragment>
   )

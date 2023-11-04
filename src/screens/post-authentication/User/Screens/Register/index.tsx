@@ -1,61 +1,61 @@
-import { Button, Checkbox, Form, Input, Typography } from 'antd'
+import { Button, Checkbox, Form, Input } from 'antd'
+import { Types, User } from '@adewaskar/lms-common'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
 import { NavLink } from 'react-router-dom'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import { useFormik } from 'formik'
+import React from 'react'
 
 function UserRegisterScreen() {
   const { mutate: Signup, isLoading: loading } = User.Queries.useRegisterUser()
-  const formik = useFormik({
-    initialValues: {
-      email: '',
-      password: '',
-      name: '',
-      contactNo: ''
-    },
-    onSubmit: (values: Types.SignupData) => {
-      Signup({
-        email: values.email,
-        password: values.password,
-        name: values.name,
-        contactNo: values.contactNo
-      })
-    }
-  })
+
+  const onFinish = (values: Types.SignupData) => {
+    Signup(values)
+  }
+
   return (
-    <AuthenticationCard title={'Register'}>
-      {' '}
+    <AuthenticationCard title="Register">
       <Form
         layout="vertical"
         initialValues={{
           remember: true
         }}
-        onSubmitCapture={formik.handleSubmit}
+        onFinish={onFinish}
       >
-        <Form.Item label="Name" name="name">
-          <Input onChange={formik.handleChange} />
+        <Form.Item
+          label="Name"
+          name="name"
+          rules={[{ required: true, message: 'Please input your name!' }]}
+        >
+          <Input />
         </Form.Item>
 
-        <Form.Item label="Email" name="email">
-          <Input onChange={formik.handleChange} />
+        <Form.Item
+          label="Contact Number"
+          name="contactNo"
+          rules={[
+            { required: true, message: 'Please input your contact number!' }
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          label="Email"
+          name="email"
+          rules={[
+            { type: 'email', message: 'The input is not valid E-mail!' },
+            { required: true, message: 'Please input your E-mail!' }
+          ]}
+        >
+          <Input />
         </Form.Item>
 
         <Form.Item
           label="Password"
           name="password"
-          rules={[
-            {
-              required: true,
-              message: 'Please enter your password!'
-            }
-          ]}
+          rules={[{ required: true, message: 'Please input your password!' }]}
         >
-          <Input
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
+          <Input.Password />
         </Form.Item>
 
         <Form.Item name="remember" valuePropName="checked">
@@ -66,15 +66,6 @@ function UserRegisterScreen() {
           <Button loading={loading} block type="primary" htmlType="submit">
             Submit
           </Button>
-        </Form.Item>
-        <Form.Item style={{ textAlign: 'center' }}>
-          <Typography.Text>
-            Already have an account?{' '}
-            <NavLink
-              to={'/login'}
-              children={<Button type="link">Log In</Button>}
-            />
-          </Typography.Text>
         </Form.Item>
       </Form>
     </AuthenticationCard>

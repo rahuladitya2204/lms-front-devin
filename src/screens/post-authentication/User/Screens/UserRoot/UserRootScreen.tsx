@@ -2,17 +2,16 @@ import { Col, Layout, Menu, Row } from 'antd'
 import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useEffect, useState } from 'react'
-import { Store, User } from '@adewaskar/lms-common'
 
 import AppProvider from 'screens/AppProvider'
-import LoadingScreen from '@Components/LoadingScreen'
-import LogoImage from './logo.svg'
 import OrgLogo from '@Components/OrgLogo'
-import ThemeProvider from 'screens/ThemeProvider'
+import { User } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 
 const LogoHolder = styled.div`
   padding: 20px;
+  display: flex;
+  justify-content: center;
 `
 
 const Logo = styled(OrgLogo)`
@@ -31,43 +30,37 @@ const UserRootScreen: React.FC = () => {
 
   const navigate = useNavigate()
 
-  // if (isLoading) {
-  //   return <LoadingScreen />
-  // }
-
   return (
-    <ThemeProvider type="user">
-      <AppProvider>
-        <Layout style={{ minHeight: '100vh' }}>
-          <Sider
-            collapsible
+    <AppProvider>
+      <Layout style={{ minHeight: '100vh' }}>
+        <Sider
+          collapsible
+          theme="light"
+          collapsed={collapsed}
+          onCollapse={value => setCollapsed(value)}
+        >
+          <LogoHolder>
+            <OrgLogo />
+          </LogoHolder>
+          <Menu
+            onClick={e => navigate(e.key)}
             theme="light"
-            collapsed={collapsed}
-            onCollapse={value => setCollapsed(value)}
-          >
-            <LogoHolder>
-              <Logo />
-            </LogoHolder>
-            <Menu
-              onClick={e => navigate(e.key)}
-              theme="light"
-              defaultSelectedKeys={['1']}
-              mode="inline"
-              items={MenuItems(MENU_ITEMS)}
-            />
-          </Sider>
-          <Layout className="site-layout">
-            <Content style={{ margin: '0 16px' }}>
-              <Row gutter={[20, 20]}>
-                <Col span={24}>
-                  <Outlet />
-                </Col>
-              </Row>
-            </Content>
-          </Layout>
+            defaultSelectedKeys={['1']}
+            mode="inline"
+            items={MenuItems(MENU_ITEMS)}
+          />
+        </Sider>
+        <Layout className="site-layout">
+          <Content style={{ margin: '0 16px' }}>
+            <Row gutter={[20, 20]}>
+              <Col span={24}>
+                <Outlet />
+              </Col>
+            </Row>
+          </Content>
         </Layout>
-      </AppProvider>
-    </ThemeProvider>
+      </Layout>
+    </AppProvider>
   )
 }
 

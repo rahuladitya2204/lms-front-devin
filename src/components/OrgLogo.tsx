@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router'
 function OrgLogo(props: any) {
   const navigate = useNavigate()
   const { organisation } = Store.useGlobal(s => s)
+  console.log(organisation, 'organisation')
   if (!organisation.logo) {
     return null
   }
@@ -12,7 +13,7 @@ function OrgLogo(props: any) {
     <Image
       // onClick={() => navigate('../app/store')}
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
-      width={100}
+      width={`100px`}
       preview={false}
       src={organisation.logo}
       {...props}
