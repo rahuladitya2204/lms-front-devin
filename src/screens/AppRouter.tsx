@@ -52,6 +52,7 @@ import LearnerCart from '@Learner/Screens/LearnerShop/LearnerCartScreen/LearnerC
 import LearnerCourses from './post-authentication/Learner/Screens/Products/Courses'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerEventsScreen from '@Learner/Screens/Products/Event/Events/EventScreen'
+import LearnerFullPageHolder from './LearnerFullPageHolder';
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTestDetailScreen from '@Learner/Screens/Products/Test/TestDetail/TestDetail'
 import LearnerTestResult from '@Learner/Screens/Products/Test/TestResult/TestResult'
@@ -134,6 +135,7 @@ const router = (userType: string) => {
                 element={<EnrolledCourseSuccessful />}
               />
             </Route>
+            <Route path="" element={<LearnerFullPageHolder/> }>
             <Route path="app/test/:testId">
               <Route path="start" element={<TestRules />} /> 
               <Route path="player" element={<TestPlayer/>}>
@@ -161,6 +163,7 @@ const router = (userType: string) => {
               />
               <Route path="ended" element={<UserMeetingEnded />} />
             </Route>
+           </Route>
             <Route path='/' element={<ReturnLearnerToStore/>} />
             <Route path="*" element={<NotFoundScreen />} />
  </>
@@ -321,7 +324,7 @@ const router = (userType: string) => {
 
 function AppRouter(props: { userType: string }) {
   const { userType} = props;
-  return  <ThemeProvider><RouterProvider router={router(userType)} /></ThemeProvider> 
+  return  <RouterProvider router={router(userType)} />
 }
 
 export default AppRouter

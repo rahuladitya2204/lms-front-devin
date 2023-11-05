@@ -18,11 +18,18 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
   } = Learner.Queries.useCreateDiscussionQuestionAnswer(() => {})
 
   const createAnswer = (q: Partial<Types.CourseQuestionAnswer>) => {
-    createDiscussionQuestionAnswer({
-      courseId: props.question.course,
-      questionId: props.question._id,
-      data: q
-    })
+    createDiscussionQuestionAnswer(
+      {
+        courseId: props.question.course,
+        questionId: props.question._id,
+        data: q
+      },
+      {
+        onSuccess: () => {
+          form.resetFields()
+        }
+      }
+    )
   }
 
   return (
@@ -33,7 +40,7 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
             <TextArea
               height={100}
               placeholder="Please provide a detailed summary"
-              html={{ level: 1 }}
+              // html={{ level: 1 }}
             />
           </Form.Item>
           <Form.Item>

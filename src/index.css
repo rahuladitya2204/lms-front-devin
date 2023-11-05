@@ -74,3 +74,24 @@ code {
 .ant-layout {
   /* background-color: #F5F7FE; */
 }
+
+/* Global styles for scrollbar for Chrome, Safari and Opera */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1); /* Adjusted opacity for the track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3); /* Adjusted opacity for the thumb */
+  border-radius: 6px;
+  border: 3px solid rgba(0, 0, 0, 0.1); /* Adjusted opacity for the border */
+}
+
+/* Global styles for scrollbar for Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1);
+}

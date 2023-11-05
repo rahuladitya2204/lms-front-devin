@@ -1,15 +1,11 @@
-import { ConfigProvider, message } from 'antd'
-import { Constants, Learner, Store, User } from '@adewaskar/lms-common'
+import { ConfigProvider, message, theme } from 'antd'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
-import { UserTheme } from './themes/UserTheme'
-import { darkAlgorithm } from '@ant-design/compatible'
+import { Store } from '@adewaskar/lms-common'
 import useDynamicFont from '@Hooks/useDynamicFont'
 
 function ThemeProvider(props: any) {
   const { branding } = Store.useGlobal(s => s.organisation)
-  console.log(branding, 'branding')
-
   const { isLoading } = useDynamicFont({
     fontName: branding.font.name,
     fontUrl: branding.font.url
@@ -23,7 +19,10 @@ function ThemeProvider(props: any) {
       {context}
       <ConfigProvider
         theme={{
-          algorithm: [darkAlgorithm],
+          algorithm: [
+            theme.darkAlgorithm
+            // theme.compactAlgorithm
+          ],
           token: {
             colorPrimary: branding.colors.primary,
             fontFamily: branding.font.name

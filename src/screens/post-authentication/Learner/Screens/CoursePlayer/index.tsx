@@ -32,8 +32,8 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 
 const PlayerSkeleton = () => {
   return <>
-    <div style={{ border: '1px solid #d9d9d9',borderRadius:'10px',marginTop:20,padding:10 }}>
-      <Skeleton active avatar paragraph={{ rows: 3 }} />
+    <div style={{ borderRadius:'10px',marginTop:20,padding:10 }}>
+      <Skeleton active avatar paragraph={{ rows: 1 }} />
       </div></>
 }
 
@@ -227,7 +227,7 @@ function CoursePlayer() {
         ]}
       />{' '}
       <Row
-        style={{ padding: '20px 10px', background: '#f4f4f4' }}
+        style={{ padding: '20px 10px'}}
         gutter={[10, 40]}
         justify="space-between"
       >

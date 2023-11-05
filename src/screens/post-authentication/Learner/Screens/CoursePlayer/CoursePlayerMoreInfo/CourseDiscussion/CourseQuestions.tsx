@@ -1,11 +1,12 @@
 import { ArrowUpOutlined, CommentOutlined } from '@ant-design/icons'
-import { Avatar, Button, Card, Col, List, Row, Skeleton, Typography } from 'antd'
+import { Avatar, Badge, Button, Card, Col, List, Row, Skeleton, Typography } from 'antd'
 
 import { Comment } from '@ant-design/compatible'
 import CreateQuestion from './CreateQuestion'
 import { Learner } from '@adewaskar/lms-common'
 import React from 'react'
 import { Types } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 
 const { Text } = Typography
 
@@ -47,22 +48,23 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
             header={`${questions?.length} Comments`}
               itemLayout="horizontal"
               // @ts-ignore
-            dataSource={questions.sort((a,b)=>a.date-b.date)}
+            dataSource={questions.sort((a,b)=>b.date-a.date)}
             renderItem={question => {
               return (
                 <List.Item
                   key={question._id}
                   actions={[
-                    <Button icon={<ArrowUpOutlined /> }> Upvote <Text style={{marginLeft:10}} strong>
-                     {question.answers.length}
-                  </Text></Button>,
-                    <Button type='primary' icon={<CommentOutlined
+                    <Text type='secondary'>{dayjs(question.date).fromNow() }</Text>,
+                    <Badge count={question.upvotes }>
+                    <Button icon={<ArrowUpOutlined />}>
+                   </Button>
+                      </Badge>,
+                    <Badge count={question.answers.length }>
+                      <Button type='primary' shape='circle' icon={<CommentOutlined
                       
-                    />} onClick={() => props.selectQuestion(question)}>
-                      Comment
-                      <Text strong>
-                 
-                  </Text></Button>
+                      />} onClick={() => props.selectQuestion(question)}>
+  </Button>
+                    </Badge>
                   ]}
                 >
                   <List.Item.Meta

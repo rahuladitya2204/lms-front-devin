@@ -1,4 +1,4 @@
-import { Col, Row, Space } from 'antd'
+import { Col, Row, Space, Typography } from 'antd'
 
 import BackButton from './BackButton'
 import { PageHeaderProps } from '@ant-design/pro-layout'
@@ -23,13 +23,9 @@ const StyledHeader =
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-  // background: ${props => props.bgColor || '#fff'};
-  border-bottom: 1px solid #ececec;
 `
 
-const Title = styled.h2`
-  margin: 10px 0;
-`
+const { Title } = Typography
 
 const CustomRow = styled.div`
   display: flex;
@@ -49,7 +45,9 @@ const Header: React.FC<HeaderPropsI> = props => {
             <Col>
               <Space align="center">
                 {props.showBack ? <BackButton /> : null}
-                <Title style={{ margin: '10px 0' }}>{props.title}</Title>
+                <Title level={4} style={{ margin: '10px 0' }}>
+                  {props.title}
+                </Title>
               </Space>
             </Col>
             <Col
@@ -66,7 +64,9 @@ const Header: React.FC<HeaderPropsI> = props => {
           </Row>
         </StyledHeader>
         {/* Rest of the content */}
-        <div style={{ padding: '30px 0' }}>{props.children}</div>
+        <div>
+          {props.children}
+        </div>
       </CustomCol>
     </CustomRow>
   )

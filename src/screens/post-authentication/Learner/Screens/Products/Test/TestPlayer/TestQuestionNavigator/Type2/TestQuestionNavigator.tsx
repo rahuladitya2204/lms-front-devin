@@ -51,7 +51,7 @@ export default function TestQuestionNavigatorType2(
   // console.log(startTime, 'start time')
   const { percentLeft } = useCountdownTimer(startTime, test.duration)
   return (
-    <Card style={{ height: '80vh', overflow: 'scroll' }}>
+    <Card style={{ height: '80vh' }} bodyStyle={{overflow:'scroll',height:'100%'}}>
       <Row>
         <Col span={24}>
           <div

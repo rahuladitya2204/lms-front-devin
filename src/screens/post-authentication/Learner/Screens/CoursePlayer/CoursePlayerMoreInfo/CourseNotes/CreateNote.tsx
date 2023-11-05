@@ -12,7 +12,6 @@ import {
 import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { useEffect, useState } from 'react'
 
-import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import TextArea from '@Components/Textarea'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
@@ -109,7 +108,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
               >
                 <TextArea
                   onFocus={() => playerInstance?.pause()}
-                  html={{ level: 1 }}
+                  // html={{ level: 1 }}
                   height={100}
                   name="content"
                 />

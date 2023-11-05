@@ -49,35 +49,6 @@ const LearnerRootScreen: React.FC = () => {
   //   fontUrl: branding.font.url
   // });
   const { isMobile } = useBreakpoint()
-  let subdomain = useMemo(
-    () => {
-      const hostname = window.location.hostname
-      const parts = hostname.split('.')
-      const subdomain = parts.length > 2 ? parts[0] : null
-      return subdomain
-    },
-    [window.location.hostname]
-  )
-  const setOrganisation = Store.useGlobal(s => s.setOrganisation)
-
-  const userType = Utils.Storage.GetItem('userType')
-  // const { isInitDone } = useAppInit(userType, !!isAliasValid)
-
-  // useEffect(() => {
-  //   const sd = subdomain + ''
-  //   Learner.Api.ValidateOrgAlias(sd)
-  //     .then(organisation => {
-  //       setAliasValid(true)
-  //       Utils.Storage.SetItem('orgAlias', sd)
-  //       setOrganisation(organisation)
-  //     })
-
-  //     .catch(() => {
-  //       console.log('invalid')
-  //       setAliasValid(false)
-  //     })
-  // }, [])
-
   return (
     <ThemeProvider type="learner">
       <AppProvider>

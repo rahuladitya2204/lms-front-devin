@@ -29,13 +29,10 @@ interface CoursePlayerNavigatorItemPropsI {
 }
 
 const CourseListItem = styled(List.Item)`
-  border-bottom: 1px solid #f0f0f0 !important;
+  /* border-bottom: 1px solid #f0f0f0 !important; */
   h4 {
     margin-top: 0;
   }
-
-  background: ${(props: { isActive: boolean }) =>
-    props.isActive ? '#e3e3e3' : 'auto'};
 `
 
 function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
@@ -58,7 +55,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
           //   // ) : null,
 
           // ]}
-          isActive={isActive}
+          // isActive={isActive}
         >
           <List.Item.Meta
             avatar={

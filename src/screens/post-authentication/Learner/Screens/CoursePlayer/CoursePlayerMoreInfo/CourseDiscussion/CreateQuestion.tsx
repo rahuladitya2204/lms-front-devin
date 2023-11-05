@@ -67,7 +67,7 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
             ]}
           >
             <TextArea
-              html={{ level: 1 }}
+              // html={{ level: 1 }}
               height={100}
               placeholder="Please provide a detailed summary"
             />
