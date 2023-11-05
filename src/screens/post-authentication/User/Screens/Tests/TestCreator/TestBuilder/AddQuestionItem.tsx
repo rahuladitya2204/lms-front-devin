@@ -14,8 +14,8 @@ import {
   Select,
   Typography,
 } from 'antd'
+import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
-import { Enum, Types, User } from '@adewaskar/lms-common'
 import { useOutletContext, useParams } from 'react-router';
 
 import ActionModal from '@Components/ActionModal';
@@ -46,7 +46,7 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
-  const { handleTopicsChange,topics,onFormChange,correctOptions, setCorrectOptions,updateItem} = useUpdateTestForm( form);
+  const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm( form);
   const {  itemId,id: testId } = useParams();
   
   const {data: test }=User.Queries.useGetTestDetails(testId+'')
@@ -54,7 +54,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const isTestEnded = test.status === Enum.TestStatus.ENDED;;
 
     const submit = (e: Types.TestQuestion) => {
-      props.submit && props.submit({ ...e, correctOptions });
+      props.submit && props.submit({ ...e });
       form.resetFields();
       props.closeModal && props.closeModal();
     }
@@ -90,8 +90,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       }
     });
   }
-
-  // console.log(correctOptions,'setCorrectOptions')
+  const options = Form.useWatch('options', form) || [];
+  // console.log(options,'setCorrectOptions')
   return (
     <Form name='test' onFinish={submit} initialValues={item}
       onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
@@ -108,7 +108,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               action={
                 <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
                   <GenerateQuestionWithAI submit={d => {
-                    console.log(d, 'ddd12121212');
+                    // console.log(d, 'ddd12121212');
                     if (d.topics) {
                       // @ts-ignore
                       d.topics = d?.topics?.map(topic => {
@@ -175,64 +175,80 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
        </Row>
         <Row gutter={[20, 20]}>
           <Col span={24}>
-            <Card style={{ marginBottom: 20 }} title="Answers">
+                <Card style={{ marginBottom: 20 }} title="Answers">
+                  {/* <OptionSelectedFormControl.Group> */}
+
             <Form.List name="options">
         {(fields, { add, remove }) => (
           <>
-            {fields.map((field, index) => (
-    <Row justify={'center'}>
-        <Col flex={1}>
-            <Form.Item 
-                rules={[
-                    { required: true, message: 'Please enter the answer.' },
-                ]}
-                {...field}
-                  >
-                <TextArea height={150} html={{level:1}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
-            </Form.Item>
-        </Col>
-        <Col>
-            <OptionSelectedFormControl 
-                value={index} // Assigning value to OptionSelectedFormControl
-                checked={correctOptions?.includes(index)} // Calculating checked status
-                disabled={!!item.isAiGenerated}
-                onChange={e => {
-                    let options=[...correctOptions];
-                    const indexOfOption = options.indexOf(index);
-                    if (e.target.checked) {
-                        if (indexOfOption === -1) {
-                            if (questionType === 'single') {
-                                options = [index];
-                            } else {
-                                options.push(index);
-                            }
-                        }
-                    } else {
-                        options.splice(indexOfOption, 1);
-                    }
-                    setCorrectOptions(options);
-                }}
-                style={{ marginLeft: 20 }}
-            />
-            <DeleteTwoTone onClick={e => {
-                confirm({
-                    title: 'Are you sure?',
-                    content: `You want to delete this answer`,
-                    onOk() {
-                        remove(index);
-                    },
-                    okText: 'Delete Answer'
-                });
-            }} style={{ marginLeft: 10 ,fontSize: 15 }} />
-        </Col>
-    </Row>
-))}
+                        {fields.map(({ key, name, ...restField }, index) => {
+                          const currentOption = options[index] || Constants.INITIAL_TEST_QUESTION_OPTION;
+                          // console.log(currentOption,'currentOption')
+              return (
+                <Row justify={'center'}>
+                    <Col flex={1}>
+                        <Form.Item 
+                            rules={[
+                                { required: true, message: 'Please enter the answer.' },
+                            ]}
+                            {...restField}
+                            name={[name, 'text']}
+                          >
+                            <TextArea height={150} html={{level:1}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
+                        </Form.Item>
+                    </Col>
+                            <Col>
+                            
+                    <OptionSelectedFormControl
+                      checked={!!currentOption?.isCorrect} value={false}
+                            // value={index} // Assigning value to OptionSelectedFormControl
+                            // checked={!!currentOption.isCorrect} // Calculating checked status
+                            disabled={!!item.isAiGenerated}
+                        onClick={e => {
+                          const opts = [...options];
+                          // @ts-ignore
+                                if (e.target.checked) {
+                                  if (questionType === 'single') {
+                                    opts.forEach(o => {
+                                      o.isCorrect = false;
+                                    })
+                                  }
+                                  opts[index].isCorrect = true;
+                                }
+                                else {
+                                  opts[index].isCorrect = false;
+                                }
+
+                          form.setFieldsValue({
+                            options: opts
+                          });
+                          // onFormChange
+                                // setCorrectOptions(options);
+                            }}
+                            style={{ marginLeft: 20 }}
+                        />
+                    
+                        <DeleteTwoTone onClick={e => {
+                            confirm({
+                                title: 'Are you sure?',
+                                content: `You want to delete this answer`,
+                                onOk() {
+                                    remove(index);
+                                },
+                                okText: 'Delete Answer'
+                            });
+                        }} style={{ marginLeft: 10 ,fontSize: 15 }} />
+                    </Col>
+                </Row>
+            )
+            })}
 
                     <Button onClick={e=>add()} icon={<PlusCircleTwoTone/>}>Add Option</Button>
           </>
         )}
                   </Form.List>
-                  
+                  {/* </OptionSelectedFormControl.Group> */}
+
                 </Card>
           </Col>
               </Row>

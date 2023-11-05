@@ -1,8 +1,8 @@
 import { Button, Collapse, List, Modal, Space, Tag, Tooltip, Typography } from 'antd'
 import { CheckCircleTwoTone, DeleteOutlined, ReadOutlined, WarningTwoTone } from '@ant-design/icons'
+import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
-import { Types, Utils } from '@adewaskar/lms-common'
 
 import AddSection from './AddSection'
 import { DndProvider } from 'react-dnd'
@@ -160,7 +160,10 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
               {
                 label: 'Add Question',
                 onClick: () => {
-                  onAddNewItem({ title: 'New Question', options: ['', '', '', ''],correctOptions:[],solution:{html:''} }, secIndex);
+                  onAddNewItem({
+                    title: 'New Question', options: [Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION]
+                    , solution: { html: '' }
+                  }, secIndex);
                   // if(section.items.length==0)
                 },
                   key:'add'

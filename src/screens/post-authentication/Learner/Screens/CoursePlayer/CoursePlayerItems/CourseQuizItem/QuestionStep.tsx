@@ -33,7 +33,9 @@ const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
                 // @ts-ignore
                 value={answerGiven && answerGiven[0]}
               >
-                <List.Item.Meta avatar={<Radio value={index}>{item}</Radio>} />
+                <List.Item.Meta
+                  avatar={<Radio value={index}>{item.text}</Radio>}
+                />
               </Radio.Group>
             ) : (
               <Checkbox.Group
@@ -43,7 +45,7 @@ const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
                 value={answerGiven}
               >
                 <List.Item.Meta
-                  avatar={<Checkbox value={index}>{item}</Checkbox>}
+                  avatar={<Checkbox value={index}>{item.text}</Checkbox>}
                 />
               </Checkbox.Group>
             )}

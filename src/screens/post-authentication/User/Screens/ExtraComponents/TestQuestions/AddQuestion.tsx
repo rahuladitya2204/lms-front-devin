@@ -41,7 +41,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   useEffect(
     () => {
       if (props.data) {
-        setCorrectOptions(props.data.correctOptions);
+        // setCorrectOptions(props.data.correctOptions);
           form.setFieldsValue(props.data);
       }
           else
@@ -52,7 +52,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     [props.data]
   ) 
     const submit = (e: Types.TestQuestion) => {
-      props.submit && props.submit({ ...e, correctOptions });
+      props.submit && props.submit({ ...e });
       form.resetFields();
       props.closeModal && props.closeModal();
     }
@@ -65,7 +65,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       <Col span={24}>
         <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
           <GenerateQuestionWithAI submit={d => {
-            setCorrectOptions(d.correctOptions)
+            // setCorrectOptions(d.correctOptions)
             form.setFieldsValue(d);
     }}/>
         </ActionModal>
@@ -111,7 +111,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
             <Card style={{ marginBottom: 20 }} title="Answers">
             <Form.List name="options">
         {(fields, { add, remove }) => (
-          <>
+                    <>
+                      <OptionSelectedFormControl.Group>
             {fields.map((field, index) => (
              <Row justify={'center'}>
                     <Col flex={1}>
@@ -163,6 +164,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
              </Row>
 
             ))}
+                        </OptionSelectedFormControl.Group>
                     <Button onClick={e=>add()} icon={<PlusCircleTwoTone/>}>Add Option</Button>
           </>
         )}

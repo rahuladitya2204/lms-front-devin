@@ -8,7 +8,6 @@ import { useParams } from 'react-router';
 
 function useUpdateTestForm(form: FormInstance) {
   const message = useMessage();
-  const [correctOptions, setCorrectOptions] = useState<number[]>([]);
   const { data: topics } = User.Queries.useGetTopics();
   let { itemId, id: testId } = useParams();
   const { data: item } = User.Queries.useGetTestItemDetails(testId + '',itemId+'', {
@@ -57,7 +56,6 @@ function useUpdateTestForm(form: FormInstance) {
     const topicStrings = item.topics?.map(topic => topic.title) || [];
     isProgrammaticChange.current = true;
     form.setFieldsValue({ ...item, topics: topicStrings });
-    setCorrectOptions(item.correctOptions);
     isProgrammaticChange.current = false;
 
     initialItemRef.current = item;
@@ -66,11 +64,6 @@ function useUpdateTestForm(form: FormInstance) {
       updateItem.cancel(); // Cancel debounced function on unmount
     };
   }, [item, form, updateItem]);
-
-  useEffect(() => {
-    if(correctOptions?.length)
-    onFormChange({ correctOptions });
-  }, [correctOptions]);
 
   const handleTopicsChange = (topicStrings: string[]) => {
     const existingTopicTitles = topics ? topics.map(t => t.title) : [];
@@ -109,8 +102,6 @@ function useUpdateTestForm(form: FormInstance) {
     onFormChange,
     topics,
     handleTopicsChange,
-    correctOptions,
-    setCorrectOptions,
     isLoading
   };
 }

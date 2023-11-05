@@ -1,11 +1,12 @@
+import { Button, Space } from 'antd'
 import React, { Fragment, useEffect, useState } from 'react'
+
+import { Alert } from 'antd'
+import CourseQuestionStep from './QuestionStep'
+import QuizResult from './QuizResult'
 import Stepper from '@Components/Stepper'
 import { Types } from '@adewaskar/lms-common'
-import CourseQuestionStep from './QuestionStep'
-import { Button, Space } from 'antd'
-import { Alert } from 'antd'
 import { useQuizStore } from './useQuizStore'
-import QuizResult from './QuizResult'
 
 interface CoursePlayerItemsPropsI {
   quiz: Types.CourseQuiz;
@@ -47,8 +48,8 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
         onReset={() => {
           resetQuestions()
           setIsEnded(false)
-            }}
-            onEnd={onEnd}
+        }}
+        onEnd={onEnd}
         questions={questions}
       />
     )
@@ -60,9 +61,9 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
       steps={
         questions?.map((question, index) => {
           const isAnswerChecked = question.isAnswerChecked
-          const isCorrectAnswer =
-            isAnswerChecked &&
-            question?.answered?.join(',') === question.correctOptions.join(',')
+          const isCorrectAnswer = isAnswerChecked
+          // &&
+          // question?.answered?.join(',') === question.correctOptions.join(',')
 
           return {
             content: (

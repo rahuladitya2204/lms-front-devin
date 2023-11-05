@@ -56,8 +56,8 @@ export const useQuizStore =
         const newQuestions = [...state.questions]
         const question = newQuestions[questionIndex]
         question.isAnswerChecked = true
-        question.isCorrectAnswer =
-          question?.answered?.join(',') === question.correctOptions.join(',')
+        // question.isCorrectAnswer =
+        //   question?.answered?.join(',') === question.correctOptions.join(',')
         return { questions: newQuestions }
       })
   }))
