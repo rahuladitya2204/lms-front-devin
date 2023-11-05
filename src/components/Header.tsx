@@ -1,5 +1,6 @@
-import { Col, Row } from 'antd'
+import { Col, Row, Space } from 'antd'
 
+import BackButton from './BackButton'
 import { PageHeaderProps } from '@ant-design/pro-layout'
 import React from 'react'
 import styled from '@emotion/styled'
@@ -26,7 +27,7 @@ const StyledHeader =
   border-bottom: 1px solid #ececec;
 `
 
-const Title = styled.h4`
+const Title = styled.h2`
   margin: 10px 0;
 `
 
@@ -46,10 +47,18 @@ const Header: React.FC<HeaderPropsI> = props => {
         <StyledHeader bgColor={props.bgColor}>
           <Row justify={'space-between'} style={{ flex: 1 }}>
             <Col>
-              {props.showBack && !props.hideBack && <button>{'< Back'}</button>}
-              <Title>{props.title}</Title>
+              <Space align="center">
+                {props.showBack ? <BackButton /> : null}
+                <Title style={{ margin: '10px 0' }}>{props.title}</Title>
+              </Space>
             </Col>
-            <Col style={{ display: 'flex' }}>
+            <Col
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}
+            >
               {/* You would include your BackButton or equivalent control here */}
               {/* Render extra props content */}
               {props.extra}
@@ -57,7 +66,7 @@ const Header: React.FC<HeaderPropsI> = props => {
           </Row>
         </StyledHeader>
         {/* Rest of the content */}
-        {props.children}
+        <div style={{ padding: '30px 0' }}>{props.children}</div>
       </CustomCol>
     </CustomRow>
   )

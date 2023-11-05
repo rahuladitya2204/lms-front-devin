@@ -119,7 +119,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       <Row>
         <Col span={1} />
         <Col span={22}>
-          <Row gutter={[20, 30]}>
+          <Row gutter={[50, 30]}>
           <Col span={16}>
               {/* <Title
                 level={5}

@@ -321,7 +321,7 @@ const router = (userType: string) => {
 
 function AppRouter(props: { userType: string }) {
   const { userType} = props;
-  return  <RouterProvider router={router(userType)} />
+  return  <ThemeProvider><RouterProvider router={router(userType)} /></ThemeProvider> 
 }
 
 export default AppRouter
