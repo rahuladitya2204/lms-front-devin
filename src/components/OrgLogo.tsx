@@ -13,7 +13,7 @@ function OrgLogo(props: any) {
     <Image
       // onClick={() => navigate('../app/store')}
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
-      width={`100px`}
+      width={`30px`}
       preview={false}
       src={logo.url}
       {...props}

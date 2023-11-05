@@ -210,7 +210,7 @@ function CoursePlayer() {
           <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
             <OrgLogo
               onClick={() => navigate('../app/store')}
-              style={{ width: 60 }}
+              // style={{ width: 60 }}
             />
             <Divider type="vertical" />
             {!isMobile?<Text style={{ fontSize: 16 }}>{course.title}</Text>:null}

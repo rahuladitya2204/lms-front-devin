@@ -12,7 +12,11 @@ export class CustomXhrLoader extends Hls.DefaultConfig.loader {
     // if (context.type === 'manifest' && context.level === 1) {
     // Replace the URL with your pre-signed URL
     if (context.url) {
-      context.url = await Common.Api.GetPresignedUrl(context.url)
+      try {
+        context.url = await Common.Api.GetPresignedUrl(context.url)
+      } catch (er) {
+        // console.log(er, '')
+      }
     }
     // }
 

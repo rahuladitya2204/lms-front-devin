@@ -1,4 +1,4 @@
-import { Button, Card, Form, Input, Spin, Tabs } from 'antd'
+import { Button, Card, Col, ColorPicker, Form, Input, Row, Spin, Tabs } from 'antd'
 import { CheckCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import { Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import Title from 'antd/es/typography/Title'
+import { debounce } from 'lodash'
 import { useFontValidation } from '@Hooks/useFontValidation'
 
 export default function OrgProfile() {
@@ -41,7 +42,7 @@ export default function OrgProfile() {
           <MediaUpload                 uploadType="image"
  name={['branding','logo','url']} cropper
             width="100px"
-            renderItem={() => <Image width={'100%'} src={logoUrl}  />}
+            renderItem={() => <Image width={'70%'} src={logoUrl}  />}
               onUpload={e => {
                 console.log(e, 'eeee');
               form.setFieldValue(['branding','logo','url'], e.url);
@@ -61,14 +62,26 @@ export default function OrgProfile() {
         
         <Title>Branding Colors</Title>
 
-        <Form.Item name={['branding','colors','primary']} required label="Primary Color">
-          <Input style={{width:500}} />
-        </Form.Item>
-
-
-        <Form.Item name={['branding','colors','secondary']} required label="Secondary Color">
-          <Input style={{width:500}} />
-        </Form.Item>
+          <Row>
+            <Col span={3}>
+            <Form.Item
+  name={['branding', 'colors', 'primary']}
+  label="Primary Color"
+  rules={[{ required: true, message: 'Please select a primary color' }]}
+>
+  <ColorPicker />
+</Form.Item>
+            </Col>
+            <Col span={3}>
+            <Form.Item
+  name={['branding', 'colors', 'secondary']}
+  label="Secondary Color"
+  rules={[{ required: true, message: 'Please select a secondary color' }]}
+>
+  <ColorPicker />
+              </Form.Item>
+   </Col>
+          </Row>
 
 
         <Form.Item name={['branding','colors','tertiary']} required label="Tertiary Color">
@@ -80,32 +93,25 @@ export default function OrgProfile() {
 
                      
         <Form.Item
-    name={['branding', 'font', 'name']}
-    required
-    label="Font Name"
-    hasFeedback
-    rules={[
-      {
-        required: true,
-        message: 'Please enter font name',
-      },
-      {
-        validator: validateFontName,
-      },
-    ]}
-  >
-    <Input
-      style={{ width: 500 }}
-      placeholder='Please enter the font name you want to be used'
-      suffix={
-        isFontValidating ? (
-          <Spin size="small" />
-        ) : isFontValid ? (
-          <CheckCircleOutlined style={{ color: 'green' }} />
-        ) : null
-      }
-    />
-  </Form.Item>
+  name={['branding', 'font', 'name']}
+  label="Font Name"
+  rules={[
+    {
+      required: true,
+      message: 'Please enter the font name',
+    },
+    {
+      validator: debounce(validateFontName, 800),
+    },
+  ]}
+  hasFeedback
+>
+  <Input
+    style={{ width: 500 }}
+    placeholder='Please enter the font name you want to be used'
+  />
+</Form.Item>
+
 
 
                      

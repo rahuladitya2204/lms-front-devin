@@ -103,7 +103,7 @@ const LearnerRootScreen: React.FC = () => {
             </ActionModal>
           ) : null
         ) : null}
-        <Layout className="site-layout">
+        <Layout>
           <LearnerHeader />
         </Layout>
       </AppProvider>

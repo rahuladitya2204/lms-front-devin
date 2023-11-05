@@ -14,30 +14,34 @@ const useWatchTime = (courseId: string) => {
   } = Learner.Queries.useUpdateCourseWatchTime()
   useEffect(
     () => {
-      if (player && player.on) {
-        const timeUpdateHandler = () => {
-          const currentTimestamp = Date.now()
-          // console.log(currentTimestamp, 'currentTimestamp')
-          const timeSpent = currentTimestamp - lastTimestamp.current
-          watchTime.current += timeSpent
+      try {
+        if (player && player.on) {
+          const timeUpdateHandler = () => {
+            const currentTimestamp = Date.now()
+            // console.log(currentTimestamp, 'currentTimestamp')
+            const timeSpent = currentTimestamp - lastTimestamp.current
+            watchTime.current += timeSpent
 
-          lastTimestamp.current = currentTimestamp
+            lastTimestamp.current = currentTimestamp
 
-          // Update watch time every minute or choose your own duration
-          if (watchTime.current >= WATCHTIME_UPDATE_API_DELAY) {
-            updateWatchTimeHandler({
-              watchTime: Math.ceil(watchTime.current / 1000),
-              courseId: courseId
-            })
-            watchTime.current = 0
+            // Update watch time every minute or choose your own duration
+            if (watchTime.current >= WATCHTIME_UPDATE_API_DELAY) {
+              updateWatchTimeHandler({
+                watchTime: Math.ceil(watchTime.current / 1000),
+                courseId: courseId
+              })
+              watchTime.current = 0
+            }
+          }
+          player.on('timeupdate', timeUpdateHandler)
+          return () => {
+            if (player) {
+              player.off('timeupdate', timeUpdateHandler)
+            }
           }
         }
-        player.on('timeupdate', timeUpdateHandler)
-        return () => {
-          if (player) {
-            player.off('timeupdate', timeUpdateHandler)
-          }
-        }
+      } catch (er) {
+        console.log(er, 'er')
       }
 
       // Clean up event listener when the component is unmounted

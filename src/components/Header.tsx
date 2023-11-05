@@ -1,10 +1,7 @@
-/*eslint-disable */
+import { Col, Row } from 'antd'
 
-import { Button, Col, Input, Layout, Row, Space, Typography } from 'antd'
-
-import { ArrowLeftOutlined } from '@ant-design/icons'
-import BackButton from './BackButton'
 import { PageHeaderProps } from '@ant-design/pro-layout'
+import React from 'react'
 import styled from '@emotion/styled'
 
 interface HeaderPropsI extends PageHeaderProps {
@@ -12,41 +9,57 @@ interface HeaderPropsI extends PageHeaderProps {
   title?: React.ReactNode;
   showBack?: boolean;
   hideBack?: boolean;
-  extra?: React.ReactNode[];
+  extra?: React.ReactNode;
   theme?: string;
   bgColor?: string;
 }
-const { Title } = Typography
 
-function Header(props: HeaderPropsI) {
+const StyledHeader =
+  styled.header <
+  HeaderPropsI >
+  `
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background: ${props => props.bgColor || '#fff'};
+  border-bottom: 1px solid #ececec;
+`
+
+const Title = styled.h4`
+  margin: 10px 0;
+`
+
+const CustomRow = styled.div`
+  display: flex;
+  width: 100%;
+`
+
+const CustomCol = styled.div`
+  flex: 1;
+`
+
+const Header: React.FC<HeaderPropsI> = props => {
   return (
-    <Row gutter={[20, 20]}>
-      <Col span={24}>
-        <Layout.Header
-          style={{
-            background: props.bgColor ? props.bgColor : '#fff',
-            border: `1px solid #ececec`,
-            padding: '0 20px'
-          }}
-        >
-          <Space
-            className="custom-header"
-            style={{ display: 'flex', justifyContent: 'space-between' }}
-          >
-            <Space align="center">
-              {props.showBack ? <BackButton /> : null}
-              <Title style={{ margin: '10px 0' }} level={4}>
-                {props.title}
-              </Title>
-            </Space>
-            <Space>{props.extra}</Space>
-          </Space>
-          <Row gutter={[40, 40]} style={{ marginTop: '20px' }}>
-            <Col span={24}>{props.children}</Col>
+    <CustomRow>
+      <CustomCol>
+        <StyledHeader bgColor={props.bgColor}>
+          <Row justify={'space-between'} style={{ flex: 1 }}>
+            <Col>
+              {props.showBack && !props.hideBack && <button>{'< Back'}</button>}
+              <Title>{props.title}</Title>
+            </Col>
+            <Col style={{ display: 'flex' }}>
+              {/* You would include your BackButton or equivalent control here */}
+              {/* Render extra props content */}
+              {props.extra}
+            </Col>
           </Row>
-        </Layout.Header>
-      </Col>
-    </Row>
+        </StyledHeader>
+        {/* Rest of the content */}
+        {props.children}
+      </CustomCol>
+    </CustomRow>
   )
 }
 

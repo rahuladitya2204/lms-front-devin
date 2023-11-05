@@ -3,6 +3,7 @@ import { Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
 import { UserTheme } from './themes/UserTheme'
+import { darkAlgorithm } from '@ant-design/compatible'
 import useDynamicFont from '@Hooks/useDynamicFont'
 
 function ThemeProvider(props: any) {
@@ -22,6 +23,7 @@ function ThemeProvider(props: any) {
       {context}
       <ConfigProvider
         theme={{
+          // algorithm: [darkAlgorithm],
           token: {
             colorPrimary: branding.colors.primary,
             fontFamily: branding.font.name
