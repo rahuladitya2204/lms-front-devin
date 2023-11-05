@@ -14,19 +14,23 @@ import {
   Spin,
   Typography
 } from 'antd'
-import { Learner, Store, Types } from '@adewaskar/lms-common'
 import {
+  CalendarOutlined,
+  DesktopOutlined,
+  EditOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
+  ShopOutlined,
   ShoppingCartOutlined,
   UserOutlined
 } from '@ant-design/icons'
+import { Learner, Store, Types } from '@adewaskar/lms-common'
+import { Link, NavLink } from 'react-router-dom'
 import { Outlet, useNavigate } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
-import { Link } from 'react-router-dom'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
@@ -38,10 +42,10 @@ const { Content } = Layout
 const { Text, Title } = Typography
 
 const menuItems = [
-  { title: 'Store', link: 'store' },
-  { title: 'Courses', link: 'courses' },
-  { title: 'Tests', link: 'test' },
-  { title: 'Events', link: 'event' }
+  { title: 'Store', link: 'store', icon: <ShopOutlined /> },
+  { title: 'Courses', link: 'courses', icon: <DesktopOutlined /> },
+  { title: 'Tests', link: 'test', icon: <EditOutlined /> },
+  { title: 'Events', link: 'event', icon: <CalendarOutlined /> }
 ]
 
 const LearnerHeader: React.FC = () => {
@@ -126,14 +130,58 @@ const LearnerHeader: React.FC = () => {
               </Dropdown>
             ]
           : isSignedIn
-            ? menuItems.map(item => {
-                return (
-                  <Link to={item.link} style={{ margin: '0 10px' }}>
-                    <Text strong>{item.title}</Text>
-                  </Link>
-                )
-              })
-            : [
+            ? [
+                <div style={{ marginRight: 50 }}>
+                  {menuItems.map(item => {
+                    return (
+                      <NavLink
+                        to={item.link}
+                        style={{ margin: '0 5px' }}
+                        children={({ isActive }) => {
+                          return isActive ? (
+                            <Button
+                              style={{ borderRadius: 15 }}
+                              size="middle"
+                              icon={item.icon}
+                              type={'primary'}
+                            >
+                              {item.title}
+                            </Button>
+                          ) : (
+                            // <Text strong>{item.title}</Text>
+                            <Button
+                              style={{ borderRadius: 15 }}
+                              size="middle"
+                              icon={item.icon}
+                              type={'default'}
+                            >
+                              {item.title}
+                            </Button>
+                          )
+                        }}
+                      />
+                    )
+                  })}
+                </div>
+              ]
+            : // <div style={{ marginRight: 100 }}>
+              //         {menuItems.map(item => {
+              //           return (
+              //             <NavLink
+              //               to={item.link}
+              //               style={{ margin: '0 10px' }}
+              //               children={({ isActive }) => {
+              //                 return (
+              //                   <Button type={isActive ? 'primary' : 'default'}>
+              //                     {item.title}
+              //                   </Button>
+              //                 )
+              //               }}
+              //             />
+              //           )
+              //         })}
+              //       </div>
+              [
                 <ActionModal
                   width={300}
                   title="Login"

@@ -7,7 +7,7 @@ import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { useNavigate } from 'react-router'
 
-interface TestQuestionNavigatorPropsI {
+interface TestQuestionNavigatorType1PropsI {
   testId: string;
 }
 
@@ -39,8 +39,8 @@ const CollapsePanel = styled(Collapse.Panel)`
   }
 `
 
-export default function TestQuestionNavigator(
-  props: TestQuestionNavigatorPropsI
+export default function TestQuestionNavigatorType1(
+  props: TestQuestionNavigatorType1PropsI
 ) {
   const navigate = useNavigate()
   const { data: test } = Learner.Queries.useGetTestDetails(props.testId + '')

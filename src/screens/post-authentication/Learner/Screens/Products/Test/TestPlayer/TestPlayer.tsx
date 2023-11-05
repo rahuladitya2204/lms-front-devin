@@ -19,7 +19,7 @@ import { lazy, useEffect, useMemo } from 'react'
 
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
-import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
+import TestQuestionNavigator from './TestQuestionNavigator/Type2/TestQuestionNavigator'
 import dayjs from 'dayjs'
 
 const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
@@ -31,7 +31,7 @@ interface TestPlayerPropsI {}
 const { Title } = Typography
 
 export default function TestPlayer(props: TestPlayerPropsI) {
-  const { testId } = useParams()
+  const { testId,questionId } = useParams()
   const navigate = useNavigate()
   const {
     mutate: endTest,
@@ -76,9 +76,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       title={test.title}
       subTitle={'asd'}
       extra={[
-        <Tag icon={<ClockCircleOutlined />} color="blue">
-          <Countdown targetDate={endingAt} />
-        </Tag>,
+        // <Tag icon={<ClockCircleOutlined />} color="blue">
+        //   <Countdown targetDate={endingAt} />
+        // </Tag>,
         <Button
           onClick={() => {
             confirm({
@@ -102,7 +102,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
               okText: 'Yes, Submit'
             })
           }}
-          type="primary"
+          type="primary" danger
           loading={submittingTest}
         >
           Submit Test
@@ -120,15 +120,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         <Col span={1} />
         <Col span={22}>
           <Row gutter={[20, 30]}>
-            <Col span={8}>
-              <Row gutter={[20, 20]}>
-                <Col span={24}>
-                  <TestQuestionNavigator testId={testId + ''} />
-                </Col>
-              </Row>
-            </Col>
-            <Col span={16}>
-              <Title
+          <Col span={16}>
+              {/* <Title
                 level={5}
                 style={{
                   textAlign: 'center',
@@ -146,12 +139,20 @@ export default function TestPlayer(props: TestPlayerPropsI) {
                   }
                   format={() => ``}
                 />
-              </Title>
+              </Title> */}
 
               <Card>
                 <Outlet />
               </Card>
             </Col>
+            <Col span={8}>
+              <Row gutter={[20, 20]}>
+                <Col span={24}>
+                  <TestQuestionNavigator questionId={questionId+''} testId={testId + ''} />
+                </Col>
+              </Row>
+            </Col>
+         
           </Row>
         </Col>
         <Col span={1} />

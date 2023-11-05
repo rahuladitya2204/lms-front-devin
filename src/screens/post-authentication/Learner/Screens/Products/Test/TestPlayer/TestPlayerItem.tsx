@@ -1,3 +1,4 @@
+import { BackwardOutlined, ForwardOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Col, Progress, Radio, Row, Spin, Typography } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import { Learner, Types } from '@adewaskar/lms-common';
@@ -93,7 +94,14 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             })}
           </Row>
         </Col>
-        <Col flex={1} style={{display: 'flex',flexDirection:'row-reverse'}}>
+        <Col span={24}>
+          <Row justify='space-between'>
+            <Col>
+            <Button style={{marginRight:20}} icon={<BackwardOutlined/>}>Previous</Button>
+            <Button icon={<ForwardOutlined/>}>Next</Button>
+            </Col>
+            <Col>
+            <Col>
         <Button loading={submittingAnswer} type='primary' style={{marginLeft:20,width: 110}} onClick={()=>{
           submitAnswer({
             testId:testId + '',
@@ -105,8 +113,12 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             }
           })
         }} disabled={!answersGiven.length}> Submit</Button>
-        <Button style={{width: 110}}> Skip</Button>
+        {/* <Button style={{width: 110}}> Skip</Button> */}
         </Col>
+            </Col>
+          </Row>
+        </Col>
+       
       </Row>
     </Spin>
   )
