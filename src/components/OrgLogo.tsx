@@ -4,8 +4,8 @@ import { Store } from '@adewaskar/lms-common'
 
 function OrgLogo(props: any) {
   // const navigate = useNavigate()
-  const { organisation } = Store.useGlobal(s => s)
-  const logo = organisation.branding.logo
+  const organisation = Store.useGlobal(s => s.organisation)
+  const logo = organisation?.branding?.logo
   if (!logo) {
     return null
   }

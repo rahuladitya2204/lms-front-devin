@@ -14,14 +14,6 @@ const LogoHolder = styled.div`
   justify-content: center;
 `
 
-const Logo = styled(OrgLogo)`
-  img {
-    width: 115px;
-    margin: auto;
-    display: block;
-  }
-`
-
 const { Content, Sider } = Layout
 
 const UserRootScreen: React.FC = () => {

@@ -49,9 +49,9 @@ export default function OrgProfile() {
           />
           </div>
         </Form.Item>
-        <Form.Item name={['alias','text']} required label="Alias">
+        {/* <Form.Item name={['alias']} required label="Alias">
           <Input style={{width:500}} />
-        </Form.Item>
+        </Form.Item> */}
 
 {/*                 
         <Form.Item name="email" required label="Email">

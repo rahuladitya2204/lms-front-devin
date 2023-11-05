@@ -1,5 +1,6 @@
 import { FloatButton, Layout, Typography } from 'antd'
 import { Learner, Store, Utils } from '@adewaskar/lms-common'
+import { useEffect, useMemo } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AppProvider from 'screens/AppProvider'
@@ -9,7 +10,6 @@ import LearnerHeader from './LearnerHeader'
 import ThemeProvider from 'screens/ThemeProvider'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useDynamicFont from '@Hooks/useDynamicFont'
-import { useEffect } from 'react'
 import { useParams } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
 
@@ -42,18 +42,42 @@ const LearnerRootScreen: React.FC = () => {
     },
     [orgId]
   )
+  // const { branding } = Store.useGlobal(s => s.organisation);
 
-  // useEffect(
-  //   () => {
-  //     if (!isSignedIn) {
-  //       navigate('../app/store')
-  //     }
-  //   },
-  //   [isSignedIn]
-  // )
-
+  // const { isLoading } = useDynamicFont({
+  //   fontName: branding.font.name,
+  //   fontUrl: branding.font.url
+  // });
   const { isMobile } = useBreakpoint()
-  // const { }=useDynamicFont()
+  let subdomain = useMemo(
+    () => {
+      const hostname = window.location.hostname
+      const parts = hostname.split('.')
+      const subdomain = parts.length > 2 ? parts[0] : null
+      return subdomain
+    },
+    [window.location.hostname]
+  )
+  const setOrganisation = Store.useGlobal(s => s.setOrganisation)
+
+  const userType = Utils.Storage.GetItem('userType')
+  // const { isInitDone } = useAppInit(userType, !!isAliasValid)
+
+  // useEffect(() => {
+  //   const sd = subdomain + ''
+  //   Learner.Api.ValidateOrgAlias(sd)
+  //     .then(organisation => {
+  //       setAliasValid(true)
+  //       Utils.Storage.SetItem('orgAlias', sd)
+  //       setOrganisation(organisation)
+  //     })
+
+  //     .catch(() => {
+  //       console.log('invalid')
+  //       setAliasValid(false)
+  //     })
+  // }, [])
+
   return (
     <ThemeProvider type="learner">
       <AppProvider>

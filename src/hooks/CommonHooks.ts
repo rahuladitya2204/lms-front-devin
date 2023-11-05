@@ -1,11 +1,11 @@
-import { Common, Constants, Store, Types } from '@adewaskar/lms-common'
+import { Common, Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import {
   createSearchParams,
   useNavigate,
   useOutletContext,
   useParams
 } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { getToken } from '@Network/index'
 import useRazorpay from "react-razorpay";
@@ -26,8 +26,9 @@ export const useGetNodeFromRouterOutlet = () => {
   return {  courseId,sectionId };
 }
 
-export const useAppInit = (type: string, enabled:boolean) => {
+export const useAppInit = (type: string) => {
   const token = getToken();
+  const [isAliasValid, setAliasValid] = useState<boolean | null>(null)
   const { fetchOrganisation } = Store.useGlobal();
   const [loading, setLoading] = useState(false);
   const {
@@ -35,11 +36,40 @@ export const useAppInit = (type: string, enabled:boolean) => {
   } = Common.Queries.useValidateUser();
   const { setIsSignedin, isSignedIn } = Store.useAuthentication.getState();
 
+  const enabled = !!isAliasValid;
+
+  let subdomain = useMemo(
+    () => {
+      const hostname = window.location.hostname
+      const parts = hostname.split('.')
+      const subdomain = parts.length > 2 ? parts[0] : null
+      return subdomain
+    },
+    [window.location.hostname]
+  )
+  const setOrganisation = Store.useGlobal(s => s.setOrganisation)
+
   useEffect(() => {
-    if (isSignedIn && type === 'user' &&enabled) {
-      fetchOrganisation(`user`)
-    }
-   },[enabled])
+    const sd = subdomain + ''
+    Learner.Api.ValidateOrgAlias(sd)
+      .then(organisation => {
+        setAliasValid(true)
+        Utils.Storage.SetItem('orgAlias', sd);
+        console.log(organisation,'organisation')
+        setOrganisation(organisation)
+      })
+
+      .catch(() => {
+        console.log('invalid')
+        setAliasValid(false)
+      })
+  }, [])
+
+  // useEffect(() => {
+  //   if (isSignedIn && type === 'user' &&enabled) {
+  //     fetchOrganisation(`user`)
+  //   }
+  //  },[enabled])
 
   useEffect(() => {
     if (enabled) {
@@ -75,7 +105,7 @@ export const useAppInit = (type: string, enabled:boolean) => {
   }
 
 
-  return { isInitDone: loading }
+  return { isInitDone: loading,isAliasValid }
 }
 
 
