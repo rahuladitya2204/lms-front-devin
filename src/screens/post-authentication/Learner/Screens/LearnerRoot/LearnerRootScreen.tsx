@@ -1,5 +1,5 @@
 import { FloatButton, Layout, Typography } from 'antd'
-import { Store, Utils } from '@adewaskar/lms-common'
+import { Learner, Store, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import AppProvider from 'screens/AppProvider'
@@ -8,6 +8,7 @@ import { CustomerServiceOutlined } from '@ant-design/icons'
 import LearnerHeader from './LearnerHeader'
 import ThemeProvider from 'screens/ThemeProvider'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import useDynamicFont from '@Hooks/useDynamicFont'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
 import { useSearchParams } from 'react-router-dom'
@@ -16,9 +17,11 @@ const { Title } = Typography
 const LearnerRootScreen: React.FC = () => {
   const { orgId } = useParams()
   const [params] = useSearchParams()
-
   const userAuthToken = params.get('userAuthToken')
-
+  // const organisation = Store.useGlobal(s => s.organisation)
+  // console.log(organisation, 'organisation')
+  // // @ts-ignore
+  // const branding = organisation.branding
   useEffect(
     () => {
       if (userAuthToken) {
@@ -50,7 +53,7 @@ const LearnerRootScreen: React.FC = () => {
   // )
 
   const { isMobile } = useBreakpoint()
-
+  // const { }=useDynamicFont()
   return (
     <ThemeProvider type="learner">
       <AppProvider>

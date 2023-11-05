@@ -1,10 +1,11 @@
-import { Common, Learner, Store, Utils } from '@adewaskar/lms-common'
+import { Common, Learner, Store, User, Utils } from '@adewaskar/lms-common'
 import { useEffect, useMemo, useState } from 'react'
 
 import LoadingScreen from '@Components/LoadingScreen'
 import { NotFoundScreen } from './route-list'
 import { Outlet } from 'react-router'
 import { useAppInit } from '@Hooks/CommonHooks'
+import useDynamicFont from '@Hooks/useDynamicFont'
 
 export default function RootScreen () {
   const [isAliasValid, setAliasValid] = useState<boolean | null>(null)
@@ -17,25 +18,30 @@ export default function RootScreen () {
     },
     [window.location.hostname]
   )
+  const [font, setFont] = useState({
+    name: '',
+    url: ''
+  })
   const userType = Utils.Storage.GetItem('userType')
   const { isInitDone } = useAppInit(userType, !!isAliasValid)
-  const { fetchOrganisation } = Store.useGlobal(state => state)
+  const { isLoading } = useDynamicFont({
+    fontName: font.name,
+    fontUrl: font.url
+  })
   useEffect(() => {
     const sd = subdomain + ''
     Learner.Api.ValidateOrgAlias(sd)
-      .then(() => {
+      .then(setting => {
+        setFont(setting.branding.font)
         setAliasValid(true)
         Utils.Storage.SetItem('orgAlias', sd)
         // fetchOrganisation(userType)
       })
-      // .then(() => {
-      //   setAliasValid(true)
-      // })
+
       .catch(() => {
         console.log('invalid')
         setAliasValid(false)
       })
-    // console.log(sd, 'sd')
   }, [])
   if (isAliasValid === false) {
     return <NotFoundScreen />

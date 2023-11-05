@@ -1,11 +1,12 @@
 import Image from './Image'
 import { Store } from '@adewaskar/lms-common'
-import { useNavigate } from 'react-router'
+// import { useNavigate } from 'react-router'
 
 function OrgLogo(props: any) {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
   const { organisation } = Store.useGlobal(s => s)
-  if (!organisation.logo) {
+  const logo = organisation.branding.logo
+  if (!logo) {
     return null
   }
   return (
@@ -14,7 +15,7 @@ function OrgLogo(props: any) {
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
       width={`100px`}
       preview={false}
-      src={organisation.logo}
+      src={logo.url}
       {...props}
     />
   )

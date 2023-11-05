@@ -3,9 +3,10 @@ import { Card, Tabs } from 'antd'
 import EmailSettingScreen from '../EmailSetting/EmailSettingScreen'
 import { Fragment } from 'react'
 import Header from '@Components/Header'
+import OrgProfile from './OrgProfile'
 import { Outlet } from 'react-router'
 import TicketCategorysScreen from '../SupportTickets/TicketCategoriesScreen'
-import UserProfile from './Profile'
+import UserProfile from './UserProfile'
 
 function UserAccount () {
   return (
@@ -26,9 +27,14 @@ function UserAccount () {
     >
       <Card>
         <Tabs
-          defaultActiveKey="1"
+          defaultActiveKey="1123"
           // onChange={onChange}
           items={[
+            {
+              label: `Org Details`,
+              key: '1123',
+              children: <OrgProfile />
+            },
             {
               label: `Profile Details`,
               key: '1',

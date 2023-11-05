@@ -199,7 +199,7 @@ const router = (userType: string) => {
           </Route>
         </Route>
         <Route
-          path="app/platform/website/builder/:pageId"
+          path="app/website/builder/:pageId"
           element={<WebsiteBuilderScreen />}
         />
         <Route path="app" element={<Suspense  fallback={<LoadingScreen />}>
