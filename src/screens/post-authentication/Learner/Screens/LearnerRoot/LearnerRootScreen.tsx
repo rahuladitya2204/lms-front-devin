@@ -103,7 +103,7 @@ const LearnerRootScreen: React.FC = () => {
             </ActionModal>
           ) : null
         ) : null}
-        <Layout>
+        <Layout style={{ minHeight: '100vh' }}>
           <LearnerHeader />
         </Layout>
       </AppProvider>

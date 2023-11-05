@@ -23,7 +23,7 @@ function ThemeProvider(props: any) {
       {context}
       <ConfigProvider
         theme={{
-          // algorithm: [darkAlgorithm],
+          algorithm: [darkAlgorithm],
           token: {
             colorPrimary: branding.colors.primary,
             fontFamily: branding.font.name
