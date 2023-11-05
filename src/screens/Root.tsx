@@ -8,14 +8,8 @@ import { useAppInit } from '@Hooks/CommonHooks'
 import useDynamicFont from '@Hooks/useDynamicFont'
 
 export default function RootScreen () {
-
   const userType = Utils.Storage.GetItem('userType')
   const { isInitDone, isAliasValid } = useAppInit(userType)
-  return isInitDone && isAliasValid ? (
-    <div>
-      <Outlet />
-    </div>
-  ) : (
-    <LoadingScreen />
-  )
+  const showLoadingScreen = !(isInitDone && isAliasValid)
+  return <Outlet context={{ showLoadingScreen }} />
 }

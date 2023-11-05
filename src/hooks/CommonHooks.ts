@@ -55,8 +55,10 @@ export const useAppInit = (type: string) => {
       .then(organisation => {
         setAliasValid(true)
         Utils.Storage.SetItem('orgAlias', sd);
-        console.log(organisation,'organisation')
-        setOrganisation(organisation)
+        console.log(organisation, 'organisation');
+        if (type === 'learner') {
+          setOrganisation(organisation)
+        }
       })
 
       .catch(() => {

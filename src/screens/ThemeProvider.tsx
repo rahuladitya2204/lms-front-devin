@@ -1,28 +1,42 @@
 import { ConfigProvider, message, theme } from 'antd'
+import { Enum, Store } from '@adewaskar/lms-common'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
-import { Store } from '@adewaskar/lms-common'
+import LoadingScreen from '@Components/LoadingScreen'
 import useDynamicFont from '@Hooks/useDynamicFont'
+import { useMemo } from 'react'
 
+const { darkAlgorithm } = theme
 function ThemeProvider(props: any) {
   const { branding } = Store.useGlobal(s => s.organisation)
+  console.log(branding, 'branding')
   const { isLoading } = useDynamicFont({
-    fontName: branding.font.name,
-    fontUrl: branding.font.url
+    fontName: branding?.font?.name,
+    fontUrl: branding?.font?.url
   })
   const [messageApi, context] = message.useMessage()
-  // const branding =
-  //   props.branding || Constants.INITIAL_ORG_SETTING_DETAILS.branding;
+  const algorithm = useMemo(
+    () => {
+      const themes = []
+      if (branding.theme === Enum.THEMES.DARK) {
+        themes.push(darkAlgorithm)
+      }
+      return themes
+    },
+    [branding.theme]
+  )
+
+  if (isLoading || props.showLoadingScreen) {
+    return <LoadingScreen />
+  }
+
   return (
     // @ts-ignore
     <MessageContext.Provider value={messageApi}>
       {context}
       <ConfigProvider
         theme={{
-          algorithm: [
-            theme.darkAlgorithm
-            // theme.compactAlgorithm
-          ],
+          algorithm: algorithm,
           token: {
             colorPrimary: branding.colors.primary,
             fontFamily: branding.font.name

@@ -1,4 +1,4 @@
-import { Button, Card, Col, ColorPicker, Form, Input, Row, Spin, Tabs } from 'antd'
+import { Button, Card, Col, ColorPicker, Form, Input, Row, Select, Spin, Tabs } from 'antd'
 import { CheckCircleOutlined, UploadOutlined } from '@ant-design/icons'
 import { Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
@@ -60,7 +60,7 @@ export default function OrgProfile() {
         </Form.Item> */}
 
         
-        <Title>Branding Colors</Title>
+        <Title level={3}>Branding Colors</Title>
 
           <Row>
             <Col span={3}>
@@ -82,14 +82,23 @@ export default function OrgProfile() {
               </Form.Item>
    </Col>
           </Row>
-
+          <Form.Item
+  name={['branding', 'theme']}
+  label="Select Theme"
+  // rules={[{ required: true, message: 'Please select a theme' }]}
+>
+  <Select style={{ width: 200 }}>
+    <Select.Option value="light">Light</Select.Option>
+    <Select.Option value="dark">Dark</Select.Option>
+  </Select>
+</Form.Item>
 
         <Form.Item name={['branding','colors','tertiary']} required label="Tertiary Color">
           <Input style={{width:500}} />
         </Form.Item>
 
 
-        <Title>Font</Title>
+        <Title level={3}>Font</Title>
 
                      
         <Form.Item
@@ -101,7 +110,7 @@ export default function OrgProfile() {
       message: 'Please enter the font name',
     },
     {
-      validator: debounce(validateFontName, 800),
+      validator: validateFontName,
     },
   ]}
   hasFeedback
@@ -119,7 +128,7 @@ export default function OrgProfile() {
           <Input style={{width:500}} placeholder='Please enter font name which you want to be used' />
         </Form.Item>
 
-        <Title>Fav Icon</Title>
+        <Title level={3}>Fav Icon</Title>
 
         <Form.Item name={['branding','favIcon','url']} required label="Fav Name">
           <Input style={{width:500}} placeholder='Please enter font name which you want to be used' />
@@ -129,7 +138,9 @@ export default function OrgProfile() {
           <Button
             loading={loading}
             type="primary"
-            onClick={form.submit}
+              onClick={form.submit}
+              htmlType="submit" // This tells the button to submit the form
+
             icon={<UploadOutlined />}
           >
             Save Account

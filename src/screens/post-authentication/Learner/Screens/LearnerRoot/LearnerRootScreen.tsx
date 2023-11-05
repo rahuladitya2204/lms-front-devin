@@ -1,16 +1,18 @@
 import { FloatButton, Layout, Typography } from 'antd'
 import { Learner, Store, Utils } from '@adewaskar/lms-common'
 import { useEffect, useMemo } from 'react'
+import { useOutletContext, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import CreateTicket from '../Tickets/CreateTicket'
 import { CustomerServiceOutlined } from '@ant-design/icons'
 import LearnerHeader from './LearnerHeader'
+import LoadingScreen from '@Components/LoadingScreen'
 import ThemeProvider from 'screens/ThemeProvider'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useDynamicFont from '@Hooks/useDynamicFont'
-import { useParams } from 'react-router'
+import { useGetNodeFromRouterOutlet } from '@Hooks/CommonHooks'
 import { useSearchParams } from 'react-router-dom'
 
 const { Title } = Typography
@@ -42,15 +44,14 @@ const LearnerRootScreen: React.FC = () => {
     },
     [orgId]
   )
-  // const { branding } = Store.useGlobal(s => s.organisation);
-
-  // const { isLoading } = useDynamicFont({
-  //   fontName: branding.font.name,
-  //   fontUrl: branding.font.url
-  // });
   const { isMobile } = useBreakpoint()
+  const { showLoadingScreen } = useOutletContext<any>()
+  // if (showLoadingScreen) {
+  //   return <LoadingScreen />
+  // }
+  // return <LoadingScreen />
   return (
-    <ThemeProvider type="learner">
+    <ThemeProvider showLoadingScreen={showLoadingScreen} type="learner">
       <AppProvider>
         {isSignedIn ? (
           !isMobile ? (
