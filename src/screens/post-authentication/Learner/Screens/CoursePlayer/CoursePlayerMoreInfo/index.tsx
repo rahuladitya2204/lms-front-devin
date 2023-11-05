@@ -13,7 +13,7 @@ interface CoursePlayerMoreInfoPropsI {
 }
 
 const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
-  useWatchTime(props.course._id);
+  // useWatchTime(props.course._id);
 
   const TAB_ITEMS = [
     // {

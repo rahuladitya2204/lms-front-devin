@@ -25,7 +25,6 @@ import HtmlViewer from '@Components/HtmlViewer'
 import MoreButton from '@Components/MoreButton'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
-import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
 const { confirm } = Modal
