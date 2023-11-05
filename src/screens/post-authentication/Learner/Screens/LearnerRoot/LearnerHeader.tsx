@@ -138,22 +138,12 @@ const LearnerHeader: React.FC = () => {
                         to={item.link}
                         style={{ margin: '0 5px' }}
                         children={({ isActive }) => {
-                          return isActive ? (
+                          return (
                             <Button
                               style={{ borderRadius: 15 }}
                               size="middle"
                               icon={item.icon}
-                              type={'primary'}
-                            >
-                              {item.title}
-                            </Button>
-                          ) : (
-                            // <Text strong>{item.title}</Text>
-                            <Button
-                              style={{ borderRadius: 15 }}
-                              size="middle"
-                              icon={item.icon}
-                              type={'default'}
+                              type={isActive ? 'primary' : 'default'}
                             >
                               {item.title}
                             </Button>
