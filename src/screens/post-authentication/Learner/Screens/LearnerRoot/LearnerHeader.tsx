@@ -54,7 +54,7 @@ const LearnerHeader: React.FC = () => {
     isLoading: loggingOut
   } = Learner.Queries.useLogoutLearner()
 
-  const { isSignedIn } = Store.useAuthentication(state => state)
+  const { isSignedIn, user } = Store.useAuthentication(state => state)
 
   const { data: { items } } = Learner.Queries.useGetCartDetails({
     enabled: !!isSignedIn
@@ -198,6 +198,7 @@ const LearnerHeader: React.FC = () => {
               placement="bottomLeft"
               overlay={
                 <Menu>
+                  <Menu.Item>{user.name}</Menu.Item>
                   <Menu.Item
                     onClick={() => {
                       navigate('account')

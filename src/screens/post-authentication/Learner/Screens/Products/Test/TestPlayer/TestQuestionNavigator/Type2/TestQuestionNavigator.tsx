@@ -19,6 +19,7 @@ import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
+import useCountdownTimer from '@Hooks/useCountdownTimer'
 import { useNavigate } from 'react-router'
 
 interface TestQuestionNavigatorType2PropsI {
@@ -43,9 +44,12 @@ export default function TestQuestionNavigatorType2(
     type: 'test',
     id: test._id + ''
   })
+  const startTime = test.startedAt || enrolledProduct.metadata.test.startedAt
   const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
     .add(test.duration, 'minutes')
     .toString()
+  // console.log(startTime, 'start time')
+  const { percentLeft } = useCountdownTimer(startTime, test.duration)
   return (
     <Card style={{ height: '80vh', overflow: 'scroll' }}>
       <Row>
@@ -61,22 +65,27 @@ export default function TestQuestionNavigatorType2(
           >
             <Progress
               size={200}
-              format={() => {
+              format={(percent) => {
                 return (
                   <Row>
                     <Col span={24}>
+                      {percent===100? <Title type="secondary" style={{ fontSize: 18 }}>
+                        Test has ended
+                      </Title> : <>
                       <Title type="secondary" style={{ fontSize: 18 }}>
                         Remaining Time
                       </Title>
                       <Title style={{ marginTop: 0, fontSize: 25 }}>
                         <Countdown targetDate={endingAt} />
-                      </Title>
+                        </Title>
+                      </>}
+                      
                     </Col>
                   </Row>
                 )
               }}
               type="circle"
-              percent={75}
+              percent={Math.ceil(100 - percentLeft)}
             />
           </div>
         </Col>
@@ -109,7 +118,7 @@ export default function TestQuestionNavigatorType2(
                                 style={{
                                   backgroundColor: isActive
                                     ? 'auto'
-                                    : (item.isAnswered ? 'green' : 'default')
+                                    : item.isAnswered ? 'green' : 'default'
                                 }}
                                 shape="circle"
                               >

@@ -1,4 +1,4 @@
-import { BackwardOutlined, ForwardOutlined } from '@ant-design/icons';
+import { BackwardOutlined, FlagOutlined, ForwardOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Col, Progress, Radio, Row, Spin, Typography } from 'antd'
 import { Fragment, useEffect, useState } from 'react'
 import { Learner, Types } from '@adewaskar/lms-common';
@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { useParams } from 'react-router'
 import useQuestion from './hooks/useQuestion'
 import { useTestItemTime } from '@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime';
+import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
 
 const { Title, Text } = Typography
 
@@ -33,19 +34,20 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     else {
       setAnswersGiven([])
     }
-  },[currentQuestion])
+  }, [currentQuestion]);
+  const { data: test}=Learner.Queries.useGetTestDetails(testId+'')
+  const {
+    currentSectionIndex,
+    currentQuestionIndex: currentQuestionIndexItemWide,
+    navigate
+  } = useTestNavigation(test);
+
   return (
     <Spin spinning={loading}>
+      <div style={{ height: '72vh' }}>
       <Row gutter={[20,30]}>
         <Col span={24}>
           <Row align={'middle'}>
-            {/* <Col>
-              <Progress style={{ marginRight: 20 }}
-                type="circle"
-                width={50}
-                percent={100}
-                format={() => <Text strong><Countdown hideHour targetDate={targetDate} /></Text>} />
-            </Col> */}
             <Col flex={1}>
             <Title style={{margin:0}} level={5} type="secondary" >
             Question {currentQuestionIndex+1}
@@ -93,15 +95,29 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               )
             })}
           </Row>
-        </Col>
-        <Col span={24}>
+        </Col>  
+      </Row>
+      </div>
+     
+      <Row>
+      <Col span={24}>
           <Row justify='space-between'>
             <Col>
-            <Button style={{marginRight:20}} icon={<BackwardOutlined/>}>Previous</Button>
-            <Button icon={<ForwardOutlined/>}>Next</Button>
+            <Button         onClick={() => navigate('prev')}
+        disabled={currentSectionIndex === 0 && currentQuestionIndexItemWide === 0}
+ style={{marginRight:20}} icon={<BackwardOutlined/>}>Previous</Button>
+              <Button
+                    onClick={() => navigate('next')}
+                    disabled={
+                      currentSectionIndex === test.sections.length - 1 &&
+                      currentQuestionIndexItemWide === test.sections[currentSectionIndex]?.items?.length - 1
+                    }
+
+                icon={<ForwardOutlined />}>Next</Button>
             </Col>
             <Col>
-            <Col>
+              <Col>
+              <Button icon={<FlagOutlined/>} danger type='default'>Mark for review</Button>
         <Button loading={submittingAnswer} type='primary' style={{marginLeft:20,width: 110}} onClick={()=>{
           submitAnswer({
             testId:testId + '',
@@ -118,7 +134,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             </Col>
           </Row>
         </Col>
-       
       </Row>
     </Spin>
   )
