@@ -20,7 +20,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { mutate: submitAnswer,isLoading: submittingAnswer} = Learner.Queries.useSubmitTestAnswer();
   const OptionSelectedFormControl =
     currentQuestion.type === 'single' ? Radio : Checkbox;
-  const [answersGiven, setAnswersGiven] = useState<number[]>([]);
+  const [answersGiven, setAnswersGiven] = useState<string[]>([]);
   useEffect(() => {
     setTargetDate(dayjs().add(1.5, 'minute').toString());
   }, [questionId]);
@@ -62,19 +62,21 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         <Col span={24}>
           <Row gutter={[0,20]}>
             {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
+              option = option || {};
+              const optionId = option?._id + ''
               return (
                 <Col span={24}>
                   <OptionSelectedFormControl
-                    checked={answersGiven.indexOf(index) > -1}
+                    checked={answersGiven.indexOf(optionId) > -1}
                     onChange={e => {
-                      let options: number[] = [...answersGiven]
-                      const indexOfOption = options.indexOf(index)
+                      let options = [...answersGiven]
+                      const indexOfOption = options.indexOf(optionId)
                       if (e.target.checked) {
                         if (indexOfOption === -1) {
                           if (currentQuestion.type === 'single') {
-                            options = [index]
+                            options = [optionId]
                           } else {
-                            options.push(index)
+                            options.push(optionId)
                           }
                         }
                       } else {

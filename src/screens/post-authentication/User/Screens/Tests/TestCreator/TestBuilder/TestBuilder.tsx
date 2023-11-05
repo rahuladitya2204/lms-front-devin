@@ -58,7 +58,7 @@ function TestBuilderScreen() {
           {
             ...Constants.INITIAL_TEST_QUESTION,
             title: 'New Question',
-            options: [null,null,null,null],
+            options: [Constants.INITIAL_TEST_QUESTION_OPTION,Constants.INITIAL_TEST_QUESTION_OPTION,Constants.INITIAL_TEST_QUESTION_OPTION,Constants.INITIAL_TEST_QUESTION_OPTION],
             solution: {
               html:''
             },

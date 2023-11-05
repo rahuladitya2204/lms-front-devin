@@ -1,13 +1,15 @@
 import { Alert, Button, Card, Col, Row, Skeleton, Space, Tag, Typography, message } from 'antd'
 import { CalendarOutlined, InfoOutlined } from '@ant-design/icons'
-import { Constants, Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/AcrtionDrawer'
+import ActionModal from '@Components/ActionModal'
 import CompletedTestCard from './CompletedTestMetadata'
 import Countdown from '@Components/Countdown'
 import HtmlViewer from '@Components/HtmlViewer'
 import Image from '@Components/Image'
+import LearnerLogin from '@Learner/Screens/Login'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import TestMetadata from './TestMetadata'
@@ -116,22 +118,22 @@ const isEnrolled = !!enrolledDetails._id
   enrolledDetails.metadata.test.startedAt || test.startedAt;
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
 
-const ENROLLED_CTA = useMemo(() => { 
+  const ENROLLED_CTA = useMemo(() => {
     if (test.isLive) {
       switch (test.status) {
 
         case Enum.TestStatus.PUBLISHED: {
-          return  <Alert
-          style={{ marginBottom: 20 }}
-          message="You're enrolled for this test"
-          type="success"
-          showIcon
-        />
+          return <Alert
+            style={{ marginBottom: 20 }}
+            message="You're enrolled for this test"
+            type="success"
+            showIcon
+          />
           break;
         }
           
         case Enum.TestStatus.IN_PROGRESS: {
-          return <Button onClick={()=>navigate('start')} block type='primary'>
+          return <Button onClick={() => navigate('start')} block type='primary'>
             Join Test
           </Button>
           break;
@@ -139,41 +141,42 @@ const ENROLLED_CTA = useMemo(() => {
           
         case Enum.TestStatus.ENDED: {
           return <Alert
-          style={{ marginBottom: 20 }}
-          message="The test has ended"
-          type='error'
-          showIcon
-        />
+            style={{ marginBottom: 20 }}
+            message="The test has ended"
+            type='error'
+            showIcon
+          />
           break;
         }
       }
     }
     else {
-      console.log(enrolledDetails.metadata.test,'enrolledDetails')
+      console.log(enrolledDetails.metadata.test, 'enrolledDetails')
       if (!testStartDate) {
-        return <Button size='large' onClick={()=>navigate('start')} block type='primary'>
-        Start Test
-      </Button>
+        return <Button size='large' onClick={() => navigate('start')} block type='primary'>
+          Start Test
+        </Button>
       }
       if ((testStartDate)) {
         if (testEndDate) {
-          return  <Alert
-          style={{ marginBottom: 20 }}
-          message="You have attended this test."
-          type="success"
-          showIcon action={<Button size='small' onClick={()=>navigate('result')}>View Result</Button>}
-        />
+          return <Alert
+            style={{ marginBottom: 20 }}
+            message="You have attended this test."
+            type="success"
+            showIcon action={<Button size='small' onClick={() => navigate('result')}>View Result</Button>}
+          />
         }
         else {
-          return <Button onClick={()=>navigate('start')} block type='primary'>
-          Continue Test
-        </Button>
-       }
+          return <Button onClick={() => navigate('start')} block type='primary'>
+            Continue Test
+          </Button>
+        }
       }
      
     }
  
-  },[test,enrolledDetails])
+  }, [test, enrolledDetails]);
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const message = useMessage();
   const { isMobile,isTablet} = useBreakpoint();
   return   <Card
@@ -241,7 +244,7 @@ const ENROLLED_CTA = useMemo(() => {
                     ENROLLED_CTA
                   }
                 </> :
-                  <ProductCheckoutButton onSuccess={() => {
+                 (isSignedIn? <ProductCheckoutButton onSuccess={() => {
                     qc.invalidateQueries([`GET_ENROLLED_PRODUCT_DETAILS`, testId, 'test']);
                     message.open({
                       type: 'success',
@@ -252,7 +255,12 @@ const ENROLLED_CTA = useMemo(() => {
               type="primary"
             >
               Claim your seat
-            </ProductCheckoutButton>
+            </ProductCheckoutButton>:<ActionModal width={300}
+                    cta={<Button size="large" type="primary" block>
+            Login to buy this course
+                </Button>}>
+                  <LearnerLogin/>
+          </ActionModal>)
             }
           </Col>
         </Row>
