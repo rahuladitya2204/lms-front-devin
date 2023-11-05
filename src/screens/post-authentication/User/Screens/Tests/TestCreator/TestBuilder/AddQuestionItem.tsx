@@ -198,7 +198,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                         </Form.Item>
                     </Col>
                             <Col>
-                            
+                            <Form.Item  {...restField}
+                              name={[name, 'isCorrect']}
+                              valuePropName="checked">
                     <OptionSelectedFormControl
                       checked={!!currentOption?.isCorrect} value={false}
                             // value={index} // Assigning value to OptionSelectedFormControl
@@ -226,7 +228,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                                 // setCorrectOptions(options);
                             }}
                             style={{ marginLeft: 20 }}
-                        />
+                      />
+                      </Form.Item>
                     
                         <DeleteTwoTone onClick={e => {
                             confirm({
