@@ -174,7 +174,7 @@ const UploadVideoForm:any = () => {
 
             <Row>
             {transcoding.status === 'PROGRESSING' ? (
-<Col span={24}>
+<Col span={18}>
               <Progress format={()=>`Processing Video`} style={{marginBottom:20}} percent={transcoding.progress} strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }} />
                   </Col>          ) : null}
 

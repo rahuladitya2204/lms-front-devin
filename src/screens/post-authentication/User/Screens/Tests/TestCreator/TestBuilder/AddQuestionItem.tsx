@@ -277,10 +277,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           onUpload={(item) => {
             // console.log(item, 'item')
             // @ts-ignore
-            onFormChange({
-              ...item,
+            updateItem({
               solution: {
-                // type: 'video',
                 video: item.file+''
               }
             })

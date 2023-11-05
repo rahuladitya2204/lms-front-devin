@@ -39,6 +39,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
     item,
     currentItemIndex,
     courseId,
+    isLoading,
     sectionId,
     itemId,
     section
@@ -129,7 +130,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                   />
                 ),
                 <ActionModal
-                  width={650}
+                  width={850}
                   cta={
                     <Button
                       style={{ marginLeft: 10 }}

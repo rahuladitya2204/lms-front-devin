@@ -12,7 +12,7 @@ import {
   Select,
   Switch,
 } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import { Fragment, useEffect, useState } from 'react'
 
@@ -37,7 +37,6 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
-  const [correctOptions, setCorrectOptions] = useState<number[]>([]);
   useEffect(
     () => {
       if (props.data) {
@@ -59,7 +58,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const questionType = Form.useWatch('type', form);
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
-
+  const options = Form.useWatch('options', form) || [];
+  // const isValid = Utils.validateTestQuestion(props.data);
   return (
     <Row gutter={[10,10]}>
       <Col span={24}>
@@ -109,70 +109,92 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Card style={{ marginBottom: 20 }} title="Answers">
-            <Form.List name="options">
-        {(fields, { add, remove }) => (
-                    <>
-                      <OptionSelectedFormControl.Group>
-            {fields.map((field, index) => (
-             <Row justify={'center'}>
-                    <Col flex={1}>
-                    <Form.Item 
-                rules={[
-                  { required: true, message: 'Please enter the answer.' },
-                ]}
-                {...field}
-                >
-                    <TextArea placeholder={`Answer ${index + 1}`}/> 
-                  </Form.Item>
-                </Col>
-                <Col>
-                    <OptionSelectedFormControl
-                      checked={correctOptions.indexOf(index) > -1}
-                      onChange={e => {
-                      let options=[...correctOptions]
-                      const indexOfOption=options.indexOf(index);
-                      if (e.target.checked) {
-                        if (indexOfOption === -1) {
-                          if (questionType === 'single') {
-                            options = [index];
-                          }
-                          else
-                          {
-                            options.push(index)
-                          }
-                        }
-                      }
-                      else
-                      {
-                        options.splice(indexOfOption, 1);
-                      }
-                      setCorrectOptions(options)
-                    }}
-                    style={{ marginLeft: 20 }} />
-                  
-                  <DeleteTwoTone onClick={e => {
-                    confirm({
-                      title: 'Are you sure?',
-                      content: `You want to delete this answer`,
-                      onOk() {
-                        remove(index)
-                      },
-                      okText: 'Delete Answer'
-                    })
-                  }} style={{ marginLeft: 10 ,fontSize:15}} />
-                </Col>
-             </Row>
+                <Row gutter={[20,20]}>
+                <Form.List name="options">
+  {(fields, { add, remove }) => (
+    <>
+      {fields.map(({ key, name, ...restField }, index) => {
+        const currentOption = options[index] || Constants.INITIAL_TEST_QUESTION_OPTION;
 
-            ))}
-                        </OptionSelectedFormControl.Group>
-                    <Button onClick={e=>add()} icon={<PlusCircleTwoTone/>}>Add Option</Button>
-          </>
-        )}
-      </Form.List>
+        return (
+          <Col md={12}>
+              <Row key={key} justify={'center'} align="middle">
+              <Col flex={1}>
+                        <Form.Item 
+                            rules={[
+                                { required: true, message: 'Please enter the answer.' },
+                            ]}
+                            {...restField}
+                            name={[name, 'text']}
+                          >
+                            <TextArea height={150} placeholder={`Answer ${index + 1}`}/> 
+                        </Form.Item>
+                    </Col>
+                            <Col>
+                            <Form.Item  {...restField}
+                              name={[name, 'isCorrect']}
+                              valuePropName="checked">
+                    <OptionSelectedFormControl
+                      checked={!!currentOption?.isCorrect} value={false}
+                            // value={index} // Assigning value to OptionSelectedFormControl
+                            // checked={!!currentOption.isCorrect} // Calculating checked status
+                            // disabled={!!item.isAiGenerated}
+                        onClick={e => {
+                          const opts = [...options];
+                          // @ts-ignore
+                                if (e.target.checked) {
+                                  if (questionType === 'single') {
+                                    opts.forEach(o => {
+                                      o.isCorrect = false;
+                                    })
+                                  }
+                                  opts[index].isCorrect = true;
+                                }
+                                else {
+                                  opts[index].isCorrect = false;
+                                }
+
+                          form.setFieldsValue({
+                            options: opts
+                          });
+                          // onFormChange
+                                // setCorrectOptions(options);
+                            }}
+                            style={{ marginLeft: 20 }}
+                      />
+                      </Form.Item>
+                    
+                        <DeleteTwoTone onClick={e => {
+                            confirm({
+                                title: 'Are you sure?',
+                                content: `You want to delete this answer`,
+                                onOk() {
+                                    remove(index);
+                                },
+                                okText: 'Delete Answer'
+                            });
+                        }} style={{ marginLeft: 10 ,fontSize: 15 }} />
+                    </Col>
+          </Row>
+        </Col>
+        );
+      })}
+
+      <Row justify="center">
+        <Col>
+          <Button onClick={() => add()} icon={<PlusCircleTwoTone />} type="dashed">
+            Add Option
+          </Button>
+        </Col>
+      </Row>
+    </>
+  )}
+</Form.List>
+         </Row>
             </Card>
           </Col>
               </Row>
-              <Button onClick={form.submit} type='primary'>
+              <Button  onClick={form.submit} type='primary'>
                 Save Question
               </Button>
         </Form>

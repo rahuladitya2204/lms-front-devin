@@ -26,7 +26,7 @@ function TestBuilderScreen() {
   } = User.Queries.useUpdateTest()
   const updateTest = debounce(updateTestApi, 1000)
   const { id: testId, itemId } = useParams()
-  const { data: testDetails,isFetching: loadingTest } = User.Queries.useGetTestDetails(testId + '', {
+  const { data: testDetails,isFetching: loadingTest,isLoading: loadingTestFirst } = User.Queries.useGetTestDetails(testId + '', {
     enabled: !!testId
   })
   const {
@@ -58,7 +58,6 @@ function TestBuilderScreen() {
           {
             ...Constants.INITIAL_TEST_QUESTION,
             title: 'New Question',
-            correctOptions: [],
             options: [null,null,null,null],
             solution: {
               html:''

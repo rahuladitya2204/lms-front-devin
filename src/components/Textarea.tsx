@@ -1,7 +1,8 @@
-import React from 'react'
 import { Form, Input } from 'antd'
 import SunEditorComponent, { SunEditorPropsI } from './SunEditor/SunEditor'
+
 import { TextAreaProps as LibTextAreaProps } from 'antd/es/input'
+import React from 'react'
 
 const { TextArea: AntDTextArea } = Input
 
@@ -22,14 +23,14 @@ interface TextAreaProps extends LibTextAreaProps {
 }
 
 const TextArea: React.FC<TextAreaProps> = props => {
-  const { html = { level: 2 }, name, label, ...restProps } = props
+  const { html, name, label, ...restProps } = props
 
   return (
     <Form.Item name={name} label={label}>
       {html ? (
         <SunEditorComponent
           // @ts-ignore
-          level={props?.html?.level || 2}
+          level={typeof html === 'object' ? html.level : 2}
           readOnly={props.readOnly}
           {...restProps}
         />

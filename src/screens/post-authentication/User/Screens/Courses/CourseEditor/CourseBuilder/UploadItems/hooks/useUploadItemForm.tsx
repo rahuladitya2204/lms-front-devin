@@ -1,16 +1,20 @@
 // @ts-nocheck
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { debounce } from 'lodash'
 import { useOutletContext, useParams } from 'react-router'
+
 import { FormInstance } from 'antd/lib/form/Form'
-import useMessage from '@Hooks/useMessage'
 import { User } from '@adewaskar/lms-common'
+import { debounce } from 'lodash'
+import useMessage from '@Hooks/useMessage'
 
 function useUploadItemForm(form?: FormInstance) {
   const { itemId, id: courseId } = useParams()
-  const { data: course } = User.Queries.useGetCourseDetails(courseId + '', {
-    enabled: !!courseId
-  })
+  const { data: course, isLoading } = User.Queries.useGetCourseDetails(
+    courseId + '',
+    {
+      enabled: !!courseId
+    }
+  )
   const { data: item } = User.Queries.useGetCourseItemDetails(courseId, itemId)
   const message = useMessage()
   const { mutate: updateItemApi } = User.Queries.useUpdateCourseItem()
@@ -103,6 +107,7 @@ function useUploadItemForm(form?: FormInstance) {
     item,
     sectionId: section._id,
     courseId,
+    isLoading,
     itemId,
     section,
     currentItemIndex

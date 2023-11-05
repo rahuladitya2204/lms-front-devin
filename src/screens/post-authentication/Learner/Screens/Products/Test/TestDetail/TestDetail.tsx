@@ -41,7 +41,7 @@ export default function TestDetailScreen(
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
-  const isLoading = loadingEnrolledTest || loadingTest;
+  const isLoading = loadingTest;
   return (
     <Row>
       {isLoading ? <Skeleton paragraph={{ rows: 1 }} /> : <>
@@ -108,7 +108,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     enabled:!!testId
   })
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
-  const isLoading = loaindEnrolledTestDetails || loadingTest;
+  const isLoading =  loadingTest;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
 const isEnrolled = !!enrolledDetails._id
   console.log(enrolledDetails, 'test.status');
