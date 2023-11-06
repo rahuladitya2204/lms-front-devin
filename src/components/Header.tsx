@@ -64,9 +64,7 @@ const Header: React.FC<HeaderPropsI> = props => {
           </Row>
         </StyledHeader>
         {/* Rest of the content */}
-        <div>
-          {props.children}
-        </div>
+        <div style={{ padding: 10 }}>{props.children}</div>
       </CustomCol>
     </CustomRow>
   )

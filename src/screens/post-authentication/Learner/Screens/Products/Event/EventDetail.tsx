@@ -6,8 +6,8 @@ import Countdown from '@Components/Countdown'
 import Image from '@Components/Image'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import dayjs from 'dayjs'
-import { useParams } from 'react-router'
 import useMessage from '@Hooks/useMessage'
+import { useParams } from 'react-router'
 
 const { Text, Title } = Typography
 
@@ -54,7 +54,7 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
                       <Col span={24}>
                         <Tag color="blue">
                           Starting in{' '}
-                          <Countdown targetDate={event.scheduledAt} />{' '}
+                          {/* <Countdown startTime={event.scheduledAt} />{' '} */}
                         </Tag>
                       </Col>
                     ) : (

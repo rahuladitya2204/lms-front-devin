@@ -9,7 +9,7 @@ import { useMemo } from 'react'
 const { darkAlgorithm } = theme
 function ThemeProvider(props: any) {
   const { branding } = Store.useGlobal(s => s.organisation)
-  console.log(branding, 'branding')
+  // console.log(branding, 'branding')
   const { isLoading } = useDynamicFont({
     fontName: branding?.font?.name,
     fontUrl: branding?.font?.url

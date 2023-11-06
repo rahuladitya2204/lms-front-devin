@@ -12,15 +12,17 @@ import {
   Timeline,
   Typography
 } from 'antd'
-import { CaretRightOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { CaretRightOutlined, ClockCircleOutlined, MenuOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
 import { lazy, useEffect, useMemo } from 'react'
 
+import ActionDrawer from '@Components/AcrtionDrawer'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import TestQuestionNavigator from './TestQuestionNavigator/Type2/TestQuestionNavigator'
 import dayjs from 'dayjs'
+import useBreakpoint from '@Hooks/useBreakpoint'
 
 const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -49,9 +51,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     data: { totalAnswered, totalQuestions, status }
   } = Learner.Queries.useGetTestStatus(testId + '')
   console.log(dayjs(enrolledProduct?.metadata?.test?.startedAt).format('LLL'))
-  const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
-    .add(test.duration, 'minutes')
-    .toString()
+  const startTime =  test.startedAt || enrolledProduct.metadata.test.startedAt
 
   useEffect(
     () => {
@@ -70,16 +70,22 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   if (endTestNow) {
     // navigate('../completed')
   }
-
+  const endTime = dayjs(startTime).add(test.duration, 'minute');
+  const {isTablet,isDesktop,isMobile } = useBreakpoint();
   return (
     <Header
       title={test.title}
       subTitle={'asd'}
-      extra={[
-        // <Tag icon={<ClockCircleOutlined />} color="blue">
-        //   <Countdown targetDate={endingAt} />
-        // </Tag>,
-        <Button
+      extra={<Row>
+        {!isDesktop?<Col>
+       <Tag color="blue">
+        Time Left: <Countdown targetDate={endTime.toString()} />
+          </Tag>
+        </Col>:null}
+        <Col>
+        {!isDesktop ? <ActionDrawer cta={<Button icon={<MenuOutlined />}>
+        </Button>}>        <TestQuestionNavigator questionId={questionId+''} testId={testId + ''} />
+</ActionDrawer>: <Button
           onClick={() => {
             confirm({
               title: 'Are you sure?',
@@ -91,7 +97,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
                   {
                     onSuccess: () => {
                       if (!test.isLive) {
-                       return navigate('../result-table')  
+                       return navigate('../result')  
                       }
                       navigate('../completed')  
 
@@ -106,8 +112,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
           loading={submittingTest}
         >
           Submit Test
-        </Button>
-      ]}
+        </Button>}
+      </Col>
+      </Row>}
     >
       {isProcturingOn ? <><ProctoringComponent />   <Alert
         style={{ marginBottom: 50 }}
@@ -120,7 +127,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         <Col span={1} />
         <Col span={22}>
           <Row gutter={[50, 30]}>
-          <Col span={16}>
+          <Col md={24} lg={16}>
               {/* <Title
                 level={5}
                 style={{
@@ -145,7 +152,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
                 <Outlet />
               </Card>
             </Col>
-            <Col span={8}>
+            <Col lg={8} md={0}>
               <Row gutter={[20, 20]}>
                 <Col span={24}>
                   <TestQuestionNavigator questionId={questionId+''} testId={testId + ''} />

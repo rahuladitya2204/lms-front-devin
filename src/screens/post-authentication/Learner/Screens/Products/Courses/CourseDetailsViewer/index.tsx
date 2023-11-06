@@ -105,7 +105,7 @@ function CourseDetailViewer () {
           
           <Col span={24}>
                     <Row gutter={[30, 30]}>
-                      <Col md={0}>
+                      <Col lg={0}>
                         <CourseCard plan={plan} courseId={courseId+''} />
                         {/* Replace with card image */}
                     {/* <CourseMetadata course={course} /> */}
