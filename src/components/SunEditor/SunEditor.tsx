@@ -62,7 +62,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       if (file instanceof File) {
         // Insert a temporary image element with a loading image source
         uploadFiles({
-          files: [{ file: file, prefixKey: 'jjijijij' }],
+          files: [{ file: file, prefixKey: uniqueId() }],
           isProtected: false,
           onUploadProgress: e => {
             // console.log(e, 'e')

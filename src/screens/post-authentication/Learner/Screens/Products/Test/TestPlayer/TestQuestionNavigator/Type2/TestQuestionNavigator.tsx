@@ -103,7 +103,7 @@ export default function TestQuestionNavigatorType2(
             <Row>
               <Col span={24}>
                 <Title level={4}>{section.title}</Title>
-                <Row>
+                <Row gutter={[20,20]}>
                   {section.items.map((item, itemIndex) => {
                     return (
                       <Col span={3}>

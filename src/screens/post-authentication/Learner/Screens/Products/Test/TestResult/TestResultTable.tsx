@@ -70,7 +70,8 @@ dataIndex="isCorrect"
 key="isCorrect"
 render={(_,record:TestResultItem) => (
   <Space>
-  <Tag color={record.isCorrect ? 'green' : 'red'}>{record.isCorrect ? 'Correct' : 'Incorrect'}</Tag>
+    {/* @ts-ignore */}
+  <Tag color={record.isCorrect ? 'green' : (record.isAnswered?'red':'orange')}>{record.isCorrect ? 'Correct' : (record.isAnswered?'Incorrect':'Not Attempted')}</Tag>
   <Tooltip placement="right" title={`${Math.ceil(record.globalCorrectPercentage)}%`}>
   <GlobalOutlined/>
         </Tooltip>
