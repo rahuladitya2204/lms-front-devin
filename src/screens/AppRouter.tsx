@@ -101,7 +101,8 @@ const router = (userType: string) => {
       <Route path="/" element={<RootScreen />}>
         {userType === 'learner' ? (
           <>
-            <Route path="app" element={<Suspense  fallback={<LoadingScreen />}>
+            <Route index element={<ReturnLearnerToStore />} />
+   <Route path="app" element={<Suspense  fallback={<LoadingScreen />}>
               <LearnerRootScreen />
            </Suspense> }>
               <Route path="cart" element={<LearnerCart />} />
@@ -164,7 +165,6 @@ const router = (userType: string) => {
               <Route path="ended" element={<UserMeetingEnded />} />
             </Route>
            </Route>
-            <Route path='/' element={<ReturnLearnerToStore/>} />
             <Route path="*" element={<NotFoundScreen />} />
  </>
         ) : <>
