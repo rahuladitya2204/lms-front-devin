@@ -18,7 +18,7 @@ import { ThemeProvider } from 'styled-components'
 const { Text } = Typography
 
 const UserEventPlayerEnter = () => {
-  const { sessionId } = useParams()
+  const { eventId } = useParams()
   // const logger = new ConsoleLogger('SDK', LogLevel.INFO)
 
   const meetingConfig = {

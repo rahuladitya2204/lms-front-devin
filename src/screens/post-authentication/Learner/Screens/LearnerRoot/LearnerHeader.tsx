@@ -4,6 +4,7 @@ import {
   Badge,
   Button,
   Col,
+  Divider,
   Dropdown,
   Grid,
   Layout,
@@ -80,90 +81,99 @@ const LearnerHeader: React.FC = () => {
   }
 
   // Define the extraContent
-const extraContent = (
-  <Space>
-    {isMobileOrTablet ? (
-      <Dropdown
-        trigger={['click']}
-        placement="bottomLeft"
-        overlay={
-          <Menu>
-            {menuItems.map((item, index) => (
-              <Menu.Item key={index} onClick={() => navigate(`../app/${item.link}`)}>
-                {item.icon}
-                {item.title}
-              </Menu.Item>
-            ))}
-          </Menu>
-        }
-      >
-        <Button shape="circle" icon={<MenuFoldOutlined />} />
-      </Dropdown>
-    ) : isSignedIn ? (
-      <Space>
-        {menuItems.map((item, index) => (
-          <NavLink
-            key={index}
-            to={`../app/${item.link}`}
-            style={{ margin: '0 5px' }}
-            children={({ isActive }) => (
-              <Button
-                style={{ borderRadius: 15 }}
-                size="middle"
-                icon={item.icon}
-                type={isActive ? 'primary' : 'default'}
-              >
-                {item.title}
-              </Button>
-            )}
-          />
-        ))}
-      </Space>
-    ) : (
-      <ActionModal
-        width={300}
-        title="Login"
-        cta={<Button style={{ margin: '0 10px' }}>Login</Button>}
-      >
-        <LoginScreen />
-      </ActionModal>
-    )}
-
-    {isSignedIn && (
-      <Space>
-        <Badge count={items?.length || 0} showZero={false}>
-          <Button
-            onClick={() => navigate('../app/cart')}
-            type="primary"
-            shape="circle"
-            icon={<ShoppingCartOutlined />}
-          />
-        </Badge>
+  const extraContent = (
+    <Space>
+      {isMobileOrTablet ? (
         <Dropdown
           trigger={['click']}
           placement="bottomLeft"
           overlay={
             <Menu>
-              <Menu.Item key="username">{user?.name}</Menu.Item>
-              <Menu.Item key="account" onClick={() => navigate('../app/account')}>
-                My Account
-              </Menu.Item>
-              <Menu.Item key="support" onClick={() => navigate('../app/tickets')}>
-                Help and Support
-              </Menu.Item>
-              <Menu.Item key="logout" onClick={logout}>
-                Logout
-              </Menu.Item>
+              {menuItems.map((item, index) => (
+                <Menu.Item
+                  key={index}
+                  onClick={() => navigate(`../app/${item.link}`)}
+                >
+                  {item.icon}
+                  {item.title}
+                </Menu.Item>
+              ))}
             </Menu>
           }
         >
-          <Button shape="circle" icon={<UserOutlined />} />
+          <Button shape="circle" icon={<MenuFoldOutlined />} />
         </Dropdown>
-      </Space>
-    )}
-  </Space>
-);
+      ) : isSignedIn ? (
+        <Space>
+          {menuItems.map((item, index) => (
+            <NavLink
+              key={index}
+              to={`../app/${item.link}`}
+              style={{ margin: '0 5px' }}
+              children={({ isActive }) => (
+                <Button
+                  style={{ borderRadius: 15 }}
+                  size="middle"
+                  icon={item.icon}
+                  type={isActive ? 'primary' : 'default'}
+                >
+                  {item.title}
+                </Button>
+              )}
+            />
+          ))}{' '}
+          <Divider orientation="right" />
+        </Space>
+      ) : (
+        <ActionModal
+          width={300}
+          title="Login"
+          cta={<Button style={{ margin: '0 10px' }}>Login</Button>}
+        >
+          <LoginScreen />
+        </ActionModal>
+      )}
 
+      {isSignedIn && (
+        <Space>
+          <Badge count={items?.length || 0} showZero={false}>
+            <Button
+              onClick={() => navigate('../app/cart')}
+              type="primary"
+              shape="circle"
+              icon={<ShoppingCartOutlined />}
+            />
+          </Badge>
+          <Dropdown
+            trigger={['click']}
+            placement="bottomLeft"
+            overlay={
+              <Menu>
+                <Menu.Item key="username">{user?.name}</Menu.Item>
+                <Menu.Item
+                  key="account"
+                  onClick={() => navigate('../app/account')}
+                >
+                  My Account
+                </Menu.Item>
+                <Menu.Item
+                  key="support"
+                  onClick={() => navigate('../app/tickets')}
+                >
+                  Help and Support
+                </Menu.Item>
+                <Menu.Item key="logout" onClick={logout}>
+                  Logout
+                </Menu.Item>
+              </Menu>
+            }
+          >
+            <Button shape="circle" icon={<UserOutlined />} />
+          </Dropdown>
+        </Space>
+      )}
+    </Space>
+  )
 
   return (
     <Header

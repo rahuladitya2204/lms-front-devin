@@ -15,11 +15,11 @@ import { useParams } from 'react-router';
 const { Text } = Typography;
 
 const UserDeviceSelection = () => {
-  const { sessionId } = useParams();
+  const { eventId } = useParams();
   const { data: session } = User.Queries.useGetEventDetails(
-    sessionId + ''
+    eventId + ''
   )
-  const {start }=useEvent(sessionId+'')
+  const {start }=useEvent(eventId+'')
   const navigate = useNavigate();
   const {
     mutate: startSession, isLoading: startinSession
@@ -31,7 +31,7 @@ const UserDeviceSelection = () => {
   } = User.Queries.useEndMeeting()
 
   const startMeeting = () => { 
-    startSession({ session: sessionId + '', enableRecording: recordMeeting }, {
+    startSession({ session: eventId + '', enableRecording: recordMeeting }, {
       onSuccess: (session) => {
         navigate(`${session.metadata.MeetingId}/session`)
       }
@@ -66,7 +66,7 @@ const UserDeviceSelection = () => {
         {session.startedAt&&!session.endedAt?   <Button style={{margin: '10px 0'}} type="primary" onClick={()=>navigate(`${session.metadata.MeetingId}/session`)} block>
           Join Meeting
         </Button>:null}
-        {(session.startedAt&&!session.endedAt)?<Button loading={endingSession} style={{margin: '10px 0'}} onClick={()=>endMeeting({session:sessionId+''})} block>
+        {(session.startedAt&&!session.endedAt)?<Button loading={endingSession} style={{margin: '10px 0'}} onClick={()=>endMeeting({session:eventId+''})} block>
           End Meeting
         </Button> :null}
         {(!session.startedAt&&!session.endedAt)?<Button loading={startinSession} type='primary' style={{margin: '10px 0'}} onClick={startMeeting} block>

@@ -30,7 +30,7 @@ const useDeviceController = () => {
 
 export default useDeviceController
 
-export const useEvent = (sessionId: string) => {
+export const useEvent = (eventId: string) => {
   const meetingManager = useMeetingManager()
   const { mutate: addAttendee } = User.Queries.useAddAttendee()
   const joinMeeting = (session: any) => {
@@ -38,7 +38,7 @@ export const useEvent = (sessionId: string) => {
 
     return new Promise(resolve => {
       addAttendee(
-        { session: sessionId + '' },
+        { session: eventId + '' },
         {
           onSuccess: resolve
         }

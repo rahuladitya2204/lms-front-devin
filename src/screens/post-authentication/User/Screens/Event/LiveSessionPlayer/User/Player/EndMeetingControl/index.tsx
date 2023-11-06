@@ -21,7 +21,7 @@ import { User } from '@adewaskar/lms-common';
 // import routes from '../../constants/routes';
 
 const EndMeetingControl: React.FC = () => {
-  const { sessionId } = useParams();
+  const { eventId } = useParams();
   const { mutate:endMeeting} = User.Queries.useEndMeeting();
   const meetingManager = useMeetingManager();
   const [showModal, setShowModal] = useState(false);
@@ -32,8 +32,8 @@ const EndMeetingControl: React.FC = () => {
 
   const endMeetingForAll = async (): Promise<void> => {
     try {
-      if (sessionId) {
-        await endMeeting({ session: sessionId }, {
+      if (eventId) {
+        await endMeeting({ session: eventId }, {
           onSuccess:async ()=> {
             await meetingManager.leave();
             navigate('../');

@@ -16,7 +16,7 @@ import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 import { ThemeProvider } from 'styled-components'
 
 const LearnerEventPlayerEnter = () => {
-  const { sessionId } = useParams()
+  const { eventId } = useParams()
   const logger = new ConsoleLogger('SDK', LogLevel.INFO)
   const deviceController = new DefaultDeviceController(logger)
   const meetingConfig = {
@@ -24,7 +24,7 @@ const LearnerEventPlayerEnter = () => {
     simulcastEnabled: true
   }
   const { data: session } = Learner.Queries.useGetEventDetails(
-    sessionId + ''
+    eventId + ''
   )
 
   console.log(session, 'tukur')

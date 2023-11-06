@@ -1,5 +1,5 @@
 import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
-import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
 import { CalendarOutlined } from '@ant-design/icons'
 import Countdown from '@Components/Countdown'
@@ -15,13 +15,16 @@ const { Text, Title } = Typography
 interface EventDetailScreenPropsI {}
 
 export default function EventDetailScreen(props: EventDetailScreenPropsI) {
-  const message = useMessage()
+  const message = useMessage();
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const { eventId } = useParams()
   const {
     data: enrolledDetails
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'event',
     id: eventId + ''
+  }, {
+    enabled:!!isSignedIn
   })
   const isEnrolled = !!enrolledDetails._id
   console.log(isEnrolled, 'enrolledDetails')
@@ -36,10 +39,7 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
           <Col span={15}>
             <Row>
               <Col span={24}>
-                {/* <Image src={event.thumbnailImage} /> */}
-                <Col span={24}>
-                  <HtmlViewer content={event.description} />
-                </Col>
+              <HtmlViewer content={event.description} />
               </Col>
               {/* <Col span={24}>
                 <HtmlViewer content={event.description} />
@@ -51,7 +51,7 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
           </Col>
         </Row>
       </Col>
-      <Col>{event.description}</Col>
+      {/* <Col>{event.description}</Col> */}
     </Row>
   )
 }
@@ -61,12 +61,14 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
 const EventCard = (props: { eventId: string }) => {
   const { eventId}=props
   const message = useMessage()
-  // const { eventId } = useParams()
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const {
     data: enrolledDetails
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'event',
     id: eventId + ''
+  }, {
+    enabled:!!isSignedIn
   })
   const isEnrolled = !!enrolledDetails._id
   console.log(isEnrolled, 'enrolledDetails')
@@ -74,8 +76,19 @@ const EventCard = (props: { eventId: string }) => {
   console.log(event, 'event');
   const plan = event.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   console.log(plan,'plans')
-  return   <Card style={{ height: '100%' }} title={event.title}>
-  <Row gutter={[20, 40]} align="stretch">
+  return   <Card                     style={{ margin: '20px 0' }}
+  bordered={false}
+  bodyStyle={{ padding: 20 }}
+title={event.title}>
+    <Row gutter={[20, 40]} align="stretch">
+      <Col span={24}>
+      <Image
+        width={'100%'}
+        height={200}
+        preview={false}
+        src={event.thumbnailImage}
+      />
+      </Col>
     <Col span={24} flex={1}>
       <Row gutter={[20, 10]}>
         <Col span={24}>
@@ -94,7 +107,7 @@ const EventCard = (props: { eventId: string }) => {
           <Col span={24}>
             <Tag color="blue">
               Starting in{' '}
-              {/* <Countdown startTime={event.scheduledAt} />{' '} */}
+              <Countdown targetDate={event.scheduledAt} />{' '}
             </Tag>
           </Col>
         ) : (

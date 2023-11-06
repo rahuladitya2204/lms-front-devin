@@ -122,7 +122,7 @@ const router = (userType: string) => {
               </Route>
               <Route path="event">
                 <Route path="" element={<LearnerEventsScreen />} />
-                <Route path=":sessionId" element={<EventDetailScreen />} />
+                <Route path=":eventId" element={<EventDetailScreen />} />
               </Route>
               <Route path="enrolled-courses">
                 <Route
@@ -153,7 +153,7 @@ const router = (userType: string) => {
             </Route>
 
             <Route
-              path="app/event/:sessionId/player"
+              path="app/event/:eventId/player"
               element={<LearnerLiveSessionPlayerEnter />}
             >
               <Route path="" element={<LearnerDeviceSelection />} />
@@ -281,7 +281,7 @@ const router = (userType: string) => {
               <Route path="" element={<UserTestScreen />} />
               <Route path=":testId/status" element={<TestStatus />} />
               <Route path="create" element={<CreateTest />} />
-              <Route path=":sessionId/edit" element={<CreateTest />} />
+              <Route path=":eventId/edit" element={<CreateTest />} />
             </Route>
           </Route>
           <Route path="event">
@@ -296,7 +296,7 @@ const router = (userType: string) => {
         </Route>
         <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
         <Route
-          path="app/event/:sessionId/player"
+          path="app/event/:eventId/player"
           element={<UserLiveSessionPlayerEnter />}
         >
           <Route path="" element={<UserDeviceSelection />} />

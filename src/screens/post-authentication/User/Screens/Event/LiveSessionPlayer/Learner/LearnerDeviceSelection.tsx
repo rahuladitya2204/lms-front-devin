@@ -14,13 +14,13 @@ import { useParams } from 'react-router';
 const { Title } = Typography;
 
 const LearnerDeviceSelection = () => {
-  const { sessionId } = useParams();
+  const { eventId } = useParams();
   const { data: session } = Learner.Queries.useGetEventDetails(
-    sessionId + ''
+    eventId + ''
   )
   const navigate = useNavigate();
 
-  const { start } = useEvent(sessionId + '');
+  const { start } = useEvent(eventId + '');
 
   useEffect(() => {
     // @ts-ignore

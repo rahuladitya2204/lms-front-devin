@@ -32,7 +32,7 @@ const useDeviceController = () => {
 
 export default useDeviceController
 
-export const useEvent = (sessionId: string) => {
+export const useEvent = (eventId: string) => {
   const meetingManager = useMeetingManager()
   const message = useMessage()
   const displayRecordingAlert = (session: Types.Event) => {
@@ -53,7 +53,7 @@ export const useEvent = (sessionId: string) => {
     return new Promise(resolve => {
       if (session.metadata.MeetingId) {
         addAttendee(
-          { session: sessionId + '' },
+          { session: eventId + '' },
           {
             onSuccess: resolve
           }

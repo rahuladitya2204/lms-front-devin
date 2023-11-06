@@ -143,23 +143,26 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
     }}      >
     Publish Event
   </Button>;
+
+  const UpdateEvent = <Button
+    loading={updateEventLoading}
+    style={{ marginRight: 20 }}
+    // type="primary"
+    onClick={() => {
+      // form.setFieldsValue({ status: Enum.EventStatus.DRAFT });
+      onSubmit()
+    }}
+  >
+    Update Event
+  </Button>;
+  
   const qc = useQueryClient();
   return (
     <Header showBack title={isUpdate ? `${eventDetails.title}` : `Create Event`}
-      extra={eventDetails.status===Enum.EventStatus.PUBLISHED?[<Tag color='green' >Event is published</Tag>]:[
+      extra={eventDetails.status===Enum.EventStatus.PUBLISHED?[UpdateEvent,<Tag color='green' >Event is published</Tag>]:[
         isUpdate ? <>
           {eventDetails.status === Enum.EventStatus.DRAFT ? <>
-            <Button
-      loading={updateEventLoading}
-     style={{marginRight:20}}
-      // type="primary"
-      onClick={() => {
-        // form.setFieldsValue({ status: Enum.EventStatus.DRAFT });
-        onSubmit()
-      }}
-      >
-      Update Event
-          </Button> {eventDetails.plan? PublishEvent:      <ActionModal cta={<Button type='primary'>Add Plan and Publish</Button> }>
+            {UpdateEvent} {eventDetails.plan? PublishEvent:      <ActionModal cta={<Button type='primary'>Add Plan and Publish</Button> }>
               <CreatePlan onSuccess={()=>qc.invalidateQueries([`GET_EVENT_DETAILS`, eventId])} product={{ type: 'event', id: eventDetails._id }} />
             </ActionModal>} </> : null}
         </> : <>

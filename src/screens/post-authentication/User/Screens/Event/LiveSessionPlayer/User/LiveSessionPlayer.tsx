@@ -8,7 +8,7 @@ import {
 import { StyledContent, StyledLayout } from './Player/styled'
 import { Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
-import { useHandleMeetingEnd, useEvent } from './hooks'
+import { useEvent, useHandleMeetingEnd } from './hooks'
 
 import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
@@ -21,14 +21,14 @@ let joined = false
 const EventPlayer = () => {
   const message = useMessage()
   // const [joined, setJoined] = useState(false)
-  const { sessionId } = useParams()
+  const { eventId } = useParams()
   const { data: session } = User.Queries.useGetEventDetails(
-    sessionId + ''
+    eventId + ''
   )
-  const { joinMeeting, start } = useEvent(sessionId + '')
+  const { joinMeeting, start } = useEvent(eventId + '')
 
   const { data: attendee } = User.Queries.useGetEventAttendeeDetails(
-    sessionId + '',
+    eventId + '',
     {
       enabled: !!session?.metadata?.MeetingId
     }
