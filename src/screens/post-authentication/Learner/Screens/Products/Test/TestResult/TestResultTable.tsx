@@ -45,7 +45,9 @@ const TestResultTable: React.FC = () => {
     <Table bordered pagination={false}
     dataSource={processedData}
     loading={isFetching}   expandable={{
-        expandedRowRender: (record) => <>
+      expandedRowRender: (record) => <>
+                    <Title level={4}>Question</Title>
+<HtmlViewer content={record.title} />
             <Title level={4}>Solution</Title>
             <div>
             {/*  @ts-ignore */}
