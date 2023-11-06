@@ -194,7 +194,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                             {...restField}
                             name={[name, 'text']}
                           >
-                            <TextArea height={150} html={{level:1}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
+                            <TextArea height={150} html={{level:3}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
                         </Form.Item>
                     </Col>
                             <Col>

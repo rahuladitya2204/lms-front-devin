@@ -1,3 +1,5 @@
+import katex from 'katex'
+
 export const BasicEditorOptions = {
   buttonList: [
     ['undo', 'redo'],
@@ -8,9 +10,11 @@ export const BasicEditorOptions = {
 }
 
 export const IntermediateEditorOptions = {
+  katex: katex,
   buttonList: [
     ['undo', 'redo'],
     ['font', 'fontSize', 'formatBlock'],
+    ['math'],
     ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
     ['fontColor', 'hiliteColor', 'textStyle'],
     ['removeFormat'],
@@ -22,6 +26,7 @@ export const IntermediateEditorOptions = {
 }
 
 export const AdvancedEditorOptions = {
+  katex: katex,
   // plugins: [customDropdownPlugin],
   buttonList: [
     // ['backgroundPlugin'],
@@ -36,6 +41,7 @@ export const AdvancedEditorOptions = {
       'paragraphStyle',
       'blockquote'
     ],
+    ['math'],
     ['bold', 'underline', 'italic', 'strike', 'subscript', 'superscript'],
     ['fontColor', 'hiliteColor', 'textStyle'],
     ['removeFormat'],
@@ -98,7 +104,7 @@ export const AdvancedEditorOptions = {
           'image',
           'video',
           'audio',
-          'math',
+          'math'
         ]
       ]
     ],
@@ -143,7 +149,7 @@ export const AdvancedEditorOptions = {
           'image',
           'video',
           'audio',
-          'math',
+          'math'
         ],
         [
           '-right',
@@ -200,7 +206,7 @@ export const AdvancedEditorOptions = {
           'image',
           'video',
           'audio',
-          'math',
+          'math'
         ],
         [
           '-right',

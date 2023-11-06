@@ -1,4 +1,5 @@
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
+import 'katex/dist/katex.min.css';
 import './style.css'
 
 import {
@@ -11,6 +12,9 @@ import { Form, Spin } from 'antd'
 import React, { Fragment, useRef } from 'react'
 
 import SunEditor from 'suneditor-react'
+import katex from 'katex';
+// Import the plugins you want to use
+import math from 'suneditor/src/plugins/dialog/math'
 import { variablePlugin } from './plugins/variable.plugin'
 
 export interface SunEditorPropsI {
@@ -111,7 +115,8 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           // @ts-ignore
           width={`${props.width}`}
           setOptions={{
-            ...options
+            ...options,
+            plugins: [...(options?.plugins || []), math]
             // plugins={defaultPlugins}
             // plugins: [variablePlugin(variables)],
             // attributesWhitelist: {

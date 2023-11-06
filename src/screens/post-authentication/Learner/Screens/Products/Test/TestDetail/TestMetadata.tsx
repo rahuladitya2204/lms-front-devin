@@ -2,6 +2,7 @@ import {
   CalendarOutlined,
   CheckCircleOutlined,
   ClockCircleOutlined,
+  EditOutlined,
   ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
@@ -30,14 +31,14 @@ const data = {
   },
   enrolled: {
     title: 'Enrolled',
-    icon: <CheckCircleOutlined />,
+    icon: <EditOutlined />,
     value: '1'
   },
-  language: {
-    title: 'Language',
-    icon: <CheckCircleOutlined />,
-    value: 'English'
-  },
+  // language: {
+  //   title: 'Language',
+  //   icon: <CheckCircleOutlined />,
+  //   value: 'English'
+  // },
   // skillLevel: {
   //   title: 'Skill Level',
   //   icon: <CheckCircleOutlined />,
