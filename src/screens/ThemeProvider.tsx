@@ -2,6 +2,7 @@ import { ConfigProvider, message, theme } from 'antd'
 import { Enum, Store } from '@adewaskar/lms-common'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
+import ApplyFavicon from '@Learner/Screens/LearnerRoot/ApplyFavicon'
 import LoadingScreen from '@Components/LoadingScreen'
 import useDynamicFont from '@Hooks/useDynamicFont'
 import { useMemo } from 'react'
@@ -47,6 +48,7 @@ function ThemeProvider(props: any) {
       >
         {props.children}
       </ConfigProvider>
+      <ApplyFavicon faviconUrl={branding.favIcon.url} />
     </MessageContext.Provider>
   )
 }

@@ -122,7 +122,7 @@ const LearnerHeader: React.FC = () => {
               )}
             />
           ))}{' '}
-          <Divider orientation="right" />
+          {/* <Divider orientation="right" /> */}
         </Space>
       ) : (
         <ActionModal

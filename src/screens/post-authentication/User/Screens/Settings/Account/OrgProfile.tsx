@@ -129,8 +129,17 @@ export default function OrgProfile() {
         </Form.Item>
 
         <Title level={3}>Fav Icon</Title>
-
-        <Form.Item name={['branding','favIcon','url']} required label="Fav Name">
+        <Form.Item label="Upload FavIcon" required name={['branding','favIcon','url']}>
+          <MediaUpload width={'200px'} height={'200px'}
+            // isProtected
+            uploadType="file"
+              onUpload={({ _id, name, url }) => {
+                form.setFieldValue(['branding', 'favIcon', 'url'], url);
+              // setFiles([...files, { name: name, file: _id }]);
+            }}
+          />{' '}
+        </Form.Item>
+        <Form.Item name={['branding','favIcon','url']} required label="Favicon Url">
           <Input style={{width:500}} placeholder='Please enter font name which you want to be used' />
         </Form.Item>
         

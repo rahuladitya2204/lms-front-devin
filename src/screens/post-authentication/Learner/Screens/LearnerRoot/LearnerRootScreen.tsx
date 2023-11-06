@@ -5,6 +5,7 @@ import { useOutletContext, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
 import AppProvider from 'screens/AppProvider'
+import ApplyFavicon from './ApplyFavicon'
 import CreateTicket from '../Tickets/CreateTicket'
 import { CustomerServiceOutlined } from '@ant-design/icons'
 import LearnerHeader from './LearnerHeader'
@@ -52,6 +53,7 @@ const LearnerRootScreen: React.FC = () => {
   // return <LoadingScreen />
   return (
     <ThemeProvider showLoadingScreen={showLoadingScreen} type="learner">
+      {/* <ApplyFavicon faviconUrl={ brand} /> */}
       <AppProvider>
         {isSignedIn ? (
           !isMobile ? (
