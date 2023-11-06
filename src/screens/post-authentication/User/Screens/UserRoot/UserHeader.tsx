@@ -64,15 +64,7 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
   }
   const extraContent = isSignedIn ? (
     <Space>
-      {/* Replace with actual items count and navigation */}
-      {/* <Badge count={items.length} showZero={false}>
-          <Button
-            onClick={() => navigate('cart')}
-            type="primary"
-            shape="circle"
-            icon={<ShoppingCartOutlined />}
-          />
-        </Badge> */}
+      {props.extra}
       <Dropdown
         trigger={['click']}
         placement="bottomLeft"

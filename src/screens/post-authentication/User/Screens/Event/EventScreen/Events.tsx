@@ -1,12 +1,12 @@
 import { Button, Col, Row, Typography } from 'antd'
+import { Enum, User } from '@adewaskar/lms-common'
 
+import Calendar from '@Components/Calendar/Calendar'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import PastEvent from './PastEvent'
 import Tabs from '@Components/Tabs'
 import UpcomingEvent from './UpcomingEvent'
 import { useNavigate } from 'react-router'
-import Calendar from '@Components/Calendar/Calendar'
-import { User } from '@adewaskar/lms-common'
 
 const { Text } = Typography
 
@@ -27,7 +27,14 @@ const EventsScreen = () => {
           {
             key: 'upcoming',
             label: `Upcoming`,
-            children: <UpcomingEvent filter={{ status: 'created' }} />
+            children: (
+              <UpcomingEvent
+                filter={{
+                  // @ts-ignore
+                  status: [Enum.EventStatus.DRAFT, Enum.EventStatus.PUBLISHED]
+                }}
+              />
+            )
           },
           {
             key: 'past',

@@ -9,6 +9,7 @@ interface CreatePlanPropsI {
   product: Partial<Types.Product>;
   plan?: Types.Plan;
   closeModal?: Function;
+  onSuccess?: () => void;
 }
 
 function CreatePlan(props: CreatePlanPropsI) {
@@ -54,6 +55,7 @@ function CreatePlan(props: CreatePlanPropsI) {
               type: 'success',
               content: 'Saved Plan Details'
             })
+            props.onSuccess&&props.onSuccess()
             props.closeModal && props.closeModal()
           }
         }
@@ -67,6 +69,7 @@ function CreatePlan(props: CreatePlanPropsI) {
             content: 'Saved Plan Details'
           })
           form.resetFields()
+          props.onSuccess&&props.onSuccess()
           props.closeModal && props.closeModal()
         }
       })

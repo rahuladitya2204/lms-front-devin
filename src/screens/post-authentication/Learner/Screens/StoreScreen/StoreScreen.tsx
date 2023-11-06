@@ -3,15 +3,12 @@ import { Learner, Store } from '@adewaskar/lms-common'
 
 import BGImage from './image.svg'
 import CourseCard from './Cards/CourseCard'
-import HomeCarousel from './Carousel'
+import EventCard from './Cards/EventCard'
 import Image from '@Components/Image'
-import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import Section from '@Components/Section'
 import { Skeleton } from 'antd'
 import TestCard from './Cards/TestCard'
-import { Utils } from '@adewaskar/lms-common'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 const { Title, Paragraph } = Typography
@@ -130,7 +127,32 @@ function StoreScreen () {
             </Row>
           </Section>
         </Col>
-      ) : null}</>}
+        ) : null}</>}
+      
+{events.length?       <Col span={24}>
+          <Section
+            title={`Upcoming Events`}
+            // subtitle={category.description}
+          >
+            <Row>
+              <Col span={24}>
+                <List
+   grid={{
+    gutter: 16,
+    xs: 1,
+    sm: 2,
+    md: 3,
+    lg: 4,
+    xl: 4,
+    xxl: 4,
+                    }}                  size="large"
+                  dataSource={events}
+                  renderItem={event => <EventCard event={event} />}
+                />
+              </Col>
+            </Row>
+          </Section>
+        </Col>:null}
   
     </Row>
   )

@@ -7,9 +7,11 @@ import {
   DatePicker,
   Form,
   Input,
+  Modal,
   Row,
   Select,
   Table,
+  Tag,
 } from 'antd'
 import { Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
@@ -17,6 +19,7 @@ import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal'
 import AddTestimonial from '../../ExtraComponents/Testimonials/AddTestomonial'
+import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 import EventOutcomes from '../../ExtraComponents/Outcomes/Outcomes'
 import EventTestimonials from '../../ExtraComponents/Testimonials/Testimonials'
 import Header from '@Components/Header'
@@ -29,7 +32,9 @@ import TextArea from '@Components/Textarea'
 import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
+import { useQueryClient } from '@tanstack/react-query'
 
+const { confirm} = Modal;
 interface CreateEventComponentPropsI {
   children?: ReactNode;
   closeModal?: Function;
@@ -39,6 +44,8 @@ interface CreateEventComponentPropsI {
 
 const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
   const { eventId } = useParams();
+  const isUpdate = !!eventId;
+  console.log(isUpdate,'ddd')
   const [outcomes, setOutcomes] = useState<Outcome[]>([]);
   const [testimonials, setTestimonials] = useState<Types.Testimonial[]>([]);
   const navigate = useNavigate();
@@ -57,13 +64,19 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
 
   const [form] = Form.useForm<Types.CreateEventPayload>()
 
-  const onSubmit = (e: Types.CreateEventPayload) => {
+  const onSubmit = (status?: Enum.EventStatus) => {
+    const e: Types.CreateEventPayload = form.getFieldsValue();
+    console.log(e, 'e')
+    
     const data= {
       ...e,
       testimonials,
       outcomes
     }
-    if (eventId) {
+    if (status) {
+      data.status = status;
+    }
+    if (isUpdate) {
       updateEvent(
         { id: eventId, data:data },
         {
@@ -103,22 +116,72 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
 
   const date = dayjs(Form.useWatch('scheduledAt', form))
 
-
+  const PublishEvent = <Button
+    loading={createEventLoading || updateEventLoading}
+    // key="submit"
+    type="primary"
+    // htmlType='submit'
+    onClick={() => {
+      form.validateFields() // Trigger validation manually
+        .then(() => {
+          // Validation successful, show the confirm dialog
+          confirm({
+            title: 'Are you sure?',
+            content: `You want to publish this event`,
+            onOk() {
+              // form.setFieldsValue({ status: Enum.EventStatus.PUBLISHED });
+              onSubmit(Enum.EventStatus.PUBLISHED);
+            },
+            okText: 'Yes, Publish'
+          })
+        })
+        .catch(errorInfo => {
+          // Validation failed, errors are present
+          console.error('Validate Failed:', errorInfo);
+        });
+      // onSubmit()
+    }}      >
+    Publish Event
+  </Button>;
+  const qc = useQueryClient();
   return (
-    <Header showBack title='Create Event' extra={[<Button
-      loading={createEventLoading || updateEventLoading}
-      key="submit"
-      type="primary"
-      onClick={form.submit}
+    <Header showBack title={isUpdate ? `${eventDetails.title}` : `Create Event`}
+      extra={eventDetails.status===Enum.EventStatus.PUBLISHED?[<Tag color='green' >Event is published</Tag>]:[
+        isUpdate ? <>
+          {eventDetails.status === Enum.EventStatus.DRAFT ? <>
+            <Button
+      loading={updateEventLoading}
+     style={{marginRight:20}}
+      // type="primary"
+      onClick={() => {
+        // form.setFieldsValue({ status: Enum.EventStatus.DRAFT });
+        onSubmit()
+      }}
       >
-      Publish Event
-    </Button>
+      Update Event
+          </Button> {eventDetails.plan? PublishEvent:      <ActionModal cta={<Button type='primary'>Add Plan and Publish</Button> }>
+              <CreatePlan onSuccess={()=>qc.invalidateQueries([`GET_EVENT_DETAILS`, eventId])} product={{ type: 'event', id: eventDetails._id }} />
+            </ActionModal>} </> : null}
+        </> : <>
+        <Button
+      loading={createEventLoading}
+     style={{marginRight:20}}
+      // type="primary"
+      onClick={() => {
+        // form.setFieldsValue({ status: Enum.EventStatus.DRAFT });
+        onSubmit(Enum.EventStatus.DRAFT);
+      }}
+      >
+      Save as Draft
+            </Button>
+            {PublishEvent}
+          </>
     ]}>
         <Card loading={loadingEvent}>
       <Row>
         <Col span={24}>
       <>
-              <Form form={form} onFinish={onSubmit} layout="vertical">
+              <Form form={form} layout="vertical">
                 <Row gutter={[20,20]}>
                   <Col span={16}>
                   <Form.Item
@@ -184,7 +247,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
                   )}
                       onUpload={file => {
                     console.log(file,'uploaded image!')
-                    form.setFieldValue('image', file.url)
+                    form.setFieldValue('thumbnailImage', file.url)
                   }}
                 />
         </Col>
@@ -229,10 +292,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
     <LocationAutocomplete onLocationChange={console.log} />
   </Form.Item>
 
-  </Col>
-      </Row>
-
-        <Row gutter={[20,20]}>
+                  </Col>
                   <Col span={12}>
                     <Form.Item label="Access Type" name="accessType">
         <Select
@@ -243,7 +303,6 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
         />
       </Form.Item>
           </Col>
-          <Col span={12}>  <PriceFormItem name="price" label="Price" /></Col>
       </Row>
     </Form>
             </>

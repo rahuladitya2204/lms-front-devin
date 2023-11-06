@@ -63,7 +63,7 @@ export default function OrgProfile() {
         <Title level={3}>Branding Colors</Title>
 
           <Row>
-            <Col span={3}>
+            <Col span={4}>
             <Form.Item
   name={['branding', 'colors', 'primary']}
   label="Primary Color"
@@ -72,7 +72,7 @@ export default function OrgProfile() {
   <ColorPicker />
 </Form.Item>
             </Col>
-            <Col span={3}>
+            <Col span={4}>
             <Form.Item
   name={['branding', 'colors', 'secondary']}
   label="Secondary Color"
