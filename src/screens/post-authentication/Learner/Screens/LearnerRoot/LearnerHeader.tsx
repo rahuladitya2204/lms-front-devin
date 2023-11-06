@@ -19,6 +19,7 @@ import {
   CalendarOutlined,
   DesktopOutlined,
   EditOutlined,
+  LoginOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   ShopOutlined,
@@ -128,7 +129,15 @@ const LearnerHeader: React.FC = () => {
         <ActionModal
           width={300}
           title="Login"
-          cta={<Button style={{ margin: '0 10px' }}>Login</Button>}
+          cta={
+            <Button
+              icon={<LoginOutlined />}
+              type="primary"
+              style={{ margin: '0 10px' }}
+            >
+              Login
+            </Button>
+          }
         >
           <LoginScreen />
         </ActionModal>

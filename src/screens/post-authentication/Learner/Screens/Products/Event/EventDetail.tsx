@@ -1,14 +1,17 @@
 import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
 import { Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
+import ActionModal from '@Components/ActionModal'
 import { CalendarOutlined } from '@ant-design/icons'
 import Countdown from '@Components/Countdown'
 import HtmlViewer from '@Components/HtmlViewer'
 import Image from '@Components/Image'
+import LearnerLogin from '@Learner/Screens/Login'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
+import { useQueryClient } from '@tanstack/react-query'
 
 const { Text, Title } = Typography
 
@@ -72,7 +75,7 @@ const EventCard = (props: { eventId: string }) => {
     enabled:!!isSignedIn
   })
   const isEnrolled = !!enrolledDetails._id
-  // console.log(isEnrolled, 'enrolledDetails')
+  const qc = useQueryClient();
   const { data: event } = Learner.Queries.useGetEventDetails(eventId + '');
   // console.log(event, 'event');
   const plan = event.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
@@ -164,19 +167,23 @@ title={event.title}>
 </Row>
 </Col>
           <Col span={24}>
-            <ProductCheckoutButton
-              onSuccess={() => {
-                message.open({
-                  type: 'success',
-                  content: `You have enrolled successfully`
-                })
-              }}
+        {(isSignedIn? <ProductCheckoutButton onSuccess={() => {
+                    qc.invalidateQueries([`GET_ENROLLED_PRODUCT_DETAILS`, eventId, 'event']);
+                    message.open({
+                      type: 'success',
+                      content: `You have enrolled successfully`
+                    })                            }}
               product={{ type: 'event', id: eventId + '' }}
               block
               type="primary"
             >
               Claim your seat
-            </ProductCheckoutButton>
+            </ProductCheckoutButton>:<ActionModal width={300}
+                    cta={<Button size="large" type="primary" block>
+            Login to buy this course
+                </Button>}>
+                  <LearnerLogin/>
+          </ActionModal>)}
           </Col>
         </Row>
       </Col>
