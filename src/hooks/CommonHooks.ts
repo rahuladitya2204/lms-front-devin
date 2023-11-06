@@ -34,7 +34,7 @@ export const useAppInit = (type: string) => {
   const {
     mutate: validateUser,
   } = Common.Queries.useValidateUser();
-  const { setIsSignedin, isSignedIn } = Store.useAuthentication.getState();
+  const { setIsSignedin, isSignedIn,setUser } = Store.useAuthentication.getState();
 
   const enabled = !!isAliasValid;
 
@@ -94,7 +94,16 @@ export const useAppInit = (type: string) => {
       if (token) {
         await validateUser({
           type: type,
-          onSuccess: () => {
+          // onSuccess: (d) => {
+          //   setUser(d.user)
+          //   console.log('Signed In')
+          //   setIsSignedin(true)
+          //  }
+        }, {
+          onSuccess: (d) => {
+            console.log(d, 'dd')
+            // @ts-ignore
+            setUser(d.user, userType);
             console.log('Signed In')
             setIsSignedin(true)
            }

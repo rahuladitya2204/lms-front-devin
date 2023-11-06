@@ -27,9 +27,9 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
     enabled:!!isSignedIn
   })
   const isEnrolled = !!enrolledDetails._id
-  console.log(isEnrolled, 'enrolledDetails')
+  // console.log(isEnrolled, 'enrolledDetails')
   const { data: event } = Learner.Queries.useGetEventDetails(eventId + '');
-  console.log(event, 'event');
+  // console.log(event, 'event');
   const plan = event.plan as unknown as Types.Plan;
   // const now = new Date().getTime()
   return (
@@ -61,7 +61,8 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
 const EventCard = (props: { eventId: string }) => {
   const { eventId}=props
   const message = useMessage()
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
+  const { isSignedIn, user } = Store.useAuthentication(s => s);
+  // console.log(user,'user')
   const {
     data: enrolledDetails
   } = Learner.Queries.useGetEnrolledProductDetails({
@@ -71,11 +72,11 @@ const EventCard = (props: { eventId: string }) => {
     enabled:!!isSignedIn
   })
   const isEnrolled = !!enrolledDetails._id
-  console.log(isEnrolled, 'enrolledDetails')
+  // console.log(isEnrolled, 'enrolledDetails')
   const { data: event } = Learner.Queries.useGetEventDetails(eventId + '');
-  console.log(event, 'event');
+  // console.log(event, 'event');
   const plan = event.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  console.log(plan,'plans')
+  // console.log(plan,'plans')
   return   <Card                     style={{ margin: '20px 0' }}
   bordered={false}
   bodyStyle={{ padding: 20 }}

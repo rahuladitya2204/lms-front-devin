@@ -151,7 +151,7 @@ const isEnrolled = !!enrolledDetails._id
       }
     }
     else {
-      console.log(enrolledDetails.metadata.test, 'enrolledDetails')
+      // console.log(enrolledDetails.metadata.test, 'enrolledDetails')
       if (!testStartDate) {
         return <Button size='large' onClick={() => navigate('start')} block type='primary'>
           Start Test
