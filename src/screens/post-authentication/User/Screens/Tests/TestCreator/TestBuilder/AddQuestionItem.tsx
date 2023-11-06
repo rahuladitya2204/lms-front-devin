@@ -12,6 +12,7 @@ import {
   Radio,
   Row,
   Select,
+  Switch,
   Typography,
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
@@ -25,6 +26,7 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { uniqueId } from 'lodash';
+import { useState } from 'react';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
 const { Title } = Typography;
@@ -46,6 +48,7 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
+  const [enterHtml, setEnterHtml] = useState(false);
   const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm( form);
   const {  itemId,id: testId } = useParams();
   
@@ -91,6 +94,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     });
   }
   const options = Form.useWatch('options', form) || [];
+
+  const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
   // console.log(options,'setCorrectOptions')
   return (
     <Form name='test' onFinish={submit} initialValues={item}
@@ -130,7 +135,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
    </Col>
       <Col span={24}>
     
-        <Card bordered={false}>
+        <Card bordered={false} extra={[EnterHtmlButton]}>
       
         <Form.Item name="title" label="Title" required   rules={[
             {
@@ -139,7 +144,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
             }
             ]}>
               {/* @ts-ignore */}
-          <TextArea html readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
+          <TextArea html={enterHtml?false:{level:3}} readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
           <Col span={12}>
@@ -175,7 +180,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
        </Row>
         <Row gutter={[20, 20]}>
           <Col span={24}>
-                <Card style={{ marginBottom: 20 }} title="Answers">
+                <Card style={{ marginBottom: 20 }} extra={[EnterHtmlButton]} title="Answers">
                   {/* <OptionSelectedFormControl.Group> */}
 
             <Form.List name="options">
@@ -194,7 +199,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                             {...restField}
                             name={[name, 'text']}
                           >
-                            <TextArea height={150} html={{level:3}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
+                            <TextArea height={150} html={enterHtml?false:{level:3}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
                         </Form.Item>
                     </Col>
                             <Col>

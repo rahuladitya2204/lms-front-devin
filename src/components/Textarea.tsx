@@ -1,8 +1,8 @@
 import { Form, Input } from 'antd'
-import SunEditorComponent, { SunEditorPropsI } from './SunEditor/SunEditor'
 
 import { TextAreaProps as LibTextAreaProps } from 'antd/es/input'
 import React from 'react'
+import SunEditorComponent from './SunEditor/SunEditor'
 
 const { TextArea: AntDTextArea } = Input
 

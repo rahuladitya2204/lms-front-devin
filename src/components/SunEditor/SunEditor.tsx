@@ -1,5 +1,4 @@
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
-import 'katex/dist/katex.min.css';
 import './style.css'
 
 import {
@@ -12,16 +11,13 @@ import { Form, Spin } from 'antd'
 import React, { Fragment, useRef } from 'react'
 
 import SunEditor from 'suneditor-react'
-import katex from 'katex';
-// Import the plugins you want to use
-import math from 'suneditor/src/plugins/dialog/math'
+import { uniqueId } from 'lodash'
 import { variablePlugin } from './plugins/variable.plugin'
 
-export interface SunEditorPropsI {
+interface SunEditorPropsI {
   height?: number;
   width?: number;
   name?: string | string[];
-  onFocus?: () => void;
   variables?: Types.Variable[];
   value?: string;
   mode?: string;
@@ -72,8 +68,11 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
             // console.log(e, 'e')
           },
           onSuccess: ([uploadFile]) => {
+            const id = uniqueId()
             console.log(editorInstance, uploadFile, 'kokokok')
-            const imageHtml = `<img src="${uploadFile.url}" alt="Image" />`
+            const imageHtml = `<img id=${id} data-id="${
+              id
+            }" data-type="userUpload" src="${uploadFile.url}" alt="Image" />`
             // @ts-ignore
             editorInstance.insertHTML(imageHtml)
           }
@@ -91,17 +90,17 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     }
   }
 
-  // const variables = [
-  //   { name: 'Course Name', value: 'course.title' },
-  //   { name: 'Learner Name', value: 'learner.name' }
-  // ]
+  const variables = [
+    { name: 'Course Name', value: 'course.title' },
+    { name: 'Learner Name', value: 'learner.name' }
+  ]
 
   return (
     <Fragment>
       <Spin spinning={loading}>
         <SunEditor
           getSunEditorInstance={getSunEditorInstance}
-          onFocus={props.onFocus}
+          // onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}
           onChange={e => {
@@ -110,13 +109,10 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
             }
             props.onChange && props.onChange(e)
           }}
-          // @ts-ignore
           height={`${props.height || 700}`}
-          // @ts-ignore
           width={`${props.width}`}
           setOptions={{
-            ...options,
-            plugins: [...(options?.plugins || []), math]
+            ...options
             // plugins={defaultPlugins}
             // plugins: [variablePlugin(variables)],
             // attributesWhitelist: {
