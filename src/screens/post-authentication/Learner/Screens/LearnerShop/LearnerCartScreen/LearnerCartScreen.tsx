@@ -36,7 +36,7 @@ export default function LearnerCart() {
   }
 
   const { mutate: createOrder,isLoading: isCreatingOrder } = Learner.Queries.useCreateOrderFromCart();
-  const { mutate: updatePaymentOrder } = Learner.Queries.useUpdateOrderStatus();
+  const { mutate: updatePaymentOrder } = Learner.Queries.useUpdateOrderStatus({type:'',id:''});
 
   const applyCode = ({ code }: { code: string }) => {
     updateCart({ data: { promoCode: code }, action: 'apply_code' }, {

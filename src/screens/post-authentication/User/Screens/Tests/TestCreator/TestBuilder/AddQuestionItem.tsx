@@ -202,8 +202,12 @@ layout="vertical"
        ]}>
        <Input  readOnly={isTestEnded} placeholder="Enter the score for this question" />
      </Form.Item>
-           </Col>
-           <Col span={24}>
+              </Col>
+          
+    
+    </Row>
+            <Row gutter={[20, 20]}>
+            <Col span={24}>
            <Form.Item
        // name="topics"
                label={<span>Topics
@@ -214,9 +218,11 @@ layout="vertical"
        <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText={!isTestEnded?`Enter Topics`:''} /> 
      </Form.Item>
            </Col>
-    </Row>
-     <Row gutter={[20, 20]}>
-       <Col span={24}>
+            {questionType==='subjective'?  <Col span={12}>
+       <Form.Item label='Word Limit' name={'wordLimit'}>
+     <Input type='number'/>
+     </Form.Item>
+       </Col>:    <Col span={24}>
              <Card style={{ marginBottom: 20 }} extra={[EnterHtmlButton]} title="Answers">
                {/* <OptionSelectedFormControl.Group> */}
 
@@ -295,7 +301,8 @@ layout="vertical"
                {/* </OptionSelectedFormControl.Group> */}
 
              </Card>
-       </Col>
+       </Col>}
+   
            </Row>
     </Card>
    </Col>

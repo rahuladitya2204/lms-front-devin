@@ -20,21 +20,20 @@ interface TestResultItem {
 
 const TestResultTable: React.FC = () => {
   const { testId } = useParams<{ testId: string }>();
-  const { data: {test:testResult}, isFetching } = Learner.Queries.useGetTestResult(testId || '');
+  const { data: { test: testResult }, isFetching } = Learner.Queries.useGetTestResult(testId || '');
 
-  // @ts-ignore
+    // @ts-ignore
   const processedData: TestResultItem[] = testResult?.sections?.map((section, sectionIndex) => {
     return section.items.map((item, itemIndex) => {
       return {
           questionIndex: itemIndex + 1,
           key: item._id,
             title: item.title,
-            isCorrect: item.isCorrect,
-                  // @ts-ignore
+        isCorrect: item.isCorrect,
+  optionsSelected: item.optionsSelected,
+            isAnswered: item.isAnswered,
                   scoreAchieved: item.scoreAchieved,
-                   // @ts-ignore
                    solutionHtml: item?.solution?.html,
-              // @ts-ignore
         timeSpent: item.timeSpent,
         globalCorrectPercentage: item.globalCorrectPercentage
       };
@@ -65,6 +64,13 @@ key="title"
 render={title => (
   <span>{title.length > 20 ? <HtmlViewer content={`${title.substring(0, 20)}...`}></HtmlViewer> : <HtmlViewer content={title}></HtmlViewer> }</span>
 )}
+      />
+      <Table.Column
+        title="Option Selected"
+        dataIndex="optionsSelected"
+        key="optionsSelected"
+               /* @ts-ignore */
+        render={(_, record: TestResultItem) => record.optionsSelected.map(opt => <Tag>{opt }</Tag>) }
 />
 <Table.Column
 title="Result"
@@ -72,8 +78,10 @@ dataIndex="isCorrect"
 key="isCorrect"
 render={(_,record:TestResultItem) => (
   <Space>
+       {/* @ts-ignore */}
+ <Tag color={record.isCorrect ? 'green' : (record.isAnswered ? 'red' : 'orange')}>
     {/* @ts-ignore */}
-  <Tag color={record.isCorrect ? 'green' : (record.isAnswered?'red':'orange')}>{record.isCorrect ? 'Correct' : (record.isAnswered?'Incorrect':'Not Attempted')}</Tag>
+    {record.isCorrect ? 'Correct' : (record.isAnswered ? 'Incorrect' : 'Not Attempted')}</Tag>
   <Tooltip placement="right" title={`${Math.ceil(record.globalCorrectPercentage)}%`}>
   <GlobalOutlined/>
         </Tooltip>

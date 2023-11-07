@@ -20,7 +20,10 @@ export default function ProductCheckoutButton(
     mutate: createOrder,
     isLoading: isCreatingOrder
   } = Learner.Queries.useCreateOrderFromProduct()
-  const { mutate: updatePaymentOrder } = Learner.Queries.useUpdateOrderStatus()
+  const {
+    mutate: updatePaymentOrder,
+    isLoading: updatingPaymentOrder
+  } = Learner.Queries.useUpdateOrderStatus({ id, type })
 
   return (
     <Button
@@ -61,7 +64,7 @@ export default function ProductCheckoutButton(
           }
         )
       }}
-      loading={isCreatingOrder}
+      loading={isCreatingOrder || updatingPaymentOrder}
       {...props}
     >
       {props.children}

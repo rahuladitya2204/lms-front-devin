@@ -1,5 +1,5 @@
 import { Button, Checkbox, Form, Input, Typography } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { ActionModalI } from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
@@ -12,6 +12,7 @@ interface LearnerRegisterPropsI extends ActionModalI {}
 
 function LearnerRegister(props: LearnerRegisterPropsI) {
   const message = useMessage()
+  const organisation = Store.useGlobal(o => o.organisation)
   const [form] = Form.useForm()
   const {
     mutate: Signup,
@@ -37,7 +38,9 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
             form.resetFields()
             message.open({
               type: 'success',
-              content: `Please login to continue`
+              content: `Congratulation ${user.name}, Welcome to ${
+                organisation.name
+              }!`
             })
           }
         }

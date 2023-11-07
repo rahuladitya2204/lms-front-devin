@@ -245,7 +245,6 @@ const isEnrolled = !!enrolledDetails._id
                   }
                 </> :
                  (isSignedIn? <ProductCheckoutButton onSuccess={() => {
-                    qc.invalidateQueries([`GET_ENROLLED_PRODUCT_DETAILS`, testId, 'test']);
                     message.open({
                       type: 'success',
                       content: `You have enrolled successfully`

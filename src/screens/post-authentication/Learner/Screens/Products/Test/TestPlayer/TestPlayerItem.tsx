@@ -5,6 +5,7 @@ import { Learner, Types } from '@adewaskar/lms-common';
 
 import HtmlViewer from '@Components/HtmlViewer';
 import dayjs from 'dayjs';
+import useMessage from '@Hooks/useMessage';
 import { useParams } from 'react-router'
 import useQuestion from './hooks/useQuestion'
 import { useTestItemTime } from '@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime';
@@ -15,6 +16,7 @@ const { Title, Text } = Typography
 interface TestPlayeritemPropsI {}
 
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
+  const message = useMessage();
   const { questionId, testId } = useParams();
   useTestItemTime();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
@@ -125,7 +127,10 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             answers: answersGiven
           }, {
             onSuccess: () => {
-              
+              message.open({
+                type: 'success',
+                content:'Answer Recorded'
+              })
             }
           })
         }} disabled={!answersGiven.length}> Submit</Button>
