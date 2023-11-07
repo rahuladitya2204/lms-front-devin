@@ -2,7 +2,6 @@ import { Button, Col, Divider, Form, Input, Row } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
 
 import PreviewTemplate from "@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor/PreviewTemplate";
-import SunEditorComponent from "@Components/SunEditor/SunEditor";
 import TextArea from "@Components/Textarea";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useLayoutEffect } from "react";

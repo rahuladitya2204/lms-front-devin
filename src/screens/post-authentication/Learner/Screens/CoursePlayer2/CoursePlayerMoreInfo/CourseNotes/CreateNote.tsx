@@ -12,10 +12,9 @@ import {
 import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { useEffect, useState } from 'react'
 
-import SunEditorComponent from '@Components/SunEditor/SunEditor'
+import TextArea from '@Components/Textarea'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
-import TextArea from '@Components/Textarea'
 
 const { Text } = Typography
 

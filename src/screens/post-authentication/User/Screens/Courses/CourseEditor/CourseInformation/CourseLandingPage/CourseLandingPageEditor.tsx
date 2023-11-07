@@ -4,11 +4,10 @@ import { Types, User } from '@adewaskar/lms-common'
 
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
-import SunEditorComponent from '@Components/SunEditor/SunEditor'
+import TextArea from '@Components/Textarea'
 import { deepPatch } from '../../CourseBuilder/utils'
 // import { patchObject } from '../../utils'
 import { useParams } from 'react-router'
-import TextArea from '@Components/Textarea'
 
 interface CourseLandingPageEditorPropsI {
   courseId: string;

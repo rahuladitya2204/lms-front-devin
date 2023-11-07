@@ -1,7 +1,6 @@
 import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
-import SunEditorComponent from '@Components/SunEditor/SunEditor'
 import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'

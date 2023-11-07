@@ -5,9 +5,10 @@ import { Common, Types, User } from '@adewaskar/lms-common';
 import React, { Fragment } from 'react';
 
 import PreviewTemplate from './PreviewTemplate';
-import SunEditorComponent from '@Components/SunEditor/SunEditor';
 import TextArea from '@Components/Textarea';
 import { useParams } from 'react-router';
+
+;
 
 const { Text,Title } = Typography;
 

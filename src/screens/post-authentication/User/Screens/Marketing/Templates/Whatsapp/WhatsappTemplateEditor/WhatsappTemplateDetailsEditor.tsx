@@ -4,9 +4,10 @@ import { Common, Types, User } from '@adewaskar/lms-common';
 import { Form, Space, Typography, } from 'antd';
 import React, { Fragment } from 'react';
 
-import SunEditorComponent from '@Components/SunEditor/SunEditor';
-import { useParams } from 'react-router';
 import TextArea from '@Components/Textarea';
+import { useParams } from 'react-router';
+
+;
 
 const { Text } = Typography;
 

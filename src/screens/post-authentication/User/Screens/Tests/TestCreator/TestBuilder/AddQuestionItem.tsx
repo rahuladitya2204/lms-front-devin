@@ -138,12 +138,7 @@ layout="vertical"
  
      <Card bordered={false} extra={[EnterHtmlButton]}>
    
-     <Form.Item name="title" label="Title" required   rules={[
-         {
-           required: true,
-           message: "Enter questions's title"
-         }
-         ]}>
+     <Form.Item name="title" label="Title" >
            {/* @ts-ignore */}
        <TextArea html={enterHtml?false:{level:3}} readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
      </Form.Item>
@@ -194,9 +189,6 @@ layout="vertical"
              <Row justify={'center'}>
                  <Col flex={1}>
                      <Form.Item 
-                         rules={[
-                             { required: true, message: 'Please enter the answer.' },
-                         ]}
                          {...restField}
                          name={[name, 'text']}
                        >

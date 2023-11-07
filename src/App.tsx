@@ -37,7 +37,7 @@ function App () {
       Utils.Storage.SetItem('userType', userType)
     },
     [userType]
-  )
+  );
 
   return (
     <Fragment>

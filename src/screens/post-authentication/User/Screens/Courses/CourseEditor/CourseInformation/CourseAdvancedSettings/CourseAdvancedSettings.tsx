@@ -19,9 +19,8 @@ import { convertToCommaSeparated, deepPatch } from '../../CourseBuilder/utils'
 import CourseCertificate from './CourseCertificate/CourseCertificateScreen'
 import GenerateWithAI from '../GenerateWithAiButton'
 import InputTags from '@Components/InputTags/InputTags'
-import SunEditorComponent from '@Components/SunEditor/SunEditor'
-import { Types } from '@adewaskar/lms-common'
 import TextArea from '@Components/Textarea'
+import { Types } from '@adewaskar/lms-common'
 
 const { Title } = Typography
 const { useWatch } = Form
