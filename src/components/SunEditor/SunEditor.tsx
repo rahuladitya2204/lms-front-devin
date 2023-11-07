@@ -1,4 +1,5 @@
 import 'suneditor/dist/css/suneditor.min.css' // Import Sun Editor's CSS File
+import 'katex/dist/katex.min.css'
 import './style.css'
 
 import {
@@ -11,6 +12,7 @@ import { Form, Spin } from 'antd'
 import React, { Fragment, useRef } from 'react'
 
 import SunEditor from 'suneditor-react'
+import katex from 'katex'
 import { uniqueId } from 'lodash'
 import { variablePlugin } from './plugins/variable.plugin'
 
@@ -56,13 +58,19 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
 
   const handleImageUploadBefore = (files: any, info: any) => {
     const editorInstance = editorRef.current
-    // Only allow image upload for level 3
     if (level === 3) {
       const file = files[0]
       if (file instanceof File) {
+        // Change the file name by appending a unique identifier (timestamp or unique ID)
+        const uniqueSuffix = `-${Date.now()}-${uniqueId()}`
+        const newFileName = `${file.name.split('.')[0]}${
+          uniqueSuffix
+        }.${file.name.split('.').pop()}`
+        const newFile = new File([file], newFileName, { type: file.type })
+
         // Insert a temporary image element with a loading image source
         uploadFiles({
-          files: [{ file: file, prefixKey: uniqueId() }],
+          files: [{ file: newFile, prefixKey: uniqueId() }],
           isProtected: false,
           onUploadProgress: e => {
             // console.log(e, 'e')
@@ -95,6 +103,39 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     { name: 'Learner Name', value: 'learner.name' }
   ]
 
+  const renderLatexToHtml = (htmlStr: string): string => {
+    // Define the regex patterns for LaTeX delimiters
+    const inlinePattern = /\\\((.*?)\\\)/g
+    const displayPattern = /\[([\s\S]*?)\]/g
+
+    // This helper function will render a LaTeX string using KaTeX
+    const renderLatex = (latexStr: string, displayMode: boolean) => {
+      try {
+        return katex.renderToString(latexStr, {
+          throwOnError: false,
+          displayMode: displayMode
+        })
+      } catch (e) {
+        console.error('Error rendering LaTeX string:', e)
+        return latexStr // Return the original string if there's an error
+      }
+    }
+
+    // Replace inline LaTeX with rendered HTML
+    htmlStr = htmlStr.replace(inlinePattern, (match, p1) => {
+      return renderLatex(p1, false)
+    })
+
+    // Replace display LaTeX with rendered HTML
+    htmlStr = htmlStr.replace(displayPattern, (match, p1) => {
+      return renderLatex(p1, true)
+    })
+
+    return htmlStr
+  }
+
+  let preparedValue = value ? renderLatexToHtml(value) : ''
+
   return (
     <Fragment>
       <Spin spinning={loading}>
@@ -102,7 +143,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           getSunEditorInstance={getSunEditorInstance}
           // onFocus={props.onFocus}
           readOnly={props.readonly}
-          setContents={value}
+          setContents={preparedValue}
           onChange={e => {
             if (props.name) {
               form.setFieldValue(props.name, e)

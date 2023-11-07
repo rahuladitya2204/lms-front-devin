@@ -44,7 +44,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
 
   return (
     <Spin spinning={loading}>
-      <div style={{ height: '72vh' }}>
+      <div style={{ minHeight: '72vh' }}>
       <Row gutter={[20,30]}>
         <Col span={24}>
           <Row align={'middle'}>

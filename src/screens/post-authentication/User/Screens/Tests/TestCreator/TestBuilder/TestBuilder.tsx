@@ -12,6 +12,7 @@ import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import SetTestRules from './SetTestRules'
+import TestOutline from './TestOutline'
 import TestSectionsNavigator from './TestSectionsNavigator'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
@@ -216,7 +217,7 @@ function TestBuilderScreen() {
       {
         data: {
           testId: testId + '',
-          sectionId: sectionId,
+          // sectionId: sectionId,
           itemId: itemId
         }
       },
@@ -252,6 +253,38 @@ function TestBuilderScreen() {
           </span>
         }
         extra={[
+          <Row>   <Col span={24}>
+          {!test.sections.length ? (
+            <Alert
+              message="Generate Tests Paper outline"
+              // description="You can generate test outline using our AI"
+              type="info"
+              showIcon
+              action={
+                <ActionModal
+                  title="Generate Test Outline"
+                  width={900}
+                  cta={
+                    <Button size="small">Generate Test Outline</Button>
+                  }
+                >
+                  <TestOutline testId={testId + ''} />
+                </ActionModal>
+              }
+            />
+            ) : (
+                null
+            // <ActionModal
+            //       title="Reset Test Outline"
+            //       width={900}
+            //       cta={
+            //         <Button  style={{marginRight:20}} danger type='primary' size="small">Reset Test Outline</Button>
+            //       }
+            //     >
+            //       <TestOutline testId={testId + ''} />
+            //     </ActionModal>
+          )}
+        </Col></Row>,
           <Tag>
             {(savingTest || loadingTest) ? 'Saving..' : `Changes will be automatically saved`}
           </Tag>,
@@ -325,46 +358,13 @@ function TestBuilderScreen() {
             </Row>
           </Col>
           <Col span={16}>
-            {!test.sections.length ? (
-              <Alert
-                message="Generate Tests Paper structure using AI"
-                description="You can generate test outline using our AI"
-                type="info"
-                showIcon
-                action={
-                  <ActionModal
-                    width={600}
-                    title="Test Builder"
-                    cta={<Button size="small">Generate Tests Paper</Button>}
-                  >
-                    <AITestPaperBuilder
-                      testId={test._id + ''}
-                      onValuesChange={(sections: any) => {
-                        console.log(sections, 'parseAIJson')
-                        updateTest(
-                          {
-                            id: test._id || '',
-                            data: {
-                              // @ts-ignore
-                              sections: sections
-                            }
-                          },
-                          {
-                            onSuccess: () => {
-                              navigate('')
-                            }
-                          }
-                        )
-                      }}
-                    />
-                  </ActionModal>
-                }
-              />
-            ) : (
-              <Outlet
-                context={{ updateTestSection, sections: test.sections }}
-              />
-            )}
+            <Row gutter={[20, 20]}>
+              <Col span={24}>
+                <Outlet
+                  context={{ updateTestSection, sections: test.sections }}
+                />
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Header>

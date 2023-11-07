@@ -12,6 +12,7 @@ import {
   Radio,
   Row,
   Select,
+  Spin,
   Switch,
   Typography,
 } from 'antd'
@@ -20,6 +21,7 @@ import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/ic
 import { useOutletContext, useParams } from 'react-router';
 
 import ActionModal from '@Components/ActionModal';
+import EnterQuestionJson from './EnterQuestionJson';
 import ErrorBoundary from '@Components/ErrorBoundary';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import InputTags from '@Components/InputTags/InputTags';
@@ -67,7 +69,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
 
-  const {data: item } = User.Queries.useGetTestItemDetails(testId+'', itemId+'');
+  const {data: item,isLoading: loadingItem } = User.Queries.useGetTestItemDetails(testId+'', itemId+'');
   
   const { data: file } = User.Queries.useGetFileDetails(item?.solution?.video + '', {
     enabled: !!item?.solution?.video
@@ -78,9 +80,25 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     data: { status, progress }
   } = User.Queries.useGetTranscodeVideoStatus(jobId, {
     retry: true,
-    enabled:!!jobId,
+    enabled: !!jobId,
     retryDelay: 4000
-  })
+  });
+  const {
+    mutate: deleteSectionItemApi,
+    isLoading: deletingSectionItem
+  } = User.Queries.useDeleteTestSectionItem()
+  const DeleteSectionItem = ( ) => {
+    confirm({
+      title: 'Are you sure?',
+      content: `You want to delete this section item`,
+      onOk() {
+        deleteSectionItemApi({
+          data: { testId: testId + '', itemId: itemId+'' }
+        })
+      },
+      okText: 'Delete'
+    })
+  }
   const fileId = file.encoded || file._id;
   const {  mutate: generateItemInfoApi, isLoading: generatingSummary ,data: generatedInfo} = User.Queries.useGetGenerativeTestItemInfo();
   const generateItemInfo = (fields: string[]) => {
@@ -99,7 +117,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
   // console.log(options,'setCorrectOptions')
   return (
-   <ErrorBoundary> <Form name='test' onFinish={submit} initialValues={item}
+   <Spin spinning={loadingItem} > <Form name='test' onFinish={submit} initialValues={item}
    onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
 form={form}
 layout="vertical"
@@ -131,14 +149,37 @@ layout="vertical"
        }}/>
            </ActionModal>
            }
-         />:null}
+          /> : null}
+          
+          <Alert style={{marginTop:30}}
+              message="Reset Question in JSON"
+              // description="You can generate test outline using our AI"
+              type='warning'
+              showIcon
+              action={
+                <ActionModal
+                  title="Enter Quetion JSON"
+                  width={900}
+                  cta={
+                    <Button type='primary' size="small">Enter Question JSON</Button>
+                  }
+                >
+                  <EnterQuestionJson testId={testId+''} itemId={itemId + ''} />
+                </ActionModal>
+              }
+            />
 
 </Col>
    <Col span={24}>
  
      <Card bordered={false} extra={[EnterHtmlButton]}>
    
-     <Form.Item name="title" label="Title" >
+     <Form.Item name="title" label="Title" required   rules={[
+         {
+           required: true,
+           message: "Enter questions's title"
+         }
+         ]}>
            {/* @ts-ignore */}
        <TextArea html={enterHtml?false:{level:3}} readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
      </Form.Item>
@@ -189,6 +230,9 @@ layout="vertical"
              <Row justify={'center'}>
                  <Col flex={1}>
                      <Form.Item 
+                         rules={[
+                             { required: true, message: 'Please enter the answer.' },
+                         ]}
                          {...restField}
                          name={[name, 'text']}
                        >
@@ -296,7 +340,9 @@ layout="vertical"
      </Col>
 
  </Row>
- </Form></ErrorBoundary>
+    </Form>
+    <Button loading={deletingSectionItem} type='primary' danger onClick={DeleteSectionItem} >Delete Question</Button>
+    </Spin>
   )
 }
 

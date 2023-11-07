@@ -81,7 +81,7 @@ function useUpdateTestForm(form: FormInstance) {
   };
 // @ts-ignore
   const onFormChange = (data) => {
-    console.log(data.solution, 'solution');
+    // console.log(data.solution, 'solution');
     // if (!(data.solution.html && data.solution.video)) {
     //   delete data.solution;
     // }
