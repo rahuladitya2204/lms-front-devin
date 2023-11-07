@@ -7,6 +7,7 @@ import {
   Input,
   Row,
   Select,
+  Space,
   Switch,
   Typography
 } from 'antd'
@@ -165,9 +166,13 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Col span={8}>
           <Form.Item
             // label=""
-            label={`Duration(in minutes) ${
-              isPublished ? '(Cannot change duration once published)' : ''
-            }`}
+            label={
+              <Space>
+                Duration(in minutes){' '}
+                {isPublished ? '(Cannot change duration once published)' : ''}{' '}
+                <Switch checkedChildren="Enabled" unCheckedChildren="No Duration" />
+              </Space>
+            }
             name={['duration']}
             rules={[{ required: true, message: 'Please select duration!' }]}
           >
