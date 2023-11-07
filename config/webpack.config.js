@@ -193,6 +193,13 @@ module.exports = function (webpackEnv) {
   return {
     target: ['browserslist'],
     devServer: {
+      client: {
+        overlay: {
+          errors: true,
+          warnings: false,
+          runtimeErrors: false
+        }
+      },
       host: 'org1.nimblebee.local',
       port: 3000,
       disableHostCheck: true,
