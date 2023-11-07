@@ -1,26 +1,9 @@
-import {
-  Button,
-  Card,
-  Col,
-  Collapse,
-  Divider,
-  List,
-  Progress,
-  Row,
-  Spin,
-  Tag,
-  Typography
-} from 'antd'
-import { CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Divider, Row, Typography } from 'antd'
 
-import Countdown from '@Components/Countdown'
-import { Fragment } from 'react'
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
-import dayjs from 'dayjs'
-import styled from 'styled-components'
+import TestTimer from './TestTimer'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import useCountdownTimer from '@Hooks/useCountdownTimer'
 import { useNavigate } from 'react-router'
 
 interface TestQuestionNavigatorType2PropsI {
@@ -34,112 +17,85 @@ export default function TestQuestionNavigatorType2(
   props: TestQuestionNavigatorType2PropsI
 ) {
   const navigate = useNavigate()
-  const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
-  //    const { data: { sections } } = Learner.Queries.useGetTestStatus(
   const { data: { sections }, isFetching } = Learner.Queries.useGetTestStatus(
     props.testId + ''
   )
-  const {
-    data: enrolledProduct, isLoading: loadingEnrolledTest
-  } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'test',
-    id: test._id + ''
-  })
-  const startTime = test.startedAt || enrolledProduct.metadata.test.startedAt
-  const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
-    .add(test.duration, 'minutes')
-    .toString()
-    const {isTablet,isDesktop,isMobile } = useBreakpoint();
-  const { percentLeft } = useCountdownTimer(endingAt)
-  // console.log(percentLeft,'percentLeft')
+
+  const { isTablet, isDesktop, isMobile } = useBreakpoint()
+  const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
+
   return (
-    <Spin spinning={loadingTest || loadingEnrolledTest} ><Card style={{ height: '80vh' }} bodyStyle={{overflow:'scroll',height:'100%'}}>
-    <Row>
-      {isDesktop? <Col span={24}>
-        {/* <Button type='primary' style={{marginBottom:30}} danger block size='large'> Submit Test</Button> */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: 0
-          }}
-          title="Time Spent"
-        >
-          <Progress
-            size={200}
-            format={(percent) => {
-              return (
-                <Row>
-                  <Col span={24}>
-                    {percent===100? <Title type="secondary" style={{ fontSize: 18 }}>
-                      Test has ended
-                    </Title> : <>
-                    <Title type="secondary" style={{ fontSize: 18 }}>
-                      Remaining Time
-                    </Title>
-                    <Title style={{ marginTop: 0, fontSize: 25 }}>
-                          <Countdown targetDate={ endingAt} />
-                      </Title>
-                    </>}
-                    
-                  </Col>
-                </Row>
-              )
-            }}
-            type="circle"
-            percent={Math.ceil(100 - percentLeft)}
-          />
-        </div>
-      </Col>:          <Button type='primary' style={{marginBottom:30}} danger block size='large'> Submit Test</Button>
-}
-      <Divider style={{ margin: 0, marginTop: 10 }} />
-      <Col span={24}>
-        <Title style={{ textAlign: 'center' }} level={3}>
-          Question Panel
-        </Title>
-        {sections.map(section => {
-          return (
-            <Row>
-              <Col span={24}>
-                <Title level={4}>{section.title}</Title>
-                <Row gutter={[20,20]}>
-                  {section.items.map((item, itemIndex) => {
-                    return (
-                      <Col span={3}>
-                        <NavLink
-                          style={{ width: '100%' }}
-                          key={item._id}
-                          to={`${item._id}`}
-                          children={({ isActive }) => (
-                            <Button
-                              onClick={() => navigate(item._id)}
-                              type={
-                                isActive
-                                  ? 'primary'
-                                  : item.isAnswered ? 'primary' : 'default'
-                              }
-                              style={{
-                                backgroundColor: isActive
-                                  ? 'auto'
-                                  : item.isAnswered ? 'green' : 'default'
-                              }}
-                              shape="circle"
-                            >
-                              {itemIndex + 1}
-                            </Button>
-                          )}
-                        />
-                      </Col>
-                    )
-                  })}
-                </Row>
-              </Col>
-            </Row>
-          )
-        })}
-      </Col>
-    </Row>
-  </Card></Spin>
+    <Card
+      style={{ height: '80vh' }}
+      bodyStyle={{ overflow: 'scroll', height: '100%' }}
+    >
+      <Row>
+        {isDesktop ? (
+          <>
+          {test.duration.enabled?<Col span={24}>
+            {/* <Button type='primary' style={{marginBottom:30}} danger block size='large'> Submit Test</Button> */}
+            <TestTimer testId={props.testId} />
+            <Divider style={{ margin: 0, marginTop: 10 }} />
+ </Col>:null}
+          </>
+        ) : (
+          <Button
+            type="primary"
+            style={{ marginBottom: 30 }}
+            danger
+            block
+            size="large"
+          >
+            {' '}
+            Submit Test
+          </Button>
+        )}
+        <Col span={24}>
+          <Title style={{ textAlign: 'center' }} level={3}>
+            Question Panel
+          </Title>
+          {sections.map(section => {
+            return (
+              <Row>
+                <Col span={24}>
+                  <Title level={4}>{section.title}</Title>
+                  <Row gutter={[20, 20]}>
+                    {section.items.map((item, itemIndex) => {
+                      return (
+                        <Col span={3}>
+                          <NavLink
+                            style={{ width: '100%' }}
+                            key={item._id}
+                            to={`${item._id}`}
+                            children={({ isActive }) => (
+                              <Button
+                                onClick={() => navigate(item._id)}
+                                type={
+                                  isActive
+                                    ? 'primary'
+                                    : item.isAnswered ? 'primary' : 'default'
+                                }
+                                style={{
+                                  backgroundColor: isActive
+                                    ? 'auto'
+                                    : item.isAnswered ? 'green' : 'default'
+                                }}
+                                shape="circle"
+                              >
+                                {itemIndex + 1}
+                              </Button>
+                            )}
+                          />
+                        </Col>
+                      )
+                    })}
+                  </Row>
+                </Col>
+              </Row>
+            )
+          })}
+        </Col>
+      </Row>
+    </Card>
   )
 }

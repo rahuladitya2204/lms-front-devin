@@ -70,7 +70,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   if (endTestNow) {
     // navigate('../completed')
   }
-  const endTime = dayjs(startTime).add(test.duration, 'minute');
+  const endTime = dayjs(startTime).add(test.duration.value, 'minute');
   const {isTablet,isDesktop,isMobile } = useBreakpoint();
   return (
     <Header
@@ -78,9 +78,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       subTitle={'asd'}
       extra={<Row>
         {!isDesktop?<Col>
-       <Tag color="blue">
+       {endTime?<Tag color="blue">
         Time Left: <Countdown targetDate={endTime.toString()} />
-          </Tag>
+          </Tag>:null}
         </Col>:null}
         <Col>
         {!isDesktop ? <ActionDrawer cta={<Button icon={<MenuOutlined />}>

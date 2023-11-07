@@ -53,6 +53,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const testId = props.testId || id
   const { data: instructors } = User.Queries.useGetInstructors()
   const image = useWatch(['thumbnailImage'], form)
+  const isDurationEnabled = useWatch(['duration', 'enabled'], form)
   const { listItems: categories } = User.Queries.useGetProductCategories('test')
 
   useEffect(
@@ -170,14 +171,25 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
               <Space>
                 Duration(in minutes){' '}
                 {isPublished ? '(Cannot change duration once published)' : ''}{' '}
-                <Switch checkedChildren="Enabled" unCheckedChildren="No Duration" />
+                <Form.Item
+                  style={{ margin: 0 }}
+                  valuePropName="checked"
+                  name={['duration', 'enabled']}
+                  // label="Send email to learner on course enrollment."
+                >
+                  <Switch
+                    checkedChildren="Enabled"
+                    unCheckedChildren="No Duration"
+                  />
+                </Form.Item>
               </Space>
             }
-            name={['duration']}
+            name={['duration','value']}
             rules={[{ required: true, message: 'Please select duration!' }]}
           >
             <Input
-              // disabled={isPublished}
+              // readOnly={isPublished}
+              disabled={!isDurationEnabled}
               type="number"
               placeholder="Enter duration in mins"
             />

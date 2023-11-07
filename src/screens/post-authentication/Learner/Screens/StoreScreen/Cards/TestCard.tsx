@@ -36,7 +36,7 @@ function TestCard(props: TestCardPropsI) {
   const navigate = useNavigate();
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   // const instructor = test.instructor as unknown as Types.Instructor;
-  const formattedDuration = Utils.formatTime(test.duration*60)
+  const formattedDuration = test.duration.enabled? Utils.formatTime(test.duration.value * 60):null
   return (
     // <Badge.Ribbon text="Best Seller" color="orange">
       <CustomCard hoverable
@@ -74,10 +74,11 @@ function TestCard(props: TestCardPropsI) {
             <BarChartOutlined /> {capitalize(test.difficultyLevel)}
             </Text>
             </Col> */}
-            <Col>
+            {formattedDuration?<Col>
             <Text style={{fontSize: 13}}>
                   <ClockCircleOutlined /> {formattedDuration}
-                </Text></Col>
+          </Text>
+        </Col>:null}
         </Row>
         <Divider style={{marginTop:10,marginBottom:10}}/>
         <Row justify={'space-between'}>

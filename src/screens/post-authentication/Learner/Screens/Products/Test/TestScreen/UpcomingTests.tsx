@@ -64,15 +64,17 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
         // xl: 6,
         // xxl: 3
       }}
+      // @ts-ignore
       dataSource={data.filter(pd => {
         return !(pd.product?.data?.endedAt || pd.metadata.test.endedAt)
       })}
-      renderItem={({ product: { data: test } }) => {
-        const formattedDuration = Utils.formatTime(test?.duration*60)
+      renderItem={({ product: { data: test } }:{ product: { data: Types.Test } }) => {
+        const formattedDuration = test.duration.enabled?(Utils.formatTime(test?.duration.value*60)):null
   const CardComponent = (
           <Card
             onClick={() => {
-              navigate(test?._id)
+             // @ts-ignore
+             navigate(test?._id)
             }}
             // style={{ width: 300 }}
             // @ts-ignore
@@ -96,7 +98,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
               }
               description={
                 <>
-                  <Tag icon={<ClockCircleOutlined/>} >{formattedDuration}</Tag>
+                 {formattedDuration? <Tag icon={<ClockCircleOutlined/>} >{formattedDuration}</Tag>:null}
                   {test?.scheduledAt ? (
                   <Text>Date: {dayjs(test?.scheduledAt).format('LLL')}</Text>
                 ) : (

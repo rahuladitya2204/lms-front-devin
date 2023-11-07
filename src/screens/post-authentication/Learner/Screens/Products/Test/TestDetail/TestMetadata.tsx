@@ -59,7 +59,8 @@ function TestMetadata(props: TestMetadataPropsI) {
   data.scheduledFor.value = props.test.isLive
     ? dayjs(props.test.scheduledAt).format('LLL')
     : 'Can be taken anytime'
-  data.duration.value = formatTime(props.test.duration)
+  // @ts-ignore
+  data.duration.value = props.test.duration.enabled ? formatTime(props.test.duration.value) : null;
   data.enrolled.value = `${props.test.analytics.enrolled.count} students`
   data.certificate.value = props.test.certificate ? 'Yes' : ''
   // @ts-ignore

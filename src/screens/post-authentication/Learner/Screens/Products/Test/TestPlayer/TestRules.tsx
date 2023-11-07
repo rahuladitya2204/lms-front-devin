@@ -47,21 +47,25 @@ export default function TestRules(props: TestRulesPropsI) {
   const testStartDate =
     enrolledProduct.metadata.test.startedAt || test.startedAt
   const testEndDate = enrolledProduct.metadata.test.endedAt || test.endedAt
-  const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
-    .add(test.duration, 'minutes')
-    .toString()
+  const endingAt = test.duration.enabled
+    ? dayjs(enrolledProduct.metadata.test.startedAt)
+        .add(test.duration.value, 'minutes')
+        .toString()
+    : null
   const navigate = useNavigate()
   return (
     <Header
       showBack
       title={test.title}
       extra={[
-        testStartDate ? (
+        testStartDate && endingAt ? (
           <Tag color="blue">
             Time Left: <Countdown targetDate={endingAt} />
           </Tag>
         ) : null,
-        <Tag color="cyan">Time Limit: {test.duration} mins</Tag>
+        test.duration.enabled ? (
+          <Tag color="cyan">Time Limit: {test.duration.value} mins</Tag>
+        ) : null
       ]}
     >
       <Row>
