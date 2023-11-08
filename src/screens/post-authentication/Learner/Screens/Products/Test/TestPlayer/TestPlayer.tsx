@@ -55,8 +55,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
 
   useEffect(
     () => {
-      if (test.sections[0]?.items[0]) {
-        const sectionId = test.sections[0]._id
+      if (test.sections[0]?.items[0]&&!questionId) {
         const itemId = test.sections[0].items[0]._id
         navigate(`${itemId}`)
       }

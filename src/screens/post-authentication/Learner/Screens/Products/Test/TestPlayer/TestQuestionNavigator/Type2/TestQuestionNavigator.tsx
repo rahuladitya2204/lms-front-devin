@@ -22,7 +22,7 @@ export default function TestQuestionNavigatorType2(
   const { data: { sections }, isFetching } = Learner.Queries.useGetTestStatus(
     props.testId + ''
   )
-  const { currentQuestion}=useQuestion();
+  const { currentQuestion,loading}=useQuestion();
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
 
@@ -73,7 +73,8 @@ export default function TestQuestionNavigatorType2(
                               const isCurrent = currentQuestion._id === item._id;
                               return (
                               // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
-                              <Button
+                                <Button
+                                  // loading={loading && isCurrent}
                                 onClick={() => navigate(item._id)}
                                 type={
                                   isActive

@@ -30,7 +30,7 @@ const TestResultTable: React.FC = () => {
           key: item._id,
             title: item.title,
         isCorrect: item.isCorrect,
-  optionsSelected: item.optionsSelected,
+  optionsSelected: item.optionsSelected || [],
             isAnswered: item.isAnswered,
                   scoreAchieved: item.scoreAchieved,
                    solutionHtml: item?.solution?.html,
