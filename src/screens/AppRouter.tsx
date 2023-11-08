@@ -75,7 +75,7 @@ import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestB
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
 import TestPlayer from '@Learner/Screens/Products/Test/TestPlayer/TestPlayer';
-import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem';
+import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/TestPlayerItem';
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/TestResultTable'
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'

@@ -252,7 +252,7 @@ const isEnrolled = !!enrolledDetails._id
               block
               type="primary"
             >
-              Claim your seat
+              Buy Now
             </ProductCheckoutButton>:<ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
             Login to buy this course
@@ -286,7 +286,7 @@ const isEnrolled = !!enrolledDetails._id
               block
               type="primary"
             >
-              Claim your seat
+              Buy Now
             </ProductCheckoutButton>
           </Col>
         </Row>

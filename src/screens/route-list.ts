@@ -163,7 +163,7 @@ export const TestPlayer = lazy(() =>
   import('@Learner/Screens/Products/Test/TestPlayer/TestPlayer')
 )
 export const TestPlayeritem = lazy(() =>
-  import('@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem')
+  import('@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/TestPlayerItem')
 )
 export const TestRules = lazy(() =>
   import('@Learner/Screens/Products/Test/TestPlayer/TestRules')

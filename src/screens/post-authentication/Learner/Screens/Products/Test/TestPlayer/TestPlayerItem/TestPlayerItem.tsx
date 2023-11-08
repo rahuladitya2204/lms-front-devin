@@ -1,13 +1,17 @@
-import { BackwardOutlined, FlagOutlined, ForwardOutlined } from '@ant-design/icons';
-import { Button, Checkbox, Col, Form, Progress, Radio, Row, Spin, Typography } from 'antd';
+import { BackwardOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Card, Checkbox, Col, Form, Image, Progress, Radio, Row, Space, Spin, Typography } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import { Learner, Types } from '@adewaskar/lms-common';
 
+import ActionModal from '@Components/ActionModal';
+import FileList from '@Components/FileList';
 import HtmlViewer from '@Components/HtmlViewer';
+import MediaUpload from '@Components/MediaUpload';
+import TestPlayerFiles from './TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import useMessage from '@Hooks/useMessage';
 import { useParams } from 'react-router';
-import useQuestion from './hooks/useQuestion';
+import useQuestion from '../hooks/useQuestion';
 import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
 
 const { Title, Text } = Typography;
@@ -24,9 +28,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   useEffect(() => {
     const { answerGiven } = currentQuestion;
     let answer = answerGiven;
-    //   if (answerGiven && answerGiven.options && answerGiven.options.length) {
-    //   answer=currentQuestion.type==='single'?currentQuestion.answerGiven[0]:currentQuestion.answerGiven || []
-    // }
     if (
       (currentQuestion.type === 'single') &&
       answerGiven &&
@@ -35,7 +36,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       // @ts-ignore
       answer = {options:answerGiven.options[0]};
     }
-    console.log(currentQuestion.type,answerGiven,answer,'olopol')
     form.setFieldsValue({
       answer
     });
@@ -44,12 +44,10 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
 
   // @ts-ignore
   const onFormSubmit = ({answer}) => {
-    // let answer;
-    // console.log(answer, 'clclclcl')
-    // // const 
+    console.log(answer,'rr')
     if (currentQuestion.type=== 'single') {
       // @ts-ignore
-      answer = {options:[answer.options]};
+      answer = { options: [answer.options] };
     }
     submitAnswer({
       testId: testId+'',
@@ -69,7 +67,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { data: test}=Learner.Queries.useGetTestDetails(testId+'')
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
-  // console.log(currentQuestion,'quest')
+  const answer = form.getFieldValue(['answer']);
   return (
     <Spin spinning={loading}>
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
@@ -90,7 +88,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     return (
                       <Row gutter={[0, 20]} key={option._id}>
                         <Col span={24}>
-                          <OptionSelectedFormControl value={option._id}>
+                          <OptionSelectedFormControl disabled={submittingAnswer} value={option._id}>
                             <HtmlViewer content={option.text} />
                           </OptionSelectedFormControl>
                         </Col>
@@ -99,8 +97,15 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                   })}
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
-              </> : <Form.Item label='Subjective Answer' name={['answer','subjective', 'text']} >
-              <TextArea html={{level:1}} /></Form.Item>}
+              </> : <>
+                  <Form.Item>
+                    {/* @ts-ignore */}
+ <TestPlayerFiles form={form}/>
+</Form.Item>
+                  <Text strong type='danger' >Answer in {currentQuestion.wordLimit} words</Text>
+                  <Form.Item style={{marginTop:10}} label='Enter Answer below' name={['answer', 'subjective', 'text']} >
+                  <TextArea height={400} html={{ level: 1 }} /></Form.Item>
+              </>}
             </Col>
            
           </Row>
@@ -123,7 +128,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               loading={submittingAnswer}
               type="primary"
               style={{ marginLeft: 20 }}
-              htmlType="submit" // This triggers form submission
+              onClick={form.submit}
             >
               Submit
             </Button>
