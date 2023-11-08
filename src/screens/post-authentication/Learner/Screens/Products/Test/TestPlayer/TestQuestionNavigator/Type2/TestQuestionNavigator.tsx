@@ -1,10 +1,12 @@
-import { Button, Card, Col, Divider, Row, Typography } from 'antd'
+import { ArrowDownOutlined, ArrowLeftOutlined } from '@ant-design/icons'
+import { Badge, Button, Card, Col, Divider, Row, Typography } from 'antd'
 
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import TestTimer from './TestTimer'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useNavigate } from 'react-router'
+import useQuestion from '../../hooks/useQuestion'
 
 interface TestQuestionNavigatorType2PropsI {
   testId: string;
@@ -20,7 +22,7 @@ export default function TestQuestionNavigatorType2(
   const { data: { sections }, isFetching } = Learner.Queries.useGetTestStatus(
     props.testId + ''
   )
-
+  const { currentQuestion}=useQuestion();
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
 
@@ -67,24 +69,28 @@ export default function TestQuestionNavigatorType2(
                             style={{ width: '100%' }}
                             key={item._id}
                             to={`${item._id}`}
-                            children={({ isActive }) => (
+                            children={({ isActive }) => {
+                              const isCurrent = currentQuestion._id === item._id;
+                              return (
+                              // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
                               <Button
                                 onClick={() => navigate(item._id)}
                                 type={
                                   isActive
                                     ? 'primary'
-                                    : item.isAnswered ? 'primary' : 'default'
+                                    : (item.isAnswered ? 'primary' : 'default')
                                 }
                                 style={{
                                   backgroundColor: isActive
                                     ? 'auto'
-                                    : item.isAnswered ? 'green' : 'default'
+                                    : (item.isAnswered ? 'green' : 'default')
                                 }}
                                 shape="circle"
                               >
                                 {itemIndex + 1}
-                              </Button>
-                            )}
+                                </Button>
+                                // </Badge>
+                            )}}
                           />
                         </Col>
                       )

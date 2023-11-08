@@ -5,7 +5,6 @@ import { Learner, Types } from '@adewaskar/lms-common';
 
 import HtmlViewer from '@Components/HtmlViewer';
 import TextArea from '@Components/Textarea';
-import dayjs from 'dayjs';
 import useMessage from '@Hooks/useMessage';
 import { useParams } from 'react-router';
 import useQuestion from './hooks/useQuestion';
@@ -23,27 +22,46 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
 
   useEffect(() => {
-    console.log(currentQuestion.answerGiven, 'currentQuestion');
-    // Pre-fill the form with the answer if it exists
-    if (currentQuestion.answerGiven && currentQuestion.answerGiven.length) {
-      form.setFieldsValue({
-        options: currentQuestion.type==='single'?currentQuestion.answerGiven[0]:currentQuestion.answerGiven || [],
-      });
-  
+    const { answerGiven } = currentQuestion;
+    let answer = answerGiven;
+    //   if (answerGiven && answerGiven.options && answerGiven.options.length) {
+    //   answer=currentQuestion.type==='single'?currentQuestion.answerGiven[0]:currentQuestion.answerGiven || []
+    // }
+    if (
+      (currentQuestion.type === 'single') &&
+      answerGiven &&
+       answerGiven.options &&
+      answerGiven.options.length) {
+      // @ts-ignore
+      answer = {options:answerGiven.options[0]};
     }
-  }, [currentQuestion, form]);
+    console.log(currentQuestion.type,answerGiven,answer,'olopol')
+    form.setFieldsValue({
+      answer
+    });
+   
+  }, [currentQuestion, form,questionId]);
 
-  const onFormSubmit = (values: any) => {
+  // @ts-ignore
+  const onFormSubmit = ({answer}) => {
+    // let answer;
+    // console.log(answer, 'clclclcl')
+    // // const 
+    if (currentQuestion.type=== 'single') {
+      // @ts-ignore
+      answer = {options:[answer.options]};
+    }
     submitAnswer({
       testId: testId+'',
       questionId: questionId+'',
-      answers: values.options,
+      answers: answer,
     }, {
       onSuccess: () => {
         message.open({
           type: 'success',
           content: 'Answer Recorded',
         });
+        navigate('next');
       },
     });
   };
@@ -51,7 +69,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { data: test}=Learner.Queries.useGetTestDetails(testId+'')
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
-  console.log(currentQuestion,'quest')
+  // console.log(currentQuestion,'quest')
   return (
     <Spin spinning={loading}>
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
@@ -66,7 +84,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === 'single' ? 16 : 18 }} type="secondary">
                 {currentQuestion.type === 'single' ? 'Select one among others' : 'Select all that apply'}
               </Text>
-              <Form.Item name="options">
+              <Form.Item name={['answer','options']}>
                 <OptionSelectedFormControl.Group style={{ width: '100%' }}>
                   {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
                     return (
@@ -81,7 +99,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                   })}
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
-              </> : <Form.Item name={['subjectiveAnswer', 'text']} >
+              </> : <Form.Item label='Subjective Answer' name={['answer','subjective', 'text']} >
               <TextArea html={{level:1}} /></Form.Item>}
             </Col>
            

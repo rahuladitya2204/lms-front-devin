@@ -50,7 +50,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const {
     data: { totalAnswered, totalQuestions, status }
   } = Learner.Queries.useGetTestStatus(testId + '')
-  console.log(dayjs(enrolledProduct?.metadata?.test?.startedAt).format('LLL'))
+  // console.log(dayjs(enrolledProduct?.metadata?.test?.startedAt).format('LLL'))
   const startTime =  test.startedAt || enrolledProduct.metadata.test.startedAt
 
   useEffect(

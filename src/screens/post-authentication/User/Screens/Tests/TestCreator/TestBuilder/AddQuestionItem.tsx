@@ -151,7 +151,7 @@ layout="vertical"
            }
           /> : null}
           
-          <Alert style={{marginTop:30}}
+          {/* <Alert style={{marginTop:30}}
               message="Reset Question in JSON"
               // description="You can generate test outline using our AI"
               type='warning'
@@ -167,7 +167,7 @@ layout="vertical"
                   <EnterQuestionJson testId={testId+''} itemId={itemId + ''} />
                 </ActionModal>
               }
-            />
+            /> */}
 
 </Col>
    <Col span={24}>
