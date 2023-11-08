@@ -142,7 +142,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               style={{ marginLeft: 20 }}
               onClick={form.submit}
             >
-              Submit
+              Submit Answer
             </Button>
           </Col>
         </Row>

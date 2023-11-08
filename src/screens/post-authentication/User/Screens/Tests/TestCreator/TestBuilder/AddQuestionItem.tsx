@@ -14,6 +14,7 @@ import {
   Select,
   Spin,
   Switch,
+  Tag,
   Typography,
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
@@ -217,7 +218,8 @@ layout="vertical"
      >
        <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText={!isTestEnded?`Enter Topics`:''} /> 
      </Form.Item>
-           </Col>
+              </Col>
+              {/* // here add criterions */}
             {questionType==='subjective'?  <Col span={12}>
        <Form.Item label='Word Limit' name={'wordLimit'}>
      <Input type='number'/>
@@ -305,7 +307,60 @@ layout="vertical"
    
            </Row>
     </Card>
-   </Col>
+        </Col>
+        {questionType === 'subjective' && (
+  <Col span={24}>
+            <Card title="Scoring Criteria" extra={[<Tag color='orange-inverse'>Total Score: {item.score }</Tag>]}>
+      <Form.List name="criterias">
+        {(fields, { add, remove }) => (
+          <>
+            {fields.map(({ key, name, ...restField }, index) => (
+              <Row key={key} align="middle" gutter={10}>
+                <Col flex="auto">
+                  <Form.Item
+                    {...restField}
+                    name={[name, 'criteria']}
+                    rules={[{ required: true, message: 'Please enter the criteria' }]}
+                  >
+                    <Input placeholder="Enter scoring criteria" />
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <Form.Item
+                    {...restField} style={{width:100}}
+                    name={[name, 'score']}
+                    rules={[{ required: true, message: 'Please enter the score' }]}
+                  >
+                    <Input type='number' min={1} max={10} placeholder="Score" />
+                  </Form.Item>
+                </Col>
+                <Col>
+                  <DeleteTwoTone
+                    onClick={() => {
+                      confirm({
+                        title: 'Are you sure?',
+                        content: 'You want to delete this criterion',
+                        onOk() {
+                          remove(name);
+                        },
+                        okText: 'Delete',
+                      });
+                    }}
+                    style={{ fontSize: '24px', color: '#ff4d4f' }}
+                  />
+                </Col>
+              </Row>
+            ))}
+            <Button type="dashed" onClick={() => add()} block icon={<PlusCircleTwoTone />}>
+              Add Criterion
+            </Button>
+          </>
+        )}
+      </Form.List>
+    </Card>
+  </Col>
+)}
+
    <Col span={24}>
        
    <Card title='Solution Text'>
