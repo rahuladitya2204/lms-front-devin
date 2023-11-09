@@ -32,24 +32,16 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
   return (
     <Row>
       <Col span={24}>
-        <Form form={form}>
+        <Form form={form} onFinish={createAnswer}>
           <Form.Item name="title">
             <TextArea
-              html={{ level: 1 }}
-              height={150}
+              height={100}
               placeholder="Please provide a detailed summary"
-              value={description}
-              onChange={setDescription}
+              // html={{ level: 1 }}
             />
           </Form.Item>
           <Form.Item>
-            <Button
-              loading={loading}
-              onClick={() => {
-                createAnswer({ answer: description })
-              }}
-              type="primary"
-            >
+            <Button loading={loading} onClick={form.submit} type="primary">
               Submit Answer
             </Button>
           </Form.Item>

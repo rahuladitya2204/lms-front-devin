@@ -1,52 +1,70 @@
 import { ArrowUpOutlined, CommentOutlined } from '@ant-design/icons'
-import { Avatar, Card, Col, List, Row, Typography } from 'antd'
+import { Avatar, Badge, Button, Card, Col, List, Row, Skeleton, Typography } from 'antd'
 
 import { Comment } from '@ant-design/compatible'
 import CreateQuestion from './CreateQuestion'
 import { Learner } from '@adewaskar/lms-common'
 import React from 'react'
 import { Types } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 
 const { Text } = Typography
 
-interface ProductDiscussionQuestionListPropsI {
+interface ProductDiscussionListPropsI {
   selectQuestion: (q: Types.ProductDiscussionQuestion) => void;
   product: Types.Product;
 }
 
-const ProductDiscussionQuestionList: React.FC<
-  ProductDiscussionQuestionListPropsI
-> = props => {
-  const { data: questions } = Learner.Queries.useGetProductDiscussionQuestions({
-    id: props.product.id,
-    type: props.product.type
-  })
-  console.log(props.product, 'poui')
+const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
+  const {
+    data: questions,
+    isFetching: loadingQuestions,
+    isLoading: loadingFirstQuestions
+  } = Learner.Queries.useGetProductDiscussionQuestions(props.product)
 
-  // const upvote = () => {}
+  const upvote = () => {}
 
   return (
     <Row>
+            <Col span={24}>
+        <Card>
+          <Comment
+            avatar={
+              <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
+            }
+            content={<CreateQuestion product={props.product} />}
+          />
+        </Card>
+      </Col>
       {questions.length ? (
         <Col span={24}>
-          <List
+          {loadingFirstQuestions ? <>
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+            <Skeleton avatar paragraph={{ rows: 1 }} />
+          </> : <List
+            loading={loadingQuestions}
             className="comment-list"
             header={`${questions?.length} Comments`}
-            itemLayout="horizontal"
-            dataSource={questions}
+              itemLayout="horizontal"
+              // @ts-ignore
+            dataSource={questions.sort((a,b)=>b.date-a.date)}
             renderItem={question => {
               return (
                 <List.Item
                   key={question._id}
                   actions={[
-                    <Text strong>
-                      <ArrowUpOutlined /> {question.answers.length}
-                    </Text>,
-                    <Text strong>
-                      <CommentOutlined
-                        onClick={() => props.selectQuestion(question)}
-                      />
-                    </Text>
+                    <Text type='secondary'>{dayjs(question.date).fromNow() }</Text>,
+                    <Badge count={question.upvotes }>
+                    <Button icon={<ArrowUpOutlined />}>
+                   </Button>
+                      </Badge>,
+                    <Badge count={question.answers.length }>
+                      <Button type='primary' shape='circle' icon={<CommentOutlined
+
+                      />} onClick={() => props.selectQuestion(question)}>
+  </Button>
+                    </Badge>
                   ]}
                 >
                   <List.Item.Meta
@@ -70,22 +88,12 @@ const ProductDiscussionQuestionList: React.FC<
                 </List.Item>
               )
             }}
-          />
+          />}
         </Col>
       ) : null}
-
-      <Col span={24}>
-        <Card>
-          <Comment
-            avatar={
-              <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
-            }
-            content={<CreateQuestion product={props.product} />}
-          />
-        </Card>
-      </Col>
     </Row>
   )
 }
 
-export default ProductDiscussionQuestionList
+export default ProductDiscussionList
+	

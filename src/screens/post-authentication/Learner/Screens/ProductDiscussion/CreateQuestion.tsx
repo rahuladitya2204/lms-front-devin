@@ -28,30 +28,39 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
   return (
     <Row>
       <Col span={24}>
-        <Form form={form}>
-          <Form.Item name="title">
-            <Input
-              placeholder="Enter title of your query"
-              value={title}
-              onChange={e => setTitle(e.target.value)}
-            />
+        <Form form={form} onFinish={createQuestion}>
+          <Form.Item
+            name="title"
+            rules={[
+              {
+                required: true,
+                message: 'Please input the title of your query!'
+              },
+              { min: 5, message: 'Title must be at least 5 characters' },
+              { max: 100, message: 'Title cannot be more than 100 characters' }
+            ]}
+          >
+            <Input placeholder="Enter title of your query" />
           </Form.Item>
-          <Form.Item name="description">
-            <TextArea height={100}
-              html={{ level: 1 }}
+          <Form.Item
+            name="description"
+            rules={[
+              {
+                validator: (_, value) =>
+                  value && value.trim()
+                    ? Promise.resolve()
+                    : Promise.reject(new Error('Description cannot be empty'))
+              }
+            ]}
+          >
+            <TextArea
+              // html={{ level: 1 }}
+              height={100}
               placeholder="Please provide a detailed summary"
-              value={description}
-              onChange={setDescription}
             />
           </Form.Item>
           <Form.Item>
-            <Button
-              loading={loading}
-              onClick={() => {
-                createQuestion({ title, description })
-              }}
-              type="primary"
-            >
+            <Button loading={loading} onClick={form.submit} type="primary">
               Submit Query
             </Button>
           </Form.Item>

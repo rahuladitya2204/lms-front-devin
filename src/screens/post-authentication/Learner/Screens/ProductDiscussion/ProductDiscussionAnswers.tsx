@@ -1,9 +1,11 @@
-import { Avatar, List, Tooltip, Typography, theme } from 'antd'
+import { Avatar, List, Skeleton, Tooltip, Typography, theme } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { Fragment } from 'react'
 
 import { Comment } from '@ant-design/compatible'
 import CreateAnswer from './CreateAnswer'
+import HtmlViewer from '@Components/HtmlViewer'
+import dayjs from 'dayjs'
 
 const { Text } = Typography
 const { useToken } = theme
@@ -15,7 +17,7 @@ interface ProductDiscussionQuestionAnswersPropsI {
 
 const ProductDiscussionQuestionAnswers: React.FC<ProductDiscussionQuestionAnswersPropsI> = props => {
   const { token } = useToken()
-  const { data: question } = Learner.Queries.useGetProductDiscussionQuestionDetails(
+  const { data: question,isLoading:loadingFirstQuestion,isFetching:loadingQuestion } = Learner.Queries.useGetProductDiscussionQuestionDetails(
     props.product,
     props.questionId
   )
@@ -28,38 +30,40 @@ const ProductDiscussionQuestionAnswers: React.FC<ProductDiscussionQuestionAnswer
   const answers = question.answers
   return (
     <Fragment>
-      {answers.length ? (
-        <List
-          className="comment-list"
-          header={`${answers.length} replies`}
-          itemLayout="horizontal"
-          dataSource={answers}
-          renderItem={item => (
-            <li>
-              <Comment
-                // actions={actions}
-                author={<Text strong>Aditya Dewaskar</Text>}
-                avatar={
-                  <Avatar style={{ backgroundColor: token.colorPrimary }}>
-                    {name}
-                  </Avatar>
-                }
-                content={
-                  <div dangerouslySetInnerHTML={{ __html: item.answer }} />
-                }
-                datetime={
-                  <Tooltip title="2016-11-22 11:22:33">
-                    <span>8 hours ago</span>
-                  </Tooltip>
-                }
-              />
-            </li>
-          )}
-        />
-      ) : null}
+    <CreateAnswer product={props.product} question={question} />
 
-      <CreateAnswer product={props.product} question={question} />
-    </Fragment>
+{loadingFirstQuestion?<>
+    <Skeleton avatar paragraph={{ rows: 1 }} />
+    <Skeleton avatar paragraph={{ rows: 1 }} />
+    <Skeleton avatar paragraph={{ rows: 1 }} />
+  </>:  <List loading={loadingQuestion}
+  className="comment-list"
+  header={`${answers.length} replies`}
+  itemLayout="horizontal"
+  // @ts-ignore
+  dataSource={answers.sort((a,b)=>a.date-b.date)}
+  renderItem={item => (
+    <li>
+      <Comment
+        // actions={actions}
+        author={<Text strong>{user.name}</Text>}
+        avatar={
+          <Avatar style={{ backgroundColor: token.colorPrimary }}>
+            {name}
+          </Avatar>
+        }
+        content={<HtmlViewer content={item.answer} />}
+        datetime={
+          <Tooltip title={dayjs(item.date).format('LLL')}>
+            <span>{dayjs(item.date).fromNow() }</span>
+          </Tooltip>
+        }
+      />
+    </li>
+  )}
+/>}
+
+</Fragment>
   )
 }
 
