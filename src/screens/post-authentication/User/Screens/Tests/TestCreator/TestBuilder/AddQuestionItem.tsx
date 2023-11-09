@@ -24,6 +24,7 @@ import { useOutletContext, useParams } from 'react-router';
 import ActionModal from '@Components/ActionModal';
 import EnterQuestionJson from './EnterQuestionJson';
 import ErrorBoundary from '@Components/ErrorBoundary';
+import GenerateAIItemDetails from './GenerateAIItemDetails';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import InputTags from '@Components/InputTags/InputTags';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
@@ -56,7 +57,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm( form);
   const {  itemId,id: testId } = useParams();
   
-  const {data: test }=User.Queries.useGetTestDetails(testId+'')
+  const { data: test } = User.Queries.useGetTestDetails(testId + '');
   
   const isTestEnded = test.status === Enum.TestStatus.ENDED;;
 
@@ -101,18 +102,21 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     })
   }
   const fileId = file.encoded || file._id;
-  const {  mutate: generateItemInfoApi, isLoading: generatingSummary ,data: generatedInfo} = User.Queries.useGetGenerativeTestItemInfo();
-  const generateItemInfo = (fields: string[]) => {
-    generateItemInfoApi({ data: { testId:testId+'', itemId:itemId+'' ,fields} }, {
-      onSuccess: ({  topics }) => {
-        if (topics&&topics.length) {
-          handleTopicsChange(topics)
-        }
-        // console.log(topics,'123123')
-        // form.setFieldValue('summary', summary);
-      }
-    });
-  }
+  // const {  mutate: generateItemInfoApi, isLoading: generatingSummary ,data: generatedInfo} = User.Queries.useGetGenerativeTestItemInfo();
+  // const generateItemInfo = (fields: string[]) => {
+  //   generateItemInfoApi({ data: { testId:testId+'', itemId:itemId+'' ,fields} }, {
+  //     onSuccess: ({  topics,criterias }) => {
+  //       if (topics&&topics.length) {
+  //         handleTopicsChange(topics)
+  //       }
+  //       if (criterias) {
+  //         form.setFieldValue(['criterias'],criterias)
+  //       }
+  //       // console.log(topics,'123123')
+  //       // form.setFieldValue('summary', summary);
+  //     }
+  //   });
+  // }
   const options = Form.useWatch('options', form) || [];
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
@@ -209,15 +213,10 @@ layout="vertical"
     </Row>
             <Row gutter={[20, 20]}>
             <Col span={24}>
-           <Form.Item
-       // name="topics"
-               label={<span>Topics
-                {!isTestEnded? <Button loading={( generatingSummary)} onClick={() => generateItemInfo(['topics'])} type='primary' size='small'>Generate</Button>:null}
-               </span>}
-       rules={[{ required: true, message: "Please input your topics!" }]}
-     >
-       <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText={!isTestEnded?`Enter Topics`:''} /> 
-     </Form.Item>
+                <Form.Item label="Topics" name={'topics'}>
+                <GenerateAIItemDetails onFinish={e=>console.log(e,'eee')} label='Generate Topics' field='topics' />
+  <InputTags name="topics" options={topics.map(i => i.title)} ctaText='Enter Topics' />
+</Form.Item>
               </Col>
               {/* // here add criterions */}
             {questionType==='subjective'?  <Col span={12}>
@@ -310,7 +309,7 @@ layout="vertical"
         </Col>
         {questionType === 'subjective' && (
   <Col span={24}>
-            <Card title="Scoring Criteria" extra={[<Tag color='orange-inverse'>Total Score: {item.score }</Tag>]}>
+            <Card title="Scoring Criteria" extra={[ <GenerateAIItemDetails onFinish={e=>console.log(e,'eee')} label='Generate Criteria using solution' field='criterias' />, <Tag style={{marginLeft:20}} color='orange-inverse'>Total Score: {item.score }</Tag>]}>
       <Form.List name="criterias">
         {(fields, { add, remove }) => (
           <>
@@ -322,7 +321,7 @@ layout="vertical"
                     name={[name, 'criteria']}
                     rules={[{ required: true, message: 'Please enter the criteria' }]}
                   >
-                    <Input placeholder="Enter scoring criteria" />
+                    <TextArea placeholder="Enter scoring criteria" />
                   </Form.Item>
                 </Col>
                 <Col>

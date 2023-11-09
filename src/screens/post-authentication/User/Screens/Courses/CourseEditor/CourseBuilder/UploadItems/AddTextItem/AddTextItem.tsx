@@ -91,7 +91,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="topics"
           label={
             <span>
@@ -113,8 +113,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             onChange={handleTopicsChange}
             ctaText="Enter Topics"
           />{' '}
-          {/* MODIFIED */}
-        </Form.Item>
+        </Form.Item> */}
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Card

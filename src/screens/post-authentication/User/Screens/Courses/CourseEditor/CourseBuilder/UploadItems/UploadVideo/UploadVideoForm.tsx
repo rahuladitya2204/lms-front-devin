@@ -121,13 +121,13 @@ const UploadVideoForm:any = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="topics"
           label={<span>Topics <Button loading={generatingSummary} onClick={() => generateItemInfo(['topics'])} type='primary' size='small'>Generate</Button></span>}
           rules={[{ required: true, message: "Please input your topics!" }]}
         >
-          <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText='Enter Topics' /> {/* MODIFIED */}
-        </Form.Item>
+          <InputTags options={topics.map(i=>(i.title))} name="topics" onChange={handleTopicsChange} ctaText='Enter Topics' /> 
+        </Form.Item> */}
         <Row gutter={[20,20]}>
          
           <Col span={24}>

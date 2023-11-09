@@ -1,87 +1,102 @@
 import { AutoComplete, Form, Input, Tag } from 'antd';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { PlusOutlined } from '@ant-design/icons';
 
-interface InputTagsPropsI {
+interface InputTagsProps {
   ctaText?: string;
-  name?: string | string[];
-  onChange?: (values: string[]) => void;
+  name: string;
   options?: string[];
 }
 
-const InputTags: React.FC<InputTagsPropsI> = ({ ctaText, options = [], name, onChange }) => {
-  const [inputValue, setInputValue] = React.useState('');
-  const [inputVisible, setInputVisible] = React.useState(false);
-  const [filteredOptions, setFilteredOptions] = React.useState<string[]>(options);
+const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [] }) => {
+  const [inputValue, setInputValue] = useState('');
+  const [inputVisible, setInputVisible] = useState(false);
+  const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
   const inpRef = useRef(null);
   const form = Form.useFormInstance();
-  const tags: string[] = form.getFieldValue(name) || [];
 
-  const handleClose = (removedTag: string) => {
-    const newTags = tags.filter(tag => tag !== removedTag);
-    form.setFieldValue(name, newTags);
+  const handleClose = (removedTag: string, remove: (index: number) => void) => {
+    const tags = form.getFieldValue(name);
+    const newTags = tags.filter((tag: string) => tag !== removedTag);
+    form.setFieldsValue({ [name]: newTags });
+    // This assumes that tags are unique, which might not be the case in all scenarios
+    const indexToRemove = tags.indexOf(removedTag);
+    if (indexToRemove !== -1) {
+      remove(indexToRemove);
+    }
   };
 
-  const handleInputChange = (e: any) => {
-    setInputValue(e);
-    const filtered = options.filter(option => option?.toLowerCase()?.includes(e?.toLowerCase()));
+  const handleInputChange = (value: string) => {
+    setInputValue(value);
+    const filtered = options.filter(option => option.toLowerCase().includes(value.toLowerCase()));
     setFilteredOptions(filtered);
   };
 
-  const handleInputConfirm = () => {
-    let newTags = [...tags];
-    if (inputValue && tags.indexOf(inputValue) === -1) {
-      newTags = [...tags, inputValue];
+  const handleInputConfirm = (add: (value: string) => void) => {
+    if (inputValue && form.getFieldValue(name).indexOf(inputValue) === -1) {
+      add(inputValue);
+      setInputVisible(false);
+      setInputValue('');
     }
-    form.setFieldValue(name, newTags);
-    onChange && onChange(newTags);
-    setInputVisible(false);
-    setInputValue('');
   };
 
-  const handleSelect = (selectedValue: string) => {
-    if (tags.indexOf(selectedValue) === -1) {
-      const newTags = [...tags, selectedValue];
-      form.setFieldValue(name, newTags);
+  const handleSelect = (selectedValue: string, add: (value: string) => void) => {
+    if (form.getFieldValue(name).indexOf(selectedValue) === -1) {
+      add(selectedValue);
       setInputValue('');
     }
   };
 
   return (
-    <>
-      {tags.map((tag, index) => (
-        <Tag key={tag} closable={true} onClose={() => handleClose(tag)}>
-          {tag}
-        </Tag>
-      ))}
-      {inputVisible && (
-        <AutoComplete
-          style={{ width: 200,display:'inline-block' }}
-          options={filteredOptions.map(option => ({ value: option }))}
-          value={inputValue}
-          onSelect={handleSelect}
-          onSearch={handleInputChange}
-          onBlur={() => setInputVisible(false)}
-        >
-          <Input
-            type="text" ref={inpRef}
-            size="small"
-            onPressEnter={handleInputConfirm}
-            style={{ width: 200 }}
-          />
-        </AutoComplete>
-      )}
-      {!inputVisible &&ctaText && (
-        <Tag onClick={() => {
-          setInputVisible(true);
-          // @ts-ignore
-          setTimeout(() => inpRef?.current?.focus(), 0);
-        }} style={{ background: '#fff', borderStyle: 'dashed' }}>
-          <PlusOutlined /> {ctaText ? ctaText : 'New Tag'}
-        </Tag>
-      )}
-    </>
+    <Form.List name={name}>
+      {(fields, { add, remove }) => {
+        const fieldValue = form.getFieldValue(name);
+        console.log(fieldValue,'fieldValue')
+        return (
+          <>
+            {fields.map((field, index) => (
+              <Tag
+                key={field.key}
+                closable
+                onClose={() => handleClose(fieldValue[index], remove)}
+              >
+                {fieldValue[index]}
+              </Tag>
+            ))}
+            {inputVisible && (
+              <AutoComplete
+                options={filteredOptions.map(option => ({ value: option }))}
+                value={inputValue}
+                onSelect={(value: string) => handleSelect(value, add)}
+                onSearch={handleInputChange}
+                onBlur={() => setInputVisible(false)}
+                style={{ width: 200 }}
+              >
+                <Input
+                  ref={inpRef}
+                  size="small"
+                  onPressEnter={() => handleInputConfirm(add)}
+                  style={{ width: 200 }}
+                />
+              </AutoComplete>
+            )}
+            {!inputVisible && (
+              <Tag
+                onClick={() => {
+                  setInputVisible(true);
+                  // @ts-ignore
+                  setTimeout(() => inpRef.current?.focus(), 0);
+                }}
+                style={{ background: '#fff', borderStyle: 'dashed' }}
+              >
+                <PlusOutlined /> {ctaText || 'New Tag'}
+              </Tag>
+            )}
+          </>
+        )
+      }}
+    </Form.List>
   );
 };
 

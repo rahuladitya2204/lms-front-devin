@@ -73,19 +73,11 @@ const UploadPDFForm: React.FC = () => {
             Avail this as a free lecture
           </Checkbox>
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="topics"
           label={
             <span>
               Topics{' '}
-              {/* <Button
-                loading={generatingSummary}
-                onClick={() => generateItemInfo({ topics: 1 })}
-                type="primary"
-                size="small"
-              >
-                Generate
-              </Button> */}
             </span>
           }
           rules={[{ required: true, message: 'Please input your topics!' }]}
@@ -96,7 +88,7 @@ const UploadPDFForm: React.FC = () => {
             onChange={handleTopicsChange}
             ctaText="Enter Topics"
           />{' '}
-        </Form.Item>
+        </Form.Item> */}
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Spin spinning={loadingPdf}>

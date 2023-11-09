@@ -81,7 +81,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
         <Checkbox>Enable Water Mark</Checkbox>
         </Form.Item>
         
-        <Form.Item label='Course Keywords' name={['keywords']} extra={  <GenerateWithAI
+        {/* <Form.Item label='Course Keywords' name={['keywords']} extra={  <GenerateWithAI
         courseId={props.course._id}
         fields={['keywords']}
           onValuesChange={(e: any) => {
@@ -100,7 +100,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
               keywords
             })
           }} name='keywords'/>
-        </Form.Item>
+        </Form.Item> */}
         
         <Card bordered={false} bodyStyle={{
           display:sendEmail?'block':'none'
