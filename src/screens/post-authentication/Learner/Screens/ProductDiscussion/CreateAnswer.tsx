@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 import { Learner } from '@adewaskar/lms-common'
 import QuillEditor from '@Components/QuillEditor'
+import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateAnswerPropsI {
@@ -33,7 +34,9 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
       <Col span={24}>
         <Form form={form}>
           <Form.Item name="title">
-            <QuillEditor
+            <TextArea
+              html={{ level: 1 }}
+              height={150}
               placeholder="Please provide a detailed summary"
               value={description}
               onChange={setDescription}

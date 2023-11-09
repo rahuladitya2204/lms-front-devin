@@ -1,11 +1,10 @@
 import CourseNotes from './CourseNotes/CourseNotes'
-import CourseOverview from '@Learner/Screens/Products/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
 import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
-import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
+// import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
 interface CoursePlayerMoreInfoPropsI {

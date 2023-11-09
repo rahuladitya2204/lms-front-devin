@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 import { Learner } from '@adewaskar/lms-common'
 import QuillEditor from '@Components/QuillEditor'
+import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateQuestionPropsI {
@@ -36,7 +37,8 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
             />
           </Form.Item>
           <Form.Item name="description">
-            <QuillEditor
+            <TextArea height={100}
+              html={{ level: 1 }}
               placeholder="Please provide a detailed summary"
               value={description}
               onChange={setDescription}
