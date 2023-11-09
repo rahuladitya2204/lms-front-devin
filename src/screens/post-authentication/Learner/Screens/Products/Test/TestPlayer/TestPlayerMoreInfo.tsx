@@ -23,12 +23,12 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
     //   children: <TestOverview hidePreview course={props.course} />
     // },
     {
-      label: <Text strong>Solution</Text>,
+      label: `Solution`,
       key: 'notes',
       children: <HtmlViewer content={currentQuestion.solution?.html + ''} />
     },
     {
-      label: <Text strong> Discussion</Text>,
+      label: `Discussion`,
       key: 'discussion',
       children: (
         <ProductDiscussion

@@ -46,14 +46,16 @@ const CreateAnswer: React.FC<CreateAnswerPropsI> = props => {
               {
                 required: true,
                 message: 'Please provide a detailed answer'
-              },
-              {
-                min: 10,
-                message: 'Answer must be at least 10 characters'
               }
+              // {
+              //   min: 10,
+              //   message: 'Answer must be at least 10 characters'
+              // }
             ]}
           >
             <TextArea
+              height={150}
+              html={{ level: 1 }}
               placeholder="Please provide a detailed summary"
               autoSize={{ minRows: 3, maxRows: 6 }}
             />

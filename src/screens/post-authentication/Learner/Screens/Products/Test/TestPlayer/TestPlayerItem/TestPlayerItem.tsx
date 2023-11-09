@@ -28,7 +28,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
-
+  
   useEffect(() => {
     const { answerGiven } = currentQuestion;
     console.log(answerGiven, 'answerGiven');
@@ -46,10 +46,14 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     });
    
   }, [currentQuestion, form,questionId]);
+  const answer = Form.useWatch(['answer'], form);
+  const isValid = ((answer?.options?.length) || (answer?.subjective?.text));
 
   // @ts-ignore
   const onFormSubmit = ({answer}) => {
-    console.log(answer,'rr')
+    if (!isValid) {
+      return;
+    }
     if (currentQuestion.type=== 'single') {
       // @ts-ignore
       answer = { options: [answer.options] };
@@ -72,8 +76,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '');
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
-  const answer = form.getFieldsValue().answer;
   const answerText = htmlToText(answer?.subjective?.text);
+
   // console.log(answerText,'aaa')
   return (
     <Spin spinning={loading}>
@@ -89,7 +93,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === 'single' ? 16 : 18 }} type="secondary">
                 {currentQuestion.type === 'single' ? 'Select one among others' : 'Select all that apply'}
               </Text>
-              <Form.Item name={['answer','options']}>
+              <Form.Item name={['answer','options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%' }}>
                   {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
                     return (
@@ -137,7 +141,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               Mark for review
             </Button>
             <Button
-              loading={submittingAnswer}
+              loading={submittingAnswer} disabled={!isValid}
               type="primary"
               style={{ marginLeft: 20 }}
               onClick={form.submit}

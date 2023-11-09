@@ -22,15 +22,18 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
     //   children: <CourseOverview hidePreview course={props.course} />
     // },
     {
-      label: <Text strong>Notes</Text>,
+      label: `Notes`,
       key: 'notes',
       children: <CourseNotes course={props.course} />
     },
     {
-      label: <Text strong>Course Discussion</Text>,
+      label: `Discussion`,
       key: 'discussion',
       children: (
-        <ProductDiscussion itemId={props.itemId} product={{ type: 'course', id: props.course._id }} />
+        <ProductDiscussion
+          itemId={props.itemId}
+          product={{ type: 'course', id: props.course._id }}
+        />
       )
     }
     // {

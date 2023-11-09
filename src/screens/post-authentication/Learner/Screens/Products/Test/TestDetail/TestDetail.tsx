@@ -42,7 +42,7 @@ export default function TestDetailScreen(
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
-  const isLoading = loadingTest;
+  const isLoading = loadingTest || loadingEnrolledTest;
   return (
     <Row>
       {isLoading ? <Skeleton paragraph={{ rows: 1 }} /> : <>
@@ -97,22 +97,21 @@ export default function TestDetailScreen(
 
 
 const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,children?:React.ReactNode}) => {
-  const qc = useQueryClient();
+  const product = { type: 'test', id: testId };
+  const user = Store.useAuthentication(s => s.user);
   const navigate = useNavigate();
   const {
     data: enrolledDetails,
     isLoading: loaindEnrolledTestDetails
-  } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'test',
-    id: testId + ''
-  }, {
+  } = Learner.Queries.useGetEnrolledProductDetails(product, {
     enabled:!!testId
   })
+  const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   const isLoading =  loadingTest;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
-const isEnrolled = !!enrolledDetails._id
-  console.log(enrolledDetails, 'test.status');
+// const isEnrolled = !!enrolledDetails._id
+  console.log(testId, 'test.status');
   const testStartDate =
   enrolledDetails.metadata.test.startedAt || test.startedAt;
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;

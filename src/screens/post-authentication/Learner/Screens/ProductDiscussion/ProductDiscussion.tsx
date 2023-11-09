@@ -60,10 +60,10 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
                   key={question._id}
                   actions={[
                     <Text type='secondary'>{dayjs(question.date).fromNow() }</Text>,
-                    <Badge count={question.upvotes }>
-                    <Button icon={<ArrowUpOutlined />}>
-                   </Button>
-                      </Badge>,
+                  //   <Badge count={question.upvotes }>
+                  //   <Button icon={<ArrowUpOutlined />}>
+                  //  </Button>
+                  //     </Badge>,
                     <Badge count={question.answers.length }>
                       <Button type='primary' shape='circle' icon={<CommentOutlined
 

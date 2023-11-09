@@ -40,7 +40,7 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
                 required: true,
                 message: 'Please input the title of your query!'
               },
-              { min: 5, message: 'Title must be at least 5 characters' },
+              // { min: 5, message: 'Title must be at least 5 characters' },
               { max: 100, message: 'Title cannot be more than 100 characters' }
             ]}
           >
@@ -58,7 +58,7 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
             ]}
           >
             <TextArea
-              // html={{ level: 1 }}
+              html={{ level: 1 }}
               height={100}
               placeholder="Please provide a detailed summary"
             />

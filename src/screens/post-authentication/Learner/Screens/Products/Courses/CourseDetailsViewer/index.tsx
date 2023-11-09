@@ -184,6 +184,7 @@ const CourseCard = ({courseId,plan,children}: {
   plan: Types.Plan,
   children?:React.ReactNode
 }) => {
+  const product = { type: 'course', id: courseId };
   const { data: course,isFetching: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
@@ -192,17 +193,15 @@ const CourseCard = ({courseId,plan,children}: {
 
   const { mutate: updateCart,isLoading: addingToCart } = Learner.Queries.useUpdateCartItems()
   const addItemToCart = (course:Types.Course) => {
-    updateCart({ data: { product: { type: 'course', id: course._id } }, action: 'add' });
+    updateCart({ data: { product: product }, action: 'add' });
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
   const {isSignedIn,isLoading: validatingUser}= Store.useAuthentication(s => s);
 
-  const { data: courses,isFetching: loadingENrolledCourses } = Learner.Queries.useGetEnrolledCourses()
-  const isEnrolled = !!(courses.find((e) => {
-    return e.product.id === courseId;
-  }));
-  const isLoading = loadingENrolledCourses || loadingCourse || validatingUser;
+  const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
+
+  const isLoading =  loadingCourse || validatingUser;
   return    <Card
   cover
   bordered hoverable
