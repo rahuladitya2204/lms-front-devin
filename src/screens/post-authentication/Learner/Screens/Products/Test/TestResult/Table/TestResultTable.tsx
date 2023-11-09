@@ -10,12 +10,13 @@ import { useParams } from 'react-router-dom';
 
 const { Text,Title } = Typography;
 
-interface TestResultItem {
+interface TestResultItem extends Types.TestStatusQuestionStats {
   questionIndex: number;
   title: string;
   isCorrect: boolean;
   timeSpent: number;
   globalCorrectPercentage: number;
+  isAnswered: boolean;
 }
 
 const TestResultTable: React.FC = () => {
@@ -36,12 +37,10 @@ const TestResultTable: React.FC = () => {
       expandedRowRender: (record) => <>
         <Row gutter={[20,20]}>
           <Col span={24}>
-                       {/* @ts-ignore */}
 {(record?.feedback?.met)?<Alert type='success' message='What was good' description={record.feedback.met} />:null}
 
           </Col>
           <Col span={24}>
-                       {/* @ts-ignore */}
 {(record?.feedback?.notMet)?<Alert type='error' message='What could be improved' description={record.feedback.notMet} />:null}
 
           </Col>
