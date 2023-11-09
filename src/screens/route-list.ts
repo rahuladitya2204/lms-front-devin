@@ -229,7 +229,7 @@ export const EventsScreen = lazy(() =>
   import('@User/Screens/Event/EventScreen/Events')
 )
 export const TestResultTable = lazy(() =>
-  import('@Learner/Screens/Products/Test/TestResult/TestResultTable')
+  import('@Learner/Screens/Products/Test/TestResult/Table/TestResultTable')
 )
 export const ResetPassword = lazy(() =>
   import('@Learner/Screens/Login/ResetPassword')

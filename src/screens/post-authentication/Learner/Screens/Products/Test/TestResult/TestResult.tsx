@@ -16,7 +16,7 @@ import HtmlViewer from '@Components/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
 import Tabs from '@Components/Tabs'
 import TestMetrics from './TestMetrics'
-import TestResultTable from './TestResultTable'
+import TestResultTable from './Table/TestResultTable'
 import { capitalize } from 'lodash'
 import { useParams } from 'react-router'
 
