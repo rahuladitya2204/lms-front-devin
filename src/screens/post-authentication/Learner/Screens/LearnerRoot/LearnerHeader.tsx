@@ -37,6 +37,7 @@ import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal
 
@@ -55,7 +56,7 @@ const LearnerHeader: React.FC = () => {
     mutate: logoutLearner,
     isLoading: loggingOut
   } = Learner.Queries.useLogoutLearner()
-
+  const qc = useQueryClient();
   const { isSignedIn, user } = Store.useAuthentication(state => state)
 
   const { data: { items } } = Learner.Queries.useGetCartDetails({
@@ -73,7 +74,8 @@ const LearnerHeader: React.FC = () => {
       onOk() {
         logoutLearner(undefined, {
           onSuccess: () => {
-            navigate('../app/store')
+            qc.invalidateQueries();
+            navigate('../app/store');
           }
         })
       },
