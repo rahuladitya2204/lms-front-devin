@@ -1,14 +1,15 @@
 import { ArrowUpOutlined, CommentOutlined } from '@ant-design/icons'
-import { Avatar, Badge, Button, Card, Col, List, Row, Skeleton, Typography } from 'antd'
+import { Avatar, Badge, Button, Card, Col, List, Row, Skeleton, Typography, theme } from 'antd'
+import { Learner, Store, Utils } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible'
 import CreateQuestion from './CreateQuestion'
-import { Learner } from '@adewaskar/lms-common'
 import React from 'react'
 import { Types } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 
 const { Text } = Typography
+const { useToken } = theme
 
 interface ProductDiscussionListPropsI {
   selectQuestion: (q: Types.ProductDiscussionQuestion) => void;
@@ -23,15 +24,17 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
   } = Learner.Queries.useGetProductDiscussionQuestions(props.product)
 
   const upvote = () => {}
-
+  const { token } = useToken()
+  const appUser = Store.useAuthentication(u => u.user);
   return (
     <Row>
             <Col span={24}>
         <Card>
           <Comment
             avatar={
-              <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
-            }
+              <Avatar style={{ backgroundColor: token.colorPrimary }}>
+              {Utils.getFirstLettersOfName(appUser.name)}
+            </Avatar>            }
             content={<CreateQuestion product={props.product} />}
           />
         </Card>
@@ -49,7 +52,8 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
               itemLayout="horizontal"
               // @ts-ignore
             dataSource={questions.sort((a,b)=>b.date-a.date)}
-            renderItem={question => {
+              renderItem={question => {
+                const user = question.user as unknown as Types.Learner;
               return (
                 <List.Item
                   key={question._id}
@@ -68,9 +72,11 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
                   ]}
                 >
                   <List.Item.Meta
-                    avatar={
-                      <Avatar src={'https://joeschmoe.io/api/v1/random'} />
-                    }
+                        avatar={
+                          <Avatar style={{ backgroundColor: (user._id===appUser._id)?token.colorPrimary:token.colorTextSecondary }}>
+                              {Utils.getFirstLettersOfName(user.name)}
+                          </Avatar>
+                        }
                     title={
                       <Text ellipsis strong>
                         {question.title}

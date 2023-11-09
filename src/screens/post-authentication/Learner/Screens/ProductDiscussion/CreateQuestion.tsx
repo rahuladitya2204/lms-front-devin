@@ -22,7 +22,14 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
     isLoading: loading
   } = Learner.Queries.useCreateDiscussionQuestion()
   const createQuestion = (q: Partial<Types.ProductDiscussionQuestion>) => {
-    createDiscussionQuestion({ product: props.product, data: q })
+    createDiscussionQuestion(
+      { product: props.product, data: q },
+      {
+        onSuccess: () => {
+          form.resetFields()
+        }
+      }
+    )
   }
 
   return (
@@ -59,12 +66,14 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
               placeholder="Please provide a detailed summary"
             />
           </Form.Item>
-          <Form.Item>
-            <Button loading={loading} onClick={form.submit} type="primary">
-              Submit Query
-            </Button>
-          </Form.Item>
         </Form>
+      </Col>
+      <Col span={24} style={{ flexDirection: 'row-reverse' }}>
+        <Form.Item>
+          <Button loading={loading} onClick={form.submit} type="primary">
+            Submit Query
+          </Button>
+        </Form.Item>
       </Col>
     </Row>
   )

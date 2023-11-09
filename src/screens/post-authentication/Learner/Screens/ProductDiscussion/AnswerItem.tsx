@@ -21,14 +21,18 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
           <Form.Item>
             <QuillEditor value={description} onChange={setDescription} />
           </Form.Item>
-          <Form.Item>
-            <Button
-              onClick={() => props.onSubmit({ title, description })}
-              type="primary"
-            >
-              Submit Query
-            </Button>
-          </Form.Item>
+          <Row>
+            <Col style={{ flexDirection: 'row-reverse' }}>
+              <Form.Item>
+                <Button
+                  onClick={() => props.onSubmit({ title, description })}
+                  type="primary"
+                >
+                  Submit Query
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
         </Form>
       </Col>
     </Row>

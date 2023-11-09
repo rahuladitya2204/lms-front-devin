@@ -1,5 +1,5 @@
 import { Avatar, List, Skeleton, Tooltip, Typography, theme } from 'antd'
-import { Learner, Store, Types } from '@adewaskar/lms-common'
+import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import React, { Fragment } from 'react'
 
 import { Comment } from '@ant-design/compatible'
@@ -21,12 +21,7 @@ const ProductDiscussionQuestionAnswers: React.FC<ProductDiscussionQuestionAnswer
     props.product,
     props.questionId
   )
-  const user = Store.useAuthentication(s => s.user)
-  const name = (user.name + '')
-    .split(' ')
-    .map(n => n[0].toUpperCase())
-    .join('')
-
+  const appUser = Store.useAuthentication(s => s.user);
   const answers = question.answers
   return (
     <Fragment>
@@ -36,31 +31,32 @@ const ProductDiscussionQuestionAnswers: React.FC<ProductDiscussionQuestionAnswer
     <Skeleton avatar paragraph={{ rows: 1 }} />
     <Skeleton avatar paragraph={{ rows: 1 }} />
     <Skeleton avatar paragraph={{ rows: 1 }} />
-  </>:  <List loading={loadingQuestion}
+  </>:  <List loading={loadingQuestion} locale={{emptyText:"No Replies"}}
   className="comment-list"
-  header={`${answers.length} replies`}
+  header={answers.length?`${answers.length} replies`:null}
   itemLayout="horizontal"
   // @ts-ignore
   dataSource={answers.sort((a,b)=>a.date-b.date)}
-  renderItem={item => (
-    <li>
-      <Comment
-        // actions={actions}
-        author={<Text strong>{user.name}</Text>}
-        avatar={
-          <Avatar style={{ backgroundColor: token.colorPrimary }}>
-            {name}
-          </Avatar>
-        }
-        content={<HtmlViewer content={item.answer} />}
-        datetime={
-          <Tooltip title={dayjs(item.date).format('LLL')}>
-            <span>{dayjs(item.date).fromNow() }</span>
-          </Tooltip>
-        }
-      />
-    </li>
-  )}
+          renderItem={item => {
+            const user = item.user as unknown as Types.Learner;
+    return  <li>
+    <Comment
+      // actions={actions}
+      author={<Text strong>{user.name}</Text>}
+      avatar={
+        <Avatar style={{ backgroundColor: (user._id===appUser._id)?token.colorPrimary:token.colorTextSecondary }}>
+                            {Utils.getFirstLettersOfName(user.name)}
+                        </Avatar>
+      }
+      content={<HtmlViewer content={item.answer} />}
+      datetime={
+        <Tooltip title={dayjs(item.date).format('LLL')}>
+          <span>{dayjs(item.date).fromNow() }</span>
+        </Tooltip>
+      }
+    />
+  </li>
+  }}
 />}
 
 </Fragment>
