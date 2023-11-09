@@ -277,7 +277,7 @@ function CoursePlayer() {
             </Col>
             <Col span={24}>
               <Card style={{ marginTop: 30 }}>
-                <CoursePlayerMoreInfo course={course} />
+                <CoursePlayerMoreInfo itemId={itemId+''} course={course} />
               </Card>
             </Col>
           </Row>

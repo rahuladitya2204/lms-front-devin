@@ -14,16 +14,17 @@ const { useToken } = theme
 interface ProductDiscussionListPropsI {
   selectQuestion: (q: Types.ProductDiscussionQuestion) => void;
   product: Types.Product;
+  itemId: string;
 }
 
 const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
   const {
-    data: questions,
+    data,
     isFetching: loadingQuestions,
     isLoading: loadingFirstQuestions
   } = Learner.Queries.useGetProductDiscussionQuestions(props.product)
-
-  const upvote = () => {}
+  const questions = data.filter(q => q.item === props.itemId);
+  // const upvote = () => { };
   const { token } = useToken()
   const appUser = Store.useAuthentication(u => u.user);
   return (
@@ -35,7 +36,7 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
               <Avatar style={{ backgroundColor: token.colorPrimary }}>
               {Utils.getFirstLettersOfName(appUser.name)}
             </Avatar>            }
-            content={<CreateQuestion product={props.product} />}
+            content={<CreateQuestion itemId={props.itemId} product={props.product} />}
           />
         </Card>
       </Col>

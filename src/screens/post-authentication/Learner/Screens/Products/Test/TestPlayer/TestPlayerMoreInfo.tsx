@@ -1,36 +1,40 @@
-import CourseNotes from './CourseNotes/CourseNotes'
+import HtmlViewer from '@Components/HtmlViewer'
 import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
+import useQuestion from './hooks/useQuestion'
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
-interface CoursePlayerMoreInfoPropsI {
-  course: Types.Course;
+interface TestPlayerMoreInfoPropsI {
+  test: Types.Test;
   itemId: string;
 }
 
-const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
+const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
   // useWatchTime(props.course._id);
-
+  const { currentQuestion } = useQuestion()
   const TAB_ITEMS = [
     // {
     //   label: <Text strong>Overview</Text>,
     //   key: '2',
-    //   children: <CourseOverview hidePreview course={props.course} />
+    //   children: <TestOverview hidePreview course={props.course} />
     // },
     {
-      label: <Text strong>Notes</Text>,
+      label: <Text strong>Solution</Text>,
       key: 'notes',
-      children: <CourseNotes course={props.course} />
+      children: <HtmlViewer content={currentQuestion.solution?.html + ''} />
     },
     {
-      label: <Text strong>Course Discussion</Text>,
+      label: <Text strong> Discussion</Text>,
       key: 'discussion',
       children: (
-        <ProductDiscussion itemId={props.itemId} product={{ type: 'course', id: props.course._id }} />
+        <ProductDiscussion
+          itemId={props.itemId}
+          product={{ type: 'test', id: props.test._id + '' }}
+        />
       )
     }
     // {
@@ -52,4 +56,4 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
   return <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
 }
 
-export default CoursePlayerMoreInfo
+export default TestPlayerMoreInfo

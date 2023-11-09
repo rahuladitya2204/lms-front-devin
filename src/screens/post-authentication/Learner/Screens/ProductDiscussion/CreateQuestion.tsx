@@ -8,20 +8,17 @@ import { Types } from '@adewaskar/lms-common'
 
 interface CreateQuestionPropsI {
   product: Types.Product;
+  itemId: string;
 }
 
 const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
   const [form] = Form.useForm()
-  // const onSuccess = () => {
-  //   form.resetFields()
-  // }
   const {
     mutate: createDiscussionQuestion,
     isLoading: loading
   } = Learner.Queries.useCreateDiscussionQuestion()
   const createQuestion = (q: Partial<Types.ProductDiscussionQuestion>) => {
+    q.item = props.itemId
     createDiscussionQuestion(
       { product: props.product, data: q },
       {

@@ -19,6 +19,7 @@ const { Text } = Typography
 
 interface ProductDiscussionPropsI {
   product: Types.Product;
+  itemId: string;
 }
 const ProductDiscussion: React.FC<ProductDiscussionPropsI> = props => {
   const [question, setQuestion] = useState<Types.ProductDiscussionQuestion>(Constants.INITIAL_QUESTION_DETAILS)
@@ -26,7 +27,7 @@ const ProductDiscussion: React.FC<ProductDiscussionPropsI> = props => {
     <Row>    
       <Col span={24}>
         {!question._id ?
-          <ProductDiscussionQuestionsList selectQuestion={setQuestion} product={props.product} /> :
+          <ProductDiscussionQuestionsList itemId={props.itemId} selectQuestion={setQuestion} product={props.product} /> :
           <Card headStyle={{ paddingLeft: 0 ,textDecoration:'none'}}
             title={<>
               <Row>

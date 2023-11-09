@@ -20,6 +20,7 @@ import { lazy, useEffect, useMemo } from 'react'
 import ActionDrawer from '@Components/AcrtionDrawer'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
+import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestQuestionNavigator from './TestQuestionNavigator/Type2/TestQuestionNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
@@ -68,7 +69,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
 
   if (endTestNow) {
     // navigate('../completed')
-  }
+  };
+  const testEndTime = enrolledProduct.metadata.test.endedAt || test.endedAt;
   const endTime = dayjs(startTime).add(test.duration.value, 'minute');
   const {isTablet,isDesktop,isMobile } = useBreakpoint();
   return (
@@ -150,6 +152,10 @@ export default function TestPlayer(props: TestPlayerPropsI) {
               <Card>
                 <Outlet />
               </Card>
+              {/* only show if the test has ended */}
+              {!testEndTime?<Card style={{marginTop:20}}>
+                <TestPlayerMoreInfo itemId={questionId+''} test={test} />
+              </Card>:null}
             </Col>
             <Col lg={8} md={0}>
               <Row gutter={[20, 20]}>
