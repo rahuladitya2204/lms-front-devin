@@ -46,11 +46,14 @@ const TestResultTable: React.FC = () => {
           </Col>
 </Row>
         <Title level={4}>Question</Title>
-<HtmlViewer content={record.title} />
+        <HtmlViewer content={record.title} />
+        
+        <Title level={4}>Your answer</Title>
+        <HtmlViewer content={record.subjectiveAnswerGiven} />
             <Title level={4}>Solution</Title>
             <div>
             {/*  @ts-ignore */}
-  <HtmlViewer content={record.solutionHtml} />
+  <HtmlViewer content={record.solution.html} />
             </div>
         </>,
     }}>
