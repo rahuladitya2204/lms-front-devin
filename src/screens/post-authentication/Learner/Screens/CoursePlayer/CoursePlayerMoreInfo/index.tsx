@@ -1,6 +1,6 @@
-import CourseDiscussion from './CourseDiscussion'
 import CourseNotes from './CourseNotes/CourseNotes'
 import CourseOverview from '@Learner/Screens/Products/Courses/CourseDetailsViewer/CourseDetails/CourseOverview'
+import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'
 import { Types } from '@adewaskar/lms-common'
@@ -29,7 +29,9 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
     {
       label: <Text strong>Course Discussion</Text>,
       key: 'discussion',
-      children: <CourseDiscussion course={props.course} />
+      children: (
+        <ProductDiscussion product={{ type: 'course', id: props.course._id }} />
+      )
     }
     // {
     //   label: <Text strong>Announcements</Text>,

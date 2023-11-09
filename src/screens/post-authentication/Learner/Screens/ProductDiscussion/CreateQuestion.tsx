@@ -1,27 +1,27 @@
 import { Button, Col, Form, Input, Row } from 'antd'
 import React, { useState } from 'react'
 
-import { Learner } from '@adewaskar/lms-common';
+import { Learner } from '@adewaskar/lms-common'
 import QuillEditor from '@Components/QuillEditor'
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateQuestionPropsI {
-  course: Types.Course;
+  product: Types.Product;
 }
 
 const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [form] = Form.useForm()
-  const onSuccess = () => {
-    form.resetFields()
-  }
+  // const onSuccess = () => {
+  //   form.resetFields()
+  // }
   const {
     mutate: createDiscussionQuestion,
     isLoading: loading
-  } = Learner.Queries.useCreateDiscussionQuestion(onSuccess)
-  const createQuestion = (q: Partial<Types.CourseQuestion>) => {
-    createDiscussionQuestion({ id: props.course._id, data: q })
+  } = Learner.Queries.useCreateDiscussionQuestion()
+  const createQuestion = (q: Partial<Types.ProductDiscussionQuestion>) => {
+    createDiscussionQuestion({ product: props.product, data: q })
   }
 
   return (
@@ -29,10 +29,18 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
       <Col span={24}>
         <Form form={form}>
           <Form.Item name="title">
-            <Input placeholder='Enter title of your query' value={title} onChange={e => setTitle(e.target.value)} />
+            <Input
+              placeholder="Enter title of your query"
+              value={title}
+              onChange={e => setTitle(e.target.value)}
+            />
           </Form.Item>
           <Form.Item name="description">
-            <QuillEditor placeholder='Please provide a detailed summary'  value={description} onChange={setDescription} />
+            <QuillEditor
+              placeholder="Please provide a detailed summary"
+              value={description}
+              onChange={setDescription}
+            />
           </Form.Item>
           <Form.Item>
             <Button

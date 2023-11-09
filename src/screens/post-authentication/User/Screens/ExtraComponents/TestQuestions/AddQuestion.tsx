@@ -45,7 +45,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       }
           else
       {
-        form.setFieldsValue(Constants.INITIAL_COURSE_QUESTION);
+        form.setFieldsValue(Constants.INITIAL_PRODUCT_DISCUSSION_QUESTION);
     }
     },
     [props.data]

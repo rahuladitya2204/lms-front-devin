@@ -5,7 +5,7 @@ import QuillEditor from '@Components/QuillEditor'
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateQuestionPropsI {
-  onSubmit: (query: Partial<Types.CourseQuestion>) => void;
+  onSubmit: (query: Partial<Types.ProductDiscussionQuestion>) => void;
 }
 
 const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {

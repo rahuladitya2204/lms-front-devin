@@ -54,14 +54,15 @@ const TestResultTable: React.FC = () => {
             </div>
         </>,
     }}>
-<Table.Column title="Question No." dataIndex="questionIndex" key="questionIndex"   render={questionIndex => (
-        <Text>Question {questionIndex}</Text>
+<Table.Column title="Question No." dataIndex="questionIndex" key="questionIndex"   render={(q,d,index) => (
+    //  @ts-ignore
+        <Text>Question {index + 1}</Text>
 )} />
 <Table.Column
 title="Title"
 dataIndex="title"
 key="title"
-render={title => (
+render={(title) => (
   <span>{title.length > 20 ? <HtmlViewer content={`${title.substring(0, 20)}...`}></HtmlViewer> : <HtmlViewer content={title}></HtmlViewer> }</span>
 )}
       />
@@ -70,14 +71,14 @@ render={title => (
         dataIndex="type"
         key="type"
                /* @ts-ignore */
-        render={(_, record: TestResultItem) =>record.type==='subjective'? <Tag color='blue-inverse'>Subjective</Tag>: <Tag color='orange-inverse'>{record?.type?.toUpperCase() }</Tag>}
+        render={(_, record: TestResultItem) =>record.type==='subjective'? <Tag color='blue-inverse'>Subjective</Tag>: <Tag color='orange-inverse'>{record?.type?.toUpperCase() } CHOICE</Tag>}
 />
       <Table.Column
         title="Option Selected"
         dataIndex="optionsSelected"
         key="optionsSelected"
                /* @ts-ignore */
-        render={(_, record: TestResultItem) => record.type!=='subjective'?record.optionsSelected.map(opt => <Tag>{opt }</Tag>) :'-'}
+        render={(_, record: TestResultItem) => record.type!=='subjective'?(record?.optionsSelected?.map(opt => <Tag>{opt }</Tag>)) :'-'}
 />
 <Table.Column
 title="Result"

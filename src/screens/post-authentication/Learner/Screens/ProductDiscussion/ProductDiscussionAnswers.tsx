@@ -8,15 +8,15 @@ import CreateAnswer from './CreateAnswer'
 const { Text } = Typography
 const { useToken } = theme
 
-interface CourseQuestionAnswersPropsI {
+interface ProductDiscussionQuestionAnswersPropsI {
   questionId: string;
-  courseId: string;
+  product: Types.Product
 }
 
-const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
+const ProductDiscussionQuestionAnswers: React.FC<ProductDiscussionQuestionAnswersPropsI> = props => {
   const { token } = useToken()
-  const { data: question } = Learner.Queries.useGetCourseQuestionDetails(
-    props.courseId,
+  const { data: question } = Learner.Queries.useGetProductDiscussionQuestionDetails(
+    props.product,
     props.questionId
   )
   const user = Store.useAuthentication(s => s.user)
@@ -58,9 +58,9 @@ const CourseQuestionAnswers: React.FC<CourseQuestionAnswersPropsI> = props => {
         />
       ) : null}
 
-      <CreateAnswer question={question} />
+      <CreateAnswer product={props.product} question={question} />
     </Fragment>
   )
 }
 
-export default CourseQuestionAnswers
+export default ProductDiscussionQuestionAnswers

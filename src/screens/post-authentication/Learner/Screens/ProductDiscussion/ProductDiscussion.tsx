@@ -19,13 +19,13 @@ import { Types } from '@adewaskar/lms-common'
 
 const { Text } = Typography
 
-interface CourseQuestionsListPropsI {
-  selectQuestion: (q: Types.CourseQuestion) => void;
-  course: Types.Course;
+interface ProductDiscussionQuestionListPropsI {
+  selectQuestion: (q: Types.ProductDiscussionQuestion) => void;
+  product: Types.Product;
 }
 
-const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
-  const { data: questions } = Learner.Queries.useGetCourseQuestions(props.course._id)
+const ProductDiscussionQuestionList: React.FC<ProductDiscussionQuestionListPropsI> = props => {
+  const { data: questions } = Learner.Queries.useGetProductDiscussionQuestions(props.product)
 
   const upvote = () => {}
 
@@ -78,7 +78,7 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
             avatar={
               <Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />
             }
-            content={<CreateQuestion course={props.course} />}
+            content={<CreateQuestion product={props.product} />}
           />
         </Card>
       </Col>
@@ -86,4 +86,4 @@ const CourseQuestionsList: React.FC<CourseQuestionsListPropsI> = props => {
   )
 }
 
-export default CourseQuestionsList
+export default ProductDiscussionQuestionList
