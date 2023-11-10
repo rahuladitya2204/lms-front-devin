@@ -49,7 +49,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
   const {
-    data: { totalAnswered, totalQuestions, status }
+    data: { totalAnswered, totalQuestions, status, hasStarted, hasEnded }
   } = Learner.Queries.useGetTestStatus(testId + '')
   // console.log(dayjs(enrolledProduct?.metadata?.test?.startedAt).format('LLL'))
   const startTime =  test.startedAt || enrolledProduct.metadata.test.startedAt
@@ -79,7 +79,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       subTitle={'asd'}
       extra={<Row>
         {!isDesktop?<Col>
-       {endTime?<Tag color="blue">
+       {(hasStarted&&!hasEnded)?<Tag color="blue">
         Time Left: <Countdown targetDate={endTime.toString()} />
           </Tag>:null}
         </Col>:null}

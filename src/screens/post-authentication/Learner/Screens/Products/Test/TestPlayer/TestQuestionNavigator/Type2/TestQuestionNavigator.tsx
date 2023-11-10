@@ -30,6 +30,7 @@ export default function TestQuestionNavigatorType2(
   })
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
   const testStartTime = enrolledProduct.metadata.test.startedAt;
+  console.log(testStartTime,'testStartTime')
   return (
     <Card
       style={{ height: '80vh' }}
