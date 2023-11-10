@@ -9,7 +9,8 @@ import {
   Input,
   Row,
   Spin,
-  Tabs
+  Tabs,
+  message
 } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 
@@ -28,7 +29,14 @@ export default function LearnerProfile() {
     isLoading: loadingDetails
   } = Learner.Queries.useGetLearnerDetails()
   const saveProfile = (d: Partial<Types.Learner>) => {
-    updateProfile({ data: d })
+    updateProfile(
+      { data: d },
+      {
+        onSuccess: () => {
+          message.success('Profile details saved')
+        }
+      }
+    )
   }
 
   useEffect(

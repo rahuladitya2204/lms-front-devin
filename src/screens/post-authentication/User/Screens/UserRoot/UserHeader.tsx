@@ -73,7 +73,7 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
         placement="bottomLeft"
         overlay={
           <Menu>
-            <Menu.Item onClick={() => navigate('account')}>
+            <Menu.Item onClick={() => navigate('../account')}>
               My Account
             </Menu.Item>
             <Menu.Item onClick={() => navigate('tickets')}>

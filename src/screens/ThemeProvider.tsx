@@ -1,5 +1,5 @@
 import { ConfigProvider, message, theme } from 'antd'
-import { Enum, Store } from '@adewaskar/lms-common'
+import { Constants, Enum, Store } from '@adewaskar/lms-common'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
 import ApplyFavicon from '@Learner/Screens/LearnerRoot/ApplyFavicon'
@@ -9,7 +9,9 @@ import { useMemo } from 'react'
 
 const { darkAlgorithm } = theme
 function ThemeProvider(props: any) {
-  const { branding } = Store.useGlobal(s => s.organisation)
+  const { branding } =
+    Store.useGlobal(s => s.organisation) ||
+    Constants.INITIAL_ORG_SETTING_DETAILS.branding
   // console.log(branding, 'branding')
   const { isLoading } = useDynamicFont({
     fontName: branding?.font?.name,

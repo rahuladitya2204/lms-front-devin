@@ -35,21 +35,21 @@ function UserAccount () {
               key: '1123',
               children: <OrgProfile />
             },
-            {
-              label: `Profile Details`,
-              key: '1',
-              children: <UserProfile />
-            },
-            {
-              label: `Referral`,
-              key: '2',
-              children: `Content of Tab Pane 2`
-            },
-            {
-              label: `Purchase History`,
-              key: '3',
-              children: `Content of Tab Pane 3`
-            },
+            // {
+            //   label: `Profile Details`,
+            //   key: '1',
+            //   children: <UserProfile />
+            // },
+            // {
+            //   label: `Referral`,
+            //   key: '2',
+            //   children: `Content of Tab Pane 2`
+            // },
+            // {
+            //   label: `Purchase History`,
+            //   key: '3',
+            //   children: `Content of Tab Pane 3`
+            // },
             {
               label: `Ticket Support`,
               key: '4',

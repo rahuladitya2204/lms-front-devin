@@ -18,7 +18,6 @@ import {
   createRoutesFromElements,
   useNavigate
 } from 'react-router-dom'
-import { Suspense, useEffect } from 'react'
 
 import AddPromo from '@User/Screens/Marketing/Promos/CreatePromo'
 import AddQuestion from '@User/Screens/Tests/TestCreator/TestBuilder/AddQuestionItem'
@@ -86,6 +85,7 @@ import UserAccount from '@User/Screens/Settings/Account/Account'
 import UserDashboard from '@User/Screens/UserDashboard/UserDashboard'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserMeetingEnded from '@User/Screens/Event/LiveSessionPlayer/User/UserMeetingEnded'
+import UserProfile from '@User/Screens/Settings/Account/UserProfile';
 import UserRegister from './post-authentication/User/Screens/Register'
 import UserRootScreen from '@User/Screens/UserRoot/UserRootScreen'
 import UserTestScreen from '@User/Screens/Tests/TestsList/TestsScreen'
@@ -94,6 +94,7 @@ import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScree
 import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
+import { useEffect } from 'react'
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -102,9 +103,7 @@ const router = (userType: string) => {
         {userType === 'learner' ? (
           <>
             <Route index element={<ReturnLearnerToStore />} />
-   <Route path="app" element={<Suspense  fallback={<LoadingScreen />}>
-              <LearnerRootScreen />
-           </Suspense> }>
+   <Route path="app" element={<LearnerRootScreen />}>
               <Route path="cart" element={<LearnerCart />} />
               <Route path="reset-password" element={<ResetPassword />} />
               <Route path="store" element={<LearnerStoreScreen />} />
@@ -182,7 +181,7 @@ const router = (userType: string) => {
         <Route path="app/products/test/:id/editor" element={<TestEditor />} />
         <Route
           path="app/products/courses/:id/builder"
-          element={<Suspense  fallback={<LoadingScreen />}><CourseBuilderScreen /></Suspense>}
+          element={<CourseBuilderScreen />}
         >
           <Route path="">
             <Route path="pdf/:itemId" element={<UploadPDFForm />} />
@@ -205,9 +204,7 @@ const router = (userType: string) => {
           path="app/website/builder/:pageId"
           element={<WebsiteBuilderScreen />}
         />
-        <Route path="app" element={<Suspense  fallback={<LoadingScreen />}>
-              <UserRootScreen />
-           </Suspense> }>
+        <Route path="app" element={<UserRootScreen />}>
           <Route path="dashboard" element={<UserDashboard />} />
           <Route path="settings" element={<SettingsScreen />} />
           <Route path="asset-library" element={<AssetLibraryScreen />} />
@@ -263,7 +260,8 @@ const router = (userType: string) => {
           </Route>{' '}
           <Route path="settings">
             <Route path="account" element={<UserAccount />} />
-            <Route path="payments" element={<PaymentSettings />} />
+            <Route path="profile" element={<UserProfile />} />
+<Route path="payments" element={<PaymentSettings />} />
           </Route>{' '}
           <Route path="tickets" element={<UsersTicketsScreen />} />
           <Route path="tickets/:id" element={<UserTicketDetail />} />

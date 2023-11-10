@@ -1,10 +1,13 @@
+import { Common, Store, User } from '@adewaskar/lms-common'
+
 import Image from './Image'
-import { Store } from '@adewaskar/lms-common'
+
 // import { useNavigate } from 'react-router'
 
 function OrgLogo(props: any) {
   // const navigate = useNavigate()
-  const organisation = Store.useGlobal(s => s.organisation)
+  const { data: organisation } = Common.Queries.useGetOrgDetails()
+  console.log(organisation, 'organisation')
   const logo = organisation?.branding?.logo
   if (!logo) {
     return null

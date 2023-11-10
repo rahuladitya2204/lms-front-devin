@@ -149,7 +149,7 @@ function EmailSettingScreen() {
   };
 
   return (
-    <Spin spinning={loadingSetting || updatingSetting || verifyingMail}>
+    <Spin spinning={loadingSetting}>
       <Form
         form={form}
         initialValues={setting.communication}

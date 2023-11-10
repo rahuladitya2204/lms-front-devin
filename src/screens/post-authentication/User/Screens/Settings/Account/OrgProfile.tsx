@@ -93,9 +93,9 @@ export default function OrgProfile() {
   </Select>
 </Form.Item>
 
-        <Form.Item name={['branding','colors','tertiary']} required label="Tertiary Color">
+        {/* <Form.Item name={['branding','colors','tertiary']} required label="Tertiary Color">
           <Input style={{width:500}} />
-        </Form.Item>
+        </Form.Item> */}
 
 
         <Title level={3}>Font</Title>

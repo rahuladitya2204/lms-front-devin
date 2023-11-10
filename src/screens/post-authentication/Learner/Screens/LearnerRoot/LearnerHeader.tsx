@@ -106,28 +106,7 @@ const LearnerHeader: React.FC = () => {
         >
           <Button shape="circle" icon={<MenuFoldOutlined />} />
         </Dropdown>
-      ) : isSignedIn ? (
-        <Space>
-          {menuItems.map((item, index) => (
-            <NavLink
-              key={index}
-              to={`../app/${item.link}`}
-              style={{ margin: '0 5px' }}
-              children={({ isActive }) => (
-                <Button
-                  style={{ borderRadius: 15 }}
-                  size="middle"
-                  icon={item.icon}
-                  type={isActive ? 'primary' : 'default'}
-                >
-                  {item.title}
-                </Button>
-              )}
-            />
-          ))}{' '}
-          {/* <Divider orientation="right" /> */}
-        </Space>
-      ) : (
+      ) : isSignedIn ? null : (
         <ActionModal
           width={300}
           title="Login"
@@ -202,11 +181,33 @@ const LearnerHeader: React.FC = () => {
             onClick={() => navigate('../app/store')}
             // style={{ width: 60 }}
           />
-          {!isMobileOrTablet ? (
+          {screen.isDesktop ? (
+            <Space style={{ marginLeft: 45 }}>
+              {menuItems.map((item, index) => (
+                <NavLink
+                  key={index}
+                  to={`../app/${item.link}`}
+                  style={{ margin: '0 5px' }}
+                  children={({ isActive }) => (
+                    <Button
+                      style={{ borderRadius: 15 }}
+                      size="middle"
+                      icon={item.icon}
+                      type={isActive ? 'primary' : 'default'}
+                    >
+                      {item.title}
+                    </Button>
+                  )}
+                />
+              ))}{' '}
+              {/* <Divider orientation="right" /> */}
+            </Space>
+          ) : null}
+          {/* {!isMobileOrTablet ? (
             <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
               <SearchLearnerCourses />
             </Space>
-          ) : null}
+          ) : null} */}
           {/* <Search
               placeholder="Search Courses"
               // onSearch={onSearch}

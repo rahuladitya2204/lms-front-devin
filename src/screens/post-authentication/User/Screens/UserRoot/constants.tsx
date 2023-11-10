@@ -122,7 +122,12 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     path: 'settings',
     children: [
       {
-        title: 'My Account',
+        title: 'My Profile',
+        path: 'profile',
+        icon: <AppstoreOutlined />
+      },
+      {
+        title: 'Org Account',
         path: 'account',
         icon: <AppstoreOutlined />
       },
