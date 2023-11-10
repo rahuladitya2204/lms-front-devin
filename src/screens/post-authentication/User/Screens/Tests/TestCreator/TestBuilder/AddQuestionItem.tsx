@@ -140,9 +140,9 @@ layout="vertical"
            </ActionModal>
            }
           /> : null}
-          
-          {/* <Alert style={{marginTop:30}}
-              message="Reset Question in JSON"
+{/*           
+          <Alert style={{marginTop:30}}
+              message="Enter Question in JSON"
               // description="You can generate test outline using our AI"
               type='warning'
               showIcon

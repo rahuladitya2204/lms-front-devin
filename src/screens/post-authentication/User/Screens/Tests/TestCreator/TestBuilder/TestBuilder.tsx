@@ -8,6 +8,8 @@ import AITestPaperBuilder from './AITestBuilder/AITestBuilder'
 import ActionModal from '@Components/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
+import EnterQuestionJson from './EnterQuestionJson'
+import EnterTestJson from './EnterTestJson'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
@@ -268,7 +270,15 @@ function TestBuilderScreen() {
 
             </ActionModal>
                 ) : (
-                null
+                  <ActionModal
+                  title="Reset Test Outline"
+                  width={900}
+                  cta={
+                    <Button  style={{marginRight:20}} danger type='primary' size="small">Reset Test Outline</Button>
+                  }
+                >
+                  <TestOutline testId={testId + ''} />
+                </ActionModal>
             // <ActionModal
             //       title="Reset Test Outline"
             //       width={900}
@@ -354,7 +364,30 @@ function TestBuilderScreen() {
           </Col>
           <Col span={16}>
             <Row gutter={[20, 20]}>
-              <Col span={24}>
+            <Col span={24}>
+                <Alert
+                  // style={{ marginTop: 30 }}
+                  message="Enter Question in JSON"
+                  // description="You can generate test outline using our AI"
+                  type="warning"
+                  showIcon
+                  action={
+                    <ActionModal
+                      title="Enter Test Content in  JSON"
+                      width={900}
+                      cta={
+                        <Button type="primary" size="small">
+                          Enter JSON
+                        </Button>
+                      }
+                    >
+                      <EnterTestJson
+                        testId={testId + ''}
+                      />
+                    </ActionModal>
+                  }
+                />
+              </Col>              <Col span={24}>
                 <Outlet
                   context={{ updateTestSection, sections: test.sections }}
                 />
