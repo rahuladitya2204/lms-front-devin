@@ -153,7 +153,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
                 <Outlet />
               </Card>
               {/* only show if the test has ended */}
-              {!testEndTime?<Card style={{marginTop:20}}>
+              {testEndTime?<Card style={{marginTop:20}}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
               </Card>:null}
             </Col>
