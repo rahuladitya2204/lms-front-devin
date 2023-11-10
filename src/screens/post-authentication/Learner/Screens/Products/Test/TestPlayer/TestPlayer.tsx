@@ -20,12 +20,13 @@ import { lazy, useEffect, useMemo } from 'react'
 import ActionDrawer from '@Components/AcrtionDrawer'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
+import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestQuestionNavigator from './TestQuestionNavigator/Type2/TestQuestionNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
-const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
+// const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
 const { confirm } = Modal
 
