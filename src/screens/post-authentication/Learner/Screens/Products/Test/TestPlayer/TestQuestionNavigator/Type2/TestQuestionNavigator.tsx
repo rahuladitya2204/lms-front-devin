@@ -1,5 +1,5 @@
 import { ArrowDownOutlined, ArrowLeftOutlined } from '@ant-design/icons'
-import { Badge, Button, Card, Col, Divider, Row, Typography } from 'antd'
+import { Badge, Button, Card, Col, Divider, Row, Typography, theme } from 'antd'
 
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
@@ -27,7 +27,8 @@ export default function TestQuestionNavigatorType2(
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
 
   const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
-  
+  const { token } = theme.useToken()
+
   return (
     <Card
       style={{ height: '80vh' }}
@@ -86,7 +87,7 @@ export default function TestQuestionNavigatorType2(
                                 style={{
                                   backgroundColor: isActive
                                     ? 'auto'
-                                    : (item.isAnswered ? 'green' : 'default')
+                                    : (item.isAnswered ? token.colorSuccessActive : 'default')
                                 }}
                                 shape="circle"
                               >

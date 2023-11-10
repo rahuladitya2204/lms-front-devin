@@ -1,16 +1,16 @@
-import {
-  CourseBuilderScreen,
-  LearnerDeviceSelection,
-  LearnerLiveSessionPlayer,
-  LearnerLiveSessionPlayerEnter,
-  LearnerRootScreen,
-  NotFoundScreen,
-  UserDeviceSelection,
-  UserLiveSessionPlayer,
-  UserLiveSessionPlayerEnter,
-  WebpageViewer,
-  WebsiteBuilderScreen
-} from './route-list';
+// import {
+//   CourseBuilderScreen,
+//   LearnerDeviceSelection,
+//   LearnerLiveSessionPlayer,
+//   LearnerLiveSessionPlayerEnter,
+//   LearnerRootScreen,
+//   NotFoundScreen,
+//   UserDeviceSelection,
+//   UserLiveSessionPlayer,
+//   UserLiveSessionPlayerEnter,
+//   WebpageViewer,
+//   WebsiteBuilderScreen
+// } from './route-list';
 import {
   Route,
   RouterProvider,
@@ -27,6 +27,7 @@ import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
 import CertificateTemplateEditor from '@User/Screens/CertificateTemplates/CertificateTemplateEditor'
 import CourseAnalytics from '@User/Screens/Courses/CourseAnalytics/CourseAnalytics'
+import CourseBuilderScreen from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseBuilderScreen'
 import CourseDetailViewer from './post-authentication/Learner/Screens/Products/Courses/CourseDetailsViewer'
 import CourseEditor from './post-authentication/User/Screens/Courses/CourseEditor'
 import CourseInformationEditor from '@User/Screens/Courses/CourseEditor/CourseInformation'
@@ -52,6 +53,7 @@ import LearnerCourses from './post-authentication/Learner/Screens/Products/Cours
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerEventsScreen from '@Learner/Screens/Products/Event/Events/EventScreen'
 import LearnerFullPageHolder from './LearnerFullPageHolder';
+import LearnerRootScreen from '@Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTestDetailScreen from '@Learner/Screens/Products/Test/TestDetail/TestDetail'
 import LearnerTestResult from '@Learner/Screens/Products/Test/TestResult/TestResult'
@@ -61,6 +63,7 @@ import LearnersScreen from './post-authentication/User/Screens/Users/Learners/Le
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import LoadingScreen from '@Components/LoadingScreen'
 import MaintainenceScreen from './MaintainenceScreen/MaintainenceScreen'
+import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
@@ -91,6 +94,8 @@ import UserRootScreen from '@User/Screens/UserRoot/UserRootScreen'
 import UserTestScreen from '@User/Screens/Tests/TestsList/TestsScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
+import WebpageViewer from '@User/Screens/Builder/Website/WebsiteBuilder/WebpageViewer'
+import WebsiteBuilderScreen from '@User/Screens/Builder/Website/WebsiteBuilder/WebsiteBuilder'
 import WebsiteScreen from '@User/Screens/Builder/Website/Website'
 import WhatsappTemplateEditor from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor'
 import WhatsappTemplatesScreen from '@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen'
@@ -152,7 +157,7 @@ const router = (userType: string) => {
               <Route path=":itemId" element={<CoursePlayerItem/>} />
             </Route>
 
-            <Route
+            {/* <Route
               path="app/event/:eventId/player"
               element={<LearnerLiveSessionPlayerEnter />}
             >
@@ -162,7 +167,7 @@ const router = (userType: string) => {
                 element={<LearnerLiveSessionPlayer />}
               />
               <Route path="ended" element={<UserMeetingEnded />} />
-            </Route>
+            </Route> */}
            </Route>
             <Route path="*" element={<NotFoundScreen />} />
  </>
@@ -293,7 +298,7 @@ const router = (userType: string) => {
           />
         </Route>
         <Route path="oauth/:provider/redirect" element={<OauthRedirect />} />
-        <Route
+        {/* <Route
           path="app/event/:eventId/player"
           element={<UserLiveSessionPlayerEnter />}
         >
@@ -303,7 +308,7 @@ const router = (userType: string) => {
             element={<UserLiveSessionPlayer />}
           />
           <Route path="ended" element={<UserMeetingEnded />} />
-        </Route>
+        </Route> */}
         <Route path="courses/:id/preview" element={<CourseDetailViewer />} />
 
             </>

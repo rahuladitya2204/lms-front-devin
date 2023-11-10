@@ -1,5 +1,5 @@
 import { BackwardOutlined, CheckCircleTwoTone, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography } from 'antd';
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import { Learner, Types } from '@adewaskar/lms-common';
 
@@ -76,6 +76,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const {
     data: { hasEnded }
   } = Learner.Queries.useGetTestStatus(testId + '');
+  const { token } = theme.useToken()
 
   const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
@@ -111,7 +112,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                         <Col span={24}>
                           {/* @ts-ignore */}
                           {VIEWING_MODE === 'review' ? (correctOptions.indexOf(option?._id) > -1 ?
-                            <Tooltip placement="top" title={`Correct Answer`}><CheckCircleTwoTone color='green' /> </Tooltip> :null) :null}
+                            <Tooltip placement="top" title={`Correct Answer`}><CheckCircleTwoTone color={token.colorSuccessBg} /> </Tooltip> :null) :null}
                          {SelectFormControlComponent}
                         </Col>
                       </Row>

@@ -11,12 +11,12 @@ const LearnerCourses: React.FC = () => {
         <Tabs.TabPane tab="All Courses" key="1">
           <LearnerCourseList />
         </Tabs.TabPane>
-        <Tabs.TabPane tab="Wishlist" key="2">
+        {/* <Tabs.TabPane tab="Wishlist" key="2">
           Content of Tab Pane 2
         </Tabs.TabPane>
         <Tabs.TabPane tab="Archived" key="3">
           Content of Tab Pane 3
-        </Tabs.TabPane>
+        </Tabs.TabPane> */}
       </Tabs>
     </Card>
   )
