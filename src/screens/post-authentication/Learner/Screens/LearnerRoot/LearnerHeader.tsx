@@ -46,9 +46,9 @@ const { Text, Title } = Typography
 
 const menuItems = [
   { title: 'Store', link: 'store', icon: <ShopOutlined /> },
-  { title: 'Courses', link: 'courses', icon: <DesktopOutlined /> },
-  { title: 'Tests', link: 'test', icon: <EditOutlined /> },
-  { title: 'Events', link: 'event', icon: <CalendarOutlined /> }
+  { title: 'My Courses', link: 'courses', icon: <DesktopOutlined /> },
+  { title: 'My Tests', link: 'test', icon: <EditOutlined /> },
+  { title: 'My Events', link: 'event', icon: <CalendarOutlined /> }
 ]
 
 const LearnerHeader: React.FC = () => {
@@ -141,11 +141,13 @@ const LearnerHeader: React.FC = () => {
               <Menu>
                 <Menu.Item
                   key="account"
+                  icon={
+                    <Avatar src={user.image} style={{ marginRight: 10 }}>
+                      {Utils.getFirstLettersOfName(user.name)}
+                    </Avatar>
+                  }
                   onClick={() => navigate('../app/account')}
                 >
-                  <Avatar src={user.image} style={{ marginRight: 10 }}>
-                    {Utils.getFirstLettersOfName(user.name)}
-                  </Avatar>
                   {user?.name}
                 </Menu.Item>
                 {/* <Menu.Item
@@ -155,11 +157,16 @@ const LearnerHeader: React.FC = () => {
                 </Menu.Item> */}
                 <Menu.Item
                   key="support"
+                  icon={<UserOutlined />}
                   onClick={() => navigate('../app/tickets')}
                 >
                   Help and Support
                 </Menu.Item>
-                <Menu.Item key="logout" onClick={logout}>
+                <Menu.Item
+                  icon={<LogoutOutlined />}
+                  key="logout"
+                  onClick={logout}
+                >
                   Logout
                 </Menu.Item>
               </Menu>

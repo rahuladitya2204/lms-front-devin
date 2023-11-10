@@ -249,7 +249,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                     })                            }}
               product={{ type: 'test', id: testId + '' }}
               block
-              type="primary"
+              // type="o"
             >
               Buy Now
             </ProductCheckoutButton>:<ActionModal width={300}

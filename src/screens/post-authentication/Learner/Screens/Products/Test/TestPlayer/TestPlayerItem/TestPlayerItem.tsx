@@ -3,11 +3,7 @@ import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row
 import { Fragment, useEffect, useState } from 'react';
 import { Learner, Types } from '@adewaskar/lms-common';
 
-import ActionModal from '@Components/ActionModal';
-import FileList from '@Components/FileList';
 import HtmlViewer from '@Components/HtmlViewer';
-import MediaUpload from '@Components/MediaUpload';
-import OCRImages from '@Components/OCRImages/OCRImages';
 import TestPlayerFiles from './TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import { htmlToText } from 'html-to-text';
@@ -94,7 +90,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 {currentQuestion.type === 'single' ? 'Select one among others' : 'Select all that apply'}
               </Text>
               <Form.Item name={['answer','options']}  >
-                <OptionSelectedFormControl.Group style={{ width: '100%' }}>
+                <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
                   {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
                     return (
                       <Row gutter={[0, 20]} key={option._id}>

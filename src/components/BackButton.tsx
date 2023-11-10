@@ -7,8 +7,8 @@ function BackButton(props: ButtonProps) {
   const navigate = useNavigate()
   return (
     <span onClick={e => (props.onClick ? props.onClick(e) : navigate(-1))}>
-      <Button size='small' style={{ marginRight: 10 }}>
-        <ArrowLeftOutlined />
+      <Button size="small" style={{ marginRight: 10 }}>
+        <ArrowLeftOutlined /> {props.children}
       </Button>
     </span>
   )

@@ -12,6 +12,7 @@ import {
 } from 'antd'
 import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts'
 
+import BackButton from '@Components/BackButton'
 import HtmlViewer from '@Components/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
 import Tabs from '@Components/Tabs'
@@ -169,7 +170,12 @@ const LearnerTestResult = function() {
 
 export default function TestResult() {
   return (
-    <Tabs
+    <Row>
+      {/* <Col span={24}>
+        <BackButton>Back</BackButton>
+      </Col> */}
+      <Col span={24}>
+      <Tabs
       navigateWithHash
       defaultActiveKey="analysis"
       items={[
@@ -185,6 +191,8 @@ export default function TestResult() {
         }
       ]}
     />
+      </Col>
+    </Row>
   )
 }
 

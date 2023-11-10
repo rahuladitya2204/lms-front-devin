@@ -71,7 +71,7 @@ export default function TestMetrics() {
     <Row gutter={[20, 20]}>
       <Col span={24}>
         <Row gutter={[20, 20]}>
-          <Col span={8}>
+          <Col xs={24} md={12} lg={8}>
             {loadingResult ? (
               <Card style={{ marginBottom: 20, textAlign: 'center' }}>
                 <Skeleton />
@@ -120,7 +120,7 @@ export default function TestMetrics() {
               </Card>
             )}
           </Col>
-          <Col span={16}>
+          <Col  xs={24} md={12} lg={16}>
             {loadingResult ? (
               <Card
                 style={{ marginBottom: 20, textAlign: 'center', height: 450 }}
@@ -167,10 +167,10 @@ export default function TestMetrics() {
                   )
                   return (
                     <Row key={section.title}>
-                      <Col span={24}>
+                      <Col sm={24}>
                         <Title level={5}>{capitalize(section.title)}:</Title>
                       </Col>
-                      <Col span={24}>
+                      <Col sm={24}>
                         <Row gutter={[20, 20]}>
                           <Col span={12}>
                             Attempted {section?.stats?.questionsAttempted}/{
@@ -201,7 +201,7 @@ export default function TestMetrics() {
           </Col>
         </Row>
       </Col>
-      <Col span={24}>
+      {/* <Col span={24}>
         {loadingResult ? (
           <Card style={{ height: 300 }}>
             <Skeleton paragraph={{ row: 10 }} />
@@ -237,7 +237,7 @@ export default function TestMetrics() {
             </BarChart>
           </Card>
         )}
-      </Col>
+      </Col> */}
     </Row>
   )
 }

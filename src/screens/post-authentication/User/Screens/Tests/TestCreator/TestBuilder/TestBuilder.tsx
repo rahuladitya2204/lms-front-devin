@@ -255,24 +255,17 @@ function TestBuilderScreen() {
         extra={[
           <Row>   <Col span={24}>
           {!test.sections.length ? (
-            <Alert
-              message="Generate Tests Paper outline"
-              // description="You can generate test outline using our AI"
-              type="info"
-              showIcon
-              action={
-                <ActionModal
-                  title="Generate Test Outline"
+                  <ActionModal
+                  title="Reset Test Outline"
                   width={900}
                   cta={
-                    <Button size="small">Generate Test Outline</Button>
+                    <Button type='primary' style={{marginRight:10}} size="small">Generate Test Outline</Button>
                   }
-                >
-                  <TestOutline testId={testId + ''} />
-                </ActionModal>
-              }
-            />
-            ) : (
+              >
+      <TestOutline testId={testId + ''} />
+
+            </ActionModal>
+                ) : (
                 null
             // <ActionModal
             //       title="Reset Test Outline"

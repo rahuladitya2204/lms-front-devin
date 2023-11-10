@@ -22,17 +22,13 @@ interface TestResultItem extends Types.TestStatusQuestionStats {
 const TestResultTable: React.FC = () => {
   const { testId } = useParams<{ testId: string }>();
   const { data: { test: testResult }, isFetching } = Learner.Queries.useGetTestResult(testId || '');
-
-    // @ts-ignore
-  const processedData: TestResultItem[] = testResult?.sections?.map((section, sectionIndex) => {
-    return section.items.map((item, itemIndex) => {
-      return item
-    });
-  }).flat();
-
   return (
-    <Table bordered pagination={false}
-    dataSource={processedData}
+    <Row gutter={[20,30]}>
+      
+      {testResult.sections.map(section => {
+      return  <Col span={24}><Card title={section.title}>
+      <Table bordered pagination={false}
+    dataSource={section.items}
     loading={isFetching}   expandable={{
       expandedRowRender: (record) => <>
         <Row gutter={[20,20]}>
@@ -46,7 +42,7 @@ const TestResultTable: React.FC = () => {
           </Col>
 </Row>
         <Title level={4}>Question</Title>
-        <HtmlViewer content={record.title} />
+        <HtmlViewer content={record.title+''} />
         
         <Title level={4}>Your answer</Title>
         <HtmlViewer content={record.subjectiveAnswerGiven} />
@@ -112,13 +108,17 @@ dataIndex="timeSpent"
 key="timeSpent"
 render={timeSpent => <span>{Utils.formatTime(timeSpent)}</span>}
     />
-         <Table.Column
+         <Table.Column responsive={['xs']}
 title="Score"
 dataIndex="scoreAchieved"
 key="scoreAchieved"
 render={scoreAchieved => <span>{scoreAchieved} </span>}
 />
 </Table>
+    </Card></Col>
+    })}
+
+    </Row>
   );
 };
 
