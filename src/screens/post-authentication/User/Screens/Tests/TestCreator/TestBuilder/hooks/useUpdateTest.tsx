@@ -1,31 +1,37 @@
-import { Types, User } from '@adewaskar/lms-common';
-import { debounce, isEqual } from 'lodash';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { Types, User } from '@adewaskar/lms-common'
+import { debounce, isEqual } from 'lodash'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { FormInstance } from 'antd/lib/form/Form';
-import useMessage from '@Hooks/useMessage';
-import { useParams } from 'react-router';
+import { Form } from 'antd'
+import { FormInstance } from 'antd/lib/form/Form'
+import useMessage from '@Hooks/useMessage'
+import { useParams } from 'react-router'
 
 function useUpdateTestForm(form: FormInstance) {
-  const message = useMessage();
-  const { data: topics } = User.Queries.useGetTopics();
-  let { itemId, id: testId } = useParams();
-  const { data: item } = User.Queries.useGetTestItemDetails(testId + '',itemId+'', {
-    enabled: !!testId
-  });
+  const message = useMessage()
+  const FormTopics = Form.useWatch('options', form) || [];
+  const { data: topics } = User.Queries.useGetTopics()
+  let { itemId, id: testId } = useParams()
+  const { data: item } = User.Queries.useGetTestItemDetails(
+    testId + '',
+    itemId + '',
+    {
+      enabled: !!testId
+    }
+  )
 
-  const { mutate: updateItemApi, isLoading } = User.Queries.useUpdateTestItem();
+  const { mutate: updateItemApi, isLoading } = User.Queries.useUpdateTestItem()
 
-  const isMounted = useRef(true);
-  const isProgrammaticChange = useRef(false);
+  const isMounted = useRef(true)
+  const isProgrammaticChange = useRef(false)
   const initialItemRef = useRef<Types.TestQuestion | null>(null);
 
   useEffect(() => {
     return () => {
-      isMounted.current = false;
-      form.resetFields();
-    };
-  }, []);
+      isMounted.current = false
+      form.resetFields()
+    }
+  }, [])
 
   const updateItem = useCallback(
     debounce((testId, itemId, data) => {
@@ -42,57 +48,62 @@ function useUpdateTestForm(form: FormInstance) {
                 message.open({
                   type: 'success',
                   content: `Saved`
-                });
+                })
               }
             }
           }
-        );
+        )
       }
     }, 300),
     []
-  );
+  )
 
-  useEffect(() => {
-    const topicStrings = item.topics?.map(topic => topic.title) || [];
-    isProgrammaticChange.current = true;
-    form.setFieldsValue({ ...item, topics: topicStrings });
-    isProgrammaticChange.current = false;
+  useEffect(
+    () => {
+      const topicStrings = item.topics?.map(topic => topic.title) || []
+      isProgrammaticChange.current = true
+      form.setFieldsValue({ ...item, topics: topicStrings })
+      isProgrammaticChange.current = false
 
-    initialItemRef.current = item;
+      initialItemRef.current = item
 
-    return () => {
-      updateItem.cancel(); // Cancel debounced function on unmount
-    };
-  }, [item, form, updateItem]);
+      return () => {
+        updateItem.cancel() // Cancel debounced function on unmount
+      }
+    },
+    [item, form, updateItem]
+  )
 
   const handleTopicsChange = (topicStrings: string[]) => {
-    const existingTopicTitles = topics ? topics.map(t => t.title) : [];
+    const existingTopicTitles = topics ? topics.map(t => t.title) : []
     const newTopics = topicStrings.map(title => {
       if (existingTopicTitles.includes(title)) {
         return {
           title,
           topicId: topics.find(t => t.title === title)?._id || ''
-        };
+        }
       } else {
-        return { title, topicId: '' };
+        return { title, topicId: '' }
       }
-    });
-    onFormChange({ topics: newTopics });
-  };
-// @ts-ignore
-  const onFormChange = (data) => {
+    })
+    // return console.log(newTopics, 'newto')
+    onFormChange({ topics: newTopics })
+  }
+  // @ts-ignore
+  const onFormChange = data => {
     // console.log(data.solution, 'solution');
     // if (!(data.solution.html && data.solution.video)) {
     //   delete data.solution;
     // }
+    // @ts-ignore
     if (!isEqual(initialItemRef.current, { ...item, ...data })) {
       const newItem = {
         ...item,
         ...data
-      };
-      updateItem(testId + '', itemId + '', newItem);
+      }
+      updateItem(testId + '', itemId + '', newItem)
     }
-  };
+  }
 
   return {
     form,
@@ -100,14 +111,14 @@ function useUpdateTestForm(form: FormInstance) {
     testId: testId,
     itemId,
     updateItem: (data: Types.TestQuestion) => {
-      initialItemRef.current = data;
+      initialItemRef.current = data
       onFormChange(data)
     },
     onFormChange,
     topics,
     handleTopicsChange,
     isLoading
-  };
+  }
 }
 
-export default useUpdateTestForm;
+export default useUpdateTestForm

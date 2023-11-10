@@ -52,7 +52,7 @@ const CustomUpload = styled(Upload)(
     props.rounded ? '50% !important' : ''};
   object-fit: cover;
   overflow: hidden;
-  width: ${props.width}px !important;
+  width: ${props.width} !important;
 }
 
 .ant-upload:hover {

@@ -1,9 +1,10 @@
-import { Avatar, Button, Card, Col, Form, Input, List, Row, Skeleton, Tooltip, Typography, theme } from 'antd'
+import { Avatar, Button, Card, Col, Form, Input, List, Row, Skeleton, Spin, Tooltip, Typography, theme } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
 import TextArea from '@Components/Textarea';
 import TicketItem from '../TicketsScreen/TicketItem';
+import dayjs from 'dayjs';
 import { useParams } from 'react-router';
 
 const { useToken } = theme
@@ -18,7 +19,7 @@ export default function TicketDetail() {
   const { token } = useToken()
     const [form] = Form.useForm()
     const { id } = useParams();
-    const { data: ticket ,isFetching: loadingTicket} = Learner.Queries.useGetTicketDetails(id + '');
+    const { data: ticket ,isFetching: loadingTicket,isLoading: loadingTicketFirst} = Learner.Queries.useGetTicketDetails(id + '');
   const createdBy = ((ticket.createdBy as unknown as Types.Learner) || {});
   const name = (createdBy?.name+'').split(' ').map(n => n[0].toUpperCase()).join('');
     const { mutate: replyToTicket,isLoading: postingReply } = Learner.Queries.useReplyToTicket();
@@ -39,14 +40,14 @@ export default function TicketDetail() {
 
   return (
       <>
-      {loadingTicket ? <Card title={<><Skeleton.Button style={{ marginLeft: 20, width: 100 }} />
+      {loadingTicketFirst ? <Card title={<><Skeleton.Button style={{ marginLeft: 20, width: 100 }} />
         <Skeleton.Button style={{ marginLeft: 20, width: 100 }} />
         <Skeleton.Button style={{ marginLeft: 20, width: 100 }} />
         <Skeleton.Button style={{ marginLeft: 20, width: 100 }} /></>}>
         <Skeleton/>
       </Card> : <TicketItem ticket={ticket} />}
       
-      {loadingTicket ? <Card style={{ marginTop: 20 }}>
+      {loadingTicketFirst ? <Card style={{ marginTop: 20 }}>
         <Row gutter={[20,20]}>
           <Col span={24}>
             <Skeleton.Input block size='large' />
@@ -79,15 +80,17 @@ export default function TicketDetail() {
                   <Button  loading={postingReply}       key="submit"
  type='primary' onClick={form.submit}> Reply</Button>
               </Form>
-              
 
-              {ticket.replies.length ? (<>
+          {loadingTicketFirst ? <><Skeleton avatar paragraph={{ rows: 4 }} /></> : <>
+          {ticket.replies.length ? (<>
                 
-                <List
+              <Spin spinning={loadingTicket}>
+              <List
           className="comment-list"
                       header={<Title level={5}> { ticket.replies.length} Replies</Title>}
-          itemLayout="horizontal"
-          dataSource={ticket.replies}
+                  itemLayout="horizontal"
+                  // @ts-ignore
+          dataSource={ticket.replies.sort((a,b)=>b.date-a.date)}
             renderItem={item => {
               const isFromSupportAgent = item.user;
             return (
@@ -106,16 +109,20 @@ export default function TicketDetail() {
                   }
                   datetime={
                     <Tooltip title="2016-11-22 11:22:33">
-                      <span>8 hours ago</span>
+                      <span>{dayjs(item.date).fromNow() }</span>
                     </Tooltip>
                   }
                 />
               </li>
             )
           }}
-        /></>
-       
+              />
+              </Spin>
+            </>
       ) : null}
+          </>}      
+
+             
           </Card>}
       
       </>

@@ -24,7 +24,7 @@ function ThemeProvider(props: any) {
       }
       return themes
     },
-    [branding.theme]
+    [branding?.theme]
   )
 
   if (isLoading || props.showLoadingScreen) {

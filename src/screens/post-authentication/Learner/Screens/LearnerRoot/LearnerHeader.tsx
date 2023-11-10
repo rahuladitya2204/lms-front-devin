@@ -26,7 +26,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Learner, Store, Types } from '@adewaskar/lms-common'
+import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Link, NavLink } from 'react-router-dom'
 import { Outlet, useNavigate } from 'react-router'
 
@@ -56,7 +56,7 @@ const LearnerHeader: React.FC = () => {
     mutate: logoutLearner,
     isLoading: loggingOut
   } = Learner.Queries.useLogoutLearner()
-  const qc = useQueryClient();
+  const qc = useQueryClient()
   const { isSignedIn, user } = Store.useAuthentication(state => state)
 
   const { data: { items } } = Learner.Queries.useGetCartDetails({
@@ -74,8 +74,8 @@ const LearnerHeader: React.FC = () => {
       onOk() {
         logoutLearner(undefined, {
           onSuccess: () => {
-            qc.invalidateQueries();
-            navigate('../app/store');
+            qc.invalidateQueries()
+            navigate('../app/store')
           }
         })
       },
@@ -160,13 +160,20 @@ const LearnerHeader: React.FC = () => {
             placement="bottomLeft"
             overlay={
               <Menu>
-                <Menu.Item key="username">{user?.name}</Menu.Item>
                 <Menu.Item
                   key="account"
                   onClick={() => navigate('../app/account')}
                 >
-                  My Account
+                  <Avatar src={user.image} style={{ marginRight: 10 }}>
+                    {Utils.getFirstLettersOfName(user.name)}
+                  </Avatar>
+                  {user?.name}
                 </Menu.Item>
+                {/* <Menu.Item
+                  key="account"
+                >
+                  My Account
+                </Menu.Item> */}
                 <Menu.Item
                   key="support"
                   onClick={() => navigate('../app/tickets')}

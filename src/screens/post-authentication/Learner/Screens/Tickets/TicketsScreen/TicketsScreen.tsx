@@ -1,4 +1,4 @@
-import { Button, Card, Empty, Space } from 'antd'
+import { Button, Card, Col, Empty, Row, Skeleton, Space, Spin } from 'antd'
 
 import ActionModal from '@Components/ActionModal'
 import CreateTicket from '../CreateTicket'
@@ -7,27 +7,55 @@ import { Link } from 'react-router-dom'
 import TicketItem from './TicketItem'
 
 export default function TicketsScreen () {
-  const { data: tickets } = Learner.Queries.useGetTickets()
+  const {
+    data: tickets,
+    isLoading: loadingTicketsFirst,
+    isFetching
+  } = Learner.Queries.useGetTickets()
+  if (loadingTicketsFirst) {
+    return (
+      <Row gutter={[20, 20]}>
+        <Col span={24}>
+          <Skeleton active />
+        </Col>
 
-    return tickets.length? <>
-        <Space size={[20,30]} style={{width:'100%'}} direction='vertical'>
-            {tickets.map(ticket => {
-              return <Link to={ticket._id+''}>
-              <TicketItem hideAttachments ticket={ticket} /></Link>;
-    })}
-      </Space></> : <Card>
+        <Col span={24}>
+          <Skeleton active />
+        </Col>
+
+        <Col span={24}>
+          <Skeleton active />
+        </Col>
+
+        <Col span={24}>
+          <Skeleton active />
+        </Col>
+      </Row>
+    )
+  }
+  return tickets.length ? (
+    <Spin spinning={isFetching}>
+      <Space size={[20, 30]} style={{ width: '100%' }} direction="vertical">
+        {tickets.map(ticket => {
+          return (
+            <Link to={ticket._id + ''}>
+              <TicketItem hideAttachments ticket={ticket} />
+            </Link>
+          )
+        })}
+      </Space>
+    </Spin>
+  ) : (
+    <Card>
       <Empty
-    image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-    imageStyle={{ height: 60 }}
-    description={
-      <span>
-        No Tickets Found
-      </span>
-    }
-  >
+        image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+        imageStyle={{ height: 60 }}
+        description={<span>No Tickets Found</span>}
+      >
         <ActionModal cta={<Button type="primary">Create Now</Button>}>
-          <CreateTicket/>
-    </ActionModal>
-  </Empty>
-        </Card>
+          <CreateTicket />
+        </ActionModal>
+      </Empty>
+    </Card>
+  )
 }

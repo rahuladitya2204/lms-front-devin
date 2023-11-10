@@ -6,10 +6,11 @@ import { PlusOutlined } from '@ant-design/icons';
 interface InputTagsProps {
   ctaText?: string;
   name: string;
+  onChange?: (tags: string[]) => void; // New callback prop
   options?: string[];
 }
 
-const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [] }) => {
+const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onChange }) => {
   const [inputValue, setInputValue] = useState('');
   const [inputVisible, setInputVisible] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
@@ -20,6 +21,9 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [] }) =>
     const tags = form.getFieldValue(name);
     const newTags = tags.filter((tag: string) => tag !== removedTag);
     form.setFieldsValue({ [name]: newTags });
+    if (onChange) {
+      onChange(newTags);
+    }
     // This assumes that tags are unique, which might not be the case in all scenarios
     const indexToRemove = tags.indexOf(removedTag);
     if (indexToRemove !== -1) {
@@ -38,6 +42,10 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [] }) =>
       add(inputValue);
       setInputVisible(false);
       setInputValue('');
+      if (onChange) {
+        const updatedTags = form.getFieldValue(name);
+        onChange(updatedTags);
+      }
     }
   };
 
@@ -45,9 +53,15 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [] }) =>
     if (form.getFieldValue(name).indexOf(selectedValue) === -1) {
       add(selectedValue);
       setInputValue('');
+      setTimeout(() => {
+        if (onChange) {
+          const updatedTags = form.getFieldValue(name);
+          onChange(updatedTags);
+        }
+      }, 0);
     }
   };
-
+  // console.log(options,'tops')
   return (
     <Form.List name={name}>
       {(fields, { add, remove }) => {

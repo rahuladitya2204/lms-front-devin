@@ -102,25 +102,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     })
   }
   const fileId = file.encoded || file._id;
-  // const {  mutate: generateItemInfoApi, isLoading: generatingSummary ,data: generatedInfo} = User.Queries.useGetGenerativeTestItemInfo();
-  // const generateItemInfo = (fields: string[]) => {
-  //   generateItemInfoApi({ data: { testId:testId+'', itemId:itemId+'' ,fields} }, {
-  //     onSuccess: ({  topics,criterias }) => {
-  //       if (topics&&topics.length) {
-  //         handleTopicsChange(topics)
-  //       }
-  //       if (criterias) {
-  //         form.setFieldValue(['criterias'],criterias)
-  //       }
-  //       // console.log(topics,'123123')
-  //       // form.setFieldValue('summary', summary);
-  //     }
-  //   });
-  // }
   const options = Form.useWatch('options', form) || [];
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
-  // console.log(options,'setCorrectOptions')
   return (
    <Spin spinning={loadingItem} > <Form name='test' onFinish={submit} initialValues={item}
    onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
@@ -215,7 +199,7 @@ layout="vertical"
             <Col span={24}>
                 <Form.Item label="Topics" name={'topics'}>
                 <GenerateAIItemDetails onFinish={e=>console.log(e,'eee')} label='Generate Topics' field='topics' />
-  <InputTags name="topics" options={topics.map(i => i.title)} ctaText='Enter Topics' />
+  <InputTags onChange={handleTopicsChange} name="topics" options={topics.map(i => i.title)} ctaText='Enter Topics' />
 </Form.Item>
               </Col>
               {/* // here add criterions */}

@@ -308,8 +308,8 @@ function TestBuilderScreen() {
                     uploadType="image"
                     prefixKey={`Tests/${testId}/thumbnailImage`}
                     cropper
-                    width="100%"
-                    // height="200px"
+                    // width="100%"
+                    height="200px"
                     aspect={16 / 9}
                     renderItem={() => (
                       <Image preview={false} src={test.thumbnailImage} />
