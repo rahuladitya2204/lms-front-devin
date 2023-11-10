@@ -4,15 +4,11 @@ import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
-import AuthenticationCard from '@Components/AuthenticationCard'
 import LearnerRegister from '../Register'
-import OrgLogo from '@Components/OrgLogo'
 import ResetPassword from './RequestResetPassword'
-import SelectFormGroup from '@Components/SelectFormGroup'
 import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import useMessage from '@Hooks/useMessage'
 import useOauth from './useOauth';
@@ -82,163 +78,85 @@ function LearnerLogin () {
 
 export default LearnerLogin
 
-
 const OtpForm = () => {
   const [form] = Form.useForm();
   const message = useMessage();
   const [otpSent, setOtpSent] = useState(false);
-  const [contactNo, setContactNo] = useState('');
-  const [otpData, setOtpData] = useState({
-    contactNo: '',
-    countryCode: '91'
-  });
-  const { mutate: sendOtpApi,isLoading: sendingOtp} = Learner.Queries.useSendLoginOtp();
-  const { mutate: verifyOtpApi,isLoading: verifyingOtp} = Learner.Queries.useVerifyLoginOtp();
-  const fullContactNo = otpData.countryCode + otpData.contactNo;
-  console.log(otpData,'otpData')
-  const sendOtp = async (d:{contactNo: string}) => {
-    try {
-      sendOtpApi({
-        contactNo:fullContactNo
-      },
-        {
-          onSuccess: user => {
-            message.open({
-              type: 'success',
-              content:`OTP has been sent to ${fullContactNo}`
-            })
-            setOtpSent(true)
-          },
-          onError: () => {
-            message.open({
-              type: 'error',
-              content:'Mobile Number not registered with us, Please Register by clicking on Signup'
-            })
-          }
-        }
-      )
-    } catch (error) {
-      console.log('Otp Failed:', error)
-    }
-  }
+  const { mutate: sendOtpApi, isLoading: sendingOtp } = Learner.Queries.useSendLoginOtp();
+  const { mutate: verifyOtpApi, isLoading: verifyingOtp } = Learner.Queries.useVerifyLoginOtp();
 
-  const verifyOtp = async (d: {  code: string }) => {
-    console.log(form.getFieldsValue(), 'llklklkl');
+  const sendOtp = async () => {
     try {
-      const values = await form.validateFields()
+      const values = await form.validateFields();
+      let contactNo = values.contactNo;
+
+      sendOtpApi({ contactNo },
+      {
+        onSuccess: user => {
+          message.open({ type: 'success', content: `OTP has been sent to ${contactNo}` });
+          setOtpSent(true);
+        },
+        onError: () => {
+          message.open({ type: 'error', content: 'Mobile Number not registered with us, Please Register by clicking on Signup' });
+        }
+      });
+    } catch (error) {
+      console.log('Otp Failed:', error);
+    }
+  };
+
+  const verifyOtp = async (d: { code: string }) => {
+    try {
+      const values = await form.validateFields();
+      let contactNo = values.contactNo;
+
+      // Same logic for appending '+91' if necessary
+      if (contactNo.replace(/\D/g, '').length === 10) {
+        contactNo = '+91' + contactNo;
+      }
+
       verifyOtpApi({
         code: d.code,
-        contactNo: fullContactNo
+        contactNo
       },
-        {
-          onSuccess: user => {
-            message.open({
-              type: 'success',
-              content: `OTP Verified`
-            })
-          },
-          onError: () => {
-              message.open({
-                type: 'error',
-                content: `Invalid OTP`
-              })
-            }
-        }
-      )
-    } catch (error) {
-      console.log('Otp Failed:', error)
-    }
-  }
-  return <>
-  {otpSent?   <Form
-  form={form}
-  initialValues={{
-    remember: true
-  }}
-  layout="vertical"
-  onFinish={verifyOtp}
-    >
-            <Button onClick={() => {
-        setOtpSent(false);
-      }} style={{marginBottom:10}} type='link' size='small' icon={<ArrowLeftOutlined/>}>Back</Button>
-
-  <Form.Item
-    label="Enter OTP"
-    name="code"
-    rules={[
       {
-        required: true,
-        message: 'Please otp sent to you number!'
-      }
-    ]}
-  >
-    <Input />
-  </Form.Item>
+        onSuccess: user => {
+          message.open({ type: 'success', content: 'OTP Verified' });
+        },
+        onError: () => {
+          message.open({ type: 'error', content: 'Invalid OTP' });
+        }
+      });
+    } catch (error) {
+      console.log('Otp Failed:', error);
+    }
+  };
 
-  <Form.Item>
-    <Button
-      loading={verifyingOtp}
-      block
-      type="primary"
-      htmlType="submit"
-    >
-      Verify OTP
-    </Button>
-  </Form.Item>
-    </Form> : <Form onValuesChange={e => {
-        console.log(e,'eeeee')
-        setOtpData({
-          ...otpData,
-          ...e.otp
-        })
-    }}
-  form={form}
-  initialValues={{
-    remember: true
-  }}
-  layout="vertical"
-  onFinish={sendOtp}
->
-<SelectFormGroup
-          prefixValue='+91'
-          prefixName={[
-            'otp','countryCode'
-          ]}
-          name={['otp', 'contactNo']}
-          prefixValues={Constants.COUNTRY_CODES.map(c => {
-            return {
-              label: <span>{c.code} {c.flag}</span>,
-              value: c.dial_code
-            }
-          })}
-          label='Enter Mobile Number'
-        />
+  return (
+    <>
+      {otpSent ? (
+        <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={verifyOtp}>
+          <Button onClick={() => setOtpSent(false)} style={{ marginBottom: 10 }} type='link' size='small' icon={<ArrowLeftOutlined/>}>Back</Button>
+          <Form.Item label="Enter OTP" name="code" rules={[{ required: true, message: 'Please enter the OTP sent to your number!' }]}><Input /></Form.Item>
+          <Form.Item><Button loading={verifyingOtp} block type="primary" htmlType="submit">Verify OTP</Button></Form.Item>
+        </Form>
+      ) : (
+        <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={sendOtp}>
+          <Form.Item label="Enter Mobile Number" name="contactNo" rules={[{ required: true, message: 'Please enter your mobile number!' }]}><Input /></Form.Item>
+          <Form.Item><Button loading={sendingOtp} block type="primary" htmlType="submit">Send OTP</Button></Form.Item>
+          <Form.Item style={{ textAlign: 'center' }}>
+            <Typography.Text>Don't have an account?{' '}
+              <ActionModal width={300} title="Sign up" cta={<Button type="link">Sign up?</Button>}>
+                <LearnerRegister />
+              </ActionModal>
+            </Typography.Text>
+          </Form.Item>
+        </Form>
+      )}
+    </>
+  );
+};
 
-  <Form.Item>
-    <Button
-      loading={sendingOtp}
-      block
-      type="primary"
-      htmlType="submit"
-    >
-      Send OTP
-    </Button>
-  </Form.Item>
-  <Form.Item style={{ textAlign: 'center' }}>
-    <Typography.Text>
-      Don't have an account?{' '}
-      <ActionModal
-        width={300}
-        title="Sign up"
-        cta={<Button type="link">Sign up?</Button>}
-      >
-        <LearnerRegister />
-      </ActionModal>
-    </Typography.Text>
-  </Form.Item>
-</Form>}
-  </>
-}
 
 const EmailForm = () => {
   const orgName = Store.useGlobal(s => s.organisation.name);
