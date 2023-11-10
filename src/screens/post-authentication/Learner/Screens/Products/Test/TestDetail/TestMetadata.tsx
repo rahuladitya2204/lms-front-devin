@@ -68,7 +68,7 @@ function TestMetadata(props: TestMetadataPropsI) {
   return (
     <List
       itemLayout="horizontal"
-      dataSource={dataSource}
+      dataSource={dataSource.filter(i=>i.value)}
       renderItem={item => (
         <ListItem actions={[<Text>{item.value}</Text>]}>
           <List.Item.Meta

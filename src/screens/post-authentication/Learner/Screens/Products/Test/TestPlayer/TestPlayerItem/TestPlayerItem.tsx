@@ -1,5 +1,5 @@
-import { BackwardOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Typography } from 'antd';
+import { BackwardOutlined, CheckCircleTwoTone, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import { Learner, Types } from '@adewaskar/lms-common';
 
@@ -18,7 +18,7 @@ const { Title, Text } = Typography;
 interface TestPlayeritemPropsI {}
 
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
-  useTestItemTime()
+  useTestItemTime();
   const [form] = Form.useForm();
   const message = useMessage();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
@@ -73,8 +73,12 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
+  const {
+    data: { hasEnded }
+  } = Learner.Queries.useGetTestStatus(testId + '');
 
-  // console.log(answerText,'aaa')
+  const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
+  const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   return (
     <Spin spinning={loading}>
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
@@ -91,13 +95,17 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               </Text>
               <Form.Item name={['answer','options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
-                  {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
+                    {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
+                    const SelectFormControlComponent=      <OptionSelectedFormControl disabled={(submittingAnswer || (VIEWING_MODE==='review'))} value={option._id}>
+                    <HtmlViewer content={option.text} />
+                  </OptionSelectedFormControl>
                     return (
                       <Row gutter={[0, 20]} key={option._id}>
                         <Col span={24}>
-                          <OptionSelectedFormControl disabled={submittingAnswer} value={option._id}>
-                            <HtmlViewer content={option.text} />
-                          </OptionSelectedFormControl>
+                          {/* @ts-ignore */}
+                          {VIEWING_MODE === 'review' ? (correctOptions.indexOf(option?._id) > -1 ?
+                            <Tooltip placement="top" title={`Correct Answer`}><CheckCircleTwoTone color='green' /> </Tooltip> :null) :null}
+                         {SelectFormControlComponent}
                         </Col>
                       </Row>
                     );
@@ -124,19 +132,16 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         </div>
 
         <Row justify="space-between">
-          <Col>
-            <Button onClick={() => navigate('prev')} style={{ marginRight: 20 }} icon={<BackwardOutlined />}>
+          <Col flex={1} style={VIEWING_MODE === 'test' ? {}:{justifyContent:'space-between',display:'flex'}}>
+            <Button type={VIEWING_MODE==='review'?'primary':'default'} onClick={() => navigate('prev')} style={{ marginRight: 20 }} icon={<BackwardOutlined />}>
               Previous
             </Button>
-            <Button onClick={() => navigate('next')} icon={<ForwardOutlined />}>
+            <Button type={VIEWING_MODE==='review'?'primary':'default'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
               Next
             </Button>
           </Col>
-          <Col>
-            <Button icon={<FlagOutlined />} danger type="default">
-              Mark for review
-            </Button>
-            <Button
+      {VIEWING_MODE==='test'?    <Col style={{display:'flex',flexDirection:'row-reverse'}}>
+      <Button
               loading={submittingAnswer} disabled={!isValid}
               type="primary"
               style={{ marginLeft: 20 }}
@@ -144,7 +149,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             >
               Submit Answer
             </Button>
-          </Col>
+            <Button icon={<FlagOutlined />} danger type="default">
+              Mark for review
+            </Button>
+           
+          </Col>:null}
         </Row>
       </Form>
     </Spin>

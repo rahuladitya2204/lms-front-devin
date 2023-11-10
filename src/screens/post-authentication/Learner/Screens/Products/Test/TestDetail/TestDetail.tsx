@@ -45,7 +45,7 @@ export default function TestDetailScreen(
   const isLoading = loadingTest || loadingEnrolledTest;
   return (
     <Row>
-      {isLoading ? <Skeleton paragraph={{ rows: 1 }} /> : <>
+      {loadingTest ? <Skeleton paragraph={{ rows: 1 }} /> : <>
       <Col md={24} sm={24} lg={0}>
           <TestCard plan={plan} testId={testId+''} />
           {/* Replace with card image */}

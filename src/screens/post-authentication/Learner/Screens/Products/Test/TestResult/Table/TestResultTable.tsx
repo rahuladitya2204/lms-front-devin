@@ -44,8 +44,8 @@ const TestResultTable: React.FC = () => {
         <Title level={4}>Question</Title>
         <HtmlViewer content={record.title+''} />
         
-        <Title level={4}>Your answer</Title>
-        <HtmlViewer content={record.subjectiveAnswerGiven} />
+       {record.subjectiveAnswerGiven?<> <Title level={4}>Your answer</Title>
+        <HtmlViewer content={record.subjectiveAnswerGiven} /></>:null}
             <Title level={4}>Solution</Title>
             <div>
             {/*  @ts-ignore */}

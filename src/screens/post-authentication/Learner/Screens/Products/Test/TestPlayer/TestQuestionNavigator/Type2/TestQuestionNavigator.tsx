@@ -19,18 +19,15 @@ export default function TestQuestionNavigatorType2(
   props: TestQuestionNavigatorType2PropsI
 ) {
   const navigate = useNavigate()
-  const { data: { sections }, isFetching } = Learner.Queries.useGetTestStatus(
+  const { data: { sections,hasEnded,hasStarted }, isFetching } = Learner.Queries.useGetTestStatus(
     props.testId + ''
   )
   const { currentQuestion,loading}=useQuestion();
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
-  const { data: enrolledProduct, isLoading: loadingEnrolledTest } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'test',
-    id:props.testId + ''
-  })
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
-  const testStartTime = enrolledProduct.metadata.test.startedAt;
-  console.log(testStartTime,'testStartTime')
+
+  const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
+  
   return (
     <Card
       style={{ height: '80vh' }}
@@ -39,7 +36,7 @@ export default function TestQuestionNavigatorType2(
       <Row>
         {isDesktop ? (
           <>
-          {(test.duration.enabled&&testStartTime)?<Col span={24}>
+          {(test.duration.enabled&&hasStarted&&!hasEnded)?<Col span={24}>
             {/* <Button type='primary' style={{marginBottom:30}} danger block size='large'> Submit Test</Button> */}
             <TestTimer testId={props.testId} />
             <Divider style={{ margin: 0, marginTop: 10 }} />
