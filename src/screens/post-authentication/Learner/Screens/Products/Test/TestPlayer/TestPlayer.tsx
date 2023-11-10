@@ -17,7 +17,7 @@ import { Enum, Learner } from '@adewaskar/lms-common'
 import { Navigate, Outlet, useNavigate, useParams } from 'react-router'
 import { lazy, useEffect, useMemo } from 'react'
 
-import ActionDrawer from '@Components/AcrtionDrawer'
+import ActionDrawer from '@Components/ActionDrawer'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'

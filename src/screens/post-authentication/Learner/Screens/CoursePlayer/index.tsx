@@ -20,7 +20,7 @@ import { Learner, Store, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo, useState } from 'react'
 
-import ActionDrawer from '@Components/AcrtionDrawer'
+import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'

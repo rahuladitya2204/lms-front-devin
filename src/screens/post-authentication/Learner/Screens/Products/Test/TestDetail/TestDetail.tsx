@@ -3,7 +3,7 @@ import { CalendarOutlined, InfoOutlined } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
-import ActionDrawer from '@Components/AcrtionDrawer'
+import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal'
 import CompletedTestCard from './CompletedTestMetadata'
 import HtmlViewer from '@Components/HtmlViewer'

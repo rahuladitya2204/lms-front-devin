@@ -49,6 +49,7 @@ function ActionDrawer(props: ActionDrawerPropsI) {
     <Fragment>
       <div onClick={showDrawer}>{props.cta}</div>
       <Drawer
+        style={{ padding: 10 }}
         keyboard={props.keyboardClosable}
         closable={props.closable}
         width={props.width}

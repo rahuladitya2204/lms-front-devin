@@ -22,6 +22,8 @@ import {
   LoginOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
+  MenuOutlined,
+  MenuUnfoldOutlined,
   ShopOutlined,
   ShoppingCartOutlined,
   UserOutlined
@@ -30,6 +32,7 @@ import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Link, NavLink } from 'react-router-dom'
 import { Outlet, useNavigate } from 'react-router'
 
+import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
@@ -44,12 +47,7 @@ const { confirm } = Modal
 const { Content } = Layout
 const { Text, Title } = Typography
 
-const menuItems = [
-  { title: 'Store', link: 'store', icon: <ShopOutlined /> },
-  { title: 'My Courses', link: 'courses', icon: <DesktopOutlined /> },
-  { title: 'My Tests', link: 'test', icon: <EditOutlined /> },
-  { title: 'My Events', link: 'event', icon: <CalendarOutlined /> }
-]
+
 
 const LearnerHeader: React.FC = () => {
   const {
@@ -82,30 +80,32 @@ const LearnerHeader: React.FC = () => {
       okText: 'Yes, Logout'
     })
   }
-
+  const menuItems = [
+    { label: 'Store', key: 'store', icon: <ShopOutlined /> },
+    { label: 'My Courses', key: 'courses', icon: <DesktopOutlined /> },
+    { label: 'My Tests', key: 'test', icon: <EditOutlined /> },
+    { label: 'My Events', key: 'event', icon: <CalendarOutlined /> }
+  ]
+  if (isMobileOrTablet) {
+    menuItems.unshift({ label: 'My Account', key: 'account', icon: <UserOutlined /> },)
+  }
   // Define the extraContent
   const extraContent = (
     <Space>
       {isMobileOrTablet ? (
-        <Dropdown
-          trigger={['click']}
-          placement="bottomLeft"
-          overlay={
-            <Menu>
-              {menuItems.map((item, index) => (
-                <Menu.Item
-                  key={index}
-                  onClick={() => navigate(`../app/${item.link}`)}
-                >
-                  {item.icon}
-                  {item.title}
-                </Menu.Item>
-              ))}
-            </Menu>
-          }
-        >
-          <Button shape="circle" icon={<MenuFoldOutlined />} />
-        </Dropdown>
+        <ActionDrawer cta={<Button icon={<MenuOutlined />} />}>
+          <Menu
+            defaultSelectedKeys={['1']}
+            // defaultOpenKeys={['sub1']}
+            mode="inline"
+            onClick={e => {
+              navigate(e.key)
+            }}
+            // theme="dark"
+            // inlineCollapsed={collapsed}
+            items={menuItems}
+          />
+        </ActionDrawer>
       ) : isSignedIn ? null : (
         <ActionModal
           width={300}
@@ -124,58 +124,62 @@ const LearnerHeader: React.FC = () => {
         </ActionModal>
       )}
 
-      {isSignedIn && (
-        <Space>
-          <Badge count={items?.length || 0} showZero={false}>
-            <Button
-              onClick={() => navigate('../app/cart')}
-              type="primary"
-              shape="circle"
-              icon={<ShoppingCartOutlined />}
-            />
-          </Badge>
-          <Dropdown
-            trigger={['click']}
-            placement="bottomLeft"
-            overlay={
-              <Menu>
-                <Menu.Item
-                  key="account"
-                  icon={
-                    <Avatar src={user.image} style={{ marginRight: 10 }}>
-                      {Utils.getFirstLettersOfName(user.name)}
-                    </Avatar>
-                  }
-                  onClick={() => navigate('../app/account')}
-                >
-                  {user?.name}
-                </Menu.Item>
-                {/* <Menu.Item
+      {isSignedIn &&
+        !isMobileOrTablet && (
+          <Space>
+            {!screen.isMobile ? (
+              <Badge count={items?.length || 0} showZero={false}>
+                <Button
+                  onClick={() => navigate('../app/cart')}
+                  type="primary"
+                  shape="circle"
+                  icon={<ShoppingCartOutlined />}
+                />
+              </Badge>
+            ) : null}
+
+            <Dropdown
+              trigger={['click']}
+              placement="bottomLeft"
+              overlay={
+                <Menu>
+                  <Menu.Item
+                    key="account"
+                    icon={
+                      <Avatar src={user.image} style={{ marginRight: 10 }}>
+                        {Utils.getFirstLettersOfName(user.name)}
+                      </Avatar>
+                    }
+                    onClick={() => navigate('../app/account')}
+                  >
+                    {user?.name}
+                  </Menu.Item>
+                  {/* <Menu.Item
                   key="account"
                 >
                   My Account
                 </Menu.Item> */}
-                <Menu.Item
-                  key="support"
-                  icon={<UserOutlined />}
-                  onClick={() => navigate('../app/tickets')}
-                >
-                  Help and Support
-                </Menu.Item>
-                <Menu.Item
-                  icon={<LogoutOutlined />}
-                  key="logout"
-                  onClick={logout}
-                >
-                  Logout
-                </Menu.Item>
-              </Menu>
-            }
-          >
-            <Button shape="circle" icon={<UserOutlined />} />
-          </Dropdown>
-        </Space>
-      )}
+                  <Menu.Item
+                    key="support"
+                    icon={<UserOutlined />}
+                    onClick={() => navigate('../app/tickets')}
+                  >
+                    Help and Support
+                  </Menu.Item>
+                  <Menu.Item
+                    icon={<LogoutOutlined />}
+                    key="logout"
+                    onClick={logout}
+                  >
+                    Logout
+                  </Menu.Item>
+                </Menu>
+              }
+            >
+              <Button shape="circle" icon={<UserOutlined />} />
+            </Dropdown>
+          </Space>
+        )}
     </Space>
   )
 
@@ -188,12 +192,12 @@ const LearnerHeader: React.FC = () => {
             onClick={() => navigate('../app/store')}
             // style={{ width: 60 }}
           />
-          {screen.isDesktop ? (
+          {screen.isDesktop && isSignedIn ? (
             <Space style={{ marginLeft: 45 }}>
               {menuItems.map((item, index) => (
                 <NavLink
                   key={index}
-                  to={`../app/${item.link}`}
+                  to={`../app/${item.key}`}
                   style={{ margin: '0 5px' }}
                   children={({ isActive }) => (
                     <Button
@@ -202,7 +206,7 @@ const LearnerHeader: React.FC = () => {
                       icon={item.icon}
                       type={isActive ? 'primary' : 'default'}
                     >
-                      {item.title}
+                      {item.label}
                     </Button>
                   )}
                 />
