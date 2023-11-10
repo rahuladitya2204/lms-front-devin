@@ -77,7 +77,7 @@ render={(title) => (
         dataIndex="optionsSelected"
         key="optionsSelected"
                /* @ts-ignore */
-        render={(_, record: TestResultItem) => record.type!=='subjective'?(record?.optionsSelected?.map(opt => <Tag>{opt }</Tag>)) :'-'}
+        render={(_, record: TestResultItem) => record.type!=='subjective'?((record?.optionsSelected?.length)?(record?.optionsSelected?.map(opt => <Tag>{opt }</Tag>)):'-') :'-'}
 />
 <Table.Column
 title="Result"
@@ -94,7 +94,7 @@ render={(_,record:TestResultItem) => (
           {record.isAnswered ? <>
         {record.isCorrect?<Tag color='green-inverse'>Correct</Tag>:<Tag color='red-inverse'>Incorrect</Tag>}
         </> : <Tag color='orange-inverse'>Not Attempted</Tag>}
-        <Tooltip placement="right" title={`${Math.ceil(record.globalCorrectPercentage)}%`}>  <GlobalOutlined/>
+        <Tooltip placement="right" title={`Global Correctness: ${Math.ceil(record.globalCorrectPercentage)}%`}>  <GlobalOutlined/>
         </Tooltip>
     </>}
        {/* @ts-ignore */}
@@ -106,7 +106,7 @@ render={(_,record:TestResultItem) => (
 title="Time Spent (s)"
 dataIndex="timeSpent"
 key="timeSpent"
-render={timeSpent => <span>{Utils.formatTime(timeSpent)}</span>}
+render={timeSpent => <span>{timeSpent?Utils.formatTime(timeSpent):'-'}</span>}
     />
          <Table.Column responsive={['xs']}
 title="Score"

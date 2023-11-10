@@ -189,13 +189,13 @@ Exit
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
               </Card>:null}
             </Col>
-            <Col lg={8} md={0}>
+            {isDesktop?<Col lg={8} md={0}>
               <Row gutter={[20, 20]}>
                 <Col span={24}>
                   <TestQuestionNavigator questionId={questionId+''} testId={testId + ''} />
                 </Col>
               </Row>
-            </Col>
+            </Col>:null}
          
           </Row>
         </Col>

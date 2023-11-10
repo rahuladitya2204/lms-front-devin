@@ -85,9 +85,16 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
             <Col span={24}>
-              <Title style={{ margin: 0 }} level={5} type="secondary">
+              <Row justify={'space-between'}>
+                <Col>
+                <Title style={{ margin: 0 }} level={5} type="secondary">
                 Question {currentQuestionIndex + 1}
-              </Title>
+                  </Title>
+                </Col>
+                {/* <Col>
+                  <span>Time Spent</span>
+                </Col> */}
+              </Row>
               <HtmlViewer content={currentQuestion.title} />
               {currentQuestion.type !== 'subjective' ? <>
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === 'single' ? 16 : 18 }} type="secondary">
@@ -149,9 +156,9 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             >
               Submit Answer
             </Button>
-            <Button icon={<FlagOutlined />} danger type="default">
+            {/* <Button icon={<FlagOutlined />} danger type="default">
               Mark for review
-            </Button>
+            </Button> */}
            
           </Col>:null}
         </Row>
