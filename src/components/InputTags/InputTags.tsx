@@ -52,7 +52,7 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [] }) =>
     <Form.List name={name}>
       {(fields, { add, remove }) => {
         const fieldValue = form.getFieldValue(name);
-        console.log(fieldValue,'fieldValue')
+        // console.log(fieldValue,'fieldValue')
         return (
           <>
             {fields.map((field, index) => (

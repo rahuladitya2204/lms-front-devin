@@ -153,7 +153,8 @@ const AddTextItem: React.FC<AddItemProps> = props => {
           </Col>
         </Row>
         <Form.Item name="description" label="Description">
-          <TextArea html
+          <TextArea
+            html
             // onChange={e =>
             //   onFormChange({
             //     description: e
