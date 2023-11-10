@@ -21,6 +21,7 @@ import { Store, User } from '@adewaskar/lms-common'
 import Header from '@Components/Header'
 import OrgLogo from '@Components/OrgLogo'
 import { PageHeaderProps } from '@ant-design/pro-layout'
+import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal
 
@@ -38,6 +39,7 @@ const { Content } = Layout
 const { Text, Title } = Typography
 
 const UserHeader: React.FC<HeaderPropsI> = props => {
+  const qc = useQueryClient()
   const {
     mutate: logoutUser,
     isLoading: loggingOut
@@ -56,6 +58,7 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
           onSuccess: () => {
             console.log('Loggin out')
             navigate('../../../login')
+            qc.invalidateQueries()
           }
         })
       },
