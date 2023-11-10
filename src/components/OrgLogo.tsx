@@ -7,7 +7,6 @@ import Image from './Image'
 function OrgLogo(props: any) {
   // const navigate = useNavigate()
   const { data: organisation } = Common.Queries.useGetOrgDetails()
-  console.log(organisation, 'organisation')
   const logo = organisation?.branding?.logo
   if (!logo) {
     return null
@@ -16,7 +15,7 @@ function OrgLogo(props: any) {
     <Image
       // onClick={() => navigate('../app/store')}
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
-      width={`30px`}
+      width={props.width || `30px`}
       preview={false}
       src={logo.url}
       {...props}

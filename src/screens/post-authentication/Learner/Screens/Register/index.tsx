@@ -1,5 +1,5 @@
 import { Button, Checkbox, Form, Input, Typography } from 'antd'
-import { Learner, Store, Types } from '@adewaskar/lms-common'
+import { Common, Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { ActionModalI } from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
@@ -12,7 +12,7 @@ interface LearnerRegisterPropsI extends ActionModalI {}
 
 function LearnerRegister(props: LearnerRegisterPropsI) {
   const message = useMessage()
-  const organisation = Store.useGlobal(o => o.organisation)
+  const { data: organisation } = Common.Queries.useGetOrgDetails()
   const [form] = Form.useForm()
   const {
     mutate: Signup,
@@ -20,34 +20,37 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
   } = Learner.Queries.useRegisterLearner()
 
   const onFinish = async (values: Types.SignupData) => {
-    try {
-      await Signup(
-        {
-          email: values.email,
-          password: values.password,
-          name: values.name,
-          contactNo: values.contactNo
-        },
-        {
-          onSuccess: user => {
-            // @ts-ignore
-            if (user.organisation)
-              // @ts-ignore
-              Utils.Storage.SetItem('orgId', user.organisation)
-            props.closeModal && props.closeModal()
-            form.resetFields()
-            message.open({
-              type: 'success',
-              content: `Congratulation ${user.name}, Welcome to ${
-                organisation.name
-              }!`
-            })
+    Signup(
+      {
+        email: values.email,
+        password: values.password,
+        name: values.name,
+        contactNo: values.contactNo
+      },
+      {
+        onSuccess: user => {
+          console.log('hello', user, 'huh')
+          if (user.organisation) {
+            Utils.Storage.SetItem('orgId', user.organisation)
           }
+          form.resetFields()
+          message.open({
+            type: 'success',
+            content: `Congratulation ${user.name}, Welcome to ${
+              organisation.name
+            }!`
+            // icon: organisation.logo
+          })
+          props.closeModal && props.closeModal()
+        },
+        onError: () => {
+          message.open({
+            type: 'error',
+            content: 'Please enter valid details'
+          })
         }
-      )
-    } catch (error) {
-      console.error('Signup failed:', error)
-    }
+      }
+    )
   }
 
   const validateMessages = {

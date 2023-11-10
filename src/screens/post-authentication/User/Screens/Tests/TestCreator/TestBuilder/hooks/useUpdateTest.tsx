@@ -6,10 +6,11 @@ import { Form } from 'antd'
 import { FormInstance } from 'antd/lib/form/Form'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
+import useTestBuilderUI from './useTestBuilder'
 
 function useUpdateTestForm(form: FormInstance) {
   const message = useMessage()
-  const FormTopics = Form.useWatch('options', form) || [];
+  const FormTopics = Form.useWatch('options', form) || []
   const { data: topics } = User.Queries.useGetTopics()
   let { itemId, id: testId } = useParams()
   const { data: item } = User.Queries.useGetTestItemDetails(
@@ -32,9 +33,11 @@ function useUpdateTestForm(form: FormInstance) {
       form.resetFields()
     }
   }, [])
+  const { updateNavigator } = useTestBuilderUI()
 
   const updateItem = useCallback(
     debounce((testId, itemId, data) => {
+      updateNavigator({ loading: true })
       if (!isProgrammaticChange.current) {
         updateItemApi(
           {
@@ -50,6 +53,9 @@ function useUpdateTestForm(form: FormInstance) {
                   content: `Saved`
                 })
               }
+            },
+            onSettled: () => {
+              updateNavigator({ loading: false })
             }
           }
         )

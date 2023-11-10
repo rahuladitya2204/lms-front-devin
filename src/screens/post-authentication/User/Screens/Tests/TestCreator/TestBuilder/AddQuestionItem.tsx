@@ -32,6 +32,7 @@ import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { uniqueId } from 'lodash';
 import { useState } from 'react';
+import useTestBuilderUI from './hooks/useTestBuilder';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
 const { Title } = Typography;
@@ -68,7 +69,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     }
   
   const questionType = Form.useWatch('type', form);
-  
+  const { updateNavigator } = useTestBuilderUI();
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
 
   const {data: item,isLoading: loadingItem } = User.Queries.useGetTestItemDetails(testId+'', itemId+'');

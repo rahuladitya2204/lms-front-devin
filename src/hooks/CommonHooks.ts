@@ -31,6 +31,7 @@ export const useAppInit = (type: string) => {
   const [isAliasValid, setAliasValid] = useState<boolean | null>(null)
   const { fetchOrganisation } = Store.useGlobal();
   const [loading, setLoading] = useState(false);
+  const { data: organisation } = Common.Queries.useGetOrgDetails()
   const {
     mutate: validateUser,
   } = Common.Queries.useValidateUser();

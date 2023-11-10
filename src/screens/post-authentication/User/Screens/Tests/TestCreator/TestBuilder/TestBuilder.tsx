@@ -16,6 +16,7 @@ import TestOutline from './TestOutline'
 import TestSectionsNavigator from './TestSectionsNavigator'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
+import useTestBuilderUI from './hooks/useTestBuilder'
 
 const { confirm } = Modal
 
@@ -33,7 +34,8 @@ function TestBuilderScreen() {
   const {
     mutate: deleteSectionApi,
     isLoading: deletingSection
-  } = User.Queries.useDeleteTestSection()
+  } = User.Queries.useDeleteTestSection();
+  const { getNavigator} = useTestBuilderUI();
   const {
     mutate: deleteSectionItemApi,
     isLoading: deletingSectionItem
@@ -337,7 +339,7 @@ function TestBuilderScreen() {
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Spin tip='Please wait..' spinning={deletingSection || deletingSectionItem || loadingTest}>
+                <Spin tip='Please wait..' spinning={deletingSection || getNavigator().loading || deletingSectionItem || loadingTest}>
                   <TestSectionsNavigator
                     deleteSectionItem={deleteSectionItem}
                     deleteSection={deleteSection}

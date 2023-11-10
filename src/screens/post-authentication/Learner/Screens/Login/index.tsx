@@ -1,11 +1,12 @@
 import { ArrowLeftOutlined, GoogleOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Divider, Form, Input } from 'antd'
-import { Constants, Learner, Store, User } from '@adewaskar/lms-common'
+import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import LearnerRegister from '../Register'
+import OrgLogo from '@Components/OrgLogo'
 import ResetPassword from './RequestResetPassword'
 import SelectFormGroup from '@Components/SelectFormGroup'
 import Tabs from '@Components/Tabs'
@@ -249,7 +250,7 @@ const EmailForm = () => {
     mutate: loginUser,
     isLoading: loading
   } = Learner.Queries.useLoginLearner();
-
+  const { data: org } = Common.Queries.useGetOrgDetails();
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields()
@@ -261,7 +262,8 @@ const EmailForm = () => {
             message.open({
               type: 'success',
               // @ts-ignore
-              content: `Welcome to ${orgName}, ${user.name}`
+              content: `Welcome to ${orgName}, ${user.name}`,
+              // icon:<OrgLogo width={20} />
             })
           }
         },
