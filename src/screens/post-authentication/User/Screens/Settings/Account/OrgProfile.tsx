@@ -7,6 +7,7 @@ import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import Title from 'antd/es/typography/Title'
 import { debounce } from 'lodash'
+import { generateGradients } from '@Utils/index'
 import { useFontValidation } from '@Hooks/useFontValidation'
 
 export default function OrgProfile() {
@@ -31,7 +32,23 @@ export default function OrgProfile() {
   }
   const { isFontValidating, isFontValid, validateFontName } = useFontValidation(form);
 
-  const logoUrl = useWatch(['branding','logo','url'], form);
+  const logoUrl = useWatch(['branding', 'logo', 'url'], form);
+  
+
+  useEffect(() => {
+    const primaryColor = form.getFieldValue(['branding', 'colors', 'primary']);
+    if (primaryColor) {
+      const gradients = generateGradients(primaryColor);
+      console.log(gradients,'gradients')
+      form.setFieldValue(['branding', 'gradient'], gradients);
+      // form.setFieldsValue({
+      //   branding: {
+      //     gradient: gradients
+      //   }
+      // });
+    }
+  }, [form, generateGradients]);
+  
 
   return (
     <Spin spinning={ isLoading}>
@@ -81,6 +98,41 @@ export default function OrgProfile() {
   <ColorPicker />
               </Form.Item>
    </Col>
+          </Row>
+          <Row gutter={[20,20]}>
+          <Col span={6}>
+    <Form.Item
+      name={['branding', 'gradient', 'type1']}
+      label="Gradient Type 1"
+    >
+      <Select mode="tags" style={{ width: '100%' }} placeholder="Select gradient type 1" />
+    </Form.Item>
+  </Col>
+  <Col span={6}>
+    <Form.Item
+      name={['branding', 'gradient', 'type2']}
+      label="Gradient Type 2"
+    >
+      <Select mode="tags" style={{ width: '100%' }} placeholder="Select gradient type 2" />
+    </Form.Item>
+            </Col>
+            <Col span={6}>
+    <Form.Item
+      name={['branding', 'gradient', 'type3']}
+      label="Gradient Type 3"
+    >
+      <Select mode="tags" style={{ width: '100%' }} placeholder="Select gradient type 2" />
+    </Form.Item>
+            </Col>
+            <Col span={6}>
+    <Form.Item
+      name={['branding', 'gradient', 'type4']}
+      label="Gradient Type 4"
+    >
+      <Select mode="tags" style={{ width: '100%' }} placeholder="Select gradient type 2" />
+    </Form.Item>
+  </Col>
+
           </Row>
           <Form.Item
   name={['branding', 'theme']}
