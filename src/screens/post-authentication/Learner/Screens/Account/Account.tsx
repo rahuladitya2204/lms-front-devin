@@ -1,5 +1,5 @@
-import { Tabs } from 'antd'
 import LearnerProfile from './Profile'
+import { Tabs } from 'antd'
 
 const items = [
   {
@@ -7,16 +7,16 @@ const items = [
     key: '1',
     children: <LearnerProfile />
   },
-  {
-    label: `Affiliate Dashboard`,
-    key: '2',
-    children: `Content of Tab Pane 2`
-  },
-  {
-    label: `Purchase History`,
-    key: '3',
-    children: `Content of Tab Pane 3`
-  }
+  // {
+  //   label: `Affiliate Dashboard`,
+  //   key: '2',
+  //   children: `Content of Tab Pane 2`
+  // },
+  // {
+  //   label: `Purchase History`,
+  //   key: '3',
+  //   children: `Content of Tab Pane 3`
+  // }
 ]
 
 export default function LearnerAccount () {
