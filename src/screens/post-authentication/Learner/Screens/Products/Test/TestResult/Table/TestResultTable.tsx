@@ -108,11 +108,11 @@ dataIndex="timeSpent"
 key="timeSpent"
 render={timeSpent => <span>{timeSpent?Utils.formatTime(timeSpent):'-'}</span>}
     />
-         <Table.Column responsive={['xs']}
+         <Table.Column
 title="Score"
 dataIndex="scoreAchieved"
 key="scoreAchieved"
-render={scoreAchieved => <span>{scoreAchieved} </span>}
+render={scoreAchieved => <span>{scoreAchieved>=0?scoreAchieved:'-'} </span>}
 />
 </Table>
     </Card></Col>
