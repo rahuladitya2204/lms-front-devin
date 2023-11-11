@@ -84,7 +84,7 @@ const OtpForm = () => {
   const [otpSent, setOtpSent] = useState(false);
   const { mutate: sendOtpApi, isLoading: sendingOtp } = Learner.Queries.useSendLoginOtp();
   const { mutate: verifyOtpApi, isLoading: verifyingOtp } = Learner.Queries.useVerifyLoginOtp();
-
+  const [contactNo, setContactNo] = useState('');
   const sendOtp = async () => {
     try {
       const values = await form.validateFields();
@@ -94,6 +94,7 @@ const OtpForm = () => {
       {
         onSuccess: user => {
           message.open({ type: 'success', content: `OTP has been sent to ${contactNo}` });
+          setContactNo(contactNo)
           setOtpSent(true);
         },
         onError: () => {
@@ -108,12 +109,8 @@ const OtpForm = () => {
   const verifyOtp = async (d: { code: string }) => {
     try {
       const values = await form.validateFields();
-      let contactNo = values.contactNo;
-
-      // Same logic for appending '+91' if necessary
-      if (contactNo.replace(/\D/g, '').length === 10) {
-        contactNo = '+91' + contactNo;
-      }
+      // let contactNo = contactNo;
+      console.log(contactNo,'con')
 
       verifyOtpApi({
         code: d.code,
