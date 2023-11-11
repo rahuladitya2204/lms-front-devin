@@ -80,7 +80,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
  
-  const SubmitTestButton = <Button
+  const SubmitTestButton = <Button block={!isDesktop}
     onClick={() => {
       confirm({
         title: 'Are you sure?',
@@ -144,7 +144,7 @@ Exit
           </Tag>:null}
         </Col>:null}
         <Col>
-        {!isDesktop ? (VIEWING_MODE==='test'?<ActionDrawer cta={<Button icon={<MenuOutlined />}>
+        {!isDesktop ? (VIEWING_MODE==='test'?<ActionDrawer footer={()=>[VIEWING_MODE === 'test' ? SubmitTestButton : ExitButton]} cta={<Button icon={<MenuOutlined />}>
           </Button>}>
             {(hasStarted&&!hasEnded)?<TestQuestionNavigator questionId={questionId + ''} testId={testId + ''} />:null}
           </ActionDrawer>:ExitButton): <>

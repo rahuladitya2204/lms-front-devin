@@ -1,5 +1,5 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
-import { Badge, Button, Card, Col, Divider, Row, Typography, theme } from 'antd'
+import { Badge, Button, Card, Col, Divider, Modal, Row, Typography, theme } from 'antd'
 
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
@@ -12,7 +12,7 @@ interface TestQuestionNavigatorType2PropsI {
   testId: string;
   questionId: string;
 }
-
+const { confirm } = Modal;
 const { Text, Title } = Typography
 
 export default function TestQuestionNavigatorType2(
@@ -26,9 +26,40 @@ export default function TestQuestionNavigatorType2(
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
 
-  const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
+  // const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const { token } = theme.useToken()
+  const {
+    mutate: endTest,
+    isLoading: submittingTest
+  } = Learner.Queries.useEndTest()
+  const SubmitTestButton = <Button block
+    onClick={() => {
+      confirm({
+        title: 'Are you sure?',
+        // icon: <ExclamationCircleOutlined />,
+        content: `You want to submit this test?`,
+        onOk() {
+          endTest(
+            { testId: test._id + '' },
+            {
+              onSuccess: () => {
+                if (!test.isLive) {
+                  return navigate('../result')
+                }
+                navigate('../completed')
 
+              }
+            }
+          )
+        },
+        okText: 'Yes, Submit'
+      })
+    }}
+    type="primary" danger
+    loading={submittingTest}
+  >
+    Submit Test
+  </Button>;
   return (
     <Card
       style={{ height: '80vh' }}
@@ -44,16 +75,7 @@ export default function TestQuestionNavigatorType2(
  </Col>:null}
           </>
         ) : (
-          <Button
-            type="primary"
-            style={{ marginBottom: 30 }}
-            danger
-            block
-            size="large"
-          >
-            {' '}
-            Submit Test
-          </Button>
+          null
         )}
         <Col span={24}>
           <Title style={{ textAlign: 'center' }} level={3}>
