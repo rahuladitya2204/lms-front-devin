@@ -1,6 +1,7 @@
 import { Col, Row, Space, Typography } from 'antd'
 
 import BackButton from './BackButton'
+import OrgLogo from './OrgLogo'
 import { PageHeaderProps } from '@ant-design/pro-layout'
 import React from 'react'
 import styled from '@emotion/styled'
@@ -11,6 +12,7 @@ interface HeaderPropsI extends PageHeaderProps {
   showBack?: boolean;
   hideBack?: boolean;
   extra?: React.ReactNode;
+  showLogo?: boolean;
   theme?: string;
   bgColor?: string;
 }
@@ -45,6 +47,7 @@ const Header: React.FC<HeaderPropsI> = props => {
             <Col>
               <Space align="center">
                 {props.showBack ? <BackButton /> : null}
+                {props.showLogo ? <OrgLogo width={20} /> : null}
                 <Title level={4} style={{ margin: '10px 0' }}>
                   {props.title}
                 </Title>

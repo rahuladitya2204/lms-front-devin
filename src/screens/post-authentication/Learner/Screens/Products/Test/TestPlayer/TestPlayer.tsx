@@ -134,7 +134,7 @@ Exit
       banner type='error'
       closable
       />:null}
-        <Header
+        <Header showLogo
       title={test.title}
       subTitle={'asd'}
       extra={<Row>
