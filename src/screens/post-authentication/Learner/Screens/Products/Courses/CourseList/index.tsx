@@ -39,20 +39,10 @@ const LearnerCourseList: React.FC = () => {
     )
   }
   return (
-    <Fragment>
-      <List
-        grid={{
-          gutter: 16,
-          xs: 1,
-          sm: 2,
-          md: 3
-          // lg: 4,
-          // xl: 4,
-          // xxl: 4
-        }}
-        size="large"
-        dataSource={enrolledCourses}
-        renderItem={enrolledProduct => (
+    <Row gutter={[20, 30]}>
+      {enrolledCourses.map(enrolledProduct => (
+        <Col xs={24} sm={12} md={8} lg={6}>
+          {' '}
           <CourseCard
             onClick={() =>
               navigate(`../enrolled-courses/${enrolledProduct.product.id}`)
@@ -61,9 +51,9 @@ const LearnerCourseList: React.FC = () => {
             enrolledProduct={enrolledProduct}
             progress={enrolledProduct.progress}
           />
-        )}
-      />
-    </Fragment>
+        </Col>
+      ))}
+    </Row>
   )
 }
 

@@ -53,22 +53,11 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
     )
   }
   return (
-    <List
-      grid={{
-        gutter: 20,
-        column: 4
-        // xs: 1,
-        // sm: 2,
-        // md: 4,
-        // lg: 4,
-        // xl: 6,
-        // xxl: 3
-      }}
-      // @ts-ignore
-      dataSource={data.filter(pd => {
+<Row gutter={[20,30]}>
+      {data.filter(pd => {
         return !(pd.product?.data?.endedAt || pd.metadata.test.endedAt)
-      })}
-      renderItem={({ product: { data: test } }:{ product: { data: Types.Test } }) => {
+        // @ts-ignore
+      }).map(({ product: { data: test } }:{ product: { data: Types.Test } }) => {
         const formattedDuration = test.duration.enabled?(Utils.formatTime(test?.duration.value*60)):null
   const CardComponent = (
           <Card
@@ -110,17 +99,19 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
           </Card>
         )
         return (
-          <List.Item>
-            {/* @ts-ignore */}
-            {test?.product?.data?.isLive ? (
-              <Badge.Ribbon text="live">{CardComponent}</Badge.Ribbon>
-            ) : (
-              CardComponent
-            )}
-          </List.Item>
+          // @ts-ignore
+          <Col xs={24} sm={12} md={8} lg={6} > {test?.product?.data?.isLive ? (
+            <Badge.Ribbon text="live">{CardComponent}</Badge.Ribbon>
+          ) : (
+            CardComponent
+          )}</Col>
         )
-      }}
-    />
+      })}
+      
+
+</Row>
+
+
   )
 }
 export default UpcomingTest

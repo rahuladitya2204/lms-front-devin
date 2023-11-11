@@ -12,7 +12,7 @@ interface ActionDrawerPropsI {
   height?: number | string;
   placement?: 'top' | 'right' | 'bottom' | 'left';
   visible?: boolean;
-  extra?: (fn:Function)=>React.ReactNode[];
+  extra?: (fn: Function) => React.ReactNode[];
   cta?: React.ReactNode;
   footer?: (f: any) => React.ReactNode[];
 }
@@ -51,10 +51,12 @@ function ActionDrawer(props: ActionDrawerPropsI) {
       <div onClick={showDrawer}>{props.cta}</div>
       <Drawer
         style={{ padding: 10 }}
-        keyboard={props.keyboardClosable} extra={props.extra&&props.extra(closeDrawer)}
+        keyboard={props.keyboardClosable}
+        extra={props.extra && props.extra(closeDrawer)}
         closable={props.closable}
         width={props.width}
         height={props.height}
+        bodyStyle={{ padding: 0 }}
         placement={props.placement}
         onClose={closeDrawer}
         visible={isVisible}

@@ -97,28 +97,20 @@ const LearnerHeader: React.FC = () => {
   const extraContent = (
     <Space>
       {isMobileOrTablet ? (
-        <ActionDrawer width={300}
+        <>
+        {isSignedIn?    <ActionDrawer width={300}
           extra={closeDrawer => [
-            isSignedIn ? (
-              <Button
-                icon={<LogoutOutlined />}
-                loading={loggingOut}
-                onClick={() => {
-                  logout(closeDrawer)
-                }}
-                type="primary"
-                block
-              >
-                Logout
-              </Button>
-            ) : (
-              <ActionModal
-                width={300}
-                cta={<Button icon={<LoginOutlined />}>Login</Button>}
-              >
-                <LearnerLogin />
-              </ActionModal>
-            )
+            <Button
+            icon={<LogoutOutlined />}
+            loading={loggingOut}
+            onClick={() => {
+              logout(closeDrawer)
+            }}
+            type="primary"
+            block
+          >
+            Logout
+          </Button>
           ]}
           cta={<Button icon={<MenuOutlined />} />}
         >
@@ -133,9 +125,10 @@ const LearnerHeader: React.FC = () => {
             // inlineCollapsed={collapsed}
             items={menuItems}
           />
-        </ActionDrawer>
-      ) : isSignedIn ? null : (
-        <ActionModal
+        </ActionDrawer>:null}
+        </>
+      ) : null}
+{!isSignedIn?<ActionModal
           width={300}
           title="Login"
           cta={
@@ -149,9 +142,7 @@ const LearnerHeader: React.FC = () => {
           }
         >
           <LoginScreen />
-        </ActionModal>
-      )}
-
+        </ActionModal>:null}
       {isSignedIn &&
         !isMobileOrTablet && (
           <Space>
