@@ -76,7 +76,7 @@ export default function TestQuestionNavigatorType2(
                               const isCurrent = currentQuestion._id === item._id;
                               return (
                               // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
-                              <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
+                              // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
                               <Button
                                   // loading={loading && isCurrent}
                                 onClick={() => navigate(item._id)} danger={item.isMarked}
@@ -94,7 +94,7 @@ export default function TestQuestionNavigatorType2(
                               >
                                 {itemIndex + 1}
                                 </Button>
-                                 </Badge>
+                                //  </Badge>
                             )}}
                           />
                         </Col>
