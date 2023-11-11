@@ -12,9 +12,9 @@ import {
     Typography
 } from 'antd'
 import { CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons'
+import { Fragment, useMemo } from 'react'
 
 import Countdown from '@Components/Countdown'
-import { Fragment } from 'react'
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import dayjs from 'dayjs'
@@ -37,16 +37,16 @@ interface TestTimerPropsI {
 export default function TestTimer(props: TestTimerPropsI) {
     const { testId} = props;
     const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
-    const {
-        data: enrolledProduct, isLoading: loadingEnrolledTest
-      } = Learner.Queries.useGetEnrolledProductDetails({
-        type: 'test',
-        id: testId + ''
-      })
-    const endingAt = dayjs(enrolledProduct.metadata.test.startedAt)
+      const {
+        data: { startedAt }
+      } = Learner.Queries.useGetTestStatus(testId + '');
+  
+  const endingAt = useMemo(() => dayjs(startedAt)
     .add(test.duration.value, 'minutes')
-    .toString()
-    const { percentLeft } = useCountdownTimer(endingAt)
+    .toString(), [startedAt, test]);
+  
+  const { percentLeft } = useCountdownTimer(endingAt);
+  
     return  <div
     style={{
       display: 'flex',
