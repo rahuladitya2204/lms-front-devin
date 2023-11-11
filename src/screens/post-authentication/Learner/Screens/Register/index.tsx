@@ -43,10 +43,10 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
           })
           props.closeModal && props.closeModal()
         },
-        onError: () => {
+        onError: (er: any) => {
           message.open({
             type: 'error',
-            content: 'Please enter valid details'
+            content: er.response.data.message
           })
         }
       }

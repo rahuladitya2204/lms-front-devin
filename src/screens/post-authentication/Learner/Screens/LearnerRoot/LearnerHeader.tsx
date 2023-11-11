@@ -47,8 +47,6 @@ const { confirm } = Modal
 const { Content } = Layout
 const { Text, Title } = Typography
 
-
-
 const LearnerHeader: React.FC = () => {
   const {
     mutate: logoutLearner,
@@ -64,7 +62,7 @@ const LearnerHeader: React.FC = () => {
   // console.log(screen, 'scrrrr')
   const isMobileOrTablet = screen.isMobile || screen.isTablet
   const navigate = useNavigate()
-  const logout = () => {
+  const logout = (cb?: Function) => {
     confirm({
       title: 'Are you sure?',
       icon: <LogoutOutlined />,
@@ -74,6 +72,7 @@ const LearnerHeader: React.FC = () => {
           onSuccess: () => {
             qc.invalidateQueries()
             navigate('../app/store')
+            cb && cb()
           }
         })
       },
@@ -87,13 +86,31 @@ const LearnerHeader: React.FC = () => {
     { label: 'My Events', key: 'event', icon: <CalendarOutlined /> }
   ]
   if (isMobileOrTablet) {
-    menuItems.unshift({ label: 'My Account', key: 'account', icon: <UserOutlined /> },)
+    menuItems.unshift({
+      label: 'My Account',
+      key: 'account',
+      icon: <UserOutlined />
+    })
   }
   // Define the extraContent
   const extraContent = (
     <Space>
       {isMobileOrTablet ? (
-        <ActionDrawer cta={<Button icon={<MenuOutlined />} />}>
+        <ActionDrawer
+          footer={closeDrawer => [
+            <Button
+              loading={loggingOut}
+              onClick={() => {
+                logout(closeDrawer)
+              }}
+              type="primary"
+              block
+            >
+              Logout
+            </Button>
+          ]}
+          cta={<Button icon={<MenuOutlined />} />}
+        >
           <Menu
             defaultSelectedKeys={['1']}
             // defaultOpenKeys={['sub1']}
@@ -169,7 +186,7 @@ const LearnerHeader: React.FC = () => {
                   <Menu.Item
                     icon={<LogoutOutlined />}
                     key="logout"
-                    onClick={logout}
+                    onClick={()=>logout()}
                   >
                     Logout
                   </Menu.Item>
