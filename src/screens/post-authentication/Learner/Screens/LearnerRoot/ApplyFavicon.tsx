@@ -22,6 +22,7 @@ const ApplyFavicon: React.FC<ApplyFaviconProps> = ({ faviconUrl, shortName }) =>
 
     // For title
     const originalTitle = document.title; // Store the current title
+    if(shortName)
     document.title = shortName; // Update the title
 
     // Cleanup function to reset favicon and title when component unmounts
@@ -29,7 +30,7 @@ const ApplyFavicon: React.FC<ApplyFaviconProps> = ({ faviconUrl, shortName }) =>
       if (existingLink) {
         existingLink.href = originalFaviconHref;
       }
-      if (shortName) {
+      if (originalTitle) {
         document.title = originalTitle; // Reset the title
       }
     };

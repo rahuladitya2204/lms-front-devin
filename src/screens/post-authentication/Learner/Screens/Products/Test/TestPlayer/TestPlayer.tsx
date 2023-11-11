@@ -50,13 +50,15 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
   const {
-    data: { totalAnswered, totalQuestions, status, hasStarted, hasEnded }
+    data: { startedAt, hasStarted, hasEnded }
   } = Learner.Queries.useGetTestStatus(testId + '');
 
   const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   // console.log(dayjs(enrolledProduct?.metadata?.test?.startedAt).format('LLL'))
-  const startTime =  test.startedAt || enrolledProduct.metadata.test.startedAt
-
+  const endingAt = useMemo(() => dayjs(startedAt)
+    .add(test.duration.value, 'minutes')
+    .toString(), [startedAt, test]);
+  
   useEffect(
     () => {
       if (test.sections[0]?.items[0] && !questionId) {
@@ -75,7 +77,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     // navigate('../completed')
   };
   const testEndTime = enrolledProduct.metadata.test.endedAt || test.endedAt;
-  const endTime = dayjs(startTime).add(test.duration.value, 'minute');
+
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
  
   const SubmitTestButton = <Button
@@ -138,7 +140,7 @@ Exit
       extra={<Row>
         {!isDesktop?<Col>
        {(hasStarted&&!hasEnded)?<Tag color="blue">
-        Time Left: <Countdown targetDate={endTime.toString()} />
+        Time Left: <Countdown targetDate={endingAt} />
           </Tag>:null}
         </Col>:null}
         <Col>

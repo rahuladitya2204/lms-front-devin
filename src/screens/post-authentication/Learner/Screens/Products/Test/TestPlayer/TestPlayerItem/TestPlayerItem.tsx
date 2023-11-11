@@ -169,7 +169,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     message.open({type:'success',content:'Review Done'})
                   }
                 })}
-                icon={<FlagOutlined />} danger>
+                icon={<CheckOutlined/>} danger>
               Review Done
               </Button> : <Button loading={updatingFlag}
                 onClick={() => updateQuestionResponseFlag(
@@ -181,7 +181,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                       message.open({type:'success',content:'Marked for review later'})
                     }
                   })}
-                icon={<CheckOutlined />} danger type="default">
+                icon={<FlagOutlined />} danger type="default">
               Mark for review
             </Button>}
            
