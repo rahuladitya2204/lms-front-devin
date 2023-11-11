@@ -1,4 +1,4 @@
-import { ArrowDownOutlined, ArrowLeftOutlined } from '@ant-design/icons'
+import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
 import { Badge, Button, Card, Col, Divider, Row, Typography, theme } from 'antd'
 
 import { Learner } from '@adewaskar/lms-common'
@@ -76,13 +76,14 @@ export default function TestQuestionNavigatorType2(
                               const isCurrent = currentQuestion._id === item._id;
                               return (
                               // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
-                                <Button
+                              <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
+                              <Button
                                   // loading={loading && isCurrent}
-                                onClick={() => navigate(item._id)}
+                                onClick={() => navigate(item._id)} danger={item.isMarked}
                                 type={
                                   isActive
                                     ? 'primary'
-                                    : (item.isAnswered ? 'primary' : 'default')
+                                    : (item.isMarked?'primary':(item.isAnswered ? 'primary' : 'default'))
                                 }
                                 style={{
                                   backgroundColor: isActive
@@ -93,7 +94,7 @@ export default function TestQuestionNavigatorType2(
                               >
                                 {itemIndex + 1}
                                 </Button>
-                                // </Badge>
+                                 </Badge>
                             )}}
                           />
                         </Col>

@@ -1,4 +1,4 @@
-import { BackwardOutlined, CheckCircleTwoTone, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
+import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
 import { Learner, Types } from '@adewaskar/lms-common';
@@ -19,12 +19,12 @@ interface TestPlayeritemPropsI {}
 
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   useTestItemTime();
+  const {mutate:updateQuestionResponseFlag,isLoading:updatingFlag } = Learner.Queries.useUpdateQuestionResponseFlag();
   const [form] = Form.useForm();
   const message = useMessage();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
-  
   useEffect(() => {
     const { answerGiven } = currentQuestion;
     console.log(answerGiven, 'answerGiven');
@@ -157,9 +157,33 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             >
               Submit Answer
             </Button>
-            {/* <Button icon={<FlagOutlined />} danger type="default">
+            {/* @ts-ignore */}
+            {currentQuestion.isMarked ?
+              <Button loading={updatingFlag}
+                type='primary'
+                onClick={() => updateQuestionResponseFlag({
+                  testId: testId + '',
+                  itemId: questionId + '', flag: 'reviewed'
+                }, {
+                  onSuccess: () => {
+                    message.open({type:'success',content:'Review Done'})
+                  }
+                })}
+                icon={<FlagOutlined />} danger>
+              Review Done
+              </Button> : <Button loading={updatingFlag}
+                onClick={() => updateQuestionResponseFlag(
+                  {
+                    testId: testId + '', itemId: questionId + '',
+                    flag: 'review-later'
+                  }, {
+                    onSuccess: () => {
+                      message.open({type:'success',content:'Marked for review later'})
+                    }
+                  })}
+                icon={<CheckOutlined />} danger type="default">
               Mark for review
-            </Button> */}
+            </Button>}
            
           </Col>:null}
         </Row>
