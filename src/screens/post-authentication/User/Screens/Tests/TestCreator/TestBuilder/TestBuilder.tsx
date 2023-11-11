@@ -1,4 +1,4 @@
-import { Alert, Button, Col, Form, Modal, Row, Spin, Tag } from 'antd'
+import { Alert, Button, Col, Form, Modal, Row, Space, Spin, Tag } from 'antd'
 import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { cloneDeep, debounce } from 'lodash'
@@ -16,6 +16,7 @@ import MediaUpload from '@Components/MediaUpload'
 import SetTestRules from './SetTestRules'
 import TestOutline from './TestOutline'
 import TestSectionsNavigator from './TestSectionsNavigator'
+import { UploadOutlined } from '@ant-design/icons'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import useMessage from '@Hooks/useMessage'
 import useTestBuilderUI from './hooks/useTestBuilder'
@@ -244,7 +245,8 @@ function TestBuilderScreen() {
   // const { mutate: updateTestStatus } = User.Queries.useUpdateTestStatus(
   //   testId + ''
   // )
-  const { mutate: publishTest } = User.Queries.usePublishTest()
+  const { mutate: publishTest,isLoading:publishingTest } = User.Queries.usePublishTest()
+  const { mutate: unpublishTest,isLoading:unpublishingTest } = User.Queries.useUnpublishTest()
   const isTestEnded = test.isLive && test.status === Enum.TestStatus.ENDED;
   return (
     <AppProvider>
@@ -259,16 +261,7 @@ function TestBuilderScreen() {
         extra={[
           <Row>   <Col span={24}>
           {!test.sections.length ? (
-                  <ActionModal
-                  title="Reset Test Outline"
-                  width={900}
-                  cta={
-                    <Button type='primary' style={{marginRight:10}} size="small">Generate Test Outline</Button>
-                  }
-              >
-      <TestOutline testId={testId + ''} />
-
-            </ActionModal>
+                null
                 ) : (
                   <ActionModal
                   title="Reset Test Outline"
@@ -294,14 +287,51 @@ function TestBuilderScreen() {
             {(savingTest || loadingTest) ? 'Saving..' : `Changes will be automatically saved`}
           </Tag>,
           test.status === Enum.TestStatus.PUBLISHED ? (
-            <Tag color="green">Test is Published</Tag>
-          ) : isTestEnded ? (
+            <Space> <Tag color="green">Test is Published</Tag> <Button size='small'
+              onClick={() => {
+                confirm({
+                  title: 'Are you sure?',
+                  // icon: <ExclamationCircleOutlined />,
+                  content: `You want to Unpublish this test, It will be moved to Draft?`,
+                  onOk() {
+                    unpublishTest({
+                      testId: testId + ''
+                    });
+                    message.open({type:'success',content:'Test has been moved to draft'})
+                  },
+                  okText: 'Yes, Unpublish'
+                })
+               
+              }} loading={unpublishingTest} >Revert to draft</Button>
+            </Space>
+          ) : <Space>
+              {/* <Button
+                  disabled={!Utils.validatePublishTest(test)}
+                  onClick={() => {
+                    confirm({
+                      title: 'Are you sure?',
+                      content: `You want to publish this Test?`,
+                      onOk() {
+                        publishTest({
+                          testId: test._id+''
+                        })
+                      },
+                      okText: 'Yes, Publish'
+                    })
+                  }}
+                  style={{ marginRight: 15 }}
+                  icon={<UploadOutlined />} loading={publishingTest}
+                > 
+                  Publish Test
+                </Button> */}
+              {isTestEnded ? (
             <Tag color="green">Test has ended</Tag>
-          ) : null
+          ) : null}
+          </Space>
         ]}
       >
         <Row gutter={[16, 16]}>
-          <Col span={8}>
+          <Col span={6}>
             <Row>
               <Col span={24}>
                 <Form.Item>
@@ -362,7 +392,7 @@ function TestBuilderScreen() {
               </Col>
             </Row>
           </Col>
-          <Col span={16}>
+          <Col span={18}>
             <Row gutter={[20, 20]}>
             <Col span={24}>
                 <Alert
@@ -372,7 +402,16 @@ function TestBuilderScreen() {
                   type="warning"
                   showIcon
                   action={
-                    <ActionModal
+                 [  <ActionModal
+                  title="Reset Test Outline"
+                  width={900}
+                  cta={
+                    <Button type='primary' style={{marginRight:10}} size="small">Generate Test Outline</Button>
+                  }
+              >
+      <TestOutline testId={testId + ''} />
+
+            </ActionModal>,   <ActionModal
                       title="Enter Test Content in  JSON"
                       width={900}
                       cta={
@@ -384,7 +423,7 @@ function TestBuilderScreen() {
                       <EnterTestJson
                         testId={testId + ''}
                       />
-                    </ActionModal>
+                    </ActionModal>]
                   }
                 />
               </Col>              <Col span={24}>

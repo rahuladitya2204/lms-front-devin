@@ -114,7 +114,20 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
   )
   const image = Form.useWatch('image', form);
 
-  const date = dayjs(Form.useWatch('scheduledAt', form))
+  const date = dayjs(Form.useWatch('scheduledAt', form));
+  const {mutate: unpublishEvent,isLoading: unpublishingEvent } = User.Queries.useUnpublishEvent();
+  const UnpublishButton = <Button type='primary' loading={unpublishingEvent} onClick={() => {
+    confirm({
+      title: 'Are you sure?',
+      content: `You want to unpublish this event`,
+      onOk() {
+        unpublishEvent({
+          eventId:eventId+''
+        })
+      },
+      okText: 'Yes, Publish'
+    })
+  }} >Unpublish Event</Button>
 
   const PublishEvent = <Button
     loading={createEventLoading || updateEventLoading}
@@ -159,7 +172,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
   const qc = useQueryClient();
   return (
     <Header showBack title={isUpdate ? `${eventDetails.title}` : `Create Event`}
-      extra={eventDetails.status===Enum.EventStatus.PUBLISHED?[UpdateEvent,<Tag color='green' >Event is published</Tag>]:[
+      extra={eventDetails.status===Enum.EventStatus.PUBLISHED?[UpdateEvent,<Tag color='green' >Event is published</Tag>,UnpublishButton]:[
         isUpdate ? <>
           {eventDetails.status === Enum.EventStatus.DRAFT ? <>
             {UpdateEvent} {eventDetails.plan? PublishEvent:      <ActionModal cta={<Button type='primary'>Add Plan and Publish</Button> }>

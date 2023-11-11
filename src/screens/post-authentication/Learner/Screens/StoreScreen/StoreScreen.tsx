@@ -15,7 +15,7 @@ const { Title, Paragraph } = Typography
 
 function StoreScreen () {
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
-
+  // const isProduction
   const params = useParams()
   const {
     data: { courses, events, tests },
@@ -32,7 +32,7 @@ function StoreScreen () {
         <Row align={'middle'} gutter={[20,20]}>
           <Col span={12} flex={1}>
             <Title>
-              Find your Preferred <br /> Courses & Improve Your Skills
+              Find your Preferred <br /> Courses and Mock Tests & Improve Your Skills
             </Title>
             <Paragraph>
               Build skills with courses, certificates, and degrees online from{' '}
@@ -105,7 +105,7 @@ function StoreScreen () {
       {tests.length ? (
         <Col span={24}>
           <Section
-            title={`Upcoming Tests`}
+            title={`Mock Tests`}
             // subtitle={category.description}
           >
             <Row>

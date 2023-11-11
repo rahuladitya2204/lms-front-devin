@@ -268,7 +268,7 @@ const EmailForm = () => {
       </Typography.Text>
     </Form.Item>
   </Form>
-
+{/* 
   <Divider dashed>or</Divider>
 
   <Button
@@ -279,6 +279,6 @@ const EmailForm = () => {
     htmlType="submit"
   >
     Login with Google
-  </Button>
+  </Button> */}
 </>
 }

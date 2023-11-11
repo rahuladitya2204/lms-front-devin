@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Card,
   Col,
@@ -12,7 +13,7 @@ import {
   Tag,
   Typography
 } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Enum, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
 import TestCard from './TestCard'
@@ -48,11 +49,22 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               ? SkeletonArr
               : data.filter(test => props.filter.status.includes(test.status))
           }
-          renderItem={test => (
-            <div style={{ padding: 30 }}>
-              {loading ? <SkeletonCard /> : <TestCard test={test} />}
-            </div>
-          )}
+          renderItem={test => {
+            const TestCardComponent = <TestCard test={test} />
+            return (
+              <div style={{ padding: 30 }}>
+                {loading ? (
+                  <SkeletonCard />
+                ) : test.status === Enum.TestStatus.PUBLISHED ? (
+                  <Badge.Ribbon text="Published" color="orange">
+                    {TestCardComponent}
+                  </Badge.Ribbon>
+                ) : (
+                  TestCardComponent
+                )}
+              </div>
+            )
+          }}
         />
       </Fragment>
     </Fragment>

@@ -7,6 +7,7 @@ import {
   Modal,
   Row,
   Skeleton,
+  Space,
   Spin,
   Tag,
   Typography
@@ -253,6 +254,7 @@ function CourseBuilderScreen() {
   const items = course.sections.map(s => s.items).flat()
   // console.log(course.sections, items, 'nodeee')
   const { mutate: publishCourse,isLoading: publishingCourse } = User.Queries.usePublishCourse()
+  const { mutate: unpublishCourse,isLoading: unpublishingCourse } = User.Queries.useUnpublishCourse()
   return (
     <AppProvider>
       <Header
@@ -271,7 +273,29 @@ function CourseBuilderScreen() {
           </Spin>,
           // @ts-ignore
           course.status === Enum.CourseStatus.PUBLISHED ? (
-            <Tag color="green">Course is Live</Tag>
+            <Space>
+              <Tag color="green">Course is Live</Tag>
+            <Button
+            onClick={() => {
+              confirm({
+                title: 'Are you sure?',
+                content: `You want to unpublish this course, it will be moved to draft?`,
+                onOk() {
+                  unpublishCourse({
+                    courseId: course._id
+                  })
+                },
+                okText: 'Yes, Unpublish'
+              })
+              }}
+              loading={unpublishingCourse}
+            // disabled={!Utils.validatePublishCourse(course)}
+            style={{ marginRight: 15 }}
+            icon={<UploadOutlined />}
+          >
+            Publish Course
+          </Button>
+            </Space>
           ) : (
             <Button
               onClick={() => {

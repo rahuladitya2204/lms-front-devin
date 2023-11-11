@@ -300,7 +300,7 @@ layout="vertical"
           <>
             {fields.map(({ key, name, ...restField }, index) => (
               <Row key={key} align="middle" gutter={10}>
-                <Col flex="auto">
+                <Col flex="1">
                   <Form.Item
                     {...restField}
                     name={[name, 'criteria']}
