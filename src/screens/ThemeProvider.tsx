@@ -9,7 +9,8 @@ import { useMemo } from 'react'
 
 const { darkAlgorithm } = theme
 function ThemeProvider(props: any) {
-  const { branding } =
+  // @ts-ignore
+  const { branding, shortName } =
     Store.useGlobal(s => s.organisation) ||
     Constants.INITIAL_ORG_SETTING_DETAILS.branding
   // console.log(branding, 'branding')
@@ -50,7 +51,7 @@ function ThemeProvider(props: any) {
       >
         {props.children}
       </ConfigProvider>
-      <ApplyFavicon faviconUrl={branding.favIcon.url} />
+      <ApplyFavicon shortName={shortName} faviconUrl={branding.favIcon.url} />
     </MessageContext.Provider>
   )
 }

@@ -149,6 +149,24 @@ export default function OrgProfile() {
           <Input style={{width:500}} />
         </Form.Item> */}
 
+<Title level={3}>Short Name</Title>
+
+                     
+<Form.Item
+name={['shortName']}
+label="Short Name"
+rules={[
+{
+required: true,
+message: 'Please enter a short name for your organisation',
+}
+]}
+>
+<Input
+style={{ width: 500 }}
+placeholder='Please enter a short name for your org to be used in FavIcon, web title'
+/>
+</Form.Item>
 
         <Title level={3}>Font</Title>
 

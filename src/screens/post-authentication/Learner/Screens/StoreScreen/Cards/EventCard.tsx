@@ -27,8 +27,8 @@ const { Text } = Typography
   
   const CustomCard = styled(Card)`
   cursor: pointer;
-  margin-left: 30px;
-  margin-bottom: 20px;
+  /* margin-left: 30px;
+  margin-bottom: 20px; */
   `
   
   function EventCard(props: EventCardPropsI) {

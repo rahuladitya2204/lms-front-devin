@@ -2,33 +2,38 @@ import React, { useEffect } from 'react';
 
 interface ApplyFaviconProps {
   faviconUrl: string;
+  shortName: string; // New prop for the document title
 }
 
-const ApplyFavicon: React.FC<ApplyFaviconProps> = ({ faviconUrl }) => {
+const ApplyFavicon: React.FC<ApplyFaviconProps> = ({ faviconUrl, shortName }) => {
   useEffect(() => {
-    // Find the existing favicon element by its `rel` attribute
+    // For favicon
     const existingLink = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
-    
-    // Store the current favicon if it exists to restore on unmount
     const originalFaviconHref = existingLink ? existingLink.href : '';
 
     if (existingLink) {
       existingLink.href = faviconUrl;
     } else {
-      // Create a new link element for the favicon
       const newLink = document.createElement('link');
       newLink.rel = 'icon';
       newLink.href = faviconUrl;
       document.head.appendChild(newLink);
     }
 
-    // Cleanup function to reset favicon when component unmounts
+    // For title
+    const originalTitle = document.title; // Store the current title
+    document.title = shortName; // Update the title
+
+    // Cleanup function to reset favicon and title when component unmounts
     return () => {
       if (existingLink) {
         existingLink.href = originalFaviconHref;
       }
+      if (shortName) {
+        document.title = originalTitle; // Reset the title
+      }
     };
-  }, [faviconUrl]);
+  }, [faviconUrl, shortName]); // Include shortName in the dependency array
 
   // Rest of your component...
   return (

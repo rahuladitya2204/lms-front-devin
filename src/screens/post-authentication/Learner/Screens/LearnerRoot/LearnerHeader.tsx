@@ -36,6 +36,7 @@ import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
+import LearnerLogin from '@Learner/Screens/Login'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
@@ -85,7 +86,7 @@ const LearnerHeader: React.FC = () => {
     { label: 'My Tests', key: 'test', icon: <EditOutlined /> },
     { label: 'My Events', key: 'event', icon: <CalendarOutlined /> }
   ]
-  if (isMobileOrTablet) {
+  if (isMobileOrTablet && isSignedIn) {
     menuItems.unshift({
       label: 'My Account',
       key: 'account',
@@ -96,18 +97,28 @@ const LearnerHeader: React.FC = () => {
   const extraContent = (
     <Space>
       {isMobileOrTablet ? (
-        <ActionDrawer
-          footer={closeDrawer => [
-            <Button
-              loading={loggingOut}
-              onClick={() => {
-                logout(closeDrawer)
-              }}
-              type="primary"
-              block
-            >
-              Logout
-            </Button>
+        <ActionDrawer width={300}
+          extra={closeDrawer => [
+            isSignedIn ? (
+              <Button
+                icon={<LogoutOutlined />}
+                loading={loggingOut}
+                onClick={() => {
+                  logout(closeDrawer)
+                }}
+                type="primary"
+                block
+              >
+                Logout
+              </Button>
+            ) : (
+              <ActionModal
+                width={300}
+                cta={<Button icon={<LoginOutlined />}>Login</Button>}
+              >
+                <LearnerLogin />
+              </ActionModal>
+            )
           ]}
           cta={<Button icon={<MenuOutlined />} />}
         >
@@ -186,7 +197,7 @@ const LearnerHeader: React.FC = () => {
                   <Menu.Item
                     icon={<LogoutOutlined />}
                     key="logout"
-                    onClick={()=>logout()}
+                    onClick={() => logout()}
                   >
                     Logout
                   </Menu.Item>

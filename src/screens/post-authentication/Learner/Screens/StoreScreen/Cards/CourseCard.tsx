@@ -28,8 +28,8 @@ interface CourseCardPropsI {
 
 const CustomCard = styled(Card)`
 cursor: pointer;
-margin-bottom: 20px;
-margin-left: 30px;
+/* margin-bottom: 20px;
+margin-left: 30px; */
 `
 
 function CourseCard(props: CourseCardPropsI) {

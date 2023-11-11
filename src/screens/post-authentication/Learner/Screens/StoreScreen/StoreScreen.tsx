@@ -81,22 +81,17 @@ function StoreScreen () {
           <Col span={24}>
             <Section title={category.title} subtitle={category.description}>
               <Row>
-                <Col span={24}>
-                  <List
-   grid={{
-    gutter: 16,
-    xs: 1,
-    sm: 2,
-    md: 3,
-    lg: 4,
-    xl: 4,
-    xxl: 4,
-                    }}
-                    size="large"
-                    dataSource={categorizedCourses}
-                    renderItem={course => <CourseCard course={course} />}
-                  />
-                </Col>
+              <Col span={24}>
+                    <Row gutter={[30,20]} >
+                      {courses.map(course => {
+                        return  <Col  
+                        sm={12} 
+                        md={8} xs={24}
+                        lg={6}  >
+                          <CourseCard course={course} /></Col>
+                      })}
+                    </Row>
+              </Col>
               </Row>
             </Section>
           </Col>
@@ -109,20 +104,16 @@ function StoreScreen () {
             // subtitle={category.description}
           >
             <Row>
-              <Col span={24}>
-                <List
-   grid={{
-    gutter: 16,
-    xs: 1,
-    sm: 2,
-    md: 3,
-    lg: 4,
-    xl: 4,
-    xxl: 4,
-                    }}                  size="large"
-                  dataSource={tests}
-                  renderItem={test => <TestCard test={test} />}
-                />
+                  <Col span={24}>
+                    <Row gutter={[30,20]} >
+                      {tests.map(test => {
+                        return  <Col  
+                        sm={12} 
+                        md={8} xs={24}
+                        lg={6}  >
+                          <TestCard test={test} /></Col>
+                      })}
+                    </Row>
               </Col>
             </Row>
           </Section>
@@ -135,20 +126,16 @@ function StoreScreen () {
             // subtitle={category.description}
           >
             <Row>
-              <Col span={24}>
-                <List
-   grid={{
-    gutter: 16,
-    xs: 1,
-    sm: 2,
-    md: 3,
-    lg: 4,
-    xl: 4,
-    xxl: 4,
-                    }}                  size="large"
-                  dataSource={events}
-                  renderItem={event => <EventCard event={event} />}
-                />
+            <Col span={24}>
+                    <Row gutter={[30,20]} >
+                      {events.map(event => {
+                        return  <Col  
+                        sm={12} 
+                        md={8} xs={24}
+                        lg={6}  >
+                          <EventCard event={event} /></Col>
+                      })}
+                    </Row>
               </Col>
             </Row>
           </Section>
