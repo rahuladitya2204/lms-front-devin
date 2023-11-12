@@ -17,10 +17,6 @@ function LearnerEditor() {
     mutate: updateLearner,
     isLoading: loading
   } = User.Queries.useUpdateLearner()
-  const { data } = User.Queries.useGetLearnerDetails(learnerId + '', {
-    enabled: !!learnerId
-  })
-
   useEffect(
     () => {
       form.setFieldsValue(learner)

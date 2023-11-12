@@ -61,9 +61,7 @@ const LearnerHeader: React.FC = () => {
     course: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'course'),
   };
   
-  const { data: { items } } = Learner.Queries.useGetCartDetails({
-    enabled: !!isSignedIn
-  })
+  const { data: { items } } = Learner.Queries.useGetCartDetails()
   const screen = useBreakpoint()
   // console.log(screen, 'scrrrr')
   const isMobileOrTablet = screen.isMobile || screen.isTablet
@@ -95,7 +93,7 @@ const LearnerHeader: React.FC = () => {
       MENU_ITEMS.push({ label: 'My Events', key: 'event', icon: <EditOutlined /> })
     }
     if (enrolledProducts.course && enrolledProducts.course.length) {
-      MENU_ITEMS.push({ label: 'My Courses', key: 'course', icon: <EditOutlined /> })
+      MENU_ITEMS.push({ label: 'My Courses', key: 'courses', icon: <EditOutlined /> })
     }
 
     if (isMobileOrTablet && isSignedIn) {
