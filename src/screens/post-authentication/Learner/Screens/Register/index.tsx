@@ -89,12 +89,12 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
             { required: true, message: 'Please input your contact number!' },
             {
               min: 10,
-              message: 'Contact number should be at least 10 digits long!'
+              message: 'Contact number should be 10 digits!'
             }
           ]}
           hasFeedback
         >
-          <Input />
+          <Input type='number' />
         </Form.Item>
         <Form.Item
           name="email"

@@ -41,6 +41,7 @@ import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import { useMemo } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal
@@ -53,9 +54,16 @@ const LearnerHeader: React.FC = () => {
     mutate: logoutLearner,
     isLoading: loggingOut
   } = Learner.Queries.useLogoutLearner()
-  const qc = useQueryClient()
-  const { isSignedIn, user } = Store.useAuthentication(state => state)
-
+  const qc = useQueryClient();
+  const {data:user,isLoading: loadingUserDetails } = Learner.Queries.useGetLearnerDetails();
+  const { isSignedIn } = Store.useAuthentication(state => state)
+  
+  const enrolledProducts = {
+    test: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'test'),
+    event: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'event'),
+    course: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'course'),
+  };
+  
   const { data: { items } } = Learner.Queries.useGetCartDetails({
     enabled: !!isSignedIn
   })
@@ -80,19 +88,31 @@ const LearnerHeader: React.FC = () => {
       okText: 'Yes, Logout'
     })
   }
-  const menuItems = [
-    { label: 'Store', key: 'store', icon: <ShopOutlined /> },
-    { label: 'My Courses', key: 'courses', icon: <DesktopOutlined /> },
-    { label: 'My Tests', key: 'test', icon: <EditOutlined /> },
-    { label: 'My Events', key: 'event', icon: <CalendarOutlined /> }
-  ]
-  if (isMobileOrTablet && isSignedIn) {
-    menuItems.unshift({
-      label: 'My Account',
-      key: 'account',
-      icon: <UserOutlined />
-    })
-  }
+  const menuItems = useMemo(() => {
+    const MENU_ITEMS = [
+      { label: 'Store', key: 'store', icon: <ShopOutlined /> },
+    ];
+    if (enrolledProducts.test && enrolledProducts.test.length) {
+      MENU_ITEMS.push({ label: 'My Tests', key: 'test', icon: <EditOutlined /> })
+    }
+    if (enrolledProducts.event && enrolledProducts.event.length) {
+      MENU_ITEMS.push({ label: 'My Events', key: 'event', icon: <EditOutlined /> })
+    }
+    if (enrolledProducts.course && enrolledProducts.course.length) {
+      MENU_ITEMS.push({ label: 'My Courses', key: 'course', icon: <EditOutlined /> })
+    }
+
+    if (isMobileOrTablet && isSignedIn) {
+      MENU_ITEMS.unshift({
+        label: 'My Account',
+        key: 'account',
+        icon: <UserOutlined />
+      })
+    }
+    return MENU_ITEMS;
+    
+  }, [isMobileOrTablet, isSignedIn, enrolledProducts]);
+  
   // Define the extraContent
   const extraContent = (
     <Space>

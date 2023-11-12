@@ -1,6 +1,7 @@
 import { Common, Store, User } from '@adewaskar/lms-common'
 
 import Image from './Image'
+import { Skeleton } from 'antd'
 
 // import { useNavigate } from 'react-router'
 
@@ -13,6 +14,10 @@ function OrgLogo(props: any) {
   }
   return (
     <Image
+      noLoadNoShow
+      noLoadNoShowPlaceholder={
+        <Skeleton.Avatar active style={{ width: 25, height: 25 }} />
+      }
       // onClick={() => navigate('../app/store')}
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
       width={props.width || `30px`}

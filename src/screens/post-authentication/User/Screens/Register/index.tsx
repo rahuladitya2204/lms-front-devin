@@ -33,10 +33,14 @@ function UserRegisterScreen() {
           label="Contact Number"
           name="contactNo"
           rules={[
-            { required: true, message: 'Please input your contact number!' }
+            {
+              required: true,
+              message: 'Please input your contact number!',
+              len: 10
+            }
           ]}
         >
-          <Input />
+          <Input type='number' />
         </Form.Item>
 
         <Form.Item

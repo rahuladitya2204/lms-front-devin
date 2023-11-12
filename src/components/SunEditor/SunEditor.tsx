@@ -97,45 +97,6 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       return false
     }
   }
-
-  const variables = [
-    { name: 'Course Name', value: 'course.title' },
-    { name: 'Learner Name', value: 'learner.name' }
-  ]
-
-  const renderLatexToHtml = (htmlStr: string): string => {
-    // Define the regex patterns for LaTeX delimiters
-    const inlinePattern = /\\\((.*?)\\\)/g
-    const displayPattern = /\[([\s\S]*?)\]/g
-
-    // This helper function will render a LaTeX string using KaTeX
-    const renderLatex = (latexStr: string, displayMode: boolean) => {
-      try {
-        return katex.renderToString(latexStr, {
-          throwOnError: false,
-          displayMode: displayMode
-        })
-      } catch (e) {
-        console.error('Error rendering LaTeX string:', e)
-        return latexStr // Return the original string if there's an error
-      }
-    }
-
-    // Replace inline LaTeX with rendered HTML
-    htmlStr = htmlStr.replace(inlinePattern, (match, p1) => {
-      return renderLatex(p1, false)
-    })
-
-    // Replace display LaTeX with rendered HTML
-    htmlStr = htmlStr.replace(displayPattern, (match, p1) => {
-      return renderLatex(p1, true)
-    })
-
-    return htmlStr
-  }
-
-  let preparedValue = value ? renderLatexToHtml(value) : ''
-
   return (
     <Fragment>
       <Spin spinning={loading}>
@@ -143,7 +104,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           getSunEditorInstance={getSunEditorInstance}
           // onFocus={props.onFocus}
           readOnly={props.readonly}
-          setContents={preparedValue}
+          setContents={value}
           onChange={e => {
             if (props.name) {
               form.setFieldValue(props.name, e)
