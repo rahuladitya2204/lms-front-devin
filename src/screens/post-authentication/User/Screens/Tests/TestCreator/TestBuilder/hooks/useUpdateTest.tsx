@@ -1,129 +1,53 @@
 import { Types, User } from '@adewaskar/lms-common'
-import { debounce, isEqual } from 'lodash'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect } from 'react'
 
 import { Form } from 'antd'
 import { FormInstance } from 'antd/lib/form/Form'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
-import useTestBuilderUI from './useTestBuilder'
+import { useTestStore } from './useTestStore'
 
-function useUpdateTestForm(form: FormInstance) {
+function useUpdateTestForm(itemId: string) {
   const message = useMessage()
-  const FormTopics = Form.useWatch('options', form) || []
+  const { updateItem, test, setCurrentQuestion } = useTestStore(s => s) // Using updateItem from useTestStore
+
   const { data: topics } = User.Queries.useGetTopics()
-  let { itemId, id: testId } = useParams()
-  const { data: item } = User.Queries.useGetTestItemDetails(
-    testId + '',
-    itemId + '',
-    {
-      enabled: !!testId
-    }
-  )
-
-  const { mutate: updateItemApi, isLoading } = User.Queries.useUpdateTestItem()
-
-  const isMounted = useRef(true)
-  const isProgrammaticChange = useRef(false)
-  const initialItemRef = useRef<Types.TestQuestion | null>(null);
-
-  useEffect(() => {
-    return () => {
-      isMounted.current = false
-      form.resetFields()
-    }
-  }, [])
-  const { updateNavigator } = useTestBuilderUI()
-
-  const updateItem = useCallback(
-    debounce((testId, itemId, data) => {
-      updateNavigator({ loading: true })
-      if (!isProgrammaticChange.current) {
-        updateItemApi(
-          {
-            testId: testId + '',
-            itemId: itemId + '',
-            data
-          },
-          {
-            onSuccess: () => {
-              if (isMounted.current) {
-                message.open({
-                  type: 'success',
-                  content: `Saved`
-                })
-              }
-            },
-            onSettled: () => {
-              updateNavigator({ loading: false })
-            }
-          }
-        )
-      }
-    }, 300),
-    []
-  )
 
   useEffect(
     () => {
-      const topicStrings = item.topics?.map(topic => topic.title) || []
-      isProgrammaticChange.current = true
-      form.setFieldsValue({ ...item, topics: topicStrings })
-      isProgrammaticChange.current = false
-
-      initialItemRef.current = item
-
-      return () => {
-        updateItem.cancel() // Cancel debounced function on unmount
+      const currentItem = test.sections
+        .flatMap(section => section.items)
+        .find(item => item._id === itemId)
+      if (currentItem) {
+        setCurrentQuestion(currentItem)
       }
     },
-    [item, form, updateItem]
+    [test, itemId, setCurrentQuestion]
   )
 
-  const handleTopicsChange = (topicStrings: string[]) => {
-    const existingTopicTitles = topics ? topics.map(t => t.title) : []
-    const newTopics = topicStrings.map(title => {
-      if (existingTopicTitles.includes(title)) {
-        return {
-          title,
-          topicId: topics.find(t => t.title === title)?._id || ''
-        }
-      } else {
-        return { title, topicId: '' }
+  const handleTopicsChange = useCallback(
+    (topicStrings: string[]) => {
+      // Logic for updating topics
+      // ...
+    },
+    [topics]
+  )
+
+  const onFormChange = useCallback(
+    (data: Partial<Types.TestQuestion>) => {
+      if (itemId) {
+        updateItem(itemId, data)
       }
-    })
-    // return console.log(newTopics, 'newto')
-    onFormChange({ topics: newTopics })
-  }
-  // @ts-ignore
-  const onFormChange = data => {
-    // console.log(data.solution, 'solution');
-    // if (!(data.solution.html && data.solution.video)) {
-    //   delete data.solution;
-    // }
-    // @ts-ignore
-    if (!isEqual(initialItemRef.current, { ...item, ...data })) {
-      const newItem = {
-        ...item,
-        ...data
-      }
-      updateItem(testId + '', itemId + '', newItem)
-    }
-  }
+    },
+    [itemId, updateItem, message]
+  )
 
   return {
-    form,
-    item,
-    testId: testId,
     itemId,
-    updateItem: (data: Types.TestQuestion) => {
-      initialItemRef.current = data
-      onFormChange(data)
-    },
+    updateItem,
     onFormChange,
     topics,
-    handleTopicsChange,
-    isLoading
+    handleTopicsChange
   }
 }
 

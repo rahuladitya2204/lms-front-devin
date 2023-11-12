@@ -19,6 +19,7 @@ import {
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
+import { useEffect, useState } from 'react';
 
 import ActionModal from '@Components/ActionModal';
 import GenerateAIItemDetails from './GenerateAIItemDetails';
@@ -29,8 +30,8 @@ import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { uniqueId } from 'lodash';
 import { useParams } from 'react-router';
-import { useState } from 'react';
 import useTestBuilderUI from './hooks/useTestBuilder';
+import { useTestStore } from './hooks/useTestStore';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
 const { Title } = Typography;
@@ -53,12 +54,16 @@ interface CreateQuestionFormPropsI {
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
   const [enterHtml, setEnterHtml] = useState(false);
-  const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm( form);
   const {  itemId,id: testId } = useParams();
-  
+  const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm(itemId+'');
+  const item = useTestStore(s => s.currentQuestion);
   const { data: test } = User.Queries.useGetTestDetails(testId + '');
   
-  const isTestEnded = test.status === Enum.TestStatus.ENDED;;
+  const isTestEnded = test.status === Enum.TestStatus.ENDED;
+
+  useEffect(() => {
+    form.setFieldsValue(item);
+   },[item])
 
     const submit = (e: Types.TestQuestion) => {
       props.submit && props.submit({ ...e });
@@ -68,10 +73,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const questionType = Form.useWatch('type', form);
   const { updateNavigator } = useTestBuilderUI();
-  const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
-
-  const {data: item,isLoading: loadingItem } = User.Queries.useGetTestItemDetails(testId+'', itemId+'');
-  
+  const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;  
   const { data: file } = User.Queries.useGetFileDetails(item?.solution?.video + '', {
     enabled: !!item?.solution?.video
   });
@@ -105,14 +107,15 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
   return (
-   <Spin spinning={loadingItem} > <Form name='test' onFinish={submit} initialValues={item}
+   <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
    onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
 form={form}
 layout="vertical"
 >
  <Row gutter={[10,30]}>
    <Col span={24}>
-  {!isTestEnded? <Alert
+          {/* {!isTestEnded ?
+            <Alert
            message="Generate question with AI"
            description="You can generate question outline using our AI"
            type="info"
@@ -132,12 +135,13 @@ layout="vertical"
                  }
                // setCorrectOptions(d.correctOptions)
                  d.isAiGenerated = true;
-                 updateItem(d);
+                 updateItem(itemId + '', d);
 
-       }}/>
+               }}
+               />
            </ActionModal>
            }
-          /> : null}
+          /> : null} */}
 {/*           
           <Alert style={{marginTop:30}}
               message="Enter Question in JSON"
@@ -195,12 +199,12 @@ layout="vertical"
     
     </Row>
             <Row gutter={[20, 20]}>
-            <Col span={24}>
+            {/* <Col span={24}>
                 <Form.Item label="Topics" name={'topics'}>
                 <GenerateAIItemDetails onFinish={e=>console.log(e,'eee')} label='Generate Topics' field='topics' />
   <InputTags onChange={handleTopicsChange} name="topics" options={topics.map(i => i.title)} ctaText='Enter Topics' />
 </Form.Item>
-              </Col>
+              </Col> */}
               {/* // here add criterions */}
             {questionType==='subjective'?  <Col span={12}>
        <Form.Item label='Word Limit' name={'wordLimit'}>

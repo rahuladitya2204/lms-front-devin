@@ -1,10 +1,7 @@
 import { Alert, Button, Col, Form, Modal, Row, Space, Spin, Tag } from 'antd'
 import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { cloneDeep, debounce } from 'lodash'
-import { useEffect, useState } from 'react'
 
-import AITestPaperBuilder from './AITestBuilder/AITestBuilder'
 import ActionModal from '@Components/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
@@ -13,43 +10,49 @@ import EnterTestJson from './EnterTestJson'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
+import MoreButton from '@Components/MoreButton'
 import SetTestRules from './SetTestRules'
 import TestOutline from './TestOutline'
 import TestSectionsNavigator from './TestSectionsNavigator'
 import { UploadOutlined } from '@ant-design/icons'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
+import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
 import useTestBuilderUI from './hooks/useTestBuilder'
+import { useTestStore } from './hooks/useTestStore'
 
 const { confirm } = Modal
 
 function TestBuilderScreen() {
   const message = useMessage()
   const {
-    mutate: updateTestApi,
+    mutate: updateTest,
     isLoading: savingTest
   } = User.Queries.useUpdateTest()
-  const updateTest = debounce(updateTestApi, 1000)
+  const { test, setTest } = useTestStore(s => s)
+
   const { id: testId, itemId } = useParams()
-  const { data: testDetails,isFetching: loadingTest,isLoading: loadingTestFirst } = User.Queries.useGetTestDetails(testId + '', {
+  const {
+    data: testDetails,
+    isFetching: loadingTest,
+    isLoading: loadingTestFirst
+  } = User.Queries.useGetTestDetails(testId + '', {
     enabled: !!testId
   })
   const {
     mutate: deleteSectionApi,
     isLoading: deletingSection
-  } = User.Queries.useDeleteTestSection();
-  const { getNavigator} = useTestBuilderUI();
+  } = User.Queries.useDeleteTestSection()
+  const { getNavigator } = useTestBuilderUI()
   const {
     mutate: deleteSectionItemApi,
     isLoading: deletingSectionItem
   } = User.Queries.useDeleteTestSectionItem()
-  const [test, setTest] =
-        useState<Types.Test>(Constants.INITIAL_TEST_DETAILS)
   const navigate = useNavigate()
 
   const onAddSection = (section: Partial<Types.TestSection>) => {
     // console.log(section, 'section')
-    let TEST = cloneDeep(test)
+    let TEST = test
     if (section._id) {
       TEST.sections.forEach((sec, index) => {
         if (sec._id === section._id) {
@@ -64,9 +67,14 @@ function TestBuilderScreen() {
           {
             ...Constants.INITIAL_TEST_QUESTION,
             title: 'New Question',
-            options: [Constants.INITIAL_TEST_QUESTION_OPTION,Constants.INITIAL_TEST_QUESTION_OPTION,Constants.INITIAL_TEST_QUESTION_OPTION,Constants.INITIAL_TEST_QUESTION_OPTION],
+            options: [
+              Constants.INITIAL_TEST_QUESTION_OPTION,
+              Constants.INITIAL_TEST_QUESTION_OPTION,
+              Constants.INITIAL_TEST_QUESTION_OPTION,
+              Constants.INITIAL_TEST_QUESTION_OPTION
+            ],
             solution: {
-              html:''
+              html: ''
             },
             _id: undefined
           }
@@ -90,9 +98,7 @@ function TestBuilderScreen() {
           const newlyAdedItem = test.sections.pop().items.pop()
           console.log(test.sections, 'newlyAdedItem')
           navigate(
-            `../app/products/test/${TEST._id}/builder/${
-              newlyAdedItem?._id
-            }`
+            `../app/products/test/${TEST._id}/builder/${newlyAdedItem?._id}`
           )
         }
       }
@@ -101,7 +107,7 @@ function TestBuilderScreen() {
 
   const onAddNewItem = (item: Partial<Types.TestQuestion>, index: number) => {
     // debugger;
-    let TEST = cloneDeep(test)
+    let TEST = test
     const newItem: Partial<Types.TestQuestion> = {
       ...item
     }
@@ -138,17 +144,23 @@ function TestBuilderScreen() {
           const newlyAdedItem = [...test.sections[index].items].pop()
           // console.log(test.sections, 'newlyAdedItem')
           navigate(
-            `../app/products/test/${TEST._id}/builder/${
-              newlyAdedItem?._id
-            }`
+            `../app/products/test/${TEST._id}/builder/${newlyAdedItem?._id}`
           )
         }
       }
     )
   }
 
+  useEffect(
+    () => {
+      console.log(testDetails, 'detail')
+      setTest(testDetails)
+    },
+    [testDetails]
+  )
+
   const saveTest = (d: Partial<Types.Test>) => {
-    const Data = { ...test, ...d }
+    const Data = test
     if (test._id) {
       updateTest(
         {
@@ -157,10 +169,10 @@ function TestBuilderScreen() {
         },
         {
           onSuccess: () => {
-            // message.open({
-            //   type: 'success',
-            //   content: 'Saved Test'
-            // })
+            message.open({
+              type: 'success',
+              content: 'Saved Changes'
+            })
           }
         }
       )
@@ -181,19 +193,12 @@ function TestBuilderScreen() {
     [test._id]
   )
 
-  useEffect(
-    () => {
-      setTest(testDetails)
-    },
-    [testDetails]
-  )
-
   const updateTestSection = (itemId: string, item: Types.TestQuestion) => {
     item._id = itemId
-    const TEST = cloneDeep(test)
+    const TEST = test
     TEST.sections = updateTestSectionItem(TEST.sections, item)
 
-    saveTest({
+    setTest({
       sections: TEST.sections
     })
   }
@@ -217,7 +222,7 @@ function TestBuilderScreen() {
   }
 
   const deleteSectionItem = (sectionId: string, itemId: string) => {
-    const TEST = cloneDeep(test)
+    const TEST = test
     deleteSectionItemApi(
       {
         data: {
@@ -237,17 +242,22 @@ function TestBuilderScreen() {
   }
 
   const onReorderSections = (sections: Types.TestSection[]) => {
-    const TEST = cloneDeep(test)
+    const TEST = test
     TEST.sections = sections
     setTest(TEST)
-    saveTest(TEST)
   }
   // const { mutate: updateTestStatus } = User.Queries.useUpdateTestStatus(
   //   testId + ''
   // )
-  const { mutate: publishTest,isLoading:publishingTest } = User.Queries.usePublishTest()
-  const { mutate: unpublishTest,isLoading:unpublishingTest } = User.Queries.useUnpublishTest()
-  const isTestEnded = test.isLive && test.status === Enum.TestStatus.ENDED;
+  // const {
+  //   mutate: publishTest,
+  //   isLoading: publishingTest
+  // } = User.Queries.usePublishTest()
+  const {
+    mutate: unpublishTest,
+    isLoading: unpublishingTest
+  } = User.Queries.useUnpublishTest()
+  const isTestEnded = test.isLive && test.status === Enum.TestStatus.ENDED
   return (
     <AppProvider>
       <Header
@@ -255,56 +265,131 @@ function TestBuilderScreen() {
           <span>
             {' '}
             <BackButton onClick={() => navigate('../app/products/test')} />
-            {test.title} {(!test.isLive) ? <Tag color='blur'>Live Test</Tag> : null}
+            {test.title}{' '}
+            {!test.isLive ? <Tag color="blur">Live Test</Tag> : null}
           </span>
         }
         extra={[
-          <Row>   <Col span={24}>
-          {!test.sections.length ? (
-                null
-                ) : (
-                  <ActionModal
+          <Row>
+            {' '}
+            {/* <Col span={24}>
+              {!test.sections.length ? null : (
+                <ActionModal
                   title="Reset Test Outline"
                   width={900}
                   cta={
-                    <Button  style={{marginRight:20}} danger type='primary' size="small">Reset Test Outline</Button>
+                    <Button
+                      style={{ marginRight: 20 }}
+                      danger
+                      type="primary"
+                      size="small"
+                    >
+                      Reset Test Outline
+                    </Button>
                   }
                 >
                   <TestOutline testId={testId + ''} />
                 </ActionModal>
-            // <ActionModal
-            //       title="Reset Test Outline"
-            //       width={900}
-            //       cta={
-            //         <Button  style={{marginRight:20}} danger type='primary' size="small">Reset Test Outline</Button>
-            //       }
-            //     >
-            //       <TestOutline testId={testId + ''} />
-            //     </ActionModal>
-          )}
-        </Col></Row>,
-          <Tag>
-            {(savingTest || loadingTest) ? 'Saving..' : `Changes will be automatically saved`}
-          </Tag>,
+                // <ActionModal
+                //       title="Reset Test Outline"
+                //       width={900}
+                //       cta={
+                //         <Button  style={{marginRight:20}} danger type='primary' size="small">Reset Test Outline</Button>
+                //       }
+                //     >
+                //       <TestOutline testId={testId + ''} />
+                //     </ActionModal>
+              )}
+            </Col> */}
+          </Row>,
+          // <Button
+          //   shape="circle"
+          //   icon={
+          //     <MoreButton
+          //       items={[
+          //         {
+          //           label: (
+          //             <ActionModal
+          //               title="Generate Test Outline"
+          //               width={900}
+          //               cta={
+          //                 <Button
+          //                   type="text"
+          //                   style={{ marginRight: 10 }}
+          //                 >
+          //                   Generate Test Outline
+          //                 </Button>
+          //               }
+          //             >
+          //               <TestOutline testId={testId + ''} />
+          //             </ActionModal>
+          //           ),
+          //           key: 'generate-test-outline'
+          //           // icon: <DeleteOutlined />
+          //         },
+          //         {
+          //           label: (
+          //             <ActionModal
+          //               title="Reset Test Outline"
+          //               width={900}
+          //               cta={
+          //                 <Button
+          //                   style={{ marginRight: 20 }}
+          //                   danger
+          //                   type="text"
+          //                 >
+          //                   Reset Test Outline
+          //                 </Button>
+          //               }
+          //             >
+          //               <TestOutline testId={testId + ''} />
+          //             </ActionModal>
+          //           ),
+          //           key: 'reset'
+          //           // icon: <DeleteOutlined />
+          //         }
+          //         // {
+          //         //   label: `Enter Test Json`,
+          //         //   key: 'enter-test-json'
+          //         //   // icon: <DeleteOutlined />
+          //         // }
+          //       ]}
+          //     />
+          //   }
+          // />,
+          <Button type="primary" loading={savingTest} onClick={saveTest}>
+            Save Changes
+          </Button>,
           test.status === Enum.TestStatus.PUBLISHED ? (
-            <Space> <Tag color="green">Test is Published</Tag> <Button size='small'
-              onClick={() => {
-                confirm({
-                  title: 'Are you sure?',
-                  // icon: <ExclamationCircleOutlined />,
-                  content: `You want to Unpublish this test, It will be moved to Draft?`,
-                  onOk() {
-                    unpublishTest({
-                      testId: testId + ''
-                    });
-                    message.open({type:'success',content:'Test has been moved to draft'})
-                  },
-                  okText: 'Yes, Unpublish'
-                })
-               
-              }} loading={unpublishingTest} >Revert to draft</Button>
+            <Space>
+              {' '}
+              <Tag color="green">Test is Published</Tag>{' '}
+              <Button
+                size="small"
+                onClick={() => {
+                  confirm({
+                    title: 'Are you sure?',
+                    // icon: <ExclamationCircleOutlined />,
+                    content: `You want to Unpublish this test, It will be moved to Draft?`,
+                    onOk() {
+                      unpublishTest({
+                        testId: testId + ''
+                      })
+                      message.open({
+                        type: 'success',
+                        content: 'Test has been moved to draft'
+                      })
+                    },
+                    okText: 'Yes, Unpublish'
+                  })
+                }}
+                loading={unpublishingTest}
+              >
+                Revert to draft
+              </Button>
             </Space>
-          ) : <Space>
+          ) : (
+            <Space>
               {/* <Button
                   disabled={!Utils.validatePublishTest(test)}
                   onClick={() => {
@@ -324,10 +409,9 @@ function TestBuilderScreen() {
                 > 
                   Publish Test
                 </Button> */}
-              {isTestEnded ? (
-            <Tag color="green">Test has ended</Tag>
-          ) : null}
-          </Space>
+              {isTestEnded ? <Tag color="green">Test has ended</Tag> : null}
+            </Space>
+          )
         ]}
       >
         <Row gutter={[16, 16]}>
@@ -350,7 +434,7 @@ function TestBuilderScreen() {
                       <Image preview={false} src={test.thumbnailImage} />
                     )}
                     onUpload={file => {
-                      saveTest({
+                      setTest({
                         thumbnailImage: file.url
                       })
                     }}
@@ -360,11 +444,11 @@ function TestBuilderScreen() {
                     style={{ margin: '20px 0 0', marginTop: 20 }}
                     gutter={[20, 20]}
                   >
-                        <Col flex={1}>
+                    <Col flex={1}>
                       <Button block>Preview</Button>
                     </Col>
                     <Col flex={1}>
-                    <ActionModal
+                      <ActionModal
                         title="Set Rules"
                         cta={
                           <Button block type="primary">
@@ -372,14 +456,22 @@ function TestBuilderScreen() {
                           </Button>
                         }
                       >
-                                             <SetTestRules testId={testId + ''} />
-
-                      </ActionModal>                    </Col>
+                        <SetTestRules testId={testId + ''} />
+                      </ActionModal>{' '}
+                    </Col>
                   </Row>
                 </Form.Item>
               </Col>
               <Col span={24}>
-                <Spin tip='Please wait..' spinning={deletingSection || getNavigator().loading || deletingSectionItem || loadingTest}>
+                <Spin
+                  tip="Please wait.."
+                  spinning={
+                    deletingSection ||
+                    getNavigator().loading ||
+                    deletingSectionItem ||
+                    loadingTest
+                  }
+                >
                   <TestSectionsNavigator
                     deleteSectionItem={deleteSectionItem}
                     deleteSection={deleteSection}
@@ -394,24 +486,30 @@ function TestBuilderScreen() {
           </Col>
           <Col span={18}>
             <Row gutter={[20, 20]}>
-            <Col span={24}>
+              {/* <Col span={24}>
                 <Alert
                   // style={{ marginTop: 30 }}
                   message="Enter Question in JSON"
                   // description="You can generate test outline using our AI"
                   type="warning"
                   showIcon
-                  action={
-                 [  <ActionModal
-                  title="Reset Test Outline"
-                  width={900}
-                  cta={
-                    <Button type='primary' style={{marginRight:10}} size="small">Generate Test Outline</Button>
-                  }
-              >
-      <TestOutline testId={testId + ''} />
-
-            </ActionModal>,   <ActionModal
+                  action={[
+                    // <ActionModal
+                    //   title="Reset Test Outline"
+                    //   width={900}
+                    //   cta={
+                    //     <Button
+                    //       type="primary"
+                    //       style={{ marginRight: 10 }}
+                    //       size="small"
+                    //     >
+                    //       Generate Test Outline
+                    //     </Button>
+                    //   }
+                    // >
+                    //   <TestOutline testId={testId + ''} />
+                    // </ActionModal>,
+                    <ActionModal
                       title="Enter Test Content in  JSON"
                       width={900}
                       cta={
@@ -420,16 +518,17 @@ function TestBuilderScreen() {
                         </Button>
                       }
                     >
-                      <EnterTestJson
-                        testId={testId + ''}
-                      />
-                    </ActionModal>]
-                  }
+                      <EnterTestJson testId={testId + ''} />
+                    </ActionModal>
+                  ]}
                 />
-              </Col>              <Col span={24}>
-                <Outlet
-                  context={{ updateTestSection, sections: test.sections }}
-                />
+              </Col>{' '} */}
+              <Col span={24}>
+                <Spin spinning={loadingTest}>
+                  <Outlet
+                    context={{ updateTestSection, sections: test.sections }}
+                  />
+                </Spin>
               </Col>
             </Row>
           </Col>
