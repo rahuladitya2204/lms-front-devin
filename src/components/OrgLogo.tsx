@@ -16,7 +16,11 @@ function OrgLogo(props: any) {
     <Image
       noLoadNoShow
       noLoadNoShowPlaceholder={
-        <Skeleton.Avatar active style={{ width: 25, height: 25 }} />
+        organisation._id ? (
+          <Skeleton.Avatar active style={{ width: 25, height: 25 }} />
+        ) : (
+          <span />
+        )
       }
       // onClick={() => navigate('../app/store')}
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}

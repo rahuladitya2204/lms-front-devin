@@ -28,6 +28,7 @@ export const useGetNodeFromRouterOutlet = () => {
 
 export const useAppInit = () => {
   const isValidAlias = Store.useGlobal(s => s.isAliasValid);
+  const { data: organisation,isLoading: loadingOrganisation } = Common.Queries.useGetOrgDetails();
   const { mutate: validateOrgAlias,isLoading: validatingOrgAlias } = Common.Queries.useValidateOrgAlias();
   let subdomain = useMemo(
     () => {
@@ -45,7 +46,7 @@ export const useAppInit = () => {
     })
   }, [])
   console.log(validatingOrgAlias,'validatingOrgAlias')
-  return { isInitDone: isValidAlias }
+  return { isInitDone: (isValidAlias&&!loadingOrganisation) }
 }
 
 

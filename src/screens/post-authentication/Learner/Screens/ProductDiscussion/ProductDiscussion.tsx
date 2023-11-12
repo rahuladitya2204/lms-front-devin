@@ -26,7 +26,7 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
   const questions = data.filter(q => q.item === props.itemId);
   // const upvote = () => { };
   const { token } = useToken()
-  const appUser = Store.useAuthentication(u => u.user);
+  const { data: appUser } = Learner.Queries.useGetLearnerDetails();
   return (
     <Row>
             <Col span={24}>

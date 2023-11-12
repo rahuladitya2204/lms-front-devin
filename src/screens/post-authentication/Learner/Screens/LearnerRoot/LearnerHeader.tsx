@@ -35,11 +35,8 @@ import { Outlet, useNavigate } from 'react-router'
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal'
 import Header from '@Components/Header'
-import Image from '@Components/Image'
-import LearnerLogin from '@Learner/Screens/Login'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
-import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useMemo } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
@@ -56,7 +53,7 @@ const LearnerHeader: React.FC = () => {
   } = Learner.Queries.useLogoutLearner()
   const qc = useQueryClient();
   const {data:user,isLoading: loadingUserDetails } = Learner.Queries.useGetLearnerDetails();
-  const { isSignedIn } = Store.useAuthentication(state => state)
+  const isSignedIn = Store.useAuthentication(state => state.isSignedIn);
   
   const enrolledProducts = {
     test: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'test'),
@@ -79,7 +76,6 @@ const LearnerHeader: React.FC = () => {
       onOk() {
         logoutLearner(undefined, {
           onSuccess: () => {
-            qc.invalidateQueries()
             navigate('../app/store')
             cb && cb()
           }

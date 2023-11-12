@@ -14,10 +14,7 @@ import { useParams } from 'react-router-dom'
 const { Title, Paragraph } = Typography
 
 function StoreScreen () {
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
-  // const isProduction
-  const params = useParams()
-  const {
+ const {
     data: { courses, events, tests },
     isFetching
   } = Learner.Queries.useGetRecommendedProducts()

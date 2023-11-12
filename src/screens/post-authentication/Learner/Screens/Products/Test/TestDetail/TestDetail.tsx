@@ -98,7 +98,6 @@ export default function TestDetailScreen(
 
 const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,children?:React.ReactNode}) => {
   const product = { type: 'test', id: testId };
-  const user = Store.useAuthentication(s => s.user);
   const navigate = useNavigate();
   const {
     data: enrolledDetails,

@@ -197,11 +197,11 @@ const CourseCard = ({courseId,plan,children}: {
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
-  const {isSignedIn,isLoading: validatingUser}= Store.useAuthentication(s => s);
+  const {isSignedIn}= Store.useAuthentication(s => s);
 
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
 
-  const isLoading =  loadingCourse || validatingUser;
+  const isLoading =  loadingCourse;
   return    <Card
   cover
   bordered hoverable

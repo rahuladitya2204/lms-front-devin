@@ -18,7 +18,6 @@ const { Text, Title } = Typography
 interface EventDetailScreenPropsI {}
 
 export default function EventDetailScreen(props: EventDetailScreenPropsI) {
-  const message = useMessage();
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const { eventId } = useParams()
   const {
@@ -29,7 +28,10 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
   }, {
     enabled:!!isSignedIn
   })
-  const isEnrolled = !!enrolledDetails._id
+  const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct({
+    type: 'event',
+    id:eventId+''
+  })
   // console.log(isEnrolled, 'enrolledDetails')
   const { data: event } = Learner.Queries.useGetEventDetails(eventId + '');
   // console.log(event, 'event');
@@ -64,7 +66,7 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
 const EventCard = (props: { eventId: string }) => {
   const { eventId}=props
   const message = useMessage()
-  const { isSignedIn, user } = Store.useAuthentication(s => s);
+  const { isSignedIn } = Store.useAuthentication(s => s);
   // console.log(user,'user')
   const {
     data: enrolledDetails

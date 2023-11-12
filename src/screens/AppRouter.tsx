@@ -342,18 +342,3 @@ const ReturnLearnerToStore = () => {
   },[])
   return null;
 }
-
-// const ReturnUserToHome = () => {
-//   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
-//   console.log('User: I am in return to store')
-//   const navigate = useNavigate();
-//   useEffect(() => { 
-//     if (isSignedIn) {
-//       navigate('/login')
-//     }
-//     else {
-//       navigate('/app/dashboard')
-//     }
-//   },[isSignedIn])
-//   return null;
-// }

@@ -13,7 +13,7 @@ import { useParams } from 'react-router'
 function CoursePlayerItem() {
   const [loading, setLoading] = useState(false)
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
-  const user = Store.useAuthentication(s => s.user)
+  const { data: user } = Learner.Queries.useGetLearnerDetails()
   const WATERMERK = useMemo(
     () => {
       return ` <div>
