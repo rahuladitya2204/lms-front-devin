@@ -103,15 +103,11 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const {
     data: enrolledDetails,
     isLoading: loaindEnrolledTestDetails
-  } = Learner.Queries.useGetEnrolledProductDetails(product, {
-    enabled:!!testId
-  })
+  } = Learner.Queries.useGetEnrolledProductDetails(product)
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
-  const isLoading =  loadingTest;
+  const isLoading =  loadingTest || (isEnrolled&&loaindEnrolledTestDetails);
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
-// const isEnrolled = !!enrolledDetails._id
-  console.log(testId, 'test.status');
   const testStartDate =
   enrolledDetails.metadata.test.startedAt || test.startedAt;
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
