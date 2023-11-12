@@ -1,5 +1,5 @@
+import { Common, Constants, Enum, Store } from '@adewaskar/lms-common'
 import { ConfigProvider, message, theme } from 'antd'
-import { Constants, Enum, Store } from '@adewaskar/lms-common'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
 import ApplyFavicon from '@Learner/Screens/LearnerRoot/ApplyFavicon'
@@ -9,10 +9,10 @@ import { useMemo } from 'react'
 
 const { darkAlgorithm } = theme
 function ThemeProvider(props: any) {
+  const { data: organisation } = Common.Queries.useGetOrgDetails()
   // @ts-ignore
   const { branding, shortName } =
-    Store.useGlobal(s => s.organisation) ||
-    Constants.INITIAL_ORG_SETTING_DETAILS.branding
+    organisation || Constants.INITIAL_ORG_SETTING_DETAILS.branding
   // console.log(branding, 'branding')
   const { isLoading } = useDynamicFont({
     fontName: branding?.font?.name,

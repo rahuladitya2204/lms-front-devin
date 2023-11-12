@@ -29,14 +29,11 @@ export const useGetNodeFromRouterOutlet = () => {
 export const useAppInit = (type: string) => {
   const token = getToken();
   const [isAliasValid, setAliasValid] = useState<boolean | null>(null)
-  const { fetchOrganisation } = Store.useGlobal();
   const [loading, setLoading] = useState(false);
-  const { data: organisation } = Common.Queries.useGetOrgDetails()
   const {
     mutate: validateUser,
   } = Common.Queries.useValidateUser();
-  const { setIsSignedin, isSignedIn,setUser } = Store.useAuthentication.getState();
-
+  const { mutate: validateOrgAlias } = Common.Queries.useValidateOrgAlias();
   const enabled = !!isAliasValid;
 
   let subdomain = useMemo(
@@ -48,26 +45,17 @@ export const useAppInit = (type: string) => {
     },
     [window.location.hostname]
   )
-  const setOrganisation = Store.useGlobal(s => s.setOrganisation)
-
   useEffect(() => {
-    const sd = subdomain + ''
-    Learner.Api.ValidateOrgAlias(sd)
-      .then(organisation => {
+    const sd = subdomain + '';
+    validateOrgAlias({
+      alias:sd
+    }, {
+      onSuccess: () => {
+        console.log('Org Alias', sd, 'Has been validated')
         setAliasValid(true)
-        Utils.Storage.SetItem('orgAlias', sd);
-        console.log(organisation, 'organisation');
-        if (type === 'learner') {
-          setOrganisation(organisation)
-        }
-      })
-
-      .catch(() => {
-        console.log('invalid')
-        setAliasValid(false)
-      })
+      }
+    })
   }, [])
-
   // useEffect(() => {
   //   if (isSignedIn && type === 'user' &&enabled) {
   //     fetchOrganisation(`user`)
@@ -80,18 +68,17 @@ export const useAppInit = (type: string) => {
     }
   }, [type, token, enabled]);
 
-
   const initApp = async (userType: string) => {
     const { setIsSignedin, isSignedIn } = Store.useAuthentication.getState();
 
     try {
       setLoading(true);
-      if (isSignedIn && userType === 'user') {
-        await fetchOrganisation(`user`);
-      }
-      if (userType === 'learner') {
-        await fetchOrganisation(`learner`);
-      }
+      // if (isSignedIn && userType === 'user') {
+      //   await fetchOrganisation(`user`);
+      // }
+      // if (userType === 'learner') {
+      //   await fetchOrganisation(`learner`);
+      // }
       if (token) {
         await validateUser({
           type: type,
@@ -122,17 +109,16 @@ export const useAppInit = (type: string) => {
 
 
 export const usePaymentCheckout = () => {
-// @ts-ignore 
-const organisation: Types.LearnerOrganisation = Store.useGlobal(s => s.organisation);
+  const { data: organisation } = Common.Queries.useGetOrgDetails()
   const Razorpay = useRazorpay();
-// @ts-ignore 
+  // @ts-ignore
   const openCheckout = ({pgOrder,order},cb) => {
     const rzpay = new Razorpay({
       order_id: pgOrder.id,
       callback_url:`${Constants.config.API_URL}/learner/${order._id}/successful`,
       currency: pgOrder.currency,
-      name:organisation.name,
-      // description: "Test Transaction",
+      name: organisation.name,
+      // @ts-ignore
       key: organisation.paymentGateway.key,
       image: organisation.logo,
       amount: pgOrder.amount,

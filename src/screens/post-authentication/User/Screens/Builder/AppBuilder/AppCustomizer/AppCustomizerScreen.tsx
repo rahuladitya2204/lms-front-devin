@@ -10,7 +10,6 @@ import useGetPalette from '@Hooks/useGetPalette'
 interface AppCustomizerScreenPropsI {}
 
 const AppCustomizerScreen = (props: AppCustomizerScreenPropsI) => {
-  const { organisation } = Store.useGlobal(s => s)
   const { colors } = useGetPalette()
   const formik = useFormik({
     initialValues: {

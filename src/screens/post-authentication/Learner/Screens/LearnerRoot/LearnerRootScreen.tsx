@@ -21,10 +21,6 @@ const LearnerRootScreen: React.FC = () => {
   const { orgId } = useParams()
   const [params] = useSearchParams()
   const userAuthToken = params.get('userAuthToken')
-  // const organisation = Store.useGlobal(s => s.organisation)
-  // console.log(organisation, 'organisation')
-  // // @ts-ignore
-  // const branding = organisation.branding
   useEffect(
     () => {
       if (userAuthToken) {

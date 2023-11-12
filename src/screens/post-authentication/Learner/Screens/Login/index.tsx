@@ -45,13 +45,6 @@ const StyledAuthenticationCard = styled.div`
 
 
 function LearnerLogin () {
-
-  const { fetchOrganisation } = Store.useGlobal(state => state)
-  useEffect(() => {
-    fetchOrganisation('learner')
-  }, [])
-
-
   return (
     <StyledAuthenticationCard>
       <Tabs
@@ -156,16 +149,15 @@ const OtpForm = () => {
 
 
 const EmailForm = () => {
-  const orgName = Store.useGlobal(s => s.organisation.name);
-  const learnerName = Store.useAuthentication(s => s.learner.name);
   const message = useMessage();
   const [form] = Form.useForm()
-  const Google = useOauth('google')
   const {
     mutate: loginUser,
     isLoading: loading
   } = Learner.Queries.useLoginLearner();
-  const { data: org } = Common.Queries.useGetOrgDetails();
+  const { data: {
+    name: orgName
+  } } = Common.Queries.useGetOrgDetails();
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields()

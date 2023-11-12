@@ -22,7 +22,7 @@ const { Text } = Typography
 
 function AssetLibraryScreen() {
   const { data, isFetching: loadingFiles } = Common.Queries.useGetFiles()
-  const organisation = Store.useGlobal(s => s.organisation)
+  const { data: organisation } = Common.Queries.useGetOrgDetails()
   const {
     mutate: deleteFile,
     isLoading: deletingFile

@@ -1,5 +1,3 @@
-
-
 import { Card, Col, Form, Input, Row, Space, Typography, } from 'antd';
 import { Common, Store, Types, User } from '@adewaskar/lms-common';
 import React, { Fragment } from 'react';
@@ -15,7 +13,7 @@ interface CreateEmailTemplateComponentPropsI {
 }
 
 const PreviewTemplate: React.FC<CreateEmailTemplateComponentPropsI> = (props) => {
-    const organisation = Store.useGlobal(s => s.organisation);
+  const {data:organisation} = Common.Queries.useGetOrgDetails();
   const { id } = useParams();
   const templateId = props.id || id;
   const { data: template } = User.Queries.useGetEmailTemplateDetails(templateId+'');
