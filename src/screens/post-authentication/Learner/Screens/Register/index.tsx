@@ -88,7 +88,7 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
           rules={[
             { required: true, message: 'Please input your contact number!' },
             {
-              min: 10,
+              len: 10,
               message: 'Contact number should be 10 digits!'
             }
           ]}

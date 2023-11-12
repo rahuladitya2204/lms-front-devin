@@ -45,7 +45,7 @@ export const useAppInit = () => {
       alias:sd
     })
   }, [])
-  console.log(validatingOrgAlias,'validatingOrgAlias')
+
   return { isInitDone: (isValidAlias&&!loadingOrganisation) }
 }
 

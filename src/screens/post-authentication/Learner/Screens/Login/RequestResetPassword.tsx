@@ -6,10 +6,10 @@ import useMessage from '@Hooks/useMessage'
 const RequestResetPassword = () => {
   const [form] = Form.useForm()
   const message = useMessage()
-    const {
-        mutate: requestPasswordReset,
-        isLoading
-    } = Learner.Queries.useRequestPasswordReset();
+  const {
+    mutate: requestPasswordReset,
+    isLoading
+  } = Learner.Queries.useRequestPasswordReset()
 
   const handleSubmit = async () => {
     try {
@@ -40,11 +40,15 @@ const RequestResetPassword = () => {
     <Form form={form} layout="vertical" onFinish={handleSubmit}>
       <Form.Item
         label="Email"
+        hasFeedback
         name="email"
         rules={[
           {
             required: true,
-            message: 'Please enter your email!',
+            message: 'Please enter your email!'
+          },
+          {
+            message: 'Please enter valid email!',
             type: 'email'
           }
         ]}
@@ -61,4 +65,4 @@ const RequestResetPassword = () => {
   )
 }
 
-export default RequestResetPassword;
+export default RequestResetPassword

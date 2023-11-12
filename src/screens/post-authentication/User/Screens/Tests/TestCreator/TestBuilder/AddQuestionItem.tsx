@@ -19,11 +19,8 @@ import {
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
-import { useOutletContext, useParams } from 'react-router';
 
 import ActionModal from '@Components/ActionModal';
-import EnterQuestionJson from './EnterQuestionJson';
-import ErrorBoundary from '@Components/ErrorBoundary';
 import GenerateAIItemDetails from './GenerateAIItemDetails';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import InputTags from '@Components/InputTags/InputTags';
@@ -31,6 +28,7 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { uniqueId } from 'lodash';
+import { useParams } from 'react-router';
 import { useState } from 'react';
 import useTestBuilderUI from './hooks/useTestBuilder';
 import useUpdateTestForm from './hooks/useUpdateTest';

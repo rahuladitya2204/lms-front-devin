@@ -132,7 +132,17 @@ const OtpForm = () => {
         </Form>
       ) : (
         <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={sendOtp}>
-          <Form.Item label="Enter Mobile Number" name="contactNo" rules={[{ required: true, message: 'Please enter your mobile number!' }]}><Input /></Form.Item>
+            <Form.Item
+              label="Enter Mobile Number"
+              name="contactNo" hasFeedback
+              rules={[
+                { required: true, message: 'Please enter your mobile number!' },
+                {
+                  len: 10,
+                  message: 'Contact number should be 10 digits!'
+                }
+              ]}>
+              <Input type='number' /></Form.Item>
           <Form.Item><Button loading={sendingOtp} block type="primary" htmlType="submit">Send OTP</Button></Form.Item>
           <Form.Item style={{ textAlign: 'center' }}>
             <Typography.Text>Don't have an account?{' '}
@@ -204,7 +214,11 @@ const EmailForm = () => {
       rules={[
         {
           required: true,
-          message: 'Please enter your email!'
+          message: 'Please enter your email!',
+        },
+        {
+          message: 'Please enter valid email!',
+          type:'email'
         }
       ]}
     >

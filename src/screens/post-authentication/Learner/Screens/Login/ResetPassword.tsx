@@ -54,6 +54,10 @@ const ResetPasswordForm = () => {
               {
                 required: true,
                 message: 'Please input your new password!'
+              },
+              {
+                min: 8,
+                message: 'Password must be atleast 8 characters!'
               }
             ]}
             hasFeedback
