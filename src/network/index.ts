@@ -13,6 +13,7 @@ Network.Axios.defaults.transformRequest = [
     }
     const orgAlias = Utils.Storage.GetItem('orgAlias')
     const userType = Utils.Storage.GetItem('userType')
+    // console.log()
     const token = getToken(userType)
     if (orgAlias) {
       headers.set('x-org-alias', orgAlias)

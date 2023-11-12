@@ -122,7 +122,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
           />{' '}
         </Form.Item>
         <FileList
-                        userType="learner"
+                        // userType="learner"
 
               onDeleteFile={fileId => {
                 const FILES = files.filter(f => f.file !== fileId)

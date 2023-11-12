@@ -216,7 +216,7 @@ const UploadVideoForm:any = () => {
                 }}
               />
           </ActionModal>}>
-          <FileListStyled userType='user'
+          <FileListStyled 
               onDeleteFile={(fileId:string) => {
                 const files = item.files.filter((f:any) => f.file !== fileId)
                 onFormChange({ files })

@@ -30,15 +30,6 @@ function App () {
     },
     [window.location.hostname]
   )
-  const userType = subdomain === 'app' ? 'user' : 'learner'
-
-  useEffect(
-    () => {
-      Utils.Storage.SetItem('userType', userType)
-    },
-    [userType]
-  );
-
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
@@ -52,7 +43,7 @@ function App () {
         />
 
         <ErrorBoundary>
-          <AppRouter userType={userType} />
+          <AppRouter />
         </ErrorBoundary>
       </QueryClientProvider>
     </Fragment>

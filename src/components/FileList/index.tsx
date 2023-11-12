@@ -1,5 +1,5 @@
 import { Avatar, Button, Empty, List, Modal, Typography } from 'antd'
-import { Learner, User } from '@adewaskar/lms-common';
+import { Learner, Store, User } from '@adewaskar/lms-common';
 
 import CardItem from './types/CardItem';
 import ListItem from './types/ListItem';
@@ -11,10 +11,10 @@ interface FileListPropsI {
     onDeleteFile?: (s: string) => void;
     style?: any;
   uploadFileInput?: any;
-  userType: string;
 }
 
 function FileList(props: FileListPropsI) {
+  const userType = Store.useAuthentication(s => s.userType);
     let ListItemComponent = ListItem;
     if(props.type==='card') {
         ListItemComponent = CardItem;
@@ -27,7 +27,7 @@ function FileList(props: FileListPropsI) {
             style={props.style || {}}
       renderItem={(file, index) => {
         return (
-            <ListItemComponent useGetFileDetails={props.userType==='learner'?Learner.Queries.useGetFileDetails:User.Queries.useGetFileDetails} onDeleteFile={(d:string) => {
+            <ListItemComponent useGetFileDetails={userType==='learner'?Learner.Queries.useGetFileDetails:User.Queries.useGetFileDetails} onDeleteFile={(d:string) => {
                 props.onDeleteFile&&props.onDeleteFile(d)
                   }} file={file} />
         )

@@ -26,16 +26,9 @@ export const useGetNodeFromRouterOutlet = () => {
   return {  courseId,sectionId };
 }
 
-export const useAppInit = (type: string) => {
-  const token = getToken();
-  const [isAliasValid, setAliasValid] = useState<boolean | null>(null)
-  const [loading, setLoading] = useState(false);
-  const {
-    mutate: validateUser,
-  } = Common.Queries.useValidateUser();
-  const { mutate: validateOrgAlias } = Common.Queries.useValidateOrgAlias();
-  const enabled = !!isAliasValid;
-
+export const useAppInit = () => {
+  const isValidAlias = Store.useGlobal(s => s.isAliasValid);
+  const { mutate: validateOrgAlias,isLoading: validatingOrgAlias } = Common.Queries.useValidateOrgAlias();
   let subdomain = useMemo(
     () => {
       const hostname = window.location.hostname
@@ -49,62 +42,10 @@ export const useAppInit = (type: string) => {
     const sd = subdomain + '';
     validateOrgAlias({
       alias:sd
-    }, {
-      onSuccess: () => {
-        console.log('Org Alias', sd, 'Has been validated')
-        setAliasValid(true)
-      }
     })
   }, [])
-  // useEffect(() => {
-  //   if (isSignedIn && type === 'user' &&enabled) {
-  //     fetchOrganisation(`user`)
-  //   }
-  //  },[enabled])
-
-  useEffect(() => {
-    if (enabled) {
-      initApp(type);
-    }
-  }, [type, token, enabled]);
-
-  const initApp = async (userType: string) => {
-    const { setIsSignedin, isSignedIn } = Store.useAuthentication.getState();
-
-    try {
-      setLoading(true);
-      // if (isSignedIn && userType === 'user') {
-      //   await fetchOrganisation(`user`);
-      // }
-      // if (userType === 'learner') {
-      //   await fetchOrganisation(`learner`);
-      // }
-      if (token) {
-        await validateUser({
-          type: type,
-          // onSuccess: (d) => {
-          //   setUser(d.user)
-          //   console.log('Signed In')
-          //   setIsSignedin(true)
-          //  }
-        }, {
-          onSuccess: (d) => {
-            console.log(d, 'dd')
-            // @ts-ignore
-            setUser(d.user, userType);
-            console.log('Signed In')
-            setIsSignedin(true)
-           }
-        });
-      }
-    }
-    catch (er) {
-      setLoading(false)
-    }
-  }
-
-
-  return { isInitDone: loading,isAliasValid }
+  console.log(validatingOrgAlias,'validatingOrgAlias')
+  return { isInitDone: isValidAlias }
 }
 
 

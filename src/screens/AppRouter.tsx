@@ -325,8 +325,9 @@ const router = (userType: string) => {
   )
 }
 
-function AppRouter(props: { userType: string }) {
-  const { userType} = props;
+function AppRouter() {
+  const userType = Store.useAuthentication(s => s.userType);
+  console.log(userType, 'userType');
   return  <RouterProvider router={router(userType)} />
 }
 

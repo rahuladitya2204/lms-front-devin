@@ -36,12 +36,12 @@ const UploadPDFForm: React.FC = () => {
     topics
   } = useUploadItemForm(form)
   const [loading, setLoading] = useState(false)
-  const { data: file, isFetching: loadingFile } = User.Queries.useGetFileDetails(
-    item.file + '',
-    {
-      enabled: !!item.file
-    }
-  )
+  const {
+    data: file,
+    isFetching: loadingFile
+  } = User.Queries.useGetFileDetails(item.file + '', {
+    enabled: !!item.file
+  })
   const loadingPdf = loading || loadingFile
   return (
     <Fragment>
@@ -162,7 +162,6 @@ const UploadPDFForm: React.FC = () => {
               }
             >
               <FileList
-                userType="user"
                 onDeleteFile={(fileId: string) => {
                   const files = item.files.filter((f: any) => f.file !== fileId)
                   onFormChange({ files })
