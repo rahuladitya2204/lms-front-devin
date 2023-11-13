@@ -53,6 +53,7 @@ import LearnerCourses from './post-authentication/Learner/Screens/Products/Cours
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerEventsScreen from '@Learner/Screens/Products/Event/Events/EventScreen'
 import LearnerFullPageHolder from './LearnerFullPageHolder';
+import LearnerPrivacyPolicy from '@Learner/Screens/PrivacyPolicy/PrivacyPolicy'
 import LearnerRootScreen from '@Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTestDetailScreen from '@Learner/Screens/Products/Test/TestDetail/TestDetail'
@@ -168,7 +169,8 @@ const router = (userType: string) => {
               />
               <Route path="ended" element={<UserMeetingEnded />} />
             </Route> */}
-           </Route>
+            </Route>
+            <Route path='privacy-policy' element={<LearnerPrivacyPolicy/>} />
             <Route path="*" element={<NotFoundScreen />} />
  </>
         ) : <>

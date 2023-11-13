@@ -17,14 +17,14 @@ function OrgLogo(props: any) {
       noLoadNoShow
       noLoadNoShowPlaceholder={
         organisation._id ? (
-          <Skeleton.Avatar active style={{ width: 25, height: 25 }} />
+          <Skeleton.Avatar active style={{ width: 45, height: 45 }} />
         ) : (
           <span />
         )
       }
       // onClick={() => navigate('../app/store')}
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
-      width={props.width || `30px`}
+      width={props.width || `45px`}
       preview={false}
       src={logo.url}
       {...props}

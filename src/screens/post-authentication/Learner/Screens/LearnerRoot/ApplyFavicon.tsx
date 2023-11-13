@@ -10,6 +10,7 @@ const ApplyFavicon: React.FC<ApplyFaviconProps> = ({ faviconUrl, shortName }) =>
     // For favicon
     const existingLink = document.querySelector("link[rel*='icon']") as HTMLLinkElement;
     const originalFaviconHref = existingLink ? existingLink.href : '';
+    console.log('appended','link',existingLink)
 
     if (existingLink) {
       existingLink.href = faviconUrl;

@@ -302,61 +302,87 @@ function TestBuilderScreen() {
               )}
             </Col> */}
           </Row>,
-          // <Button
-          //   shape="circle"
-          //   icon={
-          //     <MoreButton
-          //       items={[
-          //         {
-          //           label: (
-          //             <ActionModal
-          //               title="Generate Test Outline"
-          //               width={900}
-          //               cta={
-          //                 <Button
-          //                   type="text"
-          //                   style={{ marginRight: 10 }}
-          //                 >
-          //                   Generate Test Outline
-          //                 </Button>
-          //               }
-          //             >
-          //               <TestOutline testId={testId + ''} />
-          //             </ActionModal>
-          //           ),
-          //           key: 'generate-test-outline'
-          //           // icon: <DeleteOutlined />
-          //         },
-          //         {
-          //           label: (
-          //             <ActionModal
-          //               title="Reset Test Outline"
-          //               width={900}
-          //               cta={
-          //                 <Button
-          //                   style={{ marginRight: 20 }}
-          //                   danger
-          //                   type="text"
-          //                 >
-          //                   Reset Test Outline
-          //                 </Button>
-          //               }
-          //             >
-          //               <TestOutline testId={testId + ''} />
-          //             </ActionModal>
-          //           ),
-          //           key: 'reset'
-          //           // icon: <DeleteOutlined />
-          //         }
-          //         // {
-          //         //   label: `Enter Test Json`,
-          //         //   key: 'enter-test-json'
-          //         //   // icon: <DeleteOutlined />
-          //         // }
-          //       ]}
-          //     />
-          //   }
-          // />,
+          <Button
+            shape="circle"
+            icon={
+              <MoreButton
+                items={[
+                  {
+                    key: 'revert',
+                    label: (
+                      <Button
+                        // size="small"
+                        onClick={() => {
+                          confirm({
+                            title: 'Are you sure?',
+                            // icon: <ExclamationCircleOutlined />,
+                            content: `You want to Unpublish this test, It will be moved to Draft?`,
+                            onOk() {
+                              unpublishTest({
+                                testId: testId + ''
+                              })
+                              message.open({
+                                type: 'success',
+                                content: 'Test has been moved to draft'
+                              })
+                            },
+                            okText: 'Yes, Unpublish'
+                          })
+                        }}
+                        type="text"
+                        loading={unpublishingTest}
+                      >
+                        Revert to draft
+                      </Button>
+                    )
+                  },
+                  {
+                    label: (
+                      <ActionModal
+                        title="Generate Test Outline"
+                        width={900}
+                        cta={
+                          <Button type="text" style={{ marginRight: 10 }}>
+                            Generate Test Outline
+                          </Button>
+                        }
+                      >
+                        <TestOutline testId={testId + ''} />
+                      </ActionModal>
+                    ),
+                    key: 'generate-test-outline'
+                    // icon: <DeleteOutlined />
+                  },
+                  {
+                    label: (
+                      <ActionModal
+                        title="Reset Test Outline"
+                        width={900}
+                        cta={
+                          <Button
+                            style={{ marginRight: 20 }}
+                            danger
+                            type="text"
+                          >
+                            Reset Test Outline
+                          </Button>
+                        }
+                      >
+                        <TestOutline testId={testId + ''} />
+                      </ActionModal>
+                    ),
+                    key: 'reset'
+                    // icon: <DeleteOutlined />
+                  }
+                  // {
+                  //   label: `Enter Test Json`,
+                  //   key: 'enter-test-json'
+                  //   // icon: <DeleteOutlined />
+                  // }
+                ]}
+              />
+            }
+          />,
           <Button type="primary" loading={savingTest} onClick={saveTest}>
             Save Changes
           </Button>,
@@ -364,29 +390,6 @@ function TestBuilderScreen() {
             <Space>
               {' '}
               <Tag color="green">Test is Published</Tag>{' '}
-              <Button
-                size="small"
-                onClick={() => {
-                  confirm({
-                    title: 'Are you sure?',
-                    // icon: <ExclamationCircleOutlined />,
-                    content: `You want to Unpublish this test, It will be moved to Draft?`,
-                    onOk() {
-                      unpublishTest({
-                        testId: testId + ''
-                      })
-                      message.open({
-                        type: 'success',
-                        content: 'Test has been moved to draft'
-                      })
-                    },
-                    okText: 'Yes, Unpublish'
-                  })
-                }}
-                loading={unpublishingTest}
-              >
-                Revert to draft
-              </Button>
             </Space>
           ) : (
             <Space>

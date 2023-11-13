@@ -27,7 +27,12 @@ export default function OrgProfile() {
       isLoading: loading
     } = User.Queries.useUpdateOrgSetting();
     
-  const onSubmit = (data:Partial<Types.OrganisationSetting>) => { 
+  const onSubmit = (data: Partial<Types.OrganisationSetting>) => { 
+    // @ts-ignore
+    if (data.branding?.colors.primary?.metaColor) {
+    // @ts-ignore
+    data.branding.colors.primary = data.branding?.colors.primary?.metaColor?.originalInput;
+    }
     updateOrgAccount({ data });
   }
   const { isFontValidating, isFontValid, validateFontName } = useFontValidation(form);
