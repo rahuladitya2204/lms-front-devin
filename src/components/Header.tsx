@@ -47,7 +47,7 @@ const Header: React.FC<HeaderPropsI> = props => {
             <Col>
               <Space align="center">
                 {props.showBack ? <BackButton /> : null}
-                {props.showLogo ? <OrgLogo width={20} /> : null}
+                {props.showLogo ? <OrgLogo /> : null}
                 <Title level={4} style={{ margin: '10px 0' }}>
                   {props.title}
                 </Title>
