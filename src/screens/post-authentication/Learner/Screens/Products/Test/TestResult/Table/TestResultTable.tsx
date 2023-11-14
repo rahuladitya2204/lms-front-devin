@@ -57,14 +57,14 @@ const TestResultTable: React.FC = () => {
     //  @ts-ignore
         <Text>Question {index + 1}</Text>
 )} />
-<Table.Column
+{/* <Table.Column
 title="Title"
 dataIndex="title"
 key="title"
 render={(title) => (
   <span>{title.length > 20 ? <HtmlViewer content={`${title.substring(0, 20)}...`}></HtmlViewer> : <HtmlViewer content={title}></HtmlViewer> }</span>
 )}
-      />
+      /> */}
         <Table.Column
         title="Question Type"
         dataIndex="type"
