@@ -142,7 +142,8 @@ const router = (userType: string) => {
                 path=":orderId/successful"
                 element={<EnrolledCourseSuccessful />}
               />
-            </Route>
+                       <Route path='privacy-policy' element={<LearnerPrivacyPolicy/>} />
+ </Route>
             <Route path="" element={<LearnerFullPageHolder/> }>
             <Route path="app/test/:testId">
               <Route path="start" element={<TestRules />} /> 
@@ -172,7 +173,6 @@ const router = (userType: string) => {
               <Route path="ended" element={<UserMeetingEnded />} />
             </Route> */}
             </Route>
-            <Route path='privacy-policy' element={<LearnerPrivacyPolicy/>} />
             <Route path="*" element={<NotFoundScreen />} />
  </>
         ) : <>

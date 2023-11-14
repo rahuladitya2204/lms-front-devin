@@ -85,8 +85,8 @@ function StoreScreen () {
         }
             console.log(categorizedProducts,'categorizedProducts')
         return (
-          <Col span={24}>
-            <Section title={<Text>{category.title}</Text>}
+          <Col span={24} style={{marginTop:20}}>
+            <Section title={<Text style={{fontSize:20}} >{category.title}</Text>}
               // subtitle={category.description}
             >
               <Row gutter={[20,30]}>
