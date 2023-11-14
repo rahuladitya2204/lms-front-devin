@@ -1,6 +1,8 @@
 import { Button, Form, Input, Modal, Space } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
+import Image from '@Components/Image'
+import MediaUpload from '@Components/MediaUpload'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
@@ -49,6 +51,7 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
     },
     [props.data]
   )
+  const thumbnailImage = Form.useWatch(['thumbnailImage'], form)
 
   return (
     <Fragment>
@@ -58,6 +61,19 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
         </Form.Item>
         <Form.Item name="description" label="Description" required>
           <Input placeholder="Category Description" />
+        </Form.Item>
+        <Form.Item name="thumbnailImage" label="Image">
+          <MediaUpload
+            uploadType="image"
+            name={['thumbnailImage']}
+            cropper
+            width="100px"
+            renderItem={() => <Image width={'70%'} src={thumbnailImage} />}
+            onUpload={e => {
+              console.log(e, 'eeee')
+              form.setFieldValue(['thumbnailImage'], e.url)
+            }}
+          />
         </Form.Item>
         <Space>
           <Button

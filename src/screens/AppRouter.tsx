@@ -25,6 +25,7 @@ import AddTextItem from '@User/Screens/Courses/CourseEditor/CourseBuilder/Upload
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
+import CategoriesScreen from '@User/Screens/Categories/CategoriesScreen'
 import CertificateTemplateEditor from '@User/Screens/CertificateTemplates/CertificateTemplateEditor'
 import CourseAnalytics from '@User/Screens/Courses/CourseAnalytics/CourseAnalytics'
 import CourseBuilderScreen from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseBuilderScreen'
@@ -35,6 +36,7 @@ import CoursePlayer from '@Learner/Screens/CoursePlayer';
 import CoursePlayerItem from '@Learner/Screens/CoursePlayer/CoursePlayerItem';
 import CoursesScreen from './post-authentication/User/Screens/Courses/CoursesScreen'
 import CreateCampaign from '@User/Screens/Marketing/CampaignScreen/CreateCampaign/CreateCampaign'
+import CreateCategory from '@User/Screens/Categories/CreateCategory'
 import CreateEvent from '@User/Screens/Event/CreateEvent/CreateEvent'
 import CreatePackage from '@User/Screens/Packages/CreatePackage/CreatePackage'
 import CreateQuizForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/CreateQuizForm/CreateQuizForm'
@@ -281,6 +283,11 @@ const router = (userType: string) => {
               <Route path="" element={<PackagesScreen />} />
               <Route path="create" element={<CreatePackage />} />
             <Route path=":packageId/edit" element={<CreatePackage />} />
+                  </Route>
+                  <Route path="category">
+              <Route path="" element={<CategoriesScreen />} />
+              <Route path="create" element={<CreateCategory />} />
+            <Route path=":categoryId/edit" element={<CreateCategory />} />
             </Route>
             <Route path="test">
               <Route path="" element={<UserTestScreen />} />

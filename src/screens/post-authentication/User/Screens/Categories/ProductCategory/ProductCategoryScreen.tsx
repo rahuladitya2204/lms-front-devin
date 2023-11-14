@@ -2,7 +2,7 @@ import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal'
-import CreateCategory from './CreateCategory'
+import CreateCategory from '../CreateCategory'
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'

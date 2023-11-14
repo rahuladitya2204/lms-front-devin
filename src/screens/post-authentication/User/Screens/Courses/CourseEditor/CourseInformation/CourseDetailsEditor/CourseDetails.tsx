@@ -16,7 +16,7 @@ import { User, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal'
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor'
-import CreateCategory from '@User/Screens/Courses/ProductCategory/CreateCategory'
+import CreateCategory from '@User/Screens/Categories/CreateCategory'
 import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
