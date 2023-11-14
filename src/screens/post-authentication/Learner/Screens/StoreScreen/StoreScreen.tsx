@@ -9,14 +9,15 @@ import Image from '@Components/Image'
 import Section from '@Components/Section'
 import { Skeleton } from 'antd'
 import TestCard from './Cards/TestCard'
+import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useParams } from 'react-router-dom'
 
-const { Title, Paragraph } = Typography
+const { Title, Paragraph,Text } = Typography
 
 function StoreScreen () {
  const {
-    data: { courses, events, tests },
+    data: products,
     isFetching
   } = Learner.Queries.useGetRecommendedProducts()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
@@ -68,25 +69,38 @@ function StoreScreen () {
         <Divider>
         <Title level={isMobile?2:1}>Expore our products</Title>
         </Divider>
-      {categories.map(category => {
-        const categorizedCourses = courses.filter(
-          course => course.category === category._id
+          
+          {/* <Row gutter={[20,20]}> */}
+          {Object.keys(products).map(key => {
+            // @ts-ignore
+            const productItems = products[key];
+            return productItems.length?<Col span={24}><Section title={capitalize(key) }>
+          {categories.map(category => {
+        const categorizedProducts = productItems.filter(
+                 // @ts-ignore
+                 prod => prod.category === category._id
         )
-        if (!categorizedCourses.length) {
+        if (!categorizedProducts.length) {
           return null
         }
+            console.log(categorizedProducts,'categorizedProducts')
         return (
           <Col span={24}>
-            <Section title={category.title} subtitle={category.description}>
-              <Row>
+            <Section title={<Text>{category.title}</Text>}
+              // subtitle={category.description}
+            >
+              <Row gutter={[20,30]}>
               <Col span={24}>
                     <Row gutter={[30,20]} >
-                      {courses.map(course => {
+                      {categorizedProducts.map((product:any) => {
                         return  <Col  
                         sm={12} 
                         md={8} xs={24}
                         lg={6}  >
-                          <CourseCard course={course} /></Col>
+                          {key==='courses'?<CourseCard course={product} />:null}
+                          {key==='events'?<EventCard event={product} />:null}
+                          {key==='tests'?<TestCard test={product} />:null}
+    </Col>
                       })}
                     </Row>
               </Col>
@@ -95,50 +109,11 @@ function StoreScreen () {
           </Col>
         )
       })}
-      {tests.length ? (
-        <Col span={24}>
-          <Section
-            title={`Mock Tests`}
-            // subtitle={category.description}
-          >
-            <Row>
-                  <Col span={24}>
-                    <Row gutter={[30,20]} >
-                      {tests.map(test => {
-                        return  <Col  
-                        sm={12} 
-                        md={8} xs={24}
-                        lg={6}  >
-                          <TestCard test={test} /></Col>
-                      })}
-                    </Row>
-              </Col>
-            </Row>
-          </Section>
-        </Col>
-        ) : null}</>}
-      
-{events.length?       <Col span={24}>
-          <Section
-            title={`Upcoming Events`}
-            // subtitle={category.description}
-          >
-            <Row>
-            <Col span={24}>
-                    <Row gutter={[30,20]} >
-                      {events.map(event => {
-                        return  <Col  
-                        sm={12} 
-                        md={8} xs={24}
-                        lg={6}  >
-                          <EventCard event={event} /></Col>
-                      })}
-                    </Row>
-              </Col>
-            </Row>
-          </Section>
-        </Col>:null}
+       </Section> </Col>:null
+     })}
+          {/* </Row> */}
   
+</>}
     </Row>
   )
 }

@@ -2,7 +2,7 @@ import { Col, Row, Typography } from 'antd'
 
 interface SectionPropsI {
   children: React.ReactNode;
-  title: string;
+  title: string | React.ReactNode;
   subtitle?: string;
 }
 
