@@ -41,12 +41,12 @@ const calculateTotalScore = () => {
         const sections = e.sections.map((section) => {
             const sectionItems = Array.from({ length: section.itemCount }).map(() => {
                 const options = Array.from({ length: section.optionCount }).map(() => ({
-                  text: '',
+                  text: null,
                   isCorrect: false,
                 }));
           
                 return {
-                  title: section.title,
+                  title: '',
                   score: section.score,
                     options,
                   type: section.questionType

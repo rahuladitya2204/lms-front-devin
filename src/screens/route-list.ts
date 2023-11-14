@@ -139,9 +139,9 @@ export const PackagesScreen = lazy(() =>
 export const PaymentSettings = lazy(() =>
   import('@User/Screens/Settings/Payments/PaymentSettings')
 )
-export const ProductCategoryScreen = lazy(() =>
-  import('@User/Screens/Categories/ProductCategory/ProductCategoryScreen')
-)
+// export const ProductCategoryScreen = lazy(() =>
+//   import('@User/Screens/Categories/ProductCategory/ProductCategoryScreen')
+// )
 export const PromosScreen = lazy(() =>
   import('@User/Screens/Marketing/Promos/PromosScreen')
 )

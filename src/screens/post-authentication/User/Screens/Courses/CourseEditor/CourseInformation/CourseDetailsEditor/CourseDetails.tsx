@@ -69,7 +69,9 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const { id } = useParams()
   const courseId = props.courseId || id
   const { data: instructors } = User.Queries.useGetInstructors()
-  const { listItems: categories } = User.Queries.useGetProductCategories('course')
+  const { listItems: categories } = User.Queries.useGetProductCategories(
+    'course'
+  )
   const thumbnailImage = useWatch(['thumbnailImage'], form)
   useEffect(
     () => {
@@ -208,7 +210,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
                   { required: true, message: 'Please select a instructor' }
                 ]}
               >
-                <Select 
+                <Select
                   style={{ width: '100%' }}
                   placeholder="Select Instructor"
                 >
@@ -279,7 +281,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
                   />
                 }
               >
-                <CreateCategory type='course'> </CreateCategory>
+                <CreateCategory> </CreateCategory>
               </ActionModal>
             </Col>
           </Row>

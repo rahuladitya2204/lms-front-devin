@@ -8,10 +8,8 @@ import { User } from '@adewaskar/lms-common'
 
 interface CreateCategoryComponentPropsI {
   children?: ReactNode;
-  type?: string;
   closeModal?: Function;
   data?: Types.ProductCategory;
-  onFinish?: () => void;
 }
 
 const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
@@ -26,23 +24,30 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
   const [form] = Form.useForm()
 
   const onSubmit = (e: Types.ProductCategory) => {
-    if (props.data) {
-      updateCategory({ id: props.data._id, data: e })
-    } else {
-      const D = { ...e }
-      if (props.type) {
-        D.type = props.type
-      }
-      createCategory(
-        { data: D },
+    const id = props?.data?._id
+    const DATA = { ...e }
+    if (id) {
+      // @ts-ignore
+      updateCategory(
+        { id: id, data: DATA },
         {
           onSuccess: () => {
+            form.resetFields()
+            props.closeModal && props.closeModal()
+          }
+        }
+      )
+    } else {
+      createCategory(
+        { data: DATA },
+        {
+          onSuccess: () => {
+            form.resetFields()
             props.closeModal && props.closeModal()
           }
         }
       )
     }
-    props.onFinish && props.onFinish()
   }
 
   useEffect(
@@ -51,6 +56,7 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
     },
     [props.data]
   )
+
   const thumbnailImage = Form.useWatch(['thumbnailImage'], form)
 
   return (

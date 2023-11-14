@@ -289,7 +289,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                   />
                 }
               >
-                <CreateCategory type="test"> </CreateCategory>
+                <CreateCategory> </CreateCategory>
               </ActionModal>
             </Col>
           </Row>

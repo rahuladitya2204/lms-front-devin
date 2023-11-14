@@ -9,24 +9,19 @@ import Image from '@Components/Image'
 import MoreButton from '@Components/MoreButton'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
-import { useNavigate } from 'react-router'
 
 function CategoriesScreen() {
   const { data, isFetching: loading } = User.Queries.useGetProductCategories(
     'all'
   )
-  const navigate = useNavigate()
+
   return (
     <Header
       title={'Categories'}
       extra={[
         <ActionModal
           title="Create Category"
-          cta={
-            <Button onClick={() => navigate(`create`)} type="primary">
-              Create New Category
-            </Button>
-          }
+          cta={<Button type="primary">Create New Category</Button>}
         >
           <CreateCategory />
         </ActionModal>
@@ -40,7 +35,12 @@ function CategoriesScreen() {
               <Avatar size={60} src={record.thumbnailImage} />
             )}
           />
-          <Table.Column title="Category Name" dataIndex="title" key="title" />
+          <Table.Column title="Name" dataIndex="title" key="title" />
+          <Table.Column
+            title="Description"
+            dataIndex="description"
+            key="description"
+          />
           {/* <Table.Column
             title="Total Courses"
             dataIndex="totalCourses"

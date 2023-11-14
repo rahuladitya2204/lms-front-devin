@@ -9,7 +9,7 @@ import {
 } from './constant'
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin } from 'antd'
-import React, { Fragment, useRef } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 
 import SunEditor from 'suneditor-react'
 import katex from 'katex'
@@ -32,7 +32,7 @@ interface SunEditorPropsI {
 const SunEditorComponent = (props: SunEditorPropsI) => {
   const level = props.level || 2
   const form = Form.useFormInstance()
-  const editorRef = useRef()
+  const editorRef = useRef<any | null>()
   const {
     mutate: uploadFiles,
     isLoading: loading
@@ -47,6 +47,43 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   if (props.value) {
     value = props.value
   }
+  const selectionRef = useRef<any | null>(null);
+
+  const saveSelection = () => {
+    const selection = window.getSelection()
+    if (selection && selection.rangeCount > 0) {
+      selectionRef.current = selection.getRangeAt(0).cloneRange()
+    }
+  }
+
+  const restoreSelection = () => {
+    const editor = editorRef.current
+    const selection = window.getSelection()
+    if (editor && selection && selectionRef.current) {
+      selection.removeAllRanges()
+      selection.addRange(selectionRef.current)
+    }
+  }
+
+  const previousValue = useRef<string | null | undefined>(props.value);
+
+  useEffect(() => {
+    const editor = editorRef.current;
+    if (editor) {
+      const currentContent = editor.getContents(false);
+      if (props.value !== currentContent) {
+        if (props.value === '' || props.value === null) {
+          editor.setContents('');
+        } else {
+          editor.setContents(props.value);
+        }
+        if (previousValue.current && (props.value === '' || props.value === null)) {
+          editor.core.focus();
+        }
+      }
+      previousValue.current = props.value;
+    }
+  }, [props.value]);
 
   // Decide which options to use based on the level prop
   let options: any = BasicEditorOptions
@@ -101,7 +138,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     <Fragment>
       <Spin spinning={loading}>
         <SunEditor
-          getSunEditorInstance={getSunEditorInstance}
+          getSunEditorInstance={editor => editorRef.current = editor}
           // onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}

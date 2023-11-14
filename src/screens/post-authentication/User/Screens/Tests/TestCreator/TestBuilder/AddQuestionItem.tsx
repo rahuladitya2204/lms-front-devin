@@ -22,6 +22,7 @@ import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/ic
 import { useEffect, useState } from 'react';
 
 import ActionModal from '@Components/ActionModal';
+import EnterLatexText from './EnterLatexText';
 import GenerateAIItemDetails from './GenerateAIItemDetails';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import InputTags from '@Components/InputTags/InputTags';
@@ -166,7 +167,9 @@ layout="vertical"
  
      <Card bordered={false} extra={[EnterHtmlButton]}>
    
-     <Form.Item name="title" label="Title" required   rules={[
+            <Form.Item extra={[<ActionModal cta={<Button>Enter Latex</Button>}>
+              <EnterLatexText onFinish={str=>form.setFieldValue('title',str)} />
+            </ActionModal>]} name="title" label="Title" required   rules={[
          {
            required: true,
            message: "Enter questions's title"
