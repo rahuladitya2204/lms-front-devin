@@ -144,7 +144,7 @@ const LearnerHeader: React.FC = () => {
       ) : null}
 {!isSignedIn?<ActionModal
           width={300}
-          title="Login"
+          // title="Login"
           cta={
             <Button
               icon={<LoginOutlined />}

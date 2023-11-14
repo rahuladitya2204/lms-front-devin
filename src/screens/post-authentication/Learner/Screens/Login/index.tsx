@@ -1,10 +1,11 @@
 import { ArrowLeftOutlined, GoogleOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Divider, Form, Input } from 'antd'
+import { Button, Checkbox, Divider, Form, Input, Space } from 'antd'
 import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import LearnerRegister from '../Register'
+import OrgLogo from '@Components/OrgLogo'
 import ResetPassword from './RequestResetPassword'
 import Tabs from '@Components/Tabs'
 import { Typography } from 'antd'
@@ -124,6 +125,7 @@ const OtpForm = () => {
 
   return (
     <>
+      <LogoTop/>
       {otpSent ? (
         <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={verifyOtp}>
           <Button onClick={() => setOtpSent(false)} style={{ marginBottom: 10 }} type='link' size='small' icon={<ArrowLeftOutlined/>}>Back</Button>
@@ -200,7 +202,8 @@ const EmailForm = () => {
   }
   
   return   <>
-  <Form
+        <LogoTop/>
+<Form
     form={form}
     initialValues={{
       remember: true
@@ -284,4 +287,10 @@ const EmailForm = () => {
     Login with Google
   </Button> */}
 </>
+}
+
+const LogoTop = () => {
+  return <Space style={{display:'flex',justifyContent:"center",marginBottom:30,marginTop:20}} >
+  <OrgLogo width={100} />
+  </Space>
 }

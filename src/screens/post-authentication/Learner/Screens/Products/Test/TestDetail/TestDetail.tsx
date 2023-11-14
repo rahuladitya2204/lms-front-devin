@@ -35,8 +35,6 @@ export default function TestDetailScreen(
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'test',
     id: testId + ''
-  }, {
-    enabled:!!testId
   })
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
@@ -104,12 +102,14 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     isLoading: loaindEnrolledTestDetails
   } = Learner.Queries.useGetEnrolledProductDetails(product)
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
+  // console.log(isEnrolled,'testEndDate')
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   const isLoading =  loadingTest;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
   const testStartDate =
   enrolledDetails.metadata.test.startedAt || test.startedAt;
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
+  console.log(isEnrolled, enrolledDetails, 'testEndDate');
 
   const ENROLLED_CTA = useMemo(() => {
     if (test.isLive) {
