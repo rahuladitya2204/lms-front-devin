@@ -80,6 +80,7 @@ import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestB
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
 import TestPlayer from '@Learner/Screens/Products/Test/TestPlayer/TestPlayer';
+import TestPlayerItemReiew from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/TestPlayerItemReview'
 import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/TestPlayerItem';
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/Table/TestResultTable'
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
@@ -149,7 +150,10 @@ const router = (userType: string) => {
               <Route path="start" element={<TestRules />} /> 
               <Route path="player" element={<TestPlayer/>}>
                 <Route path=":questionId" element={<TestPlayeritem/>}/>
-              </Route>
+                </Route>
+                <Route path="review" element={<TestPlayer/>}>
+                <Route path=":questionId" element={<TestPlayerItemReiew/>}/>
+ </Route>
               <Route path="completed" element={<TestCompleted />} />
               {/* <Route path="result-table" element={<TestResultTable />} /> */}
  </Route>

@@ -54,7 +54,6 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   } = Learner.Queries.useGetTestStatus(testId + '');
 
   const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
-  // console.log(dayjs(enrolledProduct?.metadata?.test?.startedAt).format('LLL'))
   const endingAt = useMemo(() => dayjs(startedAt)
     .add(test.duration.value, 'minutes')
     .toString(), [startedAt, test]);

@@ -15,16 +15,13 @@ import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/usePro
 
 const { Title, Text } = Typography;
 
-interface TestPlayeritemPropsI {}
+interface TestPlayerItemReiewPropsI {}
 
-export default function TestPlayeritem(props: TestPlayeritemPropsI) {
-  useTestItemTime();
-  const {mutate:updateQuestionResponseFlag,isLoading:updatingFlag } = Learner.Queries.useUpdateQuestionResponseFlag();
+export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const [form] = Form.useForm();
-  const message = useMessage();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
-  const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '');
   useEffect(() => {
     const { answerGiven } = currentQuestion;
     console.log(answerGiven, 'answerGiven');
@@ -43,46 +40,17 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
    
   }, [currentQuestion, form,questionId]);
   const answer = Form.useWatch(['answer'], form);
-  const isValid = ((answer?.options?.length) || (answer?.subjective?.text));
-
-  // @ts-ignore
-  const onFormSubmit = ({answer}) => {
-    if (!isValid) {
-      return;
-    }
-    if (currentQuestion.type=== 'single') {
-      // @ts-ignore
-      answer = { options: [answer.options] };
-    }
-    submitAnswer({
-      testId: testId+'',
-      questionId: questionId+'',
-      answers: answer,
-    }, {
-      onSuccess: () => {
-        message.open({
-          type: 'success',
-          content: 'Answer Recorded',
-        });
-        navigate('next');
-      },
-    });
-  };
-
-  const { data: test } = Learner.Queries.useGetTestDetails(testId + '');
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
-  const {
-    data: { hasEnded }
-  } = Learner.Queries.useGetTestStatus(testId + '');
+
   const { token } = theme.useToken()
 
-  // const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
-  const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
+  const answerGiven = currentQuestion.answerGiven;
+  const correctOptions = currentQuestion.options.filter(i => i.isCorrect).map(i => i._id);
   return (
     <Spin spinning={loading}>
-      <Form layout='vertical' form={form} onFinish={onFormSubmit}>
+      <Form layout='vertical' form={form}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
             <Col span={24}>
@@ -92,6 +60,9 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 Question {currentQuestionIndex + 1}
                   </Title>
                 </Col>
+                {/* <Col>
+                  <span>Time Spent</span>
+                </Col> */}
               </Row>
               <HtmlViewer content={currentQuestion.title} />
               {currentQuestion.type !== 'subjective' ? <>
@@ -101,12 +72,17 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               <Form.Item name={['answer','options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
                     {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
-                    const SelectFormControlComponent=      <OptionSelectedFormControl disabled={submittingAnswer} value={option._id}>
+                    const SelectFormControlComponent = <OptionSelectedFormControl disabled value={option._id}>
                     <HtmlViewer content={option.text} />
                   </OptionSelectedFormControl>
                     return (
                       <Row gutter={[0, 20]} key={option._id}>
                         <Col span={24}>
+                          {/* @ts-ignore */}
+                          {answerGiven?.options?.indexOf(option?._id) > -1 ?
+                            <Tooltip placement="top" title={`Correct Answer`}>
+                              <CheckCircleTwoTone color={token.colorSuccessBg} />
+                            </Tooltip> : null}
                          {SelectFormControlComponent}
                         </Col>
                       </Row>
@@ -132,51 +108,13 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         </div>
 
         <Row justify="space-between">
-          <Col flex={1} >
-            <Button onClick={() => navigate('prev')} style={{ marginRight: 20 }} icon={<BackwardOutlined />}>
+          <Col flex={1} style={{justifyContent:'space-between',display:'flex'}}>
+            <Button type={'primary'} onClick={() => navigate('prev')} style={{ marginRight: 20 }} icon={<BackwardOutlined />}>
               Previous
             </Button>
-            <Button onClick={() => navigate('next')} icon={<ForwardOutlined />}>
+            <Button type={'primary'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
               Next
             </Button>
-          </Col>
-          <Col style={{display:'flex',flexDirection:'row-reverse'}}>
-      <Button
-              loading={submittingAnswer} disabled={!isValid}
-              type="primary"
-              style={{ marginLeft: 20 }}
-              onClick={form.submit}
-            >
-              Submit Answer
-            </Button>
-            {/* @ts-ignore */}
-            {currentQuestion.isMarked ?
-              <Button loading={updatingFlag}
-                type='primary'
-                onClick={() => updateQuestionResponseFlag({
-                  testId: testId + '',
-                  itemId: questionId + '', flag: 'reviewed'
-                }, {
-                  onSuccess: () => {
-                    message.open({type:'success',content:'Review Done'})
-                  }
-                })}
-                icon={<CheckOutlined/>} danger>
-              Review Done
-              </Button> : <Button loading={updatingFlag}
-                onClick={() => updateQuestionResponseFlag(
-                  {
-                    testId: testId + '', itemId: questionId + '',
-                    flag: 'review-later'
-                  }, {
-                    onSuccess: () => {
-                      message.open({type:'success',content:'Marked for review later'})
-                    }
-                  })}
-                icon={<FlagOutlined />} danger type="default">
-              Mark for review
-            </Button>}
-           
           </Col>
         </Row>
       </Form>

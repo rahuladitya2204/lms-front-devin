@@ -159,7 +159,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
             type="success"
             showIcon action={<Button size='small' onClick={() => navigate('result')}>View Result</Button>}
             />
-          <Button onClick={()=>navigate('player')} type='primary' block>View solutions</Button>
+          <Button onClick={()=>navigate('review')} type='primary' block>View solutions</Button>
           </>
         }
         else {
