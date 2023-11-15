@@ -1,6 +1,7 @@
 // @ts-nocheck
 import {
   Alert,
+  Button,
   Card,
   Col,
   Divider,
@@ -23,15 +24,17 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
+import { useNavigate, useParams } from 'react-router'
 
+import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
-import { useParams } from 'react-router'
 
 const { Title, Text, Paragraph } = Typography
 
 export default function TestMetrics() {
+  const navigate = useNavigate()
   const { testId } = useParams()
   const {
     data: { test, charts },
@@ -40,209 +43,155 @@ export default function TestMetrics() {
 
   const COLORS = ['#52c41a', '#FF4040', '#D3D3D3'] // Green for correct, Red for wrong, Grey for unattempted
 
-  //   const renderCustomizedLabel = ({
-  //     cx,
-  //     cy,
-  //     midAngle,
-  //     innerRadius,
-  //     outerRadius,
-  //     percent,
-  //     index
-  //   }) => {
-  //     const RADIAN = Math.PI / 180
-  //     const radius = innerRadius + (outerRadius - innerRadius) * 0.5
-  //     const x = cx + radius * Math.cos(-midAngle * RADIAN)
-  //     const y = cy + radius * Math.sin(-midAngle * RADIAN)
-
-  //     return (
-  //       <text
-  //         x={x}
-  //         y={y}
-  //         fill="white"
-  //         textAnchor={x > cx ? 'start' : 'end'}
-  //         dominantBaseline="central"
-  //       >
-  //         {`${(percent * 100).toFixed(0)}%`}
-  //       </text>
-  //     )
-  //   }
-
   return (
-    <Row gutter={[20, 20]}>
-      <Col span={24}>
-        <Row gutter={[20, 20]}>
-          <Col xs={24} md={12} lg={8}>
-            {loadingResult ? (
-              <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                <Skeleton />
-              </Card>
-            ) : (
-              <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                <Title level={4}>Passing Score: {test.passingScore}</Title>
-                <Title style={{ marginBottom: 15 }} level={4}>
-                  You Scored: {test.learnerScore} out of {test.totalScore}
-                </Title>
-                {test.learnerScore >= test.passingScore ? (
-                  <Alert message="You have passed this test" type="success" />
-                ) : (
-                  <Alert message="You haved failed this test" type="error" />
-                )}
-              </Card>
-            )}
-            {loadingResult ? (
-              <Card style={{ height: 300 }}>
-                <Skeleton />
-              </Card>
-            ) : (
-              <Card title="Overall Performance">
-                <PieChart width={300} height={250}>
-                  <Pie
-                    data={charts.pieChartData}
-                    dataKey="value"
-                    nameKey="name"
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    fill="#52c41a"
-                    //   label={renderCustomizedLabel}
-                    labelLine={false}
-                  >
-                    {charts.pieChartData.map((entry, index) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        fill={COLORS[index % COLORS.length]}
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </Card>
-            )}
-          </Col>
-          <Col xs={24} md={12} lg={16}>
-            {loadingResult ? (
-              <Card
-                style={{ marginBottom: 20, textAlign: 'center', height: 450 }}
-              >
-                <Row gutter={[20, 30]}>
-                  <Col span={24}>
-                    <Row gutter={[20, 20]}>
-                      <Col span={12}>
-                        <Skeleton />
-                      </Col>
-                      <Col span={12}>
-                        <Skeleton />
-                      </Col>
-                    </Row>
-                  </Col>
-                  <Col span={24}>
-                    <Divider />
-                  </Col>
-                  <Col span={24}>
-                    <Row gutter={[20, 20]}>
-                      <Col span={12}>
-                        <Skeleton />
-                      </Col>
-                      <Col span={12}>
-                        <Skeleton />
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </Card>
-            ) : (
-              <Card title="Test Analysis Report">
-                <Title level={3}>Section wise breakdown</Title>
-                {test?.sections?.map(section => {
-                  const attemptedPercent = Math.ceil(
-                    section?.stats?.questionsAttempted /
-                      section?.stats?.totalQuestions *
-                      100
-                  )
-                  const correctPercent = Math.ceil(
-                    section?.stats?.questionsAnsweredCorrectly /
-                      section?.stats?.totalQuestions *
-                      100
-                  )
-                  return (
-                    <Row key={section.title}>
-                      <Col sm={24}>
-                        <Title level={5}>{capitalize(section.title)}:</Title>
-                      </Col>
-                      <Col sm={24}>
-                        <Row gutter={[20, 20]}>
-                          <Col span={12}>
-                            Attempted {section?.stats?.questionsAttempted}/{
-                              section?.stats?.totalQuestions
-                            }
-                            <Progress
-                              format={() => ''}
-                              percent={attemptedPercent}
-                            />
-                          </Col>
-                          <Col span={12}>
-                            Correct {section?.stats?.questionsAnsweredCorrectly}/{
-                              section?.stats?.totalQuestions
-                            }
-                            <Progress
-                              format={() => ''}
-                              percent={correctPercent}
-                            />
-                          </Col>
-                        </Row>
-                      </Col>
+    <Header
+      title={`Test Result: ${test.title}`}
+      extra={[
+        <Button onClick={() => navigate('./review')} type="primary">
+          View Solutions
+        </Button>
+      ]}
+    >
+      <Row gutter={[20, 20]}>
+        <Col span={24}>
+          <Row gutter={[20, 20]}>
+            <Col xs={24} md={12} lg={8}>
+              {loadingResult ? (
+                <Card style={{ marginBottom: 20, textAlign: 'center' }}>
+                  <Skeleton />
+                </Card>
+              ) : (
+                <Card style={{ marginBottom: 20, textAlign: 'center' }}>
+                  <Title level={4}>Passing Score: {test.passingScore}</Title>
+                  <Title style={{ marginBottom: 15 }} level={4}>
+                    You Scored: {test.learnerScore} out of {test.totalScore}
+                  </Title>
+                  {test.learnerScore >= test.passingScore ? (
+                    <Alert message="You have passed this test" type="success" />
+                  ) : (
+                    <Alert message="You haved failed this test" type="error" />
+                  )}
+                </Card>
+              )}
+              {loadingResult ? (
+                <Card style={{ height: 300 }}>
+                  <Skeleton />
+                </Card>
+              ) : (
+                <Card title="Overall Performance">
+                  <PieChart width={300} height={250}>
+                    <Pie
+                      data={charts.pieChartData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      fill="#52c41a"
+                      //   label={renderCustomizedLabel}
+                      labelLine={false}
+                    >
+                      {charts.pieChartData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </Card>
+              )}
+            </Col>
+            <Col xs={24} md={12} lg={16}>
+              {loadingResult ? (
+                <Card
+                  style={{ marginBottom: 20, textAlign: 'center', height: 450 }}
+                >
+                  <Row gutter={[20, 30]}>
+                    <Col span={24}>
+                      <Row gutter={[20, 20]}>
+                        <Col span={12}>
+                          <Skeleton />
+                        </Col>
+                        <Col span={12}>
+                          <Skeleton />
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col span={24}>
                       <Divider />
-                    </Row>
-                  )
-                })}
-              </Card>
-            )}
-          </Col>
-        </Row>
-      </Col>
-      {/* <Col span={24}>
-        {loadingResult ? (
-          <Card style={{ height: 300 }}>
-            <Skeleton paragraph={{ row: 10 }} />
-          </Card>
-        ) : (
-          <Card title="Test Analysis Report">
-            <BarChart
-              width={1100}
-              height={300}
-              //   @ts-ignore
-              data={charts.barChartData}
-              margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5
-              }}
-            >
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="topic" />
-              <YAxis />
-              <Tooltip />
-              <Bar
-                dataKey="correctlyAnswered"
-                fill="#52c41a"
-                name="Correctly Answered"
-              />
-              <Bar
-                dataKey="wronglyAnswered"
-                fill="#FF4040"
-                name="Wrongly Answered"
-              />
-            </BarChart>
-          </Card>
-        )}
-      </Col> */}
-    </Row>
+                    </Col>
+                    <Col span={24}>
+                      <Row gutter={[20, 20]}>
+                        <Col span={12}>
+                          <Skeleton />
+                        </Col>
+                        <Col span={12}>
+                          <Skeleton />
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Card>
+              ) : (
+                <Card title="Test Analysis Report">
+                  <Title level={3}>Section wise breakdown</Title>
+                  {test?.sections?.map(section => {
+                    const attemptedPercent = Math.ceil(
+                      section?.stats?.questionsAttempted /
+                        section?.stats?.totalQuestions *
+                        100
+                    )
+                    const correctPercent = Math.ceil(
+                      section?.stats?.questionsAnsweredCorrectly /
+                        section?.stats?.totalQuestions *
+                        100
+                    )
+                    return (
+                      <Row key={section.title}>
+                        <Col sm={24}>
+                          <Title level={5}>{capitalize(section.title)}:</Title>
+                        </Col>
+                        <Col sm={24}>
+                          <Row gutter={[20, 20]}>
+                            <Col span={12}>
+                              Attempted {section?.stats?.questionsAttempted}/{
+                                section?.stats?.totalQuestions
+                              }
+                              <Progress
+                                format={() => ''}
+                                percent={attemptedPercent}
+                              />
+                            </Col>
+                            <Col span={12}>
+                              Correct{' '}
+                              {section?.stats?.questionsAnsweredCorrectly}/{
+                                section?.stats?.totalQuestions
+                              }
+                              <Progress
+                                format={() => ''}
+                                percent={correctPercent}
+                              />
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Divider />
+                      </Row>
+                    )
+                  })}
+                </Card>
+              )}
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Header>
   )
 }
 
-export const OverallPerformancePie = (charts) => {
+export const OverallPerformancePie = charts => {
   return (
     <PieChart width={300} height={250}>
       <Pie

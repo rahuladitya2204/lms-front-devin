@@ -35,8 +35,6 @@ const TestResultTable: React.FC = () => {
     dataSource={section.items}
           loading={isFetching}
           expandable={{
-            expandedRowKeys, // Control expanded rows
-            onExpand, // Handle row expand event
       expandedRowRender: (record) => <>
         <Row gutter={[20,20]}>
           <Col span={24}>

@@ -1,7 +1,7 @@
 import { Button, Result } from 'antd'
-
 import { useNavigate, useParams } from 'react-router'
-import ReviewTest from '../TestReview/ReviewTest'
+
+import ReviewTest from './TestFeedback/ReviewTest'
 
 export default function TestCompleted () {
   const { testId } = useParams()

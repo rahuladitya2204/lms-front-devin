@@ -102,9 +102,9 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     isLoading: loaindEnrolledTestDetails
   } = Learner.Queries.useGetEnrolledProductDetails(product)
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
-  // console.log(isEnrolled,'testEndDate')
+  const IS_SIGNED_IN = Store.useAuthentication(s => s.isSignedIn);
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
-  const isLoading =  loadingTest;
+  const isLoading = loadingTest || (IS_SIGNED_IN&& loaindEnrolledTestDetails);
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
   const testStartDate =
   enrolledDetails.metadata.test.startedAt || test.startedAt;
@@ -159,7 +159,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
             type="success"
             showIcon action={<Button size='small' onClick={() => navigate('result')}>View Result</Button>}
             />
-          <Button onClick={()=>navigate('review')} type='primary' block>View solutions</Button>
+          <Button onClick={()=>navigate('result/review')} type='primary' block>View solutions</Button>
           </>
         }
         else {

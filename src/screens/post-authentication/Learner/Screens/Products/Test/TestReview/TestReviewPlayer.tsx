@@ -21,9 +21,8 @@ import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
 import { MenuOutlined } from '@ant-design/icons'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
-import TestPlayerMoreInfo from '../TestReview/TestPlayerMoreInfo'
-import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
-import TestReviewQuestionNavigator from './Review/TestQuestionReviewNavigator'
+import TestPlayerMoreInfo from './TestPlayerMoreInfo'
+import TestReviewQuestionNavigator from './TestQuestionReviewNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
@@ -32,11 +31,12 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 const { confirm } = Modal
 
 interface TestPlayerPropsI {
+  isReview?: boolean;
 }
 
 const { Title } = Typography
 
-export default function TestPlayer(props: TestPlayerPropsI) {
+export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const { testId,questionId } = useParams()
   const navigate = useNavigate()
   const {
@@ -127,10 +127,15 @@ loading={submittingTest}
 >
 Exit
 </Button>;
-  const QuestionNavigator = TestQuestionNavigator;
+  const QuestionNavigator = TestReviewQuestionNavigator
   return (
     <>
-      <Header
+     {/* {hasEnded?<Alert
+      message="The Test has ended"
+      banner type='error'
+      closable
+      />:null} */}
+        <Header
       title={test.title}
       subTitle={'asd'}
       extra={<Row>

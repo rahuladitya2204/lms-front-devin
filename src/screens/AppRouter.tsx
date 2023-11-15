@@ -79,10 +79,12 @@ import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
+import TestMetrics from '@Learner/Screens/Products/Test/TestResult/TestMetrics'
 import TestPlayer from '@Learner/Screens/Products/Test/TestPlayer/TestPlayer';
 import TestPlayerItemReiew from '@Learner/Screens/Products/Test/TestPlayer/Review/TestPlayerItemReview'
 import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/TestPlayerItem';
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/Table/TestResultTable'
+import TestReviewPlayer from '@Learner/Screens/Products/Test/TestReview/TestReviewPlayer'
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
 import ThemeProvider from './ThemeProvider'
@@ -126,8 +128,7 @@ const router = (userType: string) => {
               <Route path="test">
                 <Route path="" element={<LearnerTestScreen />} />
                 <Route path=":testId" element={<LearnerTestDetailScreen />} />
-                <Route path=":testId/result" element={<LearnerTestResult />} />
-                <Route path=":testId/result-table" element={<TestResultTable />} />
+                {/* <Route path=":testId/result-table" element={<TestResultTable />} /> */}
               </Route>
               <Route path="event">
                 <Route path="" element={<LearnerEventsScreen />} />
@@ -151,9 +152,6 @@ const router = (userType: string) => {
               <Route path="player" element={<TestPlayer/>}>
                 <Route path=":questionId" element={<TestPlayeritem/>}/>
                 </Route>
-                <Route path="review" element={<TestPlayer isReview/>}>
-                <Route path=":questionId" element={<TestPlayerItemReiew/>}/>
- </Route>
               <Route path="completed" element={<TestCompleted />} />
               {/* <Route path="result-table" element={<TestResultTable />} /> */}
  </Route>
@@ -164,18 +162,10 @@ const router = (userType: string) => {
             <Route path="app/courses/:id/player" element={<CoursePlayer />}>
               <Route path=":itemId" element={<CoursePlayerItem/>} />
             </Route>
-
-            {/* <Route
-              path="app/event/:eventId/player"
-              element={<LearnerLiveSessionPlayerEnter />}
-            >
-              <Route path="" element={<LearnerDeviceSelection />} />
-              <Route
-                path=":meetingId/session"
-                element={<LearnerLiveSessionPlayer />}
-              />
-              <Route path="ended" element={<UserMeetingEnded />} />
-            </Route> */}
+            <Route path="app/test/:testId/result" element={<TestMetrics />} />
+            <Route path="app/test/:testId/result/review" element={<TestReviewPlayer/>}>
+                <Route path=":questionId" element={<TestPlayerItemReiew/>}/>
+ </Route>
             </Route>
             <Route path="*" element={<NotFoundScreen />} />
  </>
@@ -191,7 +181,7 @@ const router = (userType: string) => {
           path="app/products/courses/:id/editor"
           element={<CourseEditor />}
         />
-        <Route path="app/products/test/:id/editor" element={<TestEditor />} />
+ <Route path="app/products/test/:id/editor" element={<TestEditor />} />
         <Route
           path="app/products/courses/:id/builder"
           element={<CourseBuilderScreen />}

@@ -4,7 +4,7 @@ import React from 'react'
 import Tabs from '@Components/Tabs'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
-import useQuestion from './hooks/useQuestion'
+import useQuestion from '../TestPlayer/hooks/useQuestion'
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
