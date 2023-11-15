@@ -33,6 +33,11 @@ export default function OrgProfile() {
     // @ts-ignore
     data.branding.colors.primary = data.branding?.colors.primary?.metaColor?.originalInput;
     }
+       // @ts-ignore
+ if (data.branding?.colors.secondary?.metaColor) {
+      // @ts-ignore
+      data.branding.colors.secondary = data.branding?.colors.secondary?.metaColor?.originalInput;
+      }
     updateOrgAccount({ data });
   }
   const { isFontValidating, isFontValid, validateFontName } = useFontValidation(form);

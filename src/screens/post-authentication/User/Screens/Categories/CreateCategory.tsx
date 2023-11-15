@@ -3,6 +3,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
+import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
@@ -66,7 +67,7 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
           <Input placeholder="Category Title" />
         </Form.Item>
         <Form.Item name="description" label="Description" required>
-          <Input placeholder="Category Description" />
+          <TextArea placeholder="Category Description" />
         </Form.Item>
         <Form.Item name="thumbnailImage" label="Image">
           <MediaUpload

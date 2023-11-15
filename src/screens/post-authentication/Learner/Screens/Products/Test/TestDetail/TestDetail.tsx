@@ -152,12 +152,15 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
       }
       if ((testStartDate)) {
         if (testEndDate) {
-          return <Alert
+          return <>
+          <Alert
             style={{ marginBottom: 20 }}
             message="You have attended this test."
             type="success"
             showIcon action={<Button size='small' onClick={() => navigate('result')}>View Result</Button>}
-          />
+            />
+          <Button onClick={()=>navigate('player')} type='primary' block>View solutions</Button>
+          </>
         }
         else {
           return <Button onClick={() => navigate('start')} block type='primary'>
