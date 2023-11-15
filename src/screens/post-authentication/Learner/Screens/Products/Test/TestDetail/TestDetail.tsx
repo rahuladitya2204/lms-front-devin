@@ -104,7 +104,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const IS_SIGNED_IN = Store.useAuthentication(s => s.isSignedIn);
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
-  const isLoading = loadingTest || (IS_SIGNED_IN&& loaindEnrolledTestDetails);
+  const isLoading = loadingTest ;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
   const testStartDate =
   enrolledDetails.metadata.test.startedAt || test.startedAt;
