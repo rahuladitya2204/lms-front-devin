@@ -81,35 +81,6 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
  
-  const SubmitTestButton = <Button block={!isDesktop}
-    onClick={() => {
-      confirm({
-        title: 'Are you sure?',
-        // icon: <ExclamationCircleOutlined />,
-        content: `You want to submit this test?`,
-        onOk() {
-          endTest(
-            { testId: test._id + '' },
-            {
-              onSuccess: () => {
-                if (!test.isLive) {
-                  return navigate('../result')
-                }
-                navigate('../completed')
-
-              }
-            }
-          )
-        },
-        okText: 'Yes, Submit'
-      })
-    }}
-    type="primary" danger
-    loading={submittingTest}
-  >
-    Submit Test
-  </Button>;
-
 const ExitButton = <Button style={{width:100}}
 onClick={() => {
   confirm({
@@ -145,12 +116,7 @@ Exit
           </Tag>:null}
         </Col>:null}
         <Col>
-        {!isDesktop ? (VIEWING_MODE==='test'?<ActionDrawer footer={()=>[VIEWING_MODE === 'test' ? SubmitTestButton : ExitButton]} cta={<Button icon={<MenuOutlined />}>
-          </Button>}>
-            <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
-          </ActionDrawer> : ExitButton) : <>
-              {VIEWING_MODE === 'test' ? SubmitTestButton : ExitButton}
-          </>}
+       {ExitButton}
       </Col>
       </Row>}
     >
@@ -187,9 +153,9 @@ Exit
               </Title> */}
                 <Outlet />
               {/* only show if the test has ended */}
-              {testEndTime?<Card style={{marginTop:20}}>
+              <Card style={{marginTop:20}}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
-              </Card>:null}
+              </Card>
             </Col>
             {isDesktop?<Col lg={8} md={0}>
               <Row gutter={[20, 20]}>
