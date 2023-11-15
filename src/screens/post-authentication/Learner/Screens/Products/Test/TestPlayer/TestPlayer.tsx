@@ -23,7 +23,7 @@ import Header from '@Components/Header'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
-import TestReviewQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
+import TestReviewQuestionNavigator from './Review/TestQuestionReviewNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
@@ -31,7 +31,9 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { confirm } = Modal
 
-interface TestPlayerPropsI {}
+interface TestPlayerPropsI {
+  isReview?: boolean;
+}
 
 const { Title } = Typography
 
@@ -126,7 +128,7 @@ loading={submittingTest}
 >
 Exit
 </Button>;
-
+  const QuestionNavigator = props.isReview ? TestReviewQuestionNavigator : TestQuestionNavigator;
   return (
     <>
      {/* {hasEnded?<Alert
@@ -134,7 +136,7 @@ Exit
       banner type='error'
       closable
       />:null} */}
-        <Header showLogo
+        <Header
       title={test.title}
       subTitle={'asd'}
       extra={<Row>
@@ -146,8 +148,8 @@ Exit
         <Col>
         {!isDesktop ? (VIEWING_MODE==='test'?<ActionDrawer footer={()=>[VIEWING_MODE === 'test' ? SubmitTestButton : ExitButton]} cta={<Button icon={<MenuOutlined />}>
           </Button>}>
-            {(hasStarted&&!hasEnded)?<TestQuestionNavigator questionId={questionId + ''} testId={testId + ''} />:null}
-          </ActionDrawer>:ExitButton): <>
+            <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
+          </ActionDrawer> : ExitButton) : <>
               {VIEWING_MODE === 'test' ? SubmitTestButton : ExitButton}
           </>}
       </Col>
@@ -193,7 +195,7 @@ Exit
             {isDesktop?<Col lg={8} md={0}>
               <Row gutter={[20, 20]}>
                 <Col span={24}>
-                  <TestReviewQuestionNavigator questionId={questionId+''} testId={testId + ''} />
+                  <QuestionNavigator questionId={questionId+''} testId={testId + ''} />
                 </Col>
               </Row>
             </Col>:null}

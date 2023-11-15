@@ -151,7 +151,7 @@ const router = (userType: string) => {
               <Route path="player" element={<TestPlayer/>}>
                 <Route path=":questionId" element={<TestPlayeritem/>}/>
                 </Route>
-                <Route path="review" element={<TestPlayer/>}>
+                <Route path="review" element={<TestPlayer isReview/>}>
                 <Route path=":questionId" element={<TestPlayerItemReiew/>}/>
  </Route>
               <Route path="completed" element={<TestCompleted />} />

@@ -1,5 +1,5 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
-import { Badge, Button, Card, Col, Divider, Modal, Row, Space, Typography, theme } from 'antd'
+import { Badge, Button, Card, Col, Divider, Modal, Row, Space, Spin, Typography, theme } from 'antd'
 
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
@@ -19,7 +19,7 @@ export default function TestQuestionNavigatorType2(
   props: TestQuestionNavigatorType2PropsI
 ) {
   const navigate = useNavigate()
-  const { data: { sections,hasEnded,hasStarted }, isFetching } = Learner.Queries.useGetTestStatus(
+  const { data: { sections,hasEnded,hasStarted }, isLoading } = Learner.Queries.useGetTestStatus(
     props.testId + ''
   )
   const { currentQuestion,loading}=useQuestion();
@@ -61,7 +61,8 @@ export default function TestQuestionNavigatorType2(
     Submit Test
   </Button>;
   return (
-    <Card
+    <Spin spinning={loadingTest} >
+      <Card
       style={{ height: '80vh' }}
       bodyStyle={{ overflow: 'scroll', height: '100%' }}
     >
@@ -163,5 +164,6 @@ export default function TestQuestionNavigatorType2(
         </Col>
       </Row>
     </Card>
+    </Spin>
   )
 }

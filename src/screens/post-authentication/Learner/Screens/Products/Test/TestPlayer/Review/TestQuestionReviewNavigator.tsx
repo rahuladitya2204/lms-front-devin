@@ -55,43 +55,9 @@ export default function TestReviewQuestionNavigator(
 
   // const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const { token } = theme.useToken()
-  const {
-    mutate: endTest,
-    isLoading: submittingTest
-  } = Learner.Queries.useEndTest()
-  const SubmitTestButton = (
-    <Button
-      block
-      onClick={() => {
-        confirm({
-          title: 'Are you sure?',
-          // icon: <ExclamationCircleOutlined />,
-          content: `You want to submit this test?`,
-          onOk() {
-            endTest(
-              { testId: test._id + '' },
-              {
-                onSuccess: () => {
-                  if (!test.isLive) {
-                    return navigate('../result')
-                  }
-                  navigate('../completed')
-                }
-              }
-            )
-          },
-          okText: 'Yes, Submit'
-        })
-      }}
-      type="primary"
-      danger
-      loading={submittingTest}
-    >
-      Submit Test
-    </Button>
-  )
+
   return (
-    <Spin spinning={isLoading}>
+    <Spin spinning={isLoading || loadingTest}>
       <Card
         style={{ height: '80vh' }}
         bodyStyle={{ overflow: 'scroll', height: '100%' }}
@@ -153,8 +119,6 @@ export default function TestReviewQuestionNavigator(
                               key={item._id}
                               to={`${item._id}`}
                               children={({ isActive }) => {
-                                const isCurrent =
-                                  currentQuestion._id === item._id
                                 return (
                                   // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
                                   // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>

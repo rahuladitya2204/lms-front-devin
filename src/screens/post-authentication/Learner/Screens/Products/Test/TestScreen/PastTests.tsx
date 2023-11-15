@@ -6,6 +6,7 @@ import {
   Col,
   List,
   Row,
+  Skeleton,
   Tag,
   Typography
 } from 'antd'
@@ -25,7 +26,33 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
     data,
     isFetching: loading
   } = Learner.Queries.useGetEnrolledProductList('test')
-  console.log(data, 'tests')
+  console.log(data, 'tests');
+  if (loading) {
+    const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1]
+    return (
+      <Row gutter={[60, 100]}>
+        {SkeletonArr.map(() => (
+          <Col span={6}>
+            <Card>
+              <Skeleton active paragraph />
+              <Skeleton.Avatar />
+              {/* <Row justify={'space-between'}>
+                <Col>
+                  <Skeleton.Button style={{ marginTop: 20 }} block />
+                </Col>
+                <Col>
+                  <Skeleton.Button style={{ marginTop: 20 }} block />
+                </Col>
+                <Col>
+                  <Skeleton.Button style={{ marginTop: 20 }} block />
+                </Col>
+              </Row>{' '} */}
+            </Card>{' '}
+          </Col>
+        ))}
+      </Row>
+    )
+  }
   return (
     <Row gutter={[20, 30]}>
       {data
