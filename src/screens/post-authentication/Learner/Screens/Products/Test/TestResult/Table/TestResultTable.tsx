@@ -81,22 +81,7 @@ title="Result"
 dataIndex="isCorrect"
 key="isCorrect"
 render={(_,record:TestResultItem) => (
-  <Space>
-       {/* @ts-ignore */}
-    {record.type === 'subjective' ? <>
-          {/* @ts-ignore */}
- {record.isAnswered?<Tag>Attempted</Tag>:<Tag>Not Attempted</Tag>}
-    </> : <>
-          {/* @ts-ignore */}
-          {record.isAnswered ? <>
-        {record.isCorrect?<Tag color='green-inverse'>Correct</Tag>:<Tag color='red-inverse'>Incorrect</Tag>}
-        </> : <Tag color='orange-inverse'>Not Attempted</Tag>}
-        <Tooltip placement="right" title={`Global Correctness: ${Math.ceil(record.globalCorrectPercentage)}%`}>  <GlobalOutlined/>
-        </Tooltip>
-    </>}
-       {/* @ts-ignore */}
-
-</Space>
+  <TestAnswerTag item={record} />
 )}
 />
 <Table.Column
@@ -120,3 +105,23 @@ render={scoreAchieved => <span>{scoreAchieved>=0?scoreAchieved:'-'} </span>}
 };
 
 export default TestResultTable;
+
+
+export const TestAnswerTag = ({item}:{item:Types.TestStatusQuestionStats}) => {
+  return   <Space>
+  {/* @ts-ignore */}
+{item.type === 'subjective' ? <>
+     {/* @ts-ignore */}
+{item.isAnswered?<Tag>Attempted</Tag>:<Tag>Not Attempted</Tag>}
+</> : <>
+     {/* @ts-ignore */}
+     {item.isAnswered ? <>
+   {item.isCorrect?<Tag color='green-inverse'>Correct</Tag>:<Tag color='red-inverse'>Incorrect</Tag>}
+   </> : <Tag color='orange-inverse'>Not Attempted</Tag>}
+   {/* <Tooltip placement="right" title={`Global Correctness: ${Math.ceil(item.globalCorrectPercentage)}%`}>  <GlobalOutlined/>
+   </Tooltip> */}
+</>}
+  {/* @ts-ignore */}
+
+</Space>
+}

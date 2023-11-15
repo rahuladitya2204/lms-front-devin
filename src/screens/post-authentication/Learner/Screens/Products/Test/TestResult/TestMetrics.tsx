@@ -120,7 +120,7 @@ export default function TestMetrics() {
               </Card>
             )}
           </Col>
-          <Col  xs={24} md={12} lg={16}>
+          <Col xs={24} md={12} lg={16}>
             {loadingResult ? (
               <Card
                 style={{ marginBottom: 20, textAlign: 'center', height: 450 }}
@@ -239,5 +239,29 @@ export default function TestMetrics() {
         )}
       </Col> */}
     </Row>
+  )
+}
+
+export const OverallPerformancePie = (charts) => {
+  return (
+    <PieChart width={300} height={250}>
+      <Pie
+        data={charts.pieChartData}
+        dataKey="value"
+        nameKey="name"
+        cx="50%"
+        cy="50%"
+        outerRadius={100}
+        fill="#52c41a"
+        //   label={renderCustomizedLabel}
+        labelLine={false}
+      >
+        {charts?.pieChartData?.map((entry, index) => (
+          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+        ))}
+      </Pie>
+      <Tooltip />
+      <Legend />
+    </PieChart>
   )
 }

@@ -82,17 +82,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   return (
     <Spin spinning={loading}>
+      <Card title={`Question ${currentQuestionIndex + 1}`} >
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
             <Col span={24}>
-              <Row justify={'space-between'}>
-                <Col>
-                <Title style={{ margin: 0 }} level={5} type="secondary">
-                Question {currentQuestionIndex + 1}
-                  </Title>
-                </Col>
-              </Row>
               <HtmlViewer content={currentQuestion.title} />
               {currentQuestion.type !== 'subjective' ? <>
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === 'single' ? 16 : 18 }} type="secondary">
@@ -180,6 +174,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
           </Col>
         </Row>
       </Form>
+     </Card>
     </Spin>
   );
 }

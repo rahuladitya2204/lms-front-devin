@@ -22,7 +22,8 @@ import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestPlayerMoreInfo from './TestPlayerMoreInfo'
-import TestQuestionNavigator from './TestQuestionNavigator/Type2/TestQuestionNavigator'
+import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
+import TestReviewQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
@@ -128,11 +129,11 @@ Exit
 
   return (
     <>
-     {hasEnded?<Alert
+     {/* {hasEnded?<Alert
       message="The Test has ended"
       banner type='error'
       closable
-      />:null}
+      />:null} */}
         <Header showLogo
       title={test.title}
       subTitle={'asd'}
@@ -183,9 +184,7 @@ Exit
                   format={() => ``}
                 />
               </Title> */}
-              <Card>
                 <Outlet />
-              </Card>
               {/* only show if the test has ended */}
               {testEndTime?<Card style={{marginTop:20}}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
@@ -194,7 +193,7 @@ Exit
             {isDesktop?<Col lg={8} md={0}>
               <Row gutter={[20, 20]}>
                 <Col span={24}>
-                  <TestQuestionNavigator questionId={questionId+''} testId={testId + ''} />
+                  <TestReviewQuestionNavigator questionId={questionId+''} testId={testId + ''} />
                 </Col>
               </Row>
             </Col>:null}

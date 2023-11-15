@@ -1,16 +1,14 @@
-import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
+import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
+import { Constants, Learner, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
-import { Learner, Types } from '@adewaskar/lms-common';
 
 import HtmlViewer from '@Components/HtmlViewer';
-import TestPlayerFiles from './TestPlayerFiles';
+import { TestAnswerTag } from '../../TestResult/Table/TestResultTable';
+import TestPlayerFiles from '../TestPlayerItem/TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import { htmlToText } from 'html-to-text';
-import useMessage from '@Hooks/useMessage';
 import { useParams } from 'react-router';
-import useQuestion from '../hooks/useQuestion';
-import { useTestItemTime } from '@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime';
 import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
 
 const { Title, Text } = Typography;
@@ -20,19 +18,19 @@ interface TestPlayerItemReiewPropsI {}
 export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const [form] = Form.useForm();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
-  const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
+  const { currentQuestion, currentQuestionIndex, loading } = useReviewQuestion();
+  const answerGiven = currentQuestion.optionsSelected;
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '');
   useEffect(() => {
-    const { answerGiven } = currentQuestion;
     console.log(answerGiven, 'answerGiven');
     let answer = answerGiven;
     if (
       (currentQuestion.type === 'single') &&
       answerGiven &&
-      answerGiven.options &&
-      answerGiven.options.length) {
+      answerGiven &&
+      answerGiven.length) {
       // @ts-ignore
-      answer = {options:answerGiven.options[0]};
+      answer = {options:answerGiven[0]};
     }
     form.setFieldsValue({
       answer
@@ -46,10 +44,10 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
 
   const { token } = theme.useToken()
 
-  const answerGiven = currentQuestion.answerGiven;
-  const correctOptions = currentQuestion.options.filter(i => i.isCorrect).map(i => i._id);
+  // const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
   return (
     <Spin spinning={loading}>
+      <Card title={`Question ${currentQuestionIndex + 1}`} extra={[<TestAnswerTag item={currentQuestion} />, currentQuestion.scoreAchieved?<Tag color='green-inverse'>Score: {currentQuestion.scoreAchieved}</Tag>:<Tag color='red-inverse'>Score: 0</Tag>]} >
       <Form layout='vertical' form={form}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
@@ -64,26 +62,27 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   <span>Time Spent</span>
                 </Col> */}
               </Row>
-              <HtmlViewer content={currentQuestion.title} />
+              <HtmlViewer content={currentQuestion.title+''} />
               {currentQuestion.type !== 'subjective' ? <>
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === 'single' ? 16 : 18 }} type="secondary">
                 {currentQuestion.type === 'single' ? 'Select one among others' : 'Select all that apply'}
               </Text>
               <Form.Item name={['answer','options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
-                    {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
-                    const SelectFormControlComponent = <OptionSelectedFormControl disabled value={option._id}>
-                    <HtmlViewer content={option.text} />
-                  </OptionSelectedFormControl>
+                    {currentQuestion?.options?.map((option: Types.TestQuestionOption, index: number) => {
+                      const SelectFormControlComponent =<OptionSelectedFormControl style={{marginRight:0}} disabled value={option._id}>
+                    
+                    </OptionSelectedFormControl>
                     return (
                       <Row gutter={[0, 20]} key={option._id}>
                         <Col span={24}>
-                          {/* @ts-ignore */}
-                          {answerGiven?.options?.indexOf(option?._id) > -1 ?
+                          <Space style={{display:'flex',flexDirection:'row',justifyContent:'flex-start'}} >
+                                               {/* @ts-ignore */}
+     {answerGiven?.indexOf(option?._id) > -1 ?
                             <Tooltip placement="top" title={`Correct Answer`}>
                               <CheckCircleTwoTone color={token.colorSuccessBg} />
-                            </Tooltip> : null}
-                         {SelectFormControlComponent}
+                            </Tooltip> : SelectFormControlComponent}  <HtmlViewer content={option.text} />
+                          </Space>
                         </Col>
                       </Row>
                     );
@@ -118,6 +117,28 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
           </Col>
         </Row>
       </Form>
+      </Card>
     </Spin>
   );
 }
+
+
+
+ export function useReviewQuestion() {
+  const { questionId, testId } = useParams()
+  const { data: { test:{sections} }, isFetching } = Learner.Queries.useGetTestResult(
+    testId + ''
+  )
+  const questions = sections.map(e => e.items).flat()
+  const currentQuestionIndex: number = questions.findIndex(
+    q => q._id === questionId
+  )
+  return {
+    currentQuestion:
+      questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION,
+    currentQuestionIndex,
+    loading: isFetching
+  }
+ }
+
+

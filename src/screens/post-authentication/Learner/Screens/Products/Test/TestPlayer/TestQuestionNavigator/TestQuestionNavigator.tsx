@@ -1,12 +1,12 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
-import { Badge, Button, Card, Col, Divider, Modal, Row, Typography, theme } from 'antd'
+import { Badge, Button, Card, Col, Divider, Modal, Row, Space, Typography, theme } from 'antd'
 
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import TestTimer from './TestTimer'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useNavigate } from 'react-router'
-import useQuestion from '../../hooks/useQuestion'
+import useQuestion from '../hooks/useQuestion'
 
 interface TestQuestionNavigatorType2PropsI {
   testId: string;
@@ -77,6 +77,39 @@ export default function TestQuestionNavigatorType2(
         ) : (
           null
         )}
+          <Col span={24} style={{marginTop:25}}>
+            <Row gutter={[20, 20]}>
+              <Col span={12}>
+                <Space>
+                  <Button
+                    shape="circle"
+                    style={{ backgroundColor: token.colorSuccessActive }}
+                    type="primary"
+                  />{' '}
+                  Attempted
+                </Space>
+              </Col>
+              <Col span={12}>
+                <Space>
+                  <Button shape="circle" type="primary" danger /> Marked for Review
+                </Space>
+              </Col>
+              <Col span={12}>
+                <Space>
+                  <Button shape="circle" /> Not Attempted
+                </Space>
+              </Col>
+              <Col span={12}>
+                <Space>
+                  <Button
+                    style={{ backgroundColor: token.colorPrimary }}
+                    shape="circle"
+                  />{' '}
+                  Current Question
+                </Space>
+              </Col>
+            </Row>
+          </Col>
         <Col span={24}>
           <Title style={{ textAlign: 'center' }} level={3}>
             Question Panel
