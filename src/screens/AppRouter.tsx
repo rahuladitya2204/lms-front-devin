@@ -81,7 +81,7 @@ import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestComplet
 import TestEditor from '@User/Screens/Tests/TestCreator'
 import TestMetrics from '@Learner/Screens/Products/Test/TestResult/TestMetrics'
 import TestPlayer from '@Learner/Screens/Products/Test/TestPlayer/TestPlayer';
-import TestPlayerItemReiew from '@Learner/Screens/Products/Test/TestPlayer/Review/TestPlayerItemReview'
+import TestPlayerItemReiew from '@Learner/Screens/Products/Test/TestReview/TestPlayerItemReview'
 import TestPlayeritem from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/TestPlayerItem';
 import TestResultTable from '@Learner/Screens/Products/Test/TestResult/Table/TestResultTable'
 import TestReviewPlayer from '@Learner/Screens/Products/Test/TestReview/TestReviewPlayer'

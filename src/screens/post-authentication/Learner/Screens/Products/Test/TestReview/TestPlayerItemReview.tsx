@@ -44,7 +44,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
 
   const { token } = theme.useToken()
 
-  // const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
+  const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
   return (
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`} extra={[<TestAnswerTag item={currentQuestion} />, currentQuestion.scoreAchieved?<Tag color='green-inverse'>Score: {currentQuestion.scoreAchieved}</Tag>:<Tag color='red-inverse'>Score: 0</Tag>]} >
@@ -78,10 +78,12 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                         <Col span={24}>
                           <Space style={{display:'flex',flexDirection:'row',justifyContent:'flex-start'}} >
                                                {/* @ts-ignore */}
-     {answerGiven?.indexOf(option?._id) > -1 ?
+     {correctOptions?.indexOf(option?._id) > -1 ?
                             <Tooltip placement="top" title={`Correct Answer`}>
                               <CheckCircleTwoTone color={token.colorSuccessBg} />
-                            </Tooltip> : SelectFormControlComponent}  <HtmlViewer content={option.text} />
+                              </Tooltip> : null}
+                            {SelectFormControlComponent}
+                            <HtmlViewer content={option.text} />
                           </Space>
                         </Col>
                       </Row>
