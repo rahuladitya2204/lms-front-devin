@@ -19,7 +19,7 @@ interface TestPlayeritemPropsI {}
 
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   useTestItemTime();
-  const {mutate:updateQuestionResponseFlag,isLoading:updatingFlag } = Learner.Queries.useUpdateQuestionResponseFlag();
+  const updateQuestionResponseFlag = Store.useTestStore(s=>s.updateQuestionFlag)
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
   const message = useMessage();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
@@ -137,27 +137,18 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             </Button>
             {/* @ts-ignore */}
             {currentQuestion.isMarked ?
-              <Button loading={updatingFlag}
+              <Button 
                 type='primary'
                 onClick={() => updateQuestionResponseFlag({
-                  testId: testId + '',
-                  itemId: questionId + '', flag: 'reviewed'
-                }, {
-                  onSuccess: () => {
-                    message.open({type:'success',content:'Review Done'})
-                  }
+                  questionId: questionId + '', flag: 'reviewed'
                 })}
                 icon={<CheckOutlined/>} danger>
               Review Done
-              </Button> : <Button loading={updatingFlag}
+              </Button> : <Button
                 onClick={() => updateQuestionResponseFlag(
                   {
-                    testId: testId + '', itemId: questionId + '',
+                     questionId: questionId + '',
                     flag: 'review-later'
-                  }, {
-                    onSuccess: () => {
-                      message.open({type:'success',content:'Marked for review later'})
-                    }
                   })}
                 icon={<FlagOutlined />} danger type="default">
               Mark for review
