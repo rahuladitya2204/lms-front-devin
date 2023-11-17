@@ -11,3 +11,7 @@ li.variable-li {
 li.variable-li:hover {
     background: gainsboro;
 }
+
+.sun-editor .se-statusbar .se-resizing-bar .se-state {
+    display: none;
+}
