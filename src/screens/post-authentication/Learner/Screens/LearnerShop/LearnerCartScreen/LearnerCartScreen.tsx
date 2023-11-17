@@ -62,9 +62,13 @@ export default function LearnerCart() {
   }
   return isCartEmpty ? <Card>
     <Title style={{textAlign:'center'}}>Invest in yourself</Title>
-    <Title style={{textAlign:'center'}} level={3}>Technology is bringing a massive wave of evolution on learning 
-things in different ways. <NavLink to={'../store'} ><Button icon={<HomeOutlined/>} style={{marginTop:30}} type='primary' size='large' >Go Home</Button></NavLink>
+    <Title style={{ textAlign: 'center' }} level={3}>
+      Take our mock tests and ride the wave of success.
     </Title>
+    <Row justify={'center'}>
+      <Col>
+      <NavLink to={'../store'} ><Button icon={<HomeOutlined />} style={{ marginTop: 30 }} type='primary' size='large' >Go Home</Button></NavLink></Col>
+    </Row>
     
     <Image style={{marginTop:20}} src={BgImage}  />
   </Card> :(

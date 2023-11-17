@@ -8,6 +8,7 @@ import AppProvider from 'screens/AppProvider'
 import ApplyFavicon from './ApplyFavicon'
 import CreateTicket from '../Tickets/CreateTicket'
 import { CustomerServiceOutlined } from '@ant-design/icons'
+import LearnerFooter from './LearnerFooter'
 import LearnerHeader from './LearnerHeader'
 import LoadingScreen from '@Components/LoadingScreen'
 import ThemeProvider from 'screens/ThemeProvider'
@@ -73,9 +74,10 @@ const LearnerRootScreen: React.FC = () => {
             </ActionModal>
           ) : null
         ) : null}
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ minHeight: '100vh' ,paddingBottom:50}}>
           <LearnerHeader />
-        </Layout>
+          {/* <LearnerFooter/> */}
+ </Layout>
       </AppProvider>
     </ThemeProvider>
   )

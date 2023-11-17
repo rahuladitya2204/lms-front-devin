@@ -23,10 +23,10 @@ const RequestResetPassword = () => {
               content: `Password reset email sent to ${values.email}`
             })
           },
-          onError: () => {
+          onError: (er: any) => {
             message.open({
               type: 'error',
-              content: `Failed to send password reset email`
+              content: er.response.data.message
             })
           }
         }
