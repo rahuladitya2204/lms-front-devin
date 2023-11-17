@@ -83,7 +83,6 @@ function StoreScreen () {
         if (!categorizedProducts.length) {
           return null
         }
-            console.log(categorizedProducts,'categorizedProducts')
         return (
           <Col span={24} style={{marginTop:20}}>
             <Section title={<Text style={{fontSize:20}} >{category.title}</Text>}

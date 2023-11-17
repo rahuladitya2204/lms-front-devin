@@ -22,7 +22,6 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const answerGiven = currentQuestion.optionsSelected;
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '');
   useEffect(() => {
-    console.log(answerGiven, 'answerGiven');
     let answer = answerGiven;
     if (
       (currentQuestion.type === 'single') &&
@@ -52,16 +51,6 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
             <Col span={24}>
-              <Row justify={'space-between'}>
-                <Col>
-                <Title style={{ margin: 0 }} level={5} type="secondary">
-                Question {currentQuestionIndex + 1}
-                  </Title>
-                </Col>
-                {/* <Col>
-                  <span>Time Spent</span>
-                </Col> */}
-              </Row>
               <HtmlViewer content={currentQuestion.title+''} />
               {currentQuestion.type !== 'subjective' ? <>
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === 'single' ? 16 : 18 }} type="secondary">

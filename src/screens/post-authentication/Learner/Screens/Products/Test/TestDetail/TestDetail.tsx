@@ -109,7 +109,6 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const testStartDate =
   enrolledDetails.metadata.test.startedAt || test.startedAt;
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
-  console.log(isEnrolled, enrolledDetails, 'testEndDate');
 
   const ENROLLED_CTA = useMemo(() => {
     if (test.isLive) {

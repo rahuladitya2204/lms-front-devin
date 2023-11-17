@@ -27,7 +27,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   useEffect(() => {
     const { answerGiven } = currentQuestion;
-    console.log(answerGiven, 'answerGiven');
     let answer = answerGiven;
     if (
       (currentQuestion.type === 'single') &&
