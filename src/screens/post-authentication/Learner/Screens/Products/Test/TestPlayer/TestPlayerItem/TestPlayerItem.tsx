@@ -12,6 +12,7 @@ import { useParams } from 'react-router';
 import useQuestion from '../hooks/useQuestion';
 import { useTestItemTime } from '@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime';
 import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
+import useTestPlayerStore from '../hooks/useTestPlayerStore';
 
 const { Title, Text } = Typography;
 
@@ -20,12 +21,15 @@ interface TestPlayeritemPropsI {}
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   useTestItemTime();
   const {mutate:updateQuestionResponseFlag,isLoading:updatingFlag } = Learner.Queries.useUpdateQuestionResponseFlag();
-  const [form] = Form.useForm();
+  const [form] = Form.useForm<Types.SubmitTestAnswer>();
   const message = useMessage();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
-  const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
+  // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
+  const { submitAnswer, test } = useTestPlayerStore(s => s);
+  console.log(currentQuestion,'currentQuestion')
   useEffect(() => {
+    // let answer;
     const { answerGiven } = currentQuestion;
     let answer = answerGiven;
     if (
@@ -36,6 +40,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       // @ts-ignore
       answer = {options:answerGiven.options[0]};
     }
+    // @ts-ignore
     form.setFieldsValue({
       answer
     });
@@ -54,28 +59,16 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       answer = { options: [answer.options] };
     }
     submitAnswer({
-      testId: testId+'',
-      questionId: questionId+'',
-      answers: answer,
-    }, {
-      onSuccess: () => {
-        message.open({
-          type: 'success',
-          content: 'Answer Recorded',
-        });
-        navigate('next');
-      },
+      testId: testId + '',
+      questionId: questionId + '',
+      answer: answer,
     });
+    navigate('next')
   };
 
-  const { data: test } = Learner.Queries.useGetTestDetails(testId + '');
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
-  const {
-    data: { hasEnded }
-  } = Learner.Queries.useGetTestStatus(testId + '');
-  const { token } = theme.useToken()
 
   // const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
@@ -94,7 +87,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               <Form.Item name={['answer','options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
                     {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
-                    const SelectFormControlComponent=      <OptionSelectedFormControl disabled={submittingAnswer} value={option._id}>
+                    const SelectFormControlComponent=      <OptionSelectedFormControl value={option._id}>
                     <HtmlViewer content={option.text} />
                   </OptionSelectedFormControl>
                     return (
@@ -135,7 +128,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
           </Col>
           <Col style={{display:'flex',flexDirection:'row-reverse'}}>
       <Button
-              loading={submittingAnswer} disabled={!isValid}
+              disabled={!isValid}
               type="primary"
               style={{ marginLeft: 20 }}
               onClick={form.submit}

@@ -8,6 +8,7 @@ import {
   Progress,
   Row,
   Space,
+  Spin,
   Tag,
   Timeline,
   Typography
@@ -25,6 +26,7 @@ import TestPlayerMoreInfo from '../TestReview/TestPlayerMoreInfo'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import useTestPlayerStore from './hooks/useTestPlayerStore'
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -36,25 +38,24 @@ interface TestPlayerPropsI {
 const { Title } = Typography
 
 export default function TestPlayer(props: TestPlayerPropsI) {
-  const { testId,questionId } = useParams()
+  const { testId, questionId } = useParams();
+  const initializeStore = useTestPlayerStore(s => s.initializeStore);
   const navigate = useNavigate()
   const {
     mutate: endTest,
     isLoading: submittingTest
   } = Learner.Queries.useEndTest()
   const {
-    data: enrolledProduct
+    data: enrolledProduct,
+    isLoading: loadingDetails
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'test',
     id: testId + ''
   })
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
-  const {
-    data: { startedAt, hasStarted, hasEnded }
-  } = Learner.Queries.useGetTestStatus(testId + '');
+  const { startedAt, hasStarted, hasEnded } = useTestPlayerStore(s=>s.testStatus)
 
-  const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const endingAt = useMemo(() => dayjs(startedAt)
     .add(test.duration.value, 'minutes')
     .toString(), [startedAt, test]);
@@ -68,6 +69,12 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     },
     [test.sections]
   );
+
+  useEffect(() => {
+    if (test._id) {
+      initializeStore(enrolledProduct, test);
+    }
+   },[test._id,enrolledProduct._id])
   
   const endTestNow =
     enrolledProduct.metadata.test.endedAt ||
@@ -109,23 +116,6 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     Submit Test
   </Button>;
 
-const ExitButton = <Button style={{width:100}}
-onClick={() => {
-  confirm({
-    title: 'Are you sure?',
-    // icon: <ExclamationCircleOutlined />,
-    content: `You want to exit reviewing?`,
-    onOk() {
-      navigate('../')
-    },
-    okText: 'Yes, Exit'
-  })
-}}
-type="default" danger
-loading={submittingTest}
->
-Exit
-</Button>;
   const QuestionNavigator = TestQuestionNavigator;
   return (
     <>
@@ -139,11 +129,11 @@ Exit
           </Tag>:null}
         </Col>:null}
         <Col>
-        {!isDesktop ? (VIEWING_MODE==='test'?<ActionDrawer footer={()=>[VIEWING_MODE === 'test' ? SubmitTestButton : ExitButton]} cta={<Button icon={<MenuOutlined />}>
+        {!isDesktop ? <ActionDrawer footer={()=>[SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
           </Button>}>
             <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
-          </ActionDrawer> : ExitButton) : <>
-              {VIEWING_MODE === 'test' ? SubmitTestButton : ExitButton}
+          </ActionDrawer>  : <>
+              {SubmitTestButton}
           </>}
       </Col>
       </Row>}
@@ -160,30 +150,14 @@ Exit
         <Col span={22}>
           <Row gutter={[50, 30]}>
           <Col md={24} lg={16}>
-              {/* <Title
-                level={5}
-                style={{
-                  textAlign: 'center',
-                  display: 'block',
-                  margin: 0,
-                  marginBottom: 10
-                }}
-              >
-                {totalQuestions - totalAnswered} Questions Left
-                <Progress
-                  strokeLinecap="butt"
-                  percent={
-                    (1 - (totalQuestions - totalAnswered) / totalQuestions) *
-                    100
-                  }
-                  format={() => ``}
-                />
-              </Title> */}
+                <Spin spinning={loadingDetails} >
                 <Outlet />
+              </Spin>
+               
               {/* only show if the test has ended */}
-              {testEndTime?<Card style={{marginTop:20}}>
+              {/* {testEndTime?<Card style={{marginTop:20}}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
-              </Card>:null}
+              </Card>:null} */}
             </Col>
             {isDesktop?<Col lg={8} md={0}>
               <Row gutter={[20, 20]}>

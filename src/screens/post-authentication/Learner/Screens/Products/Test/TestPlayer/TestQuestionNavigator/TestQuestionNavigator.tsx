@@ -7,6 +7,7 @@ import TestTimer from './TestTimer'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useNavigate } from 'react-router'
 import useQuestion from '../hooks/useQuestion'
+import useTestPlayerStore from '../hooks/useTestPlayerStore'
 
 interface TestQuestionNavigatorType2PropsI {
   testId: string;
@@ -19,9 +20,7 @@ export default function TestQuestionNavigatorType2(
   props: TestQuestionNavigatorType2PropsI
 ) {
   const navigate = useNavigate()
-  const { data: { sections,hasEnded,hasStarted }, isLoading } = Learner.Queries.useGetTestStatus(
-    props.testId + ''
-  )
+  const { sections, hasEnded, hasStarted } = useTestPlayerStore(s => s.testStatus);
   const { currentQuestion,loading}=useQuestion();
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')

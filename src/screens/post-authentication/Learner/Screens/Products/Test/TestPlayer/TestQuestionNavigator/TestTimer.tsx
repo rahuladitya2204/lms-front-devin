@@ -22,6 +22,7 @@ import styled from 'styled-components'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useCountdownTimer from '@Hooks/useCountdownTimer'
 import { useNavigate } from 'react-router'
+import useTestPlayerStore from '../hooks/useTestPlayerStore'
 
 interface TestQuestionNavigatorType2PropsI {
     testId: string;
@@ -38,8 +39,8 @@ export default function TestTimer(props: TestTimerPropsI) {
     const { testId} = props;
     const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
       const {
-        data: { startedAt }
-      } = Learner.Queries.useGetTestStatus(testId + '');
+        startedAt
+      } = useTestPlayerStore(s => s.testStatus)
   
   const endingAt = useMemo(() => dayjs(startedAt)
     .add(test.duration.value, 'minutes')

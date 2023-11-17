@@ -25,6 +25,7 @@ import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestReviewQuestionNavigator from './TestQuestionReviewNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import useTestPlayerStore from '../TestPlayer/hooks/useTestPlayerStore'
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -52,8 +53,8 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
   const {
-    data: { startedAt, hasStarted, hasEnded }
-  } = Learner.Queries.useGetTestStatus(testId + '');
+    startedAt, hasStarted, hasEnded
+  } = useTestPlayerStore(s => s.testStatus)
 
   const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const endingAt = useMemo(() => dayjs(startedAt)
