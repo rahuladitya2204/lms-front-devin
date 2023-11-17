@@ -118,35 +118,34 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const QuestionNavigator = TestQuestionNavigator;
   const { mutate: updateTestStatus,isLoading: updatingTestStatus}=Learner.Queries.useUpdateTestStatus(testId+'')
   const enrolledTest = Store.useTestStore(s => s.enrolledProduct);
-  useEffect(() => { 
+  useEffect(() => {
     // if(testId)
     const int = setInterval(() => {
-      console.log(enrolledTest,'enrolledTest')
+      console.log(enrolledTest, 'enrolledTest')
       updateTestStatus({
-        responses:Store.useTestStore.getState().enrolledProduct.metadata.test.responses
+        responses: Store.useTestStore.getState().enrolledProduct.metadata.test.responses
       });
     }, 10000)
     return () => {
       clearInterval(int);
     }
-  },[testId])
- 
+  }, [testId]);
+  const UpdatingTestStatus = updatingTestStatus ? <Tag icon={<SyncOutlined spin />} color="processing">
+    Updating Test
+  </Tag> : null;
   return (
     <>
       <Header
       title={test.title}
       subTitle={'asd'}
       extra={<Row>
-        {!isDesktop?<Col>
+        {!isDesktop?<Col> {UpdatingTestStatus}
        {(hasStarted&&!hasEnded)?<Tag color="blue">
         Time Left: <Countdown targetDate={endingAt} />
           </Tag>:null}
         </Col>:null}
         <Col>
-          {!isDesktop ? <ActionDrawer footer={() => [
-            updatingTestStatus?<Tag icon={<SyncOutlined spin />} color="processing">
-            Updating Test
-          </Tag> :null,SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
+          {!isDesktop ? <ActionDrawer footer={() => [UpdatingTestStatus,SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
           </Button>}>
             <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
           </ActionDrawer> : <>

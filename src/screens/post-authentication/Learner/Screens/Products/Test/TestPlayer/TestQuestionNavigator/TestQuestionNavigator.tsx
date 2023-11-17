@@ -23,43 +23,10 @@ export default function TestQuestionNavigatorType2(
   const { currentQuestion,loading}=useQuestion();
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
-
-  // const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const { token } = theme.useToken()
-  const {
-    mutate: endTest,
-    isLoading: submittingTest
-  } = Learner.Queries.useEndTest()
-  const SubmitTestButton = <Button block
-    onClick={() => {
-      confirm({
-        title: 'Are you sure?',
-        // icon: <ExclamationCircleOutlined />,
-        content: `You want to submit this test?`,
-        onOk() {
-          endTest(
-            { testId: test._id + '' },
-            {
-              onSuccess: () => {
-                if (!test.isLive) {
-                  return navigate('../result')
-                }
-                navigate('../completed')
 
-              }
-            }
-          )
-        },
-        okText: 'Yes, Submit'
-      })
-    }}
-    type="primary" danger
-    loading={submittingTest}
-  >
-    Submit Test
-  </Button>;
   return (
-    <Spin spinning={loadingTest} >
+    <Spin spinning={loadingTest || loading} >
       <Card
       style={{ height: '80vh' }}
       bodyStyle={{ overflow: 'scroll', height: '100%' }}
