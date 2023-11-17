@@ -1,7 +1,7 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
 import { Fragment, useEffect, useState } from 'react';
-import { Learner, Types } from '@adewaskar/lms-common';
+import { Learner, Store, Types } from '@adewaskar/lms-common';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import TestPlayerFiles from './TestPlayerFiles';
@@ -12,7 +12,6 @@ import { useParams } from 'react-router';
 import useQuestion from '../hooks/useQuestion';
 import { useTestItemTime } from '@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime';
 import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
-import useTestPlayerStore from '../hooks/useTestPlayerStore';
 
 const { Title, Text } = Typography;
 
@@ -26,8 +25,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
-  const { submitAnswer, test } = useTestPlayerStore(s => s);
-  console.log(currentQuestion,'currentQuestion')
+  const { submitAnswer, test } = Store.useTestStore(s => s);
+  // console.log(currentQuestion,'currentQuestion')
   useEffect(() => {
     // let answer;
     const { answerGiven } = currentQuestion;
@@ -50,7 +49,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const isValid = ((answer?.options?.length) || (answer?.subjective?.text));
 
   // @ts-ignore
-  const onFormSubmit = ({answer}) => {
+  const onFormSubmit = ({ answer }) => {
     if (!isValid) {
       return;
     }
@@ -58,6 +57,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       // @ts-ignore
       answer = { options: [answer.options] };
     }
+    console.log(answer,'reeeeee')
     submitAnswer({
       testId: testId + '',
       questionId: questionId + '',

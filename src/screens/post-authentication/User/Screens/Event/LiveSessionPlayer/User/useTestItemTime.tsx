@@ -1,6 +1,6 @@
+import { Learner, Store } from '@adewaskar/lms-common'
 import { useEffect, useRef, useState } from 'react'
 
-import { Learner } from '@adewaskar/lms-common'
 import { useParams } from 'react-router-dom'
 
 export const useTestItemTime = () => {
@@ -9,10 +9,7 @@ export const useTestItemTime = () => {
   const questionIdRef = useRef(questionId)
   const accumulatedTimeRef = useRef(0)
   const apiCalledRef = useRef(false)
-  const {
-    mutate: updateTimeSpent,
-    isLoading
-  } = Learner.Queries.useUpdateTestItemTimeSpent()
+  const updateTimeSpent = Store.useTestStore(s => s.updateTimeSpent)
 
   const updateSpentTime = () => {
     if (questionIdRef.current && !apiCalledRef.current) {
@@ -30,8 +27,7 @@ export const useTestItemTime = () => {
         }
         // Call the API to update time spent on the question
         updateTimeSpent({
-          testId: testId + '',
-          itemId: questionIdRef.current + '',
+          questionId: questionIdRef.current + '',
           timeSpent: totalTimeSpent
         })
 
@@ -48,9 +44,7 @@ export const useTestItemTime = () => {
   useEffect(
     () => {
       if (questionId !== questionIdRef.current) {
-        if (!isLoading) {
-          updateSpentTime()
-        }
+        updateSpentTime()
 
         // Reset for new question
         mountTimeRef.current = Date.now()
@@ -58,19 +52,14 @@ export const useTestItemTime = () => {
         apiCalledRef.current = false // Reset API call tracker
       }
     },
-    [questionId, updateTimeSpent, isLoading]
+    [questionId, updateTimeSpent]
   )
 
-  useEffect(
-    () => {
-      return () => {
-        if (!isLoading) {
-          updateSpentTime()
-        }
-      }
-    },
-    [isLoading]
-  )
+  useEffect(() => {
+    return () => {
+      updateSpentTime()
+    }
+  }, [])
 
   return {}
 }

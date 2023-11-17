@@ -12,20 +12,19 @@ import {
   Timeline,
   Typography
 } from 'antd'
+import { Learner, Store } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo } from 'react'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
 import { MenuOutlined } from '@ant-design/icons'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestReviewQuestionNavigator from './TestQuestionReviewNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import useTestPlayerStore from '../TestPlayer/hooks/useTestPlayerStore'
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -54,7 +53,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const isProcturingOn = test.rules.procturing.enabled
   const {
     startedAt, hasStarted, hasEnded
-  } = useTestPlayerStore(s => s.testStatus)
+  } = Store.useTestStore(s => s.testStatus)
 
   const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const endingAt = useMemo(() => dayjs(startedAt)

@@ -13,20 +13,19 @@ import {
   Timeline,
   Typography
 } from 'antd'
+import { Learner, Store } from '@adewaskar/lms-common'
+import { MenuOutlined, SyncOutlined } from '@ant-design/icons'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo } from 'react'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
-import { MenuOutlined } from '@ant-design/icons'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestPlayerMoreInfo from '../TestReview/TestPlayerMoreInfo'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import useTestPlayerStore from './hooks/useTestPlayerStore'
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -39,7 +38,7 @@ const { Title } = Typography
 
 export default function TestPlayer(props: TestPlayerPropsI) {
   const { testId, questionId } = useParams();
-  const initializeStore = useTestPlayerStore(s => s.initializeStore);
+  const initializeStore = Store.useTestStore(s => s.initializeStore);
   const navigate = useNavigate()
   const {
     mutate: endTest,
@@ -54,7 +53,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   })
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
-  const { startedAt, hasStarted, hasEnded } = useTestPlayerStore(s=>s.testStatus)
+  const { startedAt, hasStarted, hasEnded } = Store.useTestStore(s => s.testStatus);
 
   const endingAt = useMemo(() => dayjs(startedAt)
     .add(test.duration.value, 'minutes')
@@ -114,9 +113,24 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     loading={submittingTest}
   >
     Submit Test
-  </Button>;
+  </Button>
 
   const QuestionNavigator = TestQuestionNavigator;
+  const { mutate: updateTestStatus,isLoading: updatingTestStatus}=Learner.Queries.useUpdateTestStatus(testId+'')
+  const enrolledTest = Store.useTestStore(s => s.enrolledProduct);
+  useEffect(() => { 
+    // if(testId)
+    const int = setInterval(() => {
+      console.log(enrolledTest,'enrolledTest')
+      updateTestStatus({
+        responses:Store.useTestStore.getState().enrolledProduct.metadata.test.responses
+      });
+    }, 10000)
+    return () => {
+      clearInterval(int);
+    }
+  },[testId])
+ 
   return (
     <>
       <Header
@@ -129,10 +143,16 @@ export default function TestPlayer(props: TestPlayerPropsI) {
           </Tag>:null}
         </Col>:null}
         <Col>
-        {!isDesktop ? <ActionDrawer footer={()=>[SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
+          {!isDesktop ? <ActionDrawer footer={() => [
+            updatingTestStatus?<Tag icon={<SyncOutlined spin />} color="processing">
+            Updating Test
+          </Tag> :null,SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
           </Button>}>
             <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
-          </ActionDrawer>  : <>
+          </ActionDrawer> : <>
+          <Tag icon={<SyncOutlined spin={updatingTestStatus} />} color="processing">
+            {updatingTestStatus?'Syncing Changes':'Last updated'}
+          </Tag>
               {SubmitTestButton}
           </>}
       </Col>

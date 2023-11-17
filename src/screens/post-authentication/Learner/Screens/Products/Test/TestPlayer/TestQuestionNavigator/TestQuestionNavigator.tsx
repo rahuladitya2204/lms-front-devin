@@ -1,13 +1,12 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
 import { Badge, Button, Card, Col, Divider, Modal, Row, Space, Spin, Typography, theme } from 'antd'
+import { Learner, Store } from '@adewaskar/lms-common'
 
-import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import TestTimer from './TestTimer'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useNavigate } from 'react-router'
 import useQuestion from '../hooks/useQuestion'
-import useTestPlayerStore from '../hooks/useTestPlayerStore'
 
 interface TestQuestionNavigatorType2PropsI {
   testId: string;
@@ -20,7 +19,7 @@ export default function TestQuestionNavigatorType2(
   props: TestQuestionNavigatorType2PropsI
 ) {
   const navigate = useNavigate()
-  const { sections, hasEnded, hasStarted } = useTestPlayerStore(s => s.testStatus);
+  const { sections, hasEnded, hasStarted } = Store.useTestStore(s => s.testStatus);
   const { currentQuestion,loading}=useQuestion();
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')

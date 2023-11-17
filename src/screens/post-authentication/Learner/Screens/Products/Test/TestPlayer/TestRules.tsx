@@ -30,7 +30,7 @@ export default function TestRules(props: TestRulesPropsI) {
   const {
     mutate: startTest,
     isLoading: startingTest
-  } = Learner.Queries.useStartTest()
+  } = Learner.Queries.useStartTest(testId + '')
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const {
     data: enrolledProduct

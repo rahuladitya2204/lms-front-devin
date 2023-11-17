@@ -13,16 +13,14 @@ import {
 } from 'antd'
 import { CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons'
 import { Fragment, useMemo } from 'react'
+import { Learner, Store } from '@adewaskar/lms-common'
 
 import Countdown from '@Components/Countdown'
-import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useCountdownTimer from '@Hooks/useCountdownTimer'
-import { useNavigate } from 'react-router'
-import useTestPlayerStore from '../hooks/useTestPlayerStore'
 
 interface TestQuestionNavigatorType2PropsI {
     testId: string;
@@ -36,11 +34,10 @@ interface TestTimerPropsI {
 }
   
 export default function TestTimer(props: TestTimerPropsI) {
-    const { testId} = props;
     const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
       const {
         startedAt
-      } = useTestPlayerStore(s => s.testStatus)
+      } = Store.useTestStore(s => s.testStatus)
   
   const endingAt = useMemo(() => dayjs(startedAt)
     .add(test.duration.value, 'minutes')
