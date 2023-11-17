@@ -11,6 +11,7 @@ import { Types, Utils } from '@adewaskar/lms-common'
 
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
+import { useMemo } from 'react'
 
 const { Text } = Typography
 
@@ -31,8 +32,13 @@ const data = {
   },
   enrolled: {
     title: 'Enrolled',
-    icon: <EditOutlined />,
+    icon: <SafetyCertificateOutlined />,
     value: '1'
+  },
+  questions: {
+    title: 'Questions',
+    icon: <EditOutlined />,
+    value: '-'
   },
   // language: {
   //   title: 'Language',
@@ -44,11 +50,11 @@ const data = {
   //   icon: <CheckCircleOutlined />,
   //   value: 'Beginner'
   // },
-  certificate: {
-    title: 'Certificate',
-    icon: <SafetyCertificateOutlined />,
-    value: 'Yes'
-  }
+  // certificate: {
+  //   title: 'Certificate',
+  //   icon: <SafetyCertificateOutlined />,
+  //   value: 'Yes'
+  // }
 }
 
 interface TestMetadataPropsI {
@@ -60,15 +66,21 @@ function TestMetadata(props: TestMetadataPropsI) {
     ? dayjs(props.test.scheduledAt).format('LLL')
     : 'Can be taken anytime'
   // @ts-ignore
-  data.duration.value = props.test.duration.enabled ? formatTime(props.test.duration.value) : null;
+  data.duration.value = props.test.duration.enabled
+    ? formatTime(props.test.duration.value)
+    : null
   data.enrolled.value = `${props.test.analytics.enrolled.count} students`
-  data.certificate.value = props.test.certificate ? 'Yes' : ''
+  // data.certificate.value = props.test.certificate ? 'Yes' : ''
+  data.questions.value = useMemo(
+    () => props.test.sections.map(i => i.items).flat().length.toString(),
+    [props.test]
+  )
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (
     <List
       itemLayout="horizontal"
-      dataSource={dataSource.filter(i=>i.value)}
+      dataSource={dataSource.filter(i => i.value)}
       renderItem={item => (
         <ListItem actions={[<Text>{item.value}</Text>]}>
           <List.Item.Meta
