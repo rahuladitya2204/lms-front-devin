@@ -11,9 +11,12 @@ import {
   Space,
   Tag,
   Typography
-} from 'antd'
+} from 'antd';
 import { Learner, Utils } from '@adewaskar/lms-common'
 
+import BgImage from './image.svg'
+import { HomeOutlined } from '@ant-design/icons';
+import Image from '@Components/Image';
 import LearnerCartCourseItem from './CourseItem'
 import useMessage from '@Hooks/useMessage';
 import { useNavigate } from 'react-router';
@@ -37,6 +40,7 @@ export default function LearnerCart() {
 
   const { mutate: createOrder,isLoading: isCreatingOrder } = Learner.Queries.useCreateOrderFromCart();
   const { mutate: updatePaymentOrder } = Learner.Queries.useUpdateOrderStatus({type:'',id:''});
+  const isCartEmpty = !items.length;
 
   const applyCode = ({ code }: { code: string }) => {
     updateCart({ data: { promoCode: code }, action: 'apply_code' }, {
@@ -55,8 +59,14 @@ export default function LearnerCart() {
       }
     })
   }
-
-  return (
+  return isCartEmpty ? <Card>
+    <Title style={{textAlign:'center'}}>Invest in yourself</Title>
+    <Title style={{textAlign:'center'}} level={3}>Technology is bringing a massive wave of evolution on learning 
+things in different ways. <Button icon={<HomeOutlined/>} style={{marginTop:30}} type='primary' size='large' >Go Home</Button>
+    </Title>
+    
+    <Image style={{marginTop:20}} src={BgImage}  />
+  </Card> :(
     <Card>
       <Title>Cart</Title>
           {items.length?    <Row gutter={[20, 20]}>

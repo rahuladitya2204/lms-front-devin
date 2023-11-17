@@ -84,7 +84,7 @@ const LearnerHeader: React.FC = () => {
   }
   const menuItems = useMemo(() => {
     const MENU_ITEMS = [
-      { label: 'Store', key: 'store', icon: <ShopOutlined /> },
+      { label: 'Home', key: 'store', icon: <ShopOutlined /> },
     ];
     if (enrolledProducts.test && enrolledProducts.test.length) {
       MENU_ITEMS.push({ label: 'My Tests', key: 'test', icon: <EditOutlined /> })
@@ -164,7 +164,7 @@ const LearnerHeader: React.FC = () => {
               <Badge count={items?.length || 0} showZero={false}>
                 <Button
                   onClick={() => navigate('../app/cart')}
-                  type="primary"
+                  // type="primary"
                   shape="circle"
                   icon={<ShoppingCartOutlined />}
                 />

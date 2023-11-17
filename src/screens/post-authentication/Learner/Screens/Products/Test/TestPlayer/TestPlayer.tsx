@@ -119,7 +119,6 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { mutate: updateTestStatus,isLoading: updatingTestStatus}=Learner.Queries.useUpdateTestStatus(testId+'')
   const enrolledTest = Store.useTestStore(s => s.enrolledProduct);
   useEffect(() => {
-    // if(testId)
     const int = setInterval(() => {
       console.log(enrolledTest, 'enrolledTest')
       updateTestStatus({
