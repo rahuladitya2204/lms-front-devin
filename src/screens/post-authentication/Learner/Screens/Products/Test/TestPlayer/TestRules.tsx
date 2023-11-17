@@ -114,6 +114,7 @@ export default function TestRules(props: TestRulesPropsI) {
                           },
                           {
                             onSuccess: () => {
+                              console.log('Helo')
                               navigate('../player')
                             }
                           }

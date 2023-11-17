@@ -70,7 +70,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   );
 
   useEffect(() => {
-    if (test._id) {
+    if (test._id && enrolledProduct._id) {
+      console.log(test,enrolledProduct,'lklklk')
       initializeStore(enrolledProduct, test);
     }
    },[test._id,enrolledProduct._id])
