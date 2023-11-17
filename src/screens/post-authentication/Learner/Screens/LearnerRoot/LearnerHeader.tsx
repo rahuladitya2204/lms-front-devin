@@ -13,7 +13,8 @@ import {
   Row,
   Space,
   Spin,
-  Typography
+  Typography,
+  message
 } from 'antd'
 import {
   CalendarOutlined,
@@ -39,6 +40,7 @@ import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useMemo } from 'react'
+import useMessage from '@Hooks/useMessage'
 import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal
@@ -54,7 +56,7 @@ const LearnerHeader: React.FC = () => {
   const qc = useQueryClient();
   const {data:user,isLoading: loadingUserDetails } = Learner.Queries.useGetLearnerDetails();
   const isSignedIn = Store.useAuthentication(state => state.isSignedIn);
-  
+  const message = useMessage();
   const enrolledProducts = {
     test: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'test'),
     event: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'event'),
@@ -72,10 +74,13 @@ const LearnerHeader: React.FC = () => {
       icon: <LogoutOutlined />,
       content: `You want to logout?`,
       onOk() {
-        logoutLearner(undefined, {
+        logoutLearner({
           onSuccess: () => {
+            message.open({
+              type: 'success',
+              content:'Logged Out successfully.'
+            })
             navigate('../app/store')
-            cb && cb()
           }
         })
       },
@@ -162,13 +167,14 @@ const LearnerHeader: React.FC = () => {
           <Space>
             {!screen.isMobile ? (
               <Badge count={items?.length || 0} showZero={false}>
-                <Button
-                  onClick={() => navigate('../app/cart')}
-                  // type="primary"
-                  shape="circle"
-                  icon={<ShoppingCartOutlined />}
-                />
-              </Badge>
+              <NavLink to={`../app/cart`} children={({isActive}) => {
+                return <Button
+                type={isActive?'primary':'default'}
+                shape="circle"
+                icon={<ShoppingCartOutlined />}
+              />
+              }} />
+                            </Badge>
             ) : null}
 
             <Dropdown

@@ -8,10 +8,13 @@ import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router-dom'
 
-interface LearnerRegisterPropsI extends ActionModalI {}
+interface LearnerRegisterPropsI extends ActionModalI {
+  onRegisterSuccess?: Function;
+}
 
 function LearnerRegister(props: LearnerRegisterPropsI) {
   const message = useMessage()
+  const setIsSignedin = Store.useAuthentication(s => s.setIsSignedin)
   const { data: organisation } = Common.Queries.useGetOrgDetails()
   const [form] = Form.useForm()
   const {
@@ -20,15 +23,14 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
   } = Learner.Queries.useRegisterLearner()
 
   const onFinish = async (values: Types.SignupData) => {
+    console.log('signing up')
     Signup(
       {
         email: values.email,
         password: values.password,
         name: values.name,
-        contactNo: values.contactNo
-      },
-      {
-        onSuccess: user => {
+        contactNo: values.contactNo,
+        onSuccess: (user: any) => {
           console.log('hello', user, 'huh')
           if (user.organisation) {
             Utils.Storage.SetItem('orgId', user.organisation)
@@ -36,19 +38,24 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
           form.resetFields()
           message.open({
             type: 'success',
-            content: `Congratulation ${user.name}, Welcome to ${
+            content: `Registered successfully ${user.name}, Welcome to ${
               organisation.name
             }!`
             // icon: organisation.logo
           })
+          setIsSignedin(true)
+          props.onRegisterSuccess && props.onRegisterSuccess()
           props.closeModal && props.closeModal()
-        },
+        }
+      },
+      {
         onError: (er: any) => {
           message.open({
             type: 'error',
             content: er.response.data.message
           })
-        }
+        },
+        onSettled: console.log
       }
     )
   }
@@ -94,7 +101,7 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
           ]}
           hasFeedback
         >
-          <Input type='number' />
+          <Input type="number" />
         </Form.Item>
         <Form.Item
           name="email"

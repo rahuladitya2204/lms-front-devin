@@ -18,6 +18,7 @@ import BgImage from './image.svg'
 import { HomeOutlined } from '@ant-design/icons';
 import Image from '@Components/Image';
 import LearnerCartCourseItem from './CourseItem'
+import { NavLink } from 'react-router-dom';
 import useMessage from '@Hooks/useMessage';
 import { useNavigate } from 'react-router';
 import { usePaymentCheckout } from '@Hooks/CommonHooks';
@@ -62,7 +63,7 @@ export default function LearnerCart() {
   return isCartEmpty ? <Card>
     <Title style={{textAlign:'center'}}>Invest in yourself</Title>
     <Title style={{textAlign:'center'}} level={3}>Technology is bringing a massive wave of evolution on learning 
-things in different ways. <Button icon={<HomeOutlined/>} style={{marginTop:30}} type='primary' size='large' >Go Home</Button>
+things in different ways. <NavLink to={'../store'} ><Button icon={<HomeOutlined/>} style={{marginTop:30}} type='primary' size='large' >Go Home</Button></NavLink>
     </Title>
     
     <Image style={{marginTop:20}} src={BgImage}  />

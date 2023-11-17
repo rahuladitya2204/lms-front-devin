@@ -1,7 +1,7 @@
 import { ArrowLeftOutlined, GoogleOutlined } from '@ant-design/icons'
 import { Button, Checkbox, Divider, Form, Input, Space } from 'antd'
 import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal'
 import LearnerRegister from '../Register'
@@ -44,8 +44,12 @@ const StyledAuthenticationCard = styled.div`
   }
 `;
 
+interface LearnerLoginPropsI {
+  closeModal?: Function;
+}
 
-function LearnerLogin () {
+
+function LearnerLogin (props:LearnerLoginPropsI) {
   return (
     <StyledAuthenticationCard>
       <Tabs
@@ -54,14 +58,14 @@ function LearnerLogin () {
             label: 'Login with OTP',
             key: 'otp',
             children: (
-      <OtpForm/>
+      <OtpForm closeModal={props.closeModal} />
             )
           },
           {
             label: 'Login with Email',
             key: 'email',
             children: (
-            <EmailForm/>
+            <EmailForm closeModal={props.closeModal}/>
             )
           }
         ]}
@@ -72,18 +76,20 @@ function LearnerLogin () {
 
 export default LearnerLogin
 
-const OtpForm = () => {
+const OtpForm = (props:LearnerLoginPropsI) => {
   const [form] = Form.useForm();
+  // const setIsSignedin = Store.useAuthentication(s => s.setIsSignedin);
   const message = useMessage();
   const [otpSent, setOtpSent] = useState(false);
   const { mutate: sendOtpApi, isLoading: sendingOtp } = Learner.Queries.useSendLoginOtp();
   const { mutate: verifyOtpApi, isLoading: verifyingOtp } = Learner.Queries.useVerifyLoginOtp();
   const [contactNo, setContactNo] = useState('');
-  const sendOtp = async () => {
+  const sendOtp = async (contactNo='') => {
     try {
-      const values = await form.validateFields();
-      let contactNo = values.contactNo;
-
+      // if (!contactNo) {
+      //   contactNo= (await form.validateFields()).contactNo;
+      // }
+      console.log(contactNo,'lkllk')
       sendOtpApi({ contactNo },
       {
         onSuccess: user => {
@@ -108,14 +114,21 @@ const OtpForm = () => {
 
       verifyOtpApi({
         code: d.code,
-        contactNo
-      },
-      {
-        onSuccess: user => {
-          message.open({ type: 'success', content: 'OTP Verified' });
+        contactNo,
+        onSuccess: (user: any) => {
+          message.open({ type: 'success', content: `OTP Verified, Logged in successfully` });
+          // setIsSignedin(true)
+        }
+      }, {
+        onSuccess: () => {
+          props.closeModal && props.closeModal();
         },
-        onError: () => {
-          message.open({ type: 'error', content: 'Invalid OTP' });
+        onError: (er:any) => {
+          console.log(er,'er')
+          message.open({
+            type: 'error',
+            content: er.response.data.message
+          })
         }
       });
     } catch (error) {
@@ -127,13 +140,19 @@ const OtpForm = () => {
     <>
       <LogoTop/>
       {otpSent ? (
-        <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={verifyOtp}>
+        <Fragment>
+           <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={verifyOtp}>
           <Button onClick={() => setOtpSent(false)} style={{ marginBottom: 10 }} type='link' size='small' icon={<ArrowLeftOutlined/>}>Back</Button>
           <Form.Item label="Enter OTP" name="code" rules={[{ required: true, message: 'Please enter the OTP sent to your number!' }]}><Input /></Form.Item>
-          <Form.Item><Button loading={verifyingOtp} block type="primary" htmlType="submit">Verify OTP</Button></Form.Item>
+          <Form.Item>
+            <Button loading={verifyingOtp} block type="primary" htmlType="submit">Verify OTP</Button>
+ </Form.Item>
         </Form>
+            <Button loading={sendingOtp} block type="default" onClick={()=>sendOtp(contactNo)}>Resend OTP</Button>
+
+       </Fragment>
       ) : (
-        <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={sendOtp}>
+        <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={e=>sendOtp(e.contactNo)}>
             <Form.Item
               label="Enter Mobile Number"
               name="contactNo" hasFeedback
@@ -149,7 +168,7 @@ const OtpForm = () => {
           <Form.Item style={{ textAlign: 'center' }}>
             <Typography.Text>Don't have an account?{' '}
               <ActionModal width={300} title="Sign up" cta={<Button type="link">Sign up?</Button>}>
-                <LearnerRegister />
+                <LearnerRegister onRegisterSuccess={props.closeModal} />
               </ActionModal>
             </Typography.Text>
           </Form.Item>
@@ -160,7 +179,7 @@ const OtpForm = () => {
 };
 
 
-const EmailForm = () => {
+const EmailForm = (props:LearnerLoginPropsI) => {
   const message = useMessage();
   const [form] = Form.useForm()
   const {
@@ -178,21 +197,20 @@ const EmailForm = () => {
           email: values.email,
           password: values.password,
           onSuccess: (user) => {
+            Utils.Storage.SetItem('orgId', user.organisation);
             message.open({
               type: 'success',
               // @ts-ignore
               content: `Welcome to ${orgName}, ${user.name}`,
               // icon:<OrgLogo width={20} />
-            })
+            });
           }
-        },
-        {
-          onSuccess: user => {
-            Utils.Storage.SetItem('orgId', user.organisation);
-            // message.open({
-            //   type: 'success',
-            //   content: `Welcome to ${orgName}, ${learnerName}`
-            // })
+        }, {
+          onSuccess: () => {
+            props.closeModal && props.closeModal();
+          },
+          onError: (er:any) => {
+            message.open({ type: 'error', content: er.response.data.message });
           }
         }
       )
@@ -269,7 +287,7 @@ const EmailForm = () => {
           title="Login"
           cta={<Button type="link">Sign up?</Button>}
         >
-          <LearnerRegister />
+                <LearnerRegister onRegisterSuccess={props.closeModal} />
         </ActionModal>
       </Typography.Text>
     </Form.Item>
