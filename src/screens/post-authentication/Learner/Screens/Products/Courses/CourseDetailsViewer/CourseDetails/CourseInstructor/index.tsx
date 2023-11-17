@@ -9,7 +9,7 @@ import { Avatar, Col, Row, Typography } from 'antd'
 
 import CourseReviews from '../CourseReviews/CourseReviews'
 import { Fragment } from 'react'
-import HtmlViewer from '@Components/HtmlViewer'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 

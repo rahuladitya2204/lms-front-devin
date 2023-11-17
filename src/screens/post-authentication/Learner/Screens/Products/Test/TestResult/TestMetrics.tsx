@@ -27,7 +27,7 @@ import {
 import { useNavigate, useParams } from 'react-router'
 
 import Header from '@Components/Header'
-import HtmlViewer from '@Components/HtmlViewer'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 

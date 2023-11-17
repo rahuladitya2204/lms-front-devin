@@ -10,7 +10,7 @@ import { Constants, Types } from '@adewaskar/lms-common'
 import React, { useState } from 'react'
 
 import { ArrowLeftOutlined } from '@ant-design/icons'
-import HtmlViewer from '@Components/HtmlViewer'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import ProductDiscussionAnswers from './ProductDiscussionAnswers'
 import ProductDiscussionQuestionsList from './ProductDiscussion'
 

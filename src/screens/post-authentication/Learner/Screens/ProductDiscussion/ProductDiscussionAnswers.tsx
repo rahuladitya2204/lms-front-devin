@@ -4,7 +4,7 @@ import React, { Fragment } from 'react'
 
 import { Comment } from '@ant-design/compatible'
 import CreateAnswer from './CreateAnswer'
-import HtmlViewer from '@Components/HtmlViewer'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import dayjs from 'dayjs'
 
 const { Text } = Typography

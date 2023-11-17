@@ -3,7 +3,7 @@ import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row
 import { Fragment, useEffect, useState } from 'react';
 import { Learner, Types } from '@adewaskar/lms-common';
 
-import HtmlViewer from '@Components/HtmlViewer';
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import TestPlayerFiles from './TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import { htmlToText } from 'html-to-text';

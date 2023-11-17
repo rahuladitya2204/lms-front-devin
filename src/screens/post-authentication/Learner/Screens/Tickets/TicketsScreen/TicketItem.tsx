@@ -3,9 +3,9 @@ import { Card, Divider, Space, Tag, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import FileList from '@Components/FileList'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { StatusMap } from '@Learner/Screens/Tickets/Constants'
 import dayjs from 'dayjs'
-import HtmlViewer from '@Components/HtmlViewer'
 
 const { Text, Title } = Typography
 

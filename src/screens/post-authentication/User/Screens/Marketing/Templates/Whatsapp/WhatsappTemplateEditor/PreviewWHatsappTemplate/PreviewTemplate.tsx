@@ -1,6 +1,6 @@
 import './style.css'
 
-import HtmlViewer from '@Components/HtmlViewer'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import React from 'react'
 
 const PreviewWhatsappTemplate = ({ content }: any) => (

@@ -4,9 +4,9 @@ import { Card, Divider, Space, Tag, Typography } from 'antd'
 import { Types, User } from '@adewaskar/lms-common'
 
 import FileList from '@Components/FileList'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { StatusMap } from '@User/Screens/Tickets/Constants'
 import dayjs from 'dayjs'
-import HtmlViewer from '@Components/HtmlViewer'
 
 const { Text, Title } = Typography
 

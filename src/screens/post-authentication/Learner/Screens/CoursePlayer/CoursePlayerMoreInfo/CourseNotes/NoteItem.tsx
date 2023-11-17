@@ -21,7 +21,7 @@ import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { useState } from 'react'
 
 import CreateNote from './CreateNote'
-import HtmlViewer from '@Components/HtmlViewer'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import MoreButton from '@Components/MoreButton'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'

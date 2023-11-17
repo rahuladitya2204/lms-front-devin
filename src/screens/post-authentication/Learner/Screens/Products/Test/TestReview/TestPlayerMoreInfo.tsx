@@ -1,4 +1,4 @@
-import HtmlViewer from '@Components/HtmlViewer'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'

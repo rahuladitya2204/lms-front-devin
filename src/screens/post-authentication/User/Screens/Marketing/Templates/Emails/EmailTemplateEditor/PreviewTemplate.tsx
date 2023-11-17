@@ -2,7 +2,7 @@ import { Card, Col, Form, Input, Row, Space, Typography, } from 'antd';
 import { Common, Store, Types, User } from '@adewaskar/lms-common';
 import React, { Fragment } from 'react';
 
-import HtmlViewer from '@Components/HtmlViewer';
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import { useParams } from 'react-router';
 
 const { Text,Title } = Typography;

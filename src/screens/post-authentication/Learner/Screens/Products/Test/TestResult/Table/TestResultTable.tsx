@@ -3,7 +3,7 @@ import { Learner, Types, Utils } from '@adewaskar/lms-common';
 import React, { useState } from 'react';
 
 import { GlobalOutlined } from '@ant-design/icons';
-import HtmlViewer from '@Components/HtmlViewer';
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import { useParams } from 'react-router-dom';
 
 const { Text,Title } = Typography;

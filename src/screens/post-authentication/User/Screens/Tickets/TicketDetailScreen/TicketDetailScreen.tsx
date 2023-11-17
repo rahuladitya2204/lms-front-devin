@@ -3,7 +3,7 @@ import { Store, Types, User } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
 import Header from '@Components/Header';
-import HtmlViewer from '@Components/HtmlViewer';
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import TextArea from '@Components/Textarea';
 import TicketItem from '../TicketsScreen/TicketItem';
 import dayjs from 'dayjs';
