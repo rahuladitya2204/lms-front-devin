@@ -20,13 +20,17 @@ export default function TestQuestionNavigatorType2(
 ) {
   const navigate = useNavigate()
   const { sections, hasEnded, hasStarted } = Store.useTestStore(s => s.testStatus);
-  const { currentQuestion,loading}=useQuestion();
+  const { currentQuestion } = useQuestion();
+  const {isLoading: loadingEnrolledTest } = Learner.Queries.useGetEnrolledProductDetails({
+    type: "test",
+    id: props.testId
+  })
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
   const { token } = theme.useToken()
 
   return (
-    <Spin spinning={loadingTest || loading} >
+    <Spin spinning={loadingTest || loadingEnrolledTest} >
       <Card
       style={{ height: '80vh' }}
       bodyStyle={{ overflow: 'scroll', height: '100%' }}
