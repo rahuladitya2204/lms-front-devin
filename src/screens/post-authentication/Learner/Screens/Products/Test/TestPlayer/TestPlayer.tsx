@@ -21,6 +21,7 @@ import { useEffect, useMemo } from 'react'
 import ActionDrawer from '@Components/ActionDrawer'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
+import { NavLink } from 'react-router-dom'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestPlayerMoreInfo from '../TestReview/TestPlayerMoreInfo'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
@@ -80,7 +81,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   if (endTestNow) {
     // navigate('../completed')
   };
-  const testEndTime = enrolledProduct.metadata.test.endedAt || test.live.endedAt;
+  const testEndTime = enrolledProduct.metadata.test.endedAt;
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
  
@@ -95,9 +96,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
             { testId: test._id + '' },
             {
               onSuccess: () => {
-                if (!test.live.enabled) {
-                  return navigate('../result')
-                }
+                // if (!test.live.enabled) {
+                //   return navigate('../result')
+                // }
                 navigate('../completed')
 
               }
@@ -130,6 +131,15 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const UpdatingTestStatus = updatingTestStatus ? <Tag icon={<SyncOutlined spin />} color="processing">
     Updating Test
   </Tag> : null;
+
+  if (testEndTime) {
+    return <Header title={test.title} extra={<NavLink to={'../'} ><Button type='primary'>Go Back</Button></NavLink>} >
+      <Card>  
+          <Title style={{textAlign:'center'}} >Test has ended.</Title>
+      </Card>
+    </Header>
+  }
+
   return (
     <>
       <Header

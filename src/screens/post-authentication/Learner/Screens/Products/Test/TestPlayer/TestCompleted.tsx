@@ -1,10 +1,12 @@
 import { Button, Result } from 'antd'
 import { useNavigate, useParams } from 'react-router'
 
+import { Learner } from '@adewaskar/lms-common'
 import ReviewTest from './TestFeedback/ReviewTest'
 
 export default function TestCompleted () {
   const { testId } = useParams()
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const navigate = useNavigate()
   return (
     <Result
@@ -23,9 +25,15 @@ export default function TestCompleted () {
         </Button>
       ]}
     >
-      <ReviewTest onSubmit={() => {
-        navigate('../')
-      }} testId={testId + ''} />
+      <ReviewTest
+        onSubmit={() => {
+          if (!test.live.enabled) {
+            return navigate('../result')
+          }
+          navigate('../')
+        }}
+        testId={testId + ''}
+      />
     </Result>
   )
 }
