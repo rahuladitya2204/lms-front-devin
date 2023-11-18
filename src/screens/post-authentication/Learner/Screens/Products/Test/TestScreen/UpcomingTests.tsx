@@ -57,8 +57,8 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
     return !(pd.product?.data?.endedAt || pd.metadata.test.endedAt)
   });
 
-  if (!upcomingTests.length&&loadingFirst) {
-    return <NoItemFound  cta={'Check them out!'} text='No upcoming tests yet.' />
+  if (!upcomingTests.length && !loadingFirst) {
+    return <NoItemFound  cta={'Check them out!'} text='No pasts tests yet. Lets get enrolled for one!' />
 
   }
   return (

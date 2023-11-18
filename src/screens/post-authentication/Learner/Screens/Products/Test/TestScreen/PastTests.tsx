@@ -31,7 +31,7 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
   const pastTests = data.filter(pd => {
     return pd.product?.data?.endedAt || pd.metadata.test.endedAt
   })
-  if (!pastTests.length && loadingFirst) {
+  if (!pastTests.length && !loadingFirst) {
     return <NoItemFound text="No past tests yet. Lets get enrolled for one!" />
   }
   if (loading) {
