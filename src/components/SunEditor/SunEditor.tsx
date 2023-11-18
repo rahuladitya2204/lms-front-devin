@@ -23,7 +23,7 @@ interface SunEditorPropsI {
   variables?: Types.Variable[];
   value?: string;
   mode?: string;
-  readonly?: boolean;
+  readonly?: boolean; imageBase64?: boolean;
   onChange?: (d: string) => void;
   defaultValue?: string;
   level?: 1 | 2 | 3; // 1 = Minimal, 2 = Medium, 3 = High
@@ -47,24 +47,6 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   if (props.value) {
     value = props.value
   }
-  const selectionRef = useRef<any | null>(null);
-
-  const saveSelection = () => {
-    const selection = window.getSelection()
-    if (selection && selection.rangeCount > 0) {
-      selectionRef.current = selection.getRangeAt(0).cloneRange()
-    }
-  }
-
-  const restoreSelection = () => {
-    const editor = editorRef.current
-    const selection = window.getSelection()
-    if (editor && selection && selectionRef.current) {
-      selection.removeAllRanges()
-      selection.addRange(selectionRef.current)
-    }
-  }
-
   const previousValue = useRef<string | null | undefined>(props.value);
 
   useEffect(() => {
@@ -95,8 +77,24 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
 
   const handleImageUploadBefore = (files: any, info: any) => {
     const editorInstance = editorRef.current
+    const file = files[0]
     if (level === 3) {
-      const file = files[0]
+      if (props.imageBase64) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          // @ts-ignore
+          const base64Image = e.target.result;
+          const id = uniqueId();
+          const imageHtml = `<img id="${id}" data-id="${id}" data-type="userUpload" src="${base64Image}" alt="Image" />`;
+          editorInstance.insertHTML(imageHtml);
+        };
+    
+        reader.onerror = function(error) {
+          console.error('Error occurred while reading file:', error);
+        };
+    
+      }
+      else {
       if (file instanceof File) {
         // Change the file name by appending a unique identifier (timestamp or unique ID)
         const uniqueSuffix = `-${Date.now()}-${uniqueId()}`
@@ -129,6 +127,8 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
         console.log('The provided object is not a File')
         return false
       }
+      }
+      
     } else {
       console.log('Image upload is not allowed for this level')
       return false

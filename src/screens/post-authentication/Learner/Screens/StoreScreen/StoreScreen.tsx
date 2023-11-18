@@ -64,6 +64,18 @@ function StoreScreen () {
         </Col>
         <Col lg={6} md={8} sm={12} xs={24}>
           <Skeleton active />
+          </Col>
+          <Col lg={6} md={8} sm={12} xs={24}>
+          <Skeleton active />
+          </Col>
+          <Col lg={6} md={8} sm={12} xs={24}>
+          <Skeleton active />
+          </Col>
+          <Col lg={6} md={8} sm={12} xs={24}>
+          <Skeleton active />
+          </Col>
+          <Col lg={6} md={8} sm={12} xs={24}>
+          <Skeleton active />
         </Col>
         </Row></Col> : <>
         <Divider>

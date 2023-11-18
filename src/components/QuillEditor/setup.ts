@@ -1,6 +1,6 @@
 // @ts-nocheck
 import './blots/TemplateMarker'
-import './blots/Image'
+import './blots/ImageBlot'
 
 import { Quill } from 'react-quill'
 import { QuillToolbarDropDown } from './config'

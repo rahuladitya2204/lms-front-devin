@@ -75,7 +75,7 @@ function TestCard(props: TestCardPropsI) {
             </Text>
             </Col> */}
             {formattedDuration?<Col>
-            <Text style={{fontSize: 13}}>
+            <Text type='secondary' style={{fontSize: 13}}>
                   <ClockCircleOutlined /> {formattedDuration}
           </Text>
         </Col>:null}

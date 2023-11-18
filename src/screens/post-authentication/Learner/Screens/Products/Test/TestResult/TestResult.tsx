@@ -203,15 +203,15 @@ export const LoadingSkeleton = () => {
         <Card title={<Skeleton.Button block />}>
           <Row gutter={[20, 20]}>
             <Col span={24}>
-              <Skeleton paragraph={{ rows: 3 }} />
+              <Skeleton active paragraph={{ rows: 3 }} />
             </Col>
             <Col span={24}>
               <Row justify={'space-between'}>
                 <Col>
-                  <Skeleton.Button />
+                  <Skeleton.Button active />
                 </Col>
                 <Col>
-                  <Skeleton.Button />
+                  <Skeleton.Button active />
                 </Col>
               </Row>
             </Col>

@@ -97,9 +97,10 @@ export default function TestDetailScreen(
 const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,children?:React.ReactNode}) => {
   const product = { type: 'test', id: testId };
   const navigate = useNavigate();
+  // const loadingEnrolledTestDetails = true;
   const {
     data: enrolledDetails,
-    isLoading: loaindEnrolledTestDetails
+    isLoading: loadingEnrolledTestDetails
   } = Learner.Queries.useGetEnrolledProductDetails(product)
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const IS_SIGNED_IN = Store.useAuthentication(s => s.isSignedIn);
@@ -111,6 +112,9 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
 
   const ENROLLED_CTA = useMemo(() => {
+    if (loadingEnrolledTestDetails) {
+      return <Skeleton.Button block /> 
+    }
     if (test.isLive) {
       switch (test.status) {
 
@@ -229,17 +233,13 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
       <Col span={24}>
         <Row gutter={[10, 10]}>
           <Col span={24}>
-            {children}
+                {loadingEnrolledTestDetails ? <>
+                <Skeleton paragraph={{rows: 8}} />
+                </> : children}
           </Col>
-          <Col span={24}>
-            {
-              isEnrolled ?
-                <>
-                  {
-                    ENROLLED_CTA
-                  }
-                </> :
-                 (isSignedIn? <ProductCheckoutButton onSuccess={() => {
+              <Col span={24}>
+                {isSignedIn ? <>
+                  {isEnrolled?ENROLLED_CTA:  <ProductCheckoutButton onSuccess={() => {
                     message.open({
                       type: 'success',
                       content: `You have enrolled successfully`
@@ -249,13 +249,13 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               type='primary'
             >
               Buy Now
-            </ProductCheckoutButton>:<ActionModal width={300}
+                  </ProductCheckoutButton>}
+                </> : <ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
             Login to buy this course
                 </Button>}>
                   <LearnerLogin/>
-          </ActionModal>)
-            }
+          </ActionModal>}
           </Col>
         </Row>
       </Col>

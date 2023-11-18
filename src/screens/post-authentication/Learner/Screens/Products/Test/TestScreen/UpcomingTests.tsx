@@ -14,6 +14,7 @@ import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
+import NoItemFound from '@Components/NoItemFound'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
@@ -52,12 +53,17 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
       </Row>
     )
   }
+  const upcomingTests = data.filter(pd => {
+    return !(pd.product?.data?.endedAt || pd.metadata.test.endedAt)
+  });
+
+  if (upcomingTests.length) {
+    return <NoItemFound/>
+  }
   return (
-<Row gutter={[20,30]}>
-      {data.filter(pd => {
-        return !(pd.product?.data?.endedAt || pd.metadata.test.endedAt)
-        // @ts-ignore
-      }).map(({ product: { data: test } }:{ product: { data: Types.Test } }) => {
+    <Row gutter={[20, 30]}>
+    {/* @ts-ignore */}
+      {upcomingTests.map(({ product: { data: test } }:{ product: { data: Types.Test } }) => {
         const formattedDuration = test.duration.enabled?(Utils.formatTime(test?.duration.value*60)):null
   const CardComponent = (
           <Card
