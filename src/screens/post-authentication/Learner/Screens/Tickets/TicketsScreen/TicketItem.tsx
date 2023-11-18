@@ -1,7 +1,8 @@
 // @ts-nocheck
-import { Card, Divider, Space, Tag, Typography } from 'antd'
+import { Card, Col, Divider, Row, Space, Tag, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
+import BackButton from '@Components/BackButton'
 import FileList from '@Components/FileList'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { StatusMap } from '@Learner/Screens/Tickets/Constants'
@@ -16,7 +17,12 @@ interface TicketItemPropsI {
 
 export default function TicketItem({ ticket,hideAttachments }: TicketItemPropsI) {
   return (
-    <Card
+    <Row gutter={[20,20]}>
+      {/* <Col span={24}>
+        <BackButton size='middle'>Back</BackButton>
+      </Col> */}
+      <Col span={24}>
+      <Card hoverable
       title={
         <Space>
           <Text>{ticket.id}</Text> <Divider type="vertical" />{' '}
@@ -50,5 +56,7 @@ export default function TicketItem({ ticket,hideAttachments }: TicketItemPropsI)
         </Space></>:null}
       </Space>
     </Card>
+      </Col>
+   </Row>
   )
 }
