@@ -28,26 +28,21 @@ const data = {
     icon: <ClockCircleOutlined />,
     value: '43 Weeks'
   },
-  score: {
-    title: 'Score',
-    icon: <CheckCircleOutlined />,
-    value: '1'
-  },
+//   score: {
+//     title: 'Score',
+//     icon: <CheckCircleOutlined />,
+//     value: '1'
+//   },
   language: {
     title: 'Language',
     icon: <CheckCircleOutlined />,
     value: 'English'
-  },
-  // skillLevel: {
-  //   title: 'Skill Level',
-  //   icon: <CheckCircleOutlined />,
-  //   value: 'Beginner'
-  // },
-  result: {
-    title: 'Result',
-    icon: <SafetyCertificateOutlined />,
-    value: <span />
   }
+  //   result: {
+  //     title: 'Result',
+  //     icon: <SafetyCertificateOutlined />,
+  //     value: <span />
+  //   }
 }
 
 interface CompletedTestCardPropsI {
@@ -55,7 +50,7 @@ interface CompletedTestCardPropsI {
 }
 
 function CompletedTestCard(props: CompletedTestCardPropsI) {
-  const test = props.test;
+  const test = props.test
   const testId = props.test._id
   const {
     data: enrolledDetails
@@ -84,18 +79,7 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
         .toDate()
         .getTime()
   )
-  if (!test.isLive) {
-    const isPassed = test.learnerScore >= test.passingScore
-    data.result.value = isPassed ? (
-      <Tag style={{ marginRight: 0 }} color="green-inverse">
-        Passed
-      </Tag>
-    ) : (
-      <Tag style={{ marginRight: 0 }} color="red-inverse">
-        Failed
-      </Tag>
-    )
-  }
+
   const {
     data: { test: testResult },
     isFetching: loadingResult

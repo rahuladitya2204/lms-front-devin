@@ -24,6 +24,7 @@ import Header from '@Components/Header'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestPlayerMoreInfo from '../TestReview/TestPlayerMoreInfo'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
+import TestTimeCountdown from '@Components/TestTimeCountdown'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
@@ -54,10 +55,6 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
   const { startedAt, hasStarted, hasEnded } = Store.useTestStore(s => s.testStatus);
-
-  const endingAt = useMemo(() => dayjs(startedAt)
-    .add(test.duration.value, 'minutes')
-    .toString(), [startedAt, test]);
   
   useEffect(
     () => {
@@ -141,7 +138,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       extra={<Row>
         {!isDesktop?<Col> {UpdatingTestStatus}
        {(hasStarted&&!hasEnded)?<Tag color="blue">
-        Time Left: <Countdown targetDate={endingAt} />
+        Time Left: <TestTimeCountdown testId={testId+''} /> 
           </Tag>:null}
         </Col>:null}
         <Col>

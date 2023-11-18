@@ -1,21 +1,23 @@
 import { Alert, Button, Card, Col, Row, Skeleton, Space, Tag, Typography, message } from 'antd'
 import { CalendarOutlined, InfoOutlined } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
+import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal'
 import CompletedTestCard from './CompletedTestMetadata'
+import Countdown from '@Components/Countdown'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import Image from '@Components/Image'
 import LearnerLogin from '@Learner/Screens/Login'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import TestMetadata from './TestMetadata'
+import TestTimeCountdown from '@Components/TestTimeCountdown'
 import Title from 'antd/es/typography/Title'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useMemo } from 'react'
 import useMessage from '@Hooks/useMessage'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -105,34 +107,54 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   } = Learner.Queries.useGetEnrolledProductDetails(product)
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const IS_SIGNED_IN = Store.useAuthentication(s => s.isSignedIn);
-  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
+  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '', {
+// @ts-ignore
+    refetchInterval: 3000
+  });
   const isLoading = loadingTest ;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
   const testStartDate =
-  enrolledDetails.metadata.test.startedAt || test.startedAt;
+    enrolledDetails.metadata.test.startedAt || test.startedAt;
+  
   const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
-
   const ENROLLED_CTA = useMemo(() => {
     if (loadingEnrolledTestDetails) {
       return <Skeleton.Button active block /> 
     }
     if (test.isLive) {
+      if (testEndDate) {
+        return <Alert
+        style={{ marginBottom: 20 }}
+        message={`Your test was submitted successfully` }
+        type="success"
+        showIcon
+      />
+      }
       switch (test.status) {
 
         case Enum.TestStatus.PUBLISHED: {
           return <Alert
-            style={{ marginBottom: 20 }}
-            message="You're enrolled for this test"
-            type="success"
-            showIcon
-          />
+          style={{ marginBottom: 20 }}
+          message={<span>Test will begin in <Countdown targetDate={test.scheduledAt} /></span>}
+          type="success"
+          showIcon
+        />
           break;
         }
           
         case Enum.TestStatus.IN_PROGRESS: {
-          return <Button onClick={() => navigate('start')} block type='primary'>
+  return <Fragment>
+            <Alert
+            style={{ marginBottom: 20 }}
+            message="Test has started" action={<span>Time left: <TestTimeCountdown testId={testId} /> </span>}
+            type='info'
+              showIcon
+              // action={ }
+          />
+             <Button onClick={() => navigate('start')} block type='primary'>
             Join Test
           </Button>
+          </Fragment>
           break;
         }
           

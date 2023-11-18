@@ -19,6 +19,7 @@ import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
 import { Learner } from '@adewaskar/lms-common'
+import TestTimeCountdown from '@Components/TestTimeCountdown'
 import dayjs from 'dayjs'
 
 const { Title, Text } = Typography
@@ -60,7 +61,7 @@ export default function TestRules(props: TestRulesPropsI) {
       extra={[
         testStartDate && endingAt ? (
           <Tag color="blue">
-            Time Left: <Countdown targetDate={endingAt} />
+            Time Left: <TestTimeCountdown testId={testId + ''} />
           </Tag>
         ) : null,
         test.duration.enabled ? (

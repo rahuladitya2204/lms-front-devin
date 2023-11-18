@@ -23,6 +23,7 @@ import { MenuOutlined } from '@ant-design/icons'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestReviewQuestionNavigator from './TestQuestionReviewNavigator'
+import TestTimeCountdown from '@Components/TestTimeCountdown'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
@@ -109,16 +110,7 @@ Exit
         <Header
       title={test.title}
       subTitle={'asd'}
-      extra={<Row>
-        {!isDesktop?<Col>
-       {(hasStarted&&!hasEnded)?<Tag color="blue">
-        Time Left: <Countdown targetDate={endingAt} />
-          </Tag>:null}
-        </Col>:null}
-        <Col>
-       {ExitButton}
-      </Col>
-      </Row>}
+      extra={ExitButton}
     >
       {isProcturingOn ? <><ProctoringComponent />   <Alert
         style={{ marginBottom: 50 }}
