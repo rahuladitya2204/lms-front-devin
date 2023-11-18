@@ -11,11 +11,11 @@ interface ImagePropsI extends ImageProps {
   noLoadNoShowPlaceholder?: React.ReactNode;
 }
 
-// const Placeholder = styled.div`
-//   width: 100%;
-//   height: 100%;
-//   background-color: transparent; // Or any other style you prefer for the placeholder
-// `
+const Placeholder = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: transparent; // Or any other style you prefer for the placeholder
+`
 
 const ImageHolder = styled.div(
   (props: { width?: number, height: number }) => `
@@ -35,7 +35,7 @@ const ImageComponent = styled(AntDImage)`
 
 const FALLBACK = `/images/not-found.png`
 
-function Image(props: ImagePropsI) {
+function AppImage(props: ImagePropsI) {
   const [hasLoaded, setHasLoaded] = useState(false)
   const { data: url } = Common.Queries.useGetPresignedUrlFromFile(props.file, {
     enabled: !!props.file
@@ -74,4 +74,4 @@ function Image(props: ImagePropsI) {
   )
 }
 
-export default Image
+export default AppImage

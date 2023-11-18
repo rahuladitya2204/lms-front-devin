@@ -2,7 +2,6 @@ import { Button, Col, Form, Input, Row } from 'antd'
 import React, { useState } from 'react'
 
 import { Learner } from '@adewaskar/lms-common'
-import QuillEditor from '@Components/QuillEditor'
 import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 

@@ -1,7 +1,6 @@
 import { Form, Input, Radio, Tag } from 'antd'
 import { useLayoutEffect, useState } from 'react'
 
-import QuillEditor from '@Components/QuillEditor'
 import RuleCreator from './RuleCreator/RuleCreator'
 import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'

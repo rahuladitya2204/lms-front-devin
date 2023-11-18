@@ -1,4 +1,4 @@
-import { Button, Typography } from 'antd'
+import { Button, Card, Typography } from 'antd'
 
 import PastEvent from './PastTests'
 import PastTest from './PastTests'
@@ -11,21 +11,23 @@ const EventsScreen = () => {
   const navigate = useNavigate()
 
   return (
-    <Tabs
-      // defaultActiveKey="1"
-      items={[
-        {
-          key: 'upcoming',
-          label: `Upcoming`,
-          children: <UpcomingTest filter={{ status: ['created'] }} />
-        },
-        {
-          key: 'past',
-          label: `Past`,
-          children: <PastTest filter={{ status: ['ended'] }} />
-        }
-      ]}
-    />
+    <Card bodyStyle={{ paddingTop: 0 }}>
+      <Tabs
+        navigateWithHash
+        items={[
+          {
+            key: 'upcoming',
+            label: `Upcoming`,
+            children: <UpcomingTest filter={{ status: ['created'] }} />
+          },
+          {
+            key: 'past',
+            label: `Past`,
+            children: <PastTest filter={{ status: ['ended'] }} />
+          }
+        ]}
+      />
+    </Card>
   )
 }
 

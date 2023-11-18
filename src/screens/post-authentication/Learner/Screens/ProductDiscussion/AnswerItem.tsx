@@ -1,7 +1,7 @@
 import { Button, Col, Form, Input, Row } from 'antd'
 import React, { useState } from 'react'
 
-import QuillEditor from '@Components/QuillEditor'
+import TextArea from '@Components/Textarea';
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateQuestionPropsI {
@@ -19,7 +19,7 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
             <Input value={title} onChange={e => setTitle(e.target.value)} />
           </Form.Item>
           <Form.Item>
-            <QuillEditor value={description} onChange={setDescription} />
+            <TextArea html value={description} onChange={setDescription} />
           </Form.Item>
           <Row>
             <Col style={{ flexDirection: 'row-reverse' }}>

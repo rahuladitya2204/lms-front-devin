@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from 'react';
 
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload';
-import QuillEditor from '@Components/QuillEditor';
+import TextArea from '@Components/Textarea';
 import { Types } from '@adewaskar/lms-common'
 
 interface CreateInstructorComponentPropsI {
@@ -41,7 +41,7 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
         <Input placeholder="Please enter email of the instructor" />
         </Form.Item>
         <Form.Item name="aboutMe" label="About Me" required>
-        <QuillEditor name="aboutMe" />
+        <TextArea html name="aboutMe" />
         </Form.Item>
     </Fragment>
   );

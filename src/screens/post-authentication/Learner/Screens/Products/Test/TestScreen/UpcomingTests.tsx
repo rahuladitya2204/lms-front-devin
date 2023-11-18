@@ -19,13 +19,13 @@ import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
 const { Meta } = Card
-const { Text } = Typography
+const { Text,Title } = Typography
 
 function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
   const navigate = useNavigate()
   const {
     data,
-    isFetching: loading
+    isFetching: loading, isLoading: loadingFirst
   } = Learner.Queries.useGetEnrolledProductList('test')
   if (loading) {
     const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1]
@@ -57,16 +57,17 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
     return !(pd.product?.data?.endedAt || pd.metadata.test.endedAt)
   });
 
-  if (upcomingTests.length) {
-    return <NoItemFound/>
+  if (!upcomingTests.length&&loadingFirst) {
+    return <NoItemFound  cta={'Check them out!'} text='No upcoming tests yet.' />
+
   }
   return (
-    <Row gutter={[20, 30]}>
+      <Row gutter={[20, 10]}>
     {/* @ts-ignore */}
       {upcomingTests.map(({ product: { data: test } }:{ product: { data: Types.Test } }) => {
         const formattedDuration = test.duration.enabled?(Utils.formatTime(test?.duration.value*60)):null
   const CardComponent = (
-          <Card
+          <Card hoverable
             onClick={() => {
              // @ts-ignore
              navigate(test?._id)

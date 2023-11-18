@@ -113,7 +113,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
 
   const ENROLLED_CTA = useMemo(() => {
     if (loadingEnrolledTestDetails) {
-      return <Skeleton.Button block /> 
+      return <Skeleton.Button active block /> 
     }
     if (test.isLive) {
       switch (test.status) {
@@ -234,7 +234,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
         <Row gutter={[10, 10]}>
           <Col span={24}>
                 {loadingEnrolledTestDetails ? <>
-                <Skeleton paragraph={{rows: 8}} />
+                <Skeleton active paragraph={{rows: 8}} />
                 </> : children}
           </Col>
               <Col span={24}>

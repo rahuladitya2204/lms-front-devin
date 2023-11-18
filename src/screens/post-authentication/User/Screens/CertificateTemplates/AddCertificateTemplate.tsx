@@ -1,8 +1,7 @@
 import { Button, Form, Input, Modal } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
-// import BASE_CERTIFICATE_TEMPLATE from '../BaseCertificateTemplate'
-import QuillEditor from '@Components/QuillEditor'
+import TextArea from '@Components/Textarea';
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
@@ -69,7 +68,7 @@ const AddCertificateTemplate: React.FC<
           <Input placeholder="Subject of the email" />
         </Form.Item>
         <Form.Item name="content" label="Body of the email" required>
-          <QuillEditor name="content" />
+          <TextArea html name="content" />
         </Form.Item>
       </Form>
       {/* <Button
