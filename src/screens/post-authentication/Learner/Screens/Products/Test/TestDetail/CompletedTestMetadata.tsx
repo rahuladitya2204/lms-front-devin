@@ -69,9 +69,9 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
     }
   )
   const testStartDate =
-    enrolledDetails.metadata.test.startedAt || test.startedAt
+    enrolledDetails.metadata.test.startedAt || test.live.startedAt
 
-  const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt
+  const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt
 
   data.takenOn.value = props.test.live.enabled
     ? dayjs(props.test.live.scheduledAt).format('LLL')

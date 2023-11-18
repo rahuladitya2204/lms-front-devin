@@ -46,8 +46,8 @@ export default function TestRules(props: TestRulesPropsI) {
   const rule3 = Form.useWatch('rule-3', form)
   const isValid = rule1 && rule2 && rule3
   const testStartDate =
-    enrolledProduct.metadata.test.startedAt || test.startedAt
-  const testEndDate = enrolledProduct.metadata.test.endedAt || test.endedAt
+    enrolledProduct.metadata.test.startedAt || test.live.startedAt
+  const testEndDate = enrolledProduct.metadata.test.endedAt || test.live.endedAt
   const endingAt = test.duration.enabled
     ? dayjs(enrolledProduct.metadata.test.startedAt)
         .add(test.duration.value, 'minutes')

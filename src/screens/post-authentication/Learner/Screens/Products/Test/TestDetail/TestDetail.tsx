@@ -41,7 +41,7 @@ export default function TestDetailScreen(
   })
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
+  const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const Metadata = testEndDate ? <>
   {loadingEnrolledTest?<Skeleton paragraph={{rows:8}} />:<CompletedTestCard test={test} />}
   </> : <TestMetadata test={test} />;
@@ -113,9 +113,9 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     refetchInterval: 3000
   });
   const isLoading = loadingTest ;
-  const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
+  const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const testStartDate =
-    enrolledDetails.metadata.test.startedAt || test.startedAt;
+    enrolledDetails.metadata.test.startedAt || test.live.startedAt;
   
   const Metadata = testEndDate ? (test.live.enabled?<CompletedLiveTestCard test={test} />:<CompletedTestCard test={test} />) : <TestMetadata test={test} />;
   const ENROLLED_CTA = useMemo(() => {

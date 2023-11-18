@@ -32,7 +32,7 @@ function PastEvent(props: { filter: Types.GetEventsFilter }) {
               key="startedAt"
               render={(_: any, record: Types.Test) => (
                 <Space size="middle">
-                  {dayjs(record.startedAt).format('LLL')}
+                  {dayjs(record.live.startedAt).format('LLL')}
                 </Space>
               )}
             />
@@ -42,7 +42,9 @@ function PastEvent(props: { filter: Types.GetEventsFilter }) {
               key="endedAt"
               render={(_: any, record: Types.Test) => (
                 <Space size="middle">
-                  {record.endedAt ? dayjs(record.endedAt).format('LLL') : '-'}
+                  {record.live.startedAt
+                    ? dayjs(record.live.startedAt).format('LLL')
+                    : '-'}
                 </Space>
               )}
             />

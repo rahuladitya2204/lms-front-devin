@@ -80,7 +80,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   if (endTestNow) {
     // navigate('../completed')
   };
-  const testEndTime = enrolledProduct.metadata.test.endedAt || test.endedAt;
+  const testEndTime = enrolledProduct.metadata.test.endedAt || test.live.endedAt;
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
  
