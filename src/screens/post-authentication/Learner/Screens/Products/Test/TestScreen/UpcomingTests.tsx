@@ -58,7 +58,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
   });
 
   if (!upcomingTests.length && !loadingFirst) {
-    return <NoItemFound  cta={'Check them out!'} text='No pasts tests yet. Lets get enrolled for one!' />
+    return <NoItemFound  cta={'Check them out!'} text='No upcoming tests. Lets get enrolled for one!' />
 
   }
   return (

@@ -24,6 +24,7 @@ import LocationAutocomplete from '@Components/LocationSelector'
 import LocationSelector from '@Components/LocationSelector'
 import MediaUpload from '@Components/MediaUpload'
 import PriceFormItem from '@Components/PriceFormItem'
+import ProductRow from './Products/ProductRow'
 import Products from './Products/Products'
 import TextArea from '@Components/Textarea'
 import { User } from '@adewaskar/lms-common'
@@ -54,7 +55,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   } = User.Queries.useUpdatePackage();
 
 
-  const {data: packageDetails,isLoading: loadingPackage}=User.Queries.useGetPackageDetails(packageId+'',{
+  const {data: packageDetails}=User.Queries.useGetPackageDetails(packageId+'',{
     enabled:!!packageId
   })
   useEffect(() => { 
@@ -107,10 +108,10 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
       type="primary"
       onClick={form.submit}
       >
-      Publish Package
+      Create Package
     </Button>
     ]}>
-        <Card loading={loadingPackage}>
+        <Card>
       <Row>
         <Col span={24}>
       <>
@@ -127,41 +128,6 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
       >
         <Input placeholder="Enter a title for the live session" />
       </Form.Item>
-                    {/* <Row gutter={[10, 10]}>
-        <Col span={12}>
-        <Form.Item
-            rules={[
-              {
-                required: true,
-                message: 'Please enter start time for the livestream'
-              }
-            ]}
-            name="scheduledAt"
-            label="Scheduled For"
-            required
-          >
-            <DatePicker style={{width: '100%'}} value={date} showTime  />
-          </Form.Item>
-        </Col>
-        <Col span={12}>
-          <Form.Item
-            rules={[
-              {
-                required: true,
-                message: 'Please enter duration of the Package'
-              }
-            ]}
-            name="duration"
-            label="Duration(mins)"
-            required
-          >
-            <Input
-              type="number"
-              placeholder="Please enter duration in minutes"
-            />
-          </Form.Item>
-        </Col>
-      </Row> */}
                   </Col>
                   <Col span={8}>
         <MediaUpload
@@ -200,65 +166,28 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
                       <TextArea height={250} html label="Description" name={["description"]} />
                       
                     </Form.Item>
+
+                    <Form.List name="products">
+                {(fields, { add, remove }) => (
+                  <>
+                  {fields.map(field => (
+              <ProductRow form={form} key={field.key} name={field.name} remove={remove} />
+            ))}
+                    <Row>
+                      <Col span={24}>
+                        <Button type="dashed" onClick={() => add()} block>Add Product</Button>
+                      </Col>
+                    </Row>
+                  </>
+                )}
+              </Form.List>
+
+                    
                   </Col>
-      <Col span={12}>
-      <Form.Item name='promoCodes' label='Promo Codes'>
-<Select
-          options={promoCodes.map(pc=>({label: pc.code,value:pc._id}))}
-        />
-        </Form.Item>
-          </Col>
       </Row>
 
-                <Card actions={[<ActionModal cta={<Button>Add Plan</Button>}>
-                  <CreatePlan product={{type:'package'}}/>
-                </ActionModal>]}>
-                <Row gutter={[20,20]}>
-                  <Col span={12}>
-                      <Text>{ }</Text>
-          </Col>
-          <Col span={12}>  <PriceFormItem name="price" label="Price" /></Col>
-      </Row>
-     </Card>
     </Form>
             </>
-            <Card title='Add Product'
-              extra={<ActionModal cta={<Button type='primary'>Add Product</Button>}>
-              <AddProduct submit={(e) => {
-                  console.log(e, 'e')
-                  // @ts-ignore
-                setProducts([...products, e]);
-              }}/>
-            </ActionModal>}>
-              <Products deleteItem={(index:number) => {
-                  const PRODUCTS = [...products];
-                  PRODUCTS.splice(index,1)
-                  setProducts(PRODUCTS);
-                }}
-                              // @ts-ignore
-    products={products} submit={(index: number, e: Types.Product) => {
-                const PRODUCTS = [...products];
-                                // @ts-ignore
-  PRODUCTS[index] = e;
-                setProducts(PRODUCTS)
-         }}  />
-            </Card>
-            {/* <Card title='Testimonials' extra={<ActionModal cta={<Button type='primary'>Add Testimonial</Button>}>
-              <AddTestimonial submit={(e: Types.Testimonial) => {
-                console.log(e,'e')
-                setTestimonials([...testimonials, e]);
-              }}/>
-            </ActionModal>}>
-              <PackageTestimonials deleteItem={index => {
-                  const TESTIMONIALS = [...testimonials];
-                  TESTIMONIALS.splice(index,1)
-                setTestimonials(TESTIMONIALS);
-              }} testimonials={testimonials} submit={(index: number,e:Types.Testimonial) => {
-                const TESTIMONIALS = [...testimonials];
-                TESTIMONIALS[index] = e;
-                setTestimonials(TESTIMONIALS)
-         }}  />
-           </Card> */}
         </Col>
 
     </Row>

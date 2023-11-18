@@ -26,26 +26,26 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   const { submitAnswer, test } = Store.useTestStore(s => s);
+  const answer = Form.useWatch(['answer'], form);
   // console.log(currentQuestion,'currentQuestion')
   useEffect(() => {
-    // let answer;
     const { answerGiven } = currentQuestion;
-    let answer = answerGiven;
-    if (
-      (currentQuestion.type === 'single') &&
-      answerGiven &&
-      answerGiven.options &&
-      answerGiven.options.length) {
+    if (!answerGiven.options.length) {
+      let answer = answerGiven;
+      if (
+        (currentQuestion.type === 'single') &&
+        answerGiven &&
+        answerGiven.options &&
+        answerGiven.options.length) {
+        // @ts-ignore
+        answer = {options:answerGiven.options[0]};
+      }
       // @ts-ignore
-      answer = {options:answerGiven.options[0]};
+      form.setFieldsValue({
+        answer
+      }); 
     }
-    // @ts-ignore
-    form.setFieldsValue({
-      answer
-    });
-   
   }, [currentQuestion, form,questionId]);
-  const answer = Form.useWatch(['answer'], form);
   const isValid = ((answer?.options?.length) || (answer?.subjective?.text));
 
   // @ts-ignore
