@@ -150,7 +150,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
             <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
           </ActionDrawer> : <>
           <Tag icon={<SyncOutlined spin={updatingTestStatus} />} color="processing">
-            {updatingTestStatus?'Syncing Changes':'Last updated'}
+            {updatingTestStatus?'Syncing Changes':`Last updated ${dayjs(enrolledProduct.metadata.test.lastUpdated).format('h:mm A')}`}
           </Tag>
               {SubmitTestButton}
           </>}

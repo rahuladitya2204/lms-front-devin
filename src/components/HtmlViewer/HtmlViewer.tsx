@@ -3,7 +3,7 @@ function HtmlViewer(props: { content: string }) {
   // @ts-ignore
   const children = props.children || props.content
   return (
-    <div
+    <div className='html-viewer'
       // className="sun-editor-editable"
       dangerouslySetInnerHTML={{
         __html: children
