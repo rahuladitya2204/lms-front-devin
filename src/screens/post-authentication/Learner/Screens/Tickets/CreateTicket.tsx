@@ -5,6 +5,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import FileList from '@Components/FileList';
 import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea';
+import useMessage from '@Hooks/useMessage';
 
 interface CreateTicketComponentPropsI {
   children?: ReactNode;
@@ -14,7 +15,8 @@ interface CreateTicketComponentPropsI {
 }
 
 const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
-  const [files, setFiles] = useState<{ name: string,file:string}[]>([]);
+  const [files, setFiles] = useState<{ name: string, file: string }[]>([]);
+  const message = useMessage();
   const user = Store.useAuthentication(u => u.user)
   const {
     mutate: createTicket,
@@ -30,7 +32,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
             value:cat._id
       }
   });
-
+  const {data: learner } = Learner.Queries.useGetLearnerDetails();
   const [form] = Form.useForm()
 
   const onSubmit = (e: any) => {
@@ -41,9 +43,19 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
       },
       {
         onSuccess: () => {
-          form.resetFields()
+          form.resetFields();
+          message.open({
+            type: 'success',
+            content:'Support Ticket raised'
+          })
           props.closeModal && props.closeModal()
           setFiles([]);
+        },
+        onError: (er:any) => {
+          message.open({
+            type: 'error',
+            content:er.response.data.message
+          })
         }
       }
     )
@@ -51,7 +63,15 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
 
   useEffect(
     () => {
-      form.setFieldsValue(props.data)
+      if (props.data?._id) {
+        form.setFieldsValue(props.data)
+      }
+      else {
+        form.setFieldsValue({
+          contactNo: learner.communication.contactNo,
+          contactEmail: learner.communication.email
+        })
+      }
     },
     [props.data]
   )
@@ -70,7 +90,10 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
         onFinish={onSubmit}
         layout="vertical"
       >
-        <Form.Item name="subject" label="Subject" required rules={[{ required: true, message: 'Please mention subject of the ticket!' }]}>
+        <Form.Item name="subject" label="Subject" required
+          rules={[{ required: true, message: 'Please mention subject of the ticket!' },
+          { min: 5, message: 'Subject must be at least 5 characters long' }
+        ]}>
           <Input placeholder="Subject of the Ticket" />
         </Form.Item>
         <Form.Item name="category" label="Category" rules={[{ required: true, message: 'Please select a category!' }]}
@@ -99,13 +122,18 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
           type="warning"
         />
         <Form.Item name="description" label="Description" 
-        rules={[{ required: true, message: 'Please add some details about the issue' }]}>
+          rules={[{ required: true, message: 'Please add some details about the issue' },
+          { min: 5, message: 'Description must be at least 5 characters long' }
+        ]}>
           <TextArea height={200} placeholder="Please enter email of the Ticket" />
         </Form.Item>
         {/* <Form.Item name="contactName" label="Contact Name" required>
           <Input placeholder="Your name" />
         </Form.Item> */}
-        <Form.Item name="contactNo" label="Contact Number" rules={[{ required: true, message: 'Please add your contact No!' }]} >
+        <Form.Item name="contactNo" label="Contact Number" rules={[
+          { required: true, message: 'Please add your contact No!' },
+          { pattern: /^(\+\d{1,3}[- ]?)?\d{10}$/, message: 'Invalid phone number' }
+        ]} >
           <Input placeholder="Your phone number" />
         </Form.Item>
         <Form.Item name="contactEmail" label="Contact Email"  rules={[{ required: true, message: 'Please add your email address!' }]}>
@@ -138,7 +166,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
         Clear
       </Button>, */}
       <Space style={{ marginTop: 20 }}>
-        <Button
+        <Button block
           loading={createTicketLoading}
           key="submit"
           type="primary"

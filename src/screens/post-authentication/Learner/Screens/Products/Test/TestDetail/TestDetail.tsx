@@ -39,8 +39,9 @@ export default function TestDetailScreen(
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt;
-  const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
-  const isLoading = loadingTest || loadingEnrolledTest;
+  const Metadata = testEndDate ? <>
+  {loadingEnrolledTest?<Skeleton paragraph={{rows:8}} />:<CompletedTestCard test={test} />}
+  </> : <TestMetadata test={test} />;
   return (
     <Row>
       {loadingTest ? <Skeleton paragraph={{ rows: 1 }} /> : <>
@@ -232,10 +233,8 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     </Col>
       <Col span={24}>
         <Row gutter={[10, 10]}>
-          <Col span={24}>
-                {loadingEnrolledTestDetails ? <>
-                <Skeleton active paragraph={{rows: 8}} />
-                </> : children}
+              <Col span={24}>
+                {children}
           </Col>
               <Col span={24}>
                 {isSignedIn ? <>
