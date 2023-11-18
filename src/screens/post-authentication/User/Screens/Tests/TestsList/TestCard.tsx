@@ -32,10 +32,10 @@ function TestCard({ test }: TestCardProps) {
       // bodyStyle={{ height: 115 }}
       hoverable
       cover={
-        test.isLive ? (
+        test.live.enabled ? (
           <Badge.Ribbon
             color="orange"
-            text={`Live: ${dayjs(test.scheduledAt).format('LLL')}`}
+            text={`Live: ${dayjs(test.live.scheduledAt).format('LLL')}`}
           >
             {ThumbnailImage}
           </Badge.Ribbon>

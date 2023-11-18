@@ -45,11 +45,11 @@ const data = {
   //   }
 }
 
-interface CompletedTestCardPropsI {
+interface CompletedLiveTestCardPropsI {
   test: Types.Test;
 }
 
-function CompletedTestCard(props: CompletedTestCardPropsI) {
+function CompletedLiveTestCard(props: CompletedLiveTestCardPropsI) {
   const test = props.test
   const testId = props.test._id
   const {
@@ -68,8 +68,8 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
 
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt
 
-  data.takenOn.value = props.test.isLive
-    ? dayjs(props.test.scheduledAt).format('LLL')
+  data.takenOn.value = props.test.live.enabled
+    ? dayjs(props.test.live.scheduledAt).format('LLL')
     : 'Can be taken anytime'
   data.timeTaken.value = formatTime(
     dayjs(testEndDate)
@@ -105,7 +105,7 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
   )
 }
 
-export default CompletedTestCard
+export default CompletedLiveTestCard
 
 function formatTime(minute: number) {
   const seconds = minute * 60

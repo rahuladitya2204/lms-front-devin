@@ -6,6 +6,7 @@ import { useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal'
+import CompletedLiveTestCard from './CompleteLiveTestMetadata'
 import CompletedTestCard from './CompletedTestMetadata'
 import Countdown from '@Components/Countdown'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
@@ -116,12 +117,12 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const testStartDate =
     enrolledDetails.metadata.test.startedAt || test.startedAt;
   
-  const Metadata = testEndDate ? <CompletedTestCard test={test} /> : <TestMetadata test={test} />;
+  const Metadata = testEndDate ? (test.live.enabled?<CompletedLiveTestCard test={test} />:<CompletedTestCard test={test} />) : <TestMetadata test={test} />;
   const ENROLLED_CTA = useMemo(() => {
     if (loadingEnrolledTestDetails) {
       return <Skeleton.Button active block /> 
     }
-    if (test.isLive) {
+    if (test.live.enabled) {
       if (testEndDate) {
         return <Alert
         style={{ marginBottom: 20 }}
@@ -135,7 +136,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
         case Enum.TestStatus.PUBLISHED: {
           return <Alert
           style={{ marginBottom: 20 }}
-          message={<span>Test will begin in <Countdown targetDate={test.scheduledAt} /></span>}
+          message={<span>Test will begin in <Countdown targetDate={test.live.scheduledAt} /></span>}
           type="success"
           showIcon
         />

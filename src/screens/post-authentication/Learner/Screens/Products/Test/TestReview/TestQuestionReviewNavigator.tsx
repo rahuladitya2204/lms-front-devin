@@ -39,7 +39,6 @@ export default function TestReviewQuestionNavigator(
     isLoading: loadingTest
   } = Learner.Queries.useGetTestDetails(props.testId + '')
 
-  // const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const { token } = theme.useToken()
 
   return (

@@ -84,7 +84,7 @@ interface CreateTestComponentPropsI {
     const title = Form.useWatch('title', form);
     const duration = Form.useWatch('duration', form);
     // const scheduledAt = Form.useWatch('scheduledAt', form);
-    const date = dayjs(Form.useWatch('scheduledAt', form));
+    const date = dayjs(Form.useWatch(['live', 'scheduledAt'], form));
     console.log(date,'taaa')
 
     const isValidForDraft = title && date && questions.length;
@@ -132,7 +132,7 @@ interface CreateTestComponentPropsI {
                   message: 'Please enter start time for the livestream'
                 }
               ]}
-              name="scheduledAt"
+              name={['live','scheduledAt']}
               label="Scheduled For"
               required
             >

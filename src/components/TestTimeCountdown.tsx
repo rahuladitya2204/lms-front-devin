@@ -12,7 +12,7 @@ export default function TestTimeCountdown(props: TestTimeCountdownPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(props.testId)
   const testWillEndAt = useMemo(
     () =>
-      dayjs(test.scheduledAt)
+      dayjs(test.live.scheduledAt)
         .add(test.duration.value, 'minute')
         .toISOString(),
     [test]

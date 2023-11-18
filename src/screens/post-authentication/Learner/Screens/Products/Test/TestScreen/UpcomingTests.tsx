@@ -89,14 +89,14 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
                 <Text>
                   {/* @ts-ignore */}
                   {test.title}{' '}
-                  {test?.isLive ? <Tag color="cyan">Live Test</Tag> : null}{' '}
+                  {test?.live.enabled ? <Tag color="cyan">Live Test</Tag> : null}{' '}
                 </Text>
               }
               description={
                 <>
                  {formattedDuration? <Tag icon={<ClockCircleOutlined/>} >{formattedDuration}</Tag>:null}
-                  {test?.scheduledAt ? (
-                  <Text>Date: {dayjs(test?.scheduledAt).format('LLL')}</Text>
+                  {test?.live.scheduledAt ? (
+                  <Text>Date: {dayjs(test?.live.scheduledAt).format('LLL')}</Text>
                 ) : (
                ''
                 ) }</>
@@ -107,7 +107,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
         )
         return (
           // @ts-ignore
-          <Col xs={24} sm={12} md={8} lg={6} > {test?.product?.data?.isLive ? (
+          <Col xs={24} sm={12} md={8} lg={6} > {test?.product?.data?.live.enabled ? (
             <Badge.Ribbon text="live">{CardComponent}</Badge.Ribbon>
           ) : (
             CardComponent

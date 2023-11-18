@@ -56,7 +56,6 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
     startedAt, hasStarted, hasEnded
   } = Store.useTestStore(s => s.testStatus)
 
-  const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const endingAt = useMemo(() => dayjs(startedAt)
     .add(test.duration.value, 'minutes')
     .toString(), [startedAt, test]);

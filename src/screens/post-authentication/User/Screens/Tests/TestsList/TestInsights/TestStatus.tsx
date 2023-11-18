@@ -49,7 +49,7 @@ const TestStatus = () => {
           <Col span={24}>
             <Card
               title={test.title}
-              extra={<Tag>{dayjs(test.scheduledAt).format('LLL')}</Tag>}
+              extra={<Tag>{dayjs(test.live.scheduledAt).format('LLL')}</Tag>}
             >
               <Row gutter={[20, 20]}>
                 <Col span={8}>

@@ -62,8 +62,8 @@ interface TestMetadataPropsI {
 }
 
 function TestMetadata(props: TestMetadataPropsI) {
-  data.scheduledFor.value = props.test.isLive
-    ? dayjs(props.test.scheduledAt).format('LLL')
+  data.scheduledFor.value = props.test.live.enabled
+    ? dayjs(props.test.live.scheduledAt).format('LLL')
     : 'Can be taken anytime'
   // @ts-ignore
   data.duration.value = props.test.duration.enabled

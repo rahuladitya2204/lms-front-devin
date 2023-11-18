@@ -55,7 +55,7 @@ interface CompletedTestCardPropsI {
 }
 
 function CompletedTestCard(props: CompletedTestCardPropsI) {
-  const test = props.test;
+  const test = props.test
   const testId = props.test._id
   const {
     data: enrolledDetails
@@ -73,8 +73,8 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
 
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.endedAt
 
-  data.takenOn.value = props.test.isLive
-    ? dayjs(props.test.scheduledAt).format('LLL')
+  data.takenOn.value = props.test.live.enabled
+    ? dayjs(props.test.live.scheduledAt).format('LLL')
     : 'Can be taken anytime'
   data.timeTaken.value = formatTime(
     dayjs(testEndDate)
@@ -84,7 +84,8 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
         .toDate()
         .getTime()
   )
-  if (!test.isLive) {
+  if (!test.live.enabled) {
+    // @ts-ignore
     const isPassed = test.learnerScore >= test.passingScore
     data.result.value = isPassed ? (
       <Tag style={{ marginRight: 0 }} color="green-inverse">

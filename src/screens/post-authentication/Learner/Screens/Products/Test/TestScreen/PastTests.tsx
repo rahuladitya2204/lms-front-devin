@@ -106,7 +106,7 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
         )
         return (
           <Col xs={24} sm={12} md={8} lg={6}>
-            {test?.isLive ? (
+            {test?.live.enabled ? (
               <Badge.Ribbon text={`Live`} color="red">
                 {CardComponent}
               </Badge.Ribbon>

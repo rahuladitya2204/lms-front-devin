@@ -71,7 +71,7 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
     })
   }
 
-  const isLive = test.isLive
+  const isLive = test.live.enabled
 
   return (
     <Form form={form} onFinish={onSubmit}>

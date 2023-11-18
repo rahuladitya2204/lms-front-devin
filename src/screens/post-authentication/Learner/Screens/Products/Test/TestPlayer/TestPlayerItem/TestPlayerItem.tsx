@@ -70,7 +70,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
 
-  // const VIEWING_MODE = (hasEnded && !test.isLive) ? 'review' : 'test';
   const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   return (
     <Spin spinning={loading}>

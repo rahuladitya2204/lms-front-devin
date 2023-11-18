@@ -58,9 +58,10 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
   useEffect(
     () => {
-      if (test.scheduledAt) {
+      if (test.live.scheduledAt) {
+        console.log(test, 'fff')
         // @ts-ignore
-        test.scheduledAt = dayjs(test.scheduledAt)
+        test.live.scheduledAt = dayjs(test.live.scheduledAt)
       }
 
       form.setFieldsValue(test)
@@ -74,7 +75,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   }
 
   const isPublished = test.status === Enum.TestStatus.PUBLISHED
-  const isLive = Form.useWatch('isLive', form)
+  const isLive = Form.useWatch(['live', 'enabled'], form)
   return (
     <Form
       form={form}
@@ -184,7 +185,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                 </Form.Item>
               </Space>
             }
-            name={['duration','value']}
+            name={['duration', 'value']}
             rules={[{ required: true, message: 'Please select duration!' }]}
           >
             <Input
@@ -195,7 +196,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        <Col span={12}>
           <Row gutter={[0, 20]} justify={'end'}>
             <Col flex={1}>
               <Form.Item
@@ -205,7 +206,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                     message: 'Please enter start time for the live test'
                   }
                 ]}
-                name="scheduledAt"
+                name={['live', 'scheduledAt']}
                 style={{ width: '100%' }}
                 label={
                   <Row align="middle" justify={'space-between'}>
@@ -222,7 +223,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                       <Form.Item
                         style={{ margin: 0, marginLeft: 10 }}
                         valuePropName="checked"
-                        name={['isLive']}
+                        name={['live', 'enabled']}
                         // label="Send email to learner on course enrollment."
                       >
                         <Switch checkedChildren="Live" unCheckedChildren="No" />
@@ -243,6 +244,23 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             </Col>
           </Row>
         </Col>
+        {isLive ? (
+          <Col span={8}>
+            <Form.Item
+              label="Select Result Trigger"
+              name={['live', 'result', 'trigger']}
+            >
+              <Select
+                showSearch
+                placeholder="Select Result Trigger"
+                options={[
+                  { label: 'Manual', value: 'manual' },
+                  { label: 'Immediate', value: 'immediate' }
+                ]}
+              />
+            </Form.Item>
+          </Col>
+        ) : null}
       </Row>
       <Divider />
 

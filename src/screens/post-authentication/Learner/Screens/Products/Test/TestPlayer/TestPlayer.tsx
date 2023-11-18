@@ -95,7 +95,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
             { testId: test._id + '' },
             {
               onSuccess: () => {
-                if (!test.isLive) {
+                if (!test.live.enabled) {
                   return navigate('../result')
                 }
                 navigate('../completed')

@@ -257,7 +257,7 @@ function TestBuilderScreen() {
     mutate: unpublishTest,
     isLoading: unpublishingTest
   } = User.Queries.useUnpublishTest()
-  const isTestEnded = test.isLive && test.status === Enum.TestStatus.ENDED
+  const isTestEnded = test.live.enabled && test.status === Enum.TestStatus.ENDED
   return (
     <AppProvider>
       <Header
@@ -266,7 +266,7 @@ function TestBuilderScreen() {
             {' '}
             <BackButton onClick={() => navigate('../app/products/test')} />
             {test.title}{' '}
-            {!test.isLive ? <Tag color="blur">Live Test</Tag> : null}
+            {!test.live.enabled ? <Tag color="blur">Live Test</Tag> : null}
           </span>
         }
         extra={[
