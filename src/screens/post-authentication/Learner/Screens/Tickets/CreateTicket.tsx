@@ -132,7 +132,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
         </Form.Item> */}
         <Form.Item name="contactNo" label="Contact Number" rules={[
           { required: true, message: 'Please add your contact No!' },
-          { pattern: /^(\+\d{1,3}[- ]?)?\d{10}$/, message: 'Invalid phone number' }
+          { pattern: /^(\+\d{1,3}[- ]?)?\d{12}$/, message: 'Invalid phone number' }
         ]} >
           <Input placeholder="Your phone number" />
         </Form.Item>

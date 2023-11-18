@@ -35,7 +35,7 @@ interface TestPlayerPropsI {
   isReview?: boolean;
 }
 
-const { Title } = Typography
+const { Title,Text } = Typography
 
 export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const { testId,questionId } = useParams()
@@ -93,7 +93,7 @@ onClick={() => {
     okText: 'Yes, Exit'
   })
 }}
-type="default" danger
+type="primary" danger
 loading={submittingTest}
 >
 Exit
@@ -109,7 +109,7 @@ Exit
         <Header
       title={test.title}
       subTitle={'asd'}
-      extra={ExitButton}
+        extra={[<Tag>Submitted at { dayjs(testEndTime).format('LLL')}</Tag>,ExitButton]}
     >
       {isProcturingOn ? <><ProctoringComponent />   <Alert
         style={{ marginBottom: 50 }}

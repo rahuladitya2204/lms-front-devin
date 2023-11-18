@@ -30,7 +30,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   // console.log(currentQuestion,'currentQuestion')
   useEffect(() => {
     const { answerGiven } = currentQuestion;
-    if (!answerGiven.options.length) {
+    console.log(currentQuestion,'currentQuestion')
+    if (!answer) {
       let answer = answerGiven;
       if (
         (currentQuestion.type === 'single') &&
