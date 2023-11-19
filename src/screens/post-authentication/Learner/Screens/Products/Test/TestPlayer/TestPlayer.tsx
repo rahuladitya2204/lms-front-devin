@@ -128,6 +128,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       clearInterval(int);
     }
   }, [testId]);
+  
   const UpdatingTestStatus = updatingTestStatus ? <Tag icon={<SyncOutlined spin />} color="processing">
     Updating Test
   </Tag> : null;
