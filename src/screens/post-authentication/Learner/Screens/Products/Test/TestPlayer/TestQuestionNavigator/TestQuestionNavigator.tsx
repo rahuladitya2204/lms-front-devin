@@ -19,7 +19,7 @@ export default function TestQuestionNavigatorType2(
   props: TestQuestionNavigatorType2PropsI
 ) {
   const navigate = useNavigate()
-  const { sections, hasEnded, hasStarted } = Store.useTestStore(s => s.testStatus);
+  const { data: { sections,hasStarted,hasEnded } } = Learner.Queries.useGetTestStatus(props.testId + '')
   const { currentQuestion } = useQuestion();
   const {isLoading: loadingEnrolledTest } = Learner.Queries.useGetEnrolledProductDetails({
     type: "test",

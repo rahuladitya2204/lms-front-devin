@@ -18,7 +18,7 @@ const { Title, Text } = Typography;
 interface TestPlayeritemPropsI {}
 
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
-  useTestItemTime();
+  // useTestItemTime();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const {
     mutate: updateTestStatus,
@@ -29,7 +29,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const message = useMessage();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
-  const { submitAnswer, test } = Store.useTestStore(s => s);
+  const { data: test}=Learner.Queries.useGetTestDetails(testId+'')
+  const { mutate: submitAnswer,isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer(testId+'');
   const answer = Form.useWatch(['answer'], form);
   // console.log(currentQuestion,'currentQuestion')
   useEffect(() => {
@@ -64,8 +65,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       testId: testId + '',
       questionId: questionId + '',
       answer: answer,
-    }, updateTestStatus);
-    navigate('next')
+    }, {
+      onSuccess: () => {
+        navigate('next')
+      }
+    });
   };
 
   const { navigate } = useTestNavigation(test);
@@ -130,7 +134,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
           <Col style={{display:'flex',flexDirection:'row-reverse'}}>
       <Button
               disabled={!isValid}
-              type="primary"
+              type="primary" loading={submittingAnswer}
               style={{ marginLeft: 20 }}
               onClick={form.submit}
             >
