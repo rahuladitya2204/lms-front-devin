@@ -5,6 +5,10 @@ import { useParams } from 'react-router-dom'
 
 export const useTestItemTime = () => {
   const { questionId, testId } = useParams()
+  const {
+    mutate: updateTestStatus,
+    isLoading: updatingTestStatus
+  } = Learner.Queries.useUpdateTestStatus(testId + '')
   const mountTimeRef = useRef(Date.now())
   const questionIdRef = useRef(questionId)
   const accumulatedTimeRef = useRef(0)
@@ -26,10 +30,13 @@ export const useTestItemTime = () => {
           return console.log('Invalid Time Spent')
         }
         // Call the API to update time spent on the question
-        updateTimeSpent({
-          questionId: questionIdRef.current + '',
-          timeSpent: totalTimeSpent
-        })
+        updateTimeSpent(
+          {
+            questionId: questionIdRef.current + '',
+            timeSpent: totalTimeSpent
+          },
+          updateTestStatus
+        )
 
         console.log(
           `Time spent on question ${questionIdRef.current}: ${totalTimeSpent}s`

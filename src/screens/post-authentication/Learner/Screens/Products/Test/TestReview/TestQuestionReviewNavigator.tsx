@@ -30,7 +30,7 @@ export default function TestReviewQuestionNavigator(
   const navigate = useNavigate()
   const {
     isLoading,
-    data: { test: { sections }, charts }
+    data: { test: { sections } }
   } = Learner.Queries.useGetTestResult(props.testId + '')
   const { currentQuestion, loading } = useReviewQuestion()
   // const { isTablet, isDesktop, isMobile } = useBreakpoint()

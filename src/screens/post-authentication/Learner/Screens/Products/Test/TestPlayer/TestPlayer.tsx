@@ -115,23 +115,22 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   </Button>
 
   const QuestionNavigator = TestQuestionNavigator;
-  const { mutate: updateTestStatus,isLoading: updatingTestStatus}=Learner.Queries.useUpdateTestStatus(testId+'')
   const enrolledTest = Store.useTestStore(s => s.enrolledProduct);
-  useEffect(() => {
-    const int = setInterval(() => {
-      console.log(enrolledTest, 'enrolledTest')
-      updateTestStatus({
-        responses: Store.useTestStore.getState().enrolledProduct.metadata.test.responses
-      });
-    }, 10000)
-    return () => {
-      clearInterval(int);
-    }
-  }, [testId]);
+  // useEffect(() => {
+  //   const int = setInterval(() => {
+  //     console.log(enrolledTest, 'enrolledTest')
+      // updateTestStatus({
+      //   responses: useTestStore.getState().enrolledProduct.metadata.test.responses
+      // });
+  //   }, 10000)
+  //   return () => {
+  //     clearInterval(int);
+  //   }
+  // }, [testId]);
   
-  const UpdatingTestStatus = updatingTestStatus ? <Tag icon={<SyncOutlined spin />} color="processing">
-    Updating Test
-  </Tag> : null;
+  // const UpdatingTestStatus = updatingTestStatus ? <Tag icon={<SyncOutlined spin />} color="processing">
+  //   Updating Test
+  // </Tag> : null;
 
   if (testEndTime) {
     return <Header title={test.title} extra={<NavLink to={'../'} ><Button type='primary'>Go Back</Button></NavLink>} >
@@ -147,19 +146,22 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       title={test.title}
       subTitle={'asd'}
       extra={<Row>
-        {!isDesktop?<Col> {UpdatingTestStatus}
+        {!isDesktop ? <Col>
+          {/* {UpdatingTestStatus} */}
        {(hasStarted&&!hasEnded)?<Tag color="blue">
         Time Left: <TestTimeCountdown testId={testId+''} /> 
           </Tag>:null}
         </Col>:null}
         <Col>
-          {!isDesktop ? <ActionDrawer footer={() => [UpdatingTestStatus,SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
+          {!isDesktop ? <ActionDrawer footer={() => [
+            // UpdatingTestStatus,
+            SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
           </Button>}>
             <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
           </ActionDrawer> : <>
-          <Tag icon={<SyncOutlined spin={updatingTestStatus} />} color="processing">
+          {/* <Tag icon={<SyncOutlined spin={updatingTestStatus} />} color="processing">
             {updatingTestStatus?'Syncing Changes':`Last updated ${dayjs(enrolledProduct.metadata.test.lastUpdated).format('h:mm A')}`}
-          </Tag>
+          </Tag> */}
               {SubmitTestButton}
           </>}
       </Col>

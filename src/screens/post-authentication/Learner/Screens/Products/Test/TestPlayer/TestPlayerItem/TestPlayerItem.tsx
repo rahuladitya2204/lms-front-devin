@@ -19,10 +19,14 @@ interface TestPlayeritemPropsI {}
 
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   useTestItemTime();
-  const updateQuestionResponseFlag = Store.useTestStore(s=>s.updateQuestionFlag)
+  const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
+  const {
+    mutate: updateTestStatus,
+    isLoading: updatingTestStatus
+  } = Learner.Queries.useUpdateTestStatus(testId + '');
+  const updateQuestionResponseFlag = Store.useTestStore(s => s.updateQuestionFlag);
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
   const message = useMessage();
-  const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   const { submitAnswer, test } = Store.useTestStore(s => s);
@@ -30,7 +34,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   // console.log(currentQuestion,'currentQuestion')
   useEffect(() => {
     const { answerGiven } = currentQuestion;
-    // if (!answer?.options?.length) {
       let answer = answerGiven;
       if (
         (currentQuestion.type === 'single') &&
@@ -44,7 +47,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       form.setFieldsValue({
         answer
       }); 
-    // }
   }, [currentQuestion, form,questionId]);
   const isValid = ((answer?.options?.length) || (answer?.subjective?.text));
 
@@ -62,7 +64,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       testId: testId + '',
       questionId: questionId + '',
       answer: answer,
-    });
+    }, updateTestStatus);
     navigate('next')
   };
 
@@ -70,7 +72,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
 
-  const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
+  // const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   return (
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`} >
@@ -140,7 +142,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 type='primary'
                 onClick={() => updateQuestionResponseFlag({
                   questionId: questionId + '', flag: 'reviewed'
-                })}
+                },updateTestStatus)}
                 icon={<CheckOutlined/>} danger>
               Review Done
               </Button> : <Button
@@ -148,7 +150,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                   {
                      questionId: questionId + '',
                     flag: 'review-later'
-                  })}
+                  },updateTestStatus)}
                 icon={<FlagOutlined />} danger type="default">
               Mark for review
             </Button>}
