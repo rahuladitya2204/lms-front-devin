@@ -4,22 +4,29 @@ import { sec } from 'mathjs'
 import { useMemo } from 'react'
 import { useParams } from 'react-router'
 
-export default function useQuestion() {
+export default function useQuestion () {
   const { questionId, testId } = useParams()
   const { data: { sections } } = Learner.Queries.useGetTestStatus(testId + '')
   // @ts-ignore
   const questions = sections.map(e => e.items).flat()
-  const currentQuestionIndex: number = questions.findIndex(
-    // @ts-ignore
-    q => q._id === questionId
+  const currentQuestionIndex = useMemo(
+    () => {
+      return questions.findIndex(q => q._id === questionId)
+    },
+    [questions, questionId]
   )
+
   const currentQuestion = useMemo(
     () => {
-      return questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION
+      if (currentQuestionIndex >= 0 && questions[currentQuestionIndex]) {
+        return questions[currentQuestionIndex]
+      }
+      // Only return INITIAL_TEST_QUESTION if there's no valid question available
+      return Constants.INITIAL_TEST_QUESTION
     },
-    [questionId, sections]
+    [currentQuestionIndex, questions]
   )
-  // console.log(currentQuestion, 'current')
+
   return {
     currentQuestion,
     currentQuestionIndex,

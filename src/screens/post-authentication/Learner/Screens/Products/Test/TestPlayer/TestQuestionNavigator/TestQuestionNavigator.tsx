@@ -6,7 +6,6 @@ import { NavLink } from 'react-router-dom'
 import TestTimer from './TestTimer'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useNavigate } from 'react-router'
-import useQuestion from '../hooks/useQuestion'
 
 interface TestQuestionNavigatorType2PropsI {
   testId: string;
@@ -20,7 +19,6 @@ export default function TestQuestionNavigatorType2(
 ) {
   const navigate = useNavigate()
   const { data: { sections,hasStarted,hasEnded } } = Learner.Queries.useGetTestStatus(props.testId + '')
-  const { currentQuestion } = useQuestion();
   const {isLoading: loadingEnrolledTest } = Learner.Queries.useGetEnrolledProductDetails({
     type: "test",
     id: props.testId
@@ -98,7 +96,6 @@ export default function TestQuestionNavigatorType2(
                             key={item._id}
                             to={`${item._id}`}
                             children={({ isActive }) => {
-                              const isCurrent = currentQuestion._id === item._id;
                               return (
                               // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
                               // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
