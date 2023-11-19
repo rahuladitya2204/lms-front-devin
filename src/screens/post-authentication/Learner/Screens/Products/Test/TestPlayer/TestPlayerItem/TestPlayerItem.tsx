@@ -20,10 +20,6 @@ interface TestPlayeritemPropsI {}
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   // useTestItemTime();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
-  const {
-    mutate: updateTestStatus,
-    isLoading: updatingTestStatus
-  } = Learner.Queries.useUpdateTestStatus(testId + '');
   const {mutate: updateQuestionResponseFlag,isLoading: updatingFlag} = Learner.Queries.useUpdateQuestionResponseFlag(testId+'')
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
   const message = useMessage();
