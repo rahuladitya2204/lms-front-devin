@@ -4,7 +4,7 @@ import React from 'react'
 import Tabs from '@Components/Tabs'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
-import useQuestion from '../TestPlayer/hooks/useQuestion'
+import { useReviewQuestion } from './TestPlayerItemReview'
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
@@ -15,7 +15,8 @@ interface TestPlayerMoreInfoPropsI {
 
 const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
   // useWatchTime(props.course._id);
-  const { currentQuestion } = useQuestion()
+  const { currentQuestion } = useReviewQuestion()
+  console.log(currentQuestion, 'oi')
   const TAB_ITEMS = [
     // {
     //   label: <Text strong>Overview</Text>,

@@ -30,6 +30,7 @@ import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
+import { useMemo } from 'react'
 
 const { Title, Text, Paragraph } = Typography
 
@@ -37,17 +38,25 @@ export default function TestMetrics() {
   const navigate = useNavigate()
   const { testId } = useParams()
   const {
-    data: { test, charts },
+    data: { test, metrics },
     isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
 
   const COLORS = ['#52c41a', '#FF4040', '#D3D3D3'] // Green for correct, Red for wrong, Grey for unattempted
-
+  const pieChartData = useMemo(
+    () => {
+      return [
+        { name: 'Correctly Answered', value: metrics.totalCorrectlyAnswered },
+        { name: 'Wrongly Answered', value: metrics.totalWronglyAnswered }
+      ]
+    },
+    [metrics]
+  )
   return (
     <Header
       title={`Test Result: ${test.title}`}
       extra={[
-        <Button onClick={() => navigate('./review')} type="primary">
+        <Button onClick={() => navigate('review')} type="primary">
           View Solutions
         </Button>
       ]}
@@ -58,15 +67,16 @@ export default function TestMetrics() {
             <Col xs={24} md={12} lg={8}>
               {loadingResult ? (
                 <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                  <Skeleton />
+                  <Skeleton active />
                 </Card>
               ) : (
                 <Card style={{ marginBottom: 20, textAlign: 'center' }}>
                   <Title level={4}>Passing Score: {test.passingScore}</Title>
                   <Title style={{ marginBottom: 15 }} level={4}>
-                    You Scored: {test.learnerScore} out of {test.totalScore}
+                    You Scored: {test.learnerScore} out of{' '}
+                    {metrics.totalTestScore}
                   </Title>
-                  {test.learnerScore >= test.passingScore ? (
+                  {metrics.learnerScore >= test.passingScore ? (
                     <Alert message="You have passed this test" type="success" />
                   ) : (
                     <Alert message="You haved failed this test" type="error" />
@@ -75,13 +85,13 @@ export default function TestMetrics() {
               )}
               {loadingResult ? (
                 <Card style={{ height: 300 }}>
-                  <Skeleton />
+                  <Skeleton active />
                 </Card>
               ) : (
                 <Card title="Overall Performance">
                   <PieChart width={300} height={250}>
                     <Pie
-                      data={charts.pieChartData}
+                      data={pieChartData}
                       dataKey="value"
                       nameKey="name"
                       cx="50%"
@@ -91,7 +101,7 @@ export default function TestMetrics() {
                       //   label={renderCustomizedLabel}
                       labelLine={false}
                     >
-                      {charts.pieChartData.map((entry, index) => (
+                      {pieChartData.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
                           fill={COLORS[index % COLORS.length]}
@@ -113,10 +123,10 @@ export default function TestMetrics() {
                     <Col span={24}>
                       <Row gutter={[20, 20]}>
                         <Col span={12}>
-                          <Skeleton />
+                          <Skeleton active />
                         </Col>
                         <Col span={12}>
-                          <Skeleton />
+                          <Skeleton active />
                         </Col>
                       </Row>
                     </Col>
@@ -126,10 +136,10 @@ export default function TestMetrics() {
                     <Col span={24}>
                       <Row gutter={[20, 20]}>
                         <Col span={12}>
-                          <Skeleton />
+                          <Skeleton active />
                         </Col>
                         <Col span={12}>
-                          <Skeleton />
+                          <Skeleton active />
                         </Col>
                       </Row>
                     </Col>
@@ -195,7 +205,7 @@ export const OverallPerformancePie = charts => {
   return (
     <PieChart width={300} height={250}>
       <Pie
-        data={charts.pieChartData}
+        data={pieChartData}
         dataKey="value"
         nameKey="name"
         cx="50%"

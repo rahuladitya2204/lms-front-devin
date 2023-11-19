@@ -69,10 +69,10 @@ export default function TestPlayer(props: TestPlayerPropsI) {
 
   useEffect(() => {
     if (test._id && enrolledProduct._id) {
-      console.log(test,enrolledProduct,'lklklk')
+      console.log(test, enrolledProduct, 'lklklk')
       initializeStore(enrolledProduct, test);
     }
-   },[test._id,enrolledProduct._id])
+  }, [test._id, enrolledProduct._id]);
   
   const endTestNow =
     enrolledProduct.metadata.test.endedAt ||

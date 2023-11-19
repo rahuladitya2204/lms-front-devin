@@ -10,10 +10,9 @@ export default function useQuestion() {
   const currentQuestionIndex: number = questions.findIndex(
     q => q._id === questionId
   )
-  // console.log(sections, 'aslo')
+  const currentQuestion = questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION;
   return {
-    currentQuestion:
-      questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION,
+    currentQuestion,
     currentQuestionIndex,
     loading: false
   }

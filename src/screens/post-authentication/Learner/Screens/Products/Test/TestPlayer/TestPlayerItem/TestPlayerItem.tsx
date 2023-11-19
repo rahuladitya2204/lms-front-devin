@@ -30,7 +30,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   // console.log(currentQuestion,'currentQuestion')
   useEffect(() => {
     const { answerGiven } = currentQuestion;
-    if (!answer) {
+    // if (!answer?.options?.length) {
       let answer = answerGiven;
       if (
         (currentQuestion.type === 'single') &&
@@ -38,13 +38,13 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         answerGiven.options &&
         answerGiven.options.length) {
         // @ts-ignore
-        answer = {options:answerGiven.options[0]};
+        answer = { options: answerGiven.options[0] };
       }
       // @ts-ignore
       form.setFieldsValue({
         answer
       }); 
-    }
+    // }
   }, [currentQuestion, form,questionId]);
   const isValid = ((answer?.options?.length) || (answer?.subjective?.text));
 
