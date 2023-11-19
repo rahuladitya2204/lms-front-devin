@@ -1,6 +1,7 @@
 import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { sec } from 'mathjs'
+import { useMemo } from 'react'
 import { useParams } from 'react-router'
 
 export default function useQuestion() {
@@ -12,8 +13,12 @@ export default function useQuestion() {
     // @ts-ignore
     q => q._id === questionId
   )
-  const currentQuestion =
-    questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION
+  const currentQuestion = useMemo(
+    () => {
+      return questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION
+    },
+    [questionId, sections]
+  )
   // console.log(currentQuestion, 'current')
   return {
     currentQuestion,

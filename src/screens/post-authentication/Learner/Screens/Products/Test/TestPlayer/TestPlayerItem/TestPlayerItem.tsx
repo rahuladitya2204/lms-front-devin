@@ -24,7 +24,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     mutate: updateTestStatus,
     isLoading: updatingTestStatus
   } = Learner.Queries.useUpdateTestStatus(testId + '');
-  const updateQuestionResponseFlag = Store.useTestStore(s => s.updateQuestionFlag);
+  const {mutate: updateQuestionResponseFlag,isLoading: updatingFlag} = Learner.Queries.useUpdateQuestionResponseFlag(testId+'')
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
   const message = useMessage();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
@@ -142,19 +142,19 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             </Button>
             {/* @ts-ignore */}
             {currentQuestion.isMarked ?
-              <Button 
+              <Button  loading={updatingFlag}
                 type='primary'
                 onClick={() => updateQuestionResponseFlag({
                   questionId: questionId + '', flag: 'reviewed'
-                },updateTestStatus)}
+                })}
                 icon={<CheckOutlined/>} danger>
               Review Done
-              </Button> : <Button
+              </Button> : <Button loading={updatingFlag}
                 onClick={() => updateQuestionResponseFlag(
                   {
                      questionId: questionId + '',
                     flag: 'review-later'
-                  },updateTestStatus)}
+                  })}
                 icon={<FlagOutlined />} danger type="default">
               Mark for review
             </Button>}

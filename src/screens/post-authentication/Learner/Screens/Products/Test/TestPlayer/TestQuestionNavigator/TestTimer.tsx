@@ -36,8 +36,8 @@ interface TestTimerPropsI {
 export default function TestTimer(props: TestTimerPropsI) {
     const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
       const {
-        startedAt
-      } = Store.useTestStore(s => s.testStatus)
+        data:{startedAt}
+      } = Learner.Queries.useGetTestStatus(props.testId + '')
   
   const endingAt = useMemo(() => dayjs(startedAt)
     .add(test.duration.value, 'minutes')

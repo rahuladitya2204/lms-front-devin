@@ -51,13 +51,6 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
   })
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
-  const {
-    startedAt, hasStarted, hasEnded
-  } = Store.useTestStore(s => s.testStatus)
-
-  const endingAt = useMemo(() => dayjs(startedAt)
-    .add(test.duration.value, 'minutes')
-    .toString(), [startedAt, test]);
   
   useEffect(
     () => {

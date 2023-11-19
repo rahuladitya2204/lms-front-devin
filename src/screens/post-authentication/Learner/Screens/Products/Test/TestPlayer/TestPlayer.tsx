@@ -40,7 +40,6 @@ const { Title } = Typography
 
 export default function TestPlayer(props: TestPlayerPropsI) {
   const { testId, questionId } = useParams();
-  const initializeStore = Store.useTestStore(s => s.initializeStore);
   const navigate = useNavigate()
   const {
     mutate: endTest,
@@ -55,7 +54,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   })
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
-  const { startedAt, hasStarted, hasEnded } = Store.useTestStore(s => s.testStatus);
+  const { data: {
+    startedAt, hasStarted, hasEnded
+  } } = Learner.Queries.useGetTestStatus(testId+'')
   
   useEffect(
     () => {
@@ -67,13 +68,6 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     [test.sections]
   );
 
-  useEffect(() => {
-    if (test._id && enrolledProduct._id) {
-      console.log(test, enrolledProduct, 'lklklk')
-      initializeStore(enrolledProduct, test);
-    }
-  }, [test._id, enrolledProduct._id]);
-  
   const endTestNow =
     enrolledProduct.metadata.test.endedAt ||
     enrolledProduct.metadata.test.submittedAt
@@ -115,23 +109,6 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   </Button>
 
   const QuestionNavigator = TestQuestionNavigator;
-  const enrolledTest = Store.useTestStore(s => s.enrolledProduct);
-  // useEffect(() => {
-  //   const int = setInterval(() => {
-  //     console.log(enrolledTest, 'enrolledTest')
-      // updateTestStatus({
-      //   responses: useTestStore.getState().enrolledProduct.metadata.test.responses
-      // });
-  //   }, 10000)
-  //   return () => {
-  //     clearInterval(int);
-  //   }
-  // }, [testId]);
-  
-  // const UpdatingTestStatus = updatingTestStatus ? <Tag icon={<SyncOutlined spin />} color="processing">
-  //   Updating Test
-  // </Tag> : null;
-
   if (testEndTime) {
     return <Header title={test.title} extra={<NavLink to={'../'} ><Button type='primary'>Go Back</Button></NavLink>} >
       <Card>  

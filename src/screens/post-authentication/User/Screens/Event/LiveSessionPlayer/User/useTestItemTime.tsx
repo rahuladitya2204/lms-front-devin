@@ -13,7 +13,9 @@ export const useTestItemTime = () => {
   const questionIdRef = useRef(questionId)
   const accumulatedTimeRef = useRef(0)
   const apiCalledRef = useRef(false)
-  const updateTimeSpent = Store.useTestStore(s => s.updateTimeSpent)
+  const { mutate: updateTimeSpent } = Learner.Queries.useUpdateTimeSpent(
+    testId + ''
+  )
 
   const updateSpentTime = () => {
     if (questionIdRef.current && !apiCalledRef.current) {
@@ -30,13 +32,10 @@ export const useTestItemTime = () => {
           return console.log('Invalid Time Spent')
         }
         // Call the API to update time spent on the question
-        updateTimeSpent(
-          {
-            questionId: questionIdRef.current + '',
-            timeSpent: totalTimeSpent
-          },
-          updateTestStatus
-        )
+        updateTimeSpent({
+          questionId: questionIdRef.current + '',
+          timeSpent: totalTimeSpent
+        })
 
         console.log(
           `Time spent on question ${questionIdRef.current}: ${totalTimeSpent}s`
