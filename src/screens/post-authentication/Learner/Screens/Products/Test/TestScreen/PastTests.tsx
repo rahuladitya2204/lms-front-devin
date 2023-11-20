@@ -99,7 +99,7 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
               // }
               // @ts-ignore
               title={test.title}
-              description={<Tag>{dayjs(testStartDate).format('LLL')}</Tag>}
+              description={<Tag>{dayjs(testStartDate).format('LL')}</Tag>}
               avatar={<EditOutlined />}
             />
           </Card>

@@ -55,25 +55,10 @@ function TestCard(props: TestCardPropsI) {
       >
         <Card.Meta
           title={<Space size='small' direction="vertical"  >
-            {/* {test.analytics.reviews.count ?
-              <Space size='small' direction="horizontal" align='center' style={{ display: 'flex' }}>
-              <Rate disabled style={{ fontSize: 12 }} value={test.analytics.averageRating} />
-              <Text>{test.analytics.averageRating}({formatAvgCount(test.analytics.reviews.count)}) </Text>
-            </Space>:null} */}
-            <Text style={{fontSize:20}} strong ellipsis>{test.title}</Text>
+            <Text style={{fontSize:16}} ellipsis>{test.title}</Text>
           </Space>}
         />
           <Row justify={'space-between'} style={{marginTop:10}}>
-            {/* <Col>
-            <Text style={{fontSize: 13}}>
-                  <BookOutlined /> {test.totalItems} Lessons
-            </Text>
-          </Col> */}
-          {/* <Col>
-            <Text style={{fontSize: 13}}>
-            <BarChartOutlined /> {capitalize(test.difficultyLevel)}
-            </Text>
-            </Col> */}
             {formattedDuration?<Col>
             <Text type='secondary' style={{fontSize: 13}}>
                   <ClockCircleOutlined /> {formattedDuration}
@@ -82,11 +67,6 @@ function TestCard(props: TestCardPropsI) {
         </Row>
         <Divider style={{marginTop:10,marginBottom:10}}/>
         <Row justify={'space-between'}>
-          {/* <Col>
-          <Text ellipsis style={{ fontSize: 14,width: 100 }} type='secondary'>
-               {instructor.name}
-            </Text>
-          </Col> */}
           <Col>
           <Space direction='vertical' align='end' size={0}>
             {plan.type!=='free'?<>

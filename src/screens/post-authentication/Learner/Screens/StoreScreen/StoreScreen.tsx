@@ -79,7 +79,7 @@ function StoreScreen () {
         </Col>
         </Row></Col> : <>
         <Divider>
-        <Title level={isMobile?2:1}>Expore our products</Title>
+        <Title style={{marginBottom:0}} level={isMobile?2:1}>Expore our products</Title>
         </Divider>
           
           {/* <Row gutter={[20,20]}> */}
@@ -97,7 +97,7 @@ function StoreScreen () {
         }
         return (
           <Col span={24} style={{marginTop:20}}>
-            <Section title={<Text style={{fontSize:20}} >{category.title}</Text>}
+            <Section title={<Text style={{fontSize:18 ,marginBottom: 0 }} >{category.title}</Text>}
               // subtitle={category.description}
             >
               <Row gutter={[20,30]}>

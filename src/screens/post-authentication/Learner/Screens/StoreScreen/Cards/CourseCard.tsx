@@ -59,7 +59,7 @@ function CourseCard(props: CourseCardPropsI) {
            {course.analytics.reviews.count? <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
               <Rate disabled style={{ fontSize: 12 }} value={course.analytics.averageRating} /> <Text>{course.analytics.averageRating}({formatAvgCount(course.analytics.reviews.count) }) </Text>
             </Space>:null}
-            <Text style={{fontSize:20}} strong ellipsis>{course.title}</Text>
+            <Text style={{fontSize:16}} ellipsis>{course.title}</Text>
           </Space>}
         />
           <Row justify={'space-between'} style={{marginTop:10}}>
@@ -68,11 +68,6 @@ function CourseCard(props: CourseCardPropsI) {
                   <BookOutlined /> {course.totalItems} Lessons
             </Text>
           </Col>
-          {/* <Col>
-            <Text style={{fontSize: 13}}>
-            <BarChartOutlined /> {capitalize(course.difficultyLevel)}
-            </Text>
-            </Col> */}
             <Col>
             <Text style={{fontSize: 13}}>
                   <ClockCircleOutlined /> {formattedDuration}

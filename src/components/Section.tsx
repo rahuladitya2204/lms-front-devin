@@ -12,7 +12,7 @@ function Section(props: SectionPropsI) {
   return (
     <Row>
       <Col span={24}>
-        <Title style={{ marginTop: 0, marginBottom: 10 }} level={3}>
+        <Title style={{ marginTop: 0 }} level={2}>
           {props.title}
         </Title>
         {props.subtitle ? (

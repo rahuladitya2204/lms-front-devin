@@ -13,23 +13,18 @@ import {
   Timeline,
   Typography
 } from 'antd'
-import { Learner, Store } from '@adewaskar/lms-common'
-import { MenuOutlined, SyncOutlined } from '@ant-design/icons'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { useEffect, useMemo } from 'react'
 
 import ActionDrawer from '@Components/ActionDrawer'
-import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
+import { Learner } from '@adewaskar/lms-common'
+import { MenuOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
-import TestPlayerMoreInfo from '../TestReview/TestPlayerMoreInfo'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
-import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
-
-// const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
+import { useEffect } from 'react'
 
 const { confirm } = Modal
 
@@ -118,7 +113,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   }
 
   return (
-    <>
+    <Spin spinning={loadingDetails} >
       <Header
       title={test.title}
       subTitle={'asd'}
@@ -177,7 +172,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         </Col>
         <Col span={1} />
       </Row>
-    </Header></>
+    </Header></Spin>
 
   )
 }

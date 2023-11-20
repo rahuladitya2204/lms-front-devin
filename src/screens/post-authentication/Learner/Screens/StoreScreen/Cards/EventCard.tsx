@@ -55,25 +55,10 @@ const { Text } = Typography
         >
           <Card.Meta
             title={<Space size='small' direction="vertical"  >
-              {/* {event.analytics.reviews.count ?
-                <Space size='small' direction="horizontal" align='center' style={{ display: 'flex' }}>
-                <Rate disabled style={{ fontSize: 12 }} value={event.analytics.averageRating} />
-                <Text>{event.analytics.averageRating}({formatAvgCount(event.analytics.reviews.count)}) </Text>
-              </Space>:null} */}
-              <Text style={{fontSize:20}} strong ellipsis>{event.title}</Text>
+            <Text style={{fontSize:16}} ellipsis>{event.title}</Text>
             </Space>}
           />
             <Row justify={'space-between'} style={{marginTop:10}}>
-              {/* <Col>
-              <Text style={{fontSize: 13}}>
-                    <BookOutlined /> {event.totalItems} Lessons
-              </Text>
-            </Col> */}
-            {/* <Col>
-              <Text style={{fontSize: 13}}>
-              <BarChartOutlined /> {capitalize(event.difficultyLevel)}
-              </Text>
-              </Col> */}
               <Col>
               <Text style={{fontSize: 13}}>
                     <ClockCircleOutlined /> {formattedDuration}
@@ -81,11 +66,6 @@ const { Text } = Typography
           </Row>
           <Divider style={{marginTop:10,marginBottom:10}}/>
           <Row justify={'space-between'}>
-            {/* <Col>
-            <Text ellipsis style={{ fontSize: 14,width: 100 }} type='secondary'>
-                 {instructor.name}
-              </Text>
-            </Col> */}
             <Col>
             <Space direction='vertical' align='end' size={0}>
               {plan.type!=='free'?<>
