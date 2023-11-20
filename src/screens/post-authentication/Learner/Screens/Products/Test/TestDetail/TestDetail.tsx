@@ -55,7 +55,10 @@ export default function TestDetailScreen(
       {/* <CourseMetadata course={course} /> */}
       </Col>
         <Col lg={24} md={24} xs={0}>
-        <Title level={3}>{test.title}</Title>
+          <Title level={3}>{test.title}</Title>
+          <Title level={5} >
+            {test.subtitle}
+          </Title>
         </Col>
       </>}
          
@@ -108,11 +111,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     isLoading: loadingEnrolledTestDetails
   } = Learner.Queries.useGetEnrolledProductDetails(product)
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
-  const IS_SIGNED_IN = Store.useAuthentication(s => s.isSignedIn);
-  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '','' ,{
-// @ts-ignore
-    refetchInterval: 3000
-  });
+  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '','');
   const isLoading = loadingTest ;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const testStartDate =
