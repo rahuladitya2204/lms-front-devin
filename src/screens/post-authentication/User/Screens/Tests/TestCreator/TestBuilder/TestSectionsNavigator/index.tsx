@@ -4,7 +4,8 @@ import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
-import AddSection from './AddSection'
+import ActionModal from '@Components/ActionModal'
+import AddTestSection from './AddSection'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import MoreButton from '@Components/MoreButton'
@@ -168,9 +169,9 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                 },
                   key:'add'
               },{
-            label:<AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>
-            Rename 
-         </AddSection>,
+                label: <ActionModal cta={`Edit Section`}>
+                  <AddTestSection data={section} onFinish={(e: { title: string }) => onAddSection({ ...section, ...e })} />
+                  </ActionModal>,
             key: 'rename',
           }, {
             label: <span onClick={() => DeleteSection(section._id)}>Delete Section</span>,
@@ -303,11 +304,11 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
         </DndProvider>
 
         {/* @ts-ignore */}
-        <AddSection onFinish={e => onAddSection(e)}>
-              <AddChapterButton block type="primary">
+      <ActionModal cta={<AddChapterButton block type="primary">
                 Add New Section
-              </AddChapterButton>
-            </AddSection>
+              </AddChapterButton>}>
+      <AddTestSection onFinish={e => onAddSection(e)} />
+        </ActionModal>
     </Space>
   )
 }

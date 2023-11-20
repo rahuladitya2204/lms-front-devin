@@ -1,57 +1,48 @@
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Col, Form, Input, Modal, Row } from 'antd';
 import React, { Fragment, useEffect, useState } from 'react';
 
-const AddSection: React.FC<any> = (props) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+import TextArea from '@Components/Textarea';
+import { Types } from '@adewaskar/lms-common';
 
-  const showModal = () => {
-    setIsModalOpen(true);
-  };
+interface AddTestSectionPropsI{
+  closeModal?: Function;
+  data?: Types.TestSection;
+  onFinish: (data: Types.TestSection) => void;
+}
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-    
-    const onSubmit = ({sectionTitle}: { sectionTitle: string }) => {
-      props.onFinish&&props.onFinish({
-        title:sectionTitle
-      });
-      form.resetFields(['sectionTitle']);
-        closeModal();
+const AddTestSection: React.FC<AddTestSectionPropsI> = (props) => {    
+  const [form] = Form.useForm<Types.TestSection>();
+  const { closeModal } = props;
+    const onSubmit = (data:Types.TestSection) => {
+      props.onFinish&&props.onFinish(data);
+      form.resetFields();
+      closeModal && closeModal();
     }
     
-  const [form] = Form.useForm<{ sectionTitle: string }>();
   
   useEffect(() => {
-    if (props.section) {
-      form.setFieldsValue({
-        sectionTitle: props.section.title
-      });
+    if (props.data) {
+      form.setFieldsValue(props.data);
     }
-  }, [props.section, form]);
+  }, [props.data, form]);
 
 
   return (
-    <Fragment>
-       {/* @ts-ignore */}
-      <span onClick={showModal}>{props.children}</span>
-      <Modal footer={[
-          <Button key="back" onClick={()=>form.resetFields(['sectionTitle'])}>
-            Clear
-          </Button>,
-          <Button key="submit" type="primary" onClick={form.submit}>
-            Submit
-          </Button>,
-          ]} open={isModalOpen} onCancel={closeModal}>
-              
-              <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-        <Form.Item required name="sectionTitle" label="Section Title">
-          <Input placeholder='Please enter heading for the new section' />
-        </Form.Item></Form>
-      
-      </Modal>
-    </Fragment>
+    <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
+    <Form.Item required name="title" label="Section Title">
+      <Input placeholder='Please enter heading for the new section' />
+      </Form.Item>
+
+      <Form.Item required name="commonDetail" label="Section Detail">
+    <TextArea height={300} html={{level:3}} />
+      </Form.Item>
+      <Row justify={'end'}>
+        <Col>
+        <Button type='primary' onClick={form.submit} >Save Section</Button>
+</Col>
+</Row>
+    </Form>
   );
 };
 
-export default AddSection;
+export default AddTestSection;

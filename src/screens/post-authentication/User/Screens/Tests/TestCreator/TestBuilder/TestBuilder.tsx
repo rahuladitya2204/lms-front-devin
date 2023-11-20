@@ -51,7 +51,7 @@ function TestBuilderScreen() {
   const navigate = useNavigate()
 
   const onAddSection = (section: Partial<Types.TestSection>) => {
-    // console.log(section, 'section')
+    console.log(section, 'section')
     let TEST = test
     if (section._id) {
       TEST.sections.forEach((sec, index) => {

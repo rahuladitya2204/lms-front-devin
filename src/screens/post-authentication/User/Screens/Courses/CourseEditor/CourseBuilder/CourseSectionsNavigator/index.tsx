@@ -181,9 +181,10 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                 label:  AddItemCTA,
                   key:'add'
               },{
-            label:<AddSection section={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}>
-            Rename 
-         </AddSection>,
+                label: <ActionModal cta={`Rename`}>
+                  {/* @ts-ignore */}
+                  <AddSection data={section} onFinish={(e:{title:string}) => onAddSection({...section,...e})}/>
+            </ActionModal>,
             key: 'rename',
           }, {
             label: <span onClick={() => DeleteSection(section._id)}>Delete Section</span>,
@@ -305,11 +306,11 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
         </DndProvider>
 
         {/* @ts-ignore */}
-        <AddSection onFinish={e => onAddSection(e)}>
-              <AddChapterButton block type="primary">
+      <ActionModal cta={<AddChapterButton block type="primary">
                 Add New Section
-              </AddChapterButton>
-            </AddSection>
+              </AddChapterButton>}>
+      <AddSection onFinish={e => onAddSection(e)} />
+        </ActionModal>
     </Space>
   )
 }
