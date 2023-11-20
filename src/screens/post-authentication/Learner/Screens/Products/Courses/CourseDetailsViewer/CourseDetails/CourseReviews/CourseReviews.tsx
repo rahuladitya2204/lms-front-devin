@@ -25,12 +25,12 @@ function CourseReviews(props: CourseReviewsPropsI) {
     }
     }
   } = props.course
-  const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrlFromFile(
-    landingPage?.promoVideo,
-    {
-      enabled: !!landingPage?.promoVideo
-    }
-  )
+  // const { data: PromoVideoUrl } = Common.Queries.useGetPresignedUrlFromFile(
+  //   landingPage?.promoVideo,
+  //   {
+  //     enabled: !!landingPage?.promoVideo
+  //   }
+  // )
   const reviews = Object.keys(ratingMap)
     .map((rating: any) => {
       // @ts-ignore

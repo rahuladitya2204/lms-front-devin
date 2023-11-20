@@ -211,7 +211,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   bodyStyle={{ padding: 10, paddingBottom: 20 }}
   // style={{ height: '100%' }}
     title={test.title} extra={(isMobile || isTablet) ? <ActionDrawer title="Test Details"
-      cta={<Button icon={<InfoOutlined />}>Show More</Button>} > {Metadata} </ActionDrawer>:null}
+      cta={<Button shape='circle' icon={<InfoOutlined />}></Button>} > {Metadata} </ActionDrawer>:null}
 > {isLoading ?
   <>
                        {/* <Skeleton active paragraph={{ rows: 1 }} /> */}

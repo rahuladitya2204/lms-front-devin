@@ -59,20 +59,25 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
             onUpload={d => {
               console.log(d, 'eee')
               onValuesChange({
-                promoVideo: d._id
+                promoVideo: {
+                  file: d._id,
+                  url: d.url
+                }
               })
             }}
             renderItem={() => (
               <Button>
-                {promoVideoFile ? 'Replace Promo Video' : 'Upload Promo Video'}
+                {promoVideoFile?.url
+                  ? 'Replace Promo Video'
+                  : 'Upload Promo Video'}
               </Button>
             )}
             // url={promoVideoFile}
           />
         ]}
       >
-        {promoVideoFile ? (
-          <MediaPlayer width={500} height={300} fileId={promoVideoFile} />
+        {promoVideoFile?.url ? (
+          <MediaPlayer width={500} height={300} fileId={promoVideoFile?.url} />
         ) : (
           <Empty description="Np promo video added" />
         )}

@@ -23,28 +23,18 @@ function CourseOverview(props: CourseOverviewPropsI) {
   })
   console.log(course, 'cococo')
   const { landingPage } = course
-  const {
-    data: PromoVideoUrl,
-    isFetching: loadingVideoUrl
-  } = Common.Queries.useGetPresignedUrlFromFile(landingPage?.promoVideo, {
-    enabled: !!landingPage?.promoVideo
-  })
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
         {!props.hidePreview ? (
           <Col span={24}>
-            {!loadingVideoUrl ? (
-              <Card
-                style={{ margin: '20px 0' }}
-                bordered={false}
-                bodyStyle={{ padding: 0 }}
-              >
-                <MediaPlayer height={400} url={PromoVideoUrl} />
-              </Card>
-            ) : (
-              <Image height={400} />
-            )}
+            <Card
+              style={{ margin: '20px 0' }}
+              bordered={false}
+              bodyStyle={{ padding: 0 }}
+            >
+              <MediaPlayer height={400} url={landingPage?.promoVideo?.url} />
+            </Card>
           </Col>
         ) : null}
         <Col span={24}>
