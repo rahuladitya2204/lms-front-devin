@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   Alert,
   Button,
@@ -6,6 +5,7 @@ import {
   Col,
   Divider,
   List,
+  Modal,
   Progress,
   Row,
   Skeleton,
@@ -32,7 +32,8 @@ import { Learner } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import { useMemo } from 'react'
 
-const { Title, Text, Paragraph } = Typography
+const { confirm } = Modal
+const { Title } = Typography
 
 export default function TestMetrics() {
   const navigate = useNavigate()
@@ -56,8 +57,31 @@ export default function TestMetrics() {
     <Header
       title={`Test Result: ${test.title}`}
       extra={[
-        <Button onClick={() => navigate('review')} type="primary">
+        <Button
+          style={{ marginRight: 10 }}
+          onClick={() => navigate('review')}
+          type="primary"
+        >
           View Solutions
+        </Button>,
+        <Button
+          style={{ width: 100 }}
+          onClick={() => {
+            confirm({
+              title: 'Are you sure?',
+              // icon: <ExclamationCircleOutlined />,
+              content: `You want to exit reviewing?`,
+              onOk() {
+                navigate('../')
+              },
+              okText: 'Yes, Exit'
+            })
+          }}
+          type="primary"
+          danger
+          // loading={submittingTest}
+        >
+          Exit
         </Button>
       ]}
     >
@@ -71,12 +95,12 @@ export default function TestMetrics() {
                 </Card>
               ) : (
                 <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                  <Title level={4}>Passing Score: {test.passingScore}</Title>
+                  <Title level={4}>Passing Score: {metrics.passingScore}</Title>
                   <Title style={{ marginBottom: 15 }} level={4}>
-                    You Scored: {test.learnerScore} out of{' '}
+                    You Scored: {metrics.learnerScore} out of{' '}
                     {metrics.totalTestScore}
                   </Title>
-                  {metrics.learnerScore >= test.passingScore ? (
+                  {metrics.learnerScore >= metrics.passingScore ? (
                     <Alert message="You have passed this test" type="success" />
                   ) : (
                     <Alert message="You haved failed this test" type="error" />
@@ -198,29 +222,5 @@ export default function TestMetrics() {
         </Col>
       </Row>
     </Header>
-  )
-}
-
-export const OverallPerformancePie = charts => {
-  return (
-    <PieChart width={300} height={250}>
-      <Pie
-        data={pieChartData}
-        dataKey="value"
-        nameKey="name"
-        cx="50%"
-        cy="50%"
-        outerRadius={100}
-        fill="#52c41a"
-        //   label={renderCustomizedLabel}
-        labelLine={false}
-      >
-        {charts?.pieChartData?.map((entry, index) => (
-          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-        ))}
-      </Pie>
-      <Tooltip />
-      <Legend />
-    </PieChart>
   )
 }
