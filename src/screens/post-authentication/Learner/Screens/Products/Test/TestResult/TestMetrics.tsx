@@ -24,6 +24,7 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
+import { EditOutlined, LogoutOutlined } from '@ant-design/icons'
 import { useNavigate, useParams } from 'react-router'
 
 import Header from '@Components/Header'
@@ -55,17 +56,19 @@ export default function TestMetrics() {
   )
   return (
     <Header
-      title={`Test Result: ${test.title}`}
+      title={`Test Result: ${test?.title}`}
       extra={[
         <Button
           style={{ marginRight: 10 }}
           onClick={() => navigate('review')}
           type="primary"
+          icon={<EditOutlined />}
         >
           View Solutions
         </Button>,
         <Button
           style={{ width: 100 }}
+          icon={<LogoutOutlined />}
           onClick={() => {
             confirm({
               title: 'Are you sure?',
@@ -113,28 +116,32 @@ export default function TestMetrics() {
                 </Card>
               ) : (
                 <Card title="Overall Performance">
-                  <PieChart width={300} height={250}>
-                    <Pie
-                      data={pieChartData}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      fill="#52c41a"
-                      //   label={renderCustomizedLabel}
-                      labelLine={false}
-                    >
-                      {pieChartData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill={COLORS[index % COLORS.length]}
-                        />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                    <Legend />
-                  </PieChart>
+                  <Row justify={'center'} align={'middle'}>
+                    <Col>
+                      <PieChart width={300} height={250}>
+                        <Pie
+                          data={pieChartData}
+                          dataKey="value"
+                          nameKey="name"
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={100}
+                          fill="#52c41a"
+                          //   label={renderCustomizedLabel}
+                          labelLine={false}
+                        >
+                          {pieChartData.map((entry, index) => (
+                            <Cell
+                              key={`cell-${index}`}
+                              fill={COLORS[index % COLORS.length]}
+                            />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                        <Legend />
+                      </PieChart>
+                    </Col>
+                  </Row>
                 </Card>
               )}
             </Col>

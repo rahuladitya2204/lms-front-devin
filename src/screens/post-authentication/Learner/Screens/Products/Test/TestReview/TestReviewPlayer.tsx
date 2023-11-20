@@ -13,7 +13,7 @@ import {
   Timeline,
   Typography
 } from 'antd'
-import { ArrowLeftOutlined, MenuOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons'
 import { Learner, Store } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo } from 'react'
@@ -85,6 +85,7 @@ onClick={() => {
     okText: 'Yes, Exit'
   })
 }}
+  icon={<LogoutOutlined/>}
 type="primary" danger
 loading={submittingTest}
 >

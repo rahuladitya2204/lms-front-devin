@@ -8,6 +8,7 @@ import HomeCarousel from './StoreCarousel'
 import Image from '@Components/Image'
 import Section from '@Components/Section'
 import { Skeleton } from 'antd'
+import SkeletonImage from '@Components/SkeletonImage'
 import TestCard from './Cards/TestCard'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
@@ -21,7 +22,8 @@ function StoreScreen () {
     isFetching
   } = Learner.Queries.useGetRecommendedProducts()
   const { data: categories } = Learner.Queries.useGetLearnerCategories()
-  const { isTablet,isMobile} = useBreakpoint();
+  const { isTablet, isMobile } = useBreakpoint();
+  const arr=[1,1,1,1,1,1,1,1]
   return (
     <Row gutter={[30, 30]}>
       {/* <Col span={24}>
@@ -51,33 +53,16 @@ function StoreScreen () {
    
         <Row gutter={[50, 50]}>
         <Col span={24}>
-          <Skeleton paragraph={{rows: 1}}	 />
+        <Skeleton paragraph={{rows: 1}}	 />
         </Col>
-        <Col lg={6} md={8} sm={12} xs={24}>
-          <Skeleton active />
-        </Col>
-        <Col lg={6} md={8} sm={12} xs={24}>
-          <Skeleton active />
-        </Col>
-        <Col lg={6} md={8} sm={12} xs={24}>
-          <Skeleton active />
-        </Col>
-        <Col lg={6} md={8} sm={12} xs={24}>
-          <Skeleton active />
-          </Col>
-          <Col lg={6} md={8} sm={12} xs={24}>
-          <Skeleton active />
-          </Col>
-          <Col lg={6} md={8} sm={12} xs={24}>
-          <Skeleton active />
-          </Col>
-          <Col lg={6} md={8} sm={12} xs={24}>
-          <Skeleton active />
-          </Col>
-          <Col lg={6} md={8} sm={12} xs={24}>
-          <Skeleton active />
-        </Col>
-        </Row></Col> : <>
+          {arr.map(i => {
+         return  <Col lg={6} md={8} sm={12} xs={24}>
+         <SkeletonImage style={{flex:1,display:'flex',height:140}}	 />
+   <Skeleton paragraph={{rows:1}} active />
+         </Col>
+       })}
+        </Row>
+      </Col> : <>
         <Divider>
         <Title style={{marginBottom:0}} level={isMobile?2:1}>Expore our products</Title>
         </Divider>
@@ -98,7 +83,6 @@ function StoreScreen () {
         return (
           <Col span={24} style={{marginTop:20}}>
             <Section title={<Text style={{fontSize:18 ,marginBottom: 0 }} >{category.title}</Text>}
-              // subtitle={category.description}
             >
               <Row gutter={[20,30]}>
               <Col span={24}>

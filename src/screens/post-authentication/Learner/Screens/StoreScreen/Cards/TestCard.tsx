@@ -11,6 +11,7 @@ import { BarChartOutlined, BookOutlined, ClockCircleOutlined } from '@ant-design
 import { Constants, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
+import PriceCardContent from './PriceCardContent'
 import { Typography } from 'antd'
 import { Utils } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
@@ -68,18 +69,7 @@ function TestCard(props: TestCardPropsI) {
         <Divider style={{marginTop:10,marginBottom:10}}/>
         <Row justify={'space-between'}>
           <Col>
-          <Space direction='vertical' align='end' size={0}>
-            {plan.type!=='free'?<>
-            <Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
-                {UnitTypeToStr(plan.displayPrice)}</Text>
-              <Text strong style={{fontSize: 20}}>
-              {UnitTypeToStr(plan.finalPrice)}
-              </Text></> :
-              <Text strong style={{ fontSize: 20 }}>
-
-              Free
-            </Text>}
-            </Space>
+          <PriceCardContent plan={plan} />
           </Col>
         </Row>
       </CustomCard>

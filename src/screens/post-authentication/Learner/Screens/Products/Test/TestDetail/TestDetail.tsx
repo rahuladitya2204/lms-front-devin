@@ -14,6 +14,7 @@ import Image from '@Components/Image'
 import LearnerLogin from '@Learner/Screens/Login'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import ProductCheckoutButton from '@Components/CheckoutButton'
+import SkeletonImage from '@Components/SkeletonImage'
 import TestMetadata from './TestMetadata'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import Title from 'antd/es/typography/Title'
@@ -212,11 +213,8 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                        {/* <Skeleton active paragraph={{ rows: 1 }} /> */}
     <Row gutter={[20, 10]}>
       <Col span={24}>
-        <Image width={'100%'} height={200} preview={false} />
+        <SkeletonImage style={{flex: 1,height: 200}}  />
       </Col>
-      {/* <Col span={24}>
-        <Skeleton.Button block />
-      </Col> */}
       <Col span={24}>
         <Skeleton active paragraph={{ rows: 6 }} />
         </Col>
