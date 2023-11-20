@@ -60,7 +60,7 @@ export default function LearnerCart() {
       }
     })
   }
-  return isCartEmpty ? <Card>
+  return isCartEmpty ? <Card style={{height:'100vh'}}>
     <Title style={{textAlign:'center'}}>Invest in yourself</Title>
     <Title style={{ textAlign: 'center' }} level={3}>
       Take our mock tests and ride the wave of success.
@@ -70,7 +70,9 @@ export default function LearnerCart() {
       <NavLink to={'../store'} ><Button icon={<HomeOutlined />} style={{ marginTop: 30 }} type='primary' size='large' >Go Home</Button></NavLink></Col>
     </Row>
     
-    <Image style={{marginTop:20}} src={BgImage}  />
+    <Row justify={'center'}>
+      <Col> <Image width={400} style={{marginTop:20}} src={BgImage}  /></Col>
+   </Row>
   </Card> :(
     <Card>
       <Title>Cart</Title>

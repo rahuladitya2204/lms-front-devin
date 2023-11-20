@@ -34,12 +34,12 @@ const data = {
     title: 'Enrolled',
     icon: <SafetyCertificateOutlined />,
     value: '1'
-  },
-  questions: {
-    title: 'Questions',
-    icon: <EditOutlined />,
-    value: '-'
-  },
+  }
+  // questions: {
+  //   title: 'Questions',
+  //   icon: <EditOutlined />,
+  //   value: '-'
+  // },
   // language: {
   //   title: 'Language',
   //   icon: <CheckCircleOutlined />,
@@ -71,10 +71,10 @@ function TestMetadata(props: TestMetadataPropsI) {
     : null
   data.enrolled.value = `${props.test.analytics.enrolled.count} students`
   // data.certificate.value = props.test.certificate ? 'Yes' : ''
-  data.questions.value = useMemo(
-    () => props.test.sections.map(i => i.items).flat().length.toString(),
-    [props.test]
-  )
+  // data.questions.value = useMemo(
+  //   () => props.test.sections.map(i => i.items).flat().length.toString(),
+  //   [props.test]
+  // )
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (
