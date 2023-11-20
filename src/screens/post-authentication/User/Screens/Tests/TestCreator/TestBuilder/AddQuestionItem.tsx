@@ -24,12 +24,9 @@ import { useEffect, useState } from 'react';
 import ActionModal from '@Components/ActionModal';
 import EnterLatexText from './EnterLatexText';
 import GenerateAIItemDetails from './GenerateAIItemDetails';
-import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
-import InputTags from '@Components/InputTags/InputTags';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
-import { uniqueId } from 'lodash';
 import { useParams } from 'react-router';
 import useTestBuilderUI from './hooks/useTestBuilder';
 import { useTestStore } from './hooks/useTestStore';
@@ -107,6 +104,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const options = Form.useWatch('options', form) || [];
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
+  console.log(item,'item')
   return (
    <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
    onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
@@ -188,11 +186,21 @@ layout="vertical"
 
      </Form.Item>
        </Col>
-       <Col span={12}>
-       <Form.Item name="score" label="Question Score" required  rules={[
+       <Col span={6}>
+       <Form.Item name={['score','correct']} label="Correct Answer Score" required  rules={[
          {
            required: true,
-           message: "Enter the score for this question"
+           message: "Enter the correct score for this question"
+         }
+       ]}>
+       <Input  readOnly={isTestEnded} placeholder="Enter the score for this question" />
+     </Form.Item>
+              </Col>
+              <Col span={6}>
+       <Form.Item name={['score','incorrect']} label="Incorrect Answer Score" required  rules={[
+         {
+           required: true,
+           message: "Enter the incorrect score for this question"
          }
        ]}>
        <Input  readOnly={isTestEnded} placeholder="Enter the score for this question" />
@@ -299,7 +307,8 @@ layout="vertical"
         </Col>
         {questionType === 'subjective' && (
   <Col span={24}>
-            <Card title="Scoring Criteria" extra={[ <GenerateAIItemDetails onFinish={e=>console.log(e,'eee')} label='Generate Criteria using solution' field='criterias' />, <Tag style={{marginLeft:20}} color='orange-inverse'>Total Score: {item.score }</Tag>]}>
+            <Card title="Scoring Criteria" extra={[<GenerateAIItemDetails onFinish={e => console.log(e, 'eee')} label='Generate Criteria using solution' field='criterias' />,
+            <Tag style={{ marginLeft: 20 }} color='orange-inverse'>Total Score: {item.score.correct}</Tag>]}>
       <Form.List name="criterias">
         {(fields, { add, remove }) => (
           <>

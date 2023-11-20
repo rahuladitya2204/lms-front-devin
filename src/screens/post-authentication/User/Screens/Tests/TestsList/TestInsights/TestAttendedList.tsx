@@ -23,7 +23,7 @@ const TestAttendedList = () => {
   const { data: test } = User.Queries.useGetTestDetails(testId + '')
   const TOTAL_POSSIBLE_SCORE = test.sections.reduce((acc, section) => {
     const sectionScore = section.items.reduce(
-      (sectionAcc, item) => sectionAcc + (item.score || 0),
+      (sectionAcc, item) => sectionAcc + (item.score.correct || 0),
       0
     )
     return acc + sectionScore

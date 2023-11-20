@@ -224,9 +224,14 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                         if (!isQuestionValid) {
                           actions.unshift(<WarningTwoTone twoToneColor="red" />)
                         }
-                        if (item.score) {
-                          actions.unshift(<Tag style={{textAlign:'center'}} color='blue'>Score: {item.score }</Tag>)
-                        }
+                        // if (item.score.correct) {
+                        //   actions.unshift(<Tag style={{ textAlign: 'center' }} color='blue-inverse'>
+                        //     Score: {item.score.correct}</Tag>)
+                        // }
+                        // if (item.score.incorrect) {
+                        //   actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
+                        //     Score: {item.score.incorrect}</Tag>)
+                        // }
                         if (item.type) {
                           actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
                         }

@@ -11,8 +11,8 @@ import {
   Typography,
   theme
 } from 'antd'
+import { Enum, Learner } from '@adewaskar/lms-common'
 
-import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import { useNavigate } from 'react-router'
 import { useReviewQuestion } from './TestPlayerItemReview'
@@ -37,7 +37,7 @@ export default function TestReviewQuestionNavigator(
   const {
     data: test,
     isLoading: loadingTest
-  } = Learner.Queries.useGetTestDetails(props.testId + '')
+  } = Learner.Queries.useGetTestDetails(props.testId + '',Enum.TestDetailMode.RESULT)
 
   const { token } = theme.useToken()
 

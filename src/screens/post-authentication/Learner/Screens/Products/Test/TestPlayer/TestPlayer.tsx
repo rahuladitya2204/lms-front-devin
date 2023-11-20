@@ -13,11 +13,11 @@ import {
   Timeline,
   Typography
 } from 'antd'
+import { Enum, Learner } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
 import { MenuOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
@@ -47,7 +47,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     type: 'test',
     id: testId + ''
   })
-  const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.TEST)
   const isProcturingOn = test.rules.procturing.enabled
   const { data: {
     status:{startedAt, hasStarted, hasEnded}

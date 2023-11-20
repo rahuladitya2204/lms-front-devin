@@ -1,6 +1,6 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
-import { Constants, Learner, Types } from '@adewaskar/lms-common';
+import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
@@ -20,7 +20,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { currentQuestion, currentQuestionIndex, loading } = useReviewQuestion();
   const answerGiven = currentQuestion.optionsSelected;
-  const { data: test } = Learner.Queries.useGetTestDetails(testId + '');
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.RESULT);
   useEffect(() => {
     let answer = answerGiven;
     if (

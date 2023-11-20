@@ -1,6 +1,6 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
 import { Badge, Button, Card, Col, Divider, Modal, Row, Space, Spin, Typography, theme } from 'antd'
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Enum, Learner, Store } from '@adewaskar/lms-common'
 
 import { NavLink } from 'react-router-dom'
 import TestTimer from './TestTimer'
@@ -27,7 +27,7 @@ export default function TestQuestionNavigatorType2(
     id: props.testId
   })
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
-  const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
+  const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '',Enum.TestDetailMode.TEST)
   const { token } = theme.useToken()
 
   return (

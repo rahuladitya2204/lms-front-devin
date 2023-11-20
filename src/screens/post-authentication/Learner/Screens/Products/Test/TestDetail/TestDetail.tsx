@@ -109,7 +109,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   } = Learner.Queries.useGetEnrolledProductDetails(product)
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const IS_SIGNED_IN = Store.useAuthentication(s => s.isSignedIn);
-  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '', {
+  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '','' ,{
 // @ts-ignore
     refetchInterval: 3000
   });

@@ -14,7 +14,7 @@ import {
   Typography
 } from 'antd'
 import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons'
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo } from 'react'
 
@@ -49,7 +49,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
     type: 'test',
     id: testId + ''
   })
-  const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.RESULT)
   const isProcturingOn = test.rules.procturing.enabled
   
   useEffect(

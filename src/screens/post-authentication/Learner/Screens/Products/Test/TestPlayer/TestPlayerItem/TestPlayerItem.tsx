@@ -1,7 +1,7 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
+import { Enum, Learner, Store, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
-import { Learner, Store, Types } from '@adewaskar/lms-common';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import TestPlayerFiles from './TestPlayerFiles';
@@ -25,7 +25,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const message = useMessage();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
-  const { data: test}=Learner.Queries.useGetTestDetails(testId+'')
+  const { data: test}=Learner.Queries.useGetTestDetails(testId+'',Enum.TestDetailMode.TEST)
   const { mutate: submitAnswer,isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer(testId+'');
   const answer = Form.useWatch(['answer'], form);
   // console.log(currentQuestion,'currentQuestion')
