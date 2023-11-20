@@ -63,6 +63,7 @@ function TestBuilderScreen() {
       // @ts-ignore
       const newSection: Types.TestSection = {
         title: section.title + '',
+        commonDetail: section.commonDetail + '',
         items: [
           {
             ...Constants.INITIAL_TEST_QUESTION,
