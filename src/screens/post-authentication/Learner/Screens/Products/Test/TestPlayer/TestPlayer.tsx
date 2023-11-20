@@ -55,7 +55,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const isProcturingOn = test.rules.procturing.enabled
   const { data: {
-    startedAt, hasStarted, hasEnded
+    status:{startedAt, hasStarted, hasEnded}
   } } = Learner.Queries.useGetTestStatus(testId+'')
   
   useEffect(

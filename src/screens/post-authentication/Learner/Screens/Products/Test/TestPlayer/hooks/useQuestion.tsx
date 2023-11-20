@@ -6,7 +6,9 @@ import { useParams } from 'react-router'
 
 export default function useQuestion () {
   const { questionId, testId } = useParams()
-  const { data: { sections } } = Learner.Queries.useGetTestStatus(testId + '')
+  const { data: { status: { sections } } } = Learner.Queries.useGetTestStatus(
+    testId + ''
+  )
   // @ts-ignore
   const questions = sections.map(e => e.items).flat()
   const currentQuestionIndex = useMemo(
