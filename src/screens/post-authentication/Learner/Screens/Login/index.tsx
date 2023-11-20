@@ -144,7 +144,16 @@ const OtpForm = (props:LearnerLoginPropsI) => {
               <Alert style={{marginBottom:10}} message={`OTP has been sent to ${contactNo}`} type="success" />
            <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={verifyOtp}>
           <Button onClick={() => setOtpSent(false)} style={{ marginBottom: 10 }} type='link' size='small' icon={<ArrowLeftOutlined/>}>Back</Button>
-          <Form.Item label="Enter OTP" name="code" rules={[{ required: true, message: 'Please enter the OTP sent to your number!' }]}><Input /></Form.Item>
+            <Form.Item label="Enter OTP" name="code" rules={[
+              {
+                required: true,
+                message: 'Please enter the OTP sent to your number!'
+              },
+              {
+                len: Constants.OTP_LENGTH,
+                message: `OTP should be ${Constants.OTP_LENGTH} digits`
+              }
+            ]}><Input type='number' /></Form.Item>
           <Form.Item>
             <Button loading={verifyingOtp} block type="primary" htmlType="submit">Verify OTP</Button>
  </Form.Item>

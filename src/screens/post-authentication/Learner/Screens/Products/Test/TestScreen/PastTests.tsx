@@ -15,6 +15,7 @@ import { Learner, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import NoItemFound from '@Components/NoItemFound'
+import SkeletonImage from '@Components/SkeletonImage'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
@@ -37,24 +38,10 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
   if (loading) {
     const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1]
     return (
-      <Row gutter={[60, 100]}>
+      <Row gutter={[20, 30]}>
         {SkeletonArr.map(() => (
           <Col span={6}>
-            <Card>
-              <Skeleton active paragraph />
-              <Skeleton.Avatar />
-              {/* <Row justify={'space-between'}>
-                <Col>
-                  <Skeleton.Button style={{ marginTop: 20 }} block />
-                </Col>
-                <Col>
-                  <Skeleton.Button style={{ marginTop: 20 }} block />
-                </Col>
-                <Col>
-                  <Skeleton.Button style={{ marginTop: 20 }} block />
-                </Col>
-              </Row>{' '} */}
-            </Card>{' '}
+            <SkeletonTestCard />
           </Col>
         ))}
       </Row>
@@ -120,3 +107,15 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
   )
 }
 export default PastTest
+
+export const SkeletonTestCard = () => {
+  return (
+    <Card>
+      <SkeletonImage
+        style={{ flex: 1, height: 200, marginBottom: 20 }}
+        active
+      />
+      <Skeleton avatar active paragraph={{ rows: 1 }} />
+    </Card>
+  )
+}

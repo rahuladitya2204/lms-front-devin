@@ -53,12 +53,12 @@ function StoreScreen () {
    
         <Row gutter={[50, 50]}>
         <Col span={24}>
-        <Skeleton paragraph={{rows: 1}}	 />
+        <Skeleton active paragraph={{rows: 1}}	 />
         </Col>
           {arr.map(i => {
          return  <Col lg={6} md={8} sm={12} xs={24}>
-         <SkeletonImage style={{flex:1,display:'flex',height:140}}	 />
-   <Skeleton paragraph={{rows:1}} active />
+         <SkeletonImage style={{flex:1,display:'flex',height:140,marginBottom:10}}	 />
+   <Skeleton avatar paragraph={{rows:1}} active />
          </Col>
        })}
         </Row>

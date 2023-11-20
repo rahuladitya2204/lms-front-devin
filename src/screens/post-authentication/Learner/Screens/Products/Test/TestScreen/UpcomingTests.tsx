@@ -15,6 +15,7 @@ import { Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import NoItemFound from '@Components/NoItemFound'
+import { SkeletonTestCard } from './PastTests'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 
@@ -30,24 +31,10 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
   if (loading) {
     const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1]
     return (
-      <Row gutter={[60, 100]}>
+      <Row gutter={[20, 30]}>
         {SkeletonArr.map(() => (
           <Col span={6}>
-            <Card>
-              <Skeleton active paragraph />
-              <Skeleton.Avatar />
-              {/* <Row justify={'space-between'}>
-                <Col>
-                  <Skeleton.Button style={{ marginTop: 20 }} block />
-                </Col>
-                <Col>
-                  <Skeleton.Button style={{ marginTop: 20 }} block />
-                </Col>
-                <Col>
-                  <Skeleton.Button style={{ marginTop: 20 }} block />
-                </Col>
-              </Row>{' '} */}
-            </Card>{' '}
+            <SkeletonTestCard />
           </Col>
         ))}
       </Row>
@@ -62,7 +49,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
 
   }
   return (
-      <Row gutter={[20, 10]}>
+      <Row gutter={[20, 30]}>
     {/* @ts-ignore */}
       {upcomingTests.map(({ product: { data: test } }:{ product: { data: Types.Test } }) => {
         const formattedDuration = test.duration.enabled?(Utils.formatTime(test?.duration.value*60)):null
