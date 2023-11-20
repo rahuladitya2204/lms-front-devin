@@ -1,7 +1,8 @@
-import { Button, Card, Empty, Form, Input } from 'antd'
+import { Button, Card, Empty, Form, Input, Space } from 'antd'
 
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
+import SelectThumbnail from '@Components/SelectThumbnail'
 import TextArea from '@Components/Textarea'
 //
 import { Types } from '@adewaskar/lms-common'
@@ -74,6 +75,20 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
           />
         ]}
       >
+        <Space style={{ marginBottom: 20 }}>
+          <SelectThumbnail
+            onSelect={e => {
+              console.log(e, 'e')
+              onValuesChange({
+                promoVideo: {
+                  ...promoVideoFile,
+                  thumbnailImage: e.url
+                }
+              })
+            }}
+            url={promoVideoFile.url}
+          />
+        </Space>
         {promoVideoFile?.url ? (
           <MediaPlayer width={500} height={300} url={promoVideoFile.url} />
         ) : (

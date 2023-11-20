@@ -7,24 +7,24 @@ import { useParams } from 'react-router'
 import { useState } from 'react'
 
 interface SelectThumbnailPropsI {
-    fileId: string;
-    url: string;
+    fileId?: string;
+    url?: string;
     onSelect:(file: Types.FileType)=> void;
 }
 
 const { confirm } = Modal;
 
-const SelectThumbnail: any = (props: SelectThumbnailPropsI) => {
+const SelectThumbnail = (props: SelectThumbnailPropsI) => {
     const [generating, setGenerating] = useState(false);
   const { url,fileId } = props;
-    const { data: fileUrl } = Common.Queries.useGetPresignedUrlFromFile(fileId, {
+    const { data: fileUrl } = Common.Queries.useGetPresignedUrlFromFile(fileId+'', {
         enabled:!!fileId
       });
   const {
     mutate: uploadFiles,
     isLoading: uploading
   } = Common.Queries.useUploadFiles();
-    const Url = fileUrl || url;
+    const Url = (fileUrl || url)+'';
     const { id: courseId, sectionId, itemId } = useParams();
     const [thumbnails, setThumbnails] = useState<{ url: string; file: File }[]>([]);
     
@@ -79,9 +79,9 @@ const SelectThumbnail: any = (props: SelectThumbnailPropsI) => {
     }
     
     const spinText = generating ? 'Generating Thumbnails..' : (uploading ? 'Uploading Thumbnail..' : null);
-  return (
+  return Url?(
       <>
-          <Button size='small' loading={generating} type='primary' style={{marginBottom:20}} onClick={()=>generateThumbnails(url)}>Generate Thumbnails</Button>
+          <Button size='small' loading={generating} type='primary' style={{marginBottom:20}} onClick={()=>generateThumbnails(Url)}>Generate Thumbnails</Button>
        <Spin spinning={ uploading} tip={spinText}>
           <Space size={[10,20]}>
               {thumbnails.map(({file,url} )=> {
@@ -93,7 +93,7 @@ const SelectThumbnail: any = (props: SelectThumbnailPropsI) => {
     </Space>
     </Spin></>
       
-  )
+  ):null
 }
 
 export default SelectThumbnail

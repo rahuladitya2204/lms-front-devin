@@ -38,7 +38,7 @@ const ThumbnailList: any = (props: ThumbnailListPropsI) => {
     
     const generateThumbnails = (url:string) => {
         setGenerating(true)
-        getVideoThumbnails(url, item.metadata?.duration).then(blobs => {
+        getVideoThumbnails(url).then(blobs => {
           console.log(blobs,'blobs')
           const files = blobs.map((blob, index) => {
             return {

@@ -73,7 +73,7 @@ export default function TestDetailScreen(
                     bordered={false}
                     bodyStyle={{ padding: 0 }}
                   >
-                    <MediaPlayer
+                    <MediaPlayer thumbnail={test.landingPage.promoVideo.thumbnailImage}
                       height={400}
                       url={test.landingPage.promoVideo.url}
                     />
