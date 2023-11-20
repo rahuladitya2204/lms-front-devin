@@ -330,7 +330,7 @@ const router = (userType: string) => {
 
 function AppRouter() {
   const userType = Store.useAuthentication(s => s.userType);
-  console.log(userType, 'userType');
+  // console.log(userType, 'userType');
   return  <RouterProvider router={router(userType)} />
 }
 
@@ -338,7 +338,7 @@ export default AppRouter
 
 
 const ReturnLearnerToStore = () => {
-  console.log('Learner: I am in return to store')
+  // console.log('Learner: I am in return to store')
   const navigate = useNavigate();
   useEffect(() => { 
     navigate('/app/store')

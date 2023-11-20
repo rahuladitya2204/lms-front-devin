@@ -48,7 +48,7 @@ export default function TestDetailScreen(
   </> : <TestMetadata test={test} />;
   return (
     <Row>
-      {loadingTest ? <Skeleton paragraph={{ rows: 1 }} /> : <>
+      {loadingTest ? null : <>
       <Col md={24} sm={24} lg={0}>
           <TestCard plan={plan} testId={testId+''} />
           {/* Replace with card image */}
@@ -66,7 +66,7 @@ export default function TestDetailScreen(
  <Row gutter={[30, 30]}>
  <Col xs={24} sm={24} md={24} lg={16} >
             <Row>
-              {test.landingPage.promoVideo ? (
+              {(test.landingPage?.promoVideo?.url) ? (
                 <Col span={24}>
                   <Card
                     style={{ margin: '20px 0' }}
@@ -75,13 +75,18 @@ export default function TestDetailScreen(
                   >
                     <MediaPlayer
                       height={400}
-                      fileId={test.landingPage.promoVideo}
+                      url={test.landingPage.promoVideo.url}
                     />
                   </Card>
                 </Col>
               ) : null}
               <Col span={24}>
-                {loadingTest? <Skeleton active paragraph={{ rows: 20 }} />:
+                {loadingTest ? <Row>
+                  <Col span={24}>
+                  <SkeletonImage active style={{flex: 1,height:400}} />
+                  <Skeleton active paragraph={{ rows: 20 }} />
+                  </Col>
+                </Row>:
                 <Paragraph style={{ fontSize: 16 }}>
                   <HtmlViewer content={test.landingPage.description} />
                 </Paragraph>

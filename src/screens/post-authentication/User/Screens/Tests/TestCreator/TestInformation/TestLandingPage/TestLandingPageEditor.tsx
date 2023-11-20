@@ -3,7 +3,7 @@ import { Button, Card, Empty, Form, Input } from 'antd'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea'
-// 
+//
 import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useLayoutEffect } from 'react'
@@ -59,7 +59,10 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
             onUpload={d => {
               console.log(d, 'eee')
               onValuesChange({
-                promoVideo: d._id
+                promoVideo: {
+                  file: d._id,
+                  url: d.url
+                }
               })
             }}
             renderItem={() => (
@@ -71,8 +74,8 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
           />
         ]}
       >
-        {promoVideoFile ? (
-          <MediaPlayer width={500} height={300} fileId={promoVideoFile} />
+        {promoVideoFile?.url ? (
+          <MediaPlayer width={500} height={300} url={promoVideoFile.url} />
         ) : (
           <Empty description="Np promo video added" />
         )}
