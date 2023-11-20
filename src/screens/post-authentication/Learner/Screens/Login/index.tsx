@@ -1,5 +1,5 @@
-import { ArrowLeftOutlined, GoogleOutlined } from '@ant-design/icons'
-import { Button, Checkbox, Divider, Form, Input, Space } from 'antd'
+import { Alert, Button, Checkbox, Divider, Form, Input, Space } from 'antd'
+import { ArrowLeftOutlined, GoogleOutlined, MessageOutlined } from '@ant-design/icons'
 import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 
@@ -141,6 +141,7 @@ const OtpForm = (props:LearnerLoginPropsI) => {
       <LogoTop/>
       {otpSent ? (
         <Fragment>
+              <Alert style={{marginBottom:10}} message={`OTP has been sent to ${contactNo}`} type="success" />
            <Form form={form} initialValues={{ remember: true }} layout="vertical" onFinish={verifyOtp}>
           <Button onClick={() => setOtpSent(false)} style={{ marginBottom: 10 }} type='link' size='small' icon={<ArrowLeftOutlined/>}>Back</Button>
           <Form.Item label="Enter OTP" name="code" rules={[{ required: true, message: 'Please enter the OTP sent to your number!' }]}><Input /></Form.Item>
