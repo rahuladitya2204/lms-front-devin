@@ -56,7 +56,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       // @ts-ignore
       answer = { options: [answer.options] };
     }
-    console.log(answer,'reeeeee')
+
     submitAnswer({
       testId: testId + '',
       questionId: questionId + '',

@@ -21,7 +21,7 @@ export default function TestQuestionNavigatorType2(
   const { data: { status: {
     sections,hasStarted,hasEnded
   } } } = Learner.Queries.useGetTestStatus(props.testId + '')
-  console.log(sections,props.testId,'sections')
+
   const { isLoading: loadingEnrolledTest } = Learner.Queries.useGetEnrolledProductDetails({
     type: "test",
     id: props.testId

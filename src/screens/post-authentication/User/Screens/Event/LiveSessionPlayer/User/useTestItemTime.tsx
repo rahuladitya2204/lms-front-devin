@@ -5,10 +5,6 @@ import { useParams } from 'react-router-dom'
 
 export const useTestItemTime = () => {
   const { questionId, testId } = useParams()
-  const {
-    mutate: updateTestStatus,
-    isLoading: updatingTestStatus
-  } = Learner.Queries.useUpdateTestStatus(testId + '')
   const mountTimeRef = useRef(Date.now())
   const questionIdRef = useRef(questionId)
   const accumulatedTimeRef = useRef(0)

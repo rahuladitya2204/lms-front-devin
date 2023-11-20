@@ -221,7 +221,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
         <Skeleton active paragraph={{ rows: 6 }} />
         </Col>
         <Col span={24}>
-        <Skeleton.Button block />
+        <Skeleton.Button active block />
         </Col>
     </Row>
   </>:<>    <Row gutter={[20, 40]} align="stretch">
