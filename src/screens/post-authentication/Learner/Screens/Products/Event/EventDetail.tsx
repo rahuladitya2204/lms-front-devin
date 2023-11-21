@@ -182,7 +182,7 @@ title={event.title}>
               Claim your seat
             </ProductCheckoutButton>:<ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
-            Login to buy this course
+            Login to access this event
                 </Button>}>
                   <LearnerLogin/>
           </ActionModal>)}

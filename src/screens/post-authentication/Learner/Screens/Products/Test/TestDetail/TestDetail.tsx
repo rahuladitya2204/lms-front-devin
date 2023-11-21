@@ -276,7 +276,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                   </ProductCheckoutButton>}
                 </> : <ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
-            Login to buy this course
+            Login to access this test
                 </Button>}>
                   <LearnerLogin/>
           </ActionModal>}

@@ -271,7 +271,7 @@ const CourseCard = ({courseId,plan,children}: {
                 <Col span={24}>
                   <ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
-            Login to buy this course
+            Login to access this course
                 </Button>}>
                   <LearnerLogin/>
           </ActionModal></Col>
