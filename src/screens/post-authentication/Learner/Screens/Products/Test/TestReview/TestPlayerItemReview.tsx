@@ -54,7 +54,13 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
   return (
     <Spin spinning={loading}>
-      <Card title={`Question ${currentQuestionIndex + 1}`} extra={[<TestAnswerTag item={currentQuestion} />, currentQuestion.scoreAchieved?<Tag color='green-inverse'>Score: {currentQuestion.scoreAchieved}</Tag>:<Tag color='red-inverse'>Score: 0</Tag>]} >
+      <Card title={`Question ${currentQuestionIndex + 1}`} extra={[<TestAnswerTag item={currentQuestion} />,
+        currentQuestion.scoreAchieved !== undefined ?
+          <Tag color={(currentQuestion.scoreAchieved > 0) ?
+            'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}</Tag> : 
+          <Tag color='red-inverse'>Score: 0</Tag>]
+      }
+      >
       <Form layout='vertical' form={form}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
