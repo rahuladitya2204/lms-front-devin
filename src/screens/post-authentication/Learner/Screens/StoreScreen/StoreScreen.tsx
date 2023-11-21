@@ -5,8 +5,6 @@ import BGImage from './image.svg'
 import CourseCard from './Cards/CourseCard'
 import EventCard from './Cards/EventCard'
 import Image from '@Components/Image'
-import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
-import OrgLogo from '@Components/OrgLogo'
 import Section from '@Components/Section'
 import { Skeleton } from 'antd'
 import SkeletonImage from '@Components/SkeletonImage'
@@ -14,9 +12,7 @@ import TestCard from './Cards/TestCard'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
-const { Title, Paragraph, Text } = Typography
-
-const PROMO_VIDEO='https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/Tests/6558571d1c72773b03833993/promo-1700506390909-1.mp4'
+const { Title, Paragraph,Text } = Typography
 
 function StoreScreen () {
  const {
@@ -31,12 +27,7 @@ function StoreScreen () {
       {/* <Col span={24}>
         <HomeCarousel />
       </Col> */}
-      <Col span={24}>
-        <Row align={'middle'}><Col style={{marginRight:10}}><Title>Introducing Nimble Bee </Title></Col>
-        <Col><OrgLogo/></Col></Row>
-        <MediaPlayer height={500} url={PROMO_VIDEO} />
-      </Col>
-      {/* {!isMobile?<Col span={24}>
+      {!isMobile?<Col span={24}>
         <Row align={'middle'} gutter={[20,20]}>
           <Col span={12} flex={1}>
             <Title>
@@ -47,12 +38,15 @@ function StoreScreen () {
               <br />
               world-class universities and companies.
             </Paragraph>
+            {/* <SearchLearnerCourses /> */}
           </Col>
           <Col span={12}>
+          {/* <Calendar fullscreen={false} /> */}
           <Image preview={false} src={BGImage} />
           </Col>
         </Row>
-      </Col>:null} */}
+      </Col>:null}
+   
       {isFetching ? <Col span={24}>
    
         <Row gutter={[50, 50]}>
