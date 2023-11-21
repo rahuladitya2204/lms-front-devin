@@ -1,10 +1,12 @@
-import { Calendar, Carousel, Col, Divider, List, Row, Typography } from 'antd'
+import { Button, Calendar, Carousel, Col, Divider, List, Row, Space, Typography } from 'antd'
 import { Learner, Store } from '@adewaskar/lms-common'
 
 import BGImage from './image.svg'
 import CourseCard from './Cards/CourseCard'
 import EventCard from './Cards/EventCard'
+import { Fragment } from 'react'
 import Image from '@Components/Image'
+import { NavLink } from 'react-router-dom'
 import Section from '@Components/Section'
 import { Skeleton } from 'antd'
 import SkeletonImage from '@Components/SkeletonImage'
@@ -80,7 +82,10 @@ function StoreScreen () {
         }
         return (
           <Col span={24} style={{marginTop:20}}>
-            <Section title={<Text style={{fontSize:18 ,marginBottom: 0 }} >{category.title}</Text>}
+            <Section extra={[
+             <NavLink to={`../category/${category._id}`}>  <Button style={{ marginLeft: 20 }} type='primary' size='small' >View More</Button></NavLink>]} title={<Space style={{ marginBottom: 15 }}>
+              <Text style={{ fontSize: 18, marginBottom: 0 }} >{category.title}</Text>
+            </Space >}
             >
               <Row gutter={[20,30]}>
               <Col span={24}>

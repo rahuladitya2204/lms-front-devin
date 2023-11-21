@@ -26,6 +26,7 @@ import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
 import CategoriesScreen from '@User/Screens/Categories/CategoriesScreen'
+import CategoryDetail from '@Learner/Screens/StoreScreen/CategoryDetail'
 import CertificateTemplateEditor from '@User/Screens/CertificateTemplates/CertificateTemplateEditor'
 import CourseAnalytics from '@User/Screens/Courses/CourseAnalytics/CourseAnalytics'
 import CourseBuilderScreen from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseBuilderScreen'
@@ -117,7 +118,8 @@ const router = (userType: string) => {
    <Route path="app" element={<LearnerRootScreen />}>
               <Route path="cart" element={<LearnerCart />} />
               <Route path="reset-password" element={<ResetPassword />} />
-              <Route path="store" element={<LearnerStoreScreen />} />
+              <Route path="category/:id" element={<CategoryDetail />} />
+  <Route path="store" element={<LearnerStoreScreen />} />
               <Route path="account" element={<LearnerAccount />} />
               <Route path="tickets" element={<LearnersTicketsScreen />} />
               <Route path="tickets/:id" element={<LearnerTicketDetail />} />
