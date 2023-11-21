@@ -16,7 +16,6 @@ interface TestPlayerMoreInfoPropsI {
 const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
   // useWatchTime(props.course._id);
   const { currentQuestion } = useReviewQuestion()
-  console.log(currentQuestion, 'oi')
   const TAB_ITEMS = [
     // {
     //   label: <Text strong>Overview</Text>,

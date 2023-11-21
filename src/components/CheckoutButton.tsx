@@ -29,12 +29,10 @@ export default function ProductCheckoutButton(
     <Button
       size="large"
       onClick={() => {
-        console.log('112')
         createOrder(
           { data: { type, id } },
           {
             onSuccess: ({ pgOrder, order }: any) => {
-              console.log(pgOrder, order, 'order')
               if (!order.total.value) {
                 return updatePaymentOrder(
                   {
@@ -48,7 +46,6 @@ export default function ProductCheckoutButton(
                 )
               }
               openCheckout({ pgOrder, order }, (payment: any) => {
-                console.log(payment, 'paymentpayment')
                 updatePaymentOrder(
                   {
                     orderId: order._id,

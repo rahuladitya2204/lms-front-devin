@@ -31,6 +31,14 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       // @ts-ignore
       answer = {options:answerGiven[0]};
     }
+    if (
+      (currentQuestion.type === 'multiple') &&
+      answerGiven &&
+      answerGiven &&
+      answerGiven.length) {
+      // @ts-ignore
+      answer = {options:answerGiven};
+    }
     form.setFieldsValue({
       answer
     });

@@ -1,17 +1,17 @@
-.html-viewer {
-    table {
-        border-collapse: collapse; /* Ensures that the border is collapsed into a single border */
-        width: 100%; /* Sets the table width to fill the container */
-        border: 1px solid black; /* Sets the border color and width */
-    }
-    
-    th, td {
-        border: 1px solid #e1e1e1; /* Sets the border for table headers and cells */
-        text-align: left; /* Aligns the text to the left */
-        padding: 8px; /* Adds padding inside the cells */
-    }
-    
-    th {
-        background-color: #f2f2f2; /* Sets a background color for the header cells */
-    }
+
+
+.html-viewer table {
+    border-collapse: collapse !important; /* Ensures that the border is collapsed into a single border */
+    width: 100%  !important; /* Sets the table width to fill the container */
+    border: 1px solid black  !important; /* Sets the border color and width */
+}
+
+.html-viewer th,.html-viewer  td {
+    border: 1px solid #e1e1e1  !important; /* Sets the border for table headers and cells */
+    text-align: left  !important; /* Aligns the text to the left */
+    padding: 8px  !important; /* Adds padding inside the cells */
+}
+
+.html-viewer th {
+    background-color: #f2f2f2  !important; /* Sets a background color for the header cells */
 }

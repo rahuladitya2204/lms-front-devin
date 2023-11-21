@@ -1,14 +1,4 @@
-import {
-  Button,
-  Card,
-  Col,
-  Dropdown,
-  Modal,
-  Row,
-  Space,
-  Table,
-  Typography
-} from 'antd'
+import { Button, Modal, Rate, Space, Table } from 'antd'
 
 import Container from '@Components/Container'
 import { Types } from '@adewaskar/lms-common'
@@ -22,9 +12,10 @@ interface TestLearnersPropsI {
 }
 
 function TestLearners(props: TestLearnersPropsI) {
-  const { data, isLoading: loading } = User.Queries.useGetEnrolledProductLearners(
-    props.testId + ''
-  )
+  const {
+    data,
+    isLoading: loading
+  } = User.Queries.useGetEnrolledProductLearners(props.testId + '')
 
   const {
     mutate: removeLearnerFromTest
@@ -120,6 +111,28 @@ render={(_: any, record: Types.Learner) => (
         </Dropdown> */}
               </Space>
             )
+          }}
+        />
+        <Table.Column
+          title="Rating"
+          dataIndex="rating"
+          key="rating"
+          render={(_: any, record: Types.EnrolledProductDetails) => {
+            const review = record.review as unknown as Types.ProductReview;
+            return (
+              <Rate disabled allowHalf defaultValue={review.rating} />
+            )
+          }}
+        />
+        <Table.Column
+          title="Rating Comment"
+          dataIndex="createdAt"
+          key="createdAt"
+          render={(_: any, record: Types.EnrolledProductDetails) => {
+            const review = record.review as unknown as Types.ProductReview;
+            return review.comment?(
+              <Space size="middle">{review.comment}</Space>
+            ):'-'
           }}
         />
       </Table>
