@@ -341,7 +341,7 @@ function TestBuilderScreen() {
                     label: (
                       <ActionModal
                         title="Generate Test Outline"
-                        width={900}
+                        width={1000}
                         cta={
                           <Button type="text" style={{ marginRight: 10 }}>
                             Generate Test Outline

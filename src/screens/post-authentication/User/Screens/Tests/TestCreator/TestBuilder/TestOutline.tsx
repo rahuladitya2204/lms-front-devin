@@ -12,7 +12,7 @@ interface TestOutlinePropsI {
   testId: string;
 }
 
-interface OutlineSection {title: string,itemCount:number,optionCount:number,score: number,questionType: string}
+interface OutlineSection {title: string,itemCount:number,optionCount:number,score: {correct: number,incorrect: number},questionType: string}
 
 interface CreateTestOutline {
     sections: [OutlineSection]
@@ -27,7 +27,7 @@ export default function TestOutline({
 const calculateTotalScore = () => {
         let total = 0;
         form.getFieldValue('sections').forEach((section:OutlineSection) => {
-          total += section.itemCount * section.score;
+          total += section.itemCount * section.score.correct;
         });
         setTotalScore(total);
       };  const [form] = Form.useForm<CreateTestOutline>()
@@ -94,8 +94,8 @@ const calculateTotalScore = () => {
                     <Input/> 
                   </Form.Item>
                     </Col>
-                    <Col span={4}>
-                    <Form.Item  style={{width:130}} label={`Question Count`}
+                    <Col span={3}>
+                    <Form.Item  label={`Question Count`}
                 rules={[
                   { required: true, message: 'Please enter the question count.' },
                 ]}
@@ -106,7 +106,7 @@ const calculateTotalScore = () => {
                   </Form.Item>
                     </Col>
 
-                    <Col span={4}>
+                    <Col span={2}>
                     <Form.Item label={`Total Options`}
                 rules={[
                   { required: true, message: 'Please enter the total options in each question' },
@@ -127,12 +127,23 @@ const calculateTotalScore = () => {
                             <Select options={[{label:'Single Choice',value:'single'},{label:'Multiple Choice',value:'multiple'},{label:'Subjective',value:'subjective'}]} />
                   </Form.Item>
                     </Col>
-                    <Col span={4}>
-                    <Form.Item style={{width:80}} label={`Score`}
+                    <Col span={3}>
+                    <Form.Item style={{width:80}} label={`Correct Answer Score`}
                 rules={[
                   { required: true, message: 'Please enter the score.' },
                 ]}
-                name={[field.name,'score']}
+                name={[field.name,'score','correct']}
+
+                >
+                    <Input type='number' /> 
+                  </Form.Item>
+                </Col>
+                <Col span={3}>
+                    <Form.Item style={{width:80}} label={`Incorrect Score`}
+                rules={[
+                  { required: true, message: 'Please enter the score.' },
+                ]}
+                name={[field.name,'score','incorrect']}
 
                 >
                     <Input type='number' /> 
