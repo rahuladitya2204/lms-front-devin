@@ -30,7 +30,7 @@ export default function CategoryDetail() {
     <Row gutter={[20, 20]}>
       {[1, 1, 1, 1].map(() => {
         return (
-          <Col span={6} style={{ marginTop: 30 }}>
+          <Col sm={12} md={8} xs={24} lg={6} style={{ marginTop: 30 }}>
             <SkeletonImage active style={{ flex: 1, height: 200 }} />
           </Col>
         )
@@ -80,7 +80,7 @@ export default function CategoryDetail() {
                     {/* @ts-ignore */}
                     {products[key].map(product => {
                       return (
-                        <Col sm={12} md={8} xs={24} lg={4}>
+                        <Col sm={12} md={8} xs={24} lg={6}>
                           {key === 'courses' ? (
                             <CourseCard course={product} />
                           ) : null}

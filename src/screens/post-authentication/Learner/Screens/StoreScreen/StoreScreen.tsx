@@ -94,7 +94,7 @@ function StoreScreen () {
                         return  <Col  
                         sm={12} 
                         md={8} xs={24}
-                        lg={4}  >
+                        lg={6}  >
                           {key==='courses'?<CourseCard course={product} />:null}
                           {key==='events'?<EventCard event={product} />:null}
                           {key==='tests'?<TestCard test={product} />:null}
