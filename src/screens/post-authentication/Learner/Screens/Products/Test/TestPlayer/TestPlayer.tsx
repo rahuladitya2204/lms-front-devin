@@ -51,7 +51,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const isProcturingOn = test.rules.procturing.enabled
   const { data: {
     status:{startedAt, hasStarted, hasEnded}
-  } } = Learner.Queries.useGetTestStatus(testId+'')
+  },isLoading: loadingStatus } = Learner.Queries.useGetTestStatus(testId+'')
   
   useEffect(
     () => {
@@ -113,7 +113,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   }
 
   return (
-    <Spin spinning={loadingDetails} >
+    <Spin spinning={loadingDetails || loadingStatus} >
       <Header
       title={test.title}
       subTitle={'asd'}

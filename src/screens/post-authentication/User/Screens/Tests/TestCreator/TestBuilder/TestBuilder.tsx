@@ -435,7 +435,7 @@ function TestBuilderScreen() {
                     height="200px"
                     aspect={16 / 9}
                     renderItem={() => (
-                      <Image preview={false} src={test.thumbnailImage} />
+                      <Image height={200} preview={false} src={test.thumbnailImage} />
                     )}
                     onUpload={file => {
                       setTest({

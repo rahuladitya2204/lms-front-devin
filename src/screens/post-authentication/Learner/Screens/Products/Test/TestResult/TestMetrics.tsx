@@ -54,6 +54,7 @@ export default function TestMetrics() {
     },
     [metrics]
   )
+  console.log(pieChartData, 'as')
   return (
     <Header
       title={`Test Result: ${test?.title}`}
@@ -114,7 +115,7 @@ export default function TestMetrics() {
                 <Card style={{ height: 300 }}>
                   <Skeleton active />
                 </Card>
-              ) : (
+              ) : !(pieChartData[0].value === 0 && pieChartData[1].value === 0 )? (
                 <Card title="Overall Performance">
                   <Row justify={'center'} align={'middle'}>
                     <Col>
@@ -143,7 +144,7 @@ export default function TestMetrics() {
                     </Col>
                   </Row>
                 </Card>
-              )}
+              ) : null}
             </Col>
             <Col xs={24} md={12} lg={16}>
               {loadingResult ? (
