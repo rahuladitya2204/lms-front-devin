@@ -21,6 +21,9 @@ const ImageHolder = styled.div(
   (props: { width?: number, height: number }) => `
 width:${props.width ? props.width : 'auto'};
 object-fit: cover;
+display: flex;
+align-items: center;
+justify-content: center;
 overflow: hidden;
 .ant-upload-wrapper.ant-upload-picture-card-wrapper{
   width: 100% !imporat;

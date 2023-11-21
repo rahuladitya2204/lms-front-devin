@@ -80,7 +80,7 @@ export default function CategoryDetail() {
                     {/* @ts-ignore */}
                     {products[key].map(product => {
                       return (
-                        <Col span={6}>
+                        <Col sm={12} md={8} xs={24} lg={4}>
                           {key === 'courses' ? (
                             <CourseCard course={product} />
                           ) : null}

@@ -129,12 +129,11 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Input />
       </Form.Item>
 
-      <Form.Item name="subtitle" required label="Subtitle">
+      <Form.Item name="subtitle" label="Subtitle">
         <Input />
       </Form.Item>
       <Form.Item
         name={'description'}
-        required
         label="Description"
         rules={[
           {
