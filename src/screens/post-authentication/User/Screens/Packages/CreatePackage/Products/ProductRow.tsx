@@ -12,33 +12,33 @@ const PRODUCT_TYPES = [
 ]
 
 interface ProductFormRowProps {
+  type: string;
   form: FormInstance; // Form instance passed from the parent component
   name: number; // Index of the form list
   remove: (index: number) => void; // Function to remove a row
 }
 
-const ProductRow: React.FC<ProductFormRowProps> = ({ name, remove, form }) => {
+const ProductRow: React.FC<ProductFormRowProps> = ({
+  name,
+  remove,
+  form,
+  type
+}) => {
   const { data: courses } = User.Queries.useGetCourses()
   const { data: tests } = User.Queries.useGetTests()
   const { data: events } = User.Queries.useGetEvents()
 
-  // Use useWatch to track changes of product type
-  const productType = Form.useWatch({
-    name: ['products', name, 'type']
-    // control: form.control // Pass the control prop from form instance
-  })
-
   const productOptions = useMemo(
     () => {
-      switch (productType) {
-        case 'course':
+      switch (type) {
+        case 'courses':
           return courses?.map(course => ({
             label: course.title,
             value: course._id
           }))
-        case 'test':
+        case 'tests':
           return tests?.map(test => ({ label: test.title, value: test._id }))
-        case 'event':
+        case 'events':
           return events?.map(event => ({
             label: event.title,
             value: event._id
@@ -47,18 +47,13 @@ const ProductRow: React.FC<ProductFormRowProps> = ({ name, remove, form }) => {
           return []
       }
     },
-    [productType, courses, tests, events]
+    [type, courses, tests, events]
   )
-  console.log(productType, 'type')
+  // console.log(type, 'type')
   return (
     <Row gutter={[20, 20]} align="middle" style={{ marginBottom: 20 }}>
-      <Col>
-        <Form.Item name={[name, 'type']} noStyle>
-          <Select options={PRODUCT_TYPES} style={{ width: 120 }} />
-        </Form.Item>
-      </Col>
       <Col flex={1}>
-        <Form.Item name={[name, 'id']} noStyle>
+        <Form.Item name={name} noStyle>
           <Select
             style={{ width: '100%' }}
             mode="multiple"

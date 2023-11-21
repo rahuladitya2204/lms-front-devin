@@ -1,35 +1,25 @@
 import {
   Button,
   Card,
-  Checkbox,
   Col,
-  DatePicker,
   Form,
   Input,
   Row,
-  Select,
-  Table,
   Typography,
 } from 'antd'
 import { Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
-import ActionModal from '@Components/ActionModal'
-import AddProduct from './Products/AddProduct'
-import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
-import LocationAutocomplete from '@Components/LocationSelector'
-import LocationSelector from '@Components/LocationSelector'
 import MediaUpload from '@Components/MediaUpload'
-import PriceFormItem from '@Components/PriceFormItem'
 import ProductRow from './Products/ProductRow'
-import Products from './Products/Products'
 import TextArea from '@Components/Textarea'
 import { User } from '@adewaskar/lms-common'
-import { VideoCameraOutlined } from '@ant-design/icons'
-import dayjs from 'dayjs'
+import useMessage from '@Hooks/useMessage'
+
+const PRODUCT_TYPES=[{title:'Test',value:'tests'},{title:'Events',value:'events'},{title:'Courses',value:'courses'}]
 
 interface CreatePackageComponentPropsI {
   // data: Types.Package;
@@ -39,10 +29,9 @@ interface CreatePackageComponentPropsI {
   onFinish?: (data: Types.Package) => void;
 }
 
-const { Text } = Typography;
-
 const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   const { packageId } = useParams();
+  const isEdit = !!packageId;
   const [products, setProducts] = useState<Types.Product[]>([]);
   const navigate = useNavigate();
   const {
@@ -53,7 +42,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
     mutate: updatePackage,
     isLoading: updatePackageLoading
   } = User.Queries.useUpdatePackage();
-
+  const message = useMessage();
 
   const {data: packageDetails}=User.Queries.useGetPackageDetails(packageId+'',{
     enabled:!!packageId
@@ -74,15 +63,15 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
       ...e,
       products: products
     }
-    if (packageId) {
+    if (isEdit) {
       updatePackage(
         { id: packageId, data:data },
         {
           onSuccess: () => {
-            form.resetFields();
-            navigate('../')
-            props.onSuccess && props.onSuccess();
-            props.closeModal && props.closeModal();
+            message.open({
+              type: 'success',
+              content: 'Package updated'
+            })
           }
         }
       )
@@ -92,9 +81,13 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
         { data:data },
          {
         onSuccess: () => {
-          navigate('../')
+             navigate('../');
+             message.open({
+              type: 'success',
+              content: 'Package Created'
+            })
           props.onSuccess && props.onSuccess();
-          props.closeModal && props.closeModal()
+             props.closeModal && props.closeModal();
         }
       })
     }
@@ -108,7 +101,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
       type="primary"
       onClick={form.submit}
       >
-      Create Package
+     {isEdit?'Update Package':'Create Package'}
     </Button>
     ]}>
         <Card>
@@ -167,20 +160,29 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
                       
                     </Form.Item>
 
-                    <Form.List name="products">
-                {(fields, { add, remove }) => (
-                  <>
-                  {fields.map(field => (
-              <ProductRow form={form} key={field.key} name={field.name} remove={remove} />
-            ))}
-                    <Row>
-                      <Col span={24}>
-                        <Button type="dashed" onClick={() => add()} block>Add Product</Button>
-                      </Col>
-                    </Row>
-                  </>
-                )}
-              </Form.List>
+                    {PRODUCT_TYPES.map(product => {
+                      return <Row gutter={[20,20]}>
+                        <Col span={24}>
+                          <Card title={product.title} >
+                        <Form.List name={product.value}>
+                     {(fields, { add, remove }) => (
+                       <>
+                       {fields.map(field => (
+                   <ProductRow type={product.value} form={form} key={field.key} name={field.name} remove={remove} />
+                 ))}
+                         <Row>
+                           <Col span={24}>
+                               <Button type="dashed" onClick={() => add()} block>Add {product.title }</Button>
+                           </Col>
+                         </Row>
+                       </>
+                     )}
+                   </Form.List>
+                       
+                          </Card>
+                        </Col>
+                     </Row>
+                   })}
 
                     
                   </Col>
