@@ -82,9 +82,9 @@ export default function TestRules(props: TestRulesPropsI) {
             : null
         }
       >
-        <Row>
-          <Col span={4} />
-          <Col span={16}>
+        <Row gutter={[20, 20]}>
+          <Col xs={0} md={4} />
+          <Col md={16}>
             <Row>
               <Col span={24}>
                 <Title style={{ textAlign: 'center' }}>Online Assesment</Title>
@@ -114,11 +114,14 @@ export default function TestRules(props: TestRulesPropsI) {
                   align={'middle'}
                   style={{ display: 'flex', flexDirection: 'row-reverse' }}
                 >
-                  <Col flex={'reverse'}>
+                  <Col flex={isMobile ? 1 : 'reverse'}>
                     {!isVerificationOn ? (
                       <Button
                         disabled={!isValid}
-                        style={{ marginLeft: 20, width: 200 }}
+                        style={{
+                          width: !isMobile ? 100 : '100%',
+                          display: 'inline-block'
+                        }}
                         type="primary"
                         loading={startingTest}
                         onClick={() => {
@@ -177,7 +180,7 @@ export default function TestRules(props: TestRulesPropsI) {
               </Col>
             </Row>
           </Col>
-          <Col span={4} />
+          <Col xs={0} md={4} />
         </Row>
       </Header>
     </Spin>
