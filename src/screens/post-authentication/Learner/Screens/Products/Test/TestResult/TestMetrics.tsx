@@ -24,13 +24,15 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
-import { EditOutlined, LogoutOutlined } from '@ant-design/icons'
+import { EditOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons'
 import { useNavigate, useParams } from 'react-router'
 
+import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import { useMemo } from 'react'
 
 const { confirm } = Modal
@@ -54,40 +56,93 @@ export default function TestMetrics() {
     },
     [metrics]
   )
+  const { isMobile } = useBreakpoint()
   console.log(pieChartData, 'as')
+  const ViewSolutions = (
+    <Button
+      style={{ marginRight: 10 }}
+      onClick={() => navigate('review')}
+      type="primary"
+      icon={<EditOutlined />}
+    >
+      View Solutions
+    </Button>
+  )
+  const ExitButton = (
+    <Button
+      style={{ width: 100 }}
+      icon={<LogoutOutlined />}
+      onClick={() => {
+        confirm({
+          title: 'Are you sure?',
+          // icon: <ExclamationCircleOutlined />,
+          content: `You want to exit reviewing?`,
+          onOk() {
+            navigate('../')
+          },
+          okText: 'Yes, Exit'
+        })
+      }}
+      type="primary"
+      danger
+      // loading={submittingTest}
+    >
+      Exit
+    </Button>
+  )
+  const PiechartComponent = (
+    <Card title="Overall Performance">
+      <Row justify={'center'} align={'middle'}>
+        <Col>
+          <PieChart width={300} height={250}>
+            <Pie
+              data={pieChartData}
+              dataKey="value"
+              nameKey="name"
+              cx="50%"
+              cy="50%"
+              outerRadius={100}
+              fill="#52c41a"
+              //   label={renderCustomizedLabel}
+              labelLine={false}
+            >
+              {pieChartData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
+              ))}
+            </Pie>
+            <Tooltip />
+            <Legend />
+          </PieChart>
+        </Col>
+      </Row>
+    </Card>
+  )
   return (
     <Header
-      title={`Test Result: ${test?.title}`}
-      extra={[
-        <Button
-          style={{ marginRight: 10 }}
-          onClick={() => navigate('review')}
-          type="primary"
-          icon={<EditOutlined />}
-        >
-          View Solutions
-        </Button>,
-        <Button
-          style={{ width: 100 }}
-          icon={<LogoutOutlined />}
-          onClick={() => {
-            confirm({
-              title: 'Are you sure?',
-              // icon: <ExclamationCircleOutlined />,
-              content: `You want to exit reviewing?`,
-              onOk() {
-                navigate('../')
-              },
-              okText: 'Yes, Exit'
-            })
-          }}
-          type="primary"
-          danger
-          // loading={submittingTest}
-        >
-          Exit
-        </Button>
-      ]}
+      title={!isMobile ? `Test Result: ${test?.title}` : null}
+      extra={
+        isMobile ? (
+          <ActionDrawer
+            cta={
+              <Button
+                type="primary"
+                style={{ marginTop: 10 }}
+                icon={<MenuOutlined />}
+                // shape="circle"
+              />
+            }
+            extra={() => [ViewSolutions]}
+          >
+            {/* {ViewSolutions} */}
+            <div style={{ marginTop: 20 }}>{PiechartComponent}</div>
+          </ActionDrawer>
+        ) : (
+          [ViewSolutions, ExitButton]
+        )
+      }
     >
       <Row gutter={[20, 20]}>
         <Col span={24}>
@@ -115,35 +170,12 @@ export default function TestMetrics() {
                 <Card style={{ height: 300 }}>
                   <Skeleton active />
                 </Card>
-              ) : !(pieChartData[0].value === 0 && pieChartData[1].value === 0 )? (
-                <Card title="Overall Performance">
-                  <Row justify={'center'} align={'middle'}>
-                    <Col>
-                      <PieChart width={300} height={250}>
-                        <Pie
-                          data={pieChartData}
-                          dataKey="value"
-                          nameKey="name"
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={100}
-                          fill="#52c41a"
-                          //   label={renderCustomizedLabel}
-                          labelLine={false}
-                        >
-                          {pieChartData.map((entry, index) => (
-                            <Cell
-                              key={`cell-${index}`}
-                              fill={COLORS[index % COLORS.length]}
-                            />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                        <Legend />
-                      </PieChart>
-                    </Col>
-                  </Row>
-                </Card>
+              ) : !(
+                pieChartData[0].value === 0 && pieChartData[1].value === 0
+              ) ? (
+                !isMobile ? (
+                  PiechartComponent
+                ) : null
               ) : null}
             </Col>
             <Col xs={24} md={12} lg={16}>
