@@ -21,7 +21,7 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo, useState } from 'react'
 
 import ActionDrawer from '@Components/ActionDrawer'
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
 import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'

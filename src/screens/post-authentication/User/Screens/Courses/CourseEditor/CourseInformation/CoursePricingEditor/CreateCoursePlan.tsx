@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, Radio, Row, Select, Space } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 

@@ -18,7 +18,7 @@ import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { cloneDeep, debounce } from 'lodash'
 import { useEffect, useState } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
 import CourseSectionsNavigator from './CourseSectionsNavigator'

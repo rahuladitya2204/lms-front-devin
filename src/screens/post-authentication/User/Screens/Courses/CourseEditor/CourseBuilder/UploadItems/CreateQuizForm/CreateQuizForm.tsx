@@ -19,7 +19,7 @@ import { Constants, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import { AddItemProps } from '../UploadPDF'
 import CreateQuestionForm from '../../../../../ExtraComponents/TestQuestions/AddQuestion'
 import FileList from '@Components/FileList'

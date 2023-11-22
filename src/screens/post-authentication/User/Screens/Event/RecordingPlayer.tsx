@@ -1,7 +1,7 @@
 import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { Types, User } from '@adewaskar/lms-common'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 
 function ViewRecording({ session }: { session: Types.Event }) {

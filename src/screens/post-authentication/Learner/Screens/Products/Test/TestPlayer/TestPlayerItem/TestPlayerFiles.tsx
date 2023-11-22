@@ -5,7 +5,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // TestPlayerFiles.tsx
 import React, { useCallback } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import MediaUpload from '@Components/MediaUpload'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'

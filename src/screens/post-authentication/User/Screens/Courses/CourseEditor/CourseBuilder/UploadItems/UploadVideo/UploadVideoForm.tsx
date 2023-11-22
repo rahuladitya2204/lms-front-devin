@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { UploadOutlined, VideoCameraOutlined } from '@ant-design/icons'
 import { debounce, uniqueId } from 'lodash'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import FileList from '@Components/FileList'
 import Image from '@Components/Image'
 import InputTags from '@Components/InputTags/InputTags'

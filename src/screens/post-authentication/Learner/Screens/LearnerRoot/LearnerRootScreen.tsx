@@ -3,7 +3,7 @@ import { Learner, Store, Utils } from '@adewaskar/lms-common'
 import { useEffect, useMemo } from 'react'
 import { useOutletContext, useParams } from 'react-router'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import ApplyFavicon from './ApplyFavicon'
 import CreateTicket from '../Tickets/CreateTicket'

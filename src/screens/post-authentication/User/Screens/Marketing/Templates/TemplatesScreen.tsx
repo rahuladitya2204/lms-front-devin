@@ -3,7 +3,7 @@ import { Button, Card, Col, Row, Select, Space, Table, Tabs, Tag } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddEmailTemplate from './AddEmailTemplate'
 import { EmailTemplateStatusMap } from './Constant'
 import EmailTemplatesScreen from '@User/Screens/Settings/EmailSetting/EmailTemplatesScreen'

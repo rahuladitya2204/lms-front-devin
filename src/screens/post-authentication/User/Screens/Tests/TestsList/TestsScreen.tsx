@@ -1,6 +1,6 @@
 import { Button, Typography } from 'antd'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateTest from './CreateTest'
 import { Enum } from '@adewaskar/lms-common'
 import Header from '@User/Screens/UserRoot/UserHeader'

@@ -14,7 +14,7 @@ import {
 } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddQuestion from '../ExtraComponents/TestQuestions/AddQuestion'
 import AddTestimonial from '../ExtraComponents/Testimonials/AddTestomonial'
 import Header from '@Components/Header'

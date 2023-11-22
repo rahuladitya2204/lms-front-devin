@@ -1,7 +1,7 @@
 import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddInstructor from './AddInstructor'
 import Container from '@Components/Container'
 import Header from '@User/Screens/UserRoot/UserHeader'

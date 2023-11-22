@@ -34,7 +34,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { Outlet, useNavigate } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import Header from '@Components/Header'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'

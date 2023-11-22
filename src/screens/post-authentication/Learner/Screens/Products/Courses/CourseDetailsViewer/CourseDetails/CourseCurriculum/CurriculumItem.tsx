@@ -2,7 +2,7 @@ import { Col, Collapse, List, Row, Spin, Tag } from 'antd'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { LockOutlined, PlayCircleOutlined } from '@ant-design/icons'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CourseItemIcon from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 

@@ -3,7 +3,7 @@ import { ArrowLeftOutlined, GoogleOutlined, MessageOutlined } from '@ant-design/
 import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import LearnerRegister from '../Register'
 import OrgLogo from '@Components/OrgLogo'
 import ResetPassword from './RequestResetPassword'

@@ -111,7 +111,12 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       </Card>
     </Header>
   }
-
+  const SideDrawer = <ActionDrawer footer={() => [
+    // UpdatingTestStatus,
+    SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
+    </Button>}>
+    <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
+  </ActionDrawer>;
   return (
     <Spin spinning={loadingDetails || loadingStatus} >
       <Header
@@ -125,15 +130,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
           </Tag>:null}
         </Col>:null}
         <Col>
-          {!isDesktop ? <ActionDrawer footer={() => [
-            // UpdatingTestStatus,
-            SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
-          </Button>}>
-            <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
-          </ActionDrawer> : <>
-          {/* <Tag icon={<SyncOutlined spin={updatingTestStatus} />} color="processing">
-            {updatingTestStatus?'Syncing Changes':`Last updated ${dayjs(enrolledProduct.metadata.test.lastUpdated).format('h:mm A')}`}
-          </Tag> */}
+          {!isDesktop ? SideDrawer : <>
               {SubmitTestButton}
           </>}
       </Col>

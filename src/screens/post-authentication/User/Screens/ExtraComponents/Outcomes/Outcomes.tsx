@@ -1,9 +1,10 @@
-import { Table } from 'antd'
 import AddOutcome, { Outcome } from './AddOutcome'
-import { Types } from '@adewaskar/lms-common'
-import MoreButton from '@Components/MoreButton'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import ActionModal from '@Components/ActionModal'
+
+import ActionModal from '@Components/ActionModal/ActionModal'
+import MoreButton from '@Components/MoreButton'
+import { Table } from 'antd'
+import { Types } from '@adewaskar/lms-common'
 
 interface OutcomesProps {
   outcomes: Outcome[];

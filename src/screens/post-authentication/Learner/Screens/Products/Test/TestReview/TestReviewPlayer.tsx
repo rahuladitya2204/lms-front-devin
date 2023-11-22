@@ -18,6 +18,7 @@ import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo } from 'react'
 
+import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
 import { NavLink } from 'react-router-dom'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
@@ -73,7 +74,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
  
-const ExitButton = <Button style={{width:100}}
+const ExitButton = <Button style={{width:isDesktop?100:'100%'}} block={!isDesktop}
 onClick={() => {
   confirm({
     title: 'Are you sure?',
@@ -91,13 +92,24 @@ loading={submittingTest}
 >
 Exit
 </Button>;
-  const QuestionNavigator = TestReviewQuestionNavigator
+  const QuestionNavigator = TestReviewQuestionNavigator;
+  const SideDrawer = <ActionDrawer footer={() => [
+    // UpdatingTestStatus,
+    ExitButton]} cta={<Button icon={<MenuOutlined />}>
+    </Button>}>
+    <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
+  </ActionDrawer>;
   return (
     <Spin  spinning={loadingEnrolledProduct}>
         <Header
-        title={<Space> <NavLink to={`../app/test/${testId}/result`} ><Button type='primary' icon={<ArrowLeftOutlined/>} ></Button></NavLink> {test.title }</Space>}
+        title={<Space> <NavLink to={`../app/test/${testId}/result`} >
+          <Button type='primary' icon={<ArrowLeftOutlined />} ></Button>
+        </NavLink> {!isMobile?test.title:null}
+        </Space>}
       subTitle={'asd'}
-        extra={[<Tag style={{marginRight:30}}>Submitted at { dayjs(testEndTime).format('LLL')}</Tag>,ExitButton]}
+        extra={isDesktop?[<Tag style={{ marginRight: 30 }}>Submitted at {dayjs(testEndTime).format('LLL')}</Tag>,
+        ExitButton
+      ]:SideDrawer}
     >
       {isProcturingOn ? <><ProctoringComponent />   <Alert
         style={{ marginBottom: 50 }}
@@ -110,7 +122,7 @@ Exit
         <Col span={1} />
         <Col span={22}>
           <Row gutter={[50, 30]}>
-          <Col md={24} lg={16}>
+          <Col xs={24} lg={isDesktop?16: 24}>
                 <Outlet />
               <Card style={{marginTop:20}}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />

@@ -15,3 +15,13 @@
 .html-viewer th {
     background-color: #f2f2f2  !important; /* Sets a background color for the header cells */
 }
+
+.html-viewer figure{
+    margin: 0;
+}
+
+.html-viewer figure img{
+    width: auto !important; /* Fixed width for the image */
+    max-width: 100% !important; /* Ensures the image width doesn't exceed the container width */
+    height: auto; /* Maintains the aspect ratio */
+  }

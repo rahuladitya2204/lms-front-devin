@@ -14,7 +14,7 @@ import {
 import { Common, User } from '@adewaskar/lms-common'
 import { Fragment, useState } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import FileList from '@Components/FileList'
 import InputTags from '@Components/InputTags/InputTags'
 import MediaUpload from '@Components/MediaUpload'

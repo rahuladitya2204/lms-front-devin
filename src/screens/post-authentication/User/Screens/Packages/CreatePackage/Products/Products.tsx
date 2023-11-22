@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Space, Table } from 'antd'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddProduct from './AddProduct'
 import Image from '@Components/Image'
 import MoreButton from '@Components/MoreButton'

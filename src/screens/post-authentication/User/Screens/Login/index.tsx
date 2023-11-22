@@ -4,7 +4,7 @@ import { Constants, Store, User } from '@adewaskar/lms-common'
 import { NavLink, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import BgImage from './image.svg'
 import SelectFormGroup from '@Components/SelectFormGroup'

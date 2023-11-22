@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 
 import { Modal } from 'antd'
 
@@ -61,3 +61,8 @@ export default ActionModal
 export interface ActionModalI {
   closeModal?: () => void;
 }
+
+// export const openActionModal = (Component: React.ReactNode) => {
+//   const CtaRef = useRef(null)
+//   return <ActionModal cta={<span ref={CtaRef} />}>{Component}</ActionModal>
+// }

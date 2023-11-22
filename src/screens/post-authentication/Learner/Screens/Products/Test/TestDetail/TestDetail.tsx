@@ -5,7 +5,7 @@ import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CompletedLiveTestCard from './CompleteLiveTestMetadata'
 import CompletedTestCard from './CompletedTestMetadata'
 import Countdown from '@Components/Countdown'

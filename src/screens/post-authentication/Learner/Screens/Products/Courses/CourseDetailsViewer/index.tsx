@@ -18,7 +18,7 @@ import { Constants, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
-import ActionModal from '@Components/ActionModal';
+import ActionModal from '@Components/ActionModal/ActionModal';
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'

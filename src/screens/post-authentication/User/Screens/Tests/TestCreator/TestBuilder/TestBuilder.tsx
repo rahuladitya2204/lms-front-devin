@@ -2,7 +2,7 @@ import { Alert, Button, Col, Form, Modal, Row, Space, Spin, Tag } from 'antd'
 import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
 import EnterQuestionJson from './EnterQuestionJson'

@@ -1,6 +1,6 @@
 import { Avatar, Button, Space, Table } from 'antd'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import Container from '@Components/Container'
 import CreateCategory from './CreateCategory'
 import { EditOutlined } from '@ant-design/icons'

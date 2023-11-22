@@ -21,7 +21,7 @@ import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 
-import ActionModal from '@Components/ActionModal';
+import ActionModal from '@Components/ActionModal/ActionModal';
 import EnterLatexText from './EnterLatexText';
 import GenerateAIItemDetails from './GenerateAIItemDetails';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';

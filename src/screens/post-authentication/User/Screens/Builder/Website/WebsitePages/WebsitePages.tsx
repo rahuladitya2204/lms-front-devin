@@ -1,6 +1,6 @@
 import { Button, Card, Space, Table } from 'antd'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateWebsitePage from './CreateWebsitePage'
 import { DeleteOutlined } from '@ant-design/icons'
 import { Types } from '@adewaskar/lms-common'

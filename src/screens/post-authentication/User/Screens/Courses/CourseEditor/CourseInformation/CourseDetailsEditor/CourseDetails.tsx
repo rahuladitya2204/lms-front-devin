@@ -14,7 +14,7 @@ import {
 import { Constants, Types } from '@adewaskar/lms-common'
 import { User, Utils } from '@adewaskar/lms-common'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddInstructor from '@User/Screens/Users/Instructors/AddInstructor'
 import CreateCategory from '@User/Screens/Categories/CreateCategory'
 import GenerateWithAI from '../GenerateWithAiButton'

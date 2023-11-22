@@ -1,7 +1,7 @@
 import { Button, Card, Col, Form, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CreatePlan from '../../../ExtraComponents/CreatePlan'
 import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'

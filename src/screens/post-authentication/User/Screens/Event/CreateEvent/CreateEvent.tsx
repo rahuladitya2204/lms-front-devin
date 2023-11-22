@@ -17,7 +17,7 @@ import { Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddTestimonial from '../../ExtraComponents/Testimonials/AddTestomonial'
 import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 import EventOutcomes from '../../ExtraComponents/Outcomes/Outcomes'

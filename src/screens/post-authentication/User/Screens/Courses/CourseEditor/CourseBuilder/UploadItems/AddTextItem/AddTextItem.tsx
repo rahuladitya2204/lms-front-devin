@@ -14,7 +14,7 @@ import { Fragment, useEffect } from 'react'
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import { Types, User } from '@adewaskar/lms-common'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import { AddItemProps } from '../UploadPDF'
 import FileList from '@Components/FileList'
 import InputTags from '@Components/InputTags/InputTags'

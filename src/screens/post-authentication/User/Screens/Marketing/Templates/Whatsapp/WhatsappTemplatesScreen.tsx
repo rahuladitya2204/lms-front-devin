@@ -2,7 +2,7 @@ import { Button, Card, Col, Dropdown, Row, Select, Space, Table, Tag } from 'ant
 import { Common, Types } from '@adewaskar/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddWhatsappTemplate from './AddWhatsappTemplate'
 import Header from '@Components/Header'
 import { User } from '@adewaskar/lms-common'

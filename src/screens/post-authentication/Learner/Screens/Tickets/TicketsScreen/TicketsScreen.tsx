@@ -1,6 +1,6 @@
 import { Button, Card, Col, Empty, Row, Skeleton, Space, Spin } from 'antd'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateTicket from '../CreateTicket'
 import { Learner } from '@adewaskar/lms-common'
 import { Link } from 'react-router-dom'

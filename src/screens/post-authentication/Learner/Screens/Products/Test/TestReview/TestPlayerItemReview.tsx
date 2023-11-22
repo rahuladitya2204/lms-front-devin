@@ -8,6 +8,7 @@ import { TestAnswerTag } from '../TestResult/Table/TestResultTable';
 import TestPlayerFiles from '../TestPlayer/TestPlayerItem/TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import { htmlToText } from 'html-to-text';
+import useBreakpoint from '@Hooks/useBreakpoint';
 import { useParams } from 'react-router';
 import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
 
@@ -50,15 +51,16 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const answerText = htmlToText(answer?.subjective?.text);
 
   const { token } = theme.useToken()
-
+  const { isMobile} = useBreakpoint();
   const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
   return (
     <Spin spinning={loading}>
-      <Card title={`Question ${currentQuestionIndex + 1}`} extra={[<TestAnswerTag item={currentQuestion} />,
+      <Card title={`Question ${currentQuestionIndex + 1}`}
+        extra={!isMobile?[<TestAnswerTag item={currentQuestion} />,
         currentQuestion.scoreAchieved !== undefined ?
           <Tag color={(currentQuestion.scoreAchieved > 0) ?
             'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}</Tag> : 
-          <Tag color='red-inverse'>Score: 0</Tag>]
+          <Tag color='red-inverse'>Score: 0</Tag>] :null
       }
       >
       <Form layout='vertical' form={form}>
@@ -113,10 +115,11 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
 
         <Row justify="space-between">
           <Col flex={1} style={{justifyContent:'space-between',display:'flex'}}>
-            <Button type={'primary'} onClick={() => navigate('prev')} style={{ marginRight: 20 }} icon={<BackwardOutlined />}>
+              <Button type={'primary'} onClick={() => navigate('prev')}
+                style={{ marginRight: 20, width: 120 }} icon={<BackwardOutlined />}>
               Previous
             </Button>
-            <Button type={'primary'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
+            <Button style={{width: 120}} type={'primary'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
               Next
             </Button>
           </Col>

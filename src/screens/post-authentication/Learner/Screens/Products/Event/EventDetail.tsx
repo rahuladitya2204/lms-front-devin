@@ -1,7 +1,7 @@
 import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
 import { Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import { CalendarOutlined } from '@ant-design/icons'
 import Countdown from '@Components/Countdown'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'

@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Input, Typography } from 'antd'
 import { Common, Learner, Store, Types } from '@adewaskar/lms-common'
 
-import { ActionModalI } from '@Components/ActionModal'
+import { ActionModalI } from '@Components/ActionModal/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import React from 'react'
 import { Utils } from '@adewaskar/lms-common'

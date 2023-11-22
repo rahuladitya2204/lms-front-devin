@@ -1,7 +1,7 @@
 import { Button, Card, Col, Empty, List, Row, Skeleton, Spin } from 'antd'
 import { Constants, User } from '@adewaskar/lms-common'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CourseCard from './CourseCard'
 import CreateCourseComponent from '../CreateCourse/CreateCourse'
 import { Fragment } from 'react'

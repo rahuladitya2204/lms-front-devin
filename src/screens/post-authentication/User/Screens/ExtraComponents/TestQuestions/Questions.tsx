@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { List, Modal, Table, Tag, Tooltip, Typography } from 'antd'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddQuestion from './AddQuestion'
 import MoreButton from '@Components/MoreButton'
 import { Types } from '@adewaskar/lms-common'

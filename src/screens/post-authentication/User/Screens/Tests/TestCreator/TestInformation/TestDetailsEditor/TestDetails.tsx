@@ -13,7 +13,7 @@ import {
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateCategory from '@User/Screens/Categories/CreateCategory'
 import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'

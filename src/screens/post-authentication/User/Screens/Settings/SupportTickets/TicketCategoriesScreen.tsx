@@ -1,7 +1,7 @@
 import { Button, Card, Col, Row, Space, Spin, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateTicketCategory from './CreateTicketCategory'
 // import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'

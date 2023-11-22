@@ -1,9 +1,10 @@
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+
+import ActionModal from '@Components/ActionModal/ActionModal'
+import AddTestimonial from './AddTestomonial'
+import MoreButton from '@Components/MoreButton'
 import { Table } from 'antd'
 import { Types } from '@adewaskar/lms-common'
-import MoreButton from '@Components/MoreButton'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import ActionModal from '@Components/ActionModal'
-import AddTestimonial from './AddTestomonial'
 
 interface TestimonialsProps {
   testimonials: Types.Testimonial[];

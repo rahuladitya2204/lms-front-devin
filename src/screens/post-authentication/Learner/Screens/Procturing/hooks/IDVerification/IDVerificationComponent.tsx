@@ -1,10 +1,13 @@
-import React, { useRef, useState } from 'react';
-import * as faceapi from 'face-api.js';
-import Webcam from 'react-webcam';
-import { Button, notification, Spin } from 'antd';
 import './style.css';
-import { ActionModalI } from '@Components/ActionModal';
+
+import * as faceapi from 'face-api.js';
+
+import { Button, Spin, notification } from 'antd';
+import React, { useRef, useState } from 'react';
+
+import { ActionModalI } from '@Components/ActionModal/ActionModal';
 import Title from 'antd/es/typography/Title';
+import Webcam from 'react-webcam';
 
 interface IDVerificationComponentProps extends ActionModalI {
   onMatch: () => void;

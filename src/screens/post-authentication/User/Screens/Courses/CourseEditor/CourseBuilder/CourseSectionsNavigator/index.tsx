@@ -2,7 +2,7 @@ import { Button, Card, Collapse, Dropdown, Input, List, Modal, Space, Tooltip, T
 import { DeleteOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 
-import ActionModal from '@Components/ActionModal'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AddItem from '../AddItem'
 import AddSection from '../CreateNewItem/AddSection'
 import CourseItemIcon from './CourseItemIcon'

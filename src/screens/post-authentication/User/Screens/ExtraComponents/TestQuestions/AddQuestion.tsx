@@ -16,7 +16,7 @@ import { Constants, Types, Utils } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import { Fragment, useEffect, useState } from 'react'
 
-import ActionModal from '@Components/ActionModal';
+import ActionModal from '@Components/ActionModal/ActionModal';
 import GenerateQuestionWithAI from './GenerateQuestionWithAI';
 import TextArea from '@Components/Textarea';
 
