@@ -1,4 +1,4 @@
-import { Alert, Button, Checkbox, Divider, Form, Input, Space } from 'antd'
+import { Alert, Button, Checkbox, Divider, Form, Input, Modal, Space } from 'antd'
 import { ArrowLeftOutlined, GoogleOutlined, MessageOutlined } from '@ant-design/icons'
 import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
@@ -84,6 +84,7 @@ const OtpForm = (props:LearnerLoginPropsI) => {
   const { mutate: sendOtpApi, isLoading: sendingOtp } = Learner.Queries.useSendLoginOtp();
   const { mutate: verifyOtpApi, isLoading: verifyingOtp } = Learner.Queries.useVerifyLoginOtp();
   const [contactNo, setContactNo] = useState('');
+  const [showRegister, setShowRegister] = useState(false);
   const sendOtp = async (contactNo='') => {
     try {
       // if (!contactNo) {
@@ -98,6 +99,7 @@ const OtpForm = (props:LearnerLoginPropsI) => {
           setOtpSent(true);
         },
         onError: () => {
+          setShowRegister(true)
           message.open({ type: 'error', content: 'Mobile Number not registered with us, Please Register by clicking on Signup' });
         }
       });
@@ -135,9 +137,9 @@ const OtpForm = (props:LearnerLoginPropsI) => {
       console.log('Otp Failed:', error);
     }
   };
-
   return (
     <>
+      <Modal open={showRegister} ><LearnerRegister data={{contactNo: contactNo}} onRegisterSuccess={()=>setShowRegister(false)} /></Modal>
       <LogoTop/>
       {otpSent ? (
         <Fragment>

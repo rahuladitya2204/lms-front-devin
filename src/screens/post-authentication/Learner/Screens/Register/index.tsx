@@ -1,15 +1,16 @@
 import { Button, Checkbox, Form, Input, Typography } from 'antd'
 import { Common, Learner, Store, Types } from '@adewaskar/lms-common'
+import React, { useEffect } from 'react'
 
 import { ActionModalI } from '@Components/ActionModal/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
-import React from 'react'
 import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router-dom'
 
 interface LearnerRegisterPropsI extends ActionModalI {
   onRegisterSuccess?: Function;
+  data?: Partial<Types.Learner>;
 }
 
 function LearnerRegister(props: LearnerRegisterPropsI) {
@@ -59,6 +60,15 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
       }
     )
   }
+
+  useEffect(
+    () => {
+      if (props.data) {
+        form.setFieldsValue(props.data)
+      }
+    },
+    [props.data]
+  )
 
   const validateMessages = {
     required: '${label} is required!',
