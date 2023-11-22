@@ -9,7 +9,7 @@ import {
   Table,
   Typography
 } from 'antd'
-import { Common, Store, Types } from '@adewaskar/lms-common'
+import { Common, Store, Types, User } from '@adewaskar/lms-common'
 
 import { DeleteOutlined } from '@ant-design/icons'
 import FileTypeIcon from '@Components/FileTypeIcon'
@@ -22,7 +22,7 @@ const { Text } = Typography
 
 function AssetLibraryScreen() {
   const { data, isFetching: loadingFiles } = Common.Queries.useGetFiles()
-  const { data: organisation } = Common.Queries.useGetOrgDetails()
+  const { data: organisation } = User.Queries.useGetOrgDetails()
   const {
     mutate: deleteFile,
     isLoading: deletingFile

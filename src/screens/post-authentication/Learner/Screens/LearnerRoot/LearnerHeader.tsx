@@ -182,17 +182,17 @@ const LearnerHeader: React.FC = () => {
               placement="bottomLeft"
               overlay={
                 <Menu>
-                  <Menu.Item
+                 {user.name? <Menu.Item
                     key="account"
                     icon={
                       <Avatar src={user.image} style={{ marginRight: 10 }}>
                         {Utils.getFirstLettersOfName(user.name)}
                       </Avatar>
                     }
-                    onClick={() => navigate('../app/account')}
+                    // onClick={() => navigate('../app/account')}
                   >
                     {user?.name}
-                  </Menu.Item>
+                  </Menu.Item>:null}
                   {/* <Menu.Item
                   key="account"
                 >

@@ -51,7 +51,7 @@ export const useAppInit = () => {
 
 
 export const usePaymentCheckout = () => {
-  const { data: organisation } = Common.Queries.useGetOrgDetails()
+  const { data: organisation } = Learner.Queries.useGetOrgDetails()
   const Razorpay = useRazorpay();
   // @ts-ignore
   const openCheckout = ({pgOrder,order},cb) => {

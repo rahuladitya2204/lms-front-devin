@@ -3,6 +3,7 @@ import { Card, Tabs } from 'antd'
 import EmailSettingScreen from '../EmailSetting/EmailSettingScreen'
 import { Fragment } from 'react'
 import Header from '@Components/Header'
+import LearnerSetting from './LearnerSetting'
 import OrgProfile from './OrgProfile'
 import { Outlet } from 'react-router'
 import TicketCategorysScreen from '../SupportTickets/TicketCategoriesScreen'
@@ -34,6 +35,11 @@ function UserAccount () {
               label: `Org Details`,
               key: '1123',
               children: <OrgProfile />
+            },
+            {
+              label: `Learner`,
+              key: '1112323',
+              children: <LearnerSetting />
             },
             // {
             //   label: `Profile Details`,

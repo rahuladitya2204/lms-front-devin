@@ -16,7 +16,7 @@ interface LearnerRegisterPropsI extends ActionModalI {
 function LearnerRegister(props: LearnerRegisterPropsI) {
   const message = useMessage()
   const setIsSignedin = Store.useAuthentication(s => s.setIsSignedin)
-  const { data: organisation } = Common.Queries.useGetOrgDetails()
+  const { data: organisation } = Learner.Queries.useGetOrgDetails()
   const [form] = Form.useForm()
   const {
     mutate: Signup,

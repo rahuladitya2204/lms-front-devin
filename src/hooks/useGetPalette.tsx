@@ -1,4 +1,4 @@
-import { Common, Store } from '@adewaskar/lms-common'
+import { Common, Store, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import { generate } from '@ant-design/colors'
@@ -6,7 +6,7 @@ import { getPaletteFromImage } from '@User/Screens/Builder/AppBuilder/AppCustomi
 import { prominent } from 'color.js'
 
 const useGetPalette = (image?: string) => {
-  const { data:organisation} = Common.Queries.useGetOrgDetails();
+  const { data:organisation} = User.Queries.useGetOrgDetails();
   const [colors, setColor] = useState<string[]>([])
   useEffect(() => {
     getPaletteFromImage(organisation.logo).then((c: any) => {

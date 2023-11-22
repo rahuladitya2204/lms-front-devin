@@ -1,7 +1,7 @@
 import { Common, Learner } from '@adewaskar/lms-common'
 
 export default function LearnerPrivacyPolicy () {
-  const { data: { alias } } = Common.Queries.useGetOrgDetails()
+  const { data: { alias } } = Learner.Queries.useGetOrgDetails()
   return (
     <div className="wrapper">
       <div className="page">

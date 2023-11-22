@@ -1,5 +1,6 @@
 import { Button, Card, Typography } from 'antd'
 
+import { Enum } from '@adewaskar/lms-common'
 import PastEvent from './PastTests'
 import PastTest from './PastTests'
 import Tabs from '@Components/Tabs'
@@ -18,12 +19,18 @@ const EventsScreen = () => {
           {
             key: 'upcoming',
             label: `Upcoming`,
-            children: <UpcomingTest filter={{ status: ['created'] }} />
+            children: (
+              <UpcomingTest
+                filter={{
+                  status: [Enum.TestStatus.DRAFT, Enum.TestStatus.PUBLISHED]
+                }}
+              />
+            )
           },
           {
             key: 'past',
             label: `Past`,
-            children: <PastTest filter={{ status: ['ended'] }} />
+            children: <PastTest filter={{ status: [Enum.TestStatus.ENDED] }} />
           }
         ]}
       />

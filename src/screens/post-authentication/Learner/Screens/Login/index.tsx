@@ -200,7 +200,7 @@ const EmailForm = (props:LearnerLoginPropsI) => {
   } = Learner.Queries.useLoginLearner();
   const { data: {
     name: orgName
-  } } = Common.Queries.useGetOrgDetails();
+  } } = Learner.Queries.useGetOrgDetails();
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields()
