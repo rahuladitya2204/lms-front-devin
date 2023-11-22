@@ -70,7 +70,7 @@ export default function TestMetrics() {
   )
   const ExitButton = (
     <Button
-      style={{ width: 100 }}
+      style={{ width: isMobile ? '100%' : 100 }}
       icon={<LogoutOutlined />}
       onClick={() => {
         confirm({
@@ -126,6 +126,7 @@ export default function TestMetrics() {
       extra={
         isMobile ? (
           <ActionDrawer
+            footer={() => [ExitButton]}
             cta={
               <Button
                 type="primary"
