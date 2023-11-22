@@ -118,9 +118,9 @@ render={(_: any, record: Types.Learner) => (
           dataIndex="rating"
           key="rating"
           render={(_: any, record: Types.EnrolledProductDetails) => {
-            const review = record.review as unknown as Types.ProductReview;
+            const review = record?.review as unknown as Types.ProductReview;
             return (
-              <Rate disabled allowHalf defaultValue={review.rating} />
+              <Rate disabled allowHalf defaultValue={review?.rating} />
             )
           }}
         />
@@ -129,9 +129,9 @@ render={(_: any, record: Types.Learner) => (
           dataIndex="createdAt"
           key="createdAt"
           render={(_: any, record: Types.EnrolledProductDetails) => {
-            const review = record.review as unknown as Types.ProductReview;
-            return review.comment?(
-              <Space size="middle">{review.comment}</Space>
+            const review = record?.review as unknown as Types.ProductReview;
+            return review?.comment?(
+              <Space size="middle">{review?.comment}</Space>
             ):'-'
           }}
         />

@@ -39,7 +39,7 @@ export default function LearnerProfile(props: LearnerProfilePropsI) {
       {
         onSuccess: () => {
           message.success('Profile details saved')
-          props.closeModal && props.closeModal();
+          props.closeModal && props.closeModal()
         },
         onError: (e: any) => {
           message.error(e.response.data.message)
@@ -67,7 +67,7 @@ export default function LearnerProfile(props: LearnerProfilePropsI) {
         label="Name"
         name="name"
       >
-        <Input />
+        <Input placeholder="Please enter your email" />
       </Form.Item>
       {!learnerDetails.email ? (
         <Form.Item
@@ -81,7 +81,7 @@ export default function LearnerProfile(props: LearnerProfilePropsI) {
           label="Email"
           name={['email']}
         >
-          <Input />
+          <Input placeholder="Please enter your email" />
         </Form.Item>
       ) : null}
 
@@ -97,7 +97,7 @@ export default function LearnerProfile(props: LearnerProfilePropsI) {
           label="Contact No"
           name={['contactNo']}
         >
-          <Input />
+          <Input type="number" placeholder="Please enter your contact number" />
         </Form.Item>
       ) : null}
 

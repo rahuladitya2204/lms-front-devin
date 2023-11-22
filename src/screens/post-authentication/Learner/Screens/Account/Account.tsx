@@ -1,4 +1,4 @@
-import LearnerProfile from './CompleteProfile'
+import LearnerProfile from './LearnerProfile'
 import { Tabs } from 'antd'
 
 const items = [
