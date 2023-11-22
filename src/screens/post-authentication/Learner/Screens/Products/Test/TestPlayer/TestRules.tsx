@@ -83,8 +83,8 @@ export default function TestRules(props: TestRulesPropsI) {
         }
       >
         <Row gutter={[20, 20]}>
-          <Col xs={0} md={4} />
-          <Col md={16}>
+          <Col xs={1} md={4} />
+          <Col xs={22} md={16}>
             <Row>
               <Col span={24}>
                 <Title style={{ textAlign: 'center' }}>Online Assesment</Title>
@@ -180,7 +180,7 @@ export default function TestRules(props: TestRulesPropsI) {
               </Col>
             </Row>
           </Col>
-          <Col xs={0} md={4} />
+          <Col xs={1} md={4} />
         </Row>
       </Header>
     </Spin>
