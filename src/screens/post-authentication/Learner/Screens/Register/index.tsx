@@ -63,6 +63,7 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
 
   useEffect(
     () => {
+      console.log(props.data, 'asdasd')
       if (props.data) {
         form.setFieldsValue(props.data)
       }

@@ -86,6 +86,7 @@ const OtpForm = (props:LearnerLoginPropsI) => {
   const [contactNo, setContactNo] = useState('');
   const [showRegister, setShowRegister] = useState(false);
   const sendOtp = async (contactNo='') => {
+    setContactNo(contactNo)
     try {
       // if (!contactNo) {
       //   contactNo= (await form.validateFields()).contactNo;
@@ -100,7 +101,7 @@ const OtpForm = (props:LearnerLoginPropsI) => {
         },
         onError: () => {
           setShowRegister(true)
-          message.open({ type: 'error', content: 'Mobile Number not registered with us, Please Register by clicking on Signup' });
+          message.open({ type: 'success', content: 'Lets get signed up' });
         }
       });
     } catch (error) {
@@ -139,7 +140,7 @@ const OtpForm = (props:LearnerLoginPropsI) => {
   };
   return (
     <>
-      <Modal open={showRegister} ><LearnerRegister data={{contactNo: contactNo}} onRegisterSuccess={()=>setShowRegister(false)} /></Modal>
+      <ActionModal title={`Let's get registered`} width={300} open={showRegister} ><LearnerRegister data={{contactNo: contactNo}} onRegisterSuccess={()=>setShowRegister(false)} /></ActionModal>
       <LogoTop/>
       {otpSent ? (
         <Fragment>

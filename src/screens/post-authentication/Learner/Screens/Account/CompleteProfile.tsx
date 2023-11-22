@@ -15,10 +15,13 @@ import {
 } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 
+import { ActionModalI } from '@Components/ActionModal/ActionModal'
 import MediaUpload from '@Components/MediaUpload'
 import { useEffect } from 'react'
 
-export default function LearnerProfile() {
+interface LearnerProfilePropsI extends ActionModalI {}
+
+export default function LearnerProfile(props: LearnerProfilePropsI) {
   const { data: { interests } } = Learner.Queries.useGetOrgDetails()
   const [form] = Form.useForm()
   const {
@@ -36,6 +39,7 @@ export default function LearnerProfile() {
       {
         onSuccess: () => {
           message.success('Profile details saved')
+          props.closeModal && props.closeModal();
         },
         onError: (e: any) => {
           message.error(e.response.data.message)
