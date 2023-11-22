@@ -7,6 +7,7 @@ import {
   List,
   Row,
   Space,
+  Spin,
   Tag,
   Typography,
   notification
@@ -21,6 +22,7 @@ import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerific
 import { Learner } from '@adewaskar/lms-common'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import dayjs from 'dayjs'
+import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { Title, Text } = Typography
 
@@ -34,7 +36,11 @@ export default function TestRules(props: TestRulesPropsI) {
   } = Learner.Queries.useStartTest(testId + '')
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
   const {
-    data: enrolledProduct
+    data: { status: { hasEnded, hasStarted } }
+  } = Learner.Queries.useGetTestStatus(testId + '')
+  const {
+    data: enrolledProduct,
+    isLoading: loadingEnrolledTest
   } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'test',
     id: testId + ''
@@ -54,118 +60,126 @@ export default function TestRules(props: TestRulesPropsI) {
         .toString()
     : null
   const navigate = useNavigate()
+  const { isMobile } = useBreakpoint()
   return (
-    <Header
-      showBack
-      title={test.title}
-      extra={[
-        testStartDate && endingAt ? (
-          <Tag color="blue">
-            Time Left: <TestTimeCountdown testId={testId + ''} />
-          </Tag>
-        ) : null,
-        test.duration.enabled ? (
-          <Tag color="cyan">Time Limit: {test.duration.value} mins</Tag>
-        ) : null
-      ]}
-    >
-      <Row>
-        <Col span={4} />
-        <Col span={16}>
-          <Row>
-            <Col span={24}>
-              <Title style={{ textAlign: 'center' }}>Online Assesment</Title>
-              <List
-                itemLayout="horizontal"
-                dataSource={TEST_RULES}
-                renderItem={(item, index) => (
-                  <List.Item>
-                    <List.Item.Meta title={item.rule} />
-                  </List.Item>
-                )}
-              />
-            </Col>
-            <Divider />
-            <Col span={24}>
-              <Title level={4}>Term & Pledges</Title>
-              <Form form={form}>
-                {TERMS.map(({ term, termId }) => {
-                  return (
-                    <Form.Item name={termId} valuePropName="checked">
-                      <Checkbox>{term}</Checkbox>
-                    </Form.Item>
-                  )
-                })}
-              </Form>
-              <Row
-                align={'middle'}
-                style={{ display: 'flex', flexDirection: 'row-reverse' }}
-              >
-                <Col flex={'reverse'}>
-                  {!isVerificationOn ? (
-                    <Button
-                      disabled={!isValid}
-                      style={{ marginLeft: 20, width: 200 }}
-                      type="primary"
-                      loading={startingTest}
-                      onClick={() => {
-                        startTest(
-                          {
-                            testId: test._id + ''
-                          },
-                          {
-                            onSuccess: () => {
-                              console.log('Helo')
-                              navigate('../player')
-                            }
-                          }
-                        )
-                      }}
-                    >
-                      {testStartDate && !testEndDate
-                        ? 'Continue Test'
-                        : 'Start Test'}
-                    </Button>
-                  ) : (
-                    <ActionModal
-                      cta={
-                        <Button
-                          disabled={!isValid}
-                          style={{ marginLeft: 20, width: 200 }}
-                          type="primary"
-                        >
-                          Verify and Start Test
-                        </Button>
-                      }
-                    >
-                      <IDVerificationComponent
-                        onMatch={() => {
-                          notification.success({
-                            message: 'Success',
-                            description: 'ID Verified!'
-                          })
-
+    <Spin spinning={loadingEnrolledTest}>
+      <Header
+        showBack
+        title={test.title}
+        extra={
+          !isMobile
+            ? [
+                hasStarted ? (
+                  testStartDate && endingAt ? (
+                    <Tag color="blue">
+                      Time Left: <TestTimeCountdown testId={testId + ''} />
+                    </Tag>
+                  ) : null
+                ) : test.duration.enabled ? (
+                  <Tag color="cyan">Time Limit: {test.duration.value} mins</Tag>
+                ) : null
+              ]
+            : null
+        }
+      >
+        <Row>
+          <Col span={4} />
+          <Col span={16}>
+            <Row>
+              <Col span={24}>
+                <Title style={{ textAlign: 'center' }}>Online Assesment</Title>
+                <List
+                  itemLayout="horizontal"
+                  dataSource={TEST_RULES}
+                  renderItem={(item, index) => (
+                    <List.Item>
+                      <List.Item.Meta title={item.rule} />
+                    </List.Item>
+                  )}
+                />
+              </Col>
+              <Divider />
+              <Col span={24}>
+                <Title level={4}>Term & Pledges</Title>
+                <Form form={form}>
+                  {TERMS.map(({ term, termId }) => {
+                    return (
+                      <Form.Item name={termId} valuePropName="checked">
+                        <Checkbox>{term}</Checkbox>
+                      </Form.Item>
+                    )
+                  })}
+                </Form>
+                <Row
+                  align={'middle'}
+                  style={{ display: 'flex', flexDirection: 'row-reverse' }}
+                >
+                  <Col flex={'reverse'}>
+                    {!isVerificationOn ? (
+                      <Button
+                        disabled={!isValid}
+                        style={{ marginLeft: 20, width: 200 }}
+                        type="primary"
+                        loading={startingTest}
+                        onClick={() => {
                           startTest(
                             {
                               testId: test._id + ''
                             },
                             {
                               onSuccess: () => {
+                                console.log('Helo')
                                 navigate('../player')
                               }
                             }
                           )
                         }}
-                      />
-                    </ActionModal>
-                  )}
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Col>
-        <Col span={4} />
-      </Row>
-    </Header>
+                      >
+                        {testStartDate && !testEndDate
+                          ? 'Continue Test'
+                          : 'Start Test'}
+                      </Button>
+                    ) : (
+                      <ActionModal
+                        cta={
+                          <Button
+                            disabled={!isValid}
+                            style={{ marginLeft: 20, width: 200 }}
+                            type="primary"
+                          >
+                            Verify and Start Test
+                          </Button>
+                        }
+                      >
+                        <IDVerificationComponent
+                          onMatch={() => {
+                            notification.success({
+                              message: 'Success',
+                              description: 'ID Verified!'
+                            })
+
+                            startTest(
+                              {
+                                testId: test._id + ''
+                              },
+                              {
+                                onSuccess: () => {
+                                  navigate('../player')
+                                }
+                              }
+                            )
+                          }}
+                        />
+                      </ActionModal>
+                    )}
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={4} />
+        </Row>
+      </Header>
+    </Spin>
   )
 }
