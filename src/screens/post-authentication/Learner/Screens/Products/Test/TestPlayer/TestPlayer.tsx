@@ -17,12 +17,14 @@ import { Enum, Learner } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
+import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import { MenuOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
+import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'
 
@@ -102,7 +104,12 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   >
     Submit Test
   </Button>
-
+  const targetDate = dayjs(startedAt).add(test.duration.value, 'minutes').toString();
+  const CountdownComponent =
+  <Tag color="blue">
+  Time Left: <Countdown targetDate={targetDate} /> 
+    </Tag>
+    
   const QuestionNavigator = TestQuestionNavigator;
   if (testEndTime) {
     return <Header title={test.title} extra={<NavLink to={'../'} ><Button type='primary'>Go Back</Button></NavLink>} >
@@ -111,7 +118,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       </Card>
     </Header>
   }
-  const SideDrawer = <ActionDrawer footer={() => [
+  const SideDrawer = <ActionDrawer extra={()=>[CountdownComponent]} footer={() => [
     // UpdatingTestStatus,
     SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
     </Button>}>
@@ -120,14 +127,10 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   return (
     <Spin spinning={loadingDetails || loadingStatus} >
       <Header
-      title={test.title}
+      title={!isMobile?test.title:CountdownComponent}
       subTitle={'asd'}
       extra={<Row>
         {!isDesktop ? <Col>
-          {/* {UpdatingTestStatus} */}
-       {(hasStarted&&!hasEnded)?<Tag color="blue">
-        Time Left: <TestTimeCountdown testId={testId+''} /> 
-          </Tag>:null}
         </Col>:null}
         <Col>
           {!isDesktop ? SideDrawer : <>

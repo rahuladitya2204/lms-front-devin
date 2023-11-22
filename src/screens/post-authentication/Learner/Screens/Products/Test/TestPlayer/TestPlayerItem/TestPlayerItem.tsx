@@ -7,6 +7,7 @@ import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import TestPlayerFiles from './TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import { htmlToText } from 'html-to-text';
+import useBreakpoint from '@Hooks/useBreakpoint';
 import useMessage from '@Hooks/useMessage';
 import { useParams } from 'react-router';
 import useQuestion from '../hooks/useQuestion';
@@ -28,7 +29,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { data: test}=Learner.Queries.useGetTestDetails(testId+'',Enum.TestDetailMode.TEST)
   const { mutate: submitAnswer,isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer(testId+'');
   const answer = Form.useWatch(['answer'], form);
-  // console.log(currentQuestion,'currentQuestion')
+  const { isMobile } = useBreakpoint();
   useEffect(() => {
     const { answerGiven } = currentQuestion;
       let answer = answerGiven;
@@ -71,7 +72,12 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
-
+  const PrevButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('prev')} style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
+    {!isMobile?'Previous':''}
+  </Button>;
+  const NextButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
+    {!isMobile ? 'Next' : ''}
+  </Button>;
   // const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   return (
     <Spin spinning={loading}>
@@ -119,26 +125,27 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         </div>
 
         <Row justify="space-between">
-          <Col flex={1} >
-            <Button onClick={() => navigate('prev')} style={{ marginRight: 20 }} icon={<BackwardOutlined />}>
-              Previous
-            </Button>
-            <Button onClick={() => navigate('next')} icon={<ForwardOutlined />}>
-              Next
-            </Button>
-          </Col>
-          <Col style={{display:'flex',flexDirection:'row-reverse'}}>
+        {!isMobile?  <Col flex={1} >
+              {PrevButton}
+              {NextButton}
+          </Col>:null}
+            <Col style={{ display: 'flex', flex:isMobile?1:'',flexDirection: 'row-reverse',justifyContent:'space-between'}}>
+              <Fragment>
+              {isMobile?NextButton:null}
       <Button
               disabled={!isValid}
               type="primary" loading={submittingAnswer}
-              style={{ marginLeft: 20 }}
+              style={{ marginLeft: 20,marginRight:20 }}
               onClick={form.submit}
             >
               Submit Answer
-            </Button>
-            {/* @ts-ignore */}
-            {currentQuestion.isMarked ?
-              <Button  loading={updatingFlag}
+              </Button>
+              {isMobile?PrevButton:null}
+            </Fragment>
+
+              {!isMobile?<>
+              {currentQuestion.isMarked ?
+              <Button loading={updatingFlag}
                 type='primary'
                 onClick={() => updateQuestionResponseFlag({
                   questionId: questionId + '', flag: 'reviewed'
@@ -153,7 +160,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                   })}
                 icon={<FlagOutlined />} danger type="default">
               Mark for review
-            </Button>}
+                  </Button>}
+              </>:null}
            
           </Col>
         </Row>
