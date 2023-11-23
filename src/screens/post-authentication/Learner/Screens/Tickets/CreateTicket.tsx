@@ -68,8 +68,8 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
       }
       else {
         form.setFieldsValue({
-          contactNo: learner.communication.contactNo,
-          contactEmail: learner.communication.email
+          contactNo: learner.contactNo.replace('91',''),
+          contactEmail: learner.email
         })
       }
     },

@@ -206,7 +206,8 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   }, [test, enrolledDetails]);
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const message = useMessage();
-  const { isMobile,isTablet} = useBreakpoint();
+  const { isMobile, isTablet } = useBreakpoint();
+  const isFree = plan.type === 'free';
   return   <Card
   bodyStyle={{ padding: 10, paddingBottom: 20 }}
   // style={{ height: '100%' }}
@@ -272,7 +273,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               block
               type='primary'
             >
-              Buy Now
+              {isFree?'Try Now':'Buy Now'}
                   </ProductCheckoutButton>}
                 </> : <ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
