@@ -12,14 +12,18 @@ const TestFeedback = (props: TestSolutionPropsI) => {
   const { currentQuestion: { feedback } } = props
   return (
     <Row>
-      <Col span={24}>
-        <Title level={4}>What was right</Title>
-        <Alert type="success" message={feedback.met} />
-      </Col>
-      <Col span={24}>
-        <Title level={4}>What was missing</Title>
-        <Alert type="error" message={feedback.notMet} />
-      </Col>
+      {feedback.met ? (
+        <Col span={24}>
+          <Title level={4}>What was right</Title>
+          <Alert type="success" message={feedback.met} />
+        </Col>
+      ) : null}
+      {feedback.notMet ? (
+        <Col span={24}>
+          <Title level={4}>What was missing</Title>
+          <Alert type="error" message={feedback.notMet} />
+        </Col>
+      ) : null}
     </Row>
   )
 }

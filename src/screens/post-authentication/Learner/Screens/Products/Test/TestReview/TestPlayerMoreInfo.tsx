@@ -49,7 +49,7 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
     //   children: 'Tab 3'
     // }
   ]
-  if (currentQuestion.feedback.met || currentQuestion.feedback.notMet) {
+  if ((currentQuestion?.feedback?.met) || (currentQuestion?.feedback?.notMet)) {
     TAB_ITEMS.unshift({
       label: `Feedback`,
       key: 'feedback',

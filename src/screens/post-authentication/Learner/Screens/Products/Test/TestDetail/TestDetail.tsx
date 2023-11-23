@@ -208,6 +208,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const message = useMessage();
   const { isMobile, isTablet } = useBreakpoint();
   const isFree = plan.type === 'free';
+  const isPriceSame = ((plan?.displayPrice?.value) === (plan?.finalPrice?.value));
   return   <Card
   bodyStyle={{ padding: 10, paddingBottom: 20 }}
   // style={{ height: '100%' }}
@@ -247,12 +248,12 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                     </> : UnitTypeToStr(plan.finalPrice)}
                     </Text>
                   </Col>
-                  <Col>
+                 {(!isPriceSame)? <Col>
                     {plan.displayPrice.value?<Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text>:null}
-                  </Col>
+                  </Col>:null}
           </Row>
         </Col>
-       {plan.type!=='free' ?<Col>
+       {(plan.type!=='free' && !isPriceSame) ?<Col>
           <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
         </Col>:null}
       </Row>
@@ -269,7 +270,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                       type: 'success',
                       content: `You have enrolled successfully`
                     })                            }}
-              product={{ type: 'test', id: testId + '' }}
+              product={{ type: 'test', id: testId + '' }} plan={plan}
               block
               type='primary'
             >

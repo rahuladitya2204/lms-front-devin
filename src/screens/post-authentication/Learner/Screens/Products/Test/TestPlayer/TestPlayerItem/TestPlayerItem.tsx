@@ -79,10 +79,14 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const NextButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
     {!isMobile ? 'Next' : ''}
   </Button>;
+  // console.log(currentQuestion,'currentQuestion')
   // const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   return (
     <Spin spinning={loading}>
-      <Card title={`Question ${currentQuestionIndex + 1}`} >
+      <Card title={`Question ${currentQuestionIndex + 1}`}
+        extra={[
+          <Tag color='blue-inverse' >Correct Answer Score: {currentQuestion.score.correct}</Tag>,
+        currentQuestion.score.incorrect?<Tag color='red-inverse' >Correct Answer Score: {currentQuestion.score.correct}</Tag>:null]} >
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>

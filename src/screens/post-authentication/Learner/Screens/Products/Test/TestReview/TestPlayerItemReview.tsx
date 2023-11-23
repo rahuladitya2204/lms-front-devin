@@ -99,7 +99,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   {(answerGiven?.subjective?.files?.length)?<Form.Item>
                     {/* @ts-ignore */}
  <TestPlayerFiles form={form}/>
-                  </Form.Item>:<Button>Upload Files</Button>}
+                  </Form.Item>:null}
                   <Divider />
                     <Form.Item label='Answer Given'>
                       <HtmlViewer content={answerGiven?.subjective?.text} />
