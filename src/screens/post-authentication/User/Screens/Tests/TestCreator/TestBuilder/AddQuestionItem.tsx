@@ -19,7 +19,7 @@ import {
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import ActionModal from '@Components/ActionModal/ActionModal';
 import EnterLatexText from './EnterLatexText';
@@ -104,7 +104,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const options = Form.useWatch('options', form) || [];
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
-  console.log(item,'item')
+  console.log(item, 'item');
+  const totalCriteriaScore = useMemo(()=>(item.criterias || []).reduce((total, criterion) => total + (Number(criterion.score) || 0), 0),[item.criterias])
+  console.log(totalCriteriaScore)
   return (
    <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
    onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
@@ -191,7 +193,8 @@ layout="vertical"
          {
            required: true,
            message: "Enter the correct score for this question"
-         }
+                  
+        },
        ]}>
        <Input  readOnly={isTestEnded} placeholder="Enter the score for this question" />
      </Form.Item>
@@ -309,7 +312,9 @@ layout="vertical"
   <Col span={24}>
             <Card title="Scoring Criteria" extra={[<GenerateAIItemDetails onFinish={e => console.log(e, 'eee')} label='Generate Criteria using solution' field='criterias' />,
             <Tag style={{ marginLeft: 20 }} color='orange-inverse'>Total Score: {item.score.correct}</Tag>]}>
-      <Form.List name="criterias">
+              {totalCriteriaScore !== item.score.correct ?
+                <Alert style={{marginBottom:20}} type='error' message='Criteria scores must always add up to be equal to the total score' /> : null}
+              <Form.List name="criterias">
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }, index) => (
