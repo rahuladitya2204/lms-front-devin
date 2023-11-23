@@ -1,6 +1,6 @@
 import AddMoneyToWallet, { useCreateWallterOrder } from '@Learner/Screens/Account/LearnerWallet/AddMoneyToWallet'
 import { Button, ButtonProps, Modal } from 'antd'
-import { Enum, Learner, Types } from '@adewaskar/lms-common'
+import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from './ActionModal/ActionModal'
 import { usePaymentCheckout } from '@Hooks/CommonHooks'
@@ -88,17 +88,18 @@ export default function ProductCheckoutButton(
       onClick={() => {
         if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
           if (wallet.balance.value < plan.finalPrice.value) {
+            const leftAmount = { value: plan.finalPrice.value - wallet.balance.value, unit: plan.finalPrice.unit };
             confirm({
               closable: false,
               title: `There is insufficient balance in your wallet`,
               // icon: <ExclamationCircleOutlined />,
-              content: `Add money and buy this ${type}`,
+              content: `Add ${Utils.UnitTypeToStr(leftAmount)} and buy this ${type}`,
               // footer: [
 
               // ],
               onOk() {
                 addMoney({
-                  amount: plan.finalPrice,
+                  amount: leftAmount,
                   onSuccess: () => {
                     console.log('its done, lets create now?')
                     CreateOrder()
@@ -115,7 +116,7 @@ export default function ProductCheckoutButton(
               onOk() {
                 CreateOrder()
               },
-              okText: 'Yes, Purchase'
+              okText: 'Add money and purchase'
             })
           }
         }
