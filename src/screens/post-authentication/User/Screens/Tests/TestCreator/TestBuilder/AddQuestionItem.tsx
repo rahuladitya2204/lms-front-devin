@@ -22,9 +22,11 @@ import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/ic
 import { useEffect, useMemo, useState } from 'react';
 
 import ActionModal from '@Components/ActionModal/ActionModal';
+import AppImage from '@Components/Image';
 import EnterLatexText from './EnterLatexText';
 import GenerateAIItemDetails from './GenerateAIItemDetails';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
+import MediaUpload from '@Components/MediaUpload';
 import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { useParams } from 'react-router';
@@ -56,7 +58,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm(itemId+'');
   const item = useTestStore(s => s.currentQuestion);
   const { data: test } = User.Queries.useGetTestDetails(testId + '');
-  
+  const criterias = Form.useWatch('criterias', form);
+ 
   const isTestEnded = test.status === Enum.TestStatus.ENDED;
 
   useEffect(() => {
@@ -70,7 +73,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     }
   
   const questionType = Form.useWatch('type', form);
-  const { updateNavigator } = useTestBuilderUI();
+  // const { updateNavigator } = useTestBuilderUI();
   const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;  
   const { data: file } = User.Queries.useGetFileDetails(item?.solution?.video + '', {
     enabled: !!item?.solution?.video
@@ -106,10 +109,19 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
   // console.log(item, 'item');
   const totalCriteriaScore = useMemo(()=>(item.criterias || []).reduce((total, criterion) => total + (Number(criterion.score) || 0), 0),[item.criterias])
-  // console.log(totalCriteriaScore)
+  console.log(criterias, 'criterias');
+  useEffect(() => {
+    onFormChange({ criterias });
+  }, [criterias])
+  useEffect(() => {
+    onFormChange({ criterias });
+  }, [criterias]);
   return (
    <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
-   onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 
+      onValuesChange={(changedValues, allValues) => onFormChange({
+        ...allValues,
+        ...(criterias || {})
+   })} 
 form={form}
 layout="vertical"
 >
@@ -235,7 +247,7 @@ layout="vertical"
                        const currentOption = options[index] || Constants.INITIAL_TEST_QUESTION_OPTION;
                        // console.log(currentOption,'currentOption')
            return (
-             <Row justify={'center'}>
+             <Row justify={'center'} align={'middle'}>
                  <Col flex={1}>
                      <Form.Item 
                          rules={[
@@ -310,7 +322,8 @@ layout="vertical"
         </Col>
         {questionType === 'subjective' && (
   <Col span={24}>
-            <Card title="Scoring Criteria" extra={[<GenerateAIItemDetails onFinish={e => console.log(e, 'eee')} label='Generate Criteria using solution' field='criterias' />,
+            <Card title="Scoring Criteria" extra={[
+              <GenerateAIItemDetails onFinish={e => console.log(e, 'eee')} label='Generate Criteria using solution' field='criterias' />,
             <Tag style={{ marginLeft: 20 }} color='orange-inverse'>Total Score: {item.score.correct}</Tag>]}>
               {totalCriteriaScore !== item.score.correct ?
                 <Alert style={{marginBottom:20}} type='error' message='Criteria scores must always add up to be equal to the total score' /> : null}
@@ -319,13 +332,33 @@ layout="vertical"
           <>
             {fields.map(({ key, name, ...restField }, index) => (
               <Row key={key} align="middle" gutter={10}>
+                <Col>
+                  <Form.Item     {...restField}
+                    name={[name, 'image']}>
+                    {/* @ts-ignore */}
+                  <MediaUpload name={[name, 'image']}
+                    uploadType="image"
+                    cropper
+                    // width="100%"
+                    height="100px"
+                    aspect={16 / 9}
+                    renderItem={() => (
+                      <AppImage width={100} height={100} preview={false} src={(criterias&&criterias[index])?.image} />
+                    )}
+                    onUpload={file => {
+                      form.setFieldValue(['criterias', name, 'image'], file.url);
+
+                    }}
+                  />
+                  </Form.Item>
+                </Col>
                 <Col flex="1">
                   <Form.Item
                     {...restField}
                     name={[name, 'criteria']}
                     rules={[{ required: true, message: 'Please enter the criteria' }]}
                   >
-                    <TextArea placeholder="Enter scoring criteria" />
+                    <TextArea height={200} placeholder="Enter scoring criteria" />
                   </Form.Item>
                 </Col>
                 <Col>

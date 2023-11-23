@@ -113,10 +113,10 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
               </> : <>
-                  {(answer?.subjective?.files?.length)?<Form.Item>
+              <Form.Item>
                     {/* @ts-ignore */}
  <TestPlayerFiles form={form}/>
-                  </Form.Item>:<Button>Upload Files</Button>}
+                  </Form.Item>:
                   <Divider />
                   <Text strong type='danger' >Answer in {currentQuestion.wordLimit} words</Text>
                   <Form.Item style={{marginTop:10}} label={<Text>Enter Answer below - <Text type='danger'>{ wordLength} words</Text></Text>} name={['answer', 'subjective', 'text']} >
