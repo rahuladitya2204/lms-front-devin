@@ -72,6 +72,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
+  const wordLength = answerText.split(' ').length;
   const PrevButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('prev')} style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
     {!isMobile?'Previous':''}
   </Button>;
@@ -114,7 +115,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                   </Form.Item>:<Button>Upload Files</Button>}
                   <Divider />
                   <Text strong type='danger' >Answer in {currentQuestion.wordLimit} words</Text>
-                  <Form.Item style={{marginTop:10}} label={<Text>Enter Answer below - <Text type='danger'>{ answerText.length} words</Text></Text>} name={['answer', 'subjective', 'text']} >
+                  <Form.Item style={{marginTop:10}} label={<Text>Enter Answer below - <Text type='danger'>{ wordLength} words</Text></Text>} name={['answer', 'subjective', 'text']} >
                     <TextArea height={400} html={{ level: 1 }} />
                     
   </Form.Item>

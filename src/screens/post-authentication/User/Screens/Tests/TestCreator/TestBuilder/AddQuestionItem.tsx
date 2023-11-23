@@ -104,9 +104,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const options = Form.useWatch('options', form) || [];
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
-  console.log(item, 'item');
+  // console.log(item, 'item');
   const totalCriteriaScore = useMemo(()=>(item.criterias || []).reduce((total, criterion) => total + (Number(criterion.score) || 0), 0),[item.criterias])
-  console.log(totalCriteriaScore)
+  // console.log(totalCriteriaScore)
   return (
    <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
    onValuesChange={(changedValues, allValues) => onFormChange(allValues)} 

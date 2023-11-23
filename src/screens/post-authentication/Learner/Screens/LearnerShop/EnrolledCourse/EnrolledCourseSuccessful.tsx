@@ -18,7 +18,7 @@ const EnrolledCourseSuccessful: React.FC = () => {
             title="You have successfully enrolled for the course!"
           >
             <Row gutter={[30, 30]}>
-              {order.items.map(item => {
+              {order.transaction.data.products.map(item => {
                 return (
                   <Col span={24}>
                     <EnrolledCourseCard courseId={item.product.id} />

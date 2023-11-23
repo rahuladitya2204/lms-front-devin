@@ -63,6 +63,7 @@ import LearnerTestDetailScreen from '@Learner/Screens/Products/Test/TestDetail/T
 import LearnerTestResult from '@Learner/Screens/Products/Test/TestResult/TestResult'
 import LearnerTestScreen from '@Learner/Screens/Products/Test/TestScreen/TestsScreen'
 import LearnerTicketDetail from '@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
+import LearnerWallet from '@Learner/Screens/Account/LearnerWallet/LearnerWallet'
 import LearnersScreen from './post-authentication/User/Screens/Users/Learners/LearnersScreen'
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import LoadingScreen from '@Components/LoadingScreen'
@@ -117,7 +118,8 @@ const router = (userType: string) => {
             <Route index element={<ReturnLearnerToStore />} />
    <Route path="app" element={<LearnerRootScreen />}>
               <Route path="cart" element={<LearnerCart />} />
-              <Route path="reset-password" element={<ResetPassword />} />
+              <Route path="wallet" element={<LearnerWallet />} />
+  <Route path="reset-password" element={<ResetPassword />} />
               <Route path="category/:id" element={<CategoryDetail />} />
   <Route path="store" element={<LearnerStoreScreen />} />
               <Route path="account" element={<LearnerAccount />} />

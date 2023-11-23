@@ -13,6 +13,7 @@ import {
   Row,
   Space,
   Spin,
+  Tooltip,
   Typography,
   message
 } from 'antd'
@@ -27,7 +28,8 @@ import {
   MenuUnfoldOutlined,
   ShopOutlined,
   ShoppingCartOutlined,
-  UserOutlined
+  UserOutlined,
+  WalletOutlined
 } from '@ant-design/icons'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Link, NavLink } from 'react-router-dom'
@@ -166,7 +168,17 @@ const LearnerHeader: React.FC = () => {
         !isMobileOrTablet && (
           <Space>
             {!screen.isMobile ? (
-              <Badge count={items?.length || 0} showZero={false}>
+            <>
+                 <Tooltip title={`Waller Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`} >
+              <NavLink to={`../app/wallet`} children={({isActive}) => {
+                return <Button
+                type={isActive?'primary':'default'}
+                shape="circle"
+                icon={<WalletOutlined />}
+              />
+              }} />
+             </Tooltip>
+            <Badge count={items?.length || 0} showZero={false}>
               <NavLink to={`../app/cart`} children={({isActive}) => {
                 return <Button
                 type={isActive?'primary':'default'}
@@ -174,7 +186,8 @@ const LearnerHeader: React.FC = () => {
                 icon={<ShoppingCartOutlined />}
               />
               }} />
-                            </Badge>
+              </Badge>
+            </>
             ) : null}
 
             <Dropdown
