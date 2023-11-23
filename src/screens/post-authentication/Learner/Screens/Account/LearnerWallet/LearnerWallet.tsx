@@ -1,6 +1,11 @@
-import { Button, Card, Col, Form, List, Row, Typography } from 'antd'
+import { Button, Card, Col, Form, List, Row, Spin, Typography } from 'antd'
+import {
+  CheckCircleTwoTone,
+  PhoneTwoTone,
+  PlusOutlined,
+  WalletTwoTone
+} from '@ant-design/icons'
 import { Learner, Utils } from '@adewaskar/lms-common'
-import { PhoneTwoTone, PlusOutlined, WalletTwoTone } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddMoneyToWallet from './AddMoneyToWallet'
@@ -12,36 +17,40 @@ const { Title, Text } = Typography
 interface LearnerWalletPropsI {}
 
 export default function LearnerWallet() {
-  const { data: orders } = Learner.Queries.useGetOrders()
-  const { data: { wallet } } = Learner.Queries.useGetLearnerDetails()
+  const {
+    data: orders,
+    isLoading: loadingOrders
+  } = Learner.Queries.useGetOrders()
+  const {
+    data: { wallet },
+    isLoading: loadingWalletDetails
+  } = Learner.Queries.useGetLearnerDetails()
   return (
     <Row gutter={[20, 20]}>
-      <Col span={24}>
-        <Card
-          extra={
-            <ActionModal
-              width={200}
-              cta={<Button icon={<PlusOutlined />}>Add Money</Button>}
-            >
-              <AddMoneyToWallet />
-            </ActionModal>
-          }
-          title={<Title level={3}>Wallet Balance </Title>}
-          // hoverable
-        >
-          <Title>
-            {wallet.balance.value} {wallet.balance.unit}
-          </Title>
-        </Card>
+      <Col xs={24} md={12}>
+        <Spin spinning={loadingWalletDetails}>
+          <Card
+            extra={
+              <ActionModal
+                width={250}
+                cta={<Button type='primary' icon={<PlusOutlined />}>Add Money</Button>}
+              >
+                <AddMoneyToWallet />
+              </ActionModal>
+            }
+            title={<Title level={3}>Wallet Balance </Title>}
+            // hoverable
+          >
+            <Title>{Utils.UnitTypeToStr(wallet.balance)}</Title>
+          </Card>
+        </Spin>
       </Col>
-      <Col span={12}>
+      <Col xs={24} md={12}>
         <Card title="Transactions">
           <List
+            loading={loadingOrders}
             dataSource={orders}
             renderItem={order => {
-              const isWalletTopup =
-                order.transaction.type === 'wallet' &&
-                order.transaction.action === 'buy'
               return (
                 <List.Item
                   actions={[
@@ -58,7 +67,7 @@ export default function LearnerWallet() {
                       order.transaction.type === 'wallet' ? (
                         <WalletTwoTone />
                       ) : (
-                        <PhoneTwoTone />
+                        <CheckCircleTwoTone />
                       )
                     }
                     title={order.transaction.description}

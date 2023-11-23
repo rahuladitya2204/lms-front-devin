@@ -1,6 +1,7 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Col, Form, Input, Row, Typography } from 'antd'
 import { Constants, Learner } from '@adewaskar/lms-common'
 
+import useMessage from '@Hooks/useMessage'
 import { usePaymentCheckout } from '@Hooks/CommonHooks'
 
 interface AddMoneyToWalletPropsI {
@@ -8,7 +9,11 @@ interface AddMoneyToWalletPropsI {
   // onSucces: () => void;
 }
 
+const { Text } = Typography
+
 const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
+  const message = useMessage()
+  const { data: learner } = Learner.Queries.useGetLearnerDetails()
   const {
     mutate: createOrder,
     isLoading: createWalletOrder
@@ -40,7 +45,14 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
                 data: {}
               },
               {
-                onSuccess: () => props.closeModal && props.closeModal()
+                onSuccess: () => {
+                  message.open({
+                    type: 'success',
+                    content: 'Money added succesfully'
+                  })
+                  form.resetFields()
+                  props.closeModal && props.closeModal()
+                }
               }
             )
           }
@@ -62,8 +74,27 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
   }
   return (
     <Form onFinish={onSubmit} layout="vertical" form={form}>
-      <Form.Item name="value" label="Enter amount">
-        <Input type="number" />
+      <Form.Item
+        name="value"
+        label="Enter amount"
+        rules={[
+          {
+            required: true,
+            message: 'Please enter a value'
+          }
+        ]}
+      >
+        <Row align={'middle'}>
+          <Col>
+            <Text style={{ fontSize: 20, marginRight: 10 }}>
+              {/* @ts-ignore */}
+              {Constants.UNIT_SYMBOLS[learner.wallet.balance.unit]}
+            </Text>
+          </Col>
+          <Col>
+            <Input type="number" />
+          </Col>
+        </Row>
       </Form.Item>
       <Button
         loading={createWalletOrder || updatingPaymentOrder}

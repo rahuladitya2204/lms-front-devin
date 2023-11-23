@@ -105,9 +105,9 @@ const LearnerHeader: React.FC = () => {
 
     if (isMobileOrTablet && isSignedIn) {
       MENU_ITEMS.unshift({
-        label: 'My Account',
-        key: 'account',
-        icon: <UserOutlined />
+        label: 'Wallet',
+        key: 'wallet',
+        icon: <WalletOutlined />
       })
     }
     return MENU_ITEMS;
