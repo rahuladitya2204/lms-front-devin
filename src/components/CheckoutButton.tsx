@@ -90,8 +90,8 @@ export default function ProductCheckoutButton(
             return CreateOrder();
         }
         if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
-          if (wallet.balance.value < plan.finalPrice.value) {
-            const leftAmount = { value: plan.finalPrice.value - wallet.balance.value, unit: plan.finalPrice.unit };
+          const leftAmount = { value:  wallet.balance.value-plan.finalPrice.value , unit: plan.finalPrice.unit };
+          if (leftAmount.value<0) {
             confirm({
               closable: false,
               title: `There is insufficient balance in your wallet`,
@@ -109,17 +109,17 @@ export default function ProductCheckoutButton(
                   }
                 })
               },
-              okText: 'Yes, Purchase'
+              okText: 'plan.finalPrice'
             })
           } else {
             confirm({
               title: `Are you sure, you want to buy ${props.product.type}`,
               // icon: <ExclamationCircleOutlined />,
-              content: `Money will be deducted from your wallet`,
+              content: `${Utils.UnitTypeToStr(plan.finalPrice)} will be deducted from your wallet(${Utils.UnitTypeToStr(leftAmount)} left)`,
               onOk() {
                 CreateOrder()
               },
-              okText: 'Add money and purchase'
+              okText: 'Yes, Purchase'
             })
           }
         }

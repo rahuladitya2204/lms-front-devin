@@ -97,12 +97,11 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   })}
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
-              </> : <>
-              <TestPlayerFiles testId={testId+''} questionId={questionId+''} />
-                  <Divider />
-                    <Form.Item label='Answer Given'>
+                </> : <>
+                    {test.input.type === Enum.TestInputType.HANDWRITTEN ?
+                      <TestPlayerFiles review testId={testId + ''} questionId={questionId + ''} /> : <Form.Item label='Answer Given'>
                       <HtmlViewer content={answerGiven?.subjective?.text} />
-                    </Form.Item>                    
+                    </Form.Item>     }               
               </>}
             </Col>
            

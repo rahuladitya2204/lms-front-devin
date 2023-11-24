@@ -13,6 +13,7 @@ import {
   Row,
   Space,
   Spin,
+  Tag,
   Tooltip,
   Typography,
   message
@@ -169,16 +170,21 @@ const LearnerHeader: React.FC = () => {
           <Space>
             {!screen.isMobile ? (
             <>
-                 <Tooltip title={`Waller Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`} >
-              <NavLink to={`../app/wallet`} children={({isActive}) => {
-                return <Button
-                type={isActive?'primary':'default'}
-                shape="circle"
-                icon={<WalletOutlined />}
-              />
+              <NavLink to={`../app/wallet`} children={({ isActive }) => {
+                return <Tooltip title={!user.wallet.balance?'Please recharge your wallet for purchases':null}> <Tag icon={<WalletOutlined />} color='blue-inverse'>Wallet Balance: {Utils.UnitTypeToStr(user.wallet.balance)}</Tag>
+                  </Tooltip>
+              //   return !user.wallet.balance ? <Tag icon={<WalletOutlined />} color='blue-inverse'>Wallet Balance: {Utils.UnitTypeToStr(user.wallet.balance)}</Tag> :
+              //     <Tooltip title='Please recharge your wallet'>
+              //        <Button
+              //   type={isActive?'primary':'default'}
+              //   shape="circle"
+              //       icon={<WalletOutlined />
+              //       }
+              // />
+              //    </Tooltip>
               }} />
-             </Tooltip>
-            <Badge count={items?.length || 0} showZero={false}>
+                
+            {/* <Badge count={items?.length || 0} showZero={false}>
               <NavLink to={`../app/cart`} children={({isActive}) => {
                 return <Button
                 type={isActive?'primary':'default'}
@@ -186,7 +192,7 @@ const LearnerHeader: React.FC = () => {
                 icon={<ShoppingCartOutlined />}
               />
               }} />
-              </Badge>
+              </Badge> */}
             </>
             ) : null}
 

@@ -109,7 +109,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
   // console.log(item, 'item');
   const totalCriteriaScore = useMemo(()=>(item.criterias || []).reduce((total, criterion) => total + (Number(criterion.score) || 0), 0),[item.criterias])
-  console.log(criterias, 'criterias');
+  // console.log(criterias, 'criterias');
   useEffect(() => {
     onFormChange({ criterias });
   }, [criterias])

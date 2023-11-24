@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, FormInstance, Image, Modal, Row, Space, Spin, message } from 'antd'
+import { Button, Card, Col, Empty, Form, FormInstance, Image, Modal, Row, Space, Spin, message } from 'antd'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
@@ -13,7 +13,7 @@ import update from 'immutability-helper'
 import useMessage from '@Hooks/useMessage'
 
 const { confirm } = Modal;
-const TestPlayerFiles = (props: {testId:string,questionId:string}) => {
+const TestPlayerFiles = (props: {testId:string,questionId:string,review?:boolean}) => {
   const { mutate: updateAnswer,isLoading: updatingAnswer } = Learner.Queries.useUpdateTestAnswer(props.testId);
   const form = Form.useFormInstance<Types.TestAnswer>();
   const message = useMessage();
@@ -66,20 +66,21 @@ const TestPlayerFiles = (props: {testId:string,questionId:string}) => {
 
   return (
     <Spin spinning={updatingAnswer} >
-        <Card bodyStyle={{display:files.length?'block':'none'}}
+      <Card
        title="Answer Files" extra={[   <ActionModal
-        cta={<Button icon={<UploadOutlined />}>Upload</Button>}
+        cta={!props.review?<Button icon={<UploadOutlined />}>Upload</Button>:null}
       >
 
         <MediaUpload
           uploadType="file"
-          onUpload={({ name, _id }) => {
+          onUpload={({ name, _id ,url}) => {
             // console.log(answer, 'existing')
-            handleUpload({ name, file: _id })
+            handleUpload({ name, file: _id, url: url });
           }}
         />
       </ActionModal>]}
-    >
+      >
+        {!files.length?<Empty  />:null}
        <Form.List name={['answer', 'subjective', 'files']}>
               {(fields, { add, remove, move }) => {
                   return  (
