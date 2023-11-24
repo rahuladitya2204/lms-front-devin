@@ -116,8 +116,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               <Form.Item>
                     {/* @ts-ignore */}
  <TestPlayerFiles questionId={questionId} testId={testId} form={form}/>
-                  </Form.Item>:
-                  <Divider />
+                  </Form.Item>
+                  <Divider>(Pls note: either images above or answer below will be considered)</Divider>
                   <Text strong type='danger' >Answer in {currentQuestion.wordLimit} words</Text>
                   <Form.Item style={{marginTop:10}} label={<Text>Enter Answer below - <Text type='danger'>{ wordLength} words</Text></Text>} name={['answer', 'subjective', 'text']} >
                     <TextArea height={400} html={{ level: 1 }} />
