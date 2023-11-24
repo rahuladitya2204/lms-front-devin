@@ -53,7 +53,6 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const { isMobile} = useBreakpoint();
   const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
   
-  console.log(currentQuestion,'answerGiven')
   return (
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`}
@@ -99,9 +98,10 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                 </Form.Item>
                 </> : <>
                     {test.input.type === Enum.TestInputType.HANDWRITTEN ?
-                      <TestPlayerFiles review testId={testId + ''} questionId={questionId + ''} /> : <Form.Item label='Answer Given'>
+                      <TestPlayerFiles review testId={testId + ''} questionId={questionId + ''} /> :
+                      (answerGiven?.subjective?.text) ? <Form.Item label='Answer Given'>
                       <HtmlViewer content={answerGiven?.subjective?.text} />
-                    </Form.Item>     }               
+                    </Form.Item>:<Tag color='red' >Not Answered</Tag>}     
               </>}
             </Col>
            
