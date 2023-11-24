@@ -29,17 +29,37 @@ function HtmlViewer(props: { content: string }) {
   }
 
   // @ts-ignore
-  const children = props.children || props.content
+  const children = cleanContent(props.children || props.content || '')
+  if (!children) {
+    return null
+  }
   return <div className="html-viewer">{parse(children, options)}</div>
-  // return (
-  //   <div
-  //     className="html-viewer"
-  //     // className="sun-editor-editable"
-  //     dangerouslySetInnerHTML={{
-  //       __html: children
-  //     }}
-  //   />
-  // )
 }
 
 export default HtmlViewer
+
+const cleanContent = (htmlContent: string, tags=['div', 'span', 'p', 'svg', 'path','li']): string => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(htmlContent, 'text/html');
+
+  // Check if a node is empty
+  const isEmptyNode = (node: Node): boolean => {
+    if (node.nodeName.toLowerCase() === 'svg' || node.nodeName.toLowerCase() === 'path') {
+      return node.childNodes.length === 0 && (node as Element).attributes.length === 0;
+    }
+    return node.childNodes.length === 0 && node.textContent?.trim() === '';
+  };
+
+  // Clean nodes recursively
+  const cleanNode = (node: Node): void => {
+    Array.from(node.childNodes).forEach((child) => {
+      cleanNode(child);
+      if (tags.includes(child.nodeName.toLowerCase()) && isEmptyNode(child)) {
+        node.removeChild(child);
+      }
+    });
+  };
+
+  cleanNode(doc.body);
+  return doc.body.innerHTML;
+};
