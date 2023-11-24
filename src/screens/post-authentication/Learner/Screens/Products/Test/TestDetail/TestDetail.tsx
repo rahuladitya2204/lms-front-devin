@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Col, Row, Skeleton, Space, Tag, Typography, message } from 'antd'
+import { Alert, Button, Card, Col, Divider, Row, Skeleton, Space, Tag, Typography, message } from 'antd'
 import { CalendarOutlined, InfoOutlined } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
@@ -13,6 +13,7 @@ import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import Image from '@Components/Image'
 import LearnerLogin from '@Learner/Screens/Login'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+import PriceCardContent from '@Learner/Screens/StoreScreen/Cards/PriceCardContent'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import SkeletonImage from '@Components/SkeletonImage'
 import TestMetadata from './TestMetadata'
@@ -239,24 +240,8 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     </Col>
         <Col span={24} flex={1}>
         <Col span={24}>
-          <Row justify="space-between" align='middle'>
-        <Col>
-            <Row align='middle' gutter={[5, 5]}>
-                  <Col>
-                    <Text strong style={{ fontSize: 24 }}>{plan.type === 'free' ? <>
-                      <Title style={{ marginTop: 0 }} level={3}>Free</Title>
-                    </> : UnitTypeToStr(plan.finalPrice)}
-                    </Text>
-                  </Col>
-                 {(!isPriceSame)? <Col>
-                    {plan.displayPrice.value?<Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text>:null}
-                  </Col>:null}
-          </Row>
-        </Col>
-       {(plan.type!=='free' && !isPriceSame) ?<Col>
-          <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
-        </Col>:null}
-      </Row>
+            <PriceCardContent plan={plan} />
+            <Divider/>
     </Col>
       <Col span={24}>
         <Row gutter={[10, 10]}>

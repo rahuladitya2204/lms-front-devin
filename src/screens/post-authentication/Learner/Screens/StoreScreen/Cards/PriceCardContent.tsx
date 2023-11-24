@@ -1,4 +1,4 @@
-import { Space, Typography } from "antd";
+import { Col, Row, Space, Tag, Typography } from "antd";
 import { Types, Utils } from "@adewaskar/lms-common";
 
 const {Text } = Typography;
@@ -8,15 +8,30 @@ interface PriceCardContentT {
 }
 
 export default function PriceCardContent({plan}: PriceCardContentT) {
-    return <Space direction='vertical' align='end' size={0}>
-    {plan.type!=='free'?<>
-    <Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
-        {Utils.UnitTypeToStr(plan.displayPrice)}</Text>
-      <Text style={{fontSize: 18}}>
+    const isPriceSame = ((plan?.displayPrice?.value) === (plan?.finalPrice?.value));
+    return <Row justify={'space-between'} align={'middle'} >
+        <Col>
+        {(plan.finalPrice.value!==0)?<>
+                <Row>
+                    <Col span={24}>
+                    {!isPriceSame?<Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>
+        {Utils.UnitTypeToStr(plan.displayPrice)}</Text>:null}
+                    </Col>
+                    <Col span={24}>
+                    <Text strong style={{fontSize: 18}}>
       {Utils.UnitTypeToStr(plan.finalPrice)}
-      </Text></> :
+                </Text>
+                    </Col>
+   </Row>
+    
+            </> :
       <Text style={{ fontSize: 16 }}>
       Free
-    </Text>}
-    </Space>
+                </Text>}
+        </Col>
+        <Col>
+        {(plan.type!=='free' && !isPriceSame) ?<Col>
+          <Tag color="purple" style={{marginRight:0}} >{ Math.floor(Number(plan.discount))}% off</Tag>
+        </Col>:null}</Col>
+    </Row>
 }
