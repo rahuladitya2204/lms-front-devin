@@ -44,10 +44,7 @@ const cleanContent = (htmlContent: string, tags=['div', 'span', 'p', 'svg', 'pat
 
   // Check if a node is empty
   const isEmptyNode = (node: Node): boolean => {
-    if (node.nodeName.toLowerCase() === 'svg' || node.nodeName.toLowerCase() === 'path') {
-      return node.childNodes.length === 0 && (node as Element).attributes.length === 0;
-    }
-    return node.childNodes.length === 0 && node.textContent?.trim() === '';
+    return node.childNodes.length === 0 && (node as Element).attributes.length === 0;
   };
 
   // Clean nodes recursively
