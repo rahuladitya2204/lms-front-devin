@@ -74,7 +74,7 @@ const calculateTotalScore = () => {
             }
           )
   }
-
+  // const question=
   return (
     <Form  onValuesChange={calculateTotalScore} form={form} layout='vertical' onFinish={onSubmit}>
           <Row>
