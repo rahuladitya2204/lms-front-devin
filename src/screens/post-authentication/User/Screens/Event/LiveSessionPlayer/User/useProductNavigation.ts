@@ -15,7 +15,9 @@ function useTestNavigation(test: Types.Test) {
   useEffect(
     () => {
       test.sections.forEach((section, sIndex) => {
-        const iIndex = section?.items?.findIndex(i => i._id.toString() === itemId)
+        const iIndex = section?.items?.findIndex(
+          i => i._id.toString() === itemId
+        )
         if (iIndex !== -1) {
           setCurrentIndexes({ sectionIndex: sIndex, itemIndex: iIndex })
         }
@@ -55,6 +57,25 @@ function useTestNavigation(test: Types.Test) {
       }
     },
     [currentIndexes, test.sections, navigate, test._id]
+  )
+
+  useEffect(
+    () => {
+      const handleKeyDown = (event: KeyboardEvent) => {
+        if (event.key === 'ArrowRight') {
+          navigateTo('next')
+        } else if (event.key === 'ArrowLeft') {
+          navigateTo('prev')
+        }
+      }
+
+      window.addEventListener('keydown', handleKeyDown)
+
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown)
+      }
+    },
+    [navigateTo]
   )
 
   return {

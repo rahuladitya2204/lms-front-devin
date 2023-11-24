@@ -113,13 +113,14 @@ export default function ProductCheckoutButton(
             })
           } else {
             confirm({
-              title: `Are you sure, you want to buy ${props.product.type}`,
+              title: `Confirm Purchase`,
               // icon: <ExclamationCircleOutlined />,
-              content: `${Utils.UnitTypeToStr(plan.finalPrice)} will be deducted from your wallet(${Utils.UnitTypeToStr(leftAmount)} left)`,
+              content:`We will deduct ${Utils.UnitTypeToStr(plan.finalPrice)} from your wallet. (${Utils.UnitTypeToStr(leftAmount)} balance remaining)`,
+              // content: `${Utils.UnitTypeToStr(plan.finalPrice)} will be deducted from your wallet(${Utils.UnitTypeToStr(leftAmount)} left)`,
               onOk() {
                 CreateOrder()
               },
-              okText: 'Yes, Purchase'
+              okText: 'Yes, Confirm'
             })
           }
         }
