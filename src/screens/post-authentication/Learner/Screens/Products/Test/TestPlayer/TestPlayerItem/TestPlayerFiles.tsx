@@ -17,7 +17,7 @@ const TestPlayerFiles = (props: {testId:string,questionId:string}) => {
   const { mutate: updateAnswer,isLoading: updatingAnswer } = Learner.Queries.useUpdateTestAnswer(props.testId);
   const form = Form.useFormInstance<Types.TestAnswer>();
   const message = useMessage();
-  const files = Form.useWatch(['answer', 'subjective', 'files'], form);
+  const files = Form.useWatch(['answer', 'subjective', 'files'], form) || [];
     // @ts-ignore
   const handleUpload = (file) => {
     const FILES = [...files, file];
@@ -66,7 +66,7 @@ const TestPlayerFiles = (props: {testId:string,questionId:string}) => {
 
   return (
     <Spin spinning={updatingAnswer} >
-        <Card
+        <Card bodyStyle={{display:files.length?'block':'none'}}
        title="Answer Files" extra={[   <ActionModal
         cta={<Button icon={<UploadOutlined />}>Upload</Button>}
       >
@@ -82,7 +82,6 @@ const TestPlayerFiles = (props: {testId:string,questionId:string}) => {
     >
        <Form.List name={['answer', 'subjective', 'files']}>
               {(fields, { add, remove, move }) => {
-                  console.log(fields,'fields')
                   return  (
                     <>
                       <DndProvider backend={HTML5Backend}>

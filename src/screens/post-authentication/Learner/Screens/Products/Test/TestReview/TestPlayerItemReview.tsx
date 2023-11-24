@@ -52,6 +52,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const { token } = theme.useToken()
   const { isMobile} = useBreakpoint();
   const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
+  
+  console.log(currentQuestion,'answerGiven')
   return (
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`}
@@ -96,10 +98,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
               </> : <>
-                  {(answerGiven?.subjective?.files?.length)?<Form.Item>
-                    {/* @ts-ignore */}
- <TestPlayerFiles form={form}/>
-                  </Form.Item>:null}
+              <TestPlayerFiles testId={testId+''} questionId={questionId+''} />
                   <Divider />
                     <Form.Item label='Answer Given'>
                       <HtmlViewer content={answerGiven?.subjective?.text} />

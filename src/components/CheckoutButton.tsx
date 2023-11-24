@@ -85,7 +85,10 @@ export default function ProductCheckoutButton(
     <>
      <Button
       size="large"
-      onClick={() => {
+        onClick={() => {
+          if (plan.finalPrice.value === 0) {
+            return CreateOrder();
+        }
         if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
           if (wallet.balance.value < plan.finalPrice.value) {
             const leftAmount = { value: plan.finalPrice.value - wallet.balance.value, unit: plan.finalPrice.unit };

@@ -46,7 +46,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         answer
       }); 
   }, [currentQuestion, form,questionId]);
-  const isValid = ((answer?.options?.length) || (answer?.subjective?.text));
+  const isValid = ((answer?.options?.length) || (answer?.subjective?.text) || (answer?.subjective?.files?.length));
 
   // @ts-ignore
   const onFormSubmit = ({ answer }) => {
@@ -86,7 +86,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={[
           <Tag color='blue-inverse' >Correct Answer Score: {currentQuestion.score.correct}</Tag>,
-        currentQuestion.score.incorrect?<Tag color='red-inverse' >Correct Answer Score: {currentQuestion.score.correct}</Tag>:null]} >
+        currentQuestion.score.incorrect?<Tag color='red-inverse' >Incorrect Answer Score: {currentQuestion.score.correct}</Tag>:null]} >
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
