@@ -48,7 +48,7 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
     )
   }
   return (
-    <Row gutter={[20, 30]}>
+    <Row gutter={[30, 30]}>
       {pastTests.map(({ product: { data: test }, metadata }) => {
         const testStartDate = metadata.test.startedAt || test?.live?.startedAt
         const testEndDate = metadata.test.endedAt || test?.live?.endedAt

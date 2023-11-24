@@ -2,6 +2,7 @@ import {
   CalendarOutlined,
   CheckCircleOutlined,
   ClockCircleOutlined,
+  CopyOutlined,
   ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
@@ -23,11 +24,11 @@ const data = {
     icon: <CalendarOutlined />,
     value: ''
   },
-  timeTaken: {
-    title: 'Time Taken',
-    icon: <ClockCircleOutlined />,
-    value: '43 Weeks'
-  },
+  // timeTaken: {
+  //   title: 'Time Taken',
+  //   icon: <ClockCircleOutlined />,
+  //   value: '43 Weeks'
+  // },
   score: {
     title: 'Score',
     icon: <CheckCircleOutlined />,
@@ -35,7 +36,7 @@ const data = {
   },
   language: {
     title: 'Language',
-    icon: <CheckCircleOutlined />,
+    icon: <CopyOutlined />,
     value: 'English'
   },
   // skillLevel: {
@@ -58,6 +59,10 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
   const test = props.test
   const testId = props.test._id
   const {
+    data: { test: testResult, metrics: { learnerScore, passingScore } },
+    isFetching: loadingResult
+  } = Learner.Queries.useGetTestResult(testId + '')
+  const {
     data: enrolledDetails
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
@@ -68,25 +73,22 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
       enabled: !!testId
     }
   )
-  const testStartDate =
-    enrolledDetails.metadata.test.startedAt || test.live.startedAt
+  const testStartDate = enrolledDetails.metadata.test.startedAt
 
-  const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt
-
-  data.takenOn.value = props.test.live.enabled
-    ? dayjs(props.test.live.scheduledAt).format('LLL')
-    : 'Can be taken anytime'
-  data.timeTaken.value = formatTime(
-    dayjs(testEndDate)
-      .toDate()
-      .getTime() -
-      dayjs(testEndDate)
-        .toDate()
-        .getTime()
-  )
+  const testEndDate = enrolledDetails.metadata.test.endedAt
+  // @ts-ignore
+  data.takenOn.value = dayjs(testStartDate).format('LL')
+  // data.timeTaken.value = formatTime(
+  //   dayjs(testEndDate)
+  //     .toDate()
+  //     .getTime() -
+  //     dayjs(testEndDate)
+  //       .toDate()
+  //       .getTime()
+  // )
   if (!test.live.enabled) {
     // @ts-ignore
-    const isPassed = test.learnerScore >= test.passingScore
+    const isPassed = learnerScore >= passingScore
     data.result.value = isPassed ? (
       <Tag style={{ marginRight: 0 }} color="green-inverse">
         Passed
@@ -97,12 +99,9 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
       </Tag>
     )
   }
-  const {
-    data: { test: testResult },
-    isFetching: loadingResult
-  } = Learner.Queries.useGetTestResult(testId + '')
+
   // @ts-ignore
-  data.score.value = `${testResult.learnerScore}/${testResult.passingScore}`
+  data.score.value = `${learnerScore}/${passingScore}`
 
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
