@@ -108,7 +108,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           cropper
           aspect={16 / 9}
           name="thumbnailImage"
-          width="200"
+          width="200px"
           height="300px"
           prefixKey={`Tests/${testId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={image} />}

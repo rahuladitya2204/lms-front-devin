@@ -68,6 +68,7 @@
     "grapesjs-blocks-basic": "^1.0.2",
     "grapesjs-preset-webpage": "^1.0.3",
     "hls.js": "^1.4.0",
+    "html-react-parser": "^5.0.6",
     "html-to-text": "^9.0.5",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
