@@ -195,6 +195,29 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             />
           </Form.Item>
         </Col>
+        <Col span={8}>
+          <Form.Item
+            // label=""
+            label={`Input Type`}
+            name={['input', 'type']}
+            rules={[
+              { required: true, message: 'Please select user input mode' }
+            ]}
+          >
+            <Select
+              options={[
+                {
+                  label: 'Handwritten Images',
+                  value: Enum.TestInputType.HANDWRITTEN
+                },
+                {
+                  label: 'Keyboard',
+                  value: Enum.TestInputType.KEYBOARD
+                }
+              ]}
+            />
+          </Form.Item>
+        </Col>
         <Col span={12}>
           <Row gutter={[0, 20]} justify={'end'}>
             <Col flex={1}>

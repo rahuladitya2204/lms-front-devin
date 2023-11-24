@@ -20,15 +20,14 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const [form] = Form.useForm();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { currentQuestion, currentQuestionIndex, loading } = useReviewQuestion();
-  const answerGiven = currentQuestion.optionsSelected;
+  const answerGiven = currentQuestion.answerGiven
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.RESULT);
   useEffect(() => {
     let answer = answerGiven;
     if (
       (currentQuestion.type === 'single') &&
       answerGiven &&
-      answerGiven &&
-      answerGiven.length) {
+      (answerGiven?.options?.length)) {
       // @ts-ignore
       answer = {options:answerGiven[0]};
     }
@@ -36,7 +35,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       (currentQuestion.type === 'multiple') &&
       answerGiven &&
       answerGiven &&
-      answerGiven.length) {
+      answerGiven.options.length) {
       // @ts-ignore
       answer = {options:answerGiven};
     }
@@ -53,6 +52,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const { token } = theme.useToken()
   const { isMobile} = useBreakpoint();
   const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
+  
+  console.log(currentQuestion,'answerGiven')
   return (
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`}
@@ -96,17 +97,11 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   })}
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
-              </> : <>
-                  {(answer?.subjective?.files?.length)?<Form.Item>
-                    {/* @ts-ignore */}
- <TestPlayerFiles form={form}/>
-                  </Form.Item>:<Button>Upload Files</Button>}
-                  <Divider />
-                  <Text strong type='danger' >Answer in {currentQuestion.wordLimit} words</Text>
-                  <Form.Item style={{marginTop:10}} label={<Text>Enter Answer below - <Text type='danger'>{ answerText.length} words</Text></Text>} name={['answer', 'subjective', 'text']} >
-                    <TextArea height={400} html={{ level: 1 }} />
-                    
-  </Form.Item>
+                </> : <>
+                    {test.input.type === Enum.TestInputType.HANDWRITTEN ?
+                      <TestPlayerFiles review testId={testId + ''} questionId={questionId + ''} /> : <Form.Item label='Answer Given'>
+                      <HtmlViewer content={answerGiven?.subjective?.text} />
+                    </Form.Item>     }               
               </>}
             </Col>
            
@@ -141,7 +136,13 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
    const currentQuestionIndex: number = questions.findIndex(
      q => q._id === questionId
    );
-   const currentQuestion = questions[currentQuestionIndex] || Constants.INITIAL_TEST_QUESTION;
+   const currentQuestion = questions[currentQuestionIndex] || {
+     ...Constants.INITIAL_TEST_QUESTION,
+     feedback: {
+      met: '',
+      notMet:''
+    }
+   };
 
   return {
     currentQuestion,

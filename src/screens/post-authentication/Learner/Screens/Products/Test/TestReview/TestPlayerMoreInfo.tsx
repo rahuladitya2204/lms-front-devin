@@ -2,6 +2,7 @@ import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'
+import TestFeedback from './TestFeedback'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
 import { useReviewQuestion } from './TestPlayerItemReview'
@@ -17,11 +18,6 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
   // useWatchTime(props.course._id);
   const { currentQuestion } = useReviewQuestion()
   const TAB_ITEMS = [
-    // {
-    //   label: <Text strong>Overview</Text>,
-    //   key: '2',
-    //   children: <TestOverview hidePreview course={props.course} />
-    // },
     {
       label: `Solution`,
       key: 'notes',
@@ -53,6 +49,13 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
     //   children: 'Tab 3'
     // }
   ]
+  if ((currentQuestion?.feedback?.met) || (currentQuestion?.feedback?.notMet)) {
+    TAB_ITEMS.unshift({
+      label: `Feedback`,
+      key: 'feedback',
+      children: <TestFeedback currentQuestion={currentQuestion} />
+    })
+  }
   return <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
 }
 

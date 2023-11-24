@@ -26,7 +26,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const message = useMessage();
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
-  const { data: test}=Learner.Queries.useGetTestDetails(testId+'',Enum.TestDetailMode.TEST)
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + '', Enum.TestDetailMode.TEST);
   const { mutate: submitAnswer,isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer(testId+'');
   const answer = Form.useWatch(['answer'], form);
   const { isMobile } = useBreakpoint();
@@ -46,7 +46,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         answer
       }); 
   }, [currentQuestion, form,questionId]);
-  const isValid = ((answer?.options?.length) || (answer?.subjective?.text));
+  const isValid = ((answer?.options?.length) || (answer?.subjective?.text) || (answer?.subjective?.files?.length));
 
   // @ts-ignore
   const onFormSubmit = ({ answer }) => {
@@ -72,16 +72,21 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
+  const wordLength = answerText.split(' ').length;
   const PrevButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('prev')} style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
     {!isMobile?'Previous':''}
   </Button>;
   const NextButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
     {!isMobile ? 'Next' : ''}
   </Button>;
+  // console.log(currentQuestion,'currentQuestion')
   // const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   return (
     <Spin spinning={loading}>
-      <Card title={`Question ${currentQuestionIndex + 1}`} >
+      <Card title={`Question ${currentQuestionIndex + 1}`}
+        extra={[
+          <Tag color='blue-inverse' >Correct Answer Score: {currentQuestion.score.correct}</Tag>,
+        currentQuestion.score.incorrect?<Tag color='red-inverse' >Incorrect Answer Score: {currentQuestion.score.correct}</Tag>:null]} >
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
@@ -108,16 +113,17 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
               </> : <>
-                  {(answer?.subjective?.files?.length)?<Form.Item>
+                    {(test.input.type === Enum.TestInputType.HANDWRITTEN) ?
+                      <Form.Item>
                     {/* @ts-ignore */}
- <TestPlayerFiles form={form}/>
-                  </Form.Item>:<Button>Upload Files</Button>}
-                  <Divider />
+ <TestPlayerFiles questionId={questionId} testId={testId} form={form}/>
+                    </Form.Item> : <Fragment>
+                    {/* <Divider>(Pls note: either images above or answer below will be considered)</Divider> */}
                   <Text strong type='danger' >Answer in {currentQuestion.wordLimit} words</Text>
-                  <Form.Item style={{marginTop:10}} label={<Text>Enter Answer below - <Text type='danger'>{ answerText.length} words</Text></Text>} name={['answer', 'subjective', 'text']} >
+                  <Form.Item style={{marginTop:10}} label={<Text>Enter Answer below - <Text type='danger'>{ wordLength} words</Text></Text>} name={['answer', 'subjective', 'text']} >
                     <TextArea height={400} html={{ level: 1 }} />
-                    
-  </Form.Item>
+                      </Form.Item>
+                    </Fragment>}
               </>}
             </Col>
            

@@ -1,6 +1,8 @@
 import { Button, Form, Input, Rate, Space, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
+import TextArea from '@Components/Textarea';
+
 const { Title } = Typography
 
 interface ReviewTestPropsI {
@@ -8,7 +10,6 @@ interface ReviewTestPropsI {
   closeModal?: Function;
   onSubmit: () => void;
 }
-const { TextArea } = Input;
 
 const ReviewTest: React.FC<ReviewTestPropsI> = ({ testId,closeModal ,onSubmit}) => {
   const { mutate:reviewTest,isLoading: submittingReview} = Learner.Queries.useAddReviewForProduct();

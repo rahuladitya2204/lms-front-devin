@@ -354,27 +354,27 @@ function TestBuilderScreen() {
                     key: 'generate-test-outline'
                     // icon: <DeleteOutlined />
                   },
-                  {
-                    label: (
-                      <ActionModal
-                        title="Reset Test Outline"
-                        width={900}
-                        cta={
-                          <Button
-                            style={{ marginRight: 20 }}
-                            danger
-                            type="text"
-                          >
-                            Reset Test Outline
-                          </Button>
-                        }
-                      >
-                        <TestOutline testId={testId + ''} />
-                      </ActionModal>
-                    ),
-                    key: 'reset'
-                    // icon: <DeleteOutlined />
-                  }
+                  // {
+                  //   label: (
+                  //     <ActionModal
+                  //       title="Reset Test Outline"
+                  //       width={900}
+                  //       cta={
+                  //         <Button
+                  //           style={{ marginRight: 20 }}
+                  //           danger
+                  //           type="text"
+                  //         >
+                  //           Reset Test Outline
+                  //         </Button>
+                  //       }
+                  //     >
+                  //       <TestOutline testId={testId + ''} />
+                  //     </ActionModal>
+                  //   ),
+                  //   key: 'reset'
+                  //   // icon: <DeleteOutlined />
+                  // }
                   // {
                   //   label: `Enter Test Json`,
                   //   key: 'enter-test-json'

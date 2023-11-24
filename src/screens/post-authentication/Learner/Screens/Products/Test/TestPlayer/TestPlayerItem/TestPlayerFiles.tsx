@@ -1,5 +1,5 @@
-import { Button, Card, Form, FormInstance, Image, Space, message } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Button, Card, Col, Empty, Form, FormInstance, Image, Modal, Row, Space, Spin, message } from 'antd'
+import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, UploadOutlined } from '@ant-design/icons'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // TestPlayerFiles.tsx
@@ -10,70 +10,110 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import MediaUpload from '@Components/MediaUpload'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import update from 'immutability-helper'
+import useMessage from '@Hooks/useMessage'
 
-const TestPlayerFiles: React.FC = (props:any) => {
-    const { form } = props;
+const { confirm } = Modal;
+const TestPlayerFiles = (props: {testId:string,questionId:string,review?:boolean}) => {
+  const { mutate: updateAnswer,isLoading: updatingAnswer } = Learner.Queries.useUpdateTestAnswer(props.testId);
+  const form = Form.useFormInstance<Types.TestAnswer>();
+  const message = useMessage();
+  const files = Form.useWatch(['answer', 'subjective', 'files'], form) || [];
     // @ts-ignore
-  const handleUpload = useCallback((file, add) => {
-    add(file)
-    message.success('File uploaded successfully')
-  }, [])
+  const handleUpload = (file) => {
+    const FILES = [...files, file];
+    // add(file)
+    form.setFieldValue(['answer', 'subjective', 'files'], FILES);
+    const answer = form.getFieldValue(['answer']);
+    updateAnswer({
+      testId: props.testId + '',
+      questionId: props.questionId + '',
+      answer: answer,
+    }, {
+      onSuccess: () => {
+        message.open({
+          type: 'success',
+          content: 'File uploaded successfully'
+        })
+      }
+    });
+  }
+
+  const deleteFile = (fileId:string) => {
+    confirm({
+      title: 'Are you sure?',
+      // icon: <ExclamationCircleOutlined />,
+      content: `You want to delete this file`,
+      onOk() {
+        const updatedFiles = files.filter(f => f.file !== fileId);
+        form.setFieldValue(['answer', 'subjective', 'files'], updatedFiles);
+    const answer = form.getFieldValue(['answer']);
+    updateAnswer({
+          testId: props.testId + '',
+          questionId: props.questionId + '',
+          answer: answer,
+        }, {
+          onSuccess: () => {
+            message.open({
+              type: 'success',
+              content: 'File deleted successfully'
+            })
+          }
+        });
+      },
+      okText: 'Delete'
+    })
+  }
 
   return (
-      <Form.List name={['answer', 'subjective', 'files']}>
+    <Spin spinning={updatingAnswer} >
+      <Card
+       title="Answer Files" extra={[   <ActionModal
+        cta={!props.review?<Button icon={<UploadOutlined />}>Upload</Button>:null}
+      >
+
+        <MediaUpload
+          uploadType="file"
+          onUpload={({ name, _id ,url}) => {
+            // console.log(answer, 'existing')
+            handleUpload({ name, file: _id, url: url });
+          }}
+        />
+      </ActionModal>]}
+      >
+        {!files.length?<Empty  />:null}
+       <Form.List name={['answer', 'subjective', 'files']}>
               {(fields, { add, remove, move }) => {
-                  console.log(fields,'fields')
                   return  (
                     <>
-                      <Card
-                        title="Answer Files"
-                        extra={
-                          <ActionModal
-                          cta={<Button icon={<UploadOutlined />}>Upload</Button>}
-                        >
-                          {/* <MediaUpload
-                            uploadType="file"
-                            onUpload={({ name, _id }) =>
-                              handleUpload({ name, file: _id }, add)
-                            }
-                          /> */}
-                          <MediaUpload
-                            uploadType="file"
-                            onUpload={({ name, _id }) => {
-                              // console.log(answer, 'existing')
-                              handleUpload({ name, file: _id }, add)
-                            }}
-                          />
-                        </ActionModal>
-                        }
-                      >
-                        <DndProvider backend={HTML5Backend}>
-                          <Space direction="vertical">
-                                      {fields.map((field, index) => {
-                                          const d = form.getFieldsValue();
-                                            // console.log(D,'POP')
-                               const fileDetails = d.answer.subjective.files[field.name]
-                               return (
-                                    <DraggableFileItem
-                                    key={field.key}
-                                    index={index}
-                                    id={field.key}
-                                   // @ts-ignore
-     name={fileDetails.name} // Assuming this is how you access the file name
-                                    fileId={fileDetails.file} // Assuming this is how you access the file id
-                                    moveItem={move}
-                                    removeItem={() => remove(index)}
-                                                                  />
-                                  )
-                            })}
-                          </Space>
-                        </DndProvider>
-                      </Card>
-                      {/* ...other form items */}
+                      <DndProvider backend={HTML5Backend}>
+         <Row gutter={[20,20]}>
+                     {fields.map((field, index) => {
+                         const d = form.getFieldsValue();
+                           // console.log(D,'POP')
+              const fileDetails = d.answer.subjective.files[field.name]
+                       return <Col>
+                  
+                   <DraggableFileItem
+                   key={field.key}
+                   index={index}
+                   id={field.key}
+                  // @ts-ignore
+name={fileDetails.name} // Assuming this is how you access the file name
+                   fileId={fileDetails.file} // Assuming this is how you access the file id
+                   moveItem={move}
+                   removeItem={() => deleteFile(fileDetails.file)}
+                                                 />
+</Col>
+           })}
+         </Row>
+                      </DndProvider>
                     </>
                   )
         }}
-      </Form.List>
+    </Form.List>
+    
+     </Card>
+     </Spin>
   );
 };
 
@@ -117,13 +157,21 @@ const TestPlayerFiles: React.FC = (props:any) => {
   // Render your file item here, including the remove button and any additional handlers or displays
   return (
     <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
-<TestPlayerFileItem fileId={fileId} />
-              <Button htmlType='button'
+      <Card hoverable style={{padding: 0}} bodyStyle={{padding:'10px 0'}}>
+      <Row>
+        <Col span={24} style={{display:'flex',justifyContent:'center'}}>
+        <TestPlayerFileItem fileId={fileId} />
+        </Col>
+        <Col style={{display:'flex',justifyContent:'center'}} span={24}>
+        <Button htmlType='button' style={{marginTop:10}}
         danger
         shape="circle"
         icon={<DeleteOutlined />}
         onClick={removeItem}
-      />
+        />
+        </Col>
+</Row>
+     </Card>
     </div>
   );
 };
@@ -132,7 +180,6 @@ export default TestPlayerFiles;
 
 
 const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
-    console.log(fileId, 'filedIII')
     const { data: url, isLoading } = Common.Queries.useGetPresignedUrlFromFile(
       fileId
     )

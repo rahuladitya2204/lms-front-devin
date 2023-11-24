@@ -169,7 +169,7 @@ title={event.title}>
 </Row>
 </Col>
           <Col span={24}>
-        {(isSignedIn? <ProductCheckoutButton onSuccess={() => {
+        {(isSignedIn? <ProductCheckoutButton plan={plan} onSuccess={() => {
                     qc.invalidateQueries([`GET_ENROLLED_PRODUCT_DETAILS`, eventId, 'event']);
                     message.open({
                       type: 'success',

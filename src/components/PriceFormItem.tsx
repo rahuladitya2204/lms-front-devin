@@ -12,7 +12,7 @@ function PriceFormItem(props: PriceFormItemPropsI) {
         <Col>
           <Form.Item name={[props.name, 'unit']}>
             <Select style={{ width: 51 }}>
-              <Select.Option value="rupee">₹</Select.Option>
+              <Select.Option value="INR">₹</Select.Option>
               <Select.Option value="dollar">$</Select.Option>
             </Select>
           </Form.Item>

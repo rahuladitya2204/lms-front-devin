@@ -13,6 +13,8 @@ import {
   Row,
   Space,
   Spin,
+  Tag,
+  Tooltip,
   Typography,
   message
 } from 'antd'
@@ -27,7 +29,8 @@ import {
   MenuUnfoldOutlined,
   ShopOutlined,
   ShoppingCartOutlined,
-  UserOutlined
+  UserOutlined,
+  WalletOutlined
 } from '@ant-design/icons'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Link, NavLink } from 'react-router-dom'
@@ -103,9 +106,9 @@ const LearnerHeader: React.FC = () => {
 
     if (isMobileOrTablet && isSignedIn) {
       MENU_ITEMS.unshift({
-        label: 'My Account',
-        key: 'account',
-        icon: <UserOutlined />
+        label: 'Wallet',
+        key: 'wallet',
+        icon: <WalletOutlined />
       })
     }
     return MENU_ITEMS;
@@ -166,7 +169,22 @@ const LearnerHeader: React.FC = () => {
         !isMobileOrTablet && (
           <Space>
             {!screen.isMobile ? (
-              <Badge count={items?.length || 0} showZero={false}>
+            <>
+              <NavLink to={`../app/wallet`} children={({ isActive }) => {
+                return <Tooltip title={!user.wallet.balance?'Please recharge your wallet for purchases':null}> <Tag icon={<WalletOutlined />} color='blue-inverse'>Wallet Balance: {Utils.UnitTypeToStr(user.wallet.balance)}</Tag>
+                  </Tooltip>
+              //   return !user.wallet.balance ? <Tag icon={<WalletOutlined />} color='blue-inverse'>Wallet Balance: {Utils.UnitTypeToStr(user.wallet.balance)}</Tag> :
+              //     <Tooltip title='Please recharge your wallet'>
+              //        <Button
+              //   type={isActive?'primary':'default'}
+              //   shape="circle"
+              //       icon={<WalletOutlined />
+              //       }
+              // />
+              //    </Tooltip>
+              }} />
+                
+            {/* <Badge count={items?.length || 0} showZero={false}>
               <NavLink to={`../app/cart`} children={({isActive}) => {
                 return <Button
                 type={isActive?'primary':'default'}
@@ -174,7 +192,8 @@ const LearnerHeader: React.FC = () => {
                 icon={<ShoppingCartOutlined />}
               />
               }} />
-                            </Badge>
+              </Badge> */}
+            </>
             ) : null}
 
             <Dropdown
