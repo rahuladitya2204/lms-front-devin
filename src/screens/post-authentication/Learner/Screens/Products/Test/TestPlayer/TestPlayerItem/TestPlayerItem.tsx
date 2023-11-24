@@ -115,7 +115,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               </> : <>
               <Form.Item>
                     {/* @ts-ignore */}
- <TestPlayerFiles form={form}/>
+ <TestPlayerFiles questionId={questionId} testId={testId} form={form}/>
                   </Form.Item>:
                   <Divider />
                   <Text strong type='danger' >Answer in {currentQuestion.wordLimit} words</Text>
