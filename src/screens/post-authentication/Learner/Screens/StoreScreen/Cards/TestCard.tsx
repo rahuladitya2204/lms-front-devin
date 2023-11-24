@@ -68,7 +68,7 @@ function TestCard(props: TestCardPropsI) {
         </Row>
         <Divider style={{marginTop:10,marginBottom:10}}/>
         <Row justify={'space-between'}>
-          <Col>
+          <Col span={24}>
           <PriceCardContent plan={plan} />
           </Col>
         </Row>
