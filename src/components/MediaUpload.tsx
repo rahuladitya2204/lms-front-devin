@@ -6,8 +6,8 @@ import {
   LoadingOutlined,
   PlusOutlined
 } from '@ant-design/icons'
+import { Col, Form, Row, Spin, Upload, UploadProps } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
-import { Form, Spin, Upload, UploadProps } from 'antd'
 import React, { Fragment, ReactNode, useState } from 'react'
 
 import Dragger from 'antd/es/upload/Dragger'
@@ -187,6 +187,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     UploadComponent = (
       <Dragger
         {...UPLOAD}
+        style={{ paddingLeft: 10, paddingRight: 10 }}
         beforeUpload={info => {
           setFile(info)
         }}

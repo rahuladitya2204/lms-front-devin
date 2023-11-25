@@ -122,7 +122,10 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const testStartDate =
     enrolledDetails.metadata.test.startedAt || test.live.startedAt;
-  
+    const {
+      data: {status},
+      isFetching: loadingResult
+    } = Learner.Queries.useGetTestResult(testId + '')
   const Metadata = testEndDate ? (test.live.enabled?<CompletedLiveTestCard test={test} />:<CompletedTestCard test={test} />) : <TestMetadata test={test} />;
   const ENROLLED_CTA = useMemo(() => {
     if (loadingEnrolledTestDetails) {
@@ -184,7 +187,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
         </Button>
       }
       if ((testStartDate)) {
-        if (testEndDate) {
+        if (testEndDate&&status===Enum.TestResultStatus.EVALUATED) {
           return <>
           <Alert
             style={{ marginBottom: 20 }}

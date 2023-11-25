@@ -1,4 +1,4 @@
-import { Col, Row, Typography } from 'antd'
+import { Col, Row, Spin, Typography } from 'antd'
 
 import AppImage from '@Components/Image'
 import Header from '@Components/Header'
@@ -15,20 +15,22 @@ export default function ProcessingResult(props: ProcessingResultPropsI) {
     isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(props.testId + '')
   return (
-    <Header title={'Test result: ' + test.title}>
-      <Row justify={'center'} align={'middle'}>
-        <Col span={24}>
-          <Title style={{ textAlign: 'center' }}>
-            Test result is under process..
-          </Title>
-          <Title level={3} style={{ textAlign: 'center' }}>
-            Check back in few minutes
-          </Title>
-        </Col>
-        <Col span={24}>
-          <AppImage width={400} src={'/images/processing-result.svg'} />
-        </Col>
-      </Row>
+    <Header>
+      <Spin spinning={loadingResult}>
+        <Row justify={'center'} align={'middle'}>
+          <Col span={24}>
+            <Title style={{ textAlign: 'center' }}>
+              Test result is under process..
+            </Title>
+            <Title level={3} style={{ textAlign: 'center' }}>
+              Check back in few minutes
+            </Title>
+          </Col>
+          <Col span={24}>
+            <AppImage width={400} src={'/images/processing-result.svg'} />
+          </Col>
+        </Row>
+      </Spin>
     </Header>
   )
 }
