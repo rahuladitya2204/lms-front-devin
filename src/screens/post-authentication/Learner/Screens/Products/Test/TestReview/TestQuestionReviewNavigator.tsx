@@ -37,7 +37,10 @@ export default function TestReviewQuestionNavigator(
   const {
     data: test,
     isLoading: loadingTest
-  } = Learner.Queries.useGetTestDetails(props.testId + '',Enum.TestDetailMode.RESULT)
+  } = Learner.Queries.useGetTestDetails(
+    props.testId + '',
+    Enum.TestDetailMode.RESULT
+  )
 
   const { token } = theme.useToken()
 
@@ -113,14 +116,16 @@ export default function TestReviewQuestionNavigator(
                                         ? 'primary'
                                         : item.isMarked
                                           ? 'primary'
-                                          : item.isAnswered
+                                          : item.isAnswered &&
+                                            item.type !== 'subjective'
                                             ? 'primary'
                                             : 'default'
                                     }
                                     style={{
                                       backgroundColor: isActive
                                         ? 'auto'
-                                        : item.isAnswered
+                                        : item.isAnswered &&
+                                          item.type !== 'subjective'
                                           ? item.isCorrect
                                             ? token.colorSuccessActive
                                             : token.colorError
