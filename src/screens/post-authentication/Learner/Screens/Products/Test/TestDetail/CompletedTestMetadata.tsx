@@ -6,7 +6,7 @@ import {
   ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
 import { List, Tag, Typography } from 'antd'
 
 import dayjs from 'dayjs'
@@ -59,7 +59,7 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
   const test = props.test
   const testId = props.test._id
   const {
-    data: { test: testResult, metrics: { learnerScore, passingScore } },
+    data: { test: testResult, status, metrics: { learnerScore, passingScore } },
     isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   const {
@@ -86,7 +86,8 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
   //       .toDate()
   //       .getTime()
   // )
-  if (!test.live.enabled) {
+  if (status === Enum.TestResultStatus.EVALUATED) {
+    data.score.value = `${learnerScore}/${passingScore}`
     // @ts-ignore
     const isPassed = learnerScore >= passingScore
     data.result.value = isPassed ? (
@@ -98,13 +99,15 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
         Failed
       </Tag>
     )
+  } else {
+    data.score.value = ''
+    // @ts-ignore
+    data.result.value = null
   }
+  // @ts-ignore
 
   // @ts-ignore
-  data.score.value = `${learnerScore}/${passingScore}`
-
-  // @ts-ignore
-  const dataSource = Object.keys(data).map(key => data[key])
+  const dataSource = Object.keys(data).map(key => data[key]).filter(i => i.value);
   return (
     <List
       itemLayout="horizontal"
@@ -122,13 +125,3 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
 }
 
 export default CompletedTestCard
-
-function formatTime(minute: number) {
-  const seconds = minute * 60
-  if (minute < 60) {
-    return `${minute} mins`
-  } else {
-    const hours = Math.floor(seconds / 3600)
-    return `${hours} hr`
-  }
-}

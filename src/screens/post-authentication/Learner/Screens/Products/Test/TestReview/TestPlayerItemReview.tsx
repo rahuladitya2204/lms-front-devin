@@ -29,7 +29,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       answerGiven &&
       (answerGiven?.options?.length)) {
       // @ts-ignore
-      answer = {options:answerGiven[0]};
+      answer = { options: answerGiven?.options[0] };
     }
     if (
       (currentQuestion.type === 'multiple') &&
@@ -37,8 +37,9 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       answerGiven &&
       answerGiven.options.length) {
       // @ts-ignore
-      answer = {options:answerGiven};
+      answer = { options: answerGiven?.options };
     }
+    console.log(answerGiven,'answerGiven')
     form.setFieldsValue({
       answer
     });
@@ -57,10 +58,11 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={!isMobile?[<TestAnswerTag item={currentQuestion} />,
-        currentQuestion.scoreAchieved !== undefined ?
+        !currentQuestion.notEvaluated? ((currentQuestion.scoreAchieved !== undefined) ?
           <Tag color={(currentQuestion.scoreAchieved > 0) ?
             'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}</Tag> : 
-          <Tag color='red-inverse'>Score: 0</Tag>] :null
+            <Tag color='red-inverse'>Score: 0</Tag>):null
+        ] : null
       }
       >
       <Form layout='vertical' form={form}>
@@ -75,7 +77,10 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
               <Form.Item name={['answer','options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
                     {currentQuestion?.options?.map((option: Types.TestQuestionOption, index: number) => {
-                      const SelectFormControlComponent =<OptionSelectedFormControl style={{marginRight:0}} disabled value={option._id}>
+                      const SelectFormControlComponent = <OptionSelectedFormControl
+                        style={{ marginRight: 0 }}
+                        disabled
+                        value={option._id}>
                     
                     </OptionSelectedFormControl>
                     return (

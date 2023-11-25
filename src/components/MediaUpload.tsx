@@ -6,8 +6,8 @@ import {
   LoadingOutlined,
   PlusOutlined
 } from '@ant-design/icons'
+import { Col, Form, Row, Spin, Upload, UploadProps } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
-import { Form, Spin, Upload, UploadProps } from 'antd'
 import React, { Fragment, ReactNode, useState } from 'react'
 
 import Dragger from 'antd/es/upload/Dragger'
@@ -15,6 +15,7 @@ import ImgCrop from 'antd-img-crop'
 import styled from '@emotion/styled'
 
 const UPLOAD: UploadProps = {
+  multiple: false,
   onDrop(e) {
     // console.log('Dropped file', e.dataTransfer.file)
   }
@@ -187,6 +188,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     UploadComponent = (
       <Dragger
         {...UPLOAD}
+        style={{ paddingLeft: 10, paddingRight: 10 }}
         beforeUpload={info => {
           setFile(info)
         }}
@@ -194,7 +196,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        multiple
+        multiple={false}
         iconRender={() => <ClockCircleOutlined />}
         // @ts-ignore
         width={props.width || 'auto'}

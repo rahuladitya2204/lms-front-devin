@@ -9,13 +9,8 @@ import styled from '@emotion/styled'
 interface ImagePropsI extends ImageProps {
   file?: string;
   noLoadNoShowPlaceholder?: React.ReactNode;
+  caption?: React.ReactNode;
 }
-
-const Placeholder = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: transparent; // Or any other style you prefer for the placeholder
-`
 
 const ImageHolder = styled.div(
   (props: { width?: number, height: number }) => `
@@ -60,20 +55,23 @@ function AppImage(props: ImagePropsI) {
   // }
 
   return (
-    <ImageHolder width={props.width} height={props.height}>
-      {props.noLoadNoShowPlaceholder && !hasLoaded ? (
-        props.noLoadNoShowPlaceholder
-      ) : (
-        <ImageComponent
-          preview={false}
-          width="100%"
-          height="100%"
-          {...props}
-          src={Url || FALLBACK}
-          fallback={<Skeleton.Image active />}
-        />
-      )}
-    </ImageHolder>
+    <div>
+      <ImageHolder width={props.width} height={props.height}>
+        {props.noLoadNoShowPlaceholder && !hasLoaded ? (
+          props.noLoadNoShowPlaceholder
+        ) : (
+          <ImageComponent
+            preview={false}
+            width="100%"
+            height="100%"
+            {...props}
+            src={Url || FALLBACK}
+            fallback={<Skeleton.Image active />}
+          />
+        )}
+      </ImageHolder>
+      {props.caption ? <p style={{ margin: 0 }}>{props.caption}</p> : null}
+    </div>
   )
 }
 

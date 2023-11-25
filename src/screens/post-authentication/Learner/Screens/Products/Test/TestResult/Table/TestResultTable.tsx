@@ -105,12 +105,12 @@ render={scoreAchieved => <span>{scoreAchieved>=0?scoreAchieved:'-'} </span>}
 export default TestResultTable;
 
 
-export const TestAnswerTag = ({item}:{item:Types.TestStatusQuestionStats}) => {
+export const TestAnswerTag = ({ item }: { item: Types.TestStatusQuestionStats }) => {
   return   <Space>
   {/* @ts-ignore */}
 {item.type === 'subjective' ? <>
      {/* @ts-ignore */}
-{item.isAnswered?<Tag>Attempted</Tag>:<Tag>Not Attempted</Tag>}
+{item.notEvaluated?<Tag color='orange-inverse'>Not evaluated</Tag>:(item.isAnswered?<Tag>Attempted</Tag>:<Tag>Not Attempted</Tag>)}
 </> : <>
      {/* @ts-ignore */}
      {item.isAnswered ? <>

@@ -13,7 +13,7 @@ import {
   Timeline,
   Typography
 } from 'antd'
-import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined, WarningOutlined } from '@ant-design/icons'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo } from 'react'
@@ -26,6 +26,7 @@ import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestReviewQuestionNavigator from './TestQuestionReviewNavigator'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import { useReviewQuestion } from './TestPlayerItemReview'
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -73,7 +74,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const testEndTime = enrolledProduct.metadata.test.endedAt || test.live.endedAt;
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
- 
+  const { currentQuestion } = useReviewQuestion();
 const ExitButton = <Button style={{width:isDesktop?100:'100%'}} block={!isDesktop}
 onClick={() => {
   confirm({
@@ -124,6 +125,13 @@ Exit
           <Row gutter={[50, 30]}>
           <Col xs={24} lg={isDesktop?16: 24}>
                 <Outlet />
+                {/* <Alert icon={<WarningOutlined/>} showIcon style={{marginTop:15}} type='error' message={<Text strong>Issue with images uploaded</Text>} description={<Row>
+                  <Col span={24}>
+                  {(currentQuestion?.feedback?.imageIssues)?.map(issue => {
+                  return <Text>{issue.issue}</Text>
+                })}
+                  </Col>
+                </Row>} /> */}
               <Card style={{marginTop:20}}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
               </Card>

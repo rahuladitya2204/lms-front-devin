@@ -37,7 +37,10 @@ export default function TestReviewQuestionNavigator(
   const {
     data: test,
     isLoading: loadingTest
-  } = Learner.Queries.useGetTestDetails(props.testId + '',Enum.TestDetailMode.RESULT)
+  } = Learner.Queries.useGetTestDetails(
+    props.testId + '',
+    Enum.TestDetailMode.RESULT
+  )
 
   const { token } = theme.useToken()
 
@@ -121,9 +124,11 @@ export default function TestReviewQuestionNavigator(
                                       backgroundColor: isActive
                                         ? 'auto'
                                         : item.isAnswered
-                                          ? item.isCorrect
-                                            ? token.colorSuccessActive
-                                            : token.colorError
+                                          ? item.type !== 'subjective'
+                                            ? item.isCorrect
+                                              ? token.colorSuccessActive
+                                              : token.colorError
+                                            : token.colorWarningActive
                                           : 'default'
                                     }}
                                     shape="circle"
