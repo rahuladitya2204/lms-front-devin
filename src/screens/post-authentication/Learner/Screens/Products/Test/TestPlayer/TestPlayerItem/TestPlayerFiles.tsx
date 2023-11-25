@@ -67,18 +67,29 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
       okText: 'Delete'
     })
   }
-
+  const { currentQuestion } = useReviewQuestion();
+  const imageIssues = currentQuestion?.feedback?.imageIssues;
   return (
     <Spin spinning={updatingAnswer} >
       <Card
-       title="Answer Files" extra={[    <MediaUpload
+       title="Answer Files" extra={[ !props.review?<MediaUpload
         uploadType="image" cropper renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
         onUpload={({ name, _id ,url}) => {
           // console.log(answer, 'existing')
           handleUpload({ name, file: _id, url: url });
         }}
-      />]}
+      />:null]}
       >
+      {(imageIssues&&(imageIssues?.length))?  <Alert icon={<WarningOutlined />}
+          showIcon style={{ marginBottom: 15 }}
+          type='error' message={<Text strong>Issue with images uploaded</Text>}
+          description={<Row>
+                  <Col span={24}>
+                  {(imageIssues)?.map((issue,index) => {
+                    return <Text> <b>Image {index+1 }:</b> {issue.issue}</Text>
+                })}
+                  </Col>
+                </Row>} />:null}
         {!files.length?<Empty  />:null}
        <Form.List name={['answer', 'subjective', 'files']}>
               {(fields, { add, remove, move }) => {
