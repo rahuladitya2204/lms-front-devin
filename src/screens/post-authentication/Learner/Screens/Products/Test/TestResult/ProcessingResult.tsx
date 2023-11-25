@@ -8,7 +8,7 @@ interface ProcessingResultPropsI {
   testId: string;
 }
 
-const { Title } = Typography
+const { Title, Text } = Typography
 export default function ProcessingResult(props: ProcessingResultPropsI) {
   const {
     data: { test, metrics, status },
@@ -25,6 +25,9 @@ export default function ProcessingResult(props: ProcessingResultPropsI) {
             <Title level={3} style={{ textAlign: 'center' }}>
               Check back in few minutes
             </Title>
+            <Text style={{ textAlign: 'center' }}>
+              Please refresh this page in some time.
+            </Text>
           </Col>
           <Col span={24}>
             <AppImage width={400} src={'/images/processing-result.svg'} />
