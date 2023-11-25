@@ -111,7 +111,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     </Tag>
     
   const QuestionNavigator = TestQuestionNavigator;
-  if (!testEndTime) {
+  if (testEndTime) {
     return <Header title={test.title} extra={<NavLink to={'../'} ><Button type='primary'>Go Back</Button></NavLink>} >
       <Card>  
           <Title style={{textAlign:'center'}} >Test has ended.</Title>

@@ -15,6 +15,7 @@ import ImgCrop from 'antd-img-crop'
 import styled from '@emotion/styled'
 
 const UPLOAD: UploadProps = {
+  multiple: false,
   onDrop(e) {
     // console.log('Dropped file', e.dataTransfer.file)
   }
@@ -195,7 +196,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
-        multiple
+        multiple={false}
         iconRender={() => <ClockCircleOutlined />}
         // @ts-ignore
         width={props.width || 'auto'}

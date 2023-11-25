@@ -116,19 +116,19 @@ export default function TestReviewQuestionNavigator(
                                         ? 'primary'
                                         : item.isMarked
                                           ? 'primary'
-                                          : item.isAnswered &&
-                                            item.type !== 'subjective'
+                                          : item.isAnswered
                                             ? 'primary'
                                             : 'default'
                                     }
                                     style={{
                                       backgroundColor: isActive
                                         ? 'auto'
-                                        : item.isAnswered &&
-                                          item.type !== 'subjective'
-                                          ? item.isCorrect
-                                            ? token.colorSuccessActive
-                                            : token.colorError
+                                        : item.isAnswered
+                                          ? item.type !== 'subjective'
+                                            ? item.isCorrect
+                                              ? token.colorSuccessActive
+                                              : token.colorError
+                                            : token.colorWarningActive
                                           : 'default'
                                     }}
                                     shape="circle"

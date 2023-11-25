@@ -71,18 +71,13 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
   return (
     <Spin spinning={updatingAnswer} >
       <Card
-       title="Answer Files" extra={[   <ActionModal
-        cta={!props.review?<Button icon={<UploadOutlined />}>Upload</Button>:null}
-      >
-
-        <MediaUpload
-          uploadType="file"
-          onUpload={({ name, _id ,url}) => {
-            // console.log(answer, 'existing')
-            handleUpload({ name, file: _id, url: url });
-          }}
-        />
-      </ActionModal>]}
+       title="Answer Files" extra={[    <MediaUpload
+        uploadType="image" cropper renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
+        onUpload={({ name, _id ,url}) => {
+          // console.log(answer, 'existing')
+          handleUpload({ name, file: _id, url: url });
+        }}
+      />]}
       >
         {!files.length?<Empty  />:null}
        <Form.List name={['answer', 'subjective', 'files']}>
@@ -196,15 +191,7 @@ const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
     if (isLoading) return <p>Loading...</p>
       console.log(issue,'issue')
     return (
-      <AppImage preview={{
-        imageRender: (component) => <div>
-          <div>
-            {component}
-          </div>
-          <div style={{marginTop:20}}>
-            <Alert showIcon icon={<WarningOutlined />} type='error' message={issue?.issue} />
-          </div>
-      </div>}}
+      <AppImage preview
         width={120} caption={(issue) ? <Tooltip title={issue.issue} >
           <Alert showIcon
           type='error'
