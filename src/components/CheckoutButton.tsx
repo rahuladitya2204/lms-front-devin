@@ -119,7 +119,7 @@ export default function ProductCheckoutButton(
               onOk() {
                 CreateOrder()
               },
-              okText: 'Add money and purchase'
+              okText: 'Cnofirm Purchase'
             })
           }
         }

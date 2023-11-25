@@ -37,6 +37,7 @@ import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import LearnerProfile from '@Learner/Screens/Account/LearnerProfile'
+import ProcessingResult from './ProcessingResult'
 import ProtectedContent from '@Components/ProtectedComponent'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
@@ -49,7 +50,7 @@ export default function TestMetrics() {
   const navigate = useNavigate()
   const { testId } = useParams()
   const {
-    data: { test, metrics },
+    data: { test, metrics, status },
     isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   const { data: learner } = Learner.Queries.useGetLearnerDetails()
@@ -127,6 +128,11 @@ export default function TestMetrics() {
       </Row>
     </Card>
   )
+
+  if (status !== Enum.TestResultStatus.EVALUATED ) {
+    return <ProcessingResult testId={testId + ''} />
+  }
+
   return (
     <ProtectedContent
       isVerified={learner.profile.status === Enum.LearnerProfileStatus.COMPLETE}
