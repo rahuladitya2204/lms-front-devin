@@ -58,10 +58,11 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={!isMobile?[<TestAnswerTag item={currentQuestion} />,
-        currentQuestion.scoreAchieved !== undefined ?
+        !currentQuestion.notEvaluated? ((currentQuestion.scoreAchieved !== undefined) ?
           <Tag color={(currentQuestion.scoreAchieved > 0) ?
             'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}</Tag> : 
-          <Tag color='red-inverse'>Score: 0</Tag>] :null
+            <Tag color='red-inverse'>Score: 0</Tag>):null
+        ] : null
       }
       >
       <Form layout='vertical' form={form}>

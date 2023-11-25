@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@adewaskar/lms-common": "^3.0.168",
+    "@adewaskar/lms-common": "^3.0.169",
     "@ant-design/compatible": "^5.0.0",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.34",
