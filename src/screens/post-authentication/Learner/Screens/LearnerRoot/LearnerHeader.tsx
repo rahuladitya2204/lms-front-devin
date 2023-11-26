@@ -174,13 +174,13 @@ const LearnerHeader: React.FC = () => {
             <>
               <NavLink to={`../app/wallet`} children={({ isActive }) => {
                 return <Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
-                  <Button style={{paddingTop:1,paddingLeft:5}}
+                  <Button style={{paddingTop:2,paddingLeft:5}}
                     // size='small'
                     // type={isActive ? 'primary' : 'default'}
                     // icon={}
                     color='blue-inverse'>
                     <Row justify={'center'} align={'middle'}>
-                      <Col><CoinImage width={20} /></Col>
+                      <Col style={{marginTop:-1}}><CoinImage width={20} /></Col>
                       <Col>
                       <Text style={{fontSize:16,marginLeft:5}} strong>  {Utils.UnitTypeToStr(user.wallet.balance)}</Text></Col>
                     </Row>
