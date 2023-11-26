@@ -9,6 +9,7 @@ import {
   Progress,
   Row,
   Skeleton,
+  Space,
   Tag,
   Typography
 } from 'antd'
@@ -37,6 +38,7 @@ import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import LearnerProfile from '@Learner/Screens/Account/LearnerProfile'
+import { NavLink } from 'react-router-dom'
 import ProcessingResult from './ProcessingResult'
 import ProtectedContent from '@Components/ProtectedComponent'
 import { capitalize } from 'lodash'
@@ -44,13 +46,13 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 import { useMemo } from 'react'
 
 const { confirm } = Modal
-const { Title } = Typography
+const { Title, Text } = Typography
 
 export default function TestMetrics() {
   const navigate = useNavigate()
   const { testId } = useParams()
   const {
-    data: { test, metrics, status },
+    data: { test, metrics, status, feedback },
     isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   const { data: learner } = Learner.Queries.useGetLearnerDetails()
@@ -129,7 +131,7 @@ export default function TestMetrics() {
     </Card>
   )
 
-  if (status !== Enum.TestResultStatus.EVALUATED ) {
+  if (status !== Enum.TestResultStatus.EVALUATED) {
     return <ProcessingResult testId={testId + ''} />
   }
 
@@ -246,54 +248,109 @@ export default function TestMetrics() {
                     </Row>
                   </Card>
                 ) : (
-                  <Card title="Test Analysis Report">
-                    <Title level={3}>Section wise breakdown</Title>
-                    {test?.sections?.map(section => {
-                      const attemptedPercent = Math.ceil(
-                        section?.stats?.questionsAttempted /
-                          section?.stats?.totalQuestions *
-                          100
-                      )
-                      const correctPercent = Math.ceil(
-                        section?.stats?.questionsAnsweredCorrectly /
-                          section?.stats?.totalQuestions *
-                          100
-                      )
-                      return (
-                        <Row key={section.title}>
-                          <Col sm={24}>
-                            <Title level={5}>
-                              {capitalize(section.title)}:
-                            </Title>
-                          </Col>
-                          <Col sm={24}>
-                            <Row gutter={[20, 20]}>
-                              <Col span={12}>
-                                Attempted {section?.stats?.questionsAttempted}/{
-                                  section?.stats?.totalQuestions
-                                }
-                                <Progress
-                                  format={() => ''}
-                                  percent={attemptedPercent}
-                                />
+                  <Row gutter={[20, 20]}>
+                    <Col span={24}>
+                      <Card title="Test Analysis Report">
+                        <Title level={3}>Section wise breakdown</Title>
+                        {test?.sections?.map(section => {
+                          const attemptedPercent = Math.ceil(
+                            section?.stats?.questionsAttempted /
+                              section?.stats?.totalQuestions *
+                              100
+                          )
+                          const correctPercent = Math.ceil(
+                            section?.stats?.questionsAnsweredCorrectly /
+                              section?.stats?.totalQuestions *
+                              100
+                          )
+                          return (
+                            <Row key={section.title}>
+                              <Col sm={24}>
+                                <Title level={5}>
+                                  {capitalize(section.title)}:
+                                </Title>
                               </Col>
-                              <Col span={12}>
-                                Correct{' '}
-                                {section?.stats?.questionsAnsweredCorrectly}/{
-                                  section?.stats?.totalQuestions
-                                }
-                                <Progress
-                                  format={() => ''}
-                                  percent={correctPercent}
-                                />
+                              <Col sm={24}>
+                                <Row gutter={[20, 20]}>
+                                  <Col span={12}>
+                                    Attempted{' '}
+                                    {section?.stats?.questionsAttempted}/{
+                                      section?.stats?.totalQuestions
+                                    }
+                                    <Progress
+                                      format={() => ''}
+                                      percent={attemptedPercent}
+                                    />
+                                  </Col>
+                                  <Col span={12}>
+                                    Correct{' '}
+                                    {section?.stats?.questionsAnsweredCorrectly}/{
+                                      section?.stats?.totalQuestions
+                                    }
+                                    <Progress
+                                      format={() => ''}
+                                      percent={correctPercent}
+                                    />
+                                  </Col>
+                                </Row>
                               </Col>
+                              <Divider />
                             </Row>
-                          </Col>
-                          <Divider />
-                        </Row>
-                      )
-                    })}
-                  </Card>
+                          )
+                        })}
+                      </Card>
+                    </Col>
+                    <Col span={24}>
+                      <Card title="Test Feedback">
+                        <List
+                          size="large"
+                          // pagination={{ position, align }}
+                          dataSource={feedback}
+                          renderItem={(item, index) => (
+                            <List.Item>
+                              <List.Item.Meta
+                                style={{ margin: '10px 0' }}
+                                description={
+                                  <Row gutter={[20, 20]}>
+                                    <Col span={24}>
+                                      <Space style={{ marginTop: 10 }}>
+                                        <Text>
+                                          {item.topics.map(topic => (
+                                            <Tag
+                                              style={{ marginBottom: 3 }}
+                                              color="blue"
+                                            >
+                                              {topic}
+                                            </Tag>
+                                          ))}
+                                        </Text>
+                                      </Space>
+                                    </Col>
+                                    <Col span={24}>
+                                      {item.questionIds.map(i => (
+                                        <NavLink
+                                          style={{
+                                            marginRight: 5,
+                                            marginBottom: 3
+                                          }}
+                                          to={`review/${i}`}
+                                        >
+                                          <Button type="primary" size="small">
+                                            Go to question
+                                          </Button>
+                                        </NavLink>
+                                      ))}
+                                    </Col>
+                                  </Row>
+                                }
+                                title={<Text>{item.text}</Text>}
+                              />
+                            </List.Item>
+                          )}
+                        />
+                      </Card>
+                    </Col>
+                  </Row>
                 )}
               </Col>
             </Row>
