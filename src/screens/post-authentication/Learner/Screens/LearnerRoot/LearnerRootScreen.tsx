@@ -6,17 +6,12 @@ import { useOutletContext, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'
-import ApplyFavicon from './ApplyFavicon'
 import CreateTicket from '../Tickets/CreateTicket'
 import { CustomerServiceOutlined } from '@ant-design/icons'
-import LearnerFooter from './LearnerFooter'
 import LearnerHeader from './LearnerHeader'
 import LearnerProfile from '../Account/LearnerProfile'
-import LoadingScreen from '@Components/LoadingScreen'
 import ThemeProvider from 'screens/ThemeProvider'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import useDynamicFont from '@Hooks/useDynamicFont'
-import { useGetNodeFromRouterOutlet } from '@Hooks/CommonHooks'
 
 const { Title } = Typography
 const LearnerRootScreen: React.FC = () => {

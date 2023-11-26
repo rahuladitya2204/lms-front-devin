@@ -25,9 +25,9 @@ export default function ProcessingResult(props: ProcessingResultPropsI) {
             <Title level={3} style={{ textAlign: 'center' }}>
               Check back in few minutes
             </Title>
-            <Text style={{ textAlign: 'center' }}>
+            <Title type="secondary" level={5} style={{ textAlign: 'center' }}>
               Please refresh this page in some time.
-            </Text>
+            </Title>
           </Col>
           <Col span={24}>
             <AppImage width={400} src={'/images/processing-result.svg'} />

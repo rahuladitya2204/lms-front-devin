@@ -173,7 +173,8 @@ title={event.title}>
                     qc.invalidateQueries([`GET_ENROLLED_PRODUCT_DETAILS`, eventId, 'event']);
                     message.open({
                       type: 'success',
-                      content: `You have enrolled successfully`
+                      content: `You have enrolled successfully`,
+                      particle: true
                     })                            }}
               product={{ type: 'event', id: eventId + '' }}
               block

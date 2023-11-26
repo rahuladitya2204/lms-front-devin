@@ -17,7 +17,7 @@ function CoursesScreen () {
       <CreateCourseComponent />
     </ActionModal>
   )
-  console.log(courses, '111')
+  // console.log(courses, '111')
   return (
     <UserHeader title="Courses" extra={[CreateCourseCta]}>
       {/* {!courses.length && !loading ? ( */}

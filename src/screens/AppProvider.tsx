@@ -7,13 +7,10 @@ import ThemeProvider from './ThemeProvider'
 function AppProvider(props: any) {
   const [messageApi, context] = message.useMessage()
   return (
-    // @ts-ignore
-    // <ThemeProvider>
     <MessageContext.Provider value={messageApi}>
       {context}
       {props.children}
     </MessageContext.Provider>
-    // </ThemeProvider>
   )
 }
 

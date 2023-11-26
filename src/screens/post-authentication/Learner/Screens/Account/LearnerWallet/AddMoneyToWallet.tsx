@@ -1,6 +1,7 @@
 import { Button, Col, Form, Input, Row, Typography } from 'antd'
-import { Constants, Learner, Types } from '@adewaskar/lms-common'
+import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
 
+import CoinImage from './CoinImage'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
 import { usePaymentCheckout } from '@Hooks/CommonHooks'
@@ -14,6 +15,7 @@ interface AddMoneyToWalletPropsI {
 const { Text } = Typography
 
 const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
+  const message = useMessage()
   const { data: learner } = Learner.Queries.useGetLearnerDetails()
   const [form] = Form.useForm()
   useEffect(
@@ -27,42 +29,60 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
     if (data.value === 0) {
       return
     }
+    const amount = { value: data.value, unit: Constants.DEFAULT_CURRENCY }
     addMoney({
-      amount: { value: data.value, unit: Constants.DEFAULT_CURRENCY },
+      amount: amount,
       onSuccess: () => {
+        message.open({
+          type: 'success',
+          content: `Recharge of ${Utils.UnitTypeToStr(amount)} was successful`,
+          particle: true
+        })
         props.onSucces && props.onSucces()
         props.closeModal && props.closeModal()
       }
     })
   }
   return (
-    <Form onFinish={onSubmit} layout="vertical" form={form}>
-      <Form.Item
-        name="value"
-        label="Enter amount"
-        rules={[
-          {
-            required: true,
-            message: 'Please enter a value'
-          }
-        ]}
-      >
-        <Row align={'middle'}>
-          <Col>
-            <Text style={{ fontSize: 20, marginRight: 10 }}>
-              {/* @ts-ignore */}
-              {Constants.UNIT_SYMBOLS[learner.wallet.balance.unit]}
-            </Text>
-          </Col>
-          <Col>
-            <Input type="number" />
-          </Col>
-        </Row>
-      </Form.Item>
-      <Button loading={isLoading} onClick={form.submit} block type="primary">
-        Add Money
-      </Button>
-    </Form>
+    <Row justify={'center'} align={'middle'}>
+      <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
+        <CoinImage width={50} />
+      </Col>
+      <Col span={24}>
+        <Form onFinish={onSubmit} layout="vertical" form={form}>
+          <Form.Item
+            name="value"
+            label="Add money"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter a value'
+              }
+            ]}
+          >
+            <Row align={'middle'}>
+              <Col>
+                <Text style={{ fontSize: 20, marginRight: 10 }}>
+                  {/* @ts-ignore */}
+                  {Constants.UNIT_SYMBOLS[learner.wallet.balance.unit]}
+                </Text>
+              </Col>
+              <Col>
+                <Input placeholder="Enter recharge amount" type="number" />
+              </Col>
+            </Row>
+          </Form.Item>
+          <Button
+            loading={isLoading}
+            onClick={form.submit}
+            block
+            type="primary"
+          >
+            Add Money
+          </Button>
+        </Form>
+      </Col>
+    </Row>
   )
 }
 

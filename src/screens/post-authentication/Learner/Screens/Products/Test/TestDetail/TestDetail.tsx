@@ -118,7 +118,6 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   } = Learner.Queries.useGetEnrolledProductDetails(product)
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '','');
-  const isLoading = loadingTest ;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const testStartDate =
     enrolledDetails.metadata.test.startedAt || test.live.startedAt;
@@ -128,10 +127,11 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     } = Learner.Queries.useGetTestResult(testId + '', {
       enabled:!!testEndDate
     })
+  // console.log(testEndDate,'testEndDate')
   const Metadata = testEndDate ? (test.live.enabled?<CompletedLiveTestCard test={test} />:<CompletedTestCard test={test} />) : <TestMetadata test={test} />;
   const ENROLLED_CTA = useMemo(() => {
-    if (loadingEnrolledTestDetails) {
-      return <Skeleton.Button active block /> 
+    if (loadingEnrolledTestDetails || (testEndDate&&loadingResult)) {
+      return <Skeleton.Button size='large' active block /> 
     }
     if (test.live.enabled) {
       if (testEndDate) {
@@ -163,7 +163,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               showIcon
               // action={ }
           />
-             <Button onClick={() => navigate('start')} block type='primary'>
+             <Button size="large" onClick={() => navigate('start')} block type='primary'>
             Join Test
           </Button>
           </Fragment>
@@ -198,7 +198,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               type="success"
               showIcon action={<Button size='small' onClick={() => navigate('result')}>View Result</Button>}
               />
-            <Button onClick={()=>navigate('result/review')} type='primary' block>View solutions</Button>
+            <Button size="large" onClick={()=>navigate('result/review')} type='primary' block>View solutions</Button>
             </>
           }
           else {
@@ -213,7 +213,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
         }
         }
         else {
-          return <Button onClick={() => navigate('start')} block type='primary'>
+          return <Button size="large" onClick={() => navigate('start')} block type='primary'>
             Continue Test
           </Button>
         }
@@ -221,12 +221,12 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
      
     }
  
-  }, [test, enrolledDetails]);
+  }, [test, enrolledDetails,testEndDate,status]);
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const message = useMessage();
   const { isMobile, isTablet } = useBreakpoint();
   const isFree = plan.type === 'free';
-  const isPriceSame = ((plan?.displayPrice?.value) === (plan?.finalPrice?.value));
+  const isLoading = loadingTest;
   return   <Card
   bodyStyle={{ padding: 10, paddingBottom: 20 }}
   // style={{ height: '100%' }}
@@ -243,7 +243,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
         <Skeleton active paragraph={{ rows: 6 }} />
         </Col>
         <Col span={24}>
-        <Skeleton.Button active block />
+        <Skeleton.Button size='large' active block />
         </Col>
     </Row>
   </>:<>    <Row gutter={[20, 40]} align="stretch">
@@ -270,7 +270,8 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                   {isEnrolled?ENROLLED_CTA:  <ProductCheckoutButton onSuccess={() => {
                     message.open({
                       type: 'success',
-                      content: `You have enrolled successfully`
+                      content: `You have enrolled successfully`,
+                      particle: true
                     })                            }}
               product={{ type: 'test', id: testId + '' }} plan={plan}
               block

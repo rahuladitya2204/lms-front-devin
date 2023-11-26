@@ -7,6 +7,7 @@ import { Store, Utils } from '@adewaskar/lms-common'
 import AppRouter from './screens/AppRouter'
 import ErrorBoundary from '@Components/ErrorBoundary'
 import { Global } from '@emotion/react'
+import { ParticlesProvider } from '@Components/Particles/ParticleProvider'
 import { theme } from 'antd'
 
 const { defaultAlgorithm, darkAlgorithm } = theme
@@ -21,17 +22,8 @@ const queryClient = new QueryClient({
 })
 
 function App () {
-  let subdomain = useMemo(
-    () => {
-      const hostname = window.location.hostname
-      const parts = hostname.split('.')
-      const subdomain = parts.length > 2 ? parts[0] : null
-      return subdomain
-    },
-    [window.location.hostname]
-  )
   return (
-    <Fragment>
+    <ParticlesProvider>
       <QueryClientProvider client={queryClient}>
         <Global
           styles={{
@@ -46,7 +38,7 @@ function App () {
           <AppRouter />
         </ErrorBoundary>
       </QueryClientProvider>
-    </Fragment>
+    </ParticlesProvider>
   )
 }
 

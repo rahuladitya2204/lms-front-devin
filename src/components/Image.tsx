@@ -8,13 +8,14 @@ import styled from '@emotion/styled'
 
 interface ImagePropsI extends ImageProps {
   file?: string;
+  holderStyle?: any;
   noLoadNoShowPlaceholder?: React.ReactNode;
   caption?: React.ReactNode;
 }
 
 const ImageHolder = styled.div(
   (props: { width?: number, height: number }) => `
-width:${props.width ? props.width : 'auto'};
+width:${props.width ? props.width + 'px' : 'auto'};
 object-fit: cover;
 display: flex;
 align-items: center;
@@ -56,7 +57,11 @@ function AppImage(props: ImagePropsI) {
 
   return (
     <div>
-      <ImageHolder width={props.width} height={props.height}>
+      <ImageHolder
+        style={{ ...props.holderStyle }}
+        width={props.width}
+        height={props.height}
+      >
         {props.noLoadNoShowPlaceholder && !hasLoaded ? (
           props.noLoadNoShowPlaceholder
         ) : (
