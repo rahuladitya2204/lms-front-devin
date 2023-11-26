@@ -41,7 +41,8 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
             type: 'success',
             content: `Registered successfully ${user.name}, Welcome to ${
               organisation.name
-            }!`
+            }!`,
+            particle: true
             // icon: organisation.logo
           })
           setIsSignedin(true)

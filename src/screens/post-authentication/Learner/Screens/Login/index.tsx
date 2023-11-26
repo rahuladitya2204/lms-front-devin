@@ -215,6 +215,7 @@ const EmailForm = (props:LearnerLoginPropsI) => {
               type: 'success',
               // @ts-ignore
               content: `Welcome to ${orgName}, ${user.name}`,
+              particle: true
               // icon:<OrgLogo width={20} />
             });
           }

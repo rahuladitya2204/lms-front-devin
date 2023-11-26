@@ -270,7 +270,8 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                   {isEnrolled?ENROLLED_CTA:  <ProductCheckoutButton onSuccess={() => {
                     message.open({
                       type: 'success',
-                      content: `You have enrolled successfully`
+                      content: `You have enrolled successfully`,
+                      particle: true
                     })                            }}
               product={{ type: 'test', id: testId + '' }} plan={plan}
               block

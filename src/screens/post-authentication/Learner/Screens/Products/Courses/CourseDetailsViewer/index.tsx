@@ -254,7 +254,8 @@ const CourseCard = ({courseId,plan,children}: {
                       onSuccess={() => {
                         message.open({
                           type: 'success',
-                          content: `You have enrolled successfully`
+                          content: `You have enrolled successfully`,
+                          particle: true
                         })
                       }}
                       product={{ type: 'course', id: courseId + '' }}
