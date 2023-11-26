@@ -5,6 +5,7 @@ import { loadFireworksPreset } from 'tsparticles-preset-fireworks'
 import { loadSlim } from 'tsparticles-slim'
 import { presetConfigs } from './config'
 
+const DEFAULT_DURATION = 10 // 5secs
 const useParticlesEffect = () => {
   const [preset, setPreset] = useState('')
   const particlesInit = useCallback(async (engine: any) => {
@@ -20,6 +21,9 @@ const useParticlesEffect = () => {
 
   const initiateEffect = (effect = 'confetti') => {
     setPreset(effect)
+    setTimeout(() => {
+      setPreset('')
+    }, DEFAULT_DURATION * 1000)
   }
   const particlesConfig = {
     preset: preset,
