@@ -38,6 +38,8 @@ import { Outlet, useNavigate } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'
+import AppImage from '@Components/Image'
+import CoinImage from '../Account/LearnerWallet/CoinImage'
 import Header from '@Components/Header'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
@@ -172,9 +174,17 @@ const LearnerHeader: React.FC = () => {
             <>
               <NavLink to={`../app/wallet`} children={({ isActive }) => {
                 return <Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
-                  <Button size='small' type={isActive?'primary':'default'} icon={<WalletOutlined />}
+                  <Button style={{paddingTop:3,paddingLeft:5}}
+                    // size='small'
+                    // type={isActive ? 'primary' : 'default'}
+                    // icon={}
                     color='blue-inverse'>
-                    {Utils.UnitTypeToStr(user.wallet.balance)}</Button>
+                    <Row justify={'center'} align={'middle'}>
+                      <Col><CoinImage width={20} /></Col>
+                      <Col>
+                      <Text style={{fontSize:16,marginLeft:5}} strong>  {Utils.UnitTypeToStr(user.wallet.balance)}</Text></Col>
+                    </Row>
+                  </Button>
                   </Tooltip>
               //   return !user.wallet.balance ? <Tag icon={<WalletOutlined />} color='blue-inverse'>Wallet Balance: {Utils.UnitTypeToStr(user.wallet.balance)}</Tag> :
               //     <Tooltip title='Please recharge your wallet'>
