@@ -2,6 +2,7 @@ import { Button, Col, Form, Input, Row, Typography } from 'antd'
 import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import CoinImage from './CoinImage'
+import Title from 'antd/es/typography/Title'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
 import { usePaymentCheckout } from '@Hooks/CommonHooks'
@@ -50,9 +51,15 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
       </Col>
       <Col span={24}>
         <Form onFinish={onSubmit} layout="vertical" form={form}>
+          <Title
+            level={3}
+            style={{ textAlign: 'center', marginTop: 10, marginBottom: 15 }}
+          >
+            Recharge Wallet
+          </Title>
           <Form.Item
+            style={{ display: 'flex', justifyContent: 'center' }}
             name="value"
-            label="Add money"
             rules={[
               {
                 required: true,
@@ -68,7 +75,7 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
                 </Text>
               </Col>
               <Col>
-                <Input placeholder="Enter recharge amount" type="number" />
+                <Input placeholder="Enter amount" type="number" />
               </Col>
             </Row>
           </Form.Item>
