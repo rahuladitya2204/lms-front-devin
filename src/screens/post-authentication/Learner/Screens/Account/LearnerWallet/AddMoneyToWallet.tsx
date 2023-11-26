@@ -43,7 +43,7 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
         props.closeModal && props.closeModal()
       }
     })
-  }
+  };
   return (
     <Row justify={'center'} align={'middle'}>
       <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>

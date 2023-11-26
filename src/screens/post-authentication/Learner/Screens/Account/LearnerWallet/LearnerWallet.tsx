@@ -11,6 +11,7 @@ import ActionModal from '@Components/ActionModal/ActionModal'
 import AddMoneyToWallet from './AddMoneyToWallet'
 import { OrderStatusTag } from './OrderStatusTag'
 import dayjs from 'dayjs'
+import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { Title, Text } = Typography
 
@@ -25,6 +26,8 @@ export default function LearnerWallet() {
     data: { wallet },
     isLoading: loadingWalletDetails
   } = Learner.Queries.useGetLearnerDetails()
+  const { isMobile } = useBreakpoint()
+
   return (
     <Row gutter={[20, 20]}>
       <Col xs={24} md={12}>
@@ -33,7 +36,11 @@ export default function LearnerWallet() {
             extra={
               <ActionModal
                 width={250}
-                cta={<Button type='primary' icon={<PlusOutlined />}>Add Money</Button>}
+                cta={
+                  <Button type="primary" icon={<PlusOutlined />}>
+                    {!isMobile ? 'Add Money' : ''}
+                  </Button>
+                }
               >
                 <AddMoneyToWallet />
               </ActionModal>

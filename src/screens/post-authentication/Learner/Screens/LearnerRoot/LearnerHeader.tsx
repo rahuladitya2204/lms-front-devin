@@ -59,7 +59,7 @@ const LearnerHeader: React.FC = () => {
     isLoading: loggingOut
   } = Learner.Queries.useLogoutLearner()
   const qc = useQueryClient();
-  const {data:user,isLoading: loadingUserDetails } = Learner.Queries.useGetLearnerDetails();
+  const {data:user,isLoading: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
   const isSignedIn = Store.useAuthentication(state => state.isSignedIn);
   const message = useMessage();
   const enrolledProducts = {
@@ -116,12 +116,28 @@ const LearnerHeader: React.FC = () => {
     return MENU_ITEMS;
     
   }, [isMobileOrTablet, isSignedIn, enrolledProducts]);
-  
+  const WalletButton = <NavLink to={`../app/wallet`} children={({ isActive }) => {
+    return <Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
+      <Spin spinning={loadingLearnerDetails}>
+        <Button style={{ paddingTop: 2, paddingLeft: 5 }}
+          color='blue-inverse'
+          // size={screen.isMobile?'small':'middle'}
+        >
+          <Row justify={'center'} align={'middle'}>
+            <Col style={{ marginTop: -1 }}><CoinImage width={20} /></Col>
+            <Col>
+              <Text style={{ fontSize: 16, marginLeft: 5 }} strong>  {Utils.UnitTypeToStr(user.wallet.balance)}</Text></Col>
+          </Row>
+        </Button>
+      </Spin>
+    </Tooltip>
+  }} />;
   // Define the extraContent
   const extraContent = (
     <Space>
       {isMobileOrTablet ? (
         <>
+          {WalletButton}
         {isSignedIn?    <ActionDrawer width={300}
           extra={closeDrawer => [
             <Button
@@ -172,43 +188,9 @@ const LearnerHeader: React.FC = () => {
           <Space>
             {!screen.isMobile ? (
             <>
-              <NavLink to={`../app/wallet`} children={({ isActive }) => {
-                return <Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
-                  <Button style={{paddingTop:2,paddingLeft:5}}
-                    // size='small'
-                    // type={isActive ? 'primary' : 'default'}
-                    // icon={}
-                    color='blue-inverse'>
-                    <Row justify={'center'} align={'middle'}>
-                      <Col style={{marginTop:-1}}><CoinImage width={20} /></Col>
-                      <Col>
-                      <Text style={{fontSize:16,marginLeft:5}} strong>  {Utils.UnitTypeToStr(user.wallet.balance)}</Text></Col>
-                    </Row>
-                  </Button>
-                  </Tooltip>
-              //   return !user.wallet.balance ? <Tag icon={<WalletOutlined />} color='blue-inverse'>Wallet Balance: {Utils.UnitTypeToStr(user.wallet.balance)}</Tag> :
-              //     <Tooltip title='Please recharge your wallet'>
-              //        <Button
-              //   type={isActive?'primary':'default'}
-              //   shape="circle"
-              //       icon={<WalletOutlined />
-              //       }
-              // />
-              //    </Tooltip>
-              }} />
-                
-            {/* <Badge count={items?.length || 0} showZero={false}>
-              <NavLink to={`../app/cart`} children={({isActive}) => {
-                return <Button
-                type={isActive?'primary':'default'}
-                shape="circle"
-                icon={<ShoppingCartOutlined />}
-              />
-              }} />
-              </Badge> */}
+              {WalletButton}
             </>
             ) : null}
-
             <Dropdown
               trigger={['click']}
               placement="bottomLeft"
