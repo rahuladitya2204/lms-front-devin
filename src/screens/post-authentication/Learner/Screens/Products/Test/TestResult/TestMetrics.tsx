@@ -9,6 +9,7 @@ import {
   Progress,
   Row,
   Skeleton,
+  Space,
   Tag,
   Typography
 } from 'antd'
@@ -301,17 +302,21 @@ export default function TestMetrics() {
                     <Col span={24}>
                       <Card title="Test Feedback">
                         <List
+                          size="large"
                           // pagination={{ position, align }}
                           dataSource={feedback}
                           renderItem={(item, index) => (
                             <List.Item>
                               <List.Item.Meta
+                                style={{ margin: '10px 0' }}
                                 description={
-                                  <Text>
-                                    {item.topics.map(topic => (
-                                      <Tag color="blue">{topic}</Tag>
-                                    ))}
-                                  </Text>
+                                  <Space style={{ marginTop: 10 }}>
+                                    <Text>
+                                      {item.topics.map(topic => (
+                                        <Tag color="blue">{topic}</Tag>
+                                      ))}
+                                    </Text>
+                                  </Space>
                                 }
                                 title={<Text>{item.text}</Text>}
                               />
