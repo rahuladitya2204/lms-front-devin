@@ -29,7 +29,7 @@ const AddRecipients = ({ updateCampaign, campaign }: AddRecipientsPropsI) => {
   const recipientsType = Form.useWatch(['recipients', 'type'], form)
 
   const setOperator = (op: string) => {
-    console.log(op, '111')
+    // console.log(op, '111')
     updateRecipients({
       operator: op
     })

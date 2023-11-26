@@ -107,6 +107,7 @@
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
     "react-google-places-autocomplete": "^4.0.1",
+    "react-particles": "^2.12.2",
     "react-pdf": "^5.7.2",
     "react-player": "^2.10.1",
     "react-quill": "^2.0.0",

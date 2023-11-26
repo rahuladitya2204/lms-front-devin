@@ -21,15 +21,15 @@ const queryClient = new QueryClient({
 })
 
 function App () {
-  let subdomain = useMemo(
-    () => {
-      const hostname = window.location.hostname
-      const parts = hostname.split('.')
-      const subdomain = parts.length > 2 ? parts[0] : null
-      return subdomain
-    },
-    [window.location.hostname]
-  )
+  // let subdomain = useMemo(
+  //   () => {
+  //     const hostname = window.location.hostname
+  //     const parts = hostname.split('.')
+  //     const subdomain = parts.length > 2 ? parts[0] : null
+  //     return subdomain
+  //   },
+  //   [window.location.hostname]
+  // )
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>

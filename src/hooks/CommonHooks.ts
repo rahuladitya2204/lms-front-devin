@@ -7,8 +7,7 @@ import {
 } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 
-import { generatePushToken } from 'push-notification/config';
-import { getToken } from '@Network/index'
+import { usePushNotification } from 'push-notification/usePushNotification';
 import useRazorpay from "react-razorpay";
 
 export const useNavigateParams = () => {
@@ -29,6 +28,8 @@ export const useGetNodeFromRouterOutlet = () => {
 
 export const useAppInit = () => {
   const isValidAlias = Store.useGlobal(s => s.isAliasValid);
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
+  usePushNotification(isSignedIn);
   const { data: organisation,isLoading: loadingOrganisation } = Common.Queries.useGetOrgDetails();
   const { mutate: validateOrgAlias,isLoading: validatingOrgAlias } = Common.Queries.useValidateOrgAlias();
   let subdomain = useMemo(
@@ -40,12 +41,12 @@ export const useAppInit = () => {
     },
     [window.location.hostname]
   )
-  useEffect(() => {
+  useEffect(() => {// uncomment this later
     const sd = subdomain + '';
+    // const sd = `www`
     validateOrgAlias({
       alias: sd
     });
-    generatePushToken();
   }, [])
 
   return { isInitDone: (isValidAlias&&!loadingOrganisation) }
