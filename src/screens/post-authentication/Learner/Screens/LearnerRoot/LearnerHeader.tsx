@@ -174,7 +174,7 @@ const LearnerHeader: React.FC = () => {
             <>
               <NavLink to={`../app/wallet`} children={({ isActive }) => {
                 return <Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
-                  <Button style={{paddingTop:3,paddingLeft:5}}
+                  <Button style={{paddingTop:1,paddingLeft:5}}
                     // size='small'
                     // type={isActive ? 'primary' : 'default'}
                     // icon={}

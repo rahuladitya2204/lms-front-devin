@@ -5,5 +5,5 @@ interface CoinImagePropsI {
 }
 
 export default function CoinImage(props: CoinImagePropsI) {
-  return <AppImage width={props.width || 50} src="/images/coin2.svg" />
+  return <AppImage width={props.width || 50} src="/images/coin.gif" />
 }

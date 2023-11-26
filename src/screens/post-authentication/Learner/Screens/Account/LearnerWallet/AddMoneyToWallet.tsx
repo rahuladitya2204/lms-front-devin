@@ -46,13 +46,13 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
   return (
     <Row justify={'center'} align={'middle'}>
       <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
-        <CoinImage width={120} />
+        <CoinImage width={50} />
       </Col>
       <Col span={24}>
         <Form onFinish={onSubmit} layout="vertical" form={form}>
           <Form.Item
             name="value"
-            label="Enter amount"
+            label="Add money"
             rules={[
               {
                 required: true,
