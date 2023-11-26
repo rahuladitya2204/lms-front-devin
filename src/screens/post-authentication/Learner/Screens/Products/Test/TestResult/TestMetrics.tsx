@@ -38,6 +38,7 @@ import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import LearnerProfile from '@Learner/Screens/Account/LearnerProfile'
+import { NavLink } from 'react-router-dom'
 import ProcessingResult from './ProcessingResult'
 import ProtectedContent from '@Components/ProtectedComponent'
 import { capitalize } from 'lodash'
@@ -310,13 +311,37 @@ export default function TestMetrics() {
                               <List.Item.Meta
                                 style={{ margin: '10px 0' }}
                                 description={
-                                  <Space style={{ marginTop: 10 }}>
-                                    <Text>
-                                      {item.topics.map(topic => (
-                                        <Tag color="blue">{topic}</Tag>
+                                  <Row gutter={[20, 20]}>
+                                    <Col span={24}>
+                                      <Space style={{ marginTop: 10 }}>
+                                        <Text>
+                                          {item.topics.map(topic => (
+                                            <Tag
+                                              style={{ marginBottom: 3 }}
+                                              color="blue"
+                                            >
+                                              {topic}
+                                            </Tag>
+                                          ))}
+                                        </Text>
+                                      </Space>
+                                    </Col>
+                                    <Col span={24}>
+                                      {item.questionIds.map(i => (
+                                        <NavLink
+                                          style={{
+                                            marginRight: 5,
+                                            marginBottom: 3
+                                          }}
+                                          to={`review/${i}`}
+                                        >
+                                          <Button type="primary" size="small">
+                                            Go to question
+                                          </Button>
+                                        </NavLink>
                                       ))}
-                                    </Text>
-                                  </Space>
+                                    </Col>
+                                  </Row>
                                 }
                                 title={<Text>{item.text}</Text>}
                               />
