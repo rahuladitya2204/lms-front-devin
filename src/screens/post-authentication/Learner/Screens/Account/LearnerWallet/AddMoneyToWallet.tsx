@@ -51,7 +51,10 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
       </Col>
       <Col span={24}>
         <Form onFinish={onSubmit} layout="vertical" form={form}>
-          <Title level={3} style={{ textAlign: 'center' }}>
+          <Title
+            level={3}
+            style={{ textAlign: 'center', marginTop: 10, marginBottom: 15 }}
+          >
             Recharge Wallet
           </Title>
           <Form.Item
