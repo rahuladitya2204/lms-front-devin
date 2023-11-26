@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 
+import { generatePushToken } from 'push-notification/config';
 import { getToken } from '@Network/index'
 import useRazorpay from "react-razorpay";
 
@@ -42,8 +43,9 @@ export const useAppInit = () => {
   useEffect(() => {
     const sd = subdomain + '';
     validateOrgAlias({
-      alias:sd
-    })
+      alias: sd
+    });
+    generatePushToken();
   }, [])
 
   return { isInitDone: (isValidAlias&&!loadingOrganisation) }
