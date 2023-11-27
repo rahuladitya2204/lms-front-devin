@@ -9,14 +9,14 @@ const DEFAULT_DURATION = 10 // 5secs
 const useParticlesEffect = () => {
   const [preset, setPreset] = useState('')
   const particlesInit = useCallback(async (engine: any) => {
-    console.log(engine)
+    // console.log(engine)
     await loadSlim(engine)
     await loadConfettiPreset(engine) // Load the confetti preset
     await loadFireworksPreset(engine)
   }, [])
 
   const particlesLoaded = useCallback(async (container: any) => {
-    console.log(container)
+    // console.log(container)
   }, [])
 
   const initiateEffect = (effect = 'confetti') => {

@@ -83,6 +83,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         // icon: <AppstoreOutlined />
       },
       {
+        title: 'Affiliate Program',
+        path: 'affiliate',
+        // icon: <AppstoreOutlined />
+      },
+      {
         title: 'Templates',
         path: 'templates',
         // icon: <AppstoreOutlined />

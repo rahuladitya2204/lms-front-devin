@@ -83,7 +83,7 @@ function StoreScreen () {
         return (
           <Col span={24} style={{marginTop:20}}>
             <Section extra={[
-             <NavLink to={`../category/${category._id}`}>  <Button style={{ marginLeft: 20 }} type='primary' size='small' >View More</Button></NavLink>]} title={<Space style={{ marginBottom: 15 }}>
+             <NavLink to={`../category/${category._id}`}>  <Button style={{ marginLeft: 20,marginBottom:20 }} type='primary' size='small' >View More</Button></NavLink>]} title={<Space style={{ marginBottom: 15 }}>
               <Text style={{ fontSize: 18, marginBottom: 0 }} >{category.title}</Text>
             </Space >}
             >

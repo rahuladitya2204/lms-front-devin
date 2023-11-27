@@ -59,7 +59,11 @@ function CourseCard(props: CourseCardPropsI) {
            {course.analytics.reviews.count? <Space size='small' direction="horizontal" align='center' style={{display:'flex'}}>
               <Rate disabled style={{ fontSize: 12 }} value={course.analytics.averageRating} /> <Text>{course.analytics.averageRating}({formatAvgCount(course.analytics.reviews.count) }) </Text>
             </Space>:null}
-            <Text style={{fontSize:16}} ellipsis>{course.title}</Text>
+            <Text style={{
+          fontSize: 13,
+          whiteSpace: 'normal', // Ensures text wraps
+          overflowWrap: 'break-word' // Breaks words to prevent overflow
+        }}>{course.title}</Text>
           </Space>}
         />
           <Row justify={'space-between'} style={{marginTop:10}}>

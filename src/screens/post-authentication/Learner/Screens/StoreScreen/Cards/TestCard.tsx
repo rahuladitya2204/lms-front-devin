@@ -56,7 +56,11 @@ function TestCard(props: TestCardPropsI) {
       >
         <Card.Meta
           title={<Space size='small' direction="vertical"  >
-            <Text style={{fontSize:16}} ellipsis>{test.title}</Text>
+            <Text ellipsis style={{
+          fontSize: 13,
+          whiteSpace: 'normal', // Ensures text wraps
+          overflowWrap: 'break-word' // Breaks words to prevent overflow
+        }}>{test.title}</Text>
           </Space>}
         />
           <Row justify={'space-between'} style={{marginTop:10}}>

@@ -22,6 +22,8 @@ import {
 import AddPromo from '@User/Screens/Marketing/Promos/CreatePromo'
 import AddQuestion from '@User/Screens/Tests/TestCreator/TestBuilder/AddQuestionItem'
 import AddTextItem from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
+import AffiliateProgramScren from '@User/Screens/Marketing/AffiliateScreen/AffiliateScreen'
+import AffiliateScreen from '@Learner/Screens/Affiliate/AffiliateScreen'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
@@ -117,13 +119,13 @@ const router = (userType: string) => {
           <>
             <Route index element={<ReturnLearnerToStore />} />
    <Route path="app" element={<LearnerRootScreen />}>
-              <Route path="cart" element={<LearnerCart />} />
+<Route path="cart" element={<LearnerCart />} />
               <Route path="wallet" element={<LearnerWallet />} />
   <Route path="reset-password" element={<ResetPassword />} />
               <Route path="category/:id" element={<CategoryDetail />} />
   <Route path="store" element={<LearnerStoreScreen />} />
               <Route path="account" element={<LearnerAccount />} />
-              <Route path="tickets" element={<LearnersTicketsScreen />} />
+ <Route path="tickets" element={<LearnersTicketsScreen />} />
               <Route path="tickets/:id" element={<LearnerTicketDetail />} />
               <Route path="courses">
                 <Route path="" element={<LearnerCourses />} />
@@ -150,8 +152,9 @@ const router = (userType: string) => {
               />
                        <Route path='privacy-policy' element={<LearnerPrivacyPolicy/>} />
  </Route>
-            <Route path="" element={<LearnerFullPageHolder/> }>
-            <Route path="app/test/:testId">
+            <Route path="" element={<LearnerFullPageHolder />}>
+            <Route path="affiliate" element={<AffiliateScreen />} />
+  <Route path="app/test/:testId">
               <Route path="start" element={<TestRules />} /> 
               <Route path="player" element={<TestPlayer/>}>
                 <Route path=":questionId" element={<TestPlayeritem/>}/>
@@ -235,9 +238,13 @@ const router = (userType: string) => {
               {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
             </Route>
           </Route>
-          <Route path="marketing">
-            <Route path="campaign">
+                <Route path="marketing">
+                <Route path="campaign">
               <Route path="" element={<CampaignScreen />} />
+              {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
+            </Route>
+            <Route path="affiliate">
+              <Route path="" element={<AffiliateProgramScren />} />
               {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
             </Route>
             <Route path="create-campaign" element={<CreateCampaign />} />

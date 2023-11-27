@@ -45,7 +45,11 @@ export default function LearnerWallet() {
                 <AddMoneyToWallet />
               </ActionModal>
             }
-            title={<Title level={3}>Wallet Balance </Title>}
+            title={
+              <Title style={{ margin: 0 }} level={4}>
+                Wallet Balance{' '}
+              </Title>
+            }
             // hoverable
           >
             <Title>{Utils.UnitTypeToStr(wallet.balance)}</Title>

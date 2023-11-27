@@ -30,6 +30,7 @@ import {
   ShopOutlined,
   ShoppingCartOutlined,
   UserOutlined,
+  VerifiedOutlined,
   WalletOutlined
 } from '@ant-design/icons'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
@@ -105,7 +106,9 @@ const LearnerHeader: React.FC = () => {
     if (enrolledProducts.course && enrolledProducts.course.length) {
       MENU_ITEMS.push({ label: 'My Courses', key: 'courses', icon: <EditOutlined /> })
     }
-
+    if (enrolledProducts.test && enrolledProducts.test.length) {
+      MENU_ITEMS.push({ label:user.affiliate?'Affiliate Program':'Become an affiliate', key: '../affiliate', icon: <VerifiedOutlined /> })
+    }
     if (isMobileOrTablet && isSignedIn) {
       MENU_ITEMS.unshift({
         label: 'Wallet',
@@ -218,6 +221,13 @@ const LearnerHeader: React.FC = () => {
                     onClick={() => navigate('../app/tickets')}
                   >
                     Help and Support
+                  </Menu.Item>
+                  <Menu.Item
+                    key="affiliate"
+                    icon={<VerifiedOutlined />}
+                    onClick={() => window.open(`/affiliate`,'_blank')}
+                  >
+                   {user.affiliate?'Affiliate Program':'Become an affiliate'}
                   </Menu.Item>
                   <Menu.Item
                     icon={<LogoutOutlined />}

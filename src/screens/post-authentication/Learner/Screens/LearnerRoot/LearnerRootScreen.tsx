@@ -11,9 +11,18 @@ import { CustomerServiceOutlined } from '@ant-design/icons'
 import LearnerHeader from './LearnerHeader'
 import LearnerProfile from '../Account/LearnerProfile'
 import ThemeProvider from 'screens/ThemeProvider'
+import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
-const { Title } = Typography
+const { Title } = Typography;
+
+const CustomLayout = styled(Layout)`
+.ant-layout>div {
+  display: block;
+  width:auto;
+}
+`
+
 const LearnerRootScreen: React.FC = () => {
   const { orgId } = useParams()
   const [params] = useSearchParams()
@@ -66,7 +75,7 @@ const LearnerRootScreen: React.FC = () => {
             </ActionModal>
           ) : null
         ) : null}
-        <Layout style={{ minHeight: '100vh', paddingBottom: 50 }}>
+        <Layout>
           {((!isMobile)&&isSignedIn)?<Fragment>
             {(learner.profile.status === Enum.LearnerProfileStatus.INCOMPLETE || learner.profile.status === Enum.LearnerProfileStatus.PARTIAL_COMPLETE) ?
               <Alert action={<ActionModal height={600} width={300} title='Complete your profile' cta={<Button size='small' >Complete Profile</Button>}>

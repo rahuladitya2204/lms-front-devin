@@ -32,22 +32,35 @@ export const useAppInit = () => {
   usePushNotification(isSignedIn);
   const { data: organisation,isLoading: loadingOrganisation } = Common.Queries.useGetOrgDetails();
   const { mutate: validateOrgAlias,isLoading: validatingOrgAlias } = Common.Queries.useValidateOrgAlias();
-  let subdomain = useMemo(
+  const { mutate: validateAffiliateId } = Common.Queries.useValidateAffiliateId();
+  let { subdomain, affiliateId } = useMemo(
     () => {
-      const hostname = window.location.hostname
+      const hostname = window.location.hostname;
+      const queryString = window.location.search;
+      const queryParams = new URLSearchParams(queryString);
+      const affiliateId = queryParams.get('ref'); // Replace 'myParam' with your parameter name
+      console.log(affiliateId, 'location');
       const parts = hostname.split('.')
       const subdomain = parts.length > 2 ? parts[0] : null
-      return subdomain
+      return {
+        affiliateId,subdomain
+      }
     },
-    [window.location.hostname]
+    [window.location]
   )
   useEffect(() => {// uncomment this later
     const sd = subdomain + '';
     // const sd = `www`
     validateOrgAlias({
-      alias: sd
+      alias: sd,
     });
   }, [])
+
+  useEffect(() => {
+    if (affiliateId && isValidAlias) {
+      validateAffiliateId({ affiliateId });
+      }
+  },[affiliateId,isValidAlias])
 
   return { isInitDone: (isValidAlias&&!loadingOrganisation) }
 }
