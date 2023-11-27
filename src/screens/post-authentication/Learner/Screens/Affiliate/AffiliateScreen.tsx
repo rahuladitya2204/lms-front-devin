@@ -7,6 +7,7 @@ import {
   Row,
   Skeleton,
   Spin,
+  Tag,
   Tooltip,
   Typography
 } from 'antd'
@@ -37,14 +38,15 @@ export default function AffiliateScreen () {
   } = Learner.Queries.useGetAffiliateAccountDetails({
     enabled: !!learner.affiliate
   })
-  const { isDesktop } = useBreakpoint()
+  const { isDesktop, isMobile } = useBreakpoint()
   const wallet = affiliateDetails.wallet
+  const Balance = Utils.UnitTypeToStr(wallet.balance)
   const WalletButton = (
     <Tooltip
       title={
         !wallet.balance.value
           ? 'No amount available for payout'
-          : `Wallet Balance: ${Utils.UnitTypeToStr(wallet.balance)}`
+          : `Wallet Balance: ${Balance}`
       }
     >
       <Spin spinning={loadingAffiliateDetails}>
@@ -60,7 +62,7 @@ export default function AffiliateScreen () {
             <Col>
               <Text style={{ fontSize: 16, marginLeft: 5 }} strong>
                 {' '}
-                {Utils.UnitTypeToStr(wallet.balance)}
+                {Balance}
               </Text>
             </Col>
           </Row>
@@ -76,8 +78,22 @@ export default function AffiliateScreen () {
         // showBack
         showLogo
         title="Affiliate Program"
-        extra={[WalletButton]}
+        extra={isMobile ? [] : [WalletButton]}
       >
+        {isMobile ? (
+          <Row
+            align={'middle'}
+            justify={'space-between'}
+            style={{ marginBottom: 10 }}
+          >
+            <Col>
+              <Title style={{ margin: 0 }} level={4}>
+                Wallet Balance
+              </Title>
+            </Col>
+            <Col>{WalletButton}</Col>
+          </Row>
+        ) : null}
         <Card style={{ minHeight: '100vh' }}>
           {loadingDetails ? (
             <Skeleton />

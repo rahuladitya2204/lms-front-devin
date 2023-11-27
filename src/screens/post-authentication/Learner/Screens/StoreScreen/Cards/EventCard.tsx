@@ -56,7 +56,11 @@ const { Text } = Typography
         >
           <Card.Meta
             title={<Space size='small' direction="vertical"  >
-            <Text style={{fontSize:16}} ellipsis>{event.title}</Text>
+            <Text  style={{
+          fontSize: 13,
+          whiteSpace: 'normal', // Ensures text wraps
+          overflowWrap: 'break-word' // Breaks words to prevent overflow
+        }}>{event.title}</Text>
             </Space>}
           />
             <Row justify={'space-between'} style={{marginTop:10}}>

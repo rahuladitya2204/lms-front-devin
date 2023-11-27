@@ -15,7 +15,6 @@ function Section(props: SectionPropsI) {
       <Col span={24}>
         <Row justify={'space-between'} align={'middle'}>
           <Col>
-            {' '}
             <Title style={{ marginTop: 0 }} level={2}>
               {props.title}
             </Title>

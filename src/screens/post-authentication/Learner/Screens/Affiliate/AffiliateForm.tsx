@@ -3,6 +3,7 @@ import { Button, Col, Form, Input, Row, Typography } from 'antd'
 import AffiliateDashboard from './AffiliateDashboard'
 import AppImage from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 
 const { Title, Text } = Typography
@@ -25,7 +26,7 @@ export default function AffiliateForm () {
       }
     })
   }
-
+  const { isMobile } = useBreakpoint()
   return (
     <Row gutter={[20, 20]}>
       <Col span={24}>
@@ -74,6 +75,7 @@ export default function AffiliateForm () {
               type="primary"
               size="large"
               onClick={onSubmit}
+              block={isMobile}
             >
               Accept and Register
             </Button>
