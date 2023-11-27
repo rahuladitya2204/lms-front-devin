@@ -37,3 +37,28 @@ export function generateGradients(primaryColor: string): GradientTypes {
     type4: [gradientType4]
   }
 }
+
+export function copyToClipboard(text: string): void {
+  // Create a temporary textarea element
+  const textarea = document.createElement('textarea')
+  textarea.value = text
+
+  // Avoid scrolling to bottom
+  textarea.style.top = '0'
+  textarea.style.left = '0'
+  textarea.style.position = 'fixed'
+
+  document.body.appendChild(textarea)
+  textarea.focus()
+  textarea.select()
+
+  try {
+    const successful = document.execCommand('copy')
+    const msg = successful ? 'successful' : 'unsuccessful'
+    console.log('Copying text command was ' + msg)
+  } catch (err) {
+    console.error('Oops, unable to copy', err)
+  }
+
+  document.body.removeChild(textarea)
+}

@@ -13,6 +13,7 @@ interface HeaderPropsI extends PageHeaderProps {
   hideBack?: boolean;
   extra?: React.ReactNode;
   showLogo?: boolean;
+  onLogoClick?: Function;
   theme?: string;
   bgColor?: string;
 }
@@ -47,7 +48,13 @@ const Header: React.FC<HeaderPropsI> = props => {
             <Col>
               <Space align="center">
                 {props.showBack ? <BackButton /> : null}
-                {props.showLogo ? <OrgLogo /> : null}
+                {props.showLogo ? (
+                  <span
+                    onClick={() => props.onLogoClick && props.onLogoClick()}
+                  >
+                    <OrgLogo />
+                  </span>
+                ) : null}
                 <Title level={4} style={{ margin: '10px 0' }}>
                   {props.title}
                 </Title>

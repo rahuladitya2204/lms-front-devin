@@ -30,6 +30,7 @@ import {
   ShopOutlined,
   ShoppingCartOutlined,
   UserOutlined,
+  VerifiedOutlined,
   WalletOutlined
 } from '@ant-design/icons'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
@@ -221,8 +222,8 @@ const LearnerHeader: React.FC = () => {
                   </Menu.Item>
                   <Menu.Item
                     key="affiliate"
-                    icon={<UserOutlined />}
-                    onClick={() => navigate('../app/affiliate')}
+                    icon={<VerifiedOutlined />}
+                    onClick={() => window.open(`/affiliate`,'_blank')}
                   >
                    {user.affiliate?'Affiliate Program':'Become an affiliate'}
                   </Menu.Item>

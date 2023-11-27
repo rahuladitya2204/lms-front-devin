@@ -1,71 +1,117 @@
-import { Button, Col, Form, Row, Typography } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Layout,
+  Row,
+  Skeleton,
+  Spin,
+  Tooltip,
+  Typography
+} from 'antd'
+import { Learner, Utils } from '@adewaskar/lms-common'
+import { Navigate, useNavigate } from 'react-router'
 
 import AffiliateDashboard from './AffiliateDashboard'
-import { Learner } from '@adewaskar/lms-common'
+import AffiliateForm from './AffiliateForm'
+import AffiliateProducts from './AffiliateProducts'
+import CoinImage from '../Account/LearnerWallet/CoinImage'
+import Header from '@Components/Header'
+import LearnerHeader from '../LearnerRoot/LearnerHeader'
+import Tabs from '@Components/Tabs'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 
 const { Title, Text } = Typography
 
 export default function AffiliateScreen () {
-  const { mutate: becomeAffiliate } = Learner.Queries.useBecomeAffiliate()
-  const { data: learner } = Learner.Queries.useGetLearnerDetails()
-  const [form] = Form.useForm()
-  const message = useMessage()
-  const onSubmit = () => {
-    becomeAffiliate(undefined, {
-      onSuccess: () => {
-        message.open({
-          type: 'success',
-          content: 'You have successfully enrolled for our affiliate program'
-        })
+  const navigate = useNavigate()
+  const {
+    data: learner,
+    isLoading: loadingDetails
+  } = Learner.Queries.useGetLearnerDetails()
+  const {
+    data: affiliateDetails,
+    isLoading: loadingAffiliateDetails
+  } = Learner.Queries.useGetAffiliateAccountDetails({
+    enabled: !!learner.affiliate
+  })
+  const { isDesktop } = useBreakpoint()
+  const wallet = affiliateDetails.wallet
+  const WalletButton = (
+    <Tooltip
+      title={
+        !wallet.balance.value
+          ? 'No amount available for payout'
+          : `Wallet Balance: ${Utils.UnitTypeToStr(wallet.balance)}`
       }
-    })
-  }
-
-  return learner.affiliate ? (
-    <AffiliateDashboard />
-  ) : (
-    <Row>
-      <Col span={24}>
-        <Title style={{ textAlign: 'center' }}>Become an affiliate</Title>
-
-        <Title level={3}>Affiliate Program Signup</Title>
-        <Title level={4} style={{ fontSize: 18, fontWeight: 400 }}>
-          Join our thriving community of affiliates and start earning today! As
-          an affiliate, you'll have the opportunity to earn commissions by
-          promoting our courses and tests to your network. Our program is
-          designed to be simple, rewarding, and supportive, providing you with
-          all the necessary tools and resources to succeed.
-        </Title>
-        <Title level={3}>How it Works</Title>
-        <Title level={4} style={{ fontSize: 18, fontWeight: 400 }}>
-          1. Sign Up: Complete this form to join our affiliate program
-        </Title>
-        <Title level={4} style={{ fontSize: 18, fontWeight: 400 }}>
-          2. Promote: Use your unique referral link to promote our offerings
-        </Title>
-        <Title level={4} style={{ fontSize: 18, fontWeight: 400 }}>
-          3. Earn: Receive commissions for every sale made through your link.
-        </Title>
-        <Title level={3}>Benifits</Title>
-        <Title level={4} style={{ fontSize: 18, fontWeight: 400 }}>
-          Attractive commission rates
-        </Title>
-        <Title level={4} style={{ fontSize: 18, fontWeight: 400 }}>
-          Access to promotional materials and resources
-        </Title>
-        <Title level={4} style={{ fontSize: 18, fontWeight: 400 }}>
-          Real-time tracking of your referrals and earnings
-        </Title>
-        <Title level={4} style={{ fontSize: 18, fontWeight: 400 }}>
-          Dedicated support to help you maximize your potential
-        </Title>
-
-        <Form onFinish={onSubmit} form={form} />
-        <Button size="large" onClick={form.submit}>
-          Register{' '}
+    >
+      <Spin spinning={loadingAffiliateDetails}>
+        <Button
+          style={{ paddingTop: 2, paddingLeft: 5 }}
+          color="blue-inverse"
+          // size={screen.isMobile?'small':'middle'}
+        >
+          <Row justify={'center'} align={'middle'}>
+            <Col style={{ marginTop: -1 }}>
+              <CoinImage width={20} />
+            </Col>
+            <Col>
+              <Text style={{ fontSize: 16, marginLeft: 5 }} strong>
+                {' '}
+                {Utils.UnitTypeToStr(wallet.balance)}
+              </Text>
+            </Col>
+          </Row>
         </Button>
-      </Col>
-    </Row>
+      </Spin>
+    </Tooltip>
+  )
+
+  return (
+    <Spin spinning={loadingDetails}>
+      <Header
+        onLogoClick={() => navigate('../app/store')}
+        // showBack
+        showLogo
+        title="Affiliate Program"
+        extra={[WalletButton]}
+      >
+        <Card style={{ minHeight: '100vh' }}>
+          {loadingDetails ? (
+            <Skeleton />
+          ) : (
+            <Tabs
+              navigateWithHash
+              style={{ minHeight: '100vh' }}
+              tabPosition={isDesktop ? 'left' : 'top'}
+              items={
+                !learner.affiliate
+                  ? [
+                    {
+                      label: 'Registration',
+                      key: 'register',
+                      children: <AffiliateForm />
+                    }
+                  ]
+                  : [
+                    {
+                      label: 'Dashboard',
+                      key: 'dashboard',
+                      children: <AffiliateDashboard />
+                    },
+                    {
+                      label: 'Products',
+                      key: 'products',
+                      children: <AffiliateProducts />
+                    }
+                  ]
+              }
+            />
+          )}
+        </Card>
+      </Header>
+    </Spin>
   )
 }
