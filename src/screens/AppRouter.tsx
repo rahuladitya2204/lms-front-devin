@@ -22,6 +22,7 @@ import {
 import AddPromo from '@User/Screens/Marketing/Promos/CreatePromo'
 import AddQuestion from '@User/Screens/Tests/TestCreator/TestBuilder/AddQuestionItem'
 import AddTextItem from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
+import AffiliateScreen from '@Learner/Screens/Affiliate/AffiliateScreen'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
@@ -123,7 +124,8 @@ const router = (userType: string) => {
               <Route path="category/:id" element={<CategoryDetail />} />
   <Route path="store" element={<LearnerStoreScreen />} />
               <Route path="account" element={<LearnerAccount />} />
-              <Route path="tickets" element={<LearnersTicketsScreen />} />
+              <Route path="affiliate" element={<AffiliateScreen />} />
+ <Route path="tickets" element={<LearnersTicketsScreen />} />
               <Route path="tickets/:id" element={<LearnerTicketDetail />} />
               <Route path="courses">
                 <Route path="" element={<LearnerCourses />} />

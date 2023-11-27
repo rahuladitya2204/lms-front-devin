@@ -220,6 +220,13 @@ const LearnerHeader: React.FC = () => {
                     Help and Support
                   </Menu.Item>
                   <Menu.Item
+                    key="affiliate"
+                    icon={<UserOutlined />}
+                    onClick={() => navigate('../app/affiliate')}
+                  >
+                   {user.affiliate?'Affiliate Program':'Become an affiliate'}
+                  </Menu.Item>
+                  <Menu.Item
                     icon={<LogoutOutlined />}
                     key="logout"
                     onClick={() => logout()}

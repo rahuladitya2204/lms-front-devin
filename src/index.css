@@ -99,3 +99,12 @@ code {
 .ant-skeleton.ant-skeleton-element {
   display: flex !important;
 }
+
+div.ant-layout:first-child {
+  display:block !important;
+}
+
+.ant-layout {
+  min-height:100vh;
+  padding-bottom: 50px;
+}
