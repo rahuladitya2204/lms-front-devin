@@ -56,7 +56,7 @@ export default function LearnerWallet() {
           </Card>
         </Spin>
       </Col>
-      <Col xs={24} md={12}>
+      <Col xs={0} sm={24} md={12}>
         <Card title="Transactions">
           <List
             loading={loadingOrders}
