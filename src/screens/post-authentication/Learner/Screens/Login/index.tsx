@@ -184,8 +184,8 @@ const OtpForm = (props:LearnerLoginPropsI) => {
           <Form.Item><Button loading={sendingOtp} block type="primary" htmlType="submit">Send OTP</Button></Form.Item>
           <Form.Item style={{ textAlign: 'center' }}>
               <Typography.Text>
-                Don't have an account?{' '}
-              <ActionModal width={300} title="Sign up" cta={<Button type="link">Sign up?</Button>}>
+                Don't have an account yet?{' '}
+              <ActionModal width={300} title="Let's get signed up" cta={<Button type="link">Let's get signed up</Button>}>
                 <LearnerRegister onRegisterSuccess={props.closeModal} />
               </ActionModal>
             </Typography.Text>
@@ -222,7 +222,7 @@ const EmailForm = (props:LearnerLoginPropsI) => {
               type: 'success',
               // @ts-ignore
               content: `Welcome to ${orgName}, ${user.name}`,
-              particle: true
+              // particle: true
               // icon:<OrgLogo width={20} />
             });
           }
@@ -310,10 +310,10 @@ const EmailForm = (props:LearnerLoginPropsI) => {
       </Form.Item>
     <Form.Item style={{ textAlign: 'center' }}>
       <Typography.Text>
-        Don't have an account?{' '}
+        Don't have an account yet?{' '}
         <ActionModal
           width={300}
-          title="Lets get signed up"
+          title="Let's get signed up"
           cta={<Button ref={signupButton} type="link">Let's get signed up</Button>}
         >
                 <LearnerRegister data={{email}} onRegisterSuccess={props.closeModal} />
