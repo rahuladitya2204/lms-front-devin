@@ -52,7 +52,7 @@ interface LearnerLoginPropsI {
 function LearnerLogin (props:LearnerLoginPropsI) {
   return (
     <StyledAuthenticationCard>
-      <Tabs
+      <Tabs centered
         items={[
           {
             label: 'Login with OTP',
@@ -140,7 +140,9 @@ const OtpForm = (props:LearnerLoginPropsI) => {
   };
   return (
     <>
-      <ActionModal title={`Let's get registered`} width={300} open={showRegister} ><LearnerRegister data={{contactNo: contactNo}} onRegisterSuccess={()=>setShowRegister(false)} /></ActionModal>
+      <ActionModal title={`Let's get registered`} width={300} open={showRegister} >
+        <LearnerRegister data={{ contactNo: contactNo }} onRegisterSuccess={() => setShowRegister(false)} />
+      </ActionModal>
       <LogoTop/>
       {otpSent ? (
         <Fragment>
@@ -159,9 +161,11 @@ const OtpForm = (props:LearnerLoginPropsI) => {
             ]}><Input type='number' /></Form.Item>
           <Form.Item>
             <Button loading={verifyingOtp} block type="primary" htmlType="submit">Verify OTP</Button>
- </Form.Item>
-        </Form>
-            <Button loading={sendingOtp} block type="default" onClick={()=>sendOtp(contactNo)}>Resend OTP</Button>
+            </Form.Item>
+                  <Form.Item>
+ <Button loading={sendingOtp} block type="default" onClick={()=>sendOtp(contactNo)}>Resend OTP</Button>
+</Form.Item>
+          </Form>
 
        </Fragment>
       ) : (
@@ -179,7 +183,8 @@ const OtpForm = (props:LearnerLoginPropsI) => {
               <Input type='number' /></Form.Item>
           <Form.Item><Button loading={sendingOtp} block type="primary" htmlType="submit">Send OTP</Button></Form.Item>
           <Form.Item style={{ textAlign: 'center' }}>
-            <Typography.Text>Don't have an account?{' '}
+              <Typography.Text>
+                Don't have an account?{' '}
               <ActionModal width={300} title="Sign up" cta={<Button type="link">Sign up?</Button>}>
                 <LearnerRegister onRegisterSuccess={props.closeModal} />
               </ActionModal>
@@ -228,7 +233,7 @@ const EmailForm = (props:LearnerLoginPropsI) => {
           onError: (er: any) => {
             const respMessage = er.response.data.message;
             if (respMessage.includes('not registered')) {
-               message.open({ type: 'info', content: `Your are not yet registered, Let's Signup!` });
+               message.open({ type: 'success', content: `Your are not yet registered, Let's Signup!` });
               setEmail(values.email)
                            //  @ts-ignore
  signupButton.current.click();
@@ -308,8 +313,8 @@ const EmailForm = (props:LearnerLoginPropsI) => {
         Don't have an account?{' '}
         <ActionModal
           width={300}
-          title="Signup"
-          cta={<Button ref={signupButton} type="link">Sign up?</Button>}
+          title="Lets get signed up"
+          cta={<Button ref={signupButton} type="link">Let's get signed up</Button>}
         >
                 <LearnerRegister data={{email}} onRegisterSuccess={props.closeModal} />
         </ActionModal>
