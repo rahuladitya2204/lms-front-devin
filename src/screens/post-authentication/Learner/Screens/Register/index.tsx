@@ -3,6 +3,7 @@ import { Common, Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { useEffect } from 'react'
 
 import { ActionModalI } from '@Components/ActionModal/ActionModal'
+import AppImage from '@Components/Image'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
@@ -84,6 +85,7 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
 
   return (
     <AuthenticationCard title={'Register'}>
+      <AppImage src="/images/signup.svg" />
       <Form
         form={form}
         layout="vertical"
