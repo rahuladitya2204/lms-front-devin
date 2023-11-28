@@ -1,16 +1,12 @@
 import { Button, Col, Form, Row, Select, Typography } from 'antd'
+import { Types, User } from '@adewaskar/lms-common'
 
+import AppImage from '@Components/Image'
 import { DeleteOutlined } from '@ant-design/icons'
 import { FormInstance } from 'antd/lib'
-import { User } from '@adewaskar/lms-common'
 import { useMemo } from 'react'
 
-const PRODUCT_TYPES = [
-  { label: 'Test', value: 'test' },
-  { label: 'Course', value: 'course' },
-  { label: 'Event', value: 'event' }
-]
-
+const { Title } = Typography
 interface ProductFormRowProps {
   type: string;
   form: FormInstance; // Form instance passed from the parent component
@@ -27,20 +23,34 @@ const ProductRow: React.FC<ProductFormRowProps> = ({
   const { data: courses } = User.Queries.useGetCourses()
   const { data: tests } = User.Queries.useGetTests()
   const { data: events } = User.Queries.useGetEvents()
-
+  const createOptionLabel = (product: Types.ProductItem) => {
+    return (
+      <Row align={'middle'} gutter={[20, 20]}>
+        <Col span={2}>
+          <AppImage src={product.thumbnailImage} />
+        </Col>
+        <Col span={22}>
+          <Title level={3}>{product.title}</Title>
+        </Col>
+      </Row>
+    )
+  }
   const productOptions = useMemo(
     () => {
       switch (type) {
         case 'courses':
           return courses?.map(course => ({
-            label: course.title,
+            label: createOptionLabel(course),
             value: course._id
           }))
         case 'tests':
-          return tests?.map(test => ({ label: test.title, value: test._id }))
+          return tests?.map(test => ({
+            label: createOptionLabel(test),
+            value: test._id
+          }))
         case 'events':
           return events?.map(event => ({
-            label: event.title,
+            label: createOptionLabel(event),
             value: event._id
           }))
         default:
@@ -53,10 +63,11 @@ const ProductRow: React.FC<ProductFormRowProps> = ({
   return (
     <Row gutter={[20, 20]} align="middle" style={{ marginBottom: 20 }}>
       <Col flex={1}>
-        <Form.Item name={name} noStyle>
+        <Form.Item name={[name]} noStyle>
           <Select
-            style={{ width: '100%' }}
+            style={{ height: 60, width: '100%' }}
             // mode="multiple"
+            // @ts-ignore
             options={productOptions}
           />
         </Form.Item>

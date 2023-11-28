@@ -21,6 +21,7 @@ import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
+import SelectProductCategory from '@Components/SelectProductCategory'
 import { deepPatch } from '../../CourseBuilder/utils'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'
@@ -69,9 +70,6 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const { id } = useParams()
   const courseId = props.courseId || id
   const { data: instructors } = User.Queries.useGetInstructors()
-  const { listItems: categories } = User.Queries.useGetProductCategories(
-    'course'
-  )
   const thumbnailImage = useWatch(['thumbnailImage'], form)
   useEffect(
     () => {
@@ -246,45 +244,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           </Row>
         </Col>
         <Col span={12}>
-          <Row gutter={[0, 20]} justify={'end'}>
-            <Col flex={1}>
-              <Form.Item
-                name={['category']}
-                required
-                label="Category"
-                rules={[
-                  { required: true, message: 'Please select a category' }
-                ]}
-              >
-                <Select style={{ width: '100%' }} placeholder="Select Category">
-                  {categories.map(category => {
-                    return (
-                      <Option
-                        key={category.value}
-                        value={category.value}
-                        label={category.label}
-                      >
-                        {category.label}
-                      </Option>
-                    )
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col style={{ display: 'flex', alignItems: 'center' }}>
-              <ActionModal
-                cta={
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    shape="round"
-                    icon={<PlusOutlined />}
-                  />
-                }
-              >
-                <CreateCategory> </CreateCategory>
-              </ActionModal>
-            </Col>
-          </Row>
+          <SelectProductCategory name={['category']} />
         </Col>
       </Row>
     </Form>

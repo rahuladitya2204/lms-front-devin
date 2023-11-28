@@ -19,6 +19,7 @@ import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
+import SelectProductCategory from '@Components/SelectProductCategory'
 import dayjs from 'dayjs'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from 'react'
@@ -302,37 +303,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <Row gutter={[0, 20]} justify={'end'}>
-            <Col flex={1}>
-              <Form.Item
-                name={['category']}
-                required
-                label="Category"
-                rules={[
-                  { required: true, message: 'Please select a category' }
-                ]}
-              >
-                <Select
-                  options={categories}
-                  style={{ width: '100%' }}
-                  placeholder="Select Category"
-                />
-              </Form.Item>
-            </Col>
-            <Col style={{ display: 'flex', alignItems: 'center' }}>
-              <ActionModal
-                cta={
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    shape="round"
-                    icon={<PlusOutlined />}
-                  />
-                }
-              >
-                <CreateCategory> </CreateCategory>
-              </ActionModal>
-            </Col>
-          </Row>
+          <SelectProductCategory name={['category']} />
         </Col>
       </Row>
     </Form>

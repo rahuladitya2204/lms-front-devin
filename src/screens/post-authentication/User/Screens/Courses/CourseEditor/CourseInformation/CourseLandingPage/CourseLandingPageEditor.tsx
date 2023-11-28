@@ -30,7 +30,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
     [course]
   )
 
-  const onValuesChange = (d: Partial<Types.CourseLandingPage>) => {
+  const onValuesChange = (d: Partial<Types.LandingPage>) => {
     const data = deepPatch(course.landingPage, d)
     props.saveCourse({
       landingPage: data
