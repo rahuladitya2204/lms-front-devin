@@ -7,12 +7,12 @@ import Tabs from '@Components/Tabs'
 export default function AffiliateProgramScren () {
   return (
     <Header>
-      <Card>
+      <Card title='Affiliate Program' >
         <Tabs
           items={[
             {
               key: 'program',
-              label: 'Affililiate Program',
+              label: 'Program Detail',
               children: <AffiliateProgramForm />
             },
             {
