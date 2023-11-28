@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { loadConfettiPreset } from 'tsparticles-preset-confetti'
 import { loadFireworksPreset } from 'tsparticles-preset-fireworks'
@@ -19,17 +19,23 @@ const useParticlesEffect = () => {
     // console.log(container)
   }, [])
 
-  const initiateEffect = (effect = 'confetti') => {
+  const initiateEffect = (effect = 'confetti', noStop = false) => {
     setPreset(effect)
-    setTimeout(() => {
-      setPreset('')
-    }, DEFAULT_DURATION * 1000)
+    if (!noStop) {
+      setTimeout(() => {
+        setPreset('')
+      }, DEFAULT_DURATION * 1000)
+    }
   }
   const particlesConfig = {
     preset: preset,
     // @ts-ignore
     ...(presetConfigs[preset] || {})
   }
+  // for testing
+  // useEffect(() => {
+  //   initiateEffect('coins', true)
+  // }, [])
 
   const value = {
     particlesInit,

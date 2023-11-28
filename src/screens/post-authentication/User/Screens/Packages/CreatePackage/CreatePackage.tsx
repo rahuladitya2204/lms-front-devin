@@ -168,7 +168,11 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
                      {(fields, { add, remove }) => (
                        <>
                        {fields.map(field => (
-                   <ProductRow type={product.value} form={form} key={field.key} name={field.name} remove={remove} />
+                         <ProductRow
+                           type={product.value}
+                           form={form} key={field.key}
+                           name={field.name}
+                           remove={remove} />
                  ))}
                          <Row>
                            <Col span={24}>

@@ -56,7 +56,7 @@ const ProductRow: React.FC<ProductFormRowProps> = ({
         <Form.Item name={name} noStyle>
           <Select
             style={{ width: '100%' }}
-            mode="multiple"
+            // mode="multiple"
             options={productOptions}
           />
         </Form.Item>
