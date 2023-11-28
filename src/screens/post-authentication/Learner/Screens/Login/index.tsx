@@ -1,7 +1,7 @@
 import { Alert, Button, Checkbox, Divider, Form, Input, Modal, Space } from 'antd'
 import { ArrowLeftOutlined, GoogleOutlined, MessageOutlined } from '@ant-design/icons'
 import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import LearnerRegister from '../Register'
@@ -194,7 +194,9 @@ const OtpForm = (props:LearnerLoginPropsI) => {
 
 const EmailForm = (props:LearnerLoginPropsI) => {
   const message = useMessage();
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
+  const signupButton = useRef(null);
+  const [email, setEmail] = useState('');
   const {
     mutate: loginUser,
     isLoading: loading
@@ -223,8 +225,16 @@ const EmailForm = (props:LearnerLoginPropsI) => {
           onSuccess: () => {
             props.closeModal && props.closeModal();
           },
-          onError: (er:any) => {
-            message.open({ type: 'error', content: er.response.data.message });
+          onError: (er: any) => {
+            const respMessage = er.response.data.message;
+            if (respMessage.includes('not registered')) {
+               message.open({ type: 'info', content: `Your are not yet registered, Let's Signup!` });
+              setEmail(values.email)
+                           //  @ts-ignore
+ signupButton.current.click();
+              return;
+            }
+            message.open({ type: 'error', content: respMessage });
           }
         }
       )
@@ -298,10 +308,10 @@ const EmailForm = (props:LearnerLoginPropsI) => {
         Don't have an account?{' '}
         <ActionModal
           width={300}
-          title="Login"
-          cta={<Button type="link">Sign up?</Button>}
+          title="Signup"
+          cta={<Button ref={signupButton} type="link">Sign up?</Button>}
         >
-                <LearnerRegister onRegisterSuccess={props.closeModal} />
+                <LearnerRegister data={{email}} onRegisterSuccess={props.closeModal} />
         </ActionModal>
       </Typography.Text>
     </Form.Item>
