@@ -43,7 +43,7 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
         props.closeModal && props.closeModal()
       }
     })
-  };
+  }
   return (
     <Row justify={'center'} align={'middle'}>
       <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
@@ -68,13 +68,13 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
             ]}
           >
             <Row align={'middle'}>
-              <Col>
+              <Col style={{ width: 15 }}>
                 <Text style={{ fontSize: 20, marginRight: 10 }}>
                   {/* @ts-ignore */}
                   {Constants.UNIT_SYMBOLS[learner.wallet.balance.unit]}
                 </Text>
               </Col>
-              <Col>
+              <Col flex={1}>
                 <Input placeholder="Enter amount" type="number" />
               </Col>
             </Row>
