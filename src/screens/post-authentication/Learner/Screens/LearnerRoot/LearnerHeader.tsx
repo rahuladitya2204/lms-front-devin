@@ -138,7 +138,7 @@ const LearnerHeader: React.FC = () => {
     <Space>
       {isMobileOrTablet ? (
         <>
-          {WalletButton}
+          {isSignedIn?WalletButton:null}
         {isSignedIn?    <ActionDrawer width={300}
           extra={closeDrawer => [
             <Button
