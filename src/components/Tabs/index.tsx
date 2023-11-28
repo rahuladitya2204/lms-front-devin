@@ -39,6 +39,7 @@ function Tabs(props: AppTabPropsI) {
 
   return (
     <AppTabs
+      destroyInactiveTabPane={false}
       {...props}
       activeKey={activeKey}
       onChange={onChange}

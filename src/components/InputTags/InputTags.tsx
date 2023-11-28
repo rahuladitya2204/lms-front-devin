@@ -1,16 +1,18 @@
-import { AutoComplete, Form, Input, Tag } from 'antd';
+import { AutoComplete, Col, Form, Input, Row, Tag, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 
 import { PlusOutlined } from '@ant-design/icons';
 
+const { Text} = Typography;
 interface InputTagsProps {
   ctaText?: string;
   name: string;
+  label?: string;
   onChange?: (tags: string[]) => void; // New callback prop
   options?: string[];
 }
 
-const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onChange }) => {
+const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onChange,label }) => {
   const [inputValue, setInputValue] = useState('');
   const [inputVisible, setInputVisible] = useState(false);
   const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
@@ -63,7 +65,12 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onCha
   };
   // console.log(options,'tops')
   return (
-    <Form.List name={name}>
+    <Row gutter={[0,10]}>
+      {label?<Col span={24}>
+        <Text>{ label}</Text>
+      </Col>: null}
+      <Col span={24}>
+      <Form.List name={name}>
       {(fields, { add, remove }) => {
         const fieldValue = form.getFieldValue(name);
         // console.log(fieldValue,'fieldValue')
@@ -111,6 +118,8 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onCha
         )
       }}
     </Form.List>
+      </Col>
+    </Row>
   );
 };
 

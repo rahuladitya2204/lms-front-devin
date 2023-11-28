@@ -57,7 +57,7 @@ function TestCard(props: TestCardPropsI) {
         <Card.Meta
           title={<Space size='small' direction="vertical"  >
             <Text ellipsis style={{
-          fontSize: 13,
+          fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
           overflowWrap: 'break-word' // Breaks words to prevent overflow
         }}>{test.title}</Text>

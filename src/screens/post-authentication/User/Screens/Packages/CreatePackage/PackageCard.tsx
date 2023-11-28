@@ -31,6 +31,7 @@ function PackageCard({ package: productPackage }: PackageCardProps) {
   )
   return (
     <PackageCardHolder
+      // onClick={() => navigate(``)}
       // bodyStyle={{ height: 115 }}
       hoverable
       cover={ThumbnailImage}

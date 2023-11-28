@@ -56,8 +56,16 @@ export default function TestDetailScreen(
       {/* <CourseMetadata course={course} /> */}
       </Col>
         <Col lg={24} md={24} xs={0}>
-          <Title level={3}>{test.title}</Title>
-          <Title level={5} >
+          <Title  style={{
+          fontSize: 16,
+          whiteSpace: 'normal', // Ensures text wraps
+          overflowWrap: 'break-word' // Breaks words to prevent overflow
+        }} level={3}>{test.title}</Title>
+          <Title  style={{
+          fontSize: 16,
+          whiteSpace: 'normal', // Ensures text wraps
+          overflowWrap: 'break-word' // Breaks words to prevent overflow
+        }} level={5} >
             {test.subtitle}
           </Title>
         </Col>
@@ -230,7 +238,11 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   return   <Card
   bodyStyle={{ padding: 10, paddingBottom: 20 }}
   // style={{ height: '100%' }}
-    title={test.title} extra={(isMobile || isTablet) ? <ActionDrawer title="Test Details"
+    title={<Text style={{
+      fontSize: 16,
+      whiteSpace: 'normal', // Ensures text wraps
+      overflowWrap: 'break-word' // Breaks words to prevent overflow
+    }} >{ test.title}</Text>} extra={(isMobile || isTablet) ? <ActionDrawer title="Test Details"
       cta={<Button shape='circle' icon={<InfoOutlined />}></Button>} > {Metadata} </ActionDrawer>:null}
 > {isLoading ?
   <>

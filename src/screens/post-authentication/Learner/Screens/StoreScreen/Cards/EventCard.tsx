@@ -57,7 +57,7 @@ const { Text } = Typography
           <Card.Meta
             title={<Space size='small' direction="vertical"  >
             <Text  style={{
-          fontSize: 13,
+          fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
           overflowWrap: 'break-word' // Breaks words to prevent overflow
         }}>{event.title}</Text>

@@ -60,7 +60,7 @@ function CourseCard(props: CourseCardPropsI) {
               <Rate disabled style={{ fontSize: 12 }} value={course.analytics.averageRating} /> <Text>{course.analytics.averageRating}({formatAvgCount(course.analytics.reviews.count) }) </Text>
             </Space>:null}
             <Text style={{
-          fontSize: 13,
+          fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
           overflowWrap: 'break-word' // Breaks words to prevent overflow
         }}>{course.title}</Text>

@@ -5,21 +5,22 @@ import {
   Form,
   Input,
   Row,
+  Spin,
   Typography,
 } from 'antd'
-import { Enum, Types } from '@adewaskar/lms-common'
+import { Enum, Types, Utils } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
+import ActionModal from '@Components/ActionModal/ActionModal'
+import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 import Header from '@Components/Header'
-import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload'
-import ProductRow from './Products/ProductRow'
-import TextArea from '@Components/Textarea'
+import PackageDetails from './PackageDetails/PackageDetails'
+import PackageLandingPageEditor from './PackageLandingPage/PackageLandingPageEditor'
+import Products from './PackageDetails/Products/Products'
+import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
-
-const PRODUCT_TYPES=[{title:'Test',value:'tests'},{title:'Events',value:'events'},{title:'Courses',value:'courses'}]
 
 interface CreatePackageComponentPropsI {
   // data: Types.Package;
@@ -32,7 +33,6 @@ interface CreatePackageComponentPropsI {
 const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   const { packageId } = useParams();
   const isEdit = !!packageId;
-  const [products, setProducts] = useState<Types.Product[]>([]);
   const navigate = useNavigate();
   const {
     mutate: createPackage,
@@ -44,16 +44,12 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   } = User.Queries.useUpdatePackage();
   const message = useMessage();
 
-  const {data: packageDetails}=User.Queries.useGetPackageDetails(packageId+'',{
+  const {data: packageDetails,isLoading: loadingPackage}=User.Queries.useGetPackageDetails(packageId+'',{
     enabled:!!packageId
   })
   useEffect(() => { 
     console.log(packageDetails,'packageDetailspackageDetails')
     form.setFieldsValue(packageDetails)
-    // @ts-ignore
-    if (packageDetails?.products?.length) {
-      setProducts(products)
-    }
   },[packageDetails])
 
   const [form] = Form.useForm<Types.Package>()
@@ -61,7 +57,6 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   const onSubmit = (e: Types.Package) => {
     const data= {
       ...e,
-      products: products
     }
     if (isEdit) {
       updatePackage(
@@ -92,101 +87,55 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
       })
     }
   }
-  const image = Form.useWatch('thumbnailImage', form);
-  const { data: promoCodes} = User.Queries.useGetPromos();
+  const plan = packageDetails.plan as unknown as Types.Plan
+  const isPackageValid = Utils.validatePublishPackage(packageDetails);
   return (
-    <Header showBack title='Create Package' extra={[<Button
+    <Header showBack title='Create Package' extra={[
+      <ActionModal cta={<Button style={{marginRight:10}} >{plan?'Edit Pricing':'Create Pricing Plan'} </Button>}>
+    <CreatePlan
+      product={{ type: 'package', id: packageDetails._id }}
+      plan={plan}
+    />
+  </ActionModal>,
+      isPackageValid?<Button
       loading={createPackageLoading || updatePackageLoading}
       key="submit"
       type="primary"
       onClick={form.submit}
       >
-     {isEdit?'Update Package':'Create Package'}
+     Publish Package
+    </Button>:<Button
+      loading={createPackageLoading || updatePackageLoading}
+      key="submit"
+      type="primary"
+      onClick={form.submit}
+      >
+     Save Draft
     </Button>
     ]}>
-        <Card>
-      <Row>
+      <Spin  spinning={loadingPackage}>
+      <Card>
+      <Row gutter={[20,30]}>
         <Col span={24}>
       <>
               <Form form={form} onFinish={onSubmit} layout="vertical">
-                <Row gutter={[20,20]}>
-                  <Col span={16}>
-                  <Form.Item
-        rules={[
-          { required: true, message: 'Please enter a title of the packages' }
-        ]}
-        name="title"
-        label="Package Title"
-        required
-      >
-        <Input placeholder="Enter a title for the live session" />
-      </Form.Item>
-                  </Col>
-                  <Col span={8}>
-        <MediaUpload
-                  source={{
-                    type: 'package.thumbnail',
-                    value: packageId + ''
-                  }}
-                  uploadType="image"
-                  // prefixKey={`packages/${packageId}/image`}
-                  cropper
-                  width="100%"
-                  // height="200px"
-                  aspect={16 / 9}
-                  renderItem={() => (
-                    <Image preview={false} src={image} />
-                  )}
-                      onUpload={file => {
-                    console.log(file,'uploaded image!')
-                    form.setFieldValue('thumbnailImage', file.url)
-                  }}
-                />
-        </Col>
-                </Row>
-                <Row gutter={[20, 20]}>
-                  <Col span={24}>
-                  <Form.Item
-        rules={[
-          {
-            required: true,
-            message: 'Please enter a description of the packages'
-          }
-        ]}
-        name={["description"]}
-        required
-      >
-                      <TextArea height={250} html label="Description" name={["description"]} />
-                      
-                    </Form.Item>
-
-                    {PRODUCT_TYPES.map(product => {
-                      return <Row gutter={[20,20]}>
-                        <Col span={24}>
-                          <Card title={product.title} >
-                        <Form.List name={product.value}>
-                     {(fields, { add, remove }) => (
-                       <>
-                       {fields.map(field => (
-                   <ProductRow type={product.value} form={form} key={field.key} name={field.name} remove={remove} />
-                 ))}
-                         <Row>
-                           <Col span={24}>
-                               <Button type="dashed" onClick={() => add()} block>Add {product.title }</Button>
-                           </Col>
-                         </Row>
-                       </>
-                     )}
-                   </Form.List>
-                       
-                          </Card>
-                        </Col>
-                     </Row>
-                   })}
-
-                    
-                  </Col>
-      </Row>
+                <Tabs navigateWithHash items={[
+                  {
+                    label: 'Details',
+                    key: "details",
+                    children:<PackageDetails packageId={packageId+''} />
+                    },
+                    {
+                      label: 'Products',
+                      key: "products",
+                      children:<Products />
+                    },
+                  {
+                    label: 'Landing Page',
+                    key: "landing-page",
+                    children:<PackageLandingPageEditor packageId={packageId+''} />
+                    }
+              ]} />
 
     </Form>
             </>
@@ -194,6 +143,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
 
     </Row>
     </Card>
+      </Spin>
     </Header>
   )
 }
