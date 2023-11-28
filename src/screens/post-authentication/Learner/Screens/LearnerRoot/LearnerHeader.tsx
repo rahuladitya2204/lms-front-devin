@@ -59,7 +59,7 @@ const LearnerHeader: React.FC = () => {
     mutate: logoutLearner,
     isLoading: loggingOut
   } = Learner.Queries.useLogoutLearner()
-  const qc = useQueryClient();
+  const {data: organisation } = Learner.Queries.useGetOrgDetails();
   const {data:user,isLoading: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
   const isSignedIn = Store.useAuthentication(state => state.isSignedIn);
   const message = useMessage();
@@ -112,7 +112,9 @@ const LearnerHeader: React.FC = () => {
         key: 'wallet',
         icon: <WalletOutlined />
       });
-      MENU_ITEMS.push({ label:user.affiliate?'Affiliate Program':'Become an affiliate', key: '../affiliate', icon: <VerifiedOutlined /> })
+      if (organisation.affiliate.enabled) {
+        MENU_ITEMS.push({ label:user.affiliate?'Affiliate Program':'Become an affiliate', key: '../affiliate', icon: <VerifiedOutlined /> })
+      }
     }
     return MENU_ITEMS;
     
@@ -220,13 +222,14 @@ const LearnerHeader: React.FC = () => {
                   >
                     Help and Support
                   </Menu.Item>
-                  <Menu.Item
+                  {organisation.affiliate.enabled?<Menu.Item
                     key="affiliate"
                     icon={<VerifiedOutlined />}
                     onClick={() => window.open(`/affiliate`,'_blank')}
                   >
                    {user.affiliate?'Affiliate Program':'Become an affiliate'}
-                  </Menu.Item>
+                  </Menu.Item>:null}
+                  
                   <Menu.Item
                     icon={<LogoutOutlined />}
                     key="logout"

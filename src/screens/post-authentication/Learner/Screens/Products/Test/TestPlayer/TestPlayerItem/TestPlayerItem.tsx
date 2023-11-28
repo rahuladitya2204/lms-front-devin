@@ -85,8 +85,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={[
-          <Tag color='blue-inverse' >Correct Answer Score: {currentQuestion.score.correct}</Tag>,
-        currentQuestion.score.incorrect?<Tag color='red-inverse' >Incorrect Answer Score: {currentQuestion.score.incorrect}</Tag>:null]} >
+          <Tag color='blue-inverse' >{!isMobile?'Correct Answer Score: ':'+' }{currentQuestion.score.correct}</Tag>,
+        currentQuestion.score.incorrect?<Tag color='red-inverse' >{!isMobile?'Incorrect Answer Score: ':'-'} {currentQuestion.score.incorrect}</Tag>:null]} >
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
