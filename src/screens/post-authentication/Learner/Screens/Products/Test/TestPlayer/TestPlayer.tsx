@@ -150,7 +150,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         <Col span={1} />
         <Col span={22}>
           <Row gutter={[50, 30]}>
-          <Col md={24} lg={16}>
+              <Col xs={24} sm={24}  md={24} lg={16}>
                 <Spin spinning={loadingDetails} >
                 <Outlet />
               </Spin>
