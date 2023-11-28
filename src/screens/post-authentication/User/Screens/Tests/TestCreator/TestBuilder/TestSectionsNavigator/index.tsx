@@ -225,11 +225,11 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                         if (!isQuestionValid) {
                           actions.unshift(<WarningTwoTone twoToneColor="red" />)
                         }
-                        if (item.score.correct) {
+                        if (item?.score?.correct) {
                           actions.unshift(<Tag style={{ textAlign: 'center' }} color='blue-inverse'>
                             + {item.score.correct}</Tag>)
                         }
-                        if (item.score.incorrect) {
+                        if (item?.score?.incorrect) {
                           actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
                            {item.score.incorrect}</Tag>)
                         }

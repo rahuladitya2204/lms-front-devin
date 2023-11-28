@@ -108,7 +108,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
   // console.log(item, 'item');
-  const totalCriteriaScore = useMemo(()=>(item.criterias || []).reduce((total, criterion) => total + (Number(criterion.score) || 0), 0),[item.criterias])
+  // const totalCriteriaScore = useMemo(()=>(item.criterias || []).reduce((total, criterion) => total + (Number(criterion.score) || 0), 0),[item.criterias])
   // console.log(criterias, 'criterias');
   useEffect(() => {
     onFormChange({ criterias });
@@ -325,8 +325,8 @@ layout="vertical"
             <Card title="Scoring Criteria" extra={[
               <GenerateAIItemDetails onFinish={e => console.log(e, 'eee')} label='Generate Criteria using solution' field='criterias' />,
             <Tag style={{ marginLeft: 20 }} color='orange-inverse'>Total Score: {item.score.correct}</Tag>]}>
-              {totalCriteriaScore !== item.score.correct ?
-                <Alert style={{marginBottom:20}} type='error' message='Criteria scores must always add up to be equal to the total score' /> : null}
+              {/* {totalCriteriaScore !== item.score.correct ?
+                <Alert style={{marginBottom:20}} type='error' message='Criteria scores must always add up to be equal to the total score' /> : null} */}
               <Form.List name="criterias">
         {(fields, { add, remove }) => (
           <>
