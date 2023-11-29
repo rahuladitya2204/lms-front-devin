@@ -47,6 +47,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   } = User.Queries.useUpdatePackage();
   const message = useMessage();
   const {mutate:publishPackage,isLoading:publishingPackage } = User.Queries.usePublishPackage();
+  const {mutate:unpublishPackage,isLoading:unpublishingPackage } = User.Queries.useUnpublishPackage();
   const {data: packageDetails,isLoading: loadingPackage}=User.Queries.useGetPackageDetails(packageId+'',{
     enabled:!!packageId
   })
@@ -111,6 +112,18 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   >
     Publish Package
   </Button>;
+  const UnpublishPackage=<Button  style={{marginRight:10}}  onClick={() => {
+    confirm({
+      title: 'Are you sure?',
+      content: `You want to unpublish this package? Will be moved to Draft`,
+      onOk() {
+        unpublishPackage({
+          packageId: packageId + ''
+        })
+      },
+      okText: 'Yes, Publish'
+    })
+  }}>Revert to Draft</Button>
   const SavePackage = <Button style={{ marginLeft: 10 }}
     loading={createPackageLoading || updatePackageLoading}
     key="submit"
@@ -121,7 +134,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   </Button>;
   return (
     <Header showBack title='Create Package' extra={[
-      packageDetails.status===Enum.PackageStatus.PUBLISHED?<Tag color='green'>Published</Tag>:null,
+      ...(packageDetails.status===Enum.PackageStatus.PUBLISHED?[UnpublishPackage,<Tag color='green'>Published</Tag>]:[]),
       isPackageValid && (packageDetails.status !== Enum.PackageStatus.PUBLISHED)?PublishPackage:null,
       SavePackage]}>
       {/* <Spin  spinning={loadingPackage}> */}

@@ -143,7 +143,7 @@ function PackageDetailViewer () {
                 <MetaText strong>Categories</MetaText> <br />
                 <MetaText>{category?.title}</MetaText>
               </Col>
-              <Col xs={24} sm={6} md={7} lg={6}>
+              {/* <Col xs={24} sm={6} md={7} lg={6}>
                 <MetaText strong>Review</MetaText> <br />
                 <CustomRate
                   disabled
@@ -153,7 +153,7 @@ function PackageDetailViewer () {
                     {bundle.analytics.averageRating}
                     ({formatAvgCount(bundle.analytics.reviews.count)} reviews)
                 <MetaText />
-              </Col>
+              </Col> */}
             </Row>
           </Col>
         </Row>}
