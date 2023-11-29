@@ -16,13 +16,9 @@ interface ProductCardPropsI {
 
 const ProductCard = (props: ProductCardPropsI) => {
   const { product: { type, id } } = props
-  // console.log(type,)
-  const { data: products } = User.Queries.useGetProductList(type)
+  const { data: product } = User.Queries.useGetProductDetail({ type, id })
+  console.log(product, id, '1321')
 
-  console.log('123', products)
-  const product =
-    // @ts-ignore
-    products?.find(o => o._id === id) || {}
   return (
     <Card
       hoverable

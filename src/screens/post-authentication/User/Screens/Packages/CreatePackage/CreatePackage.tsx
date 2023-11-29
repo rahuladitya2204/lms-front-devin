@@ -79,7 +79,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
         { data:data },
          {
         onSuccess: () => {
-             navigate('../');
+            //  navigate('../');
              message.open({
               type: 'success',
               content: 'Package Created'
@@ -92,43 +92,39 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   }
   const plan = packageDetails.plan as unknown as Types.Plan
   const isPackageValid = Utils.validatePublishPackage(packageDetails);
+  const PublishPackage = <Button
+    loading={publishingPackage}
+    key="submit"
+    type="primary"
+    onClick={() => {
+      confirm({
+        title: 'Are you sure?',
+        content: `You want to publish this package?`,
+        onOk() {
+          publishPackage({
+            packageId: packageId + ''
+          })
+        },
+        okText: 'Yes, Publish'
+      })
+    }}
+  >
+    Publish Package
+  </Button>;
+  const SavePackage = <Button style={{ marginLeft: 10 }}
+    loading={createPackageLoading || updatePackageLoading}
+    key="submit"
+    type="primary"
+    onClick={form.submit}
+  >
+    Save Details
+  </Button>;
   return (
     <Header showBack title='Create Package' extra={[
-      packageDetails.status===Enum.PackageStatus.PUBLISHED?<Tag color='green' >Package has been published</Tag>:null,
-      <ActionModal cta={<Button style={{marginRight:10}} >{plan?'Edit Pricing':'Create Pricing Plan'} </Button>}>
-    <CreatePlan
-      product={{ type: 'package', id: packageDetails._id }}
-      plan={plan}
-    />
-      </ActionModal>,
-      (isPackageValid&&packageDetails.status!==Enum.PackageStatus.PUBLISHED)?<Button
-      loading={createPackageLoading || updatePackageLoading}
-      key="submit"
-      type="primary"
-        onClick={() => {
-          confirm({
-            title: 'Are you sure?',
-            content: `You want to publish this package?`,
-            onOk() {
-              publishPackage({
-                packageId: packageId+''
-              })
-            },
-            okText: 'Yes, Publish'
-          })
-      }}
-      >
-     Publish Package
-    </Button>:<Button
-      loading={createPackageLoading || updatePackageLoading}
-      key="submit"
-      type="primary"
-      onClick={form.submit}
-      >
-     Save Draft
-    </Button>
-    ]}>
-      <Spin  spinning={loadingPackage}>
+      packageDetails.status===Enum.PackageStatus.PUBLISHED?<Tag color='green'>Published</Tag>:null,
+      isPackageValid && (packageDetails.status !== Enum.PackageStatus.PUBLISHED)?PublishPackage:null,
+      SavePackage]}>
+      {/* <Spin  spinning={loadingPackage}> */}
       <Card>
       <Row gutter={[20,30]}>
         <Col span={24}>
@@ -158,7 +154,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
 
     </Row>
     </Card>
-      </Spin>
+      {/* </Spin> */}
     </Header>
   )
 }

@@ -35,16 +35,16 @@ function PackageProducts(props: PackageProductsPropsI) {
                 const productTitle = capitalize(key)
                 // @ts-ignore
                 const products = bundle.products[key]
+                console.log(products, '12')
                 return (
                   <Panel header={productTitle} key={key}>
-                    <List
-                      itemLayout="horizontal"
-                      dataSource={products}
-                      renderItem={item => {
-                        // @ts-ignore
-                        return <ProductCard product={item} />
-                      }}
-                    />
+                    <Row gutter={[20, 30]}>
+                      {products.map((item: string) => (
+                        <Col xs={24} sm={12} md={8} lg={6}>
+                          <ProductCard product={{ id: item, type: key }} />
+                        </Col>
+                      ))}
+                    </Row>
                   </Panel>
                 )
               })}

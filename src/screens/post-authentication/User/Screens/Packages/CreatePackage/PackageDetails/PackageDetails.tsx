@@ -47,23 +47,26 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           </Row>
         </Col>
         <Col span={8}>
-          <MediaUpload
-            source={{
-              type: 'package.thumbnail',
-              value: packageId + ''
-            }}
-            uploadType="image"
-            // prefixKey={`packages/${packageId}/image`}
-            cropper
-            width="100%"
-            // height="200px"
-            aspect={16 / 9}
-            renderItem={() => <AppImage preview={false} src={image} />}
-            onUpload={file => {
-              console.log(file, 'uploaded image!')
-              form.setFieldValue('thumbnailImage', file.url)
-            }}
-          />
+          <Form.Item name={'thumbnailImage'}>
+            <MediaUpload
+              name={'thumbnailImage'}
+              source={{
+                type: 'package.thumbnail',
+                value: packageId + ''
+              }}
+              uploadType="image"
+              // prefixKey={`packages/${packageId}/image`}
+              cropper
+              width="100%"
+              // height="200px"
+              aspect={16 / 9}
+              renderItem={() => <AppImage preview={false} src={image} />}
+              onUpload={file => {
+                console.log(file, 'uploaded image!')
+                form.setFieldValue('thumbnailImage', file.url)
+              }}
+            />
+          </Form.Item>
         </Col>
       </Row>
       <Row gutter={[20, 20]}>
