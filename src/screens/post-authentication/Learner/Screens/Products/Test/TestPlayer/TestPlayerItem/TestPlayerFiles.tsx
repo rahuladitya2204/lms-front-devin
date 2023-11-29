@@ -192,6 +192,7 @@ export default TestPlayerFiles;
 const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
   const { currentQuestion } = useReviewQuestion();
   const imageIssues = currentQuestion?.feedback?.imageIssues;
+  const visuals = currentQuestion?.feedback?.visuals;
   console.log(imageIssues, 'imageIssues');
   const issue = imageIssues?.find(i => i.id === fileId);
 
@@ -201,8 +202,9 @@ const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
   
     if (isLoading) return <p>Loading...</p>
       console.log(issue,'issue')
-    return (
-      <AppImage preview
+  return (
+      // @ts-ignore
+      <AppImage preview visuals={visuals}
         width={120} caption={(issue) ? <Tooltip title={issue.issue} >
           <Alert showIcon
           type='error'
@@ -212,7 +214,8 @@ const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
         </Tooltip> : null}
         height={120}
         style={{ objectFit: 'cover' }}
-        src={url || 'fallback-image-url'}
+      src={url || 'fallback-image-url'}
+      // @ts-ignore
         onClick={e => e.preventDefault()}
       />
     )

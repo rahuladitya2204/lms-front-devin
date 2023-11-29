@@ -4,8 +4,10 @@ import {
   Col,
   Form,
   Input,
+  Modal,
   Row,
   Spin,
+  Tag,
   Typography,
 } from 'antd'
 import { Enum, Types, Utils } from '@adewaskar/lms-common'
@@ -22,6 +24,7 @@ import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
+const { confirm} = Modal;
 interface CreatePackageComponentPropsI {
   // data: Types.Package;
   children?: ReactNode;
@@ -43,7 +46,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
     isLoading: updatePackageLoading
   } = User.Queries.useUpdatePackage();
   const message = useMessage();
-
+  const {mutate:publishPackage,isLoading:publishingPackage } = User.Queries.usePublishPackage();
   const {data: packageDetails,isLoading: loadingPackage}=User.Queries.useGetPackageDetails(packageId+'',{
     enabled:!!packageId
   })
@@ -91,17 +94,29 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   const isPackageValid = Utils.validatePublishPackage(packageDetails);
   return (
     <Header showBack title='Create Package' extra={[
+      packageDetails.status===Enum.PackageStatus.PUBLISHED?<Tag color='green' >Package has been published</Tag>:null,
       <ActionModal cta={<Button style={{marginRight:10}} >{plan?'Edit Pricing':'Create Pricing Plan'} </Button>}>
     <CreatePlan
       product={{ type: 'package', id: packageDetails._id }}
       plan={plan}
     />
-  </ActionModal>,
-      isPackageValid?<Button
+      </ActionModal>,
+      (isPackageValid&&packageDetails.status!==Enum.PackageStatus.PUBLISHED)?<Button
       loading={createPackageLoading || updatePackageLoading}
       key="submit"
       type="primary"
-      onClick={form.submit}
+        onClick={() => {
+          confirm({
+            title: 'Are you sure?',
+            content: `You want to publish this package?`,
+            onOk() {
+              publishPackage({
+                packageId: packageId+''
+              })
+            },
+            okText: 'Yes, Publish'
+          })
+      }}
       >
      Publish Package
     </Button>:<Button
