@@ -1,0 +1,54 @@
+import { Card, Col, List, Row, Skeleton, Typography } from 'antd'
+import { Common, Learner, Types } from '@adewaskar/lms-common'
+
+import { Fragment } from 'react'
+import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
+import Image from '@Components/Image'
+import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+
+const { Title, Paragraph } = Typography
+
+interface PackageOverviewPropsI {
+  package: Types.Package;
+  hidePreview?: boolean;
+}
+
+function PackageOverview(props: PackageOverviewPropsI) {
+  const packageId = props.package._id
+  const {
+    data: bundle,
+    isFetching: loadingPackage
+  } = Learner.Queries.useGetPackageDetails(packageId, {
+    enabled: !!packageId
+  })
+  console.log(bundle, 'cococo')
+  const { landingPage } = bundle
+  return (
+    <Fragment>
+      <Row gutter={[30, 30]}>
+        {!props.hidePreview ? (
+          <Col span={24}>
+            <Card
+              style={{ margin: '20px 0' }}
+              bordered={false}
+              bodyStyle={{ padding: 0 }}
+            >
+              <MediaPlayer height={400} url={landingPage?.promoVideo?.url} />
+            </Card>
+          </Col>
+        ) : null}
+        <Col span={24}>
+          {loadingPackage ? (
+            <Skeleton paragraph={{ rows: 30 }} active />
+          ) : (
+            <Paragraph style={{ fontSize: 16 }}>
+              <HtmlViewer content={landingPage.description} />
+            </Paragraph>
+          )}
+        </Col>
+      </Row>
+    </Fragment>
+  )
+}
+
+export default PackageOverview
