@@ -14,7 +14,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import { Fragment, useCallback } from 'react'
 
-import ProductCard from '@Components/ProductCard'
+import ProductCard from '@Components/UserProductCard'
 import SearchUserProducts from '@Components/SearchUserProducts'
 import { capitalize } from 'lodash'
 

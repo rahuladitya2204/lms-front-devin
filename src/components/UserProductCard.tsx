@@ -8,13 +8,13 @@ import Tabs from '@Components/Tabs'
 import { copyToClipboard } from '@Utils/index'
 
 const { Text } = Typography
-interface ProductCardPropsI {
+interface UserProductCardPropsI {
   product: Types.Product;
   children?: React.ReactNode;
   actions?: React.ReactNode[];
 }
 
-const ProductCard = (props: ProductCardPropsI) => {
+const UserProductCard = (props: UserProductCardPropsI) => {
   const { product: { type, id } } = props
   const { data: product } = User.Queries.useGetProductDetail({ type, id })
   console.log(product, id, '1321')
@@ -36,4 +36,4 @@ const ProductCard = (props: ProductCardPropsI) => {
   )
 }
 
-export default ProductCard
+export default UserProductCard

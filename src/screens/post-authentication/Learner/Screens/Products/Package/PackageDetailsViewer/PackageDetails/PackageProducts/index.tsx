@@ -1,8 +1,9 @@
 import { Col, Collapse, List, Row, Skeleton, Tag } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
+import LearnerProductCard from '@Components/LearnerProductCard'
 import PackageProductsItem from './CurriculumItem'
-import ProductCard from '@Components/ProductCard'
+import ProductCard from '@Components/UserProductCard'
 import { capitalize } from 'lodash'
 
 const { Panel } = Collapse
@@ -41,7 +42,7 @@ function PackageProducts(props: PackageProductsPropsI) {
                     <Row gutter={[20, 30]}>
                       {products.map((item: string) => (
                         <Col xs={24} sm={12} md={8} lg={6}>
-                          <ProductCard product={{ id: item, type: key }} />
+                          <LearnerProductCard product={{ id: item, type: key }} />
                         </Col>
                       ))}
                     </Row>
