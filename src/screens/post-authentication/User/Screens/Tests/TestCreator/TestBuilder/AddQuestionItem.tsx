@@ -39,9 +39,10 @@ const { Title } = Typography;
 const { confirm } = Modal;
 
 export const QUESTION_TYPES=[
-  { value: 'single', label: 'Single Choice' },
-  { value: 'multiple', label: 'Multiple Choice' },
-  { value: 'subjective', label: 'Subjective' },
+  { value: Enum.TestQuestionType.SINGLE, label: 'Single Choice' },
+  { value: Enum.TestQuestionType.MULTIPLE, label: 'Multiple Choice' },
+  { value: Enum.TestQuestionType.NUMERIC, label: 'Numeric' },
+  { value: Enum.TestQuestionType.SUBJECTIVE, label: 'Subjective' },
 ];
 interface CreateQuestionFormPropsI {
   submit?: (d: Types.TestQuestion) => void;
