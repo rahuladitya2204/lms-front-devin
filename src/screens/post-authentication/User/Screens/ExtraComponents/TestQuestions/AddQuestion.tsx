@@ -12,7 +12,7 @@ import {
   Select,
   Switch,
 } from 'antd'
-import { Constants, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import { Fragment, useEffect, useState } from 'react'
 
@@ -23,9 +23,9 @@ import TextArea from '@Components/Textarea';
 const { confirm } = Modal;
 
 export const QUESTION_TYPES=[
-  { value: 'single', label: 'Single Choice' },
-  { value: 'multiple', label: 'Multiple Choice' },
-  { value: 'subjective', label: 'Subjective' },
+  { value: Enum.TestQuestionType.SINGLE, label: 'Single Choice' },
+  { value: Enum.TestQuestionType.MULTIPLE, label: 'Multiple Choice' },
+  { value: Enum.TestQuestionType.SUBJECTIVE, label: 'Subjective' },
 ];
 interface CreateQuestionFormPropsI {
   submit?: (d: Types.TestQuestion) => void;
@@ -57,7 +57,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     }
   
   const questionType = Form.useWatch('type', form);
-  const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;
+  const OptionSelectedFormControl = questionType === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
   const options = Form.useWatch('options', form) || [];
   // const isValid = Utils.validateTestQuestion(props.data);
   return (
@@ -143,7 +143,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                           const opts = [...options];
                           // @ts-ignore
                                 if (e.target.checked) {
-                                  if (questionType === 'single') {
+                                  if (questionType === Enum.TestQuestionType.SINGLE) {
                                     opts.forEach(o => {
                                       o.isCorrect = false;
                                     })

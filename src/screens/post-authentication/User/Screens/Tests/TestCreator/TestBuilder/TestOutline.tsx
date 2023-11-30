@@ -1,6 +1,6 @@
 import { Button, Col, Divider, Form, Input, Modal, Row, Select, Typography } from 'antd'
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
-import { Types, User } from '@adewaskar/lms-common'
+import { Enum, Types, User } from '@adewaskar/lms-common'
 
 import { useState } from 'react';
 
@@ -124,7 +124,12 @@ const calculateTotalScore = () => {
                             // initialValue={ }
                 name={[field.name,'questionType']}
                 >
-                            <Select options={[{label:'Single Choice',value:'single'},{label:'Multiple Choice',value:'multiple'},{label:'Subjective',value:'subjective'}]} />
+                    <Select options={[
+                      { label: 'Single Choice', value: Enum.TestQuestionType.SINGLE },
+                      { label: 'Multiple Choice', value: Enum.TestQuestionType.MULTIPLE },
+                      { label: 'Numeric', value: Enum.TestQuestionType.NUMERIC },
+                      { label: 'Subjective', value: Enum.TestQuestionType.SUBJECTIVE }
+                    ]} />
                   </Form.Item>
                     </Col>
                     <Col span={3}>

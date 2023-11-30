@@ -75,7 +75,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const questionType = Form.useWatch('type', form);
   // const { updateNavigator } = useTestBuilderUI();
-  const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;  
+  const OptionSelectedFormControl = questionType === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;  
   const { data: file } = User.Queries.useGetFileDetails(item?.solution?.video + '', {
     enabled: !!item?.solution?.video
   });
@@ -233,15 +233,16 @@ layout="vertical"
 </Form.Item>
               </Col> */}
               {/* // here add criterions */}
-            {questionType==='subjective'?  <Col span={12}>
+                    {questionType==='subjective'?  <Col span={12}>
        <Form.Item label='Word Limit' name={'wordLimit'}>
      <Input type='number'/>
      </Form.Item>
        </Col>:    <Col span={24}>
-             <Card style={{ marginBottom: 20 }} extra={[EnterHtmlButton]} title="Answers">
-               {/* <OptionSelectedFormControl.Group> */}
-
-         <Form.List name="options">
+                  <Card style={{ marginBottom: 20 }} extra={[EnterHtmlButton]} title="Answers">
+                 {questionType===Enum.TestQuestionType.NUMERIC? <Form.Item label='Correct Numeric Answer' name={['answer', 'numeric']} >
+                      <Input type='number' />
+                    </Form.Item>:null}
+        {(questionType===Enum.TestQuestionType.SINGLE || questionType===Enum.TestQuestionType.MULTIPLE)? <Form.List name="options">
      {(fields, { add, remove }) => (
        <>
                      {fields.map(({ key, name, ...restField }, index) => {
@@ -273,7 +274,7 @@ layout="vertical"
                        const opts = [...options];
                        // @ts-ignore
                              if (e.target.checked) {
-                               if (questionType === 'single') {
+                               if (questionType === Enum.TestQuestionType.SINGLE) {
                                  opts.forEach(o => {
                                    o.isCorrect = false;
                                  })
@@ -312,7 +313,7 @@ layout="vertical"
                  <Button onClick={e=>add()} icon={<PlusCircleTwoTone/>}>Add Option</Button>
        </>
      )}
-               </Form.List>
+               </Form.List>:null}
                {/* </OptionSelectedFormControl.Group> */}
 
              </Card>
@@ -321,7 +322,7 @@ layout="vertical"
            </Row>
     </Card>
         </Col>
-        {questionType === 'subjective' && (
+        {questionType === Enum.TestQuestionType.SUBJECTIVE && (
   <Col span={24}>
             <Card title="Scoring Criteria" extra={[
               <GenerateAIItemDetails onFinish={e => console.log(e, 'eee')} label='Generate Criteria using solution' field='criterias' />,

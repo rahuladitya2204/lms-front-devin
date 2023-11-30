@@ -1,7 +1,7 @@
 import { Card, Checkbox, Col, List, Radio, Row, Typography } from 'antd'
+import { Enum, Types } from '@adewaskar/lms-common'
 
 import React from 'react'
-import { Types } from '@adewaskar/lms-common'
 
 interface CoursePlayerItemsPropsI {
   question: Types.TestQuestion;
@@ -26,7 +26,7 @@ const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
         dataSource={question.options}
         renderItem={(item, index) => (
           <List.Item>
-            {question.type === 'single' ? (
+            {question.type === Enum.TestQuestionType.SINGLE ? (
               <Radio.Group
                 disabled={isAnswerChecked}
                 onChange={e => saveAnswerByLearner(index)}

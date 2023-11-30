@@ -181,7 +181,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
                     style={{ cursor: 'pointer' }}
                     extra={[
                       <Typography.Text>
-                        {item.type === 'single' ? (
+                        {item.type === Enum.TestQuestionType.SINGLE ? (
                           <Tag color="magenta">Single Choice</Tag>
                         ) : (
                           <Tag color="volcano">Multiple Choice</Tag>

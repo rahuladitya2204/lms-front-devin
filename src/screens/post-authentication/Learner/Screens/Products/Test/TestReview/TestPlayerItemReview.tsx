@@ -25,14 +25,14 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   useEffect(() => {
     let answer = answerGiven;
     if (
-      (currentQuestion.type === 'single') &&
+      (currentQuestion.type === Enum.TestQuestionType.SINGLE) &&
       answerGiven &&
       (answerGiven?.options?.length)) {
       // @ts-ignore
       answer = { options: answerGiven?.options[0] };
     }
     if (
-      (currentQuestion.type === 'multiple') &&
+      (currentQuestion.type === Enum.TestQuestionType.MULTIPLE) &&
       answerGiven &&
       answerGiven &&
       answerGiven.options.length) {
@@ -47,7 +47,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   }, [currentQuestion, form,questionId]);
   const answer = Form.useWatch(['answer'], form);
   const { navigate } = useTestNavigation(test);
-  const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
+  const OptionSelectedFormControl = currentQuestion.type === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
 
   const { token } = theme.useToken()
@@ -71,8 +71,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
             <Col span={24}>
               <HtmlViewer content={currentQuestion.title+''} />
               {currentQuestion.type !== 'subjective' ? <>
-                <Text style={{ marginTop: 20, fontSize: currentQuestion.type === 'single' ? 16 : 18 }} type="secondary">
-                {currentQuestion.type === 'single' ? 'Select one among others' : 'Select all that apply'}
+                <Text style={{ marginTop: 20, fontSize: currentQuestion.type === Enum.TestQuestionType.SINGLE ? 16 : 18 }} type="secondary">
+                {currentQuestion.type === Enum.TestQuestionType.SINGLE ? 'Select one among others' : 'Select all that apply'}
               </Text>
               <Form.Item name={['answer','options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>

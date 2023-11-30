@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, Row, Select } from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+import { Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import InputTags from '@Components/InputTags/InputTags'
@@ -13,7 +13,7 @@ const DIFFICULTY_LEVELS = [
 const INITIAL_VALUES = {
   difficultyLevel: 'medium',
   taxonomyLevel: 'analyze',
-  choice: 'single',
+  choice: Enum.TestQuestionType.SINGLE,
   type: 'numerical'
 }
 
@@ -132,9 +132,10 @@ export default function GenerateQuestionWithAI({
           <Form.Item label="Choice" name="choice">
             <Select
               options={[
-                { label: 'Single Choice', value: 'single' },
-                { label: 'Multiple Choice', value: 'multiple' },
-                { label: 'Subjective', value: 'subjective' }
+                { label: 'Single Choice', value: Enum.TestQuestionType.SINGLE },
+                { label: 'Multiple Choice', value: Enum.TestQuestionType.MULTIPLE },
+                { label: 'Numeric', value: Enum.TestQuestionType.NUMERIC },
+                { label: 'Subjective', value: Enum.TestQuestionType.SUBJECTIVE }
               ]}
             />
           </Form.Item>

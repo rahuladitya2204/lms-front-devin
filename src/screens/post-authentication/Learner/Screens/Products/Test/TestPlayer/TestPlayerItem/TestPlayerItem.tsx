@@ -34,7 +34,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     const { answerGiven } = currentQuestion;
       let answer = answerGiven;
       if (
-        (currentQuestion.type === 'single') &&
+        (currentQuestion.type === Enum.TestQuestionType.SINGLE) &&
         answerGiven &&
         answerGiven.options &&
         answerGiven.options.length) {
@@ -53,7 +53,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     if (!isValid) {
       return;
     }
-    if (currentQuestion.type=== 'single') {
+    if (currentQuestion.type=== Enum.TestQuestionType.SINGLE) {
       // @ts-ignore
       answer = { options: [answer.options] };
     }
@@ -70,7 +70,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   };
 
   const { navigate } = useTestNavigation(test);
-  const OptionSelectedFormControl = currentQuestion.type === 'single' ? Radio : Checkbox;
+  const OptionSelectedFormControl = currentQuestion.type === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
   const wordLength = answerText.split(' ').length;
   const PrevButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('prev')} style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
@@ -93,8 +93,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             <Col span={24}>
               <HtmlViewer content={currentQuestion.title} />
               {currentQuestion.type !== 'subjective' ? <>
-                <Text style={{ marginTop: 20, fontSize: currentQuestion.type === 'single' ? 16 : 18 }} type="secondary">
-                {currentQuestion.type === 'single' ? 'Select one among others' : 'Select all that apply'}
+                <Text style={{ marginTop: 20, fontSize: currentQuestion.type === Enum.TestQuestionType.SINGLE ? 16 : 18 }} type="secondary">
+                {currentQuestion.type === Enum.TestQuestionType.SINGLE ? 'Select one among others' : 'Select all that apply'}
               </Text>
               <Form.Item name={['answer','options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
