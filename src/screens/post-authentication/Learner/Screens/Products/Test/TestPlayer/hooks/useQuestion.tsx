@@ -4,7 +4,7 @@ import { sec } from 'mathjs'
 import { useMemo } from 'react'
 import { useParams } from 'react-router'
 
-export default function useQuestion () {
+export default function useQuestion() {
   const { questionId, testId } = useParams()
   const { data: { status: { sections } } } = Learner.Queries.useGetTestStatus(
     testId + ''
@@ -18,7 +18,7 @@ export default function useQuestion () {
     [questions, questionId]
   )
 
-  const currentQuestion = useMemo(
+  const currentQuestion: Types.TestStatusQuestion = useMemo(
     () => {
       if (currentQuestionIndex >= 0 && questions[currentQuestionIndex]) {
         return questions[currentQuestionIndex]

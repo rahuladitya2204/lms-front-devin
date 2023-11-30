@@ -1,5 +1,5 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
 import { Enum, Learner, Store, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
@@ -105,8 +105,21 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               </Text>
                   {(questionType === Enum.TestQuestionType.SINGLE || questionType === Enum.TestQuestionType.MULTIPLE) ?
                     <Form.Item name={['answer', 'options']}  >
-                <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
-                    {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
+                      <OptionSelectedFormControl.Group style={{ width: '100%', display: 'block' }}>
+                      <List
+        dataSource={currentQuestion.options}
+                          renderItem={(option, index) => {
+                            const SelectFormControlComponent=      <OptionSelectedFormControl value={option._id}>
+                            <HtmlViewer content={option.text} />
+                          </OptionSelectedFormControl>
+                            return (
+          <List.Item>
+            {SelectFormControlComponent}
+          </List.Item>
+        )}}
+      />
+                        {/* {currentQuestion.options
+                          .map((option: Types.TestQuestionOption, index: number) => {
                     const SelectFormControlComponent=      <OptionSelectedFormControl value={option._id}>
                     <HtmlViewer content={option.text} />
                   </OptionSelectedFormControl>
@@ -117,7 +130,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                         </Col>
                       </Row>
                     );
-                  })}
+                  })} */}
                 </OptionSelectedFormControl.Group>
                   </Form.Item> :
                     <Form.Item style={{marginTop:20}} label='Enter Answer' name={['answer', 'numeric']}>
