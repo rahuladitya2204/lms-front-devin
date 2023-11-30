@@ -8,8 +8,8 @@ import {
   Space,
   Tag
 } from 'antd'
-import { BarChartOutlined, BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { BarChartOutlined, BookOutlined, ClockCircleOutlined, EditOutlined } from '@ant-design/icons'
+import { Constants, Enum, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import PriceCardContent from './PriceCardContent'
@@ -65,11 +65,14 @@ function TestCard(props: TestCardPropsI) {
           </Space>}
         />
           <Row justify={'space-between'} style={{marginTop:10}}>
-            {formattedDuration?<Col>
-            <Tag icon={<ClockCircleOutlined />} color='blue-inverse' style={{fontSize: 13}}>
+            <Col>
+            {formattedDuration?<Tag icon={<ClockCircleOutlined />} color='blue-inverse' style={{fontSize: 13}}>
                    {formattedDuration}
-          </Tag>
-        </Col>:null}
+          </Tag>:null}
+          {test.input.type===Enum.TestInputType.HANDWRITTEN?<Tag icon={<EditOutlined />} color='volcano-inverse' style={{fontSize: 13}}>
+                   Handwritten
+          </Tag>:null}
+        </Col>
         </Row>
         <Divider style={{marginTop:10,marginBottom:10}}/>
         <Row justify={'space-between'}>

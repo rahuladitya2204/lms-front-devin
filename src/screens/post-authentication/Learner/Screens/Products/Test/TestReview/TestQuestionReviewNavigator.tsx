@@ -12,9 +12,9 @@ import {
   theme
 } from 'antd'
 import { Enum, Learner } from '@adewaskar/lms-common'
+import { useNavigate, useParams } from 'react-router'
 
 import { NavLink } from 'react-router-dom'
-import { useNavigate } from 'react-router'
 import { useReviewQuestion } from './TestPlayerItemReview'
 
 interface TestReviewQuestionNavigatorPropsI {
@@ -43,7 +43,7 @@ export default function TestReviewQuestionNavigator(
   )
 
   const { token } = theme.useToken()
-
+  const { questionId } = useParams()
   return (
     <Spin spinning={isLoading || loadingTest}>
       <Card
@@ -103,7 +103,8 @@ export default function TestReviewQuestionNavigator(
                               style={{ width: '100%' }}
                               key={item._id}
                               to={`${item._id}`}
-                              children={({ isActive }) => {
+                              children={() => {
+                                const isActive = questionId === item._id
                                 return (
                                   // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
                                   // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
@@ -122,7 +123,7 @@ export default function TestReviewQuestionNavigator(
                                     }
                                     style={{
                                       backgroundColor: isActive
-                                        ? 'auto'
+                                        ? ''
                                         : item.isAnswered
                                           ? item.type !== 'subjective'
                                             ? item.isCorrect

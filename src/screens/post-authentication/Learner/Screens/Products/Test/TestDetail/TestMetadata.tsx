@@ -1,17 +1,14 @@
 import {
   CalendarOutlined,
-  CheckCircleOutlined,
   ClockCircleOutlined,
   EditOutlined,
-  ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { List, Typography } from 'antd'
-import { Types, Utils } from '@adewaskar/lms-common'
+import { Enum, Types, Utils } from '@adewaskar/lms-common'
+import { List, Tag, Typography } from 'antd'
 
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
-import { useMemo } from 'react'
 
 const { Text } = Typography
 
@@ -29,6 +26,11 @@ const data = {
     title: 'Duration',
     icon: <ClockCircleOutlined />,
     value: '43 Weeks'
+  },
+  mode: {
+    title: 'Test Mode',
+    icon: <EditOutlined />,
+    value: null
   },
   enrolled: {
     title: 'Enrolled',
@@ -70,6 +72,10 @@ function TestMetadata(props: TestMetadataPropsI) {
     ? formatTime(props.test.duration.value)
     : null
   data.enrolled.value = `${props.test.analytics.enrolled.count} students`
+  if (props.test.input.type === Enum.TestInputType.HANDWRITTEN) {
+    // @ts-ignore
+    data.mode.value = <Tag color="volcano-inverse">Handwritten</Tag>
+  }
   // data.certificate.value = props.test.certificate ? 'Yes' : ''
   // data.questions.value = useMemo(
   //   () => props.test.sections.map(i => i.items).flat().length.toString(),

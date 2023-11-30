@@ -1,11 +1,11 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
 import { Badge, Button, Card, Col, Divider, Modal, Row, Space, Spin, Typography, theme } from 'antd'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
+import { useNavigate, useParams } from 'react-router'
 
 import { NavLink } from 'react-router-dom'
 import TestTimer from './TestTimer'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useNavigate } from 'react-router'
 
 interface TestQuestionNavigatorType2PropsI {
   testId: string;
@@ -29,6 +29,7 @@ export default function TestQuestionNavigatorType2(
   const { isTablet, isDesktop, isMobile } = useBreakpoint()
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '',Enum.TestDetailMode.TEST)
   const { token } = theme.useToken()
+  const { questionId } = useParams()
 
   return (
     <Spin spinning={loadingTest || loadingEnrolledTest} >
@@ -98,13 +99,14 @@ export default function TestQuestionNavigatorType2(
                             style={{ width: '100%' }}
                             key={item._id}
                             to={`${item._id}`}
-                            children={({ isActive }) => {
+                            children={() => {
+                              const isActive = questionId === item._id
                               return (
                               // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
                               // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
                               <Button
                                   // loading={loading && isCurrent}
-                                onClick={() => navigate(item._id)} danger={item.isMarked}
+                                onClick={() => navigate(item._id)} danger={item.isMarked&&!isActive}
                                 type={
                                   isActive
                                     ? 'primary'
@@ -112,7 +114,7 @@ export default function TestQuestionNavigatorType2(
                                 }
                                 style={{
                                   backgroundColor: isActive
-                                    ? 'auto'
+                                    ? ''
                                     : (item.isAnswered ? token.colorSuccessActive : 'default')
                                 }}
                                 shape="circle"

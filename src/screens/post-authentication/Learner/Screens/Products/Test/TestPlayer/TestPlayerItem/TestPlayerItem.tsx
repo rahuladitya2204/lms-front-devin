@@ -1,5 +1,5 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
 import { Enum, Learner, Store, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
@@ -30,11 +30,12 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { mutate: submitAnswer,isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer(testId+'');
   const answer = Form.useWatch(['answer'], form);
   const { isMobile } = useBreakpoint();
+  const questionType = currentQuestion.type;
   useEffect(() => {
     const { answerGiven } = currentQuestion;
       let answer = answerGiven;
       if (
-        (currentQuestion.type === Enum.TestQuestionType.SINGLE) &&
+        (questionType === Enum.TestQuestionType.SINGLE) &&
         answerGiven &&
         answerGiven.options &&
         answerGiven.options.length) {
@@ -46,14 +47,14 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         answer
       }); 
   }, [currentQuestion, form,questionId]);
-  const isValid = ((answer?.options?.length) || (answer?.subjective?.text) || (answer?.subjective?.files?.length));
+  const isValid = ((answer?.options?.length) || (answer?.subjective?.text) || (answer?.subjective?.files?.length) || (!isNaN(Number(answer?.numeric))));
 
   // @ts-ignore
   const onFormSubmit = ({ answer }) => {
     if (!isValid) {
       return;
     }
-    if (currentQuestion.type=== Enum.TestQuestionType.SINGLE) {
+    if (questionType=== Enum.TestQuestionType.SINGLE) {
       // @ts-ignore
       answer = { options: [answer.options] };
     }
@@ -70,7 +71,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   };
 
   const { navigate } = useTestNavigation(test);
-  const OptionSelectedFormControl = currentQuestion.type === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
+  const OptionSelectedFormControl = questionType === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
   const wordLength = answerText.split(' ').length;
   const PrevButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('prev')} style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
@@ -92,11 +93,18 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
           <Row gutter={[20, 30]}>
             <Col span={24}>
               <HtmlViewer content={currentQuestion.title} />
-              {currentQuestion.type !== 'subjective' ? <>
-                <Text style={{ marginTop: 20, fontSize: currentQuestion.type === Enum.TestQuestionType.SINGLE ? 16 : 18 }} type="secondary">
-                {currentQuestion.type === Enum.TestQuestionType.SINGLE ? 'Select one among others' : 'Select all that apply'}
+              {questionType !== Enum.TestQuestionType.SUBJECTIVE ? <>
+                  <Text style={{
+                    marginTop: 20,
+                    fontSize: questionType === Enum.TestQuestionType.SINGLE ? 16 : 18
+                  }}
+                    type="secondary">
+                    {questionType === Enum.TestQuestionType.SINGLE ? 'Select one among others' : null}
+                    {questionType===Enum.TestQuestionType.MULTIPLE?'Select all that apply':null}
+              {/* {questionType===Enum.TestQuestionType.NUMERIC?'Enter answer below':null} */}
               </Text>
-              <Form.Item name={['answer','options']}  >
+                  {(questionType === Enum.TestQuestionType.SINGLE || questionType === Enum.TestQuestionType.MULTIPLE) ?
+                    <Form.Item name={['answer', 'options']}  >
                 <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
                     {currentQuestion.options.map((option: Types.TestQuestionOption, index: number) => {
                     const SelectFormControlComponent=      <OptionSelectedFormControl value={option._id}>
@@ -111,7 +119,10 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     );
                   })}
                 </OptionSelectedFormControl.Group>
-                </Form.Item>
+                  </Form.Item> :
+                    <Form.Item style={{marginTop:20}} label='Enter Answer' name={['answer', 'numeric']}>
+                      <Input style={{width:200}} placeholder='Enter the answer here' type='number' /></Form.Item>
+                  }
               </> : <>
                     {(test.input.type === Enum.TestInputType.HANDWRITTEN) ?
                       <Form.Item>
@@ -157,7 +168,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                   questionId: questionId + '', flag: 'reviewed'
                 })}
                 icon={<CheckOutlined/>} danger>
-              Review Done
+              Mark as Done
               </Button> : <Button loading={updatingFlag}
                 onClick={() => updateQuestionResponseFlag(
                   {

@@ -1,5 +1,5 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
 import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
@@ -39,8 +39,14 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       // @ts-ignore
       answer = { options: answerGiven?.options };
     }
-    console.log(answerGiven,'answerGiven')
-    form.setFieldsValue({
+
+    if (
+      (currentQuestion.type === Enum.TestQuestionType.NUMERIC) &&
+      (!isNaN(Number(answerGiven?.numeric)))) {
+      // @ts-ignore
+      answer = {numeric:answerGiven.numeric};
+    }
+        form.setFieldsValue({
       answer
     });
    
@@ -70,7 +76,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
           <Row gutter={[20, 30]}>
             <Col span={24}>
               <HtmlViewer content={currentQuestion.title+''} />
-              {currentQuestion.type !== 'subjective' ? <>
+              {currentQuestion.type !== 'subjective' ? ((currentQuestion.type===Enum.TestQuestionType.SINGLE || currentQuestion.type===Enum.TestQuestionType.MULTIPLE)?<>
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === Enum.TestQuestionType.SINGLE ? 16 : 18 }} type="secondary">
                 {currentQuestion.type === Enum.TestQuestionType.SINGLE ? 'Select one among others' : 'Select all that apply'}
               </Text>
@@ -101,13 +107,17 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   })}
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
-                </> : <>
+                </>:null) : <>
                     {test.input.type === Enum.TestInputType.HANDWRITTEN ?
                       <TestPlayerFiles review testId={testId + ''} questionId={questionId + ''} /> :
                       (answerGiven?.subjective?.text) ? <Form.Item label='Answer Given'>
                       <HtmlViewer content={answerGiven?.subjective?.text} />
                     </Form.Item>:<Tag color='red' >Not Answered</Tag>}     
-              </>}
+                </>}
+               {currentQuestion.type===Enum.TestQuestionType.NUMERIC? <Form.Item style={{marginTop:20}} label='Answer Given' name={['answer','numeric']} >
+                  <Input style={{width:150}} type='number' readOnly />
+                </Form.Item> : null
+                }
             </Col>
            
           </Row>
