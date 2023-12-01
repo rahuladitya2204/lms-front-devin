@@ -31,6 +31,7 @@ import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { useParams } from 'react-router';
 import useTestBuilderUI from './hooks/useTestBuilder';
+import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
 import { useTestStore } from './hooks/useTestStore';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
@@ -54,6 +55,7 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
+  
   const [enterHtml, setEnterHtml] = useState(false);
   const {  itemId,id: testId } = useParams();
   const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm(itemId+'');
@@ -62,6 +64,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const criterias = Form.useWatch('criterias', form);
  
   const isTestEnded = test.status === Enum.TestStatus.ENDED;
+  const { navigate } = useTestNavigation(test);
 
   useEffect(() => {
     form.setFieldsValue(item);
@@ -108,15 +111,11 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const options = Form.useWatch('options', form) || [];
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
-  // console.log(item, 'item');
-  // const totalCriteriaScore = useMemo(()=>(item.criterias || []).reduce((total, criterion) => total + (Number(criterion.score) || 0), 0),[item.criterias])
-  // console.log(criterias, 'criterias');
+
   useEffect(() => {
     onFormChange({ criterias });
   }, [criterias])
-  useEffect(() => {
-    onFormChange({ criterias });
-  }, [criterias]);
+
   return (
    <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
       onValuesChange={(changedValues, allValues) => onFormChange({
@@ -401,7 +400,7 @@ layout="vertical"
 
    <Col span={24}>
        
-   <Card title='Solution Text'>
+   <Card title='Solution Text' extra={[EnterHtmlButton]} >
    <Form.Item name={['solution', 'html']} required>
    <TextArea
      height={350} html={{level: 3}}

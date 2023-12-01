@@ -5,6 +5,7 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
+import EnterAnswers from './EnterAnswers'
 import EnterQuestionJson from './EnterQuestionJson'
 import EnterTestJson from './EnterTestJson'
 import Header from '@Components/Header'
@@ -247,13 +248,6 @@ function TestBuilderScreen() {
     TEST.sections = sections
     setTest(TEST)
   }
-  // const { mutate: updateTestStatus } = User.Queries.useUpdateTestStatus(
-  //   testId + ''
-  // )
-  // const {
-  //   mutate: publishTest,
-  //   isLoading: publishingTest
-  // } = User.Queries.usePublishTest()
   const {
     mutate: unpublishTest,
     isLoading: unpublishingTest
@@ -309,6 +303,22 @@ function TestBuilderScreen() {
               <MoreButton
                 items={[
                   {
+                    key: 'enter-answers',
+                    label: (
+                      <ActionModal
+                        title="Enter Answers"
+                        width={800}
+                        cta={
+                          <Button type="text" style={{ marginRight: 10 }}>
+                            Enter Answers
+                          </Button>
+                        }
+                      >
+                        <EnterAnswers />
+                      </ActionModal>
+                    )
+                  },
+                  {
                     key: 'revert',
                     label: (
                       <Button
@@ -353,7 +363,7 @@ function TestBuilderScreen() {
                     ),
                     key: 'generate-test-outline'
                     // icon: <DeleteOutlined />
-                  },
+                  }
                   // {
                   //   label: (
                   //     <ActionModal
@@ -435,7 +445,11 @@ function TestBuilderScreen() {
                     height="200px"
                     aspect={16 / 9}
                     renderItem={() => (
-                      <Image height={200} preview={false} src={test.thumbnailImage} />
+                      <Image
+                        height={200}
+                        preview={false}
+                        src={test.thumbnailImage}
+                      />
                     )}
                     onUpload={file => {
                       setTest({

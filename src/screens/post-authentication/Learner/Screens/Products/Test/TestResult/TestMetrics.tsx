@@ -184,7 +184,7 @@ export default function TestMetrics() {
                       Passing Score: {metrics.passingScore}
                     </Title>
                     <Title style={{ marginBottom: 15 }} level={4}>
-                      You Scored: {metrics.learnerScore} out of{' '}
+                      You Scored: {metrics.learnerScore.toFixed(3)} out of{' '}
                       {metrics.totalTestScore}
                     </Title>
                     {metrics.learnerScore >= metrics.passingScore ? (

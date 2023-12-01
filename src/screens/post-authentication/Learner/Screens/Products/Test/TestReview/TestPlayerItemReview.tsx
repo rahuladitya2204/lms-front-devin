@@ -1,5 +1,5 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
 import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
@@ -80,31 +80,31 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === Enum.TestQuestionType.SINGLE ? 16 : 18 }} type="secondary">
                 {currentQuestion.type === Enum.TestQuestionType.SINGLE ? 'Select one among others' : 'Select all that apply'}
               </Text>
-              <Form.Item name={['answer','options']}  >
-                <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
-                    {currentQuestion?.options?.map((option: Types.TestQuestionOption, index: number) => {
+                  <Form.Item name={['answer', 'options']}>
+                  <OptionSelectedFormControl.Group style={{ width: '100%',display:'block' }}>
+                    <List dataSource={currentQuestion?.options} renderItem={(option => {
                       const SelectFormControlComponent = <OptionSelectedFormControl
-                        style={{ marginRight: 0 }}
-                        disabled
-                        value={option._id}>
-                    
-                    </OptionSelectedFormControl>
-                    return (
-                      <Row gutter={[0, 20]} key={option._id}>
-                        <Col span={24}>
-                          <Space style={{display:'flex',flexDirection:'row',justifyContent:'flex-start'}} >
-                                               {/* @ts-ignore */}
-     {correctOptions?.indexOf(option?._id) > -1 ?
-                            <Tooltip placement="top" title={`Correct Answer`}>
-                              <CheckCircleTwoTone color={token.colorSuccessBg} />
-                              </Tooltip> : null}
-                            {SelectFormControlComponent}
-                            <HtmlViewer content={option.text} />
-                          </Space>
-                        </Col>
-                      </Row>
-                    );
-                  })}
+                      style={{ marginRight: 0 }}
+                      disabled
+                      value={option._id}>
+                  
+                  </OptionSelectedFormControl>
+                  return (
+                    <Row gutter={[0, 20]} key={option._id}>
+                      <Col span={24}>
+                        <Space style={{display:'flex',flexDirection:'row',justifyContent:'flex-start'}} >
+                                             {/* @ts-ignore */}
+   {correctOptions?.indexOf(option?._id) > -1 ?
+                          <Tooltip placement="top" title={`Correct Answer`}>
+                            <CheckCircleTwoTone color={token.colorSuccessBg} />
+                            </Tooltip> : null}
+                          {SelectFormControlComponent}
+                          <HtmlViewer content={option.text} />
+                        </Space>
+                      </Col>
+                    </Row>
+                  );
+                    })} />
                 </OptionSelectedFormControl.Group>
                 </Form.Item>
                 </>:null) : <>
@@ -115,7 +115,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                     </Form.Item>:<Tag color='red' >Not Answered</Tag>}     
                 </>}
                {currentQuestion.type===Enum.TestQuestionType.NUMERIC? <Form.Item style={{marginTop:20}} label='Answer Given' name={['answer','numeric']} >
-                  <Input style={{width:150}} type='number' readOnly />
+                  {currentQuestion.isAnswered?<Input style={{width:150}} type='number' readOnly />:<TestAnswerTag item={currentQuestion} />}
                 </Form.Item> : null
                 }
             </Col>
