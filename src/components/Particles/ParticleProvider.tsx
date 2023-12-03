@@ -17,17 +17,22 @@ export const ParticlesProvider = ({ children }: ParticlesProviderPropsI) => {
     particlesLoaded
   } = useParticlesEffect()
   return (
-    <ParticlesContext.Provider value={value}>
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          zIndex: 0
-        }}
-      >
+    <div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: 0,
+        backgroundImage: 'url(/images/bg1.png)',
+        backgroundRepeat: 'repeat',
+        // opacity: 0.3,
+        minHeight: '100vh'
+      }}
+    >
+      {' '}
+      <ParticlesContext.Provider value={value}>
         <Particles
           id="tsparticles"
           init={particlesInit}
@@ -36,9 +41,9 @@ export const ParticlesProvider = ({ children }: ParticlesProviderPropsI) => {
           options={particlesConfig}
           // options={EXAMPLECONFIG}
         />
-      </div>
-      {children}
-    </ParticlesContext.Provider>
+        {children}
+      </ParticlesContext.Provider>
+    </div>
   )
 }
 

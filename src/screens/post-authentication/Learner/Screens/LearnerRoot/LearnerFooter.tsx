@@ -1,6 +1,7 @@
-import { Col, Layout, Row, Typography, theme } from 'antd'
+import { Col, Row, Typography, theme } from 'antd'
 import { Common, Learner } from '@adewaskar/lms-common'
 
+import { Footer } from '@Components/Layout'
 import OrgLogo from '@Components/OrgLogo'
 
 const { Text } = Typography
@@ -9,7 +10,7 @@ export default function LearnerFooter () {
   const { data: organisation } = Learner.Queries.useGetOrgDetails()
   const { token } = theme.useToken()
   return (
-    <Layout.Footer
+    <Footer
       style={{
         textAlign: 'center',
         backgroundColor: token.colorBgBase,
@@ -35,6 +36,6 @@ export default function LearnerFooter () {
           </Text>
         </Col>
       </Row>
-    </Layout.Footer>
+    </Footer>
   )
 }
