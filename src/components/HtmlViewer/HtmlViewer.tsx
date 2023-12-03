@@ -39,6 +39,7 @@ function HtmlViewer(props: { content: string }) {
 export default HtmlViewer
 
 const cleanContent = (htmlContent: string, tags=['div', 'span', 'p', 'svg', 'path','li']): string => {
+  // htmlContent = htmlContent.replace(/&nbsp;/g, '\t'); // Replace &nbsp; with \t (tab)
   const parser = new DOMParser();
   const doc = parser.parseFromString(htmlContent, 'text/html');
 

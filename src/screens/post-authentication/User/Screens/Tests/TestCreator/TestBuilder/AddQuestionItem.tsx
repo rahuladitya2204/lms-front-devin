@@ -115,7 +115,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   useEffect(() => {
     onFormChange({ criterias });
   }, [criterias])
-
+  const prefixKey = `tests/${testId}/${itemId}`;
   return (
    <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
       onValuesChange={(changedValues, allValues) => onFormChange({
@@ -188,7 +188,7 @@ layout="vertical"
          }
          ]}>
            {/* @ts-ignore */}
-       <TextArea html={enterHtml?false:{level:3}} readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
+       <TextArea uploadPrefixKey={prefixKey} html={enterHtml?false:{level:3}} readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
      </Form.Item>
      <Row gutter={[20, 20]}>
        <Col span={12}>
@@ -257,7 +257,7 @@ layout="vertical"
                          {...restField}
                          name={[name, 'text']}
                        >
-                         <TextArea height={150} html={enterHtml?false:{level:3}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
+                         <TextArea uploadPrefixKey={prefixKey} height={150} html={enterHtml?false:{level:3}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
                      </Form.Item>
                  </Col>
                          <Col>
@@ -334,7 +334,7 @@ layout="vertical"
             {fields.map(({ key, name, ...restField }, index) => (
               <Row key={key} align="middle" gutter={10}>
                 <Col>
-                  <Form.Item     {...restField}
+                  <Form.Item {...restField}
                     name={[name, 'image']}>
                     {/* @ts-ignore */}
                   <MediaUpload name={[name, 'image']}
@@ -359,7 +359,7 @@ layout="vertical"
                     name={[name, 'criteria']}
                     rules={[{ required: true, message: 'Please enter the criteria' }]}
                   >
-                    <TextArea height={200} placeholder="Enter scoring criteria" />
+                    <TextArea uploadPrefixKey={prefixKey} height={200} placeholder="Enter scoring criteria" />
                   </Form.Item>
                 </Col>
                 <Col>
@@ -402,7 +402,7 @@ layout="vertical"
        
    <Card title='Solution Text' extra={[EnterHtmlButton]} >
    <Form.Item name={['solution', 'html']} required>
-   <TextArea
+   <TextArea uploadPrefixKey={prefixKey}
      height={350} html={{level: 3}}
      value={form.getFieldValue(['solution', 'html'])}
      onChange={(e: string) => form.setFieldsValue({ solution: { html: e } })}

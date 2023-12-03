@@ -21,6 +21,7 @@ interface SunEditorPropsI {
   width?: number;
   name?: string | string[];
   variables?: Types.Variable[];
+  uploadPrefixKey?: string;
   value?: string;
   mode?: string;
   readonly?: boolean; imageBase64?: boolean;
@@ -95,17 +96,10 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     
       }
       else {
-      if (file instanceof File) {
-        // Change the file name by appending a unique identifier (timestamp or unique ID)
-        const uniqueSuffix = `-${Date.now()}-${uniqueId()}`
-        const newFileName = `${file.name.split('.')[0]}${
-          uniqueSuffix
-        }.${file.name.split('.').pop()}`
-        const newFile = new File([file], newFileName, { type: file.type })
-
+        if (file instanceof File) {
         // Insert a temporary image element with a loading image source
         uploadFiles({
-          files: [{ file: newFile, prefixKey: uniqueId() }],
+          files: [{ file: file, prefixKey: props.uploadPrefixKey }],
           isProtected: false,
           onUploadProgress: e => {
             // console.log(e, 'e')
