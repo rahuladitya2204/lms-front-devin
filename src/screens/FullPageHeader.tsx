@@ -1,5 +1,4 @@
-import { Layout } from 'antd'
-import { Outlet } from 'react-router'
+import Layout from '@Components/Layout'
 import ThemeProvider from './ThemeProvider'
 
 // @ts-ignore

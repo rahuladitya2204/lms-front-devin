@@ -1,4 +1,4 @@
-import { Layout } from 'antd'
+import Layout from '@Components/Layout'
 import { Outlet } from 'react-router'
 import ThemeProvider from './ThemeProvider'
 

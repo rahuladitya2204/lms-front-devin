@@ -1,4 +1,5 @@
-import { Col, Layout, Menu, Row } from 'antd'
+import { Col, Menu, Row } from 'antd'
+import Layout, { Content, Sider } from '@Components/Layout'
 import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useEffect, useState } from 'react'
@@ -14,7 +15,7 @@ const LogoHolder = styled.div`
   justify-content: center;
 `
 
-const { Content, Sider } = Layout
+// const { Content, Sider } = Layout
 
 const UserRootScreen: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
