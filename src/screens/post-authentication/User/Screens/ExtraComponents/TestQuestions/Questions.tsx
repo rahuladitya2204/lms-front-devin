@@ -1,10 +1,10 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { Enum, Types } from '@adewaskar/lms-common'
 import { List, Modal, Table, Tag, Tooltip, Typography } from 'antd'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddQuestion from './AddQuestion'
 import MoreButton from '@Components/MoreButton'
-import { Types } from '@adewaskar/lms-common'
 
 const { confirm } = Modal
 
@@ -28,7 +28,7 @@ export default function Questions<T>({
           style={{ cursor: 'pointer' }}
           extra={[
             <Typography.Text>
-              {item.type === 'single' ? (
+              {item.type === Enum.TestQuestionType.SINGLE ? (
                 <Tag color="magenta">Single Choice</Tag>
               ) : (
                 <Tag color="volcano">Multiple Choice</Tag>

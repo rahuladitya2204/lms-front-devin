@@ -10,6 +10,7 @@ const { TextArea: AntDTextArea } = Input
 interface TextAreaProps extends LibTextAreaProps {
   height?: number;
   width?: number;
+  uploadPrefixKey?: string;
   name?: string | string[];
   value?: string;
   onChange?: (d: string) => void;
@@ -29,6 +30,7 @@ const TextArea: React.FC<TextAreaProps> = props => {
     <Form.Item name={name} label={label}>
       {html ? (
         <SunEditorComponent
+          uploadPrefixKey={props.uploadPrefixKey}
           // @ts-ignore
           level={typeof html === 'object' ? html.level : 2}
           readOnly={props.readOnly}

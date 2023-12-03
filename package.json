@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@adewaskar/lms-common": "^3.0.201",
+    "@adewaskar/lms-common": "^3.0.232",
     "@ant-design/compatible": "^5.0.0",
     "@ant-design/icons": "^4.7.0",
     "@ant-design/pro-components": "^2.3.34",
@@ -59,6 +59,7 @@
     "eslint": "^8.3.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-webpack-plugin": "^3.1.1",
+    "fabric": "^5.3.0",
     "face-api.js": "^0.22.2",
     "fetch-video-metadata": "^1.2.2",
     "file-loader": "^6.2.0",
@@ -177,6 +178,7 @@
     ]
   },
   "devDependencies": {
+    "@types/fabric": "^5.3.6",
     "@types/html-to-text": "^9.0.0",
     "@types/immutability-helper": "^2.6.3",
     "@types/katex": "^0.16.5",

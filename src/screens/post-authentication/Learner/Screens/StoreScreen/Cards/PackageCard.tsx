@@ -8,8 +8,8 @@ import {
   Space,
   Tag
 } from 'antd'
-import { BarChartOutlined, BookOutlined, ClockCircleOutlined, EditOutlined } from '@ant-design/icons'
-import { Constants, Enum, Types } from '@adewaskar/lms-common'
+import { BarChartOutlined, BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
+import { Constants, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import PriceCardContent from './PriceCardContent'
@@ -23,8 +23,8 @@ const { Text } = Typography
 
 const { UnitTypeToStr } = Utils;
 
-interface TestCardPropsI {
-  test: Types.Test;
+interface PackageCardPropsI {
+  package: Types.Package;
 }
 
 const CustomCard = styled(Card)`
@@ -33,24 +33,22 @@ cursor: pointer;
 margin-bottom: 20px; */
 `
 
-function TestCard(props: TestCardPropsI) {
-  const { test } = props;
+function PackageCard(props: PackageCardPropsI) {
+  const { package: bundle } = props;
   const navigate = useNavigate();
-  const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  // const instructor = test.instructor as unknown as Types.Instructor;
-  const formattedDuration = test.duration.enabled? Utils.formatTime(test.duration.value * 60):null
+  const plan = bundle.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   return (
     // <Badge.Ribbon text="Best Seller" color="orange">
       <CustomCard hoverable
         onClick={() =>
           navigate(
-            `../test/${test._id}`
+            `../package/${bundle._id}`
           )
         } bodyStyle={{padding: 15}}
         cover={
           <Image alt="example" style={{height: 140}}
             src={
-             test.thumbnailImage
+              bundle.thumbnailImage
             }
           /> 
         }
@@ -61,17 +59,20 @@ function TestCard(props: TestCardPropsI) {
           fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
           overflowWrap: 'break-word' // Breaks words to prevent overflow
-        }}>{test.title}</Text>
+        }}>{bundle.title}</Text>
           </Space>}
         />
           <Row justify={'space-between'} style={{marginTop:10}}>
-            <Col>
-            {formattedDuration?<Tag icon={<ClockCircleOutlined />} color='blue-inverse' style={{fontSize: 13}}>
-                   {formattedDuration}
-          </Tag>:null}
-          {test.input.type===Enum.TestInputType.HANDWRITTEN?<Tag icon={<EditOutlined />} color='volcano-inverse' style={{fontSize: 13}}>
-                   Handwritten
-          </Tag>:null}
+          <Col>
+            <Text type='secondary' style={{fontSize: 13}}>
+                  <Tag color='blue-inverse' >Bundle</Tag>
+                   {/* @ts-ignore */}
+ {Object.keys(bundle.products).filter(k=>bundle.products[k].length).map(key => {
+              // @ts-ignore
+              const products = bundle.products[key];
+              return <Tag color='orange-inverse' >{products.length} { capitalize(key)}</Tag>
+                  })}
+   </Text>
         </Col>
         </Row>
         <Divider style={{marginTop:10,marginBottom:10}}/>
@@ -84,4 +85,4 @@ function TestCard(props: TestCardPropsI) {
   )
 }
 
-export default TestCard
+export default PackageCard

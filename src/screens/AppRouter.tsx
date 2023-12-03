@@ -72,6 +72,7 @@ import LoadingScreen from '@Components/LoadingScreen'
 import MaintainenceScreen from './MaintainenceScreen/MaintainenceScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
+import PackageDetailViewer from '@Learner/Screens/Products/Package/PackageDetailsViewer'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
@@ -130,6 +131,10 @@ const router = (userType: string) => {
               <Route path="courses">
                 <Route path="" element={<LearnerCourses />} />
                 <Route path=":id" element={<CourseDetailViewer />} />
+              </Route>
+              <Route path="package">
+                {/* <Route path="" element={<LearnerCourses />} /> */}
+                <Route path=":id" element={<PackageDetailViewer />} />
               </Route>
               <Route path="test">
                 <Route path="" element={<LearnerTestScreen />} />

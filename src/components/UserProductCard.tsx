@@ -8,21 +8,17 @@ import Tabs from '@Components/Tabs'
 import { copyToClipboard } from '@Utils/index'
 
 const { Text } = Typography
-interface ProductCardPropsI {
+interface UserProductCardPropsI {
   product: Types.Product;
   children?: React.ReactNode;
   actions?: React.ReactNode[];
 }
 
-const ProductCard = (props: ProductCardPropsI) => {
+const UserProductCard = (props: UserProductCardPropsI) => {
   const { product: { type, id } } = props
-  // console.log(type,)
-  const { data: products } = User.Queries.useGetProductList(type)
+  const { data: product } = User.Queries.useGetProductDetail({ type, id })
+  console.log(product, id, '1321')
 
-  console.log('123', products)
-  const product =
-    // @ts-ignore
-    products?.find(o => o._id === id) || {}
   return (
     <Card
       hoverable
@@ -40,4 +36,4 @@ const ProductCard = (props: ProductCardPropsI) => {
   )
 }
 
-export default ProductCard
+export default UserProductCard

@@ -31,6 +31,7 @@ import TextArea from '@Components/Textarea';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { useParams } from 'react-router';
 import useTestBuilderUI from './hooks/useTestBuilder';
+import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
 import { useTestStore } from './hooks/useTestStore';
 import useUpdateTestForm from './hooks/useUpdateTest';
 
@@ -39,9 +40,10 @@ const { Title } = Typography;
 const { confirm } = Modal;
 
 export const QUESTION_TYPES=[
-  { value: 'single', label: 'Single Choice' },
-  { value: 'multiple', label: 'Multiple Choice' },
-  { value: 'subjective', label: 'Subjective' },
+  { value: Enum.TestQuestionType.SINGLE, label: 'Single Choice' },
+  { value: Enum.TestQuestionType.MULTIPLE, label: 'Multiple Choice' },
+  { value: Enum.TestQuestionType.NUMERIC, label: 'Numeric' },
+  { value: Enum.TestQuestionType.SUBJECTIVE, label: 'Subjective' },
 ];
 interface CreateQuestionFormPropsI {
   submit?: (d: Types.TestQuestion) => void;
@@ -53,6 +55,7 @@ interface CreateQuestionFormPropsI {
 
 const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const [form] = Form.useForm();
+  
   const [enterHtml, setEnterHtml] = useState(false);
   const {  itemId,id: testId } = useParams();
   const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm(itemId+'');
@@ -61,6 +64,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const criterias = Form.useWatch('criterias', form);
  
   const isTestEnded = test.status === Enum.TestStatus.ENDED;
+  const { navigate } = useTestNavigation(test);
 
   useEffect(() => {
     form.setFieldsValue(item);
@@ -74,7 +78,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const questionType = Form.useWatch('type', form);
   // const { updateNavigator } = useTestBuilderUI();
-  const OptionSelectedFormControl = questionType === 'single' ? Radio : Checkbox;  
+  const OptionSelectedFormControl = questionType === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;  
   const { data: file } = User.Queries.useGetFileDetails(item?.solution?.video + '', {
     enabled: !!item?.solution?.video
   });
@@ -107,15 +111,11 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const options = Form.useWatch('options', form) || [];
 
   const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
-  // console.log(item, 'item');
-  const totalCriteriaScore = useMemo(()=>(item.criterias || []).reduce((total, criterion) => total + (Number(criterion.score) || 0), 0),[item.criterias])
-  // console.log(criterias, 'criterias');
+
   useEffect(() => {
     onFormChange({ criterias });
   }, [criterias])
-  useEffect(() => {
-    onFormChange({ criterias });
-  }, [criterias]);
+  const prefixKey = `tests/${testId}/${itemId}`;
   return (
    <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
       onValuesChange={(changedValues, allValues) => onFormChange({
@@ -188,7 +188,7 @@ layout="vertical"
          }
          ]}>
            {/* @ts-ignore */}
-       <TextArea html={enterHtml?false:{level:3}} readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
+       <TextArea uploadPrefixKey={prefixKey} html={enterHtml?false:{level:3}} readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
      </Form.Item>
      <Row gutter={[20, 20]}>
        <Col span={12}>
@@ -232,15 +232,16 @@ layout="vertical"
 </Form.Item>
               </Col> */}
               {/* // here add criterions */}
-            {questionType==='subjective'?  <Col span={12}>
+                    {questionType==='subjective'?  <Col span={12}>
        <Form.Item label='Word Limit' name={'wordLimit'}>
      <Input type='number'/>
      </Form.Item>
        </Col>:    <Col span={24}>
-             <Card style={{ marginBottom: 20 }} extra={[EnterHtmlButton]} title="Answers">
-               {/* <OptionSelectedFormControl.Group> */}
-
-         <Form.List name="options">
+                  <Card style={{ marginBottom: 20 }} extra={[EnterHtmlButton]} title="Answers">
+                 {questionType===Enum.TestQuestionType.NUMERIC? <Form.Item label='Correct Numeric Answer' name={['answer', 'numeric']} >
+                      <Input type='number' />
+                    </Form.Item>:null}
+        {(questionType===Enum.TestQuestionType.SINGLE || questionType===Enum.TestQuestionType.MULTIPLE)? <Form.List name="options">
      {(fields, { add, remove }) => (
        <>
                      {fields.map(({ key, name, ...restField }, index) => {
@@ -256,7 +257,7 @@ layout="vertical"
                          {...restField}
                          name={[name, 'text']}
                        >
-                         <TextArea height={150} html={enterHtml?false:{level:3}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
+                         <TextArea uploadPrefixKey={prefixKey} height={150} html={enterHtml?false:{level:3}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
                      </Form.Item>
                  </Col>
                          <Col>
@@ -272,7 +273,7 @@ layout="vertical"
                        const opts = [...options];
                        // @ts-ignore
                              if (e.target.checked) {
-                               if (questionType === 'single') {
+                               if (questionType === Enum.TestQuestionType.SINGLE) {
                                  opts.forEach(o => {
                                    o.isCorrect = false;
                                  })
@@ -311,7 +312,7 @@ layout="vertical"
                  <Button onClick={e=>add()} icon={<PlusCircleTwoTone/>}>Add Option</Button>
        </>
      )}
-               </Form.List>
+               </Form.List>:null}
                {/* </OptionSelectedFormControl.Group> */}
 
              </Card>
@@ -320,20 +321,20 @@ layout="vertical"
            </Row>
     </Card>
         </Col>
-        {questionType === 'subjective' && (
+        {questionType === Enum.TestQuestionType.SUBJECTIVE && (
   <Col span={24}>
             <Card title="Scoring Criteria" extra={[
               <GenerateAIItemDetails onFinish={e => console.log(e, 'eee')} label='Generate Criteria using solution' field='criterias' />,
             <Tag style={{ marginLeft: 20 }} color='orange-inverse'>Total Score: {item.score.correct}</Tag>]}>
-              {totalCriteriaScore !== item.score.correct ?
-                <Alert style={{marginBottom:20}} type='error' message='Criteria scores must always add up to be equal to the total score' /> : null}
+              {/* {totalCriteriaScore !== item.score.correct ?
+                <Alert style={{marginBottom:20}} type='error' message='Criteria scores must always add up to be equal to the total score' /> : null} */}
               <Form.List name="criterias">
         {(fields, { add, remove }) => (
           <>
             {fields.map(({ key, name, ...restField }, index) => (
               <Row key={key} align="middle" gutter={10}>
                 <Col>
-                  <Form.Item     {...restField}
+                  <Form.Item {...restField}
                     name={[name, 'image']}>
                     {/* @ts-ignore */}
                   <MediaUpload name={[name, 'image']}
@@ -358,7 +359,7 @@ layout="vertical"
                     name={[name, 'criteria']}
                     rules={[{ required: true, message: 'Please enter the criteria' }]}
                   >
-                    <TextArea height={200} placeholder="Enter scoring criteria" />
+                    <TextArea uploadPrefixKey={prefixKey} height={200} placeholder="Enter scoring criteria" />
                   </Form.Item>
                 </Col>
                 <Col>
@@ -399,9 +400,9 @@ layout="vertical"
 
    <Col span={24}>
        
-   <Card title='Solution Text'>
+   <Card title='Solution Text' extra={[EnterHtmlButton]} >
    <Form.Item name={['solution', 'html']} required>
-   <TextArea
+   <TextArea uploadPrefixKey={prefixKey}
      height={350} html={{level: 3}}
      value={form.getFieldValue(['solution', 'html'])}
      onChange={(e: string) => form.setFieldsValue({ solution: { html: e } })}

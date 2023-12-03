@@ -57,15 +57,15 @@ export default function TestDetailScreen(
       </Col>
         <Col lg={24} md={24} xs={0}>
           <Title  style={{
-          fontSize: 16,
+          // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
           overflowWrap: 'break-word' // Breaks words to prevent overflow
         }} level={3}>{test.title}</Title>
           <Title  style={{
-          fontSize: 16,
+          // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
           overflowWrap: 'break-word' // Breaks words to prevent overflow
-        }} level={5} >
+        }} type='secondary' level={5} >
             {test.subtitle}
           </Title>
         </Col>
@@ -96,7 +96,8 @@ export default function TestDetailScreen(
                   <Skeleton active paragraph={{ rows: 20 }} />
                   </Col>
                 </Row>:
-                <Paragraph style={{ fontSize: 16 }}>
+                  <Paragraph style={{ fontSize: 16 }}>
+                    <Divider/>
                   <HtmlViewer content={test.landingPage.description} />
                 </Paragraph>
 }

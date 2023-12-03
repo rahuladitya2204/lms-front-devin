@@ -1,4 +1,5 @@
-import { Types } from '@adewaskar/lms-common'
+import { Enum, Types } from '@adewaskar/lms-common'
+
 import create from 'zustand'
 
 export interface Question extends Types.TestQuestion {
@@ -35,7 +36,7 @@ export const useQuizStore =
       set(state => {
         const newQuestions = [...state.questions]
         const question = newQuestions[questionIndex]
-        if (question.type === 'single') {
+        if (question.type === Enum.TestQuestionType.SINGLE) {
           question.answered = [answerIndex]
         } else {
           if (!question.answered) {

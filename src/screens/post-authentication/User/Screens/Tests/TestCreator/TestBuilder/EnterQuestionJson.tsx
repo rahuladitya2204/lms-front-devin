@@ -37,7 +37,7 @@ export default function EnterQuestionJson(props: {
             invalidFields.push(`topics[${index}].title`)
         })
       }
-      //   if (!['single', 'multiple', 'subjective'].includes(jsonObject.type)) invalidFields.push('type');
+      //   if (![Enum.TestQuestionType.SINGLE, 'multiple', 'subjective'].includes(jsonObject.type)) invalidFields.push('type');
 
       // If there are invalid fields, set the validation message
       if (invalidFields.length > 0) {

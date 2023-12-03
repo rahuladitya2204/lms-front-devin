@@ -25,7 +25,7 @@ export default function CategoryDetail() {
     data: products,
     isLoading: loadingProducts
   } = Learner.Queries.useGetCategoryProducts(categoryId + '')
-  console.log(products, 'popopo')
+  // console.log(products, 'popopo')
   const SkeletonCards = (
     <Row gutter={[20, 20]}>
       {[1, 1, 1, 1].map(() => {

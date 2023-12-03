@@ -7,6 +7,7 @@ import EventCard from './Cards/EventCard'
 import { Fragment } from 'react'
 import Image from '@Components/Image'
 import { NavLink } from 'react-router-dom'
+import PackageCard from './Cards/PackageCard'
 import Section from '@Components/Section'
 import { Skeleton } from 'antd'
 import SkeletonImage from '@Components/SkeletonImage'
@@ -98,7 +99,8 @@ function StoreScreen () {
                           {key==='courses'?<CourseCard course={product} />:null}
                           {key==='events'?<EventCard event={product} />:null}
                           {key==='tests'?<TestCard test={product} />:null}
-    </Col>
+                          {key==='packages'?<PackageCard package={product} />:null}
+  </Col>
                       })}
                     </Row>
               </Col>
