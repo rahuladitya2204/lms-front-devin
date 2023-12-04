@@ -12,10 +12,7 @@ import { Form, Spin } from 'antd'
 import React, { Fragment, useEffect, useRef } from 'react'
 
 import SunEditor from 'suneditor-react'
-import katex from 'katex'
-import { markdownPlugin } from './plugins/markdown.plugin'
 import { uniqueId } from 'lodash'
-import { variablePlugin } from './plugins/variable.plugin'
 
 interface SunEditorPropsI {
   height?: number;
