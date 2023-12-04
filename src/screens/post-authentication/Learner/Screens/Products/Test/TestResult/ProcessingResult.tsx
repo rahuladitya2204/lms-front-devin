@@ -41,7 +41,7 @@ export default function ProcessingResult(props: ProcessingResultPropsI) {
             </Title>
           </Col>
           <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
-            <AppImage width={400} src={'/images/processing-result.svg'} />
+            <AppImage width={'100%'} src={'/images/processing-result.svg'} />
           </Col>
         </Row>
       </Spin>

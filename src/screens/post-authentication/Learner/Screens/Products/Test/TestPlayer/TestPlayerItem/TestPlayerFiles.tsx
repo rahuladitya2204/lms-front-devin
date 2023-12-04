@@ -101,8 +101,7 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
                          const d = form.getFieldsValue();
                            // console.log(D,'POP')
               const fileDetails = d.answer.subjective.files[field.name]
-                       return <Col>
-                  
+                       return <Col xs={24} sm={12} md={6} >
                    <DraggableFileItem review={props.review}
                    key={field.key}
                    index={index}
@@ -205,7 +204,7 @@ const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
   return (
       // @ts-ignore
       <AppImage preview visuals={visuals}
-        width={120} caption={(issue) ? <Tooltip title={issue.issue} >
+caption={(issue) ? <Tooltip title={issue.issue} >
           <Alert showIcon
           type='error'
           icon={<WarningOutlined />}

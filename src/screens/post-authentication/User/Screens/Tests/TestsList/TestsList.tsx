@@ -27,7 +27,11 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
   )
   const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
-    props.filter
+    props.filter,
+    {
+      // @ts-ignore
+      enabled: !!props.filter.category
+    }
   )
   // const filteredData=data.filter(pd => {
   //   return !pd.endedAt;

@@ -60,6 +60,15 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const { isMobile} = useBreakpoint();
   const correctOptions = currentQuestion?.options?.filter(i => i.isCorrect).map(i => i._id);
   
+  const NextButton =  <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
+{!isMobile?'Next':''}
+  </Button>;
+  
+  const PrevButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('prev')}
+  style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
+{!isMobile?'Previous':''}
+  </Button>;
+
   return (
     <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`}
@@ -123,15 +132,17 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
           </Row>
         </div>
 
-        <Row justify="space-between">
-          <Col flex={1} style={{justifyContent:'space-between',display:'flex'}}>
-              <Button type={'primary'} onClick={() => navigate('prev')}
-                style={{ marginRight: 20, width: 120 }} icon={<BackwardOutlined />}>
-              Previous
-            </Button>
-            <Button style={{width: 120}} type={'primary'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
-              Next
-            </Button>
+    
+        <Row justify="space-between" style={{marginTop:10}}>
+        {!isMobile?  <Col style={{ display: 'flex',justifyContent:'space-between'}} flex={1} >
+              {PrevButton}
+              {NextButton}
+          </Col>:null}
+            <Col style={{ display: 'flex', flex:isMobile?1:'',flexDirection: 'row-reverse',justifyContent:'space-between'}}>
+              <Fragment>
+              {isMobile?NextButton:null}
+              {isMobile?PrevButton:null}
+            </Fragment>           
           </Col>
         </Row>
       </Form>
