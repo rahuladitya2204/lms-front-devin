@@ -25,10 +25,10 @@ export const ParticlesProvider = ({ children }: ParticlesProviderPropsI) => {
         right: 0,
         bottom: 0,
         zIndex: 0,
-        backgroundImage: 'url(/images/bg1.png)',
-        backgroundRepeat: 'repeat',
-        // opacity: 0.3,
-        minHeight: '100vh'
+        // backgroundImage: 'url(/images/bg1.png)',
+        // backgroundRepeat: 'repeat',
+        // // opacity: 0.3,
+        // minHeight: '100vh'
       }}
     >
       {' '}

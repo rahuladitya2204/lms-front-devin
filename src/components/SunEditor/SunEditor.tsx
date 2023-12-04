@@ -13,6 +13,7 @@ import React, { Fragment, useEffect, useRef } from 'react'
 
 import SunEditor from 'suneditor-react'
 import katex from 'katex'
+import { markdownPlugin } from './plugins/markdown.plugin'
 import { uniqueId } from 'lodash'
 import { variablePlugin } from './plugins/variable.plugin'
 
@@ -145,8 +146,8 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           height={`${props.height || 700}`}
           width={`${props.width}`}
           setOptions={{
-            ...options
-            // plugins={defaultPlugins}
+            // plugins:[markdownPlugin],
+            ...options,
             // plugins: [variablePlugin(variables)],
             // attributesWhitelist: {
             //   // span: 'variable-value'

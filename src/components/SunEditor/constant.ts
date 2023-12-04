@@ -1,7 +1,10 @@
 import katex from 'katex'
+// import { markdownPlugin } from './plugins/markdown.plugin'
 
 export const BasicEditorOptions = {
+  // plugins: [markdownPlugin],
   buttonList: [
+    // ['markdownPaste'],
     ['undo', 'redo'],
     ['bold', 'underline', 'italic', 'strike'],
     ['fontColor', 'hiliteColor'],
@@ -11,7 +14,9 @@ export const BasicEditorOptions = {
 
 export const IntermediateEditorOptions = {
   katex: katex,
+  // plugins: [markdownPlugin],
   buttonList: [
+    // ['markdownPaste'],
     ['undo', 'redo'],
     ['font', 'fontSize', 'formatBlock'],
     ['math'],
@@ -27,8 +32,9 @@ export const IntermediateEditorOptions = {
 
 export const AdvancedEditorOptions = {
   katex: katex,
-  // plugins: [customDropdownPlugin],
+  // plugins: [markdownPlugin],
   buttonList: [
+    // ['markdownPaste'],
     // ['backgroundPlugin'],
     // ['variablePlugin'],
     // default
