@@ -119,7 +119,7 @@ export default function TestRules(props: TestRulesPropsI) {
                       <Button
                         disabled={!isValid}
                         style={{
-                          width: !isMobile ? 100 : '100%',
+                          width: !isMobile ? 150 : '100%',
                           display: 'inline-block'
                         }}
                         type="primary"
