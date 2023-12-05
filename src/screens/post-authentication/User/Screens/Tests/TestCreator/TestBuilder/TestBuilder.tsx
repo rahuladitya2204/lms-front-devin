@@ -50,7 +50,9 @@ function TestBuilderScreen() {
     isLoading: deletingSectionItem
   } = User.Queries.useDeleteTestSectionItem()
   const navigate = useNavigate()
-
+  const { mutate: generateTestInfo } = User.Queries.useGetGenerativeTestInfo(
+    testId + ''
+  )
   const onAddSection = (section: Partial<Types.TestSection>) => {
     console.log(section, 'section')
     let TEST = test
@@ -302,6 +304,11 @@ function TestBuilderScreen() {
             icon={
               <MoreButton
                 items={[
+                  {
+                    label: 'Generate Criterias',
+                    key: 'gen-criterias',
+                    onClick: () => generateTestInfo({ fields: ['criteria'] })
+                  },
                   {
                     key: 'enter-answers',
                     label: (
