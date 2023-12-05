@@ -300,56 +300,58 @@ export default function TestMetrics() {
                         })}
                       </Card>
                     </Col>
-                    <Col span={24}>
-                      <Card title="Test Feedback">
-                        <List
-                          size="large"
-                          // pagination={{ position, align }}
-                          dataSource={feedback}
-                          renderItem={(item, index) => (
-                            <List.Item>
-                              <List.Item.Meta
-                                style={{ margin: '10px 0' }}
-                                description={
-                                  <Row gutter={[20, 20]}>
-                                    <Col span={24}>
-                                      <Space style={{ marginTop: 10 }}>
-                                        <Text>
-                                          {item.topics.map(topic => (
-                                            <Tag
-                                              style={{ marginBottom: 3 }}
-                                              color="blue"
-                                            >
-                                              {topic}
-                                            </Tag>
-                                          ))}
-                                        </Text>
-                                      </Space>
-                                    </Col>
-                                    <Col span={24}>
-                                      {item.questionIds.map(i => (
-                                        <NavLink
-                                          style={{
-                                            marginRight: 5,
-                                            marginBottom: 3
-                                          }}
-                                          to={`review/${i}`}
-                                        >
-                                          <Button type="primary" size="small">
-                                            Go to question
-                                          </Button>
-                                        </NavLink>
-                                      ))}
-                                    </Col>
-                                  </Row>
-                                }
-                                title={<Text>{item.text}</Text>}
-                              />
-                            </List.Item>
-                          )}
-                        />
-                      </Card>
-                    </Col>
+                    {feedback.length ? (
+                      <Col span={24}>
+                        <Card title="Test Feedback">
+                          <List
+                            size="large"
+                            // pagination={{ position, align }}
+                            dataSource={feedback}
+                            renderItem={(item, index) => (
+                              <List.Item>
+                                <List.Item.Meta
+                                  style={{ margin: '10px 0' }}
+                                  description={
+                                    <Row gutter={[20, 20]}>
+                                      <Col span={24}>
+                                        <Space style={{ marginTop: 10 }}>
+                                          <Text>
+                                            {item.topics.map(topic => (
+                                              <Tag
+                                                style={{ marginBottom: 3 }}
+                                                color="blue"
+                                              >
+                                                {topic}
+                                              </Tag>
+                                            ))}
+                                          </Text>
+                                        </Space>
+                                      </Col>
+                                      <Col span={24}>
+                                        {item.questionIds.map(i => (
+                                          <NavLink
+                                            style={{
+                                              marginRight: 5,
+                                              marginBottom: 3
+                                            }}
+                                            to={`review/${i}`}
+                                          >
+                                            <Button type="primary" size="small">
+                                              Go to question
+                                            </Button>
+                                          </NavLink>
+                                        ))}
+                                      </Col>
+                                    </Row>
+                                  }
+                                  title={<Text>{item.text}</Text>}
+                                />
+                              </List.Item>
+                            )}
+                          />
+                        </Card>
+                      </Col>
+                    ) : null}
                   </Row>
                 )}
               </Col>

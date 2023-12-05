@@ -1,4 +1,4 @@
-import { Button, Select, Typography } from 'antd'
+import { Button, Select, Spin, Typography } from 'antd'
 import { Enum, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
@@ -12,7 +12,10 @@ import TestsList from './TestsList'
 const TestsScreen = () => {
   const [category, setCategory] = useState('')
 
-  const { data: categories } = User.Queries.useGetProductCategories('all')
+  const {
+    data: categories,
+    isLoading: loadingCategories
+  } = User.Queries.useGetProductCategories('all')
   const CategoriesSelect = (
     <Select onChange={setCategory} value={category} style={{ width: 150 }}>
       {categories.map(category => (
@@ -39,43 +42,45 @@ const TestsScreen = () => {
   return (
     <Header title="Tests" extra={[CreateCourseCta]}>
       {/* <Card> */}
-      <Tabs
-        navigateWithHash
-        tabBarExtraContent={{ right: CategoriesSelect }}
-        // defaultActiveKey="1"
-        items={[
-          {
-            key: 'upcoming',
-            label: `Upcoming`,
-            children: (
-              <TestsList
-                filter={{
-                  // @ts-ignore
-                  category: category,
-                  status: [
-                    Enum.TestStatus.DRAFT,
-                    Enum.TestStatus.PUBLISHED,
-                    Enum.TestStatus.IN_PROGRESS
-                  ]
-                }}
-              />
-            )
-          },
-          {
-            key: 'past',
-            label: `Past`,
-            children: (
-              <TestsList
-                filter={{
-                  // @ts-ignore
-                  category: category,
-                  status: [Enum.TestStatus.ENDED]
-                }}
-              />
-            )
-          }
-        ]}
-      />
+      <Spin spinning={loadingCategories}>
+        <Tabs
+          navigateWithHash
+          tabBarExtraContent={{ right: CategoriesSelect }}
+          // defaultActiveKey="1"
+          items={[
+            {
+              key: 'upcoming',
+              label: `Upcoming`,
+              children: (
+                <TestsList
+                  filter={{
+                    // @ts-ignore
+                    category: category,
+                    status: [
+                      Enum.TestStatus.DRAFT,
+                      Enum.TestStatus.PUBLISHED,
+                      Enum.TestStatus.IN_PROGRESS
+                    ]
+                  }}
+                />
+              )
+            },
+            {
+              key: 'past',
+              label: `Past`,
+              children: (
+                <TestsList
+                  filter={{
+                    // @ts-ignore
+                    category: category,
+                    status: [Enum.TestStatus.ENDED]
+                  }}
+                />
+              )
+            }
+          ]}
+        />
+      </Spin>
     </Header>
   )
 }
