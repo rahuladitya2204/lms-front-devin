@@ -6,6 +6,7 @@ import {
   Form,
   List,
   Row,
+  Select,
   Space,
   Spin,
   Tag,
@@ -19,6 +20,7 @@ import ActionModal from '@Components/ActionModal/ActionModal'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
+import { LANGUAGES } from '@User/Screens/Courses/CourseEditor/CourseInformation/CourseDetailsEditor/CourseDetails'
 import { Learner } from '@adewaskar/lms-common'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import dayjs from 'dayjs'
@@ -61,6 +63,22 @@ export default function TestRules(props: TestRulesPropsI) {
     : null
   const navigate = useNavigate()
   const { isMobile } = useBreakpoint()
+
+  const onSubmit = (data: { language: string }) => {
+    startTest(
+      {
+        testId: test._id + '',
+        language: data.language
+      },
+      {
+        onSuccess: () => {
+          console.log('Helo')
+          navigate('../player')
+        }
+      }
+    )
+  }
+
   return (
     <Spin spinning={loadingEnrolledTest}>
       <Header
@@ -101,7 +119,7 @@ export default function TestRules(props: TestRulesPropsI) {
               <Divider />
               <Col span={24}>
                 <Title level={4}>Term & Pledges</Title>
-                <Form form={form}>
+                <Form onFinish={onSubmit} layout="vertical" form={form}>
                   {TERMS.map(({ term, termId }) => {
                     return (
                       <Form.Item name={termId} valuePropName="checked">
@@ -109,74 +127,71 @@ export default function TestRules(props: TestRulesPropsI) {
                       </Form.Item>
                     )
                   })}
-                </Form>
-                <Row
-                  align={'middle'}
-                  style={{ display: 'flex', flexDirection: 'row-reverse' }}
-                >
-                  <Col flex={isMobile ? 1 : 'reverse'}>
-                    {!isVerificationOn ? (
-                      <Button
-                        disabled={!isValid}
-                        style={{
-                          width: !isMobile ? 150 : '100%',
-                          display: 'inline-block'
-                        }}
-                        type="primary"
-                        loading={startingTest}
-                        onClick={() => {
-                          startTest(
-                            {
-                              testId: test._id + ''
-                            },
-                            {
-                              onSuccess: () => {
-                                console.log('Helo')
-                                navigate('../player')
-                              }
-                            }
-                          )
-                        }}
-                      >
-                        {testStartDate && !testEndDate
-                          ? 'Continue Test'
-                          : 'Start Test'}
-                      </Button>
-                    ) : (
-                      <ActionModal
-                        cta={
-                          <Button
-                            disabled={!isValid}
-                            style={{ marginLeft: 20, width: 200 }}
-                            type="primary"
-                          >
-                            Verify and Start Test
-                          </Button>
-                        }
-                      >
-                        <IDVerificationComponent
-                          onMatch={() => {
-                            notification.success({
-                              message: 'Success',
-                              description: 'ID Verified!'
-                            })
 
-                            startTest(
-                              {
-                                testId: test._id + ''
-                              },
-                              {
-                                onSuccess: () => {
-                                  navigate('../player')
-                                }
-                              }
-                            )
+                  <Form.Item
+                    rules={[{ required: true }]}
+                    label="Select Preferred Language"
+                    name="language"
+                  >
+                    <Select
+                      placeholder="Select Preferred Language"
+                      options={LANGUAGES.filter(lang =>
+                        // @ts-ignore
+                        test.languages.includes(lang.value)
+                      ).map(l => {
+                        return {
+                          label: l.label,
+                          value: l.value
+                        }
+                      })}
+                    />
+                  </Form.Item>
+                  <Row
+                    align={'middle'}
+                    style={{ display: 'flex', flexDirection: 'row-reverse' }}
+                  >
+                    <Col flex={isMobile ? 1 : 'reverse'}>
+                      {!isVerificationOn ? (
+                        <Button
+                          disabled={!isValid}
+                          style={{
+                            width: !isMobile ? 150 : '100%',
+                            display: 'inline-block'
                           }}
-                        />
-                      </ActionModal>
-                    )}
-                  </Col>
-                </Row>
+                          type="primary"
+                          loading={startingTest}
+                          onClick={form.submit}
+                        >
+                          {testStartDate && !testEndDate
+                            ? 'Continue Test'
+                            : 'Start Test'}
+                        </Button>
+                      ) : (
+                        <ActionModal
+                          cta={
+                            <Button
+                              disabled={!isValid}
+                              style={{ marginLeft: 20, width: 200 }}
+                              type="primary"
+                            >
+                              Verify and Start Test
+                            </Button>
+                          }
+                        >
+                          <IDVerificationComponent
+                            onMatch={() => {
+                              notification.success({
+                                message: 'Success',
+                                description: 'ID Verified!'
+                              })
+                              form.submit()
+                            }}
+                          />
+                        </ActionModal>
+                      )}
+                    </Col>
+                  </Row>
+                </Form>
               </Col>
             </Row>
           </Col>

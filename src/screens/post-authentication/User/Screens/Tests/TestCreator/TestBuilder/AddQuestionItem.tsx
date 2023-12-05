@@ -132,9 +132,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 
         <Card bordered={false}>
 
-          <Form.Item extra={[<ActionModal cta={<Button>Enter Latex</Button>}>
-            <EnterLatexText onFinish={str => form.setFieldValue('title', str)} />
-          </ActionModal>]} name={['title', 'text', language]} label="Title" required rules={[
+          <Form.Item name={['title', 'text', language]} label="Title" required rules={[
             {
               required: true,
               message: "Enter questions's title"
