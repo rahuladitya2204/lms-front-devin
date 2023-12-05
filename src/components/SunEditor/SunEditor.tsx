@@ -143,12 +143,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           height={`${props.height || 700}`}
           width={`${props.width}`}
           setOptions={{
-            // plugins:[markdownPlugin],
             ...options,
-            // plugins: [variablePlugin(variables)],
-            // attributesWhitelist: {
-            //   // span: 'variable-value'
-            // }
           }}
           // @ts-ignore
           onImageUploadBefore={handleImageUploadBefore}

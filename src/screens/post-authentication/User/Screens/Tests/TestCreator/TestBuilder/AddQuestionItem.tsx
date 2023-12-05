@@ -110,7 +110,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const fileId = file.encoded || file._id;
   const options = Form.useWatch('options', form) || [];
 
-  const EnterHtmlButton = <Switch checked={enterHtml} onChange={setEnterHtml} />;
 
   useEffect(() => {
     onFormChange({ criterias });
@@ -177,7 +176,7 @@ layout="vertical"
 </Col>
    <Col span={24}>
  
-     <Card bordered={false} extra={[EnterHtmlButton]}>
+     <Card bordered={false}>
    
             <Form.Item extra={[<ActionModal cta={<Button>Enter Latex</Button>}>
               <EnterLatexText onFinish={str=>form.setFieldValue('title',str)} />
@@ -237,7 +236,7 @@ layout="vertical"
      <Input type='number'/>
      </Form.Item>
        </Col>:    <Col span={24}>
-                  <Card style={{ marginBottom: 20 }} extra={[EnterHtmlButton]} title="Answers">
+                  <Card style={{ marginBottom: 20 }} title="Answers">
                  {questionType===Enum.TestQuestionType.NUMERIC? <Form.Item label='Correct Numeric Answer' name={['answer', 'numeric']} >
                       <Input type='number' />
                     </Form.Item>:null}
@@ -400,7 +399,7 @@ layout="vertical"
 
    <Col span={24}>
        
-   <Card title='Solution Text' extra={[EnterHtmlButton]} >
+   <Card title='Solution Text' >
    <Form.Item name={['solution', 'html']} required>
    <TextArea uploadPrefixKey={prefixKey}
      height={350} html={{level: 3}}
