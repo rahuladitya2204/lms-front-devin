@@ -116,7 +116,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   }, [criterias])
   const prefixKey = `tests/${testId}/${itemId}`;
   return (
-   <Spin spinning={false} > <Form name='test' onFinish={submit} initialValues={item}
+    <Spin spinning={false} >
+      <Form name='test' onFinish={submit} initialValues={item}
       onValuesChange={(changedValues, allValues) => onFormChange({
         ...allValues,
         ...(criterias || {})
@@ -126,53 +127,6 @@ layout="vertical"
 >
  <Row gutter={[10,30]}>
    <Col span={24}>
-          {/* {!isTestEnded ?
-            <Alert
-           message="Generate question with AI"
-           description="You can generate question outline using our AI"
-           type="info"
-           showIcon
-           action={
-             <ActionModal cta={<Button type='primary'>Generate with AI</Button>}>
-               <GenerateQuestionWithAI submit={d => {
-                 // console.log(d, 'ddd12121212');
-                 if (d.topics) {
-                   // @ts-ignore
-                   d.topics = d?.topics?.map(topic => {
-                     return {
-                       title: topic,
-                       topicId: uniqueId()
-                     }
-                   })
-                 }
-               // setCorrectOptions(d.correctOptions)
-                 d.isAiGenerated = true;
-                 updateItem(itemId + '', d);
-
-               }}
-               />
-           </ActionModal>
-           }
-          /> : null} */}
-{/*           
-          <Alert style={{marginTop:30}}
-              message="Enter Question in JSON"
-              // description="You can generate test outline using our AI"
-              type='warning'
-              showIcon
-              action={
-                <ActionModal
-                  title="Enter Quetion JSON"
-                  width={900}
-                  cta={
-                    <Button type='primary' size="small">Enter Question JSON</Button>
-                  }
-                >
-                  <EnterQuestionJson testId={testId+''} itemId={itemId + ''} />
-                </ActionModal>
-              }
-            /> */}
-
 </Col>
    <Col span={24}>
  
@@ -180,7 +134,7 @@ layout="vertical"
    
             <Form.Item extra={[<ActionModal cta={<Button>Enter Latex</Button>}>
               <EnterLatexText onFinish={str=>form.setFieldValue('title',str)} />
-            </ActionModal>]} name="title" label="Title" required   rules={[
+            </ActionModal>]} name={['title','text',test.language]} label="Title" required   rules={[
          {
            required: true,
            message: "Enter questions's title"
@@ -224,13 +178,6 @@ layout="vertical"
     
     </Row>
             <Row gutter={[20, 20]}>
-            {/* <Col span={24}>
-                <Form.Item label="Topics" name={'topics'}>
-                <GenerateAIItemDetails onFinish={e=>console.log(e,'eee')} label='Generate Topics' field='topics' />
-  <InputTags onChange={handleTopicsChange} name="topics" options={topics.map(i => i.title)} ctaText='Enter Topics' />
-</Form.Item>
-              </Col> */}
-              {/* // here add criterions */}
                     {questionType==='subjective'?  <Col span={12}>
        <Form.Item label='Word Limit' name={'wordLimit'}>
      <Input type='number'/>
@@ -254,7 +201,7 @@ layout="vertical"
                              { required: true, message: 'Please enter the answer.' },
                          ]}
                          {...restField}
-                         name={[name, 'text']}
+                         name={[name, 'text',test.language]}
                        >
                          <TextArea uploadPrefixKey={prefixKey} height={150} html={enterHtml?false:{level:3}} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`}/> 
                      </Form.Item>

@@ -46,12 +46,16 @@ const DIFFICULTY_LEVELS = [
 
 const LANGUAGES = [
   {
-    value: 'english',
+    value: 'eng',
     label: 'English'
   },
   {
-    value: 'hindi',
+    value: 'hin',
     label: 'Hindi'
+  },
+  {
+    value: 'fr',
+    label: 'French'
   }
 ]
 const { useWatch } = Form
