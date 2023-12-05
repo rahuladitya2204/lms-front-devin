@@ -55,6 +55,7 @@ export default function Questions<T>({
         >
           <ActionModal
             width={650}
+            // @ts-ignore
             cta={<Typography.Text strong>{item.title}</Typography.Text>}
           >
             <AddQuestion

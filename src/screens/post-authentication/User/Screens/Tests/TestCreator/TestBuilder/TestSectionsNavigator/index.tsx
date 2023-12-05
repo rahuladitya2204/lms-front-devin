@@ -162,7 +162,9 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                 label: 'Add Question',
                 onClick: () => {
                   onAddNewItem({
-                    title: 'New Question', options: [Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION]
+                    title: {
+                      text: Constants.INITIAL_LANG_TEXT
+                    }, options: [Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION, Constants.INITIAL_TEST_QUESTION_OPTION]
                     , solution: { html: '' }
                   }, secIndex);
                   // if(section.items.length==0)

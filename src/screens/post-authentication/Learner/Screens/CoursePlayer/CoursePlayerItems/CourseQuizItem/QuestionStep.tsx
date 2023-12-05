@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Card, Checkbox, Col, List, Radio, Row, Typography } from 'antd'
 import { Enum, Types } from '@adewaskar/lms-common'
 

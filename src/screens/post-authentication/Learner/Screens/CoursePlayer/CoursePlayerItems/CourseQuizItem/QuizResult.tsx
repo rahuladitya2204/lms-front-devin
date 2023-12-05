@@ -1,5 +1,7 @@
-import { CheckOutlined, StarFilled } from '@ant-design/icons'
+// @ts-nocheck
 import { Button, Col, List, Result, Row, Space, Typography } from 'antd'
+import { CheckOutlined, StarFilled } from '@ant-design/icons'
+
 import { Question } from './useQuizStore'
 
 interface QuizResultPropsI {

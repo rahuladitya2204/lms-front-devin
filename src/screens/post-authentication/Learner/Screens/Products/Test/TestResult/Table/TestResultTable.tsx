@@ -1,5 +1,5 @@
 import { Alert, Card, Col, Row, Space, Table, Tag, Tooltip, Typography } from 'antd';
-import { Learner, Types, Utils } from '@adewaskar/lms-common';
+import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common';
 import React, { useState } from 'react';
 
 import { GlobalOutlined } from '@ant-design/icons';
@@ -10,7 +10,7 @@ const { Text,Title } = Typography;
 
 interface TestResultItem extends Types.TestStatusQuestionStats {
   questionIndex: number;
-  title: string;
+  title: {text:Types.LangText};
   isCorrect: boolean;
   timeSpent: number;
   globalCorrectPercentage: number;

@@ -28,7 +28,7 @@ export default function useQuestion() {
     },
     [currentQuestionIndex, questions]
   )
-
+  console.log(currentQuestion, 'qqqq')
   return {
     currentQuestion,
     currentQuestionIndex,

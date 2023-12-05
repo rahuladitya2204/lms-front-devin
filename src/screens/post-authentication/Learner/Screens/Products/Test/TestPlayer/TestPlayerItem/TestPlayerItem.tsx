@@ -24,6 +24,16 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const {mutate: updateQuestionResponseFlag,isLoading: updatingFlag} = Learner.Queries.useUpdateQuestionResponseFlag(testId+'')
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
   const message = useMessage();
+  const { data: {
+    metadata: {
+      test: {
+        language
+      }
+    }
+  }} = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id:testId+''
+  })
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '', Enum.TestDetailMode.TEST);
@@ -91,8 +101,9 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
-            <Col span={24}>
-              <HtmlViewer content={currentQuestion.title} />
+              <Col span={24}>
+                {/* @ts-ignore */}
+              <HtmlViewer content={currentQuestion.title.text[language]} />
               {questionType !== Enum.TestQuestionType.SUBJECTIVE ? <>
                   <Text style={{
                     marginTop: 20,
@@ -110,7 +121,9 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         dataSource={currentQuestion.options}
                           renderItem={(option, index) => {
                             const SelectFormControlComponent=      <OptionSelectedFormControl value={option._id}>
-                            <HtmlViewer content={option.text} />
+                                         {/* @ts-ignore */}
+
+                              <HtmlViewer content={option.text[language]} />
                           </OptionSelectedFormControl>
                             return (
           <List.Item>

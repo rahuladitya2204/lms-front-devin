@@ -31,12 +31,16 @@ const { Text } = Typography
 
 const LANGUAGES = [
   {
-    value: 'english',
+    value: Enum.LanguageEnum.ENGLIGH,
     label: 'English'
   },
   {
-    value: 'hindi',
+    value: Enum.LanguageEnum.HINDI,
     label: 'Hindi'
+  },
+  {
+    value: Enum.LanguageEnum.FRENCH,
+    label: 'French'
   }
 ]
 const { useWatch } = Form
@@ -290,12 +294,13 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
       <Row gutter={[40, 20]}>
         <Col span={12}>
           <Form.Item
-            name="language"
+            name="languages"
             required
-            label="Language"
+            label="Languages"
             rules={[{ required: true, message: 'Please select a language' }]}
           >
             <Select
+              mode="multiple"
               showSearch
               placeholder="Select Language"
               options={LANGUAGES}

@@ -43,7 +43,7 @@ export default function UploadVideo(props: UploadVideoPropsI) {
                     value: courseId + ''
                   }}
                   prefixKey={props.prefixKey}
-                  fileName={props.item.title}
+                  // fileName={props.item.title}
                   isProtected
                   renderItem={() => (
                     <Button type="primary">Select Video</Button>
