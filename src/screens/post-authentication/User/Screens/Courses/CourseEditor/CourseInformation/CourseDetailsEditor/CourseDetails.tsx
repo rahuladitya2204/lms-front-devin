@@ -44,7 +44,7 @@ const DIFFICULTY_LEVELS = [
   }
 ]
 
-const LANGUAGES = [
+export const LANGUAGES = [
   {
     value: 'eng',
     label: 'English'
