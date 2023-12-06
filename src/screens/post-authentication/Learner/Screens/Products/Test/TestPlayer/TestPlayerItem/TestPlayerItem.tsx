@@ -24,16 +24,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const {mutate: updateQuestionResponseFlag,isLoading: updatingFlag} = Learner.Queries.useUpdateQuestionResponseFlag(testId+'')
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
   const message = useMessage();
-  const { data: {
-    metadata: {
-      test: {
-        language
-      }
-    }
-  }} = Learner.Queries.useGetEnrolledProductDetails({
+  const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
     type: Enum.ProductType.TEST,
-    id:testId+''
-  })
+    id: testId + ''
+  });
+  const language = ep?.metadata?.test?.language;
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '', Enum.TestDetailMode.TEST);

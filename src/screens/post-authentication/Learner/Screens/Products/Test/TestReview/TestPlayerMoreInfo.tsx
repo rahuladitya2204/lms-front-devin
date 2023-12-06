@@ -1,11 +1,13 @@
+import { Enum, Learner, Types } from '@adewaskar/lms-common'
+
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'
 import TestFeedback from './TestFeedback'
-import { Types } from '@adewaskar/lms-common'
 import { Typography } from 'antd'
 import { useReviewQuestion } from './TestPlayerItemReview'
+
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
@@ -15,13 +17,14 @@ interface TestPlayerMoreInfoPropsI {
 }
 
 const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
+  const { data:{metadata:{test:{language}}}} = Learner.Queries.useGetEnrolledProductDetails({ type: Enum.ProductType.TEST, id: props.test._id + '' });
   // useWatchTime(props.course._id);
   const { currentQuestion } = useReviewQuestion()
   const TAB_ITEMS = [
     {
       label: `Solution`,
       key: 'notes',
-      children: <HtmlViewer content={currentQuestion.solution?.html + ''} />
+      children: <HtmlViewer content={currentQuestion.solution?.html[language] + ''} />
     },
     {
       label: `Discussion`,

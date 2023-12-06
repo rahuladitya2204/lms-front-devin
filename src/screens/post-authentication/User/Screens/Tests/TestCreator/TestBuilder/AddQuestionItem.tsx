@@ -344,11 +344,11 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     <Col span={24}>
  
       <Card title='Solution Text' >
-        <Form.Item name={['solution', 'html']} required>
+        <Form.Item name={['solution', 'html',language]} required>
           <TextArea uploadPrefixKey={prefixKey}
             height={350} html={{ level: 3 }}
-            value={form.getFieldValue(['solution', 'html'])}
-            onChange={(e: string) => form.setFieldsValue({ solution: { html: e } })}
+            // value={form.getFieldValue(['solution', 'html',language])}
+            // onChange={(e: string) => form.setFieldsValue({ solution: { html: e } })}
           />
         </Form.Item>
       </Card>
@@ -384,7 +384,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 </Form>
   return (
     <Spin spinning={false} >
-      <Tabs items={Constants.LANGUAGES.filter(t=>test.languages.includes(t.value)).map(language => {
+      <Tabs type='card' items={Constants.LANGUAGES.filter(t=>test.languages.includes(t.value)).map(language => {
         return {
           label: language.label,
           key: language.value,
