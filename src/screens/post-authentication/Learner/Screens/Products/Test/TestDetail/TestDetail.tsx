@@ -130,12 +130,12 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const testStartDate =
     enrolledDetails.metadata.test.startedAt || test.live.startedAt;
-    const {
-      data: {status},
-      isFetching: loadingResult
-    } = Learner.Queries.useGetTestResult(testId + '', {
-      enabled:!!testEndDate
-    })
+  const {
+    data: { status },
+    isFetching: loadingResult
+  } = Learner.Queries.useGetTestResult(testId + '', {
+    enabled: !!testEndDate
+  });
   // console.log(testEndDate,'testEndDate')
   const Metadata = testEndDate ? (test.live.enabled?<CompletedLiveTestCard test={test} />:<CompletedTestCard test={test} />) : <TestMetadata test={test} />;
   const ENROLLED_CTA = useMemo(() => {
@@ -230,7 +230,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
      
     }
  
-  }, [test, enrolledDetails,testEndDate,status]);
+  }, [test, enrolledDetails,status]);
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const message = useMessage();
   const { isMobile, isTablet } = useBreakpoint();
