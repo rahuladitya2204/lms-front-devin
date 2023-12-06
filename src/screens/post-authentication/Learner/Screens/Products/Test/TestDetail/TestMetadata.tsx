@@ -2,9 +2,10 @@ import {
   CalendarOutlined,
   ClockCircleOutlined,
   EditOutlined,
+  FileTextOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { Enum, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import { List, Tag, Typography } from 'antd'
 
 import dayjs from 'dayjs'
@@ -30,6 +31,11 @@ const data = {
   mode: {
     title: 'Test Mode',
     icon: <EditOutlined />,
+    value: null
+  },
+  language: {
+    title: 'Language',
+    icon: <FileTextOutlined />,
     value: null
   },
   enrolled: {
@@ -74,7 +80,22 @@ function TestMetadata(props: TestMetadataPropsI) {
   data.enrolled.value = `${props.test.analytics.enrolled.count} students`
   if (props.test.input.type === Enum.TestInputType.HANDWRITTEN) {
     // @ts-ignore
-    data.mode.value = <Tag color="volcano-inverse">Handwritten</Tag>
+    data.mode.value = (
+      <Tag style={{ marginRight: 0 }} color="volcano-inverse">
+        Handwritten
+      </Tag>
+    )
+  }
+  if (props.test.languages.length) {
+    // @ts-ignore
+    data.language.value = Constants.LANGUAGES.filter(l =>
+      props.test.languages.includes(l.value)
+    )
+      .map(l => l.label)
+      .join(', ')
+    if (props.test.languages.length > 1) {
+      data.language.title = 'Languages'
+    }
   }
   // data.certificate.value = props.test.certificate ? 'Yes' : ''
   // data.questions.value = useMemo(
