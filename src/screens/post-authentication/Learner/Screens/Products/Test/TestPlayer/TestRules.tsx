@@ -24,6 +24,7 @@ import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerific
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import { useEffect } from 'react'
 
 const { Title, Text } = Typography
 
@@ -51,7 +52,13 @@ export default function TestRules(props: TestRulesPropsI) {
   const rule1 = Form.useWatch('rule-1', form)
   const rule2 = Form.useWatch('rule-2', form)
   const rule3 = Form.useWatch('rule-3', form)
-  const isValid = rule1 && rule2 && rule3
+  const language = Form.useWatch('language', form)
+  const isValid =
+    test._id &&
+    rule1 &&
+    rule2 &&
+    rule3 &&
+    (test.languages.length > 1 ? language : true)
   const testStartDate =
     enrolledProduct.metadata.test.startedAt || test.live.startedAt
   const testEndDate = enrolledProduct.metadata.test.endedAt || test.live.endedAt
@@ -63,20 +70,34 @@ export default function TestRules(props: TestRulesPropsI) {
   const navigate = useNavigate()
   const { isMobile } = useBreakpoint()
 
-  const onSubmit = (data: { language: string }) => {
-    startTest(
-      {
-        testId: test._id + '',
-        language: data.language
-      },
-      {
-        onSuccess: () => {
-          console.log('Helo')
-          navigate('../player')
+  const onSubmit = async () => {
+    try {
+      const data = await form.validateFields()
+      startTest(
+        {
+          testId: test._id + '',
+          language: data.language
+        },
+        {
+          onSuccess: () => {
+            console.log('Helo')
+            navigate('../player')
+          }
         }
-      }
-    )
+      )
+    } catch (er) {
+      console.log(er, 'eeerrr')
+    }
   }
+
+  useEffect(
+    () => {
+      if (test.languages.length <= 1) {
+        form.setFieldValue(['language'], test.languages[0])
+      }
+    },
+    [test.languages]
+  )
 
   return (
     <Spin spinning={loadingEnrolledTest}>
@@ -126,8 +147,10 @@ export default function TestRules(props: TestRulesPropsI) {
                       </Form.Item>
                     )
                   })}
-
                   <Form.Item
+                    style={{
+                      display: test.languages.length > 1 ? 'block' : 'none'
+                    }}
                     rules={[{ required: true }]}
                     label="Select Preferred Language"
                     name="language"
