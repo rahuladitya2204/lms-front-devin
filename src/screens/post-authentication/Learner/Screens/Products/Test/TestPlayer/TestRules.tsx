@@ -156,6 +156,7 @@ export default function TestRules(props: TestRulesPropsI) {
                     name="language"
                   >
                     <Select
+                      style={{ width: 180 }}
                       placeholder="Select Preferred Language"
                       options={Constants.LANGUAGES.filter(lang =>
                         // @ts-ignore
@@ -168,6 +169,7 @@ export default function TestRules(props: TestRulesPropsI) {
                       })}
                     />
                   </Form.Item>
+                  {/* <Divider /> */}
                   <Row
                     align={'middle'}
                     style={{ display: 'flex', flexDirection: 'row-reverse' }}
