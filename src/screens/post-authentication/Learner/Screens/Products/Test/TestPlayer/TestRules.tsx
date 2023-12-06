@@ -13,6 +13,7 @@ import {
   Typography,
   notification
 } from 'antd'
+import { Constants, Learner } from '@adewaskar/lms-common'
 import { TERMS, TEST_RULES } from './constant'
 import { useNavigate, useParams } from 'react-router'
 
@@ -20,8 +21,6 @@ import ActionModal from '@Components/ActionModal/ActionModal'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
-import { LANGUAGES } from '@User/Screens/Courses/CourseEditor/CourseInformation/CourseDetailsEditor/CourseDetails'
-import { Learner } from '@adewaskar/lms-common'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
@@ -135,7 +134,7 @@ export default function TestRules(props: TestRulesPropsI) {
                   >
                     <Select
                       placeholder="Select Preferred Language"
-                      options={LANGUAGES.filter(lang =>
+                      options={Constants.LANGUAGES.filter(lang =>
                         // @ts-ignore
                         test.languages.includes(lang.value)
                       ).map(l => {

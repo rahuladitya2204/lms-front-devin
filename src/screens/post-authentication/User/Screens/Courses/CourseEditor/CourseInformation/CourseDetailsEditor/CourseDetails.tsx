@@ -44,20 +44,6 @@ const DIFFICULTY_LEVELS = [
   }
 ]
 
-export const LANGUAGES = [
-  {
-    value: 'eng',
-    label: 'English'
-  },
-  {
-    value: 'hin',
-    label: 'Hindi'
-  },
-  {
-    value: 'fr',
-    label: 'French'
-  }
-]
 const { useWatch } = Form
 const { Option } = Select
 interface CourseDetailsEditorPropsI {
@@ -195,7 +181,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             <Select
               showSearch
               placeholder="Select Language"
-              options={LANGUAGES}
+              options={Constants.LANGUAGES}
             />
           </Form.Item>
         </Col>
