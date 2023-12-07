@@ -208,7 +208,7 @@ caption={(issue) ? <Tooltip title={issue.issue} >
           <Alert showIcon
           type='error'
           icon={<WarningOutlined />}
-          style={{ width: 120, padding: 2, paddingLeft: 8, marginTop: 10,marginLeft:10,marginRight:10 }}
+          style={{ width: 120, padding: 2, paddingLeft: 8, marginTop: 10,margin:'auto' }}
             message='Image Issue' />
         </Tooltip> : null}
         height={120}

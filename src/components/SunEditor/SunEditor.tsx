@@ -9,7 +9,7 @@ import {
 } from './constant'
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin } from 'antd'
-import React, { Fragment, useEffect, useRef } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 
 import SunEditor from 'suneditor-react'
 import { uniqueId } from 'lodash'
@@ -47,20 +47,23 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     value = props.value
   }
   const previousValue = useRef<string | null | undefined>(props.value);
+  const [editorValue, setEditorValue] = useState<string | undefined>(props.value);
 
   useEffect(() => {
-    const editor = editorRef.current;
-    if (editor) {
-      const currentContent = editor.getContents(false);
-      if (props.value !== currentContent) {
-       
-        if (previousValue.current && (props.value === '' || props.value === null)) {
-          editor.core.focus();
-        }
-      }
-      previousValue.current = props.value;
+    if (props.value !== editorValue) {
+      setEditorValue(props.value);
     }
-  }, [props.value]);
+  }, [props.value, editorValue]);
+
+  const handleEditorChange = (content: string) => {
+    setEditorValue(content);
+    if (props.name) {
+      form.setFieldValue(props.name, content);
+    }
+    if (props.onChange) {
+      props.onChange(content);
+    }
+  };
 
   // Decide which options to use based on the level prop
   let options: any = BasicEditorOptions
@@ -130,12 +133,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           // onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}
-          onChange={e => {
-            if (props.name) {
-              form.setFieldValue(props.name, e)
-            }
-            props.onChange && props.onChange(e)
-          }}
+          onChange={handleEditorChange}
           height={`${props.height || 700}`}
           width={`${props.width}`}
           setOptions={{

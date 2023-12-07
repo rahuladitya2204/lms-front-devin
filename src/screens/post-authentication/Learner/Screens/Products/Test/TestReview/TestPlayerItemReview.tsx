@@ -76,7 +76,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         extra={!isMobile?[<TestAnswerTag item={currentQuestion} />,
         !currentQuestion.notEvaluated? ((currentQuestion.scoreAchieved !== undefined) ?
           <Tag color={(currentQuestion.scoreAchieved > 0) ?
-            'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}</Tag> : 
+            // @ts-ignore
+            'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}{currentQuestion.type==='subjective'?('/'+currentQuestion.score.correct):'' }</Tag> : 
             <Tag color='red-inverse'>Score: 0</Tag>):null
         ] : null
       }
