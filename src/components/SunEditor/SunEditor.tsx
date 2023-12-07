@@ -53,11 +53,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     if (editor) {
       const currentContent = editor.getContents(false);
       if (props.value !== currentContent) {
-        if (props.value === '' || props.value === null) {
-          editor.setContents('');
-        } else {
-          editor.setContents(props.value);
-        }
+       
         if (previousValue.current && (props.value === '' || props.value === null)) {
           editor.core.focus();
         }
