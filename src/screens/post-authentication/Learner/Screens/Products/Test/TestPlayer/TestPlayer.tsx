@@ -99,9 +99,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   </Button>
   const targetDate = dayjs(startedAt).add(test.duration.value, 'minutes').toString();
   const CountdownComponent =
-  <Tag color="blue">
+  test.duration.enabled?<Tag color="blue">
   Time Left: <Countdown targetDate={targetDate} /> 
-    </Tag>
+    </Tag>:null
     
   const QuestionNavigator = TestQuestionNavigator;
   if (testEndTime) {

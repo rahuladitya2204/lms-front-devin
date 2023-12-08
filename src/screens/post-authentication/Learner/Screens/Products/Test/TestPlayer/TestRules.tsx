@@ -152,12 +152,12 @@ export default function TestRules(props: TestRulesPropsI) {
                       display: test.languages.length > 1 ? 'block' : 'none'
                     }}
                     rules={[{ required: true }]}
-                    label="Select Preferred Language"
+                    label="Select Language"
                     name="language"
                   >
                     <Select
-                      style={{ width: 180 }}
-                      placeholder="Select Preferred Language"
+                      style={{ width: isMobile ? '100%' : 180 }}
+                      placeholder="Select your preferred Language"
                       options={Constants.LANGUAGES.filter(lang =>
                         // @ts-ignore
                         test.languages.includes(lang.value)

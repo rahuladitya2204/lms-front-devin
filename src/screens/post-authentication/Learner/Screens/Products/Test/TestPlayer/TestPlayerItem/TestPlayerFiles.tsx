@@ -1,6 +1,6 @@
 import { Alert, Button, Card, Col, Empty, Form, FormInstance, Image, Modal, Row, Space, Spin, Tooltip, Typography, message } from 'antd'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
-import { DeleteOutlined, UploadOutlined, WarningOutlined } from '@ant-design/icons'
+import { DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // TestPlayerFiles.tsx
 import React, { useCallback } from 'react'
@@ -69,16 +69,17 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
   }
   const { currentQuestion } = useReviewQuestion();
   const imageIssues = currentQuestion?.feedback?.imageIssues;
+  const UploadButton=<MediaUpload
+  uploadType="image" cropper renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
+  onUpload={({ name, _id ,url}) => {
+    // console.log(answer, 'existing')
+    handleUpload({ name, file: _id, url: url });
+  }}
+/>
   return (
     <Spin spinning={updatingAnswer} >
       <Card
-       title="Answer Files" extra={[ !props.review?<MediaUpload
-        uploadType="image" cropper renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
-        onUpload={({ name, _id ,url}) => {
-          // console.log(answer, 'existing')
-          handleUpload({ name, file: _id, url: url });
-        }}
-      />:null]}
+       title="Answer Images" extra={[ !props.review?UploadButton:null]}
       >
       {(imageIssues&&(imageIssues?.length))?  <Alert icon={<WarningOutlined />}
           showIcon style={{ marginBottom: 15 }}
@@ -90,7 +91,18 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
                 })}
                   </Col>
                 </Row>} />:null}
-        {!files.length?<Empty  />:null}
+        {!files.length?<Empty  description={
+          <Row gutter={[10,20]}>
+            <Col span={24}>
+            <Text>
+        Upload your handwritten answer images here
+      </Text>
+            </Col>
+            <Col span={24}>
+              {UploadButton}
+            </Col>
+   </Row>
+    }  />:null}
        <Form.List name={['answer', 'subjective', 'files']}>
               {(fields, { add, remove, move }) => {
                   return  (

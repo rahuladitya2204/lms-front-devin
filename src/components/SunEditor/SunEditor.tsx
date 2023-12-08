@@ -37,26 +37,22 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     isLoading: loading
   } = Common.Queries.useUploadFiles()
 
-  // @ts-ignore
-  const getSunEditorInstance = sunEditor => {
-    editorRef.current = sunEditor
-  }
 
   let value = Form.useWatch(props.name + '', form)
   if (props.value) {
     value = props.value
   }
-  const previousValue = useRef<string | null | undefined>(props.value);
-  const [editorValue, setEditorValue] = useState<string | undefined>(props.value);
+
+  const [editorContent, setEditorContent] = useState<string | undefined>(props.value);
 
   useEffect(() => {
-    if (props.value !== editorValue) {
-      setEditorValue(props.value);
+    if (props.value !== editorContent && editorRef.current) {
+      editorRef.current.setContents(props.value || '');
     }
-  }, [props.value, editorValue]);
+  }, [props.value, editorContent]);
 
   const handleEditorChange = (content: string) => {
-    setEditorValue(content);
+    setEditorContent(content);
     if (props.name) {
       form.setFieldValue(props.name, content);
     }
@@ -64,7 +60,6 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       props.onChange(content);
     }
   };
-
   // Decide which options to use based on the level prop
   let options: any = BasicEditorOptions
   if (level === 2) {

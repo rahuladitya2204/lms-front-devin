@@ -46,6 +46,9 @@ const CustomUpload = styled(Upload)(
 .ant-upload-wrapper {
   margin: 0;
 }
+.ant-upload-select{
+  background-color: transparent !important;
+}
 .ant-upload {
   margin: 0;
   display: block;
