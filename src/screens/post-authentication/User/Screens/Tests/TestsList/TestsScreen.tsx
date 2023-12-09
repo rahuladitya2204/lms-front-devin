@@ -8,16 +8,22 @@ import Header from '@User/Screens/UserRoot/UserHeader'
 // import PastTest from './PastTest'
 import Tabs from '@Components/Tabs'
 import TestsList from './TestsList'
+import { useSearchParams } from 'react-router-dom'
 
 const TestsScreen = () => {
-  const [category, setCategory] = useState('')
-
+  // const [category, setCategory] = useState('')
+  const [params, setParams] = useSearchParams()
+  const category = params.get('category')
   const {
     data: categories,
     isLoading: loadingCategories
   } = User.Queries.useGetProductCategories('all')
   const CategoriesSelect = (
-    <Select onChange={setCategory} value={category} style={{ width: 150 }}>
+    <Select
+      onChange={e => setParams({ category: e })}
+      value={category}
+      style={{ width: 150 }}
+    >
       {categories.map(category => (
         <Select.Option value={category._id} key={category._id}>
           {category.title}
@@ -34,7 +40,7 @@ const TestsScreen = () => {
 
   useEffect(
     () => {
-      setCategory(categories[0]?._id)
+      setParams({ category: categories[0]?._id })
     },
     [categories]
   )

@@ -44,6 +44,7 @@ import CoinImage from '../Account/LearnerWallet/CoinImage'
 import Header from '@Components/Header'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
+import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useMemo } from 'react'
 import useMessage from '@Hooks/useMessage'
@@ -138,6 +139,28 @@ const LearnerHeader: React.FC = () => {
   // Define the extraContent
   const extraContent = (
     <Space>
+                {screen.isDesktop && isSignedIn ? (
+            <Space style={{ marginLeft: 45 }}>
+              {menuItems.map((item, index) => (
+                <NavLink
+                  key={index}
+                  to={`../app/${item.key}`}
+                  style={{ margin: '0 5px' }}
+                  children={({ isActive }) => (
+                    <Button
+                      style={{ borderRadius: 15 }}
+                      size="middle"
+                      icon={item.icon}
+                      type={isActive ? 'primary' : 'default'}
+                    >
+                      {item.label}
+                    </Button>
+                  )}
+                />
+              ))}{' '}
+              {/* <Divider orientation="right" /> */}
+            </Space>
+          ) : null}
       {isMobileOrTablet ? (
         <>
           {isSignedIn?WalletButton:null}
@@ -256,33 +279,12 @@ const LearnerHeader: React.FC = () => {
             onClick={() => navigate('../app/store')}
             // style={{ width: 60 }}
           />
-          {screen.isDesktop && isSignedIn ? (
-            <Space style={{ marginLeft: 45 }}>
-              {menuItems.map((item, index) => (
-                <NavLink
-                  key={index}
-                  to={`../app/${item.key}`}
-                  style={{ margin: '0 5px' }}
-                  children={({ isActive }) => (
-                    <Button
-                      style={{ borderRadius: 15 }}
-                      size="middle"
-                      icon={item.icon}
-                      type={isActive ? 'primary' : 'default'}
-                    >
-                      {item.label}
-                    </Button>
-                  )}
-                />
-              ))}{' '}
-              {/* <Divider orientation="right" /> */}
-            </Space>
-          ) : null}
-          {/* {!isMobileOrTablet ? (
+
+          {!isMobileOrTablet ? (
             <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
               <SearchLearnerCourses />
             </Space>
-          ) : null} */}
+          ) : null}
           {/* <Search
               placeholder="Search Courses"
               // onSearch={onSearch}

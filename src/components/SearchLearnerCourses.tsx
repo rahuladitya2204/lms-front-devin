@@ -1,25 +1,43 @@
-import { AutoComplete, Avatar, Space, Typography } from "antd";
-import { Learner, Types } from "@adewaskar/lms-common";
+import { AutoComplete, Avatar, Space, Typography } from 'antd'
+import { Learner, Types } from '@adewaskar/lms-common'
 
-import Image from "./Image";
+import Image from './Image'
 import Search from 'antd/es/input/Search'
-import { useState } from "react";
+import { useNavigate } from 'react-router'
+import { useState } from 'react'
 
-const { Title,Text } = Typography;
+const { Title, Text } = Typography
 
 export default function SearchLearnerCourses() {
-    const [text, setText] = useState('')
-    const {
-        data: searchedCourses,
-        isFetching: loading
-      } = Learner.Queries.useGetCoursesOfOrganisation({
-        searchValue: text
-      })
-    const listItems = searchedCourses.map(c => {
-        const instructor = c.instructor as  unknown as Types.Instructor;
+  const [text, setText] = useState('')
+  const navigate = useNavigate()
+  const {
+    data: seachedProducts,
+    isFetching: loading
+  } = Learner.Queries.useSearchProducts(
+    {
+      searchValue: text
+    },
+    {
+      enabled: !!text
+    }
+  )
+  const allProducts = Object.keys(seachedProducts)
+    // @ts-ignore
+    .map(k => seachedProducts[k])
+    .flat()
+  const listItems = Object.keys(seachedProducts)
+    .map((productType: string) => {
+      // @ts-ignore
+      const items = seachedProducts[productType]
+      // @ts-ignore
+      return items.map(c => {
         return {
           label: (
             <Space
+              onClick={e => {
+                navigate(`${productType}/${c._id}`)
+              }}
               align="center"
               style={{ justifyContent: 'center', alignItems: 'center' }}
             >
@@ -33,30 +51,37 @@ export default function SearchLearnerCourses() {
                 <Title style={{ margin: 0 }} level={5}>
                   {c.title}
                 </Title>
-                <Text style={{ margin: 0 }}>
-                  Taught By: {instructor.name}
-                </Text>
+                {/* <Text style={{ margin: 0 }}>
+                    Taught By: {instructor.name}
+                  </Text> */}
               </Space>
             </Space>
           ),
           value: c.title
         }
       })
-    return   <AutoComplete
-    onSelect={(e,a) => console.log(e,a)}
-    popupClassName="certain-category-search-dropdown"
-    dropdownMatchSelectWidth={500}
-    style={{ width: 250 }}
-    options={listItems}
-  >
-    <Search
-      placeholder="Search for courses.."
-      allowClear
-      value={text}
-      loading={loading}
-      onChange={(e: any) => setText(e.target.value)}
-      onSearch={e => console.log(e, 'eee')}
-      style={{ width: 500 }}
-    />
-  </AutoComplete>
+    })
+    .flat()
+  return (
+    <AutoComplete
+      onChange={(e, a) => {
+        const item = allProducts.find(o => o.title === e)
+        console.log(item, 'item')
+      }}
+      popupClassName="certain-category-search-dropdown"
+      dropdownMatchSelectWidth={500}
+      style={{ width: 250 }}
+      options={listItems}
+    >
+      <Search
+        placeholder="Search for courses.."
+        allowClear
+        value={text}
+        loading={loading}
+        onChange={(e: any) => setText(e.target.value)}
+        onSearch={e => console.log(e, 'eee')}
+        style={{ width: 500 }}
+      />
+    </AutoComplete>
+  )
 }
