@@ -74,7 +74,7 @@ export default function SearchLearnerCourses() {
       options={listItems}
     >
       <Search
-        placeholder="Search for courses.."
+        placeholder="Search for tests.."
         allowClear
         value={text}
         loading={loading}
