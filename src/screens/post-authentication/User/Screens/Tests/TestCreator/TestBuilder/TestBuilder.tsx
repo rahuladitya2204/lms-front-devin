@@ -310,6 +310,11 @@ function TestBuilderScreen() {
                     onClick: () => generateTestInfo({ fields: ['criteria'] })
                   },
                   {
+                    label: 'Generate Topics',
+                    key: 'gen-topics',
+                    onClick: () => generateTestInfo({ fields: ['topic'] })
+                  },
+                  {
                     key: 'enter-answers',
                     label: (
                       <ActionModal
@@ -498,6 +503,7 @@ function TestBuilderScreen() {
                   }
                 >
                   <TestSectionsNavigator
+                    testId={testId + ''}
                     deleteSectionItem={deleteSectionItem}
                     deleteSection={deleteSection}
                     onAddNewItem={onAddNewItem}

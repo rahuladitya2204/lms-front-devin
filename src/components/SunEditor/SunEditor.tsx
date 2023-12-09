@@ -9,10 +9,12 @@ import {
 } from './constant'
 import { Common, Types } from '@adewaskar/lms-common'
 import { Form, Spin } from 'antd'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
+import React, { Fragment, useEffect, useRef } from 'react'
 
 import SunEditor from 'suneditor-react'
+import katex from 'katex'
 import { uniqueId } from 'lodash'
+import { variablePlugin } from './plugins/variable.plugin'
 
 interface SunEditorPropsI {
   height?: number;
@@ -37,29 +39,35 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     isLoading: loading
   } = Common.Queries.useUploadFiles()
 
+  // @ts-ignore
+  const getSunEditorInstance = sunEditor => {
+    editorRef.current = sunEditor
+  }
 
   let value = Form.useWatch(props.name + '', form)
   if (props.value) {
     value = props.value
   }
-
-  const [editorContent, setEditorContent] = useState<string | undefined>(props.value);
+  const previousValue = useRef<string | null | undefined>(props.value);
 
   useEffect(() => {
-    if (props.value !== editorContent && editorRef.current) {
-      editorRef.current.setContents(props.value || '');
+    const editor = editorRef.current;
+    if (editor) {
+      const currentContent = editor.getContents(false);
+      if (props.value !== currentContent) {
+        if (props.value === '' || props.value === null) {
+          editor.setContents('');
+        } else {
+          editor.setContents(props.value);
+        }
+        if (previousValue.current && (props.value === '' || props.value === null)) {
+          editor.core.focus();
+        }
+      }
+      previousValue.current = props.value;
     }
-  }, [props.value, editorContent]);
+  }, [props.value]);
 
-  const handleEditorChange = (content: string) => {
-    setEditorContent(content);
-    if (props.name) {
-      form.setFieldValue(props.name, content);
-    }
-    if (props.onChange) {
-      props.onChange(content);
-    }
-  };
   // Decide which options to use based on the level prop
   let options: any = BasicEditorOptions
   if (level === 2) {
@@ -128,11 +136,21 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           // onFocus={props.onFocus}
           readOnly={props.readonly}
           setContents={value}
-          onChange={handleEditorChange}
+          onChange={e => {
+            if (props.name) {
+              form.setFieldValue(props.name, e)
+            }
+            props.onChange && props.onChange(e)
+          }}
           height={`${props.height || 700}`}
           width={`${props.width}`}
           setOptions={{
-            ...options,
+            ...options
+            // plugins={defaultPlugins}
+            // plugins: [variablePlugin(variables)],
+            // attributesWhitelist: {
+            //   // span: 'variable-value'
+            // }
           }}
           // @ts-ignore
           onImageUploadBefore={handleImageUploadBefore}

@@ -1,6 +1,6 @@
 import { Button, Collapse, List, Modal, Space, Tag, Tooltip, Typography } from 'antd'
 import { CheckCircleTwoTone, DeleteOutlined, ReadOutlined, WarningTwoTone } from '@ant-design/icons'
-import { Constants, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 
@@ -83,6 +83,7 @@ interface TestSectionsNavigatorPropsI {
   deleteSection: (sId: string) => void;
   onReorderSections:(s: Types.TestSection[]) => void;
   deleteSectionItem: (secId: string, itemID: string) => void;
+  testId: string;
   onAddNewItem: (
     item: Partial<Types.TestQuestion>,
     index: number
@@ -92,11 +93,13 @@ interface TestSectionsNavigatorPropsI {
 const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
   sections,
   onAddNewItem,
+  testId,
   deleteSection,
   onAddSection,
   deleteSectionItem,
   onReorderSections
 }) => {
+  const { data: test } = User.Queries.useGetTestDetails(testId);
   const [enableSectionReorder, setEnableSectionReorder] = useState(true);
   const [itemRearrengeIndex, setItemRearrengeIndex] = useState<number | null>(null);
   const [sectionList, setSectionList] = useState<Types.TestSection[]>(sections)
@@ -223,9 +226,9 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                         const actions = [
                           SectionItemOptionDropdown
                         ];
-                        const isQuestionValid = Utils.validateTestQuestion(item);
+                        const {isValid:isQuestionValid,message} = Utils.validateTestQuestion(item,test.languages);
                         if (!isQuestionValid) {
-                          actions.unshift(<WarningTwoTone twoToneColor="red" />)
+                          actions.unshift(<Tooltip title={message} ><WarningTwoTone twoToneColor="red" /></Tooltip>)
                         }
                         if (item?.score?.correct) {
                           actions.unshift(<Tag style={{ textAlign: 'center' }} color='blue-inverse'>
