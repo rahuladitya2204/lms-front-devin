@@ -13,29 +13,30 @@ const EventsScreen = () => {
   const navigate = useNavigate()
   // const [params, setParams] = useSearchParams();
   return (
-    <Card bodyStyle={{ paddingTop: 0 }}>
-      <Tabs
-        navigateWithHash
-        items={[
-          {
-            key: 'upcoming',
-            label: `Upcoming`,
-            children: (
-              <UpcomingTest
-                filter={{
-                  status: [Enum.TestStatus.DRAFT, Enum.TestStatus.PUBLISHED]
-                }}
-              />
-            )
-          },
-          {
-            key: 'past',
-            label: `Past`,
-            children: <PastTest filter={{ status: [Enum.TestStatus.ENDED] }} />
-          }
-        ]}
-      />
-    </Card>
+    // <Card
+    //   // bodyStyle={{ paddingTop: 0 }}
+    // >
+    <Tabs
+      navigateWithHash
+      items={[
+        {
+          key: 'upcoming',
+          label: `Upcoming`,
+          children: (
+            <UpcomingTest
+              filter={{
+                status: [Enum.TestStatus.DRAFT, Enum.TestStatus.PUBLISHED]
+              }}
+            />
+          )
+        },
+        {
+          key: 'past',
+          label: `Past`,
+          children: <PastTest filter={{ status: [Enum.TestStatus.ENDED] }} />
+        }
+      ]}
+    />
   )
 }
 

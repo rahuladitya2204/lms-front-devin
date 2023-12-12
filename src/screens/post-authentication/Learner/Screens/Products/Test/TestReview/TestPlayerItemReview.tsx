@@ -1,5 +1,5 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Skeleton, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
 import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
@@ -20,7 +20,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const [form] = Form.useForm();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const { data:{metadata:{test:{language}}}} = Learner.Queries.useGetEnrolledProductDetails({ type: Enum.ProductType.TEST, id: testId + '' });
-  const { currentQuestion, currentQuestionIndex, loading } = useReviewQuestion();
+  const { currentQuestion, currentQuestionIndex, loading: loadingQuestion } = useReviewQuestion();
   const answerGiven = currentQuestion.answerGiven
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.RESULT);
   useEffect(() => {
@@ -69,9 +69,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
 {!isMobile?'Previous':''}
   </Button>;
-
+  const SkelArray = [1, 1, 1, 1];
   return (
-    <Spin spinning={loading}>
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={!isMobile?[<TestAnswerTag item={currentQuestion} />,
         !currentQuestion.notEvaluated? ((currentQuestion.scoreAchieved !== undefined) ?
@@ -85,7 +84,26 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       <Form layout='vertical' form={form}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
-              <Col span={24}>
+              {loadingQuestion?<Col span={24}>
+                          {/* @ts-ignore */}
+              <Skeleton style={{marginBottom:25}} active paragraph={{rows:1}} />
+              <Row gutter={[10,20]}>
+                
+                <Col span={24}>
+                <Skeleton.Button active style={{height:20}} block />
+                </Col>
+                {SkelArray.map(()=><Col span={24}>
+                  <Row gutter={[10,20]}>
+                    <Col>
+                      <Skeleton.Avatar active size={20} shape={'circle'} />
+</Col>
+                <Col flex={1}>
+                <Skeleton.Button active style={{height:20}} block />
+             </Col>
+                  </Row>
+               </Col>)}
+              </Row>
+ </Col>:<Col span={24}>
                           {/* @ts-ignore */}
               <HtmlViewer content={currentQuestion.title?.text[language]+''} />
               {currentQuestion.type !== 'subjective' ? ((currentQuestion.type===Enum.TestQuestionType.SINGLE || currentQuestion.type===Enum.TestQuestionType.MULTIPLE)?<>
@@ -131,7 +149,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   {currentQuestion.isAnswered?<Input style={{width:150}} type='number' readOnly />:<TestAnswerTag item={currentQuestion} />}
                 </Form.Item> : null
                 }
-            </Col>
+            </Col>}
            
           </Row>
         </div>
@@ -151,7 +169,6 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         </Row>
       </Form>
       </Card>
-    </Spin>
   );
 }
 

@@ -101,7 +101,6 @@ Exit
     <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
   </ActionDrawer>;
   return (
-    <Spin  spinning={loadingEnrolledProduct}>
         <Header
         title={<Space> <NavLink to={`../app/test/${testId}/result`} >
           <Button type='primary' icon={<ArrowLeftOutlined />} ></Button>
@@ -125,13 +124,6 @@ Exit
           <Row gutter={[50, 30]}>
           <Col xs={24} lg={isDesktop?16: 24}>
                 <Outlet />
-                {/* <Alert icon={<WarningOutlined/>} showIcon style={{marginTop:15}} type='error' message={<Text strong>Issue with images uploaded</Text>} description={<Row>
-                  <Col span={24}>
-                  {(currentQuestion?.feedback?.imageIssues)?.map(issue => {
-                  return <Text>{issue.issue}</Text>
-                })}
-                  </Col>
-                </Row>} /> */}
               <Card style={{marginTop:20}}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
               </Card>
@@ -148,7 +140,7 @@ Exit
         </Col>
         <Col span={1} />
       </Row>
-    </Header></Spin>
+    </Header>
 
   )
 }

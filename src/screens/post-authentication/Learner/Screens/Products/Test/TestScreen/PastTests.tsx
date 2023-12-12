@@ -1,17 +1,17 @@
 import {
   Avatar,
   Badge,
-  Button,
   Card,
   Col,
   List,
   Row,
   Skeleton,
+  Space,
   Tag,
   Typography
 } from 'antd'
 import { CalendarOutlined, EditOutlined } from '@ant-design/icons'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Enum, Learner, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import NoItemFound from '@Components/NoItemFound'
@@ -23,7 +23,6 @@ const { Meta } = Card
 const { Text } = Typography
 
 function PastTest(props: { filter: Types.GetTestsFilter }) {
-  const navigate = useNavigate()
   const {
     data,
     isFetching: loading,
@@ -50,47 +49,8 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
   return (
     <Row gutter={[30, 30]}>
       {pastTests.map(({ product: { data: test }, metadata }) => {
-        const testStartDate = metadata.test.startedAt || test?.live?.startedAt
-        const testEndDate = metadata.test.endedAt || test?.live?.endedAt
-        const isTestAttempted = metadata.test.startedAt && metadata.test.endedAt
-        const CardComponent = (
-          <Card
-            hoverable
-            onClick={() => {
-              navigate(test?._id)
-            }}
-            // style={{ width: 300 }}
-            // @ts-ignore
-            cover={
-              <Image height={200} alt="example" src={test?.thumbnailImage} />
-            }
-            // actions={[
-            //   isTestAttempted ? (
-            //     testEndDate ? (
-            //       <Button
-            //         onClick={() => {
-            //           navigate(`${test?._id}/result`)
-            //         }}
-            //         // style={{ marginLeft: 10, marginRight: 10 }}
-            //         // block
-            //       >
-            //         View Result
-            //       </Button>
-            //     ) : null
-            //   ) : null
-            // ]}
-          >
-            <Meta
-              // avatar={
-              //   <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel" />
-              // }
-              // @ts-ignore
-              title={test.title}
-              description={<Tag>{dayjs(testStartDate).format('LL')}</Tag>}
-              avatar={<EditOutlined />}
-            />
-          </Card>
-        )
+        // @ts-ignore
+        const CardComponent = <TestCard metadata={metadata} test={test} />
         return (
           <Col xs={24} sm={12} md={8} lg={6}>
             {test?.live.enabled ? (
@@ -116,6 +76,44 @@ export const SkeletonTestCard = () => {
         active
       />
       <Skeleton avatar active paragraph={{ rows: 1 }} />
+    </Card>
+  )
+}
+
+const TestCard = ({ test, metadata }: { test: Types.Test, metadata: any }) => {
+  const navigate = useNavigate()
+  const testStartDate = metadata.test.startedAt || test?.live?.startedAt
+  const {
+    data: { test: testResult, status, metrics: { learnerScore, passingScore } },
+    isFetching: loadingResult
+  } = Learner.Queries.useGetTestResult(test._id + '')
+  return (
+    <Card
+      // bodyStyle={{ padding: 10 }}
+      hoverable
+      onClick={() => {
+        navigate(test?._id + '')
+      }}
+      cover={<Image height={200} alt="example" src={test?.thumbnailImage} />}
+    >
+      <Meta
+        title={test.title}
+        description={
+          <Space>
+            {test.status === Enum.TestStatus.PUBLISHED ? (
+              learnerScore >= passingScore ? (
+                <Tag color="green-inverse">Passed</Tag>
+              ) : (
+                <Tag color="red-inverse">Failed</Tag>
+              )
+            ) : test.status === Enum.TestStatus.IN_PROGRESS ? (
+              <Tag color="orange-inverse">Evaluation in progres</Tag>
+            ) : null}
+            <Tag>Taken on: {dayjs(testStartDate).format('LL')}</Tag>
+          </Space>
+        }
+        avatar={<EditOutlined />}
+      />
     </Card>
   )
 }

@@ -14,6 +14,7 @@ function LearnersTable() {
     <Table dataSource={data} loading={loading}>
       <Table.Column title="Name" dataIndex="name" key="name" />
       <Table.Column title="Email Adress" dataIndex="email" key="email" />
+      <Table.Column title="Contact No" dataIndex="contactNo" key="contactNo" />
 
       <Table.Column
         title="Last Login"

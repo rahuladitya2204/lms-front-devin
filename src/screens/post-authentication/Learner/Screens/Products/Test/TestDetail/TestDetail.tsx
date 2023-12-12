@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Col, Divider, Row, Skeleton, Space, Tag, Typography, message } from 'antd'
-import { CalendarOutlined, InfoOutlined } from '@ant-design/icons'
+import { CalendarOutlined, InfoOutlined, WalletOutlined } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -120,7 +120,7 @@ export default function TestDetailScreen(
 const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,children?:React.ReactNode}) => {
   const product = { type: 'test', id: testId };
   const navigate = useNavigate();
-  // const loadingEnrolledTestDetails = true;
+  const { data: { wallet } } = Learner.Queries.useGetLearnerDetails();
   const {
     data: enrolledDetails,
     isLoading: loadingEnrolledTestDetails
@@ -269,10 +269,11 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
       />
     </Col>
         <Col span={24} flex={1}>
-        <Col span={24}>
+      {!isEnrolled?  <Col span={24}>
             <PriceCardContent plan={plan} />
+            {(isSignedIn&&(wallet.balance.value>0))?<Alert style={{marginTop:10}} showIcon icon={<WalletOutlined style={{fontSize:20}}/>} type='warning' message={<Text style={{fontSize:16}}>Spend using your wallet balance: {Utils.UnitTypeToStr(wallet.balance) }</Text>} />:null}
             <Divider/>
-    </Col>
+    </Col>:null}
       <Col span={24}>
         <Row gutter={[10, 10]}>
               <Col span={24}>

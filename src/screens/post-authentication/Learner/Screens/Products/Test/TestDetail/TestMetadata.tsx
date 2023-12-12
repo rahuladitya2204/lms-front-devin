@@ -5,7 +5,7 @@ import {
   FileTextOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
 import { List, Tag, Typography } from 'antd'
 
 import dayjs from 'dayjs'
@@ -70,6 +70,7 @@ interface TestMetadataPropsI {
 }
 
 function TestMetadata(props: TestMetadataPropsI) {
+  // const { data: { wallet } } = Learner.Queries.useGetLearnerDetails();
   data.scheduledFor.value = props.test.live.enabled
     ? dayjs(props.test.live.scheduledAt).format('LLL')
     : 'Can be taken anytime'
