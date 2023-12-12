@@ -7,6 +7,7 @@ import {
   Modal,
   Progress,
   Row,
+  Skeleton,
   Space,
   Spin,
   Tag,
@@ -15,13 +16,14 @@ import {
 } from 'antd'
 import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined, WarningOutlined } from '@ant-design/icons'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
+import { Fragment, useEffect, useMemo } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
-import { useEffect, useMemo } from 'react'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
 import { NavLink } from 'react-router-dom'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
+import TestItemSkeleton from './TestItemSkeleton'
 import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestReviewQuestionNavigator from './TestQuestionReviewNavigator'
 import dayjs from 'dayjs'
@@ -51,7 +53,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
     type: 'test',
     id: testId + ''
   })
-  const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.RESULT)
+  const { data: test,isLoading } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.RESULT)
   const isProcturingOn = test.rules.procturing.enabled
   
   useEffect(
@@ -122,11 +124,14 @@ Exit
         <Col span={1} />
         <Col span={22}>
           <Row gutter={[50, 30]}>
-          <Col xs={24} lg={isDesktop?16: 24}>
+            <Col xs={24} lg={isDesktop ? 16 : 24}>
+              {isLoading ? <TestItemSkeleton/>: <Fragment>
                 <Outlet />
-              <Card style={{marginTop:20}}>
+                <Card style={{ marginTop: 20 }}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
-              </Card>
+              </Card></Fragment>}
+              
+           
             </Col>
             {isDesktop?<Col lg={8} md={0}>
               <Row gutter={[20, 20]}>

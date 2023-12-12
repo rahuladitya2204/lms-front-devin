@@ -5,6 +5,7 @@ import { Fragment, useEffect, useState } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import { TestAnswerTag } from '../TestResult/Table/TestResultTable';
+import TestItemSkeleton from './TestItemSkeleton';
 import TestPlayerFiles from '../TestPlayer/TestPlayerItem/TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import { htmlToText } from 'html-to-text';
@@ -69,8 +70,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
 {!isMobile?'Previous':''}
   </Button>;
-  const SkelArray = [1, 1, 1, 1];
-  return (
+  return loadingQuestion?<TestItemSkeleton/>:(
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={!isMobile?[<TestAnswerTag item={currentQuestion} />,
         !currentQuestion.notEvaluated? ((currentQuestion.scoreAchieved !== undefined) ?
@@ -84,26 +84,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       <Form layout='vertical' form={form}>
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
-              {loadingQuestion?<Col span={24}>
-                          {/* @ts-ignore */}
-              <Skeleton style={{marginBottom:25}} active paragraph={{rows:1}} />
-              <Row gutter={[10,20]}>
-                
-                <Col span={24}>
-                <Skeleton.Button active style={{height:20}} block />
-                </Col>
-                {SkelArray.map(()=><Col span={24}>
-                  <Row gutter={[10,20]}>
-                    <Col>
-                      <Skeleton.Avatar active size={20} shape={'circle'} />
-</Col>
-                <Col flex={1}>
-                <Skeleton.Button active style={{height:20}} block />
-             </Col>
-                  </Row>
-               </Col>)}
-              </Row>
- </Col>:<Col span={24}>
+          <Col span={24}>
                           {/* @ts-ignore */}
               <HtmlViewer content={currentQuestion.title?.text[language]+''} />
               {currentQuestion.type !== 'subjective' ? ((currentQuestion.type===Enum.TestQuestionType.SINGLE || currentQuestion.type===Enum.TestQuestionType.MULTIPLE)?<>
@@ -149,7 +130,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   {currentQuestion.isAnswered?<Input style={{width:150}} type='number' readOnly />:<TestAnswerTag item={currentQuestion} />}
                 </Form.Item> : null
                 }
-            </Col>}
+            </Col>
            
           </Row>
         </div>
