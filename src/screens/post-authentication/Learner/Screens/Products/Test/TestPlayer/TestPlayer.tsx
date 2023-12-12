@@ -22,6 +22,7 @@ import Header from '@Components/Header'
 import { MenuOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
+import TestItemSkeleton from '../TestReview/TestItemSkeleton'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import dayjs from 'dayjs'
@@ -111,6 +112,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       </Card>
     </Header>
   }
+  const isLoading = loadingDetails || loadingStatus;
   const SideDrawer = <ActionDrawer extra={()=>[CountdownComponent]} footer={() => [
     // UpdatingTestStatus,
     SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
@@ -118,7 +120,6 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
   </ActionDrawer>;
   return (
-    <Spin spinning={loadingDetails || loadingStatus} >
       <Header
       title={!isMobile?test.title:CountdownComponent}
       subTitle={'asd'}
@@ -144,10 +145,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         <Col span={22}>
           <Row gutter={[50, 30]}>
               <Col xs={24} sm={24}  md={24} lg={16}>
-                <Spin spinning={loadingDetails} >
-                <Outlet />
-              </Spin>
-               
+                {isLoading?<TestItemSkeleton/>:<Outlet />  }             
               {/* only show if the test has ended */}
               {/* {testEndTime?<Card style={{marginTop:20}}>
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} />
@@ -165,7 +163,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         </Col>
         <Col span={1} />
       </Row>
-    </Header></Spin>
+    </Header>
 
   )
 }

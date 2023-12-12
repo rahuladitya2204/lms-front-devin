@@ -1,9 +1,10 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
-import { Badge, Button, Card, Col, Divider, Modal, Row, Space, Spin, Typography, theme } from 'antd'
+import { Badge, Button, Card, Col, Divider, Modal, Row, Skeleton, Space, Spin, Typography, theme } from 'antd'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
 import { NavLink } from 'react-router-dom'
+import { TestNavigatorSkeleton } from '../../TestReview/TestItemSkeleton'
 import TestTimer from './TestTimer'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
@@ -30,9 +31,8 @@ export default function TestQuestionNavigatorType2(
   const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '',Enum.TestDetailMode.TEST)
   const { token } = theme.useToken()
   const { questionId } = useParams()
-
+  const isLoading = loadingTest || loadingEnrolledTest;
   return (
-    <Spin spinning={loadingTest || loadingEnrolledTest} >
       <Card
       style={{ height: '80vh' }}
       bodyStyle={{ overflow: 'scroll', height: '100%' }}
@@ -40,10 +40,11 @@ export default function TestQuestionNavigatorType2(
       <Row>
         {isDesktop ? (
           <>
-          {(test.duration.enabled&&hasStarted&&!hasEnded)?<Col span={24}>
+          {(test.duration.enabled)?<Col span={24}>
             {/* <Button type='primary' style={{marginBottom:30}} danger block size='large'> Submit Test</Button> */}
-            <TestTimer testId={props.testId} />
-            <Divider style={{ margin: 0, marginTop: 10 }} />
+          <Row justify={'center'} align={'middle'}><Col>            {isLoading?<Skeleton.Button active shape='circle' style={{width:200,height:200}} />:((hasStarted&&!hasEnded)?<TestTimer testId={props.testId} />:null)}
+</Col></Row>
+              <Divider style={{ margin: 0, marginTop: 10 }} />
  </Col>:null}
           </>
         ) : (
@@ -86,7 +87,7 @@ export default function TestQuestionNavigatorType2(
           <Title style={{ textAlign: 'center' }} level={3}>
             Question Panel
           </Title>
-          {sections.map(section => {
+          {isLoading?<TestNavigatorSkeleton/>:sections.map(section => {
             return (
               <Row>
                 <Col span={24}>
@@ -135,6 +136,5 @@ export default function TestQuestionNavigatorType2(
         </Col>
       </Row>
     </Card>
-    </Spin>
   )
 }

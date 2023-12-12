@@ -16,6 +16,7 @@ import { Enum, Learner } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
 import { NavLink } from 'react-router-dom'
+import { TestNavigatorSkeleton } from './TestItemSkeleton'
 import { useReviewQuestion } from './TestPlayerItemReview'
 
 interface TestReviewQuestionNavigatorPropsI {
@@ -45,210 +46,125 @@ export default function TestReviewQuestionNavigator(
 
   const { token } = theme.useToken()
   const { questionId } = useParams()
-  const ButtonSkelArray = [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-  ]
-  const isLoading = loadingResult || loadingTest;
+  const isLoading = loadingResult || loadingTest
   return (
-      <Card
-        style={{ height: '80vh' }}
-        bodyStyle={{ overflow: 'scroll', height: '100%' }}
-      >
-        <Row>
-          <Col span={24}>
-            <Row gutter={[20, 20]}>
-              <Col span={12}>
-                <Space>
-                  <Button
-                    shape="circle"
-                    style={{ backgroundColor: token.colorSuccessActive }}
-                    type="primary"
-                  />{' '}
-                  Corrrect Answer
-                </Space>
-              </Col>
-              <Col span={12}>
-                <Space>
-                  <Button shape="circle" type="primary" danger /> Incorrect
-                  Answer
-                </Space>
-              </Col>
-              <Col span={12}>
-                <Space>
-                  <Button shape="circle" /> Not Attempted
-                </Space>
-              </Col>
-              <Col span={12}>
-                <Space>
-                  <Button
-                    style={{ backgroundColor: token.colorPrimary }}
-                    shape="circle"
-                  />{' '}
-                  Current Question
-                </Space>
-              </Col>
-            </Row>
-          </Col>
-          <Col span={24}>
-            <Title style={{ textAlign: 'center' }} level={3}>
-              Question Panel
-            </Title>
-            {isLoading ? (
-              <Row>
-                <Col span={24}>
-                  <Skeleton.Button
-                    active
-                    style={{ height: 20, marginBottom: 20 }}
-                    block
-                  />
-                  <Row gutter={[20, 20]}>
-                    {ButtonSkelArray.map(() => (
-                      <Col span={3}>
-                        <Skeleton.Button
-                          active
-                          style={{ width: 32, height: 30 }}
-                          shape="circle"
-                        />
-                      </Col>
-                    ))}
-                  </Row>
-                </Col>
-              </Row>
-            ) : (
-              sections.map(section => {
-                return (
-                  <Row>
-                    <Col span={24}>
-                      <Title level={4}>{section.title}</Title>
-                      <Row gutter={[20, 20]}>
-                        {section.items.map((item, itemIndex) => {
-                          return (
-                            <Col span={3}>
-                              <NavLink
-                                style={{ width: '100%' }}
-                                key={item._id}
-                                to={`${item._id}`}
-                                children={() => {
-                                  const isActive = questionId === item._id
-                                  return (
-                                    // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
-                                    // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
-                                    <Button
-                                      // loading={loading && isCurrent}
-                                      onClick={() => navigate(item._id + '')}
-                                      danger={item.isMarked}
-                                      type={
-                                        isActive
+    <Card
+      style={{ height: '80vh' }}
+      bodyStyle={{ overflow: 'scroll', height: '100%' }}
+    >
+      <Row>
+        <Col span={24}>
+          <Row gutter={[20, 20]}>
+            <Col span={12}>
+              <Space>
+                <Button
+                  shape="circle"
+                  style={{ backgroundColor: token.colorSuccessActive }}
+                  type="primary"
+                />{' '}
+                Corrrect Answer
+              </Space>
+            </Col>
+            <Col span={12}>
+              <Space>
+                <Button shape="circle" type="primary" danger /> Incorrect Answer
+              </Space>
+            </Col>
+            <Col span={12}>
+              <Space>
+                <Button shape="circle" /> Not Attempted
+              </Space>
+            </Col>
+            <Col span={12}>
+              <Space>
+                <Button
+                  style={{ backgroundColor: token.colorPrimary }}
+                  shape="circle"
+                />{' '}
+                Current Question
+              </Space>
+            </Col>
+          </Row>
+        </Col>
+        <Col span={24}>
+          <Title style={{ textAlign: 'center' }} level={3}>
+            Question Panel
+          </Title>
+          {isLoading ? (
+            <TestNavigatorSkeleton />
+          ) : (
+            sections.map(section => {
+              return (
+                <Row>
+                  <Col span={24}>
+                    <Title level={4}>{section.title}</Title>
+                    <Row gutter={[20, 20]}>
+                      {section.items.map((item, itemIndex) => {
+                        return (
+                          <Col span={3}>
+                            <NavLink
+                              style={{ width: '100%' }}
+                              key={item._id}
+                              to={`${item._id}`}
+                              children={() => {
+                                const isActive = questionId === item._id
+                                return (
+                                  // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
+                                  // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
+                                  <Button
+                                    // loading={loading && isCurrent}
+                                    onClick={() => navigate(item._id + '')}
+                                    danger={item.isMarked}
+                                    type={
+                                      isActive
+                                        ? 'primary'
+                                        : item.isMarked
                                           ? 'primary'
-                                          : item.isMarked
-                                            ? 'primary'
-                                            : item.isAnswered
-                                              ? 'primary'
-                                              : 'default'
-                                      }
-                                      style={{
-                                        backgroundColor: isActive
-                                          ? ''
                                           : item.isAnswered
-                                            ? item.type !== 'subjective'
-                                              ? item.isCorrect
-                                                ? token.colorSuccessActive
-                                                : token.colorError
-                                              : token.colorWarningActive
+                                            ? 'primary'
                                             : 'default'
-                                      }}
-                                      shape="circle"
-                                      // icon={
-                                      //   item.isAnswered ? (
-                                      //     <Fragment>
-                                      //       {item.isCorrect ? (
-                                      //         <CheckOutlined />
-                                      //       ) : (
-                                      //         <CloseOutlined />
-                                      //       )}
-                                      //     </Fragment>
-                                      //   ) : null
-                                      // }
-                                    >
-                                      {itemIndex + 1}
-                                    </Button>
-                                    //  </Badge>
-                                  )
-                                }}
-                              />
-                            </Col>
-                          )
-                        })}
-                      </Row>
-                    </Col>
-                  </Row>
-                )
-              })
-            )}
-          </Col>
-        </Row>
-      </Card>
+                                    }
+                                    style={{
+                                      backgroundColor: isActive
+                                        ? ''
+                                        : item.isAnswered
+                                          ? item.type !== 'subjective'
+                                            ? item.isCorrect
+                                              ? token.colorSuccessActive
+                                              : token.colorError
+                                            : token.colorWarningActive
+                                          : 'default'
+                                    }}
+                                    shape="circle"
+                                    // icon={
+                                    //   item.isAnswered ? (
+                                    //     <Fragment>
+                                    //       {item.isCorrect ? (
+                                    //         <CheckOutlined />
+                                    //       ) : (
+                                    //         <CloseOutlined />
+                                    //       )}
+                                    //     </Fragment>
+                                    //   ) : null
+                                    // }
+                                  >
+                                    {itemIndex + 1}
+                                  </Button>
+                                  //  </Badge>
+                                )
+                              }}
+                            />
+                          </Col>
+                        )
+                      })}
+                    </Row>
+                  </Col>
+                </Row>
+              )
+            })
+          )}
+        </Col>
+      </Row>
+    </Card>
   )
 }

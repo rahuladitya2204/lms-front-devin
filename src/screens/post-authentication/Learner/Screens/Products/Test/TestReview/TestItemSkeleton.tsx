@@ -6,15 +6,23 @@ export default function TestItemSkeleton () {
   const SkelArray = [1, 1, 1, 1]
   return (
     <Card
-      title={<Skeleton.Button style={{height:25}} active />}
+      title={<Skeleton.Button style={{ height: 25 }} active />}
       style={{ minHeight: '80vh' }}
       extra={[
         <Row gutter={[10, 20]}>
           <Col>
-            <Skeleton.Button active style={{ width: 60, height: 22 }} size="small" />
+            <Skeleton.Button
+              active
+              style={{ width: 60, height: 22 }}
+              size="small"
+            />
           </Col>
           <Col>
-            <Skeleton.Button active style={{ width: 60, height: 22 }} size="small" />
+            <Skeleton.Button
+              active
+              style={{ width: 60, height: 22 }}
+              size="small"
+            />
           </Col>
         </Row>
       ]}
@@ -39,5 +47,96 @@ export default function TestItemSkeleton () {
         ))}
       </Row>
     </Card>
+  )
+}
+
+export const TestNavigatorSkeleton = () => {
+  const ButtonSkelArray = [
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1,
+    1
+  ]
+  return (
+    <Row>
+      <Col span={24}>
+        <Skeleton.Button
+          active
+          style={{ height: 20, marginBottom: 20 }}
+          block
+        />
+        <Row gutter={[20, 20]}>
+          {ButtonSkelArray.map(() => (
+            <Col span={3}>
+              <Skeleton.Button
+                active
+                style={{ width: 32, height: 30 }}
+                shape="circle"
+              />
+            </Col>
+          ))}
+        </Row>
+      </Col>
+    </Row>
   )
 }
