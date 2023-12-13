@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Col, Divider, Row, Skeleton, Space, Tag, Typography, message } from 'antd'
-import { CalendarOutlined, InfoOutlined, WalletOutlined } from '@ant-design/icons'
+import { CalendarOutlined, InfoOutlined, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -271,7 +271,6 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
         <Col span={24} flex={1}>
       {!isEnrolled?  <Col span={24}>
             <PriceCardContent plan={plan} />
-            {(isSignedIn&&(wallet.balance.value>0))?<Alert style={{marginTop:10}} showIcon icon={<WalletOutlined style={{fontSize:20}}/>} type='warning' message={<Text style={{fontSize:16}}>Spend using your wallet balance: {Utils.UnitTypeToStr(wallet.balance) }</Text>} />:null}
             <Divider/>
     </Col>:null}
       <Col span={24}>
@@ -280,6 +279,13 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                 {children}
           </Col>
               <Col span={24}>
+              {(isSignedIn && (wallet.balance.value > 0)) ?
+              <Alert style={{ marginBottom: 10 }}
+                showIcon
+                icon={<WalletTwoTone style={{ fontSize: 20 }} />}
+              type='success' message={<Text style={{ fontSize: 15 }}>
+                  Use your {Utils.UnitTypeToStr(wallet.balance)} wallet balance to buy this now!</Text>} />
+              : null}
                 {isSignedIn ? <>
                   {isEnrolled?ENROLLED_CTA:  <ProductCheckoutButton onSuccess={() => {
                     message.open({

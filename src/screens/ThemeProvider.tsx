@@ -30,9 +30,9 @@ function ThemeProvider(props: any) {
     [branding?.theme]
   )
 
-  if (isLoading || props.showLoadingScreen) {
-    return <LoadingScreen />
-  }
+  // if (isLoading || props.showLoadingScreen) {
+  //   return <LoadingScreen />
+  // }
 
   return (
     // @ts-ignore

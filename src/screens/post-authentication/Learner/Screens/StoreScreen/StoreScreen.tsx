@@ -59,7 +59,7 @@ function StoreScreen () {
           {arr.map(i => {
          return  <Col lg={6} md={8} sm={12} xs={24}>
          <SkeletonImage style={{flex:1,display:'flex',height:140,marginBottom:10}}	 />
-   <Skeleton avatar paragraph={{rows:1}} active />
+   <Skeleton paragraph={{rows:1}} active />
          </Col>
        })}
         </Row>
