@@ -92,6 +92,7 @@ export default function TestDetailScreen(
               <Col span={24}>
                 {loadingTest ? <Row>
                   <Col span={24}>
+                  <Skeleton active paragraph={{ rows: 1 }} />
                   <SkeletonImage active style={{flex: 1,height:400}} />
                   <Skeleton active paragraph={{ rows: 20 }} />
                   </Col>
@@ -247,9 +248,8 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
       cta={<Button shape='circle' icon={<InfoOutlined />}></Button>} > {Metadata} </ActionDrawer>:null}
 > {isLoading ?
   <>
-                       {/* <Skeleton active paragraph={{ rows: 1 }} /> */}
     <Row gutter={[20, 10]}>
-      <Col span={24}>
+          <Col span={24}>
         <SkeletonImage style={{flex: 1,height: 200}}  />
       </Col>
       <Col span={24}>
@@ -279,7 +279,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                 {children}
           </Col>
               <Col span={24}>
-              {(isSignedIn && (wallet.balance.value > 0)) ?
+              {(isSignedIn && (wallet.balance.value > 0) && (!isEnrolled)) ?
               <Alert style={{ marginBottom: 10 }}
                 showIcon
                 icon={<WalletTwoTone style={{ fontSize: 20 }} />}
