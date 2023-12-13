@@ -81,7 +81,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
               }
               description={
                 <>
-                 {formattedDuration? <Tag icon={<ClockCircleOutlined/>} >{formattedDuration}</Tag>:null}
+                 {formattedDuration? <Tag color='orange-inverse' icon={<ClockCircleOutlined/>} >{formattedDuration}</Tag>:null}
                   {test?.live.scheduledAt ? (
                   <Text>Date: {dayjs(test?.live.scheduledAt).format('LL')}</Text>
                 ) : (

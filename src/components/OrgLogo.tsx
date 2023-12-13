@@ -9,19 +9,18 @@ function OrgLogo(props: any) {
   // const navigate = useNavigate()
   const { data: organisation } = Common.Queries.useGetOrgDetails()
   const logo = organisation?.branding?.logo
+  const SkeletonButton = (
+    <Skeleton.Avatar active style={{ width: 45, height: 45 }} />
+  )
   if (!logo) {
     return null
   }
-  return (
+  return !organisation._id ? (
+    SkeletonButton
+  ) : (
     <Image
       noLoadNoShow
-      noLoadNoShowPlaceholder={
-        organisation._id ? (
-          <Skeleton.Avatar active style={{ width: 45, height: 45 }} />
-        ) : (
-          <span />
-        )
-      }
+      noLoadNoShowPlaceholder={organisation._id ? SkeletonButton : <span />}
       // onClick={() => navigate('../app/store')}
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
       width={props.width || `45px`}

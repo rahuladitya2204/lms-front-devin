@@ -11,6 +11,7 @@ import {
   Menu,
   Modal,
   Row,
+  Skeleton,
   Space,
   Spin,
   Tag,
@@ -33,6 +34,7 @@ import {
   VerifiedOutlined,
   WalletOutlined
 } from '@ant-design/icons'
+import { Fragment, useMemo } from 'react'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Link, NavLink } from 'react-router-dom'
 import { Outlet, useNavigate } from 'react-router'
@@ -46,7 +48,6 @@ import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useMemo } from 'react'
 import useMessage from '@Hooks/useMessage'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -120,9 +121,9 @@ const LearnerHeader: React.FC = () => {
     return MENU_ITEMS;
     
   }, [isMobileOrTablet, isSignedIn, enrolledProducts]);
-  const WalletButton = <NavLink to={`../app/wallet`} children={({ isActive }) => {
-    return <Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
-      <Spin spinning={loadingLearnerDetails}>
+  const HeaderButtonSkeleton = <Skeleton.Button active style={{ width: 97, height: 32,borderRadius:15 }} />;
+  const WalletButton = loadingLearnerDetails?HeaderButtonSkeleton:<NavLink to={`../app/wallet`} children={({ isActive }) => {
+    return loadingLearnerDetails?HeaderButtonSkeleton:<Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
         <Button style={{ paddingTop: 2, paddingLeft: 5 }}
           color='blue-inverse'
           // size={screen.isMobile?'small':'middle'}
@@ -133,15 +134,19 @@ const LearnerHeader: React.FC = () => {
               <Text style={{ fontSize: 16, marginLeft: 5 }} strong>  {Utils.UnitTypeToStr(user.wallet.balance)}</Text></Col>
           </Row>
         </Button>
-      </Spin>
     </Tooltip>
   }} />;
   // Define the extraContent
   const extraContent = (
     <Space>
                 {screen.isDesktop && isSignedIn ? (
-            <Space style={{ marginLeft: 45 }}>
-              {menuItems.map((item, index) => (
+        <Space style={{ marginLeft: 45 }}>
+          {loadingLearnerDetails ? <Row gutter={[8, 0]}>
+            <Col>{HeaderButtonSkeleton}</Col>
+            <Col>
+              {HeaderButtonSkeleton}
+            </Col>
+          </Row> : menuItems.map((item, index) => (
                 <NavLink
                   key={index}
                   to={`../app/${item.key}`}
@@ -157,44 +162,48 @@ const LearnerHeader: React.FC = () => {
                     </Button>
                   )}
                 />
-              ))}{' '}
+              ))}
+              {}{' '}
               {/* <Divider orientation="right" /> */}
             </Space>
           ) : null}
-      {isMobileOrTablet ? (
-        <>
-          {isSignedIn?WalletButton:null}
-        {isSignedIn?    <ActionDrawer width={300}
-          extra={closeDrawer => [
-            <Button
-            icon={<LogoutOutlined />}
-            loading={loggingOut}
-            onClick={() => {
-              logout(closeDrawer)
-            }}
-            type="primary"
-            block
-          >
-            Logout
-          </Button>
-          ]}
-          cta={<Button icon={<MenuOutlined />} />}
-        >
-          <Menu
-            defaultSelectedKeys={['1']}
-            // defaultOpenKeys={['sub1']}
-            mode="inline"
-            onClick={e => {
-              navigate(e.key)
-            }}
-            // theme="dark"
-            // inlineCollapsed={collapsed}
-            items={menuItems}
-          />
-        </ActionDrawer>:null}
-        </>
-      ) : null}
-{!isSignedIn?<ActionModal
+      {/* {loadingLearnerDetails ? <Skeleton.Avatar active style={{ width: 32, height: 32 }} /> : } */}
+      <Fragment>
+        {isMobileOrTablet ? (
+          loadingLearnerDetails ? <Skeleton.Avatar active style={{ width: 32, height: 32 }} /> : <Fragment>
+            {isSignedIn ? WalletButton : null}
+            {isSignedIn ? <ActionDrawer width={300}
+              extra={closeDrawer => [
+                <Button
+                  icon={<LogoutOutlined />}
+                  loading={loggingOut}
+                  onClick={() => {
+                    logout(closeDrawer)
+                  }}
+                  type="primary"
+                  block
+                >
+                  Logout
+                </Button>
+              ]}
+              cta={<Button icon={<MenuOutlined />} />}
+            >
+              <Menu
+                defaultSelectedKeys={['1']}
+                // defaultOpenKeys={['sub1']}
+                mode="inline"
+                onClick={e => {
+                  navigate(e.key)
+                }}
+                // theme="dark"
+                // inlineCollapsed={collapsed}
+                items={menuItems}
+              />
+            </ActionDrawer> : null}
+          </Fragment>
+        ) : null}
+      </Fragment>
+{!isSignedIn?(loadingLearnerDetails?<Skeleton.Button style={{width:97,height:32}} active />:<ActionModal
           width={300}
           // title="Login"
           cta={
@@ -208,7 +217,7 @@ const LearnerHeader: React.FC = () => {
           }
         >
           <LoginScreen />
-        </ActionModal>:null}
+        </ActionModal>):null}
       {isSignedIn &&
         !isMobileOrTablet && (
           <Space>
@@ -217,7 +226,7 @@ const LearnerHeader: React.FC = () => {
               {WalletButton}
             </>
             ) : null}
-            <Dropdown
+            {loadingLearnerDetails?<Skeleton.Button shape='circle' style={{width:32,height:32}} active />:<Dropdown
               trigger={['click']}
               placement="bottomLeft"
               overlay={
@@ -264,7 +273,7 @@ const LearnerHeader: React.FC = () => {
               }
             >
               <Button shape="circle" icon={<UserOutlined />} />
-            </Dropdown>
+            </Dropdown>}
           </Space>
         )}
     </Space>
@@ -282,7 +291,7 @@ const LearnerHeader: React.FC = () => {
 
           {!isMobileOrTablet ? (
             <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
-              <SearchLearnerCourses />
+              {loadingLearnerDetails?<Skeleton.Button active style={{width:460,height:32}} />:<SearchLearnerCourses />}
             </Space>
           ) : null}
           {/* <Search

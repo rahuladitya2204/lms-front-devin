@@ -70,12 +70,16 @@ export default PastTest
 
 export const SkeletonTestCard = () => {
   return (
-    <Card>
-      <SkeletonImage
-        style={{ flex: 1, height: 200, marginBottom: 20 }}
-        active
-      />
-      <Skeleton avatar active paragraph={{ rows: 1 }} />
+    <Card
+      bodyStyle={{ padding: 24, paddingTop: 0, paddingBottom: 0 }}
+      cover={
+        <SkeletonImage
+          style={{ flex: 1, height: 200, marginBottom: 0 }}
+          active
+        />
+      }
+    >
+      <Skeleton active paragraph={{ rows: 1 }} />
     </Card>
   )
 }
@@ -109,7 +113,7 @@ const TestCard = ({ test, metadata }: { test: Types.Test, metadata: any }) => {
             ) : test.status === Enum.TestStatus.IN_PROGRESS ? (
               <Tag color="orange-inverse">Evaluation in progres</Tag>
             ) : null}
-            <Tag>Taken on: {dayjs(testStartDate).format('LL')}</Tag>
+            <Tag>{dayjs(testStartDate).format('LL')}</Tag>
           </Space>
         }
         avatar={<EditOutlined />}
