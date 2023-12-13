@@ -53,19 +53,29 @@ function StoreScreen () {
       {isFetching ? <Col span={24}>
    
         <Row gutter={[50, 50]}>
-        <Col span={24}>
-        <Skeleton active paragraph={{rows: 1}}	 />
-        </Col>
-          {arr.map(i => {
+        <Col span={24} style={{display:'flex',justifyContent:'center'}}>
+        <Skeleton.Button active style={{width:320,height: 45,marginTop:25}}	 />
+  </Col>
+  <Skeleton style={{paddingLeft: 25}} paragraph={{rows:1}} active />
+    {arr.map(i => {
          return  <Col lg={6} md={8} sm={12} xs={24}>
          <SkeletonImage style={{flex:1,display:'flex',height:140,marginBottom:10}}	 />
    <Skeleton paragraph={{rows:1}} active />
-         </Col>
+           <Divider style={{marginTop:0,marginBottom:10}} />
+           <Row justify={'space-between'}>
+             <Col>
+               <Skeleton.Button active style={{ width: 60, height: 22 }} />
+             </Col>
+             <Col>
+             <Skeleton.Button active style={{ width: 60, height: 22 }} />
+</Col>
+       </Row>
+ </Col>
        })}
         </Row>
       </Col> : <>
         <Divider>
-        <Title style={{marginBottom:0}} level={isMobile?2:1}>Expore our products</Title>
+        <Title style={{marginBottom:0}} level={isMobile?2:1}>Explore our products</Title>
         </Divider>
           
           {/* <Row gutter={[20,20]}> */}
