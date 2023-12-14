@@ -3,7 +3,7 @@ import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // TestPlayerFiles.tsx
-import React, { useCallback } from 'react'
+import React, { Fragment, useCallback } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppImage from '@Components/Image'
@@ -27,6 +27,9 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
     const FILES = [...files, file];
     // add(file)
     form.setFieldValue(['answer', 'subjective', 'files'], FILES);
+    updateAnswerApi()
+  }
+  const updateAnswerApi = () => {
     const answer = form.getFieldValue(['answer']);
     updateAnswer({
       testId: props.testId + '',
@@ -41,6 +44,22 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
       }
     });
   }
+  const handleMoveItem = (dragIndex:number, hoverIndex: number) => {
+    // Update the order of files in the form
+    form.setFieldsValue({
+      answer: {
+        subjective: {
+          files: update(form.getFieldValue(['answer', 'subjective', 'files']), {
+            $splice: [
+              [dragIndex, 1],
+              [hoverIndex, 0, form.getFieldValue(['answer', 'subjective', 'files'])[dragIndex]],
+            ],
+          }),
+        },
+      },
+    });
+    updateAnswerApi()
+  };
 
   const deleteFile = (fileId:string) => {
     confirm({
@@ -108,7 +127,8 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
                   return  (
                     <>
                       <DndProvider backend={HTML5Backend}>
-         <Row gutter={[20,20]}>
+                        <Row gutter={[20, 20]}>
+                          <Image.PreviewGroup  >
                      {fields.map((field, index) => {
                          const d = form.getFieldsValue();
                            // console.log(D,'POP')
@@ -121,11 +141,12 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
                   // @ts-ignore
 name={fileDetails.name} // Assuming this is how you access the file name
                    fileId={fileDetails.file} // Assuming this is how you access the file id
-                   moveItem={move}
+                   moveItem={handleMoveItem}
                    removeItem={() => deleteFile(fileDetails.file)}
                                                  />
 </Col>
-           })}
+                     })}
+                            </Image.PreviewGroup>
          </Row>
                       </DndProvider>
                     </>
@@ -204,7 +225,7 @@ const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
   const { currentQuestion } = useReviewQuestion();
   const imageIssues = currentQuestion?.feedback?.imageIssues;
   const visuals = currentQuestion?.feedback?.visuals;
-  console.log(imageIssues, 'imageIssues');
+  // console.log(imageIssues, 'imageIssues');
   const issue = imageIssues?.find(i => i.id === fileId);
 
     const { data: url, isLoading } = Common.Queries.useGetPresignedUrlFromFile(
@@ -212,7 +233,7 @@ const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
     )
   
     if (isLoading) return <p>Loading...</p>
-      console.log(issue,'issue')
+      // console.log(issue,'issue')
   return (
       // @ts-ignore
       <AppImage preview visuals={visuals}
