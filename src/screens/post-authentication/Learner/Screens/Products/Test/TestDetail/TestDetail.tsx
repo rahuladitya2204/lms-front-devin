@@ -271,7 +271,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
         <Col span={24} flex={1}>
       {!isEnrolled?  <Col span={24}>
             <PriceCardContent plan={plan} />
-            <Divider/>
+           {!isMobile? <Divider/>:null}
     </Col>:null}
       <Col span={24}>
         <Row gutter={[10, 10]}>
@@ -282,7 +282,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               {(isSignedIn && (wallet.balance.value > 0) && (!isEnrolled)) ?
               <Alert style={{ marginBottom: 10 }}
                 showIcon
-                icon={<WalletTwoTone style={{ fontSize: 20 }} />}
+                icon={<WalletTwoTone />}
               type='success' message={<Text style={{ fontSize: 15 }}>
                   Use your {Utils.UnitTypeToStr(wallet.balance)} wallet balance to buy this now!</Text>} />
               : null}
