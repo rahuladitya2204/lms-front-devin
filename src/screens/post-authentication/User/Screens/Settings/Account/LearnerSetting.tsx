@@ -1,9 +1,13 @@
-import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
+import { Button, Card, Checkbox, Col, DatePicker, Form, Input, Row, Select, Space, Table, Tag, Typography } from 'antd'
+import { DeleteOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Enum, Types, User } from '@adewaskar/lms-common'
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { Fragment, useEffect } from 'react'
 
+import ActionModal from '@Components/ActionModal/ActionModal';
+import AddBanner from './AddBanner';
+import AppImage from '@Components/Image';
 import InputTags from '@Components/InputTags/InputTags'
-import { useEffect } from 'react'
+import dayjs from 'dayjs';
 
 interface LearnerSettingPropsI {}
 
@@ -27,9 +31,116 @@ export default function LearnerSetting(props: LearnerSettingPropsI) {
             }
         })
     }
+    const banners = Form.useWatch('banners', form);
+    const handleDeleteBanner = (key: string) => {
+                                    // @ts-ignore
+
+        const updatedBanners = banners.filter((banner: Types.BannerSetting) => banner._id !== key);
+        form.setFieldsValue({ banners: updatedBanners });
+    };
+
+
   return (
       <Form onFinish={onSubmit} form={form}>
-          <Row gutter={[20,30]} >
+          <Row gutter={[20, 30]} >
+          <Col span={24}>
+                  <Card title="Banners"
+                      extra={<ActionModal
+                          title='Add Banners'
+                          cta={<Button type='primary' >Add banner</Button>}>
+                          <AddBanner onSave={(banner) => {
+                              let banners = form.getFieldValue(['banners']);
+                              if (banner.ctas) {
+                                  banner.ctas = [];
+                              }
+                              if (banner.display.from) {
+                                //   @ts-ignore
+                                  banner.display.from = banner.display.from.toDate();
+                              }
+                              if (banner.display.to) {
+                                                                  //   @ts-ignore
+                                banner.display.to = banner.display.to.toDate();
+                            }
+                              if (!banners) {
+                                  banners = [];
+                              }
+                              if (banner._id) {
+                                banners.push(banner)
+                              } else {
+                                //   @ts-ignore
+                                  banners.forEach((b,index) => {
+                                      if (b._id === banner._id) {
+                                          banners[index] = banner;
+                                    }
+                                })
+                              }
+                              console.log(banners,'taaa')
+                              form.setFieldValue(['banners'], banners);
+                              form.submit();
+                          }} />
+                      </ActionModal>}>
+                      <Form.Item name='banners' />
+                                <Row gutter={[16, 16]}>
+                {form.getFieldValue('banners')?.map((banner: Types.BannerSetting, index: number) => (
+                    <Col key={index} span={24}>
+                        <Card bordered={false}>
+                            <Row >
+                                <Col span={24}>
+                                <Table
+                dataSource={form.getFieldValue('banners')}
+                columns={[
+                    {
+                        title: 'Image',
+                        dataIndex: 'image',
+                        key: 'image',
+                        render: (text: string) => <AppImage preview src={text} width={100} height={100} />
+                    },
+                    {
+                        title: 'Display Period',
+                        dataIndex: 'display',
+                        key: 'display',
+                        render: (display: { from: Date; to: Date }) => `${dayjs(display?.from).format('LL')} - ${dayjs(display?.to).format('LL')}`
+                    },
+                    {
+                        title: 'CTAs',
+                        dataIndex: 'ctas',
+                        key: 'ctas',
+                        render: (ctas: { label: string, action: string }[]) => (
+                            <>
+                                {ctas.map((cta, index) => (
+                                    <Tag color="blue" key={index}>{cta.label}</Tag>
+                                ))}
+                            </>
+                        )
+                    },
+                    {
+                        title: 'Action',
+                        key: 'action',
+                        render: (_: any, record: Types.BannerSetting) => (
+                            // @ts-ignore
+                            <Space>
+                                                            <Button type="link" icon={<DeleteOutlined />} onClick={() => handleDeleteBanner(record._id+'')} />
+                                <ActionModal cta={<Button type="link" icon={<EditOutlined />} />}>
+                                    <AddBanner onSave={console.log} banner={record} />
+                            </ActionModal>
+
+                                
+</Space>                            )
+                    }
+                    // Add more columns if needed
+                ]}
+                rowKey="key"
+            />
+                                </Col>
+                            </Row>
+                        </Card>
+                    </Col>
+                ))}
+            </Row>
+
+                    </Card>
+                </Col>
+
               <Col span={24}>
               <Card title='Authentication' >
               <Form.Item name={['register','type']} >

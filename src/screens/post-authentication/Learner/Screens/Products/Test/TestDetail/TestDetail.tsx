@@ -244,7 +244,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
       fontSize: 16,
       whiteSpace: 'normal', // Ensures text wraps
       overflowWrap: 'break-word' // Breaks words to prevent overflow
-    }} >{ test.title}</Text>} extra={(isMobile || isTablet) ? <ActionDrawer title="Test Details"
+    }} >{ test.title}</Text>} extra={(isMobile || isTablet) ? <ActionDrawer title={test.title}
       cta={<Button shape='circle' icon={<InfoOutlined />}></Button>} > {Metadata} </ActionDrawer>:null}
 > {isLoading ?
   <>
