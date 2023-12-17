@@ -8,6 +8,7 @@ import {
   List,
   Progress,
   Row,
+  Skeleton,
   Space,
   Tag,
   Typography
@@ -29,6 +30,7 @@ import {
 import { Enum, Learner, Utils } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
+import EnrolledTestItem from './EnrolledTestItem'
 import Image from '@Components/Image'
 import PlayIcon from '@Icons/play.svg'
 import { capitalize } from 'lodash'
@@ -50,7 +52,8 @@ const EnrolledPackageDetailScreen: React.FC<
   const navigate = useNavigate()
   const { packageId } = useParams()
   const {
-    data: { product: { data: packageData }, plan: { expiresAt } }
+    data: { product: { data: packageData }, plan: { expiresAt } },
+    isLoading: loading
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: Enum.ProductType.PACKAGE,
@@ -72,7 +75,16 @@ const EnrolledPackageDetailScreen: React.FC<
             <Card size="small" title={null}>
               <Row>
                 <Col lg={18} md={18} sm={24} xs={24}>
-                  <Title style={{ marginTop: 0 }}>{packageData?.title}</Title>
+                  {loading ? (
+                    <Skeleton.Button
+                      active
+                      style={{ width: '100%', height: 30 }}
+                    />
+                  ) : (
+                    <Title level={2} style={{ marginTop: 0 }}>
+                      {packageData?.title}
+                    </Title>
+                  )}
                   {/* <Progress
                     style={{ padding: 0 }}
                     percent={progress}
@@ -109,10 +121,17 @@ const EnrolledPackageDetailScreen: React.FC<
                 </Col>
                 <Col span={1} />
                 <Col lg={5} md={5} sm={0} xs={0}>
-                  <Image
-                    style={{ borderRadius: 5 }}
-                    src={packageData?.thumbnailImage}
-                  />
+                  {loading ? (
+                    <Skeleton.Image
+                      active
+                      style={{ height: 130, width: '100%' }}
+                    />
+                  ) : (
+                    <Image
+                      style={{ borderRadius: 5 }}
+                      src={packageData?.thumbnailImage}
+                    />
+                  )}
                 </Col>
               </Row>
               <Row />
@@ -126,95 +145,56 @@ const EnrolledPackageDetailScreen: React.FC<
               <Row gutter={[30, 30]}>
                 <Col lg={17} md={24} sm={24} xs={24}>
                   <Row gutter={[20, 30]}>
-                    {packageData?.products
-                      ? Object.keys(packageData?.products).map(k => {
-                          if (!packageData.products[k]?.length) {
-                            return null
-                          }
-                          // @ts-ignore
-                          return (
-                            <Col span={24}>
-                              <Title level={3} style={{ marginTop: 0 }}>
-                                {capitalize(k)}
-                              </Title>
-                              <List
-                                split={false}
-                                size="small"
-                                bordered={false}
-                                dataSource={packageData.products[k]}
-                                renderItem={(item: any) => (
-                                  <List.Item>
-                                    <Card
-                                      style={{
-                                        width: '100%',
-                                        borderRadius: 10
-                                      }}
-                                      bodyStyle={{ padding: 0 }}
-                                    >
-                                      <Row>
-                                        <Col span={3}>
-                                          <Image
-                                            height={70}
-                                            width={100}
-                                            src={item.metadata?.thumbnailImage}
-                                          />
-                                        </Col>
-                                        <Col span={1} />
-                                        <Col
-                                          flex={1}
-                                          style={{
-                                            marginTop: 10,
-                                            marginBottom: 10
-                                          }}
-                                        >
-                                          <Title
-                                            style={{ marginTop: 0 }}
-                                            level={5}
-                                          >
-                                            {item.title}
-                                          </Title>
-                                          <Space>
-                                          </Space>
-                                        </Col>
-                                        <Col span={6} />
-                                        <Col
-                                          span={3}
-                                          style={{
-                                            display: 'flex',
-                                            alignItems: 'center'
-                                          }}
-                                        >
-                                          <Space>
-                                            <Progress
-                                              style={{
-                                                visibility: item.isCompleted
-                                                  ? 'visible'
-                                                  : 'hidden'
-                                              }}
-                                              width={32}
-                                              type="circle"
-                                              percent={100}
-                                            />
-                                            <Button
-                                              // style={{ padding: '0 10px' }}
-                                              shape="circle"
-                                              // onClick={() =>
-                                              //   playItem(section._id, item._id)
-                                              // }
-                                              // shape="round"
-                                              icon={<PlayCircleOutlined />}
-                                            />
-                                          </Space>
-                                        </Col>
-                                      </Row>
-                                    </Card>
-                                  </List.Item>
-                                )}
-                              />
-                            </Col>
-                          )
-                        })
-                      : null}
+                    {loading ? (
+                      <Col span={24}>
+                        <Skeleton.Button
+                          active
+                          style={{
+                            width: '100%',
+                            height: 30,
+                            marginBottom: 15
+                          }}
+                        />
+
+                        <Skeleton.Button
+                          active
+                          style={{ width: '100%', height: 75,marginTop:18 }}
+                        />
+
+                        <Skeleton.Button
+                          active
+                          style={{ width: '100%', height: 75,marginTop:18 }}
+                        />
+
+                        <Skeleton.Button
+                          active
+                          style={{ width: '100%', height: 75,marginTop:18 }}
+                        />
+                      </Col>
+                    ) : packageData?.products ? (
+                      Object.keys(packageData?.products).map(k => {
+                        if (!packageData.products[k]?.length) {
+                          return null
+                        }
+                        // @ts-ignore
+                        return (
+                          <Col span={24}>
+                            <Title level={3} style={{ marginTop: 0 }}>
+                              {capitalize(k)}
+                            </Title>
+                            <List
+                              split={false}
+                              size="small"
+                              bordered={false}
+                              dataSource={packageData.products[k]}
+                              renderItem={(item: any) => (
+                                <EnrolledTestItem enrolledProduct={item} />
+                              )}
+                            />
+                          </Col>
+                        )
+                      })
+                    ) : null}
                   </Row>
                 </Col>
                 {/* <Col span={1} /> */}
