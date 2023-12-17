@@ -42,7 +42,9 @@ function PackageProducts(props: PackageProductsPropsI) {
                     <Row gutter={[20, 30]}>
                       {products.map((item: string) => (
                         <Col xs={24} sm={12} md={8} lg={6}>
-                          <LearnerProductCard product={{ id: item, type: key }} />
+                          <LearnerProductCard
+                            product={{ id: item, type: key }}
+                          />
                         </Col>
                       ))}
                     </Row>

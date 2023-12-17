@@ -5,6 +5,7 @@ import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import Image from '@Components/Image'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+import TestimonialCard from '@Components/TestimonialCard'
 
 const { Title, Paragraph } = Typography
 
@@ -26,7 +27,7 @@ function PackageOverview(props: PackageOverviewPropsI) {
   return (
     <Fragment>
       <Row gutter={[30, 30]}>
-        {!props.hidePreview ? (
+        {!props.hidePreview && landingPage?.promoVideo?.url ? (
           <Col span={24}>
             <Card
               style={{ margin: '20px 0' }}
@@ -45,6 +46,18 @@ function PackageOverview(props: PackageOverviewPropsI) {
               <HtmlViewer content={landingPage.description} />
             </Paragraph>
           )}
+        </Col>
+        <Col span={24}>
+          <Title level={4}>Testimonials</Title>
+          <Row gutter={[20, 30]}>
+            {bundle.testimonials.map(testimonial => {
+              return (
+                <Col span={8}>
+                  <TestimonialCard testimonial={testimonial} />
+                </Col>
+              )
+            })}
+          </Row>
         </Col>
       </Row>
     </Fragment>

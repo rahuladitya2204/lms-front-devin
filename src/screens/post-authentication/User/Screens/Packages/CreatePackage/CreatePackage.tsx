@@ -19,6 +19,8 @@ import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 import Header from '@Components/Header'
 import PackageDetails from './PackageDetails/PackageDetails'
 import PackageLandingPageEditor from './PackageLandingPage/PackageLandingPageEditor'
+import PackagePlan from './PackagePricing'
+import PackagePricing from './PackagePricing'
 import Products from './PackageDetails/Products/Products'
 import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
@@ -132,10 +134,11 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   >
     Save Details
   </Button>;
+  console.log(isPackageValid,'isPackageValid')
   return (
     <Header showBack title='Create Package' extra={[
       ...(packageDetails.status===Enum.PackageStatus.PUBLISHED?[UnpublishPackage,<Tag color='green'>Published</Tag>]:[]),
-      isPackageValid && (packageDetails.status !== Enum.PackageStatus.PUBLISHED)?PublishPackage:null,
+      (isPackageValid && (packageDetails.status !== Enum.PackageStatus.PUBLISHED))?PublishPackage:null,
       SavePackage]}>
       {/* <Spin  spinning={loadingPackage}> */}
       <Card>
@@ -158,6 +161,11 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
                     label: 'Landing Page',
                     key: "landing-page",
                     children:<PackageLandingPageEditor packageId={packageId+''} />
+                  },
+                  {
+                    label: 'Pricing',
+                    key: "pricing",
+                    children:<PackagePricing packageId={packageId+''} />
                     }
               ]} />
 

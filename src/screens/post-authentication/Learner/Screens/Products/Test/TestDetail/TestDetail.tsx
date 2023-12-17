@@ -15,6 +15,7 @@ import LearnerLogin from '@Learner/Screens/Login'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PriceCardContent from '@Learner/Screens/StoreScreen/Cards/PriceCardContent'
 import ProductCheckoutButton from '@Components/CheckoutButton'
+import ProductWalletNudge from '@Components/ProductWalletNudge'
 import SkeletonImage from '@Components/SkeletonImage'
 import TestMetadata from './TestMetadata'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
@@ -279,13 +280,6 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                 {children}
           </Col>
               <Col span={24}>
-              {(isSignedIn && (wallet.balance.value > 0) && (!isEnrolled)) ?
-              <Alert style={{ marginBottom: 10 }}
-                showIcon
-                icon={<WalletTwoTone />}
-              type='success' message={<Text style={{ fontSize: 15 }}>
-                  Use your {Utils.UnitTypeToStr(wallet.balance)} wallet balance to buy this now!</Text>} />
-              : null}
                 {isSignedIn ? <>
                   {isEnrolled?ENROLLED_CTA:  <ProductCheckoutButton onSuccess={() => {
                     message.open({

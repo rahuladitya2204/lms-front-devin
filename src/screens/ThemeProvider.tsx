@@ -53,7 +53,7 @@ function ThemeProvider(props: any) {
         {props.children}
       </ConfigProvider>
       <ApplyFavicon shortName={shortName} faviconUrl={branding.favIcon.url} />
-      <Banner />
+      {/* <Banner /> */}
     </MessageContext.Provider>
   )
 }

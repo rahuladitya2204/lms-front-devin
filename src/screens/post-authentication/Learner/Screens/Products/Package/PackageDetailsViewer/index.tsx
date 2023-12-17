@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Col,
+  Divider,
   Rate,
   Row,
   Skeleton,
@@ -14,7 +15,7 @@ import {
   AlertOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Store, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -25,10 +26,13 @@ import LearnerLogin from '@Learner/Screens/Login';
 import { LoginLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api';
 import PackageDetails from './PackageDetails'
 import PackageMetadata from './PackageMetadata'
+import PriceCardContent from '@Learner/Screens/StoreScreen/Cards/PriceCardContent';
 import ProductCheckoutButton from '@Components/CheckoutButton';
+import ProductWalletNudge from '@Components/ProductWalletNudge';
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 import image from './bg.svg'
 import styled from '@emotion/styled'
+import useBreakpoint from '@Hooks/useBreakpoint';
 import useMessage from '@Hooks/useMessage';
 
 const { UnitTypeToStr } = Utils;
@@ -111,51 +115,20 @@ function PackageDetailViewer () {
                     {/* <PackageMetadata package={package} /> */}
                     </Col>
 
-              <Col span={24}>
-                <PackageTitle className="package-title" level={3}>
+                    <Col span={24}>
+                <PackageTitle className="course-title" level={3}>
                   {bundle.title}
                 </PackageTitle>
                 <Col span={24} />
-                {/* <PackageSubTitle className="package-title">
+                        <PackageSubTitle className="course-title">
+                          {/* @ts-ignore */}
                   {bundle.subtitle}
-                </PackageSubTitle> */}
+                </PackageSubTitle>
               </Col>
               <Col ></Col>
             </Row>
           </Col>
-          <Col span={24}>
-            <Row justify="space-between" align="middle">
-              {/* <Col xs={24} sm={18} md={16} lg={12}>
-                <Row justify="start" align="middle" gutter={[20,20]}>
-                  <Col>
-                    <Avatar
-                      size={64}
-                      src={instructor?.image || <UserOutlined color="black" />}
-                    />
-                  </Col>
-                  <Col>
-                    <MetaText strong>Created By</MetaText> <br />
-                    <MetaText>{instructor?.name}</MetaText>
-                  </Col>
-                </Row>
-              </Col> */}
-              <Col xs={0} sm={0} md={0} lg={6}>
-                <MetaText strong>Categories</MetaText> <br />
-                <MetaText>{category?.title}</MetaText>
-              </Col>
-              {/* <Col xs={24} sm={6} md={7} lg={6}>
-                <MetaText strong>Review</MetaText> <br />
-                <CustomRate
-                  disabled
-                  style={{ fontSize: 15 }}
-                  value={bundle.analytics.reviews.count}
-                />{' '}
-                    {bundle.analytics.averageRating}
-                    ({formatAvgCount(bundle.analytics.reviews.count)} reviews)
-                <MetaText />
-              </Col> */}
-            </Row>
-          </Col>
+
         </Row>}
       
 
@@ -184,6 +157,7 @@ const PackageCard = ({packageId,plan,children}: {
   plan: Types.Plan,
   children?:React.ReactNode
 }) => {
+  const { isMobile, isTablet } = useBreakpoint();
   const product = { type: 'package', id: packageId };
   const { data: bundle,isFetching: loadingPackage } = Learner.Queries.useGetPackageDetails(packageId + '', {
     enabled: !!packageId
@@ -196,7 +170,6 @@ const PackageCard = ({packageId,plan,children}: {
     updateCart({ data: { product: product }, action: 'add' });
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
-  const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === bundle._id);
   const {isSignedIn}= Store.useAuthentication(s => s);
   const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'package',
@@ -210,7 +183,7 @@ const PackageCard = ({packageId,plan,children}: {
   cover
   bordered hoverable
   style={{ padding: 0 }}
-  bodyStyle={{ padding: 5 }}
+  bodyStyle={{ padding: 5 }} title={bundle.title}
     >
       {isLoading ?
         <>
@@ -230,26 +203,16 @@ const PackageCard = ({packageId,plan,children}: {
       <Col span={24}>
         <Image  width={'100%'} height={200} preview={false} src={bundle.thumbnailImage} />
 </Col>
-        <Col span={24}>
-          <Row justify="space-between" align='middle'>
-        <Col>
-            <Row align='middle' gutter={[5, 5]}>
-              <Col><Text strong style={{ fontSize: 24 }}>{UnitTypeToStr(plan.finalPrice)}</Text></Col>
-             <Col><Text style={{ textDecoration: 'line-through' }} type='secondary'>{UnitTypeToStr(plan.displayPrice)}</Text></Col>
-          </Row>
-        </Col>
-        <Col>
-          <Tag color="purple">{ Math.floor(Number(plan.discount))}% off</Tag>
-        </Col>
-      </Row>
-    </Col>
-      <Col span={24}>
-        <Row gutter={[15, 15]}>
-        {isSignedIn?<><Col span={24}>
-          {!isEnrolled?<Button loading={addingToCart} disabled={!!isAddedToCart} onClick={()=>addItemToCart(bundle)} size="large" block>
-            {isAddedToCart?`Added to cart`:`Add To Cart`}
-          </Button>:null}
-        </Col>
+{!isEnrolled?  <Col span={24} style={{padding:'0 20px'}}>
+            <PriceCardContent plan={plan} /> 
+           {!isMobile? <Divider style={{margin:10}} />:null}
+    </Col>:null}
+      <Col span={24} style={{padding:'0 20px'}}>
+          <Row gutter={[15, 15]}>
+          {children? <Col span={24}>
+          {children}
+        </Col>:null}
+        {isSignedIn?<>
         <Col span={24}>
          {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
             Go to Package
@@ -268,9 +231,6 @@ const PackageCard = ({packageId,plan,children}: {
                     >
                       Enroll Now
                     </ProductCheckoutButton>
-          //           <Button onClick={() => enrollForPackage(bundle._id)} size="large" type="primary" block>
-          //   Enroll Now
-          // </Button>
                   }
                 </Col>{' '}</> :
                 <Col span={24}>
@@ -281,9 +241,7 @@ const PackageCard = ({packageId,plan,children}: {
                   <LearnerLogin/>
           </ActionModal></Col>
             }
-            {children? <Col span={24}>
-          {children}
-        </Col>:null}
+         
        
       </Row>
     

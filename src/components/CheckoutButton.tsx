@@ -3,6 +3,7 @@ import { Button, ButtonProps, Modal } from 'antd'
 import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from './ActionModal/ActionModal'
+import ProductWalletNudge from './ProductWalletNudge'
 import { usePaymentCheckout } from '@Hooks/CommonHooks'
 import { useRef } from 'react'
 
@@ -83,6 +84,7 @@ export default function ProductCheckoutButton(
   }
   return (
     <>
+      <ProductWalletNudge product={props.product} />
      <Button
       size="large"
         onClick={() => {

@@ -2,8 +2,10 @@ import {
   CalendarOutlined,
   CheckCircleOutlined,
   ClockCircleOutlined,
+  EditOutlined,
   ReadOutlined,
-  SafetyCertificateOutlined
+  SafetyCertificateOutlined,
+  VideoCameraOutlined
 } from '@ant-design/icons'
 import { Learner, Types, Utils } from '@adewaskar/lms-common'
 import { List, Skeleton, Typography } from 'antd'
@@ -30,22 +32,32 @@ const data = {
   enrolled: {
     title: 'Enrolled',
     icon: <CheckCircleOutlined />,
-    value: '1982 Students'
+    value: ''
   },
-  language: {
-    title: 'Language',
-    icon: <CheckCircleOutlined />,
-    value: 'English'
+  tests: {
+    title: 'Tests',
+    icon: <EditOutlined />,
+    value: ''
+  },
+  courses: {
+    title: 'Courses',
+    icon: <VideoCameraOutlined />,
+    value: ''
+  },
+  events: {
+    title: 'Events',
+    icon: <CalendarOutlined />,
+    value: ''
   },
   skillLevel: {
     title: 'Skill Level',
     icon: <CheckCircleOutlined />,
-    value: 'Beginner'
+    value: ''
   },
   certificate: {
     title: 'Certificate',
     icon: <SafetyCertificateOutlined />,
-    value: 'Yes'
+    value: ''
   }
 }
 
@@ -61,16 +73,22 @@ function PackageMetadata(props: PackageMetadataPropsI) {
   } = Learner.Queries.useGetPackageDetails(packageId, {
     enabled: !!packageId
   })
-  // if (loadingPackage) {
-  //   return <Skeleton paragraph={{ rows: 10 }} active />
-  // }
-  // data.duration.value = formatTime(bundle.totalDuration)
-  // data.enrolled.value = `${bundle.analytics.enrolled.count} students`
-  // data.lectures.value = bundle.totalItems
-  // data.certificate.value = bundle.certificate ? 'Yes' : ''
-  // data.language.value = bundle.language
-  // @ts-ignore
-  const dataSource = Object.keys(data).map(key => data[key])
+  if (bundle.products.test.length) {
+    data.tests.value = bundle.products.test.length + ''
+  }
+  if (bundle.products.course.length) {
+    data.courses.value = bundle.products.course.length + ''
+  }
+  if (bundle.products.event.length) {
+    data.events.value = bundle.products.event.length + ''
+  }
+  if (bundle.analytics.enrolled.count) {
+    data.enrolled.value = bundle.analytics.enrolled.count + ''
+  }
+  const dataSource = Object.keys(data)
+    // @ts-ignore
+    .map(key => data[key])
+    .filter(i => i.value)
   return (
     <List
       itemLayout="horizontal"
