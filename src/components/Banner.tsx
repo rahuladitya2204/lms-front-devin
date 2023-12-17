@@ -25,14 +25,18 @@ export default function Banner(props: BannerPropsI) {
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
   const { data: { banners } } = Learner.Queries.useGetOrgDetails()
   const [banner, setBanner] = useState(Constants.INITIAL_BANNER_DETAILS)
+  const [shown, setShown] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   useEffect(
     () => {
       if (isSignedIn && banners.length) {
-        setTimeout(() => {
-          setBanner(banners[0])
-          setIsModalVisible(true)
-        }, 3000)
+        if (!shown) {
+          setTimeout(() => {
+            setBanner(banners[0])
+            setIsModalVisible(true)
+            setShown(true)
+          }, 3000)
+        }
       }
     },
     [isSignedIn, banners]
