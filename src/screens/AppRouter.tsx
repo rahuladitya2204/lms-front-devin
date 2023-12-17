@@ -48,6 +48,7 @@ import EmailTemplateEditor from '@User/Screens/Marketing/Templates/Emails/EmailT
 import EmailTemplatesScreen from '@User/Screens/CertificateTemplates/CertificateTemplatesScreen'
 import EnrolledCourseDetailScreen from '@Learner/Screens/EnrolledCourseDetail/EnrolledCourseDetailScreen'
 import EnrolledCourseSuccessful from '@Learner/Screens/LearnerShop/EnrolledCourse/EnrolledCourseSuccessful'
+import EnrolledPackageDetailScreen from '@Learner/Screens/Products/Package/PackageDetailsViewer/EnrolledPackage/EnrolledPackageDetail'
 import EventDetailScreen from '@Learner/Screens/Products/Event/EventDetail'
 import EventsScreen from '@User/Screens/Event/EventScreen/Events'
 import InstructorEditor from './post-authentication/User/Screens/Users/Instructors/InstructorEditor'
@@ -135,6 +136,7 @@ const router = (userType: string) => {
               <Route path="package">
                 {/* <Route path="" element={<LearnerCourses />} /> */}
                 <Route path=":id" element={<PackageDetailViewer />} />
+                <Route path=':packageId/enrolled-package' element={<EnrolledPackageDetailScreen />} />
               </Route>
               <Route path="test">
                 <Route path="" element={<LearnerTestScreen />} />
@@ -151,6 +153,12 @@ const router = (userType: string) => {
                   element={<EnrolledCourseDetailScreen />}
                 />
               </Route>
+              {/* <Route path="enrolled-package">
+                <Route
+                  path=":packageId"
+                  element={<EnrolledPackageDetailScreen />}
+                />
+              </Route> */}
               <Route
                 path=":orderId/successful"
                 element={<EnrolledCourseSuccessful />}

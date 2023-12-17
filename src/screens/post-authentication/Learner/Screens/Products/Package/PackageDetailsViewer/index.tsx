@@ -214,7 +214,7 @@ const PackageCard = ({packageId,plan,children}: {
         </Col>:null}
         {isSignedIn?<>
         <Col span={24}>
-         {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
+         {isEnrolled?   <Button onClick={()=>navigate(`enrolled-package`)}size="large" type="primary" block>
             Go to Package
                   </Button> :
                       <ProductCheckoutButton plan={plan}

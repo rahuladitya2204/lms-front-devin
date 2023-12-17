@@ -136,7 +136,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   </Button>;
   console.log(isPackageValid,'isPackageValid')
   return (
-    <Header showBack title='Create Package' extra={[
+    <Header onBack={()=>navigate('../')} title='Create Package' extra={[
       ...(packageDetails.status===Enum.PackageStatus.PUBLISHED?[UnpublishPackage,<Tag color='green'>Published</Tag>]:[]),
       (isPackageValid && (packageDetails.status !== Enum.PackageStatus.PUBLISHED))?PublishPackage:null,
       SavePackage]}>
