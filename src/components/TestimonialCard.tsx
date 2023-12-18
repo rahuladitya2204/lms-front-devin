@@ -43,6 +43,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
         </Col> */}
         <Col span={24}>
           <Rate
+            disabled
             direction="hozirontal"
             style={{ width: '100%' }}
             value={testimonial.rating}
