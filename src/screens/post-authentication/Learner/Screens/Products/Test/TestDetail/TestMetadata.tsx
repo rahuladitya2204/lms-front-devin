@@ -3,7 +3,8 @@ import {
   ClockCircleOutlined,
   EditOutlined,
   FileTextOutlined,
-  SafetyCertificateOutlined
+  SafetyCertificateOutlined,
+  ScheduleOutlined
 } from '@ant-design/icons'
 import { Constants, Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
 import { List, Tag, Typography } from 'antd'
@@ -42,6 +43,11 @@ const data = {
     title: 'Enrolled',
     icon: <SafetyCertificateOutlined />,
     value: '1'
+  },
+  expiresAt: {
+    title: 'You can access till',
+    icon: <ScheduleOutlined />,
+    value: ''
   }
   // questions: {
   //   title: 'Questions',
@@ -70,6 +76,13 @@ interface TestMetadataPropsI {
 }
 
 function TestMetadata(props: TestMetadataPropsI) {
+  const {
+    data: enrolledDetails,
+    isLoading: loadingEnrolledTest
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: 'test',
+    id: props.test._id + ''
+  })
   // const { data: { wallet } } = Learner.Queries.useGetLearnerDetails();
   data.scheduledFor.value = props.test.live.enabled
     ? dayjs(props.test.live.scheduledAt).format('LLL')
@@ -86,6 +99,9 @@ function TestMetadata(props: TestMetadataPropsI) {
         Handwritten
       </Tag>
     )
+  }
+  if (enrolledDetails.plan.expiresAt) {
+    data.expiresAt.value = dayjs(enrolledDetails.plan.expiresAt).format('LL')
   }
   if (props.test.languages.length) {
     // @ts-ignore

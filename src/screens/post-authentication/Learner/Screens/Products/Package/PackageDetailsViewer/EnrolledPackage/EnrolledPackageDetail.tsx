@@ -34,15 +34,16 @@ import { useNavigate, useParams } from 'react-router'
 import EnrolledTestItem from './EnrolledTestItem'
 import Image from '@Components/Image'
 import PlayIcon from '@Icons/play.svg'
+import Tabs from '@Components/Tabs'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import { sortBy } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
 // @ts-nocheck
 
 const { Title, Text } = Typography
 const { Content } = Layout
-
 interface EnrolledPackageDetailScreenPropsI {
   //   packageId: string;
 }
@@ -103,11 +104,12 @@ const EnrolledPackageDetailScreen: React.FC<
     },
     [packageData]
   )
+  const { isMobile, isTablet, isDesktop } = useBreakpoint()
+  const PackageDetailSkel = isDesktop ? [1, 1, 1, 1, 1, 1] : [1, 1]
   console.log(packageData, progress, 'packageData')
   // console.log(packageData, 'packageData')
   // const { data: bundle } = Learner.Queries.useGetPackageDetails(packageId + '')
-  const skelArr = [1, 1, 1, 1, 1]
-  const { isMobile, isTablet } = useBreakpoint()
+  const skelArr = isDesktop ? [1, 1, 1, 1, 1] : [1, 1]
   return (
     <Row>
       <Col span={24}>
@@ -203,13 +205,13 @@ const EnrolledPackageDetailScreen: React.FC<
                         <Text strong> {packageData?.event.length} Events</Text>
                       </Col>
                     ) : null}
-
+                    {/* 
                     {expiresAt ? (
                       <Col sm={12} xs={24} md={8} lg={5}>
                         <CalendarOutlined />{' '}
                         <Text strong>{dayjs(expiresAt).format('LLL')}</Text>
                       </Col>
-                    ) : null}
+                    ) : null} */}
                   </Row>
                 </Col>
                 <Col span={1} />
@@ -265,28 +267,31 @@ const EnrolledPackageDetailScreen: React.FC<
                         />
                       </Col>
                     ) : packageData?.products ? (
-                      Object.keys(packageData?.products).map(k => {
-                        if (!packageData.products[k]?.length) {
-                          return null
-                        }
-                        // @ts-ignore
-                        return (
-                          <Col span={24}>
-                            <Title level={3} style={{ marginTop: 0 }}>
-                              {capitalize(k)}
-                            </Title>
-                            <List
-                              split={false}
-                              size="small"
-                              bordered={false}
-                              dataSource={packageData.products[k]}
-                              renderItem={(item: any) => (
-                                <EnrolledTestItem enrolledProduct={item} />
-                              )}
-                            />
-                          </Col>
-                        )
-                      })
+                      <Col span={24}>
+                        <Tabs
+                          navigateWithHash
+                          items={Object.keys(packageData?.products).map(k => {
+                            return {
+                              label: `${capitalize(k)}s`,
+                              key: k,
+                              children: (
+                                <List
+                                  split={false}
+                                  size="small"
+                                  bordered={false}
+                                  dataSource={sortBy(
+                                    packageData.products[k],
+                                    e => e.metadata.test.endedAt
+                                  )}
+                                  renderItem={(item: any) => (
+                                    <EnrolledTestItem enrolledProduct={item} />
+                                  )}
+                                />
+                              )
+                            }
+                          })}
+                        />
+                      </Col>
                     ) : null}
                   </Row>
                 </Col>
@@ -300,36 +305,27 @@ const EnrolledPackageDetailScreen: React.FC<
                       <Divider />
                     </Col> */}
                     <Col span={24}>
-                      <Title level={5} style={{ marginTop: 0 }}>
-                        Package Details
-                      </Title>
                       {loading ? (
                         <Row gutter={[0, 10]}>
-                          <Col span={24}>
-                            <Skeleton.Button
-                              block
-                              active
-                              style={{
-                                height: 14,
-                                width: '100%',
-                                marginBottom: 10
-                              }}
-                            />
-                          </Col>
-                          <Col span={24}>
-                            <Skeleton.Button
-                              block
-                              active
-                              style={{
-                                height: 14,
-                                width: '100%',
-                                marginBottom: 10
-                              }}
-                            />
-                          </Col>
+                          {PackageDetailSkel.map(() => (
+                            <Col span={24}>
+                              <Skeleton.Button
+                                block
+                                active
+                                style={{
+                                  height: 14,
+                                  width: '100%',
+                                  marginBottom: 10
+                                }}
+                              />
+                            </Col>
+                          ))}
                         </Row>
                       ) : (
                         <Space direction="vertical">
+                          {/* <Title level={5} style={{ marginTop: 0 }}>
+                            Package Details
+                          </Title> */}
                           <Text>
                             <UserSwitchOutlined />{' '}
                             {/* {formatAvgCount(packageData.analytics.enrolled.count)}{' '} */}
@@ -338,8 +334,13 @@ const EnrolledPackageDetailScreen: React.FC<
                           <Text>
                             <CalendarOutlined />
                             {'  '} Enrolled On {'  '}
-                            {/* @ts-ignore */}
                             {dayjs(enrolledAt).format('MMMM D, YYYY')}{' '}
+                          </Text>
+                          <Text>
+                            <CalendarOutlined />
+                            {'  '} Expires At {'  '}
+                            {/* @ts-ignore */}
+                            {dayjs(expiresAt).format('MMMM D, YYYY')}{' '}
                           </Text>
                           {/* <Text>
                           <GlobalOutlined />

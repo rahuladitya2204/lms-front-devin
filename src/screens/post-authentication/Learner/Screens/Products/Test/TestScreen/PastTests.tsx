@@ -29,6 +29,7 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
     isFetching: loading,
     isLoading: loadingFirst
   } = Learner.Queries.useGetEnrolledProductList('test')
+  console.log(data, 'data');
   const pastTests = data.filter(pd => {
     return pd.product?.data?.endedAt || pd.metadata.test.endedAt
   })

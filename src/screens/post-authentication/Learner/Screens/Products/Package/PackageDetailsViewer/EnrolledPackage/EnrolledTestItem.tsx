@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   Card,
   Col,
@@ -7,13 +8,16 @@ import {
   Progress,
   Row,
   Space,
+  Tag,
   Typography
 } from 'antd'
 import { CheckCircleOutlined, CheckOutlined, VerifiedOutlined } from '@ant-design/icons';
+import { Enum, Types } from '@adewaskar/lms-common'
 
+import { Fragment } from 'react';
 import LearnerTestResultStatus from '@Components/LearnerTestResultStatus';
-import { Types } from '@adewaskar/lms-common'
 import dayjs from 'dayjs';
+import useBreakpoint from '@Hooks/useBreakpoint';
 import { useNavigate } from 'react-router';
 
 const { Title,Text } = Typography
@@ -25,7 +29,9 @@ interface EnrolledTestItemPropsI {
 export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
     const enrolledTest = props.enrolledProduct;
     const test = enrolledTest.product.data as Types.Test;
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const Ribbon = test.live.enabled ? Badge.Ribbon : Fragment;
+  const { isMobile} = useBreakpoint();
   return (
     <List.Item>
       <Card hoverable
@@ -36,13 +42,15 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
         }}
         bodyStyle={{ padding: 0 }}
       >
-        <Row gutter={[10,10]}>
-                  <Col
+             <Ribbon color='purple-inverse' placement='start' text={test.live.enabled?'Live':null}>
+ <Row gutter={[10,10]}>
+                  <Col xs={24} md={3}
                     //   span={3}
                   >
             <Image
-              height={70}
-              width={100} preview={false}
+              height={isMobile?150:70}
+                width={isMobile?'100%':100}
+                preview={false}
               src={test?.thumbnailImage}
             />
           </Col>
@@ -57,7 +65,16 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
             <Title style={{ marginTop: 0 }} level={5}>
               {test.title}
                       </Title>
-                      {enrolledTest.metadata.test.endedAt?<Text>Attempted on { dayjs(enrolledTest.metadata.test.startedAt).format('LL')}</Text>:null}
+            {enrolledTest.metadata.test.endedAt ? <Row>
+              <Col><Tag>Taken on {dayjs(enrolledTest.metadata.test.startedAt).format('LL')}</Tag></Col>
+              <Col><Tag color='volcano-inverse'>Scored: { enrolledTest.metadata.test.result.data.metrics.learnerScore}/{ enrolledTest.metadata.test.result.data.metrics.totalTestScore}</Tag></Col>
+            </Row> :
+              <Row><Col>
+                {test.duration.enabled ? <Tag color='blue-inverse' >{test.duration.value} mins</Tag> : null}
+                {test.input.type===Enum.TestInputType.HANDWRITTEN?<Tag color='orange-inverse' >Handwritten</Tag>:null}
+              {(test.live.scheduledAt && !enrolledTest.metadata.test.startedAt)?<Tag color='purple-inverse'>
+                    Scheduled On { dayjs(test.live.scheduledAt).format('LLL')}</Tag>:null}
+                </Col></Row>}
             <Space />
           </Col>
           <Col
@@ -68,23 +85,24 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               marginRight:10
             }}
           >
-            <Space>
+            <Row justify={'center'}>
             
                           {(enrolledTest.metadata.test.endedAt) ? <>
-                <LearnerTestResultStatus testId={test._id+''} />
+               <Col> <LearnerTestResultStatus testId={test._id+''} />
                 <Button icon={<CheckCircleOutlined />}
                   onClick={() => navigate(`../../test/${test._id}/result`)}
                   size='small'>
                   View Solutions
-                </Button>
+                </Button></Col>
                           </> : null}
                           {(!test?.live?.enabled && (!enrolledTest.metadata.test.startedAt)) ?
-                              <Button type='primary' onClick={()=>navigate(`../../test/${test._id}/start`)} size='small'>Start Test</Button> : null}
+                              <Col><Button type='primary' onClick={()=>navigate(`../../test/${test._id}/start`)} block={isMobile} size={isMobile?'middle':'small'}>Start Test</Button> </Col>: null}
 
-                      </Space>
+                      </Row>
           </Col>
         </Row>
-      </Card>
+        </Ribbon>
+ </Card>
     </List.Item>
   )
 }

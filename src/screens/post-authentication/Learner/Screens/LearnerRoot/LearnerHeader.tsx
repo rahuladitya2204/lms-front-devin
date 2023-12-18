@@ -63,7 +63,6 @@ const LearnerHeader: React.FC = () => {
   } = Learner.Queries.useLogoutLearner()
   const {data: organisation } = Learner.Queries.useGetOrgDetails();
   const { data: user, isFetching: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
-  console.log(loadingLearnerDetails,'loadingLearnerDetails')
   const isSignedIn = Store.useAuthentication(state => state.isSignedIn);
   const message = useMessage();
   const enrolledProducts = {
