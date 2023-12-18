@@ -64,29 +64,46 @@ const EnrolledPackageDetailScreen: React.FC<
       enabled: !!packageId
     }
   )
-  const packageProgress = useMemo(
+  const { progress, totalItems, completedItems } = useMemo(
     () => {
-      let totalItems = 0
-      let completedItems = 0
+      let totalItems = { test: 0, course: 0, event: 0 }
+      let completedItems = { test: 0, course: 0, event: 0 }
       // @ts-ignore
       if (!packageData.products) {
-        return 0
+        return { totalItems, completedItems, progress: 0 }
       }
       // @ts-ignore
       Object.keys(packageData.products).forEach(k => {
         // @ts-ignore
         packageData.products[k].forEach(product => {
-          totalItems += 1
+          // @ts-ignore
+          totalItems[k] += 1
           if (product.metadata.test.endedAt) {
-            completedItems += 1
+            // @ts-ignore
+            completedItems[k] += 1
           }
         })
       })
-      return completedItems / totalItems * 100
+      const progress =
+        Object.keys(completedItems)
+          // @ts-ignore
+          .map(k => completedItems[k])
+          .reduce((a, b) => a + b, 0) /
+        Object.keys(totalItems)
+          // @ts-ignore
+          .map(k => totalItems[k])
+          .reduce((a, b) => a + b, 0) *
+        100
+      // @ts-ignore
+      return {
+        progress,
+        totalItems,
+        completedItems
+      }
     },
     [packageData]
   )
-  console.log(packageData, packageProgress, 'packageData')
+  console.log(packageData, progress, 'packageData')
   // console.log(packageData, 'packageData')
   // const { data: bundle } = Learner.Queries.useGetPackageDetails(packageId + '')
 
@@ -111,17 +128,42 @@ const EnrolledPackageDetailScreen: React.FC<
                       />
                     </Fragment>
                   ) : (
-                    <Fragment>
-                      <Title level={2} style={{ marginTop: 0 }}>
-                        {packageData?.title}
-                      </Title>
-                      <Progress
-                        style={{ padding: 0 }}
-                        percent={packageProgress || 0}
-                        strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
-                        format={() => null}
-                      />
-                    </Fragment>
+                    <Row gutter={[10, 10]}>
+                      <Col span={24}>
+                        <Title level={2} style={{ marginTop: 0 }}>
+                          {packageData?.title}
+                        </Title>
+                      </Col>
+                      <Col span={24}>
+                        <Progress
+                          style={{ padding: 0 }}
+                          percent={progress || 0}
+                          strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
+                          format={() => null}
+                        />
+                      </Col>
+                      <Col span={24}>
+                        <Row>
+                          {Object.keys(totalItems).map(key => {
+                            //  @ts-ignore
+                            if (!totalItems[key]) {
+                              return null
+                            }
+                            return (
+                              <Col>
+                                <Text strong>
+                                  <EditOutlined />
+                                  {' '}
+                                  {/* @ts-ignore */}
+                                  {completedItems[key]}/{totalItems[key]}{' '}
+                                  {capitalize(key)}s Completed
+                                </Text>
+                              </Col>
+                            )
+                          })}
+                        </Row>
+                      </Col>
+                    </Row>
                   )}
 
                   <Row gutter={[30, 10]}>
