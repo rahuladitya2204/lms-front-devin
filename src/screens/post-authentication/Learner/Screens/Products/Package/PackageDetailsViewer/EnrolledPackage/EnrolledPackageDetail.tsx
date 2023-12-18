@@ -106,7 +106,7 @@ const EnrolledPackageDetailScreen: React.FC<
   console.log(packageData, progress, 'packageData')
   // console.log(packageData, 'packageData')
   // const { data: bundle } = Learner.Queries.useGetPackageDetails(packageId + '')
-
+  const skelArr = [1, 1, 1, 1, 1]
   const { isMobile, isTablet } = useBreakpoint()
   return (
     <Row>
@@ -117,16 +117,36 @@ const EnrolledPackageDetailScreen: React.FC<
               <Row>
                 <Col lg={18} md={18} sm={24} xs={24}>
                   {loading ? (
-                    <Fragment>
-                      <Skeleton.Button
-                        active
-                        style={{ width: '100%', height: 30, marginBottom: 20 }}
-                      />
-                      <Skeleton.Button
-                        active
-                        style={{ width: '100%', height: 8 }}
-                      />
-                    </Fragment>
+                    <Row gutter={[20, 30]}>
+                      <Col span={24}>
+                        <Skeleton.Button
+                          active
+                          style={{
+                            width: '100%',
+                            height: 30
+                            // marginBottom: 20
+                          }}
+                        />
+                      </Col>
+                      <Col span={24}>
+                        <Skeleton.Button
+                          active
+                          style={{ width: '100%', height: 8 }}
+                        />
+                      </Col>
+                      <Col span={24}>
+                        <Row justify={'space-between'}>
+                          {skelArr.map(() => (
+                            <Col>
+                              <Skeleton.Button
+                                active
+                                style={{ height: 15, width: 120 }}
+                              />
+                            </Col>
+                          ))}
+                        </Row>
+                      </Col>
+                    </Row>
                   ) : (
                     <Row gutter={[10, 10]}>
                       <Col span={24}>
@@ -152,9 +172,7 @@ const EnrolledPackageDetailScreen: React.FC<
                             return (
                               <Col>
                                 <Text strong>
-                                  <EditOutlined />
-                                  {' '}
-                                  {/* @ts-ignore */}
+                                  <EditOutlined /> {/* @ts-ignore */}
                                   {completedItems[key]}/{totalItems[key]}{' '}
                                   {capitalize(key)}s Completed
                                 </Text>
@@ -285,31 +303,58 @@ const EnrolledPackageDetailScreen: React.FC<
                       <Title level={5} style={{ marginTop: 0 }}>
                         Package Details
                       </Title>
-                      <Space direction="vertical">
-                        <Text>
-                          <UserSwitchOutlined />{' '}
-                          {/* {formatAvgCount(packageData.analytics.enrolled.count)}{' '} */}
-                          Learners
-                        </Text>
-                        <Text>
-                          <CalendarOutlined />
-                          {'  '} Enrolled On {'  '}
-                          {/* @ts-ignore */}
-                          {dayjs(enrolledAt).format('MMMM D, YYYY')}{' '}
-                        </Text>
-                        {/* <Text>
+                      {loading ? (
+                        <Row gutter={[0, 10]}>
+                          <Col span={24}>
+                            <Skeleton.Button
+                              block
+                              active
+                              style={{
+                                height: 14,
+                                width: '100%',
+                                marginBottom: 10
+                              }}
+                            />
+                          </Col>
+                          <Col span={24}>
+                            <Skeleton.Button
+                              block
+                              active
+                              style={{
+                                height: 14,
+                                width: '100%',
+                                marginBottom: 10
+                              }}
+                            />
+                          </Col>
+                        </Row>
+                      ) : (
+                        <Space direction="vertical">
+                          <Text>
+                            <UserSwitchOutlined />{' '}
+                            {/* {formatAvgCount(packageData.analytics.enrolled.count)}{' '} */}
+                            Learners
+                          </Text>
+                          <Text>
+                            <CalendarOutlined />
+                            {'  '} Enrolled On {'  '}
+                            {/* @ts-ignore */}
+                            {dayjs(enrolledAt).format('MMMM D, YYYY')}{' '}
+                          </Text>
+                          {/* <Text>
                           <GlobalOutlined />
                           {'  '}
                           {packageData.language || 'English'}
                         </Text> */}
-                        {/* {packageData.certificate ? (
+                          {/* {packageData.certificate ? (
                           <Text>
                             <SafetyCertificateOutlined />
                             {'  '}
                             Certificate of completion
                           </Text>
                         ) : null} */}
-                      </Space>
+                        </Space>
+                      )}
                     </Col>
                   </Row>
                 </Col>

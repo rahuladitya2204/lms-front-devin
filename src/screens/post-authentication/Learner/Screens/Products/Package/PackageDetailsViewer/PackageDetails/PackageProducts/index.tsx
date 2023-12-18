@@ -1,4 +1,4 @@
-import { Col, Collapse, List, Row, Skeleton, Tag } from 'antd'
+import { Col, Collapse, List, Row, Skeleton, Tag, Typography } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import LearnerProductCard from '@Components/LearnerProductCard'
@@ -7,7 +7,7 @@ import ProductCard from '@Components/UserProductCard'
 import { capitalize } from 'lodash'
 
 const { Panel } = Collapse
-
+const { Text } = Typography
 interface PackageProductsPropsI {
   package: Types.Package;
 }
@@ -27,7 +27,8 @@ function PackageProducts(props: PackageProductsPropsI) {
           <Skeleton active paragraph={{ rows: 20 }} />
         ) : (
           <Collapse
-          // defaultActiveKey={bundle.sections.map((s, i) => i)}
+            // @ts-ignore
+            defaultActiveKey={`test`}
           >
             {Object.keys(bundle.products)
               // @ts-ignore
@@ -38,7 +39,16 @@ function PackageProducts(props: PackageProductsPropsI) {
                 const products = bundle.products[key]
                 console.log(products, '12')
                 return (
-                  <Panel header={productTitle} key={key}>
+                  <Panel
+                    extra={
+                      <Text strong>
+                        {/* @ts-ignore */}
+                        {bundle.products[key].length} {capitalize(key)}s
+                      </Text>
+                    }
+                    header={productTitle}
+                    key={key}
+                  >
                     <Row gutter={[20, 30]}>
                       {products.map((item: string) => (
                         <Col xs={24} sm={12} md={8} lg={6}>

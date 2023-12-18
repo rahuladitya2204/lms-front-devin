@@ -42,7 +42,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                   >
             <Image
               height={70}
-              width={100}
+              width={100} preview={false}
               src={test?.thumbnailImage}
             />
           </Col>
