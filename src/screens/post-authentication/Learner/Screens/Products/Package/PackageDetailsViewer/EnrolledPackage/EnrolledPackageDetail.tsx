@@ -336,6 +336,7 @@ const EnrolledPackageDetailScreen: React.FC<
                             {'  '} Enrolled On {'  '}
                             {dayjs(enrolledAt).format('MMMM D, YYYY')}{' '}
                           </Text>
+                          <Divider />
                           <Text>
                             <CalendarOutlined />
                             {'  '} Expires At {'  '}

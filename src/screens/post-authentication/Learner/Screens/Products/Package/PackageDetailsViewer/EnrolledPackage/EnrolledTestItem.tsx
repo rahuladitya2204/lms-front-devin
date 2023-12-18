@@ -85,20 +85,20 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               marginRight:10
             }}
           >
-            <Row justify={'center'}>
+            <Space>
             
                           {(enrolledTest.metadata.test.endedAt) ? <>
-               <Col> <LearnerTestResultStatus testId={test._id+''} />
+                <LearnerTestResultStatus testId={test._id+''} />
                 <Button icon={<CheckCircleOutlined />}
                   onClick={() => navigate(`../../test/${test._id}/result`)}
                   size='small'>
                   View Solutions
-                </Button></Col>
+                </Button>
                           </> : null}
                           {(!test?.live?.enabled && (!enrolledTest.metadata.test.startedAt)) ?
-                              <Col><Button type='primary' onClick={()=>navigate(`../../test/${test._id}/start`)} block={isMobile} size={isMobile?'middle':'small'}>Start Test</Button> </Col>: null}
+                              <Button type='primary' onClick={()=>navigate(`../../test/${test._id}/start`)} size='small'>Start Test</Button> : null}
 
-                      </Row>
+                      </Space>
           </Col>
         </Row>
         </Ribbon>

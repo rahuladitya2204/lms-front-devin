@@ -11,10 +11,19 @@ export default function LearnerTestResultStatus(
   props: LearnerTestResultStatusPropsI
 ) {
   const {
-    data: { test: testResult, status, metrics: { learnerScore, passingScore } },
+    data: {
+      metadata: {
+        test: {
+          result: { data: { metrics: { learnerScore, passingScore } }, status }
+        }
+      }
+    },
     isLoading: loadingResult
-  } = Learner.Queries.useGetTestResult(props.testId + '')
-  console.log(status, 'ss')
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id: props.testId + ''
+  })
+  // console.log(status, 'ss')
   if (loadingResult) {
     return <Skeleton.Button style={{ width: 46, height: 22 }} active />
   }
