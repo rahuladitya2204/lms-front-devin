@@ -183,7 +183,7 @@ const PackageCard = ({packageId,plan,children}: {
   cover
   bordered hoverable
   style={{ padding: 0 }}
-  bodyStyle={{ padding: 5 }} title={bundle.title}
+  bodyStyle={{ padding: 5,paddingBottom:15 }} title={bundle.title}
     >
       {isLoading ?
         <>

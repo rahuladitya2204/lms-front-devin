@@ -28,6 +28,7 @@ import {
   UserSwitchOutlined
 } from '@ant-design/icons'
 import { Enum, Learner, Utils } from '@adewaskar/lms-common'
+import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import EnrolledTestItem from './EnrolledTestItem'
@@ -52,7 +53,7 @@ const EnrolledPackageDetailScreen: React.FC<
   const navigate = useNavigate()
   const { packageId } = useParams()
   const {
-    data: { product: { data: packageData }, plan: { expiresAt } },
+    data: { product: { data: packageData }, plan: { expiresAt }, enrolledAt },
     isLoading: loading
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
@@ -63,6 +64,29 @@ const EnrolledPackageDetailScreen: React.FC<
       enabled: !!packageId
     }
   )
+  const packageProgress = useMemo(
+    () => {
+      let totalItems = 0
+      let completedItems = 0
+      // @ts-ignore
+      if (!packageData.products) {
+        return 0
+      }
+      // @ts-ignore
+      Object.keys(packageData.products).forEach(k => {
+        // @ts-ignore
+        packageData.products[k].forEach(product => {
+          totalItems += 1
+          if (product.metadata.test.endedAt) {
+            completedItems += 1
+          }
+        })
+      })
+      return completedItems / totalItems * 100
+    },
+    [packageData]
+  )
+  console.log(packageData, packageProgress, 'packageData')
   // console.log(packageData, 'packageData')
   // const { data: bundle } = Learner.Queries.useGetPackageDetails(packageId + '')
 
@@ -76,21 +100,30 @@ const EnrolledPackageDetailScreen: React.FC<
               <Row>
                 <Col lg={18} md={18} sm={24} xs={24}>
                   {loading ? (
-                    <Skeleton.Button
-                      active
-                      style={{ width: '100%', height: 30 }}
-                    />
+                    <Fragment>
+                      <Skeleton.Button
+                        active
+                        style={{ width: '100%', height: 30, marginBottom: 20 }}
+                      />
+                      <Skeleton.Button
+                        active
+                        style={{ width: '100%', height: 8 }}
+                      />
+                    </Fragment>
                   ) : (
-                    <Title level={2} style={{ marginTop: 0 }}>
-                      {packageData?.title}
-                    </Title>
+                    <Fragment>
+                      <Title level={2} style={{ marginTop: 0 }}>
+                        {packageData?.title}
+                      </Title>
+                      <Progress
+                        style={{ padding: 0 }}
+                        percent={packageProgress || 0}
+                        strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
+                        format={() => null}
+                      />
+                    </Fragment>
                   )}
-                  {/* <Progress
-                    style={{ padding: 0 }}
-                    percent={progress}
-                    strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
-                    format={() => null}
-                  /> */}
+
                   <Row gutter={[30, 10]}>
                     {packageData?.course?.length ? (
                       <Col sm={12} xs={24} md={8} lg={5}>
@@ -158,17 +191,17 @@ const EnrolledPackageDetailScreen: React.FC<
 
                         <Skeleton.Button
                           active
-                          style={{ width: '100%', height: 75,marginTop:18 }}
+                          style={{ width: '100%', height: 75, marginTop: 18 }}
                         />
 
                         <Skeleton.Button
                           active
-                          style={{ width: '100%', height: 75,marginTop:18 }}
+                          style={{ width: '100%', height: 75, marginTop: 18 }}
                         />
 
                         <Skeleton.Button
                           active
-                          style={{ width: '100%', height: 75,marginTop:18 }}
+                          style={{ width: '100%', height: 75, marginTop: 18 }}
                         />
                       </Col>
                     ) : packageData?.products ? (
@@ -200,12 +233,12 @@ const EnrolledPackageDetailScreen: React.FC<
                 {/* <Col span={1} /> */}
                 <Col lg={7} md={0} sm={0} xs={0}>
                   <Row>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                       <Title level={5}>Package Description</Title>
                       <Text>{packageData?.description}</Text>
 
                       <Divider />
-                    </Col>
+                    </Col> */}
                     <Col span={24}>
                       <Title level={5} style={{ marginTop: 0 }}>
                         Package Details
@@ -218,19 +251,15 @@ const EnrolledPackageDetailScreen: React.FC<
                         </Text>
                         <Text>
                           <CalendarOutlined />
-                          {'  '}
+                          {'  '} Enrolled On {'  '}
                           {/* @ts-ignore */}
-                          {dayjs(packageData.updatedAt).format(
-                            'MMMM D, YYYY'
-                          )}{' '}
-                          last updated
+                          {dayjs(enrolledAt).format('MMMM D, YYYY')}{' '}
                         </Text>
-                        <Text>
+                        {/* <Text>
                           <GlobalOutlined />
                           {'  '}
-                          {/* @ts-ignore */}
                           {packageData.language || 'English'}
-                        </Text>
+                        </Text> */}
                         {/* {packageData.certificate ? (
                           <Text>
                             <SafetyCertificateOutlined />

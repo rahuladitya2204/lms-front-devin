@@ -1,8 +1,9 @@
 import { Enum, User } from '@adewaskar/lms-common'
+import { Image, Select, Typography } from 'antd'
 
-import { Select } from 'antd'
 import { useState } from 'react'
 
+const { Text } = Typography
 interface SearchUserProductsPropsI {
   onSelect: any;
   type: Enum.ProductType;
@@ -22,9 +23,20 @@ export default function SearchUserProducts(props: SearchUserProductsPropsI) {
       placeholder={props.label || 'Select to add product'}
       style={{ width: 200, marginBottom: 20 }}
       onSelect={props.onSelect}
-      options={products.map(e => {
+      // @ts-ignore
+      options={products.filter(p => p.status === 'published').map(e => {
         return {
-          label: e.title,
+          label: (
+            <Text>
+              {' '}
+              <Image
+                preview={false}
+                style={{ width: 50, height: 50 }}
+                src={e.thumbnailImage}
+              />{' '}
+              {e.title}
+            </Text>
+          ),
           value: e._id
         }
       })}

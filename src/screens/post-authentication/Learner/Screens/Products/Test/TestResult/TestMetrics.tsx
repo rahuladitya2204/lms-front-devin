@@ -67,7 +67,7 @@ export default function TestMetrics() {
     [metrics]
   )
   const { isMobile } = useBreakpoint()
-  console.log(pieChartData, 'as')
+  // console.log(pieChartData, 'as')
   const ViewSolutions = (
     <Button
       style={{ marginRight: 10 }}

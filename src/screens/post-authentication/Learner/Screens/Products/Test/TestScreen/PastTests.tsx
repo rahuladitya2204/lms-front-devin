@@ -14,6 +14,7 @@ import { CalendarOutlined, EditOutlined } from '@ant-design/icons'
 import { Enum, Learner, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
+import LearnerTestResultStatus from '@Components/LearnerTestResultStatus'
 import NoItemFound from '@Components/NoItemFound'
 import SkeletonImage from '@Components/SkeletonImage'
 import dayjs from 'dayjs'
@@ -87,10 +88,7 @@ export const SkeletonTestCard = () => {
 const TestCard = ({ test, metadata }: { test: Types.Test, metadata: any }) => {
   const navigate = useNavigate()
   const testStartDate = metadata.test.startedAt || test?.live?.startedAt
-  const {
-    data: { test: testResult, status, metrics: { learnerScore, passingScore } },
-    isFetching: loadingResult
-  } = Learner.Queries.useGetTestResult(test._id + '')
+
   return (
     <Card
       // bodyStyle={{ padding: 10 }}
@@ -104,15 +102,7 @@ const TestCard = ({ test, metadata }: { test: Types.Test, metadata: any }) => {
         title={test.title}
         description={
           <Space>
-            {test.status === Enum.TestStatus.PUBLISHED ? (
-              learnerScore >= passingScore ? (
-                <Tag color="green-inverse">Passed</Tag>
-              ) : (
-                <Tag color="red-inverse">Failed</Tag>
-              )
-            ) : test.status === Enum.TestStatus.IN_PROGRESS ? (
-              <Tag color="orange-inverse">Evaluation in progres</Tag>
-            ) : null}
+            <LearnerTestResultStatus testId={test._id + ''} />
             <Tag>{dayjs(testStartDate).format('LL')}</Tag>
           </Space>
         }
