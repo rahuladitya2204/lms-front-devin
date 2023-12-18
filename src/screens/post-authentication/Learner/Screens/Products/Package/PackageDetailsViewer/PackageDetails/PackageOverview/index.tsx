@@ -47,18 +47,20 @@ function PackageOverview(props: PackageOverviewPropsI) {
             </Paragraph>
           )}
         </Col>
-        <Col span={24}>
-          <Title level={4}>Testimonials</Title>
-          <Row gutter={[20, 30]}>
-            {bundle.testimonials.map(testimonial => {
-              return (
-                <Col span={8}>
-                  <TestimonialCard testimonial={testimonial} />
-                </Col>
-              )
-            })}
-          </Row>
-        </Col>
+        {bundle.testimonials.length ? (
+          <Col span={24}>
+            <Title level={4}>Testimonials</Title>
+            <Row gutter={[20, 30]}>
+              {bundle.testimonials.map(testimonial => {
+                return (
+                  <Col span={8}>
+                    <TestimonialCard testimonial={testimonial} />
+                  </Col>
+                )
+              })}
+            </Row>
+          </Col>
+        ) : null}
       </Row>
     </Fragment>
   )
