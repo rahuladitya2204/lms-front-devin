@@ -93,13 +93,13 @@ export default function TestReviewQuestionNavigator(
           {isLoading ? (
             <TestNavigatorSkeleton />
           ) : (
-            sections.map(section => {
+            sections.map((section: any) => {
               return (
                 <Row>
                   <Col span={24}>
                     <Title level={4}>{section.title}</Title>
                     <Row gutter={[20, 20]}>
-                      {section.items.map((item, itemIndex) => {
+                      {section.items.map((item: any, itemIndex: number) => {
                         return (
                           <Col span={3}>
                             <NavLink

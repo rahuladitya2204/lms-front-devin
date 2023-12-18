@@ -1,4 +1,4 @@
-import { Button, Form, Image, Input } from 'antd'
+import { Button, Form, Image, Input, Rate } from 'antd'
 
 import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea'
@@ -22,6 +22,7 @@ export default function AddTestimonial(props: AddTestimonialPropsI) {
   )
 
   const onSubmit = (e: Types.Testimonial) => {
+    console.log(e, 'ee')
     props.submit(e)
     form.resetFields()
     props.closeModal && props.closeModal()
@@ -41,6 +42,10 @@ export default function AddTestimonial(props: AddTestimonialPropsI) {
           name="image"
           width="200"
           height="300px"
+          cropper
+          onUpload={({ url }) => {
+            form.setFieldValue(['image'], url)
+          }}
           // prefixKey={`events/${props.event._id}/testimonials`}
           renderItem={() => (
             <Image
@@ -61,7 +66,11 @@ export default function AddTestimonial(props: AddTestimonialPropsI) {
         <Input />
       </Form.Item>
 
-      <Form.Item label="Testiominal" name="testimonial">
+      <Form.Item label="Rating" name="rating">
+        <Rate />
+      </Form.Item>
+
+      <Form.Item label="Testimonial" name="testimonial">
         <TextArea />
       </Form.Item>
 

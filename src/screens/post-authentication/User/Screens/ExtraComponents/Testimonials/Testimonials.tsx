@@ -1,9 +1,9 @@
+import { Avatar, Rate, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddTestimonial from './AddTestomonial'
 import MoreButton from '@Components/MoreButton'
-import { Table } from 'antd'
 import { Types } from '@adewaskar/lms-common'
 
 interface TestimonialsProps {
@@ -19,11 +19,25 @@ export default function Testimonials<T>({
 }: TestimonialsProps) {
   return (
     <Table dataSource={testimonials}>
+      <Table.Column
+        title="Image"
+        dataIndex="image"
+        key="image"
+        render={(_, record: Types.Testimonial) => <Avatar src={record.image} />}
+      />
       <Table.Column title="Name" dataIndex="name" key="title" />
       <Table.Column
         title="Designation"
         dataIndex="designation"
         key="description"
+      />
+      <Table.Column
+        title="Rating"
+        dataIndex="rating"
+        key="rating"
+        render={(_, record: Types.Testimonial) => (
+          <Rate disabled value={record.rating} />
+        )}
       />
       <Table.Column
         title="Testimonial"
