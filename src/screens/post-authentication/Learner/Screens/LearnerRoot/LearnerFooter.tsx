@@ -15,7 +15,8 @@ export default function LearnerFooter () {
       style={{
         textAlign: 'center',
         backgroundColor: token.colorBgBase,
-        marginTop: 20
+        marginTop: 20,
+        padding: 15
       }}
     >
       <Row>

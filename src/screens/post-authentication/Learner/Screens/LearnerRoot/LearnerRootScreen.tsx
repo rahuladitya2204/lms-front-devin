@@ -9,6 +9,7 @@ import AppProvider from 'screens/AppProvider'
 import CreateTicket from '../Tickets/CreateTicket'
 import { CustomerServiceOutlined } from '@ant-design/icons'
 import Layout from '@Components/Layout'
+import LearnerFooter from './LearnerFooter'
 import LearnerHeader from './LearnerHeader'
 import LearnerProfile from '../Account/LearnerProfile'
 import ThemeProvider from 'screens/ThemeProvider'
@@ -77,7 +78,7 @@ const LearnerRootScreen: React.FC = () => {
             </ActionModal>
           ) : null
         ) : null}
-        <Layout>
+        <Layout style={{paddingBottom: 0}}>
           {((!isMobile)&&isSignedIn)?<Fragment>
             {(learner.profile.status === Enum.LearnerProfileStatus.INCOMPLETE || learner.profile.status === Enum.LearnerProfileStatus.PARTIAL_COMPLETE) ?
               <Alert action={<ActionModal height={600} width={300} title='Complete your profile' cta={<Button size='small' >Complete Profile</Button>}>
@@ -89,7 +90,7 @@ const LearnerRootScreen: React.FC = () => {
     />:null}
          </Fragment>:null}
           <LearnerHeader />
-          {/* <LearnerFooter/> */}
+          <LearnerFooter/>
  </Layout>
       </AppProvider>
     </ThemeProvider>
