@@ -96,9 +96,17 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                 </Button>
                 </> : null}
                 <Button  onClick={()=>window.open(`../../test/${test._id}`)} size='small' >View Details</Button>
-                          {(!test?.live?.enabled && (!enrolledTest.metadata.test.startedAt)) ?
-                              <Button type='primary' onClick={()=>navigate(`../../test/${test._id}/start`)} size='small'>Start Test</Button> : null}
-
+                          {(!test?.live?.enabled) ?
+                  (!enrolledTest.metadata.test.startedAt?<Button type='primary'
+                    onClick={() => navigate(`../../test/${test._id}/start`)}
+                    size='small'>
+                    Start Test
+                  </Button>:(!enrolledTest.metadata.test.endedAt?<Button danger type='primary'
+                    onClick={() => navigate(`../../test/${test._id}/start`)}
+                    size='small'>
+                    Continue Test
+                  </Button>:null)) :
+                  null}
                       </Space>
           </Col>
         </Row>

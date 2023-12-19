@@ -323,26 +323,20 @@ const EnrolledPackageDetailScreen: React.FC<
                         </Row>
                       ) : (
                         <Space direction="vertical">
-                          {/* <Title level={5} style={{ marginTop: 0 }}>
-                            Package Details
-                          </Title> */}
-                          <Text>
-                            <UserSwitchOutlined />{' '}
-                            {/* {formatAvgCount(packageData.analytics.enrolled.count)}{' '} */}
-                            Learners
-                          </Text>
                           <Text>
                             <CalendarOutlined />
                             {'  '} Enrolled On {'  '}
                             {dayjs(enrolledAt).format('MMMM D, YYYY')}{' '}
                           </Text>
-                          <Divider />
-                          <Text>
-                            <CalendarOutlined />
-                            {'  '} Expires At {'  '}
-                            {/* @ts-ignore */}
-                            {dayjs(expiresAt).format('MMMM D, YYYY')}{' '}
-                          </Text>
+                          {expiresAt ? (
+                            <Text>
+                              <Divider />
+                              <CalendarOutlined />
+                              {'  '} Expires At {'  '}
+                              {/* @ts-ignore */}
+                              {dayjs(expiresAt).format('MMMM D, YYYY')}{' '}
+                            </Text>
+                          ) : null}
                           {/* <Text>
                           <GlobalOutlined />
                           {'  '}
