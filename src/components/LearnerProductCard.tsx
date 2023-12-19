@@ -8,6 +8,7 @@ interface LearnerProductCardPropsI {
   product: Types.Product;
   children?: React.ReactNode;
   actions?: React.ReactNode[];
+  onClick?: Function;
 }
 
 const LearnerProductCard = (props: LearnerProductCardPropsI) => {
@@ -17,10 +18,11 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
 
   return (
     <Card
+      onClick={() => props.onClick && props.onClick()}
       hoverable
       bodyStyle={{ padding: '20px 10px' }}
       cover={
-        <AppImage height={80} alt="example" src={product.thumbnailImage} />
+        <AppImage height={120} alt="example" src={product.thumbnailImage} />
       }
       actions={props.actions}
     >

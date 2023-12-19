@@ -53,6 +53,10 @@ function PackageProducts(props: PackageProductsPropsI) {
                       {products.map((item: string) => (
                         <Col xs={24} sm={12} md={8} lg={6}>
                           <LearnerProductCard
+                            onClick={() => {
+                              // @ts-ignore
+                              window.open(`../${key}/${item}`)
+                            }}
                             product={{ id: item, type: key }}
                           />
                         </Col>
