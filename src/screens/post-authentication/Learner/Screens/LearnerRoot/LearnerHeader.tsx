@@ -304,7 +304,7 @@ const LearnerHeader: React.FC = () => {
       // bgColor="#fff"
       extra={extraContent}
       // className="site-layout-background"
-      style={{ padding: 0 }}
+      style={{ padding: 0,flex:1 }}
     >
       <Content style={{ margin: '0 16px' }}>
         <Spin tip="Please wait.. Logging you out." spinning={loggingOut}>

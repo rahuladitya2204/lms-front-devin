@@ -78,7 +78,7 @@ const LearnerRootScreen: React.FC = () => {
             </ActionModal>
           ) : null
         ) : null}
-        <Layout style={{paddingBottom: 0}}>
+        <Layout style={{paddingBottom: 0,display:'flex'}}>
           {((!isMobile)&&isSignedIn)?<Fragment>
             {(learner.profile.status === Enum.LearnerProfileStatus.INCOMPLETE || learner.profile.status === Enum.LearnerProfileStatus.PARTIAL_COMPLETE) ?
               <Alert action={<ActionModal height={600} width={300} title='Complete your profile' cta={<Button size='small' >Complete Profile</Button>}>
@@ -89,7 +89,9 @@ const LearnerRootScreen: React.FC = () => {
       closable
     />:null}
          </Fragment>:null}
+          <div style={{flex:1,paddingBottom:50}}>
           <LearnerHeader />
+         </div>
           <LearnerFooter/>
  </Layout>
       </AppProvider>
