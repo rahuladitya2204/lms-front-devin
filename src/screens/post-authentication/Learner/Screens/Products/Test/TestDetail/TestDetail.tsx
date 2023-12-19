@@ -42,15 +42,15 @@ export default function TestDetailScreen(
     type: 'test',
     id: testId + ''
   })
-  const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
+  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const Metadata = testEndDate ? <>
-  {loadingEnrolledTest?<Skeleton paragraph={{rows:8}} />:<CompletedTestCard test={test} />}
+    {loadingEnrolledTest ? <Skeleton paragraph={{ rows: 8 }} /> : <CompletedTestCard test={test} />}
   </> : <TestMetadata test={test} />;
   return (
-    <Row>
-      {loadingTest ? null : <>
+    <Row gutter={[20, 30]}>
+    {loadingTest ? null : <>
       <Col md={24} sm={24} lg={0}>
           <TestCard plan={plan} testId={testId+''} />
           {/* Replace with card image */}
@@ -66,7 +66,7 @@ export default function TestDetailScreen(
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
           overflowWrap: 'break-word' // Breaks words to prevent overflow
-        }} type='secondary' level={5} >
+        }} level={5} >
             {test.subtitle}
           </Title>
         </Col>
@@ -74,21 +74,18 @@ export default function TestDetailScreen(
          
 <Col span={24}>
  <Row gutter={[30, 30]}>
- <Col xs={24} sm={24} md={24} lg={16} >
+          <Col xs={24} sm={24} md={24} lg={16} >
+            <Card style={{paddingTop:0}}>
+
             <Row>
               {(test.landingPage?.promoVideo?.url) ? (
                 <Col span={24}>
-                  <Card
-                    style={{ margin: '20px 0' }}
-                    bordered={false}
-                    bodyStyle={{ padding: 0 }}
-                  >
-                    <MediaPlayer thumbnail={test.landingPage.promoVideo.thumbnailImage}
+                  <MediaPlayer thumbnail={test.landingPage.promoVideo.thumbnailImage}
                       height={400}
                       url={test.landingPage.promoVideo.url}
                     />
-                  </Card>
-                </Col>
+                                 <Divider/>
+   </Col>
               ) : null}
               <Col span={24}>
                 {loadingTest ? <Row>
@@ -99,13 +96,15 @@ export default function TestDetailScreen(
                   </Col>
                 </Row>:
                   <Paragraph style={{ fontSize: 16 }}>
-                    <Divider/>
                   <HtmlViewer content={test.landingPage.description} />
                 </Paragraph>
 }
               </Col>
             </Row>
-          </Col>
+          
+              
+            </Card>
+ </Col>
           <Col xs={0} sm={0} md={0} lg={8}>
             {/* @ts-ignore */}
             <TestCard testId={testId + ''} plan={test.plan} >
@@ -235,17 +234,20 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   }, [test, enrolledDetails,status]);
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const message = useMessage();
-  const { isMobile, isTablet } = useBreakpoint();
+  const { isMobile,isDesktop, isTablet } = useBreakpoint();
   const isFree = plan.type === 'free';
   const isLoading = loadingTest;
   return   <Card
   bodyStyle={{ padding: 10, paddingBottom: 20 }}
   // style={{ height: '100%' }}
-    title={<Text style={{
+    title={!isDesktop?<Text style={{
       fontSize: 16,
       whiteSpace: 'normal', // Ensures text wraps
       overflowWrap: 'break-word' // Breaks words to prevent overflow
-    }} >{ test.title}</Text>} extra={(isMobile || isTablet) ? <ActionDrawer title={test.title}
+    }}
+    >{test.title}</Text>:null
+    }
+    extra={(isMobile || isTablet) ? <ActionDrawer title={test.title}
       cta={<Button shape='circle' icon={<InfoOutlined />}></Button>} > {Metadata} </ActionDrawer>:null}
 > {isLoading ?
   <>

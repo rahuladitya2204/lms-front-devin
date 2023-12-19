@@ -49,11 +49,11 @@ function PackageOverview(props: PackageOverviewPropsI) {
         </Col>
         {bundle.testimonials.length ? (
           <Col span={24}>
-            <Title level={4}>Testimonials</Title>
+            <Title level={3}>Testimonials</Title>
             <Row gutter={[20, 30]}>
               {bundle.testimonials.map(testimonial => {
                 return (
-                  <Col span={8}>
+                  <Col sm={12} xs={24} md={8}>
                     <TestimonialCard testimonial={testimonial} />
                   </Col>
                 )

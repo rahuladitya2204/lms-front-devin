@@ -88,8 +88,19 @@ function PackageDetailViewer () {
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
         <Col span={24}>
-          <Row gutter={[30,30]} style={{lineHeight: 0}} >
+          <Row gutter={[30, 30]} style={{ lineHeight: 0 }} >
+          <Col xs={0} sm={0} md={0} lg={24}>
+                <PackageTitle className="course-title" level={3}>
+                  {bundle.title}
+                </PackageTitle>
+                <Col span={24} />
+                        <PackageSubTitle className="course-title">
+                          {/* @ts-ignore */}
+                  {bundle.subtitle}
+                </PackageSubTitle>
+              </Col>
             <Col xs={24} sm={24} md={24} lg={16} >
+
               {loadingPackage ? <Row justify="space-between" align="top" gutter={[20, 20]}>
                 <Col span={24}>
                 <Skeleton  paragraph={{ rows: 1 }} />
@@ -109,22 +120,9 @@ function PackageDetailViewer () {
           
           <Col span={24}>
                     <Row gutter={[30, 30]}>
-                      <Col lg={0}>
+                      <Col xs={24} lg={0}>
                         <PackageCard plan={plan} packageId={packageId+''} />
-                        {/* Replace with card image */}
-                    {/* <PackageMetadata package={package} /> */}
                     </Col>
-
-                    <Col span={24}>
-                <PackageTitle className="course-title" level={3}>
-                  {bundle.title}
-                </PackageTitle>
-                <Col span={24} />
-                        <PackageSubTitle className="course-title">
-                          {/* @ts-ignore */}
-                  {bundle.subtitle}
-                </PackageSubTitle>
-              </Col>
               <Col ></Col>
             </Row>
           </Col>
@@ -137,7 +135,9 @@ function PackageDetailViewer () {
               <PackageDetails package={bundle} />
             </Col>
           </Row>
-        </Col>
+        
+              {/* </Card> */}
+            </Col>
         <Col xs={0} sm={0} md={0} lg={8}>
               <PackageCard plan={plan} packageId={packageId+''}>
                 <PackageMetadata package={bundle} />
@@ -170,7 +170,8 @@ const PackageCard = ({packageId,plan,children}: {
     updateCart({ data: { product: product }, action: 'add' });
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
-  const {isSignedIn}= Store.useAuthentication(s => s);
+  const { isSignedIn } = Store.useAuthentication(s => s);
+  const {isDesktop } = useBreakpoint();
   const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'package',
     id: '65656a12eff93f74224193e3'
@@ -183,7 +184,8 @@ const PackageCard = ({packageId,plan,children}: {
   cover
   bordered hoverable
   style={{ padding: 0 }}
-  bodyStyle={{ padding: 5,paddingBottom:15 }} title={bundle.title}
+    bodyStyle={{ padding: 5, paddingBottom: 15 }}
+    title={!isDesktop?bundle.title:null}
     >
       {isLoading ?
         <>
