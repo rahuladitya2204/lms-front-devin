@@ -219,10 +219,10 @@ const EnrolledPackageDetailScreen: React.FC<
                   {loading ? (
                     <Skeleton.Image
                       active
-                      style={{ height: 130, width: '100%' }}
+                      style={{ height: 200, width: '100%' }}
                     />
                   ) : (
-                    <Image
+                    <Image height={200}
                       style={{ borderRadius: 5 }}
                       src={packageData?.thumbnailImage}
                     />
@@ -270,26 +270,30 @@ const EnrolledPackageDetailScreen: React.FC<
                       <Col span={24}>
                         <Tabs
                           navigateWithHash
-                          items={Object.keys(packageData?.products).map(k => {
-                            return {
-                              label: `${capitalize(k)}s`,
-                              key: k,
-                              children: (
-                                <List
-                                  split={false}
-                                  size="small"
-                                  bordered={false}
-                                  dataSource={sortBy(
-                                    packageData.products[k],
-                                    e => e.metadata.test.endedAt
-                                  )}
-                                  renderItem={(item: any) => (
-                                    <EnrolledTestItem enrolledProduct={item} />
-                                  )}
-                                />
-                              )
-                            }
-                          })}
+                          items={Object.keys(packageData?.products)
+                            .filter(k => packageData?.products[k].length)
+                            .map(k => {
+                              return {
+                                label: `${capitalize(k)}s`,
+                                key: k,
+                                children: (
+                                  <List
+                                    split={false}
+                                    size="small"
+                                    bordered={false}
+                                    dataSource={sortBy(
+                                      packageData.products[k],
+                                      e => e.metadata.test.endedAt
+                                    )}
+                                    renderItem={(item: any) => (
+                                      <EnrolledTestItem
+                                        enrolledProduct={item}
+                                      />
+                                    )}
+                                  />
+                                )
+                              }
+                            })}
                         />
                       </Col>
                     ) : null}

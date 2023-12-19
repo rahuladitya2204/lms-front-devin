@@ -81,9 +81,7 @@ function PackageDetailViewer () {
   const { data: bundle,isFetching: loadingPackage } = Learner.Queries.useGetPackageDetails(packageId + '', {
     enabled: !!packageId
   });
-  // const instructor = bundle.instructor as unknown as Types.Instructor;
   const plan = bundle.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  const category = bundle?.category as unknown as Types.ProductCategory;
   return (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
