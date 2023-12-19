@@ -222,7 +222,8 @@ const EnrolledPackageDetailScreen: React.FC<
                       style={{ height: 200, width: '100%' }}
                     />
                   ) : (
-                    <Image height={200}
+                    <Image
+                      height={200}
                       style={{ borderRadius: 5 }}
                       src={packageData?.thumbnailImage}
                     />
@@ -268,33 +269,35 @@ const EnrolledPackageDetailScreen: React.FC<
                       </Col>
                     ) : packageData?.products ? (
                       <Col span={24}>
-                        <Tabs
-                          navigateWithHash
-                          items={Object.keys(packageData?.products)
-                            .filter(k => packageData?.products[k].length)
-                            .map(k => {
-                              return {
-                                label: `${capitalize(k)}s`,
-                                key: k,
-                                children: (
-                                  <List
-                                    split={false}
-                                    size="small"
-                                    bordered={false}
-                                    dataSource={sortBy(
-                                      packageData.products[k],
-                                      e => e.metadata.test.endedAt
-                                    )}
-                                    renderItem={(item: any) => (
-                                      <EnrolledTestItem
-                                        enrolledProduct={item}
-                                      />
-                                    )}
-                                  />
-                                )
-                              }
-                            })}
-                        />
+                        <Card>
+                          <Tabs
+                            navigateWithHash
+                            items={Object.keys(packageData?.products)
+                              .filter(k => packageData?.products[k].length)
+                              .map(k => {
+                                return {
+                                  label: `${capitalize(k)}s`,
+                                  key: k,
+                                  children: (
+                                    <List
+                                      split={false}
+                                      size="small"
+                                      bordered={false}
+                                      dataSource={sortBy(
+                                        packageData.products[k],
+                                        e => e.metadata.test.endedAt
+                                      )}
+                                      renderItem={(item: any) => (
+                                        <EnrolledTestItem
+                                          enrolledProduct={item}
+                                        />
+                                      )}
+                                    />
+                                  )
+                                }
+                              })}
+                          />
+                        </Card>
                       </Col>
                     ) : null}
                   </Row>
