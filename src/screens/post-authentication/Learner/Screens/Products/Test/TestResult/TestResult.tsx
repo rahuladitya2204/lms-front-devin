@@ -8,7 +8,6 @@ import {
   Row,
   Skeleton,
   Tag,
-  Typography
 } from 'antd'
 import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts'
 
@@ -18,6 +17,7 @@ import { Learner } from '@adewaskar/lms-common'
 import Tabs from '@Components/Tabs'
 import TestMetrics from './TestMetrics'
 import TestResultTable from './Table/TestResultTable'
+import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import { useParams } from 'react-router'
 

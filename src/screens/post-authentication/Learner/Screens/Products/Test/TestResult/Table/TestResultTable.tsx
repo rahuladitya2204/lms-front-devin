@@ -1,9 +1,10 @@
-import { Alert, Card, Col, Row, Space, Table, Tag, Tooltip, Typography } from 'antd';
+import { Alert, Card, Col, Row, Space, Table, Tag, Tooltip } from 'antd';
 import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common';
 import React, { useState } from 'react';
 
 import { GlobalOutlined } from '@ant-design/icons';
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
+import { Typography } from '@Components/Typography';
 import { useParams } from 'react-router-dom';
 
 const { Text,Title } = Typography;

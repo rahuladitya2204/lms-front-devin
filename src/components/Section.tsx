@@ -1,4 +1,6 @@
-import { Col, Row, Typography } from 'antd'
+import { Col, Row } from 'antd'
+
+import { Typography } from './Typography';
 
 interface SectionPropsI {
   children: React.ReactNode;

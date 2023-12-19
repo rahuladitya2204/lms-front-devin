@@ -11,7 +11,6 @@ import {
   Switch,
   Tag,
   Tooltip,
-  Typography
 } from 'antd'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useLayoutEffect } from 'react'
@@ -19,6 +18,7 @@ import { Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddCertificateTemplate from '@User/Screens/CertificateTemplates/AddCertificateTemplate'
+import { Typography } from '@Components/Typography'
 
 const { Title } = Typography
 const { useWatch } = Form

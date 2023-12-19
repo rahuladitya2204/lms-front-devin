@@ -10,7 +10,6 @@ import {
   Space,
   Spin,
   Tag,
-  Typography,
   notification
 } from 'antd'
 import { Constants, Learner } from '@adewaskar/lms-common'
@@ -22,6 +21,7 @@ import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'

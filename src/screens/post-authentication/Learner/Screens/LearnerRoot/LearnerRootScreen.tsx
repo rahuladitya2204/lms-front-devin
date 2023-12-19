@@ -1,4 +1,4 @@
-import { Alert, Button, FloatButton, Typography } from 'antd'
+import { Alert, Button, FloatButton } from 'antd'
 import { Enum, Learner, Store, Utils } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useMemo } from 'react'
 import { NavLink, useSearchParams } from 'react-router-dom'
@@ -12,6 +12,7 @@ import Layout from '@Components/Layout'
 import LearnerHeader from './LearnerHeader'
 import LearnerProfile from '../Account/LearnerProfile'
 import ThemeProvider from 'screens/ThemeProvider'
+import { Typography } from '@Components/Typography'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
 

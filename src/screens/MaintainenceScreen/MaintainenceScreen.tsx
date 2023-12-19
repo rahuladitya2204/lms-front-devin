@@ -1,6 +1,7 @@
-import { Button, Col, Row, Typography } from 'antd'
+import { Button, Col, Row } from 'antd'
 
 import Image from '@Components/Image'
+import { Typography } from '@Components/Typography'
 import underMaintainenceImg from './image.svg'
 
 const { Title } = Typography

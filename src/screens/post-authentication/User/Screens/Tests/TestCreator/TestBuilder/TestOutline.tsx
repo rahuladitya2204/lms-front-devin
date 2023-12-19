@@ -1,7 +1,8 @@
-import { Button, Col, Divider, Form, Input, Modal, Row, Select, Typography } from 'antd'
+import { Button, Col, Divider, Form, Input, Modal, Row, Select } from 'antd'
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import { Enum, Types, User } from '@adewaskar/lms-common'
 
+import { Typography } from '@Components/Typography';
 import { useState } from 'react';
 
 const {Text } = Typography;

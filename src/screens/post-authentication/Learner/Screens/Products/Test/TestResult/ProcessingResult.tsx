@@ -1,8 +1,9 @@
-import { Button, Col, Row, Spin, Typography } from 'antd'
+import { Button, Col, Row, Spin } from 'antd'
 
 import AppImage from '@Components/Image'
 import Header from '@Components/Header'
 import { Learner } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import { useQueryClient } from '@tanstack/react-query'
 
 interface ProcessingResultPropsI {

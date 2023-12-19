@@ -1,10 +1,11 @@
-import { Avatar, List, Skeleton, Tooltip, Typography, theme } from 'antd'
+import { Avatar, List, Skeleton, Tooltip, theme } from 'antd'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import React, { Fragment } from 'react'
 
 import { Comment } from '@ant-design/compatible'
 import CreateAnswer from './CreateAnswer'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 
 const { Text } = Typography

@@ -10,7 +10,6 @@ import {
   Row,
   Space,
   Tag,
-  Typography
 } from 'antd';
 import { Learner, Utils } from '@adewaskar/lms-common'
 
@@ -19,6 +18,7 @@ import { HomeOutlined } from '@ant-design/icons';
 import Image from '@Components/Image';
 import LearnerCartCourseItem from './CourseItem'
 import { NavLink } from 'react-router-dom';
+import { Typography } from '@Components/Typography';
 import useMessage from '@Hooks/useMessage';
 import { useNavigate } from 'react-router';
 import { usePaymentCheckout } from '@Hooks/CommonHooks';

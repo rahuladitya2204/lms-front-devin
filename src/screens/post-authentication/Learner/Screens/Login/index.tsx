@@ -8,7 +8,7 @@ import LearnerRegister from '../Register'
 import OrgLogo from '@Components/OrgLogo'
 import ResetPassword from './RequestResetPassword'
 import Tabs from '@Components/Tabs'
-import { Typography } from 'antd'
+import { Typography } from '@Components/Typography'
 import { Utils } from '@adewaskar/lms-common'
 import styled from '@emotion/styled';
 import useMessage from '@Hooks/useMessage'

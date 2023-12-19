@@ -1,5 +1,7 @@
-import { Button, Form, Input, Rate, Space, Typography } from 'antd'
+import { Button, Form, Input, Rate, Space } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
+
+import { Typography } from '@Components/Typography';
 
 const { Title } = Typography
 

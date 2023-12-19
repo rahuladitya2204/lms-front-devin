@@ -7,10 +7,10 @@ import {
   Table,
   Tabs,
   Tag,
-  Typography
 } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 

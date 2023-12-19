@@ -1,9 +1,10 @@
-import { Avatar, Button, Card, Col, Form, Input, List, Row, Skeleton, Spin, Tooltip, Typography, theme } from 'antd'
+import { Avatar, Button, Card, Col, Form, Input, List, Row, Skeleton, Spin, Tooltip, theme } from 'antd'
 import { Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
 import TextArea from '@Components/Textarea';
 import TicketItem from '../TicketsScreen/TicketItem';
+import { Typography } from '@Components/Typography';
 import dayjs from 'dayjs';
 import { useParams } from 'react-router';
 

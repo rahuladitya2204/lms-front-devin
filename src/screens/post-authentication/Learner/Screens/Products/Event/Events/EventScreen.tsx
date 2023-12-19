@@ -1,10 +1,7 @@
-import { Button, Typography } from 'antd'
-
-import Tabs from '@Components/Tabs'
-import { useNavigate } from 'react-router'
-import UpcomingEvent from './UpcomingEvents'
 import PastEvent from './PastEvents'
-
+import Tabs from '@Components/Tabs'
+import UpcomingEvent from './UpcomingEvents'
+import { useNavigate } from 'react-router'
 
 const EventsScreen = () => {
   const navigate = useNavigate()

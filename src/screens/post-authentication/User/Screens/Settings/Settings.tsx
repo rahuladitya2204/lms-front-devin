@@ -1,8 +1,9 @@
-import { Button, Checkbox, Form, Input, Typography } from 'antd'
+import { Button, Checkbox, Form, Input } from 'antd'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import { User } from '@adewaskar/lms-common'
 import { useFormik } from 'formik'
 

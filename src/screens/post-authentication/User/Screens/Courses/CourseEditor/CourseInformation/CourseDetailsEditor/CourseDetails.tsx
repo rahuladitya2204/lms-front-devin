@@ -9,7 +9,6 @@ import {
   Row,
   Select,
   Space,
-  Typography
 } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { User, Utils } from '@adewaskar/lms-common'
@@ -22,6 +21,7 @@ import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import SelectProductCategory from '@Components/SelectProductCategory'
+import { Typography } from '@Components/Typography'
 import { deepPatch } from '../../CourseBuilder/utils'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'

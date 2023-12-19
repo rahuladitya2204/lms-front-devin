@@ -8,12 +8,12 @@ import {
   Row,
   Skeleton,
   Tag,
-  Typography
 } from 'antd'
 import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 
 import CourseNoteItem from './NoteItem'
 import CreateNote from './CreateNote'
+import { Typography } from '@Components/Typography'
 import { useParams } from 'react-router'
 
 const { Text } = Typography

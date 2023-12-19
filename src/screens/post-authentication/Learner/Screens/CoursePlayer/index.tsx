@@ -9,7 +9,6 @@ import {
   Skeleton,
   Space,
   Tooltip,
-  Typography
 } from 'antd'
 import {
   CaretLeftOutlined,
@@ -27,6 +26,7 @@ import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
 import Header from '@Components/Header'
 import OrgLogo from '@Components/OrgLogo'
 import ReviewCourse from '../Products/Courses/ReviewCourse/ReviewCourse'
+import { Typography } from '@Components/Typography'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
 

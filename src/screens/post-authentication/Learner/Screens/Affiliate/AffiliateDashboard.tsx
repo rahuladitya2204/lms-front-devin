@@ -1,9 +1,10 @@
-import { Card, Col, List, Row, Spin, Tooltip, Typography } from 'antd'
+import { Card, Col, List, Row, Spin, Tooltip } from 'antd'
 import { Learner, Utils } from '@adewaskar/lms-common'
 
 import { CommissionStatusTag } from './CommissionStatus'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { OrderStatusTag } from '../Account/LearnerWallet/OrderStatusTag'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 

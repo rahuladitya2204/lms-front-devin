@@ -1,4 +1,4 @@
-import { Button, Card, Typography } from 'antd';
+import { Button, Card } from 'antd';
 import {
   CameraSelection,
   PreviewVideo,
@@ -7,6 +7,7 @@ import {
 import { Constants, Learner } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 
+import { Typography } from '@Components/Typography';
 import { useEvent } from './hooks';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router';

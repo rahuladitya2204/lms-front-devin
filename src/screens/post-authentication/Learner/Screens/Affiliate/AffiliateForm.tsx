@@ -1,8 +1,9 @@
-import { Button, Col, Form, Input, Row, Typography } from 'antd'
+import { Button, Col, Form, Input, Row } from 'antd'
 
 import AffiliateDashboard from './AffiliateDashboard'
 import AppImage from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 

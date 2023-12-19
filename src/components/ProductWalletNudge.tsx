@@ -1,13 +1,13 @@
-import { Alert, Typography } from 'antd'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
+import { Alert } from 'antd'
+import { Text } from './Typography/Typography';
 import { WalletTwoTone } from '@ant-design/icons'
 
 interface ProductWalletNudgePropsI {
   product: Types.Product;
 }
 
-const { Text } = Typography
 export default function ProductWalletNudge(props: ProductWalletNudgePropsI) {
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(
     props.product

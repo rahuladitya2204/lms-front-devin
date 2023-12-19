@@ -8,7 +8,6 @@ import {
   Row,
   Skeleton,
   Tag,
-  Typography
 } from 'antd'
 import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Learner, Types, Utils } from '@adewaskar/lms-common'
@@ -16,6 +15,7 @@ import { Learner, Types, Utils } from '@adewaskar/lms-common'
 import Image from '@Components/Image'
 import NoItemFound from '@Components/NoItemFound'
 import { SkeletonTestCard } from './PastTests'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 

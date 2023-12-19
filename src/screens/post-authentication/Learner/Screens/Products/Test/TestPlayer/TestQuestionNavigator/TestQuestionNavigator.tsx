@@ -1,11 +1,12 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
-import { Badge, Button, Card, Col, Divider, Modal, Row, Skeleton, Space, Spin, Typography, theme } from 'antd'
+import { Badge, Button, Card, Col, Divider, Modal, Row, Skeleton, Space, Spin, theme } from 'antd'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
 import { NavLink } from 'react-router-dom'
 import { TestNavigatorSkeleton } from '../../TestReview/TestItemSkeleton'
 import TestTimer from './TestTimer'
+import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
 interface TestQuestionNavigatorType2PropsI {

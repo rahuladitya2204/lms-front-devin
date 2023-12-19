@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Badge,
-  Card,
-  Col,
-  Row,
-  Space,
-  Tag,
-  Tooltip,
-  Typography
-} from 'antd'
+import { Avatar, Badge, Card, Col, Row, Space, Tag, Tooltip } from 'antd'
 import {
   BarChartOutlined,
   InfoCircleOutlined,
@@ -17,6 +7,7 @@ import {
 import { Enum, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'

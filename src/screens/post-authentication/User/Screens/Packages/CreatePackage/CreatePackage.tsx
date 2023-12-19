@@ -8,7 +8,6 @@ import {
   Row,
   Spin,
   Tag,
-  Typography,
 } from 'antd'
 import { Enum, Types, Utils } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'

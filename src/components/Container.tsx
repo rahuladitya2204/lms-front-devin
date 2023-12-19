@@ -1,4 +1,6 @@
-import { Col, Row, Typography } from 'antd'
+import { Col, Row } from 'antd'
+
+import { Title } from './Typography/Typography';
 
 interface ContainerPropsI {
   title?: string;
@@ -6,7 +8,6 @@ interface ContainerPropsI {
   children: React.ReactNode;
 }
 
-const Title = Typography.Title
 
 export default function Container(props: ContainerPropsI) {
   return (

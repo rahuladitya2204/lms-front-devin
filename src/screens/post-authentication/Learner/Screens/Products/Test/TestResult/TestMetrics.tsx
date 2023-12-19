@@ -11,7 +11,6 @@ import {
   Skeleton,
   Space,
   Tag,
-  Typography
 } from 'antd'
 import {
   Bar,
@@ -41,6 +40,7 @@ import LearnerProfile from '@Learner/Screens/Account/LearnerProfile'
 import { NavLink } from 'react-router-dom'
 import ProcessingResult from './ProcessingResult'
 import ProtectedContent from '@Components/ProtectedComponent'
+import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useMemo } from 'react'

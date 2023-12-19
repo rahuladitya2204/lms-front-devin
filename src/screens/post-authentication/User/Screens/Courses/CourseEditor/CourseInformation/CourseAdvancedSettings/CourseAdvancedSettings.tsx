@@ -11,7 +11,6 @@ import {
   Switch,
   Tag,
   Tooltip,
-  Typography
 } from 'antd'
 import { Fragment, useLayoutEffect } from 'react'
 import { convertToCommaSeparated, deepPatch } from '../../CourseBuilder/utils'
@@ -21,6 +20,7 @@ import GenerateWithAI from '../GenerateWithAiButton'
 import InputTags from '@Components/InputTags/InputTags'
 import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 
 const { Title } = Typography
 const { useWatch } = Form

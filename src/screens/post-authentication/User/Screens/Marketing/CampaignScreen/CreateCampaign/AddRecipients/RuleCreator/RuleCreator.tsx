@@ -8,13 +8,13 @@ import {
   Select,
   Space,
   Table,
-  Typography
 } from 'antd'
 
 import { FormInstance } from 'antd/lib/form/Form'
 import { PlusOutlined } from '@ant-design/icons'
 import RuleRow from './RuleRow'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 
 interface RuleCreatorPropsI {
   addRule: Function;

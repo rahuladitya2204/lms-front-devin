@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton, Typography } from 'antd'
+import { Col, Row, Skeleton } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import AppImage from '@Components/Image'
@@ -8,6 +8,7 @@ import EventCard from './Cards/EventCard'
 import Section from '@Components/Section'
 import SkeletonImage from '@Components/SkeletonImage'
 import TestCard from './Cards/TestCard'
+import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import { useParams } from 'react-router'
 

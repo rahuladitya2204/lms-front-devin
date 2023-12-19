@@ -6,10 +6,10 @@ import {
   Row,
   Space,
   Switch,
-  Typography
 } from 'antd'
 import { Types, User } from '@adewaskar/lms-common'
 
+import { Typography } from '@Components/Typography'
 import styled from 'styled-components'
 import { useEffect } from 'react'
 import { useParams } from 'react-router'

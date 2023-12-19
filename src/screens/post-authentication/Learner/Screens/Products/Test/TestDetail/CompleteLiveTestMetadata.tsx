@@ -6,8 +6,9 @@ import {
   SafetyCertificateOutlined
 } from '@ant-design/icons'
 import { Learner, Types, Utils } from '@adewaskar/lms-common'
-import { List, Tag, Typography } from 'antd'
+import { List, Tag } from 'antd'
 
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
 

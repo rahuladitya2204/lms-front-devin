@@ -1,10 +1,11 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Enum, Types } from '@adewaskar/lms-common'
-import { List, Modal, Table, Tag, Tooltip, Typography } from 'antd'
+import { List, Modal, Table, Tag, Tooltip } from 'antd'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddQuestion from './AddQuestion'
 import MoreButton from '@Components/MoreButton'
+import { Typography } from '@Components/Typography'
 
 const { confirm } = Modal
 

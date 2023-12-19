@@ -5,12 +5,13 @@ import {
   StarOutlined,
   UsergroupAddOutlined
 } from '@ant-design/icons'
-import { Avatar, Col, Row, Typography } from 'antd'
+import { Avatar, Col, Row } from 'antd'
 
 import CourseReviews from '../CourseReviews/CourseReviews'
 import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import { User } from '@adewaskar/lms-common'
 
 const { Title, Text, Paragraph } = Typography

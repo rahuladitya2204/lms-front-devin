@@ -10,7 +10,6 @@ import {
   Space,
   Spin,
   Tag,
-  Typography
 } from 'antd'
 import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'

@@ -7,7 +7,6 @@ import {
   Row,
   Space,
   Table,
-  Typography
 } from 'antd'
 import { DeleteOutlined, MoreOutlined } from '@ant-design/icons'
 

@@ -1,6 +1,7 @@
-import { Avatar, List, Rate, Typography } from 'antd'
+import { Avatar, List, Rate } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 
+import { Typography } from '@Components/Typography';
 import { capitalize } from 'lodash'
 
 const { Title, Paragraph } = Typography

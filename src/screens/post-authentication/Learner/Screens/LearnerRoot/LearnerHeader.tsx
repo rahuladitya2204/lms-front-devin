@@ -16,7 +16,6 @@ import {
   Spin,
   Tag,
   Tooltip,
-  Typography,
   message
 } from 'antd'
 import {
@@ -47,6 +46,7 @@ import Header from '@Components/Header'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
+import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useQueryClient } from '@tanstack/react-query'

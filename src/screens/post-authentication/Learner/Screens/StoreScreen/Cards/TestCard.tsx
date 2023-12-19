@@ -13,7 +13,7 @@ import { Constants, Enum, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import PriceCardContent from './PriceCardContent'
-import { Typography } from 'antd'
+import { Typography } from '@Components/Typography'
 import { Utils } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import styled from '@emotion/styled'

@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Result, Typography } from 'antd';
+import { Button, Card, Checkbox, Result } from 'antd';
 import {
   CameraSelection,
   PreviewVideo,
@@ -8,6 +8,7 @@ import { Constants, User } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
+import { Typography } from '@Components/Typography';
 import { useEvent } from './hooks';
 import { useNavigate } from 'react-router';
 import { useParams } from 'react-router';

@@ -7,7 +7,6 @@ import {
   Row,
   Space,
   Tag,
-  Typography
 } from 'antd'
 import { Unit, unit } from 'mathjs'
 
@@ -16,6 +15,7 @@ import { DownloadOutlined } from '@ant-design/icons'
 import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import { downloadFile } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import styled from '@emotion/styled'
 

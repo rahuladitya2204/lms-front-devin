@@ -8,8 +8,9 @@ import {
   VideoCameraOutlined
 } from '@ant-design/icons'
 import { Learner, Types, Utils } from '@adewaskar/lms-common'
-import { List, Skeleton, Typography } from 'antd'
+import { List, Skeleton } from 'antd'
 
+import { Typography } from '@Components/Typography'
 import styled from '@emotion/styled'
 
 const { Text } = Typography

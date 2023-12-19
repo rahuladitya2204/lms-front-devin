@@ -1,10 +1,11 @@
-import { Avatar, Card, Col, Empty, List, Progress, Rate, Row, Space, Typography } from 'antd'
+import { Avatar, Card, Col, Empty, List, Progress, Rate, Row, Space } from 'antd'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import ReviewCard from './ReviewCard'
+import { Typography } from '@Components/Typography'
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 
 const { Title, Text } = Typography

@@ -1,11 +1,12 @@
 import { ArrowUpOutlined, CommentOutlined } from '@ant-design/icons'
-import { Avatar, Badge, Button, Card, Col, List, Row, Skeleton, Typography, theme } from 'antd'
+import { Avatar, Badge, Button, Card, Col, List, Row, Skeleton, theme } from 'antd'
 import { Learner, Store, Utils } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible'
 import CreateQuestion from './CreateQuestion'
 import React from 'react'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 
 const { Text } = Typography

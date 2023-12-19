@@ -11,7 +11,6 @@ import {
   Spin,
   Tag,
   Timeline,
-  Typography
 } from 'antd'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
@@ -25,6 +24,7 @@ import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestItemSkeleton from '../TestReview/TestItemSkeleton'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
 import TestTimeCountdown from '@Components/TestTimeCountdown'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'

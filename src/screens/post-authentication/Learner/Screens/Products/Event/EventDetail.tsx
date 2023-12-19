@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Tag, Typography } from 'antd'
+import { Button, Card, Col, Row, Space, Tag } from 'antd'
 import { Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -8,6 +8,7 @@ import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import Image from '@Components/Image'
 import LearnerLogin from '@Learner/Screens/Login'
 import ProductCheckoutButton from '@Components/CheckoutButton'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'

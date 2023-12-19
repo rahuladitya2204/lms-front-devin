@@ -7,8 +7,7 @@ import {
   Modal,
   Row,
   Space,
-  Spin,
-  Typography
+  Spin
 } from 'antd'
 import {
   LogoutOutlined,
@@ -21,6 +20,7 @@ import { Store, User } from '@adewaskar/lms-common'
 import Header from '@Components/Header'
 import OrgLogo from '@Components/OrgLogo'
 import { PageHeaderProps } from '@ant-design/pro-layout'
+import { Typography } from '@Components/Typography'
 import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal

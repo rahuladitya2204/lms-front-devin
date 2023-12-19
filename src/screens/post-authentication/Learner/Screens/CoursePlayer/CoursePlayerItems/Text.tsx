@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import React from 'react'
-import { Typography } from 'antd'
+import { Typography } from '@Components/Typography';
 
 interface CoursePlayerItemsPropsI {
   item: CourseSectionItem;

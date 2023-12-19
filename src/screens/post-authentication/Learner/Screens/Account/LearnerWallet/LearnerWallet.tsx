@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, List, Row, Spin, Typography } from 'antd'
+import { Button, Card, Col, Form, List, Row, Spin } from 'antd'
 import {
   CheckCircleTwoTone,
   PhoneTwoTone,
@@ -10,6 +10,7 @@ import { Learner, Utils } from '@adewaskar/lms-common'
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddMoneyToWallet from './AddMoneyToWallet'
 import { OrderStatusTag } from './OrderStatusTag'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 

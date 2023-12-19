@@ -15,7 +15,6 @@ import {
   Spin,
   Switch,
   Tag,
-  Typography,
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
@@ -29,6 +28,7 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import MediaUpload from '@Components/MediaUpload';
 import Tabs from '@Components/Tabs';
 import TextArea from '@Components/Textarea';
+import { Typography } from '@Components/Typography';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { useParams } from 'react-router';
 import useTestBuilderUI from './hooks/useTestBuilder';

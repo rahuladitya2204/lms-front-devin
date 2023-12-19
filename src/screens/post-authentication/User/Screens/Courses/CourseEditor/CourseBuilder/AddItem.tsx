@@ -1,9 +1,10 @@
-import { Col, Divider, Form, Modal, Radio, Row, Space, Typography } from 'antd'
+import { Col, Divider, Form, Modal, Radio, Row, Space } from 'antd'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateQuizItem from './CreateNewItem/CreateQuizItem'
 import CreateTextItem from './CreateNewItem/CreatTextItem'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import UploadPDF from './UploadItems/UploadPDF'
 import UploadVideo from './UploadItems/UploadVideo'
 import { extend } from 'lodash'

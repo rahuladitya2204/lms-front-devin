@@ -9,7 +9,6 @@ import {
   Row,
   Skeleton,
   Tag,
-  Typography
 } from 'antd';
 import {
   AlertOutlined,
@@ -29,6 +28,7 @@ import PackageMetadata from './PackageMetadata'
 import PriceCardContent from '@Learner/Screens/StoreScreen/Cards/PriceCardContent';
 import ProductCheckoutButton from '@Components/CheckoutButton';
 import ProductWalletNudge from '@Components/ProductWalletNudge';
+import { Typography } from '@Components/Typography';
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 import image from './bg.svg'
 import styled from '@emotion/styled'

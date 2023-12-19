@@ -1,4 +1,4 @@
-import { Card, Col, List, Row, Skeleton, Typography } from 'antd'
+import { Card, Col, List, Row, Skeleton } from 'antd'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
@@ -6,6 +6,7 @@ import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import Image from '@Components/Image'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import TestimonialCard from '@Components/TestimonialCard'
+import { Typography } from '@Components/Typography'
 
 const { Title, Paragraph } = Typography
 

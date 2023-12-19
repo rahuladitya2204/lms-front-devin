@@ -6,7 +6,7 @@ import { Button, Spin, notification } from 'antd';
 import React, { useRef, useState } from 'react';
 
 import { ActionModalI } from '@Components/ActionModal/ActionModal';
-import Title from 'antd/es/typography/Title';
+import { Title } from '@Components/Typography/Typography';
 import Webcam from 'react-webcam';
 
 interface IDVerificationComponentProps extends ActionModalI {

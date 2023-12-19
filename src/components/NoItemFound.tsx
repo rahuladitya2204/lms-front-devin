@@ -1,8 +1,8 @@
-import { Button, Card, Col, Image, Row, Typography } from 'antd'
+import { Button, Card, Col, Image, Row } from 'antd'
 
+import { Title } from './Typography/Typography';
 import { useNavigate } from 'react-router'
 
-const { Title } = Typography
 interface NoItemFoundProps {
   text: string;
   cta?: React.ReactNode;

@@ -8,7 +8,6 @@ import {
   Skeleton,
   Space,
   Tag,
-  Typography
 } from 'antd'
 import { CalendarOutlined, EditOutlined } from '@ant-design/icons'
 import { Enum, Learner, Types } from '@adewaskar/lms-common'
@@ -17,6 +16,7 @@ import Image from '@Components/Image'
 import LearnerTestResultStatus from '@Components/LearnerTestResultStatus'
 import NoItemFound from '@Components/NoItemFound'
 import SkeletonImage from '@Components/SkeletonImage'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 

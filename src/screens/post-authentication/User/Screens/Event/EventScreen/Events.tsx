@@ -1,14 +1,12 @@
-import { Button, Col, Row, Typography } from 'antd'
 import { Enum, User } from '@adewaskar/lms-common'
 
+import { Button } from 'antd'
 import Calendar from '@Components/Calendar/Calendar'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import PastEvent from './PastEvent'
 import Tabs from '@Components/Tabs'
 import UpcomingEvent from './UpcomingEvent'
 import { useNavigate } from 'react-router'
-
-const { Text } = Typography
 
 const EventsScreen = () => {
   const navigate = useNavigate()

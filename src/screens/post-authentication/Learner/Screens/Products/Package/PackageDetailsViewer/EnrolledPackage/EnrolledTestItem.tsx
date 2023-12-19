@@ -9,13 +9,13 @@ import {
   Row,
   Space,
   Tag,
-  Typography
 } from 'antd'
 import { CheckCircleOutlined, CheckOutlined, VerifiedOutlined } from '@ant-design/icons';
 import { Enum, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react';
 import LearnerTestResultStatus from '@Components/LearnerTestResultStatus';
+import { Typography } from '@Components/Typography';
 import dayjs from 'dayjs';
 import useBreakpoint from '@Hooks/useBreakpoint';
 import { useNavigate } from 'react-router';

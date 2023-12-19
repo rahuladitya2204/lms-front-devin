@@ -9,18 +9,18 @@ import {
   Row,
   Space,
   Tooltip,
-  Typography
 } from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
-
-import Segmented from '@Components/Segmented'
-import dayjs from 'dayjs'
 import {
   InfoCircleFilled,
   QuestionCircleFilled,
   QuestionCircleTwoTone,
   UserOutlined
 } from '@ant-design/icons'
+import { Types, User } from '@adewaskar/lms-common'
+
+import Segmented from '@Components/Segmented'
+import { Typography } from '@Components/Typography'
+import dayjs from 'dayjs'
 
 interface DripSectionPropsI {
   section: Types.CourseSection;

@@ -1,7 +1,8 @@
-import { AutoComplete, Col, Form, Input, Row, Tag, Typography } from 'antd';
+import { AutoComplete, Col, Form, Input, Row, Tag } from 'antd';
 import React, { useRef, useState } from 'react';
 
 import { PlusOutlined } from '@ant-design/icons';
+import { Typography } from '@Components/Typography';
 
 const { Text} = Typography;
 interface InputTagsProps {

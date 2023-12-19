@@ -7,10 +7,10 @@ import {
   Select,
   Spin,
   Switch,
-  Typography
 } from 'antd'
 import { Enum, Learner, Types, User, Utils } from '@adewaskar/lms-common'
 
+import { Typography } from '@Components/Typography'
 import { useEffect } from 'react'
 
 const { Title } = Typography

@@ -1,4 +1,4 @@
-import { Button, Calendar, Carousel, Col, Divider, List, Row, Space, Typography } from 'antd'
+import { Button, Calendar, Carousel, Col, Divider, List, Row, Space } from 'antd'
 import { Learner, Store } from '@adewaskar/lms-common'
 
 import BGImage from './image.svg'
@@ -12,10 +12,11 @@ import Section from '@Components/Section'
 import { Skeleton } from 'antd'
 import SkeletonImage from '@Components/SkeletonImage'
 import TestCard from './Cards/TestCard'
+import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
-const { Title, Paragraph,Text } = Typography
+const { Title, Paragraph, Text } = Typography;
 
 function StoreScreen () {
  const {

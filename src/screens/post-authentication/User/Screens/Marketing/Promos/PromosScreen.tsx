@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Table, Typography } from 'antd'
+import { Button, Card, Col, Row, Space, Table } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -6,6 +6,7 @@ import AddPromo from './CreatePromo'
 import CreatePromo from './CreatePromo'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 

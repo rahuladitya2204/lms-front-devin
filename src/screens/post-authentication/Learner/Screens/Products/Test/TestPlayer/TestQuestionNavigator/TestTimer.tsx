@@ -9,7 +9,6 @@ import {
     Row,
     Spin,
     Tag,
-    Typography
 } from 'antd'
 import { CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons'
 import { Fragment, useMemo } from 'react'
@@ -17,6 +16,7 @@ import { Learner, Store } from '@adewaskar/lms-common'
 
 import Countdown from '@Components/Countdown'
 import { NavLink } from 'react-router-dom'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
 import useBreakpoint from '@Hooks/useBreakpoint'

@@ -13,7 +13,6 @@ import {
   Switch,
   Tag,
   Tooltip,
-  Typography
 } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'

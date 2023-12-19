@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import Title from 'antd/es/typography/Title'
+import { Title } from '@Components/Typography/Typography'
 import { debounce } from 'lodash'
 import { generateGradients } from '@Utils/index'
 import { useFontValidation } from '@Hooks/useFontValidation'

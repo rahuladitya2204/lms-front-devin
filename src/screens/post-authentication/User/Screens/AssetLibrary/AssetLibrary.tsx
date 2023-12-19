@@ -1,20 +1,11 @@
-import {
-  Button,
-  Card,
-  Col,
-  Modal,
-  Row,
-  Space,
-  Spin,
-  Table,
-  Typography
-} from 'antd'
+import { Button, Card, Col, Modal, Row, Space, Spin, Table } from 'antd'
 import { Common, Store, Types, User } from '@adewaskar/lms-common'
 
 import { DeleteOutlined } from '@ant-design/icons'
 import FileTypeIcon from '@Components/FileTypeIcon'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import MoreButton from '@Components/MoreButton'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { unit } from 'mathjs'
 

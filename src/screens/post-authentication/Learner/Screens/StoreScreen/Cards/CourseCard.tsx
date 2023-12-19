@@ -11,7 +11,7 @@ import { BarChartOutlined, BookOutlined, ClockCircleOutlined } from '@ant-design
 import { Constants, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
-import { Typography } from 'antd'
+import { Typography } from '@Components/Typography'
 import { Utils } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'

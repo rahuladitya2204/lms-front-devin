@@ -1,11 +1,12 @@
-import { Card, Col, Form, Input, Row, Space, Typography, } from 'antd';
+import { Card, Col, Form, Input, Row, Space, } from 'antd';
 import { Common, Store, Types, User } from '@adewaskar/lms-common';
 import React, { Fragment } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
+import { Typography } from '@Components/Typography';
 import { useParams } from 'react-router';
 
-const { Text,Title } = Typography;
+const { Text,Title } = Typography
 
 interface CreateEmailTemplateComponentPropsI {
   htmlContent: string;

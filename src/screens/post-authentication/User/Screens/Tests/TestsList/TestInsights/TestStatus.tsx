@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Col, Row, Statistic, Tag, Typography } from 'antd'
+import { Alert, Button, Card, Col, Row, Statistic, Tag } from 'antd'
 import { Enum, User } from '@adewaskar/lms-common'
 // import UpcomingTest from './UpcomingTest'
 import { useNavigate, useParams } from 'react-router'
@@ -8,6 +8,7 @@ import Header from '@Components/Header'
 // import PastTest from './PastTest'
 import Tabs from '@Components/Tabs'
 import TestAttendedList from './TestAttendedList'
+import { Typography } from '@Components/Typography'
 import { UserOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 

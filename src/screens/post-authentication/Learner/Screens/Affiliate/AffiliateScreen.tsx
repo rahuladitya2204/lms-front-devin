@@ -9,7 +9,6 @@ import {
   Spin,
   Tag,
   Tooltip,
-  Typography
 } from 'antd'
 import { Learner, Utils } from '@adewaskar/lms-common'
 import { Navigate, useNavigate } from 'react-router'
@@ -21,6 +20,7 @@ import CoinImage from '../Account/LearnerWallet/CoinImage'
 import Header from '@Components/Header'
 import LearnerHeader from '../LearnerRoot/LearnerHeader'
 import Tabs from '@Components/Tabs'
+import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 

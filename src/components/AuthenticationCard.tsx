@@ -1,5 +1,3 @@
-import { Card, Typography } from 'antd'
-
 import { ReactNode } from 'react'
 import styled from '@emotion/styled'
 

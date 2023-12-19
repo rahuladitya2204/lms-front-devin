@@ -1,10 +1,11 @@
 // @ts-nocheck
 
 import { Common, Types, User } from '@adewaskar/lms-common';
-import { Form, Space, Typography, } from 'antd';
+import { Form, Space, } from 'antd';
 import React, { Fragment } from 'react';
 
 import TextArea from '@Components/Textarea';
+import { Typography } from '@Components/Typography';
 import { useParams } from 'react-router';
 
 ;

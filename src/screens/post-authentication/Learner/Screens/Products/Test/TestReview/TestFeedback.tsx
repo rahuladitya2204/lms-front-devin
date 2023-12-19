@@ -1,6 +1,7 @@
-import { Alert, Col, Row, Typography } from 'antd'
+import { Alert, Col, Row } from 'antd'
 
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography';
 
 const { Title } = Typography
 

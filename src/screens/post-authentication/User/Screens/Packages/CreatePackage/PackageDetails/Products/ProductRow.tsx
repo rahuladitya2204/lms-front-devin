@@ -1,9 +1,10 @@
-import { Button, Col, Form, Row, Select, Typography } from 'antd'
+import { Button, Col, Form, Row, Select } from 'antd'
 import { Types, User } from '@adewaskar/lms-common'
 
 import AppImage from '@Components/Image'
 import { DeleteOutlined } from '@ant-design/icons'
 import { FormInstance } from 'antd/lib'
+import { Typography } from '@Components/Typography'
 import { useMemo } from 'react'
 
 const { Title } = Typography

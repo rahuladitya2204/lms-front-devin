@@ -1,6 +1,7 @@
 import { Enum, User } from '@adewaskar/lms-common'
-import { Image, Select, Typography } from 'antd'
+import { Image, Select } from 'antd'
 
+import { Typography } from './Typography';
 import { useState } from 'react'
 
 const { Text } = Typography

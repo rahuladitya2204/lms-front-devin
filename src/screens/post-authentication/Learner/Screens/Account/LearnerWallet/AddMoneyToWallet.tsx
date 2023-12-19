@@ -1,8 +1,9 @@
-import { Button, Col, Form, Input, Row, Typography } from 'antd'
+import { Button, Col, Form, Input, Row } from 'antd'
 import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import CoinImage from './CoinImage'
 import Title from 'antd/es/typography/Title'
+import { Typography } from '@Components/Typography'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
 import { usePaymentCheckout } from '@Hooks/CommonHooks'

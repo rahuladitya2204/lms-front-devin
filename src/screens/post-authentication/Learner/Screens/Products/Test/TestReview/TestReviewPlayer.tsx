@@ -12,7 +12,6 @@ import {
   Spin,
   Tag,
   Timeline,
-  Typography
 } from 'antd'
 import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined, WarningOutlined } from '@ant-design/icons'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
@@ -26,6 +25,7 @@ import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestItemSkeleton from './TestItemSkeleton'
 import TestPlayerMoreInfo from './TestPlayerMoreInfo'
 import TestReviewQuestionNavigator from './TestQuestionReviewNavigator'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useReviewQuestion } from './TestPlayerItemReview'

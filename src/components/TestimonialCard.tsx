@@ -1,7 +1,8 @@
-import { Avatar, Card, Col, Rate, Row, Typography } from 'antd'
+import { Avatar, Card, Col, Rate, Row } from 'antd'
 
 import React from 'react'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from './Typography'
 import { UserOutlined } from '@ant-design/icons'
 
 const { Title, Paragraph } = Typography

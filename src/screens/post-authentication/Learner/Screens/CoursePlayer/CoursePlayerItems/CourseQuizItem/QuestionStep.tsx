@@ -1,8 +1,9 @@
 // @ts-nocheck
-import { Card, Checkbox, Col, List, Radio, Row, Typography } from 'antd'
+import { Card, Checkbox, Col, List, Radio, Row } from 'antd'
 import { Enum, Types } from '@adewaskar/lms-common'
 
 import React from 'react'
+import { Typography } from '@Components/Typography';
 
 interface CoursePlayerItemsPropsI {
   question: Types.TestQuestion;

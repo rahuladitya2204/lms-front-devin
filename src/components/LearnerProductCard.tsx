@@ -1,9 +1,9 @@
-import { Button, Card, Col, Empty, Row, Spin, Typography } from 'antd'
+import { Button, Card, Col, Empty, Row, Spin } from 'antd'
 import { Enum, Learner, Types, User } from '@adewaskar/lms-common'
 
 import AppImage from '@Components/Image'
+import { Text } from './Typography/Typography';
 
-const { Text } = Typography
 interface LearnerProductCardPropsI {
   product: Types.Product;
   children?: React.ReactNode;

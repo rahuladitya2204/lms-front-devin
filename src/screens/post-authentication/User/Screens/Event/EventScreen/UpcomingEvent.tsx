@@ -1,7 +1,8 @@
-import { Button, Card, Col, Row, Space, Table, Tabs, Tag, Typography } from 'antd'
+import { Button, Card, Col, Row, Space, Table, Tabs, Tag } from 'antd'
 
 import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import ViewRecording from '../RecordingPlayer'

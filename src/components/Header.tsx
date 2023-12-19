@@ -1,9 +1,10 @@
-import { Col, Row, Space, Typography } from 'antd'
+import { Col, Row, Space } from 'antd'
 
 import BackButton from './BackButton'
 import OrgLogo from './OrgLogo'
 import { PageHeaderProps } from '@ant-design/pro-layout'
 import React from 'react'
+import { Title } from './Typography/Typography'
 import styled from '@emotion/styled'
 
 interface HeaderPropsI extends PageHeaderProps {
@@ -27,8 +28,6 @@ const StyledHeader =
   align-items: center;
   padding: 0 20px;
 `
-
-const { Title } = Typography
 
 const CustomRow = styled.div`
   display: flex;

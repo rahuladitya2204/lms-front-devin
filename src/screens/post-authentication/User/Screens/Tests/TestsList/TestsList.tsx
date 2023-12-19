@@ -11,12 +11,12 @@ import {
   Table,
   Tabs,
   Tag,
-  Typography
 } from 'antd'
 import { Constants, Enum, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
 import TestCard from './TestCard'
+import { Typography } from '@Components/Typography'
 import { User } from '@adewaskar/lms-common'
 
 const { Text } = Typography

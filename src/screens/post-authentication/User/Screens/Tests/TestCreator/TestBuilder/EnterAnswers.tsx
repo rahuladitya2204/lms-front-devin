@@ -6,11 +6,11 @@ import {
   Input,
   Radio,
   Spin,
-  Typography
 } from 'antd'
 import { Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, useEffect } from 'react'
 
+import { Typography } from '@Components/Typography'
 import { useTestStore } from './hooks/useTestStore'
 
 const { Title } = Typography

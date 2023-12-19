@@ -1,8 +1,9 @@
-import { Col, Row, Typography, theme } from 'antd'
+import { Col, Row, theme } from 'antd'
 import { Common, Learner } from '@adewaskar/lms-common'
 
 import { Footer } from '@Components/Layout'
 import OrgLogo from '@Components/OrgLogo'
+import { Typography } from '@Components/Typography'
 
 const { Text } = Typography
 

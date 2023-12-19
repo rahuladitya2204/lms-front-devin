@@ -1,4 +1,4 @@
-import { Button, Card, Collapse, Dropdown, Input, List, Modal, Space, Tooltip, Typography } from 'antd'
+import { Button, Card, Collapse, Dropdown, Input, List, Modal, Space, Tooltip } from 'antd'
 import { DeleteOutlined, PlusOutlined, SaveOutlined } from '@ant-design/icons'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 
@@ -12,6 +12,7 @@ import MoreButton from '@Components/MoreButton'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'

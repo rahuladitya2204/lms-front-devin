@@ -1,7 +1,8 @@
-import { Button, Col, Row, Tabs, Typography } from 'antd'
+import { Button, Col, Row, Tabs } from 'antd'
 
 import AppCustomizerScreen from './AppCustomizer/AppCustomizerScreen'
 import Header from '@Components/Header'
+import { Typography } from '@Components/Typography'
 
 interface AppBuilderScreenPropsI {}
 

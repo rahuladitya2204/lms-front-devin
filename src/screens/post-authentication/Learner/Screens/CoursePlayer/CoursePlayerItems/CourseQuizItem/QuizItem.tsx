@@ -1,9 +1,11 @@
+import { Button, Card, Col, Divider, Result, Row } from 'antd'
 import React, { Fragment, useState } from 'react'
-import { Button, Card, Col, Divider, Result, Row, Typography } from 'antd'
-import Stepper from '@Components/Stepper'
-import { Types } from '@adewaskar/lms-common'
+
 import QuizStepper from './QuizStepper'
 import { StarFilled } from '@ant-design/icons'
+import Stepper from '@Components/Stepper'
+import { Types } from '@adewaskar/lms-common'
+import { Typography } from '@Components/Typography'
 
 interface CoursePlayerItemsPropsI {
   item: Types.CourseSectionItem;

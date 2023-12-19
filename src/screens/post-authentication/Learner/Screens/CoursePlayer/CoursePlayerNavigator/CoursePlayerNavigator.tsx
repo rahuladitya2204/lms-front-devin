@@ -1,9 +1,10 @@
 // @ts-nocheck
-import { Collapse, List, Progress, Skeleton, Space, Typography } from 'antd'
+import { Collapse, List, Progress, Skeleton, Space } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 import React, { Fragment } from 'react'
 
 import CoursePlayerNavigatorItem from './CoursePlayerNavigatorItem'
+import { Typography } from '@Components/Typography'
 import styled from '@emotion/styled'
 
 const { Panel } = Collapse

@@ -5,7 +5,7 @@ import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'
 import TestFeedback from './TestFeedback'
-import { Typography } from 'antd'
+import { Typography } from '@Components/Typography'
 import { useReviewQuestion } from './TestPlayerItemReview'
 
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
@@ -17,14 +17,21 @@ interface TestPlayerMoreInfoPropsI {
 }
 
 const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
-  const { data:{metadata:{test:{language}}}} = Learner.Queries.useGetEnrolledProductDetails({ type: Enum.ProductType.TEST, id: props.test._id + '' });
+  const {
+    data: { metadata: { test: { language } } }
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id: props.test._id + ''
+  })
   // useWatchTime(props.course._id);
   const { currentQuestion } = useReviewQuestion()
   const TAB_ITEMS = [
     {
       label: `Solution`,
       key: 'notes',
-      children: <HtmlViewer content={currentQuestion.solution?.html[language] + ''} />
+      children: (
+        <HtmlViewer content={currentQuestion.solution?.html[language] + ''} />
+      )
     },
     {
       label: `Discussion`,
@@ -52,7 +59,7 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
     //   children: 'Tab 3'
     // }
   ]
-  if ((currentQuestion?.feedback?.met) || (currentQuestion?.feedback?.notMet)) {
+  if (currentQuestion?.feedback?.met || currentQuestion?.feedback?.notMet) {
     TAB_ITEMS.unshift({
       label: `Feedback`,
       key: 'feedback',

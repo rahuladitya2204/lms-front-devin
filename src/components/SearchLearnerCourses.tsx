@@ -1,12 +1,11 @@
-import { AutoComplete, Avatar, Space, Typography } from 'antd'
+import { AutoComplete, Avatar, Space } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import Image from './Image'
 import Search from 'antd/es/input/Search'
+import { Title } from './Typography/Typography'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
-
-const { Title, Text } = Typography
 
 export default function SearchLearnerCourses() {
   const [text, setText] = useState('')

@@ -1,9 +1,10 @@
-import { Col, Collapse, List, Row, Skeleton, Tag, Typography } from 'antd'
+import { Col, Collapse, List, Row, Skeleton, Tag } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import LearnerProductCard from '@Components/LearnerProductCard'
 import PackageProductsItem from './CurriculumItem'
 import ProductCard from '@Components/UserProductCard'
+import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 
 const { Panel } = Collapse

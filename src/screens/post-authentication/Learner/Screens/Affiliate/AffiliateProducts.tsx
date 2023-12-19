@@ -1,9 +1,10 @@
-import { Button, Card, Col, Empty, Row, Spin, Typography } from 'antd'
+import { Button, Card, Col, Empty, Row, Spin } from 'antd'
 import { Enum, Learner, Types } from '@adewaskar/lms-common'
 
 import AppImage from '@Components/Image'
 import { CheckOutlined } from '@ant-design/icons'
 import Tabs from '@Components/Tabs'
+import { Typography } from '@Components/Typography'
 import { copyToClipboard } from '@Utils/index'
 import { useState } from 'react'
 

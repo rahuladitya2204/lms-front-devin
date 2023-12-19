@@ -10,7 +10,6 @@ import {
   Row,
   Space,
   Tag,
-  Typography
 } from 'antd'
 import {
   CalendarOutlined,
@@ -36,6 +35,7 @@ import { useNavigate, useParams } from 'react-router'
 
 import Image from '@Components/Image'
 import PlayIcon from '@Icons/play.svg'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 

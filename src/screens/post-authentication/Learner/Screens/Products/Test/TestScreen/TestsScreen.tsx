@@ -1,5 +1,3 @@
-import { Button, Card, Typography } from 'antd'
-
 import { Enum } from '@adewaskar/lms-common'
 import PastEvent from './PastTests'
 import PastTest from './PastTests'

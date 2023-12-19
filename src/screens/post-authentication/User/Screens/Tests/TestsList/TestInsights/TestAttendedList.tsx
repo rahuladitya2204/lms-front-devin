@@ -1,16 +1,10 @@
+import { Enum, Types, User } from '@adewaskar/lms-common'
 import {
-  Alert,
-  Button,
-  Card,
-  Col,
-  Row,
-  Statistic,
   Table,
   Tag,
-  Typography
 } from 'antd'
-import { Enum, Types, User } from '@adewaskar/lms-common'
 
+import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 import { useParams } from 'react-router'

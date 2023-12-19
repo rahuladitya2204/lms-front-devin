@@ -9,7 +9,6 @@ import {
   Select,
   Space,
   Switch,
-  Typography
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 
@@ -20,6 +19,7 @@ import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import SelectProductCategory from '@Components/SelectProductCategory'
+import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from 'react'

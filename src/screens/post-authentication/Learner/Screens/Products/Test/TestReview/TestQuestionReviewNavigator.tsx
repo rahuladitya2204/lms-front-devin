@@ -9,7 +9,6 @@ import {
   Skeleton,
   Space,
   Spin,
-  Typography,
   theme
 } from 'antd'
 import { Enum, Learner } from '@adewaskar/lms-common'
@@ -17,6 +16,7 @@ import { useNavigate, useParams } from 'react-router'
 
 import { NavLink } from 'react-router-dom'
 import { TestNavigatorSkeleton } from './TestItemSkeleton'
+import { Typography } from '@Components/Typography'
 import { useReviewQuestion } from './TestPlayerItemReview'
 
 interface TestReviewQuestionNavigatorPropsI {

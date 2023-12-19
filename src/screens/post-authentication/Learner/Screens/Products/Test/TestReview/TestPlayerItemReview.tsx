@@ -1,5 +1,5 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Skeleton, Space, Spin, Tag, Tooltip, Typography, theme } from 'antd';
+import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Skeleton, Space, Spin, Tag, Tooltip, theme } from 'antd';
 import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
@@ -8,6 +8,7 @@ import { TestAnswerTag } from '../TestResult/Table/TestResultTable';
 import TestItemSkeleton from './TestItemSkeleton';
 import TestPlayerFiles from '../TestPlayer/TestPlayerItem/TestPlayerFiles';
 import TextArea from '@Components/Textarea';
+import { Typography } from '@Components/Typography';
 import { htmlToText } from 'html-to-text';
 import useBreakpoint from '@Hooks/useBreakpoint';
 import { useParams } from 'react-router';
