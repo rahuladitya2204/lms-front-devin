@@ -76,6 +76,7 @@ export default function TestDetailScreen(
 <Col span={24}>
  <Row gutter={[30, 30]}>
           <Col xs={24} sm={24} md={24} lg={16} >
+            {loadingTest?                  <Skeleton style={{marginBottom:30}} active paragraph={{ rows: 1 }} />:null}
             <Card style={{paddingTop:0}}>
 
             <Row>
@@ -91,7 +92,7 @@ export default function TestDetailScreen(
               <Col span={24}>
                 {loadingTest ? <Row>
                   <Col span={24}>
-                  <Skeleton active paragraph={{ rows: 1 }} />
+                  {/* <Skeleton active paragraph={{ rows: 1 }} /> */}
                   <SkeletonImage active style={{flex: 1,height:400}} />
                   <Skeleton active paragraph={{ rows: 20 }} />
                   </Col>

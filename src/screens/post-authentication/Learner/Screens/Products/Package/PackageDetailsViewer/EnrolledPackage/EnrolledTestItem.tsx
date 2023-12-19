@@ -94,7 +94,8 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                   size='small'>
                   View Solutions
                 </Button>
-                          </> : null}
+                </> : null}
+                <Button  onClick={()=>window.open(`../../test/${test._id}`)} size='small' >View Details</Button>
                           {(!test?.live?.enabled && (!enrolledTest.metadata.test.startedAt)) ?
                               <Button type='primary' onClick={()=>navigate(`../../test/${test._id}/start`)} size='small'>Start Test</Button> : null}
 
