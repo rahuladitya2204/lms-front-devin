@@ -31,7 +31,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
     const test = enrolledTest.product.data as Types.Test;
   const navigate = useNavigate();
   const Ribbon = test.live.enabled ? Badge.Ribbon : Fragment;
-  const { isMobile} = useBreakpoint();
+  const { isMobile,isDesktop} = useBreakpoint();
   return (
     <List.Item>
       <Card hoverable
@@ -40,23 +40,23 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
           width: '100%',
           borderRadius: 10
         }}
-        bodyStyle={{ padding: 0 }}
+        bodyStyle={{ padding: 10 }}
       >
              <Ribbon color='purple-inverse' placement='start' text={test.live.enabled?'Live':null}>
  <Row gutter={[10,10]}>
-                  <Col xs={24} md={3}
+                  <Col flex={isMobile?1:'none'} xs={24}
                     //   span={3}
                   >
             <Image
               height={isMobile?150:70}
-                width={isMobile?'100%':100}
+                width={!isMobile?100:'100%'}
                 preview={false}
               src={test?.thumbnailImage}
             />
           </Col>
-          <Col span={1} />
+          {/* <Col span={1} xs={0} /> */}
           <Col
-            flex={1}
+            flex={1} xs={24}
             style={{
               marginTop: 10,
               marginBottom: 10
@@ -65,7 +65,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
             <Title style={{ marginTop: 0 }} level={5}>
               {test.title}
                       </Title>
-            {enrolledTest.metadata.test.endedAt ? <Row>
+            {enrolledTest.metadata.test.endedAt ? <Row gutter={[0,10]}>
               <Col><Tag>Taken on {dayjs(enrolledTest.metadata.test.startedAt).format('LL')}</Tag></Col>
               <Col><Tag color='volcano-inverse'>Scored: { enrolledTest.metadata.test.result.data.metrics.learnerScore}/{ enrolledTest.metadata.test.result.data.metrics.totalTestScore}</Tag></Col>
             </Row> :
@@ -77,37 +77,55 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                 </Col></Row>}
             <Space />
           </Col>
-          <Col
-            // span={6}
+            <Col
+              // @ts-ignore
+            xs={isMobile?24:null}
             style={{
               display: 'flex',
             alignItems: 'center',
-              marginRight:10
+              marginRight:isMobile?0:10
             }}
           >
-            <Space>
+            <Row gutter={[20,20]} style={{width:'100%',flex:1}} justify={'space-between'}>
             
                           {(enrolledTest.metadata.test.endedAt) ? <>
-                <LearnerTestResultStatus testId={test._id+''} />
-                <Button icon={<CheckCircleOutlined />}
-                  onClick={() => navigate(`../../test/${test._id}/result`)}
-                  size='small'>
+                {/* {isDesktop?<LearnerTestResultStatus testId={test._id+''} />:null} */}
+                <Col xs={24} sm={12}><Button icon={!isMobile?<CheckCircleOutlined />:null}
+                    onClick={() => navigate(`../../test/${test._id}/result`)}
+                    block={!isDesktop}
+                    // @ts-ignore 
+     style={{ width: isMobile ? '100%' : 133, marginRight: isMobile ? 0 : null }}
+
+                    // size='small'
+                  >
                   View Solutions
-                </Button>
+                </Button></Col>
                 </> : null}
-                <Button  onClick={()=>window.open(`../../test/${test._id}`)} size='small' >View Details</Button>
+                <Col xs={24} sm={12}>
+                  <Button
+// @ts-ignore 
+     style={{ width: isMobile ? '100%' : 100, marginRight: isMobile ? 0 : null }}
+                    onClick={() => window.open(`../../test/${test._id}`)}
+                  // size='small'
+                  block={!isDesktop}
+                >View Details</Button></Col>
                           {(!test?.live?.enabled) ?
-                  (!enrolledTest.metadata.test.startedAt?<Button type='primary'
+                  (!enrolledTest.metadata.test.startedAt ? <Col xs={24} sm={12}><Button type='primary'
+                  block={!isDesktop}
+                  onClick={() => navigate(`../../test/${test._id}/start`)}
+                  // size='small'
+                >
+                  Start Test
+                  </Button></Col> : (!enrolledTest.metadata.test.endedAt ? <Col xs={24} sm={12}><Button
+                      block={!isDesktop}
+                      danger type='primary'
                     onClick={() => navigate(`../../test/${test._id}/start`)}
-                    size='small'>
-                    Start Test
-                  </Button>:(!enrolledTest.metadata.test.endedAt?<Button danger type='primary'
-                    onClick={() => navigate(`../../test/${test._id}/start`)}
-                    size='small'>
+                      // size='small'
+                    >
                     Continue Test
-                  </Button>:null)) :
+                  </Button></Col>:null)) :
                   null}
-                      </Space>
+                      </Row>
           </Col>
         </Row>
         </Ribbon>
