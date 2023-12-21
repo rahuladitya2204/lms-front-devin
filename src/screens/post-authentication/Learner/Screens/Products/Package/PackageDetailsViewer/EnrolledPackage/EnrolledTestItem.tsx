@@ -31,9 +31,9 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
     const test = enrolledTest.product.data as Types.Test;
   const navigate = useNavigate();
   const Ribbon = test.live.enabled ? Badge.Ribbon : Fragment;
-  const { isMobile,isDesktop} = useBreakpoint();
+  const { isMobile,isDesktop,isTablet} = useBreakpoint();
   return (
-    <List.Item>
+    <List.Item style={{paddingLeft:0,paddingRight:0}}>
       <Card hoverable
         // onClick={() => window.open(`../../test/${test._id}`)}
         style={{
@@ -62,7 +62,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               marginBottom: 10
             }}
           >
-            <Title style={{ marginTop: 0,width:isMobile?300:'auto' }} level={5}>
+            <Title style={{ marginTop: 0,maxWidth:(isMobile || isTablet)?300:'auto' }} level={5}>
               {test.title}
                       </Title>
             {enrolledTest.metadata.test.endedAt ? <Row gutter={[0,10]}>

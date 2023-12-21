@@ -283,7 +283,7 @@ const LearnerHeader: React.FC = () => {
     <Header
       hideBack
       title={
-        <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
+        <Space style={{ cursor: 'pointer'}}>
           <OrgLogo
             onClick={() => navigate('../app/store')}
             // style={{ width: 60 }}
@@ -309,11 +309,11 @@ const LearnerHeader: React.FC = () => {
       <Content style={{ margin: '0 16px' }}>
         <Spin tip="Please wait.. Logging you out." spinning={loggingOut}>
           <Row style={{ paddingTop: 20 }}>
-            <Col span={2} />
-            <Col span={20}>
+            <Col xs={1} sm={2} />
+            <Col xs={22} sm={20}>
               <Outlet />
             </Col>
-            <Col span={2} />
+            <Col xs={1} sm={2} />
           </Row>
         </Spin>
       </Content>

@@ -126,6 +126,7 @@ const EnrolledPackageDetailScreen: React.FC<
                           style={{
                             width: '100%',
                             height: 30
+
                             // marginBottom: 20
                           }}
                         />
@@ -237,81 +238,85 @@ const EnrolledPackageDetailScreen: React.FC<
 
         <Row>
           <Col span={24}>
-            <Card bordered={false} style={{ width: '100%', marginTop: 50 }}>
-              <Row gutter={[30, 30]}>
-                <Col xl={17} lg={24} md={24} sm={24} xs={24}>
-                  <Row gutter={[20, 30]}>
-                    {loading ? (
-                      <Col span={24}>
-                        <Skeleton.Button
-                          active
-                          style={{
-                            width: '100%',
-                            height: 30,
-                            marginBottom: 15
-                          }}
-                        />
+            <Row gutter={[30, 30]}>
+              <Col xl={19} lg={24} md={24} sm={24} xs={24}>
+                <Row gutter={[20, 30]}>
+                  {loading ? (
+                    <Col span={24}>
+                      <Skeleton.Button
+                        active
+                        style={{
+                          width: '100%',
+                          height: 30,
+                          marginBottom: 15,
+                          marginTop: 20
+                        }}
+                      />
 
-                        <Skeleton.Button
-                          active
-                          style={{ width: '100%', height: 75, marginTop: 18 }}
-                        />
+                      <Skeleton.Button
+                        active
+                        style={{ width: '100%', height: 75, marginTop: 18 }}
+                      />
 
-                        <Skeleton.Button
-                          active
-                          style={{ width: '100%', height: 75, marginTop: 18 }}
-                        />
+                      <Skeleton.Button
+                        active
+                        style={{ width: '100%', height: 75, marginTop: 18 }}
+                      />
 
-                        <Skeleton.Button
-                          active
-                          style={{ width: '100%', height: 75, marginTop: 18 }}
+                      <Skeleton.Button
+                        active
+                        style={{ width: '100%', height: 75, marginTop: 18 }}
+                      />
+                    </Col>
+                  ) : packageData?.products ? (
+                    <Col span={24}>
+                      <Card
+                        style={{ marginTop: 20 }}
+                        bodyStyle={{ paddingTop: 10 }}
+                      >
+                        <Tabs
+                          navigateWithHash
+                          items={Object.keys(packageData?.products)
+                            .filter(k => packageData?.products[k].length)
+                            .map(k => {
+                              return {
+                                label: `${capitalize(k)}s`,
+                                key: k,
+                                children: (
+                                  <List
+                                    split={false}
+                                    size="small"
+                                    bordered={false}
+                                    dataSource={sortBy(
+                                      packageData.products[k],
+                                      e => e.metadata.test.endedAt
+                                    )}
+                                    renderItem={(item: any) => (
+                                      <EnrolledTestItem
+                                        enrolledProduct={item}
+                                      />
+                                    )}
+                                  />
+                                )
+                              }
+                            })}
                         />
-                      </Col>
-                    ) : packageData?.products ? (
-                      <Col span={24}>
-                        <Card>
-                          <Tabs
-                            navigateWithHash
-                            items={Object.keys(packageData?.products)
-                              .filter(k => packageData?.products[k].length)
-                              .map(k => {
-                                return {
-                                  label: `${capitalize(k)}s`,
-                                  key: k,
-                                  children: (
-                                    <List
-                                      split={false}
-                                      size="small"
-                                      bordered={false}
-                                      dataSource={sortBy(
-                                        packageData.products[k],
-                                        e => e.metadata.test.endedAt
-                                      )}
-                                      renderItem={(item: any) => (
-                                        <EnrolledTestItem
-                                          enrolledProduct={item}
-                                        />
-                                      )}
-                                    />
-                                  )
-                                }
-                              })}
-                          />
-                        </Card>
-                      </Col>
-                    ) : null}
-                  </Row>
-                </Col>
-                {/* <Col span={1} /> */}
-                <Col xl={7} lg={0} md={0} sm={0} xs={0}>
-                  <Row>
-                    {/* <Col span={24}>
+                      </Card>
+                    </Col>
+                  ) : null}
+                </Row>
+              </Col>
+              {/* <Col span={1} /> */}
+              <Col xl={5} lg={0} md={0} sm={0} xs={0}>
+                <Row>
+                  {/* <Col span={24}>
                       <Title level={5}>Package Description</Title>
                       <Text>{packageData?.description}</Text>
 
                       <Divider />
                     </Col> */}
-                    <Col span={24}>
+                  <Col span={24}>
+                    <Card style={{ marginTop: 20 }}>
                       {loading ? (
                         <Row gutter={[0, 10]}>
                           {PackageDetailSkel.map(() => (
@@ -358,11 +363,11 @@ const EnrolledPackageDetailScreen: React.FC<
                         ) : null} */}
                         </Space>
                       )}
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
-            </Card>
+                    </Card>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </Col>
