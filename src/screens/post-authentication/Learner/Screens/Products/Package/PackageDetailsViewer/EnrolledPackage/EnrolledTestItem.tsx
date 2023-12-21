@@ -62,7 +62,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               marginBottom: 10
             }}
           >
-            <Title style={{ marginTop: 0 }} level={5}>
+            <Title style={{ marginTop: 0,width:isMobile?300:'auto' }} level={5}>
               {test.title}
                       </Title>
             {enrolledTest.metadata.test.endedAt ? <Row gutter={[0,10]}>
