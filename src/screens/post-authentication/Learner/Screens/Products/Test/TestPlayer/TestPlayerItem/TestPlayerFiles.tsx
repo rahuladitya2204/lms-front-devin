@@ -92,7 +92,7 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
   const UploadButton=<MediaUpload
   uploadType="image" cropper renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
   onUpload={({ name, _id ,url}) => {
-    // console.log(answer, 'existing')
+    console.log(name,_id, 'uploaded')
     handleUpload({ name, file: _id, url: url });
   }}
 />
