@@ -75,6 +75,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   const form = Form.useFormInstance()
   // const value = Form.useWatch([props.name], form);
   const UploadFile = file => {
+    console.log(file, 'filee')
     if (!file) return
     return uploadFiles({
       files: [
@@ -101,7 +102,9 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     })
   }
   UPLOAD.customRequest = () => {
-    UploadFile(file.originFileObj)
+    if (!props.cropper) {
+      UploadFile(file.originFileObj)
+    }
   }
   UPLOAD.onChange = ({ file, fileList }) => {
     setFile(file)

@@ -4,6 +4,7 @@ import { Enum, Learner, Store, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
+import { Paragraph } from '@Components/Typography/Typography';
 import TestPlayerFiles from './TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import { Typography } from '@Components/Typography';
@@ -98,8 +99,10 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
               <Col span={24}>
-                {/* @ts-ignore */}
-              <HtmlViewer content={currentQuestion.title.text[language]} />
+                <Paragraph style={{fontSize:16}}>                {/* @ts-ignore */}
+
+                <HtmlViewer content={currentQuestion.title.text[language]} />
+              </Paragraph>
               {questionType !== Enum.TestQuestionType.SUBJECTIVE ? <>
                   <Text style={{
                     marginTop: 20,

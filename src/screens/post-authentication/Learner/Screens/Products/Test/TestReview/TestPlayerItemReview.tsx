@@ -4,6 +4,7 @@ import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
+import { Paragraph } from '@Components/Typography/Typography';
 import { TestAnswerTag } from '../TestResult/Table/TestResultTable';
 import TestItemSkeleton from './TestItemSkeleton';
 import TestPlayerFiles from '../TestPlayer/TestPlayerItem/TestPlayerFiles';
@@ -21,7 +22,7 @@ interface TestPlayerItemReiewPropsI {}
 export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const [form] = Form.useForm();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
-  const { data:{metadata:{test:{language}}}} = Learner.Queries.useGetEnrolledProductDetails({ type: Enum.ProductType.TEST, id: testId + '' });
+  const { data:{metadata:{test:{language}}},isLoading: loadingEp} = Learner.Queries.useGetEnrolledProductDetails({ type: Enum.ProductType.TEST, id: testId + '' });
   const { currentQuestion, currentQuestionIndex, loading: loadingQuestion } = useReviewQuestion();
   const answerGiven = currentQuestion.answerGiven
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.RESULT);
@@ -86,8 +87,11 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
           <Col span={24}>
-                          {/* @ts-ignore */}
-              <HtmlViewer content={currentQuestion.title?.text[language]+''} />
+              <Paragraph style={{ fontSize: 16 }}>
+                {/* @ts-ignore */}
+                {loadingEp?<Skeleton paragraph={{rows:1}} />: <HtmlViewer content={currentQuestion.title?.text[language] + ''} />}
+               
+                </Paragraph>
               {currentQuestion.type !== 'subjective' ? ((currentQuestion.type===Enum.TestQuestionType.SINGLE || currentQuestion.type===Enum.TestQuestionType.MULTIPLE)?<>
                 <Text style={{ marginTop: 20, fontSize: currentQuestion.type === Enum.TestQuestionType.SINGLE ? 16 : 18 }} type="secondary">
                 {currentQuestion.type === Enum.TestQuestionType.SINGLE ? 'Select one among others' : 'Select all that apply'}

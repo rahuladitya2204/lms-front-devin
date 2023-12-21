@@ -44,9 +44,9 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
       >
              <Ribbon color='purple-inverse' placement='start' text={test.live.enabled?'Live':null}>
  <Row gutter={[10,10]}>
-                  <Col flex={isMobile?1:'none'} xs={24}
-                    //   span={3}
-                  >
+            <Col flex={isMobile ? 1 : 'none'}
+              xs={24}
+              >
             <Image
               height={isMobile?150:70}
                 width={!isMobile?100:'100%'}
@@ -87,7 +87,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               marginRight:isMobile?0:10
             }}
           >
-            <Row gutter={[20,20]} style={{width:'100%',flex:1}} justify={'space-between'}>
+            <Row gutter={[20,20]} style={{width:'100%',flex:1}} justify={'end'}>
             
                           {(enrolledTest.metadata.test.endedAt) ? <>
                 {/* {isDesktop?<LearnerTestResultStatus testId={test._id+''} />:null} */}

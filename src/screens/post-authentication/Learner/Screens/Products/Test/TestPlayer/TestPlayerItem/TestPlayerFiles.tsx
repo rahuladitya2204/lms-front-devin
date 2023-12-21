@@ -30,7 +30,7 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
     form.setFieldValue(['answer', 'subjective', 'files'], FILES);
     updateAnswerApi()
   }
-  const updateAnswerApi = () => {
+  const updateAnswerApi = (isRearrange?:boolean) => {
     const answer = form.getFieldValue(['answer']);
     updateAnswer({
       testId: props.testId + '',
@@ -40,7 +40,7 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
       onSuccess: () => {
         message.open({
           type: 'success',
-          content: 'File uploaded successfully'
+          content: isRearrange?'File rearranged successfully':'File uploaded successfully'
         })
       }
     });
@@ -59,7 +59,7 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
         },
       },
     });
-    updateAnswerApi()
+    updateAnswerApi(true)
   };
 
   const deleteFile = (fileId:string) => {

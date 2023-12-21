@@ -1,7 +1,8 @@
 import { Alert, Col, Row } from 'antd'
 
+import { Paragraph } from '@Components/Typography/Typography'
 import { Types } from '@adewaskar/lms-common'
-import { Typography } from '@Components/Typography';
+import { Typography } from '@Components/Typography'
 
 const { Title } = Typography
 
@@ -16,13 +17,23 @@ const TestFeedback = (props: TestSolutionPropsI) => {
       {feedback.met ? (
         <Col span={24}>
           <Title level={4}>What was right</Title>
-          <Alert type="success" message={feedback.met} />
+          <Alert
+            type="success"
+            message={
+              <Paragraph style={{ fontSize: 16 }}>{feedback.met}</Paragraph>
+            }
+          />
         </Col>
       ) : null}
       {feedback.notMet ? (
         <Col span={24}>
           <Title level={4}>What was missing</Title>
-          <Alert type="error" message={feedback.notMet} />
+          <Alert
+            type="error"
+            message={
+              <Paragraph style={{ fontSize: 16 }}>{feedback.notMet}</Paragraph>
+            }
+          />
         </Col>
       ) : null}
     </Row>
