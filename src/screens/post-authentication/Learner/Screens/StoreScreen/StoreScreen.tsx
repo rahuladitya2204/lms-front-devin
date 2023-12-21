@@ -35,12 +35,10 @@ function StoreScreen () {
         <Row align={'middle'} gutter={[20,20]}>
           <Col span={12} flex={1}>
             <Title>
-              Find your Preferred <br /> Courses and Mock Tests & Improve Your Skills
+              Find your Preferred <br /> Mock Tests & Improve Your Skills
             </Title>
-            <Paragraph>
-              Build skills with courses, certificates, and degrees online from{' '}
-              <br />
-              world-class universities and companies.
+            <Paragraph style={{fontSize:20}}>
+            🚀 Get your competitive edge with our mock tests and ace your tests 
             </Paragraph>
             {/* <SearchLearnerCourses /> */}
           </Col>
