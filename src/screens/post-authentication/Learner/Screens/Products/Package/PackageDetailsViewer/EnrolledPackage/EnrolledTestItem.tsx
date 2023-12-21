@@ -88,21 +88,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
             }}
           >
             <Row gutter={[20,20]} style={{width:'100%',flex:1}} justify={'end'}>
-            
-                          {(enrolledTest.metadata.test.endedAt) ? <>
-                {/* {isDesktop?<LearnerTestResultStatus testId={test._id+''} />:null} */}
-                <Col xs={24} sm={12}><Button icon={!isMobile?<CheckCircleOutlined />:null}
-                    onClick={() => navigate(`../../test/${test._id}/result`)}
-                    block={!isDesktop}
-                    // @ts-ignore 
-     style={{ width: isMobile ? '100%' : 133, marginRight: isMobile ? 0 : null }}
-
-                    // size='small'
-                  >
-                  View Solutions
-                </Button></Col>
-                </> : null}
-                <Col xs={24} sm={12}>
+            <Col xs={24} sm={12}>
                   <Button
 // @ts-ignore 
      style={{ width: isMobile ? '100%' : 100, marginRight: isMobile ? 0 : null }}
@@ -110,6 +96,21 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                   // size='small'
                   block={!isDesktop}
                 >View Details</Button></Col>
+                          {(enrolledTest.metadata.test.endedAt) ? <>
+                {/* {isDesktop?<LearnerTestResultStatus testId={test._id+''} />:null} */}
+                  <Col xs={24} sm={12}><Button
+                    // icon={!isMobile ? <CheckCircleOutlined /> : null}
+                    onClick={() => navigate(`../../test/${test._id}/result`)}
+                    block={!isDesktop}
+                    // @ts-ignore 
+     style={{marginRight: isMobile ? 0 : null }}
+type='primary'
+                    // size='small'
+                  >
+                  Solutions
+                </Button></Col>
+                </> : null}
+   
                           {(!test?.live?.enabled) ?
                   (!enrolledTest.metadata.test.startedAt ? <Col xs={24} sm={12}><Button type='primary'
                   block={!isDesktop}

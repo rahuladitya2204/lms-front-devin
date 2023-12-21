@@ -2,7 +2,7 @@ import { Button, Card, Col, Empty, Row, Spin } from 'antd'
 import { Enum, Learner, Types, User } from '@adewaskar/lms-common'
 
 import AppImage from '@Components/Image'
-import { Text } from './Typography/Typography';
+import { Text } from './Typography/Typography'
 
 interface LearnerProductCardPropsI {
   product: Types.Product;
@@ -22,7 +22,12 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       hoverable
       bodyStyle={{ padding: '20px 10px' }}
       cover={
-        <AppImage height={120} alt="example" src={product.thumbnailImage} />
+        <AppImage
+          placeholder
+          height={120}
+          alt="example"
+          src={product.thumbnailImage}
+        />
       }
       actions={props.actions}
     >
