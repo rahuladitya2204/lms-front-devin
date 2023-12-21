@@ -34,8 +34,11 @@ const AddSection: React.FC<AddSectionPropsI> = (props) => {
       </Form.Item>
 
       <Form.Item required name="commonDetail" label="Section Title">
-    <TextArea html={{level:3}} />
+    <TextArea height={200} html={{level:3}} />
       </Form.Item>
+      <Button htmlType='submit' type='primary'>
+        Add Section
+      </Button>
     </Form>
   );
 };
