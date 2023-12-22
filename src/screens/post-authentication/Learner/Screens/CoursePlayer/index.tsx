@@ -94,7 +94,7 @@ function CoursePlayer() {
 
   useEffect(
     () => {
-      if (progress === 50 && !(review && typeof review !== 'undefined')) {
+      if (progress >10 && !(review && typeof review !== 'undefined')) {
         setShowReview(true)
       }
     },

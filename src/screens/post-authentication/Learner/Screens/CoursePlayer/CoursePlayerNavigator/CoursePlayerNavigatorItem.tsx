@@ -30,7 +30,7 @@ interface CoursePlayerNavigatorItemPropsI {
 
 const CourseListItem = styled(List.Item)(({isActive}:{isActive:boolean}) => {
   return `
-  /* border-bottom: 1px solid #f0f0f0 !important; */
+   border-bottom: 1px solid #f0f0f0 !important;
   h4 {
     margin-top: 0;
   }
@@ -100,7 +100,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                           <CourseItemIcon type="outlined" item={props.item} />
                         }
                         style={{ marginRight: 0 }}
-                        color="blue"
+                        color="blue-inverse"
                       >
                         {minDuration<60?minDuration:Utils.formatSeconds(minDuration)} min
                       </Tag>
