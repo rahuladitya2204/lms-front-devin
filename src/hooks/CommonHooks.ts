@@ -39,7 +39,6 @@ export const useAppInit = () => {
       const queryString = window.location.search;
       const queryParams = new URLSearchParams(queryString);
       const affiliateId = queryParams.get('ref'); // Replace 'myParam' with your parameter name
-      console.log(affiliateId, 'location');
       const parts = hostname.split('.')
       const subdomain = parts.length > 2 ? parts[0] : null
       return {

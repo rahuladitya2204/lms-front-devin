@@ -157,13 +157,13 @@ function CoursePlayer() {
     [itemId, sectionId, courseId]
   )
   const { isMobile,isTablet,isDesktop} = useBreakpoint();
-  const items = sections.map(i => i.items).flat()
+  const items = sections.map(i => i.items).flat();
   const showTrialBanner = useMemo(
     () =>
-      Utils.isTrialExpiringSoon(trialExpiresAt, {
+    trialExpiresAt?  Utils.isTrialExpiringSoon(trialExpiresAt, {
         value: 1,
         unit: 'day'
-      }),
+      }):false,
     [trialExpiresAt]
   );
 

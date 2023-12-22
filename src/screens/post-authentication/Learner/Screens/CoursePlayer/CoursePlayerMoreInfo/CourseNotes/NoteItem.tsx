@@ -103,15 +103,15 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
     >
       <List.Item.Meta
         avatar={<Tag color="blue">{time}</Tag>}
-        title={
-          <Row>
-            <Col>
-              <Text strong>{name}</Text>
-              <Divider type="vertical" />
-              {/* <Text>{item?.title}</Text> */}
-            </Col>
-          </Row>
-        }
+        // title={
+        //   <Row>
+        //     <Col>
+        //       <Text strong>{name}</Text>
+        //       <Divider type="vertical" />
+        //       {/* <Text>{item?.title}</Text> */}
+        //     </Col>
+        //   </Row>
+        // }
         description={
           <Text>
             <HtmlViewer content={props.note.content} />

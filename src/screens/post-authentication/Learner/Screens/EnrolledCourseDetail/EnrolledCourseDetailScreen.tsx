@@ -9,7 +9,7 @@ import {
   Progress,
   Row,
   Space,
-  Tag,
+  Tag
 } from 'antd'
 import {
   CalendarOutlined,
@@ -97,8 +97,10 @@ const EnrolledCourseDetailScreen: React.FC<
                           //   @ts-ignore
                           src={instructor.image}
                         />
-                        {/* @ts-ignore  */}
-                        {instructor.name}
+                        <Text style={{ position: 'relative', top: 4 }}>
+                          {/* @ts-ignore  */}
+                          {instructor.name}
+                        </Text>
                       </Space>
                     </Col>
                     <Col
@@ -198,17 +200,17 @@ const EnrolledCourseDetailScreen: React.FC<
                               <List.Item>
                                 <Card
                                   style={{ width: '100%', borderRadius: 10 }}
-                                  bodyStyle={{ padding: 0 }}
+                                  bodyStyle={{ padding: '0 20px' }}
                                 >
-                                  <Row>
-                                    <Col span={3}>
+                                  <Row gutter={[10, 10]}>
+                                    {/* <Col>
                                       <Image
                                         height={70}
                                         width={100}
                                         src={item.metadata?.thumbnail}
                                       />
-                                    </Col>
-                                    <Col span={1} />
+                                    </Col> */}
+                                    {/* <Col span={1} /> */}
                                     <Col
                                       flex={1}
                                       style={{
@@ -216,11 +218,15 @@ const EnrolledCourseDetailScreen: React.FC<
                                         marginBottom: 10
                                       }}
                                     >
-                                      <Title style={{ marginTop: 0 }} level={5}>
+                                      <Title
+                                        ellipsis={{ rows: 1 }}
+                                        style={{ marginTop: 0 }}
+                                        level={5}
+                                      >
                                         {item.title}
                                       </Title>
                                       <Space>
-                                        <Tag>
+                                        <Tag color="orange-inverse">
                                           <StepForwardOutlined
                                             style={{ marginRight: 3 }}
                                           />
@@ -228,6 +234,14 @@ const EnrolledCourseDetailScreen: React.FC<
                                             item.metadata?.duration || 0
                                           )}
                                         </Tag>
+                                        {/* {item.metadata.length ? (
+                                          <Tag color='blue-inverse'>
+                                            <FileOutlined
+                                              style={{ marginRight: 3 }}
+                                            />
+                                            {item.metadata.length}
+                                          </Tag>
+                                        ) : null} */}
                                         {item.files.length ? (
                                           <Tag>
                                             <FileOutlined
@@ -238,7 +252,7 @@ const EnrolledCourseDetailScreen: React.FC<
                                         ) : null}
                                       </Space>
                                     </Col>
-                                    <Col span={6} />
+                                    {/* <Col span={6} /> */}
                                     <Col
                                       span={3}
                                       style={{
@@ -260,6 +274,7 @@ const EnrolledCourseDetailScreen: React.FC<
                                         <Button
                                           // style={{ padding: '0 10px' }}
                                           shape="circle"
+                                          type="primary"
                                           onClick={() =>
                                             playItem(section._id, item._id)
                                           }

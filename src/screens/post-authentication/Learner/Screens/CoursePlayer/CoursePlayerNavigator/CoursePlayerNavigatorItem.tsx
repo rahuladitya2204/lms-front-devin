@@ -8,11 +8,11 @@ import {
   Space,
   Tag,
 } from 'antd'
+import { Learner, Utils } from '@adewaskar/lms-common'
 import { Unit, unit } from 'mathjs'
 
 import CourseItemIcon from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import { DownloadOutlined } from '@ant-design/icons'
-import { Learner } from '@adewaskar/lms-common'
 import { NavLink } from 'react-router-dom'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
@@ -28,12 +28,15 @@ interface CoursePlayerNavigatorItemPropsI {
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
-const CourseListItem = styled(List.Item)`
+const CourseListItem = styled(List.Item)(({isActive}:{isActive:boolean}) => {
+  return `
   /* border-bottom: 1px solid #f0f0f0 !important; */
   h4 {
     margin-top: 0;
   }
+  background: ${isActive?'#e9e9e9':'auto'};
 `
+})
 
 function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   let duration = props.item.metadata?.duration
@@ -43,7 +46,8 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   let durationInMin = unit(duration, 'seconds')
     .to('minute')
     .toJSON()
-  const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
+  const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress();
+  const minDuration = Math.ceil(durationInMin.value);
   return (
     <NavLink
       to={`${props.item._id}`}
@@ -55,7 +59,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
           //   // ) : null,
 
           // ]}
-          // isActive={isActive}
+          isActive={isActive}
         >
           <List.Item.Meta
             avatar={
@@ -98,7 +102,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                         style={{ marginRight: 0 }}
                         color="blue"
                       >
-                        {Math.ceil(durationInMin.value)} min
+                        {minDuration<60?minDuration:Utils.formatSeconds(minDuration)} min
                       </Tag>
                     </Col>
 

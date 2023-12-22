@@ -77,7 +77,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
         ]}
       >
         {promoVideoFile?.url ? (
-          <MediaPlayer width={500} height={300} fileId={promoVideoFile?.url} />
+          <MediaPlayer width={500} height={300} url={promoVideoFile?.url} />
         ) : (
           <Empty description="Np promo video added" />
         )}

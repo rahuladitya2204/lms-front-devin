@@ -115,7 +115,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           cropper
           aspect={16 / 9}
           name="thumbnailImage"
-          width="200"
+          width="200px"
           height="300px"
           prefixKey={`courses/${courseId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={thumbnailImage} />}

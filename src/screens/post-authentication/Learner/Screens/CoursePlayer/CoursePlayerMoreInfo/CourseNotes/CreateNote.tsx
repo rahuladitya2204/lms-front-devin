@@ -34,6 +34,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
   const { mutate: updateNote } = Learner.Queries.useUpdateNote()
   const { currentTime } = Store.usePlayer((s: any) => s.state)
   const time = formatSeconds(props.selectedNote?.time || currentTime)
+  // console.log(currentTime, 'currentTime')
   const onSave = (data: Partial<Types.CourseNote>) => {
     const note = {
       content: data.content + '',
@@ -83,7 +84,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
     console.log(note, 'daa')
   }
   const [form] = Form.useForm()
-
+  const isPlaying = !isNaN(currentTime)
   useEffect(
     () => {
       form.setFieldsValue(props.selectedNote)
@@ -99,14 +100,15 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
             <Col span={24}>
               <Form.Item
                 label={
-                  <Text>
+                  <Text disabled={!isPlaying}>
                     {props.selectedNote ? 'Update Note at' : 'Create a note at'}{' '}
-                    {<Tag color="cyan">{time}</Tag>}
+                    {isPlaying ? <Tag color="cyan">{time}</Tag> : null}
                   </Text>
                 }
                 name="content"
               >
                 <TextArea
+                  // disabled={!isPlaying}
                   onFocus={() => playerInstance?.pause()}
                   // html={{ level: 1 }}
                   height={100}
@@ -125,7 +127,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
               ) : (
                 <Button
                   loading={savingNote}
-                  disabled={!noteContent}
+                  disabled={!noteContent || !isPlaying}
                   type="primary"
                   onClick={form.submit}
                 >
