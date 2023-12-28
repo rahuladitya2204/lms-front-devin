@@ -45,6 +45,7 @@ export const QUESTION_TYPES=[
   { value: Enum.TestQuestionType.MULTIPLE, label: 'Multiple Choice' },
   { value: Enum.TestQuestionType.NUMERIC, label: 'Numeric' },
   { value: Enum.TestQuestionType.SUBJECTIVE, label: 'Subjective' },
+  { value: Enum.TestQuestionType.FILL_IN_THE_BLANK, label: 'Fill in the blank' },
 ];
 interface CreateQuestionFormPropsI {
   submit?: (d: Types.TestQuestion) => void;
@@ -263,7 +264,55 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 
         </Row>
       </Card>
-    </Col>
+      </Col>
+      {questionType === Enum.TestQuestionType.FILL_IN_THE_BLANK && (
+  <Col span={24}>
+    <Card title="Fill in the Blanks">
+    <Form.List name="fillInTheBlanks">
+  {(fields, { add, remove }) => (
+    <>
+      <Row gutter={[10, 10]} align="middle">
+        {fields.map(({ key, name, fieldKey, ...restField }, index) => (
+          <Col key={key}>
+            <Row gutter={[10, 10]}>
+              <Col>
+                <Form.Item
+                  {...restField}
+                  name={[name, 'text']}
+                >
+                  <Input placeholder="Text or blank" />
+                </Form.Item>
+              </Col>
+              <Col>
+                <Form.Item
+                  {...restField}
+                  name={[name, 'isBlank']}  valuePropName="checked"
+                >
+                  <Checkbox />
+                </Form.Item>
+              </Col>
+              <Col>
+                <PlusCircleTwoTone onClick={() => add({}, index + 1)} style={{ margin: '0 8px' }} />
+                {fields.length > 1 ? (
+                  <DeleteTwoTone onClick={() => remove(name)} />
+                ) : null}
+              </Col>
+            </Row>
+          </Col>
+        ))}
+      </Row>
+      {fields.length === 0 && (
+        <Button type="dashed" onClick={() => add()} icon={<PlusCircleTwoTone />}>
+          Add Blank
+        </Button>
+      )}
+    </>
+  )}
+</Form.List>
+
+    </Card>
+  </Col>
+)}
     {questionType === Enum.TestQuestionType.SUBJECTIVE && (
       <Col span={24}>
         <Card title="Scoring Criteria" extra={[
