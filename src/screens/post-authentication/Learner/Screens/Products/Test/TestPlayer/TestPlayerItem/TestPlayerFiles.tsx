@@ -89,7 +89,7 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
   }
   const { currentQuestion } = useReviewQuestion();
   const imageIssues = currentQuestion?.feedback?.imageIssues;
-  const UploadButton=<MediaUpload
+  const UploadButton=<MediaUpload aspect={210/297}
   uploadType="image" cropper renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
   onUpload={({ name, _id ,url}) => {
     console.log(name,_id, 'uploaded')
