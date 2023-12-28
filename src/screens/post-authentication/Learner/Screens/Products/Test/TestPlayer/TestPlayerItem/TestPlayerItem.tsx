@@ -161,7 +161,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     <Row style={{marginTop:20}}>
                       <Col span={24}>
                          {/* @ts-ignore */}
-                      {currentQuestion.fillInTheBlanks?.map((item, index) => {
+                      {currentQuestion.fillInTheBlanks.blanks?.map((item, index) => {
                         // @ts-ignore
                         const blankSpaceId = item._id; // Example ID generation. Adjust based on your actual data.
                   

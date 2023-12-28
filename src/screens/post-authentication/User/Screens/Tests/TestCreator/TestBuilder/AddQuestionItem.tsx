@@ -267,8 +267,12 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       </Col>
       {questionType === Enum.TestQuestionType.FILL_IN_THE_BLANK && (
   <Col span={24}>
-    <Card title="Fill in the Blanks">
-    <Form.List name="fillInTheBlanks">
+          <Card title="Fill in the Blanks" extra={<>
+            <Form.Item style={{margin:0}}  name={['fillInTheBlanks','wordLimit']} >
+              <Input placeholder='Word Limit' />
+          </Form.Item>
+          </>}>
+    <Form.List name={['fillInTheBlanks','blanks']}>
   {(fields, { add, remove }) => (
     <>
       <Row gutter={[10, 10]} align="middle">
