@@ -54,7 +54,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         answer
       }); 
   }, [currentQuestion, form,questionId]);
-  const isValid = ((answer?.options?.length) || (answer?.subjective?.text) || (answer?.subjective?.files?.length) || (!isNaN(Number(answer?.numeric))));
+  const isValid =
+    (answer?.options?.length) ||
+    (answer?.subjective?.text) || 
+    (answer?.subjective?.files?.length) ||
+    (!isNaN(Number(answer?.numeric))) || currentQuestion.type===Enum.TestQuestionType.FILL_IN_THE_BLANK
 
   // @ts-ignore
   const onFormSubmit = ({ answer }) => {
@@ -99,10 +103,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
               <Col span={24}>
-                <Paragraph style={{fontSize:16}}>                {/* @ts-ignore */}
+                {questionType!==Enum.TestQuestionType.FILL_IN_THE_BLANK?<Paragraph style={{ fontSize: 16 }}>
+                  {/* @ts-ignore */}
 
                 <HtmlViewer content={currentQuestion.title.text[language]} />
-              </Paragraph>
+              </Paragraph>:null}
               {questionType !== Enum.TestQuestionType.SUBJECTIVE ? <>
                   <Text style={{
                     marginTop: 20,
@@ -110,7 +115,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                   }}
                     type="secondary">
                     {questionType === Enum.TestQuestionType.SINGLE ? 'Select one among others' : null}
-                    {questionType===Enum.TestQuestionType.MULTIPLE?'Select all that apply':null}
+                    {questionType === Enum.TestQuestionType.MULTIPLE ? 'Select all that apply' : null}
+                    {questionType===Enum.TestQuestionType.FILL_IN_THE_BLANK?'Fill in the blank below':null}
               {/* {questionType===Enum.TestQuestionType.NUMERIC?'Enter answer below':null} */}
               </Text>
                   {(questionType === Enum.TestQuestionType.SINGLE || questionType === Enum.TestQuestionType.MULTIPLE) ?
@@ -145,8 +151,38 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                   })} */}
                 </OptionSelectedFormControl.Group>
                   </Form.Item> :
-                    <Form.Item style={{marginTop:20}} label='Enter Answer' name={['answer', 'numeric']}>
+                    null}
+                  {questionType === Enum.TestQuestionType.NUMERIC ?
+                    <Form.Item style={{ marginTop: 20 }} label='Enter Answer' name={['answer', 'numeric']}>
                       <Input style={{width:200}} placeholder='Enter the answer here' type='number' /></Form.Item>
+                    : null}
+                  
+                  {questionType === Enum.TestQuestionType.FILL_IN_THE_BLANK ?
+                    <Row style={{marginTop:20}}>
+                      <Col span={24}>
+                         {/* @ts-ignore */}
+                      {currentQuestion.fillInTheBlanks?.map((item, index) => {
+                        // @ts-ignore
+                        const blankSpaceId = item._id; // Example ID generation. Adjust based on your actual data.
+                  
+                        return (
+                          <span key={blankSpaceId} style={{ marginRight: 10 }}>
+                            {item.isBlank ? (
+                              <Form.Item
+                                name={['answer','blanks', blankSpaceId]}
+                                noStyle
+                              >
+                                <Input style={{ width: 100 }} placeholder="Enter something" />
+                              </Form.Item>
+                            ) : (
+                              <span>{item.text}</span>
+                            )}
+                          </span>
+                        );
+                      })}
+                     </Col>
+                    </Row>
+                   : null
                   }
               </> : <>
                     {(test.input.type === Enum.TestInputType.HANDWRITTEN) ?
