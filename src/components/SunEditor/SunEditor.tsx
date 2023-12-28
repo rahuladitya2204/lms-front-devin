@@ -12,9 +12,7 @@ import { Form, Spin } from 'antd'
 import React, { Fragment, useEffect, useRef } from 'react'
 
 import SunEditor from 'suneditor-react'
-import katex from 'katex'
 import { uniqueId } from 'lodash'
-import { variablePlugin } from './plugins/variable.plugin'
 
 interface SunEditorPropsI {
   height?: number;
@@ -76,9 +74,94 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
     options = AdvancedEditorOptions
   }
 
-  const handleImageUploadBefore = (files: any, info: any) => {
+  const handleUpload = (file:any) => {
+    // if (file.type.includes('image')) {
+    //   handleImageUploadBefore(file)
+    // }
+    if (file.type.includes('audio')) {
+      handleAudioUploadBefore(file)
+    }
+    if (file.type.includes('video')) {
+      handleVideoUploadBefore(file)
+    }
+  }
+
+  const handleVideoUploadBefore = (file: any) => {
     const editorInstance = editorRef.current
-    const file = files[0]
+    console.log(file,'files')
+    if (level === 3) {
+      if (file instanceof File) {
+        // Insert a temporary video element with a loading video source
+        uploadFiles({
+          files: [{ file: file, prefixKey: props.uploadPrefixKey }],
+          isProtected: false,
+          onUploadProgress: e => {
+            // console.log(e, 'e')
+          },
+          onSuccess: ([uploadFile]) => {
+            const id = uniqueId()
+            console.log(editorInstance, uploadFile, 'kokokok')
+            const videoHtml = `<video id=${id} data-id="${
+              id
+            }" data-type="userUpload" src="${uploadFile.url}" alt="Image" />`
+            // @ts-ignore
+            editorInstance.insertHTML(videoHtml)
+          }
+        })
+
+        // Cancel the default video uploading behavior
+        return false
+      } else {
+        console.log('The provided object is not a File')
+        return false
+      }
+      
+    } else {
+      console.log('Image upload is not allowed for this level')
+      return false
+    }
+  }
+
+  const handleAudioUploadBefore = (file: any) => {
+    const editorInstance = editorRef.current
+    console.log(file,'files')
+    if (level === 3) {
+      if (file instanceof File) {
+        // Insert a temporary audio element with a loading audio source
+        uploadFiles({
+          files: [{ file: file, prefixKey: props.uploadPrefixKey }],
+          isProtected: false,
+          onUploadProgress: e => {
+            // console.log(e, 'e')
+          },
+          onSuccess: ([uploadFile]) => {
+            const id = uniqueId()
+            console.log(editorInstance, uploadFile, 'kokokok')
+            const audioHtml = `<audio id=${id} data-id="${
+              id
+            }" data-type="userUpload" src="${uploadFile.url}" alt="Image" />`
+            // @ts-ignore
+            editorInstance.insertHTML(audioHtml)
+          }
+        })
+
+        // Cancel the default audio uploading behavior
+        return false
+      } else {
+        console.log('The provided object is not a File')
+        return false
+      }
+      
+    } else {
+      console.log('Image upload is not allowed for this level')
+      return false
+    }
+  }
+
+
+  const handleImageUploadBefore = (file: any) => {
+    const editorInstance = editorRef.current
+    // const file = files[0]
     if (level === 3) {
       if (props.imageBase64) {
         const reader = new FileReader();
@@ -153,7 +236,9 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
             // }
           }}
           // @ts-ignore
-          onImageUploadBefore={handleImageUploadBefore}
+          onImageUploadBefore={e=>handleImageUploadBefore(e[0])}
+               // @ts-ignore
+          onDrop={e=>handleUpload(e.dataTransfer.files[0])}
         />
       </Spin>
     </Fragment>

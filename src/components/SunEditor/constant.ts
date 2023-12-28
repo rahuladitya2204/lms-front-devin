@@ -32,8 +32,9 @@ export const IntermediateEditorOptions = {
 
 export const AdvancedEditorOptions = {
   katex: katex,
-  // plugins: [markdownPlugin],
+  // plugins: [audioUploadPlugin],
   buttonList: [
+    // ['audioUpload'],
     // ['markdownPaste'],
     // ['backgroundPlugin'],
     // ['variablePlugin'],
@@ -110,6 +111,7 @@ export const AdvancedEditorOptions = {
           'image',
           'video',
           'audio',
+          // 'audioUpload',
           'math'
         ]
       ]

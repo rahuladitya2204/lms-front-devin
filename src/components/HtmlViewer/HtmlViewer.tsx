@@ -1,12 +1,15 @@
 import './style.css'
 
 import AppImage from '@Components/Image'
+import AudioPlayer from '@Components/AudioPlayer'
 import { Image } from 'antd'
+import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import parse from 'html-react-parser'
 
 function HtmlViewer(props: { content: string }) {
   const options = {
     replace: (domNode: any) => {
+      console.log(domNode,'domon')
       if (domNode.name === 'img' && domNode.attribs) {
         const style = domNode.attribs.style || ''
         const widthMatch = style.match(/width:\s*([0-9]+px)/)
@@ -22,6 +25,25 @@ function HtmlViewer(props: { content: string }) {
             src={domNode.attribs.src}
             alt={domNode.attribs.alt || 'Image'}
             preview
+          />
+        )
+      }
+      if (domNode.name === 'audio' && domNode.attribs) {
+        const style = domNode.attribs.style || ''
+        return (
+          <AudioPlayer
+            src={domNode.attribs.src}
+            // preview
+          />
+        )
+      }
+
+      if (domNode.name === 'video' && domNode.attribs) {
+        const style = domNode.attribs.style || ''
+        return (
+          <MediaPlayer
+            url={domNode.attribs.src}
+            // preview
           />
         )
       }
