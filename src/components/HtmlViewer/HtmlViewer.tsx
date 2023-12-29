@@ -9,7 +9,7 @@ import parse from 'html-react-parser'
 function HtmlViewer(props: { content: string }) {
   const options = {
     replace: (domNode: any) => {
-      console.log(domNode,'domon')
+      // console.log(domNode,'domon')
       if (domNode.name === 'img' && domNode.attribs) {
         const style = domNode.attribs.style || ''
         const widthMatch = style.match(/width:\s*([0-9]+px)/)

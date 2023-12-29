@@ -25,7 +25,7 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
   const files = Form.useWatch(['answer', 'subjective', 'files'], form) || [];
     // @ts-ignore
   const handleUpload = (file) => {
-    const FILES = [...files, file];
+    const FILES = [...files, ...file];
     // add(file)
     form.setFieldValue(['answer', 'subjective', 'files'], FILES);
     updateAnswerApi()
@@ -89,11 +89,13 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
   }
   const { currentQuestion } = useReviewQuestion();
   const imageIssues = currentQuestion?.feedback?.imageIssues;
-  const UploadButton=<MediaUpload aspect={210/297}
+  const UploadButton=<MediaUpload aspect={210/297} multiple
   uploadType="image" cropper renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
-  onUpload={({ name, _id ,url}) => {
-    console.log(name,_id, 'uploaded')
-    handleUpload({ name, file: _id, url: url });
+  onUpload={(files:Types.FileType[]) => {
+    console.log(files, 'uploaded')
+    handleUpload(files.map((f) => {
+      return { name: f.name, file: f._id, url: f.url }
+    }));
   }}
 />
   return (

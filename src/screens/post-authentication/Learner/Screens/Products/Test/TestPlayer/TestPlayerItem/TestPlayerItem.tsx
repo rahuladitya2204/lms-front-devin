@@ -103,11 +103,12 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         <div style={{ minHeight: '72vh' }}>
           <Row gutter={[20, 30]}>
               <Col span={24}>
-                {questionType!==Enum.TestQuestionType.FILL_IN_THE_BLANK?<Paragraph style={{ fontSize: 16 }}>
+                <Paragraph style={language === 'hin' ? { fontSize: 16 } : {fontSize:15}}>
                   {/* @ts-ignore */}
 
                 <HtmlViewer content={currentQuestion.title.text[language]} />
-              </Paragraph>:null}
+                </Paragraph>
+                <Divider/>
               {questionType !== Enum.TestQuestionType.SUBJECTIVE ? <>
                   <Text style={{
                     marginTop: 20,

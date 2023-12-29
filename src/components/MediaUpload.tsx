@@ -1,5 +1,3 @@
-//@ts-nocheck
-
 import {
   ClockCircleOutlined,
   InboxOutlined,
@@ -8,21 +6,15 @@ import {
 } from '@ant-design/icons'
 import { Col, Form, Row, Spin, Upload, UploadProps } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
-import React, { Fragment, ReactNode, useState } from 'react'
+import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react'
 
 import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop'
+import { RcFile } from 'antd/es/upload'
 import styled from '@emotion/styled'
 
-const UPLOAD: UploadProps = {
-  multiple: false,
-  onDrop(e) {
-    // console.log('Dropped file', e.dataTransfer.file)
-  }
-}
-
 interface MediaUploadPropsI {
-  onUpload?: (d: Types.FileType, file: File) => void;
+  onUpload?: (d: any, file: File) => void;
   children?: ReactNode;
   isProtected?: boolean;
   closeModal?: () => void;
@@ -34,6 +26,7 @@ interface MediaUploadPropsI {
   name?: string | string[];
   cropper?: boolean;
   fileName?: string;
+  multiple?: boolean;
   rounded?: boolean;
   height?: string;
   width?: string;
@@ -70,45 +63,67 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     mutate: uploadFiles,
     isLoading: loading
   } = Common.Queries.useUploadFiles()
-  const [file, setFile] = useState(null)
-  const [fileList, setFileList] = useState(null)
-  const form = Form.useFormInstance()
+  const [fileList, setFileList] = useState<RcFile[]>([]);
+  const isProcessing = useRef(null);
   // const value = Form.useWatch([props.name], form);
-  const UploadFile = file => {
-    console.log(file, 'filee')
-    if (!file) return
+  const UploadFile = (files: File[]) => {
+    // @ts-ignore
+    isProcessing.current = true;
+    console.log(files, 'filee')
+    if (!(files&&files.length)) return
     return uploadFiles({
-      files: [
+            // @ts-ignore
+  files: files.map(file=>(
         {
           file: file,
           prefixKey: props.prefixKey,
           name: props.fileName,
           source: props.source
         }
-      ],
+      )),
       isProtected: props.isProtected,
       onUploadProgress: e => {
         // console.log(e, 'e')
       },
-      onSuccess: ([uploadFile]) => {
-        uploadFile.file = file
-        if (form) {
-          form.setFieldValue(props.name, uploadFile._id)
-        }
-        // console.log(uploadFile, file, '1133')
-        props.onUpload && props.onUpload(uploadFile, file)
+      onSuccess: (uploadFiles) => {
+        // @ts-ignore
+        isProcessing.current = false;
+        uploadFiles.forEach((F, index) => {
+              // @ts-ignore
+        uploadFiles[index].file=fileList[index].file
+        })
+        console.log(uploadFiles,'hauy')
+        // @ts-ignore
+        props.onUpload && props.onUpload(props.multiple ? uploadFiles : uploadFiles[0]);
+        setFileList([])
         props.closeModal && props.closeModal()
       }
     })
   }
-  UPLOAD.customRequest = () => {
-    if (!props.cropper) {
-      UploadFile(file.originFileObj)
+
+  useEffect(() => {
+    if (!isProcessing.current) {
+       // Process files for upload here
+    if (fileList.length > 0) {
+      // Assuming `UploadFile` function processes the files
+      // @ts-ignore
+      UploadFile(fileList.map(f => f.originFileObj));
     }
-  }
-  UPLOAD.onChange = ({ file, fileList }) => {
-    setFile(file)
-    setFileList(fileList)
+    }
+   
+  }, [fileList]); // Dependency array ensures this runs only when fileList changes
+
+  // UPLOAD.customRequest = () => {
+  //   debugger;
+  //           // @ts-ignore
+  // UploadFile(fileList.map(f=>f.originFileObj))
+  // }
+             // @ts-ignore
+             const onChange = ({ file, fileList }) => {
+    // debugger;
+            // @ts-ignore
+    setFileList(fileList);
+               // @ts-ignore
   }
 
   const UploadButton = (
@@ -120,10 +135,10 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
 
   let UploadComponent = (
     <Dragger
-      {...UPLOAD}
-      type="video/*"
-      beforeUpload={info => {
-        setFile(info)
+      onChange={onChange}
+      multiple={props.multiple}
+      beforeUpload={(info,fileList) => {
+        setFileList(fileList)
       }}
       name="avatar"
       listType="picture-card"
@@ -133,17 +148,19 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       // @ts-ignore
       width={props.width || 'auto'}
     >
-      {props.renderItem ? props.renderItem(file) : <DraggerBody />}
+      {/* @ts-ignore */}
+
+      {props.renderItem ? props.renderItem(fileList) : <DraggerBody />}
     </Dragger>
   )
 
   if (props.uploadType === 'pdf') {
     UploadComponent = (
       <CustomUpload
-        {...UPLOAD}
-        type="video/*"
-        beforeUpload={info => {
-          setFile(info)
+        onChange={onChange}
+        multiple={props.multiple}
+        beforeUpload={(info,fileList) => {
+          setFileList(fileList)
         }}
         name="avatar"
         listType="picture-card"
@@ -151,6 +168,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         showUploadList={false}
         iconRender={() => <ClockCircleOutlined />}
         accept="application/pdf"
+        // @ts-ignore
         width={props.width || 'auto'}
       >
         {props.renderItem ? props.renderItem() : UploadButton}
@@ -162,29 +180,24 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     const ImageUploadComponent = (
       <CustomUpload
         accept="image/png,image/jpeg"
-        {...UPLOAD}
+        onChange={onChange}
+        multiple={props.multiple}
         fileList={fileList}
         name="avatar"
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
         iconRender={() => <ClockCircleOutlined />}
+                // @ts-ignore
         width={props.width || 'auto'}
       >
         {props.renderItem ? props.renderItem() : UploadButton}
       </CustomUpload>
     )
     UploadComponent = props.cropper ? (
-      <ImgCrop
-        aspect={props.aspect}
-        // rotationSlider
-        onModalOk={e => {
-          // console.log(e, 'eeee')
-          UploadFile(e)
-        }}
-      >
+      < >
         {ImageUploadComponent}
-      </ImgCrop>
+      </>
     ) : (
       ImageUploadComponent
     )
@@ -193,10 +206,10 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   if (props.uploadType === 'file') {
     UploadComponent = (
       <Dragger
-        {...UPLOAD}
+        onChange={onChange}
         style={{ paddingLeft: 10, paddingRight: 10 }}
-        beforeUpload={info => {
-          setFile(info)
+        beforeUpload={(info,fileList) => {
+          setFileList(fileList)
         }}
         name="avatar"
         listType="picture-card"
@@ -220,7 +233,6 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       </Dragger>
     )
   }
-
   return (
     <Spin spinning={loading} tip="Uploading..">
       {UploadComponent}

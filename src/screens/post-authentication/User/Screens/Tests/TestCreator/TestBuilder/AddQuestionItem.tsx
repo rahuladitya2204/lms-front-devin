@@ -117,6 +117,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     onFormChange({ criterias });
   }, [criterias])
   const prefixKey = `tests/${testId}/${itemId}`;
+  const fillInTheBlanks = Form.useWatch('fillInTheBlanks',form);
   const getFormComponent = (language: string) => <Form name='test' onFinish={submit} initialValues={item}
   onValuesChange={(changedValues, allValues) => onFormChange({
     ...allValues,
@@ -180,7 +181,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
             <Form.Item label='Word Limit' name={'wordLimit'}>
               <Input type='number' />
             </Form.Item>
-          </Col> : <Col span={24}>
+            </Col> : null}
+            {(questionType===Enum.TestQuestionType.NUMERIC || questionType===Enum.TestQuestionType.SINGLE || questionType===Enum.TestQuestionType.MULTIPLE)?<Col span={24}>
             <Card style={{ marginBottom: 20 }} title="Answers">
               {questionType === Enum.TestQuestionType.NUMERIC ? <Form.Item label='Correct Numeric Answer' name={['answer', 'numeric']} >
                 <Input type='number' />
@@ -260,24 +262,27 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               {/* </OptionSelectedFormControl.Group> */}
 
             </Card>
-          </Col>}
+          </Col>:null}
 
         </Row>
       </Card>
       </Col>
       {questionType === Enum.TestQuestionType.FILL_IN_THE_BLANK && (
   <Col span={24}>
-          <Card title="Fill in the Blanks" extra={<>
-            <Form.Item style={{margin:0}}  name={['fillInTheBlanks','wordLimit']} >
+          <Card title="Fill in the Blanks" extra={<Row gutter={[10,10]}>
+            <Col><Form.Item style={{margin:0,width:150}}  name={['fillInTheBlanks','type']} >
+              <Select options={[{label:'Paragraph',value:"paragraph"},{label:'List',value:"list"}]} />
+          </Form.Item></Col>
+          <Col>  <Form.Item style={{margin:0,width:40}}  name={['fillInTheBlanks','wordLimit']} >
               <Input placeholder='Word Limit' />
-          </Form.Item>
-          </>}>
+          </Form.Item></Col>
+          </Row>}>
     <Form.List name={['fillInTheBlanks','blanks']}>
   {(fields, { add, remove }) => (
     <>
       <Row gutter={[10, 10]} align="middle">
         {fields.map(({ key, name, fieldKey, ...restField }, index) => (
-          <Col key={key}>
+          <Col key={key} span={fillInTheBlanks?.type==='list'?24:''}>
             <Row gutter={[10, 10]}>
               <Col>
                 <Form.Item
