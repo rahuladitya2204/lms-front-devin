@@ -44,7 +44,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
   const splitAfter = 30; // Adjust as needed
 
   const formatQuestionNumber = (number: number) => {
-    return number.toLocaleString('en-US', {
+    return  isMobile?number: number.toLocaleString('en-US', {
       minimumIntegerDigits: 3,
       useGrouping: false
     });
@@ -114,12 +114,12 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
               <Col xs={24} sm={24} md={12} lg={12}>
               <Space direction="vertical" size="middle" style={{ width: '100%' }}>
      <Row justify="start" align="middle" style={{alignItems:'baseline'}}>
-                        <Col span={4}>
+                        <Col span={2}>
                           <Typography.Text strong>
                             {formatQuestionNumber(index + 1)}
                           </Typography.Text>
                         </Col>
-                        <Col span={20}>
+                        <Col span={22}>
                                  <Row align={'middle'} justify={'center'} style={{alignItems:'baseline'}}>
                                    <Col><Form.Item name={[index]}>
                             {item.type === 'single' ? (
@@ -143,7 +143,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                                    </Col>
                                    <Col>
                                      <Button type='primary' onClick={() => {
-      const resetValue = item.type === Enum.TestQuestionType.SINGLE ? undefined : [];
+      // const resetValue = item.type === Enum.TestQuestionType.SINGLE ? undefined : [];
       form.resetFields([`answers[${index}]`]);
                                       // form.resetFields([`answers[${index}]`]);
                                    }} shape='circle' icon={<ReloadOutlined />} size='small' ></Button>
@@ -162,7 +162,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
       <Row justify={'space-between'}>
         <Col>{ ResetAnswerButton}</Col>
         <Col> <Form.Item>
-          {isMobile ? <div style={{marginBottom:20}}>{ ResetAnswerButton}</div>:null}
+          {/* {isMobile ? <div style={{marginBottom:20}}>{ ResetAnswerButton}</div>:null} */}
         <Button block={isMobile} loading={submittingResponses} type="primary" htmlType="submit">
             Save Answers
         </Button>

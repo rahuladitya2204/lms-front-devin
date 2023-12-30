@@ -24,6 +24,7 @@ import AddQuestion from '@User/Screens/Tests/TestCreator/TestBuilder/AddQuestion
 import AddTextItem from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/AddTextItem/AddTextItem'
 import AffiliateProgramScren from '@User/Screens/Marketing/AffiliateScreen/AffiliateScreen'
 import AffiliateScreen from '@Learner/Screens/Affiliate/AffiliateScreen'
+import AnswerSheet from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheet'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
@@ -72,6 +73,7 @@ import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/Ticket
 import LoadingScreen from '@Components/LoadingScreen'
 import MaintainenceScreen from './MaintainenceScreen/MaintainenceScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
+import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackageDetailViewer from '@Learner/Screens/Products/Package/PackageDetailsViewer'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
@@ -141,6 +143,7 @@ const router = (userType: string) => {
               <Route path="test">
                 <Route path="" element={<LearnerTestScreen />} />
                 <Route path=":testId" element={<LearnerTestDetailScreen />} />
+                <Route path=":testId/answer-sheet" element={<AnswerSheet />} /> 
                 {/* <Route path=":testId/result-table" element={<TestResultTable />} /> */}
               </Route>
               <Route path="event">
@@ -168,7 +171,7 @@ const router = (userType: string) => {
             <Route path="" element={<LearnerFullPageHolder />}>
             <Route path="affiliate" element={<AffiliateScreen />} />
   <Route path="app/test/:testId">
-              <Route path="start" element={<TestRules />} /> 
+   <Route path="start" element={<TestRules />} /> 
               <Route path="player" element={<TestPlayer/>}>
                 <Route path=":questionId" element={<TestPlayeritem/>}/>
                 </Route>

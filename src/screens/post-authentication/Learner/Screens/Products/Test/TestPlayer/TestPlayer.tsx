@@ -7,6 +7,7 @@ import {
   Modal,
   Progress,
   Row,
+  Skeleton,
   Space,
   Spin,
   Tag,
@@ -134,7 +135,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         </Col>:null}
         <Col>
           {!isDesktop ? SideDrawer : <>
-           {AnswerSheetButton} {SubmitTestButton}
+            {isLoading ? <Row><Col style={{marginRight:15}}><Skeleton.Button active style={{ width: 135, height: 32 }} /></Col><Col><Skeleton.Button active style={{ width: 98, height: 32 }} /></Col></Row> : <>
+              {AnswerSheetButton} {SubmitTestButton}
+            </>}
           </>}
       </Col>
       </Row>}
