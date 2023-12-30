@@ -12,6 +12,7 @@ import {
   Tag,
   Timeline,
 } from 'antd'
+import { BookOutlined, MenuOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
@@ -19,7 +20,6 @@ import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
-import { MenuOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
 import OMRComponent from './TestPlayerItem/OMR/OMRComponent'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
@@ -71,7 +71,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const testEndTime = enrolledProduct?.metadata?.test?.endedAt;
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
-  const AnswerSheetButton = <ActionModal width={800} cta={<Button block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>} >
+  const AnswerSheetButton = <ActionModal title='Answer Sheet' width={800} cta={<Button icon={<BookOutlined/>} block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>} >
     <OMRComponent testId={testId + ''} />
   </ActionModal>;
   const SubmitTestButton = <Button block={!isDesktop}

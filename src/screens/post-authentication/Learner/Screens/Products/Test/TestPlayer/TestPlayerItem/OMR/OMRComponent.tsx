@@ -101,17 +101,17 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
   return (
     <Form form={form} className="omr-sheet" onFinish={handleSubmit}>
       <Row style={{marginTop:20}} justify={'space-between'} align={'middle'}>
-        <Col><Title level={3}>Answer Sheet</Title></Col>
-       {!isMobile? <Col>{ResetAnswerButton}</Col>:null}
+        {/* <Col><Title level={3}>Answer Sheet</Title></Col> */}
+       {/* {!isMobile? <Col>{ResetAnswerButton}</Col>:null} */}
       </Row>
       <Form.List name="answers">
         {(fields, { add, remove }) => (
           <>
-            {items.map((item, index) => {
+                            <Row gutter={[5, 5]}>
+{items.map((item, index) => {
                      const isInFirstColumn = index < splitAfter;
                      return (
-                <Row key={index} gutter={[5, 5]}>
-              <Col span={24} lg={12}>
+              <Col xs={24} sm={24} md={12} lg={12}>
               <Space direction="vertical" size="middle" style={{ width: '100%' }}>
      <Row justify="start" align="middle" style={{alignItems:'baseline'}}>
                         <Col span={4}>
@@ -141,26 +141,27 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                             )}
                                  </Form.Item>
                                    </Col>
-                                   {/* <Col>
+                                   <Col>
                                      <Button type='primary' onClick={() => {
       const resetValue = item.type === Enum.TestQuestionType.SINGLE ? undefined : [];
       form.resetFields([`answers[${index}]`]);
                                       // form.resetFields([`answers[${index}]`]);
-                                   }} icon={<ReloadOutlined />} size='small' ></Button>
-                                   </Col> */}
+                                   }} shape='circle' icon={<ReloadOutlined />} size='small' ></Button>
+                                   </Col>
                           </Row>
                         </Col>
                              </Row>
                              </Space>
                   </Col>
-                </Row>
               )
             })}
-          </>
+                         </Row>
+ </>
         )}
       </Form.List>
-      <Row justify={'end'}>
-        <Col xs={24}> <Form.Item>
+      <Row justify={'space-between'}>
+        <Col>{ ResetAnswerButton}</Col>
+        <Col> <Form.Item>
           {isMobile ? <div style={{marginBottom:20}}>{ ResetAnswerButton}</div>:null}
         <Button block={isMobile} loading={submittingResponses} type="primary" htmlType="submit">
             Save Answers
