@@ -128,7 +128,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                                    </Col>
                                    <Col> <Button type='primary' onClick={() => {
       const resetValue = item.type === Enum.TestQuestionType.SINGLE ? undefined : [];
-      form.setFieldsValue({ [`answers[${index}]`]: resetValue });
+      form.resetFields([`answers[${index}]`]);
                                       // form.resetFields([`answers[${index}]`]);
   }} icon={<ReloadOutlined  />} size='small' ></Button></Col>
                           </Row>
@@ -142,11 +142,13 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
           </>
         )}
       </Form.List>
-      <Form.Item>
+      <Row justify={'end'}>
+        <Col> <Form.Item>
         <Button loading={submittingResponses} type="primary" htmlType="submit">
-          Submit
+            Save Answers
         </Button>
-      </Form.Item>
+      </Form.Item></Col>
+     </Row>
     </Form>
   );
 };
