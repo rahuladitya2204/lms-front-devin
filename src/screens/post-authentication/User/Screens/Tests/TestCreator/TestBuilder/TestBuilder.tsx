@@ -16,6 +16,7 @@ import SetTestRules from './SetTestRules'
 import TestOutline from './TestOutline'
 import TestSectionsNavigator from './TestSectionsNavigator'
 import { UploadOutlined } from '@ant-design/icons'
+import { printPdf } from '@Components/SunEditor/utils'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
@@ -53,6 +54,7 @@ function TestBuilderScreen() {
   const { mutate: generateTestInfo } = User.Queries.useGetGenerativeTestInfo(
     testId + ''
   )
+  const { mutate: printTest } = User.Queries.usePrintTest(testId + '')
   const onAddSection = (section: Partial<Types.TestSection>) => {
     console.log(section, 'section')
     let TEST = test
@@ -305,6 +307,17 @@ function TestBuilderScreen() {
               <MoreButton
                 items={[
                   {
+                    label: 'Print Test Paper',
+                    key: 'print-test',
+                    onClick: () =>
+                      printTest(
+                        { includeSolution: false },
+                        {
+                          onSuccess: pdfStr => printPdf(pdfStr)
+                        }
+                      )
+                  },
+                  {
                     label: 'Generate Criterias',
                     key: 'gen-criterias',
                     onClick: () => generateTestInfo({ fields: ['criteria'] })
@@ -314,22 +327,22 @@ function TestBuilderScreen() {
                     key: 'gen-topics',
                     onClick: () => generateTestInfo({ fields: ['topic'] })
                   },
-                  {
-                    key: 'enter-answers',
-                    label: (
-                      <ActionModal
-                        title="Enter Answers"
-                        width={800}
-                        cta={
-                          <Button type="text" style={{ marginRight: 10 }}>
-                            Enter Answers
-                          </Button>
-                        }
-                      >
-                        <EnterAnswers />
-                      </ActionModal>
-                    )
-                  },
+                  // {
+                  //   key: 'enter-answers',
+                  //   label: (
+                  //     <ActionModal
+                  //       title="Enter Answers"
+                  //       width={800}
+                  //       cta={
+                  //         <Button type="text" style={{ marginRight: 10 }}>
+                  //           Enter Answers
+                  //         </Button>
+                  //       }
+                  //     >
+                  //       <EnterAnswers />
+                  //     </ActionModal>
+                  //   )
+                  // },
                   {
                     key: 'revert',
                     label: (
@@ -358,24 +371,24 @@ function TestBuilderScreen() {
                         Revert to draft
                       </Button>
                     )
-                  },
-                  {
-                    label: (
-                      <ActionModal
-                        title="Generate Test Outline"
-                        width={1000}
-                        cta={
-                          <Button type="text" style={{ marginRight: 10 }}>
-                            Generate Test Outline
-                          </Button>
-                        }
-                      >
-                        <TestOutline testId={testId + ''} />
-                      </ActionModal>
-                    ),
-                    key: 'generate-test-outline'
-                    // icon: <DeleteOutlined />
                   }
+                  // {
+                  //   label: (
+                  //     <ActionModal
+                  //       title="Generate Test Outline"
+                  //       width={1000}
+                  //       cta={
+                  //         <Button type="text" style={{ marginRight: 10 }}>
+                  //           Generate Test Outline
+                  //         </Button>
+                  //       }
+                  //     >
+                  //       <TestOutline testId={testId + ''} />
+                  //     </ActionModal>
+                  //   ),
+                  //   key: 'generate-test-outline'
+                  //   // icon: <DeleteOutlined />
+                  // }
                   // {
                   //   label: (
                   //     <ActionModal

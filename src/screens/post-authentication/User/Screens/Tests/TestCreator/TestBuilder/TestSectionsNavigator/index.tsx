@@ -227,6 +227,14 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                         const actions = [
                           SectionItemOptionDropdown
                         ];
+                        const correctOptions = item?.options.map((i, index) => {
+                          if (i.isCorrect) {
+                            return index+1;
+                          }
+                          else {
+                            return null;
+                          }
+                        }).filter(i => i);
                         const {isValid:isQuestionValid,message} = Utils.validateTestQuestion(item,test.languages);
                         if (!isQuestionValid) {
                           actions.unshift(<Tooltip title={message} ><WarningTwoTone twoToneColor="red" /></Tooltip>)
@@ -239,8 +247,12 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                           actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
                            {item.score.incorrect}</Tag>)
                         }
-                        if (item.type) {
-                          actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
+                        // if (item.type) {
+                        //   actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
+                        // }
+                        if (correctOptions.length) {
+                          actions.unshift(<Tag style={{ textAlign: 'center' }} color='orange-inverse'>
+                            C.O: {correctOptions.join(',')}</Tag>)
                         }
                         const TestSectionListItem = (isActive: boolean) => <TestListItem
                         isActive={isActive}

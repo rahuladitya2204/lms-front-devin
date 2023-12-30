@@ -16,10 +16,12 @@ import { Enum, Learner } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import { MenuOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
+import OMRComponent from './TestPlayerItem/OMR/OMRComponent'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestItemSkeleton from '../TestReview/TestItemSkeleton'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
@@ -105,7 +107,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     </Tag>:null
     
   const QuestionNavigator = TestQuestionNavigator;
-  if (!testEndTime) {
+  if (testEndTime) {
     return <Header title={test.title} extra={<NavLink to={'../'} ><Button type='primary'>Go Back</Button></NavLink>} >
       <Card>  
           <Title style={{textAlign:'center'}} >Test has ended.</Title>
@@ -127,6 +129,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         {!isDesktop ? <Col>
         </Col>:null}
         <Col>
+          <ActionModal width={800} cta={<Button style={{marginRight:15}} type='primary'>OMR Sheet</Button>} >
+            <OMRComponent testId={testId+''} />
+          </ActionModal>
           {!isDesktop ? SideDrawer : <>
               {SubmitTestButton}
           </>}

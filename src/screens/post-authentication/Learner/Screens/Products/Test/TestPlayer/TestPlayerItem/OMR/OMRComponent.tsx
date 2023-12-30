@@ -1,0 +1,134 @@
+import { Button, Checkbox, Col, Divider, Form, Radio, Row, Space, Typography } from 'antd';
+import { Enum, Learner } from '@adewaskar/lms-common';
+import React, { useEffect } from 'react';
+
+import useMessage from '@Hooks/useMessage';
+
+interface OMRComponentPropsI {
+  testId: string;
+}
+
+const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId }) => {
+  const { data: test } = Learner.Queries.useGetTestDetails(
+    testId,
+    Enum.TestDetailMode.TEST
+  );
+  const { data: { status: { sections } } } = Learner.Queries.useGetTestStatus(
+    testId + ''
+  );;
+  
+  console.log(sections,'opolo')
+  
+  const { mutate: submitResponses,isLoading: submittingResponses } = Learner.Queries.useSubmitTestResponses(testId);
+
+  useEffect(() => { 
+    const items = sections.map(i => i.items).flat()
+      .map(i => {
+        console.log(i,'item')
+        return i.type === Enum.TestQuestionType.SINGLE ?
+          ((i.answerGiven?.options) ? (i.answerGiven?.options[0]) : null) :
+          (i?.answerGiven?.options)
+      });
+    console.log(items,'items')
+    form.setFieldValue(['answers'], items);
+  },[sections])
+  
+  const items = test?.sections?.map(i => i.items).flat() || [];
+  const [form] = Form.useForm();
+  const message = useMessage();
+  const splitAfter = 30; // Adjust as needed
+
+  const formatQuestionNumber = (number: number) => {
+    return number.toLocaleString('en-US', {
+      minimumIntegerDigits: 3,
+      useGrouping: false
+    });
+  };
+
+  const handleSubmit = (values: any) => {
+    const resp:any[] = []
+    console.log(values,'vv')
+    // @ts-ignore
+   items
+      .forEach((item, index) => {
+        const i={
+          questionId: item._id,
+          question: item._id,
+          submittedAt: new Date(),
+          answer: {
+            options: item.type===Enum.TestQuestionType.SINGLE?[values.answers[index]]: values.answers[index]
+          }
+        }
+        if (values.answers[index]) {
+          resp.push(i)
+        }
+      })
+      // .filter(question => question.options != null && question.options.length > 0);
+
+    console.log(resp);
+    submitResponses(resp, {
+      onSuccess: () => {
+        message.open({
+          type: 'success',
+          content:"Answers Recorded"
+        })
+      }
+    })
+    // Submit `answeredQuestions` to your API or handle it as needed
+  };
+
+  return (
+    <Form form={form} className="omr-sheet" onFinish={handleSubmit}>
+      <Divider>Answer Sheet</Divider>
+      <Form.List name="answers">
+        {(fields, { add, remove }) => (
+          <>
+            {items.map((item, index) => (
+              <Row key={index} gutter={[16, 16]}>
+                <Col lg={12}>
+                  <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                    <Row justify="start" align="middle">
+                      <Col span={4}>
+                        <Typography.Text strong>
+                          {formatQuestionNumber(index + 1)}
+                        </Typography.Text>
+                      </Col>
+                      <Col span={20}>
+                        <Form.Item name={[index]}>
+                          {item.type === 'single' ? (
+                            <Radio.Group>
+                              {item.options.map((option) => (
+                                <Radio key={option._id} value={option._id}>
+                                  { String.fromCharCode(65 + item.options.indexOf(option))}
+                                </Radio>
+                              ))}
+                            </Radio.Group>
+                          ) : (
+                            <Checkbox.Group>
+                              {item.options.map((option) => (
+                                <Checkbox key={option._id} value={option._id}>
+                                  {String.fromCharCode(65 + item.options.indexOf(option))}
+                                </Checkbox>
+                              ))}
+                            </Checkbox.Group>
+                          )}
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Space>
+                </Col>
+              </Row>
+            ))}
+          </>
+        )}
+      </Form.List>
+      <Form.Item>
+        <Button loading={submittingResponses} type="primary" htmlType="submit">
+          Submit
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
+
+export default OMRComponent;
