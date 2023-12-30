@@ -6,9 +6,10 @@ import useMessage from '@Hooks/useMessage';
 
 interface OMRComponentPropsI {
   testId: string;
+  closeModal?: Function;
 }
 
-const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId }) => {
+const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
   const { data: test } = Learner.Queries.useGetTestDetails(
     testId,
     Enum.TestDetailMode.TEST
@@ -17,19 +18,18 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId }) => {
     testId + ''
   );;
   
-  console.log(sections,'opolo')
   
   const { mutate: submitResponses,isLoading: submittingResponses } = Learner.Queries.useSubmitTestResponses(testId);
 
   useEffect(() => { 
     const items = sections.map(i => i.items).flat()
       .map(i => {
-        console.log(i,'item')
+        // console.log(i,'item')
         return i.type === Enum.TestQuestionType.SINGLE ?
           ((i.answerGiven?.options) ? (i.answerGiven?.options[0]) : null) :
           (i?.answerGiven?.options)
       });
-    console.log(items,'items')
+    // console.log(items,'items')
     form.setFieldValue(['answers'], items);
   },[sections])
   
@@ -47,7 +47,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId }) => {
 
   const handleSubmit = (values: any) => {
     const resp:any[] = []
-    console.log(values,'vv')
+    // console.log(values,'vv')
     // @ts-ignore
    items
       .forEach((item, index) => {
@@ -65,13 +65,14 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId }) => {
       })
       // .filter(question => question.options != null && question.options.length > 0);
 
-    console.log(resp);
+    // console.log(resp);
     submitResponses(resp, {
       onSuccess: () => {
         message.open({
           type: 'success',
-          content:"Answers Recorded"
-        })
+          content: "Answers Recorded"
+        });
+        closeModal && closeModal();
       }
     })
     // Submit `answeredQuestions` to your API or handle it as needed
@@ -83,42 +84,45 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId }) => {
       <Form.List name="answers">
         {(fields, { add, remove }) => (
           <>
-            {items.map((item, index) => (
-              <Row key={index} gutter={[16, 16]}>
-                <Col lg={12}>
-                  <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-                    <Row justify="start" align="middle">
-                      <Col span={4}>
-                        <Typography.Text strong>
-                          {formatQuestionNumber(index + 1)}
-                        </Typography.Text>
-                      </Col>
-                      <Col span={20}>
-                        <Form.Item name={[index]}>
-                          {item.type === 'single' ? (
-                            <Radio.Group>
-                              {item.options.map((option) => (
-                                <Radio key={option._id} value={option._id}>
-                                  { String.fromCharCode(65 + item.options.indexOf(option))}
-                                </Radio>
-                              ))}
-                            </Radio.Group>
-                          ) : (
-                            <Checkbox.Group>
-                              {item.options.map((option) => (
-                                <Checkbox key={option._id} value={option._id}>
-                                  {String.fromCharCode(65 + item.options.indexOf(option))}
-                                </Checkbox>
-                              ))}
-                            </Checkbox.Group>
-                          )}
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                  </Space>
-                </Col>
-              </Row>
-            ))}
+            {items.map((item, index) => {
+                     const isInFirstColumn = index < splitAfter;
+                     return (
+                <Row key={index} gutter={[16, 16]}>
+              <Col span={24} lg={12}>
+              <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+     <Row justify="start" align="middle">
+                        <Col span={4}>
+                          <Typography.Text strong>
+                            {formatQuestionNumber(index + 1)}
+                          </Typography.Text>
+                        </Col>
+                        <Col span={20}>
+                          <Form.Item name={[index]}>
+                            {item.type === 'single' ? (
+                              <Radio.Group>
+                                {item.options.map((option) => (
+                                  <Radio key={option._id} value={option._id}>
+                                    { String.fromCharCode(65 + item.options.indexOf(option))}
+                                  </Radio>
+                                ))}
+                              </Radio.Group>
+                            ) : (
+                              <Checkbox.Group>
+                                {item.options.map((option) => (
+                                  <Checkbox key={option._id} value={option._id}>
+                                    {String.fromCharCode(65 + item.options.indexOf(option))}
+                                  </Checkbox>
+                                ))}
+                              </Checkbox.Group>
+                            )}
+                          </Form.Item>
+                        </Col>
+                             </Row>
+                             </Space>
+                  </Col>
+                </Row>
+              )
+            })}
           </>
         )}
       </Form.List>

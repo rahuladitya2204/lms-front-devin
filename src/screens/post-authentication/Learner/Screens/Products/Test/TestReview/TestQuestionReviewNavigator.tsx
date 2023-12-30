@@ -47,6 +47,7 @@ export default function TestReviewQuestionNavigator(
   const { token } = theme.useToken()
   const { questionId } = useParams()
   const isLoading = loadingResult || loadingTest
+  let runningIndex = 0
   return (
     <Card
       style={{ height: '80vh' }}
@@ -100,6 +101,7 @@ export default function TestReviewQuestionNavigator(
                     <Title level={4}>{section.title}</Title>
                     <Row gutter={[20, 20]}>
                       {section.items.map((item: any, itemIndex: number) => {
+                        const totalIndex = runningIndex++
                         return (
                           <Col span={3}>
                             <NavLink
@@ -148,7 +150,7 @@ export default function TestReviewQuestionNavigator(
                                     //   ) : null
                                     // }
                                   >
-                                    {itemIndex + 1}
+                                    {totalIndex + 1}
                                   </Button>
                                   //  </Badge>
                                 )

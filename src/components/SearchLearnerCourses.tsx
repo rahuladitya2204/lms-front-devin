@@ -65,7 +65,7 @@ export default function SearchLearnerCourses() {
     <AutoComplete
       onChange={(e, a) => {
         const item = allProducts.find(o => o.title === e)
-        console.log(item, 'item')
+        // console.log(item, 'item')
       }}
       popupClassName="certain-category-search-dropdown"
       dropdownMatchSelectWidth={500}

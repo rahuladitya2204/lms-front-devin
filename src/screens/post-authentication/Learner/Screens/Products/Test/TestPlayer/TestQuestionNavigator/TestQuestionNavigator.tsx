@@ -33,6 +33,7 @@ export default function TestQuestionNavigatorType2(
   const { token } = theme.useToken()
   const { questionId } = useParams()
   const isLoading = loadingTest || loadingEnrolledTest;
+  let runningIndex = 0;
   return (
       <Card
       style={{ height: '80vh' }}
@@ -95,7 +96,8 @@ export default function TestQuestionNavigatorType2(
                   <Title level={4}>{section.title}</Title>
                   <Row gutter={[20, 20]}>
                     {section.items.map((item, itemIndex) => {
-                      return (
+                                   const totalIndex = runningIndex++;
+                                   return (
                         <Col span={3}>
                           <NavLink
                             style={{ width: '100%' }}
@@ -121,7 +123,7 @@ export default function TestQuestionNavigatorType2(
                                 }}
                                 shape="circle"
                               >
-                                {itemIndex + 1}
+                                {totalIndex + 1}
                                 </Button>
                                 //  </Badge>
                             )}}

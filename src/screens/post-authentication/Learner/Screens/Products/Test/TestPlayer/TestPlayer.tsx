@@ -71,35 +71,37 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const testEndTime = enrolledProduct?.metadata?.test?.endedAt;
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
- 
+  const AnswerSheetButton = <ActionModal width={800} cta={<Button block={!isDesktop} style={{ marginRight: 15 }} type='primary'>Answer Sheet</Button>} >
+    <OMRComponent testId={testId + ''} />
+  </ActionModal>;
   const SubmitTestButton = <Button block={!isDesktop}
-    onClick={() => {
-      confirm({
-        title: 'Are you sure?',
-        // icon: <ExclamationCircleOutlined />,
-        content: `You want to submit this test?`,
-        onOk() {
-          endTest(
-            { testId: test._id + '' },
-            {
-              onSuccess: () => {
-                // if (!test.live.enabled) {
-                //   return navigate('../result')
-                // }
-                navigate('../completed')
+  onClick={() => {
+    confirm({
+      title: 'Are you sure?',
+      // icon: <ExclamationCircleOutlined />,
+      content: `You want to submit this test?`,
+      onOk() {
+        endTest(
+          { testId: test._id + '' },
+          {
+            onSuccess: () => {
+              // if (!test.live.enabled) {
+              //   return navigate('../result')
+              // }
+              navigate('../completed')
 
-              }
             }
-          )
-        },
-        okText: 'Yes, Submit'
-      })
-    }}
-    type="primary" danger
-    loading={submittingTest}
-  >
-    Submit Test
-  </Button>
+          }
+        )
+      },
+      okText: 'Yes, Submit'
+    })
+  }}
+  type="primary" danger
+  loading={submittingTest}
+>
+  Submit Test
+</Button>
   const targetDate = dayjs(startedAt).add(test.duration.value, 'minutes').toString();
   const CountdownComponent =
   test.duration.enabled?<Tag color="blue">
@@ -115,7 +117,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     </Header>
   }
   const isLoading = loadingDetails || loadingStatus;
-  const SideDrawer = <ActionDrawer extra={()=>[CountdownComponent]} footer={() => [
+  const SideDrawer = <ActionDrawer extra={() => [CountdownComponent]} footer={() => [
+    <div style={{marginBottom:15}}>{ AnswerSheetButton}</div>,
     // UpdatingTestStatus,
     SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
     </Button>}>
@@ -129,11 +132,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         {!isDesktop ? <Col>
         </Col>:null}
         <Col>
-          <ActionModal width={800} cta={<Button style={{marginRight:15}} type='primary'>OMR Sheet</Button>} >
-            <OMRComponent testId={testId+''} />
-          </ActionModal>
           {!isDesktop ? SideDrawer : <>
-              {SubmitTestButton}
+           {AnswerSheetButton} {SubmitTestButton}
           </>}
       </Col>
       </Row>}
