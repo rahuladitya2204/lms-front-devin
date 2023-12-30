@@ -1,10 +1,13 @@
-import { Button, Checkbox, Col, Divider, Form, Radio, Row, Space, Typography } from 'antd';
+import { Button, Checkbox, Col, Divider, Form, Modal, Radio, Row, Space, Typography } from 'antd';
 import { Enum, Learner } from '@adewaskar/lms-common';
 import React, { useEffect } from 'react';
 
 import { ReloadOutlined } from '@ant-design/icons';
 import { Title } from '@Components/Typography/Typography';
+import useBreakpoint from '@Hooks/useBreakpoint';
 import useMessage from '@Hooks/useMessage';
+
+const confirm = Modal.confirm;
 
 interface OMRComponentPropsI {
   testId: string;
@@ -79,15 +82,26 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
     })
     // Submit `answeredQuestions` to your API or handle it as needed
   };
+  const { isDesktop, isMobile } = useBreakpoint();
+  const ResetAnswerButton = <Button block={isMobile}  onClick={() => {
+     confirm({
+            title: 'Are you sure?',
+            // icon: <ExclamationCircleOutlined />,
+            content: `You want to reset answer sheet`,
+            onOk() {
+              form.resetFields();
+              // form.submit()
+              message.open({ type: "info", content: 'Answer Sheet Resetted' })
 
+            },
+            okText: 'Yes, Reset'
+          })
+  }}>Reset Answer Sheet</Button>;
   return (
     <Form form={form} className="omr-sheet" onFinish={handleSubmit}>
       <Row style={{marginTop:20}} justify={'space-between'} align={'middle'}>
         <Col><Title level={3}>Answer Sheet</Title></Col>
-        <Col><Button type='primary' onClick={() => {
-          form.resetFields();
-          message.open({type:"info",content:'Answer Sheet Resetted'})
-        }}>Reset Answer Sheet</Button></Col>
+       {!isMobile? <Col>{ResetAnswerButton}</Col>:null}
       </Row>
       <Form.List name="answers">
         {(fields, { add, remove }) => (
@@ -126,11 +140,13 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                             )}
                                  </Form.Item>
                                    </Col>
-                                   <Col> <Button type='primary' onClick={() => {
+                                   {/* <Col>
+                                     <Button type='primary' onClick={() => {
       const resetValue = item.type === Enum.TestQuestionType.SINGLE ? undefined : [];
       form.resetFields([`answers[${index}]`]);
                                       // form.resetFields([`answers[${index}]`]);
-  }} icon={<ReloadOutlined  />} size='small' ></Button></Col>
+                                   }} icon={<ReloadOutlined />} size='small' ></Button>
+                                   </Col> */}
                           </Row>
                         </Col>
                              </Row>
@@ -143,8 +159,9 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
         )}
       </Form.List>
       <Row justify={'end'}>
-        <Col> <Form.Item>
-        <Button loading={submittingResponses} type="primary" htmlType="submit">
+        <Col xs={24}> <Form.Item>
+          {isMobile ? <div style={{marginBottom:20}}>{ ResetAnswerButton}</div>:null}
+        <Button block={isMobile} loading={submittingResponses} type="primary" htmlType="submit">
             Save Answers
         </Button>
       </Form.Item></Col>

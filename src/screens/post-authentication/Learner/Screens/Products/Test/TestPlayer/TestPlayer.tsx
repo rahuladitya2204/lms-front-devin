@@ -118,10 +118,11 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   }
   const isLoading = loadingDetails || loadingStatus;
   const SideDrawer = <ActionDrawer extra={() => [CountdownComponent]} footer={() => [
-    <div style={{marginBottom:15}}>{ AnswerSheetButton}</div>,
+   
     // UpdatingTestStatus,
     SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
     </Button>}>
+    <div style={{paddingLeft:10,paddingRight:10,marginBottom:15}} >{ AnswerSheetButton}</div>
     <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
   </ActionDrawer>;
   return (
