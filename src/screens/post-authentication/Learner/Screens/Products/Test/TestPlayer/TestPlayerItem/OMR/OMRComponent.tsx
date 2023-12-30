@@ -88,7 +88,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
             {items.map((item, index) => {
                      const isInFirstColumn = index < splitAfter;
                      return (
-                <Row key={index} gutter={[16, 16]}>
+                <Row key={index} gutter={[5, 5]}>
               <Col span={24} lg={12}>
               <Space direction="vertical" size="middle" style={{ width: '100%' }}>
      <Row justify="start" align="middle" style={{alignItems:'baseline'}}>
@@ -98,7 +98,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                           </Typography.Text>
                         </Col>
                         <Col span={20}>
-                                 <Row align={'middle'} justify={'center'}>
+                                 <Row align={'middle'} justify={'center'} style={{alignItems:'baseline'}}>
                                    <Col><Form.Item name={[index]}>
                             {item.type === 'single' ? (
                               <Radio.Group>
