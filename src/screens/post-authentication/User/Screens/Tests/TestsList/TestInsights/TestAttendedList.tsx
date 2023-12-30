@@ -1,8 +1,5 @@
 import { Enum, Types, User } from '@adewaskar/lms-common'
-import {
-  Table,
-  Tag,
-} from 'antd'
+import { Table, Tag } from 'antd'
 
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
@@ -43,9 +40,9 @@ const TestAttendedList = () => {
       <Table.Column
         title="Score"
         render={(_: any, record: Types.TestLearnerResult) =>
-          `${record.score} marks (${record.score /
-            TOTAL_POSSIBLE_SCORE *
-            100}%)`
+          <Tag color='blue-inverse'>
+            {Math.ceil(record?.metrics?.learnerScore)}
+          </Tag>
         }
         key="result"
       />
@@ -53,7 +50,7 @@ const TestAttendedList = () => {
       <Table.Column
         title="Time Spent"
         render={(_: any, record: Types.TestLearnerResult) =>
-          `${Math.ceil(record.timeSpent / 3600000)} min`
+          `${Math.ceil(record?.metrics?.timeSpent / 3600000)} min`
         }
         key="result"
       />
@@ -61,7 +58,7 @@ const TestAttendedList = () => {
       <Table.Column
         title="Percentile"
         render={(_: any, record: Types.TestLearnerResult) => (
-          <Tag color="orange-inverse">{record.percentile}</Tag>
+          <Tag color="orange-inverse">{record?.metrics?.percentile}</Tag>
         )}
         key="percentile"
       />
@@ -69,7 +66,8 @@ const TestAttendedList = () => {
       <Table.Column
         title="Submitted At"
         render={(_: any, record: Types.TestLearnerResult) =>
-          dayjs(record.submittedAt).format('LLL')
+          // @ts-ignore
+          dayjs(record?.endedAt).format('LLL')
         }
         key="result"
       />
