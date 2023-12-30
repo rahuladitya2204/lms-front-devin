@@ -83,6 +83,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
     // Submit `answeredQuestions` to your API or handle it as needed
   };
   const { isDesktop, isMobile } = useBreakpoint();
+  const splitIndex = Math.ceil(items.length / 2);
   const ResetAnswerButton = <Button block={isMobile}  onClick={() => {
      confirm({
             title: 'Are you sure?',
