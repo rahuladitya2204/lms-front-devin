@@ -153,15 +153,15 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
       <Row gutter={[40, 20]}>
         <Col span={8}>
           <Form.Item
-            rules={[
-              {
-                required: true,
-                message: 'Please enter minimum passing score'
-              }
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: 'Please enter minimum passing score'
+            //   }
+            // ]}
             name="passingScore"
             label="Minimum Passing Score"
-            required
+            // required
           >
             <Input
               type="number"

@@ -2,6 +2,7 @@ import { Button, Checkbox, Col, Divider, Form, Radio, Row, Space, Typography } f
 import { Enum, Learner } from '@adewaskar/lms-common';
 import React, { useEffect } from 'react';
 
+import { ReloadOutlined } from '@ant-design/icons';
 import useMessage from '@Hooks/useMessage';
 
 interface OMRComponentPropsI {
@@ -90,14 +91,15 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                 <Row key={index} gutter={[16, 16]}>
               <Col span={24} lg={12}>
               <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-     <Row justify="start" align="middle">
+     <Row justify="start" align="middle" style={{alignItems:'baseline'}}>
                         <Col span={4}>
                           <Typography.Text strong>
                             {formatQuestionNumber(index + 1)}
                           </Typography.Text>
                         </Col>
                         <Col span={20}>
-                          <Form.Item name={[index]}>
+                                 <Row align={'middle'} justify={'center'}>
+                                   <Col><Form.Item name={[index]}>
                             {item.type === 'single' ? (
                               <Radio.Group>
                                 {item.options.map((option) => (
@@ -115,7 +117,14 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                                 ))}
                               </Checkbox.Group>
                             )}
-                          </Form.Item>
+                                 </Form.Item>
+                                   </Col>
+                                   <Col> <Button type='primary' onClick={() => {
+                                     console.log('resetting')
+                                    //  form.setFieldValue(`answers[${index}]`, null)
+                                      form.resetFields([`answers[${index}]`]);
+  }} icon={<ReloadOutlined  />} size='small' ></Button></Col>
+                          </Row>
                         </Col>
                              </Row>
                              </Space>

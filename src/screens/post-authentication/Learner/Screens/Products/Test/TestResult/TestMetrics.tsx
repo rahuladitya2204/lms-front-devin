@@ -10,7 +10,7 @@ import {
   Row,
   Skeleton,
   Space,
-  Tag,
+  Tag
 } from 'antd'
 import {
   Bar,
@@ -180,14 +180,17 @@ export default function TestMetrics() {
                   </Card>
                 ) : (
                   <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                    <Title level={4}>
-                      Passing Score: {metrics.passingScore}
-                    </Title>
+                    {metrics.passingScore ? (
+                      <Title level={4}>
+                        Passing Score: {metrics.passingScore}
+                      </Title>
+                    ) : null}
                     <Title style={{ marginBottom: 15 }} level={4}>
-                      You Scored: {metrics.learnerScore} out of{' '}
+                      You Scored: {Math.ceil(metrics.learnerScore)} out of{' '}
                       {metrics.totalTestScore}
                     </Title>
-                    {metrics.learnerScore >= metrics.passingScore ? (
+                    {metrics.passingScore &&
+                    (metrics.learnerScore >= metrics.passingScore) ? (
                       <Alert
                         message="You have passed this test"
                         type="success"

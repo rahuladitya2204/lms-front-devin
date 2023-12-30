@@ -71,7 +71,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const testEndTime = enrolledProduct?.metadata?.test?.endedAt;
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
-  const AnswerSheetButton = <ActionModal width={800} cta={<Button block={!isDesktop} style={{ marginRight: 15 }} type='primary'>Answer Sheet</Button>} >
+  const AnswerSheetButton = <ActionModal width={800} cta={<Button block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>} >
     <OMRComponent testId={testId + ''} />
   </ActionModal>;
   const SubmitTestButton = <Button block={!isDesktop}
