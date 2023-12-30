@@ -3,6 +3,7 @@ import { Enum, Learner } from '@adewaskar/lms-common';
 import React, { useEffect } from 'react';
 
 import { ReloadOutlined } from '@ant-design/icons';
+import { Title } from '@Components/Typography/Typography';
 import useMessage from '@Hooks/useMessage';
 
 interface OMRComponentPropsI {
@@ -81,7 +82,13 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
 
   return (
     <Form form={form} className="omr-sheet" onFinish={handleSubmit}>
-      <Divider>Answer Sheet</Divider>
+      <Row style={{marginTop:20}} justify={'space-between'} align={'middle'}>
+        <Col><Title level={3}>Answer Sheet</Title></Col>
+        <Col><Button type='primary' onClick={() => {
+          form.resetFields();
+          message.open({type:"info",content:'Answer Sheet Resetted'})
+        }}>Reset Answer Sheet</Button></Col>
+      </Row>
       <Form.List name="answers">
         {(fields, { add, remove }) => (
           <>
@@ -120,9 +127,9 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                                  </Form.Item>
                                    </Col>
                                    <Col> <Button type='primary' onClick={() => {
-                                     console.log('resetting')
-                                    //  form.setFieldValue(`answers[${index}]`, null)
-                                      form.resetFields([`answers[${index}]`]);
+      const resetValue = item.type === Enum.TestQuestionType.SINGLE ? undefined : [];
+      form.setFieldsValue({ [`answers[${index}]`]: resetValue });
+                                      // form.resetFields([`answers[${index}]`]);
   }} icon={<ReloadOutlined  />} size='small' ></Button></Col>
                           </Row>
                         </Col>
