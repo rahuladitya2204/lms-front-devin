@@ -56,7 +56,7 @@ function ActionModal(props: ActionModalPropsI) {
   )
 }
 
-export default ActionModal
+export default React.memo(ActionModal)
 
 export interface ActionModalI {
   closeModal?: () => void;

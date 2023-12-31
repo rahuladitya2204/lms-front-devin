@@ -318,6 +318,17 @@ function TestBuilderScreen() {
                       )
                   },
                   {
+                    label: 'Print OMR Sheet',
+                    key: 'print-omr',
+                    onClick: () =>
+                      printTest(
+                        { includeSolution: false, omr: true },
+                        {
+                          onSuccess: pdfStr => printPdf(pdfStr)
+                        }
+                      )
+                  },
+                  {
                     label: 'Generate Criterias',
                     key: 'gen-criterias',
                     onClick: () => generateTestInfo({ fields: ['criteria'] })
