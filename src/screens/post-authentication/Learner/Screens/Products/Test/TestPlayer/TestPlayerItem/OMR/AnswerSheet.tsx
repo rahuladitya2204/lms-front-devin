@@ -13,12 +13,12 @@ import {
 } from 'antd'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import React, { useEffect } from 'react'
+import { Text, Title } from '@Components/Typography/Typography'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import LearnerLogin from '@Learner/Screens/Login'
 import OMRComponent from './OMRComponent'
 import { ReloadOutlined } from '@ant-design/icons'
-import { Title } from '@Components/Typography/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
@@ -45,12 +45,13 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     <Row>
       <Col xs={0} sm={0} md={2} />
       <Col xs={24} sm={24} md={20}>
-        <Card title={`Answer Sheet: ${test.title}`}>
+        <Card title={<Text>Answer Sheet: {test.title}</Text>}>
           {isSignedIn ? (
             <OMRComponent testId={testId} />
           ) : (
             <div>
-              <ActionModal width={300}
+              <ActionModal
+                width={300}
                 cta={
                   <Button block type="primary" size="large">
                     Please Login to fill Answer Sheet

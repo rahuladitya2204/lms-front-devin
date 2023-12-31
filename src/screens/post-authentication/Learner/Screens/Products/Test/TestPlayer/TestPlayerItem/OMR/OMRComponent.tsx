@@ -159,10 +159,10 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
  </>
         )}
       </Form.List>
-      <Row justify={'space-between'}>
+      <Divider/>
+      <Row gutter={[20,20]} justify={'space-between'}>
         <Col>{ ResetAnswerButton}</Col>
         <Col> <Form.Item>
-          {/* {isMobile ? <div style={{marginBottom:20}}>{ ResetAnswerButton}</div>:null} */}
         <Button block={isMobile} loading={submittingResponses} type="primary" htmlType="submit">
             Save Answers
         </Button>
