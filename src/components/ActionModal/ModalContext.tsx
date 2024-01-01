@@ -39,7 +39,7 @@ interface ActionModalPropsI {
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [modalContent, setModalContent] = useState<ReactNode | null>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [opts, setOpts] = useState({});
+  const [opts, setOpts] = useState<ActionModalPropsI>({});
 
   const openModal = useCallback((content: ReactNode,opts?:ActionModalPropsI) => {
     setModalContent(content);
@@ -59,11 +59,11 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   return (
     <ModalContext.Provider value={{ openModal, hideModal, modalContent }}>
       {children}
+      {/* @ts-ignore */}
       <Modal
-        title="Modal Title"
         open={isModalVisible}
         onCancel={hideModal}
-        footer={null}
+        // footer={null}
         {...opts}
       >
         {childrenWithCloseModal}
