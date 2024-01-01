@@ -1,21 +1,17 @@
-import { Alert, Button, Col, Form, Modal, Row, Space, Spin, Tag } from 'antd'
-import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
+import { Button, Col, Dropdown, Form, Modal, Row, Space, Spin, Tag } from 'antd'
+import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
-import EnterAnswers from './EnterAnswers'
-import EnterQuestionJson from './EnterQuestionJson'
-import EnterTestJson from './EnterTestJson'
 import Header from '@Components/Header'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import MoreButton from '@Components/MoreButton'
+import PrintPrompt from './PrintPrompt'
 import SetTestRules from './SetTestRules'
-import TestOutline from './TestOutline'
 import TestSectionsNavigator from './TestSectionsNavigator'
-import { UploadOutlined } from '@ant-design/icons'
 import { printPdf } from '@Components/SunEditor/utils'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from 'react'
@@ -54,7 +50,6 @@ function TestBuilderScreen() {
   const { mutate: generateTestInfo } = User.Queries.useGetGenerativeTestInfo(
     testId + ''
   )
-  const { mutate: printTest } = User.Queries.usePrintTest(testId + '')
   const onAddSection = (section: Partial<Types.TestSection>) => {
     console.log(section, 'section')
     let TEST = test
@@ -301,135 +296,127 @@ function TestBuilderScreen() {
               )}
             </Col> */}
           </Row>,
-          <Button
-            shape="circle"
-            icon={
-              <MoreButton
-                items={[
-                  {
-                    label: 'Print Test Paper',
-                    key: 'print-test',
-                    onClick: () =>
-                      printTest(
-                        { includeSolution: false },
-                        {
-                          onSuccess: pdfStr => printPdf(pdfStr)
-                        }
-                      )
-                  },
-                  {
-                    label: 'Print OMR Sheet',
-                    key: 'print-omr',
-                    onClick: () =>
-                      printTest(
-                        { includeSolution: false, omr: true },
-                        {
-                          onSuccess: pdfStr => printPdf(pdfStr)
-                        }
-                      )
-                  },
-                  {
-                    label: 'Generate Criterias',
-                    key: 'gen-criterias',
-                    onClick: () => generateTestInfo({ fields: ['criteria'] })
-                  },
-                  {
-                    label: 'Generate Topics',
-                    key: 'gen-topics',
-                    onClick: () => generateTestInfo({ fields: ['topic'] })
-                  },
-                  // {
-                  //   key: 'enter-answers',
-                  //   label: (
-                  //     <ActionModal
-                  //       title="Enter Answers"
-                  //       width={800}
-                  //       cta={
-                  //         <Button type="text" style={{ marginRight: 10 }}>
-                  //           Enter Answers
-                  //         </Button>
-                  //       }
-                  //     >
-                  //       <EnterAnswers />
-                  //     </ActionModal>
-                  //   )
-                  // },
-                  {
-                    key: 'revert',
-                    label: (
-                      <Button
-                        // size="small"
-                        onClick={() => {
-                          confirm({
-                            title: 'Are you sure?',
-                            // icon: <ExclamationCircleOutlined />,
-                            content: `You want to Unpublish this test, It will be moved to Draft?`,
-                            onOk() {
-                              unpublishTest({
-                                testId: testId + ''
-                              })
-                              message.open({
-                                type: 'success',
-                                content: 'Test has been moved to draft'
-                              })
-                            },
-                            okText: 'Yes, Unpublish'
-                          })
-                        }}
-                        type="text"
-                        loading={unpublishingTest}
-                      >
-                        Revert to draft
-                      </Button>
-                    )
-                  }
-                  // {
-                  //   label: (
-                  //     <ActionModal
-                  //       title="Generate Test Outline"
-                  //       width={1000}
-                  //       cta={
-                  //         <Button type="text" style={{ marginRight: 10 }}>
-                  //           Generate Test Outline
-                  //         </Button>
-                  //       }
-                  //     >
-                  //       <TestOutline testId={testId + ''} />
-                  //     </ActionModal>
-                  //   ),
-                  //   key: 'generate-test-outline'
-                  //   // icon: <DeleteOutlined />
-                  // }
-                  // {
-                  //   label: (
-                  //     <ActionModal
-                  //       title="Reset Test Outline"
-                  //       width={900}
-                  //       cta={
-                  //         <Button
-                  //           style={{ marginRight: 20 }}
-                  //           danger
-                  //           type="text"
-                  //         >
-                  //           Reset Test Outline
-                  //         </Button>
-                  //       }
-                  //     >
-                  //       <TestOutline testId={testId + ''} />
-                  //     </ActionModal>
-                  //   ),
-                  //   key: 'reset'
-                  //   // icon: <DeleteOutlined />
-                  // }
-                  // {
-                  //   label: `Enter Test Json`,
-                  //   key: 'enter-test-json'
-                  //   // icon: <DeleteOutlined />
-                  // }
-                ]}
-              />
-            }
-          />,
+          <Dropdown.Button
+            trigger={['click']}
+            menu={{
+              items: [
+                {
+                  label: (
+                    <ActionModal
+                      title="Print"
+                      width={350}
+                      cta={<Button>Print</Button>}
+                    >
+                      <PrintPrompt testId={testId + ''} />
+                    </ActionModal>
+                  ),
+                  key: 'print-test'
+                },
+                {
+                  label: 'Generate Criterias',
+                  key: 'gen-criterias',
+                  onClick: () => generateTestInfo({ fields: ['criteria'] })
+                },
+                {
+                  label: 'Generate Topics',
+                  key: 'gen-topics',
+                  onClick: () => generateTestInfo({ fields: ['topic'] })
+                },
+                // {
+                //   key: 'enter-answers',
+                //   label: (
+                //     <ActionModal
+                //       title="Enter Answers"
+                //       width={800}
+                //       cta={
+                //         <Button type="text" style={{ marginRight: 10 }}>
+                //           Enter Answers
+                //         </Button>
+                //       }
+                //     >
+                //       <EnterAnswers />
+                //     </ActionModal>
+                //   )
+                // },
+                {
+                  key: 'revert',
+                  label: (
+                    <Button
+                      // size="small"
+                      onClick={() => {
+                        confirm({
+                          title: 'Are you sure?',
+                          // icon: <ExclamationCircleOutlined />,
+                          content: `You want to Unpublish this test, It will be moved to Draft?`,
+                          onOk() {
+                            unpublishTest({
+                              testId: testId + ''
+                            })
+                            message.open({
+                              type: 'success',
+                              content: 'Test has been moved to draft'
+                            })
+                          },
+                          okText: 'Yes, Unpublish'
+                        })
+                      }}
+                      type="text"
+                      loading={unpublishingTest}
+                    >
+                      Revert to draft
+                    </Button>
+                  )
+                }
+                // {
+                //   label: (
+                //     <ActionModal
+                //       title="Generate Test Outline"
+                //       width={1000}
+                //       cta={
+                //         <Button type="text" style={{ marginRight: 10 }}>
+                //           Generate Test Outline
+                //         </Button>
+                //       }
+                //     >
+                //       <TestOutline testId={testId + ''} />
+                //     </ActionModal>
+                //   ),
+                //   key: 'generate-test-outline'
+                //   // icon: <DeleteOutlined />
+                // }
+                // {
+                //   label: (
+                //     <ActionModal
+                //       title="Reset Test Outline"
+                //       width={900}
+                //       cta={
+                //         <Button
+                //           style={{ marginRight: 20 }}
+                //           danger
+                //           type="text"
+                //         >
+                //           Reset Test Outline
+                //         </Button>
+                //       }
+                //     >
+                //       <TestOutline testId={testId + ''} />
+                //     </ActionModal>
+                //   ),
+                //   key: 'reset'
+                //   // icon: <DeleteOutlined />
+                // }
+                // {
+                //   label: `Enter Test Json`,
+                //   key: 'enter-test-json'
+                //   // icon: <DeleteOutlined />
+                // }
+              ]
+            }}
+            // shape="circle"
+            style={{ marginRight: 10 }}
+          >
+            More
+          </Dropdown.Button>,
           <Button type="primary" loading={savingTest} onClick={saveTest}>
             Save Changes
           </Button>,
