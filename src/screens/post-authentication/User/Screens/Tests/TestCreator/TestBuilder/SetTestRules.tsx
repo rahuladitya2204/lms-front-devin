@@ -115,7 +115,7 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
             <SwitchButton style={{ marginTop: 20 }} />
           </Form.Item>
         </Col>
-      </Row></> : <>
+      </Row></> :null}
       <Row justify={'space-between'} align="middle">
         <Col>Show Result Leaderboard</Col>
         <Col>
@@ -127,9 +127,7 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
             <SwitchButton style={{ marginTop: 20 }} />
           </Form.Item>
         </Col>
-        </Row>
-      </>}
-
+        </Row>  
       <Row justify={'space-between'} align="middle">
         <Col>Show Correct Answer Rate(Percent)</Col>
         <Col>

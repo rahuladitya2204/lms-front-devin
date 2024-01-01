@@ -40,6 +40,7 @@ import LearnerProfile from '@Learner/Screens/Account/LearnerProfile'
 import { NavLink } from 'react-router-dom'
 import ProcessingResult from './ProcessingResult'
 import ProtectedContent from '@Components/ProtectedComponent'
+import TestLeaderboard from './TestLeaderboard'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
@@ -303,7 +304,12 @@ export default function TestMetrics() {
                           )
                         })}
                       </Card>
-                    </Col>
+                      </Col>
+                      <Col span={24}>
+                        <Card title="Leaderboard">
+                         <TestLeaderboard/>
+                        </Card>
+                      </Col>
                     {feedback.length ? (
                       <Col span={24}>
                         <Card title="Test Feedback">

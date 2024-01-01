@@ -96,7 +96,7 @@ const TestStatus = () => {
                   </Card>
                 </Col>
 
-                <Col span={8}>
+               {test.passingScore?<> <Col span={8}>
                   <Card>
                     <Statistic
                       title="Passed Students"
@@ -114,7 +114,7 @@ const TestStatus = () => {
                       prefix={<UserOutlined />}
                     />
                   </Card>
-                </Col>
+                </Col></>:null}
               </Row>
             </Card>
           </Col>
@@ -135,7 +135,7 @@ const TestStatus = () => {
         </Col> */}
         <Col span={24}>
           <Card>
-            <Tabs
+            <Tabs 
               defaultActiveKey="1"
               items={[
                 {

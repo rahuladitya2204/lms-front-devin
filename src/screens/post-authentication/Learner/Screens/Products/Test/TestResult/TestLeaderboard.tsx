@@ -1,6 +1,7 @@
-import { Enum, Types, User } from '@adewaskar/lms-common'
+import { Enum, Learner, Types, User } from '@adewaskar/lms-common'
 import { Table, Tag } from 'antd'
 
+import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
@@ -8,9 +9,12 @@ import { useParams } from 'react-router'
 
 const { Text } = Typography
 
-const TestAttendedList = () => {
+const TestLeaderboard = () => {
   const { testId } = useParams()
-  const { data } = User.Queries.useGetTestResult(testId + '')
+  const {
+    data: { leaderboard },
+    isFetching: loadingResult
+  } = Learner.Queries.useGetTestResult(testId + '')
   const { data: test } = User.Queries.useGetTestDetails(testId + '')
   const TOTAL_POSSIBLE_SCORE = test.sections.reduce((acc, section) => {
     const sectionScore = section.items.reduce(
@@ -20,7 +24,15 @@ const TestAttendedList = () => {
     return acc + sectionScore
   }, 0)
   return (
-    <Table dataSource={data}>
+    // @ts-ignore
+    <Table dataSource={leaderboard}>
+      <Table.Column
+        title="Rank"
+        render={(_: any, record: Types.TestLearnerResult, index: number) => (
+          <Title style={{ fontSize: 18 }}>{index + 1}</Title>
+        )}
+        key="result"
+      />
       <Table.Column
         title="Student Name"
         dataIndex="learnerName"
@@ -81,4 +93,4 @@ const TestAttendedList = () => {
   )
 }
 
-export default TestAttendedList
+export default TestLeaderboard
