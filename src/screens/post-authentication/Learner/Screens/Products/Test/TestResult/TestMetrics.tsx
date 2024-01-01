@@ -180,8 +180,9 @@ export default function TestMetrics() {
                     <Skeleton active />
                   </Card>
                 ) : (
-                  <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                    {metrics.passingScore ? (
+                    <Card style={{ marginBottom: 20, textAlign: 'center' }}>
+                      {/* @ts-ignore */}
+                    {test.passingScore ? (
                       <Title level={4}>
                         Passing Score: {metrics.passingScore}
                       </Title>
@@ -198,7 +199,7 @@ export default function TestMetrics() {
                       />
                     ) : (
                       <Alert
-                        message="You haved failed this test"
+                        message="You have failed this test"
                         type="error"
                       />
                         )}

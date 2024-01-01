@@ -64,14 +64,14 @@ const TestLeaderboard = () => {
         )}
         key="result"
       />
-
+{/* 
       <Table.Column
         title="Time Spent"
         render={(_: any, record: Types.TestLearnerResult) =>
           `${Math.ceil(record?.metrics?.timeSpent / 3600000)} min`
         }
         key="result"
-      />
+      /> */}
 
       <Table.Column
         title="Percentile"
@@ -81,14 +81,14 @@ const TestLeaderboard = () => {
         key="percentile"
       />
 
-      <Table.Column
+      {/* <Table.Column
         title="Submitted At"
         render={(_: any, record: Types.TestLearnerResult) =>
           // @ts-ignore
           dayjs(record?.endedAt).format('LLL')
         }
         key="result"
-      />
+      /> */}
     </Table>
   )
 }
