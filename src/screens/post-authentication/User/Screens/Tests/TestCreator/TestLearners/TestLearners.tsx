@@ -22,7 +22,7 @@ function TestLearners(props: TestLearnersPropsI) {
   } = User.Queries.useRemoveLearnerFromCourse()
 
   return (
-    <Container title="Tests Learners" extra={[<Button>Add Learner</Button>]}>
+    <Container title="Enrolled Learners" extra={[<Button>Add Learner</Button>]}>
       <Table dataSource={data} loading={loading}>
         <Table.Column
           title="Name"

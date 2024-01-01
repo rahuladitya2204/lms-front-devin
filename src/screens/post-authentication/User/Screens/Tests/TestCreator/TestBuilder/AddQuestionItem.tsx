@@ -4,6 +4,7 @@ import {
   Card,
   Checkbox,
   Col,
+  Divider,
   Empty,
   Form,
   Input,
@@ -131,7 +132,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
     </Col>
     <Col span={24}>
 
-      <Card bordered={false}>
 
         <Form.Item name={['title', 'text', language]} label="Title" required rules={[
           {
@@ -265,7 +265,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           </Col>:null}
 
         </Row>
-      </Card>
       </Col>
       {questionType === Enum.TestQuestionType.FILL_IN_THE_BLANK && (
   <Col span={24}>
@@ -442,14 +441,19 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 </Form>
   return (
     <Spin spinning={false} >
-      <Tabs type='card' items={Constants.LANGUAGES.filter(t=>test.languages.includes(t.value)).map(language => {
+      {/* <Divider/> */}
+      <Card>
+      <Tabs type='card' defaultActiveKey={test.languages[0]} tabBarExtraContent={{
+        right: <Button size='small' loading={deletingSectionItem} type='primary' danger onClick={DeleteSectionItem} >Delete Question</Button>
+
+      }} items={Constants.LANGUAGES.filter(t=>test.languages.includes(t.value)).map(language => {
         return {
           label: language.label,
           key: language.value,
           children:getFormComponent(language.value)
        }
      })} />
-    <Button loading={deletingSectionItem} type='primary' danger onClick={DeleteSectionItem} >Delete Question</Button>
+      </Card>
     </Spin>
   )
 }

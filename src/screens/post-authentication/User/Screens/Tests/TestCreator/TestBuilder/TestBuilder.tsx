@@ -1,4 +1,15 @@
-import { Button, Col, Dropdown, Form, Modal, Row, Space, Spin, Tag } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Form,
+  Modal,
+  Row,
+  Space,
+  Spin,
+  Tag
+} from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
@@ -299,12 +310,46 @@ function TestBuilderScreen() {
               )}
             </Col> */}
           </Row>,
+          // <Button type="primary" loading={savingTest} onClick={saveTest}>
+          //   Save Changes
+          // </Button>,
+          test.status === Enum.TestStatus.PUBLISHED ? (
+            <Space>
+              {' '}
+              <Tag color="green">Test is Published</Tag>{' '}
+            </Space>
+          ) : (
+            <Space>
+              {/* <Button
+                  disabled={!Utils.validatePublishTest(test)}
+                  onClick={() => {
+                    confirm({
+                      title: 'Are you sure?',
+                      content: `You want to publish this Test?`,
+                      onOk() {
+                        publishTest({
+                          testId: test._id+''
+                        })
+                      },
+                      okText: 'Yes, Publish'
+                    })
+                  }}
+                  style={{ marginRight: 15 }}
+                  icon={<UploadOutlined />} loading={publishingTest}
+                > 
+                  Publish Test
+                </Button> */}
+              {isTestEnded ? <Tag color="green">Test has ended</Tag> : null}
+            </Space>
+          ),
           <Dropdown.Button
+            loading={savingTest}
+            onClick={saveTest}
             trigger={['click']}
             menu={{
               items: [
                 {
-                  label: `Print`,
+                  label: `Print Action`,
                   key: 'print-test',
                   onClick: () => openModal(<PrintPrompt testId={testId + ''} />)
                 },
@@ -336,32 +381,24 @@ function TestBuilderScreen() {
                 // },
                 {
                   key: 'revert',
-                  label: (
-                    <Button
-                      // size="small"
-                      onClick={() => {
-                        confirm({
-                          title: 'Are you sure?',
-                          // icon: <ExclamationCircleOutlined />,
-                          content: `You want to Unpublish this test, It will be moved to Draft?`,
-                          onOk() {
-                            unpublishTest({
-                              testId: testId + ''
-                            })
-                            message.open({
-                              type: 'success',
-                              content: 'Test has been moved to draft'
-                            })
-                          },
-                          okText: 'Yes, Unpublish'
+                  label: 'Revert to draft',
+                  onClick: () => {
+                    confirm({
+                      title: 'Are you sure?',
+                      // icon: <ExclamationCircleOutlined />,
+                      content: `You want to Unpublish this test, It will be moved to Draft?`,
+                      onOk() {
+                        unpublishTest({
+                          testId: testId + ''
                         })
-                      }}
-                      type="text"
-                      loading={unpublishingTest}
-                    >
-                      Revert to draft
-                    </Button>
-                  )
+                        message.open({
+                          type: 'success',
+                          content: 'Test has been moved to draft'
+                        })
+                      },
+                      okText: 'Yes, Unpublish'
+                    })
+                  }
                 }
                 // {
                 //   label: (
@@ -408,84 +445,65 @@ function TestBuilderScreen() {
                 // }
               ]
             }}
+            type="primary"
             // shape="circle"
             style={{ marginRight: 10 }}
           >
-            More
-          </Dropdown.Button>,
-          <Button type="primary" loading={savingTest} onClick={saveTest}>
             Save Changes
-          </Button>,
-          test.status === Enum.TestStatus.PUBLISHED ? (
-            <Space>
-              {' '}
-              <Tag color="green">Test is Published</Tag>{' '}
-            </Space>
-          ) : (
-            <Space>
-              {/* <Button
-                  disabled={!Utils.validatePublishTest(test)}
-                  onClick={() => {
-                    confirm({
-                      title: 'Are you sure?',
-                      content: `You want to publish this Test?`,
-                      onOk() {
-                        publishTest({
-                          testId: test._id+''
-                        })
-                      },
-                      okText: 'Yes, Publish'
-                    })
-                  }}
-                  style={{ marginRight: 15 }}
-                  icon={<UploadOutlined />} loading={publishingTest}
-                > 
-                  Publish Test
-                </Button> */}
-              {isTestEnded ? <Tag color="green">Test has ended</Tag> : null}
-            </Space>
-          )
+          </Dropdown.Button>
         ]}
       >
         <Row gutter={[16, 16]}>
           <Col span={6}>
-            <Row>
-              <Col span={24}>
-                <Form.Item>
-                  <MediaUpload
-                    source={{
-                      type: 'test.thumbnailImage',
-                      value: testId + ''
-                    }}
-                    uploadType="image"
-                    prefixKey={`Tests/${testId}/thumbnailImage`}
-                    cropper
-                    // width="100%"
-                    height="200px"
-                    aspect={16 / 9}
-                    renderItem={() => (
-                      <Image
-                        height={200}
-                        preview={false}
-                        src={test.thumbnailImage}
-                      />
-                    )}
-                    onUpload={file => {
-                      setTest({
-                        thumbnailImage: file.url
-                      })
-                    }}
-                  />
-                  <Row
-                    justify={'space-between'}
-                    style={{ margin: '20px 0 0', marginTop: 20 }}
-                    gutter={[20, 20]}
-                  >
-                    <Col flex={1}>
-                      <Button block>Preview</Button>
-                    </Col>
-                    <Col flex={1}>
-                      <ActionModal
+            <Card>
+              <Row>
+                <Col span={24}>
+                  <Form.Item>
+                    <MediaUpload
+                      source={{
+                        type: 'test.thumbnailImage',
+                        value: testId + ''
+                      }}
+                      uploadType="image"
+                      prefixKey={`Tests/${testId}/thumbnailImage`}
+                      cropper
+                      // width="100%"
+                      height="200px"
+                      aspect={16 / 9}
+                      renderItem={() => (
+                        <Image
+                          height={200}
+                          preview={false}
+                          src={test.thumbnailImage}
+                        />
+                      )}
+                      onUpload={file => {
+                        setTest({
+                          thumbnailImage: file.url
+                        })
+                      }}
+                    />
+                    <Row
+                      justify={'space-between'}
+                      style={{ margin: '20px 0 0', marginTop: 20 }}
+                      gutter={[20, 20]}
+                    >
+                      <Col flex={1}>
+                        <Button block>Preview</Button>
+                      </Col>
+                      <Col flex={1}>
+                        <Button
+                          onClick={() => {
+                            openModal(<SetTestRules testId={testId + ''} />, {
+                              title: `Set Rules`
+                            })
+                          }}
+                          block
+                          type="primary"
+                        >
+                          Set Rules
+                        </Button>
+                        {/* <ActionModal
                         title="Set Rules"
                         cta={
                           <Button block type="primary">
@@ -494,33 +512,34 @@ function TestBuilderScreen() {
                         }
                       >
                         <SetTestRules testId={testId + ''} />
-                      </ActionModal>{' '}
-                    </Col>
-                  </Row>
-                </Form.Item>
-              </Col>
-              <Col span={24}>
-                <Spin
-                  tip="Please wait.."
-                  spinning={
-                    deletingSection ||
-                    getNavigator().loading ||
-                    deletingSectionItem ||
-                    loadingTest
-                  }
-                >
-                  <TestSectionsNavigator
-                    testId={testId + ''}
-                    deleteSectionItem={deleteSectionItem}
-                    deleteSection={deleteSection}
-                    onAddNewItem={onAddNewItem}
-                    onAddSection={onAddSection}
-                    sections={test.sections}
-                    onReorderSections={onReorderSections}
-                  />
-                </Spin>
-              </Col>
-            </Row>
+                      </ActionModal> */}{' '}
+                      </Col>
+                    </Row>
+                  </Form.Item>
+                </Col>
+                <Col span={24}>
+                  <Spin
+                    tip="Please wait.."
+                    spinning={
+                      deletingSection ||
+                      getNavigator().loading ||
+                      deletingSectionItem ||
+                      loadingTest
+                    }
+                  >
+                    <TestSectionsNavigator
+                      testId={testId + ''}
+                      deleteSectionItem={deleteSectionItem}
+                      deleteSection={deleteSection}
+                      onAddNewItem={onAddNewItem}
+                      onAddSection={onAddSection}
+                      sections={test.sections}
+                      onReorderSections={onReorderSections}
+                    />
+                  </Spin>
+                </Col>
+              </Row>
+            </Card>
           </Col>
           <Col span={18}>
             <Row gutter={[20, 20]}>
