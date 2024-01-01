@@ -99,23 +99,23 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
       }
     ]
   },
-  {
-    title: 'Website & App',
-    icon: <FundProjectionScreenOutlined />,
-    path: 'builder',
-    children: [
-      {
-        title: 'Website Builder',
-        path: 'website',
-        icon: <AppstoreOutlined />
-      },
-      {
-        title: 'App Builder',
-        path: 'app',
-        icon: <AppstoreOutlined />
-      },
-    ]
-  },
+  // {
+  //   title: 'Website & App',
+  //   icon: <FundProjectionScreenOutlined />,
+  //   path: 'builder',
+  //   children: [
+  //     {
+  //       title: 'Website Builder',
+  //       path: 'website',
+  //       icon: <AppstoreOutlined />
+  //     },
+  //     {
+  //       title: 'App Builder',
+  //       path: 'app',
+  //       icon: <AppstoreOutlined />
+  //     },
+  //   ]
+  // },
   {
     title: 'Asset Library',
     icon: <FolderOpenOutlined />,

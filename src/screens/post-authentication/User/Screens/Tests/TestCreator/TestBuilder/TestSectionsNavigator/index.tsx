@@ -229,7 +229,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                         ];
                         const correctOptions = item?.options.map((i, index) => {
                           if (i.isCorrect) {
-                            return index+1;
+                            return String.fromCharCode(65 + index);
                           }
                           else {
                             return null;
@@ -240,19 +240,20 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                           actions.unshift(<Tooltip title={message} ><WarningTwoTone twoToneColor="red" /></Tooltip>)
                         }
                         if (item?.score?.correct) {
-                          actions.unshift(<Tag style={{ textAlign: 'center' }} color='blue-inverse'>
-                            + {item.score.correct}</Tag>)
+                          actions.unshift(<Tag style={{ textAlign: 'center' }}
+                            color='blue-inverse'>
+                            + {item.score.correct} {(item?.score?.incorrect)?<span>, { item.score.incorrect}</span>:null} </Tag>)
                         }
-                        if (item?.score?.incorrect) {
-                          actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
-                           {item.score.incorrect}</Tag>)
-                        }
+                        // if (item?.score?.incorrect) {
+                        //   actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
+                        //    {item.score.incorrect}</Tag>)
+                        // }
                         // if (item.type) {
                         //   actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
                         // }
                         if (correctOptions.length) {
                           actions.unshift(<Tag style={{ textAlign: 'center' }} color='orange-inverse'>
-                            C.O: {correctOptions.join(',')}</Tag>)
+                            {correctOptions.join(',')}</Tag>)
                         }
                         const TestSectionListItem = (isActive: boolean) => <TestListItem
                         isActive={isActive}
