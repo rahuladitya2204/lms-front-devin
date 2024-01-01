@@ -8,6 +8,7 @@ import Header from '@User/Screens/UserRoot/UserHeader'
 // import PastTest from './PastTest'
 import Tabs from '@Components/Tabs'
 import TestsList from './TestsList'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import { useSearchParams } from 'react-router-dom'
 
 const TestsScreen = () => {
@@ -33,9 +34,12 @@ const TestsScreen = () => {
   )
   // const navigate = useNavigate()
   const CreateCourseCta = (
-    <ActionModal cta={<Button type="primary">Create Test</Button>}>
-      <CreateTest />
-    </ActionModal>
+    <Button onClick={() => openModal(<CreateTest />)} type="primary">
+      Create Test
+    </Button>
+    // <ActionModal cta={<Button type="primary">Create Test</Button>}>
+    //   <CreateTest />
+    // </ActionModal>
   )
 
   useEffect(
@@ -44,7 +48,7 @@ const TestsScreen = () => {
     },
     [categories]
   )
-
+  const { openModal } = useModal()
   return (
     <Header title="Tests" extra={[CreateCourseCta]}>
       {/* <Card> */}

@@ -5,6 +5,7 @@ import useMessage, { MessageContext } from '@Hooks/useMessage'
 import ApplyFavicon from '@Learner/Screens/LearnerRoot/ApplyFavicon'
 import Banner from '@Components/Banner'
 import LoadingScreen from '@Components/LoadingScreen'
+import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import useDynamicFont from '@Hooks/useDynamicFont'
 import { useMemo } from 'react'
 
@@ -50,7 +51,7 @@ function ThemeProvider(props: any) {
         }}
         csp={{ nonce: 'YourNonceCode' }}
       >
-        {props.children}
+        <ModalProvider>{props.children}</ModalProvider>
       </ConfigProvider>
       <ApplyFavicon shortName={shortName} faviconUrl={branding.favIcon.url} />
       {/* <Banner /> */}

@@ -34,6 +34,7 @@ import image from './bg.svg'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint';
 import useMessage from '@Hooks/useMessage';
+import { useModal } from '@Components/ActionModal/ModalContext';
 
 const { UnitTypeToStr } = Utils;
 
@@ -176,6 +177,7 @@ const PackageCard = ({packageId,plan,children}: {
   });
   console.log(ep, 'er');
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
+  const { openModal } = useModal()
 
   const isLoading =  loadingPackage;
   return    <Card
@@ -233,13 +235,21 @@ const PackageCard = ({packageId,plan,children}: {
                     </ProductCheckoutButton>
                   }
                 </Col>{' '}</> :
-                <Col span={24}>
-                  <ActionModal width={300}
+              <Col span={24}>
+                <Button onClick={() => {
+                  openModal(<LearnerLogin />, {
+                    width: 300
+                  })
+                }} size="large" type="primary" block>
+            Login to access this package
+                </Button>
+                  {/* <ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
             Login to access this package
                 </Button>}>
                   <LearnerLogin/>
-          </ActionModal></Col>
+                </ActionModal> */}
+              </Col>
             }
          
        

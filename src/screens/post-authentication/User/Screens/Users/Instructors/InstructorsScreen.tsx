@@ -9,17 +9,27 @@ import MoreButton from '@Components/MoreButton'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 function InstructorsScreen() {
   const { data, isFetching: loading } = User.Queries.useGetInstructors()
+  const { openModal } = useModal()
 
   return (
     <Header
       title={'Instructors'}
       extra={[
-        <ActionModal cta={<Button type="primary">Add Instructor</Button>}>
-          <AddInstructor> </AddInstructor>
-        </ActionModal>
+        <Button
+          onClick={() => {
+            openModal(<AddInstructor> </AddInstructor>)
+          }}
+          type="primary"
+        >
+          Add Instructor
+        </Button>
+        // <ActionModal cta={<Button type="primary">Add Instructor</Button>}>
+        //   <AddInstructor> </AddInstructor>
+        // </ActionModal>
       ]}
     >
       <Container>

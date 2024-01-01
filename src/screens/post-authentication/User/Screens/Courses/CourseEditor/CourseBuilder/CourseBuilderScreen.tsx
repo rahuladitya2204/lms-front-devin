@@ -28,6 +28,7 @@ import MediaUpload from '@Components/MediaUpload'
 import SetCourseRules from './SetCourseRules'
 import { updateCourseSectionItem } from './utils'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { confirm } = Modal
 
@@ -254,6 +255,7 @@ function CourseBuilderScreen() {
   // console.log(course.sections, items, 'nodeee')
   const { mutate: publishCourse,isLoading: publishingCourse } = User.Queries.usePublishCourse()
   const { mutate: unpublishCourse,isLoading: unpublishingCourse } = User.Queries.useUnpublishCourse()
+  const { openModal } = useModal()
   return (
     <AppProvider>
       <Header
@@ -368,8 +370,23 @@ function CourseBuilderScreen() {
                     <Col flex={1}>
                       <Button block>Preview</Button>
                     </Col>
-                    <Col flex={1}>
-                      <ActionModal
+                        <Col flex={1}>
+                          <Button onClick={() => {
+                            openModal( <SetCourseRules
+                              onSubmit={d =>
+                                saveCourse({
+                                  rules: d
+                                })
+                              }
+                              data={course.rules}
+                            />, {
+                              title: 'Set Rules',
+                              
+                            })
+                        }} block type="primary">
+                            Set Rules
+                          </Button>
+                      {/* <ActionModal
                         title="Set Rules"
                         cta={
                           <Button block type="primary">
@@ -385,7 +402,7 @@ function CourseBuilderScreen() {
                           }
                           data={course.rules}
                         />
-                      </ActionModal>
+                      </ActionModal> */}
                     </Col></>}
              
                   </Row>

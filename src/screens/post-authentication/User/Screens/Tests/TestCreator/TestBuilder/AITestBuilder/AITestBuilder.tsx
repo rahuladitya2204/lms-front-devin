@@ -5,6 +5,7 @@ import { Types, User } from '@adewaskar/lms-common'
 import ActionModal from '@Components/ActionModal/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';
 import { uniqueId } from 'lodash';
+import { useModal } from '@Components/ActionModal/ModalContext';
 import { useState } from 'react'
 
 const { confirm } = Modal;
@@ -59,6 +60,7 @@ export default function AITestPaperBuilder({
         })
         // console.log(e, 'eee')
   }
+  const { openModal } = useModal()
 
   return (
     <Form form={form} layout='vertical' onFinish={onSubmit}>
@@ -99,15 +101,24 @@ export default function AITestPaperBuilder({
                     <Input type='number' /> 
                   </Form.Item>
                     </Col>
-                    <Col>
-                        <ActionModal cta={<Button>{metas[index]?'Edit Meta Data':`Enter Metadata`}</Button>}>
+                <Col>
+                  <Button onClick={() => {
+                    openModal( <GenerateQuestionWithAI data={metas[index]} onSubmit={(e:any) => {
+                      const M:any[] = [...metas];
+                      M[index] = e;
+                      // @ts-ignore
+                      setMetas(M)
+                  }} />)
+                }} >{metas[index]?'Edit Meta Data':`Enter Metadata`}</Button>
+                        {/* <ActionModal cta={<Button>{metas[index]?'Edit Meta Data':`Enter Metadata`}</Button>}>
                             <GenerateQuestionWithAI data={metas[index]} onSubmit={(e:any) => {
                                 const M:any[] = [...metas];
                                 M[index] = e;
                                 // @ts-ignore
                                 setMetas(M)
                             }} />
-                        </ActionModal>  <DeleteTwoTone style={{ fontSize: 18, marginLeft: 20 }} onClick={e => {
+                  </ActionModal> */}
+                  <DeleteTwoTone style={{ fontSize: 18, marginLeft: 20 }} onClick={e => {
                     confirm({
                       title: 'Are you sure?',
                       content: `You want to delete this answer`,

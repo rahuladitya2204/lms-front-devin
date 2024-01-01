@@ -24,6 +24,7 @@ import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
 
 const { Text, Paragraph } = Typography
@@ -239,6 +240,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   const { isMobile,isDesktop, isTablet } = useBreakpoint();
   const isFree = plan.type === 'free';
   const isLoading = loadingTest;
+  const { openModal } = useModal()
   return   <Card
   bodyStyle={{ padding: 10, paddingBottom: 20 }}
   // style={{ height: '100%' }}
@@ -297,12 +299,21 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
             >
               {isFree?'Try Now':'Buy Now'}
                   </ProductCheckoutButton>}
-                </> : <ActionModal width={300}
-                    cta={<Button size="large" type="primary" block>
+                </> : <Button onClick={() => {
+                    openModal(<LearnerLogin />, {
+                      width: 300
+                    })
+                }} size="large" type="primary" block>
             Login to access this test
-                </Button>}>
-                  <LearnerLogin/>
-          </ActionModal>}
+                </Button>
+                  
+            //       <ActionModal width={300}
+            //         cta={<Button size="large" type="primary" block>
+            // Login to access this test
+            //     </Button>}>
+            //       <LearnerLogin/>
+            //     </ActionModal>
+                }
           </Col>
         </Row>
       </Col>

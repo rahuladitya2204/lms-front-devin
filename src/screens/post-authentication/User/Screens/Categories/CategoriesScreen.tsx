@@ -9,22 +9,34 @@ import Image from '@Components/Image'
 import MoreButton from '@Components/MoreButton'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 function CategoriesScreen() {
   const { data, isFetching: loading } = User.Queries.useGetProductCategories(
     'all'
   )
+  const { openModal } = useModal()
 
   return (
     <Header
       title={'Categories'}
       extra={[
-        <ActionModal
-          title="Create Category"
-          cta={<Button type="primary">Create New Category</Button>}
+        <Button
+          onClick={() => {
+            openModal(<CreateCategory />, {
+              title: 'Create Category'
+            })
+          }}
+          type="primary"
         >
-          <CreateCategory />
-        </ActionModal>
+          Create New Category
+        </Button>
+        // <ActionModal
+        //   title="Create Category"
+        //   cta={<Button type="primary">Create New Category</Button>}
+        // >
+        //   <CreateCategory />
+        // </ActionModal>
       ]}
     >
       <Container>
@@ -57,20 +69,16 @@ function CategoriesScreen() {
                 items={[
                   {
                     label: (
-                      <ActionModal
-                        title="Edit Category"
-                        cta={
-                          <Button
-                            type="text"
-                            // onClick={() => navigate(`create`)}
-                            // type="primary"
-                          >
-                            Edit Category
-                          </Button>
+                      <Button
+                        type="text"
+                        onClick={() =>
+                          openModal(<CreateCategory data={record} />, {
+                            title: 'Edit Category'
+                          })
                         }
                       >
-                        <CreateCategory data={record} />
-                      </ActionModal>
+                        Edit Category
+                      </Button>
                     ),
                     key: 'edit'
                     // icon: <EditOutlined />,

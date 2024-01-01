@@ -12,6 +12,7 @@ import { Typography } from '@Components/Typography'
 import { Utils } from '@adewaskar/lms-common'
 import styled from '@emotion/styled';
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import useOauth from './useOauth';
 
 // Define breakpoints for responsive design
@@ -138,6 +139,7 @@ const OtpForm = (props:LearnerLoginPropsI) => {
       console.log('Otp Failed:', error);
     }
   };
+  const { openModal } = useModal()
   return (
     <>
       <ActionModal title={`Let's get registered`} width={300} open={showRegister} >
@@ -185,9 +187,15 @@ const OtpForm = (props:LearnerLoginPropsI) => {
           <Form.Item style={{ textAlign: 'center' }}>
               <Typography.Text>
                 Don't have an account yet?{' '}
-              <ActionModal width={300} title="Let's get signed up" cta={<Button type="link">Let's get signed up</Button>}>
+                <Button onClick={() => openModal(<LearnerRegister onRegisterSuccess={props.closeModal} />, {
+                  width: 300,
+                  title:`Let's get signed up`
+                })}
+                  type="link"
+                >Let's get signed up</Button>
+              {/* <ActionModal width={300} title="Let's get signed up" cta={<Button type="link">Let's get signed up</Button>}>
                 <LearnerRegister onRegisterSuccess={props.closeModal} />
-              </ActionModal>
+              </ActionModal> */}
             </Typography.Text>
           </Form.Item>
         </Form>
@@ -247,7 +255,8 @@ const EmailForm = (props:LearnerLoginPropsI) => {
       console.log('Validation failed:', error)
     }
   }
-  
+  const { openModal } = useModal()
+
   return   <>
         <LogoTop/>
 <Form
@@ -303,21 +312,33 @@ const EmailForm = (props:LearnerLoginPropsI) => {
       </Button>
       </Form.Item>
       <Form.Item>
-        <ActionModal width={300} cta={<Button 
+        <Button onClick={() => {
+          openModal(<ResetPassword />, {
+            width:300
+          })
+      }}
+        block>Forgot Password</Button>
+        {/* <ActionModal width={300} cta={<Button 
         block>Forgot Password</Button>}>
           <ResetPassword/>
-        </ActionModal>
+        </ActionModal> */}
       </Form.Item>
     <Form.Item style={{ textAlign: 'center' }}>
       <Typography.Text>
-        Don't have an account yet?{' '}
-        <ActionModal
+          Don't have an account yet?{' '}
+          <Button onClick={() => {
+            openModal(<LearnerRegister data={{ email }} onRegisterSuccess={props.closeModal} />, {
+              width: 300,
+              title:`Let's get signed up`
+            })
+          }} ref={signupButton} type="link">Let's get signed up</Button>
+        {/* <ActionModal
           width={300}
           title="Let's get signed up"
           cta={<Button ref={signupButton} type="link">Let's get signed up</Button>}
         >
                 <LearnerRegister data={{email}} onRegisterSuccess={props.closeModal} />
-        </ActionModal>
+        </ActionModal> */}
       </Typography.Text>
     </Form.Item>
   </Form>

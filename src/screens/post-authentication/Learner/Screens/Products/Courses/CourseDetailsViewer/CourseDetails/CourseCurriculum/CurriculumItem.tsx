@@ -5,12 +5,14 @@ import { LockOutlined, PlayCircleOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal/ActionModal'
 import CourseItemIcon from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 interface CourseCurriculumItemPropsI {
   item: Types.CourseSectionItem;
 }
 
 function CourseCurriculumItem({ item }: CourseCurriculumItemPropsI) {
+  const { openModal } = useModal()
   const {
     data: { url },
     isFetching: loading
@@ -18,11 +20,23 @@ function CourseCurriculumItem({ item }: CourseCurriculumItemPropsI) {
     enabled: !!item.file
   })
   const PreviewVideo = (item: Types.CourseSectionItem) => (
-    <ActionModal title={item.title} cta={<PlayCircleOutlined />}>
-      <Spin spinning={loading}>
-        <MediaPlayer url={url || ''} />
-      </Spin>
-    </ActionModal>
+    <PlayCircleOutlined
+      onClick={() => {
+        openModal(
+          <Spin spinning={loading}>
+            <MediaPlayer url={url || ''} />
+          </Spin>,
+          {
+            title: item.title
+          }
+        )
+      }}
+    />
+    // <ActionModal title={item.title} cta={<PlayCircleOutlined />}>
+    // <Spin spinning={loading}>
+    //   <MediaPlayer url={url || ''} />
+    // </Spin>
+    // </ActionModal>
   )
 
   let actions = []

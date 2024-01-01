@@ -4,6 +4,7 @@ import ActionModal from './ActionModal/ActionModal'
 import CreateCategory from '@User/Screens/Categories/CreateCategory'
 import { PlusOutlined } from '@ant-design/icons'
 import { User } from '@adewaskar/lms-common'
+import { useModal } from './ActionModal/ModalContext'
 
 interface SelectProductCategoryPropsI {
   name: string | string[];
@@ -18,6 +19,7 @@ export default function SelectProductCategory(
     listItems: categories,
     isLoading: loadingCategories
   } = User.Queries.useGetProductCategories('all')
+  const { openModal } = useModal()
   return (
     <Row gutter={[0, 20]} justify={'end'}>
       <Col flex={1}>
@@ -50,17 +52,14 @@ export default function SelectProductCategory(
         </Spin>
       </Col>
       <Col style={{ display: 'flex', alignItems: 'center' }}>
-        <ActionModal
-          cta={
-            <Button
-              style={{ marginLeft: 10 }}
-              shape="round"
-              icon={<PlusOutlined />}
-            />
-          }
-        >
-          <CreateCategory> </CreateCategory>
-        </ActionModal>
+        <Button
+          style={{ marginLeft: 10 }}
+          shape="round"
+          icon={<PlusOutlined />}
+          onClick={() => {
+            openModal(<CreateCategory> </CreateCategory>)
+          }}
+        />
       </Col>
     </Row>
   )

@@ -5,6 +5,7 @@ import CreateTicket from '../CreateTicket'
 import { Learner } from '@adewaskar/lms-common'
 import { Link } from 'react-router-dom'
 import TicketItem from './TicketItem'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 export default function TicketsScreen () {
   const {
@@ -12,6 +13,7 @@ export default function TicketsScreen () {
     isLoading: loadingTicketsFirst,
     isFetching
   } = Learner.Queries.useGetTickets()
+  const { openModal } = useModal()
   if (loadingTicketsFirst) {
     return (
       <Row gutter={[20, 20]}>
@@ -52,9 +54,17 @@ export default function TicketsScreen () {
         imageStyle={{ height: 60 }}
         description={<span>No Tickets Found</span>}
       >
-        <ActionModal cta={<Button type="primary">Create Now</Button>}>
+        <Button
+          onClick={() => {
+            openModal(<CreateTicket />)
+          }}
+          type="primary"
+        >
+          Create Now
+        </Button>
+        {/* <ActionModal cta={<Button type="primary">Create Now</Button>}>
           <CreateTicket />
-        </ActionModal>
+        </ActionModal> */}
       </Empty>
     </Card>
   )

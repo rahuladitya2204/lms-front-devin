@@ -13,6 +13,7 @@ import { OrderStatusTag } from './OrderStatusTag'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { Title, Text } = Typography
 
@@ -28,6 +29,7 @@ export default function LearnerWallet() {
     isLoading: loadingWalletDetails
   } = Learner.Queries.useGetLearnerDetails()
   const { isMobile } = useBreakpoint()
+  const { openModal } = useModal()
 
   return (
     <Row gutter={[20, 20]}>
@@ -35,16 +37,17 @@ export default function LearnerWallet() {
         <Spin spinning={loadingWalletDetails}>
           <Card
             extra={
-              <ActionModal
-                width={250}
-                cta={
-                  <Button type="primary" icon={<PlusOutlined />}>
-                    {!isMobile ? 'Add Money' : ''}
-                  </Button>
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                onClick={() =>
+                  openModal(<AddMoneyToWallet />, {
+                    width: 250
+                  })
                 }
               >
-                <AddMoneyToWallet />
-              </ActionModal>
+                {!isMobile ? 'Add Money' : ''}
+              </Button>
             }
             title={
               <Title style={{ margin: 0 }} level={4}>

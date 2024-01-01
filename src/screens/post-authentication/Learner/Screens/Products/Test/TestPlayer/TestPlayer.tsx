@@ -31,6 +31,7 @@ import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { confirm } = Modal
 
@@ -72,9 +73,14 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const testEndTime = enrolledProduct?.metadata?.test?.endedAt;
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
-  const AnswerSheetButton = <ActionModal title='Answer Sheet' width={800} cta={<Button icon={<BookOutlined/>} block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>} >
-    <OMRComponent testId={testId + ''} />
-  </ActionModal>;
+  const {openModal } = useModal();
+  const AnswerSheetButton = <Button
+    onClick={() => openModal(<OMRComponent testId={testId + ''} />, {
+      width: 800,
+      title:'Answer Sheet'
+    })}
+    icon={<BookOutlined />}
+  block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>
   const SubmitTestButton = <Button block={!isDesktop}
   onClick={() => {
     confirm({

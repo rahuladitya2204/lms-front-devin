@@ -11,6 +11,7 @@ import ProductCheckoutButton from '@Components/CheckoutButton'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 import { useQueryClient } from '@tanstack/react-query'
 
@@ -68,7 +69,7 @@ const EventCard = (props: { eventId: string }) => {
   const { eventId}=props
   const message = useMessage()
   const { isSignedIn } = Store.useAuthentication(s => s);
-  // console.log(user,'user')
+  const { openModal } = useModal()
   const {
     data: enrolledDetails
   } = Learner.Queries.useGetEnrolledProductDetails({
@@ -182,12 +183,20 @@ title={event.title}>
               type="primary"
             >
               Claim your seat
-            </ProductCheckoutButton>:<ActionModal width={300}
-                    cta={<Button size="large" type="primary" block>
+                </ProductCheckoutButton> : <Button onClick={() => {
+                    openModal(<LearnerLogin />, {
+                      width:300
+                    })
+                }} size="large" type="primary" block>
             Login to access this event
-                </Button>}>
-                  <LearnerLogin/>
-          </ActionModal>)}
+                </Button>
+          //         <ActionModal width={300}
+          //           cta={<Button size="large" type="primary" block>
+          //   Login to access this event
+          //       </Button>}>
+          //         <LearnerLogin/>
+          // </ActionModal>
+                )}
           </Col>
         </Row>
       </Col>

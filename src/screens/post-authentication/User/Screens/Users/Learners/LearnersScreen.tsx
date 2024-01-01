@@ -10,17 +10,26 @@ import ThemeProvider from 'screens/ThemeProvider'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 function LearnersScreen () {
   const { data, isFetching: loading } = User.Queries.useGetLearners()
-
+  const { openModal } = useModal()
   return (
     <Header
       title={'Learners'}
       extra={[
-        <ActionModal cta={<Button type="primary">Add Learner</Button>}>
-          <AddLearner> </AddLearner>
-        </ActionModal>
+        <Button
+          onClick={() => {
+            openModal(<AddLearner> </AddLearner>)
+          }}
+          type="primary"
+        >
+          Add Learner
+        </Button>
+        // <ActionModal cta={<Button type="primary">Add Learner</Button>}>
+        //   <AddLearner> </AddLearner>
+        // </ActionModal>
       ]}
     >
       <Container>

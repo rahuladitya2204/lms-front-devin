@@ -5,6 +5,7 @@ import { Outlet, useNavigate } from 'react-router'
 import React, { useEffect, useState } from 'react'
 
 import AppProvider from 'screens/AppProvider'
+import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import OrgLogo from '@Components/OrgLogo'
 import { User } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
@@ -23,6 +24,7 @@ const UserRootScreen: React.FC = () => {
 
   return (
     <AppProvider>
+      <ModalProvider>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
           collapsible
@@ -51,6 +53,7 @@ const UserRootScreen: React.FC = () => {
           </Content>
         </Layout>
       </Layout>
+      </ModalProvider>
     </AppProvider>
   )
 }

@@ -49,6 +49,7 @@ import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal
@@ -122,6 +123,7 @@ const LearnerHeader: React.FC = () => {
     
   }, [isMobileOrTablet, isSignedIn, enrolledProducts]);
   const HeaderButtonSkeleton = <Skeleton.Button active style={{ width: 97, height: 32,borderRadius:15 }} />;
+  const { openModal } = useModal()
   const WalletButton = loadingLearnerDetails?HeaderButtonSkeleton:<NavLink to={`../app/wallet`} children={({ isActive }) => {
     return loadingLearnerDetails?HeaderButtonSkeleton:<Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
         <Button style={{ paddingTop: 2, paddingLeft: 5 }}
@@ -203,21 +205,15 @@ const LearnerHeader: React.FC = () => {
           </Fragment>
         ) : null}
       </Fragment>
-{!isSignedIn?(loadingLearnerDetails?<Skeleton.Button style={{width:97,height:32}} active />:<ActionModal
-          width={300}
-          // title="Login"
-          cta={
-            <Button
-              icon={<LoginOutlined />}
-              type="primary"
-              style={{ margin: '0 10px' }}
-            >
-              Login
-            </Button>
-          }
-        >
-          <LoginScreen />
-        </ActionModal>):null}
+      {!isSignedIn ? (loadingLearnerDetails ? <Skeleton.Button style={{ width: 97, height: 32 }} active /> :
+      <Button icon={<LoginOutlined />}
+      type="primary"
+      style={{ margin: '0 10px' }}
+      onClick={() => openModal(<LoginScreen />, {
+        width: 300,
+        title:'Login'
+      })}>Login</Button>
+      ) : null}
       {isSignedIn &&
         !isMobileOrTablet && (
           <Space>

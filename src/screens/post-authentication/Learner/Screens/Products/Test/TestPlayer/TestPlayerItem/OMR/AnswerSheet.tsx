@@ -21,6 +21,7 @@ import OMRComponent from './OMRComponent'
 import { ReloadOutlined } from '@ant-design/icons'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 
 const confirm = Modal.confirm
@@ -41,6 +42,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     Enum.TestDetailMode.TEST
   )
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
+  const { openModal } = useModal()
   return (
     <Row>
       <Col xs={0} sm={0} md={2} />
@@ -50,7 +52,19 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
             <OMRComponent testId={testId} />
           ) : (
             <div>
-              <ActionModal
+              <Button
+                onClick={() =>
+                  openModal(<LearnerLogin />, {
+                    width: 300
+                  })
+                }
+                block
+                type="primary"
+                size="large"
+              >
+                Please Login to fill Answer Sheet
+              </Button>
+              {/* <ActionModal
                 width={300}
                 cta={
                   <Button block type="primary" size="large">
@@ -59,7 +73,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                 }
               >
                 <LearnerLogin />
-              </ActionModal>
+              </ActionModal> */}
             </div>
           )}
         </Card>

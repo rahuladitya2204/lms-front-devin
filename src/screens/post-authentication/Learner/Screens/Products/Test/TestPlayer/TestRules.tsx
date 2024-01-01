@@ -25,6 +25,7 @@ import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { Title, Text } = Typography
 
@@ -98,6 +99,7 @@ export default function TestRules(props: TestRulesPropsI) {
     },
     [test.languages]
   )
+  const { openModal } = useModal()
 
   return (
     <Spin spinning={loadingEnrolledTest}>
@@ -191,27 +193,47 @@ export default function TestRules(props: TestRulesPropsI) {
                             : 'Start Test'}
                         </Button>
                       ) : (
-                        <ActionModal
-                          cta={
-                            <Button
-                              disabled={!isValid}
-                              style={{ marginLeft: 20, width: 200 }}
-                              type="primary"
-                            >
-                              Verify and Start Test
-                            </Button>
-                          }
+                        <Button
+                          onClick={() => {
+                            openModal(
+                              <IDVerificationComponent
+                                onMatch={() => {
+                                  notification.success({
+                                    message: 'Success',
+                                    description: 'ID Verified!'
+                                  })
+                                  form.submit()
+                                }}
+                              />
+                            )
+                          }}
+                          disabled={!isValid}
+                          style={{ marginLeft: 20, width: 200 }}
+                          type="primary"
                         >
-                          <IDVerificationComponent
-                            onMatch={() => {
-                              notification.success({
-                                message: 'Success',
-                                description: 'ID Verified!'
-                              })
-                              form.submit()
-                            }}
-                          />
-                        </ActionModal>
+                          Verify and Start Test
+                        </Button>
+                        // <ActionModal
+                        //   cta={
+                        //     <Button
+                        //       disabled={!isValid}
+                        //       style={{ marginLeft: 20, width: 200 }}
+                        //       type="primary"
+                        //     >
+                        //       Verify and Start Test
+                        //     </Button>
+                        //   }
+                        // >
+                        //   <IDVerificationComponent
+                        //     onMatch={() => {
+                        //       notification.success({
+                        //         message: 'Success',
+                        //         description: 'ID Verified!'
+                        //       })
+                        //       form.submit()
+                        //     }}
+                        //   />
+                        // </ActionModal>
                       )}
                     </Col>
                   </Row>

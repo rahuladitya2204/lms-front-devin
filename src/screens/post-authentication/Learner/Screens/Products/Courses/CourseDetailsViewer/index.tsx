@@ -30,6 +30,7 @@ import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder
 import image from './bg.svg'
 import styled from '@emotion/styled'
 import useMessage from '@Hooks/useMessage';
+import { useModal } from '@Components/ActionModal/ModalContext';
 
 const { UnitTypeToStr } = Utils;
 
@@ -202,6 +203,7 @@ const CourseCard = ({courseId,plan,children}: {
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
 
   const isLoading =  loadingCourse;
+  const { openModal } = useModal()
   return    <Card
   cover
   bordered hoverable
@@ -269,13 +271,22 @@ const CourseCard = ({courseId,plan,children}: {
           // </Button>
                   }
                 </Col>{' '}</> :
-                <Col span={24}>
-                  <ActionModal width={300}
+              <Col span={24}>
+                <Button onClick={() => {
+                  openModal(<LearnerLogin />, {
+                    width:300,
+                    
+                  })
+                }} size="large" type="primary" block>
+            Login to access this course
+                </Button>
+                  {/* <ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
             Login to access this course
                 </Button>}>
                   <LearnerLogin/>
-          </ActionModal></Col>
+                </ActionModal> */}
+              </Col>
             }
             {children? <Col span={24}>
           {children}

@@ -100,6 +100,7 @@ import UploadPDFForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/Uplo
 import UploadVideoForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
 import UserDashboard from '@User/Screens/UserDashboard/UserDashboard'
+import UserFullPageHolder from '@User/Screens/UserRoot/UserFullPageHolder'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserMeetingEnded from '@User/Screens/Event/LiveSessionPlayer/User/UserMeetingEnded'
 import UserProfile from '@User/Screens/Settings/Account/UserProfile';
@@ -194,7 +195,8 @@ const router = (userType: string) => {
  </>
         ) : <>
             <>
-            <Route path="login" element={<UserLoginScreen />} />
+              <Route path='' element={<UserFullPageHolder />}>
+              <Route path="login" element={<UserLoginScreen />} />
             <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
         <Route
           path="certificate-template/:id/editor"
@@ -230,6 +232,8 @@ const router = (userType: string) => {
           path="app/website/builder/:pageId"
           element={<WebsiteBuilderScreen />}
         />
+              </Route>
+          
         <Route path="app" element={<UserRootScreen />}>
           <Route path="dashboard" element={<UserDashboard />} />
           <Route path="settings" element={<SettingsScreen />} />

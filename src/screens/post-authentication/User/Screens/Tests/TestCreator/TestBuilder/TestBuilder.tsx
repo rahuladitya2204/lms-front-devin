@@ -16,6 +16,7 @@ import { printPdf } from '@Components/SunEditor/utils'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import useTestBuilderUI from './hooks/useTestBuilder'
 import { useTestStore } from './hooks/useTestStore'
 
@@ -252,6 +253,8 @@ function TestBuilderScreen() {
     isLoading: unpublishingTest
   } = User.Queries.useUnpublishTest()
   const isTestEnded = test.live.enabled && test.status === Enum.TestStatus.ENDED
+  const { openModal } = useModal()
+  // console.log(openModal, '111')
   return (
     <AppProvider>
       <Header
@@ -301,16 +304,9 @@ function TestBuilderScreen() {
             menu={{
               items: [
                 {
-                  label: (
-                    <ActionModal
-                      title="Print"
-                      width={350}
-                      cta={<Button>Print</Button>}
-                    >
-                      <PrintPrompt testId={testId + ''} />
-                    </ActionModal>
-                  ),
-                  key: 'print-test'
+                  label: `Print`,
+                  key: 'print-test',
+                  onClick: () => openModal(<PrintPrompt testId={testId + ''} />)
                 },
                 {
                   label: 'Generate Criterias',

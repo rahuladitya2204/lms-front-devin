@@ -16,6 +16,7 @@ import { Typography } from '@Components/Typography'
 import { cloneDeep } from 'lodash'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -162,20 +163,20 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
     });
     setSectionList(SList);
   }, []);
+  
+  const { openModal } = useModal()
 
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
    <DndProvider backend={HTML5Backend}>
         {sectionList.map((section, secIndex) => {
-          const AddItemCTA = <ActionModal
-            cta={`Add Chapter Item`}
-          >
-            <AddItem
+          const AddItemCTA = <span onClick={() => {
+            openModal(<AddItem
               onAddNewItem={(key, value) =>
                 onAddNewItem(key, value, secIndex)
               }
-            />
-          </ActionModal>;
+            />)
+          }} >Add Chapter Item</span>
           const SectionOptionDropdown = <MoreButton
             items={[
               {
@@ -260,17 +261,27 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                               key={item._id}
                               to={`${item.type}/${item._id}`}
                               children={({ isActive }) => CourseSectionListItem(isActive)}
-                            />: <ActionModal width={650}
-                            cta={
-                              CourseSectionListItem(false)
-                            }
-                          >
-                            <AddItem item={item}
-                              onAddNewItem={(key, value) =>
-                                onAddNewItem(key, value, secIndex)
-                              }
-                            />
-                          </ActionModal>}
+                              /> : <span onClick={() => {
+                                  openModal( <AddItem item={item}
+                                    onAddNewItem={(key, value) =>
+                                      onAddNewItem(key, value, secIndex)
+                                    }
+                                  />, {
+                                    width: 650
+                                  })
+                              }} >{CourseSectionListItem(false)}</span>
+                          //     < ActionModal width={650}
+                          //   cta={
+                          //     CourseSectionListItem(false)
+                          //   }
+                          // >
+                            // <AddItem item={item}
+                            //   onAddNewItem={(key, value) =>
+                            //     onAddNewItem(key, value, secIndex)
+                            //   }
+                            // />
+                          //   </ActionModal>
+                          }
                           </List.Item>
                           </MovableItem>
 

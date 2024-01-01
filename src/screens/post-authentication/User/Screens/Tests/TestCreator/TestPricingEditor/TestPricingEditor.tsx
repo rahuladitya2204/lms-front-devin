@@ -7,6 +7,7 @@ import { Fragment } from 'react'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 interface TestPricingEditorPropsI {
   testId: string;
@@ -20,15 +21,25 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
   const { data, isFetching: loading } = User.Queries.useGetProductPlans(
     props.testId
   )
+  const { openModal } = useModal()
   return (
     <Fragment>
       <Card
         bodyStyle={{ padding: 0 }}
         title={'Pricing Plan'}
         extra={
-          <ActionModal cta={<Button>Add Plan</Button>}>
-            <CreatePlan product={{ type: 'test', id: props.testId }} />
-          </ActionModal>
+          <Button
+            onClick={() =>
+              openModal(
+                <CreatePlan product={{ type: 'test', id: props.testId }} />
+              )
+            }
+          >
+            Add Plan
+          </Button>
+          // <ActionModal cta={<Button>Add Plan</Button>}>
+          //   <CreatePlan product={{ type: 'test', id: props.testId }} />
+          // </ActionModal>
         }
       >
         <Row>
@@ -61,12 +72,22 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
                 key="action"
                 render={(_: any, record: Types.Plan) => (
                   <Space size="middle">
-                    <ActionModal cta={<EditOutlined />}>
+                    <EditOutlined
+                      onClick={() => {
+                        openModal(
+                          <CreatePlan
+                            product={{ type: 'test', id: props.testId }}
+                            plan={record}
+                          />
+                        )
+                      }}
+                    />
+                    {/* <ActionModal cta={<EditOutlined />}>
                       <CreatePlan
                         product={{ type: 'test', id: props.testId }}
                         plan={record}
                       />
-                    </ActionModal>
+                    </ActionModal> */}
                     <DeleteOutlined />
                   </Space>
                 )}

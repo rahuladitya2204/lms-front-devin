@@ -15,6 +15,7 @@ import { cloneDeep } from 'lodash'
 import { htmlToText } from 'html-to-text'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -156,6 +157,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
     setSectionList(SList);
   }, []);
   const navigate = useNavigate();
+  const { openModal } = useModal()
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
    <DndProvider backend={HTML5Backend}>
@@ -175,9 +177,8 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                 },
                   key:'add'
               },{
-                label: <ActionModal cta={`Edit Section`}>
-                  <AddTestSection data={section} onFinish={(e: { title: string }) => onAddSection({ ...section, ...e })} />
-                  </ActionModal>,
+                label: `Edit Section`,
+                onClick:()=>openModal(<AddTestSection data={section} onFinish={(e: { title: string }) => onAddSection({ ...section, ...e })} />),
             key: 'rename',
           }, {
             label: <span onClick={() => DeleteSection(section._id)}>Delete Section</span>,
@@ -322,12 +323,17 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
         })}
         </DndProvider>
 
-        {/* @ts-ignore */}
-      <ActionModal cta={<AddChapterButton block type="primary">
+      {/* @ts-ignore */}
+      <AddChapterButton onClick={() => openModal(
+              <AddTestSection onFinish={e => onAddSection(e)} />
+      )} block type="primary">
+                Add New Section
+              </AddChapterButton>
+      {/* <ActionModal cta={<AddChapterButton block type="primary">
                 Add New Section
               </AddChapterButton>}>
       <AddTestSection onFinish={e => onAddSection(e)} />
-        </ActionModal>
+        </ActionModal> */}
     </Space>
   )
 }
