@@ -61,7 +61,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
   const {
     mutate: printOmr,
     isLoading: printingOMR
-  } = User.Queries.usePrintTestOMR(props.testId)
+  } = User.Queries.usePrintTest(props.testId)
   return (
     <Form form={form} onFinish={onSubmit}>
       <Row justify={'space-between'} align="middle">
@@ -132,12 +132,18 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
             loading={printingOMR}
             block
             onClick={() =>
-              printOmr(undefined, {
-                onSuccess: pdfStr => {
-                //   console.log(pdfStr, 11)
-                  printPdf(pdfStr)
+              printOmr(
+                {
+                  // @ts-ignore
+                  omr: true
+                },
+                {
+                  onSuccess: pdfStr => {
+                    //   console.log(pdfStr, 11)
+                    printPdf(pdfStr)
+                  }
                 }
-              })
+              )
             }
           >
             Print Blank OMR Sheet

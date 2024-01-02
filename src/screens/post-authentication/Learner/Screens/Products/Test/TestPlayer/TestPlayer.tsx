@@ -19,6 +19,7 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'
+import AnswerSheetFiles from './TestPlayerItem/OMR/AnswerSheetFiles'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import { NavLink } from 'react-router-dom'
@@ -77,7 +78,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const AnswerSheetButton = <Button
     onClick={() => openModal(<OMRComponent testId={testId + ''} />, {
       width: 800,
-      title:'Answer Sheet'
+      title: <Title level={4}>Answer Sheet <ActionModal cta={<Button >Upload Answer Sheet</Button>}>
+      <AnswerSheetFiles testId={testId+''} /></ActionModal></Title>
     })}
     icon={<BookOutlined />}
   block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>
