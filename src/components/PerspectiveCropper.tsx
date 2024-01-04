@@ -54,32 +54,28 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
     }
   }
 
-  useEffect(
-    () => {
-      const initFilterParams = async () => {
-        console.log(cropState)
-        try {
-          // @ts-ignore
-          const res = await cropperRef.current.done({
-            blur: false, // Disabling blur to avoid altering the filled bubbles
-            th: true, // Keeping adaptive thresholding on to handle varying lighting
-            // @ts-ignore
-            thMode: 1, // Mean adaptive thresholding
-            thMeanCorrection: 10, // Slightly adjusting mean correction; may need to tweak based on actual images
-            thBlockSize: 11, // A smaller block size to be more adaptive; tweak as necessary
-            thMax: 255, // Maximum binary value, ensuring filled bubbles remain white
-            grayScale: true // Converting to grayscale to simplify the image processing
-          })
-          console.log(res)
-        } catch (e) {
-          console.log('error', e)
-        }
+  useEffect(() => {
+    const initFilterParams = async () => {
+      console.log(cropState)
+      try {
+        // @ts-ignore
+        const res = await cropperRef.current.done({
+          blur: false, // Keep detail by not blurring
+          th: true, // Enable thresholding
+          thMode: cv.ADAPTIVE_THRESH_MEAN_C, // Use a mean adaptive method
+          thMeanCorrection: 10, // Correction factor for the threshold
+          thBlockSize: 11, // Block size for adaptive thresholding
+          thMax: 255, // Maximum value used for THRESH_BINARY or THRESH_BINARY_INV
+          grayScale: true
+        })
+        console.log(res)
+      } catch (e) {
+        console.log('error', e)
       }
+    }
 
-      initFilterParams()
-    },
-    []
-  )
+    initFilterParams()
+  }, [])
   // console.log(maxWidth, 'wmai')
   const { isMobile } = useBreakpoint()
   return (
