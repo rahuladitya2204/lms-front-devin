@@ -67,7 +67,10 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
         morphSize: new cv.Size(3, 3) // Adjust the kernel size as needed
       }
 
-      const filterParams = { preview: true, filterCvParams }
+      const filterParams = {
+        preview: true,
+        // filterCvParams
+      }
       // @ts-ignore
       const cropped = await cropperRef.current.done(filterParams)
       setCroppedImg(cropped)
