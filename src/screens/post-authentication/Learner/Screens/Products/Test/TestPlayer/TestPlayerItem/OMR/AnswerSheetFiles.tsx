@@ -148,7 +148,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
                            // console.log(D,'POP')
               const fileDetails = d.files[field.name]
                        return <Col xs={24} sm={12} md={6} >
-                   <DraggableFileItem fileUrl={fileDetails.url} cropItem={cropItem} review={props.review}
+                   <DraggableFileItem testId={props.testId} fileUrl={fileDetails.url} cropItem={cropItem} review={props.review}
                    key={field.key}
                    index={index}
                    id={field.key}
@@ -195,7 +195,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
 };
 
     // @ts-ignore
-    const DraggableFileItem = ({ id,fileUrl, fileId,index,review,cropItem, moveItem, removeItem /* ...other props */ }) => {
+    const DraggableFileItem = ({ id,fileUrl,testId, fileId,index,review,cropItem, moveItem, removeItem /* ...other props */ }) => {
   const ref = React.useRef(null);
 
   const [, drop] = useDrop({
@@ -232,7 +232,9 @@ name={fileDetails.name} // Assuming this is how you access the file name
       const {
         mutate: uploadFiles,
         isLoading: uploadingFile
-      } = Common.Queries.useUploadFiles()
+      } = Common.Queries.useUploadFiles();
+      const {data:learner } = Learner.Queries.useGetLearnerDetails();
+      const prefixKey = `tests/${testId}/answer-sheets/${learner._id}`;
       return (
         <Spin spinning={uploadingFile}>
           <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
@@ -260,7 +262,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
                                            closeModal && closeModal();
                                            // @ts-ignore
                     uploadFiles({
-                      files: [{ file: blobToFile(blob) }],
+                      files: [{ file: blobToFile(blob),prefixKey }],
                       onSuccess: ([{url}]) => {
                         cropItem(index, url);
                       }
