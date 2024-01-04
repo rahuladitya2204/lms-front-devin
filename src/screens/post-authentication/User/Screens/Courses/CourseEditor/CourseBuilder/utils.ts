@@ -234,3 +234,35 @@ console.log(gradientColors);
 export function convertToCommaSeparated(inputString) {
   return inputString.split('\n').map(item => item.replace(/[0-9]*\.? */, '').trim()).filter(i=>i);
 }
+
+export const convertImageToBlob = async (imageUrl) => {
+  try {
+    const response = await fetch(imageUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const blob = await response.blob();
+    return URL.createObjectURL(blob);
+  } catch (error) {
+    console.error('Error converting image to Blob:', error);
+    return null;
+  }
+};
+
+
+export function blobToFile(blob: Blob): File {
+  // Generate a unique filename based on the timestamp
+  const timestamp = new Date().toISOString().replace(/[\W_]+/g, '');
+  const filename = `file-${timestamp}`;
+
+  // Use the MIME type from the Blob
+  const mimeType = blob.type;
+
+  // Create a new File from the Blob
+  const file = new File([blob], filename, {
+      type: mimeType,
+      lastModified: Date.now(),
+  });
+
+  return file;
+}

@@ -10,6 +10,7 @@ import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react'
 
 import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop'
+import PerspectiveCropper from 'react-perspective-cropper';
 import { RcFile } from 'antd/es/upload'
 import styled from '@emotion/styled'
 
@@ -18,6 +19,7 @@ interface MediaUploadPropsI {
   children?: ReactNode;
   isProtected?: boolean;
   closeModal?: () => void;
+  perspective?: boolean;
   aspect?: number;
   listType?: string;
   prefixKey?: string;

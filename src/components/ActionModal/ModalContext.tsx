@@ -62,8 +62,9 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
       {/* @ts-ignore */}
       <Modal
         open={isModalVisible}
-        onCancel={hideModal}
-        // footer={null}
+        // onCancel={hideModal} 
+        // @ts-ignore
+        footer={null}
         {...opts}
       >
         {childrenWithCloseModal}
