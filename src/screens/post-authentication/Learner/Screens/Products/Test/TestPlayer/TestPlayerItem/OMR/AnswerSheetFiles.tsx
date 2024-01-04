@@ -144,7 +144,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
                           <Image.PreviewGroup  >
                      {fields.map((field, index) => {
                        const d = form.getFieldsValue();
-                       console.log(d,'d')
+                      //  console.log(d,'d')
                            // console.log(D,'POP')
               const fileDetails = d.files[field.name]
                        return <Col xs={24} sm={12} md={6} >
@@ -228,14 +228,14 @@ name={fileDetails.name} // Assuming this is how you access the file name
       isDragging: monitor.isDragging(),
     }),
   });
-
   drag(drop(ref));
       const {
         mutate: uploadFiles,
-        isLoading: loading
+        isLoading: uploadingFile
       } = Common.Queries.useUploadFiles()
       return (
-    <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
+        <Spin spinning={uploadingFile}>
+          <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
       <Card hoverable style={{padding: 0}} bodyStyle={{padding:'10px 0'}}>
       <Row>
         <Col span={24} style={{display:'flex',justifyContent:'center'}}>
@@ -273,6 +273,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
 </Row>
      </Card>
     </div>
+    </Spin>
   );
 };
 
