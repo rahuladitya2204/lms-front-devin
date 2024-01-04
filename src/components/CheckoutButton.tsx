@@ -13,7 +13,6 @@ interface ProductCheckoutButtonPropsI extends ButtonProps {
     type: string,
     id: string
   };
-  plan: Types.Plan;
   onSuccess: () => void;
 }
 
@@ -22,7 +21,12 @@ export default function ProductCheckoutButton(
 ) {
   // const {} = Learner.Queries.usegetproductD
   const { openCheckout } = usePaymentCheckout();
-  const { product: { id, type }, plan } = props
+  const { product: { id, type } } = props;
+  const { data: {
+    // @ts-ignore
+    plan
+  } } = Learner.Queries.useGetProductDetail(props.product);
+  console.log(plan, 'pupupu');
   const {
     mutate: createOrder,
     isLoading: isCreatingOrder
@@ -35,6 +39,7 @@ export default function ProductCheckoutButton(
   } = Learner.Queries.useUpdateOrderStatus({ id, type })
   const { data: organisation } = Learner.Queries.useGetOrgDetails()
   const transactionStrategy = organisation.transaction.strategy
+  const isFree = plan.type === 'free';
   const CreateOrder = () => {
     createOrder(
       { data: { type, id } },
@@ -132,7 +137,7 @@ export default function ProductCheckoutButton(
       loading={isCreatingOrder || updatingPaymentOrder || isLoading}
       {...props}
     >
-      {props.children}
+      {props.children || (isFree?'Try Now':'Buy Now')}
     </Button>
     </>
   )

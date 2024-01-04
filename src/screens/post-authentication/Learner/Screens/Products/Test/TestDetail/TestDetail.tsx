@@ -293,7 +293,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
                       content: `You have enrolled successfully`,
                       particle: true
                     })                            }}
-              product={{ type: 'test', id: testId + '' }} plan={plan}
+              product={{ type: 'test', id: testId + '' }}
               block
               type='primary'
             >

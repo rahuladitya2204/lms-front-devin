@@ -28,7 +28,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
   const [form] = Form.useForm<Types.AnswerSheet>();
   const message = useMessage();
   const files = Form.useWatch(['files'], form) || [];
-  console.log(files,'files')
+  // console.log(files,'files')
 
   const { data: {
     status: {

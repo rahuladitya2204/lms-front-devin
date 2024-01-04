@@ -5,6 +5,7 @@ import {
   Col,
   Divider,
   Form,
+  Image,
   Modal,
   Radio,
   Row,
@@ -17,8 +18,10 @@ import { Text, Title } from '@Components/Typography/Typography'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AnswerSheetFiles from './AnswerSheetFiles'
+import AppImage from '@Components/Image'
 import LearnerLogin from '@Learner/Screens/Login'
 import OMRComponent from './OMRComponent'
+import ProductCheckoutButton from '@Components/CheckoutButton'
 import { ReloadOutlined } from '@ant-design/icons'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
@@ -46,7 +49,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     type: Enum.ProductType.TEST,
     id: testId
   })
-
+  const message = useMessage();
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
   const { openModal } = useModal()
   const { isMobile } = useBreakpoint()
@@ -74,8 +77,33 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
            <Card title={<Text>Answer Sheet: {test.title}</Text>}>
             <OMRComponent testId={testId} />
             </Card>
-          </>
-        ):<Title>You are not enrolled for this test</Title>) : (
+          </> 
+        ) : <Card>
+            <Row gutter={[20,20]}>
+            <Col span={24}>
+      <AppImage
+        width={'100%'}
+        height={200}
+        preview={false}
+        src={test.thumbnailImage}
+      />
+    </Col>
+              <Col span={24}>
+              <ProductCheckoutButton onSuccess={() => {
+          message.open({
+            type: 'success',
+            content: `You have enrolled successfully`,
+            particle: true
+          })                            }}
+    product={{ type: 'test', id: testId + '' }}
+    block
+    type='primary'
+  >
+    {/* {isFree?'Try Now':'Buy Now'} */}
+        </ProductCheckoutButton>
+              </Col>
+            </Row>
+        </Card>) : (
           <Card>
             <Button
               onClick={() =>

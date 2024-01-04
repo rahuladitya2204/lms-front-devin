@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import LibPerspectiveCropper from 'react-perspective-cropper'
 import useBreakpoint from '@Hooks/useBreakpoint'
+// @ts-ignore
+import { useOpenCv } from 'opencv-react'
 
 interface PerspectiveCropperPropsI {
   image: any;
@@ -39,6 +41,7 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
 
     return () => window.removeEventListener('resize', handleResize)
   }, []) // Empty dependency array means this effect runs once on mount
+  const { loaded, cv } = useOpenCv()
 
   const handleCrop = async () => {
     try {
@@ -50,6 +53,33 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
       console.log('error', e)
     }
   }
+
+  useEffect(
+    () => {
+      const initFilterParams = async () => {
+        console.log(cropState)
+        try {
+          // @ts-ignore
+          const res = await cropperRef.current.done({
+            blur: false, // Disabling blur to avoid altering the filled bubbles
+            th: true, // Keeping adaptive thresholding on to handle varying lighting
+            // @ts-ignore
+            thMode: cv?.ADAPTIVE_THRESH_MEAN_C, // Mean adaptive thresholding
+            thMeanCorrection: 10, // Slightly adjusting mean correction; may need to tweak based on actual images
+            thBlockSize: 11, // A smaller block size to be more adaptive; tweak as necessary
+            thMax: 255, // Maximum binary value, ensuring filled bubbles remain white
+            grayScale: true // Converting to grayscale to simplify the image processing
+          })
+          console.log(res)
+        } catch (e) {
+          console.log('error', e)
+        }
+      }
+
+      initFilterParams()
+    },
+    [cropperRef.current]
+  )
   // console.log(maxWidth, 'wmai')
   const { isMobile } = useBreakpoint()
   return (

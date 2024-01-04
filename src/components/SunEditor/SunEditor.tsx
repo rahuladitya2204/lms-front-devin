@@ -88,7 +88,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
 
   const handleVideoUploadBefore = (file: any) => {
     const editorInstance = editorRef.current
-    console.log(file,'files')
+    // console.log(file,'files')
     if (level === 3) {
       if (file instanceof File) {
         // Insert a temporary video element with a loading video source
@@ -124,7 +124,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
 
   const handleAudioUploadBefore = (file: any) => {
     const editorInstance = editorRef.current
-    console.log(file,'files')
+    // console.log(file,'files')
     if (level === 3) {
       if (file instanceof File) {
         // Insert a temporary audio element with a loading audio source

@@ -252,7 +252,7 @@ const CourseCard = ({courseId,plan,children}: {
          {isEnrolled?   <Button onClick={()=>navigate(`player`)}size="large" type="primary" block>
             Go to Course
                   </Button> :
-                      <ProductCheckoutButton plan={plan}
+                      <ProductCheckoutButton
                       onSuccess={() => {
                         message.open({
                           type: 'success',

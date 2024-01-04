@@ -219,7 +219,7 @@ const PackageCard = ({packageId,plan,children}: {
          {isEnrolled?   <Button onClick={()=>navigate(`enrolled-package`)}size="large" type="primary" block>
             Go to Package
                   </Button> :
-                      <ProductCheckoutButton plan={plan}
+                      <ProductCheckoutButton 
                       onSuccess={() => {
                         message.open({
                           type: 'success',
