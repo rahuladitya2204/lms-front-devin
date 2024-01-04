@@ -234,7 +234,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
         isLoading: uploadingFile
       } = Common.Queries.useUploadFiles();
       const {data:learner } = Learner.Queries.useGetLearnerDetails();
-      const prefixKey = `tests/${testId}/answer-sheets/${learner._id}`;
+      const prefixKey = `tests/${testId}/answer-sheets/${learner._id}/page-${index+1}`;
       return (
         <Spin spinning={uploadingFile}>
           <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
