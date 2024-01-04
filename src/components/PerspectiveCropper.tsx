@@ -64,7 +64,7 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
             blur: false, // Disabling blur to avoid altering the filled bubbles
             th: true, // Keeping adaptive thresholding on to handle varying lighting
             // @ts-ignore
-            thMode: cv?.ADAPTIVE_THRESH_MEAN_C, // Mean adaptive thresholding
+            // thMode: cv?.ADAPTIVE_THRESH_MEAN_C, // Mean adaptive thresholding
             thMeanCorrection: 10, // Slightly adjusting mean correction; may need to tweak based on actual images
             thBlockSize: 11, // A smaller block size to be more adaptive; tweak as necessary
             thMax: 255, // Maximum binary value, ensuring filled bubbles remain white
@@ -78,7 +78,7 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
 
       initFilterParams()
     },
-    [cropperRef.current]
+    []
   )
   // console.log(maxWidth, 'wmai')
   const { isMobile } = useBreakpoint()

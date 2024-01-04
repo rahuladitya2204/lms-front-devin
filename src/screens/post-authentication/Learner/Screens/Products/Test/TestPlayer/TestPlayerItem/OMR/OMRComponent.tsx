@@ -144,7 +144,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                                    <Col>
                                      <Button type='primary' onClick={() => {
       // const resetValue = item.type === Enum.TestQuestionType.SINGLE ? undefined : [];
-      form.resetFields([`answers[${index}]`]);
+                                     form.setFieldValue([`answers[${index}]`], null);
                                       // form.resetFields([`answers[${index}]`]);
                                    }} shape='circle' icon={<ReloadOutlined />} size='small' ></Button>
                                    </Col>
