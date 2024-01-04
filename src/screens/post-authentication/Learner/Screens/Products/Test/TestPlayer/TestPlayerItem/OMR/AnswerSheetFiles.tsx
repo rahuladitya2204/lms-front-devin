@@ -121,7 +121,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
       >
         <Form layout='vertical' onFinish={save} form={form}>
         <Form.Item name={['metrics','filled']} label='Total Filled Bubbles'>
-          <Input style={{width:150}} type='number' />
+          <Input style={{width:isMobile?'100%':150}} type='number' />
         </Form.Item>
         {!files.length?<Empty  description={
           <Row gutter={[10,20]}>

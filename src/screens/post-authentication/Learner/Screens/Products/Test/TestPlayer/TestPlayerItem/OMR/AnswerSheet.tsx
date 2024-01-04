@@ -51,14 +51,13 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   const { openModal } = useModal()
   const { isMobile } = useBreakpoint()
 
-  if (!isEnrolled) {
-    return <Title>You are not enrolled for this test</Title>
-  }
   return (
     <Row>
       <Col xs={0} sm={0} md={2} />
       <Col xs={24} sm={24} md={20}>
-        <ActionModal
+            {isSignedIn ? (isEnrolled?(
+          <>
+                <ActionModal
           cta={
             <Button
               style={{ marginBottom: 20 }}
@@ -70,37 +69,28 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
           }
         >
           <AnswerSheetFiles testId={testId + ''} />
-        </ActionModal>
-        <Card title={<Text>Answer Sheet: {test.title}</Text>}>
-          {isSignedIn ? (
+            </ActionModal>
+            
+           <Card title={<Text>Answer Sheet: {test.title}</Text>}>
             <OMRComponent testId={testId} />
-          ) : (
-            <div>
-              <Button
-                onClick={() =>
-                  openModal(<LearnerLogin />, {
-                    width: 300
-                  })
-                }
-                block
-                type="primary"
-                size="large"
-              >
-                Please Login to fill Answer Sheet
-              </Button>
-              {/* <ActionModal
-                width={300}
-                cta={
-                  <Button block type="primary" size="large">
-                    Please Login to fill Answer Sheet
-                  </Button>
-                }
-              >
-                <LearnerLogin />
-              </ActionModal> */}
-            </div>
-          )}
-        </Card>
+            </Card>
+          </>
+        ):<Title>You are not enrolled for this test</Title>) : (
+          <Card>
+            <Button
+              onClick={() =>
+                openModal(<LearnerLogin />, {
+                  width: 300
+                })
+              }
+              block
+              type="primary"
+              size="large"
+            >
+              Please Login to fill Answer Sheet
+            </Button>
+          </Card>
+        )}
       </Col>
       <Col xs={0} sm={0} md={2}>
         {' '}
