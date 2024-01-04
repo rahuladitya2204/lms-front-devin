@@ -46,7 +46,16 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
   const handleCrop = async () => {
     try {
       // @ts-ignore
-      const cropped = await cropperRef.current.done({ preview: true })
+      const cropped = await cropperRef.current.done({
+        preview: true,
+        blur: false, // Keep detail by not blurring
+        th: true, // Enable thresholding
+        thMode: 1, // Use a mean adaptive method
+        thMeanCorrection: 10, // Correction factor for the threshold
+        thBlockSize: 11, // Block size for adaptive thresholding
+        thMax: 255, // Maximum value used for THRESH_BINARY or THRESH_BINARY_INV
+        grayScale: true
+      })
       console.log('Image Cropped', cropped)
       props.onCrop && props.onCrop(cropped, props.closeModal)
     } catch (e) {
@@ -54,28 +63,6 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
     }
   }
 
-  useEffect(() => {
-    const initFilterParams = async () => {
-      console.log(cropState)
-      try {
-        // @ts-ignore
-        const res = await cropperRef.current.done({
-          blur: false, // Keep detail by not blurring
-          th: true, // Enable thresholding
-          thMode: cv.ADAPTIVE_THRESH_MEAN_C, // Use a mean adaptive method
-          thMeanCorrection: 10, // Correction factor for the threshold
-          thBlockSize: 11, // Block size for adaptive thresholding
-          thMax: 255, // Maximum value used for THRESH_BINARY or THRESH_BINARY_INV
-          grayScale: true
-        })
-        console.log(res)
-      } catch (e) {
-        console.log('error', e)
-      }
-    }
-
-    initFilterParams()
-  }, [])
   // console.log(maxWidth, 'wmai')
   const { isMobile } = useBreakpoint()
   return (
