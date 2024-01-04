@@ -16,6 +16,7 @@ import React, { useEffect } from 'react'
 import { Text, Title } from '@Components/Typography/Typography'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
+import AnswerSheetFiles from './AnswerSheetFiles'
 import LearnerLogin from '@Learner/Screens/Login'
 import OMRComponent from './OMRComponent'
 import { ReloadOutlined } from '@ant-design/icons'
@@ -41,12 +42,35 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     testId,
     Enum.TestDetailMode.TEST
   )
+  const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct({
+    type: Enum.ProductType.TEST,
+    id: testId
+  })
+
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
   const { openModal } = useModal()
+  const { isMobile } = useBreakpoint()
+
+  if (!isEnrolled) {
+    return <Title>You are not enrolled for this test</Title>
+  }
   return (
     <Row>
       <Col xs={0} sm={0} md={2} />
       <Col xs={24} sm={24} md={20}>
+        <ActionModal
+          cta={
+            <Button
+              style={{ marginBottom: 20 }}
+              block={isMobile}
+              type="primary"
+            >
+              Upload Answer Sheet
+            </Button>
+          }
+        >
+          <AnswerSheetFiles testId={testId + ''} />
+        </ActionModal>
         <Card title={<Text>Answer Sheet: {test.title}</Text>}>
           {isSignedIn ? (
             <OMRComponent testId={testId} />

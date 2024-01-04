@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Col, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
+import { Alert, Button, Card, Col, Divider, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
@@ -168,27 +168,36 @@ name={fileDetails.name} // Assuming this is how you access the file name
         }}
           </Form.List>
        </Form>
-    
+        <Row justify={'end'}>
+        <Col xs={24} flex={isMobile ? 1 : 'none'}> <Button block={isMobile} loading={updatingAnswer}
+          style={{ marginTop: 30 }} onClick={form.submit}>
+            Save Images
+        </Button></Col>
+    </Row>
       </Card>
+      <Divider/>
       <Row gutter={[20, 20]} justify={'center'}>
-      <Col flex={isMobile ? 1 : 'none'}> <Button block={isMobile} loading={applyingAnswerSheets}
+        <Col flex={isMobile ? 1 : 'none'}>
+          <Button type='primary' block={isMobile} loading={applyingAnswerSheets}
           style={{ marginTop: 20 }} onClick={()=>applyAnswerSheets(undefined,{
             onError: (e:any) => {
               message.open({
                 type: 'error',
                 content: e.response.data.message
               });
+              // props.closeModal && props.closeModal();
+            },
+            onSuccess: () => {
+              message.open({
+                type: 'success',
+                content: `Answer Sheet recorded successfully`
+              });
               props.closeModal && props.closeModal();
+
             }
           })}>
             Apply Answer Sheet
-          </Button></Col>
-        <Col flex={isMobile ? 1 : 'none'}> <Button block={isMobile} loading={updatingAnswer}
-          style={{ marginTop: 20,width:100 }} onClick={form.submit} type='primary'>
-            Save
-        </Button></Col>
-        
-    
+          </Button></Col>    
          </Row>
      </Fragment>
   );
