@@ -15,8 +15,8 @@ interface PerspectiveCropperPropsI {
 export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
   const [cropState, setCropState] = useState()
   const cropperRef = useRef()
+  const [croppedImg, setCroppedImg] = useState(null)
   // @ts-ignore
-
   const onDragStop = useCallback(s => setCropState(s), [])
   // @ts-ignore
 
@@ -41,23 +41,38 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
 
     return () => window.removeEventListener('resize', handleResize)
   }, []) // Empty dependency array means this effect runs once on mount
-  const { loaded, cv } = useOpenCv()
 
   const handleCrop = async () => {
     try {
       // @ts-ignore
-      const cropped = await cropperRef.current.done({
-        preview: true,
-        blur: false, // Keep detail by not blurring
-        th: true, // Enable thresholding
-        thMode: 1, // Use a mean adaptive method
-        thMeanCorrection: 10, // Correction factor for the threshold
-        thBlockSize: 11, // Block size for adaptive thresholding
-        thMax: 255, // Maximum value used for THRESH_BINARY or THRESH_BINARY_INV
-        grayScale: true
-      })
+      const cv = window.cv
+      const filterCvParams = {
+        // Do not apply binary threshold
+        binarize: false,
+
+        // Apply adaptive thresholding if necessary with a type that does not convert to binary
+        th: true,
+        thMode: 3,
+        thMeanCorrection: 10,
+        thBlockSize: 11,
+        thMax: 255,
+
+        // Contrast and brightness adjustment (tune these values accordingly)
+        contrast: 1.5,
+        brightness: 0,
+
+        // Morphological operations (dilation)
+        morphological: true,
+        morphType: 1,
+        morphSize: new cv.Size(3, 3) // Adjust the kernel size as needed
+      }
+
+      const filterParams = { preview: true, filterCvParams }
+      // @ts-ignore
+      const cropped = await cropperRef.current.done(filterParams)
+      setCroppedImg(cropped)
       console.log('Image Cropped', cropped)
-      props.onCrop && props.onCrop(cropped, props.closeModal)
+      // props.onCrop && props.onCrop(cropped, props.closeModal)
     } catch (e) {
       console.log('error', e)
     }
@@ -66,7 +81,8 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
   // console.log(maxWidth, 'wmai')
   const { isMobile } = useBreakpoint()
   return (
-    <Row style={{ marginTop: 30 }}>
+    <>
+     <Row style={{ marginTop: 30 }}>
       <Col ref={containerRef} span={24}>
         {/* @ts-ignore */}
         <LibPerspectiveCropper
@@ -78,19 +94,34 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
           // style={{ width: '100%', height: 'auto' }} // Example inline styling
         />
       </Col>
-      <Col
-        span={24}
-        style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}
+    </Row>
+    <Row justify={'space-between'}>
+              <Col
+        
+       
       >
         <Button
           style={{ marginTop: 20 }}
           block={isMobile}
-          type="primary"
+          // type="primary"
           onClick={handleCrop}
         >
           Crop Image
         </Button>
       </Col>
-    </Row>
+      <Col >
+        <Button
+          style={{ marginTop: 20 }}
+          block={isMobile}
+          type="primary"
+          onClick={() =>
+            props.onCrop && props.onCrop(croppedImg, props.closeModal)
+          }
+        >
+          Proceed with Image
+        </Button>
+      </Col>
+      </Row>
+    </>
   )
 }
