@@ -69,7 +69,7 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
 
       const filterParams = {
         preview: true,
-        filterCvParams
+        // filterCvParams
       }
       // @ts-ignore
       const cropped = await cropperRef.current.done(filterParams)

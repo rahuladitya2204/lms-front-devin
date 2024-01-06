@@ -1,6 +1,6 @@
 import { Alert, Button, Card, Col, Divider, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
+import { CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
-import { DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
 import React, { Fragment, useCallback, useEffect } from 'react'
@@ -24,6 +24,7 @@ const {Text}=Typography;
 const { confirm } = Modal;
 const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:Function }) => {
   const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = Learner.Queries.useUpdateAnswerSheets(props.testId);
+  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = Learner.Queries.useVerifyAnswerSheet(props.testId);
   const { mutate: applyAnswerSheets,isLoading: applyingAnswerSheets } = Learner.Queries.useEvaluateAnswerSheets(props.testId);
   const [form] = Form.useForm<Types.AnswerSheet>();
   const message = useMessage();
@@ -99,13 +100,45 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
       okText: 'Delete'
     })
   }
+  const { openModal } = useModal() 
+  const VerifyAnswerSheet = (files:any[]) => {
+    verifyAnswerSheet({
+      url: files[0].url,
+    }, {
+      onSuccess: blobStr => {
+        const file = new Blob([blobStr], { type: 'image/png' }); // replace 'application/pdf' with the correct MIME type for your file
+
+        // You can then create a URL for the blob to download it or display it in the browser
+        const fileURL = URL.createObjectURL(file);
+        console.log(fileURL, 'fileURL');
+        openModal(<Row>
+          <Col span={24}>
+          <Image src={fileURL} />
+          </Col>
+        </Row>, {
+          closable: true,
+          footer: closeModal => {
+            return [    <Button icon={<CloseOutlined />}
+            onClick={() => closeModal()}
+            danger>
+            Reject</Button>,
+            <Button icon={<CheckOutlined/>} onClick={() => {
+             handleUpload(files.map((f) => {
+return { file: f._id, url: f.url }
+             }));
+              closeModal();
+      }}>Accept</Button>]
+          }
+        })
+      }
+    });
+  }
   const UploadButton = <MediaUpload aspect={210 / 297} multiple
     uploadType="image" cropper renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
     onUpload={(files: Types.FileType[]) => {
       console.log(files, 'uploaded')
-      handleUpload(files.map((f) => {
-        return { file: f._id, url: f.url }
-      }));
+      VerifyAnswerSheet(files)
+ 
     }}
   />;
 
@@ -115,7 +148,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
   }
   const {isMobile } = useBreakpoint();
   return (
-    <Fragment>
+    <Spin spinning={verifyingAnswerSheet} tip='Verifying Answer Sheet..' > 
       <Card style={{marginTop:20}}
        title="Answer Sheet Images" extra={[ !props.review?UploadButton:null]}
       >
@@ -130,9 +163,9 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
         Upload your Answer Sheet images here
       </Text>
             </Col>
-            <Col span={24}>
+            {/* <Col span={24}>
               {UploadButton}
-            </Col>
+            </Col> */}
    </Row>
     }  />:null}
        <Form.List name={['files']}>
@@ -199,7 +232,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
             Apply Answer Sheet
           </Button></Col>    
          </Row>
-     </Fragment>
+     </Spin>
   );
 };
 
@@ -238,6 +271,34 @@ name={fileDetails.name} // Assuming this is how you access the file name
     }),
   });
   drag(drop(ref));
+  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = Learner.Queries.useVerifyAnswerSheet(testId);
+      const {openModal } = useModal();
+      const VerifyAnswerSheet = (url:string) => {
+    verifyAnswerSheet({
+      url: url,
+    }, {
+      onSuccess: blobStr => {
+        const file = new Blob([blobStr], { type: 'image/png' }); // replace 'application/pdf' with the correct MIME type for your file
+
+        // You can then create a URL for the blob to download it or display it in the browser
+        const fileURL = URL.createObjectURL(file);
+        console.log(fileURL, 'fileURL');
+        openModal(<Row>
+          <Col span={24}>
+          <Image src={fileURL} />
+          </Col>
+        </Row>, {
+          closable: true,
+          footer: closeModal => {
+            return [    <Button icon={<CloseOutlined />}
+            onClick={() => closeModal()}
+            danger>
+            Close</Button>]
+          }
+        })
+      }
+    });
+  }
       const {
         mutate: uploadFiles,
         isLoading: uploadingFile
@@ -248,7 +309,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
         <Spin spinning={uploadingFile}>
           <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
       <Card hoverable style={{padding: 0}} bodyStyle={{padding:'10px 0'}}>
-      <Row>
+              <Row>
         <Col span={24} style={{display:'flex',justifyContent:'center'}}>
         <AnswerSheetFileItem fileUrl={fileUrl} fileId={fileId} />
         </Col>
@@ -280,7 +341,12 @@ name={fileDetails.name} // Assuming this is how you access the file name
                   </ActionModal>
                
       </Space>:null}
-        </Col>
+                </Col>
+                <Col span={24} style={{display:'flex',justifyContent:'center'}}>
+                  <Button style={{marginTop:10}} loading={verifyingAnswerSheet} size='small' type='primary' onClick={() => {
+                    VerifyAnswerSheet(fileUrl)
+                  }} >Verify</Button>
+                </Col>
 </Row>
      </Card>
     </div>
