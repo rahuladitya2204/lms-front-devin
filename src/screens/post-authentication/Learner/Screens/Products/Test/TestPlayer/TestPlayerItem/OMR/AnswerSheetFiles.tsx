@@ -100,10 +100,16 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
       okText: 'Delete'
     })
   }
-  const { openModal } = useModal() 
-  const VerifyAnswerSheet = (files:any[]) => {
+  const { openModal } = useModal();
+  const {
+    mutate: uploadFiles,
+    isLoading: uploadingFile
+  } = Common.Queries.useUploadFiles();
+  const {data:learner } = Learner.Queries.useGetLearnerDetails();
+  const VerifyAnswerSheet = (files: any[]) => {
+    const url = files[0].url;
     verifyAnswerSheet({
-      url: files[0].url,
+      url: url,
     }, {
       onSuccess: blobStr => {
         const file = new Blob([blobStr], { type: 'image/png' }); // replace 'application/pdf' with the correct MIME type for your file
@@ -111,23 +117,48 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
         // You can then create a URL for the blob to download it or display it in the browser
         const fileURL = URL.createObjectURL(file);
         console.log(fileURL, 'fileURL');
-        openModal(<Row>
+        openModal(<Spin spinning={uploadingFile}>
+          <Row>
           <Col span={24}>
           <Image src={fileURL} />
           </Col>
-        </Row>, {
+          </Row>
+          
+        </Spin>, {
           closable: true,
           footer: closeModal => {
             return [    <Button icon={<CloseOutlined />}
             onClick={() => closeModal()}
             danger>
-            Reject</Button>,
-            <Button icon={<CheckOutlined/>} onClick={() => {
-             handleUpload(files.map((f) => {
-return { file: f._id, url: f.url }
-             }));
-              closeModal();
-      }}>Accept</Button>]
+              Reject</Button>,
+              <Button icon={<CheckOutlined/>} onClick={() => {
+                handleUpload(files.map((f) => {
+   return { file: f._id, url: f.url }
+                }));
+                 closeModal();
+         }}>Accept</Button>,
+              <Spin spinning={uploadingFile}>
+                 <ActionModal cta={ <Button icon={<CheckOutlined/>} onClick={() => {
+                handleUpload(files.map((f) => {
+   return { file: f._id, url: f.url }
+                }));
+                 closeModal();
+         }}>Crop</Button>}>
+                         <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
+
+                   const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
+         uploadFiles({
+                             files: [{ file: blobToFile(blob),prefixKey }],
+                             onSuccess: ([{url}]:any) => {
+                               handleUpload([{ file: files[0]._id, url: url }]);
+                               closeModal && closeModal();
+                             }
+                           })
+                         }} image={url} />
+                </ActionModal>
+                
+              </Spin>
+           ]
           }
         })
       }
@@ -150,12 +181,14 @@ return { file: f._id, url: f.url }
   return (
     <Spin spinning={verifyingAnswerSheet} tip='Verifying Answer Sheet..' > 
       <Card style={{marginTop:20}}
-       title="Answer Sheet Images" extra={[ !props.review?UploadButton:null]}
+       title="Answer Sheet Images" extra={[ !props.review?(files.length?UploadButton:null):null]}
       >
         <Form layout='vertical' onFinish={save} form={form}>
-        <Form.Item name={['metrics','filled']} label='Total Filled Bubbles'>
+        {files.length?<Alert style={{marginBottom:15}} message="Following must be equal to the total bubbles you filled in the answer sheet" type="info" showIcon />:null}
+
+        {files.length?<Form.Item required name={['metrics','filled']} label='Total Filled Bubbles'>
           <Input style={{width:isMobile?'100%':150}} type='number' />
-        </Form.Item>
+        </Form.Item>:null}
         {!files.length?<Empty  description={
           <Row gutter={[10,20]}>
             <Col span={24}>
@@ -163,9 +196,9 @@ return { file: f._id, url: f.url }
         Upload your Answer Sheet images here
       </Text>
             </Col>
-            {/* <Col span={24}>
+          {!files.length?  <Col span={24}>
               {UploadButton}
-            </Col> */}
+            </Col>:null}
    </Row>
     }  />:null}
        <Form.List name={['files']}>
@@ -201,14 +234,16 @@ name={fileDetails.name} // Assuming this is how you access the file name
         }}
           </Form.List>
        </Form>
-        <Row justify={'end'}>
-        <Col xs={24} flex={isMobile ? 1 : 'none'}> <Button block={isMobile} loading={updatingAnswer}
+        {files.length?<Row justify={'end'}>
+          <Col xs={24} flex={isMobile ? 1 : 'none'}>
+            <Button block={isMobile} loading={updatingAnswer}
           style={{ marginTop: 30 }} onClick={form.submit}>
             Save Images
-        </Button></Col>
-    </Row>
+          </Button>
+          </Col>
+    </Row>:null}
       </Card>
-      <Divider/>
+      {files.length?<><Divider/>
       <Row gutter={[20, 20]} justify={'center'}>
         <Col flex={isMobile ? 1 : 'none'}>
           <Button type='primary' block={isMobile} loading={applyingAnswerSheets}
@@ -231,7 +266,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
           })}>
             Apply Answer Sheet
           </Button></Col>    
-         </Row>
+         </Row></>:null}
      </Spin>
   );
 };
@@ -321,13 +356,18 @@ name={fileDetails.name} // Assuming this is how you access the file name
         shape="circle"
         icon={<DeleteOutlined />}
         onClick={removeItem}
-                  />
-                  <ActionModal cta={<Button htmlType='button' style={{marginTop:10}}
+                  />               
+      </Space>:null}
+                </Col>
+                <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Row style={{paddingLeft:5,paddingRight:5}} gutter={[20,0]}>
+                    <Col span={24}>
+                    <ActionModal cta={<Button block htmlType='button' style={{marginTop:10}}
         // danger
         size='small'
-        shape="circle"
-        icon={<EditOutlined />}
-              /> }>
+        // shape="circle"
+        // icon={<EditOutlined />}
+              >Crop</Button> }>
                   <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
                                            closeModal && closeModal();
                                            // @ts-ignore
@@ -339,13 +379,14 @@ name={fileDetails.name} // Assuming this is how you access the file name
                     })
                   }} image={fileUrl} />
                   </ActionModal>
-               
-      </Space>:null}
-                </Col>
-                <Col span={24} style={{display:'flex',justifyContent:'center'}}>
-                  <Button style={{marginTop:10}} loading={verifyingAnswerSheet} size='small' type='primary' onClick={() => {
+                    </Col>
+                    <Col span={24}>
+                    <Button block style={{marginTop:10}} loading={verifyingAnswerSheet} size='small' type='primary' onClick={() => {
                     VerifyAnswerSheet(fileUrl)
                   }} >Verify</Button>
+                    </Col>
+               </Row>
+                
                 </Col>
 </Row>
      </Card>

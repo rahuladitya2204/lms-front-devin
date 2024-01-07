@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Form, Modal, Radio, Row, Space, Typography } from 'antd';
+import { Button, Checkbox, Col, Divider, Form, Modal, Radio, Row, Space, Spin, Typography } from 'antd';
 import { Enum, Learner } from '@adewaskar/lms-common';
 import React, { useEffect } from 'react';
 
@@ -19,7 +19,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
     testId,
     Enum.TestDetailMode.TEST
   );
-  const { data: { status: { sections } } } = Learner.Queries.useGetTestStatus(
+  const { data: { status: { sections } },isLoading } = Learner.Queries.useGetTestStatus(
     testId + ''
   );;
   
@@ -99,7 +99,8 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
           })
   }}>Reset Answer Sheet</Button>;
   return (
-    <Form form={form} className="omr-sheet" onFinish={handleSubmit}>
+    <Spin spinning={isLoading} >
+      <Form form={form} className="omr-sheet" onFinish={handleSubmit}>
       <Row style={{marginTop:20}} justify={'space-between'} align={'middle'}>
         {/* <Col><Title level={3}>Answer Sheet</Title></Col> */}
        {/* {!isMobile? <Col>{ResetAnswerButton}</Col>:null} */}
@@ -169,6 +170,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
       </Form.Item></Col>
      </Row>
     </Form>
+    </Spin>
   );
 };
 
