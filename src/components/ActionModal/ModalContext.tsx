@@ -56,6 +56,8 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const childrenWithCloseModal = modalContent ? React.cloneElement(modalContent, {
     closeModal: hideModal
   }) : modalContent;
+
+  console.log(opts?.footer, 'opts.footer');
   return (
     <ModalContext.Provider value={{ openModal, hideModal, modalContent }}>
       {children}
@@ -65,7 +67,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
         onCancel={hideModal} 
         // @ts-ignore
         {...opts}
-        footer={opts.footer ? opts.footer(hideModal) : null}
+        footer={(opts?.footer) ? opts.footer(hideModal) : null}
       >
         {childrenWithCloseModal}
       </Modal>

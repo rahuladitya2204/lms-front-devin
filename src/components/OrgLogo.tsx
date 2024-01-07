@@ -25,7 +25,7 @@ function OrgLogo(props: any) {
       style={{ cursor: 'pointer', margin: 'auto', ...(props.style || {}) }}
       width={props.width || `45px`}
       preview={false}
-      src={logo.url}
+      src={logo?.low?.url}
       {...props}
     />
   )

@@ -42,7 +42,7 @@ export default function OrgProfile() {
   }
   const { isFontValidating, isFontValid, validateFontName } = useFontValidation(form);
 
-  const logoUrl = useWatch(['branding', 'logo', 'url'], form);
+  const logo = useWatch(['branding', 'logo'], form);
   
 
   useEffect(() => {
@@ -64,12 +64,25 @@ export default function OrgProfile() {
     <Spin spinning={ isLoading}>
       <Card>
       <Form layout='vertical' onFinish={onSubmit} form={form}>
-        <Form.Item style={{marginBottom:50}} required name={['branding','logo','url']} label="Logo">
+        <Form.Item style={{marginBottom:50}} required name={['branding','logo','low','url']} label="Logo">
           <div style={{width:150,height:100}}>
           <MediaUpload                 uploadType="image"
- name={['branding','logo','url']} cropper
+ name={['branding','logo','low','url']} cropper
             width="100px"
-            renderItem={() => <Image width={'70%'} src={logoUrl}  />}
+            renderItem={() => <Image width={'70%'} src={logo?.low?.url}  />}
+              onUpload={e => {
+                console.log(e, 'eeee');
+              form.setFieldValue(['branding','logo','url'], e.url);
+            }}
+          />
+          </div>
+          </Form.Item>
+          <Form.Item style={{marginBottom:50}} required name={['branding','logo','high','url']} label="Logo">
+          <div style={{width:150,height:100}}>
+          <MediaUpload                 uploadType="image"
+ name={['branding','logo','high','url']} 
+            width="100px"
+            renderItem={() => <Image width={'70%'} src={logo?.high?.url}  />}
               onUpload={e => {
                 console.log(e, 'eeee');
               form.setFieldValue(['branding','logo','url'], e.url);

@@ -22,6 +22,7 @@ import MediaUpload from '@Components/MediaUpload'
 import MoreButton from '@Components/MoreButton'
 import PrintPrompt from './PrintPrompt'
 import SetTestRules from './SetTestRules'
+import TestOutline from './TestOutline'
 import TestSectionsNavigator from './TestSectionsNavigator'
 import { printPdf } from '@Components/SunEditor/utils'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
@@ -348,6 +349,11 @@ function TestBuilderScreen() {
             trigger={['click']}
             menu={{
               items: [
+                {
+                  label: 'Generate Test Outline',
+                  key: 'generate-outline',
+                  onClick: () => openModal(<TestOutline testId={testId + ''} />)
+                },
                 {
                   label: `Print Action`,
                   key: 'print-test',
