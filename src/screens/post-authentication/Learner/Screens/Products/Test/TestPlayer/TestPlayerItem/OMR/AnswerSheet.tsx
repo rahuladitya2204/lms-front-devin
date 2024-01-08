@@ -105,7 +105,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
         {isSignedIn ? <div >
           {isEnrolled?(
          (ep?.metadata?.test?.startedAt)? <>
-         <ActionModal
+         {/* <ActionModal
    cta={
      <Button
        style={{ marginBottom: 20 }}
@@ -117,7 +117,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
    }
  >
    <AnswerSheetFiles testId={testId + ''} />
-     </ActionModal>
+     </ActionModal> */}
      
     <Card title={<Text>Answer Sheet: {test.title}</Text>}>
        <OMRComponent testId={testId} />
