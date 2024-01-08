@@ -1,6 +1,6 @@
 import { Button, Checkbox, Col, Divider, Form, Modal, Radio, Row, Space, Spin, Typography } from 'antd';
 import { Enum, Learner } from '@adewaskar/lms-common';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ReloadOutlined } from '@ant-design/icons';
 import { Title } from '@Components/Typography/Typography';
@@ -34,7 +34,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
           ((i.answerGiven?.options) ? (i.answerGiven?.options[0]) : null) :
           (i?.answerGiven?.options)
       });
-    // console.log(items,'items')
+    console.log(items,'items')
     form.setFieldValue(['answers'], items);
   },[sections])
   
@@ -42,12 +42,18 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
   const [form] = Form.useForm();
   const message = useMessage();
   const splitAfter = 30; // Adjust as needed
-
+  const resetQuestion=(index:number)=> {
+    const answers = form.getFieldValue(['answers']);
+    const resetValue = items[index].type === Enum.TestQuestionType.SINGLE ? '' : [];
+    answers[index] = resetValue;
+  form.setFieldValue(['answers'], answers);
+  }
   const formatQuestionNumber = (number: number) => {
-    return  isMobile?number: number.toLocaleString('en-US', {
-      minimumIntegerDigits: 3,
-      useGrouping: false
-    });
+    // return  isMobile?number: number.toLocaleString('en-US', {
+    //   minimumIntegerDigits: 3,
+    //   useGrouping: false
+    // });
+    return number;
   };
 
   const handleSubmit = (values: any) => {
@@ -144,9 +150,8 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                                    </Col>
                                    <Col>
                                      <Button type='primary' onClick={() => {
-      // const resetValue = item.type === Enum.TestQuestionType.SINGLE ? undefined : [];
-                                     form.setFieldValue([`answers[${index}]`], null);
-                                      // form.resetFields([`answers[${index}]`]);
+resetQuestion(index)
+
                                    }} shape='circle' icon={<ReloadOutlined />} size='small' ></Button>
                                    </Col>
                           </Row>

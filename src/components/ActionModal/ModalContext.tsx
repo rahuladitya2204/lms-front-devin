@@ -57,7 +57,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
     closeModal: hideModal
   }) : modalContent;
 
-  console.log(opts?.footer, 'opts.footer');
+
   return (
     <ModalContext.Provider value={{ openModal, hideModal, modalContent }}>
       {children}
