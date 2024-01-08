@@ -104,7 +104,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       <Col xs={24} sm={24} md={20}>
         {isSignedIn ? <div >
           {isEnrolled?(
-         ep.metadata.test.startedAt? <>
+         (ep?.metadata?.test?.startedAt)? <>
          <ActionModal
    cta={
      <Button
