@@ -51,13 +51,17 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     type: Enum.ProductType.TEST,
     id: testId
   })
-  const { isLoading: loadingEnrolledProduct } = Learner.Queries.useGetEnrolledProductDetails({
+  const { isLoading: loadingEnrolledProduct,data: ep } = Learner.Queries.useGetEnrolledProductDetails({
     type: Enum.ProductType.TEST,
     id: testId
   });
   const message = useMessage();
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
-  const { isLoading: loadingLearner} = Learner.Queries.useGetLearnerDetails();
+  const { isLoading: loadingLearner } = Learner.Queries.useGetLearnerDetails();
+  const {
+    mutate: startTest,
+    isLoading: startingTest
+  } = Learner.Queries.useStartTest(testId + '')
   const { openModal } = useModal()
   const { isMobile } = useBreakpoint()
   const navigate = useNavigate();
@@ -100,33 +104,58 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       <Col xs={24} sm={24} md={20}>
         {isSignedIn ? <div >
           {isEnrolled?(
-          <>
-                <ActionModal
-          cta={
-            <Button
-              style={{ marginBottom: 20 }}
-              block={isMobile}
-              type="primary"
-            >
-              Upload Answer Sheet
-            </Button>
-          }
-        >
-          <AnswerSheetFiles testId={testId + ''} />
-            </ActionModal>
-            
-           <Card title={<Text>Answer Sheet: {test.title}</Text>}>
-              <OMRComponent testId={testId} />
-              <Divider/>
-              <Row justify={'space-between'}>
-                <Col flex={1}>
-                  <Alert action={!isMobile?SubmitTestButton:null} style={{marginBottom:10,marginRight:10}} message="Once submitted, you won't be able to resubmit, Please double check your answers." type="error" showIcon />
-                </Col>
-                {isMobile?<Col xs={isMobile?24:''}>
-                {SubmitTestButton}</Col>:null}
-              </Row>
-            </Card>
-          </> 
+         ep.metadata.test.startedAt? <>
+         <ActionModal
+   cta={
+     <Button
+       style={{ marginBottom: 20 }}
+       block={isMobile}
+       type="primary"
+     >
+       Upload Answer Sheet
+     </Button>
+   }
+ >
+   <AnswerSheetFiles testId={testId + ''} />
+     </ActionModal>
+     
+    <Card title={<Text>Answer Sheet: {test.title}</Text>}>
+       <OMRComponent testId={testId} />
+       <Divider/>
+       <Row justify={'space-between'}>
+         <Col flex={1}>
+           <Alert action={!isMobile?SubmitTestButton:null} style={{marginBottom:10,marginRight:10}} message="Once submitted, you won't be able to resubmit, Please double check your answers." type="error" showIcon />
+         </Col>
+         {isMobile?<Col xs={isMobile?24:''}>
+         {SubmitTestButton}</Col>:null}
+       </Row>
+     </Card>
+            </> : <Button block type='primary' onClick={() => {
+                 confirm({
+                  title: 'Are you sure?',
+                  // icon: <ExclamationCircleOutlined />,
+                  content: `You want to start the test`,
+                  onOk() {
+                    startTest(
+                      {
+                        testId: test._id + '',
+                        language: `eng`
+                      },
+                      {
+                        onSuccess: () => {
+                          message.open({
+                            type: 'success',
+                            content:'Test has been started'
+                          })
+                          // navigate('../player')
+                        }
+                      }
+                    )      
+                  },
+                  okText: 'Start Test'
+                })
+                
+   }} loading={startingTest} size='large'>Start Test</Button>
         ) : <Card>
             <Row gutter={[20,20]}>
             <Col span={24}>

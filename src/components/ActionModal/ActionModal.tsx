@@ -48,7 +48,7 @@ function ActionModal(props: ActionModalPropsI) {
         footer={props.footer ? props.footer(closeModal) : null}
         title={props.title}
         open={isModalOpen}
-        onCancel={closeModal}
+        onCancel={() => props.closable && closeModal()}
       >
         {isModalOpen && childrenWithCloseModal}
       </Modal>
