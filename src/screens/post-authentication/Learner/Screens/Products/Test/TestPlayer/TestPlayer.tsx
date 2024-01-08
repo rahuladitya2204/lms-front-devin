@@ -79,7 +79,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     onClick={() => openModal(<OMRComponent testId={testId + ''} />, {
       width: 800,
       title: <Row style={{marginTop:25}} justify={'space-between'} align={'middle'}>
-        <Col><Title level={4}>Answer Sheet </Title></Col><Col><ActionModal cta={<Button >Upload Answer Sheet</Button>}>
+        <Col><Title level={4}>Answer Sheet </Title></Col><Col><ActionModal cta={<Button type='primary' >Upload Answer Sheet</Button>}>
       <AnswerSheetFiles testId={testId+''} /></ActionModal></Col>
       </Row>
     })}

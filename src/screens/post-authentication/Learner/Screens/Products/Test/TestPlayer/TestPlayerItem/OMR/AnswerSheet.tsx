@@ -17,6 +17,7 @@ import {
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import React, { useEffect } from 'react'
 import { Text, Title } from '@Components/Typography/Typography'
+import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AnswerSheetFiles from './AnswerSheetFiles'
@@ -28,7 +29,6 @@ import { ReloadOutlined } from '@ant-design/icons'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
-import { useParams } from 'react-router'
 
 const confirm = Modal.confirm
 
@@ -60,6 +60,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   const { isLoading: loadingLearner} = Learner.Queries.useGetLearnerDetails();
   const { openModal } = useModal()
   const { isMobile } = useBreakpoint()
+  const navigate = useNavigate();
   const {
     mutate: endTest,
     isLoading: submittingTest
@@ -76,11 +77,11 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
           { testId: test._id + '' },
           {
             onSuccess: () => {
-              // if (!test.live.enabled) {
-              //   return navigate('../result')
-              // }
-              // navigate('../completed')
-
+              message.open({
+                type: 'success',
+                content: `Test Submitted Successfully`
+              });
+              navigate(`../${testId}/result`)
             }
           }
         )

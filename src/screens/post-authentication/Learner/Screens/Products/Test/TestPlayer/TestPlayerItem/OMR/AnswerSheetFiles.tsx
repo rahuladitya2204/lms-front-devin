@@ -29,6 +29,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
   const [form] = Form.useForm<Types.AnswerSheet>();
   const message = useMessage();
   const files = Form.useWatch(['files'], form) || [];
+  const filledCount = Form.useWatch(['metrics', 'filled'], form);
   // console.log(files,'files')
 
   const { data: {
@@ -40,16 +41,21 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
     if(answerSheets.files){
       form.setFieldsValue(answerSheets);
     }
-   }, [answerSheets])
+  }, [answerSheets])
+  
+  // useEffect(() => {
+  //   updateAnswerSheetApi();
+  //  },[files])
     // @ts-ignore
   const handleUpload = (file) => {
     const FILES = [...files, ...file];
     // add(file)
     form.setFieldValue(['files'], FILES);
-    // updateAnswerSheetApi()
+    updateAnswerSheetApi()
   }
   const updateAnswerSheetApi = () => {
     const d = form.getFieldsValue();
+    console.log(d, 'dddd');
     updateAnswerSheet(d, {
       onSuccess: () => {
         message.open({
@@ -67,7 +73,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
         [hoverIndex, 0, form.getFieldValue(['files'])[dragIndex]],
       ],
     }));
-    // updateAnswerSheetApi(true)
+    updateAnswerSheetApi()
   };
 
   const cropItem = (index: number, croppedUrl:string) => {
@@ -76,7 +82,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
     console.log(FILES, 'files');
     // Update the order of files in the form
     form.setFieldValue(['files'], FILES);
-    // updateAnswerSheetApi(true)
+    updateAnswerSheetApi()
   };
 
   const deleteFile = (fileId:string) => {
@@ -88,14 +94,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
         const d = form.getFieldsValue();
         const updatedFiles = d.files.filter((f:any) => f.file !== fileId);
         form.setFieldValue(['files'], updatedFiles);
-    // updateAnswerSheet(d, {
-    //       onSuccess: () => {
-    //         message.open({
-    //           type: 'success',
-    //           content: 'File deleted successfully'
-    //         })
-    //       }
-    //     });
+        updateAnswerSheetApi();
       },
       okText: 'Delete'
     })
@@ -127,38 +126,46 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
         </Spin>, {
           closable: true,
           footer: closeModal => {
-            return [    <Button icon={<CloseOutlined />}
+            return [<Row justify={'space-between'}>
+              <Col>
+              <Button icon={<CloseOutlined />}
             onClick={() => closeModal()}
             danger>
-              Reject</Button>,
-              <Button icon={<CheckOutlined/>} onClick={() => {
-                handleUpload(files.map((f) => {
-   return { file: f._id, url: f.url }
-                }));
-                 closeModal();
-         }}>Accept</Button>,
-              <Spin spinning={uploadingFile}>
-                 <ActionModal cta={ <Button icon={<CheckOutlined/>} onClick={() => {
+              Reject</Button>
+              </Col>
+              <Col>
+                <Row gutter={[20,10]}>
+                  <Col>
+                  <ActionModal cta={ <Button icon={<EditOutlined/>} onClick={() => {
                 handleUpload(files.map((f) => {
    return { file: f._id, url: f.url }
                 }));
                  closeModal();
          }}>Crop</Button>}>
-                         <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
-
+  <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
                    const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
-         uploadFiles({
+                   closeModal && closeModal();
+                   uploadFiles({
                              files: [{ file: blobToFile(blob),prefixKey }],
                              onSuccess: ([{url}]:any) => {
                                handleUpload([{ file: files[0]._id, url: url }]);
-                               closeModal && closeModal();
                              }
                            })
-                         }} image={url} />
-                </ActionModal>
+                    }} image={url} />
+                    </ActionModal></Col>
+                  <Col>
+                  <Button type='primary' icon={<CheckOutlined/>} onClick={() => {
+                handleUpload(files.map((f) => {
+   return { file: f._id, url: f.url }
+                }));
+                 closeModal();
+                    }}>Accept</Button>
+                  </Col>
+                </Row>
+      
                 
-              </Spin>
-           ]
+              </Col>
+            </Row>]
           }
         })
       }
@@ -179,16 +186,26 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
   }
   const {isMobile } = useBreakpoint();
   return (
-    <Spin spinning={verifyingAnswerSheet} tip='Verifying Answer Sheet..' > 
+    <Spin spinning={verifyingAnswerSheet} tip='Analysing Answer Sheet..' > 
       <Card style={{marginTop:20}}
        title="Answer Sheet Images" extra={[ !props.review?(files.length?UploadButton:null):null]}
       >
         <Form layout='vertical' onFinish={save} form={form}>
         {files.length?<Alert style={{marginBottom:15}} message="Following must be equal to the total bubbles you filled in the answer sheet" type="info" showIcon />:null}
 
-        {files.length?<Form.Item required name={['metrics','filled']} label='Total Filled Bubbles'>
-          <Input style={{width:isMobile?'100%':150}} type='number' />
-        </Form.Item>:null}
+          {files.length ? <Row justify={'center'} align={'middle'} gutter={[15,0]}>
+            <Col flex={1}>
+            <Form.Item required name={['metrics','filled']} label='Total Filled Bubbles'>
+          <Input type='number' />
+              </Form.Item>
+            </Col>
+            <Col xs={24} flex={isMobile ? 1 : 'none'} style={{display:'flex',alignItems:'center'}}>
+            <Button block={isMobile} loading={updatingAnswer}
+           onClick={form.submit}>
+            Save Filled Bubbles
+          </Button>
+          </Col>
+        </Row>:null}
         {!files.length?<Empty  description={
           <Row gutter={[10,20]}>
             <Col span={24}>
@@ -201,7 +218,8 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
             </Col>:null}
    </Row>
     }  />:null}
-       <Form.List name={['files']}>
+          <Spin spinning={uploadingFile} style={{marginTop:15}}>
+          <Form.List name={['files']}>
               {(fields, { add, remove, move }) => {
                   return  (
                     <>
@@ -233,15 +251,8 @@ name={fileDetails.name} // Assuming this is how you access the file name
                   )
         }}
           </Form.List>
+ </Spin>
        </Form>
-        {files.length?<Row justify={'end'}>
-          <Col xs={24} flex={isMobile ? 1 : 'none'}>
-            <Button block={isMobile} loading={updatingAnswer}
-          style={{ marginTop: 30 }} onClick={form.submit}>
-            Save Images
-          </Button>
-          </Col>
-    </Row>:null}
       </Card>
       {files.length?<><Divider/>
       <Row gutter={[20, 20]} justify={'center'}>
@@ -263,7 +274,9 @@ name={fileDetails.name} // Assuming this is how you access the file name
               props.closeModal && props.closeModal();
 
             }
-          })}>
+          })}
+            disabled={!(filledCount&&files.length)}
+            >
             Apply Answer Sheet
           </Button></Col>    
          </Row></>:null}
