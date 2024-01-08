@@ -98,7 +98,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     <Row>
       <Col xs={0} sm={0} md={2} />
       <Col xs={24} sm={24} md={20}>
-        {isSignedIn ? <Spin spinning={loadingEnrolledProduct}>
+        {isSignedIn ? <div >
           {isEnrolled?(
           <>
                 <ActionModal
@@ -153,7 +153,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
               </Col>
             </Row>
         </Card>}
-            </Spin> : (
+            </div> : (
           <Card>
             <Button
               onClick={() =>
