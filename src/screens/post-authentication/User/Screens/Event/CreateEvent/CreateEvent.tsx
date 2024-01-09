@@ -254,7 +254,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = props => {
                   }}
                   uploadType="image"
                   // prefixKey={`events/${eventId}/image`}
-                  cropper
+                  cropper={{width: 330,height:200}}
                   width="100%"
                   // height="200px"
                   aspect={16 / 9}

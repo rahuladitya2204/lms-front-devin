@@ -471,8 +471,9 @@ function TestBuilderScreen() {
                         value: testId + ''
                       }}
                       uploadType="image"
+                      compress={{ maxWidth: 330, maxHeight: 200, quality: 0.9 }}
                       prefixKey={`Tests/${testId}/thumbnailImage`}
-                      cropper
+                      cropper={{width:330,height:200}}
                       // width="100%"
                       height="200px"
                       aspect={16 / 9}

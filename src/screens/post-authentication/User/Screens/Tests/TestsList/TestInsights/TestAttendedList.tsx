@@ -1,9 +1,11 @@
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import { Table, Tag } from 'antd'
 
+import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import { useMemo } from 'react'
 import { useParams } from 'react-router'
 
 const { Text } = Typography
@@ -19,14 +21,33 @@ const TestAttendedList = () => {
     )
     return acc + sectionScore
   }, 0)
+  const ranked = useMemo(
+    () => {
+      return [...data].map((i, index) => {
+        // @ts-ignore
+        i.rank = index + 1
+        return i
+      })
+    },
+    [data]
+  )
   return (
-    <Table dataSource={data}>
+    // @ts-ignore
+    <Table dataSource={ranked}>
+      <Table.Column
+        title="Rank"
+        render={(_: any, record: Types.TestLearnerResult, index: number) => (
+          // @ts-ignore
+          <Title style={{ fontSize: 18 }}>{record.rank}</Title>
+        )}
+        key="result"
+      />
       <Table.Column
         title="Student Name"
         dataIndex="learnerName"
         key="learnerName"
       />
-      {test.passingScore ? (
+      {/* {test.passingScore ? (
         <Table.Column
           title="Result"
           render={(_: any, record: Types.TestLearnerResult) => (
@@ -40,7 +61,7 @@ const TestAttendedList = () => {
           )}
           key="result"
         />
-      ) : null}
+      ) : null} */}
       <Table.Column
         title="Score"
         render={(_: any, record: Types.TestLearnerResult) => (
@@ -61,13 +82,13 @@ const TestAttendedList = () => {
         key="result"
       />
 
-      <Table.Column
+      {/* <Table.Column
         title="Percentile"
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="orange-inverse">{record?.metrics?.percentile}</Tag>
         )}
         key="percentile"
-      />
+      /> */}
 
       <Table.Column
         title="Submitted At"

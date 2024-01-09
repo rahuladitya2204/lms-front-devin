@@ -87,7 +87,7 @@ const AddWhatsappTemplate: React.FC<
         <Form.Item name="mediaUrl" required label="Media">
           <MediaUpload
             uploadType="image"
-            cropper
+            // cropper
             aspect={16 / 9}
             onUpload={({ name, _id, url }) => {
               form.setFieldValue('mediaUrl', url)

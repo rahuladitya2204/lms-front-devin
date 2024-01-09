@@ -51,7 +51,7 @@ export default function AddBanner({ banner, onSave,closeModal }: AddBannerProps)
         <MediaUpload
           name={['image']}
           uploadType="image"
-          cropper
+          // cropper
           // width="100%"
           height="100px"
           aspect={16 / 9}

@@ -342,7 +342,7 @@ function CourseBuilderScreen() {
                 }}
                 uploadType="image"
                 prefixKey={`courses/${courseId}/thumbnailImage`}
-                cropper
+                cropper={{width:330,height:200}}
                 width="100%"
                 // height="200px"
                 aspect={16 / 9}

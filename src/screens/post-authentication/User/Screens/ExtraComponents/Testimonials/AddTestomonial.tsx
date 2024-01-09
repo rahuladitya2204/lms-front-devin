@@ -42,7 +42,7 @@ export default function AddTestimonial(props: AddTestimonialPropsI) {
           name="image"
           width="200"
           height="300px"
-          cropper
+          cropper={{width: 150,height:150}}
           onUpload={({ url }) => {
             form.setFieldValue(['image'], url)
           }}

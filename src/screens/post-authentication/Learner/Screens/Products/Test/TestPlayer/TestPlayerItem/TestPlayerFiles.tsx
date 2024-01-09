@@ -90,7 +90,7 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
   const { currentQuestion } = useReviewQuestion();
   const imageIssues = currentQuestion?.feedback?.imageIssues;
   const UploadButton=<MediaUpload aspect={210/297} multiple
-  uploadType="image" cropper renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
+  uploadType="image" cropper={{aspect:16/9}} renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
   onUpload={(files:Types.FileType[]) => {
     console.log(files, 'uploaded')
     handleUpload(files.map((f) => {

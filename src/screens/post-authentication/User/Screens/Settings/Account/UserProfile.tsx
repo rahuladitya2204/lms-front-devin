@@ -72,7 +72,7 @@ export default function UserProfile() {
                   <MediaUpload
                     uploadType="image"
                     prefixKey={`users/${userDetails._id}/image`}
-                    cropper
+                    cropper={{aspect: 1}}
                     width="200px"
                     // height="200px"
                     aspect={16 / 9}

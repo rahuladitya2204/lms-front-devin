@@ -339,7 +339,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                         {/* @ts-ignore */}
                         <MediaUpload name={[name, 'image']}
                           uploadType="image"
-                          cropper
+                          compress={{quality:0.9}}
+                          // cropper
                           // width="100%"
                           height="100px"
                           aspect={16 / 9}

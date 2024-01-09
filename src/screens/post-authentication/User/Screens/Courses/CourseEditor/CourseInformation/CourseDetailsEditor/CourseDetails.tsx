@@ -112,7 +112,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             value: courseId + ''
           }}
           uploadType="image"
-          cropper
+          cropper={{width:330,height:200}}
           aspect={16 / 9}
           name="thumbnailImage"
           width="200px"

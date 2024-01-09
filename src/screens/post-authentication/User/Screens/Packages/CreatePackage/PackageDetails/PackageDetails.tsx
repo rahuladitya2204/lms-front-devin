@@ -80,7 +80,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
               }}
               uploadType="image"
               // prefixKey={`packages/${packageId}/image`}
-              cropper
+               cropper={{width: 150,height:150}}
               width="100%"
               // height="200px"
               aspect={16 / 9}

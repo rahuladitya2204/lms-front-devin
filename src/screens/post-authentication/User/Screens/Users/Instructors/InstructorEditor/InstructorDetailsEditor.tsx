@@ -21,7 +21,7 @@ const InstructorDetailsEditor: React.FC<CreateInstructorComponentPropsI> = (prop
             name="image"
             uploadType={'image'}
             prefixKey={`images/instructors/${props.instructorId}`}
-            cropper
+            cropper={{width:150,height:150}}
             width='100px'
             renderItem={() => <Image src={image+''} />}
             onUpload={file=> {

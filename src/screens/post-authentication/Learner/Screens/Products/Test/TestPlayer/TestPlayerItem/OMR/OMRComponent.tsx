@@ -34,7 +34,6 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
           ((i.answerGiven?.options) ? (i.answerGiven?.options[0]) : null) :
           (i?.answerGiven?.options)
       });
-    console.log(items,'items')
     form.setFieldValue(['answers'], items);
   },[sections])
   

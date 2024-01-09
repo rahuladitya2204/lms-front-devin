@@ -68,7 +68,7 @@ const ThumbnailList: any = (props: ThumbnailListPropsI) => {
             // icon: <ExclamationCircleOutlined />,
             content: `You want to set this as thumbnail`,
             onOk() {
-                uploadFiles({
+              uploadFiles({
                     files: [
                       {
                         file: file,

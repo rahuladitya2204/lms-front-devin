@@ -9,9 +9,9 @@ import { Common, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react'
 
 import Dragger from 'antd/es/upload/Dragger'
-import ImgCrop from 'antd-img-crop'
-import PerspectiveCropper from 'react-perspective-cropper';
+import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload'
+import { compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import styled from '@emotion/styled'
 
 interface MediaUploadPropsI {
@@ -26,7 +26,8 @@ interface MediaUploadPropsI {
   source?: Types.FileSource;
   uploadType?: string;
   name?: string | string[];
-  cropper?: boolean;
+  compress?: Partial<Compressor.Options>;
+  cropper?: {width?:number,height?:number,aspect?:number};
   fileName?: string;
   multiple?: boolean;
   rounded?: boolean;
@@ -61,6 +62,8 @@ const CustomUpload = styled(Upload)(
 )
 
 const MediaUpload: React.FC<MediaUploadPropsI> = props => {
+  // @ts-ignore
+  const aspectRatio = props.cropper ? (props.aspect || (props.cropper.width / props.cropper.height)) : undefined;
   const {
     mutate: uploadFiles,
     isLoading: loading
@@ -71,7 +74,6 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   const UploadFile = (files: File[]) => {
     // @ts-ignore
     isProcessing.current = true;
-    console.log(files, 'filee')
     if (!(files&&files.length)) return
     return uploadFiles({
             // @ts-ignore
@@ -82,7 +84,9 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
           name: props.fileName,
           source: props.source
         }
-      )),
+  )),
+      options: props.compress,
+      compressFn: props.compress? compressImage:undefined,
       isProtected: props.isProtected,
       onUploadProgress: e => {
         // console.log(e, 'e')
@@ -197,9 +201,9 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       </CustomUpload>
     )
     UploadComponent = props.cropper ? (
-      < >
+      <ImgCrop aspect={aspectRatio} quality={1}>
         {ImageUploadComponent}
-      </>
+        </ImgCrop>
     ) : (
       ImageUploadComponent
     )

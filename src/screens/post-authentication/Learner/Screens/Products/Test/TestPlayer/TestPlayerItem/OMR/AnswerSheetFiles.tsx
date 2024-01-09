@@ -171,8 +171,8 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
       }
     });
   }
-  const UploadButton = <MediaUpload aspect={210 / 297} multiple
-    uploadType="image" cropper renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
+  const UploadButton = <MediaUpload compress={{maxWidth: 1240,maxHeight: 1754}} aspect={210 / 297} multiple
+    uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
     onUpload={(files: Types.FileType[]) => {
       console.log(files, 'uploaded')
       VerifyAnswerSheet(files)

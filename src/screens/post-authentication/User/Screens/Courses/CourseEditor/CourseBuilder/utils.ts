@@ -1,10 +1,12 @@
 //@ts-nocheck
 import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/legacy/build/pdf'
 
+import Compressor from 'compressorjs'
 import Hls from 'hls.js'
 import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
 import { jsonrepair } from 'jsonrepair'
+import { unit } from 'mathjs'
 
 GlobalWorkerOptions.workerSrc = new URL(
   '/pdf.worker.min.js',
@@ -265,4 +267,37 @@ export function blobToFile(blob: Blob): File {
   });
 
   return file;
+}
+
+
+
+export function compressImage(file: File, options?: Partial<Compressor.Options>): Promise<File> {
+  if (!options) {
+    options = {};
+  }
+  return new Promise((resolve, reject) => {
+    new Compressor(file, {
+      quality: 0.6, // Compression quality, 0.6 is 60% quality.
+      convertSize: 0, // Images larger than this size in bytes will be converted to JPEG. Set to 0 to convert all images to JPEG.
+      mimeType: 'image/jpeg', // Convert the image to JPEG format.
+      ...options,
+      // @ts-ignore
+      success(result) {
+        const compressedFile = new File([result], file.name, {
+          type: 'image/jpeg',
+          lastModified: Date.now()
+        })
+        console.log('Prev file', file, 'Compressed File', compressedFile, 'Size Saved', `${Math.ceil(
+          unit(file.size - compressedFile.size, 'byte')
+            .to('megabyte')
+            .toJSON().value
+        )} MB`);
+        resolve(compressedFile)
+      },
+      // @ts-ignore
+      error(err) {
+        reject(err)
+      }
+    })
+  })
 }

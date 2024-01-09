@@ -5,6 +5,7 @@ import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import { useMemo } from 'react'
 import { useParams } from 'react-router'
 
 const { Text } = Typography
@@ -23,13 +24,25 @@ const TestLeaderboard = () => {
     )
     return acc + sectionScore
   }, 0)
+  const ranked = useMemo(
+    () => {
+      // @ts-ignore
+      return [...leaderboard].map((i, index) => {
+        // @ts-ignore
+        i.rank = index + 1
+        return i
+      })
+    },
+    [leaderboard]
+  )
   return (
     // @ts-ignore
-    <Table dataSource={leaderboard}>
+    <Table dataSource={ranked}>
       <Table.Column
         title="Rank"
         render={(_: any, record: Types.TestLearnerResult, index: number) => (
-          <Title style={{ fontSize: 18 }}>{index + 1}</Title>
+          // @ts-ignore
+          <Title style={{ fontSize: 18 }}>{record.rank}</Title>
         )}
         key="result"
       />
@@ -38,7 +51,7 @@ const TestLeaderboard = () => {
         dataIndex="learnerName"
         key="learnerName"
       />
-      {test.passingScore ? (
+      {/* {test.passingScore ? (
         <Table.Column
           title="Result"
           render={(_: any, record: Types.TestLearnerResult) => (
@@ -52,7 +65,7 @@ const TestLeaderboard = () => {
           )}
           key="result"
         />
-      ) : null}
+      ) : null} */}
       <Table.Column
         title="Score"
         render={(_: any, record: Types.TestLearnerResult) => (
@@ -64,7 +77,7 @@ const TestLeaderboard = () => {
         )}
         key="result"
       />
-{/* 
+      {/* 
       <Table.Column
         title="Time Spent"
         render={(_: any, record: Types.TestLearnerResult) =>

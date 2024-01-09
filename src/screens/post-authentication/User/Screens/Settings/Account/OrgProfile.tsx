@@ -67,7 +67,7 @@ export default function OrgProfile() {
         <Form.Item style={{marginBottom:50}} required name={['branding','logo','low','url']} label="Logo">
           <div style={{width:150,height:100}}>
           <MediaUpload                 uploadType="image"
- name={['branding','logo','low','url']} cropper
+ name={['branding','logo','low','url']} cropper={{width:150,height:150}} compress={{quality:0.9,maxHeight: 150,height:150}}
             width="100px"
             renderItem={() => <Image width={'70%'} src={logo?.low?.url}  />}
               onUpload={e => {
