@@ -62,13 +62,11 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     enabled: !!(ep?.metadata?.test.endedAt)
 });
   const message = useMessage();
-  const { data: learner, isLoading: loadingLearner } = Learner.Queries.useGetLearnerDetails();
-  const isSignedIn = !!learner._id;
   const {
     mutate: startTest,
     isLoading: startingTest
   } = Learner.Queries.useStartTest(testId + '')
-  const allLoading = loadingTest || loadingLearner || loadingEnrolledProduct || loadingResult;
+  const allLoading = loadingTest || loadingEnrolledProduct || loadingResult;
   const { openModal } = useModal()
   const { isMobile } = useBreakpoint()
   const navigate = useNavigate();
@@ -143,11 +141,11 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   }
   return (
     <Header title={test.title}>
-       {isSignedIn?<Row>
+    <Row>
       <Col xs={0} sm={0} md={2} />
       <Col xs={24} sm={24} md={20}>
       <>
-          {isSignedIn ? <div >
+      <div >
           {isEnrolled?(
          (ep?.metadata?.test?.startedAt)? <>
                 {!(ep?.metadata.test.endedAt) ? <Card title='Answer Sheet'>
@@ -234,33 +232,13 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
               </Col>
             </Row>
         </Card>}
-            </div> : (
-          <Card>
-            <Button
-              onClick={() =>
-                openModal(<LearnerLogin />, {
-                  width: 300
-                })
-              }
-              block
-              type="primary"
-              size="large"
-            >
-              Please Login to fill Answer Sheet
-            </Button>
-          </Card>
-            )}
+            </div>
           </>
       </Col>
       <Col xs={0} sm={0} md={2}>
         {' '}
       </Col>
-      </Row> : <Row justify={'center'} align={'middle'}>
-        <Col>
-            <Card style={{width:300}} >
-            <LearnerLogin />
-         </Card>
-        </Col></Row>}
+      </Row>
    </Header>
   )
 }

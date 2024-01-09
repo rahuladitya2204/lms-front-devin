@@ -9,8 +9,10 @@ import { useTestStore } from './useTestStore'
 
 function useUpdateTestForm(itemId: string) {
   const message = useMessage()
-  const { updateItem, test, setCurrentQuestion } = useTestStore(s => s) // Using updateItem from useTestStore
-
+  const updateItem = useTestStore(s => s.updateItem) // Using updateItem from useTestStore
+  const test = useTestStore(s => s.test) // Using updateItem from useTestStore
+  const setCurrentQuestion = useTestStore(s => s.setCurrentQuestion) // Using updateItem from useTestStore
+  const currentQuestion = useTestStore(s => s.currentQuestion)
   const { data: topics } = User.Queries.useGetTopics()
 
   useEffect(
@@ -18,19 +20,15 @@ function useUpdateTestForm(itemId: string) {
       const currentItem = test.sections
         .flatMap(section => section.items)
         .find(item => item._id === itemId)
-      if (currentItem) {
+
+      if (
+        currentItem &&
+        (!currentQuestion || currentItem._id !== currentQuestion._id)
+      ) {
         setCurrentQuestion(currentItem)
       }
     },
-    [test, itemId, setCurrentQuestion]
-  )
-
-  const handleTopicsChange = useCallback(
-    (topicStrings: string[]) => {
-      // Logic for updating topics
-      // ...
-    },
-    [topics]
+    [itemId, test, setCurrentQuestion]
   )
 
   const onFormChange = useCallback(
@@ -39,7 +37,7 @@ function useUpdateTestForm(itemId: string) {
         updateItem(itemId, data)
       }
     },
-    [itemId, updateItem, message]
+    [itemId, updateItem]
   )
 
   return {
@@ -47,7 +45,7 @@ function useUpdateTestForm(itemId: string) {
     updateItem,
     onFormChange,
     topics,
-    handleTopicsChange
+    handleTopicsChange: () => {}
   }
 }
 

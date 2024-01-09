@@ -19,7 +19,7 @@ import {
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import ActionModal from '@Components/ActionModal/ActionModal';
 import AppImage from '@Components/Image';
@@ -459,4 +459,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   )
 }
 
-export default AddQuestion
+const AddQuestionMemoed = React.memo(AddQuestion);
+
+export default AddQuestionMemoed
