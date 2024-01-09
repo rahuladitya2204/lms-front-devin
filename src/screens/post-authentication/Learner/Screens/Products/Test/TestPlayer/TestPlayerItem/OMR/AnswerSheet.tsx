@@ -22,6 +22,7 @@ import { useNavigate, useParams } from 'react-router'
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AnswerSheetFiles from './AnswerSheetFiles'
 import AppImage from '@Components/Image'
+import Header from '@Components/Header'
 import LearnerLogin from '@Learner/Screens/Login'
 import OMRComponent from './OMRComponent'
 import ProductCheckoutButton from '@Components/CheckoutButton'
@@ -99,7 +100,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   Submit Test
 </Button>
   return (
-    <Row>
+    <Header title={test.title}>
+       {isSignedIn?<Row>
       <Col xs={0} sm={0} md={2} />
       <Col xs={24} sm={24} md={20}>
         {isSignedIn ? <div >
@@ -119,7 +121,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
    <AnswerSheetFiles testId={testId + ''} />
      </ActionModal> */}
      
-    <Card title={<Text>Answer Sheet: {test.title}</Text>}>
+    <Card title='Answer Sheer'>
        <OMRComponent testId={testId} />
        <Divider/>
        <Row justify={'space-between'}>
@@ -168,11 +170,26 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     </Col>
               <Col span={24}>
               <ProductCheckoutButton onSuccess={() => {
-          message.open({
-            type: 'success',
-            content: `You have enrolled successfully`,
-            particle: true
-          })                            }}
+          // message.open({
+          //   type: 'success',
+          //   content: `You have enrolled successfully`,
+          //   particle: true
+                      // })      
+                      startTest(
+                        {
+                          testId: test._id + '',
+                          language: `eng`
+                        },
+                        {
+                          onSuccess: () => {
+                            message.open({
+                              type: 'success',
+                              content:'All the best!'
+                            })
+                            // navigate('../player')
+                          }
+                        }
+                      )                }}
     product={{ type: 'test', id: testId + '' }}
     block
     type='primary'
@@ -202,7 +219,13 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       <Col xs={0} sm={0} md={2}>
         {' '}
       </Col>
-    </Row>
+      </Row> : <Row justify={'center'} align={'middle'}>
+        <Col>
+            <Card style={{width:300}} >
+            <LearnerLogin />
+         </Card>
+        </Col></Row>}
+   </Header>
   )
 }
 

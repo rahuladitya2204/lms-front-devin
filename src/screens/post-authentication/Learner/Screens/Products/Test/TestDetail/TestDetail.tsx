@@ -297,7 +297,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               block
               type='primary'
             >
-              {isFree?'Try Now':'Buy Now'}
+              {isFree?'Enroll Now':'Buy Now'}
                   </ProductCheckoutButton>}
                 </> : <Button onClick={() => {
                     openModal(<LearnerLogin />, {

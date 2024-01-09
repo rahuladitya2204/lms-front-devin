@@ -72,7 +72,7 @@ export default function OrgProfile() {
             renderItem={() => <Image width={'70%'} src={logo?.low?.url}  />}
               onUpload={e => {
                 console.log(e, 'eeee');
-              form.setFieldValue(['branding','logo','url'], e.url);
+              form.setFieldValue(['branding','logo','low','url'], e.url);
             }}
           />
           </div>
@@ -85,7 +85,7 @@ export default function OrgProfile() {
             renderItem={() => <Image width={'70%'} src={logo?.high?.url}  />}
               onUpload={e => {
                 console.log(e, 'eeee');
-              form.setFieldValue(['branding','logo','url'], e.url);
+              form.setFieldValue(['branding','logo','high','url'], e.url);
             }}
           />
           </div>

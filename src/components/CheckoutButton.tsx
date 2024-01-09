@@ -137,7 +137,7 @@ export default function ProductCheckoutButton(
       loading={isCreatingOrder || updatingPaymentOrder || isLoading}
       {...props}
     >
-      {props.children || (isFree?'Try Now':'Buy Now')}
+      {props.children || (isFree?'Enroll Now':'Buy Now')}
     </Button>
     </>
   )

@@ -144,7 +144,7 @@ const router = (userType: string) => {
               <Route path="test">
                 <Route path="" element={<LearnerTestScreen />} />
                 <Route path=":testId" element={<LearnerTestDetailScreen />} />
-                <Route path=":testId/answer-sheet" element={<AnswerSheet />} /> 
+                {/* <Route path=":testId/answer-sheet" element={<AnswerSheet />} />  */}
                 {/* <Route path=":testId/result-table" element={<TestResultTable />} /> */}
               </Route>
               <Route path="event">
@@ -173,7 +173,8 @@ const router = (userType: string) => {
             <Route path="affiliate" element={<AffiliateScreen />} />
   <Route path="app/test/:testId">
    <Route path="start" element={<TestRules />} /> 
-              <Route path="player" element={<TestPlayer/>}>
+   <Route path="answer-sheet" element={<AnswerSheet />} /> 
+ <Route path="player" element={<TestPlayer/>}>
                 <Route path=":questionId" element={<TestPlayeritem/>}/>
                 </Route>
               <Route path="completed" element={<TestCompleted />} />

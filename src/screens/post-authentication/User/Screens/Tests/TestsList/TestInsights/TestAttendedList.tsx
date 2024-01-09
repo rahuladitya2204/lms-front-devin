@@ -12,15 +12,7 @@ const { Text } = Typography
 
 const TestAttendedList = () => {
   const { testId } = useParams()
-  const { data } = User.Queries.useGetTestResult(testId + '')
-  const { data: test } = User.Queries.useGetTestDetails(testId + '')
-  // const TOTAL_POSSIBLE_SCORE = test.sections.reduce((acc, section) => {
-  //   const sectionScore = section.items.reduce(
-  //     (sectionAcc, item) => sectionAcc + (item.score.correct || 0),
-  //     0
-  //   )
-  //   return acc + sectionScore
-  // }, 0)
+  const { data,isLoading: loadingResult } = User.Queries.useGetTestResult(testId + '')
   const ranked = useMemo(
     () => {
       return [...data].map((i, index) => {
@@ -33,7 +25,7 @@ const TestAttendedList = () => {
   )
   return (
     // @ts-ignore
-    <Table dataSource={ranked}>
+    <Table dataSource={ranked} loading={loadingResult}>
       <Table.Column
         title="Rank"
         render={(_: any, record: Types.TestLearnerResult, index: number) => (
