@@ -191,7 +191,7 @@ export default function TestMetrics() {
                       You Scored: {Math.ceil(metrics.learnerScore)} out of{' '}
                       {metrics.totalTestScore}
                     </Title>
-                     {metrics.passingScore? <>
+                     {/* {metrics.passingScore? <>
                       {metrics.learnerScore >= metrics.passingScore ? (
                       <Alert
                         message="You have passed this test"
@@ -203,7 +203,7 @@ export default function TestMetrics() {
                         type="error"
                       />
                         )}
-                      </>:null}
+                      </>:null} */}
                   </Card>
                 )}
                 {loadingResult ? (
