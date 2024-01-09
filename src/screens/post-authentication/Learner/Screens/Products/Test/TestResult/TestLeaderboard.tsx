@@ -73,13 +73,13 @@ const TestLeaderboard = () => {
         key="result"
       /> */}
 
-      <Table.Column
+      {/* <Table.Column
         title="Percentile"
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="orange-inverse">{record?.metrics?.percentile}</Tag>
         )}
         key="percentile"
-      />
+      /> */}
 
       {/* <Table.Column
         title="Submitted At"
