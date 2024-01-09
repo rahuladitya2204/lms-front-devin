@@ -118,7 +118,7 @@ function AssetLibraryScreen() {
                   record: { createdBy: Types.User, _id: string }
                 ) => <Space size="middle">{record?.createdBy?.name}</Space>}
               />
-              <Table.Column
+              {/* <Table.Column
                 title="Action"
                 key="action"
                 render={(_: any, record: Types.Instructor) => (
@@ -142,7 +142,7 @@ function AssetLibraryScreen() {
                     ]}
                   />
                 )}
-              />
+              /> */}
             </Table>
           </Col>
         </Row>
