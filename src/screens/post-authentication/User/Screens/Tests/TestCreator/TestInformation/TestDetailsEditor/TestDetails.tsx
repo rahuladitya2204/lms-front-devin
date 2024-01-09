@@ -110,6 +110,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             value: testId + ''
           }}
           uploadType="image"
+          compress={{quality:0.8,maxHeight:200,maxWidth:330}}
           cropper={{width:330,height:200}}
           aspect={16 / 9}
           name="thumbnailImage"

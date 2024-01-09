@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Col, Row, Statistic, Tag } from 'antd'
+import { Alert, Button, Card, Col, Dropdown, Modal, Row, Statistic, Tag } from 'antd'
 import { Enum, User } from '@adewaskar/lms-common'
 // import UpcomingTest from './UpcomingTest'
 import { useNavigate, useParams } from 'react-router'
@@ -11,8 +11,9 @@ import TestAttendedList from './TestAttendedList'
 import { Typography } from '@Components/Typography'
 import { UserOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
+import { printPdf } from '@Components/SunEditor/utils'
 
-const { Text } = Typography
+const { confirm } = Modal;
 
 const TestStatus = () => {
   const navigate = useNavigate()
@@ -22,8 +23,8 @@ const TestStatus = () => {
     isLoading: generatingResult
   } = User.Queries.useEvaluateLiveTestResult()
   const { data: test } = User.Queries.useGetTestDetails(testId + '')
+  const { mutate: printResults,isLoading: printingResult } = User.Queries.usePrintTestResult(testId + '')
   const result = test.result
-  // console.log(result, 'result')
   return (
     <Header
       title={
@@ -34,15 +35,34 @@ const TestStatus = () => {
         </span>
       }
       extra={[
-        <Button
+        <Dropdown.Button
           onClick={() => {
-            evaluateLiveTestResult(testId + '')
+            confirm({
+              title: `Are you sure, you want to genarate the results`,
+              // icon: <ExclamationCircleOutlined />,
+              // content: `Money will be deducted from your wallet`,
+              onOk() {
+                evaluateLiveTestResult(testId + '')
+              },
+              okText: 'Generate Result'
+            })
           }}
-          loading={generatingResult}
-          type="primary"
+          loading={generatingResult || printingResult}
+          type="primary"  trigger={['click']}
+          menu={{
+            items: [
+              {
+                label: 'Print Results',
+                key: 'generate-outline',
+                onClick: () => printResults(undefined, {
+                  onSuccess: (s) => printPdf(s)
+                })
+              }
+            ]
+          }}
         >
           Generate Result
-        </Button>
+        </Dropdown.Button>
       ]}
     >
       <Row gutter={[20, 30]}>
