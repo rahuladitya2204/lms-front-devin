@@ -10,6 +10,7 @@ import {
   Modal,
   Radio,
   Row,
+  Skeleton,
   Space,
   Spin,
   Typography
@@ -27,6 +28,7 @@ import LearnerLogin from '@Learner/Screens/Login'
 import OMRComponent from './OMRComponent'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import { ReloadOutlined } from '@ant-design/icons'
+import TestEnrolledCta from '../../../TestDetail/TestEnrolledCta'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
@@ -52,17 +54,18 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     type: Enum.ProductType.TEST,
     id: testId
   })
-  const { isLoading: loadingEnrolledProduct,data: ep } = Learner.Queries.useGetEnrolledProductDetails({
+  const { isFetching: loadingEnrolledProduct,data: ep } = Learner.Queries.useGetEnrolledProductDetails({
     type: Enum.ProductType.TEST,
     id: testId
   });
   const message = useMessage();
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
-  const { isLoading: loadingLearner } = Learner.Queries.useGetLearnerDetails();
+  const { data: learner, isLoading: loadingLearner } = Learner.Queries.useGetLearnerDetails();
+  const isSignedIn = !!learner._id;
   const {
     mutate: startTest,
     isLoading: startingTest
   } = Learner.Queries.useStartTest(testId + '')
+  const allLoading = loadingTest || loadingLearner || loadingEnrolledProduct;
   const { openModal } = useModal()
   const { isMobile } = useBreakpoint()
   const navigate = useNavigate();
@@ -72,66 +75,95 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   } = Learner.Queries.useEndTest();
   const { isDesktop } = useBreakpoint();
   const SubmitTestButton = <Button block={!isDesktop}
-  onClick={() => {
-    confirm({
-      title: 'Are you sure?',
-      // icon: <ExclamationCircleOutlined />,
-      content: `You want to submit this test?`,
-      onOk() {
-        endTest(
-          { testId: test._id + '' },
-          {
-            onSuccess: () => {
-              message.open({
-                type: 'success',
-                content: `Test Submitted Successfully`
-              });
-              navigate(`../${testId}/result`)
+    onClick={() => {
+      confirm({
+        title: 'Are you sure?',
+        // icon: <ExclamationCircleOutlined />,
+        content: `You want to submit this test?`,
+        onOk() {
+          endTest(
+            { testId: test._id + '' },
+            {
+              onSuccess: () => {
+                message.open({
+                  type: 'success',
+                  content: `Test Submitted Successfully`
+                });
+                navigate(`../${testId}/result`)
+              }
             }
-          }
-        )
-      },
-      okText: 'Yes, Submit'
-    })
-  }}
-  type="primary" danger
-  loading={submittingTest}
->
-  Submit Test
-</Button>
+          )
+        },
+        okText: 'Yes, Submit'
+      })
+    }}
+    type="primary" danger
+    loading={submittingTest}
+  >
+    Submit Test
+  </Button>;
+  const SkelArray = [1, 1, 1, 1, 1, 1, 1, 1, 1,1,1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+  if (allLoading) {
+    return <Row style={{marginTop:30}}>
+            <Col xs={0} sm={0} md={2} />
+      <Col xs={24} sm={24} md={20}>
+      <Row gutter={[20, 30]}>
+    <Col span={24}>
+      <Skeleton.Button active block size='large' />
+    </Col>
+    <Col span={24}>
+      <Card title={ <Skeleton.Button style={{height:15,width:15}} active block size='large' />}>
+        <Row gutter={[30,20]}>
+         {SkelArray.map(()=> <Col span={12}>
+            <Row justify={'space-between'}>
+              {/* <Col>
+                <Skeleton.Button style={{width:20,height: 20}} shape='circle' />
+              </Col> */}
+              <Col>
+                <Row gutter={[30,20]}>
+                  {SkelArray.map(()=><Col>
+                  <Skeleton.Avatar active style={{width:20,height: 20}} shape='circle' />
+                  </Col>)}
+                </Row>
+              </Col>
+            </Row>
+          </Col>)}
+        </Row>
+      </Card>
+    </Col>
+  </Row>
+      </Col>
+      <Col xs={0} sm={0} md={2} />
+
+    </Row>
+  
+  }
   return (
     <Header title={test.title}>
        {isSignedIn?<Row>
       <Col xs={0} sm={0} md={2} />
       <Col xs={24} sm={24} md={20}>
-        {isSignedIn ? <div >
+      <>
+          {isSignedIn ? <div >
           {isEnrolled?(
          (ep?.metadata?.test?.startedAt)? <>
-         {/* <ActionModal
-   cta={
-     <Button
-       style={{ marginBottom: 20 }}
-       block={isMobile}
-       type="primary"
-     >
-       Upload Answer Sheet
-     </Button>
-   }
- >
-   <AnswerSheetFiles testId={testId + ''} />
-     </ActionModal> */}
-     
-    <Card title='Answer Sheer'>
-       <OMRComponent testId={testId} />
-       <Divider/>
-       <Row justify={'space-between'}>
-         <Col flex={1}>
-           <Alert action={!isMobile?SubmitTestButton:null} style={{marginBottom:10,marginRight:10}} message="Once submitted, you won't be able to resubmit, Please double check your answers." type="error" showIcon />
-         </Col>
-         {isMobile?<Col xs={isMobile?24:''}>
-         {SubmitTestButton}</Col>:null}
-       </Row>
-     </Card>
+                {!(ep?.metadata.test.endedAt) ? <Card title='Answer Sheet'>
+                  <OMRComponent testId={testId} />
+                  <Divider />
+                  <Row justify={'space-between'}>
+                    <Col flex={1}>
+                      <Alert action={!isMobile ? SubmitTestButton : null} style={{ marginBottom: 10, marginRight: 10 }} message="Once submitted, you won't be able to resubmit, Please double check your answers." type="error" showIcon />
+                    </Col>
+                    {isMobile ? <Col xs={isMobile ? 24 : ''}>
+                      {SubmitTestButton}</Col> : null}
+                  </Row>
+                </Card> : <Card>
+                    <Row>
+                      <Col span={24}>
+                      <TestEnrolledCta testId={testId} />
+                      </Col>
+                </Row>
+                </Card>}
             </> : <Button block type='primary' onClick={() => {
                  confirm({
                   title: 'Are you sure?',
@@ -214,7 +246,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
               Please Login to fill Answer Sheet
             </Button>
           </Card>
-        )}
+            )}
+          </>
       </Col>
       <Col xs={0} sm={0} md={2}>
         {' '}
