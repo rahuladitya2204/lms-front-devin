@@ -46,10 +46,10 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
 }) => {
   const params = useParams()
   const testId = (TEST_ID || params.testId) + ''
-  const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(
+  const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(
     testId,
     Enum.TestDetailMode.TEST
-  )
+  );
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct({
     type: Enum.ProductType.TEST,
     id: testId
@@ -58,6 +58,9 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     type: Enum.ProductType.TEST,
     id: testId
   });
+  const { data: { status }, isFetching: loadingResult } = Learner.Queries.useGetTestResult(testId, {
+    enabled: !!(ep?.metadata?.test.endedAt)
+});
   const message = useMessage();
   const { data: learner, isLoading: loadingLearner } = Learner.Queries.useGetLearnerDetails();
   const isSignedIn = !!learner._id;
@@ -65,7 +68,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     mutate: startTest,
     isLoading: startingTest
   } = Learner.Queries.useStartTest(testId + '')
-  const allLoading = loadingTest || loadingLearner || loadingEnrolledProduct;
+  const allLoading = loadingTest || loadingLearner || loadingEnrolledProduct || loadingResult;
   const { openModal } = useModal()
   const { isMobile } = useBreakpoint()
   const navigate = useNavigate();
@@ -89,7 +92,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                   type: 'success',
                   content: `Test Submitted Successfully`
                 });
-                navigate(`../${testId}/result`)
+                navigate(`../result`)
               }
             }
           )

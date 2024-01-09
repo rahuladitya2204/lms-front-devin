@@ -1,4 +1,5 @@
-import { Alert, Button, Card, Col, Dropdown, Modal, Row, Statistic, Tag } from 'antd'
+import { Alert, Button, Card, Col, Dropdown, Modal, Row, Skeleton, Statistic, Tag } from 'antd'
+import { CloseOutlined, UserOutlined } from '@ant-design/icons'
 import { Enum, User } from '@adewaskar/lms-common'
 // import UpcomingTest from './UpcomingTest'
 import { useNavigate, useParams } from 'react-router'
@@ -9,7 +10,6 @@ import Header from '@Components/Header'
 import Tabs from '@Components/Tabs'
 import TestAttendedList from './TestAttendedList'
 import { Typography } from '@Components/Typography'
-import { UserOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { printPdf } from '@Components/SunEditor/utils'
 
@@ -22,9 +22,10 @@ const TestStatus = () => {
     mutate: evaluateLiveTestResult,
     isLoading: generatingResult
   } = User.Queries.useEvaluateLiveTestResult()
-  const { data: test } = User.Queries.useGetTestDetails(testId + '')
+  const { data: test, isLoading: loadingTest } = User.Queries.useGetTestDetails(testId + '')
   const { mutate: printResults,isLoading: printingResult } = User.Queries.usePrintTestResult(testId + '')
-  const result = test.result
+  const result = test.result;
+  const SkelArr = [1, 1, 1, 1, 1, 1];
   return (
     <Header
       title={
@@ -72,7 +73,11 @@ const TestStatus = () => {
               title={test.title}
               extra={<Tag>{dayjs(test.live.scheduledAt).format('LLL')}</Tag>}
             >
-              <Row gutter={[20, 20]}>
+              {loadingTest ? <Row gutter={[20, 20]}>
+               {SkelArr.map(()=> <Col span={8}>
+                  <Skeleton.Button active block style={{height:110}} />
+                </Col>)}
+              </Row>: <Row gutter={[20, 20]}>
                 <Col span={8}>
                   <Card>
                     <Statistic
@@ -90,8 +95,8 @@ const TestStatus = () => {
                   <Card>
                     <Statistic
                       title="Average Score"
-                      value={result.averageScore}
-                      prefix={<UserOutlined />}
+                      value={Math.ceil(result.averageScore)}
+                      // prefix={<UserOutlined />} 
                     />
                   </Card>
                 </Col>
@@ -101,7 +106,7 @@ const TestStatus = () => {
                     <Statistic
                       title="Absent Students"
                       value={result.absentStudents}
-                      prefix={<UserOutlined />}
+                      // prefix={<CloseOutlined />}
                     />
                   </Card>
                 </Col>
@@ -111,7 +116,7 @@ const TestStatus = () => {
                     <Statistic
                       title="Finished Students"
                       value={result.completedTest}
-                      prefix={<UserOutlined />}
+                      // prefix={<UserOutlined />}
                     />
                   </Card>
                 </Col>
@@ -121,21 +126,23 @@ const TestStatus = () => {
                     <Statistic
                       title="Passed Students"
                       value={result.totalPassing}
-                      prefix={<UserOutlined />}
+                      // prefix={<UserOutlined />}
                     />
                   </Card>
                 </Col>
 
-                <Col span={8}>
+               {test.passingScore? <Col span={8}>
                   <Card>
                     <Statistic
                       title="Failed Students"
                       value={result.totalFailed}
-                      prefix={<UserOutlined />}
+                      // prefix={<UserOutlined />}
                     />
                   </Card>
-                </Col></>:null}
-              </Row>
+                  </Col>:null}
+                </> : null}
+              </Row>}
+             
             </Card>
           </Col>
         ) : null}

@@ -1,4 +1,4 @@
-import { Alert, Button, Skeleton } from "antd";
+import { Alert, Button, Col, Row, Skeleton } from "antd";
 import { Enum, Learner } from "@adewaskar/lms-common";
 import { Fragment, useMemo } from "react";
 
@@ -27,6 +27,16 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
     const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
     const testStartDate =
       enrolledDetails.metadata.test.startedAt || test.live.startedAt;
+//   if (loadingResult) {
+//     return <Row gutter={[20,20]}>
+//       <Col span={24}>
+//       <Skeleton.Button block style={{height:40}} />
+//       </Col>
+//       <Col span={24}>
+//       <Skeleton.Button block style={{height:40}} />
+// </Col>
+//     </Row>
+//   }
       if (test.live.enabled) {
         if (testEndDate) {
           return <Alert
@@ -57,7 +67,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
                 showIcon
                 // action={ }
             />
-               <Button size="large" onClick={() => navigate('start')} block type='primary'>
+               <Button size="large" onClick={() => navigate(`/app/test/${testId}/start`)} block type='primary'>
               Join Test
             </Button>
             </Fragment>
@@ -78,7 +88,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
       else {
         // console.log(enrolledDetails.metadata.test, 'enrolledDetails')
         if (!testStartDate) {
-          return <Button size='large' onClick={() => navigate('start')} block type='primary'>
+          return <Button size='large' onClick={() => navigate(`/app/test/${testId}/start`)} block type='primary'>
             Start Test
           </Button>
         }
@@ -90,9 +100,9 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
                 style={{ marginBottom: 20 }}
                 message="You have attended this test."
                 type="success"
-                showIcon action={<Button size='small' onClick={() => navigate('result')}>View Result</Button>}
+                showIcon action={<Button size='small' onClick={() => navigate(`/app/test/${testId}/result`)}>View Result</Button>}
                 />
-              <Button size="large" onClick={()=>navigate('result/review')} type='primary' block>View solutions</Button>
+              <Button size="large" onClick={()=>navigate(`/app/test/${testId}/result/review`)} type='primary' block>View solutions</Button>
               </>
             }
             else {
@@ -107,7 +117,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
           }
           }
           else {
-            return <Button size="large" onClick={() => navigate('start')} block type='primary'>
+            return <Button size="large" onClick={() => navigate(`/app/test/${testId}/start`)} block type='primary'>
               Continue Test
             </Button>
           }
