@@ -36,9 +36,10 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
     status: {
       answerSheets
     }
-  } }=Learner.Queries.useGetTestStatus(props.testId)
+  },isFetching: loadingTestStatus }=Learner.Queries.useGetTestStatus(props.testId)
   useEffect(() => {
-    if(answerSheets.files){
+    if (answerSheets.files) {
+      console.log(answerSheets.files, 'updated');
       form.setFieldsValue(answerSheets);
     }
   }, [answerSheets])
@@ -48,13 +49,13 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
   //  },[files])
     // @ts-ignore
   const handleUpload = (file) => {
-    const FILES = [...files, ...file];
-    // add(file)
-    form.setFieldValue(['files'], FILES);
-    updateAnswerSheetApi()
-  }
-  const updateAnswerSheetApi = () => {
     const d = form.getFieldsValue();
+    d.files = [...files, ...file];
+    // add(file)
+    // form.setFieldValue(['files'], FILES);
+    updateAnswerSheetApi(d)
+  }
+  const updateAnswerSheetApi = (d:Types.AnswerSheet) => {
     console.log(d, 'dddd');
     updateAnswerSheet(d, {
       onSuccess: () => {
@@ -65,24 +66,22 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
       }
     });
   }
-  const handleMoveItem = (dragIndex:number, hoverIndex: number) => {
-    // Update the order of files in the form
-    form.setFieldValue(['files'], update(form.getFieldValue(['files']), {
+  const handleMoveItem = (dragIndex: number, hoverIndex: number) => {
+    const d = form.getFieldsValue();
+    d.files = update(form.getFieldValue(['files']), {
       $splice: [
         [dragIndex, 1],
         [hoverIndex, 0, form.getFieldValue(['files'])[dragIndex]],
       ],
-    }));
-    updateAnswerSheetApi()
+    });
+    updateAnswerSheetApi(d)
   };
 
   const cropItem = (index: number, croppedUrl:string) => {
-    const FILES = form.getFieldValue(['files']);
-    FILES[index].url = croppedUrl;
-    console.log(FILES, 'files');
-    // Update the order of files in the form
-    form.setFieldValue(['files'], FILES);
-    updateAnswerSheetApi()
+    const d = form.getFieldsValue();
+    d.files[index].url = croppedUrl;
+    console.log(d.files, 'files');
+    updateAnswerSheetApi(d)
   };
 
   const deleteFile = (fileId:string) => {
@@ -92,9 +91,8 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
       content: `You want to delete this file`,
       onOk() {
         const d = form.getFieldsValue();
-        const updatedFiles = d.files.filter((f:any) => f.file !== fileId);
-        form.setFieldValue(['files'], updatedFiles);
-        updateAnswerSheetApi();
+        d.files = d.files.filter((f:any) => f.file !== fileId);
+        updateAnswerSheetApi(d);
       },
       okText: 'Delete'
     })
@@ -136,12 +134,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
               <Col>
                 <Row gutter={[20,10]}>
                   <Col>
-                  <ActionModal cta={ <Button icon={<EditOutlined/>} onClick={() => {
-                handleUpload(files.map((f) => {
-   return { file: f._id, url: f.url }
-                }));
-                 closeModal();
-         }}>Crop</Button>}>
+                  <ActionModal cta={ <Button icon={<EditOutlined/>} >Crop</Button>}>
   <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
                    const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
                    closeModal && closeModal();
@@ -181,8 +174,9 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
   />;
 
   const save = (d:Types.AnswerSheet) => {
-    console.log(d, 'dd');
-    updateAnswerSheetApi();
+    // console.log(d, 'dd');
+    // const d = form.getFieldsValue();
+    updateAnswerSheetApi(d);
   }
   const {isMobile } = useBreakpoint();
   return (
@@ -206,7 +200,8 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
           </Button>
           </Col>
         </Row>:null}
-        {!files.length?<Empty  style={{marginTop:15}} description={
+        <Spin spinning={uploadingFile || loadingTestStatus || updatingAnswer || uploadingFile}>
+  {!files.length?<Empty  style={{marginTop:15}} description={
           <Row gutter={[10,20]}>
             <Col span={24}>
             <Text>
@@ -218,7 +213,6 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
             </Col>:null}
    </Row>
     }  />:null}
-          <Spin spinning={uploadingFile}>
           <Form.List name={['files']}>
               {(fields, { add, remove, move }) => {
                   return  (
@@ -375,23 +369,22 @@ name={fileDetails.name} // Assuming this is how you access the file name
                 <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
                   <Row style={{paddingLeft:5,paddingRight:5}} gutter={[20,0]}>
                     <Col span={24}>
-                    <ActionModal cta={<Button block htmlType='button' style={{marginTop:10}}
+                    <Button block htmlType='button' style={{marginTop:10}}
         // danger
         size='small'
-        // shape="circle"
-        // icon={<EditOutlined />}
-              >Crop</Button> }>
-                  <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
-                                           closeModal && closeModal();
-                                           // @ts-ignore
-                    uploadFiles({
-                      files: [{ file: blobToFile(blob),prefixKey }],
-                      onSuccess: ([{url}]) => {
-                        cropItem(index, url);
-                      }
-                    })
-                  }} image={fileUrl} />
-                  </ActionModal>
+                        onClick={() => {
+          openModal( <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
+            closeModal && closeModal();
+            // @ts-ignore
+uploadFiles({
+files: [{ file: blobToFile(blob),prefixKey }],
+onSuccess: ([{url}]) => {
+cropItem(index, url);
+}
+})
+}} image={fileUrl} />)
+        }}
+              >Crop</Button>
                     </Col>
                     <Col span={24}>
                     <Button block style={{marginTop:10}} loading={verifyingAnswerSheet} size='small' type='primary' onClick={() => {
