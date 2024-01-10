@@ -71,10 +71,10 @@ export const EnrolledCourseSuccessful = lazy(() =>
   import('@Learner/Screens/LearnerShop/EnrolledCourse/EnrolledCourseSuccessful')
 )
 export const InstructorEditor = lazy(() =>
-  import('./post-authentication/User/Screens/Users/Instructors/InstructorEditor')
+  import('./post-authentication/User/Screens/Users/Users/UserEditor')
 )
 export const InstructorsScreen = lazy(() =>
-  import('./post-authentication/User/Screens/Users/Instructors/InstructorsScreen')
+  import('./post-authentication/User/Screens/Users/Users/UsersScreen')
 )
 export const LearnerAccount = lazy(() =>
   import('@Learner/Screens/Account/Account')
