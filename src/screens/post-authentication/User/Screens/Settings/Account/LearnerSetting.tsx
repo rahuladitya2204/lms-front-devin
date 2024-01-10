@@ -150,6 +150,10 @@ export default function LearnerSetting(props: LearnerSettingPropsI) {
                       </Select.Option>
                       <Select.Option key={Enum.LearnerRegisterType.STRICT} value={Enum.LearnerRegisterType.STRICT}>
                                                     Strict
+                              </Select.Option>
+                              <Select.Option key={Enum.LearnerRegisterType.INVITE_ONLY}
+                                  value={Enum.LearnerRegisterType.INVITE_ONLY}>
+                                                    Invite Only
                         </Select.Option>
                                             </Select>
               </Form.Item>

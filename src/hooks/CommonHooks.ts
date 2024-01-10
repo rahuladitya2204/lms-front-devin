@@ -40,7 +40,8 @@ export const useAppInit = () => {
       const affiliateId = queryParams.get('ref'); // Replace 'myParam' with your parameter name
       const parts = window.location.hostname.split('.');
       // Assuming the format is always [subdomain].[domain].[tld]
-      const subdomain = parts.slice(0, -2).join('.')
+      const subdomain = parts.slice(0, -2).join('-');
+      console.log(subdomain,'ddss')
       return {
         affiliateId,subdomain
       }

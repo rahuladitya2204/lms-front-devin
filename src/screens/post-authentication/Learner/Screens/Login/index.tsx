@@ -1,6 +1,6 @@
 import { Alert, Button, Checkbox, Divider, Form, Input, Modal, Space } from 'antd'
 import { ArrowLeftOutlined, GoogleOutlined, MessageOutlined } from '@ant-design/icons'
-import { Common, Constants, Learner, Store, User } from '@adewaskar/lms-common'
+import { Common, Constants, Enum, Learner, Store, User } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useRef, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -85,6 +85,7 @@ const OtpForm = (props:LearnerLoginPropsI) => {
   const { mutate: sendOtpApi, isLoading: sendingOtp } = Learner.Queries.useSendLoginOtp();
   const { mutate: verifyOtpApi, isLoading: verifyingOtp } = Learner.Queries.useVerifyLoginOtp();
   const [contactNo, setContactNo] = useState('');
+  const {data: org } = Learner.Queries.useGetOrgDetails();
   const [showRegister, setShowRegister] = useState(false);
   const sendOtp = async (contactNo='') => {
     setContactNo(contactNo)
@@ -100,9 +101,13 @@ const OtpForm = (props:LearnerLoginPropsI) => {
           setContactNo(contactNo)
           setOtpSent(true);
         },
-        onError: () => {
-          setShowRegister(true)
-          message.open({ type: 'success', content: 'Lets get signed up' });
+        onError: (e:any) => {
+          if (org.register.type === Enum.LearnerRegisterType.LAZY) {
+            setShowRegister(true);
+          }
+          else {
+            message.open({ type: 'error', content: e.response.data.message});
+          }
         }
       });
     } catch (error) {
@@ -184,7 +189,8 @@ const OtpForm = (props:LearnerLoginPropsI) => {
               ]}>
               <Input type='number' /></Form.Item>
           <Form.Item><Button loading={sendingOtp} block type="primary" htmlType="submit">Send OTP</Button></Form.Item>
-          <Form.Item style={{ textAlign: 'center' }}>
+         
+         {org.register.type!==Enum.LearnerRegisterType.INVITE_ONLY?<Form.Item style={{ textAlign: 'center' }}>
               <Typography.Text>
                 Don't have an account yet?{' '}
                 <Button onClick={() => openModal(<LearnerRegister onRegisterSuccess={props.closeModal} />, {
@@ -193,11 +199,8 @@ const OtpForm = (props:LearnerLoginPropsI) => {
                 })}
                   type="link"
                 >Let's get signed up</Button>
-              {/* <ActionModal width={300} title="Let's get signed up" cta={<Button type="link">Let's get signed up</Button>}>
-                <LearnerRegister onRegisterSuccess={props.closeModal} />
-              </ActionModal> */}
             </Typography.Text>
-          </Form.Item>
+          </Form.Item>:null}
         </Form>
       )}
     </>
@@ -256,7 +259,7 @@ const EmailForm = (props:LearnerLoginPropsI) => {
     }
   }
   const { openModal } = useModal()
-
+  const {data: org } = Learner.Queries.useGetOrgDetails();
   return   <>
         <LogoTop/>
 <Form
@@ -323,7 +326,7 @@ const EmailForm = (props:LearnerLoginPropsI) => {
           <ResetPassword/>
         </ActionModal> */}
       </Form.Item>
-    <Form.Item style={{ textAlign: 'center' }}>
+      {org.register.type!==Enum.LearnerRegisterType.INVITE_ONLY? <Form.Item style={{ textAlign: 'center' }}>
       <Typography.Text>
           Don't have an account yet?{' '}
           <Button onClick={() => {
@@ -340,7 +343,8 @@ const EmailForm = (props:LearnerLoginPropsI) => {
                 <LearnerRegister data={{email}} onRegisterSuccess={props.closeModal} />
         </ActionModal> */}
       </Typography.Text>
-    </Form.Item>
+    </Form.Item>:null}
+   
   </Form>
 {/* 
   <Divider dashed>or</Divider>
