@@ -21,7 +21,6 @@ import { Text, Title } from '@Components/Typography/Typography'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
-import AnswerSheetFiles from './AnswerSheetFiles'
 import AppImage from '@Components/Image'
 import Header from '@Components/Header'
 import LearnerLogin from '@Learner/Screens/Login'
@@ -32,6 +31,8 @@ import TestEnrolledCta from '../../../TestDetail/TestEnrolledCta'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
+
+const AnswerSheetFiles = React.lazy(() => import('./AnswerSheetFiles'));
 
 const confirm = Modal.confirm
 
@@ -58,7 +59,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     type: Enum.ProductType.TEST,
     id: testId
   });
-  const { data: { status }, isFetching: loadingResult } = Learner.Queries.useGetTestResult(testId, {
+  const { data: { status } } = Learner.Queries.useGetTestResult(testId, {
     enabled: !!(ep?.metadata?.test.endedAt)
 });
   const message = useMessage();
@@ -66,7 +67,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     mutate: startTest,
     isLoading: startingTest
   } = Learner.Queries.useStartTest(testId + '')
-  const allLoading = loadingTest || loadingEnrolledProduct || loadingResult;
+  const allLoading = loadingTest || loadingEnrolledProduct;
   const { openModal } = useModal()
   const { isMobile } = useBreakpoint()
   const navigate = useNavigate();
@@ -141,14 +142,22 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   }
   return (
     <Header title={test.title}>
-    <Row>
+    <Row gutter={[20,20]}>
       <Col xs={0} sm={0} md={2} />
       <Col xs={24} sm={24} md={20}>
       <>
       <div >
           {isEnrolled?(
          (ep?.metadata?.test?.startedAt)? <>
-                {!(ep?.metadata.test.endedAt) ? <Card title='Answer Sheet'>
+                  {!(ep?.metadata.test.endedAt) ? <><ActionModal
+                    cta={
+                      <Button
+                        style={{ marginBottom: 15 }}
+                        type='primary'
+                        block >Upload Answer Sheet
+                      </Button>}>
+          <AnswerSheetFiles testId={testId+''} />
+        </ActionModal> <Card title='Answer Sheet'>
                   <OMRComponent testId={testId} />
                   <Divider />
                   <Row justify={'space-between'}>
@@ -158,7 +167,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                     {isMobile ? <Col xs={isMobile ? 24 : ''}>
                       {SubmitTestButton}</Col> : null}
                   </Row>
-                </Card> : <Card>
+                    </Card>
+                  </> : <Card>
                     <Row>
                       <Col span={24}>
                       <TestEnrolledCta testId={testId} />

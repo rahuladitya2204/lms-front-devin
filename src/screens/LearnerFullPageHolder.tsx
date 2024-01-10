@@ -1,6 +1,7 @@
 import { Card, Col, Row } from 'antd'
 import { Learner, Store } from '@adewaskar/lms-common'
 
+import Header from '@Components/Header'
 import Layout from '@Components/Layout'
 import LearnerLogin from '@Learner/Screens/Login'
 import { ModalProvider } from '@Components/ActionModal/ModalContext'
@@ -12,17 +13,21 @@ export default function LearnerFullPageHolder () {
   return (
     <ThemeProvider>
       <ModalProvider>
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout
+          style={{ minHeight: '100vh', paddingLeft: 10, paddingRight: 10 }}
+        >
           {isSignedIn ? (
             <Outlet />
           ) : (
-            <Row justify={'center'} align={'middle'}>
-              <Col>
-                <Card style={{ width: 300,marginTop:100 }}>
-                  <LearnerLogin />
-                </Card>
-              </Col>
-            </Row>
+            <Header>
+              <Row justify={'center'} align={'middle'}>
+                <Col>
+                  <Card style={{ width: 300, marginTop: 100 }}>
+                    <LearnerLogin />
+                  </Card>
+                </Col>
+              </Row>
+            </Header>
           )}
         </Layout>
       </ModalProvider>

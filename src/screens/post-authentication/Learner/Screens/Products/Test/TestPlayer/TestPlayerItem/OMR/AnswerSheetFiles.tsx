@@ -206,7 +206,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
           </Button>
           </Col>
         </Row>:null}
-        {!files.length?<Empty  description={
+        {!files.length?<Empty  style={{marginTop:15}} description={
           <Row gutter={[10,20]}>
             <Col span={24}>
             <Text>
@@ -218,13 +218,13 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
             </Col>:null}
    </Row>
     }  />:null}
-          <Spin spinning={uploadingFile} style={{marginTop:15}}>
+          <Spin spinning={uploadingFile}>
           <Form.List name={['files']}>
               {(fields, { add, remove, move }) => {
                   return  (
                     <>
                       <DndProvider backend={HTML5Backend}>
-                        <Row gutter={[20, 20]}>
+                        <Row style={{marginTop:15}} gutter={[20, 20]}>
                           <Image.PreviewGroup  >
                      {fields.map((field, index) => {
                        const d = form.getFieldsValue();
