@@ -16,6 +16,7 @@ import {
 import { BookOutlined, MenuOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
+import React, { useEffect } from 'react'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -23,7 +24,6 @@ import AnswerSheetFiles from './TestPlayerItem/OMR/AnswerSheetFiles'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import { NavLink } from 'react-router-dom'
-import OMRComponent from './TestPlayerItem/OMR/OMRComponent'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestItemSkeleton from '../TestReview/TestItemSkeleton'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
@@ -31,8 +31,11 @@ import TestTimeCountdown from '@Components/TestTimeCountdown'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useEffect } from 'react'
 import { useModal } from '@Components/ActionModal/ModalContext'
+
+// const AnswerSheetFiles = React.lazy(() => import('./TestPlayerItem/OMR/AnswerSheetFiles')); // Lazy-loaded content
+
+const OMRComponent = React.lazy(() => import('./TestPlayerItem/OMR/OMRComponent')); // Lazy-loaded content
 
 const { confirm } = Modal
 
@@ -74,17 +77,33 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const testEndTime = enrolledProduct?.metadata?.test?.endedAt;
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
-  const {openModal } = useModal();
-  const AnswerSheetButton = <Button
-    onClick={() => openModal(<OMRComponent testId={testId + ''} />, {
-      width: 800,
-      title: <Row style={{marginTop:25}} justify={'space-between'} align={'middle'}>
-        <Col><Title level={4}>Answer Sheet </Title></Col><Col><ActionModal cta={<Button type='primary' >Upload Answer Sheet</Button>}>
-      <AnswerSheetFiles testId={testId+''} /></ActionModal></Col>
-      </Row>
-    })}
-    icon={<BookOutlined />}
-  block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>
+
+  const AnswerSheetButton = <ActionModal minHeight={500} lazy width={800}
+    cta={<Button type='primary'>Answer Sheet</Button>}
+    title={<Row style={{ marginTop: 25 }}
+      justify={'space-between'} align={'middle'}>
+      <Col>
+        <Title level={4}>Answer Sheet </Title></Col><Col>
+        <ActionModal cta={<Button type='primary' >Upload Answer Sheet</Button>}>
+          <AnswerSheetFiles testId={testId+''} />
+        </ActionModal></Col>
+    </Row>}
+  >
+    <OMRComponent testId={testId + ''} />
+</ActionModal>
+  // const AnswerSheetButton = <Button
+  //   onClick={() => openModal(<OMRComponent testId={testId + ''} />, {
+  //     width: 800,
+  //     title: <Row style={{marginTop:25}} justify={'space-between'} align={'middle'}>
+  //       <Col><Title level={4}>Answer Sheet </Title></Col><Col>
+  //         <ActionModal cta={<Button onClick={() => {
+  //           openModal(<AnswerSheetFiles testId={testId+''} />)
+  //         }} type='primary' >Upload Answer Sheet</Button>}>
+  //     <AnswerSheetFiles testId={testId+''} /></ActionModal></Col>
+  //     </Row>
+  //   })}
+  //   icon={<BookOutlined />}
+  // block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>
   const SubmitTestButton = <Button block={!isDesktop}
   onClick={() => {
     confirm({
@@ -145,9 +164,13 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         </Col>:null}
         <Col>
           {!isDesktop ? SideDrawer : <>
-            {isLoading ? <Row><Col style={{marginRight:15}}><Skeleton.Button active style={{ width: 135, height: 32 }} /></Col><Col><Skeleton.Button active style={{ width: 98, height: 32 }} /></Col></Row> : <>
-              {AnswerSheetButton} {SubmitTestButton}
-            </>}
+            {isLoading ? <Row><Col style={{ marginRight: 15 }}>
+              <Skeleton.Button active style={{ width: 135, height: 32 }} /></Col><Col>
+                <Skeleton.Button active style={{ width: 98, height: 32 }} /></Col></Row> : <Row>
+                <Col style={{ marginRight: 15 }}>
+                {AnswerSheetButton}</Col> 
+<Col>{SubmitTestButton}</Col>
+            </Row>}
           </>}
       </Col>
       </Row>}
