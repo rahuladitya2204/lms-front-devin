@@ -91,7 +91,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                   type: 'success',
                   content: `Test Submitted Successfully`
                 });
-                navigate(`../result`)
+                navigate('../completed')
               }
             }
           )

@@ -72,7 +72,7 @@ export default function TestMetrics() {
   const ViewSolutions = (
     <Button
       style={{ marginRight: 10 }}
-      onClick={() => navigate(`/app/test/${testId}/review`)}
+      onClick={() => navigate(`/app/test/${testId}/result/review`)}
       type="primary"
       icon={<EditOutlined />}
     >
