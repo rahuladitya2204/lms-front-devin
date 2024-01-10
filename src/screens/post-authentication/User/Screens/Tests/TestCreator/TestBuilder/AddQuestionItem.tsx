@@ -28,6 +28,7 @@ import GenerateAIItemDetails from './GenerateAIItemDetails';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import MediaUpload from '@Components/MediaUpload';
 import Tabs from '@Components/Tabs';
+import { Text } from '@Components/Typography/Typography';
 import TextArea from '@Components/Textarea';
 import { Typography } from '@Components/Typography';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
@@ -194,21 +195,14 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                       const currentOption = options[index] || Constants.INITIAL_TEST_QUESTION_OPTION;
                       // console.log(currentOption,'currentOption')
                       return (
-                        <Row justify={'center'} align={'middle'}>
-                          <Col flex={1}>
-                            <Form.Item
-                              rules={[
-                                { required: true, message: 'Please enter the answer.' },
-                              ]}
-                              {...restField}
-                              name={[name, 'text', language]}
-                            >
-                              <TextArea uploadPrefixKey={prefixKey} height={150} html={enterHtml ? false : { level: 3 }} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`} />
-                            </Form.Item>
-                          </Col>
-                          <Col>
+                        <Row justify={'space-between'} align={'middle'}>
+                          <Col style={{display:'flex',justifyContent:"center",alignItems:'center'}}>   
+                            <Row align={'middle'}>
+                              <Col><Text strong>{String.fromCharCode(65 + index)}</Text></Col>
+                              <Col>
+                              
                             <Form.Item  {...restField}
-                              name={[name, 'isCorrect']}
+                              name={[name, 'isCorrect']} style={{marginBottom:0}}
                               valuePropName="checked">
                               <OptionSelectedFormControl
                                 checked={!!currentOption?.isCorrect} value={false}
@@ -238,18 +232,36 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                                 }}
                                 style={{ marginLeft: 20 }}
                               />
+                                </Form.Item>
+                              </Col>
+                            </Row>
+                          </Col>
+                          <Col style={{width:'80%'}}>
+                            <Form.Item
+                              rules={[
+                                { required: true, message: 'Please enter the answer.' },
+                              ]}
+                              {...restField}
+                              name={[name, 'text', language]}
+                            >
+                              <TextArea uploadPrefixKey={prefixKey} height={150} html={enterHtml ? false : { level: 3 }} readOnly={isTestEnded} placeholder={`Answer ${index + 1}`} />
                             </Form.Item>
+                          </Col>
+                          <Col>
+                        
            
-                            <DeleteTwoTone onClick={e => {
+                           <Button onClick={e => {
                               confirm({
                                 title: 'Are you sure?',
-                                content: `You want to delete this answer`,
+                                content: `You want to delete this option`,
                                 onOk() {
                                   remove(index);
                                 },
-                                okText: 'Delete Answer'
+                                okText: 'Delete Option'
                               });
-                            }} style={{ marginLeft: 10, fontSize: 15 }} />
+                            }} icon={ <DeleteTwoTone  style={{ marginLeft: 10, fontSize: 15 }} />}>
+                              Delete
+                            </Button>
                           </Col>
                         </Row>
                       )

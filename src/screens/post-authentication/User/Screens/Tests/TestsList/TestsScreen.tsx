@@ -12,24 +12,21 @@ import { useModal } from '@Components/ActionModal/ModalContext'
 import { useSearchParams } from 'react-router-dom'
 
 const TestsScreen = () => {
-  // const [category, setCategory] = useState('')
+  const [status, setStatus] = useState('upcoming')
   const [params, setParams] = useSearchParams()
-  const category = params.get('category')
+  // const category = params.get('category')
   const {
     data: categories,
     isLoading: loadingCategories
   } = User.Queries.useGetProductCategories('all')
   const CategoriesSelect = (
-    <Select
-      onChange={e => setParams({ category: e })}
-      value={category}
-      style={{ width: 150 }}
-    >
-      {categories.map(category => (
-        <Select.Option value={category._id} key={category._id}>
-          {category.title}
-        </Select.Option>
-      ))}
+    <Select onChange={e => setStatus(e)} value={status} style={{ width: 150 }}>
+      <Select.Option value={`upcoming`} key={`upcoming`}>
+        Upcoming Tests
+      </Select.Option>
+      <Select.Option value={`past`} key={`past`}>
+        Past Tests
+      </Select.Option>
     </Select>
   )
   // const navigate = useNavigate()
@@ -57,38 +54,28 @@ const TestsScreen = () => {
           navigateWithHash
           tabBarExtraContent={{ right: CategoriesSelect }}
           // defaultActiveKey="1"
-          items={[
-            {
-              key: 'upcoming',
-              label: `Upcoming`,
+          items={categories.map(c => {
+            return {
+              key: c._id,
+              label: c.title,
               children: (
                 <TestsList
                   filter={{
                     // @ts-ignore
-                    category: category,
-                    status: [
-                      Enum.TestStatus.DRAFT,
-                      Enum.TestStatus.PUBLISHED,
-                      Enum.TestStatus.IN_PROGRESS
-                    ]
-                  }}
-                />
-              )
-            },
-            {
-              key: 'past',
-              label: `Past`,
-              children: (
-                <TestsList
-                  filter={{
-                    // @ts-ignore
-                    category: category,
-                    status: [Enum.TestStatus.ENDED]
+                    category: c._id,
+                    status:
+                      status === 'upcoming'
+                        ? [
+                            Enum.TestStatus.DRAFT,
+                            Enum.TestStatus.PUBLISHED,
+                            Enum.TestStatus.IN_PROGRESS
+                          ]
+                        : [Enum.TestStatus.ENDED]
                   }}
                 />
               )
             }
-          ]}
+          })}
         />
       </Spin>
     </Header>

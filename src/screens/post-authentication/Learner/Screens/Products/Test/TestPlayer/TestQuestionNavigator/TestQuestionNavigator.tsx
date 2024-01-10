@@ -13,8 +13,7 @@ interface TestQuestionNavigatorType2PropsI {
   testId: string;
   questionId: string;
 }
-const { confirm } = Modal;
-const { Text, Title } = Typography
+const { Title } = Typography
 
 export default function TestQuestionNavigatorType2(
   props: TestQuestionNavigatorType2PropsI
