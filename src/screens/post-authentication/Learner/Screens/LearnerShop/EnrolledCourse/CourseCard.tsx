@@ -15,7 +15,7 @@ const EnrolledCourseCard: React.FC<EnrolledCourseCardPropsI> = (props) => {
   const { data: course } = Learner.Queries.useGetCourseDetails(
     props.courseId + ''
   )
-  const instructor = course.instructor as unknown as Types.Instructor;
+  const user = course.user as unknown as Types.User;
   return (
     <Row gutter={[20, 20]} align="middle" justify="center">
       <Col span={8}>
@@ -33,7 +33,7 @@ const EnrolledCourseCard: React.FC<EnrolledCourseCardPropsI> = (props) => {
             <Title style={{ margin: 0 }} level={3}>
               {course.title}
             </Title>
-            <Text>By {instructor?.name}</Text>
+            <Text>By {user?.name}</Text>
           </Space>
           <Link to={`../courses`}>
                       <Button style={{ marginTop:15}}

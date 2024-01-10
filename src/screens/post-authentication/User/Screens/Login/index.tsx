@@ -14,6 +14,7 @@ import UserRegister from '../Register'
 import { Utils } from '@adewaskar/lms-common'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import { useNavigate } from 'react-router'
 import useOauth from './useOauth'
 
@@ -109,8 +110,8 @@ const OtpForm = () => {
               content:`OTP has been sent to ${fullContactNo}`
             })
           },
-          onError: () => {
-            console.log('errr')
+          onError: (e) => {
+            console.log('errr', e);
             message.open({
               type: 'error',
               content: 'User not found'
@@ -206,19 +207,17 @@ const OtpForm = () => {
   layout="vertical"
   onFinish={sendOtp}
       >
-        <SelectFormGroup
-          prefixValue='+91'
-          prefixName={[
-          'otp','countryCode'
-        ]}
-          name={['otp', 'contactNo']}
-          prefixValues={Constants.COUNTRY_CODES.map(c => {
-            return {
-              label: <span>{c.code} { c.flag}</span>,
-              value: c.dial_code
-           }
-          })}
-          label='Enter Mobile Number' />
+          <Form.Item
+              label="Enter Mobile Number"
+              name="contactNo" hasFeedback
+              rules={[
+                { required: true, message: 'Please enter your mobile number!' },
+                {
+                  len: 10,
+                  message: 'Contact number should be 10 digits!'
+                }
+              ]}>
+              <Input type='number' /></Form.Item>
 
   <Form.Item>
     <Button

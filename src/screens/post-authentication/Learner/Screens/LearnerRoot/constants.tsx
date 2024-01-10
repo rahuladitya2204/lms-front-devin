@@ -24,8 +24,8 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         icon: <AppstoreOutlined />
       },
       {
-        title: 'Instructors',
-        path: 'instructors',
+        title: 'Users',
+        path: 'users',
         icon: <AppstoreOutlined />
       }
     ]

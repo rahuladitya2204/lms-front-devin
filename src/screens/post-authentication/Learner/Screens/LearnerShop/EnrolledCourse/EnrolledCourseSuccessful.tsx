@@ -8,7 +8,7 @@ const EnrolledCourseSuccessful: React.FC = () => {
   const { orderId } = useParams()
   const { data: order } = Learner.Queries.useGetOrderDetails(orderId + '')
   console.log(order, 'orderr')
-  // const instructor = course.instructor as unknown as Types.Instructor;
+  // const user = course.user as unknown as Types.User;
   return (
     <Row>
       <Col span={24}>

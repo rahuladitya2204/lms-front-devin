@@ -66,7 +66,7 @@ export default function Testimonials<T>({
                 label: 'Delete ',
                 onClick: () => {
                   deleteItem(index)
-                  //   window.open(`instructors/${record._id}/editor`, '_blank')
+                  //   window.open(`users/${record._id}/editor`, '_blank')
                 },
                 key: 'edit',
                 icon: <DeleteOutlined />

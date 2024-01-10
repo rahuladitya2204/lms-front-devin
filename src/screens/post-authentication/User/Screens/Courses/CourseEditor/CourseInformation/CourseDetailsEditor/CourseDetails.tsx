@@ -14,7 +14,7 @@ import { Constants, Types } from '@adewaskar/lms-common'
 import { User, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
-import AddInstructor from '@User/Screens/Users/Users/AddUser'
+import AddUser from '@User/Screens/Users/Users/AddUser'
 import CreateCategory from '@User/Screens/Categories/CreateCategory'
 import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
@@ -59,7 +59,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
   const [form] = Form.useForm()
   const { id } = useParams()
   const courseId = props.courseId || id
-  const { data: instructors } = User.Queries.useGetInstructors()
+  const { data: users } = User.Queries.useGetUsers()
   const thumbnailImage = useWatch(['thumbnailImage'], form)
   useEffect(
     () => {
@@ -191,26 +191,26 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           <Row gutter={[0, 20]}>
             <Col flex={1}>
               <Form.Item
-                name="instructor"
+                name="user"
                 required
-                label="Instructor"
+                label="User"
                 rules={[
-                  { required: true, message: 'Please select a instructor' }
+                  { required: true, message: 'Please select a user' }
                 ]}
               >
                 <Select
                   style={{ width: '100%' }}
-                  placeholder="Select Instructor"
+                  placeholder="Select User"
                 >
-                  {instructors.map(instructor => {
+                  {users.map(user => {
                     return (
                       <Select.Option
-                        key={instructor._id}
-                        value={instructor._id}
+                        key={user._id}
+                        value={user._id}
                       >
                         <Space>
-                          <Avatar size={20} src={instructor.image} />
-                          <Typography.Text>{instructor.name}</Typography.Text>
+                          <Avatar size={20} src={user.image} />
+                          <Typography.Text>{user.name}</Typography.Text>
                         </Space>
                       </Select.Option>
                     )
@@ -228,7 +228,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
                   />
                 }
               >
-                <AddInstructor> </AddInstructor>
+                <AddUser> </AddUser>
               </ActionModal>
             </Col>
           </Row>

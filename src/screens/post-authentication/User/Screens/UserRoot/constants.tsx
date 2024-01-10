@@ -65,8 +65,8 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         // icon: <UserOutlined />
       },
       {
-        title: 'Instructors',
-        path: 'instructors',
+        title: 'Users',
+        path: 'users',
         // icon: <UserOutlined />
       }
     ]

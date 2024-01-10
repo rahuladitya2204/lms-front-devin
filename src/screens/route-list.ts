@@ -70,10 +70,10 @@ export const EnrolledCourseDetailScreen = lazy(() =>
 export const EnrolledCourseSuccessful = lazy(() =>
   import('@Learner/Screens/LearnerShop/EnrolledCourse/EnrolledCourseSuccessful')
 )
-export const InstructorEditor = lazy(() =>
+export const UserEditor = lazy(() =>
   import('./post-authentication/User/Screens/Users/Users/UserEditor')
 )
-export const InstructorsScreen = lazy(() =>
+export const UsersScreen = lazy(() =>
   import('./post-authentication/User/Screens/Users/Users/UsersScreen')
 )
 export const LearnerAccount = lazy(() =>

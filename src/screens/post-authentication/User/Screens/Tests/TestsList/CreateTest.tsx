@@ -35,7 +35,7 @@ const CreateTest: React.FC<CreateTestPropsI> = props => {
       }
     })
   }
-  // const { listItems: instructors } = User.Queries.useGetInstructors()
+  // const { listItems: users } = User.Queries.useGetUsers()
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical">
       <Form.Item

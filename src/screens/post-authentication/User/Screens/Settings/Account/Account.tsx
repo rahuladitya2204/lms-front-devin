@@ -18,7 +18,7 @@ function UserAccount () {
           {/* <Button
             loading={loading}
             type="primary"
-            onClick={saveInstructor}
+            onClick={saveUser}
             icon={<UploadOutlined />}
           >
             Save Account

@@ -56,7 +56,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const [form] = Form.useForm()
   const { id } = useParams()
   const testId = props.testId || id
-  const { data: instructors } = User.Queries.useGetInstructors()
+  const { data: users } = User.Queries.useGetUsers()
   const image = useWatch(['thumbnailImage'], form)
   const isDurationEnabled = useWatch(['duration', 'enabled'], form)
   const { listItems: categories } = User.Queries.useGetProductCategories('test')

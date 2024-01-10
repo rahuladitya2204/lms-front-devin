@@ -36,7 +36,7 @@ const { Text } = Typography
     const { event } = props;
     const navigate = useNavigate();
     const plan = event.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-    // const instructor = event.instructor as unknown as Types.Instructor;
+    // const user = event.user as unknown as Types.User;
       const formattedDuration = Utils.formatTime(event.duration * 60);
     return (
       // <Badge.Ribbon text="Best Seller" color="orange">

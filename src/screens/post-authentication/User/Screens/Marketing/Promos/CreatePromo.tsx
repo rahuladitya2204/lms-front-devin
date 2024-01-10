@@ -150,7 +150,7 @@ const CreatePromo: React.FC<CreatePromoComponentPropsI> = props => {
       </Form>
       {/* <Button
         key="back"
-        onClick={() => form.resetFields(['instructorName', 'title'])}
+        onClick={() => form.resetFields(['userName', 'title'])}
       >
         Clear
       </Button>, */}

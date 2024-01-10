@@ -37,7 +37,7 @@ function TestCard(props: TestCardPropsI) {
   const { test } = props;
   const navigate = useNavigate();
   const plan = test.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  // const instructor = test.instructor as unknown as Types.Instructor;
+  // const user = test.user as unknown as Types.User;
   const formattedDuration = test.duration.enabled? Utils.formatTime(test.duration.value * 60):null
   return (
     // <Badge.Ribbon text="Best Seller" color="orange">

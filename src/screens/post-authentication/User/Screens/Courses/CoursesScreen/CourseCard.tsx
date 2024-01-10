@@ -7,9 +7,9 @@ import {
 import { Enum, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
+import dayjs from 'dayjs';
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router'
-import dayjs from 'dayjs';
 
 const { Text } = Typography;
 
@@ -25,7 +25,7 @@ const CourseCardHolder = styled(Card)`
 
 function CourseCard(props: CourseCardProps) {
   const navigate = useNavigate();
-  const instructor = props.course.instructor as unknown as Types.Instructor;
+  const user = props.course.user as unknown as Types.User;
   const coverImage = <Image height={200}
     alt="example"
     src={props.course.thumbnailImage}
@@ -78,7 +78,7 @@ function CourseCard(props: CourseCardProps) {
               </Col>
         </Row>
           }
-        avatar={<Avatar src={instructor?.image} />}
+        avatar={<Avatar src={user?.image} />}
         title={props.course.title || ''} 
       />
     </CourseCardHolder>

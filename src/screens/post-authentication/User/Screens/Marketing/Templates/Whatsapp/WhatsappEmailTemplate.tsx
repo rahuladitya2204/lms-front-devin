@@ -75,7 +75,7 @@ const AddWhatsappTemplate: React.FC<
       </Form>
       {/* <Button
         key="back"
-        onClick={() => form.resetFields(['instructorName', 'title'])}
+        onClick={() => form.resetFields(['userName', 'title'])}
       >
         Clear
       </Button>, */}

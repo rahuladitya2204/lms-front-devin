@@ -52,8 +52,6 @@ import EnrolledCourseSuccessful from '@Learner/Screens/LearnerShop/EnrolledCours
 import EnrolledPackageDetailScreen from '@Learner/Screens/Products/Package/PackageDetailsViewer/EnrolledPackage/EnrolledPackageDetail'
 import EventDetailScreen from '@Learner/Screens/Products/Event/EventDetail'
 import EventsScreen from '@User/Screens/Event/EventScreen/Events'
-import InstructorEditor from './post-authentication/User/Screens/Users/Users/UserEditor'
-import InstructorsScreen from './post-authentication/User/Screens/Users/Users/UsersScreen'
 import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerCart from '@Learner/Screens/LearnerShop/LearnerCartScreen/LearnerCartScreen'
 import LearnerCourses from './post-authentication/Learner/Screens/Products/Courses'
@@ -100,6 +98,7 @@ import UploadPDFForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/Uplo
 import UploadVideoForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
 import UserDashboard from '@User/Screens/UserDashboard/UserDashboard'
+import UserEditor from './post-authentication/User/Screens/Users/Users/UserEditor'
 import UserFullPageHolder from '@User/Screens/UserRoot/UserFullPageHolder'
 import UserLoginScreen from './post-authentication/User/Screens/Login'
 import UserMeetingEnded from '@User/Screens/Event/LiveSessionPlayer/User/UserMeetingEnded'
@@ -108,6 +107,7 @@ import UserRegister from './post-authentication/User/Screens/Register'
 import UserRootScreen from '@User/Screens/UserRoot/UserRootScreen'
 import UserTestScreen from '@User/Screens/Tests/TestsList/TestsScreen'
 import UserTicketDetail from '@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen'
+import UsersScreen from './post-authentication/User/Screens/Users/Users/UsersScreen'
 import UsersTicketsScreen from '@User/Screens/Tickets/TicketsScreen/TicketsScreen'
 import WebpageViewer from '@User/Screens/Builder/Website/WebsiteBuilder/WebpageViewer'
 import WebsiteBuilderScreen from '@User/Screens/Builder/Website/WebsiteBuilder/WebsiteBuilder'
@@ -240,9 +240,9 @@ const router = (userType: string) => {
           <Route path="settings" element={<SettingsScreen />} />
           <Route path="asset-library" element={<AssetLibraryScreen />} />
           <Route path="users">
-            <Route path="instructors">
-              <Route path="" element={<InstructorsScreen />} />
-              <Route path=":id/editor" element={<InstructorEditor />} />
+            <Route path="users">
+              <Route path="" element={<UsersScreen />} />
+              <Route path=":id/editor" element={<UserEditor />} />
             </Route>
             <Route path="learners">
               <Route path="" element={<LearnersScreen />} />
@@ -252,21 +252,21 @@ const router = (userType: string) => {
           <Route path="platform">
             <Route path="app">
               <Route path="" element={<AppBuilderScreen />} />
-              <Route path=":id/editor" element={<InstructorEditor />} />
+              <Route path=":id/editor" element={<UserEditor />} />
             </Route>
             <Route path="website">
               <Route path="" element={<WebsiteScreen />} />
-              {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
+              {/* <Route path=":id/editor" element={<UserEditor />} /> */}
             </Route>
           </Route>
                 <Route path="marketing">
                 <Route path="campaign">
               <Route path="" element={<CampaignScreen />} />
-              {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
+              {/* <Route path=":id/editor" element={<UserEditor />} /> */}
             </Route>
             <Route path="affiliate">
               <Route path="" element={<AffiliateProgramScren />} />
-              {/* <Route path=":id/editor" element={<InstructorEditor />} /> */}
+              {/* <Route path=":id/editor" element={<UserEditor />} /> */}
             </Route>
             <Route path="create-campaign" element={<CreateCampaign />} />
             <Route path="edit-campaign/:id" element={<CreateCampaign />} />

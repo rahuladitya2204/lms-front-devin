@@ -68,7 +68,7 @@ const EnrolledCourseDetailScreen: React.FC<
 
   const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
 
-  const { instructor } = course
+  const { user } = course
 
   const continueLearning = () => {
     navigate(`../../courses/${lastPlayed.course}/player/${lastPlayed.item}`)
@@ -95,11 +95,11 @@ const EnrolledCourseDetailScreen: React.FC<
                         <Avatar
                           style={{ marginBottom: 20 }}
                           //   @ts-ignore
-                          src={instructor.image}
+                          src={user.image}
                         />
                         <Text style={{ position: 'relative', top: 4 }}>
                           {/* @ts-ignore  */}
-                          {instructor.name}
+                          {user.name}
                         </Text>
                       </Space>
                     </Col>

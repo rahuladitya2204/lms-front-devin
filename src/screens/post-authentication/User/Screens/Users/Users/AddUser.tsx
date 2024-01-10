@@ -11,7 +11,7 @@ interface CreateUserComponentPropsI {
   onFinish?: (data: Types.User) => void;
 }
 
-const CreateWebsitePage: React.FC<CreateUserComponentPropsI> = props => {
+const AddUser: React.FC<CreateUserComponentPropsI> = props => {
   const {
     mutate: createUser,
     isLoading: createUserLoading
@@ -97,4 +97,4 @@ const CreateWebsitePage: React.FC<CreateUserComponentPropsI> = props => {
   )
 }
 
-export default CreateWebsitePage
+export default AddUser

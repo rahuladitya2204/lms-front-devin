@@ -36,7 +36,7 @@ function CourseCard(props: CourseCardPropsI) {
   const { course } = props;
   const navigate = useNavigate();
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
-  const instructor = course.instructor as unknown as Types.Instructor;
+  const user = course.user as unknown as Types.User;
   const formattedDuration = Utils.formatTime(course.totalDuration)
   return (
     // <Badge.Ribbon text="Best Seller" color="orange">
@@ -81,7 +81,7 @@ function CourseCard(props: CourseCardPropsI) {
         <Row justify={'space-between'}>
             <Col>
             <Text ellipsis style={{ fontSize: 14,width: 100 }} type='secondary'>
-               {instructor.name}
+               {user.name}
             </Text>
     </Col>
             <Col>

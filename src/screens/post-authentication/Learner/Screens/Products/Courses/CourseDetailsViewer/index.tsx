@@ -78,7 +78,7 @@ function CourseDetailViewer () {
   const { data: course,isFetching: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId + '', {
     enabled: !!courseId
   });
-  const instructor = course.instructor as unknown as Types.Instructor;
+  const user = course.user as unknown as Types.User;
   const plan = course.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   const category = course?.category as unknown as Types.ProductCategory;
   return (
@@ -131,12 +131,12 @@ function CourseDetailViewer () {
                   <Col>
                     <Avatar
                       size={64}
-                      src={instructor?.image || <UserOutlined color="black" />}
+                      src={user?.image || <UserOutlined color="black" />}
                     />
                   </Col>
                   <Col>
                     <MetaText strong>Created By</MetaText> <br />
-                    <MetaText>{instructor?.name}</MetaText>
+                    <MetaText>{user?.name}</MetaText>
                   </Col>
                 </Row>
               </Col>

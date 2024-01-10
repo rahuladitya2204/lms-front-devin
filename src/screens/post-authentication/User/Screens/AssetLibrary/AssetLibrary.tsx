@@ -121,7 +121,7 @@ function AssetLibraryScreen() {
               {/* <Table.Column
                 title="Action"
                 key="action"
-                render={(_: any, record: Types.Instructor) => (
+                render={(_: any, record: Types.User) => (
                   <MoreButton
                     items={[
                       {

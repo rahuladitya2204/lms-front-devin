@@ -20,8 +20,8 @@ function TicketsScreen() {
         bodyStyle={{ padding: 0 }}
         title={'Support Tickets'}
         // extra={
-        //   <ActionModal cta={<Button type="primary">Add Instructor</Button>}>
-        //     <AddInstructor> </AddInstructor>
+        //   <ActionModal cta={<Button type="primary">Add User</Button>}>
+        //     <AddUser> </AddUser>
         //   </ActionModal>
         // }
       >

@@ -89,7 +89,7 @@ function EventCard(props: EventCardProps) {
             </Col>
           </Row>
         }
-        // avatar={<Avatar src={instructor?.image} />}
+        // avatar={<Avatar src={user?.image} />}
         title={props.event.title || ''}
       />
     </EventCardHolder>

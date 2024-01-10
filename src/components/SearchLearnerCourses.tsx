@@ -51,7 +51,7 @@ export default function SearchLearnerCourses() {
                   {c.title}
                 </Title>
                 {/* <Text style={{ margin: 0 }}>
-                    Taught By: {instructor.name}
+                    Taught By: {user.name}
                   </Text> */}
               </Space>
             </Space>

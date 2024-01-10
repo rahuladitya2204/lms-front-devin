@@ -63,7 +63,7 @@ function PackageCard({ package: productPackage }: PackageCardProps) {
             </Tag>
           </Space>
         }
-        // avatar={<Avatar src={instructor?.image} />}
+        // avatar={<Avatar src={user?.image} />}
         title={productPackage.title || ''}
       />
     </PackageCardHolder>

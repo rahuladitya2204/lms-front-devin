@@ -73,7 +73,7 @@ export default function LearnerCartCourseItem(
       <List.Item.Meta
         avatar={<Avatar shape="square" src={course?.thumbnailImage} />}
         title={<a href="https://ant.design">{course.title}</a>}
-        // description={`By ${instructor.name}`}
+        // description={`By ${user.name}`}
       />
     </List.Item>
   )

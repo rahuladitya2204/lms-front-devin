@@ -67,7 +67,7 @@ function TestCard({ test }: TestCardProps) {
             <Tag color="blue">Enrolled: {test.analytics.enrolled.count}</Tag>
           </Space>
         }
-        // avatar={<Avatar src={instructor?.image} />}
+        // avatar={<Avatar src={user?.image} />}
         title={test.title || ''}
       />
     </TestCardHolder>

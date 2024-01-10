@@ -29,8 +29,8 @@ const VARIABLES = [
     value: 'course.title'
   },
   {
-    name: 'Course Instructor',
-    value: 'course.instructor.name'
+    name: 'Course User',
+    value: 'course.user.name'
   },
   {
     name: 'Learner Name',
