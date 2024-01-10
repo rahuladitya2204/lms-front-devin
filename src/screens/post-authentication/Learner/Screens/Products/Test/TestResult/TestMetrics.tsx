@@ -53,7 +53,7 @@ export default function TestMetrics() {
   const navigate = useNavigate()
   const { testId } = useParams()
   const {
-    data: { test, metrics, status, feedback },
+    data: { test, metrics, status, feedback, leaderboard },
     isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   const { data: learner } = Learner.Queries.useGetLearnerDetails()
@@ -180,8 +180,8 @@ export default function TestMetrics() {
                     <Skeleton active />
                   </Card>
                 ) : (
-                    <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                      {/* @ts-ignore */}
+                  <Card style={{ marginBottom: 20, textAlign: 'center' }}>
+                    {/* @ts-ignore */}
                     {test.passingScore ? (
                       <Title level={4}>
                         Passing Score: {metrics.passingScore}
@@ -191,7 +191,7 @@ export default function TestMetrics() {
                       You Scored: {Math.ceil(metrics.learnerScore)} out of{' '}
                       {metrics.totalTestScore}
                     </Title>
-                     {/* {metrics.passingScore? <>
+                    {/* {metrics.passingScore? <>
                       {metrics.learnerScore >= metrics.passingScore ? (
                       <Alert
                         message="You have passed this test"
@@ -305,12 +305,14 @@ export default function TestMetrics() {
                           )
                         })}
                       </Card>
-                      </Col>
+                    </Col>
+                    {(leaderboard && leaderboard.length) ? (
                       <Col span={24}>
                         <Card title="Leaderboard">
-                         <TestLeaderboard/>
+                          <TestLeaderboard />
                         </Card>
                       </Col>
+                    ) : null}
                     {feedback.length ? (
                       <Col span={24}>
                         <Card title="Test Feedback">
