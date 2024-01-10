@@ -8,7 +8,7 @@ import {
   Row,
   Select,
   Space,
-  Switch,
+  Switch
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 
@@ -110,8 +110,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             value: testId + ''
           }}
           uploadType="image"
-          compress={{quality:0.8,maxHeight:200,maxWidth:330}}
-          cropper={{width:330,height:200}}
+          compress={{ quality: 0.8, maxHeight: 200, maxWidth: 330 }}
+          cropper={{ width: 330, height: 200 }}
           aspect={16 / 9}
           name="thumbnailImage"
           width="200px"
@@ -271,6 +271,22 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
               </Form.Item>
             </Col>
           </Row>
+        </Col>
+        <Col span={12}>
+          <Form.Item style={{ margin: 0 }} name={['mode']} label="Test Mode">
+            <Select
+              options={[
+                {
+                  label: 'Online',
+                  value: `online`
+                },
+                {
+                  label: 'Offline',
+                  value: `offline`
+                }
+              ]}
+            />
+          </Form.Item>
         </Col>
         {isLive ? (
           <Col span={8}>

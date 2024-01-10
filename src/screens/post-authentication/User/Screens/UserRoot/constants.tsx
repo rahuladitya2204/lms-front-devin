@@ -29,11 +29,6 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     path: 'products',
     children: [
       {
-        title: 'Courses',
-        path: 'courses',
-        // icon: <AppstoreOutlined />
-      },
-      {
         title: 'Tests',
         // icon: <PaperClipOutlined />,
         path: 'test',
@@ -48,6 +43,10 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         path: 'category',
         // icon: <AppstoreOutlined />
       },
+      // {
+      //   title: 'Courses',
+      //   path: 'courses',
+      // },
     ]
   },
   {
