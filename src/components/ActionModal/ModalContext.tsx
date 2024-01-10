@@ -20,6 +20,7 @@ export const useModal = () => {
 
 interface ModalProviderProps {
   children: ReactNode;
+  openModal?: Function;
 }
 
 interface ActionModalPropsI {
@@ -34,43 +35,41 @@ interface ActionModalPropsI {
   cta?: React.ReactNode;
   footer?: (f: Function) => React.ReactNode[];
 }
-
+interface ModalStackItem {
+  content: ReactNode;
+  opts: ActionModalPropsI;
+}
 
 export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
-  const [modalContent, setModalContent] = useState<ReactNode | null>(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const [opts, setOpts] = useState<ActionModalPropsI>({});
+  const [modalStack, setModalStack] = useState<ModalStackItem[]>([]);
 
-  const openModal = useCallback((content: ReactNode,opts?:ActionModalPropsI) => {
-    setModalContent(content);
-    setIsModalVisible(true);
-    // @ts-ignore
-    setOpts(opts)
+  const openModal = useCallback((content: ReactNode, opts: ActionModalPropsI = {}) => {
+    setModalStack(prevStack => [...prevStack, { content, opts }]);
   }, []);
 
   const hideModal = useCallback(() => {
-    setIsModalVisible(false);
-    setModalContent(null);
+    setModalStack(prevStack => prevStack.slice(0, -1));
   }, []);
-  // @ts-ignore
-  const childrenWithCloseModal = modalContent ? React.cloneElement(modalContent, {
-    closeModal: hideModal
-  }) : modalContent;
-
 
   return (
-    <ModalContext.Provider value={{ openModal, hideModal, modalContent }}>
+    // @ts-ignore
+    <ModalContext.Provider value={{ openModal, hideModal, modalStack }}>
       {children}
-      {/* @ts-ignore */}
-      <Modal
-        open={isModalVisible}
-        onCancel={hideModal} 
-        // @ts-ignore
-        {...opts}
-        footer={(opts?.footer) ? opts.footer(hideModal) : null}
-      >
-        {childrenWithCloseModal}
-      </Modal>
+      {modalStack.map((modalItem, index) => (
+        <Modal
+          key={index}
+          open={true}
+          onCancel={hideModal}
+          {...modalItem.opts}
+          footer={modalItem.opts.footer ? modalItem.opts.footer(hideModal) : null}
+        >
+ {/* @ts-ignore */}
+          {React.cloneElement(modalItem.content, {
+            closeModal: hideModal,
+            openModal
+          })}
+        </Modal>
+      ))}
     </ModalContext.Provider>
   );
 };

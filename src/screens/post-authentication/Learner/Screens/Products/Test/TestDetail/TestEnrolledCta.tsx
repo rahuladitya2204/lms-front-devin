@@ -1,13 +1,14 @@
 import { Alert, Button, Col, Row, Skeleton } from "antd";
 import { Enum, Learner } from "@adewaskar/lms-common";
-import { Fragment, useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 
 import Countdown from "@Components/Countdown";
 import TestTimeCountdown from "@Components/TestTimeCountdown";
 import { useNavigate } from "react-router";
 
 interface TestEnrolledCtaPropsI {
-    testId: string;
+  testId: string;
+  children?: any;
 }
 
 export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
@@ -24,6 +25,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
     const { data: { status }, isLoading: loadingResult } = Learner.Queries.useGetTestResult(testId, {
         enabled: !!(enrolledDetails?.metadata?.test.endedAt)
     });
+  // console.log(enrolledDetails,'enrolledDetails')
     const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
     const testStartDate =
       enrolledDetails.metadata.test.startedAt || test.live.startedAt;
@@ -117,7 +119,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
           }
           }
           else {
-            return <Button size="large" onClick={() => navigate(`/app/test/${testId}/start`)} block type='primary'>
+            return props.children || <Button size="large" onClick={() => navigate(`/app/test/${testId}/start`)} block type='primary'>
               Continue Test
             </Button>
           }
@@ -125,6 +127,6 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
        
       }
   
-  return null;
+  return props.children || <React.Fragment />;
 
 }

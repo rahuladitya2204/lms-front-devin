@@ -147,9 +147,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       <Col xs={24} sm={24} md={20}>
       <>
       <div >
-          {isEnrolled?(
-         (ep?.metadata?.test?.startedAt)? <>
-                  {!(ep?.metadata.test.endedAt) ? <><ActionModal
+              {isEnrolled ? <TestEnrolledCta testId={testId} >
+              <Card title='Answer Sheet' extra={<ActionModal
                     cta={
                       <Button
                         style={{ marginBottom: 15 }}
@@ -157,7 +156,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                         block >Upload Answer Sheet
                       </Button>}>
           <AnswerSheetFiles testId={testId+''} />
-        </ActionModal> <Card title='Answer Sheet'>
+        </ActionModal>}>
                   <OMRComponent testId={testId} />
                   <Divider />
                   <Row justify={'space-between'}>
@@ -168,40 +167,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                       {SubmitTestButton}</Col> : null}
                   </Row>
                     </Card>
-                  </> : <Card>
-                    <Row>
-                      <Col span={24}>
-                      <TestEnrolledCta testId={testId} />
-                      </Col>
-                </Row>
-                </Card>}
-            </> : <Button block type='primary' onClick={() => {
-                 confirm({
-                  title: 'Are you sure?',
-                  // icon: <ExclamationCircleOutlined />,
-                  content: `You want to start the test`,
-                  onOk() {
-                    startTest(
-                      {
-                        testId: test._id + '',
-                        language: `eng`
-                      },
-                      {
-                        onSuccess: () => {
-                          message.open({
-                            type: 'success',
-                            content:'Test has been started'
-                          })
-                          // navigate('../player')
-                        }
-                      }
-                    )      
-                  },
-                  okText: 'Start Test'
-                })
-                
-   }} loading={startingTest} size='large'>Start Test</Button>
-        ) : <Card>
+          </TestEnrolledCta> : <Card>
             <Row gutter={[20,20]}>
             <Col span={24}>
       <AppImage

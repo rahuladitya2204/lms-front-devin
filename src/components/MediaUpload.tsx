@@ -8,12 +8,16 @@ import { Col, Form, Row, Spin, Upload, UploadProps } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react'
 
+import Compressor from 'compressorjs'
 import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload'
 import { compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import styled from '@emotion/styled'
 
+interface CompressOptions extends Compressor.Options {
+  grayscale?: boolean;
+}
 interface MediaUploadPropsI {
   onUpload?: (d: any, file: File) => void;
   children?: ReactNode;
@@ -26,7 +30,7 @@ interface MediaUploadPropsI {
   source?: Types.FileSource;
   uploadType?: string;
   name?: string | string[];
-  compress?: Partial<Compressor.Options>;
+  compress?: Partial<CompressOptions>;
   cropper?: {width?:number,height?:number,aspect?:number};
   fileName?: string;
   multiple?: boolean;

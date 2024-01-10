@@ -282,11 +282,11 @@ export function compressImage(file: File, options?: Partial<Compressor.Options>)
       mimeType: 'image/jpeg', // Convert the image to JPEG format.
       ...options,
       // @ts-ignore
-      success(result) {
-        const compressedFile = new File([result], file.name, {
-          type: 'image/jpeg',
-          lastModified: Date.now()
-        })
+      success(compressedFile) {
+        if (options.grayscale) {
+          compressedFile = convertToGrayscaleJPEG(compressedFile);
+        }
+        console.log(compressedFile,'rrrrr')
         console.log('Prev file', file, 'Compressed File', compressedFile, 'Size Saved', `${Math.ceil(
           unit(file.size - compressedFile.size, 'byte')
             .to('megabyte')
@@ -300,4 +300,47 @@ export function compressImage(file: File, options?: Partial<Compressor.Options>)
       }
     })
   })
+}
+
+
+export function convertToGrayscaleJPEG(file) {
+  return new Promise((resolve, reject) => {
+    const imgElement = new Image();
+    imgElement.src = URL.createObjectURL(file);
+
+    imgElement.onload = () => {
+      // Initialize OpenCV matrices
+      let mat = cv.imread(imgElement);
+      let matGray = new cv.Mat();
+
+      // Convert the image to grayscale
+      cv.cvtColor(mat, matGray, cv.COLOR_RGBA2GRAY, 0);
+
+      // Create a canvas to output the grayscale image
+      const canvas = document.createElement('canvas');
+      canvas.width = imgElement.width;
+      canvas.height = imgElement.height;
+      const ctx = canvas.getContext('2d');
+
+      // Draw the grayscale image onto the canvas
+      cv.imshow(canvas, matGray);
+
+      // Convert the canvas to a Blob, then to a File
+      canvas.toBlob(blob => {
+        const grayscaleFile = new File([blob], file.name, {
+          type: 'image/jpeg',
+          lastModified: Date.now()
+        });
+        resolve(grayscaleFile);
+      }, 'image/jpeg');
+
+      // Clean up OpenCV objects
+      mat.delete();
+      matGray.delete();
+    };
+
+    imgElement.onerror = () => {
+      reject(new Error('Could not load image'));
+    };
+  });
 }
