@@ -262,7 +262,7 @@ const EmailForm = () => {
         {
           onSuccess: user => {
             Utils.Storage.SetItem('orgId', user.organisation)
-            navigate(`../app/products/courses`)
+            navigate(`../app/products/test`)
           },
           onError: () => {
             message.open({

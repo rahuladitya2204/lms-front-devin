@@ -53,9 +53,7 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical">
       <Form.Item
-        rules={[
-          { required: true, message: 'Please enter name of the user' }
-        ]}
+        rules={[{ required: true, message: 'Please enter name of the user' }]}
         name="name"
         label="Name"
         required
@@ -76,14 +74,21 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
         <Input placeholder="Designation of the user" />
       </Form.Item>
       <Form.Item
+        label="Mobile Number"
+        name="contactNo"
+        hasFeedback
         rules={[
-          { required: true, message: 'Please enter email of the user' }
+          {
+            required: true,
+            message: `Please enter user's mobile number!`
+          },
+          {
+            len: 10,
+            message: 'Contact number should be 10 digits!'
+          }
         ]}
-        name="email"
-        label="Email"
-        required
       >
-        <Input placeholder="Please enter email of the user" />
+        <Input placeholder="Mobile Number of the learner" type="number" />
       </Form.Item>
       <Button
         loading={createUserLoading || updateUserLoading}
