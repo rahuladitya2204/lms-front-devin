@@ -19,11 +19,11 @@ function Tabs(props: AppTabPropsI) {
           setActiveKey(location.hash.replace('#', ''))
         } else {
           // @ts-ignore
-          setActiveKey(props.items[0].key)
+          setActiveKey(props.items[0]?.key)
         }
       } else {
         if (props.items?.length) {
-          setActiveKey(props.items[0].key)
+          setActiveKey(props.items[0]?.key)
         }
       }
     },

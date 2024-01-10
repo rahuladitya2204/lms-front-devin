@@ -13,7 +13,6 @@ import { useSearchParams } from 'react-router-dom'
 
 const TestsScreen = () => {
   const [status, setStatus] = useState('upcoming')
-  const [params, setParams] = useSearchParams()
   // const category = params.get('category')
   const {
     data: categories,
@@ -39,12 +38,12 @@ const TestsScreen = () => {
     // </ActionModal>
   )
 
-  useEffect(
-    () => {
-      setParams({ category: categories[0]?._id })
-    },
-    [categories]
-  )
+  // useEffect(
+  //   () => {
+  //     setParams({ category: categories[0]?._id })
+  //   },
+  //   [categories]
+  // )
   const { openModal } = useModal()
   return (
     <Header title="Tests" extra={[CreateCourseCta]}>

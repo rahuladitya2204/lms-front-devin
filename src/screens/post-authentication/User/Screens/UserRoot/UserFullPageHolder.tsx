@@ -5,10 +5,12 @@ import ThemeProvider from 'screens/ThemeProvider'
 
 export default function UserFullPageHolder () {
   return (
-    <ModalProvider>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Outlet />
-      </Layout>
-    </ModalProvider>
+    <ThemeProvider>
+      <ModalProvider>
+        <Layout style={{ minHeight: '100vh' }}>
+          <Outlet />
+        </Layout>
+      </ModalProvider>
+    </ThemeProvider>
   )
 }

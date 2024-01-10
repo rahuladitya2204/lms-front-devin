@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
-import BgImage from './image.svg'
 import SelectFormGroup from '@Components/SelectFormGroup'
 import Tabs from '@Components/Tabs'
 import { Typography } from '@Components/Typography'
@@ -19,11 +18,12 @@ import { useNavigate } from 'react-router'
 import useOauth from './useOauth'
 
 function UserLogin () {
-  const { isTablet,isMobile} = useBreakpoint();
+  const { isTablet, isMobile } = useBreakpoint();
+  const { data: org} = User.Queries.useGetOrgDetails();
   return ( <Row style={{ minHeight: '100vh' }}>
   <Col
     style={{
-      backgroundColor: '#140342',
+      backgroundColor: 'rgb(246 246 246)',
       display: ((isTablet || isMobile)?'none':'flex'),
       justifyContent: 'center',
       alignItems: 'center'
@@ -34,7 +34,7 @@ function UserLogin () {
       sm={{ span: 0 }}
       xs={{ span: 0 }}
   >
-    <Image preview={false} width={'90%'} src={BgImage} />
+    <Image preview={false} width={'90%'} src={org.branding.logo.high.url} />
   </Col>
   <Col
     span={24}
@@ -90,25 +90,24 @@ const OtpForm = () => {
   const [form] = Form.useForm();
   const message = useMessage();
   const [otpSent, setOtpSent] = useState(false);
-  const [otpData, setOtpData] = useState({
-    contactNo: '',
-    countryCode: '91'
-  });
+  const [contactNo, setContactNo] = useState('');
   const { mutate: sendOtpApi,isLoading: sendingOtp} = User.Queries.useSendLoginOtp();
   const { mutate: verifyOtpApi, isLoading: verifyingOtp } = User.Queries.useVerifyLoginOtp();
-  const fullContactNo = otpData.countryCode + otpData.contactNo;
-  const sendOtp = async () => {
+  // const fullContactNo = contactNo;
+  const sendOtp = async ({contactNo: fullContactNo}:any) => {
+    setContactNo(fullContactNo)
     try {
       sendOtpApi({
-        contactNo:fullContactNo
+        contactNo:fullContactNo,
       },
         {
           onSuccess: user => {
-            setOtpSent(true);
+            console.log('generated')
             message.open({
               type: 'success',
               content:`OTP has been sent to ${fullContactNo}`
             })
+            setOtpSent(true);
           },
           onError: (e) => {
             console.log('errr', e);
@@ -127,10 +126,10 @@ const OtpForm = () => {
   const verifyOtp = async (d: {  code: string }) => {
     console.log(form.getFieldsValue(), 'llklklkl');
     try {
-      const values = await form.validateFields()
+      // const values = await form.validateFields()
       verifyOtpApi({
         code: d.code,
-        contactNo: fullContactNo,
+        contactNo: contactNo,
         // countryCode: otp.countryCode
       },
         {
@@ -139,7 +138,7 @@ const OtpForm = () => {
               type: 'success',
               content: `OTP Verified`
             })
-            navigate(`../app/products/courses`)
+            navigate(`../app/products/test`)
           },
           onError: () => {
               message.open({
@@ -153,7 +152,7 @@ const OtpForm = () => {
       console.log('Otp Failed:', error)
     }
   }
-  console.log(otpData,'otp data')
+  // console.log(otpData,'otp data')
   return <>
   {otpSent?   <Form
   form={form}
@@ -196,10 +195,7 @@ const OtpForm = () => {
       Resend OTP
     </Button>
   </Form.Item>
-    </Form> : <Form onValuesChange={e => setOtpData({
-  ...otpData,
-  ...e.otp
-})}
+    </Form> : <Form
   form={form}
   initialValues={{
     remember: true

@@ -19,7 +19,7 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
     mutate: updateLearner,
     isLoading: updateLearnerLoading
   } = User.Queries.useUpdateLearner()
-  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const [form] = Form.useForm()
 
   const onSubmit = (e: Types.CreateLearnerPayload) => {
@@ -56,20 +56,27 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
             { required: true, message: 'Please enter name of the learner' }
           ]}
           name="name"
-          label="Name"
+          label="Learner Name"
           required
         >
           <Input placeholder="Name of the learner" />
         </Form.Item>
         <Form.Item
+          label="Learner's Mobile Number"
+          name="contactNo"
+          hasFeedback
           rules={[
-            { required: true, message: 'Please enter email of the learner' }
+            {
+              required: true,
+              message: `Please enter learner's mobile number!`
+            },
+            {
+              len: 10,
+              message: 'Contact number should be 10 digits!'
+            }
           ]}
-          name="email"
-          label="Email"
-          required
         >
-          <Input placeholder="Please enter email of the learner" />
+          <Input placeholder="Mobile Number of the learner" type="number" />
         </Form.Item>
         <Button
           loading={createLearnerLoading || updateLearnerLoading}
@@ -77,7 +84,7 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
           type="primary"
           onClick={form.submit}
         >
-          Submit
+          Add Learner
         </Button>
       </Form>
     </Fragment>

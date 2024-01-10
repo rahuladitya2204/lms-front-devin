@@ -35,12 +35,12 @@ export const useAppInit = () => {
   const { mutate: validateAffiliateId } = Common.Queries.useValidateAffiliateId();
   let { subdomain, affiliateId } = useMemo(
     () => {
-      const hostname = window.location.hostname;
       const queryString = window.location.search;
       const queryParams = new URLSearchParams(queryString);
       const affiliateId = queryParams.get('ref'); // Replace 'myParam' with your parameter name
-      const parts = hostname.split('.')
-      const subdomain = parts.length > 2 ? parts[0] : null
+      const parts = window.location.hostname.split('.');
+      // Assuming the format is always [subdomain].[domain].[tld]
+      const subdomain = parts.slice(0, -2).join('.')
       return {
         affiliateId,subdomain
       }
@@ -49,6 +49,7 @@ export const useAppInit = () => {
   )
   useEffect(() => {// uncomment this later
     const sd = subdomain + '';
+    console.log(sd, 'ssss');
     // const sd = `www`
     validateOrgAlias({
       alias: sd,

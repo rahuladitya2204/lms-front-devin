@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react'
 import AppProvider from 'screens/AppProvider'
 import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import OrgLogo from '@Components/OrgLogo'
+import ThemeProvider from 'screens/ThemeProvider'
 import { User } from '@adewaskar/lms-common'
 import styled from '@emotion/styled'
 
@@ -23,7 +24,7 @@ const UserRootScreen: React.FC = () => {
   const navigate = useNavigate()
 
   return (
-    <AppProvider>
+    <ThemeProvider>
       <ModalProvider>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider
@@ -54,7 +55,7 @@ const UserRootScreen: React.FC = () => {
         </Layout>
       </Layout>
       </ModalProvider>
-    </AppProvider>
+    </ThemeProvider>
   )
 }
 
