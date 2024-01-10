@@ -1,5 +1,5 @@
+import { Alert, Button, Card, Checkbox, Col, Divider, Form, Image, Input, Row } from 'antd'
 import { ArrowLeftOutlined, ContactsFilled, GoogleOutlined } from '@ant-design/icons'
-import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, Row } from 'antd'
 import { Constants, Store, User } from '@adewaskar/lms-common'
 import { NavLink, useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
@@ -177,7 +177,7 @@ const OtpForm = () => {
   >
     <Input />
   </Form.Item>
-
+  <Alert style={{marginBottom:10}} message={`OTP has been sent to ${contactNo}`} type="success" />
       <Form.Item>
  
     <Button
@@ -188,7 +188,7 @@ const OtpForm = () => {
     >
       Verify OTP
         </Button>
-        <Button onClick={sendOtp}
+        <Button onClick={()=>sendOtp({contactNo})}
       loading={sendingOtp}
       block
     >
