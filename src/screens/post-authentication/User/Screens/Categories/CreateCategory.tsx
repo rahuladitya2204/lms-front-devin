@@ -72,11 +72,10 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
         <Form.Item name="thumbnailImage" label="Image">
           <MediaUpload
             uploadType="image"
-            name={['thumbnailImage']}
             cropper={{ aspect: 1 }}
             compress={{ maxWidth: 200, maxHeight: 200 }}
             width="100px"
-            renderItem={() => <Image width={'70%'} src={thumbnailImage} />}
+            // renderItem={() => <Image width={'70%'} src={thumbnailImage} />}
             onUpload={e => {
               console.log(e, 'eeee')
               form.setFieldValue(['thumbnailImage'], e.url)

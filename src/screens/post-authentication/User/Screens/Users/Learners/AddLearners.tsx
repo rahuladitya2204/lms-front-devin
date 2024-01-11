@@ -1,4 +1,4 @@
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Col, Form, Input, Modal, Row } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import { Types } from '@adewaskar/lms-common'
@@ -78,15 +78,19 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
         >
           <Input placeholder="Mobile Number of the learner" type="number" />
         </Form.Item>
-        <Button
-          loading={createLearnerLoading || updateLearnerLoading}
-          key="submit"
-          type="primary"
-          htmlType="submit"
-          // onClick={form.submit}
-        >
-          Add Learner
-        </Button>
+        <Row justify={'end'}>
+          <Col>
+            <Button
+              loading={createLearnerLoading || updateLearnerLoading}
+              key="submit"
+              type="primary"
+              htmlType="submit"
+              // onClick={form.submit}
+            >
+              Add Learner
+            </Button>
+          </Col>
+        </Row>
       </Form>
     </Fragment>
   )

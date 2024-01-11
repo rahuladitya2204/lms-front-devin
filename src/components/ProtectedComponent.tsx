@@ -18,11 +18,12 @@ const ProtectedContent = (props: ProtectedContentPropsI) => {
         {props.children}
       </div>
       {!isVerified && (
-        <ActionModal
+        <Modal
           title="Verification Required"
           open={true}
           closable={false}
-          keyboardClosable={false}
+          footer={null}
+          // keyboardClosable={false}
         >
           <Fragment>
             <Row gutter={[20, 30]}>
@@ -30,7 +31,7 @@ const ProtectedContent = (props: ProtectedContentPropsI) => {
               <Col span={24}>{cta}</Col>
             </Row>
           </Fragment>
-        </ActionModal>
+        </Modal>
       )}
     </div>
   )
