@@ -13,11 +13,11 @@ import dayjs from 'dayjs'
 import { useModal } from '@Components/ActionModal/ModalContext'
 
 function LearnersScreen () {
-  const { data, isFetching: loading } = User.Queries.useGetLearners()
+  const { data: learners, isFetching: loading } = User.Queries.useGetLearners()
   const { openModal } = useModal()
   return (
     <Header
-      title={'Learners'}
+      title={learners.length ? `Learners(${learners.length})` : 'Learners'}
       extra={[
         <Button
           onClick={() => {

@@ -82,7 +82,8 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
           loading={createLearnerLoading || updateLearnerLoading}
           key="submit"
           type="primary"
-          onClick={form.submit}
+          htmlType="submit"
+          // onClick={form.submit}
         >
           Add Learner
         </Button>

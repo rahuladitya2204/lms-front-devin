@@ -101,13 +101,8 @@ const OtpForm = (props:LearnerLoginPropsI) => {
           setContactNo(contactNo)
           setOtpSent(true);
         },
-        onError: (e:any) => {
-          if (org.register.type === Enum.LearnerRegisterType.LAZY) {
-            setShowRegister(true);
-          }
-          else {
-            message.open({ type: 'error', content: e.response.data.message});
-          }
+        onError: (e: any) => {
+          message.open({ type: 'error', content: e.response.data.message});
         }
       });
     } catch (error) {

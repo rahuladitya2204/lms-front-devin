@@ -3,6 +3,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
+import useMessage from '@Hooks/useMessage'
 
 interface CreateUserComponentPropsI {
   children?: ReactNode;
@@ -22,21 +23,35 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
   } = User.Queries.useUpdateUser()
 
   const [form] = Form.useForm()
-
+  const message = useMessage()
   const onSubmit = (e: Types.CreateUserPayload) => {
     if (props.data) {
       updateUser(
         { id: props.data._id, data: e },
         {
           onSuccess: () => {
+            message.open({
+              type: 'success',
+              content: 'User updated successfully'
+            })
             props.closeModal && props.closeModal()
+          },
+          onError: (er: any) => {
+            message.open({ type: 'error', content: er.response.data.message })
           }
         }
       )
     } else {
       createUser(e, {
         onSuccess: () => {
+          message.open({
+            type: 'success',
+            content: 'User added successfully'
+          })
           props.closeModal && props.closeModal()
+        },
+        onError: (er: any) => {
+          message.open({ type: 'error', content: er.response.data.message })
         }
       })
     }
@@ -60,7 +75,7 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
       >
         <Input placeholder="Name of the user" />
       </Form.Item>
-      <Form.Item
+      {/* <Form.Item
         rules={[
           {
             required: true,
@@ -72,7 +87,7 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
         required
       >
         <Input placeholder="Designation of the user" />
-      </Form.Item>
+      </Form.Item> */}
       <Form.Item
         label="Mobile Number"
         name="contactNo"
@@ -93,8 +108,9 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
       <Button
         loading={createUserLoading || updateUserLoading}
         key="submit"
+        htmlType='submit'
         type="primary"
-        onClick={form.submit}
+        // onClick={form.submit}
       >
         Submit
       </Button>
