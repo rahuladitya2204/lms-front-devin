@@ -89,7 +89,7 @@ export default function TestMetrics() {
           // icon: <ExclamationCircleOutlined />,
           content: `You want to exit reviewing?`,
           onOk() {
-            navigate('../')
+            navigate(`/app/test/${testId}`)
           },
           okText: 'Yes, Exit'
         })
