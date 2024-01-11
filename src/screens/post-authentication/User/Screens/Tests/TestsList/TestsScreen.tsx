@@ -77,7 +77,7 @@ const TestsScreen = () => {
               }
             }),
             {
-              label: 'Non-Categorized',
+              label: 'All',
               key: 'non-category',
               children: (
                 <TestsList

@@ -24,7 +24,7 @@ const TestStatus = () => {
   } = User.Queries.useEvaluateLiveTestResult()
   const { data: test, isLoading: loadingTest } = User.Queries.useGetTestDetails(testId + '')
   const { mutate: printResults,isLoading: printingResult } = User.Queries.usePrintTestResult(testId + '')
-  const result = test.result;
+  const result = test.result.metrics;
   const SkelArr = [1, 1, 1, 1, 1, 1];
   return (
     <Header
@@ -36,7 +36,7 @@ const TestStatus = () => {
         </span>
       }
       extra={[
-        <Dropdown.Button
+        <Button
           onClick={() => {
             confirm({
               title: `Are you sure, you want to genarate the results`,
@@ -48,22 +48,11 @@ const TestStatus = () => {
               okText: 'Generate Result'
             })
           }}
-          loading={generatingResult || printingResult}
-          type="primary"  trigger={['click']}
-          menu={{
-            items: [
-              {
-                label: 'Print Results',
-                key: 'generate-outline',
-                onClick: () => printResults(undefined, {
-                  onSuccess: (s) => printPdf(s)
-                })
-              }
-            ]
-          }}
+          loading={generatingResult}
+          type="primary"
         >
           Generate Result
-        </Dropdown.Button>
+        </Button>
       ]}
     >
       <Row gutter={[20, 30]}>
@@ -162,7 +151,12 @@ const TestStatus = () => {
         </Col> */}
         <Col span={24}>
           <Card>
-            <Tabs 
+            <Tabs tabBarExtraContent={{right:<Button loading={printingResult} onClick={() => printResults(undefined, {
+                  onSuccess: (s) => printPdf(s)
+            })}
+              type='primary'>
+              Print Result
+            </Button>}}
               defaultActiveKey="1"
               items={[
                 {

@@ -12,20 +12,24 @@ const { Text } = Typography
 
 const TestAttendedList = () => {
   const { testId } = useParams()
-  const { data,isLoading: loadingResult } = User.Queries.useGetTestResult(testId + '')
-  // const ranked = useMemo(
-  //   () => {
-  //     return [...data].map((i, index) => {
-  //       // @ts-ignore
-  //       i.rank = index + 1
-  //       return i
-  //     })
-  //   },
-  //   [data]
-  // )
+  const {
+    data: { result: { data, metrics } },
+    isLoading: loadingResult
+  } = User.Queries.useGetTestDetails(testId + '')
+  console.log(data, 'data')
+  const ranked = useMemo(
+    () => {
+      return [...data].map((i, index) => {
+        // @ts-ignore
+        i.rank = index + 1
+        return i
+      })
+    },
+    [data]
+  )
   return (
     // @ts-ignore
-    <Table dataSource={[]} loading={loadingResult}>
+    <Table dataSource={ranked} loading={loadingResult}>
       <Table.Column
         title="Rank"
         render={(_: any, record: Types.TestLearnerResult, index: number) => (
@@ -59,7 +63,7 @@ const TestAttendedList = () => {
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="blue-inverse">
             {Math.ceil(record?.metrics?.learnerScore)}/{Math.ceil(
-              record?.metrics?.totalTestScore
+              metrics?.totalTestScore
             )}
           </Tag>
         )}
