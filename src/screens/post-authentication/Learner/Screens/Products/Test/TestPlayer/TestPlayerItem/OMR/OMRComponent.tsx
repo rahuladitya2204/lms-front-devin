@@ -1,4 +1,4 @@
-import { Button, Checkbox, Col, Divider, Form, Modal, Radio, Row, Space, Spin, Typography } from 'antd';
+import { Button, Card, Checkbox, Col, Divider, Form, Modal, Radio, Row, Skeleton, Space, Spin, Typography } from 'antd';
 import { Enum, Learner } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 
@@ -179,3 +179,40 @@ resetQuestion(index)
 };
 
 export default OMRComponent;
+
+
+export const OMRSKeleton = () => {
+  const SkelArray = [1, 1, 1, 1, 1, 1, 1, 1, 1,1,1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+  return <Row style={{marginTop:30}}>
+  <Col xs={0} sm={0} md={2} />
+<Col xs={24} sm={24} md={20}>
+<Row gutter={[20, 30]}>
+<Col span={24}>
+<Skeleton.Button active block size='large' />
+</Col>
+<Col span={24}>
+<Card title={ <Skeleton.Button style={{height:15,width:15}} active block size='large' />}>
+<Row gutter={[30,20]}>
+{SkelArray.map(()=> <Col span={12}>
+  <Row justify={'space-between'}>
+    {/* <Col>
+      <Skeleton.Button style={{width:20,height: 20}} shape='circle' />
+    </Col> */}
+    <Col>
+      <Row gutter={[30,20]}>
+        {SkelArray.map(()=><Col>
+        <Skeleton.Avatar active style={{width:20,height: 20}} shape='circle' />
+        </Col>)}
+      </Row>
+    </Col>
+  </Row>
+</Col>)}
+</Row>
+</Card>
+</Col>
+</Row>
+</Col>
+<Col xs={0} sm={0} md={2} />
+
+</Row>
+}

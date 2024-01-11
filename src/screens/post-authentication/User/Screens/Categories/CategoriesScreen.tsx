@@ -68,18 +68,11 @@ function CategoriesScreen() {
               <MoreButton
                 items={[
                   {
-                    label: (
-                      <Button
-                        type="text"
-                        onClick={() =>
-                          openModal(<CreateCategory data={record} />, {
-                            title: 'Edit Category'
-                          })
-                        }
-                      >
-                        Edit Category
-                      </Button>
-                    ),
+                    label: 'Edit Category',
+                    onClick: () =>
+                      openModal(<CreateCategory data={record} />, {
+                        title: 'Edit Category'
+                      }),
                     key: 'edit'
                     // icon: <EditOutlined />,
                     // onClick: () => navigate(`${record._id}/edit`)

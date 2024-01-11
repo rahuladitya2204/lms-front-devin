@@ -57,7 +57,7 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
         logoutUser(undefined, {
           onSuccess: () => {
             console.log('Loggin out')
-            navigate('../../../login')
+            navigate('/login')
             qc.invalidateQueries()
           }
         })

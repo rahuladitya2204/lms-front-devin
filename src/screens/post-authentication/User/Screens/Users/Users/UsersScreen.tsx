@@ -47,13 +47,9 @@ function UsersScreen() {
                 dataIndex="designation"
                 key="designation"
               />
-              {/* <Table.Column
-                title="Last Login"
-                dataIndex="lastActive"
-
-              /> */}
-              <Table.Column title="Courses" dataIndex="courses" key="courses" />
-              <Table.Column title="Rating" dataIndex="rating" key="rating" />
+              
+              {/* <Table.Column title="Courses" dataIndex="courses" key="courses" />
+              <Table.Column title="Rating" dataIndex="rating" key="rating" /> */}
               <Table.Column
                 title="Joined On"
                 dataIndex="createdAt"

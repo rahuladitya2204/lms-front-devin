@@ -28,7 +28,7 @@ export default function TestOutline({
 const calculateTotalScore = () => {
         let total = 0;
         form.getFieldValue('sections').forEach((section:OutlineSection) => {
-          total += section.itemCount * section.score.correct;
+          total += section.itemCount * (section?.score?.correct || 0);
         });
         setTotalScore(total);
       };  const [form] = Form.useForm<CreateTestOutline>()

@@ -26,7 +26,7 @@ export default function ProcessingResult(props: ProcessingResultPropsI) {
               Your test is under evaluation..
             </Title>
             <Title level={3} style={{ textAlign: 'center' }}>
-              Check back in few minutes
+              Please check back in few minutes
             </Title>
             <Title type="secondary" level={5} style={{ textAlign: 'center' }}>
               Please refresh this page in some time. <br />

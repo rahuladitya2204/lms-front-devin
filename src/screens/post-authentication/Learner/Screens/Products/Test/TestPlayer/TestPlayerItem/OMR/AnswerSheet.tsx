@@ -16,6 +16,7 @@ import {
   Typography
 } from 'antd'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
+import OMRComponent, { OMRSKeleton } from './OMRComponent'
 import React, { useEffect } from 'react'
 import { Text, Title } from '@Components/Typography/Typography'
 import { useNavigate, useParams } from 'react-router'
@@ -24,7 +25,6 @@ import ActionModal from '@Components/ActionModal/ActionModal'
 import AppImage from '@Components/Image'
 import Header from '@Components/Header'
 import LearnerLogin from '@Learner/Screens/Login'
-import OMRComponent from './OMRComponent'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import { ReloadOutlined } from '@ant-design/icons'
 import TestEnrolledCta from '../../../TestDetail/TestEnrolledCta'
@@ -104,40 +104,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   >
     Submit Test
   </Button>;
-  const SkelArray = [1, 1, 1, 1, 1, 1, 1, 1, 1,1,1 ,1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
   if (allLoading) {
-    return <Row style={{marginTop:30}}>
-            <Col xs={0} sm={0} md={2} />
-      <Col xs={24} sm={24} md={20}>
-      <Row gutter={[20, 30]}>
-    <Col span={24}>
-      <Skeleton.Button active block size='large' />
-    </Col>
-    <Col span={24}>
-      <Card title={ <Skeleton.Button style={{height:15,width:15}} active block size='large' />}>
-        <Row gutter={[30,20]}>
-         {SkelArray.map(()=> <Col span={12}>
-            <Row justify={'space-between'}>
-              {/* <Col>
-                <Skeleton.Button style={{width:20,height: 20}} shape='circle' />
-              </Col> */}
-              <Col>
-                <Row gutter={[30,20]}>
-                  {SkelArray.map(()=><Col>
-                  <Skeleton.Avatar active style={{width:20,height: 20}} shape='circle' />
-                  </Col>)}
-                </Row>
-              </Col>
-            </Row>
-          </Col>)}
-        </Row>
-      </Card>
-    </Col>
-  </Row>
-      </Col>
-      <Col xs={0} sm={0} md={2} />
-
-    </Row>
+    return <OMRSKeleton/>
   
   }
   return (
@@ -151,8 +119,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
               <Card title='Answer Sheet' extra={<ActionModal
                     cta={
                       <Button
-                        style={{ marginBottom: 15 }}
-                        type='primary'
+                        // style={{ marginBottom: 15 }}
+                        // type='primary'
                         block >Upload Answer Sheet
                       </Button>}>
           <AnswerSheetFiles testId={testId+''} />

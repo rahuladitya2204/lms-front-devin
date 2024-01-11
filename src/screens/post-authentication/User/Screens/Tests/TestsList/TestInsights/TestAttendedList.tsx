@@ -13,19 +13,19 @@ const { Text } = Typography
 const TestAttendedList = () => {
   const { testId } = useParams()
   const { data,isLoading: loadingResult } = User.Queries.useGetTestResult(testId + '')
-  const ranked = useMemo(
-    () => {
-      return [...data].map((i, index) => {
-        // @ts-ignore
-        i.rank = index + 1
-        return i
-      })
-    },
-    [data]
-  )
+  // const ranked = useMemo(
+  //   () => {
+  //     return [...data].map((i, index) => {
+  //       // @ts-ignore
+  //       i.rank = index + 1
+  //       return i
+  //     })
+  //   },
+  //   [data]
+  // )
   return (
     // @ts-ignore
-    <Table dataSource={ranked} loading={loadingResult}>
+    <Table dataSource={[]} loading={loadingResult}>
       <Table.Column
         title="Rank"
         render={(_: any, record: Types.TestLearnerResult, index: number) => (

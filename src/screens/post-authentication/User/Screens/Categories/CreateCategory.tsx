@@ -73,7 +73,8 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
           <MediaUpload
             uploadType="image"
             name={['thumbnailImage']}
-            cropper={{aspect:1}}
+            cropper={{ aspect: 1 }}
+            compress={{ maxWidth: 200, maxHeight: 200 }}
             width="100px"
             renderItem={() => <Image width={'70%'} src={thumbnailImage} />}
             onUpload={e => {

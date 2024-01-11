@@ -53,28 +53,46 @@ const TestsScreen = () => {
           navigateWithHash
           tabBarExtraContent={{ right: CategoriesSelect }}
           // defaultActiveKey="1"
-          items={categories.map(c => {
-            return {
-              key: c._id,
-              label: c.title,
-              children: (
-                <TestsList
-                  filter={{
-                    // @ts-ignore
-                    category: c._id,
-                    status:
-                      status === 'upcoming'
-                        ? [
+          items={[
+            ...categories.map(c => {
+              return {
+                key: c._id,
+                label: c.title,
+                children: (
+                  <TestsList
+                    filter={{
+                      // @ts-ignore
+                      category: c._id,
+                      status:
+                        status === 'upcoming'
+                          ? [
                             Enum.TestStatus.DRAFT,
                             Enum.TestStatus.PUBLISHED,
                             Enum.TestStatus.IN_PROGRESS
                           ]
-                        : [Enum.TestStatus.ENDED]
+                          : [Enum.TestStatus.ENDED]
+                    }}
+                  />
+                )
+              }
+            }),
+            {
+              label: 'Non-Categorized',
+              key: 'non-category',
+              children: (
+                <TestsList
+                  filter={{
+                    // @ts-ignore
+                    status: [
+                      Enum.TestStatus.DRAFT,
+                      Enum.TestStatus.PUBLISHED,
+                      Enum.TestStatus.IN_PROGRESS
+                    ]
                   }}
                 />
               )
             }
-          })}
+          ]}
         />
       </Spin>
     </Header>

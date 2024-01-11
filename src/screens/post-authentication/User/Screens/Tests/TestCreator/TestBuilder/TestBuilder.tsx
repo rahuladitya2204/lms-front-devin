@@ -352,7 +352,10 @@ function TestBuilderScreen() {
                 {
                   label: 'Generate Test Outline',
                   key: 'generate-outline',
-                  onClick: () => openModal(<TestOutline testId={testId + ''} />)
+                  onClick: () =>
+                    openModal(<TestOutline testId={testId + ''} />, {
+                      width: 760
+                    })
                 },
                 {
                   label: `Print Action`,
@@ -473,7 +476,7 @@ function TestBuilderScreen() {
                       uploadType="image"
                       compress={{ maxWidth: 330, maxHeight: 200, quality: 0.9 }}
                       prefixKey={`Tests/${testId}/thumbnailImage`}
-                      cropper={{width:330,height:200}}
+                      cropper={{ width: 330, height: 200 }}
                       // width="100%"
                       height="200px"
                       aspect={16 / 9}
