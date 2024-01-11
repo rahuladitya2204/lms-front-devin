@@ -26,7 +26,7 @@ export default function ProductCheckoutButton(
     // @ts-ignore
     plan
   } } = Learner.Queries.useGetProductDetail(props.product);
-  console.log(plan, 'pupupu');
+  // console.log(plan, 'pupupu');
   const {
     mutate: createOrder,
     isLoading: isCreatingOrder
