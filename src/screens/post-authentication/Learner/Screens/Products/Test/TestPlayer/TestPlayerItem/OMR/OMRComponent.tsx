@@ -1,5 +1,5 @@
 import { Button, Card, Checkbox, Col, Divider, Form, Modal, Radio, Row, Skeleton, Space, Spin, Typography } from 'antd';
-import { Enum, Learner } from '@adewaskar/lms-common';
+import { Enum, Learner, Types, User } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 
 import { ReloadOutlined } from '@ant-design/icons';
@@ -12,23 +12,34 @@ const confirm = Modal.confirm;
 interface OMRComponentPropsI {
   testId: string;
   closeModal?: Function;
+  type?: string;
+  learnerId?: string;
+  readonly?: boolean;
 }
 
-const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
-  const { data: test } = Learner.Queries.useGetTestDetails(
+const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId, closeModal,type,learnerId,readonly }) => {
+  const NAMESPACE = type === 'user' ? User : Learner;
+  const { data: test } = NAMESPACE.Queries.useGetTestDetails(
     testId,
+    // @ts-ignore
     Enum.TestDetailMode.TEST
   );
-  const { data: { status: { sections } },isLoading } = Learner.Queries.useGetTestStatus(
-    testId + ''
-  );;
+      // @ts-ignore
+const { data: { status: { sections } },isLoading } = NAMESPACE.Queries.useGetTestStatus(
+  testId + '',
+  // @ts-ignore
+  learnerId
+  );
+  // console.log(sections, 'hullla');
   
-  
-  const { mutate: submitResponses,isLoading: submittingResponses } = Learner.Queries.useSubmitTestResponses(testId);
+      // @ts-ignore
+  const { mutate: submitResponses,isLoading: submittingResponses } = NAMESPACE.Queries.useSubmitTestResponses(testId);
 
   useEffect(() => { 
-    const items = sections.map(i => i.items).flat()
-      .map(i => {
+      // @ts-ignore
+      const items = sections.map(i => i.items).flat()
+        // @ts-ignore
+  .map(i => {
         // console.log(i,'item')
         return i.type === Enum.TestQuestionType.SINGLE ?
           ((i.answerGiven?.options) ? (i.answerGiven?.options[0]) : null) :
@@ -56,7 +67,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
   };
 
   const handleSubmit = (values: any) => {
-    const resp:any[] = []
+    const resp: Types.TestAnswer[] = [];
     // console.log(values,'vv')
     // @ts-ignore
    items
@@ -70,13 +81,19 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
           }
         }
         if (values.answers[index]) {
+              // @ts-ignore
           resp.push(i)
         }
       })
       // .filter(question => question.options != null && question.options.length > 0);
 
     // console.log(resp);
-    submitResponses(resp, {
+    const body: any = { responses: resp };
+    if (learnerId) {
+      body.learnerId = learnerId
+    }
+    // @ts-ignore
+    submitResponses(body, {
       onSuccess: () => {
         message.open({
           type: 'success',
@@ -131,7 +148,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                             {item.type === 'single' ? (
                               <Radio.Group>
                                 {item.options.map((option) => (
-                                  <Radio key={option._id} value={option._id}>
+                                  <Radio disabled={readonly} key={option._id} value={option._id}>
                                     { String.fromCharCode(65 + item.options.indexOf(option))}
                                   </Radio>
                                 ))}
@@ -139,7 +156,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                             ) : (
                               <Checkbox.Group>
                                 {item.options.map((option) => (
-                                  <Checkbox key={option._id} value={option._id}>
+                                  <Checkbox disabled={readonly} key={option._id} value={option._id}>
                                     {String.fromCharCode(65 + item.options.indexOf(option))}
                                   </Checkbox>
                                 ))}
@@ -147,12 +164,14 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({ testId ,closeModal}) => {
                             )}
                                  </Form.Item>
                                    </Col>
-                                   <Col>
+                                  {!readonly? <Col>
                                      <Button type='primary' onClick={() => {
 resetQuestion(index)
 
-                                   }} shape='circle' icon={<ReloadOutlined />} size='small' ></Button>
-                                   </Col>
+                                   }} shape='circle' icon={<ReloadOutlined />} size='small' >
+                                     
+                                   </Button>
+                                   </Col>:null}
                           </Row>
                         </Col>
                              </Row>
@@ -164,7 +183,7 @@ resetQuestion(index)
  </>
         )}
       </Form.List>
-      <Divider/>
+      {!readonly?<><Divider/>
       <Row gutter={[20,20]} justify={'space-between'}>
         <Col>{ ResetAnswerButton}</Col>
         <Col> <Form.Item>
@@ -172,7 +191,7 @@ resetQuestion(index)
             Save Answers
         </Button>
       </Form.Item></Col>
-     </Row>
+     </Row></>:null}
     </Form>
     </Spin>
   );

@@ -1,6 +1,5 @@
-import React, { ReactNode, createContext, useCallback, useContext, useState } from 'react';
-
-import { Modal } from 'antd';
+import { Modal, Spin } from 'antd';
+import React, { ReactNode, Suspense, createContext, useCallback, useContext, useState } from 'react';
 
 interface ModalContextType {
   openModal: (content: ReactNode,opts?:ActionModalPropsI) => void;
@@ -26,6 +25,7 @@ interface ModalProviderProps {
 interface ActionModalPropsI {
   closable?: boolean;
   onClose?: () => void;
+  lazy?: boolean;
   title?: string | React.ReactNode;
   width?: number;
   keyboardClosable?: boolean;
@@ -50,7 +50,19 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const hideModal = useCallback(() => {
     setModalStack(prevStack => prevStack.slice(0, -1));
   }, []);
-
+  const renderContent = (modalItem:any) => {
+    const CloseWithChildren = React.cloneElement(modalItem.content, {
+      closeModal: hideModal,
+      openModal
+    });
+    // console.log(props.children.$$typeof, 'LKLK')
+    if (modalItem.opts.lazy) {
+      return (
+        <Suspense fallback={<Spin size="large" />}>{CloseWithChildren}</Suspense>
+      )
+    }
+    return CloseWithChildren
+  }
   return (
     // @ts-ignore
     <ModalContext.Provider value={{ openModal, hideModal, modalStack }}>
@@ -64,10 +76,7 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
           footer={modalItem.opts.footer ? modalItem.opts.footer(hideModal) : null}
         >
  {/* @ts-ignore */}
-          {React.cloneElement(modalItem.content, {
-            closeModal: hideModal,
-            openModal
-          })}
+         {renderContent(modalItem)}
         </Modal>
       ))}
     </ModalContext.Provider>
