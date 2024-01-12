@@ -6,7 +6,7 @@ import React from 'react'
 import { Store } from '@adewaskar/lms-common'
 
 const NotFoundScreen: React.FC = () => {
-  const isAliasValid = Store.useGlobal(s => s.isAliasValid)
+  const isAliasValid = Store.useGlobal(s => s.isAliasValid);
   return isAliasValid ? (
     <div
       style={{

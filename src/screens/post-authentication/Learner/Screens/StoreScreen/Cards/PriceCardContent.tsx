@@ -11,7 +11,7 @@ export default function PriceCardContent({plan}: PriceCardContentT) {
     const isPriceSame = ((plan?.displayPrice?.value) === (plan?.finalPrice?.value));
     return <Row justify={'space-between'} align={'middle'} >
         <Col>
-        {(plan.finalPrice.value!==0)?<>
+        {((plan?.finalPrice?.value)!==0)?<>
                 <Row>
                     <Col span={24}>
                     {!isPriceSame?<Text style={{ textAlign: 'right', textDecoration: 'line-through' }} type='secondary'>

@@ -84,10 +84,10 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       }
       >
       <Form layout='vertical' form={form}>
-        <div style={{ minHeight: '72vh' }}>
+        <div style={{ minHeight: '50vh' }}>
           <Row gutter={[20, 30]}>
           <Col span={24}>
-              <Paragraph style={{ fontSize: 16 }}>
+              <Paragraph style={{ fontSize: 15 }}>
                 {/* @ts-ignore */}
                 {loadingEp?<Skeleton paragraph={{rows:1}} />: <HtmlViewer content={currentQuestion.title?.text[language] + ''} />}
                

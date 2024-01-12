@@ -50,7 +50,7 @@ export const useAppInit = () => {
   )
   useEffect(() => {// uncomment this later
     const sd = subdomain + '';
-    console.log(sd, 'ssss');
+    // console.log(sd, 'ssss');
     // const sd = `www`
     validateOrgAlias({
       alias: sd,

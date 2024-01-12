@@ -1,5 +1,5 @@
 import { Common, Constants, Enum, Store } from '@adewaskar/lms-common'
-import { ConfigProvider, message, theme } from 'antd'
+import { ConfigProvider, Spin, message, theme } from 'antd'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
 import ApplyFavicon from '@Learner/Screens/LearnerRoot/ApplyFavicon'
@@ -11,15 +11,18 @@ import { useMemo } from 'react'
 
 const { darkAlgorithm } = theme
 function ThemeProvider(props: any) {
-  const { data: organisation } = Common.Queries.useGetOrgDetails()
+  const {
+    data: organisation,
+    isLoading: loadingOrgDetails
+  } = Common.Queries.useGetOrgDetails()
   // @ts-ignore
   const { branding, shortName } =
     organisation || Constants.INITIAL_ORG_SETTING_DETAILS.branding
   // console.log(branding, 'branding')
-  const { isLoading } = useDynamicFont({
-    fontName: branding?.font?.name,
-    fontUrl: branding?.font?.url
-  })
+  // const { isLoading } = useDynamicFont({
+  //   fontName: branding?.font?.name,
+  //   fontUrl: branding?.font?.url
+  // })
   const [messageApi, context] = message.useMessage()
   const algorithm = useMemo(
     () => {
@@ -35,7 +38,8 @@ function ThemeProvider(props: any) {
   // if (isLoading || props.showLoadingScreen) {
   //   return <LoadingScreen />
   // }
-
+  // console.log(organisation._id, 'bbrr')
+  const showLoader = !organisation._id
   return (
     // @ts-ignore
     <MessageContext.Provider value={messageApi}>
@@ -51,7 +55,15 @@ function ThemeProvider(props: any) {
         }}
         csp={{ nonce: 'YourNonceCode' }}
       >
-        <ModalProvider>{props.children}</ModalProvider>
+        <ModalProvider>
+          {showLoader ? (
+            <div style={{ position: 'fixed', left: '50%', top: '50%' }}>
+              <Spin tip="Loading.." />
+            </div>
+          ) : (
+            props.children
+          )}
+        </ModalProvider>
       </ConfigProvider>
       <ApplyFavicon shortName={shortName} faviconUrl={branding.favIcon.url} />
       {/* <Banner /> */}

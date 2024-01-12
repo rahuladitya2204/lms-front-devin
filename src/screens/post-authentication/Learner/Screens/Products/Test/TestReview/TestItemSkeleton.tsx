@@ -7,7 +7,7 @@ export default function TestItemSkeleton () {
   return (
     <Card
       title={<Skeleton.Button style={{ height: 25 }} active />}
-      style={{ minHeight: '80vh' }}
+      style={{ minHeight: '63vh' }}
       extra={[
         <Row gutter={[10, 20]}>
           <Col>
