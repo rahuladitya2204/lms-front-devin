@@ -63,7 +63,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
     isLoading: printingOMR
   } = User.Queries.usePrintTest(props.testId)
   return (
-    <Form form={form} onFinish={onSubmit}>
+    <Form style={{ marginTop: 15 }} form={form} onFinish={onSubmit}>
       <Row justify={'space-between'} align="middle">
         <Col>Question Paper</Col>
         <Col>
@@ -112,7 +112,6 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
           </Form.Item>
         </Col>
       </Row>
-      <Divider />
       <Row justify={'space-between'} align="middle">
         <Col> Split Page</Col>
         <Col>
@@ -125,8 +124,21 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
           </Form.Item>
         </Col>
       </Row>
-      <Divider />
       <Row gutter={[20, 20]} justify={'end'}>
+        <Col span={24}>
+          <Button
+            loading={printingTest}
+            block
+            type="primary"
+            onClick={form.submit}
+            disabled={
+              !(body.questions || body.answers || body.solutions || body.full)
+            }
+          >
+            Print Test Paper
+          </Button>
+        </Col>
+        <Divider style={{ margin: 0 }} />
         <Col span={24}>
           <Button
             loading={printingOMR}
@@ -147,20 +159,6 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
             }
           >
             Print Blank OMR Sheet
-          </Button>
-        </Col>
-
-        <Col span={24}>
-          <Button
-            loading={printingTest}
-            block
-            type="primary"
-            onClick={form.submit}
-            disabled={
-              !(body.questions || body.answers || body.solutions || body.full)
-            }
-          >
-            Print Test Paper
           </Button>
         </Col>
       </Row>

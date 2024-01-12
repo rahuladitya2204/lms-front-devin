@@ -360,7 +360,10 @@ function TestBuilderScreen() {
                 {
                   label: `Print Action`,
                   key: 'print-test',
-                  onClick: () => openModal(<PrintPrompt testId={testId + ''} />)
+                  onClick: () =>
+                    openModal(<PrintPrompt testId={testId + ''} />, {
+                      title: 'Print'
+                    })
                 },
                 {
                   label: 'Generate Criterias',
