@@ -9,6 +9,7 @@ import Header from '@Components/Header'
 // import PastTest from './PastTest'
 import Tabs from '@Components/Tabs'
 import TestAttendedList from './TestAttendedList'
+import TestEnrolledList from './EnrolledList'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { printPdf } from '@Components/SunEditor/utils'
@@ -157,12 +158,17 @@ const TestStatus = () => {
               type='primary'>
               Print Result
             </Button>}}
-              defaultActiveKey="1"
+              defaultActiveKey="1" navigateWithHash
               items={[
                 {
                   key: 'Attended',
                   label: 'Attended',
                   children: <TestAttendedList />
+                },
+                {
+                  key: 'Enrolled',
+                  label: 'Enrolled',
+                  children: <TestEnrolledList />
                 }
               ]}
             />

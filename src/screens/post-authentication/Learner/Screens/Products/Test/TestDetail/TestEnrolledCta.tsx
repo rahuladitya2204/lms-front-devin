@@ -88,7 +88,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
         }
       }
       else {
-        // console.log(enrolledDetails.metadata.test, 'enrolledDetails')
+        console.log(testStartDate, 'enrolledDetails')
         if (!testStartDate) {
           return <Button size='large' onClick={() => navigate(`/app/test/${testId}/start`)} block type='primary'>
             Start Test

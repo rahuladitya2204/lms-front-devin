@@ -1,6 +1,6 @@
 import AddMoneyToWallet, { useCreateWallterOrder } from '@Learner/Screens/Account/LearnerWallet/AddMoneyToWallet'
 import { Button, ButtonProps, Modal } from 'antd'
-import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from './ActionModal/ActionModal'
 import ProductWalletNudge from './ProductWalletNudge'
@@ -13,6 +13,7 @@ interface ProductCheckoutButtonPropsI extends ButtonProps {
     type: string,
     id: string
   };
+  ctaText?: string;
   onSuccess: () => void;
 }
 
@@ -31,6 +32,7 @@ export default function ProductCheckoutButton(
     mutate: createOrder,
     isLoading: isCreatingOrder
   } = Learner.Queries.useCreateOrderFromProduct();
+  // const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const { addMoney, isLoading } = useCreateWallterOrder();
   const { data: { wallet } } = Learner.Queries.useGetLearnerDetails()
   const {
@@ -137,7 +139,7 @@ export default function ProductCheckoutButton(
       loading={isCreatingOrder || updatingPaymentOrder || isLoading}
       {...props}
     >
-      {props.children || (isFree?'Enroll Now':'Buy Now')}
+      {props.children || (isFree?(props.ctaText?props.ctaText:'Enroll Now'):'Buy Now')}
     </Button>
     </>
   )

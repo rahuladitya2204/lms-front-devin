@@ -9,13 +9,24 @@ import { Outlet } from 'react-router'
 import ThemeProvider from './ThemeProvider'
 
 export default function LearnerFullPageHolder () {
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
   return (
     <ThemeProvider>
       <ModalProvider>
         <Layout
           style={{ minHeight: '100vh', paddingLeft: 10, paddingRight: 10 }}
         >
-          <Outlet />
+          {isSignedIn ? (
+            <Outlet />
+          ) : (
+            <Row justify={'center'} align={'middle'}>
+              <Col>
+                <Card style={{ marginTop: 120, width: 300 }}>
+                  <LearnerLogin />
+                </Card>
+              </Col>
+            </Row>
+          )}
         </Layout>
       </ModalProvider>
     </ThemeProvider>
