@@ -41,7 +41,7 @@ export const useAppInit = () => {
       const parts = window.location.hostname.split('.');
       // Assuming the format is always [subdomain].[domain].[tld]
       const subdomain = parts.slice(0, -2).join('-');
-      console.log(subdomain,'ddss')
+      // console.log(subdomain,'ddss')
       return {
         affiliateId,subdomain
       }
