@@ -76,7 +76,6 @@ export default function TestRules(props: TestRulesPropsI) {
       const data = await form.validateFields()
       startTest(
         {
-          testId: test._id + '',
           language: data.language
         },
         {

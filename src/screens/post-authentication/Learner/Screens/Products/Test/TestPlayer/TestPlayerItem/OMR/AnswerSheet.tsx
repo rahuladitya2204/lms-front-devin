@@ -106,13 +106,13 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   </Button>;
   if (allLoading) {
     return <OMRSKeleton/>
-  
+
   }
   return (
     <Header title={test.title}>
     <Row gutter={[20,20]}>
-      <Col xs={0} sm={0} md={2} />
-      <Col xs={24} sm={24} md={20}>
+      <Col xs={0} sm={0} md={1} />
+      <Col xs={24} sm={24} md={22}>
       <>
       <div >
               {isEnrolled ? <TestEnrolledCta testId={testId} >
@@ -156,7 +156,6 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                       // })      
                       startTest(
                         {
-                          testId: test._id + '',
                           language: `eng`
                         },
                         {
@@ -181,7 +180,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
             </div>
           </>
       </Col>
-      <Col xs={0} sm={0} md={2}>
+      <Col xs={0} sm={0} md={1}>
         {' '}
       </Col>
       </Row>

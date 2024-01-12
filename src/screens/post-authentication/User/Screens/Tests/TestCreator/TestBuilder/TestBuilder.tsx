@@ -173,7 +173,7 @@ function TestBuilderScreen() {
     [testDetails]
   )
 
-  const saveTest = (d: Partial<Types.Test>) => {
+  const saveTest = () => {
     const Data = test
     if (test._id) {
       updateTest(
@@ -345,7 +345,7 @@ function TestBuilderScreen() {
           ),
           <Dropdown.Button
             loading={savingTest}
-            onClick={saveTest}
+            onClick={() => saveTest()}
             trigger={['click']}
             menu={{
               items: [
