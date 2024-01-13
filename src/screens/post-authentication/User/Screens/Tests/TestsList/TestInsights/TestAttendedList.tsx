@@ -119,7 +119,7 @@ const TestAttendedList = () => {
                         testId={testId + ''}
                       />,
                       {
-                        width: 600,
+                        width: 850,
                         lazy: true,
                         title: `${record.learnerName}'s answer sheet`
                       }

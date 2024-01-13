@@ -80,13 +80,13 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   </Button>;
   return loadingQuestion?<TestItemSkeleton/>:(
       <Card title={`Question ${currentQuestionIndex + 1}`}
-        extra={!isMobile?[<TestAnswerTag item={currentQuestion} />,
+        extra={[<TestAnswerTag item={currentQuestion} />,
         !currentQuestion.notEvaluated? ((currentQuestion.scoreAchieved !== undefined) ?
           <Tag color={(currentQuestion.scoreAchieved > 0) ?
             // @ts-ignore
             'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}{currentQuestion.type==='subjective'?('/'+currentQuestion.score.correct):'' }</Tag> : 
             <Tag color='red-inverse'>Score: 0</Tag>):null
-        ] : null
+        ]
       }
       >
       <Form layout='vertical' form={form}>

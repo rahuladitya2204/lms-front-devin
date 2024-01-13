@@ -153,7 +153,7 @@ const TestEnrolledList = () => {
                         testId={testId + ''}
                       />,
                       {
-                        width: 600,
+                        width: 850,
                         lazy: true,
                         title: `${record.learner.name}'s answer sheet`
                       }
