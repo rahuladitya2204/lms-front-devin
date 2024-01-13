@@ -19,13 +19,13 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
         data: enrolledDetails,
         isLoading: loadingEnrolledTestDetails
     } = Learner.Queries.useGetEnrolledProductDetails({
-        type: Enum.ProductType.TEST,
+        type: 'test',
         id: props.testId
     });
     const { data: { status }, isLoading: loadingResult } = Learner.Queries.useGetTestResult(testId, {
         enabled: !!(enrolledDetails?.metadata?.test.endedAt)
     });
-  // console.log(enrolledDetails,'enrolledDetails')
+  console.log(enrolledDetails,'enrolledDetails')
     const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
     const testStartDate =
       enrolledDetails.metadata.test.startedAt || test.live.startedAt;

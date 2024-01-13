@@ -31,6 +31,7 @@ import TestEnrolledCta from '../../../TestDetail/TestEnrolledCta'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
+import { useQueryClient } from '@tanstack/react-query'
 
 const AnswerSheetFiles = React.lazy(() => import('./AnswerSheetFiles'));
 
@@ -45,6 +46,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   testId: TEST_ID,
   closeModal
 }) => {
+  const qc = useQueryClient();
   const params = useParams()
   const testId = (TEST_ID || params.testId) + ''
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(
@@ -159,7 +161,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                           language: `eng`
                         },
                         {
-                          onSuccess: () => {
+                          onSuccess: (rr) => {
+                            console.log('STARTED TEST',rr)
                             message.open({
                               type: 'success',
                               content:'All the best!'

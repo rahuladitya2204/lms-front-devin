@@ -1,4 +1,9 @@
-import { BookOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import {
+  BookOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  ReloadOutlined
+} from '@ant-design/icons'
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import { Modal, Table, Tag } from 'antd'
 import React, { useMemo } from 'react'
@@ -10,6 +15,7 @@ import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 
@@ -31,6 +37,10 @@ const TestEnrolledList = () => {
   } = User.Queries.useRemoveEnrollmentOfLearner(testId + '')
   console.log(enrolledProducts, 'papa')
   const { openModal } = useModal()
+  const { mutate: evaluateLearnerTest } = User.Queries.useEvaluateLearnerTest(
+    testId + ''
+  )
+  const message = useMessage()
   return (
     // @ts-ignore
     <Table
@@ -110,6 +120,26 @@ const TestEnrolledList = () => {
           return (
             <MoreButton
               items={[
+                {
+                  label: 'Reevaluate Test',
+                  icon: <ReloadOutlined />,
+                  key: 'reevaluate',
+                  onClick: () => {
+                    evaluateLearnerTest(
+                      {
+                        learnerId: record.learner._id
+                      },
+                      {
+                        onSuccess: () => {
+                          message.open({
+                            type: 'success',
+                            content: 'Evaluation Initiated'
+                          })
+                        }
+                      }
+                    )
+                  }
+                },
                 {
                   label: 'Show Answer Sheet',
                   key: 'answer-sheet',

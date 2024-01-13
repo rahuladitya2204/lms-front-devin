@@ -8,6 +8,7 @@ import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 
@@ -17,6 +18,7 @@ const OMRComponent = React.lazy(() =>
 const { Text } = Typography
 
 const TestAttendedList = () => {
+  const message = useMessage()
   const { testId } = useParams()
   const {
     data: { result: { data, metrics } },

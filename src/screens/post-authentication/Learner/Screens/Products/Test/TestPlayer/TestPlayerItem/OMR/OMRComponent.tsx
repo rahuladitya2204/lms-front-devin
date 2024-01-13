@@ -134,7 +134,7 @@ const { data: { status: { sections } },isLoading } = NAMESPACE.Queries.useGetTes
 {items.map((item, index) => {
                      const isInFirstColumn = index < splitAfter;
                      return (
-              <Col xs={24} sm={24} md={12} lg={6}>
+              <Col xs={24} sm={24} md={12} lg={8}>
               <Space direction="vertical" size="middle" style={{ width: '100%' }}>
      <Row justify="start" align="middle" style={{alignItems:'baseline'}}>
                         <Col span={2}>

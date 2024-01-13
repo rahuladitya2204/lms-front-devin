@@ -26,6 +26,7 @@ import {
 } from 'recharts'
 import {
   EditOutlined,
+  LinkOutlined,
   LogoutOutlined,
   MenuOutlined,
   UserOutlined
@@ -34,13 +35,16 @@ import { Enum, Learner } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
+import ActionModal from '@Components/ActionModal/ActionModal'
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import LearnerProfile from '@Learner/Screens/Account/LearnerProfile'
 import { NavLink } from 'react-router-dom'
 import ProcessingResult from './ProcessingResult'
 import ProtectedContent from '@Components/ProtectedComponent'
+import Tabs from '@Components/Tabs'
 import TestLeaderboard from './TestLeaderboard'
+import TestPlayerItemReiew from '../TestReview/TestPlayerItemReview'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
@@ -136,41 +140,11 @@ export default function TestMetrics() {
     return <ProcessingResult testId={testId + ''} />
   }
 
-  return (
-    <ProtectedContent
-      isVerified={learner.profile.status === Enum.LearnerProfileStatus.COMPLETE}
-      message={
-        <Alert
-          icon={<UserOutlined />}
-          message="Please complete your profile to view test result"
-        />
-      }
-      cta={<LearnerProfile />}
-    >
-      <Header
-        title={!isMobile ? `Test Result: ${test?.title}` : null}
-        extra={
-          isMobile ? (
-            <ActionDrawer
-              footer={() => [ExitButton]}
-              cta={
-                <Button
-                  type="primary"
-                  style={{ marginTop: 10 }}
-                  icon={<MenuOutlined />}
-                  // shape="circle"
-                />
-              }
-              extra={() => [ViewSolutions]}
-            >
-              {/* {ViewSolutions} */}
-              <div style={{ marginTop: 20 }}>{PiechartComponent}</div>
-            </ActionDrawer>
-          ) : (
-            [ViewSolutions, ExitButton]
-          )
-        }
-      >
+  const TABS = [
+    {
+      label: 'Analysis',
+      key: 'analysis',
+      children: <>
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Row gutter={[20, 20]}>
@@ -192,18 +166,18 @@ export default function TestMetrics() {
                       {metrics.totalTestScore}
                     </Title>
                     {/* {metrics.passingScore? <>
-                      {metrics.learnerScore >= metrics.passingScore ? (
-                      <Alert
-                        message="You have passed this test"
-                        type="success"
-                      />
-                    ) : (
-                      <Alert
-                        message="You have failed this test"
-                        type="error"
-                      />
-                        )}
-                      </>:null} */}
+                {metrics.learnerScore >= metrics.passingScore ? (
+                <Alert
+                  message="You have passed this test"
+                  type="success"
+                />
+              ) : (
+                <Alert
+                  message="You have failed this test"
+                  type="error"
+                />
+                  )}
+                </>:null} */}
                   </Card>
                 )}
                 {loadingResult ? (
@@ -261,13 +235,13 @@ export default function TestMetrics() {
                         {test?.sections?.map(section => {
                           const attemptedPercent = Math.ceil(
                             section?.stats?.questionsAttempted /
-                              section?.stats?.totalQuestions *
-                              100
+                            section?.stats?.totalQuestions *
+                            100
                           )
                           const correctPercent = Math.ceil(
                             section?.stats?.questionsAnsweredCorrectly /
-                              section?.stats?.totalQuestions *
-                              100
+                            section?.stats?.totalQuestions *
+                            100
                           )
                           return (
                             <Row key={section.title}>
@@ -306,71 +280,115 @@ export default function TestMetrics() {
                         })}
                       </Card>
                     </Col>
-                    {(leaderboard && leaderboard.length) ? (
+                    {leaderboard && leaderboard.length ? (
                       <Col span={24}>
                         <Card title="Leaderboard">
                           <TestLeaderboard />
                         </Card>
                       </Col>
                     ) : null}
-                    {feedback.length ? (
-                      <Col span={24}>
-                        <Card title="Test Feedback">
-                          <List
-                            size="large"
-                            // pagination={{ position, align }}
-                            dataSource={feedback}
-                            renderItem={(item, index) => (
-                              <List.Item>
-                                <List.Item.Meta
-                                  style={{ margin: '10px 0' }}
-                                  description={
-                                    <Row gutter={[20, 20]}>
-                                      <Col span={24}>
-                                        <Space style={{ marginTop: 10 }}>
-                                          <Text>
-                                            {item.topics.map(topic => (
-                                              <Tag
-                                                style={{ marginBottom: 3 }}
-                                                color="blue"
-                                              >
-                                                {topic}
-                                              </Tag>
-                                            ))}
-                                          </Text>
-                                        </Space>
-                                      </Col>
-                                      <Col span={24}>
-                                        {item.questionIds.map(i => (
-                                          <NavLink
-                                            style={{
-                                              marginRight: 5,
-                                              marginBottom: 3
-                                            }}
-                                            to={`review/${i}`}
-                                          >
-                                            <Button type="primary" size="small">
-                                              Go to question
-                                            </Button>
-                                          </NavLink>
-                                        ))}
-                                      </Col>
-                                    </Row>
-                                  }
-                                  title={<Text>{item.text}</Text>}
-                                />
-                              </List.Item>
-                            )}
-                          />
-                        </Card>
-                      </Col>
-                    ) : null}
+                    {/* {} */}
                   </Row>
                 )}
               </Col>
             </Row>
           </Col>
-        </Row>
+        </Row></>
+    },
+  ];
+
+  if (feedback.length) {
+    TABS.push(  {
+      label: 'Feedback',
+      key: 'feedback',
+      children: <>
+        {
+          feedback.length ? (
+            <Col span={24}>
+              <Card title="Feedback">
+                <List
+                  size="large"
+                  // pagination={{ position, align }}
+                  dataSource={feedback}
+                  renderItem={(item, index) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        style={{ margin: '10px 0' }}
+                        description={
+                          <Row gutter={[20, 20]}>
+                            <Col span={24}>
+                              <Space style={{ marginTop: 10 }}>
+                                <Text>
+                                  {item.topics.map(topic => (
+                                    <Button
+                                      icon={<LinkOutlined />} size='small'
+                                      style={{ marginBottom: 3, cursor: 'pointer' }}
+                                      color="blue" onClick={() => window.open(`https://www.google.com/search?q=${topic}`)}
+                                    >
+                                      {topic}
+                                    </Button>
+                                  ))}
+                                </Text>
+                              </Space>
+                            </Col>
+                            <Col span={24}>
+                              {item.questionIds.map(i => (
+                                <ActionModal cta={<Button type="primary" size="small">
+                                  View Question
+                                </Button>}>
+                                  <TestPlayerItemReiew testId={testId} questionId={i} />
+                                </ActionModal>
+                              ))}
+                            </Col>
+                          </Row>
+                        }
+                        title={<Text>{item.text}</Text>}
+                      />
+                    </List.Item>
+                  )}
+                />
+              </Card>
+            </Col>
+          ) : null}</>
+    })
+  }
+
+  return (
+    <ProtectedContent
+      isVerified={learner.profile.status === Enum.LearnerProfileStatus.COMPLETE}
+      message={
+        <Alert
+          icon={<UserOutlined />}
+          message="Please complete your profile to view test result"
+        />
+      }
+      cta={<LearnerProfile />}
+    >
+      <Header
+        title={!isMobile ? `Test Result: ${test?.title}` : null}
+        extra={
+          isMobile ? (
+            <ActionDrawer
+              footer={() => [ExitButton]}
+              cta={
+                <Button
+                  type="primary"
+                  style={{ marginTop: 10 }}
+                  icon={<MenuOutlined />}
+                  // shape="circle"
+                />
+              }
+              extra={() => [ViewSolutions]}
+            >
+              {/* {ViewSolutions} */}
+              <div style={{ marginTop: 20 }}>{PiechartComponent}</div>
+            </ActionDrawer>
+          ) : (
+            [ViewSolutions, ExitButton]
+          )
+        }
+      >
+        <Tabs navigateWithHash items={TABS} />
       </Header>
     </ProtectedContent>
   )

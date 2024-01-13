@@ -17,13 +17,19 @@ import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/usePro
 
 const { Title, Text } = Typography;
 
-interface TestPlayerItemReiewPropsI {}
+interface TestPlayerItemReiewPropsI {
+  testId?: string;
+  questionId?: string;
+}
 
 export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const [form] = Form.useForm();
-  const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
+  // { questionId, testId }
+  const params = useParams<{ questionId: string; testId: string }>();
+  const questionId = (props.questionId || params.questionId)+'';
+  const testId = (props.testId || params.testId)+'';
   const { data:{metadata:{test:{language}}},isLoading: loadingEp} = Learner.Queries.useGetEnrolledProductDetails({ type: Enum.ProductType.TEST, id: testId + '' });
-  const { currentQuestion, currentQuestionIndex, loading: loadingQuestion } = useReviewQuestion();
+  const { currentQuestion, currentQuestionIndex, loading: loadingQuestion } = useReviewQuestion({questionId,testId});
   const answerGiven = currentQuestion.answerGiven
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.RESULT);
   useEffect(() => {
@@ -141,7 +147,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         </div>
 
     
-        <Row justify="space-between" style={{marginTop:10}}>
+        {!props.questionId?<Row justify="space-between" style={{marginTop:10}}>
         {!isMobile?  <Col style={{ display: 'flex',justifyContent:'space-between'}} flex={1} >
               {PrevButton}
               {NextButton}
@@ -152,7 +158,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
               {isMobile?PrevButton:null}
             </Fragment>           
           </Col>
-        </Row>
+        </Row>:null}
       </Form>
       </Card>
   );
@@ -160,9 +166,11 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
 
 
 
- export function useReviewQuestion() {
-  const { questionId, testId } = useParams()
-   const { data: { test: { sections } }, isFetching } = Learner.Queries.useGetTestResult(
+export function useReviewQuestion(d?: {testId:string,questionId:string}) {
+  const params = useParams()
+  const testId = d?.testId || params.testId;
+  const questionId = d?.questionId || params.questionId;
+  const { data: { test: { sections } }, isFetching } = Learner.Queries.useGetTestResult(
      testId + ''
    );
   const questions = sections.map(e => e.items).flat()
