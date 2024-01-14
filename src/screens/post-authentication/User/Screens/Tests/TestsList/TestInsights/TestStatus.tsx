@@ -152,9 +152,20 @@ const TestStatus = () => {
         </Col> */}
         <Col span={24}>
           <Card>
-            <Tabs tabBarExtraContent={{right:<Button loading={printingResult} onClick={() => printResults(undefined, {
-                  onSuccess: (s) => printPdf(s)
-            })}
+            <Tabs tabBarExtraContent={{
+              right: <Button loading={printingResult} onClick={() => {
+                confirm({
+                  title: `Are you sure, you want to print the results`,
+                  // icon: <ExclamationCircleOutlined />,
+                  // content: `Money will be deducted from your wallet`,
+                  onOk() {
+                    printResults(undefined, {
+                      onSuccess: (s) => printPdf(s)
+                    })                  },
+                  okText: 'Yes, Print'
+                })
+            
+              }}
               type='primary'>
               Print Result
             </Button>}}
