@@ -27,16 +27,16 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   const message = useMessage()
   const {
     mutate: createCampaign,
-    isFetching: createCampaignLoading
+    isLoading: createCampaignLoading
   } = User.Queries.useCreateCampaign()
   const {
     mutate: updateCampaignApi,
-    isFetching: updateCampaignLoading
+    isLoading: updateCampaignLoading
   } = User.Queries.useUpdateCampaign()
 
   const {
     mutate: executeCampaign,
-    isFetching: initiatingExecution
+    isLoading: initiatingExecution
   } = User.Queries.useExecuteCampaign()
 
   const { data: campaignDetails } = User.Queries.useGetCampaignDetails(
@@ -110,6 +110,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
       title="Create Campaign"
       extra={[
         <Button
+          style={{ marginRight: 10 }}
           // disabled={!isFormValid}
           loading={createCampaignLoading || updateCampaignLoading}
           onClick={saveDraft}
@@ -125,11 +126,16 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
               // icon: <ExclamationCircleOutlined />,
               content: `You want to execute this campaign?`,
               onOk() {
-                saveDraft(() => {
-                  executeCampaign({ id })
-                })
+                executeCampaign(
+                  { id },
+                  {
+                    onSuccess: () => {
+                      navigate(`/app/marketing/edit-campaign/${id}`)
+                    }
+                  }
+                )
               },
-              okText: 'Delete File'
+              okText: 'Yes, Execute'
             })
           }}
         >

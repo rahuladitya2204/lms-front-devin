@@ -6,7 +6,7 @@ import { Image } from 'antd'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import parse from 'html-react-parser'
 
-function HtmlViewer(props: { content: string }) {
+function HtmlViewer(props: { content: string,noPreviewImage?:boolean }) {
   const options = {
     replace: (domNode: any) => {
       // console.log(domNode,'domon')
@@ -24,7 +24,7 @@ function HtmlViewer(props: { content: string }) {
             }} // Apply the width to AppImage
             src={domNode.attribs.src}
             alt={domNode.attribs.alt || 'Image'}
-            preview
+            preview={!!props.noPreviewImage}
           />
         )
       }

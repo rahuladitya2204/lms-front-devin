@@ -14,7 +14,7 @@ interface CreateEmailTemplateComponentPropsI {
 }
 
 const PreviewTemplate: React.FC<CreateEmailTemplateComponentPropsI> = (props) => {
-  const {data:organisation} = Common.Queries.useGetOrgDetails();
+  const { data: organisation } = Common.Queries.useGetOrgDetails();
   const { id } = useParams();
   const templateId = props.id || id;
   const { data: template } = User.Queries.useGetEmailTemplateDetails(templateId+'');
@@ -26,8 +26,10 @@ const PreviewTemplate: React.FC<CreateEmailTemplateComponentPropsI> = (props) =>
   const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user');
   // const MailType = EmailTemplatesMap[template.emailType] ? EmailTemplatesMap[template.emailType] : {};
   // const variables = MailType.variables;
-    
-    const compiled=BaseTemplate.replace('{{{template}}}',props.htmlContent).replace('{{organisation.logo}}',organisation.logo).replace('{{organisation.name}}',organisation.name)
+  const logo = organisation.branding.logo.low.url;
+  const compiled = BaseTemplate.replace('{{{template}}}',
+    props.htmlContent).replace('{{logo}}', logo)
+    .replace('{{organisation.name}}', organisation.name)
     
   return (
 
