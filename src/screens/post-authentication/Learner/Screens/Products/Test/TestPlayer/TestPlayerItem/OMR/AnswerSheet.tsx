@@ -119,15 +119,15 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       <div >
               {isEnrolled ? <TestEnrolledCta testId={testId} >
                 <Card title='Answer Sheet'
-          //         extra={<ActionModal
-          //           cta={
-          //             <Button
-          //               // style={{ marginBottom: 15 }}
-          //               // type='primary'
-          //               block >Upload Answer Sheet
-          //             </Button>}>
-          // <AnswerSheetFiles testId={testId+''} />
-          //         </ActionModal>}
+                  extra={<ActionModal
+                    cta={
+                      <Button
+                        // style={{ marginBottom: 15 }}
+                        // type='primary'
+                        block >Upload Answer Sheet
+                      </Button>}>
+          <AnswerSheetFiles testId={testId+''} />
+                  </ActionModal>}
                 >
                   <OMRComponent testId={testId} />
                   <Divider />
