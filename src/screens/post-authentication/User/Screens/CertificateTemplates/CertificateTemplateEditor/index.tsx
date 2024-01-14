@@ -24,24 +24,24 @@ landscape: {
   }
 }
 
-const VARIABLES = [
-  {
-    name: 'Course Title',
-    value: 'course.title'
-  },
-  {
-    name: 'Course User',
-    value: 'course.user.name'
-  },
-  {
-    name: 'Learner Name',
-    value: 'title'
-  },
-  {
-    name: 'Course Completion Date',
-    value: 'course.completedAt'
-  }
-]
+// const VARIABLES = [
+//   {
+//     name: 'Course Title',
+//     value: 'course.title'
+//   },
+//   {
+//     name: 'Course User',
+//     value: 'course.user.name'
+//   },
+//   {
+//     name: 'Learner Name',
+//     value: 'title'
+//   },
+//   {
+//     name: 'Course Completion Date',
+//     value: 'course.completedAt'
+//   }
+// ]
 
 function CertificateTemplateEditor() {
   const message = useMessage()

@@ -7,7 +7,7 @@ import { Typography } from '@Components/Typography';
 const { Text} = Typography;
 interface InputTagsProps {
   ctaText?: string;
-  name: string;
+  name: string | string[];
   label?: string;
   onChange?: (tags: string[]) => void; // New callback prop
   options?: string[];
@@ -23,7 +23,7 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onCha
   const handleClose = (removedTag: string, remove: (index: number) => void) => {
     const tags = form.getFieldValue(name);
     const newTags = tags.filter((tag: string) => tag !== removedTag);
-    form.setFieldsValue({ [name]: newTags });
+    form.setFieldValue(name,newTags);
     if (onChange) {
       onChange(newTags);
     }

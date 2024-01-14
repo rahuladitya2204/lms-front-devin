@@ -6,8 +6,9 @@ import { useNavigate, useParams } from 'react-router'
 
 import AddRecipients from './AddRecipients/AddReciepients'
 import CampaignForm from './CampaignForm/CampaignForm'
-import CreateEmailTemplate from './CreateTemplate/CreateEmailTemplate'
-import CreateWhatsappTemplate from './CreateTemplate/CreateWhatsappTemplate'
+import CreateEmailTemplate from './CreateTemplate/Email/CreateEmailTemplate'
+import CreateSmsTemplate from './CreateTemplate/Sms/CreateSmsTemplate'
+import CreateWhatsappTemplate from './CreateTemplate/Whatsapp/CreateWhatsappTemplate'
 import Header from '@Components/Header'
 import Stepper from '@Components/Stepper'
 import { User } from '@adewaskar/lms-common'
@@ -77,16 +78,10 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
         { id: campaign._id, data: data },
         {
           onSuccess: r => {
-            if (cb) {
-              cb()
-            } else {
-              message.open({
-                type: 'success',
-                content: 'Campaign Draft Saved'
-              })
-            }
-
-            // navigate('../campaign')
+            message.open({
+              type: 'success',
+              content: 'Campaign Draft Saved'
+            })
           }
         }
       )
@@ -190,6 +185,18 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                               label: `Whatsapp`,
                               children: (
                                 <CreateWhatsappTemplate
+                                  updateCampaign={updateCampaign}
+                                  campaign={campaign}
+                                />
+                              )
+                            }
+                          : null,
+                        campaign.channel.includes('sms')
+                          ? {
+                              key: 'sms',
+                              label: `SMS`,
+                              children: (
+                                <CreateSmsTemplate
                                   updateCampaign={updateCampaign}
                                   campaign={campaign}
                                 />

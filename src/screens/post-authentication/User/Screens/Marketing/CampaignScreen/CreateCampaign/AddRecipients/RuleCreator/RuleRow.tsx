@@ -47,28 +47,38 @@ const OPERATORS = {
 
 const OPERANDS = [
   {
-    title: 'Enrolled Courses',
-    value: 'enrolledCourses.course',
+    title: 'Enrolled Course',
+    value: 'enrolledProducts.course',
     operators: [OPERATORS.is, OPERATORS.isAnyOf],
-    type: 'select'
+    type: 'select',
+    query: {
+      collection: 'courses'
+    }
+  },
+  {
+    title: 'Enrolled Test',
+    value: 'enrolledProducts.test',
+    operators: [OPERATORS.is, OPERATORS.isAnyOf],
+    type: 'select',
+    query: {
+      collection: 'tests'
+    }
   },
   {
     title: 'Enrolled At',
-    value: 'enrolledCourses.enrolledAt',
+    value: 'enrolledProducts.enrolledAt',
     operators: [OPERATORS.isGreaterThan, OPERATORS.isLessThan],
     type: 'date'
-
   },
   {
     title: 'Expires At',
-    value: 'enrolledCourses.expiresAt',
+    value: 'enrolledProducts.expiresAt',
     operators: [OPERATORS.isGreaterThan, OPERATORS.isLessThan],
     type: 'date'
-
   },
   {
     title: 'Certificate Issued At',
-    value: 'enrolledCourses.certificate.issuedAt',
+    value: 'enrolledProducts.certificate.issuedAt',
     operators: [OPERATORS.isGreaterThan, OPERATORS.isLessThan],
     type: 'date'
   },

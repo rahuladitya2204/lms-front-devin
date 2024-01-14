@@ -7,9 +7,9 @@ import {
   BasicEditorOptions,
   IntermediateEditorOptions
 } from './constant'
+import { Col, Form, Row, Select, Spin, Tag } from 'antd'
 import { Common, Types } from '@adewaskar/lms-common'
-import { Form, Spin } from 'antd'
-import React, { Fragment, useEffect, useRef } from 'react'
+import React, { Fragment, useEffect, useRef, useState } from 'react'
 
 import SunEditor from 'suneditor-react'
 import { uniqueId } from 'lodash'
@@ -211,9 +211,25 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       return false
     }
   }
+  const handleVariableChange = (value:any) => {
+
+    const editorInstance = editorRef.current;
+    if (editorInstance) {
+      editorInstance.insertHTML(`{{${value}}}`);
+    }
+  }
+
   return (
     <Fragment>
       <Spin spinning={loading}>
+        <Row gutter={[20,10]} style={{marginBottom:20}}>
+          <Col span={24}>
+            {props?.variables?.map(v => {
+              return <Tag color='blue' style={{cursor:"pointer"}} onClick={()=>handleVariableChange(v.value)}>{ v.name}</Tag>
+            })}
+          </Col>
+      </Row>
+
         <SunEditor
           getSunEditorInstance={editor => editorRef.current = editor}
           // onFocus={props.onFocus}

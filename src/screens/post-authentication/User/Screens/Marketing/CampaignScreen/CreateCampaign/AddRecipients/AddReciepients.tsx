@@ -1,6 +1,8 @@
 import { Form, Input, Radio, Tag } from 'antd'
 import { useLayoutEffect, useState } from 'react'
 
+import EmailListUploader from './RuleCreator/EmailListUploader'
+import InputTags from '@Components/InputTags/InputTags'
 import RuleCreator from './RuleCreator/RuleCreator'
 import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
@@ -78,7 +80,10 @@ const AddRecipients = ({ updateCampaign, campaign }: AddRecipientsPropsI) => {
       }}
       layout="vertical"
     >
-      <Form.Item name={['recipients', 'type']}>
+      <Form.Item
+        name={['recipients', 'type']}
+        rules={[{ required: true, message: 'Please recipient type' }]}
+      >
         <Radio.Group>
           <Radio value="entire">Entire Audience</Radio>
           <Radio value="segment">Segment</Radio>
@@ -87,11 +92,17 @@ const AddRecipients = ({ updateCampaign, campaign }: AddRecipientsPropsI) => {
       </Form.Item>
       {campaign.recipients.type === 'email-list' ? (
         <Form.Item
-          name={['recipients', 'emailList']}
+          rules={[{ required: true, message: 'Please select an email list!' }]}
           label="Email List"
           required
         >
-          <Input placeholder="Enter receipients for the campaign" />
+          <EmailListUploader
+            onChange={e => {
+              console.log(e)
+              form.setFieldValue(['recipients', 'emailList'], e)
+            }}
+          />
+          <InputTags name={['recipients', 'emailList']} />
         </Form.Item>
       ) : null}
       {recipientsType === 'segment' ? (

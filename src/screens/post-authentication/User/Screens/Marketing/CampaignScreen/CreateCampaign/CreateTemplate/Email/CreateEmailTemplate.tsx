@@ -1,10 +1,11 @@
-import { Button, Col, Divider, Form, Input, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Popover, Row } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
+import { useLayoutEffect, useState } from "react";
 
+import GenerateWithAi from "../GenerateWithAi";
 import PreviewTemplate from "@User/Screens/Marketing/Templates/Emails/EmailTemplateEditor/PreviewTemplate";
 import TextArea from "@Components/Textarea";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
-import { useLayoutEffect } from "react";
 
 const { useWatch } = Form;
 
@@ -13,10 +14,16 @@ interface CreateEmailTemplatePropsI {
     updateCampaign: (d: Types.Campaign) => void;
 }
 
-// const variables = [{ name: 'Course Name', value: 'course.title'}, { name: 'Learner Name', value: 'learner.name'}];
-
+const variables = [{
+    name: 'Learner Name',
+    value:'learner.name'
+  },{
+    name: "Today's Date",
+    value:'date'
+  }]
 const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
     const [form] = Form.useForm<Types.CreateCampaignPayload>();
+    const [prompt, setPrompt] = useState('');
     const { mutate: generateContent,isLoading: loadingCampaign} = User.Queries.useGenerateCampaignContent();
     useLayoutEffect(
         () => {
@@ -28,35 +35,27 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
         const data = deepPatch({...props.campaign}, d)
         props.updateCampaign(data)
     };
-    const content = useWatch(['email','body'], form);
+    const content = useWatch(['email', 'body'], form);
     return <>
         <Row gutter={[20,20]}>
             <Col span={12}>
-                <Button loading={loadingCampaign} onClick={() => {
-                    generateContent({
-                        title: props.campaign.title,
-                        description: props.campaign.description,
-                        channel: [`email`]
-                    }, {
-                        onSuccess: ({ data }) => {
-                            const D = {
-                                email: {
-                                    body: data.content,
-                                    subject: data.subject
-                                }
-                            };
-                            console.log(data,'aaaa')
-                            form.setFieldsValue(D);
-                            onValuesChange(D)
-                        }
-                    })
-                }}>Generate with AI</Button> <Divider/>
+                <GenerateWithAi channel="email" campaign={props.campaign} onComplete={D => {
+                    form.setFieldsValue({
+                          email:D
+                      });
+                    onValuesChange({
+                          email: D
+                      })
+                }} />
+               <Divider/>
             <Form onValuesChange={onValuesChange} form={form} layout="vertical">
-        <Form.Item label="Subject"  name={['email','subject']} required>
+                    <Form.Item
+                          rules={[{ required: true, message: 'Please input the email subject!' }]}
+                          label="Subject" name={['email', 'subject']} >
            <TextArea />
         </Form.Item>
-        <Form.Item  name={['email','body']}  label="Email Body" required>
-                <TextArea html  name={['email','body']}  />
+        <Form.Item rules={[{ required: true, message: 'Please input the email body!' }]}  name={['email','body']}  label="Email Body" >
+                <TextArea variables={variables} html={{level:3}}  name={['email','body']}  />
         </Form.Item>
         </Form>
             </Col>

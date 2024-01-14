@@ -1,6 +1,7 @@
-import { Form, Input, Select, Space, Tag } from 'antd'
+import { Col, DatePicker, Form, Input, Row, Select, Space, Tag } from 'antd'
 
 import { Types } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useLayoutEffect } from 'react'
 
@@ -15,6 +16,9 @@ const CampaignForm = (props: CampaignFormPropsI) => {
   useLayoutEffect(
     () => {
       form.setFieldsValue(props.campaign)
+      if (props.campaign.scheduledAt) {
+        form.setFieldValue(['scheduledAt'], dayjs(props.campaign.scheduledAt))
+      }
     },
     [[props.campaign]]
   )
@@ -28,16 +32,38 @@ const CampaignForm = (props: CampaignFormPropsI) => {
       }}
       layout="vertical"
     >
-      <Form.Item name="title" label="Campaign Title" required>
+      <Form.Item
+        name="title"
+        label="Title"
+        required
+        rules={[
+          { required: true, message: 'Please input the campaign title!' }
+        ]}
+      >
         <Input placeholder="Enter a title for the campaign" />
       </Form.Item>
 
-      <Form.Item name="description" label="Campaign Description">
+      <Form.Item
+        name="description"
+        label="Description"
+        rules={[
+          { required: true, message: 'Please input the campaign description!' }
+        ]}
+      >
         <Input placeholder="Enter a description for the campaign" />
       </Form.Item>
 
+      <Row>
+        <Col span={24} />
+        <Col span={24}>
+          <Form.Item name="scheduledAt" label="Scheduled At">
+            <DatePicker style={{ width: 200 }} />
+          </Form.Item>
+        </Col>
+      </Row>
+
       <Space direction="horizontal">
-        <Form.Item name="channel" label="Campaign Channels">
+        <Form.Item name="channel" required label="Campaign Channels">
           <Select
             mode="multiple"
             onChange={e =>
@@ -45,7 +71,7 @@ const CampaignForm = (props: CampaignFormPropsI) => {
                 channel: e
               })
             }
-            tagRender={e => <Tag color='blue'>{e.label}</Tag>}
+            tagRender={e => <Tag color="blue">{e.label}</Tag>}
             style={{ width: 450 }}
             options={[
               { value: 'email', label: 'Email' },

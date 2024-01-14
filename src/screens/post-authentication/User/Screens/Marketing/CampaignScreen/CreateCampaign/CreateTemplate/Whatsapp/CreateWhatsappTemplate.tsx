@@ -1,10 +1,11 @@
-import { Button, Col, Divider, Form, Input, Row } from "antd";
+import { Button, Col, Divider, Form, Input, Popover, Row } from "antd";
 import { Types, User } from "@adewaskar/lms-common";
+import { useLayoutEffect, useState } from "react";
 
+import GenerateWithAi from "../GenerateWithAi";
 import PreviewWhatsappTemplate from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor/PreviewWHatsappTemplate/PreviewTemplate";
 import TextArea from "@Components/Textarea";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
-import { useLayoutEffect } from "react";
 
 const { useWatch } = Form;
 
@@ -28,31 +29,20 @@ const CreateWhatsappTemplate = (props:CreateWhatsappTemplatePropsI) => {
         const data = deepPatch({...props.campaign}, d)
         props.updateCampaign(data)
     };
+    const [prompt, setPrompt] = useState('');
     const content = useWatch(['whatsapp','body'], form);
     return <>
         <Row gutter={[20,20]}>
             <Col span={12}>
-                <Button loading={loadingCampaign} onClick={() => {
-                    generateContent({
-                        title: props.campaign.title,
-                        description: props.campaign.description,
-                        channel: [`whatsapp`]
-                    }, {
-                        onSuccess: ({ data: { subject, content } }) => {
-                            const D = {
-                                whatsapp: {
-                                    subject,
-                                    body: content
-                                }
-                            };
-                            console.log(subject,content,'aaaa')
-                            form.setFieldsValue(D)
-                            form.setFieldsValue(D);
-                            onValuesChange(D)
-
-                        }
-                    })
-                }}>Generate with AI</Button> <Divider/>
+            <GenerateWithAi channel="whatsapp" campaign={props.campaign} onComplete={D => {
+                    form.setFieldsValue({
+                          whatsapp:D
+                      });
+                    onValuesChange({
+                          whatsapp: D
+                      })
+                }} />
+                <Divider />
             <Form onValuesChange={onValuesChange} form={form} layout="vertical">
         <Form.Item name={['whatsapp','subject']} required>
            <TextArea label="Subject" name={['whatsapp','subject']} />
