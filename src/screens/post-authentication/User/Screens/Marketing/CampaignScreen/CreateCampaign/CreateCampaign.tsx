@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { Button, Card, Col, Modal, Row, Tabs } from 'antd'
+import { Button, Card, Col, Form, Modal, Row, Tabs } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import AddRecipients from './AddRecipients/AddReciepients'
@@ -12,6 +12,7 @@ import CreateWhatsappTemplate from './CreateTemplate/Whatsapp/CreateWhatsappTemp
 import Header from '@Components/Header'
 import Stepper from '@Components/Stepper'
 import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 
 const { confirm } = Modal
@@ -65,12 +66,12 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     })
   }
 
-  const saveDraft = (cb?: Function) => {
+  const saveDraft = (d: Types.Campaign) => {
     // if (!isFormValid) {
     //   return
     // }
     const data = {
-      ...campaign,
+      ...d,
       status: 'draft'
     }
     if (campaign._id) {
@@ -99,6 +100,19 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     }
     // onFinish && onFinish(e)
   }
+
+  const [form] = Form.useForm()
+
+  useLayoutEffect(
+    () => {
+      form.setFieldsValue(campaignDetails)
+      if (campaignDetails.scheduledAt) {
+        form.setFieldValue(['scheduledAt'], dayjs(campaignDetails.scheduledAt))
+      }
+    },
+    [[campaignDetails]]
+  )
+
   return (
     <Header
       showBack
@@ -108,7 +122,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
           style={{ marginRight: 10 }}
           // disabled={!isFormValid}
           loading={createCampaignLoading || updateCampaignLoading}
-          onClick={saveDraft}
+          onClick={form.submit}
         >
           Save Draft
         </Button>,
@@ -141,74 +155,76 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Card>
-            <Stepper
-              steps={[
-                {
-                  title: 'Title',
-                  content: (
-                    <CampaignForm
-                      updateCampaign={updateCampaign}
-                      campaign={campaign}
-                    />
-                  )
-                },
-                {
-                  title: 'Recipients',
-                  content: (
-                    <AddRecipients
-                      updateCampaign={updateCampaign}
-                      campaign={campaign}
-                    />
-                  )
-                },
-                {
-                  title: 'Template',
-                  content: (
-                    <Tabs
-                      defaultActiveKey="1234321"
-                      items={[
-                        campaign.channel.includes('email')
-                          ? {
-                              key: 'email',
-                              label: `Email`,
-                              children: (
-                                <CreateEmailTemplate
-                                  updateCampaign={updateCampaign}
-                                  campaign={campaign}
-                                />
-                              )
-                            }
-                          : null,
-                        campaign.channel.includes('whatsapp')
-                          ? {
-                              key: 'whatsapp',
-                              label: `Whatsapp`,
-                              children: (
-                                <CreateWhatsappTemplate
-                                  updateCampaign={updateCampaign}
-                                  campaign={campaign}
-                                />
-                              )
-                            }
-                          : null,
-                        campaign.channel.includes('sms')
-                          ? {
-                              key: 'sms',
-                              label: `SMS`,
-                              children: (
-                                <CreateSmsTemplate
-                                  updateCampaign={updateCampaign}
-                                  campaign={campaign}
-                                />
-                              )
-                            }
-                          : null
-                      ]}
-                    />
-                  )
-                }
-              ]}
-            />
+            <Form onFinish={saveDraft} form={form} layout="vertical">
+              <Stepper
+                steps={[
+                  {
+                    title: 'Title',
+                    content: (
+                      <CampaignForm
+                        updateCampaign={updateCampaign}
+                        campaign={campaign}
+                      />
+                    )
+                  },
+                  {
+                    title: 'Recipients',
+                    content: (
+                      <AddRecipients
+                        updateCampaign={updateCampaign}
+                        campaign={campaign}
+                      />
+                    )
+                  },
+                  {
+                    title: 'Template',
+                    content: (
+                      <Tabs
+                        defaultActiveKey="1234321"
+                        items={[
+                          campaign.channel.includes('email')
+                            ? {
+                                key: 'email',
+                                label: `Email`,
+                                children: (
+                                  <CreateEmailTemplate
+                                    updateCampaign={updateCampaign}
+                                    campaign={campaign}
+                                  />
+                                )
+                              }
+                            : null,
+                          campaign.channel.includes('whatsapp')
+                            ? {
+                                key: 'whatsapp',
+                                label: `Whatsapp`,
+                                children: (
+                                  <CreateWhatsappTemplate
+                                    updateCampaign={updateCampaign}
+                                    campaign={campaign}
+                                  />
+                                )
+                              }
+                            : null,
+                          campaign.channel.includes('sms')
+                            ? {
+                                key: 'sms',
+                                label: `SMS`,
+                                children: (
+                                  <CreateSmsTemplate
+                                    updateCampaign={updateCampaign}
+                                    campaign={campaign}
+                                  />
+                                )
+                              }
+                            : null
+                        ]}
+                      />
+                    )
+                  }
+                ]}
+              />
+            </Form>
           </Card>
         </Col>
       </Row>

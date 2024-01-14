@@ -7,7 +7,7 @@ import {
   Row,
   Select,
   Space,
-  Table,
+  Table
 } from 'antd'
 
 import { FormInstance } from 'antd/lib/form/Form'
@@ -41,7 +41,12 @@ function RuleCreator(props: RuleCreatorPropsI) {
                   marginTop: '-3px'
                 }}
                 name={['recipients', 'operator']}
-                required
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input a value'
+                  }
+                ]}
               >
                 <Select
                   size="small"

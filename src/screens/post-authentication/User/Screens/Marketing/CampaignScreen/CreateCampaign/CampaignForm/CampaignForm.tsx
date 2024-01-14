@@ -11,27 +11,9 @@ interface CampaignFormPropsI {
 }
 
 const CampaignForm = (props: CampaignFormPropsI) => {
-  const [form] = Form.useForm()
-
-  useLayoutEffect(
-    () => {
-      form.setFieldsValue(props.campaign)
-      if (props.campaign.scheduledAt) {
-        form.setFieldValue(['scheduledAt'], dayjs(props.campaign.scheduledAt))
-      }
-    },
-    [[props.campaign]]
-  )
 
   return (
-    <Form
-      form={form}
-      onValuesChange={d => {
-        const data = deepPatch(props.campaign, d)
-        props.updateCampaign(data)
-      }}
-      layout="vertical"
-    >
+    <>
       <Form.Item
         name="title"
         label="Title"
@@ -66,11 +48,6 @@ const CampaignForm = (props: CampaignFormPropsI) => {
         <Form.Item name="channel" required label="Campaign Channels">
           <Select
             mode="multiple"
-            onChange={e =>
-              form.setFieldsValue({
-                channel: e
-              })
-            }
             tagRender={e => <Tag color="blue">{e.label}</Tag>}
             style={{ width: 450 }}
             options={[
@@ -89,7 +66,7 @@ const CampaignForm = (props: CampaignFormPropsI) => {
     />
       </Form.Item> */}
       </Space>
-    </Form>
+    </>
   )
 }
 
