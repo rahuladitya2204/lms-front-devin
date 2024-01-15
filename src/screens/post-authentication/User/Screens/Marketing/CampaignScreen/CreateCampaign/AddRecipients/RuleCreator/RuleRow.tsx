@@ -151,9 +151,9 @@ function RuleRow(props: RuleRowPropsI) {
     ['recipients', 'rules', props.name, 'operand'],
     form
   )
-  console.log(operand, 'huhhaha')
+  // console.log(operand, 'huhhaha')
   const OPERAND = OPERANDS.find(o => o.value === rule.operand)
-  console.log(rule, 'rule', OPERANDS)
+  // console.log(rule, 'rule', OPERANDS)
   return (
     <Row>
       <Col span={24}>

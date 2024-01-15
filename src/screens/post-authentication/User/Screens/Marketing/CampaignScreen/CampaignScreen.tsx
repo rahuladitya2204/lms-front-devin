@@ -10,12 +10,12 @@ import {
   Tag
 } from 'antd'
 import { CheckOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { Enum, Types, Utils } from '@adewaskar/lms-common'
 
 import { CampaignStatus } from './Constant'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import MoreButton from '@Components/MoreButton'
 import { NavLink } from 'react-router-dom'
-import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
@@ -54,9 +54,16 @@ function CampaignsScreen() {
         <Row>
           <Col span={24}>
             <Table dataSource={data} loading={loading}>
-              <Table.Column title="Title" dataIndex="title" key="title"  render={(_: any, record: Types.Campaign) =>
-                <NavLink to={`../edit-campaign/${record._id}`}>{ record.title}</NavLink>
-                } />
+              <Table.Column
+                title="Title"
+                dataIndex="title"
+                key="title"
+                render={(_: any, record: Types.Campaign) => (
+                  <NavLink to={`../edit-campaign/${record._id}`}>
+                    {record.title}
+                  </NavLink>
+                )}
+              />
               {/* <Table.Column title="Subject" dataIndex="subject" key="subject" /> */}
               <Table.Column
                 title="Channel"
@@ -73,7 +80,7 @@ function CampaignsScreen() {
                 dataIndex="scheduledAt"
                 key="scheduledAt"
                 render={(_: any, record: Types.Campaign) =>
-                  dayjs(record.createdAt).format('DD/MM/YYYY')
+                  dayjs(record.createdAt).format('LLL')
                 }
               />
               <Table.Column
@@ -93,43 +100,50 @@ function CampaignsScreen() {
                 dataIndex="createdAt"
                 key="createdAt"
                 render={(_: any, record: Types.Campaign) =>
-                  dayjs(record.createdAt).format('DD/MM/YYYY')
+                  dayjs(record.createdAt).format('LLL')
                 }
               />
 
               <Table.Column
                 title="Action"
                 key="action"
-                render={(_: any, record: Types.Campaign) => (
-                  <Space size="middle">
-                    <MoreButton
-                      items={[
-                        {
-                          key: 'execute',
-                          label: 'Execute Campaign',
-                          icon: <CheckOutlined />,
-                          onClick: () =>
-                            executeCampaign({
-                              id: record._id
-                            })
-                        },
-                        {
-                          key: 'edit',
-                          label: 'Edit Campaign',
-                          icon: <EditOutlined />,
-                          onClick: () =>
-                            navigate(`../edit-campaign/${record._id}`)
-                        },
-                        {
-                          key: 'delete',
-                          label: 'Delete Campaign',
-                          icon: <DeleteOutlined />,
-                          onClick: () => deleteCampaign(record._id)
-                        }
-                      ]}
-                    />
-                  </Space>
-                )}
+                render={(_: any, record: Types.Campaign) =>
+                  record.status === Enum.CampaignStatus.DRAFT ? (
+                    <Space size="middle">
+                      <MoreButton
+                        items={[
+                          // @ts-ignore
+                          !Utils.validateCampaign(record)
+                            ? {
+                                key: 'execute',
+                                label: 'Execute Campaign',
+                                icon: <CheckOutlined />,
+                                onClick: () =>
+                                  executeCampaign({
+                                    id: record._id
+                                  })
+                              }
+                            : null,
+                          {
+                            key: 'edit',
+                            label: 'Edit Campaign',
+                            icon: <EditOutlined />,
+                            onClick: () =>
+                              navigate(`../edit-campaign/${record._id}`)
+                          },
+                          {
+                            key: 'delete',
+                            label: 'Delete Campaign',
+                            icon: <DeleteOutlined />,
+                            onClick: () => deleteCampaign(record._id)
+                          }
+                        ]}
+                      />
+                    </Space>
+                  ) : (
+                    '-'
+                  )
+                }
               />
             </Table>
           </Col>

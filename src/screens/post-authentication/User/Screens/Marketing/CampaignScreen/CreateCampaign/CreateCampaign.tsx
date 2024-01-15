@@ -91,7 +91,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
 
   useEffect(
     () => {
-      console.log(campaignDetails,'campaignDetails')
+      // console.log(campaignDetails,'campaignDetails')
       form.setFieldsValue(campaignDetails)
       if (campaignDetails.scheduledAt) {
         form.setFieldValue(['scheduledAt'], dayjs(campaignDetails.scheduledAt))
@@ -100,7 +100,11 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     [campaignDetails]
   )
   const channel = Form.useWatch(['channel'], form);
-  console.log(channel,'tullimulli',campaignDetails)
+
+  const isFormValid = () => {
+    const fieldsError = form.getFieldsError();
+    return fieldsError.every(({ errors }) => errors.length === 0);
+  }
   const GET_TAB_ITEMS =  () => {
     const arr = []
     if (channel?.includes('email')) {
@@ -139,7 +143,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
         >
           Save Draft
         </Button>,
-        <Button
+        (!!isFormValid())?<Button
           type="primary"
           loading={initiatingExecution}
           onClick={() => {
@@ -152,7 +156,13 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                   { id: campaignDetails._id },
                   {
                     onSuccess: () => {
-                      navigate(`/app/marketing/edit-campaign/${id}`)
+                      navigate(`/app/marketing/campaign`)
+                    },
+                    onError: (e:any) => {
+                      message.open({
+                        type: 'error',
+                        content:e.response.data.message
+                      })
                     }
                   }
                 )
@@ -162,7 +172,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
           }}
         >
           Execute Campaign
-        </Button>
+        </Button>:null
       ]}
     >
       <Row gutter={[16, 16]}>
