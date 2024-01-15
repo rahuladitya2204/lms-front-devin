@@ -25,6 +25,7 @@ import AddTextItem from '@User/Screens/Courses/CourseEditor/CourseBuilder/Upload
 import AffiliateProgramScren from '@User/Screens/Marketing/AffiliateScreen/AffiliateScreen'
 import AffiliateScreen from '@Learner/Screens/Affiliate/AffiliateScreen'
 import AnswerSheet from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheet'
+import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
 import AppBuilderScreen from '@User/Screens/Builder/AppBuilder/AppBuilderScreen'
 import AssetLibraryScreen from '@User/Screens/AssetLibrary/AssetLibrary'
 import CampaignScreen from '@User/Screens/Marketing/CampaignScreen/CampaignScreen'
@@ -76,6 +77,7 @@ import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
 import PackageDetailViewer from '@Learner/Screens/Products/Package/PackageDetailsViewer'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
+import PerspectiveCropper from '@Components/PerspectiveCropper'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import ResetPassword from '@Learner/Screens/Login/ResetPassword'
 import RootScreen from './Root'
@@ -120,9 +122,9 @@ const router = (userType: string) => {
   return createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootScreen />}>
-        {userType === 'learner' ? (
+ {userType === 'learner' ? (
           <>
-            <Route index element={<ReturnLearnerToStore />} />
+ <Route index element={<ReturnLearnerToStore />} />
    <Route path="app" element={<LearnerRootScreen />}>
 <Route path="cart" element={<LearnerCart />} />
               <Route path="wallet" element={<LearnerWallet />} />
@@ -170,10 +172,12 @@ const router = (userType: string) => {
                        <Route path='privacy-policy' element={<LearnerPrivacyPolicy/>} />
  </Route>
             <Route path="" element={<LearnerFullPageHolder />}>
-            <Route path="affiliate" element={<AffiliateScreen />} />
+            <Route path="cropper" element={<PerspectiveCropper />} /> 
+<Route path="affiliate" element={<AffiliateScreen />} />
   <Route path="app/test/:testId">
    <Route path="start" element={<TestRules />} /> 
    <Route path="answer-sheet" element={<AnswerSheet />} /> 
+   <Route path="upload-answer-sheet" element={<AnswerSheetFiles />} /> 
  <Route path="player" element={<TestPlayer/>}>
                 <Route path=":questionId" element={<TestPlayeritem/>}/>
                 </Route>

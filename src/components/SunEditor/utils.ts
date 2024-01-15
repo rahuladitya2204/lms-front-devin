@@ -57,3 +57,13 @@ function base64ToArrayBuffer(base64: string) {
   }
   return bytes.buffer
 }
+
+export const openWindow = (url: string, cb?: Function) => {
+  const newWindow = window.open(url, '_blank')
+  // @ts-ignore
+  window.onComplete = (...args) => {
+    cb && cb(...args)
+    // debugger
+    // newWindow?.close()
+  }
+}

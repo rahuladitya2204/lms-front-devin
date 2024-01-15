@@ -28,6 +28,7 @@ import LearnerLogin from '@Learner/Screens/Login'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import { ReloadOutlined } from '@ant-design/icons'
 import TestEnrolledCta from '../../../TestDetail/TestEnrolledCta'
+import { openWindow } from '@Components/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
@@ -48,7 +49,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
 }) => {
   const qc = useQueryClient();
   const params = useParams()
-  const testId = (TEST_ID || params.testId) + ''
+  const testId = (TEST_ID || params.testId) + '';
   const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(
     testId,
     Enum.TestDetailMode.TEST
@@ -71,7 +72,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   } = Learner.Queries.useStartTest(testId + '')
   const allLoading = loadingTest || loadingEnrolledProduct;
   const { openModal } = useModal()
-  const { isMobile } = useBreakpoint()
+  const { isMobile } = useBreakpoint();
   const navigate = useNavigate();
   const {
     mutate: endTest,
@@ -106,6 +107,28 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   >
     Submit Test
   </Button>;
+
+  const UploadAnswerSheetButton = <Button
+    onClick={() => {
+      console.log(isMobile,'momom')
+      if (isMobile) {
+        openWindow(`/app/test/${testId}/upload-answer-sheet`, (refetchTestStatus:boolean) => {
+          if (refetchTestStatus) {
+            message.open({
+              type: 'success',
+              content: `Answer Sheet Recorded successfully`
+            });
+            qc.invalidateQueries([`GET_TEST_STATUS`, testId]);
+          }
+        })
+      }
+      else {
+        openModal(<AnswerSheetFiles testId={testId + ''} />);
+      }
+  }}
+  block >Upload Answer Sheet
+</Button>
+  
   if (allLoading) {
     return <OMRSKeleton/>
 
@@ -119,15 +142,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       <div >
               {isEnrolled ? <TestEnrolledCta testId={testId} >
                 <Card title='Answer Sheet'
-                  extra={<ActionModal
-                    cta={
-                      <Button
-                        // style={{ marginBottom: 15 }}
-                        // type='primary'
-                        block >Upload Answer Sheet
-                      </Button>}>
-          <AnswerSheetFiles testId={testId+''} />
-                  </ActionModal>}
+                  extra={UploadAnswerSheetButton}
                 >
                   <OMRComponent testId={testId} />
                   <Divider />

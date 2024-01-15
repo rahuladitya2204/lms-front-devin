@@ -1,26 +1,35 @@
 import { Button, Col, Row } from 'antd'
+import { CheckOutlined, ReloadOutlined } from '@ant-design/icons'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import LibPerspectiveCropper from 'react-perspective-cropper'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import { useLocation } from 'react-router'
 // @ts-ignore
 import { useOpenCv } from 'opencv-react'
+import { useSearchParams } from 'react-router-dom'
 
 interface PerspectiveCropperPropsI {
-  image: any;
+  image?: any;
   onCrop?: Function;
   closeModal?: Function;
 }
 
 export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
-  const [cropState, setCropState] = useState()
+  const [params] = useSearchParams();
+  const IMAGE = params.get('image') || props.image;
+  const [cropState, setCropState] = useState();
+  const [image, setImage] = useState(IMAGE);
   const cropperRef = useRef()
   const [croppedImg, setCroppedImg] = useState(null)
   // @ts-ignore
   const onDragStop = useCallback(s => setCropState(s), [])
   // @ts-ignore
 
-  const onChange = useCallback(s => setCropState(s), [])
+  useEffect(() => { 
+    setImage(IMAGE)
+  },[IMAGE])
+  const onChange = useCallback((s:any) => setCropState(s), [])
   const [maxWidth, setMaxWidth] = useState(100) // default maxWidth
   const containerRef = useRef(null) // Ref for the parent container
 
@@ -74,7 +83,7 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
       // @ts-ignore
       const cropped = await cropperRef.current.done(filterParams)
       setCroppedImg(cropped)
-      console.log('Image Cropped', cropped)
+      console.log('Image Cropped', cropped,cropperRef.current)
       // props.onCrop && props.onCrop(cropped, props.closeModal)
     } catch (e) {
       console.log('error', e)
@@ -91,7 +100,7 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
         <LibPerspectiveCropper
           maxWidth={maxWidth}
           ref={cropperRef}
-          image={props.image}
+          image={image}
           onChange={onChange}
           onDragStop={onDragStop}
           // style={{ width: '100%', height: 'auto' }} // Example inline styling
@@ -102,23 +111,58 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
               <Col
         
        
-      >
-        <Button
+        >
+          <Button
+            style={{ marginTop: 20, marginRight: 10 }}
+            icon={<ReloadOutlined/>}
+          block={isMobile}
+          // type="primary"
+            onClick={() => {
+              // @ts-ignore
+              cropperRef.current.backToCrop();
+              setImage(IMAGE)
+          }}
+        >
+          Revert to original
+        </Button>
+        {croppedImg?<Button type='primary'
+          style={{ marginTop: 20 }}
+          block={isMobile}
+          // type="primary"
+            onClick={() => {
+              setCroppedImg(null)
+              setImage(croppedImg);
+            // @ts-ignore
+             cropperRef.current.backToCrop();
+
+          }}
+        >
+          Crop Image
+        </Button>:<Button type='primary'
           style={{ marginTop: 20 }}
           block={isMobile}
           // type="primary"
           onClick={handleCrop}
         >
           Crop Image
-        </Button>
+        </Button>}
       </Col>
       <Col >
         <Button
           style={{ marginTop: 20 }}
-          block={isMobile}
+          block={isMobile} icon={<CheckOutlined/>}
           type="primary"
-          onClick={() =>
-            props.onCrop && props.onCrop(croppedImg, props.closeModal)
+            onClick={() => {
+              console.log(window.opener, 'window.opener')
+              debugger;
+              if(window.opener&&!window.opener.closed&&window.opener.onComplete){
+                window.opener.onComplete(croppedImg, window.close)
+              }
+              else {
+                props.onCrop && props.onCrop(croppedImg, props.closeModal)
+              }
+          }
+            
           }
         >
           Proceed with Image

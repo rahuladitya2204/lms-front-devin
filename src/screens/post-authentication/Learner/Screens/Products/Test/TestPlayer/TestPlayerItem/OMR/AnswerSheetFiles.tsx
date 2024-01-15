@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Col, Divider, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
-import { CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
@@ -13,19 +13,27 @@ import MediaUpload from '@Components/MediaUpload'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import PerspectiveCropper from '@Components/PerspectiveCropper'
 import { Typography } from '@Components/Typography'
+import { openWindow } from '@Components/SunEditor/utils'
 import update from 'immutability-helper'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
+import { useParams } from 'react-router'
 import { useReviewQuestion } from '../../../TestReview/TestPlayerItemReview'
 
-const {Text}=Typography;
+const { Text } = Typography;
+
+interface AnswerSheetFilesPropsI {
+  testId?: string, review?: boolean, closeModal?: Function;
+}
 
 const { confirm } = Modal;
-const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:Function }) => {
-  const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = Learner.Queries.useUpdateAnswerSheets(props.testId);
-  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = Learner.Queries.useVerifyAnswerSheet(props.testId);
-  const { mutate: applyAnswerSheets,isLoading: applyingAnswerSheets } = Learner.Queries.useEvaluateAnswerSheets(props.testId);
+const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
+  const params = useParams();
+  const testId = (params.testId || props.testId)+'';
+  const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = Learner.Queries.useUpdateAnswerSheets(testId);
+  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = Learner.Queries.useVerifyAnswerSheet(testId);
+  const { mutate: applyAnswerSheets,isLoading: applyingAnswerSheets } = Learner.Queries.useEvaluateAnswerSheets(testId);
   const [form] = Form.useForm<Types.AnswerSheet>();
   const message = useMessage();
   const files = Form.useWatch(['files'], form) || [];
@@ -36,7 +44,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
     status: {
       answerSheets
     }
-  },isFetching: loadingTestStatus }=Learner.Queries.useGetTestStatus(props.testId)
+  }, isFetching: loadingTestStatus } = Learner.Queries.useGetTestStatus(testId);
   useEffect(() => {
     if (answerSheets.files) {
       console.log(answerSheets.files, 'updated');
@@ -134,18 +142,39 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
               <Col>
                 <Row gutter={[20,10]}>
                   <Col>
-                  <ActionModal cta={ <Button icon={<EditOutlined/>} >Crop</Button>}>
-  <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
-                   const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
-                   closeModal && closeModal();
-                   uploadFiles({
-                             files: [{ file: blobToFile(blob),prefixKey }],
-                             onSuccess: ([{url}]:any) => {
-                               handleUpload([{ file: files[0]._id, url: url }]);
-                             }
-                           })
-                    }} image={url} />
-                    </ActionModal></Col>
+                    <Button onClick={() => {
+                      if (isMobile) {
+                        openWindow(`/cropper?image=${url}`,(blob: any,close?:Function) => {
+                          const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
+                          close && close();
+                          uploadFiles({
+                                    files: [{ file: blobToFile(blob),prefixKey }],
+                            onSuccess: ([{ url,name,_id }]) => {
+                              // debugger;
+                                      closeModal && closeModal();
+                              VerifyAnswerSheet([{ name, url,_id }]);
+                                    }
+                                  })
+                        });
+                        
+                       }
+                      else {
+                        openModal(  <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
+                          const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
+                          closeModal && closeModal();
+                          uploadFiles({
+                                    files: [{ file: blobToFile(blob),prefixKey }],
+                                    onSuccess: ([{ url,name,_id }]) => {
+                                      // debugger;
+                                       closeModal && closeModal();
+                                      VerifyAnswerSheet([{ name, url,_id }]);
+                                            }
+                                  })
+                           }} image={url} />
+       )
+                      }
+                  
+                  }} icon={<EditOutlined/>} >Crop</Button></Col>
                   <Col>
                   <Button type='primary' icon={<CheckOutlined/>} onClick={() => {
                 handleUpload(files.map((f) => {
@@ -181,6 +210,13 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
   const {isMobile } = useBreakpoint();
   return (
     <Spin spinning={verifyingAnswerSheet} tip='Analysing Answer Sheet..' > 
+         {!props.closeModal? <Button onClick={() => {
+            if (window?.opener?.onComplete) {
+              window.close()
+            }
+          }} danger block={isMobile} style={{marginTop:10}} icon={<ArrowLeftOutlined/>} type='primary'>
+            Go back to Answer Sheet
+          </Button>:null}
       <Card style={{marginTop:20}}
        title="Answer Sheet Images" extra={[ !props.review?(files.length?UploadButton:null):null]}
       >
@@ -226,7 +262,7 @@ const AnswerSheetFiles = (props: { testId: string, review?: boolean,closeModal?:
                            // console.log(D,'POP')
               const fileDetails = d.files[field.name]
                        return <Col xs={24} sm={12} md={6} >
-                   <DraggableFileItem testId={props.testId} fileUrl={fileDetails.url} cropItem={cropItem} review={props.review}
+                   <DraggableFileItem testId={testId} fileUrl={fileDetails.url} cropItem={cropItem} review={props.review}
                    key={field.key}
                    index={index}
                    id={field.key}
@@ -265,14 +301,20 @@ name={fileDetails.name} // Assuming this is how you access the file name
                 type: 'success',
                 content: `Answer Sheet recorded successfully`
               });
-              props.closeModal && props.closeModal();
-
+              if (window?.opener?.onComplete) {
+                window?.opener?.onComplete(true)
+                window.close();
+              }
+              else {
+                props.closeModal && props.closeModal();
+              }
             }
           })}
             disabled={!(filledCount&&files.length)}
             >
             Apply Answer Sheet
-          </Button></Col>    
+            </Button>
+          </Col>    
          </Row></>:null}
      </Spin>
   );
@@ -340,7 +382,8 @@ name={fileDetails.name} // Assuming this is how you access the file name
         })
       }
     });
-  }
+      }
+      const { isMobile } = useBreakpoint();
       const {
         mutate: uploadFiles,
         isLoading: uploadingFile
@@ -373,16 +416,33 @@ name={fileDetails.name} // Assuming this is how you access the file name
         // danger
         size='small'
                         onClick={() => {
-          openModal( <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
-            closeModal && closeModal();
-            // @ts-ignore
-uploadFiles({
-files: [{ file: blobToFile(blob),prefixKey }],
-onSuccess: ([{url}]) => {
-cropItem(index, url);
-}
-})
-}} image={fileUrl} />)
+                          if (isMobile)
+                          {
+                            openWindow(`/cropper?image=${fileUrl}`, (blob: any, closeModal?: Function) => {
+                            closeModal && closeModal();
+                            console.log(blob,'llloi')
+                            // @ts-ignore
+                uploadFiles({
+                files: [{ file: blobToFile(blob),prefixKey }],
+                onSuccess: ([{url}]) => {
+                cropItem(index, url);
+                }
+                })
+                          })
+                          }
+                          else {
+                            openModal( <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
+                              closeModal && closeModal();
+                              // @ts-ignore
+                  uploadFiles({
+                  files: [{ file: blobToFile(blob),prefixKey }],
+                  onSuccess: ([{url}]) => {
+                  cropItem(index, url);
+                  }
+                  })
+                  }} image={fileUrl} />)
+                          }
+
         }}
               >Crop</Button>
                     </Col>

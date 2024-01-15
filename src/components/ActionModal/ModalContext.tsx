@@ -1,5 +1,5 @@
 import { Modal, Spin } from 'antd';
-import React, { ReactNode, Suspense, createContext, useCallback, useContext, useState } from 'react';
+import React, { ReactNode, Suspense, createContext, startTransition, useCallback, useContext, useState } from 'react';
 
 interface ModalContextType {
   openModal: (content: ReactNode,opts?:ActionModalPropsI) => void;
@@ -44,7 +44,9 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   const [modalStack, setModalStack] = useState<ModalStackItem[]>([]);
 
   const openModal = useCallback((content: ReactNode, opts: ActionModalPropsI = {}) => {
-    setModalStack(prevStack => [...prevStack, { content, opts }]);
+    startTransition(() => {
+      setModalStack(prevStack => [...prevStack, { content, opts }]);
+    })
   }, []);
 
   const hideModal = useCallback(() => {
