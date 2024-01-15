@@ -31,7 +31,9 @@ const CreateSmsTemplate = (props:CreateSmsTemplatePropsI) => {
         {/* <Form.Item name={['sms','subject']} required>
            <TextArea label="Subject" name={['sms','subject']} />
         </Form.Item> */}
-        <Form.Item  name={['sms','body']}  label="Sms Body" required>
+                    <Form.Item name={['sms', 'body']} label="Sms Body"
+                        rules={[{ required: true, message: 'Please input sms body!' }]}
+                    >
                 <TextArea name={['sms','body']}  />
         </Form.Item>
         </>

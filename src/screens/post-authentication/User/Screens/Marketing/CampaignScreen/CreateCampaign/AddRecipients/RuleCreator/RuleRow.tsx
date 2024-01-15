@@ -234,6 +234,7 @@ function RuleRow(props: RuleRowPropsI) {
           </Form.Item>
           {!props.isFirst ? (
             <Button
+              style={{ marginBottom: 24 }}
               onClick={() => props.remove()}
               icon={<DeleteOutlined size={10} />}
             />

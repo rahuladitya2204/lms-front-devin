@@ -28,10 +28,10 @@ const CreateWhatsappTemplate = (props:CreateWhatsappTemplatePropsI) => {
                 }} />
                 <Divider />
             <>
-        <Form.Item name={['whatsapp','subject']} required>
+        <Form.Item name={['whatsapp','subject']} rules={[{ required: true, message: 'Please input whatsapp subject!' }]}>
            <TextArea label="Subject" name={['whatsapp','subject']} />
         </Form.Item>
-        <Form.Item  name={['whatsapp','body']}  label="Whatsapp Body" required>
+        <Form.Item  name={['whatsapp','body']}  label="Whatsapp Body" rules={[{ required: true, message: 'Please input whatsapp body!' }]}>
                 <TextArea html name={['whatsapp','body']}  />
         </Form.Item>
         </>

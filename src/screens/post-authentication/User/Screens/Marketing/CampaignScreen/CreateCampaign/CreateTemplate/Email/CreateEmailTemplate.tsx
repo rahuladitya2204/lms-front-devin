@@ -16,10 +16,10 @@ interface CreateEmailTemplatePropsI {
 
 const variables = [{
     name: 'Learner Name',
-    value:'learner.name'
+    value:'params.learner.name'
   },{
     name: "Today's Date",
-    value:'date'
+    value:'params.date'
   }]
 const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
     const form = Form.useFormInstance();

@@ -99,36 +99,33 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     },
     [campaignDetails]
   )
-  const channel = form.getFieldValue(['channel'])
-  console.log(channel,'haha',campaignDetails)
-  const TAB_ITEMS = useMemo(
-    () => {
-      const arr = []
-      if (channel?.includes('email')) {
-        arr.push({
-          key: 'email',
-          label: `Email`,
-          children: <CreateEmailTemplate />
-        })
-      }
-      if (channel?.includes('whatsapp')) {
-        arr.push( {
-          key: 'whatsapp',
-          label: `Whatsapp`,
-          children: <CreateWhatsappTemplate />
-        })
-      }
-      if (channel?.includes('sms')) {
-        arr.push( {
-          key: 'sms',
-          label: `SMS`,
-          children: <CreateSmsTemplate />
-        })
-      }
-      return arr;
-    },
-    [channel]
-  )
+  const channel = Form.useWatch(['channel'], form);
+  console.log(channel,'tullimulli',campaignDetails)
+  const GET_TAB_ITEMS =  () => {
+    const arr = []
+    if (channel?.includes('email')) {
+      arr.push({
+        key: 'email',
+        label: `Email`,
+        children: <CreateEmailTemplate />
+      })
+    }
+    if (channel?.includes('whatsapp')) {
+      arr.push( {
+        key: 'whatsapp',
+        label: `Whatsapp`,
+        children: <CreateWhatsappTemplate />
+      })
+    }
+    if (channel?.includes('sms')) {
+      arr.push( {
+        key: 'sms',
+        label: `SMS`,
+        children: <CreateSmsTemplate />
+      })
+    }
+    return arr;
+  }
   return (
     <Header
       showBack
@@ -187,7 +184,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                     content: (
                       <Tabs
                         defaultActiveKey="1234321"
-                        items={TAB_ITEMS}
+                        items={GET_TAB_ITEMS()}
                       />
                     )
                   }
