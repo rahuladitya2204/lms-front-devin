@@ -25,6 +25,10 @@ const { confirm } = Modal
 function CampaignsScreen() {
   const { data, isFetching: loading } = User.Queries.useGetCampaigns()
   const { mutate: executeCampaign } = User.Queries.useExecuteCampaign()
+  const {
+    mutate: deleteCampaignApi,
+    isLoading: deletingCampaign
+  } = User.Queries.useDeleteCampaign()
   // const { mutate: deleteCampaign } = User.Queries.usedeletec()
   const navigate = useNavigate()
 
@@ -34,8 +38,7 @@ function CampaignsScreen() {
       // icon: <ExclamationCircleOutlined />,
       content: `You want to delete this campaign?`,
       onOk() {
-        // props.removeItemFromCart(id)
-        // console.log('deleteing')
+        deleteCampaignApi({ id })
       },
       okText: 'Delete Campaign'
     })
@@ -53,7 +56,7 @@ function CampaignsScreen() {
       <Card bodyStyle={{ padding: 0 }}>
         <Row>
           <Col span={24}>
-            <Table dataSource={data} loading={loading}>
+            <Table dataSource={data} loading={loading || deletingCampaign}>
               <Table.Column
                 title="Title"
                 dataIndex="title"
@@ -117,7 +120,7 @@ function CampaignsScreen() {
                             ? {
                                 key: 'execute',
                                 label: 'Execute Campaign',
-                                icon: <CheckOutlined />,
+                                // icon: <CheckOutlined />,
                                 onClick: () =>
                                   executeCampaign({
                                     id: record._id
@@ -127,14 +130,14 @@ function CampaignsScreen() {
                           {
                             key: 'edit',
                             label: 'Edit Campaign',
-                            icon: <EditOutlined />,
+                            // icon: <EditOutlined />,
                             onClick: () =>
                               navigate(`../edit-campaign/${record._id}`)
                           },
                           {
                             key: 'delete',
                             label: 'Delete Campaign',
-                            icon: <DeleteOutlined />,
+                            // icon: <DeleteOutlined />,
                             onClick: () => deleteCampaign(record._id)
                           }
                         ]}

@@ -81,7 +81,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
             type: 'success',
             content: 'Saved'
           })
-          navigate('../campaign')
+          // navigate('../campaign')
         }
       })
     }
