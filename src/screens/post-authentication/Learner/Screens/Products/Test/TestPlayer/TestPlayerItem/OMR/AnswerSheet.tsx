@@ -79,7 +79,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     isLoading: submittingTest
   } = Learner.Queries.useEndTest();
   const { isDesktop } = useBreakpoint();
-  const SubmitTestButton = <Button block={!isDesktop}
+  const SubmitTestButton = <Button disabled={!ep.metadata.test.responses.length} block={!isDesktop}
     onClick={() => {
       confirm({
         title: 'Are you sure?',
@@ -148,7 +148,12 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                   <Divider />
                   <Row justify={'space-between'}>
                     <Col flex={1}>
-                      <Alert action={!isMobile ? SubmitTestButton : null} style={{ marginBottom: 10, marginRight: 10 }} message="Once submitted, you won't be able to resubmit, Please double check your answers." type="error" showIcon />
+                      <Alert action={!isMobile ? SubmitTestButton : null} style={{ marginBottom: 10, marginRight: 10 }}
+                        message={ep.metadata.test.responses.length ?
+                          "Once submitted, you won't be able to resubmit, Please double check your answers." :
+                          "None of the responses have been recorded, Please click on Save Answers before submitting"}
+                        type="error"
+                        showIcon />
                     </Col>
                     {isMobile ? <Col xs={isMobile ? 24 : ''}>
                       {SubmitTestButton}</Col> : null}
