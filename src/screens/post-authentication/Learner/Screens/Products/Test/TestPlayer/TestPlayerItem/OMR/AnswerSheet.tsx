@@ -145,15 +145,17 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
                   extra={UploadAnswerSheetButton}
                 >
                   <OMRComponent testId={testId} />
+                  {ep.metadata.test.responses.length?<Alert type='info' message={`Please confirm your filled bubble count, Filled bubbles: ${ep.metadata.test.responses.length}`} />:null}
                   <Divider />
                   <Row justify={'space-between'}>
                     <Col flex={1}>
                       <Alert action={!isMobile ? SubmitTestButton : null} style={{ marginBottom: 10, marginRight: 10 }}
                         message={ep.metadata.test.responses.length ?
-                          "Once submitted, you won't be able to resubmit, Please double check your answers." :
+                          "Once submitted, you won't be able to resubmit, Please double check your answers and click on Save Answers." :
                           "None of the responses have been recorded, Please click on Save Answers before submitting"}
                         type="error"
                         showIcon />
+                      
                     </Col>
                     {isMobile ? <Col xs={isMobile ? 24 : ''}>
                       {SubmitTestButton}</Col> : null}
