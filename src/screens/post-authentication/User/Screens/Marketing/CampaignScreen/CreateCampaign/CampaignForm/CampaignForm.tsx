@@ -1,13 +1,8 @@
 import { Col, DatePicker, Form, Input, Row, Select, Space, Tag } from 'antd'
 
-import { Types } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useLayoutEffect } from 'react'
-
 interface CampaignFormPropsI {
-  campaign: Types.Campaign;
-  updateCampaign: (d: Types.Campaign) => void;
+  // campaign: Types.Campaign;
+  // updateCampaign: (d: Types.Campaign) => void;
 }
 
 const CampaignForm = (props: CampaignFormPropsI) => {

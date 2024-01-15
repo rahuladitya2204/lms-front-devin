@@ -10,47 +10,31 @@ import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/util
 const { useWatch } = Form;
 
 interface CreateSmsTemplatePropsI {
-    campaign: Types.Campaign;
-    updateCampaign: (d: Types.Campaign) => void;
+    // campaign: Types.Campaign;
+    // updateCampaign: (d: Types.Campaign) => void;
 }
 
 // const variables = [{ name: 'Course Name', value: 'course.title'}, { name: 'Learner Name', value: 'learner.name'}];
 
 const CreateSmsTemplate = (props:CreateSmsTemplatePropsI) => {
-    const [form] = Form.useForm<Types.CreateCampaignPayload>();
-    const { mutate: generateContent,isLoading: loadingCampaign} = User.Queries.useGenerateCampaignContent();
-    useLayoutEffect(
-        () => {
-            form.setFieldsValue(props.campaign)
-        },
-        [[props.campaign]]
-    );
-    const onValuesChange = (d: any) => {
-        const data = deepPatch({...props.campaign}, d)
-        props.updateCampaign(data)
-    };
-    const [prompt, setPrompt] = useState('');
-    const content = useWatch(['sms','body'], form);
+    const form = Form.useFormInstance();
+    const campaign = Form.useWatch(form);
+    const content = useWatch(['recipients', 'segment','sms','body'], form);
     return <>
         <Row gutter={[20,20]}>
             <Col span={12}>
-            <GenerateWithAi channel="sms" campaign={props.campaign} onComplete={D => {
-                    form.setFieldsValue({
-                          sms:D
-                      });
-                    onValuesChange({
-                          sms: D
-                      })
+            <GenerateWithAi channel="sms" campaign={campaign} onComplete={D => {
+                    form.setFieldValue(['recipients', 'segment', 'sms'], D);
                 }} />
                 <Divider />
-            <Form onValuesChange={onValuesChange} form={form} layout="vertical">
+            <>
         {/* <Form.Item name={['sms','subject']} required>
            <TextArea label="Subject" name={['sms','subject']} />
         </Form.Item> */}
         <Form.Item  name={['sms','body']}  label="Sms Body" required>
                 <TextArea name={['sms','body']}  />
         </Form.Item>
-        </Form>
+        </>
             </Col>
             <Col span={12}>
                 <PreviewSmsTemplate content={content} />

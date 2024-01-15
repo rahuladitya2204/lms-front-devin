@@ -14,7 +14,7 @@ import { DeleteOutlined } from '@ant-design/icons'
 import { Types } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 
-const OPERATORS = {
+export const OPERATORS = {
   //   startsWith: {
   //     title: 'starts with',
   //     value: '$regex'
@@ -45,7 +45,7 @@ const OPERATORS = {
   }
 }
 
-const OPERANDS = [
+export const OPERANDS = [
   {
     title: 'Enrolled Course',
     value: 'enrolledProducts.course',
@@ -134,66 +134,107 @@ const OPERANDS = [
 ]
 
 interface RuleRowPropsI {
-  rule: Types.Rule;
-  deleteRule: Function;
   isFirst: boolean;
-  updateRule: (type: string, val: string) => void;
+  remove: Function;
+  name: number;
+  // updateRule: (type: string, val: string) => void;
 }
 
 function RuleRow(props: RuleRowPropsI) {
-  const OPERAND = OPERANDS.find(o => o.value == props.rule.operand)
+  const form = Form.useFormInstance()
+  const rule = Form.useWatch(['recipients', 'rules', props.name], form) || {
+    operand: '',
+    operator: '',
+    value: ''
+  }
+  const operand = Form.useWatch(
+    ['recipients', 'rules', props.name, 'operand'],
+    form
+  )
+  console.log(operand, 'huhhaha')
+  const OPERAND = OPERANDS.find(o => o.value === rule.operand)
+  console.log(rule, 'rule', OPERANDS)
   return (
     <Row>
       <Col span={24}>
         <Space direction="horizontal" style={{ marginBottom: 10 }}>
-          <Select
-            value={props.rule.operand}
-            style={{ width: 250, marginRight: 20 }}
-            onChange={e => props.updateRule('operand', e)}
-            options={OPERANDS.map(o => {
-              return {
-                label: o.title,
-                value: o.value
+          {/* <span>{props.name}</span> */}
+          <Form.Item
+            name={[props.name, 'operand']}
+            rules={[
+              {
+                required: true,
+                message: 'Please enter an operand'
               }
-            })}
-          />
-          <Select
-            value={props.rule.operator}
-            style={{ width: 200, marginRight: 20 }}
-            placeholder="Select Operator"
-            onChange={e => props.updateRule('operator', e)}
-            options={OPERAND?.operators?.map(o => {
-              return {
-                label: o.title,
-                value: o.value
-              }
-            })}
-          />
-          {OPERAND?.type === 'text' ? (
-            <Input
-              style={{ width: 200 }}
-              onChange={e => props.updateRule('value', e.target.value)}
-              value={props.rule.value}
-            />
-          ) : null}
-
-          {OPERAND?.type === 'date' ? (
-            <DatePicker
-              style={{ width: 200 }}
-              onChange={e => props.updateRule('value', e?.toISOString() + '')}
-              value={props.rule.value ? dayjs(props.rule.value) : null}
-            />
-          ) : null}
-          {OPERAND?.type === 'select' ? (
+            ]}
+          >
             <Select
-              style={{ width: 200 }}
-              //   onChange={e => props.updateRule('value', e)}
-              //   value={props.rule.value}
+              style={{ width: 250, marginRight: 20 }}
+              options={OPERANDS.map(o => {
+                return {
+                  label: o.title,
+                  value: o.value
+                }
+              })}
             />
-          ) : null}
+          </Form.Item>
+          <Form.Item
+            name={[props.name, 'operator']}
+            rules={[
+              {
+                required: true,
+                message: 'Please enter an operator'
+              }
+            ]}
+          >
+            <Select
+              // value={props.rule.operator}
+              style={{ width: 200, marginRight: 20 }}
+              placeholder="Select Operator"
+              // onChange={e => props.updateRule('operator', e)}
+              options={OPERAND?.operators?.map(o => {
+                return {
+                  label: o.title,
+                  value: o.value
+                }
+              })}
+            />
+          </Form.Item>
+          <Form.Item
+            name={[props.name, 'value']}
+            rules={[
+              {
+                required: true,
+                message: 'Please input a value'
+              }
+            ]}
+          >
+            {OPERAND?.type === 'text' ? (
+              <Input
+                style={{ width: 200 }}
+                // onChange={e => props.updateRule('value', e.target.value)}
+                // value={props.rule.value}
+              />
+            ) : null}
+
+            {OPERAND?.type === 'date' ? (
+              <DatePicker
+                style={{ width: 200 }}
+                // onChange={e => props.updateRule('value', e?.toISOString() + '')}
+                // value={props.rule.value ? dayjs(props.rule.value) : null}
+              />
+            ) : null}
+            {OPERAND?.type === 'select' ? (
+              <Select
+                style={{ width: 200 }}
+                //   onChange={e => props.updateRule('value', e)}
+                //   value={props.rule.value}
+              />
+            ) : null}
+          </Form.Item>
           {!props.isFirst ? (
             <Button
-              onClick={() => props.deleteRule()}
+              onClick={() => props.remove()}
               icon={<DeleteOutlined size={10} />}
             />
           ) : null}

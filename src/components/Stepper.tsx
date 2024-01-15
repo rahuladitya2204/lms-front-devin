@@ -7,13 +7,13 @@ interface StepperPropsI {
   nextCta?: (s: any, a: any) => React.ReactNode;
   currentStep?: number;
   submitCta?: (s: any, a: any) => React.ReactNode;
-  alertMessage: React.ReactNode | string;
+  alertMessage?: React.ReactNode | string;
   prevCta?:(s: any, a: any)=>React.ReactNode;
     steps: {
       title?: string;
       validator?: () => boolean;
       content: React.ReactNode;
-      data: any;
+      data?: any;
     }[]
 }
 

@@ -10,8 +10,8 @@ import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/util
 const { useWatch } = Form;
 
 interface CreateEmailTemplatePropsI {
-    campaign: Types.Campaign;
-    updateCampaign: (d: Types.Campaign) => void;
+    // campaign: Types.Campaign;
+    // updateCampaign: (d: Types.Campaign) => void;
 }
 
 const variables = [{
@@ -22,33 +22,17 @@ const variables = [{
     value:'date'
   }]
 const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
-    const [form] = Form.useForm<Types.CreateCampaignPayload>();
-    const [prompt, setPrompt] = useState('');
-    const { mutate: generateContent,isLoading: loadingCampaign} = User.Queries.useGenerateCampaignContent();
-    useLayoutEffect(
-        () => {
-            form.setFieldsValue(props.campaign)
-        },
-        [[props.campaign]]
-    );
-    const onValuesChange = (d: any) => {
-        const data = deepPatch({...props.campaign}, d)
-        props.updateCampaign(data)
-    };
+    const form = Form.useFormInstance();
     const content = useWatch(['email', 'body'], form);
+    const campaign = Form.useWatch(form);
     return <>
         <Row gutter={[20,20]}>
             <Col span={12}>
-                <GenerateWithAi channel="email" campaign={props.campaign} onComplete={D => {
-                    form.setFieldsValue({
-                          email:D
-                      });
-                    onValuesChange({
-                          email: D
-                      })
+                <GenerateWithAi channel="email" campaign={campaign} onComplete={D => {
+                    form.setFieldValue(['recipients', 'segment', 'email'], D);
                 }} />
                <Divider/>
-            <Form onValuesChange={onValuesChange} form={form} layout="vertical">
+            <>
                     <Form.Item
                           rules={[{ required: true, message: 'Please input the email subject!' }]}
                           label="Subject" name={['email', 'subject']} >
@@ -57,7 +41,7 @@ const CreateEmailTemplate = (props:CreateEmailTemplatePropsI) => {
         <Form.Item rules={[{ required: true, message: 'Please input the email body!' }]}  name={['email','body']}  label="Email Body" >
                 <TextArea variables={variables} html={{level:3}}  name={['email','body']}  />
         </Form.Item>
-        </Form>
+        </>
             </Col>
             <Col span={12}>
                 <PreviewTemplate htmlContent={content} />

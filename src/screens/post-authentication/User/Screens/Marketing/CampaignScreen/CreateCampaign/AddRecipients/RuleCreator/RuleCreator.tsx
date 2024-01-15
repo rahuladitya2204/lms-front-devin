@@ -17,15 +17,12 @@ import { Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
 
 interface RuleCreatorPropsI {
-  addRule: Function;
-  updateRule: Function;
-  operator: string;
-  setOperator: (s: string) => void;
-  deleteRule: Function;
-  rules: Types.Rule[];
+
 }
 
 function RuleCreator(props: RuleCreatorPropsI) {
+  const form = Form.useFormInstance()
+  const rules = Form.useWatch(['recipients', 'rules'], form) || []
   return (
     <Row>
       <Col span={24}>
@@ -50,8 +47,6 @@ function RuleCreator(props: RuleCreatorPropsI) {
               >
                 <Select
                   size="small"
-                  value={props.operator}
-                  onChange={e => props.setOperator(e)}
                   options={[
                     {
                       label: 'any',
@@ -71,30 +66,32 @@ function RuleCreator(props: RuleCreatorPropsI) {
           style={{ width: '100%' }}
         >
           <Space direction="vertical">
-            <Space direction="vertical">
-              {props?.rules?.map((rule: Types.Rule, index: number) => {
-                return (
-                  <RuleRow
-                    isFirst={props.rules.length < 2}
-                    deleteRule={() => props.deleteRule(index)}
-                    updateRule={(type, value) => {
-                      props.updateRule(index, type, value)
-                    }}
-                    rule={rule}
-                  />
-                )
+          <Form.List name={['recipients', 'rules']}>
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, },index) => {
+                return <RuleRow key={key}
+                isFirst={rules.length < 2}
+                name={name}
+                remove={() => remove(index)}
+              />
               })}
-            </Space>
-
-            {/* <Divider /> */}
             <Button
               style={{ marginTop: 20 }}
               type="primary"
               icon={<PlusOutlined />}
-              onClick={e => props.addRule()}
+                    onClick={e => add({
+                      operand: 'email',
+                      operator:'contains'
+              })}
             >
               Add
-            </Button>
+                    </Button>
+                  </>)
+          }
+          
+        </Form.List>
+      
           </Space>
         </Card>
       </Col>

@@ -19,7 +19,8 @@ export default function GenerateWithAi(props:GenerateWithAiPropsI) {
                              generateContent({
                               title: props.campaign.title,
                               description: props.campaign.description,
-                              channel: [props.channel],
+                                 channel: [props.channel],
+                            //   @ts-ignore
                               prompt
                           }, {
                               onSuccess: ({ data }) => {

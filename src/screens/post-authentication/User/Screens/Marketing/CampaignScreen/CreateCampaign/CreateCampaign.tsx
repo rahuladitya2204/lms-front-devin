@@ -1,7 +1,12 @@
-// @ts-nocheck
 import { Button, Card, Col, Form, Modal, Row, Tabs } from 'antd'
 import { Constants, Types } from '@adewaskar/lms-common'
-import React, { ReactNode, useEffect, useLayoutEffect, useState } from 'react'
+import React, {
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useState
+} from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import AddRecipients from './AddRecipients/AddReciepients'
@@ -27,6 +32,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
   const params = useParams()
   const navigate = useNavigate()
   const message = useMessage()
+  const [form] = Form.useForm<Types.Campaign>()
   const {
     mutate: createCampaign,
     isLoading: createCampaignLoading
@@ -48,35 +54,17 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     }
   )
 
-  const [campaign, setCampaign] = useState(Constants.INITIAL_CAMPAIGN_DETAILS)
-
-  useEffect(
-    () => {
-      if (campaignDetails._id) {
-        setCampaign(campaignDetails)
-      }
-    },
-    [campaignDetails]
-  )
-
-  const updateCampaign = (e: Partial<Types.Campaign>) => {
-    setCampaign({
-      ...campaign,
-      ...e
-    })
-  }
-
   const saveDraft = (d: Types.Campaign) => {
     // if (!isFormValid) {
     //   return
     // }
-    const data = {
+    const data: Types.CreateCampaignPayload = {
       ...d,
       status: 'draft'
     }
-    if (campaign._id) {
+    if (campaignDetails?._id) {
       updateCampaignApi(
-        { id: campaign._id, data: data },
+        { id: campaignDetails?._id, data: data },
         {
           onSuccess: r => {
             message.open({
@@ -94,25 +82,53 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
             content: 'Saved'
           })
           navigate('../campaign')
-          setRules([])
         }
       })
     }
     // onFinish && onFinish(e)
   }
 
-  const [form] = Form.useForm()
 
-  useLayoutEffect(
+  useEffect(
     () => {
+      console.log(campaignDetails,'campaignDetails')
       form.setFieldsValue(campaignDetails)
       if (campaignDetails.scheduledAt) {
         form.setFieldValue(['scheduledAt'], dayjs(campaignDetails.scheduledAt))
       }
     },
-    [[campaignDetails]]
+    [campaignDetails]
   )
-
+  const channel = form.getFieldValue(['channel'])
+  console.log(channel,'haha',campaignDetails)
+  const TAB_ITEMS = useMemo(
+    () => {
+      const arr = []
+      if (channel?.includes('email')) {
+        arr.push({
+          key: 'email',
+          label: `Email`,
+          children: <CreateEmailTemplate />
+        })
+      }
+      if (channel?.includes('whatsapp')) {
+        arr.push( {
+          key: 'whatsapp',
+          label: `Whatsapp`,
+          children: <CreateWhatsappTemplate />
+        })
+      }
+      if (channel?.includes('sms')) {
+        arr.push( {
+          key: 'sms',
+          label: `SMS`,
+          children: <CreateSmsTemplate />
+        })
+      }
+      return arr;
+    },
+    [channel]
+  )
   return (
     <Header
       showBack
@@ -136,7 +152,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
               content: `You want to execute this campaign?`,
               onOk() {
                 executeCampaign(
-                  { id },
+                  { id: campaignDetails._id },
                   {
                     onSuccess: () => {
                       navigate(`/app/marketing/edit-campaign/${id}`)
@@ -160,65 +176,18 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
                 steps={[
                   {
                     title: 'Title',
-                    content: (
-                      <CampaignForm
-                        updateCampaign={updateCampaign}
-                        campaign={campaign}
-                      />
-                    )
+                    content: <CampaignForm />
                   },
                   {
                     title: 'Recipients',
-                    content: (
-                      <AddRecipients
-                        updateCampaign={updateCampaign}
-                        campaign={campaign}
-                      />
-                    )
+                    content: <AddRecipients />
                   },
                   {
                     title: 'Template',
                     content: (
                       <Tabs
                         defaultActiveKey="1234321"
-                        items={[
-                          campaign.channel.includes('email')
-                            ? {
-                                key: 'email',
-                                label: `Email`,
-                                children: (
-                                  <CreateEmailTemplate
-                                    updateCampaign={updateCampaign}
-                                    campaign={campaign}
-                                  />
-                                )
-                              }
-                            : null,
-                          campaign.channel.includes('whatsapp')
-                            ? {
-                                key: 'whatsapp',
-                                label: `Whatsapp`,
-                                children: (
-                                  <CreateWhatsappTemplate
-                                    updateCampaign={updateCampaign}
-                                    campaign={campaign}
-                                  />
-                                )
-                              }
-                            : null,
-                          campaign.channel.includes('sms')
-                            ? {
-                                key: 'sms',
-                                label: `SMS`,
-                                children: (
-                                  <CreateSmsTemplate
-                                    updateCampaign={updateCampaign}
-                                    campaign={campaign}
-                                  />
-                                )
-                              }
-                            : null
-                        ]}
+                        items={TAB_ITEMS}
                       />
                     )
                   }

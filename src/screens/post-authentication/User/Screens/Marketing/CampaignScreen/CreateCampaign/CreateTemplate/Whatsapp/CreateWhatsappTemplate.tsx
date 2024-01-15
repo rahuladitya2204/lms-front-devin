@@ -10,47 +10,31 @@ import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/util
 const { useWatch } = Form;
 
 interface CreateWhatsappTemplatePropsI {
-    campaign: Types.Campaign;
-    updateCampaign: (d: Types.Campaign) => void;
+    // campaign: Types.Campaign;
+    // updateCampaign: (d: Types.Campaign) => void;
 }
 
 // const variables = [{ name: 'Course Name', value: 'course.title'}, { name: 'Learner Name', value: 'learner.name'}];
 
 const CreateWhatsappTemplate = (props:CreateWhatsappTemplatePropsI) => {
-    const [form] = Form.useForm<Types.CreateCampaignPayload>();
-    const { mutate: generateContent,isLoading: loadingCampaign} = User.Queries.useGenerateCampaignContent();
-    useLayoutEffect(
-        () => {
-            form.setFieldsValue(props.campaign)
-        },
-        [[props.campaign]]
-    );
-    const onValuesChange = (d: any) => {
-        const data = deepPatch({...props.campaign}, d)
-        props.updateCampaign(data)
-    };
-    const [prompt, setPrompt] = useState('');
-    const content = useWatch(['whatsapp','body'], form);
+    const form = Form.useFormInstance();
+    const content = useWatch(['recipients', 'segment','whatsapp','body'], form);
+    const campaign = Form.useWatch(form);
     return <>
         <Row gutter={[20,20]}>
             <Col span={12}>
-            <GenerateWithAi channel="whatsapp" campaign={props.campaign} onComplete={D => {
-                    form.setFieldsValue({
-                          whatsapp:D
-                      });
-                    onValuesChange({
-                          whatsapp: D
-                      })
+            <GenerateWithAi channel="whatsapp" campaign={campaign} onComplete={D => {
+                   form.setFieldValue(['recipients', 'segment', 'whatsapp'], D);
                 }} />
                 <Divider />
-            <Form onValuesChange={onValuesChange} form={form} layout="vertical">
+            <>
         <Form.Item name={['whatsapp','subject']} required>
            <TextArea label="Subject" name={['whatsapp','subject']} />
         </Form.Item>
         <Form.Item  name={['whatsapp','body']}  label="Whatsapp Body" required>
                 <TextArea html name={['whatsapp','body']}  />
         </Form.Item>
-        </Form>
+        </>
             </Col>
             <Col span={12}>
                 <PreviewWhatsappTemplate content={content} />

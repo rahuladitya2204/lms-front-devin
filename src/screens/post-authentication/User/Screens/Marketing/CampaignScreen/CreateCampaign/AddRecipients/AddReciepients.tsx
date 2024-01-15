@@ -1,85 +1,29 @@
+import { Constants, Types } from '@adewaskar/lms-common'
 import { Form, Input, Radio, Tag } from 'antd'
 import { useLayoutEffect, useState } from 'react'
 
 import EmailListUploader from './RuleCreator/EmailListUploader'
 import InputTags from '@Components/InputTags/InputTags'
 import RuleCreator from './RuleCreator/RuleCreator'
-import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 
 interface AddRecipientsPropsI {
-  data: any;
-  operator: string;
-  setOperator: (s: string) => void;
-  addRule: Function;
-  updateRule: Function;
-  deleteRule: Function;
-  rules: Types.Rule[];
-  campaign: Types.Campaign;
-  updateCampaign: (d: Types.Campaign) => void;
+  // data: any;
+  // operator: string;
+  // setOperator: (s: string) => void;
+  // addRule: Function;
+  // updateRule: Function;
+  // deleteRule: Function;
+  // rules: Types.Rule[];
 }
 
-const AddRecipients = ({ updateCampaign, campaign }: AddRecipientsPropsI) => {
-  const [form] = Form.useForm()
-
-  useLayoutEffect(
-    () => {
-      form.setFieldsValue(campaign)
-    },
-    [[campaign]]
-  )
-  const recipientsType = Form.useWatch(['recipients', 'type'], form)
-
-  const setOperator = (op: string) => {
-    // console.log(op, '111')
-    updateRecipients({
-      operator: op
-    })
-  }
-
-  const updateRecipients = (d: any) => {
-    const data = deepPatch(campaign.recipients, d)
-    // @ts-ignore
-    updateCampaign({
-      recipients: data
-    })
-  }
-  const addRule = () => {
-    const RULES: any[] = [...campaign.recipients.rules]
-    RULES.push({
-      operand: 'email',
-      operator: '',
-      value: ''
-    })
-    updateRecipients({
-      rules: RULES
-    })
-  }
-
-  const updateRule = (index: number, type: string, value: string) => {
-    const RULES: any[] = [...campaign.recipients.rules]
-    RULES[index][type] = value
-    updateRecipients({
-      rules: RULES
-    })
-  }
-
-  const deleteRule = (index: number) => {
-    const RULES: any[] = [...campaign.recipients.rules]
-    RULES.splice(index, 1)
-    updateRecipients({
-      rules: RULES
-    })
-  }
+const AddRecipients = ({  }: AddRecipientsPropsI) => {
+  const form = Form.useFormInstance();
+  const recipientsType = Form.useWatch(['recipients', 'type'],form) || Constants.INITIAL_CAMPAIGN_DETAILS.recipients.type
+  const recipients = Form.useWatch(['recipients'],form) || Constants.INITIAL_CAMPAIGN_DETAILS.recipients;
+  console.log(form.getFieldsValue(), 'lkl');
   return (
-    <Form
-      form={form}
-      onValuesChange={d => {
-        const data = deepPatch(campaign, d)
-        updateCampaign(data)
-      }}
-      layout="vertical"
-    >
+    <>
       <Form.Item
         name={['recipients', 'type']}
         rules={[{ required: true, message: 'Please recipient type' }]}
@@ -90,11 +34,11 @@ const AddRecipients = ({ updateCampaign, campaign }: AddRecipientsPropsI) => {
           <Radio value="email-list">Email List</Radio>
         </Radio.Group>
       </Form.Item>
-      {campaign.recipients.type === 'email-list' ? (
+      {recipients.type === 'email-list' ? (
         <Form.Item
           rules={[{ required: true, message: 'Please select an email list!' }]}
           label="Email List"
-          required
+          name={['recipients', 'emailList']}
         >
           <EmailListUploader
             onChange={e => {
@@ -106,16 +50,9 @@ const AddRecipients = ({ updateCampaign, campaign }: AddRecipientsPropsI) => {
         </Form.Item>
       ) : null}
       {recipientsType === 'segment' ? (
-        <RuleCreator
-          operator={campaign.recipients.operator}
-          setOperator={setOperator}
-          updateRule={updateRule}
-          addRule={addRule}
-          deleteRule={deleteRule}
-          rules={campaign.recipients.rules}
-        />
+        <RuleCreator/>
       ) : null}
-    </Form>
+    </>
   )
 }
 
