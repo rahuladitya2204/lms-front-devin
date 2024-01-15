@@ -153,14 +153,14 @@ export default function PerspectiveCropper(props: PerspectiveCropperPropsI) {
           block={isMobile} icon={<CheckOutlined/>}
           type="primary"
             onClick={() => {
-              console.log(window.opener, 'window.opener')
-              debugger;
-              if(window.opener&&!window.opener.closed&&window.opener.onComplete){
-                window.opener.onComplete(croppedImg, window.close)
-              }
-              else {
+              // console.log(window.opener, 'window.opener')
+              // debugger;
+              // if(window.opener&&!window.opener.closed&&window.opener.onComplete){
+              //   window.opener.onComplete(croppedImg, window.close)
+              // }
+              // else {
                 props.onCrop && props.onCrop(croppedImg, props.closeModal)
-              }
+              // }
           }
             
           }

@@ -143,22 +143,22 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
                 <Row gutter={[20,10]}>
                   <Col>
                     <Button onClick={() => {
-                      if (isMobile) {
-                        openWindow(`/cropper?image=${url}`,(blob: any,close?:Function) => {
-                          const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
-                          close && close();
-                          uploadFiles({
-                                    files: [{ file: blobToFile(blob),prefixKey }],
-                            onSuccess: ([{ url,name,_id }]) => {
-                              // debugger;
-                                      closeModal && closeModal();
-                              VerifyAnswerSheet([{ name, url,_id }]);
-                                    }
-                                  })
-                        });
+                      // if (isMobile) {
+                      //   openWindow(`/cropper?image=${url}`,(blob: any,close?:Function) => {
+                      //     const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
+                      //     close && close();
+                      //     uploadFiles({
+                      //               files: [{ file: blobToFile(blob),prefixKey }],
+                      //       onSuccess: ([{ url,name,_id }]) => {
+                      //         // debugger;
+                      //                 closeModal && closeModal();
+                      //         VerifyAnswerSheet([{ name, url,_id }]);
+                      //               }
+                      //             })
+                      //   });
                         
-                       }
-                      else {
+                      //  }
+                      // else {
                         openModal(  <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
                           const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
                           closeModal && closeModal();
@@ -172,7 +172,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
                                   })
                            }} image={url} />
        )
-                      }
+                      // }
                   
                   }} icon={<EditOutlined/>} >Crop</Button></Col>
                   <Col>
@@ -416,21 +416,21 @@ name={fileDetails.name} // Assuming this is how you access the file name
         // danger
         size='small'
                         onClick={() => {
-                          if (isMobile)
-                          {
-                            openWindow(`/cropper?image=${fileUrl}`, (blob: any, closeModal?: Function) => {
-                            closeModal && closeModal();
-                            console.log(blob,'llloi')
-                            // @ts-ignore
-                uploadFiles({
-                files: [{ file: blobToFile(blob),prefixKey }],
-                onSuccess: ([{url}]) => {
-                cropItem(index, url);
-                }
-                })
-                          })
-                          }
-                          else {
+                //           if (isMobile)
+                //           {
+                //             openWindow(`/cropper?image=${fileUrl}`, (blob: any, closeModal?: Function) => {
+                //             closeModal && closeModal();
+                //             console.log(blob,'llloi')
+                //             // @ts-ignore
+                // uploadFiles({
+                // files: [{ file: blobToFile(blob),prefixKey }],
+                // onSuccess: ([{url}]) => {
+                // cropItem(index, url);
+                // }
+                // })
+                //           })
+                //           }
+                //           else {
                             openModal( <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
                               closeModal && closeModal();
                               // @ts-ignore
@@ -443,7 +443,8 @@ name={fileDetails.name} // Assuming this is how you access the file name
                   }} image={fileUrl} />)
                           }
 
-        }}
+                        // }
+      }
               >Crop</Button>
                     </Col>
                     <Col span={24}>
