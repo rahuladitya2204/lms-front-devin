@@ -76,7 +76,7 @@ export default function NewsDetailScreen() {
           key:'view-paper',
           children: <Row>
             <Col span={24}>
-          <PDFViewer file={{_id:newsItem?.file?.file}} />
+          {(newsItem?.file)?<PDFViewer file={{_id:newsItem?.file?.file}} />:null}
             </Col>
           </Row>
             }
