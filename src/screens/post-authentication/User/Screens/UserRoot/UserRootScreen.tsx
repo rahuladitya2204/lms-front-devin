@@ -3,12 +3,13 @@ import Layout, { Content, Sider } from '@Components/Layout'
 import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useEffect, useState } from 'react'
+import { Store, User } from '@adewaskar/lms-common'
 
 import AppProvider from 'screens/AppProvider'
 import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import OrgLogo from '@Components/OrgLogo'
 import ThemeProvider from 'screens/ThemeProvider'
-import { User } from '@adewaskar/lms-common'
+import { UserOutlined } from '@ant-design/icons'
 import styled from '@emotion/styled'
 
 const LogoHolder = styled.div`
@@ -21,39 +22,54 @@ const LogoHolder = styled.div`
 
 const UserRootScreen: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
+  const isAdmin = Store.useGlobal(s => s.isAdmin)
   const navigate = useNavigate()
-
+  const menuItems = [...MENU_ITEMS]
+  if (isAdmin) {
+    menuItems.unshift({
+      title: 'Admin',
+      icon: <UserOutlined />,
+      path: 'admin',
+      children: [
+        {
+          title: 'News',
+          // icon: <PaperClipOutlined />,
+          path: 'news'
+        }
+      ]
+    })
+  }
   return (
     <ThemeProvider>
       <ModalProvider>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider
-          collapsible
-          theme="light"
-          collapsed={collapsed}
-          onCollapse={value => setCollapsed(value)}
-        >
-          <LogoHolder>
-            <OrgLogo />
-          </LogoHolder>
-          <Menu
-            onClick={e => navigate(e.key)}
+        <Layout style={{ minHeight: '100vh' }}>
+          <Sider
+            collapsible
             theme="light"
-            defaultSelectedKeys={['1']}
-            mode="inline"
-            items={MenuItems(MENU_ITEMS)}
-          />
-        </Sider>
-        <Layout className="site-layout">
-          <Content style={{ margin: '0 16px' }}>
-            <Row gutter={[20, 20]}>
-              <Col span={24}>
-                <Outlet />
-              </Col>
-            </Row>
-          </Content>
+            collapsed={collapsed}
+            onCollapse={value => setCollapsed(value)}
+          >
+            <LogoHolder>
+              <OrgLogo />
+            </LogoHolder>
+            <Menu
+              onClick={e => navigate(e.key)}
+              theme="light"
+              defaultSelectedKeys={['1']}
+              mode="inline"
+              items={MenuItems(menuItems)}
+            />
+          </Sider>
+          <Layout className="site-layout">
+            <Content style={{ margin: '0 16px' }}>
+              <Row gutter={[20, 20]}>
+                <Col span={24}>
+                  <Outlet />
+                </Col>
+              </Row>
+            </Content>
+          </Layout>
         </Layout>
-      </Layout>
       </ModalProvider>
     </ThemeProvider>
   )

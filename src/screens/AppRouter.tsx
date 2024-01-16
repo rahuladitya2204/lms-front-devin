@@ -72,6 +72,7 @@ import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/Ticket
 import LoadingScreen from '@Components/LoadingScreen'
 import MaintainenceScreen from './MaintainenceScreen/MaintainenceScreen'
 import NewsDetailScreen from '@Learner/Screens/News/NewsDetailScreen'
+import NewsScreen from '@User/Screens/Admin/News/NewsScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
@@ -127,8 +128,6 @@ const router = (userType: string) => {
           <>
  <Route index element={<ReturnLearnerToStore />} />
             <Route path="app" element={<LearnerRootScreen />}>
-            <Route path="news" element={<NewsDetailScreen />} />
-
 <Route path="cart" element={<LearnerCart />} />
               <Route path="wallet" element={<LearnerWallet />} />
   <Route path="reset-password" element={<ResetPassword />} />
@@ -175,6 +174,7 @@ const router = (userType: string) => {
                        <Route path='privacy-policy' element={<LearnerPrivacyPolicy/>} />
  </Route>
             <Route path="" element={<LearnerFullPageHolder />}>
+            <Route path="news" element={<NewsDetailScreen />} />
             <Route path="cropper" element={<PerspectiveCropper />} /> 
 <Route path="affiliate" element={<AffiliateScreen />} />
   <Route path="app/test/:testId">
@@ -243,7 +243,8 @@ const router = (userType: string) => {
               </Route>
           
         <Route path="app" element={<UserRootScreen />}>
-          <Route path="dashboard" element={<UserDashboard />} />
+                <Route path="dashboard" element={<UserDashboard />} />
+                <Route path="admin/news" element={<NewsScreen />} />
           <Route path="settings" element={<SettingsScreen />} />
           <Route path="asset-library" element={<AssetLibraryScreen />} />
           <Route path="users">

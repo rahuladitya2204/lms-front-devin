@@ -113,6 +113,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
 
   useEffect(() => {
     if (!isProcessing.current) {
+      console.log(fileList,'file')
        // Process files for upload here
     if (fileList.length > 0) {
       // Assuming `UploadFile` function processes the files
@@ -173,6 +174,8 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
           setFileList(fileList)
         }}
         name="avatar"
+        fileList={fileList}
+
         listType="picture-card"
         className="avatar-uploader"
         showUploadList={false}
@@ -218,9 +221,6 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
       <Dragger
         onChange={onChange}
         style={{ paddingLeft: 10, paddingRight: 10 }}
-        beforeUpload={(info,fileList) => {
-          setFileList(fileList)
-        }}
         name="avatar"
         listType="picture-card"
         className="avatar-uploader"
