@@ -64,11 +64,11 @@ const TestStatus = () => {
               extra={<Tag>{dayjs(test.live.scheduledAt).format('LLL')}</Tag>}
             >
               {loadingTest ? <Row gutter={[20, 20]}>
-               {SkelArr.map(()=> <Col span={8}>
+               {SkelArr.map(()=> <Col xs={24} md={8}>
                   <Skeleton.Button active block style={{height:110}} />
                 </Col>)}
               </Row>: <Row gutter={[20, 20]}>
-                <Col span={8}>
+                <Col md={8} xs={24}>
                   <Card>
                     <Statistic
                       title="Total Students"
@@ -81,7 +81,7 @@ const TestStatus = () => {
                   </Card>
                 </Col>
 
-                <Col span={8}>
+                <Col md={8} xs={24}>
                   <Card>
                     <Statistic
                       title="Average Score"
@@ -91,7 +91,7 @@ const TestStatus = () => {
                   </Card>
                 </Col>
 
-                <Col span={8}>
+                <Col md={8} xs={24}>
                   <Card>
                     <Statistic
                       title="Absent Students"
@@ -101,7 +101,7 @@ const TestStatus = () => {
                   </Card>
                 </Col>
 
-                <Col span={8}>
+                <Col md={8} xs={24}>
                   <Card>
                     <Statistic
                       title="Finished Students"
@@ -111,7 +111,7 @@ const TestStatus = () => {
                   </Card>
                 </Col>
 
-               {test.passingScore?<> <Col span={8}>
+               {test.passingScore?<> <Col md={8} xs={24}>
                   <Card>
                     <Statistic
                       title="Passed Students"
@@ -121,7 +121,7 @@ const TestStatus = () => {
                   </Card>
                 </Col>
 
-               {test.passingScore? <Col span={8}>
+               {test.passingScore? <Col md={8} xs={24}>
                   <Card>
                     <Statistic
                       title="Failed Students"

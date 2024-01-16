@@ -4,11 +4,14 @@ import {
   EditOutlined,
   ReloadOutlined
 } from '@ant-design/icons'
+import { Button, Col, Modal, Row, Table, Tag } from 'antd'
 import { Enum, Types, User } from '@adewaskar/lms-common'
-import { Modal, Table, Tag } from 'antd'
 import React, { useMemo } from 'react'
 
+import ActionModal from '@Components/ActionModal/ActionModal'
+import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
 import MoreButton from '@Components/MoreButton'
+import TestAnswerSheet from './TestAnswerSheet'
 import TestStatusTag from './TestStatusTag'
 // import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
 import { Title } from '@Components/Typography/Typography'
@@ -23,6 +26,7 @@ const { confirm } = Modal
 const OMRComponent = React.lazy(() =>
   import('@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent')
 )
+
 const { Text } = Typography
 
 const TestEnrolledList = () => {
@@ -66,6 +70,7 @@ const TestEnrolledList = () => {
       />
       <Table.Column
         title="Test Status"
+        responsive={['md']}
         dataIndex="learner.name"
         key="learner.name"
       />
@@ -86,6 +91,7 @@ const TestEnrolledList = () => {
       ) : null} */}
       <Table.Column
         title="Test Status"
+        responsive={['md']}
         render={(_: any, record: Types.EnrolledProductDetails) => (
           <TestStatusTag ep={record} />
         )}
@@ -107,6 +113,7 @@ const TestEnrolledList = () => {
       /> */}
       <Table.Column
         title="Enrolled At"
+        responsive={['md']}
         render={(_: any, record: Types.TestLearnerResult) =>
           // @ts-ignore
           dayjs(record?.enrolledAt).format('LLL')
@@ -115,6 +122,7 @@ const TestEnrolledList = () => {
       />{' '}
       <Table.Column
         title="Action"
+        // responsive={['md']}
         key="action"
         render={(_: any, record: any) => {
           return (
@@ -146,11 +154,9 @@ const TestEnrolledList = () => {
                   icon: <BookOutlined />,
                   onClick: () => {
                     openModal(
-                      <OMRComponent
-                        readonly
-                        learnerId={record.learner._id}
-                        type="user"
+                      <TestAnswerSheet
                         testId={testId + ''}
+                        learnerId={record.learner._id}
                       />,
                       {
                         width: 850,

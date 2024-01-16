@@ -10,7 +10,7 @@ import {
   Space,
   Table,
   Tabs,
-  Tag,
+  Tag
 } from 'antd'
 import { Constants, Enum, Types } from '@adewaskar/lms-common'
 
@@ -27,7 +27,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
   )
   const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
-    props.filter,
+    props.filter
     // {
     //   // @ts-ignore
     //   enabled: !!props.filter.category
@@ -40,7 +40,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     <Fragment>
       <Fragment>
         <List
-          grid={{ gutter: 20, column: 4 }}
+          grid={{ gutter: 20, column: 4, xs: 1 }}
           size="large"
           // pagination={{
           //   onChange: (page) => {

@@ -33,7 +33,7 @@ const { data: { status: { sections } },isLoading } = NAMESPACE.Queries.useGetTes
   // console.log(sections, 'hullla');
   
       // @ts-ignore
-  const { mutate: submitResponses,isLoading: submittingResponses } = NAMESPACE.Queries.useSubmitTestResponses(testId);
+  const { mutate: submitResponses, isLoading: submittingResponses } = NAMESPACE.Queries.useSubmitTestResponses(testId, learnerId);
 
   useEffect(() => { 
       // @ts-ignore

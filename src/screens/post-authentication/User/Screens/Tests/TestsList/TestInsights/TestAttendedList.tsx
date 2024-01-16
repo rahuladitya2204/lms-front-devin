@@ -40,6 +40,7 @@ const TestAttendedList = () => {
     // @ts-ignore
     <Table dataSource={ranked} loading={loadingResult}>
       <Table.Column
+        // responsive={['md']}
         title="Rank"
         render={(_: any, record: Types.TestLearnerResult, index: number) => (
           // @ts-ignore
@@ -48,12 +49,13 @@ const TestAttendedList = () => {
         key="result"
       />
       <Table.Column
+        // responsive={['md']}
         title="Student Name"
         dataIndex="learnerName"
         key="learnerName"
       />
       {/* {test.passingScore ? (
-        <Table.Column
+        <Table.Column responsive={['md']}
           title="Result"
           render={(_: any, record: Types.TestLearnerResult) => (
             <Tag
@@ -68,6 +70,7 @@ const TestAttendedList = () => {
         />
       ) : null} */}
       <Table.Column
+        responsive={['md']}
         title="Score"
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="blue-inverse">
@@ -79,13 +82,14 @@ const TestAttendedList = () => {
         key="result"
       />
       <Table.Column
+        responsive={['md']}
         title="Time Spent"
         render={(_: any, record: Types.TestLearnerResult) =>
           `${Math.ceil(record?.metrics?.timeSpent / 3600000)} min`
         }
         key="result"
       />
-      {/* <Table.Column
+      {/* <Table.Column responsive={['md']}
         title="Percentile"
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="orange-inverse">{record?.metrics?.percentile}</Tag>
@@ -93,6 +97,7 @@ const TestAttendedList = () => {
         key="percentile"
       /> */}
       <Table.Column
+        responsive={['md']}
         title="Submitted At"
         render={(_: any, record: Types.TestLearnerResult) =>
           // @ts-ignore
@@ -101,6 +106,7 @@ const TestAttendedList = () => {
         key="result"
       />{' '}
       <Table.Column
+        // responsive={['md']}
         title="Action"
         key="action"
         render={(_: any, record: any) => {

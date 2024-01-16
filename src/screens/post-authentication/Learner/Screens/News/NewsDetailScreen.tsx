@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
+import OrgLogo from '@Components/OrgLogo'
 import PDFViewer from '@Components/PDFViewer'
 import Tabs from '@Components/Tabs'
 import dayjs from 'dayjs'
@@ -31,7 +32,7 @@ export default function NewsDetailScreen() {
   const [date, setDate] = useState(dayjs().startOf('day'))
     const { data: newsItem,isLoading } = Learner.Queries.useGetNewsItem(date.toISOString());
   return (
-    <Header title={`News: ${dayjs(newsItem.date).format('LL')}`}>
+    <Header title={`News: ${dayjs(newsItem.date).format('LL')}`} extra={[<OrgLogo/>]} >
       <Row>
       <Col sm={1} md={2} xs={0}></Col>
       <Col xs={24} md={20} sm={22}>

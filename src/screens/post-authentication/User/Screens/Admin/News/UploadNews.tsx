@@ -41,7 +41,8 @@ export default function UploadNews(props: UploadNewsPropsI) {
           message.open({
             type: 'success',
             content: 'News Uploaded Successfully'
-          })
+          });
+          props.closeModal && props.closeModal();
         }
       }
     )

@@ -1,6 +1,6 @@
 import { Alert, Button, Card, Col, Divider, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
 import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
-import { Common, Learner, Types } from '@adewaskar/lms-common'
+import { Common, Learner, Store, Types, User } from '@adewaskar/lms-common'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
 import React, { Fragment, useCallback, useEffect } from 'react'
@@ -24,16 +24,20 @@ import { useReviewQuestion } from '../../../TestReview/TestPlayerItemReview'
 const { Text } = Typography;
 
 interface AnswerSheetFilesPropsI {
-  testId?: string, review?: boolean, closeModal?: Function;
+  testId?: string, review?: boolean, closeModal?: Function; type?: string; learnerId?: string;
 }
 
 const { confirm } = Modal;
 const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
+  const NAMESPACE = props.type === 'user' ? User : Learner;
   const params = useParams();
-  const testId = (params.testId || props.testId)+'';
-  const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = Learner.Queries.useUpdateAnswerSheets(testId);
-  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = Learner.Queries.useVerifyAnswerSheet(testId);
-  const { mutate: applyAnswerSheets,isLoading: applyingAnswerSheets } = Learner.Queries.useEvaluateAnswerSheets(testId);
+  const testId = (params.testId || props.testId) + '';
+  // @ts-ignore
+  const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = NAMESPACE.Queries.useUpdateAnswerSheets(testId,props.learnerId);
+  // @ts-ignore
+  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId,props.learnerId);
+  // @ts-ignore
+  const { mutate: applyAnswerSheets,isLoading: applyingAnswerSheets } = NAMESPACE.Queries.useEvaluateAnswerSheets(testId,props.learnerId);
   const [form] = Form.useForm<Types.AnswerSheet>();
   const message = useMessage();
   const files = Form.useWatch(['files'], form) || [];
@@ -65,7 +69,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   }
   const updateAnswerSheetApi = (d:Types.AnswerSheet) => {
     console.log(d, 'dddd');
-    updateAnswerSheet(d, {
+    updateAnswerSheet({ data: d}, {
       onSuccess: () => {
         message.open({
           type: 'success',
@@ -110,13 +114,14 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
     mutate: uploadFiles,
     isLoading: uploadingFile
   } = Common.Queries.useUploadFiles();
-  const {data:learner } = Learner.Queries.useGetLearnerDetails();
+  const user = Store.useAuthentication(s => s.user);
   const VerifyAnswerSheet = (files: any[]) => {
     const url = files[0].url;
     verifyAnswerSheet({
       url: url,
     }, {
-      onSuccess: blobStr => {
+        // @ts-ignore
+onSuccess: blobStr => {
         const file = new Blob([blobStr], { type: 'image/png' }); // replace 'application/pdf' with the correct MIME type for your file
 
         // You can then create a URL for the blob to download it or display it in the browser
@@ -160,7 +165,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
                       //  }
                       // else {
                         openModal(  <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
-                          const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
+                          const prefixKey = `tests/${props.testId}/answer-sheets/${user._id}/page-${files.length+1}`;
                           closeModal && closeModal();
                           uploadFiles({
                                     files: [{ file: blobToFile(blob),prefixKey }],
@@ -262,7 +267,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
                            // console.log(D,'POP')
               const fileDetails = d.files[field.name]
                        return <Col xs={24} sm={12} md={6} >
-                   <DraggableFileItem testId={testId} fileUrl={fileDetails.url} cropItem={cropItem} review={props.review}
+                   <DraggableFileItem learnerId={props.learnerId} type={props.type} testId={testId} fileUrl={fileDetails.url} cropItem={cropItem} review={props.review}
                    key={field.key}
                    index={index}
                    id={field.key}
@@ -321,7 +326,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
 };
 
     // @ts-ignore
-    const DraggableFileItem = ({ id,fileUrl,testId, fileId,index,review,cropItem, moveItem, removeItem /* ...other props */ }) => {
+    const DraggableFileItem = ({ id,fileUrl,type,testId, learnerId,fileId,index,review,cropItem, moveItem, removeItem /* ...other props */ }) => {
   const ref = React.useRef(null);
 
   const [, drop] = useDrop({
@@ -354,8 +359,10 @@ name={fileDetails.name} // Assuming this is how you access the file name
       isDragging: monitor.isDragging(),
     }),
   });
-  drag(drop(ref));
-  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = Learner.Queries.useVerifyAnswerSheet(testId);
+      drag(drop(ref));
+      const NAMESPACE = type === 'user' ? User : Learner;
+
+      const { mutate: verifyAnswerSheet, isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId, learnerId);
       const {openModal } = useModal();
       const VerifyAnswerSheet = (url:string) => {
     verifyAnswerSheet({
@@ -388,15 +395,15 @@ name={fileDetails.name} // Assuming this is how you access the file name
         mutate: uploadFiles,
         isLoading: uploadingFile
       } = Common.Queries.useUploadFiles();
-      const {data:learner } = Learner.Queries.useGetLearnerDetails();
-      const prefixKey = `tests/${testId}/answer-sheets/${learner._id}/page-${index+1}`;
+      const user = Store.useAuthentication(s => s.user);
+      const prefixKey = `tests/${testId}/answer-sheets/${user._id}/page-${index+1}`;
       return (
         <Spin spinning={uploadingFile}>
           <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>
       <Card hoverable style={{padding: 0}} bodyStyle={{padding:'10px 0'}}>
               <Row>
         <Col span={24} style={{display:'flex',justifyContent:'center'}}>
-        <AnswerSheetFileItem fileUrl={fileUrl} fileId={fileId} />
+        <AnswerSheetFileItem type={type} fileUrl={fileUrl} fileId={fileId} />
         </Col>
         <Col style={{display:'flex',justifyContent:'center'}} span={24}>
             {!review ? <Space>
@@ -465,7 +472,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
 export default AnswerSheetFiles;
 
 
-const AnswerSheetFileItem: React.FC<{ fileId: string,fileUrl:string }> = ({ fileId,fileUrl }) => {
+const AnswerSheetFileItem: React.FC<{ fileId: string,fileUrl:string,type?:string }> = ({ fileId,fileUrl,type }) => {
   const { currentQuestion } = useReviewQuestion();
   const imageIssues = currentQuestion?.feedback?.imageIssues;
   const visuals = currentQuestion?.feedback?.visuals;

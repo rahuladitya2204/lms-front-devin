@@ -11,16 +11,20 @@ import {
 } from 'antd'
 import {
   LogoutOutlined,
+  MenuOutlined,
   ShoppingCartOutlined,
   UserOutlined
 } from '@ant-design/icons'
 import { Outlet, useNavigate } from 'react-router'
 import { Store, User } from '@adewaskar/lms-common'
 
+import ActionDrawer from '@Components/ActionDrawer'
+import { AppSider } from './UserRootScreen'
 import Header from '@Components/Header'
 import OrgLogo from '@Components/OrgLogo'
 import { PageHeaderProps } from '@ant-design/pro-layout'
 import { Typography } from '@Components/Typography'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal
@@ -87,13 +91,17 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
       </Dropdown>
     </Space>
   ) : null
-
+  const { isMobile } = useBreakpoint()
   return (
     <Header
       hideBack
       title={
         <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
-          {/* <OrgLogo /> */}
+          {isMobile ? (
+            <ActionDrawer placement='left' width={200} cta={<Button icon={<MenuOutlined />} />}>
+              <AppSider />
+            </ActionDrawer>
+          ) : null}
           <Title style={{ margin: 0 }} level={3}>
             {props.title}
           </Title>
