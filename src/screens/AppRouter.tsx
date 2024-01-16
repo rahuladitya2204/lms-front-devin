@@ -71,6 +71,7 @@ import LearnersScreen from './post-authentication/User/Screens/Users/Learners/Le
 import LearnersTicketsScreen from '@Learner/Screens/Tickets/TicketsScreen/TicketsScreen'
 import LoadingScreen from '@Components/LoadingScreen'
 import MaintainenceScreen from './MaintainenceScreen/MaintainenceScreen'
+import NewsDetailScreen from '@Learner/Screens/News/NewsDetailScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
@@ -125,7 +126,9 @@ const router = (userType: string) => {
  {userType === 'learner' ? (
           <>
  <Route index element={<ReturnLearnerToStore />} />
-   <Route path="app" element={<LearnerRootScreen />}>
+            <Route path="app" element={<LearnerRootScreen />}>
+            <Route path="news" element={<NewsDetailScreen />} />
+
 <Route path="cart" element={<LearnerCart />} />
               <Route path="wallet" element={<LearnerWallet />} />
   <Route path="reset-password" element={<ResetPassword />} />
