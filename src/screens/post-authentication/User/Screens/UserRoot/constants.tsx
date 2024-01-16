@@ -21,12 +21,12 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Dashboard',
     icon: <DashboardOutlined />,
-    path: 'dashboard',
+    path: '/app/dashboard',
   },
   {
     title: 'Products',
     icon: <BookOutlined />,
-    path: 'products',
+    path: '/app/products',
     children: [
       {
         title: 'Tests',
@@ -36,7 +36,6 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
       {
         title: 'Packages',
         path: 'packages',
-        // icon: <AppstoreOutlined />
       },
       {
         title: 'Category',
@@ -57,12 +56,12 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Events',
     icon: <CalendarOutlined />,
-    path: 'event',
+    path: '/app/event',
   },
   {
     title: 'Users',
     icon: <UsergroupAddOutlined />,
-    path: 'users',
+    path: '/app/users',
     children: [
       {
         title: 'Learners',
@@ -79,7 +78,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Marketing',
     icon: <SoundOutlined />,
-    path: 'marketing',
+    path: '/app/marketing',
     children: [
       {
         title: 'Campaign',
@@ -123,17 +122,17 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Asset Library',
     icon: <FolderOpenOutlined />,
-    path: 'asset-library',
+    path: '/app/asset-library',
   },
   {
     title: 'Support Tickets',
     icon: <CustomerServiceOutlined />,
-    path: 'tickets',
+    path: '/app/tickets',
   },
   {
     title: 'Settings',
     icon: <SettingOutlined />,
-    path: 'settings',
+    path: '/app/settings',
     children: [
       {
         title: 'My Profile',

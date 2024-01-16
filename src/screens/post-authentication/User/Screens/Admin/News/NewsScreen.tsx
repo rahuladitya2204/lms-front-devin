@@ -5,12 +5,14 @@ import ActionModal from '@Components/ActionModal/ActionModal'
 import Header from '@Components/Header'
 import MoreButton from '@Components/MoreButton'
 import NewsDetailScreen from './NewsDetailScreen'
-import PDFViewer from '@Components/PDFViewer'
+import React from 'react'
+// import PDFViewer from '@Components/PDFViewer'
 import UploadNews from './UploadNews'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 
+const PDFViewer = React.lazy(() => import('@Components/PDFViewer'))
 const { confirm } = Modal
 
 export default function NewsScreen() {
@@ -62,7 +64,10 @@ export default function NewsScreen() {
                           <PDFViewer file={{ _id: record.file.file }} />,
                           {
                             width: 700,
-                            title: `News Paper: ${dayjs(record.date).format('LL')}`
+                            lazy: true,
+                            title: `News Paper: ${dayjs(record.date).format(
+                              'LL'
+                            )}`
                           }
                         )
                       }}

@@ -8,6 +8,7 @@ import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
@@ -36,9 +37,10 @@ const TestAttendedList = () => {
     [data]
   )
   const { openModal } = useModal()
+  const { isMobile } = useBreakpoint()
   return (
     // @ts-ignore
-    <Table dataSource={ranked} loading={loadingResult}>
+    <Table pagination={!isMobile} dataSource={ranked} loading={loadingResult}>
       <Table.Column
         // responsive={['md']}
         title="Rank"

@@ -1,16 +1,19 @@
-import { Card, Col, DatePicker, Form, List, Row, Spin } from 'antd'
+import { Button, Card, Col, DatePicker, Form, List, Modal, Row, Spin } from 'antd'
+import { NavLink, useSearchParams } from 'react-router-dom'
 import { Text, Title } from '@Components/Typography/Typography'
 import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import { Learner } from '@adewaskar/lms-common'
+import { LogoutOutlined } from '@ant-design/icons'
 import OrgLogo from '@Components/OrgLogo'
 import PDFViewer from '@Components/PDFViewer'
 import Tabs from '@Components/Tabs'
 import dayjs from 'dayjs'
-import { useParams } from 'react-router'
-import { useSearchParams } from 'react-router-dom'
+
+const { confirm} = Modal;
 
 export default function NewsDetailScreen() {
   const [params, setParams]: any[] = useSearchParams();
@@ -29,10 +32,23 @@ export default function NewsDetailScreen() {
     }
   }, [paramsDate])
   const { id } = useParams()
-  const [date, setDate] = useState(dayjs().startOf('day'))
+  const [date, setDate] = useState(dayjs().startOf('day'));
+  const navigate = useNavigate();
     const { data: newsItem,isLoading } = Learner.Queries.useGetNewsItem(date.toISOString());
   return (
-    <Header title={`News: ${dayjs(newsItem.date).format('LL')}`} extra={[<OrgLogo/>]} >
+    <Header title={`News: ${dayjs(newsItem.date).format('LL')}`} extra={[<div style={{ marginTop: 5 }}>
+    <Button onClick={() => {
+      confirm({
+        title: `Are you sure?`,
+        // icon: <ExclamationCircleOutlined />,
+        content: `You want to exit?`,
+        onOk() {
+          navigate('/')
+        },
+        okText: 'Exit'
+      })
+      }} icon={<LogoutOutlined />} type='primary' danger >Exit</Button>
+    </div>]} >
       <Row>
       <Col sm={1} md={2} xs={0}></Col>
       <Col xs={24} md={20} sm={22}>

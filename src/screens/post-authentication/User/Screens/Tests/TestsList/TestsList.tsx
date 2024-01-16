@@ -40,7 +40,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     <Fragment>
       <Fragment>
         <List
-          grid={{ gutter: 20, column: 4, xs: 1 }}
+          grid={{ gutter: 20, column: 4, xs: 1, sm: 2, md: 3 }}
           size="large"
           // pagination={{
           //   onChange: (page) => {

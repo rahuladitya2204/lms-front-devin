@@ -10,9 +10,11 @@ import Header from '@Components/Header'
 import Tabs from '@Components/Tabs'
 import TestAttendedList from './TestAttendedList'
 import TestEnrolledList from './EnrolledList'
+import { Text } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { printPdf } from '@Components/SunEditor/utils'
+import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { confirm } = Modal;
 
@@ -27,6 +29,41 @@ const TestStatus = () => {
   const { mutate: printResults,isLoading: printingResult } = User.Queries.usePrintTestResult(testId + '')
   const result = test.result.metrics;
   const SkelArr = [1, 1, 1, 1, 1, 1];
+  const PrintResultButton = <Button loading={printingResult} onClick={() => {
+    confirm({
+      title: `Are you sure, you want to print the results`,
+      // icon: <ExclamationCircleOutlined />,
+      // content: `Money will be deducted from your wallet`,
+      onOk() {
+        printResults(undefined, {
+          onSuccess: (s) => printPdf(s)
+        })
+      },
+      okText: 'Yes, Print'
+    })
+
+  }}
+    type='primary'>
+    Print Result
+  </Button>;
+  const GenerateResultButton = <Button
+    onClick={() => {
+      confirm({
+        title: `Are you sure, you want to genarate the results`,
+        // icon: <ExclamationCircleOutlined />,
+        // content: `Money will be deducted from your wallet`,
+        onOk() {
+          evaluateLiveTestResult(testId + '')
+        },
+        okText: 'Generate Result'
+      })
+    }}
+    loading={generatingResult}
+    type="primary"
+  >
+    Generate Result
+  </Button>;
+  const { isMobile } = useBreakpoint();
   return (
     <Header
       title={
@@ -37,30 +74,14 @@ const TestStatus = () => {
         </span>
       }
       extra={[
-        <Button
-          onClick={() => {
-            confirm({
-              title: `Are you sure, you want to genarate the results`,
-              // icon: <ExclamationCircleOutlined />,
-              // content: `Money will be deducted from your wallet`,
-              onOk() {
-                evaluateLiveTestResult(testId + '')
-              },
-              okText: 'Generate Result'
-            })
-          }}
-          loading={generatingResult}
-          type="primary"
-        >
-          Generate Result
-        </Button>
+        !isMobile?GenerateResultButton:null
       ]}
     >
       <Row gutter={[20, 30]}>
         {result ? (
           <Col span={24}>
             <Card
-              title={test.title}
+              title={<Text>{ test.title}</Text>}
               extra={<Tag>{dayjs(test.live.scheduledAt).format('LLL')}</Tag>}
             >
               {loadingTest ? <Row gutter={[20, 20]}>
@@ -153,22 +174,7 @@ const TestStatus = () => {
         <Col span={24}>
           <Card>
             <Tabs tabBarExtraContent={{
-              right: <Button loading={printingResult} onClick={() => {
-                confirm({
-                  title: `Are you sure, you want to print the results`,
-                  // icon: <ExclamationCircleOutlined />,
-                  // content: `Money will be deducted from your wallet`,
-                  onOk() {
-                    printResults(undefined, {
-                      onSuccess: (s) => printPdf(s)
-                    })                  },
-                  okText: 'Yes, Print'
-                })
-            
-              }}
-              type='primary'>
-              Print Result
-            </Button>}}
+              right: !isMobile?PrintResultButton:null}}
               defaultActiveKey="1" navigateWithHash
               items={[
                 {

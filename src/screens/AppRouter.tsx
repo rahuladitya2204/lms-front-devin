@@ -86,6 +86,7 @@ import RootScreen from './Root'
 import SettingsScreen from '@User/Screens/Settings/Settings'
 import { Store } from '@adewaskar/lms-common'
 import TemplatesScreen from '@User/Screens/Marketing/Templates/TemplatesScreen'
+import TestAnswerSheet from '@User/Screens/Tests/TestsList/TestInsights/TestAnswerSheet'
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
@@ -204,7 +205,8 @@ const router = (userType: string) => {
         ) : <>
             <>
               <Route path='' element={<UserFullPageHolder />}>
-              <Route path="login" element={<UserLoginScreen />} />
+              <Route path="app/test/:testId/answer-sheet/:learnerId" element={<TestAnswerSheet />} /> 
+ <Route path="login" element={<UserLoginScreen />} />
             <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
         <Route
           path="certificate-template/:id/editor"

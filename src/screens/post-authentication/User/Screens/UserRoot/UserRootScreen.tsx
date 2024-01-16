@@ -71,7 +71,7 @@ export const AppSider = () => {
       onCollapse={value => setCollapsed(value)}
     >
       <LogoHolder>
-        <OrgLogo />
+        <OrgLogo width="150px" quality="high" />
       </LogoHolder>
       <Menu
         onClick={e => navigate(e.key)}

@@ -7,6 +7,7 @@ import {
 import { Button, Col, Modal, Row, Table, Tag } from 'antd'
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import React, { useMemo } from 'react'
+import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
@@ -18,9 +19,10 @@ import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
+import { openWindow } from '@Components/SunEditor/utils'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
-import { useParams } from 'react-router'
 
 const { confirm } = Modal
 const OMRComponent = React.lazy(() =>
@@ -44,7 +46,9 @@ const TestEnrolledList = () => {
   const { mutate: evaluateLearnerTest } = User.Queries.useEvaluateLearnerTest(
     testId + ''
   )
+  const { isMobile } = useBreakpoint()
   const message = useMessage()
+  const navigate = useNavigate()
   return (
     // @ts-ignore
     <Table
@@ -153,17 +157,21 @@ const TestEnrolledList = () => {
                   key: 'answer-sheet',
                   icon: <BookOutlined />,
                   onClick: () => {
-                    openModal(
-                      <TestAnswerSheet
-                        testId={testId + ''}
-                        learnerId={record.learner._id}
-                      />,
-                      {
-                        width: 850,
-                        lazy: true,
-                        title: `${record.learner.name}'s answer sheet`
-                      }
-                    )
+                    if (isMobile) {
+                      openWindow(`/app/test/${testId}/answer-sheet/${record.learner._id}`)
+                    } else {
+                      openModal(
+                        <TestAnswerSheet
+                          testId={testId + ''}
+                          learnerId={record.learner._id}
+                        />,
+                        {
+                          width: 850,
+                          lazy: true,
+                          title: `${record.learner.name}'s answer sheet`
+                        }
+                      )
+                    }
                   }
                 },
                 {

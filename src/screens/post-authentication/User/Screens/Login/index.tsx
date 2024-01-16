@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AuthenticationCard from '@Components/AuthenticationCard'
+import OrgLogo from '@Components/OrgLogo'
 import SelectFormGroup from '@Components/SelectFormGroup'
 import Tabs from '@Components/Tabs'
 import { Typography } from '@Components/Typography'
@@ -51,9 +52,10 @@ function UserLogin () {
         span={24}
         flex={1}
         style={{ justifyContent: 'center', display: 'flex' }}
-      >
+        >
         <Card style={{ width: 350 }}>
         <AuthenticationCard>
+        <OrgLogo width={'100%'} quality='high' />
       <Tabs
         items={[
           {

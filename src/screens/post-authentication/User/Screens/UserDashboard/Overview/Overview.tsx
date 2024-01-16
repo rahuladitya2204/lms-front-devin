@@ -14,6 +14,7 @@ import Transactions from '../Stats/Transactions'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
+import useBreakpoint from '@Hooks/useBreakpoint'
 
 const DATE_RANGES = [
   { name: '7 Days', id: 7 },
@@ -36,6 +37,7 @@ const DashboardOverview: React.FC = () => {
     startDate,
     endDate
   })
+  const { isMobile } = useBreakpoint()
   return (
     <Row gutter={[30, 30]}>
       <Col span={24}>
@@ -51,8 +53,8 @@ const DashboardOverview: React.FC = () => {
               options={DATE_RANGES.map(r => r.name)}
             />
           </Col>
-          <Col span={8}>
-            <Card style={{height: 160}} loading={isFetching} bordered={false}>
+          <Col xs={24} md={8}>
+            <Card style={{ height: 160 }} loading={isFetching} bordered={false}>
               <Statistic
                 title="Total Revenue"
                 value={Analytics?.totalRevenue}
@@ -63,8 +65,8 @@ const DashboardOverview: React.FC = () => {
               />
             </Card>
           </Col>
-          <Col span={8}>
-            <Card style={{height: 160}} loading={isFetching} bordered={false}>
+          <Col xs={24} md={8}>
+            <Card style={{ height: 160 }} loading={isFetching} bordered={false}>
               <Statistic
                 title="New Signups"
                 value={Analytics?.totalNewSignups}
@@ -75,8 +77,8 @@ const DashboardOverview: React.FC = () => {
               />
             </Card>
           </Col>
-          <Col span={8}>
-            <Card style={{height: 160}} loading={isFetching} bordered={false}>
+          <Col xs={24} md={8}>
+            <Card style={{ height: 160 }} loading={isFetching} bordered={false}>
               <Statistic
                 title="New Enrollments"
                 value={Analytics?.totalActiveUsers}
@@ -86,8 +88,8 @@ const DashboardOverview: React.FC = () => {
               />
             </Card>
           </Col>
-          <Col span={8}>
-            <Card style={{height: 160}} loading={isFetching} bordered={false}>
+          <Col xs={24} md={8}>
+            <Card style={{ height: 160 }} loading={isFetching} bordered={false}>
               <Statistic
                 title="Active Users"
                 value={Analytics?.totalActiveUsers}
@@ -97,8 +99,8 @@ const DashboardOverview: React.FC = () => {
               />
             </Card>
           </Col>
-          <Col span={8}>
-            <Card style={{height: 160}} loading={isFetching} bordered={false}>
+          <Col xs={24} md={8}>
+            <Card style={{ height: 160 }} loading={isFetching} bordered={false}>
               <Statistic
                 title="Total Time Spent"
                 value={Analytics?.totalActiveUsers}
@@ -110,30 +112,32 @@ const DashboardOverview: React.FC = () => {
           </Col>
         </Row>
       </Col>
-      <Col span={24}>
-        <Row gutter={[30, 30]}>
-          <Col span={12}>
-            <Card loading={isFetching} title="Revenue">
-              <NewSignups />
-            </Card>
-          </Col>
-          <Col span={12}>
-            <Card loading={isFetching} title="Transactions">
-              <Transactions />
-            </Card>
-          </Col>
-          <Col span={12}>
-            <Card loading={isFetching} title="Active Users">
-              <ActiveUsers />
-            </Card>
-          </Col>
-          <Col span={12}>
-            <Card loading={isFetching} title="Paid Users">
-              <PaidUsers />
-            </Card>
-          </Col>
-        </Row>
-      </Col>
+      {!isMobile ? (
+        <Col span={24}>
+          <Row gutter={[30, 30]}>
+            <Col xs={24} md={12}>
+              <Card loading={isFetching} title="Revenue">
+                <NewSignups />
+              </Card>
+            </Col>
+            <Col xs={24} md={12}>
+              <Card loading={isFetching} title="Transactions">
+                <Transactions />
+              </Card>
+            </Col>
+            <Col xs={24} md={12}>
+              <Card loading={isFetching} title="Active Users">
+                <ActiveUsers />
+              </Card>
+            </Col>
+            <Col xs={24} md={12}>
+              <Card loading={isFetching} title="Paid Users">
+                <PaidUsers />
+              </Card>
+            </Col>
+          </Row>
+        </Col>
+      ) : null}
     </Row>
   )
 }
