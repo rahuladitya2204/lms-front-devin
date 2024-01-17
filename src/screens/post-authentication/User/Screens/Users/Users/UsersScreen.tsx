@@ -1,5 +1,6 @@
-import { Button, Card, Col, Modal, Row, Space, Table } from 'antd'
+import { Button, Card, Col, Modal, Row, Space } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddUser from './AddUser'
@@ -42,22 +43,26 @@ function UsersScreen() {
       <Container>
         <Row>
           <Col span={24}>
-            <Table dataSource={data} loading={loading || deletingUser}>
-              <Table.Column title="Name" dataIndex="name" key="name" />
-              <Table.Column
+            <Table
+              searchFields={['name', 'contactNo', 'email']}
+              dataSource={data}
+              loading={loading || deletingUser}
+            >
+              <TableColumn title="Name" dataIndex="name" key="name" />
+              <TableColumn
                 title="Contact No"
                 dataIndex="contactNo"
                 key="contactNo"
               />
-              {/* <Table.Column
+              {/* <TableColumn
                 title="Designation"
                 dataIndex="designation"
                 key="designation"
               /> */}
 
-              {/* <Table.Column title="Courses" dataIndex="courses" key="courses" />
-              <Table.Column title="Rating" dataIndex="rating" key="rating" /> */}
-              <Table.Column
+              {/* <TableColumn title="Courses" dataIndex="courses" key="courses" />
+              <TableColumn title="Rating" dataIndex="rating" key="rating" /> */}
+              <TableColumn
                 title="Joined On"
                 dataIndex="createdAt"
                 key="createdAt"
@@ -67,7 +72,7 @@ function UsersScreen() {
                   </Space>
                 )}
               />
-              <Table.Column
+              <TableColumn
                 title="Action"
                 key="action"
                 render={(_: any, record: Types.User) => (

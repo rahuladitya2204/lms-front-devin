@@ -55,7 +55,7 @@ function UserLogin () {
         >
         <Card style={{ width: 350 }}>
         <AuthenticationCard>
-        <OrgLogo width={'100%'} quality='high' />
+        {isMobile?<OrgLogo width={'100%'} quality='high' />:null}
       <Tabs
         items={[
           {
@@ -227,7 +227,7 @@ const OtpForm = () => {
       Send OTP
     </Button>
   </Form.Item>
-  <Form.Item style={{ textAlign: 'center' }}>
+  {/* <Form.Item style={{ textAlign: 'center' }}>
     <Typography.Text>
       Don't have an account?{' '}
       <ActionModal
@@ -238,7 +238,7 @@ const OtpForm = () => {
         <UserRegister />
       </ActionModal>
     </Typography.Text>
-  </Form.Item>
+  </Form.Item> */}
 </Form>}
   </>
 }
@@ -328,7 +328,7 @@ const EmailForm = () => {
         Submit
       </Button>
     </Form.Item>
-    <Form.Item style={{ textAlign: 'center' }}>
+    {/* <Form.Item style={{ textAlign: 'center' }}>
       <Typography.Text>
         Don't have an account?{' '}
         <ActionModal
@@ -339,9 +339,9 @@ const EmailForm = () => {
           <UserRegister />
         </ActionModal>
       </Typography.Text>
-    </Form.Item>
+    </Form.Item> */}
   </Form>
-
+{/* 
   <Divider dashed>or</Divider>
 
   <Button
@@ -352,6 +352,6 @@ const EmailForm = () => {
     htmlType="submit"
   >
     Login with Google
-  </Button>
+  </Button> */}
 </>
 }

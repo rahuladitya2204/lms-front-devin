@@ -1,6 +1,7 @@
-import { Button, Card, Col, Modal, Row, Space, Table, Tag } from 'antd'
+import { Button, Card, Col, Modal, Row, Space, Tag } from 'antd'
 import { CloseOutlined, DeleteOutlined } from '@ant-design/icons'
 import { Enum, Types } from '@adewaskar/lms-common'
+import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import MoreButton from '@Components/MoreButton'
 import { User } from '@adewaskar/lms-common'
@@ -18,21 +19,25 @@ function LearnersTable() {
     mutate: changeAccountStatus
   } = User.Queries.useUpdateLearnerAccountStatus()
   return (
-    <Table dataSource={data} loading={loading || deletingLearner}>
-      <Table.Column
+    <Table
+      searchFields={['name', 'email', 'contactNo']}
+      dataSource={data}
+      loading={loading || deletingLearner}
+    >
+      <TableColumn
         title="Name"
         render={(_: any, record: Types.Learner) => record.name || '-'}
         dataIndex="name"
         key="name"
       />
-      <Table.Column
+      <TableColumn
         title="Email Adress"
         dataIndex="email"
         key="email"
         render={(_: any, record: Types.Learner) => record.email || '-'}
       />
-      <Table.Column title="Contact No" dataIndex="contactNo" key="contactNo" />
-      <Table.Column
+      <TableColumn title="Contact No" dataIndex="contactNo" key="contactNo" />
+      <TableColumn
         title="Profile Status"
         dataIndex="profile.status"
         key="profile.status"
@@ -44,7 +49,7 @@ function LearnersTable() {
           )
         }
       />
-      <Table.Column
+      <TableColumn
         title="Last Login"
         dataIndex="lastActive"
         key="lastActive"
@@ -52,7 +57,7 @@ function LearnersTable() {
           <Space size="middle">{dayjs(record.lastActive).format('LLLL')}</Space>
         )}
       />
-      <Table.Column
+      <TableColumn
         title="Joined On"
         dataIndex="createdAt"
         key="createdAt"
@@ -60,7 +65,7 @@ function LearnersTable() {
           <Space size="middle">{dayjs(record.createdAt).format('LL')}</Space>
         )}
       />
-      <Table.Column
+      <TableColumn
         title="Action"
         key="action"
         render={(_: any, record: Types.User) => (
@@ -104,7 +109,8 @@ function LearnersTable() {
                 icon: <DeleteOutlined />,
                 onClick: () => {
                   confirm({
-                    title: `Are you sure? You want to remove ${record.name || record.email}`,
+                    title: `Are you sure? You want to remove ${record.name ||
+                      record.email}`,
                     // icon: <ExclamationCircleOutlined />,
                     content: `Learner will no longer have any access to the platform`,
                     onOk() {
