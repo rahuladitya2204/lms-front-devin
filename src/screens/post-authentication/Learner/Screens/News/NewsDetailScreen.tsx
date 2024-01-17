@@ -262,7 +262,7 @@ export default function NewsDetailScreen() {
                   ]}
                 />
               ) : (
-                <Title>News not uploaded</Title>
+                <Title style={{ textAlign: 'center' }}>News not uploaded</Title>
               )}
             </Spin>
           </Card>
