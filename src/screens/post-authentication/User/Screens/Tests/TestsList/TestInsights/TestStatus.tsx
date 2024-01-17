@@ -21,6 +21,7 @@ const { confirm } = Modal;
 const TestStatus = () => {
   const navigate = useNavigate()
   const { testId } = useParams()
+  const { isMobile } = useBreakpoint();
   const {
     mutate: evaluateLiveTestResult,
     isLoading: generatingResult
@@ -29,7 +30,7 @@ const TestStatus = () => {
   const { mutate: printResults,isLoading: printingResult } = User.Queries.usePrintTestResult(testId + '')
   const result = test.result.metrics;
   const SkelArr = [1, 1, 1, 1, 1, 1];
-  const PrintResultButton = <Button loading={printingResult} onClick={() => {
+  const PrintResultButton = <Button block={!!isMobile} loading={printingResult} onClick={() => {
     confirm({
       title: `Are you sure, you want to print the results`,
       // icon: <ExclamationCircleOutlined />,
@@ -46,7 +47,7 @@ const TestStatus = () => {
     type='primary'>
     Print Result
   </Button>;
-  const GenerateResultButton = <Button
+  const GenerateResultButton = <Button block={isMobile}
     onClick={() => {
       confirm({
         title: `Are you sure, you want to genarate the results`,
@@ -63,7 +64,6 @@ const TestStatus = () => {
   >
     Generate Result
   </Button>;
-  const { isMobile } = useBreakpoint();
   return (
     <Header
       title={
@@ -80,6 +80,7 @@ const TestStatus = () => {
       <Row gutter={[20, 30]}>
         {result ? (
           <Col span={24}>
+            {isMobile ? <div style={{marginBottom:15}}>{GenerateResultButton }</div>:null}
             <Card
               title={<Text>{ test.title}</Text>}
               extra={<Tag>{dayjs(test.live.scheduledAt).format('LLL')}</Tag>}
@@ -173,6 +174,7 @@ const TestStatus = () => {
         </Col> */}
         <Col span={24}>
           <Card>
+            
             <Tabs tabBarExtraContent={{
               right: !isMobile?PrintResultButton:null}}
               defaultActiveKey="1" navigateWithHash
@@ -180,7 +182,10 @@ const TestStatus = () => {
                 {
                   key: 'Attended',
                   label: 'Attended',
-                  children: <TestAttendedList />
+                  children: <>
+                    {isMobile ? <div style={{marginBottom:20}}>{ PrintResultButton}</div>:null}
+                    <TestAttendedList />
+                  </>
                 },
                 {
                   key: 'Enrolled',

@@ -69,6 +69,7 @@ function CampaignsScreen() {
               />
               {/* <Table.Column title="Subject" dataIndex="subject" key="subject" /> */}
               <Table.Column
+                responsive={['md']}
                 title="Channel"
                 dataIndex="channel"
                 key="channel"
@@ -81,6 +82,7 @@ function CampaignsScreen() {
               <Table.Column
                 title="Scheduled At"
                 dataIndex="scheduledAt"
+                responsive={['md']}
                 key="scheduledAt"
                 render={(_: any, record: Types.Campaign) =>
                   dayjs(record.createdAt).format('LLL')
@@ -101,6 +103,7 @@ function CampaignsScreen() {
               <Table.Column
                 title="Created At"
                 dataIndex="createdAt"
+                responsive={['md']}
                 key="createdAt"
                 render={(_: any, record: Types.Campaign) =>
                   dayjs(record.createdAt).format('LLL')

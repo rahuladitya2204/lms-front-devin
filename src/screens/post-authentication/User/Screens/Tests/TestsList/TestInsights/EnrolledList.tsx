@@ -41,7 +41,7 @@ const TestEnrolledList = () => {
     mutate: removeEnrollment,
     isLoading: removingEnrollment
   } = User.Queries.useRemoveEnrollmentOfLearner(testId + '')
-  console.log(enrolledProducts, 'papa')
+  // console.log(enrolledProducts, 'papa')
   const { openModal } = useModal()
   const { mutate: evaluateLearnerTest } = User.Queries.useEvaluateLearnerTest(
     testId + ''

@@ -8,18 +8,23 @@ import Header from '@User/Screens/UserRoot/UserHeader'
 // import PastTest from './PastTest'
 import Tabs from '@Components/Tabs'
 import TestsList from './TestsList'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useSearchParams } from 'react-router-dom'
 
 const TestsScreen = () => {
   const [status, setStatus] = useState('upcoming')
-  // const category = params.get('category')
+  const { isMobile } = useBreakpoint()
   const {
     data: categories,
     isLoading: loadingCategories
   } = User.Queries.useGetProductCategories('all')
   const CategoriesSelect = (
-    <Select onChange={e => setStatus(e)} value={status} style={{ width: 150 }}>
+    <Select
+      onChange={e => setStatus(e)}
+      value={status}
+      style={{ width: isMobile ? '100%' : 150 }}
+    >
       <Select.Option value={`upcoming`} key={`upcoming`}>
         Upcoming Tests
       </Select.Option>
@@ -47,11 +52,13 @@ const TestsScreen = () => {
   const { openModal } = useModal()
   return (
     <Header title="Tests" extra={[CreateCourseCta]}>
-      {/* <Card> */}
+      {isMobile ? (
+        <div style={{ marginBottom: 20 }}>{CategoriesSelect}</div>
+      ) : null}
       <Spin spinning={loadingCategories}>
         <Tabs
           navigateWithHash
-          tabBarExtraContent={{ right: CategoriesSelect }}
+          tabBarExtraContent={{ right: !isMobile ? CategoriesSelect : null }}
           // defaultActiveKey="1"
           items={[
             ...categories.map(c => {

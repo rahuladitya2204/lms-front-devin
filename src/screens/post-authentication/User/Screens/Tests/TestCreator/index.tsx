@@ -2,6 +2,7 @@ import { Button, Card, Col, Form, Modal, Row, Skeleton, Spin, Tag } from 'antd'
 import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import {
   InfoCircleOutlined,
+  MenuOutlined,
   SafetyCertificateOutlined,
   SaveOutlined,
   UploadOutlined,
@@ -10,11 +11,13 @@ import {
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
+import ActionDrawer from '@Components/ActionDrawer'
 import BackButton from '@Components/BackButton'
 import Tabs from '@Components/Tabs'
 import TestInformationEditor from './TestInformation'
 import TestLearners from './TestLearners/TestLearners'
 import { User } from '@adewaskar/lms-common'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 
 const { confirm } = Modal
@@ -30,12 +33,12 @@ function TestEditor() {
     isLoading: loading
   } = User.Queries.useUpdateTest()
 
-  const { data: testDetails ,isFetching: loadingTest} = User.Queries.useGetTestDetails(
-    testId,
-    {
-      enabled: !!testId
-    }
-  )
+  const {
+    data: testDetails,
+    isFetching: loadingTest
+  } = User.Queries.useGetTestDetails(testId, {
+    enabled: !!testId
+  })
 
   const {
     mutate: publishTest,
@@ -76,59 +79,8 @@ function TestEditor() {
     return test.title
   }
   const navigate = useNavigate()
-  return (
-    <Spin spinning={publishingTest}>
-      <Row gutter={[20, 20]}>
-        <Col span={24}>
-          <Card
-            title={
-              <span>
-                <BackButton
-                  onClick={() => navigate(`../app/products/test`)}
-                />{' '}
-                {test.title}
-              </span>
-            }
-            extra={[
-              test.status === Enum.TestStatus.PUBLISHED ? (
-                <Tag color='green'>Test is published</Tag>
-              ) : !test.sections.length ? <Button
-              onClick={() => {
-                navigate(`../app/products/test/${test._id}/builder`)
-                  }}
-                  style={{ marginRight: 10 }}>Go to Test Builder</Button> : (
-                <Button
-                  disabled={!Utils.validatePublishTest(test)}
-                  onClick={() => {
-                    confirm({
-                      title: 'Are you sure?',
-                      content: `You want to publish this Test?`,
-                      onOk() {
-                        publishTest({
-                          testId: test._id+''
-                        })
-                      },
-                      okText: 'Yes, Publish'
-                    })
-                  }}
-                  style={{ marginRight: 15 }}
-                  icon={<UploadOutlined />}
-                >
-                  Publish Test
-                </Button>
-              ),
-              <Button
-                disabled={!validateDraftTest()}
-                loading={loading}
-                type="primary"
-                onClick={updateTest}
-                icon={<SaveOutlined />}
-              >
-                Save as draft
-              </Button>
-            ]}
-          >
-           <Tabs
+  const { isMobile } = useBreakpoint();
+  const MainNavTabs=<Tabs
               navigateWithHash
               onTabClick={e => {
                 if (e === 'builder') {
@@ -168,7 +120,7 @@ function TestEditor() {
                     </span>
                   ),
                   key: 'learners',
-                  children: <TestLearners testId={test._id+''} />
+                  children: <TestLearners testId={test._id + ''} />
                 },
                 {
                   label: (
@@ -188,7 +140,65 @@ function TestEditor() {
                 }
               ]}
             />
-            
+  return (
+    <Spin spinning={publishingTest}>
+      <Row gutter={[20, 20]}>
+        <Col span={24}>
+          <Card
+            title={
+              <span>
+                <BackButton onClick={() => navigate(`../app/products/test`)} />{' '}
+                {test.title}
+              </span>
+            }
+            extra={[
+              test.status === Enum.TestStatus.PUBLISHED ? (
+                <Tag color="green">Test is published</Tag>
+              ) : !test.sections.length ? (
+                <Button
+                  onClick={() => {
+                    navigate(`../app/products/test/${test._id}/builder`)
+                  }}
+                  style={{ marginRight: 10 }}
+                >
+                  Go to Test Builder
+                </Button>
+              ) : (
+                <Button
+                  disabled={!Utils.validatePublishTest(test)}
+                  onClick={() => {
+                    confirm({
+                      title: 'Are you sure?',
+                      content: `You want to publish this Test?`,
+                      onOk() {
+                        publishTest({
+                          testId: test._id + ''
+                        })
+                      },
+                      okText: 'Yes, Publish'
+                    })
+                  }}
+                  style={{ marginRight: 15 }}
+                  icon={<UploadOutlined />}
+                >
+                  Publish Test
+                </Button>
+              ),
+              <Button
+                disabled={!validateDraftTest()}
+                loading={loading}
+                type="primary"
+                onClick={updateTest}
+                icon={<SaveOutlined />}
+              >
+                Save as draft
+              </Button>,
+            //   isMobile?<ActionDrawer cta={<Button icon={<MenuOutlined/>}></Button>}>
+            //   {MainNavTabs}
+            // </ActionDrawer>:null
+            ]}
+          >
+            {MainNavTabs}
           </Card>
         </Col>
         {/* <Col span={20}>
