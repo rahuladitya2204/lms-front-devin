@@ -14,11 +14,18 @@ export default function Table(props: TablePropsI) {
   }
 
   const filteredData =
-    props.searchFields && props.searchFields.length
+    props.searchFields && props.searchFields.length && searchVal
       ? props.dataSource?.filter(item => {
           return props.searchFields?.some(field => {
             const fieldValue = getNestedValue(item, field)
-            return fieldValue && fieldValue.toString().includes(searchVal)
+            if (fieldValue === null || fieldValue === undefined) {
+              return false
+            }
+            // Convert both the search value and field value to lower case for case-insensitive comparison
+            return fieldValue
+              .toString()
+              .toLowerCase()
+              .includes(searchVal.toLowerCase())
           })
         })
       : props.dataSource

@@ -4,9 +4,10 @@ import {
   EditOutlined,
   ReloadOutlined
 } from '@ant-design/icons'
-import { Button, Col, Modal, Row, Table, Tag } from 'antd'
+import { Button, Col, Modal, Row, Tag } from 'antd'
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import React, { useMemo } from 'react'
+import Table, { TableColumn } from '@Components/Table/TableComponent'
 import { useNavigate, useParams } from 'react-router'
 
 import MoreButton from '@Components/MoreButton'
@@ -19,9 +20,7 @@ import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { confirm } = Modal
-const TestAnswerSheet = React.lazy(() =>
-  import('./TestAnswerSheet')
-)
+const TestAnswerSheet = React.lazy(() => import('./TestAnswerSheet'))
 
 const { Text } = Typography
 
@@ -46,10 +45,11 @@ const TestEnrolledList = () => {
   return (
     // @ts-ignore
     <Table
+      // searchFields={['learner.name']}
       dataSource={enrolledProducts}
       loading={loadingEp || removingEnrollment}
     >
-      {/* <Table.Column
+      {/* <TableColumn
         title="Rank"
         render={(_: any, record: Types.TestLearnerResult, index: number) => (
           // @ts-ignore
@@ -57,7 +57,7 @@ const TestEnrolledList = () => {
         )}
         key="result"
       /> */}
-      <Table.Column
+      <TableColumn
         title="Student Name"
         dataIndex="learner.name"
         key="learner.name"
@@ -66,14 +66,14 @@ const TestEnrolledList = () => {
           record.learner.name
         }
       />
-      <Table.Column
+      <TableColumn
         title="Test Status"
         responsive={['md']}
         dataIndex="learner.name"
         key="learner.name"
       />
       {/* {test.passingScore ? (
-        <Table.Column
+        <TableColumn
           title="Result"
           render={(_: any, record: Types.TestLearnerResult) => (
             <Tag
@@ -87,7 +87,7 @@ const TestEnrolledList = () => {
           key="result"
         />
       ) : null} */}
-      <Table.Column
+      <TableColumn
         title="Test Status"
         responsive={['md']}
         render={(_: any, record: Types.EnrolledProductDetails) => (
@@ -95,21 +95,21 @@ const TestEnrolledList = () => {
         )}
         key="result"
       />
-      {/* <Table.Column
+      {/* <TableColumn
         title="Time Spent"
         render={(_: any, record: Types.TestLearnerResult) =>
           `${Math.ceil(record?.metrics?.timeSpent / 3600000)} min`
         }
         key="result"
       /> */}
-      {/* <Table.Column
+      {/* <TableColumn
         title="Percentile"
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="orange-inverse">{record?.metrics?.percentile}</Tag>
         )}
         key="percentile"
       /> */}
-      <Table.Column
+      <TableColumn
         title="Enrolled At"
         responsive={['md']}
         render={(_: any, record: Types.TestLearnerResult) =>
@@ -118,7 +118,7 @@ const TestEnrolledList = () => {
         }
         key="result"
       />{' '}
-      <Table.Column
+      <TableColumn
         title="Action"
         // responsive={['md']}
         key="action"
@@ -162,7 +162,7 @@ const TestEnrolledList = () => {
                           learnerId={record.learner._id}
                         />,
                         {
-                          width: 850,
+                          width: 950,
                           lazy: true,
                           title: `${record.learner.name}'s answer sheet`
                         }

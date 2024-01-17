@@ -1,4 +1,5 @@
-import { Button, Modal, Rate, Space, Table } from 'antd'
+import { Button, Modal, Rate, Space } from 'antd'
+import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import Container from '@Components/Container'
 import { Types } from '@adewaskar/lms-common'
@@ -23,8 +24,10 @@ function TestLearners(props: TestLearnersPropsI) {
 
   return (
     <Container title="Enrolled Learners" extra={[<Button>Add Learner</Button>]}>
-      <Table dataSource={data} loading={loading}>
-        <Table.Column
+      <Table
+        searchFields={['name']}
+        dataSource={data} loading={loading}>
+        <TableColumn
           title="Name"
           dataIndex="name"
           render={(_: any, record: Types.EnrolledProductDetails) =>
@@ -32,7 +35,7 @@ function TestLearners(props: TestLearnersPropsI) {
             capitalize(record.learner.name)
           }
         />
-        <Table.Column
+        <TableColumn
           title="Enrolled At"
           dataIndex="email"
           key="email"
@@ -40,7 +43,7 @@ function TestLearners(props: TestLearnersPropsI) {
             <Space size="middle">{dayjs(record.enrolledAt).format('LL')}</Space>
           )}
         />
-        <Table.Column
+        <TableColumn
           title="Email"
           dataIndex="learner.email"
           key="learner.email"
@@ -49,7 +52,7 @@ function TestLearners(props: TestLearnersPropsI) {
             record.learner.email
           }
         />
-        {/* <Table.Column
+        {/* <TableColumn
 title="Last Login"
 dataIndex="lastActive"
 key="lastActive"
@@ -57,7 +60,7 @@ render={(_: any, record: Types.Learner) => (
   <Space size="middle">{dayjs(record.lastActive).format('LLLL')}</Space>
 )}
 />
-<Table.Column
+<TableColumn
 title="Joined On"
 dataIndex="createdAt"
 key="createdAt"
@@ -65,7 +68,7 @@ render={(_: any, record: Types.Learner) => (
   <Space size="middle">{dayjs(record.createdAt).format('LL')}</Space>
 )}
 /> */}
-        <Table.Column
+        <TableColumn
           title="Action"
           key="action"
           render={(_: any, record: Types.EnrolledProductDetails) => {
@@ -113,7 +116,7 @@ render={(_: any, record: Types.Learner) => (
             )
           }}
         />
-        <Table.Column
+        <TableColumn
           title="Rating"
           dataIndex="rating"
           key="rating"
@@ -124,7 +127,7 @@ render={(_: any, record: Types.Learner) => (
             )
           }}
         />
-        <Table.Column
+        <TableColumn
           title="Rating Comment"
           dataIndex="createdAt"
           key="createdAt"

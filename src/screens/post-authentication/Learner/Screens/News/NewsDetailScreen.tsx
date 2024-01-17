@@ -7,6 +7,7 @@ import {
   List,
   Modal,
   Row,
+  Select,
   Space,
   Spin,
   Tag
@@ -41,6 +42,9 @@ export default function NewsDetailScreen() {
   const [params, setParams]: any[] = useSearchParams()
   // console.log(params, 'lsls;l')
   const paramsDate = params.get('date')
+  // const paramsLang = params.get('language')
+  const [date, setDate] = useState(dayjs().startOf('day'))
+  // const [lang, setLang] = useState('')
   useEffect(
     () => {
       // console.log(params,'paor')
@@ -51,14 +55,28 @@ export default function NewsDetailScreen() {
           // @ts-ignore
           date: dayjs()
             .startOf('day')
-            .toISOString()
+            .toISOString(),
+          // language: lang
         })
       }
     },
     [paramsDate]
   )
+  // useEffect(
+  //   () => {
+  //     // console.log(params,'paor')
+  //     if (paramsLang) {
+  //       setLang(paramsLang)
+  //     } else {
+  //       setParams({
+  //         language: 'hin',
+  //         date: date.toISOString()
+  //       })
+  //     }
+  //   },
+  //   [paramsLang]
+  // )
   const { id } = useParams()
-  const [date, setDate] = useState(dayjs().startOf('day'))
   const navigate = useNavigate()
   const { data: newsItem, isLoading } = Learner.Queries.useGetNewsItem(
     date.toISOString()
@@ -83,7 +101,7 @@ export default function NewsDetailScreen() {
                   {cat.icon} {cat.title}
                 </Title>
                 {newsItem.articles
-                  .filter(i => i.category.includes(cat.title))
+                  .filter(i => i?.category?.includes(cat.title))
                   .map(article => (
                     <Col span={24}>
                       <Card
@@ -91,7 +109,8 @@ export default function NewsDetailScreen() {
                         title={<Text>{article.title}</Text>}
                         // extra={article.category.map(c => <Tag color="blue">{c}</Tag>)}
                       >
-                        <Text>{article?.text?.eng}</Text>
+                        {/* @ts-ignore */}
+                        <Text>{article?.text['eng']}</Text>
                       </Card>
                     </Col>
                   ))}
@@ -132,18 +151,47 @@ export default function NewsDetailScreen() {
         <Col sm={1} md={2} xs={0} />
         <Col xs={24} md={20} sm={22}>
           <Card bodyStyle={{ minHeight: 600 }}>
-            <Form.Item label="Select Date">
-              {/* @ts-ignore */}
-              <DatePicker
-                value={date}
-                style={{ width: 150 }}
-                onChange={e =>
-                  setParams({
-                    date: e?.toISOString()
-                  })
-                }
-              />
-            </Form.Item>
+            <Row>
+              <Col span={6}>
+                <Form.Item label="Select Date">
+                  {/* @ts-ignore */}
+                  <DatePicker
+                    value={date}
+                    style={{ width: 150 }}
+                    onChange={e =>
+                      setParams({
+                        date: e?.toISOString(),
+                        // language: lang
+                      })
+                    }
+                  />
+                </Form.Item>
+              </Col>
+              {/* <Col span={6}>
+                <Form.Item label="Select Language">
+                  <Select
+                    value={lang}
+                    style={{ width: 150 }}
+                    onChange={e =>
+                      setParams({
+                        date: date?.toISOString(),
+                        lang: e
+                      })
+                    }
+                    options={[
+                      {
+                        label: 'English',
+                        value: 'eng'
+                      },
+                      {
+                        label: 'Hindi',
+                        value: 'hin'
+                      }
+                    ]}
+                  />
+                </Form.Item>
+              </Col> */}
+            </Row>
             <Spin spinning={isLoading}>
               <Tabs
                 tabPosition="top"
@@ -156,7 +204,7 @@ export default function NewsDetailScreen() {
                         <Col span={24}>{ArticleTabs}</Col>
                       </Row>
                     )
-                  },
+                  }
                   // {
                   //   label: 'Summary',
                   //   key: 'summary',
@@ -184,19 +232,19 @@ export default function NewsDetailScreen() {
                   //       </>:<Title>News not uploaded</Title>}
                   // </Row>
                   //         },
-                  {
-                    label: 'Read News Paper',
-                    key: 'view-paper',
-                    children: (
-                      <Row>
-                        <Col span={24}>
-                          {newsItem?.file ? (
-                            <PDFViewer file={{ _id: newsItem?.file?.file }} />
-                          ) : null}
-                        </Col>
-                      </Row>
-                    )
-                  }
+                  // {
+                  //   label: 'Read News Paper',
+                  //   key: 'view-paper',
+                  //   children: (
+                  //     <Row>
+                  //       <Col span={24}>
+                  //         {newsItem?.file ? (
+                  //           <PDFViewer file={{ _id: newsItem?.file?.file }} />
+                  //         ) : null}
+                  //       </Col>
+                  //     </Row>
+                  //   )
+                  // }
                 ]}
               />
             </Spin>
