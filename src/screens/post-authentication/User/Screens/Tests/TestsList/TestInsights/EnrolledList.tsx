@@ -9,15 +9,9 @@ import { Enum, Types, User } from '@adewaskar/lms-common'
 import React, { useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
 import MoreButton from '@Components/MoreButton'
-import TestAnswerSheet from './TestAnswerSheet'
 import TestStatusTag from './TestStatusTag'
-// import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
-import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
-import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 import { openWindow } from '@Components/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
@@ -25,8 +19,8 @@ import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { confirm } = Modal
-const OMRComponent = React.lazy(() =>
-  import('@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent')
+const TestAnswerSheet = React.lazy(() =>
+  import('./TestAnswerSheet')
 )
 
 const { Text } = Typography
@@ -158,7 +152,9 @@ const TestEnrolledList = () => {
                   icon: <BookOutlined />,
                   onClick: () => {
                     if (isMobile) {
-                      openWindow(`/app/test/${testId}/answer-sheet/${record.learner._id}`)
+                      openWindow(
+                        `/app/test/${testId}/answer-sheet/${record.learner._id}`
+                      )
                     } else {
                       openModal(
                         <TestAnswerSheet
