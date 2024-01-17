@@ -16,6 +16,7 @@ const PDFViewer = React.lazy(() => import('@Components/PDFViewer'))
 const { confirm } = Modal
 
 export default function NewsScreen() {
+  const { mutate: summarizeNews,isLoading: summarizing } = User.Queries.useSummarizeNews()
   const { data, isLoading: loadingNews } = User.Queries.useGetNews()
   const {
     mutate: deleteNews,
@@ -93,6 +94,22 @@ export default function NewsScreen() {
                     <MoreButton
                       items={[
                         {
+                          label: 'Generate Summary',
+                          onClick: () =>
+                            summarizeNews(
+                              { id: record._id + '' },
+                              {
+                                onSuccess: () => {
+                                  message.open({
+                                    type: 'success',
+                                    content: 'Summaring Initiated'
+                                  })
+                                }
+                              }
+                            ),
+                          key: 'summarize'
+                        },
+                        {
                           label: 'View Summary',
                           onClick: () =>
                             openModal(<NewsDetailScreen data={record} />, {
@@ -126,7 +143,7 @@ export default function NewsScreen() {
                               okText: 'Delete'
                             })
                           },
-                          key: 'view'
+                          key: 'delete'
                         }
                         // {
                         //   label: 'Edit Category',
