@@ -1,6 +1,7 @@
 import { Button, DatePicker, Form, Select } from 'antd'
 import { Types, User } from '@adewaskar/lms-common'
 
+import FileList from '@Components/FileList'
 import MediaUpload from '@Components/MediaUpload'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
@@ -41,8 +42,9 @@ export default function UploadNews(props: UploadNewsPropsI) {
           message.open({
             type: 'success',
             content: 'News Uploaded Successfully'
-          });
-          props.closeModal && props.closeModal();
+          })
+          form.resetFields()
+          props.closeModal && props.closeModal()
         }
       }
     )
@@ -57,29 +59,47 @@ export default function UploadNews(props: UploadNewsPropsI) {
     },
     [props.data]
   )
-
+  const files = Form.useWatch(['files'], form) || []
+  console.log(files, 'files')
   return (
     <Form layout="vertical" form={form} onFinish={onSubmit}>
       <Form.Item label="Date" name="date">
         <DatePicker />
       </Form.Item>
-      <Form.Item name="file" label="PDF File">
+      <Form.Item name="files" label="PDF File">
         <MediaUpload
           uploadType="file"
           cropper={{ aspect: 1 }}
           compress={{ maxWidth: 200, maxHeight: 200 }}
           width="100px"
-          name="file"
+          name="files"
           // renderItem={() => <Image width={'70%'} src={thumbnailImage} />}
           onUpload={e => {
             console.log(e, 'eeee')
-            form.setFieldValue(['file'], {
-              file: e._id,
-              url: e.url
-            })
+            form.setFieldValue(
+              ['files'],
+              [
+                ...files,
+                {
+                  file: e._id,
+                  url: e.url
+                }
+              ]
+            )
           }}
         />
       </Form.Item>
+      <FileList
+        onDeleteFile={(fileId: string) => {
+          const updatedFiles = files.filter((f: any) => f.file !== fileId)
+          form.setFieldValue(['files'], updatedFiles)
+        }}
+        // onDeleteFile={(fileId: string) => {
+        //   const files = item.files.filter((f: any) => f.file !== fileId)
+        //   onFormChange({ files })
+        // }}
+        files={files}
+      />
       <Form.Item label="Publication" name="publication">
         <Select options={PUBLICATIONS} />
       </Form.Item>
