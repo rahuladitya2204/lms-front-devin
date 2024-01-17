@@ -55,7 +55,7 @@ export default function NewsDetailScreen() {
           // @ts-ignore
           date: dayjs()
             .startOf('day')
-            .toISOString(),
+            .toISOString()
           // language: lang
         })
       }
@@ -81,46 +81,12 @@ export default function NewsDetailScreen() {
   const { data: newsItem, isLoading } = Learner.Queries.useGetNewsItem(
     date.toISOString()
   )
+
   const { isMobile, isDesktop } = useBreakpoint()
-  const ArticleTabs = (
-    <Tabs
-      tabPosition="top"
-      tabBarStyle={{ marginLeft: 0 }}
-      items={NEWS_CATEGORIES.map(cat => {
-        return {
-          label: (
-            <Text>
-              {cat.icon} {isDesktop ? cat.title : null}
-            </Text>
-          ),
-          key: cat.title,
-          children: (
-            <Row>
-              <Col span={24}>
-                <Title style={{ textAlign: 'center' }} level={3}>
-                  {cat.icon} {cat.title}
-                </Title>
-                {newsItem.articles
-                  .filter(i => i?.category?.includes(cat.title))
-                  .map(article => (
-                    <Col span={24}>
-                      <Card
-                        style={{ marginBottom: 20 }}
-                        title={<Text>{article.title}</Text>}
-                        // extra={article.category.map(c => <Tag color="blue">{c}</Tag>)}
-                      >
-                        {/* @ts-ignore */}
-                        <Text>{article?.text['eng']}</Text>
-                      </Card>
-                    </Col>
-                  ))}
-              </Col>
-            </Row>
-          )
-        }
-      })}
-    />
-  )
+  // if (!newsItem) {
+  //   return <Title>News not uploaded</Title>
+  // }
+
   return (
     <Header
       title={`News: ${dayjs(newsItem.date).format('LL')}`}
@@ -157,10 +123,10 @@ export default function NewsDetailScreen() {
                   {/* @ts-ignore */}
                   <DatePicker
                     value={date}
-                    style={{ width: 150 }}
+                    style={{ width: 200 }}
                     onChange={e =>
                       setParams({
-                        date: e?.toISOString(),
+                        date: e?.toISOString()
                         // language: lang
                       })
                     }
@@ -193,60 +159,111 @@ export default function NewsDetailScreen() {
               </Col> */}
             </Row>
             <Spin spinning={isLoading}>
-              <Tabs
-                tabPosition="top"
-                items={[
-                  {
-                    label: 'Articles',
-                    key: 'articles',
-                    children: (
-                      <Row gutter={[20, 30]}>
-                        <Col span={24}>{ArticleTabs}</Col>
-                      </Row>
-                    )
-                  }
-                  // {
-                  //   label: 'Summary',
-                  //   key: 'summary',
-                  //   children: <Row>
-                  //   <Col span={24}>
-                  //   </Col>
-                  // {newsItem?<>  <Col span={24}>
-                  //   </Col>
-                  //   <Col span={24}>
-                  //     <Row gutter={[20, 20]}>
-                  //       {newsItem.summary.map(item => {
-                  //         return (
-                  //           <Col span={24}>
-                  //             <Card bodyStyle={{paddingTop:0}} title={item.title}>
-                  //               <List
-                  //                 dataSource={item.items}
-                  //                 renderItem={r => <Title level={5}>{r}</Title>}
-                  //               />
-                  //             </Card>
-                  //           </Col>
-                  //         )
-                  //       })}
-                  //     </Row>
-                  //           </Col>
-                  //       </>:<Title>News not uploaded</Title>}
-                  // </Row>
-                  //         },
-                  // {
-                  //   label: 'Read News Paper',
-                  //   key: 'view-paper',
-                  //   children: (
-                  //     <Row>
-                  //       <Col span={24}>
-                  //         {newsItem?.file ? (
-                  //           <PDFViewer file={{ _id: newsItem?.file?.file }} />
-                  //         ) : null}
-                  //       </Col>
-                  //     </Row>
-                  //   )
-                  // }
-                ]}
-              />
+              {newsItem ? (
+                <Tabs
+                  tabPosition="top"
+                  items={[
+                    {
+                      label: 'Articles',
+                      key: 'articles',
+                      children: (
+                        <Row gutter={[20, 30]}>
+                          <Col span={24}>
+                            <Tabs
+                              tabPosition="top"
+                              tabBarStyle={{ marginLeft: 0 }}
+                              items={NEWS_CATEGORIES.map(cat => {
+                                return {
+                                  label: (
+                                    <Text>
+                                      {cat.icon} {isDesktop ? cat.title : null}
+                                    </Text>
+                                  ),
+                                  key: cat.title,
+                                  children: (
+                                    <Row>
+                                      <Col span={24}>
+                                        <Title
+                                          style={{ textAlign: 'center' }}
+                                          level={3}
+                                        >
+                                          {cat.icon} {cat.title}
+                                        </Title>
+                                        {newsItem.articles
+                                          .filter(i =>
+                                            i?.category?.includes(cat.title)
+                                          )
+                                          .map(article => (
+                                            <Col span={24}>
+                                              <Card
+                                                style={{ marginBottom: 20 }}
+                                                title={
+                                                  <Text>{article.title}</Text>
+                                                }
+                                                // extra={article.category.map(c => <Tag color="blue">{c}</Tag>)}
+                                              >
+                                                {/* @ts-ignore */}
+                                                <Text>
+                                                  {article?.text['eng']}
+                                                </Text>
+                                              </Card>
+                                            </Col>
+                                          ))}
+                                      </Col>
+                                    </Row>
+                                  )
+                                }
+                              })}
+                            />
+                          </Col>
+                        </Row>
+                      )
+                    }
+                    // {
+                    //   label: 'Summary',
+                    //   key: 'summary',
+                    //   children: <Row>
+                    //   <Col span={24}>
+                    //   </Col>
+                    // {newsItem?<>  <Col span={24}>
+                    //   </Col>
+                    //   <Col span={24}>
+                    //     <Row gutter={[20, 20]}>
+                    //       {newsItem.summary.map(item => {
+                    //         return (
+                    //           <Col span={24}>
+                    //             <Card bodyStyle={{paddingTop:0}} title={item.title}>
+                    //               <List
+                    //                 dataSource={item.items}
+                    //                 renderItem={r => <Title level={5}>{r}</Title>}
+                    //               />
+                    //             </Card>
+                    //           </Col>
+                    //         )
+                    //       })}
+                    //     </Row>
+                    //           </Col>
+                    //       </>:<Title>News not uploaded</Title>}
+                    // </Row>
+                    //         },
+                    // {
+                    //   label: 'Read News Paper',
+                    //   key: 'view-paper',
+                    //   children: (
+                    //     <Row>
+                    //       <Col span={24}>
+                    //         {newsItem?.file ? (
+                    //           <PDFViewer file={{ _id: newsItem?.file?.file }} />
+                    //         ) : null}
+                    //       </Col>
+                    //     </Row>
+                    //   )
+                    // }
+                  ]}
+                />
+              ) : (
+                <Title>News not uploaded</Title>
+              )}
             </Spin>
           </Card>
         </Col>
