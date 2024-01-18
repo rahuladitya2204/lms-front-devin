@@ -66,27 +66,12 @@ const TestEnrolledList = () => {
           record.learner.name
         }
       />
-      <TableColumn
+      {/* <TableColumn
         title="Test Status"
         responsive={['md']}
         dataIndex="learner.name"
         key="learner.name"
-      />
-      {/* {test.passingScore ? (
-        <TableColumn
-          title="Result"
-          render={(_: any, record: Types.TestLearnerResult) => (
-            <Tag
-              color={
-                record.status === 'passed' ? 'green-inverse' : 'red-inverse'
-              }
-            >
-              {capitalize(record.status)}
-            </Tag>
-          )}
-          key="result"
-        />
-      ) : null} */}
+      /> */}
       <TableColumn
         title="Test Status"
         responsive={['md']}
@@ -151,24 +136,24 @@ const TestEnrolledList = () => {
                   key: 'answer-sheet',
                   icon: <BookOutlined />,
                   onClick: () => {
-                    if (isMobile) {
-                      openWindow(
-                        `/app/test/${testId}/answer-sheet/${record.learner._id}`
-                      )
-                    } else {
-                      openModal(
-                        <TestAnswerSheet
-                          testId={testId + ''}
-                          learnerId={record.learner._id}
-                        />,
-                        {
-                          width: 950,
-                          lazy: true,
-                          title: `${record.learner.name}'s answer sheet`
-                        }
-                      )
-                    }
+                    // if (isMobile) {
+                    //   openWindow(
+                    //     `/app/test/${testId}/answer-sheet/${record.learner._id}`
+                    //   )
+                    // } else {
+                    openModal(
+                      <TestAnswerSheet
+                        testId={testId + ''}
+                        learnerId={record.learner._id}
+                      />,
+                      {
+                        width: 950,
+                        lazy: true,
+                        title: `${record.learner.name}'s answer sheet`
+                      }
+                    )
                   }
+                  // }
                 },
                 {
                   label: 'Delete Enrollment',

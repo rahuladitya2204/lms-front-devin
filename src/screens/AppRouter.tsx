@@ -205,7 +205,9 @@ const router = (userType: string) => {
         ) : <>
             <>
               <Route path='' element={<UserFullPageHolder />}>
-              <Route path="app/test/:testId/answer-sheet/:learnerId" element={<TestAnswerSheet />} /> 
+                <Route path="app/test/:testId/answer-sheet/:learnerId" element={<TestAnswerSheet />} />
+                <Route path="app/test/:testId/answer-sheet/:learnerId/upload-answer-sheet" element={<AnswerSheetFiles />} /> 
+  
  <Route path="login" element={<UserLoginScreen />} />
             <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
         <Route

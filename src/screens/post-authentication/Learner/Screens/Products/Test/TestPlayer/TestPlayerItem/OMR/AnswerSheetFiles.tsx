@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Col, Divider, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
-import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
+import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, InfoOutlined, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { Common, Learner, Store, Types, User } from '@adewaskar/lms-common'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
@@ -29,26 +29,28 @@ interface AnswerSheetFilesPropsI {
 
 const { confirm } = Modal;
 const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
-  const NAMESPACE = props.type === 'user' ? User : Learner;
   const params = useParams();
   const testId = (params.testId || props.testId) + '';
+  const learnerId = (params.learnerId || props.learnerId) + '';
+  const NAMESPACE = (props.type === 'user' || learnerId) ? User : Learner;
   // @ts-ignore
-  const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = NAMESPACE.Queries.useUpdateAnswerSheets(testId,props.learnerId);
+  const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = NAMESPACE.Queries.useUpdateAnswerSheets(testId,learnerId);
   // @ts-ignore
-  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId,props.learnerId);
+  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId,learnerId);
   // @ts-ignore
-  const { mutate: applyAnswerSheets,isLoading: applyingAnswerSheets } = NAMESPACE.Queries.useEvaluateAnswerSheets(testId,props.learnerId);
+  const { mutate: applyAnswerSheets,isLoading: applyingAnswerSheets } = NAMESPACE.Queries.useEvaluateAnswerSheets(testId,learnerId);
   const [form] = Form.useForm<Types.AnswerSheet>();
   const message = useMessage();
   const files = Form.useWatch(['files'], form) || [];
   const filledCount = Form.useWatch(['metrics', 'filled'], form);
   // console.log(files,'files')
-
+  console.log(learnerId,props.type,'learnerId')
   const { data: {
     status: {
       answerSheets
     }
-  }, isFetching: loadingTestStatus } = Learner.Queries.useGetTestStatus(testId);
+      // @ts-ignore
+  }, isFetching: loadingTestStatus } = NAMESPACE.Queries.useGetTestStatus(testId,learnerId);
   useEffect(() => {
     if (answerSheets.files) {
       console.log(answerSheets.files, 'updated');
@@ -129,13 +131,15 @@ onSuccess: blobStr => {
         console.log(fileURL, 'fileURL');
         openModal(<Spin spinning={uploadingFile}>
           <Row>
-          <Col span={24}>
+            <Col span={24}>
+            <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />,
           <Image src={fileURL} />
           </Col>
           </Row>
           
         </Spin>, {
           closable: true,
+          title: `Verify Answer Sheet`,
           footer: closeModal => {
             return [<Row justify={'space-between'}>
               <Col>
@@ -146,40 +150,6 @@ onSuccess: blobStr => {
               </Col>
               <Col>
                 <Row gutter={[20,10]}>
-                  <Col>
-                    <Button onClick={() => {
-                      // if (isMobile) {
-                      //   openWindow(`/cropper?image=${url}`,(blob: any,close?:Function) => {
-                      //     const prefixKey = `tests/${props.testId}/answer-sheets/${learner._id}/page-${files.length+1}`;
-                      //     close && close();
-                      //     uploadFiles({
-                      //               files: [{ file: blobToFile(blob),prefixKey }],
-                      //       onSuccess: ([{ url,name,_id }]) => {
-                      //         // debugger;
-                      //                 closeModal && closeModal();
-                      //         VerifyAnswerSheet([{ name, url,_id }]);
-                      //               }
-                      //             })
-                      //   });
-                        
-                      //  }
-                      // else {
-                        openModal(  <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
-                          const prefixKey = `tests/${props.testId}/answer-sheets/${user._id}/page-${files.length+1}`;
-                          closeModal && closeModal();
-                          uploadFiles({
-                                    files: [{ file: blobToFile(blob),prefixKey }],
-                                    onSuccess: ([{ url,name,_id }]) => {
-                                      // debugger;
-                                       closeModal && closeModal();
-                                      VerifyAnswerSheet([{ name, url,_id }]);
-                                            }
-                                  })
-                           }} image={url} />
-       )
-                      // }
-                  
-                  }} icon={<EditOutlined/>} >Crop</Button></Col>
                   <Col>
                   <Button type='primary' icon={<CheckOutlined/>} onClick={() => {
                 handleUpload(files.map((f) => {
@@ -214,7 +184,8 @@ onSuccess: blobStr => {
   }
   const {isMobile } = useBreakpoint();
   return (
-    <Spin spinning={verifyingAnswerSheet} tip='Analysing Answer Sheet..' > 
+    <div style={{paddingLeft:10,paddingRight:10}}>
+      <Spin spinning={verifyingAnswerSheet} tip='Analysing Answer Sheet..' > 
          {!props.closeModal? <Button onClick={() => {
             if (window?.opener?.onComplete) {
               window.close()
@@ -267,7 +238,7 @@ onSuccess: blobStr => {
                            // console.log(D,'POP')
               const fileDetails = d.files[field.name]
                        return <Col xs={24} sm={12} md={6} >
-                   <DraggableFileItem learnerId={props.learnerId} type={props.type} testId={testId} fileUrl={fileDetails.url} cropItem={cropItem} review={props.review}
+                   <DraggableFileItem learnerId={learnerId} type={props.type} testId={testId} fileUrl={fileDetails.url} cropItem={cropItem} review={props.review}
                    key={field.key}
                    index={index}
                    id={field.key}
@@ -321,7 +292,9 @@ name={fileDetails.name} // Assuming this is how you access the file name
             </Button>
           </Col>    
          </Row></>:null}
-     </Spin>
+      </Spin>
+      
+    </div>
   );
 };
 
@@ -360,7 +333,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
     }),
   });
       drag(drop(ref));
-      const NAMESPACE = type === 'user' ? User : Learner;
+      const NAMESPACE = (type === 'user' || learnerId) ? User : Learner;
 
       const { mutate: verifyAnswerSheet, isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId, learnerId);
       const {openModal } = useModal();
@@ -376,9 +349,11 @@ name={fileDetails.name} // Assuming this is how you access the file name
         console.log(fileURL, 'fileURL');
         openModal(<Row>
           <Col span={24}>
-          <Image src={fileURL} />
+          <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />,
+ <Image src={fileURL} />
           </Col>
         </Row>, {
+          title:'Verify Answer Sheet',
           closable: true,
           footer: closeModal => {
             return [    <Button icon={<CloseOutlined />}
