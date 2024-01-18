@@ -404,40 +404,13 @@ name={fileDetails.name} // Assuming this is how you access the file name
               <Row>
         <Col span={24} style={{display:'flex',justifyContent:'center'}}>
         <AnswerSheetFileItem type={type} fileUrl={fileUrl} fileId={fileId} />
-        </Col>
-        <Col style={{display:'flex',justifyContent:'center'}} span={24}>
-            {!review ? <Space>
-              <Button htmlType='button' style={{marginTop:10}}
-        danger
-        size='small'
-        shape="circle"
-        icon={<DeleteOutlined />}
-        onClick={removeItem}
-                  />               
-      </Space>:null}
                 </Col>
                 <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
                   <Row style={{paddingLeft:5,paddingRight:5}} gutter={[20,0]}>
-                    <Col span={24}>
+                    {/* <Col span={24}>
                     <Button block htmlType='button' style={{marginTop:10}}
-        // danger
         size='small'
                         onClick={() => {
-                //           if (isMobile)
-                //           {
-                //             openWindow(`/cropper?image=${fileUrl}`, (blob: any, closeModal?: Function) => {
-                //             closeModal && closeModal();
-                //             console.log(blob,'llloi')
-                //             // @ts-ignore
-                // uploadFiles({
-                // files: [{ file: blobToFile(blob),prefixKey }],
-                // onSuccess: ([{url}]) => {
-                // cropItem(index, url);
-                // }
-                // })
-                //           })
-                //           }
-                //           else {
                             openModal( <PerspectiveCropper onCrop={(blob: any,closeModal?:Function) => {
                               closeModal && closeModal();
                               // @ts-ignore
@@ -449,19 +422,29 @@ name={fileDetails.name} // Assuming this is how you access the file name
                   })
                   }} image={fileUrl} />)
                           }
-
-                        // }
       }
               >Crop</Button>
-                    </Col>
+                    </Col> */}
                     <Col span={24}>
-                    <Button block style={{marginTop:10}} loading={verifyingAnswerSheet} size='small' type='primary' onClick={() => {
+                    <Button block style={{marginTop:10,width:87}} loading={verifyingAnswerSheet} size='small' type='primary' onClick={() => {
                     VerifyAnswerSheet(fileUrl)
                   }} >Verify</Button>
                     </Col>
                </Row>
                 
                 </Col>
+        <Col style={{display:'flex',justifyContent:'center'}} span={24}>
+            {!review ? <Space>
+              <Button htmlType='button' style={{marginTop:10,width:87}}
+        danger
+        size='small'
+        // shape="circle"
+        // icon={<DeleteOutlined />}
+        onClick={removeItem}
+                  >Delete</Button>           
+      </Space>:null}
+                </Col>
+              
 </Row>
      </Card>
     </div>

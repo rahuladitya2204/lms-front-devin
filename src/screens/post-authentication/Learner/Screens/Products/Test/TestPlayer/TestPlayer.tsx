@@ -79,7 +79,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
 
   const AnswerSheetButton = <ActionModal minHeight={500} lazy width={800}
-    cta={<Button type='primary'>Answer Sheet</Button>}
+    cta={<Button block={isMobile} type='primary'>Answer Sheet</Button>}
     title={<Row style={{ marginTop: 25 }}
       justify={'space-between'} align={'middle'}>
       <Col>
@@ -152,7 +152,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     // UpdatingTestStatus,
     SubmitTestButton]} cta={<Button icon={<MenuOutlined />}>
     </Button>}>
-    <div style={{paddingLeft:10,paddingRight:10,marginBottom:15}} >{ AnswerSheetButton}</div>
+    <div style={{paddingLeft:10,paddingRight:10,marginBottom:15,marginTop: 15}} >{ AnswerSheetButton}</div>
     <QuestionNavigator questionId={questionId + ''} testId={testId + ''} />
   </ActionDrawer>;
   return (
