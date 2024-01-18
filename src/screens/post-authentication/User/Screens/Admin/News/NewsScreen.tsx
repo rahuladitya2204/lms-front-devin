@@ -1,4 +1,15 @@
-import { Button, Card, Col, Modal, Row, Space, Spin, Table, Upload } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Modal,
+  Row,
+  Space,
+  Spin,
+  Table,
+  Upload
+} from 'antd'
 import { Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -16,7 +27,10 @@ const PDFViewer = React.lazy(() => import('@Components/PDFViewer'))
 const { confirm } = Modal
 
 export default function NewsScreen() {
-  const { mutate: summarizeNews,isLoading: summarizing } = User.Queries.useSummarizeNews()
+  const {
+    mutate: summarizeNews,
+    isLoading: summarizing
+  } = User.Queries.useSummarizeNews()
   const { data, isLoading: loadingNews } = User.Queries.useGetNews()
   const {
     mutate: deleteNews,
@@ -59,24 +73,23 @@ export default function NewsScreen() {
                   dataIndex="pdf"
                   key="pdf"
                   render={(_: any, record: Types.News) => (
-                    <Button
-                      onClick={() => {
-                        openModal(
-                          <PDFViewer file={{ _id: record.file.file }} />,
-                          {
-                            width: 700,
-                            lazy: true,
-                            title: `News Paper: ${dayjs(record.date).format(
-                              'LL'
-                            )}`
+                    <MoreButton
+                      items={record.files.map(({ url, file }, index) => {
+                        return {
+                          label: `View PDF: ${index + 1}`,
+                          key: file,
+                          onClick: () => {
+                            openModal(<PDFViewer file={{ _id: file }} />, {
+                              width: 700,
+                              lazy: true,
+                              title: `News Paper: ${dayjs(record.date).format(
+                                'LL'
+                              )}`
+                            })
                           }
-                        )
-                      }}
-                      type="primary"
-                      size="small"
-                    >
-                      View PDF
-                    </Button>
+                        }
+                      })}
+                    />
                   )}
                 />
                 <Table.Column

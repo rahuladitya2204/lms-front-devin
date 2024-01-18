@@ -262,7 +262,9 @@ export default function NewsDetailScreen() {
                   ]}
                 />
               ) : (
-                <Title style={{ textAlign: 'center' }}>News not uploaded</Title>
+                <Title style={{ textAlign: 'center' }}>
+                  News not curated yet..
+                </Title>
               )}
             </Spin>
           </Card>
