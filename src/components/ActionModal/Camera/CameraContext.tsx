@@ -74,7 +74,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
         // onCancel={() => setIsModalVisible(false)}
         bodyStyle={{ textAlign: 'center', padding: 0,position:'fixed',top:0,bottom:0,left:0,right:0 }}
       >
-        <Button icon={<CloseOutlined/>} style={{position:'fixed',top:10,right:10,zIndex:1000}} onClick={() => {
+        <Button danger shape='circle' icon={<CloseOutlined/>} style={{position:'fixed',top:10,right:10,zIndex:1000}} onClick={() => {
           setIsModalVisible(false)
         }} />
         {/* @ts-ignore */}
@@ -82,8 +82,8 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
         {previewImage && (
           <div style={{position:'relative'}}>
             <img src={previewImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
-            <Button danger icon={<CloseOutlined/>} style={{position:'absolute',bottom:44,left:'40%'}} onClick={handleCancel}></Button>
-            <Button icon={<CheckOutlined/>} style={{position:'absolute',bottom:44,right:'40%'}} onClick={handleAccept}></Button>
+            <Button shape='circle' danger icon={<CloseOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,left:'40%'}} onClick={handleCancel}></Button>
+            <Button shape='circle' type='primary' icon={<CheckOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,right:'40%'}} onClick={handleAccept}></Button>
           </div>
         )}
         {!previewImage && <Button icon={<CameraOutlined/>} style={{
