@@ -29,7 +29,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
 
   const handleCapture = useCallback(async () => {
     const imageUrl = await cameraRef.current?.takePhoto();
-    console.log(imageUrl,'lkl')
+    // console.log(imageUrl,'lkl')
     if (imageUrl) {
       // @ts-ignore
       // const imageUrl = URL.createObjectURL(imageBlob);
