@@ -82,8 +82,8 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
         {previewImage && (
           <div style={{position:'relative'}}>
             <img src={previewImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
-            <Button shape='circle' danger icon={<CloseOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,left:'40%'}} onClick={handleCancel}></Button>
-            <Button shape='circle' type='primary' icon={<CheckOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,right:'40%'}} onClick={handleAccept}></Button>
+            <Button shape='circle' danger icon={<CloseOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,left:'30%'}} onClick={handleCancel}></Button>
+            <Button shape='circle' type='primary' icon={<CheckOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,right:'30%'}} onClick={handleAccept}></Button>
           </div>
         )}
         {!previewImage && <Button icon={<CameraOutlined/>} style={{
