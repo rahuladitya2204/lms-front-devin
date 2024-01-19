@@ -1,6 +1,6 @@
 import { Button, Modal } from 'antd';
 import { Camera, CameraType } from 'react-camera-pro';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CameraOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import { DetectQuadrilateral } from './useQuadrilateralDetection';
@@ -22,6 +22,7 @@ const CameraContext = createContext<CameraContextType | undefined>(undefined);
 // Camera Provider component
 export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: CameraProviderPropsI) => {
   const cameraRef = useRef<CameraType>(null);
+  const [facingMode, setFacingMode] = useState('environment');
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null); // Store captured image
   const [resolveCapture, setResolveCapture] = useState<(blob: Blob | null) => void>(() => {});
@@ -67,7 +68,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
     // @ts-ignore
     <CameraContext.Provider value={{ openCamera }}>
       {children}
-      <Modal
+      <Modal closable={false}
         visible={isModalVisible}
         footer={null}
         // onCancel={() => setIsModalVisible(false)}
@@ -77,7 +78,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
           setIsModalVisible(false)
         }} />
         {/* @ts-ignore */}
-        {!previewImage && <Camera ref={cameraRef} />}
+        {!previewImage && <Camera facingMode={facingMode} ref={cameraRef} />}
         {previewImage && (
           <div style={{position:'relative'}}>
             <img src={previewImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
@@ -85,9 +86,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
             <Button icon={<CheckOutlined/>} style={{position:'absolute',bottom:44,right:'40%'}} onClick={handleAccept}></Button>
           </div>
         )}
-        {!previewImage && <Button style={{
+        {!previewImage && <Button icon={<CameraOutlined/>} style={{
           position: 'absolute',
-        bottom: 20,left:'50%'}} type="primary" shape='circle' onClick={handleCapture}></Button>}
+        bottom: 20,left:'50%'}} size='large' type="primary" shape='circle' onClick={handleCapture}></Button>}
       </Modal>
     </CameraContext.Provider>
   );
