@@ -16,6 +16,7 @@ import { Typography } from '@Components/Typography'
 import { openWindow } from '@Components/SunEditor/utils'
 import update from 'immutability-helper'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
@@ -171,7 +172,19 @@ onSuccess: blobStr => {
       }
     });
   }
-  const UploadButton = <MediaUpload compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
+  const { isMobile } = useBreakpoint();
+  const UploadButton = (isMobile || true) ? <Button type='primary' onClick={() => {
+    openCamera().then(blob => {
+      uploadFiles({
+        files: [{ file: blobToFile(blob) }],
+onSuccess: ([{ url,name,_id }]) => {
+  // debugger;
+          // closeModal && closeModal();
+  VerifyAnswerSheet([{ name, url,_id }]);
+        }
+      })
+    });
+  }}>Click Photo</Button> :<MediaUpload compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
     uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
     onUpload={(files: Types.FileType[]) => {
       console.log(files, 'uploaded')
@@ -185,8 +198,8 @@ onSuccess: blobStr => {
     // const d = form.getFieldsValue();
     updateAnswerSheetApi(d);
   }
-  const { isMobile } = useBreakpoint();
   const filledBubbleCount = answerSheets?.metrics?.filled;
+  const {openCamera } = useCamera();
   // console.log(answerSheets?.metrics?.filled,'akj')
   return (
     <div style={{paddingLeft:10,paddingRight:10}}>

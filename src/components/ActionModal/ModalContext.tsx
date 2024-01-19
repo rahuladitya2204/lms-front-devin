@@ -1,6 +1,8 @@
 import { Modal, Spin } from 'antd';
 import React, { ReactNode, Suspense, createContext, startTransition, useCallback, useContext, useState } from 'react';
 
+import { CameraProvider } from './Camera/CameraContext';
+
 interface ModalContextType {
   openModal: (content: ReactNode,opts?:ActionModalPropsI) => void;
   hideModal: () => void;
@@ -68,7 +70,9 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   return (
     // @ts-ignore
     <ModalContext.Provider value={{ openModal, hideModal, modalStack }}>
-      {children}
+      <CameraProvider>
+        {children}
+      </CameraProvider>
       {modalStack.map((modalItem, index) => (
         <Modal
           key={index}
