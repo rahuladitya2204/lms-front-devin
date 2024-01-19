@@ -203,7 +203,7 @@ onSuccess: ([{ url,name,_id }]) => {
   // console.log(answerSheets?.metrics?.filled,'akj')
   return (
     <div style={{paddingLeft:10,paddingRight:10}}>
-      <Spin spinning={verifyingAnswerSheet} tip='Analysing Answer Sheet..' > 
+      <Spin spinning={verifyingAnswerSheet || loadingTestStatus} tip='Please wait..' > 
          {!props.closeModal? <Button onClick={() => {
             if (window?.opener?.onComplete) {
               window.close()
