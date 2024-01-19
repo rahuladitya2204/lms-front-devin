@@ -70,9 +70,12 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
       <Modal
         visible={isModalVisible}
         footer={null}
-        onCancel={() => setIsModalVisible(false)}
-        bodyStyle={{ textAlign: 'center', height: '70vh', position: 'relative', padding: 0 }}
+        // onCancel={() => setIsModalVisible(false)}
+        bodyStyle={{ textAlign: 'center', padding: 0,position:'fixed',top:0,bottom:0,left:0,right:0 }}
       >
+        <Button icon={<CloseOutlined/>} style={{position:'fixed',top:10,right:10,zIndex:1000}} onClick={() => {
+          setIsModalVisible(false)
+        }} />
         {/* @ts-ignore */}
         {!previewImage && <Camera ref={cameraRef} />}
         {previewImage && (
@@ -82,7 +85,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
             <Button icon={<CheckOutlined/>} style={{position:'absolute',bottom:44,right:'40%'}} onClick={handleAccept}></Button>
           </div>
         )}
-        {!previewImage && <Button type="primary" onClick={handleCapture}>Capture</Button>}
+        {!previewImage && <Button style={{
+          position: 'absolute',
+        bottom: 20,left:'50%'}} type="primary" shape='circle' onClick={handleCapture}></Button>}
       </Modal>
     </CameraContext.Provider>
   );
