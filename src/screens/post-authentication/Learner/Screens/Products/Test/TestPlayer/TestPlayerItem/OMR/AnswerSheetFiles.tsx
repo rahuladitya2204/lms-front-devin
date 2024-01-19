@@ -30,9 +30,10 @@ interface AnswerSheetFilesPropsI {
 const { confirm } = Modal;
 const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   const params = useParams();
-  const testId = (params.testId || props.testId) + '';
-  const learnerId = (params.learnerId || props.learnerId) + '';
-  const NAMESPACE = (props.type === 'user' || learnerId) ? User : Learner;
+  const testId = (params.testId || props.testId)
+  const learnerId = (params.learnerId || props.learnerId)
+  const isUser = ((props.type === 'user') || learnerId);
+  const NAMESPACE = isUser ? User : Learner;
   // @ts-ignore
   const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = NAMESPACE.Queries.useUpdateAnswerSheets(testId,learnerId);
   // @ts-ignore
@@ -44,7 +45,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   const files = Form.useWatch(['files'], form) || [];
   const filledCount = Form.useWatch(['metrics', 'filled'], form);
   // console.log(files,'files')
-  console.log(learnerId,props.type,'learnerId')
+  // console.log(learnerId, props.type,NAMESPACE, 'learnerId');
   const { data: {
     status: {
       answerSheets
@@ -192,7 +193,9 @@ onSuccess: blobStr => {
             }
           }} danger block={isMobile} style={{marginTop:10}} icon={<ArrowLeftOutlined/>} type='primary'>
             Go back to Answer Sheet
-          </Button>:null}
+        </Button> : null}
+        {/* TYPE: {props.type} LEARNER: {learnerId}
+        {isUser?'USER':'LEARNER'} */}
       <Card style={{marginTop:20}}
        title="Answer Sheet Images" extra={[ !props.review?(files.length?UploadButton:null):null]}
       >
@@ -333,7 +336,8 @@ name={fileDetails.name} // Assuming this is how you access the file name
     }),
   });
       drag(drop(ref));
-      const NAMESPACE = (type === 'user' || learnerId) ? User : Learner;
+      const isUser = ((type === 'user') || learnerId);
+      const NAMESPACE = isUser ? User : Learner;
 
       const { mutate: verifyAnswerSheet, isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId, learnerId);
       const {openModal } = useModal();
