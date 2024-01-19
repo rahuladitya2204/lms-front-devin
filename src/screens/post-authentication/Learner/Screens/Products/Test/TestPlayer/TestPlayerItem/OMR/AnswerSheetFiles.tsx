@@ -131,9 +131,11 @@ onSuccess: blobStr => {
         const fileURL = URL.createObjectURL(file);
         console.log(fileURL, 'fileURL');
         openModal(<Spin spinning={uploadingFile}>
-          <Row>
+          <Row gutter={[20,20]}>
             <Col span={24}>
             <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />
+            </Col>
+            <Col span={24}>
           <Image src={fileURL} />
           </Col>
           </Row>
@@ -183,7 +185,9 @@ onSuccess: blobStr => {
     // const d = form.getFieldsValue();
     updateAnswerSheetApi(d);
   }
-  const {isMobile } = useBreakpoint();
+  const { isMobile } = useBreakpoint();
+  const filledBubbleCount = answerSheets?.metrics?.filled;
+  // console.log(answerSheets?.metrics?.filled,'akj')
   return (
     <div style={{paddingLeft:10,paddingRight:10}}>
       <Spin spinning={verifyingAnswerSheet} tip='Analysing Answer Sheet..' > 
@@ -202,7 +206,7 @@ onSuccess: blobStr => {
         <Form layout='vertical' onFinish={save} form={form}>
         {files.length?<Alert style={{marginBottom:15}} message="Following must be equal to the total bubbles you filled in the answer sheet" type="info" showIcon />:null}
 
-          {files.length ? <Row justify={'center'} align={'middle'} gutter={[15,0]}>
+       <Row justify={'center'} align={'middle'} gutter={[15,0]}>
             <Col flex={1}>
             <Form.Item required name={['metrics','filled']} label='Total Filled Bubbles'>
           <Input type='number' />
@@ -211,11 +215,12 @@ onSuccess: blobStr => {
             <Col xs={24} flex={isMobile ? 1 : 'none'} style={{display:'flex',alignItems:'center'}}>
             <Button block={isMobile} loading={updatingAnswer}
            onClick={form.submit}>
-            Save Filled Bubbles
+            Save
           </Button>
           </Col>
-        </Row>:null}
-        <Spin spinning={uploadingFile || loadingTestStatus || updatingAnswer || uploadingFile}>
+        </Row>
+            <div style={{display:filledBubbleCount?'block':'none'}}>
+            <Spin spinning={uploadingFile || loadingTestStatus || updatingAnswer || uploadingFile}>
   {!files.length?<Empty  style={{marginTop:15}} description={
           <Row gutter={[10,20]}>
             <Col span={24}>
@@ -260,10 +265,12 @@ name={fileDetails.name} // Assuming this is how you access the file name
                   )
         }}
           </Form.List>
- </Spin>
+              </Spin>
+              
+       </div>
        </Form>
       </Card>
-      {files.length?<><Divider/>
+      {( filledBubbleCount&& files.length)?<><Divider/>
       <Row gutter={[20, 20]} justify={'center'}>
         <Col flex={isMobile ? 1 : 'none'}>
           <Button type='primary' block={isMobile} loading={applyingAnswerSheets}
@@ -291,7 +298,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
           })}
             disabled={!(filledCount&&files.length)}
             >
-            Apply Answer Sheet
+            Submit Answer Sheet
             </Button>
           </Col>    
          </Row></>:null}
@@ -351,9 +358,11 @@ name={fileDetails.name} // Assuming this is how you access the file name
         // You can then create a URL for the blob to download it or display it in the browser
         const fileURL = URL.createObjectURL(file);
         console.log(fileURL, 'fileURL');
-        openModal(<Row>
+        openModal(<Row gutter={[20,20]}>
           <Col span={24}>
-          <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />,
+          <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />
+          </Col>
+          <Col span={24}>
  <Image src={fileURL} />
           </Col>
         </Row>, {
