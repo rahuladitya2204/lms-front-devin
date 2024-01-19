@@ -2,7 +2,8 @@ import {
   BookOutlined,
   DeleteOutlined,
   EditOutlined,
-  ReloadOutlined
+  ReloadOutlined,
+  UploadOutlined
 } from '@ant-design/icons'
 import { Button, Col, Modal, Row, Tag } from 'antd'
 import { Enum, Types, User } from '@adewaskar/lms-common'
@@ -10,6 +11,7 @@ import React, { useMemo } from 'react'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 import { useNavigate, useParams } from 'react-router'
 
+import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
 import MoreButton from '@Components/MoreButton'
 import TestStatusTag from './TestStatusTag'
 import { Typography } from '@Components/Typography'
@@ -127,6 +129,23 @@ const TestEnrolledList = () => {
                             content: 'Evaluation Initiated'
                           })
                         }
+                      }
+                    )
+                  }
+                },
+                {
+                  label: 'Upload Answer Sheet',
+                  key: 'upload-answer-sheet',
+                  icon: <UploadOutlined />,
+                  onClick: () => {
+                    openModal(
+                      <AnswerSheetFiles
+                        learnerId={record.learner._id}
+                        testId={testId}
+                        type="user"
+                      />,
+                      {
+                        title: `${record.learner.name}'s answer sheet`
                       }
                     )
                   }
