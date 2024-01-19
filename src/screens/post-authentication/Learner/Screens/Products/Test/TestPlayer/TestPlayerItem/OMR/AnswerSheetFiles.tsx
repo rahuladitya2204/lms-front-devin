@@ -404,16 +404,13 @@ name={fileDetails.name} // Assuming this is how you access the file name
       }
               >Crop</Button>
                     </Col> */}
-                    <Col span={24}>
+                    <Col span={24} style={{display:'flex',justifyContent:'center'}} >
                     <Button block style={{marginTop:10,width:87}} loading={verifyingAnswerSheet} size='small' type='primary' onClick={() => {
                     VerifyAnswerSheet(fileUrl)
                   }} >Verify</Button>
                     </Col>
-               </Row>
-                
-                </Col>
-        <Col style={{display:'flex',justifyContent:'center'}} span={24}>
-            {!review ? <Space>
+                    <Col style={{display:'flex',justifyContent:'center'}} span={24}>
+            {!review ? <>
               <Button htmlType='button' style={{marginTop:10,width:87}}
         danger
         size='small'
@@ -421,7 +418,10 @@ name={fileDetails.name} // Assuming this is how you access the file name
         // icon={<DeleteOutlined />}
         onClick={removeItem}
                   >Delete</Button>           
-      </Space>:null}
+      </>:null}
+                </Col>
+               </Row>
+                
                 </Col>
               
 </Row>
