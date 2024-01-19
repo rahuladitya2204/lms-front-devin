@@ -133,7 +133,7 @@ onSuccess: blobStr => {
         openModal(<Spin spinning={uploadingFile}>
           <Row>
             <Col span={24}>
-            <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />,
+            <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />
           <Image src={fileURL} />
           </Col>
           </Row>
