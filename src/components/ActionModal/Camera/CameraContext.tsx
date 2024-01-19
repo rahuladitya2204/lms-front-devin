@@ -88,6 +88,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
         )}
         {!previewImage && <Button icon={<CameraOutlined/>} style={{
           position: 'absolute',
+          transform: `translateX(-50%)`,
+          height: 55,
+          width:55,
         bottom: 20,left:'50%'}} size='large' type="primary" shape='circle' onClick={handleCapture}></Button>}
       </Modal>
     </CameraContext.Provider>
