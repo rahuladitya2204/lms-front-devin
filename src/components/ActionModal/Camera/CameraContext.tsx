@@ -4,6 +4,10 @@ import { CameraOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons'
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { blobToFile, compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 
+import { highlightQuadrilateral } from './highlight-quadrilateral';
+// @ts-ignore
+import { useOpenCv } from 'opencv-react';
+
 // Define the context and its type
 interface CameraContextType {
   openCamera: () => Promise<File>;
@@ -23,14 +27,15 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null); // Store captured image
   const [resolveCapture, setResolveCapture] = useState<(blob: Blob | null) => void>(() => {});
-
   const handleCapture = useCallback(async () => {
-    const imageUrl = await cameraRef.current?.takePhoto();
+    let imageUrl = await cameraRef.current?.takePhoto();
+    // @ts-ignore
+    const highlighted = await highlightQuadrilateral(imageUrl);
     // console.log(imageUrl,'lkl')
-    if (imageUrl) {
+    if (highlighted) {
       // @ts-ignore
-      // const imageUrl = URL.createObjectURL(imageBlob);
-      setPreviewImage(imageUrl); // Set image for preview
+      // const highlighted = URL.createObjectURL(imageBlob);
+      setPreviewImage(highlighted); // Set image for preview
       // No need to close the modal here, as we're going to show the preview
     }
   }, []);
