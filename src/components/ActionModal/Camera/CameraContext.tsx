@@ -3,8 +3,8 @@ import { Camera, CameraType } from 'react-camera-pro';
 import { CameraOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { blobToFile, compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
+import { highlightQuadrilateral, imageUrlToDataUrl } from './highlight-quadrilateral';
 
-import { highlightQuadrilateral } from './highlight-quadrilateral';
 // @ts-ignore
 import { useOpenCv } from 'opencv-react';
 
@@ -29,6 +29,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
   const [resolveCapture, setResolveCapture] = useState<(blob: Blob | null) => void>(() => {});
   const handleCapture = useCallback(async () => {
     let imageUrl = await cameraRef.current?.takePhoto();
+    // const testUrl=await imageUrlToDataUrl(`https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/noprefix/1705772455227.png`)
     // @ts-ignore
     const highlighted = await highlightQuadrilateral(imageUrl);
     // console.log(imageUrl,'lkl')

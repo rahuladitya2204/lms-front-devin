@@ -1,72 +1,74 @@
-export function highlightQuadrilateral(dataUrl: string) {
+export function highlightQuadrilateral(url: string) {
   // @ts-ignore
   const cv = window.cv
   return new Promise((resolve, reject) => {
-    const image = new Image()
-    image.src = dataUrl
+    const image = new Image();
+    image.crossOrigin = 'Anonymous';
+    image.src = url;
     image.onload = () => {
-      const srcMat = cv.imread(image)
-      const grayMat = new cv.Mat()
-      const edgedMat = new cv.Mat()
-      const contours = new cv.MatVector()
-      const hierarchy = new cv.Mat()
+        let srcMat = cv.imread(image);
+        let grayMat = new cv.Mat();
+        let blurredMat = new cv.Mat();
+        let edgedMat = new cv.Mat();
+        let contours = new cv.MatVector();
+        let hierarchy = new cv.Mat();
 
-      // Convert to grayscale
-      cv.cvtColor(srcMat, grayMat, cv.COLOR_RGBA2GRAY, 0)
+        cv.cvtColor(srcMat, grayMat, cv.COLOR_RGBA2GRAY, 0);
+        cv.GaussianBlur(grayMat, blurredMat, new cv.Size(5, 5), 0);
+        cv.Canny(blurredMat, edgedMat, 75, 200);
+        cv.findContours(edgedMat, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
-      // Detect edges
-      cv.Canny(grayMat, edgedMat, 75, 200)
-
-      // Find contours
-      cv.findContours(
-        edgedMat,
-        contours,
-        hierarchy,
-        cv.RETR_EXTERNAL,
-        cv.CHAIN_APPROX_SIMPLE
-      )
-
-      let docContour = null
-
-      for (let i = 0; i < contours.size(); ++i) {
-        const contour = contours.get(i)
-        const peri = cv.arcLength(contour, true)
-        const approx = new cv.Mat()
-        cv.approxPolyDP(contour, approx, 0.02 * peri, true)
-
-        if (approx.rows === 4) {
-          docContour = approx
-          break
+        let maxArea = 0;
+        let maxContourIndex = -1;
+        for (let i = 0; i < contours.size(); ++i) {
+            let cnt = contours.get(i);
+            let area = cv.contourArea(cnt);
+            if (area > maxArea) {
+                maxArea = area;
+                maxContourIndex = i;
+            }
+            cnt.delete();
         }
 
-        approx.delete()
-        contour.delete()
+        if (maxContourIndex !== -1) {
+            let color = new cv.Scalar(255, 0, 0, 255);
+            cv.drawContours(srcMat, contours, maxContourIndex, color, 2, cv.LINE_8, hierarchy, 0);
+        }
+
+        const canvas = document.createElement('canvas');
+        cv.imshow(canvas, srcMat);
+        const newDataUrl = canvas.toDataURL();
+
+        srcMat.delete();
+        grayMat.delete();
+        blurredMat.delete();
+        edgedMat.delete();
+        contours.delete();
+        hierarchy.delete();
+
+        resolve(newDataUrl);
+    };
+
+    image.onerror = () => {
+        reject(new Error("Failed to load image"));
+    };
+});
+}
+
+export function imageUrlToDataUrl(url: string) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+    xhr.onload = function() {
+      const reader = new FileReader()
+      reader.onloadend = function() {
+        resolve(reader.result)
       }
-
-      // Highlight the contour
-      if (docContour) {
-        const color = new cv.Scalar(255, 0, 255, 255)
-        cv.drawContours(srcMat, contours, -1, color, 1, cv.LINE_8, hierarchy, 0)
-        docContour.delete()
-      }
-
-      // Convert Mat back to Canvas
-      const canvas = document.createElement('canvas')
-      cv.imshow(canvas, srcMat)
-
-      // Convert Canvas to Data URL
-      const newDataUrl = canvas.toDataURL()
-
-      // Cleanup
-      srcMat.delete()
-      grayMat.delete()
-      edgedMat.delete()
-      contours.delete()
-      hierarchy.delete()
-
-      resolve(newDataUrl)
+      reader.onerror = reject
+      reader.readAsDataURL(xhr.response)
     }
-
-    image.onerror = reject
+    xhr.onerror = reject
+    xhr.open('GET', url)
+    xhr.responseType = 'blob'
+    xhr.send()
   })
 }
