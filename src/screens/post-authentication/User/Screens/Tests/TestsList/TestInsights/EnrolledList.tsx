@@ -11,7 +11,9 @@ import React, { useMemo } from 'react'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 import { useNavigate, useParams } from 'react-router'
 
+import ActionModal from '@Components/ActionModal/ActionModal'
 import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
+import EnrollLearner from '../../TestCreator/TestLearners/EnrolLearner'
 import MoreButton from '@Components/MoreButton'
 import TestStatusTag from './TestStatusTag'
 import { Typography } from '@Components/Typography'
@@ -47,9 +49,16 @@ const TestEnrolledList = () => {
   return (
     // @ts-ignore
     <Table
-      // searchFields={['learner.name']}
+      searchFields={['learner.name', 'learner.email']}
       dataSource={enrolledProducts}
       loading={loadingEp || removingEnrollment}
+      extra={[
+        <ActionModal cta={<Button>Add Learner</Button>}>
+          <EnrollLearner title='Add Learner'
+            product={{ type: Enum.ProductType.TEST, id: testId + '' }}
+          />
+        </ActionModal>
+      ]}
     >
       {/* <TableColumn
         title="Rank"

@@ -4,24 +4,27 @@ import { useState } from 'react'
 
 interface TablePropsI extends TableProps<any> {
   searchFields?: string[];
+  extra?: React.ReactNode[];
 }
 
 export default function Table(props: TablePropsI) {
   const [searchVal, setSearchVal] = useState('')
 
+  // Function to safely get nested values from an object
   const getNestedValue = (obj: any, path: string) => {
     return path.split('.').reduce((acc, part) => acc && acc[part], obj)
   }
 
+  // Filter data based on search fields and search value
   const filteredData =
-    props.searchFields && props.searchFields.length && searchVal
+    props.searchFields && searchVal
       ? props.dataSource?.filter(item => {
-          return props.searchFields?.some(field => {
+          // @ts-ignore
+          return props.searchFields.some(field => {
             const fieldValue = getNestedValue(item, field)
-            if (fieldValue === null || fieldValue === undefined) {
+            if (fieldValue == null) {
               return false
             }
-            // Convert both the search value and field value to lower case for case-insensitive comparison
             return fieldValue
               .toString()
               .toLowerCase()
@@ -34,12 +37,18 @@ export default function Table(props: TablePropsI) {
     <Row gutter={[20, 30]}>
       {props?.searchFields?.length && props?.dataSource?.length ? (
         <Col span={24}>
-          <Input
-            style={{ width: 250 }}
-            placeholder={`Search by ${props.searchFields?.join(', ')}..`}
-            value={searchVal}
-            onChange={e => setSearchVal(e.target.value)}
-          />
+          <Row justify={'space-between'}>
+            <Col>
+              {' '}
+              <Input
+                style={{ width: 250 }}
+                placeholder={`Search by ${props.searchFields?.join(', ')}..`}
+                value={searchVal}
+                onChange={e => setSearchVal(e.target.value)}
+              />
+            </Col>
+            {props.extra ? <Col>{props.extra}</Col> : null}
+          </Row>
         </Col>
       ) : null}
       <Col span={24}>

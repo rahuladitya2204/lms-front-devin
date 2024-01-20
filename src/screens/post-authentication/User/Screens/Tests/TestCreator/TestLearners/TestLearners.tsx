@@ -1,8 +1,10 @@
 import { Button, Modal, Rate, Space } from 'antd'
+import { Enum, Types } from '@adewaskar/lms-common'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 
+import ActionModal from '@Components/ActionModal/ActionModal'
 import Container from '@Components/Container'
-import { Types } from '@adewaskar/lms-common'
+import EnrollLearner from './EnrolLearner'
 import { User } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
@@ -23,9 +25,11 @@ function TestLearners(props: TestLearnersPropsI) {
   } = User.Queries.useRemoveLearnerFromCourse()
 
   return (
-    <Container title="Enrolled Learners" extra={[<Button>Add Learner</Button>]}>
+    <Container title="Enrolled Learners" extra={[<ActionModal title={`Enroll Learner`} cta={<Button>Add Learner</Button>}>
+      <EnrollLearner product={{type:Enum.ProductType.TEST,id:props.testId}} />
+    </ActionModal>]}>
       <Table
-        searchFields={['name']}
+        searchFields={['learner.name']}
         dataSource={data} loading={loading}>
         <TableColumn
           title="Name"

@@ -1,8 +1,9 @@
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import React, { useMemo } from 'react'
-import { Table, Tag } from 'antd'
+import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import MoreButton from '@Components/MoreButton'
+import { Tag } from 'antd'
 // import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
 import { Title } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
@@ -40,8 +41,13 @@ const TestAttendedList = () => {
   const { isMobile } = useBreakpoint()
   return (
     // @ts-ignore
-    <Table pagination={!isMobile} dataSource={ranked} loading={loadingResult}>
-      <Table.Column
+    <Table
+      searchFields={['learner.name', 'learner.email']}
+      // pagination={}
+      dataSource={ranked}
+      loading={loadingResult}
+    >
+      <TableColumn
         // responsive={['md']}
         title="Rank"
         render={(_: any, record: Types.TestLearnerResult, index: number) => (
@@ -50,14 +56,14 @@ const TestAttendedList = () => {
         )}
         key="result"
       />
-      <Table.Column
+      <TableColumn
         // responsive={['md']}
         title="Student Name"
         dataIndex="learnerName"
         key="learnerName"
       />
       {/* {test.passingScore ? (
-        <Table.Column responsive={['md']}
+        <TableColumn responsive={['md']}
           title="Result"
           render={(_: any, record: Types.TestLearnerResult) => (
             <Tag
@@ -71,7 +77,7 @@ const TestAttendedList = () => {
           key="result"
         />
       ) : null} */}
-      <Table.Column
+      <TableColumn
         responsive={['md']}
         title="Score"
         render={(_: any, record: Types.TestLearnerResult) => (
@@ -83,7 +89,7 @@ const TestAttendedList = () => {
         )}
         key="result"
       />
-      <Table.Column
+      <TableColumn
         responsive={['md']}
         title="Time Spent"
         render={(_: any, record: Types.TestLearnerResult) =>
@@ -91,14 +97,14 @@ const TestAttendedList = () => {
         }
         key="result"
       />
-      {/* <Table.Column responsive={['md']}
+      {/* <TableColumn responsive={['md']}
         title="Percentile"
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="orange-inverse">{record?.metrics?.percentile}</Tag>
         )}
         key="percentile"
       /> */}
-      <Table.Column
+      <TableColumn
         responsive={['md']}
         title="Submitted At"
         render={(_: any, record: Types.TestLearnerResult) =>
@@ -107,7 +113,7 @@ const TestAttendedList = () => {
         }
         key="result"
       />{' '}
-      <Table.Column
+      <TableColumn
         // responsive={['md']}
         title="Action"
         key="action"
