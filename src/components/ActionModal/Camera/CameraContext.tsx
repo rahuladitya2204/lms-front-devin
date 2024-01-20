@@ -47,7 +47,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
     if (previewImage) {
       fetch(previewImage)
         .then((res) => res.blob())
-        .then(blob=>compressImage(blobToFile(blob)))
+        .then(blob => compressImage(blobToFile(blob), {
+          maxWidth: 1240,maxHeight: 1754,quality:1
+        }))
         .then((compressedFile) => {
           resolveCapture(compressedFile);
           URL.revokeObjectURL(previewImage); // Clean up
