@@ -4,7 +4,7 @@ import { Common, Learner, Store, Types, User } from '@adewaskar/lms-common'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
 import React, { Fragment, useCallback, useEffect } from 'react'
-import { blobToFile, convertImageToBlob } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
+import { blobToFile, compressImage, convertImageToBlob } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppImage from '@Components/Image'
@@ -173,10 +173,11 @@ onSuccess: blobStr => {
     });
   }
   const { isMobile } = useBreakpoint();
-  const UploadButton = (isMobile || true) ? <Button type='primary' onClick={() => {
-    openCamera().then(blob => {
+  const UploadButton = (isMobile ) ? <Button type='primary' onClick={() => {
+    openCamera().then(file => {
+      // const file = blobToFile(blob);
       uploadFiles({
-        files: [{ file: blobToFile(blob) }],
+        files: [{ file: file }],
 onSuccess: ([{ url,name,_id }]) => {
   // debugger;
           // closeModal && closeModal();

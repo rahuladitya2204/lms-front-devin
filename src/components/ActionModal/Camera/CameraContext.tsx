@@ -2,14 +2,11 @@ import { Button, Modal } from 'antd';
 import { Camera, CameraType } from 'react-camera-pro';
 import { CameraOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-
-import { DetectQuadrilateral } from './useQuadrilateralDetection';
-// @ts-ignore
-import { useOpenCv } from 'opencv-react'
+import { blobToFile, compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 
 // Define the context and its type
 interface CameraContextType {
-  openCamera: () => Promise<Blob>;
+  openCamera: () => Promise<File>;
 }
 
 interface CameraProviderPropsI {
@@ -50,8 +47,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
     if (previewImage) {
       fetch(previewImage)
         .then((res) => res.blob())
-        .then((blob) => {
-          resolveCapture(blob);
+        .then(blob=>compressImage(blobToFile(blob)))
+        .then((compressedFile) => {
+          resolveCapture(compressedFile);
           URL.revokeObjectURL(previewImage); // Clean up
           setIsModalVisible(false);
           setPreviewImage(null);
