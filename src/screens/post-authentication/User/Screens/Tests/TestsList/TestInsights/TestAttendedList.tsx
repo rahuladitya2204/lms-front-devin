@@ -42,7 +42,7 @@ const TestAttendedList = () => {
   return (
     // @ts-ignore
     <Table
-      searchFields={['learner.name', 'learner.email']}
+      searchFields={['learner.name', 'learner.email', 'learner.contactNo']}
       // pagination={}
       dataSource={ranked}
       loading={loadingResult}
