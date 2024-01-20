@@ -49,11 +49,11 @@ const TestEnrolledList = () => {
   return (
     // @ts-ignore
     <Table
-      searchFields={['learner.name', 'learner.email']}
+      searchFields={['learner.name', 'learner.email', 'learner.contactNo']}
       dataSource={enrolledProducts}
       loading={loadingEp || removingEnrollment}
       extra={[
-        <ActionModal title='Add Learner' cta={<Button>Add Learner</Button>}>
+        <ActionModal title="Add Learner" cta={<Button>Add Learner</Button>}>
           <EnrollLearner
             product={{ type: Enum.ProductType.TEST, id: testId + '' }}
           />
