@@ -53,8 +53,8 @@ const TestEnrolledList = () => {
       dataSource={enrolledProducts}
       loading={loadingEp || removingEnrollment}
       extra={[
-        <ActionModal cta={<Button>Add Learner</Button>}>
-          <EnrollLearner title='Add Learner'
+        <ActionModal title='Add Learner' cta={<Button>Add Learner</Button>}>
+          <EnrollLearner
             product={{ type: Enum.ProductType.TEST, id: testId + '' }}
           />
         </ActionModal>
