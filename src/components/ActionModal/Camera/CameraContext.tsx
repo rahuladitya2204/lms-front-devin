@@ -2,6 +2,7 @@ import { Button, Modal } from 'antd';
 import { CameraOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
+import { highlightQuadrilateral } from './highlight-quadrilateral';
 import { imageUrlToBlob } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 
 // Define the context and its type
@@ -98,6 +99,46 @@ export const CameraProvider = ({ children }: { children: React.ReactNode }) => {
       }
     };
   }, []);
+  const overlayRef = useRef<HTMLCanvasElement>(null); // Canvas for overlay
+
+  const processVideoFrame = useCallback(() => {
+    // @ts-ignore
+    const cv = window.cv;
+    if (videoRef.current && canvasRef.current && overlayRef.current && cv) {
+      const video = videoRef.current;
+      const overlay = overlayRef.current;
+      overlay.width = video.videoWidth;
+      overlay.height = video.videoHeight;
+
+      // Draw and process frame
+      const context = overlay.getContext('2d');
+      if (context) {
+        context.drawImage(video, 0, 0, overlay.width, overlay.height);
+        // Convert canvas to data URL and process
+        const dataUrl = overlay.toDataURL();
+        highlightQuadrilateral(dataUrl).then(processedDataUrl => {
+          // Create an image from the processed data URL and draw it on the overlay
+          const image = new Image();
+          image.onload = () => {
+            context.clearRect(0, 0, overlay.width, overlay.height);
+            context.drawImage(image, 0, 0, overlay.width, overlay.height);
+          };
+              // @ts-ignore
+          image.src = processedDataUrl;
+        });
+      }
+    }
+
+    // Continue processing next frame
+    requestAnimationFrame(processVideoFrame);
+  }, []);
+
+  useEffect(() => {
+    if (isModalVisible) {
+      requestAnimationFrame(processVideoFrame);
+    }
+  }, [isModalVisible, processVideoFrame]);
+
 
   return (
     <CameraContext.Provider value={{ openCamera }}>
@@ -133,7 +174,8 @@ export const CameraProvider = ({ children }: { children: React.ReactNode }) => {
         style={{ position: 'absolute', top: 10, right: 10, zIndex: 1001 }}
       />
       {!previewImage && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+                <canvas ref={overlayRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} />
           <video ref={videoRef} style={{ width: '100%', height: '100%', objectFit: 'cover' }} autoPlay />
           <Button
             size='large'

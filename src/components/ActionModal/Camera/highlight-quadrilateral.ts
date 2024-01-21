@@ -1,114 +1,72 @@
-export function highlightQuadrilateral(url: string) {
+export function highlightQuadrilateral(dataUrl: string) {
   // @ts-ignore
-  const cv = window.cv;
-
+  const cv = window.cv
   return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.crossOrigin = 'Anonymous';
-    image.src = url;
+    const image = new Image()
+    image.src = dataUrl
     image.onload = () => {
-      let srcMat = cv.imread(image);
-      let grayMat = new cv.Mat();
-      let processedMat = new cv.Mat();
-      let blurredMat = new cv.Mat();
-      let edgedMat = new cv.Mat();
-      let contours = new cv.MatVector();
-      let hierarchy = new cv.Mat();
-
-      // Filter parameters
-      const filterCvParams = {
-        th: true,
-        thMode: 3,
-        thMeanCorrection: 10,
-        thBlockSize: 11,
-        thMax: 255,
-        contrast: 1.5,
-        brightness: 0,
-        morphological: true,
-        morphType: 1,
-        morphSize: new cv.Size(3, 3)
-      };
+      const srcMat = cv.imread(image)
+      const grayMat = new cv.Mat()
+      const edgedMat = new cv.Mat()
+      const contours = new cv.MatVector()
+      const hierarchy = new cv.Mat()
 
       // Convert to grayscale
-      cv.cvtColor(srcMat, grayMat, cv.COLOR_RGBA2GRAY, 0);
+      cv.cvtColor(srcMat, grayMat, cv.COLOR_RGBA2GRAY, 0)
 
-      // Apply adaptive thresholding
-      if (filterCvParams.th) {
-        cv.adaptiveThreshold(grayMat, processedMat, filterCvParams.thMax, 
-            filterCvParams.thMode, cv.THRESH_BINARY, 
-            filterCvParams.thBlockSize, filterCvParams.thMeanCorrection);
-      }
+      // Detect edges
+      cv.Canny(grayMat, edgedMat, 75, 200)
 
-      // Adjust contrast and brightness
-      processedMat.convertTo(processedMat, -1, filterCvParams.contrast, filterCvParams.brightness);
+      // Find contours
+      cv.findContours(
+        edgedMat,
+        contours,
+        hierarchy,
+        cv.RETR_EXTERNAL,
+        cv.CHAIN_APPROX_SIMPLE
+      )
 
-      // Morphological operations
-      if (filterCvParams.morphological) {
-        let morphType = filterCvParams.morphType === 1 ? cv.MORPH_DILATE : cv.MORPH_ERODE;
-        let kernel = cv.getStructuringElement(cv.MORPH_RECT, filterCvParams.morphSize);
-        cv.morphologyEx(processedMat, processedMat, morphType, kernel);
-        kernel.delete();
-      }
+      let docContour = null
 
-      // Continue with edge detection and contour finding
-      cv.GaussianBlur(processedMat, blurredMat, new cv.Size(5, 5), 0);
-      cv.Canny(blurredMat, edgedMat, 75, 200);
-      cv.findContours(edgedMat, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-
-      let maxArea = 0;
-      let maxContourIndex = -1;
       for (let i = 0; i < contours.size(); ++i) {
-        let cnt = contours.get(i);
-        let area = cv.contourArea(cnt);
-        if (area > maxArea) {
-          maxArea = area;
-          maxContourIndex = i;
+        const contour = contours.get(i)
+        const peri = cv.arcLength(contour, true)
+        const approx = new cv.Mat()
+        cv.approxPolyDP(contour, approx, 0.02 * peri, true)
+
+        if (approx.rows === 4) {
+          docContour = approx
+          break
         }
-        cnt.delete();
+
+        approx.delete()
+        contour.delete()
       }
 
-      if (maxContourIndex !== -1) {
-        let color = new cv.Scalar(255, 0, 0, 255);
-        cv.drawContours(srcMat, contours, maxContourIndex, color, 2, cv.LINE_8, hierarchy, 0);
+      // Highlight the contour
+      if (docContour) {
+        const color = new cv.Scalar(255, 0, 255, 255)
+        cv.drawContours(srcMat, contours, -1, color, 1, cv.LINE_8, hierarchy, 0)
+        docContour.delete()
       }
 
-      const canvas = document.createElement('canvas');
-      cv.imshow(canvas, srcMat);
-      const newDataUrl = canvas.toDataURL();
+      // Convert Mat back to Canvas
+      const canvas = document.createElement('canvas')
+      cv.imshow(canvas, srcMat)
 
-      // Clean up
-      srcMat.delete();
-      grayMat.delete();
-      processedMat.delete();
-      blurredMat.delete();
-      edgedMat.delete();
-      contours.delete();
-      hierarchy.delete();
+      // Convert Canvas to Data URL
+      const newDataUrl = canvas.toDataURL()
 
-      resolve(newDataUrl);
-    };
+      // Cleanup
+      srcMat.delete()
+      grayMat.delete()
+      edgedMat.delete()
+      contours.delete()
+      hierarchy.delete()
 
-    image.onerror = () => {
-      reject(new Error("Failed to load image"));
-    };
-  });
-}
-
-
-export function imageUrlToDataUrl(url: string) {
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
-    xhr.onload = function() {
-      const reader = new FileReader()
-      reader.onloadend = function() {
-        resolve(reader.result)
-      }
-      reader.onerror = reject
-      reader.readAsDataURL(xhr.response)
+      resolve(newDataUrl)
     }
-    xhr.onerror = reject
-    xhr.open('GET', url)
-    xhr.responseType = 'blob'
-    xhr.send()
+
+    image.onerror = reject
   })
 }
