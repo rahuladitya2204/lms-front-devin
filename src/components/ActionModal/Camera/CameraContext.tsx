@@ -29,9 +29,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
   const [resolveCapture, setResolveCapture] = useState<(blob: Blob | null) => void>(() => {});
   const handleCapture = useCallback(async () => {
     let imageUrl = await cameraRef.current?.takePhoto();
-    // const testUrl=await imageUrlToDataUrl(`https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/noprefix/1705772455227.png`)
+    const testUrl=await imageUrlToDataUrl(`https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/noprefix/1705772455227.png`)
     // @ts-ignore
-    const highlighted = await highlightQuadrilateral(imageUrl);
+    const highlighted = await highlightQuadrilateral(testUrl);
     // console.log(imageUrl,'lkl')
     if (highlighted) {
       // @ts-ignore
