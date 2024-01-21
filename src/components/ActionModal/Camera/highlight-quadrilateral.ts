@@ -1,48 +1,21 @@
-export function highlightQuadrilateral(url: string, filterCvParams: any) {
+export function highlightQuadrilateral(url: string) {
   // @ts-ignore
   const cv = window.cv
-
-  filterCvParams = {
-    blur: true,
-    th: true,
-    thMode: cv.ADAPTIVE_THRESH_MEAN_C,
-    thMeanCorrection: 15,
-    thBlockSize: 25,
-    thMax: 255,
-    grayScale: true
-  }
   return new Promise((resolve, reject) => {
     const image = new Image()
     image.crossOrigin = 'Anonymous'
     image.src = url
     image.onload = () => {
       let srcMat = cv.imread(image)
-
-      // Apply the filters based on filterCvParams
-      if (filterCvParams.grayScale) {
-        cv.cvtColor(srcMat, srcMat, cv.COLOR_RGBA2GRAY, 0)
-      }
-      if (filterCvParams.blur) {
-        const ksize = new cv.Size(5, 5)
-        cv.GaussianBlur(srcMat, srcMat, ksize, 0, 0, cv.BORDER_DEFAULT)
-      }
-      if (filterCvParams.th) {
-        cv.adaptiveThreshold(
-          srcMat,
-          srcMat,
-          filterCvParams.thMax,
-          filterCvParams.thMode,
-          cv.THRESH_BINARY,
-          filterCvParams.thBlockSize,
-          filterCvParams.thMeanCorrection
-        )
-      }
-
+      let grayMat = new cv.Mat()
+      let blurredMat = new cv.Mat()
       let edgedMat = new cv.Mat()
-      cv.Canny(srcMat, edgedMat, 75, 200)
-
       let contours = new cv.MatVector()
       let hierarchy = new cv.Mat()
+
+      cv.cvtColor(srcMat, grayMat, cv.COLOR_RGBA2GRAY, 0)
+      cv.GaussianBlur(grayMat, blurredMat, new cv.Size(5, 5), 0)
+      cv.Canny(blurredMat, edgedMat, 75, 200)
       cv.findContours(
         edgedMat,
         contours,
@@ -74,7 +47,7 @@ export function highlightQuadrilateral(url: string, filterCvParams: any) {
           cv.LINE_8,
           hierarchy,
           0
-        )
+        ) // Increased thickness to 3
       }
 
       const canvas = document.createElement('canvas')
@@ -82,6 +55,8 @@ export function highlightQuadrilateral(url: string, filterCvParams: any) {
       const newDataUrl = canvas.toDataURL()
 
       srcMat.delete()
+      grayMat.delete()
+      blurredMat.delete()
       edgedMat.delete()
       contours.delete()
       hierarchy.delete()
