@@ -31,12 +31,12 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
     let imageUrl = await cameraRef.current?.takePhoto();
     // const testUrl=await imageUrlToDataUrl(`https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/noprefix/1705772455227.png`)
     // @ts-ignore
-    const highlighted = await highlightQuadrilateral(imageUrl);
+    // const highlighted = await highlightQuadrilateral(imageUrl);
     // console.log(imageUrl,'lkl')
-    if (highlighted) {
+    if (imageUrl) {
       // @ts-ignore
-      // const highlighted = URL.createObjectURL(imageBlob);
-      setPreviewImage(highlighted); // Set image for preview
+      // const imageUrl = URL.createObjectURL(imageBlob);
+      setPreviewImage(imageUrl); // Set image for preview
       // No need to close the modal here, as we're going to show the preview
     }
   }, []);
