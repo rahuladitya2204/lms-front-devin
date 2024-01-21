@@ -103,23 +103,35 @@ export function highlightQuadrilateral(url: string) {
     }
   })
 }
-
-// Function to order points (top-left, top-right, bottom-right, bottom-left)
 function orderPoints(pts) {
-  // Sort points based on their x-coordinates
-  pts.sort((a, b) => a.x - b.x);
+  // Initialize a list of coordinates that will be ordered
+  // such that the first entry in the list is the top-left,
+  // the second entry is the top-right, the third is the
+  // bottom-right, and the fourth is the bottom-left
+  var rect = new Array(4).fill(0).map(() => new Array(2).fill(0));
 
-  // After sorting, split into two groups and sort by y-coordinates
-  let [tl, bl] = [pts[0], pts[1]].sort((a, b) => a.y - b.y);
-  let [tr, br] = [pts[2], pts[3]].sort((a, b) => a.y - b.y);
+  // The top-left point will have the smallest sum, whereas
+  // the bottom-right point will have the largest sum
+  var sum = pts.map(function(val) {
+    return val.x + val.y;
+  });
+  var diff = pts.map(function(val) {
+    return val.y - val.x;
+  });
 
-  // Ensure the points are in the correct order
-  let orderedPts = [tl, tr, br, bl];
+  rect[0] = pts[sum.indexOf(Math.min.apply(Math, sum))];
+  rect[2] = pts[sum.indexOf(Math.max.apply(Math, sum))];
 
-  // Convert point data from {x, y} to [x, y]
-  return orderedPts.map(p => [p.x, p.y]);
+  // The top-right point will have the smallest difference,
+  // whereas the bottom-left will have the largest difference
+  rect[1] = pts[diff.indexOf(Math.min.apply(Math, diff))];
+  rect[3] = pts[diff.indexOf(Math.max.apply(Math, diff))];
+
+  // Return the ordered coordinates
+  return rect.map(function(p) {
+    return [p.x, p.y];
+  });
 }
-
 
 
 export function imageUrlToDataUrl(url: string) {
