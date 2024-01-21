@@ -1,109 +1,179 @@
 import { Button, Modal } from 'antd';
-import { Camera, CameraType } from 'react-camera-pro';
 import { CameraOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { blobToFile, compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
-import { highlightQuadrilateral, imageUrlToDataUrl } from './highlight-quadrilateral';
 
-// @ts-ignore
-import { useOpenCv } from 'opencv-react';
+import { imageUrlToBlob } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 
 // Define the context and its type
 interface CameraContextType {
-  openCamera: () => Promise<File>;
+  openCamera: () => Promise<File | null>;
 }
-
-interface CameraProviderPropsI {
-    children:React.ReactNode
-    enableQuadrilateralHighlighting?: boolean;
-  }
 
 const CameraContext = createContext<CameraContextType | undefined>(undefined);
 
 // Camera Provider component
-export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: CameraProviderPropsI) => {
-  const cameraRef = useRef<CameraType>(null);
-  const [facingMode, setFacingMode] = useState('environment');
+export const CameraProvider = ({ children }: { children: React.ReactNode }) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(null); // Store captured image
-  const [resolveCapture, setResolveCapture] = useState<(blob: Blob | null) => void>(() => {});
-  const handleCapture = useCallback(async () => {
-    let imageUrl = await cameraRef.current?.takePhoto();
-    // const testUrl=await imageUrlToDataUrl(`https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/noprefix/1705772455227.png`)
-    // @ts-ignore
-    // const highlighted = await highlightQuadrilateral(imageUrl);
-    // console.log(imageUrl,'lkl')
-    if (imageUrl) {
-      // @ts-ignore
-      // const imageUrl = URL.createObjectURL(imageBlob);
-      setPreviewImage(imageUrl); // Set image for preview
-      // No need to close the modal here, as we're going to show the preview
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [resolveCapture, setResolveCapture] = useState<(file: File | null) => void>(() => {});
+
+  // Function to start the camera stream
+  const startCamera = useCallback(async () => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+        }
+      } catch (err) {
+        console.error(err);
+      }
     }
   }, []);
 
+  // Function to capture the image from the video stream and convert to a file
+  const handleCapture = useCallback(async () => {
+    // const testBlob=await imageUrlToBlob(`https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/noprefix/1705772455227.png`)
+    if (canvasRef.current && videoRef.current) {
+      const context = canvasRef.current.getContext('2d');
+      if (context) {
+        canvasRef.current.width = videoRef.current.videoWidth;
+        canvasRef.current.height = videoRef.current.videoHeight;
+        context.drawImage(videoRef.current, 0, 0);
+        canvasRef.current.toBlob(blob => {
+          if (blob) {
+            const imageFile = new File([blob], "capture.jpg", { type: "image/jpeg" });
+            // const imageFile = testBlob;
+            setPreviewImage(URL.createObjectURL(imageFile));
+            // resolveCapture(imageFile);
+          }
+        }, 'image/jpeg');
+      }
+    }
+  }, [resolveCapture]);
+
+  // Function to open the camera and start the stream
   const openCamera = useCallback(() => {
-    setPreviewImage(null); // Reset preview image
     setIsModalVisible(true);
-    return new Promise<Blob | null>((resolve) => {
+    startCamera();
+    return new Promise<File>((resolve) => {
       setResolveCapture(() => resolve);
     });
-  }, []);
+  }, [startCamera]);
 
   const handleAccept = useCallback(() => {
+    // When user accepts the captured image, convert it to a File and resolve
     if (previewImage) {
       fetch(previewImage)
         .then((res) => res.blob())
-        .then(blob => compressImage(blobToFile(blob), {
-          maxWidth: 1240,maxHeight: 1754,quality:1
-        }))
-        .then((compressedFile) => {
-          resolveCapture(compressedFile);
-          URL.revokeObjectURL(previewImage); // Clean up
-          setIsModalVisible(false);
+        .then((blob) => {
+          const imageFile = new File([blob], "capture.jpg", { type: "image/jpeg" });
+          resolveCapture(imageFile);
           setPreviewImage(null);
+          setIsModalVisible(false);
         });
     }
   }, [previewImage, resolveCapture]);
 
   const handleCancel = useCallback(() => {
-    URL.revokeObjectURL(previewImage!); // Clean up
-    setPreviewImage(null);
-  }, [previewImage]);
+    // When user cancels, revoke the image URL and resolve with null
+    if (previewImage) {
+      URL.revokeObjectURL(previewImage);
+      // resolveCapture(null);
+      setPreviewImage(null);
+      // setIsModalVisible(false);
+    }
+    startCamera();
+  }, [previewImage, resolveCapture]);
+
+  useEffect(() => {
+    // Cleanup function to stop the camera stream when the component is unmounted
+    return () => {
+      if (videoRef.current && videoRef.current.srcObject) {
+        let tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+        tracks.forEach(track => track.stop());
+      }
+    };
+  }, []);
 
   return (
-    // @ts-ignore
     <CameraContext.Provider value={{ openCamera }}>
-      {children}
-      <Modal closable={false}
-        visible={isModalVisible}
-        footer={null}
-        // onCancel={() => setIsModalVisible(false)}
-        bodyStyle={{ textAlign: 'center', padding: 0,position:'fixed',top:0,bottom:0,left:0,right:0 }}
-      >
-        <Button danger shape='circle' icon={<CloseOutlined/>} style={{position:'fixed',top:10,right:10,zIndex:1000}} onClick={() => {
-          setIsModalVisible(false)
-        }} />
-        {/* @ts-ignore */}
-        {!previewImage && <Camera facingMode={facingMode} ref={cameraRef} />}
+    {children}
+    <Modal
+      closable={false}
+      visible={isModalVisible}
+      footer={null}
+      bodyStyle={{
+        textAlign: 'center',
+        padding: 0,
+        position: 'fixed',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        width: '100%',
+        height: '100%',
+        margin: 0,
+        backgroundColor: 'black' // Optional: for better contrast
+      }}
+      style={{ position: 'fixed', top: 0,width:'100%',height:'100%' }}
+      width="100%"
+      // height="100%"
+      zIndex={1000} // Optional: to ensure it's on top
+    >
+      <Button
+        size='large'
+        danger
+        shape='circle'
+        icon={<CloseOutlined />}
+        onClick={() => setIsModalVisible(false)}
+        style={{ position: 'absolute', top: 10, right: 10, zIndex: 1001 }}
+      />
+      {!previewImage && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+          <video ref={videoRef} style={{ width: '100%', height: '100%', objectFit: 'cover' }} autoPlay />
+          <Button
+            size='large'
+            icon={<CameraOutlined />}
+            type="primary"
+            shape='circle'
+            onClick={handleCapture}
+            style={{ position: 'absolute',width:40, bottom: 20, left: '50%', transform: 'translateX(-50%)', zIndex: 1001 }}
+          />
+        </div>
+      )}
         {previewImage && (
-          <div style={{position:'relative'}}>
-            <img src={previewImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
-            <Button shape='circle' danger icon={<CloseOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,left:'30%'}} onClick={handleCancel}></Button>
-            <Button shape='circle' type='primary' icon={<CheckOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,right:'30%'}} onClick={handleAccept}></Button>
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+            <img src={previewImage} alt="Captured" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            <Button
+              size='large'
+              shape='circle'
+              danger
+              icon={<CloseOutlined />}
+              onClick={handleCancel}
+              style={{ position: 'absolute', bottom: 20, left: '30%' }}
+            />
+            <Button
+              size='large'
+              shape='circle'
+              type='primary'
+              icon={<CheckOutlined />}
+              onClick={handleAccept}
+              style={{ position: 'absolute', bottom: 20, right: '30%' }}
+            />
           </div>
         )}
-        {!previewImage && <Button icon={<CameraOutlined/>} style={{
-          position: 'absolute',
-          transform: `translateX(-50%)`,
-          height: 55,
-          width:55,
-        bottom: 20,left:'50%'}} size='large' type="primary" shape='circle' onClick={handleCapture}></Button>}
-      </Modal>
-    </CameraContext.Provider>
+      {/* Hidden canvas to capture the image */}
+      <canvas ref={canvasRef} style={{ display: 'none' }} />
+    </Modal>
+  </CameraContext.Provider>
   );
 };
 
-// useCamera hook
+// useCamera hook to access camera functionality
 export const useCamera = () => {
   const context = useContext(CameraContext);
   if (!context) {
@@ -111,3 +181,6 @@ export const useCamera = () => {
   }
   return context;
 };
+
+// Export the CameraContext for usage in other components if needed
+export { CameraContext };

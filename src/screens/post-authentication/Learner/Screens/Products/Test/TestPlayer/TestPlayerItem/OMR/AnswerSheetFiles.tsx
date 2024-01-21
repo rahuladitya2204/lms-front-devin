@@ -177,6 +177,7 @@ onSuccess: blobStr => {
     openCamera().then(file => {
       // const file = blobToFile(blob);
       uploadFiles({
+        // @ts-ignore
         files: [{ file: file }],
 onSuccess: ([{ url,name,_id }]) => {
   // debugger;
