@@ -7,6 +7,10 @@ interface TestStoreState {
   currentQuestion: Types.TestQuestion;
   setTest: (test: Partial<Types.Test>) => void;
   setCurrentQuestion: (test: Types.TestQuestion) => void;
+  updateSection: (
+    id: string,
+    newSectionData: Partial<Types.TestSection>
+  ) => void;
   updateItem: (
     itemId: string,
     newItemData: Partial<Types.TestQuestion>
@@ -42,6 +46,21 @@ export const useTestStore =
             item => (item._id === itemId ? { ...item, ...newItemData } : item)
           )
           return { ...section, items: updatedItems }
+        })
+        return { test: { ...state.test, sections: updatedSections } }
+      })
+    },
+    updateSection: (sectionId, newItemData) => {
+      set(state => {
+        const updatedSections = state.test.sections.map(section => {
+          // Map through items in each section and update the item with matching itemId
+          if (section?._id === sectionId) {
+            return {
+              ...section,
+              ...newItemData
+            }
+          }
+          return { ...section }
         })
         return { test: { ...state.test, sections: updatedSections } }
       })

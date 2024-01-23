@@ -3,6 +3,7 @@ import {
   Card,
   Col,
   DatePicker,
+  Divider,
   Form,
   List,
   Modal,
@@ -28,6 +29,7 @@ import { Text, Title } from '@Components/Typography/Typography'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
+import AudioPlayer from '@Components/AudioPlayer'
 import Header from '@Components/Header'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import OrgLogo from '@Components/OrgLogo'
@@ -133,6 +135,18 @@ export default function NewsDetailScreen() {
                   />
                 </Form.Item>
               </Col>
+              {(newsItem?.audio?.url) ? (
+                <Col span={24}>
+                  <Divider />
+                  <Title level={3}>Play News</Title>
+                  <AudioPlayer
+                    // @ts-ignore
+                    src={newsItem?.audio?.url}
+                    // preview
+                  />
+                  <Divider />
+                </Col>
+              ) : null}
               {/* <Col span={6}>
                 <Form.Item label="Select Language">
                   <Select

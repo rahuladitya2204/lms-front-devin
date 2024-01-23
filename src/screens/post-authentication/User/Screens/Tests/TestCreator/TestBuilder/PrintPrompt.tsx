@@ -40,8 +40,8 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
     }
     body.split = d.split
     printTest(body, {
-      onSuccess: (pdfStr: string) => {
-        printPdf(pdfStr)
+      onSuccess: (url: string) => {
+        printPdf(url)
         message.open({
           type: 'success',
           content: 'Printing Done'

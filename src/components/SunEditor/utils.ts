@@ -28,15 +28,11 @@ export function transformLatexInString(inputString: string): string {
   })
 }
 
-export function printPdf(pdfData: string, filename = 'test.pdf') {
-  const blob = new Blob([pdfData], { type: 'application/pdf' })
-
-  // Create a URL from the Blob
-  const downloadUrl = window.URL.createObjectURL(blob)
-
+export function printPdf(downloadUrl: string, filename = 'test.pdf') {
   // Create a temporary download link
   const downloadLink = document.createElement('a')
   downloadLink.href = downloadUrl
+  downloadLink.target = '_blank'; // Open in a new tab if it fails to download
   downloadLink.download = filename || 'downloaded.pdf' // You can specify the default filename here
 
   // Append the link to the document and click it

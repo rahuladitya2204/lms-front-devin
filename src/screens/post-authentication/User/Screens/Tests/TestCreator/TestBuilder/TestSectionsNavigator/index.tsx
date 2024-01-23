@@ -38,7 +38,9 @@ const CustomCollapse = styled(Collapse)((props: { enableSectionReorder: boolean 
   .ant-collapse-content-box {
     padding: 0 !important;
   }
-
+  .ant-collapse-header-text {
+    width: 65% !important;
+  }
   .ant-list-item-meta-title {
     margin-top: 0;
   }
@@ -175,15 +177,20 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                   }, secIndex);
                   // if(section.items.length==0)
                 },
-                  key:'add'
-              },{
+                key: 'add'
+              }, {
                 label: `Edit Section`,
-                onClick:()=>openModal(<AddTestSection data={section} onFinish={(e: { title: string }) => onAddSection({ ...section, ...e })} />),
-            key: 'rename',
-          }, {
-            label: <span onClick={() => DeleteSection(section._id)}>Delete Section</span>,
-            key: 'delete',
-            }]} />
+                onClick: () => openModal(<AddTestSection data={section} onFinish={(e: { title: string }) => onAddSection({ ...section, ...e })} />),
+                key: 'rename',
+              }, {
+                label: <span onClick={() => DeleteSection(section._id)}>Delete Section</span>,
+                key: 'delete',
+              }]} />;
+              const actions = [SectionOptionDropdown];
+              if (section?.score?.correct) {
+                actions.unshift(<Tag style={{ textAlign: 'center' }}
+                  color='blue-inverse'>Score(+ {section.score.correct} {(section?.score?.incorrect)?<span>, { section.score.incorrect}</span>:null} )</Tag>)
+              }
           return (
             <div style={{marginBottom:20}}>
             <MovableItem disabled={!enableSectionReorder}
@@ -200,9 +207,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                 expandIconPosition="start"
                 // ghost
               >
-                  <CollapsePanel extra={
-                   SectionOptionDropdown
-                    }
+                  <CollapsePanel extra={<Space>{ actions}</Space>}
                     key={secIndex}
                     header={section.title}
                 >
@@ -240,11 +245,11 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                         if (!isQuestionValid) {
                           actions.unshift(<Tooltip title={message} ><WarningTwoTone twoToneColor="red" /></Tooltip>)
                         }
-                        if (item?.score?.correct) {
-                          actions.unshift(<Tag style={{ textAlign: 'center' }}
-                            color='blue-inverse'>
-                            + {item.score.correct} {(item?.score?.incorrect)?<span>, { item.score.incorrect}</span>:null} </Tag>)
-                        }
+                        // if (item?.score?.correct) {
+                        //   actions.unshift(<Tag style={{ textAlign: 'center' }}
+                        //     color='blue-inverse'>
+                        //     + {item.score.correct} {(item?.score?.incorrect)?<span>, { item.score.incorrect}</span>:null} </Tag>)
+                        // }
                         // if (item?.score?.incorrect) {
                         //   actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
                         //    {item.score.incorrect}</Tag>)
