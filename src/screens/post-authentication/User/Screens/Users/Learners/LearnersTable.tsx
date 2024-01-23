@@ -6,11 +6,13 @@ import Table, { TableColumn } from '@Components/Table/TableComponent'
 import MoreButton from '@Components/MoreButton'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
+import useMessage from '@Hooks/useMessage'
 
 const confirm = Modal.confirm
 
 function LearnersTable() {
   const { data, isFetching: loading } = User.Queries.useGetLearners()
+  const message = useMessage()
   const {
     mutate: deleteLearner,
     isLoading: deletingLearner
@@ -88,13 +90,23 @@ function LearnersTable() {
                         : 'release'
                     } access for this learner`,
                     onOk() {
-                      changeAccountStatus({
-                        id: record._id,
-                        status:
-                          record.status === Enum.LearnerAccountStatus.ACTIVE
-                            ? Enum.LearnerAccountStatus.INACTIVE
-                            : Enum.LearnerAccountStatus.ACTIVE
-                      })
+                      changeAccountStatus(
+                        {
+                          id: record._id,
+                          status:
+                            record.status === Enum.LearnerAccountStatus.ACTIVE
+                              ? Enum.LearnerAccountStatus.INACTIVE
+                              : Enum.LearnerAccountStatus.ACTIVE
+                        },
+                        {
+                          onSuccess: () => {
+                            message.open({
+                              type: 'success',
+                              content: 'Learned status updated successfully'
+                            })
+                          }
+                        }
+                      )
                     },
                     okText:
                       record.status === Enum.LearnerAccountStatus.ACTIVE
@@ -114,7 +126,14 @@ function LearnersTable() {
                     // icon: <ExclamationCircleOutlined />,
                     content: `Learner will no longer have any access to the platform`,
                     onOk() {
-                      deleteLearner(record._id)
+                      deleteLearner(record._id, {
+                        onSuccess: () => {
+                          message.open({
+                            type: 'success',
+                            content: 'Learner deleted successfully'
+                          })
+                        }
+                      })
                     },
                     okText: 'Revoke access'
                   })

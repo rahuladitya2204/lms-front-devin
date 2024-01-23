@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Modal, Row } from 'antd'
+import { Button, Col, Form, Input, Modal, Row, message } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import { Types } from '@adewaskar/lms-common'
@@ -35,6 +35,10 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
     } else {
       createLearner(e, {
         onSuccess: () => {
+          message.open({
+            type: 'success',
+            content: 'Learned added successfully'
+          })
           props.closeModal && props.closeModal()
         }
       })
