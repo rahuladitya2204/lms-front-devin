@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Col, Dropdown, Modal, Row, Skeleton, Statistic, Tag } from 'antd'
-import { CloseOutlined, UserOutlined } from '@ant-design/icons'
+import { CloseOutlined, UserOutlined, WhatsAppOutlined } from '@ant-design/icons'
 import { Enum, User } from '@adewaskar/lms-common'
 // import UpcomingTest from './UpcomingTest'
 import { useNavigate, useParams } from 'react-router'
@@ -26,11 +26,22 @@ const TestStatus = () => {
     mutate: evaluateLiveTestResult,
     isLoading: generatingResult
   } = User.Queries.useEvaluateLiveTestResult()
+  const { mutate: sendResultViaWhatsapp } = User.Queries.useSendResultViaWhatsapp(testId + '');
   const { data: test, isLoading: loadingTest } = User.Queries.useGetTestDetails(testId + '')
   const { mutate: printResults,isLoading: printingResult } = User.Queries.usePrintTestResult(testId + '')
   const result = test.result.metrics;
   const SkelArr = [1, 1, 1, 1, 1, 1];
-  const PrintResultButton = <Button block={!!isMobile} loading={printingResult} onClick={() => {
+  const PrintResultButton = <Dropdown.Button
+    // block={!!isMobile
+    menu={{
+      items: [
+        {
+          label: 'Send Result Whatsapp', key: 'whatsapp', icon: <WhatsAppOutlined />, onClick: () => {
+            sendResultViaWhatsapp();
+        }}
+      ]
+    }}
+    loading={printingResult} onClick={() => {
     confirm({
       title: `Are you sure, you want to print the results`,
       // icon: <ExclamationCircleOutlined />,
@@ -46,7 +57,7 @@ const TestStatus = () => {
   }}
     type='primary'>
     Print Result
-  </Button>;
+  </Dropdown.Button>;
   const GenerateResultButton = <Button block={isMobile}
     onClick={() => {
       confirm({
@@ -184,7 +195,7 @@ const TestStatus = () => {
                   label: 'Attended',
                   children: <>
                     {isMobile ? <div style={{marginBottom:20}}>{ PrintResultButton}</div>:null}
-                    <TestAttendedList />
+                    <TestAttendedList />,
                   </>
                 },
                 {
