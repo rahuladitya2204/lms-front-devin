@@ -12,6 +12,8 @@ import MediaUpload from '@Components/MediaUpload'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import { Typography } from '@Components/Typography'
 import update from 'immutability-helper'
+import useBreakpoint from '@Hooks/useBreakpoint'
+import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
 import useMessage from '@Hooks/useMessage'
 import { useReviewQuestion } from '../../TestReview/TestPlayerItemReview'
 
@@ -88,8 +90,30 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
     })
   }
   const { currentQuestion } = useReviewQuestion();
+  const { isMobile } = useBreakpoint();
+  
   const imageIssues = currentQuestion?.feedback?.imageIssues;
-  const UploadButton=<MediaUpload aspect={210/297} multiple
+  const {
+    mutate: uploadFiles,
+    isLoading: uploadingFile
+  } = Common.Queries.useUploadFiles();
+  const {openCamera } = useCamera();
+  const UploadButton=  isMobile? <Button type='primary' onClick={() => {
+    openCamera().then(file => {
+      // const file = blobToFile(blob);
+      uploadFiles({
+        // @ts-ignore
+        files: [{ file: file }],
+onSuccess: (files) => {
+  // debugger;
+          // closeModal && closeModal();
+          handleUpload(files.map((f) => {
+            return { file: f._id, url: f.url }
+                         }));
+}
+      })
+    });
+  }}>Click Photo</Button> : <MediaUpload aspect={210/297} multiple
   uploadType="image" cropper={{aspect:16/9}} renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
   onUpload={(files:Types.FileType[]) => {
     console.log(files, 'uploaded')

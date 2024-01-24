@@ -32,7 +32,7 @@ export function printPdf(downloadUrl: string, filename = 'test.pdf') {
   // Create a temporary download link
   const downloadLink = document.createElement('a')
   downloadLink.href = downloadUrl
-  downloadLink.target = '_blank'; // Open in a new tab if it fails to download
+  downloadLink.target = '_blank' // Open in a new tab if it fails to download
   downloadLink.download = filename || 'downloaded.pdf' // You can specify the default filename here
 
   // Append the link to the document and click it
@@ -62,4 +62,9 @@ export const openWindow = (url: string, cb?: Function) => {
     // debugger
     // newWindow?.close()
   }
+}
+
+export function isMongoId(str: string) {
+  const objectIdRegex = /^[0-9a-fA-F]{24}$/
+  return objectIdRegex.test(str)
 }

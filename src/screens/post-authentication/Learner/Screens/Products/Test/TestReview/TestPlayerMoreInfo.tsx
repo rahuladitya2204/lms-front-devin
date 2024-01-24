@@ -63,7 +63,13 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
     TAB_ITEMS.unshift({
       label: `Feedback`,
       key: 'feedback',
-      children: <TestFeedback currentQuestion={currentQuestion} />
+      children: (
+        <TestFeedback
+          testId={props.test._id + ''}
+          itemId={props.itemId}
+          currentQuestion={currentQuestion}
+        />
+      )
     })
   }
   return <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
