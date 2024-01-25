@@ -164,7 +164,8 @@ onSuccess: (files) => {
                    <DraggableFileItem review={props.review}
                    key={field.key}
                    index={index}
-                   id={field.key}
+                           id={field.key}
+                           fileUrl={fileDetails.url}
                   // @ts-ignore
 name={fileDetails.name} // Assuming this is how you access the file name
                    fileId={fileDetails.file} // Assuming this is how you access the file id
@@ -187,7 +188,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
 };
 
     // @ts-ignore
-    const DraggableFileItem = ({ id, fileId,index,review, moveItem, removeItem /* ...other props */ }) => {
+    const DraggableFileItem = ({ id,fileUrl ,fileId,index,review, moveItem, removeItem /* ...other props */ }) => {
   const ref = React.useRef(null);
 
   const [, drop] = useDrop({
@@ -229,7 +230,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
       <Card hoverable style={{padding: 0}} bodyStyle={{padding:'10px 0'}}>
       <Row>
         <Col span={24} style={{display:'flex',justifyContent:'center'}}>
-        <TestPlayerFileItem fileId={fileId} />
+        <TestPlayerFileItem fileUrl={fileUrl} fileId={fileId} />
         </Col>
         <Col style={{display:'flex',justifyContent:'center'}} span={24}>
       {!review?  <Button htmlType='button' style={{marginTop:10}}
@@ -248,19 +249,19 @@ name={fileDetails.name} // Assuming this is how you access the file name
 export default TestPlayerFiles;
 
 
-const TestPlayerFileItem: React.FC<{ fileId: string }> = ({ fileId }) => {
+const TestPlayerFileItem: React.FC<{ fileId: string,fileUrl:string }> = ({ fileId,fileUrl }) => {
   const { currentQuestion } = useReviewQuestion();
   const imageIssues = currentQuestion?.feedback?.imageIssues;
   const visuals = currentQuestion?.feedback?.visuals;
   // console.log(imageIssues, 'imageIssues');
   const issue = imageIssues?.find(i => i.id === fileId);
 
-    const { data: url, isLoading } = Common.Queries.useGetPresignedUrlFromFile(
-      fileId
-    )
+    // const { data: url, isLoading } = Common.Queries.useGetPresignedUrlFromFile(
+    //   fileId
+    // )
   
-    if (isLoading) return <p>Loading...</p>
-      // console.log(issue,'issue')
+    // if (isLoading) return <p>Loading...</p>
+
   return (
       // @ts-ignore
       <AppImage preview visuals={visuals}
@@ -273,7 +274,7 @@ caption={(issue) ? <Tooltip title={issue.issue} >
         </Tooltip> : null}
         height={120}
         style={{ objectFit: 'cover' }}
-      src={url || 'fallback-image-url'}
+      src={fileUrl || 'fallback-image-url'}
       // @ts-ignore
         onClick={e => e.preventDefault()}
       />

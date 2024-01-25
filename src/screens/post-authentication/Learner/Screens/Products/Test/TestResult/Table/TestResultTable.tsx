@@ -39,11 +39,11 @@ const TestResultTable: React.FC = () => {
       expandedRowRender: (record) => <>
         <Row gutter={[20,20]}>
           <Col span={24}>
-{(record?.feedback?.met)?<Alert type='success' message='What was good' description={record.feedback.met} />:null}
+{(record?.feedback?.met)?<Alert type='success' message='What was good' description={record.feedback.met.text} />:null}
 
           </Col>
           <Col span={24}>
-{(record?.feedback?.notMet)?<Alert type='error' message='What could be improved' description={record.feedback.notMet} />:null}
+{(record?.feedback?.notMet)?<Alert type='error' message='What could be improved' description={record.feedback.notMet.text} />:null}
 
           </Col>
 </Row>

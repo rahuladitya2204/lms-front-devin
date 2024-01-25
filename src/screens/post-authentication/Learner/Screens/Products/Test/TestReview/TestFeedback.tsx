@@ -1,8 +1,14 @@
-import { Alert, Button, Col, Row, Tag, Tooltip } from 'antd'
+import { Alert, Button, Col, Divider, Row, Space, Tag, Tooltip } from 'antd'
+import {
+  CheckCircleTwoTone,
+  CheckOutlined,
+  CloseCircleTwoTone,
+  CloseOutlined
+} from '@ant-design/icons'
 import { Enum, Learner, Types } from '@adewaskar/lms-common'
+import { Paragraph, Text } from '@Components/Typography/Typography'
 import React, { useMemo } from 'react'
 
-import { Paragraph } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import { isMongoId } from '@Components/SunEditor/utils'
 
@@ -29,7 +35,7 @@ export function CriteriaElement(props: {
       const items = test.sections.map(s => s.items).flat()
       return items.find(d => d._id === props.itemId)
     },
-    [test]
+    [test, props.itemId]
   )
   function processStringWithMongoDBIds(
     inputString: string,
@@ -47,9 +53,9 @@ export function CriteriaElement(props: {
 
   const renderMongoId = (mongoId: string) => {
     // @ts-ignore
-    const { criteria } = item?.criterias.find(c => c._id === mongoId)
+    const d = item?.criterias.find(c => c._id === mongoId)
     return (
-      <Tooltip title={criteria}>
+      <Tooltip title={d?.criteria}>
         <Tag style={{ marginRight: 0, cursor: 'pointer' }}>Show More</Tag>
       </Tooltip>
     )
@@ -65,41 +71,108 @@ export function CriteriaElement(props: {
 
 const TestFeedback = (props: TestSolutionPropsI) => {
   const { currentQuestion: { feedback } } = props
+  const { data: test } = Learner.Queries.useGetTestDetails(
+    props.testId,
+    Enum.TestDetailMode.RESULT
+  )
+  const item = useMemo(
+    () => {
+      const items = test.sections.map(s => s.items).flat()
+      return items.find(d => d._id === props.itemId)
+    },
+    [test, props.itemId]
+  )
   // const testItem
   return (
     <Row>
-      {feedback.met ? (
+      {feedback.met?.criteriaIds?.length ? (
         <Col span={24}>
           <Title level={4}>What was right</Title>
           <Alert
             type="success"
             message={
-              <Paragraph style={{ fontSize: 16 }}>
-                <CriteriaElement
-                  testId={props.testId}
-                  itemId={props.itemId}
-                  text={feedback.met}
-                  criterias={[]}
-                />
-              </Paragraph>
+              <div>
+                {item?.criterias
+                  ?.filter(
+                    i => i._id && feedback.met.criteriaIds.includes(i._id)
+                  )
+                  .map(c => {
+                    return (
+                      <div>
+                        <Space>
+                          <Tag
+                            icon={
+                              <CheckCircleTwoTone
+                              // style={{ marginRight: 3, marginTop: 13 }}
+                              />
+                            }
+                          >
+                            {c.score.toString()}
+                          </Tag>
+
+                          <Title style={{ fontSize: 14 }} level={4}>
+                            {c.criteria}
+                          </Title>
+                        </Space>
+                      </div>
+                    )
+                  })}
+                <Divider />
+                <Paragraph style={{ fontSize: 16 }}>
+                  <CriteriaElement
+                    testId={props.testId}
+                    itemId={props.itemId}
+                    text={feedback.met.text}
+                    criterias={[]}
+                  />
+                </Paragraph>
+              </div>
             }
           />
         </Col>
       ) : null}
-      {feedback.notMet ? (
+      {feedback.notMet?.criteriaIds?.length ? (
         <Col span={24}>
           <Title level={4}>What was missing</Title>
           <Alert
             type="error"
             message={
-              <Paragraph style={{ fontSize: 16 }}>
-                <CriteriaElement
-                  testId={props.testId}
-                  itemId={props.itemId}
-                  text={feedback.notMet}
-                  criterias={[]}
-                />
-              </Paragraph>
+              <div>
+                {item?.criterias
+                  ?.filter(
+                    i => i._id && feedback.notMet.criteriaIds.includes(i._id)
+                  )
+                  .map(c => {
+                    return (
+                      <div>
+                        <Space>
+                          {' '}
+                          <Tag
+                            icon={
+                              <CloseCircleTwoTone
+                              // style={{ marginRight: 3, marginTop: 13 }}
+                              />
+                            }
+                          >
+                            {c.score.toString()}
+                          </Tag>
+                          <Title style={{ fontSize: 14 }} level={4}>
+                            {c.criteria}
+                          </Title>
+                        </Space>
+                      </div>
+                    )
+                  })}
+                <Divider />
+                <Paragraph style={{ fontSize: 16 }}>
+                  <CriteriaElement
+                    testId={props.testId}
+                    itemId={props.itemId}
+                    text={feedback.notMet.text}
+                    criterias={[]}
+                  />
+                </Paragraph>
+              </div>
             }
           />
         </Col>
