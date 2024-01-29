@@ -8,9 +8,11 @@ import {
   Row,
   Select,
   Space,
-  Switch
+  Switch,
+  TreeSelect
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
+import { useEffect, useMemo } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateCategory from '@User/Screens/Categories/CreateCategory'
@@ -19,10 +21,10 @@ import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
 import SelectProductCategory from '@Components/SelectProductCategory'
+import { TopicNode } from '@User/Screens/Admin/Topics/TopicsScreen'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useEffect } from 'react'
 import { useParams } from 'react-router'
 
 const { TextArea } = Input
@@ -60,7 +62,39 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const image = useWatch(['thumbnailImage'], form)
   const isDurationEnabled = useWatch(['duration', 'enabled'], form)
   const { listItems: categories } = User.Queries.useGetProductCategories('test')
+  const { data: topics } = User.Queries.useGetTopics()
+  const TOPIC_TREE_DATA = useMemo(
+    () => {
+      const buildTreeData = (topics: Types.Topic[]): TopicNode[] => {
+        // @ts-ignore
+        return topics.filter(topic => !topic.parentId).map(topic => ({
+          ...topic,
+          value: topic._id,
+          title: topic.title,
+          children: buildSubTreeData(topic._id + '', topics)
+        }))
+      }
 
+      const buildSubTreeData = (
+        parentId: string,
+        topics: Types.Topic[]
+      ): TopicNode[] => {
+        const subTopics = topics
+          .filter(topic => topic.parentId === parentId)
+          .map(topic => ({
+            ...topic,
+            value: topic._id,
+            title: topic.title,
+            children: buildSubTreeData(topic._id + '', topics)
+          }))
+        // @ts-ignore
+        return [...subTopics]
+      }
+
+      return buildTreeData(topics)
+    },
+    [topics]
+  )
   useEffect(
     () => {
       if (test.live.scheduledAt) {
@@ -81,7 +115,6 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
   const isPublished = test.status === Enum.TestStatus.PUBLISHED
   const isLive = Form.useWatch(['live', 'enabled'], form)
-  const { data: topics } = User.Queries.useGetTopics()
   return (
     <Form
       form={form}
@@ -232,14 +265,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             name={['topic']}
             rules={[{ required: true, message: 'Please select a topic' }]}
           >
-            <Select
-              options={topics.map(i => {
-                return {
-                  label: i.title,
-                  value: i._id
-                }
-              })}
-            />
+            <TreeSelect treeDefaultExpandAll treeData={TOPIC_TREE_DATA} />
           </Form.Item>
         </Col>
         <Col span={12}>
