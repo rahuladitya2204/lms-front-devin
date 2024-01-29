@@ -127,9 +127,10 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         dataSource={currentQuestion.options}
                           renderItem={(option, index) => {
                             const SelectFormControlComponent=      <OptionSelectedFormControl value={option._id}>
+<Paragraph style={language === 'hin' ? { fontSize: 16 } : {fontSize:15}}>
                                          {/* @ts-ignore */}
-
-                              <HtmlViewer content={option.text[language]} />
+                                         <HtmlViewer content={option.text[language]} />
+                              </Paragraph>
                           </OptionSelectedFormControl>
                             return (
           <List.Item>

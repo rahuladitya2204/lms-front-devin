@@ -99,6 +99,7 @@ import TestReviewPlayer from '@Learner/Screens/Products/Test/TestReview/TestRevi
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
 import ThemeProvider from './ThemeProvider'
+import TopicsScreen from '@User/Screens/Admin/Topics/TopicsScreen'
 import UploadPDFForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
@@ -249,6 +250,7 @@ const router = (userType: string) => {
         <Route path="app" element={<UserRootScreen />}>
                 <Route path="dashboard" element={<UserDashboard />} />
                 <Route path="admin/news" element={<NewsScreen />} />
+                <Route path="admin/topics" element={<TopicsScreen />} />
           <Route path="settings" element={<SettingsScreen />} />
           <Route path="asset-library" element={<AssetLibraryScreen />} />
           <Route path="users">

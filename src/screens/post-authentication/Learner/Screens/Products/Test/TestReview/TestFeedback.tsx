@@ -3,14 +3,17 @@ import {
   CheckCircleTwoTone,
   CheckOutlined,
   CloseCircleTwoTone,
-  CloseOutlined
+  CloseOutlined,
+  FileImageOutlined
 } from '@ant-design/icons'
 import { Enum, Learner, Types } from '@adewaskar/lms-common'
 import { Paragraph, Text } from '@Components/Typography/Typography'
 import React, { useMemo } from 'react'
 
+import AppImage from '@Components/Image'
 import { Typography } from '@Components/Typography'
 import { isMongoId } from '@Components/SunEditor/utils'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { Title } = Typography
 
@@ -56,7 +59,12 @@ export function CriteriaElement(props: {
     const d = item?.criterias.find(c => c._id === mongoId)
     return (
       <Tooltip title={d?.criteria}>
-        <Tag style={{ marginRight: 0, cursor: 'pointer' }}>Show More</Tag>
+        <Tag
+          // style={{ cursor: 'pointer' }}
+          style={{ marginRight: 0, cursor: 'pointer' }}
+        >
+          Show More
+        </Tag>
       </Tooltip>
     )
   }
@@ -82,6 +90,7 @@ const TestFeedback = (props: TestSolutionPropsI) => {
     },
     [test, props.itemId]
   )
+  const { openModal } = useModal()
   // const testItem
   return (
     <Row>
@@ -101,10 +110,21 @@ const TestFeedback = (props: TestSolutionPropsI) => {
                       <div>
                         <Space>
                           <Tag
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              // @ts-ignore
+                              openModal(<AppImage src={c.image} />, {
+                                title: c.criteria                              })
+                            }}
                             icon={
-                              <CheckCircleTwoTone
-                              // style={{ marginRight: 3, marginTop: 13 }}
-                              />
+                              // @ts-ignore
+                              c.image ? (
+                                <FileImageOutlined />
+                              ) : (
+                                <CheckCircleTwoTone
+                                // style={{ marginRight: 3, marginTop: 13 }}
+                                />
+                              )
                             }
                           >
                             {c.score.toString()}
@@ -148,10 +168,22 @@ const TestFeedback = (props: TestSolutionPropsI) => {
                         <Space>
                           {' '}
                           <Tag
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => {
+                              // @ts-ignore
+                              openModal(<AppImage src={c.image} />, {
+                                title: c.criteria
+                              })
+                            }}
                             icon={
-                              <CloseCircleTwoTone
-                              // style={{ marginRight: 3, marginTop: 13 }}
-                              />
+                              // @ts-ignore
+                              c.image ? (
+                                <FileImageOutlined />
+                              ) : (
+                                <CloseCircleTwoTone
+                                // style={{ marginRight: 3, marginTop: 13 }}
+                                />
+                              )
                             }
                           >
                             {c.score.toString()}

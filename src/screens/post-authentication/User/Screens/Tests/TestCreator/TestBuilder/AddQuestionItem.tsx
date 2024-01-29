@@ -25,6 +25,7 @@ import ActionModal from '@Components/ActionModal/ActionModal';
 import AppImage from '@Components/Image';
 import EnterLatexText from './EnterLatexText';
 import GenerateAIItemDetails from './GenerateAIItemDetails';
+import InputTags from '@Components/InputTags/InputTags';
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer';
 import MediaUpload from '@Components/MediaUpload';
 import Tabs from '@Components/Tabs';
@@ -79,7 +80,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
       form.resetFields();
       props.closeModal && props.closeModal();
     }
-  
   const questionType = Form.useWatch('type', form);
   // const { updateNavigator } = useTestBuilderUI();
   const OptionSelectedFormControl = questionType === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;  
@@ -114,7 +114,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   const fileId = file.encoded || file._id;
   const options = Form.useWatch('options', form) || [];
 
-
+  // const topics=Form.useWatch(['topics'],form);
   useEffect(() => {
     onFormChange({ criterias });
   }, [criterias])
@@ -174,7 +174,25 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               <Input readOnly={isTestEnded} placeholder="Enter the score for this question" />
             </Form.Item>
           </Col>
-    
+          <Col span={12}>
+            <Form.Item label='Topics' name='topics'>
+              <Select
+                onChange={console.log}
+                mode='multiple' showSearch
+                options={topics.filter(t => t.parentId === test.topic).map(t => {
+                return {
+                  label: t.title,
+                  value:t._id
+                }
+              })} />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item label='Tags' name='tags'>
+              <InputTags name='tags' />
+            </Form.Item>
+          </Col>
 
         </Row>
         <Row gutter={[20, 20]}>
@@ -357,7 +375,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                           height="100px"
                           aspect={16 / 9}
                           renderItem={() => (
-                            <AppImage width={100} height={100} preview={false} src={(criterias && criterias[index])?.image} />
+                            <AppImage width={100} height={100} preview={criterias&&(criterias[index]?.image)} src={(criterias && criterias[index])?.image} />
                           )}
                           onUpload={file => {
                             form.setFieldValue(['criterias', name, 'image'], file.url);

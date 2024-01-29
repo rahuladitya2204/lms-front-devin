@@ -111,6 +111,7 @@ export default function GenerateQuestionWithAI({
       <Form.Item label="Keywords">
         <InputTags name='keywords'
           ctaText="Enter Keyword"
+          // @ts-ignore
           options={keywords}
           // onChange={setKeywords}
         />

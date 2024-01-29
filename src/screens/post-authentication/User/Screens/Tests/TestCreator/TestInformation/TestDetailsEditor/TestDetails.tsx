@@ -81,6 +81,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
   const isPublished = test.status === Enum.TestStatus.PUBLISHED
   const isLive = Form.useWatch(['live', 'enabled'], form)
+  const { data: topics } = User.Queries.useGetTopics()
   return (
     <Form
       form={form}
@@ -221,6 +222,23 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                   value: Enum.TestInputType.KEYBOARD
                 }
               ]}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            // label=""
+            label={`Topic`}
+            name={['topic']}
+            rules={[{ required: true, message: 'Please select a topic' }]}
+          >
+            <Select
+              options={topics.map(i => {
+                return {
+                  label: i.title,
+                  value: i._id
+                }
+              })}
             />
           </Form.Item>
         </Col>

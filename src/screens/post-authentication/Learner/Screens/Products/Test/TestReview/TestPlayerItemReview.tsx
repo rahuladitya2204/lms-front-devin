@@ -121,8 +121,10 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                             <CheckCircleTwoTone color={token.colorSuccessBg} />
                             </Tooltip> : null}
                           {SelectFormControlComponent}
+                          <Paragraph style={language === 'hin' ? { fontSize: 16 } : { fontSize: 15 }}>
                           {/* @ts-ignore */}
                           <HtmlViewer content={option.text[language]} />
+                            </Paragraph>
                         </Space>
                       </Col>
                     </Row>

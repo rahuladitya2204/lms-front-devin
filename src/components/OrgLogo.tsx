@@ -3,9 +3,15 @@ import { Common, Store, User } from '@adewaskar/lms-common'
 import Image from './Image'
 import { Skeleton } from 'antd'
 
-// import { useNavigate } from 'react-router'
+interface OrgLogoPropsI {
+  quality?: 'low' | 'high';
+  noLoadNoShow?: boolean;
+  width?: string | number;
+  style?: any;
+  onClick?: Function;
+}
 
-function OrgLogo(props: any) {
+function OrgLogo(props: OrgLogoPropsI) {
   // const navigate = useNavigate()
   const { data: organisation } = Common.Queries.useGetOrgDetails()
   const logo = organisation?.branding?.logo
@@ -18,6 +24,7 @@ function OrgLogo(props: any) {
   return !organisation._id ? (
     SkeletonButton
   ) : (
+    // @ts-ignore
     <Image
       noLoadNoShow
       noLoadNoShowPlaceholder={organisation._id ? SkeletonButton : <span />}

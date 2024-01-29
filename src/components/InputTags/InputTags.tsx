@@ -4,19 +4,21 @@ import React, { useRef, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
 import { Typography } from '@Components/Typography';
 
-const { Text} = Typography;
+const { Text } = Typography;
+
+interface LabelItem { label: string, id?: string }
 interface InputTagsProps {
   ctaText?: string;
   name: string | string[];
   label?: string;
   onChange?: (tags: string[]) => void; // New callback prop
-  options?: string[];
+  options?: LabelItem[];
 }
 
 const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onChange,label }) => {
   const [inputValue, setInputValue] = useState('');
   const [inputVisible, setInputVisible] = useState(false);
-  const [filteredOptions, setFilteredOptions] = useState<string[]>(options);
+  const [filteredOptions, setFilteredOptions] = useState<LabelItem[]>(options);
   const inpRef = useRef(null);
   const form = Form.useFormInstance();
 
@@ -36,13 +38,15 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onCha
 
   const handleInputChange = (value: string) => {
     setInputValue(value);
-    const filtered = options.filter(option => option.toLowerCase().includes(value.toLowerCase()));
+    const filtered = options.filter(option => option.label.toLowerCase().includes(value.toLowerCase()));
     setFilteredOptions(filtered);
   };
 
-  const handleInputConfirm = (add: (value: string) => void) => {
+  const handleInputConfirm = (add: (value: LabelItem) => void) => {
+    
+    const item = options.find(o => o.label === inputValue) || { label: inputValue };
     if (inputValue && form.getFieldValue(name).indexOf(inputValue) === -1) {
-      add(inputValue);
+      add(item);
       setInputVisible(false);
       setInputValue('');
       if (onChange) {
@@ -52,7 +56,9 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onCha
     }
   };
 
-  const handleSelect = (selectedValue: string, add: (value: string) => void) => {
+  const handleSelect = (id: string, add: (value: LabelItem) => void) => {
+    const selectedValue = options.find(o => o.id === id) || { id: '', label: "" };
+    console.log(selectedValue,'selectedValue')
     if (form.getFieldValue(name).indexOf(selectedValue) === -1) {
       add(selectedValue);
       setInputValue('');
@@ -74,7 +80,7 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onCha
       <Form.List name={name}>
       {(fields, { add, remove }) => {
         const fieldValue = form.getFieldValue(name);
-        // console.log(fieldValue,'fieldValue')
+        console.log(fieldValue,'fieldValue')
         return (
           <>
             {fields.map((field, index) => (
@@ -83,14 +89,14 @@ const InputTags: React.FC<InputTagsProps> = ({ ctaText, name, options = [],onCha
                 closable
                 onClose={() => handleClose(fieldValue[index], remove)}
               >
-                {fieldValue[index]}
+                {fieldValue[index].label}
               </Tag>
             ))}
             {inputVisible && (
               <AutoComplete
-                options={filteredOptions.map(option => ({ value: option }))}
+                options={filteredOptions.map(option => ({ value: option.id,label: option.label }))}
                 value={inputValue}
-                onSelect={(value: string) => handleSelect(value, add)}
+                onSelect={(id: string) => handleSelect(id, add)}
                 onSearch={handleInputChange}
                 onBlur={() => setInputVisible(false)}
                 style={{ width: 200 }}

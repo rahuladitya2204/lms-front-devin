@@ -58,6 +58,11 @@ export const AppSider = () => {
           title: 'News',
           // icon: <PaperClipOutlined />,
           path: 'news'
+        },
+        {
+          title: 'Topics',
+          // icon: <PaperClipOutlined />,
+          path: 'topics'
         }
       ]
     })
