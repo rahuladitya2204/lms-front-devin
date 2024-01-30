@@ -65,33 +65,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const { data: topics } = User.Queries.useGetTopics()
   const TOPIC_TREE_DATA = useMemo(
     () => {
-      const buildTreeData = (topics: Types.Topic[]): TopicNode[] => {
-        // @ts-ignore
-        return topics.filter(topic => !topic.parentId).map(topic => ({
-          ...topic,
-          value: topic._id,
-          title: topic.title,
-          children: buildSubTreeData(topic._id + '', topics)
-        }))
-      }
-
-      const buildSubTreeData = (
-        parentId: string,
-        topics: Types.Topic[]
-      ): TopicNode[] => {
-        const subTopics = topics
-          .filter(topic => topic.parentId === parentId)
-          .map(topic => ({
-            ...topic,
-            value: topic._id,
-            title: topic.title,
-            children: buildSubTreeData(topic._id + '', topics)
-          }))
-        // @ts-ignore
-        return [...subTopics]
-      }
-
-      return buildTreeData(topics)
+      return buildTopicTree(topics)
     },
     [topics]
   )
@@ -210,7 +184,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             label={
               <Space>
                 Duration(in minutes){' '}
-                {isPublished ? '(Cannot change duration once published)' : ''}{' '}
+                {/* {isPublished ? '(Cannot change duration once published)' : ''}{' '} */}
                 <Form.Item
                   style={{ margin: 0 }}
                   valuePropName="checked"
@@ -265,7 +239,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             name={['topic']}
             rules={[{ required: true, message: 'Please select a topic' }]}
           >
-            <TreeSelect treeDefaultExpandAll treeData={TOPIC_TREE_DATA} />
+            <TreeSelect treeData={TOPIC_TREE_DATA} />
           </Form.Item>
         </Col>
         <Col span={12}>
@@ -316,7 +290,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             </Col>
           </Row>
         </Col>
-        <Col span={12}>
+        {/* <Col span={12}>
           <Form.Item style={{ margin: 0 }} name={['mode']} label="Test Mode">
             <Select
               options={[
@@ -331,7 +305,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
               ]}
             />
           </Form.Item>
-        </Col>
+        </Col> */}
         {isLive ? (
           <Col span={8}>
             <Form.Item
@@ -377,3 +351,33 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 }
 
 export default TestDetailsEditor
+
+export const buildTopicTree = (topics: Types.Topic[]) => {
+  const buildTreeData = (topics: Types.Topic[]): TopicNode[] => {
+    // @ts-ignore
+    return topics.filter(topic => !topic.parentId).map(topic => ({
+      ...topic,
+      value: topic._id,
+      title: topic.title,
+      children: buildSubTreeData(topic._id + '', topics)
+    }))
+  }
+
+  const buildSubTreeData = (
+    parentId: string,
+    topics: Types.Topic[]
+  ): TopicNode[] => {
+    const subTopics = topics
+      .filter(topic => topic.parentId === parentId)
+      .map(topic => ({
+        ...topic,
+        value: topic._id,
+        title: topic.title,
+        children: buildSubTreeData(topic._id + '', topics)
+      }))
+    // @ts-ignore
+    return [...subTopics]
+  }
+
+  return buildTreeData(topics)
+}

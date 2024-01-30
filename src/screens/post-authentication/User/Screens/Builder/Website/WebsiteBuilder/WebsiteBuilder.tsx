@@ -39,7 +39,7 @@ const WebsiteBuilderScreen = () => {
           uploadFile: function(e) {
             const file = e.target.files[0]
             if (file instanceof File) {
-              console.log(file, 'file')
+              // console.log(file, 'file')
               // setLoading(true)
               // Insert a temporary image element with a loading image source
               uploadFiles({

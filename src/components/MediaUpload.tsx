@@ -113,7 +113,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
 
   useEffect(() => {
     if (!isProcessing.current) {
-      console.log(fileList,'file')
+      // console.log(fileList,'file')
        // Process files for upload here
     if (fileList.length > 0) {
       // Assuming `UploadFile` function processes the files

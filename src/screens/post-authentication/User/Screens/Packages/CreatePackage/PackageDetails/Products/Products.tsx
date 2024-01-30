@@ -94,7 +94,7 @@ export const ProductSection = (props: ProductSectionPropsI) => {
                 props.name,
                 field.name
               ])
-              console.log(fieldValue, 'fieldValue')
+              // console.log(fieldValue, 'fieldValue')
               return (
                 <Col span={6}>
                   <ProductCard
