@@ -174,7 +174,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               <Input readOnly={isTestEnded} placeholder="Enter the score for this question" />
             </Form.Item>
           </Col>
-          {/* <Col span={12}>
+          <Col span={12}>
             <Form.Item label='Topics' name='topics'>
               <Select
                 onChange={console.log}
@@ -186,7 +186,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
                 }
               })} />
             </Form.Item>
-          </Col> */}
+          </Col>
 
           <Col span={12}>
             <Form.Item label='Tags' name='tags'>
