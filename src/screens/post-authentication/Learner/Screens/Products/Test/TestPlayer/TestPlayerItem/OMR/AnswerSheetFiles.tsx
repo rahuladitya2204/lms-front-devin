@@ -55,7 +55,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   }, isFetching: loadingTestStatus } = NAMESPACE.Queries.useGetTestStatus(testId,learnerId);
   useEffect(() => {
     if (answerSheets.files) {
-      console.log(answerSheets.files, 'updated');
+      // console.log(answerSheets.files, 'updated');
       form.setFieldsValue(answerSheets);
     }
   }, [answerSheets])
@@ -72,7 +72,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
     updateAnswerSheetApi(d)
   }
   const updateAnswerSheetApi = (d:Types.AnswerSheet) => {
-    console.log(d, 'dddd');
+    // console.log(d, 'dddd');
     updateAnswerSheet({ data: d}, {
       onSuccess: () => {
         message.open({
@@ -96,7 +96,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   const cropItem = (index: number, croppedUrl:string) => {
     const d = form.getFieldsValue();
     d.files[index].url = croppedUrl;
-    console.log(d.files, 'files');
+    // console.log(d.files, 'files');
     updateAnswerSheetApi(d)
   };
 
@@ -125,19 +125,14 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
       url: url,
     }, {
         // @ts-ignore
-onSuccess: blobStr => {
-        const file = new Blob([blobStr], { type: 'image/png' }); // replace 'application/pdf' with the correct MIME type for your file
-
-        // You can then create a URL for the blob to download it or display it in the browser
-        const fileURL = URL.createObjectURL(file);
-        console.log(fileURL, 'fileURL');
+onSuccess: ({image,responses}) => {
         openModal(<Spin spinning={uploadingFile}>
           <Row gutter={[20,20]}>
             <Col span={24}>
             <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />
             </Col>
             <Col span={24}>
-          <Image src={fileURL} />
+          <Image src={image} />
           </Col>
           </Row>
           
@@ -157,7 +152,7 @@ onSuccess: blobStr => {
                   <Col>
                   <Button type='primary' icon={<CheckOutlined/>} onClick={() => {
                 handleUpload(files.map((f) => {
-   return { file: f._id, url: f.url }
+   return { file: f._id, url: f.url,responses:responses }
                 }));
                  closeModal();
                     }}>Accept</Button>
@@ -189,7 +184,7 @@ onSuccess: ([{ url,name,_id }]) => {
   }}>Click Photo</Button> :<MediaUpload compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
     uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
     onUpload={(files: Types.FileType[]) => {
-      console.log(files, 'uploaded')
+      // console.log(files, 'uploaded')
       VerifyAnswerSheet(files)
  
     }}
@@ -221,7 +216,7 @@ onSuccess: ([{ url,name,_id }]) => {
         <Form layout='vertical' onFinish={save} form={form}>
         {files.length?<Alert style={{marginBottom:15}} message="Following must be equal to the total bubbles you filled in the answer sheet" type="info" showIcon />:null}
 
-       <Row justify={'center'} align={'middle'} gutter={[15,0]}>
+       {/* <Row justify={'center'} align={'middle'} gutter={[15,0]}>
             <Col flex={1}>
             <Form.Item required name={['metrics','filled']} label='Total Filled Bubbles'>
           <Input type='number' />
@@ -233,8 +228,8 @@ onSuccess: ([{ url,name,_id }]) => {
             Save
           </Button>
           </Col>
-        </Row>
-            <div style={{display:filledBubbleCount?'block':'none'}}>
+        </Row> */}
+            <div>
             <Spin spinning={uploadingFile || loadingTestStatus || updatingAnswer || uploadingFile}>
   {!files.length?<Empty  style={{marginTop:15}} description={
           <Row gutter={[10,20]}>
@@ -285,7 +280,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
        </div>
        </Form>
       </Card>
-      {( filledBubbleCount&& files.length)?<><Divider/>
+      {(files.length)?<><Divider/>
       <Row gutter={[20, 20]} justify={'center'}>
         <Col flex={isMobile ? 1 : 'none'}>
           <Button type='primary' block={isMobile} loading={applyingAnswerSheets}
@@ -311,7 +306,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
               }
             }
           })}
-            disabled={!(filledCount&&files.length)}
+            disabled={!(files.length)}
             >
             Submit Answer Sheet
             </Button>
@@ -367,18 +362,14 @@ name={fileDetails.name} // Assuming this is how you access the file name
     verifyAnswerSheet({
       url: url,
     }, {
-      onSuccess: blobStr => {
-        const file = new Blob([blobStr], { type: 'image/png' }); // replace 'application/pdf' with the correct MIME type for your file
-
-        // You can then create a URL for the blob to download it or display it in the browser
-        const fileURL = URL.createObjectURL(file);
-        console.log(fileURL, 'fileURL');
+      onSuccess: ({ image }) => {
+        console.log(image,'imimi')
         openModal(<Row gutter={[20,20]}>
           <Col span={24}>
           <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />
           </Col>
           <Col span={24}>
- <Image src={fileURL} />
+ <Image src={image} />
           </Col>
         </Row>, {
           title:'Verify Answer Sheet',
