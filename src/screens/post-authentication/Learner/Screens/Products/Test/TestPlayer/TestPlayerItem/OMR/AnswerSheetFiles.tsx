@@ -64,14 +64,15 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   //   updateAnswerSheetApi();
   //  },[files])
     // @ts-ignore
-  const handleUpload = (file) => {
+  const handleUpload = (file, cb?: Function) => {
+    debugger;
     const d = form.getFieldsValue();
     d.files = [...files, ...file];
     // add(file)
     // form.setFieldValue(['files'], FILES);
-    updateAnswerSheetApi(d)
+    updateAnswerSheetApi(d,cb)
   }
-  const updateAnswerSheetApi = (d:Types.AnswerSheet) => {
+  const updateAnswerSheetApi = (d:Types.AnswerSheet,cb?:Function) => {
     // console.log(d, 'dddd');
     updateAnswerSheet({ data: d}, {
       onSuccess: () => {
@@ -79,6 +80,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
           type: 'success',
           content: `Answer Sheets Updated`
         })
+        cb && cb();
       }
     });
   }
@@ -129,7 +131,7 @@ onSuccess: ({image,responses}) => {
         openModal(<Spin spinning={uploadingFile}>
           <Row gutter={[20,20]}>
             <Col span={24}>
-            <Alert icon={<InfoOutlined/>} type='info' message='Please verify the filled bubbles below with your answer sheet' />
+            <Alert icon={<InfoOutlined/>} type='info' message={`Filled Bubbles Found: ${responses.length}`} />
             </Col>
             <Col span={24}>
           <Image src={image} />
@@ -153,6 +155,8 @@ onSuccess: ({image,responses}) => {
                   <Button type='primary' icon={<CheckOutlined/>} onClick={() => {
                 handleUpload(files.map((f) => {
    return { file: f._id, url: f.url,responses:responses }
+                }, () => {
+                  applyAnswerSheets(undefined)
                 }));
                  closeModal();
                     }}>Accept</Button>
@@ -214,7 +218,7 @@ onSuccess: ([{ url,name,_id }]) => {
        title="Answer Sheet Images" extra={[ !props.review?(files.length?UploadButton:null):null]}
       >
         <Form layout='vertical' onFinish={save} form={form}>
-        {files.length?<Alert style={{marginBottom:15}} message="Following must be equal to the total bubbles you filled in the answer sheet" type="info" showIcon />:null}
+        {files.length?<Alert style={{marginBottom:15}} message={`Bubbles Found: ${files.map(f=>f.responses.length).reduce((acc, current) => acc + current, 0)}`} type="info" showIcon />:null}
 
        {/* <Row justify={'center'} align={'middle'} gutter={[15,0]}>
             <Col flex={1}>
