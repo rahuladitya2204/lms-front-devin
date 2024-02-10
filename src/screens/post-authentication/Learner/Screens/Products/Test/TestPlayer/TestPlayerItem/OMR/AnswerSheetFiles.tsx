@@ -52,7 +52,8 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
       answerSheets
     }
       // @ts-ignore
-  }, isFetching: loadingTestStatus } = NAMESPACE.Queries.useGetTestStatus(testId,learnerId);
+  }, isFetching: loadingTestStatus } = NAMESPACE.Queries.useGetTestStatus(testId, learnerId);
+  console.log(answerSheets,'answerSheets')
   useEffect(() => {
     if (answerSheets.files) {
       // console.log(answerSheets.files, 'updated');
@@ -294,7 +295,10 @@ name={fileDetails.name} // Assuming this is how you access the file name
         <Col flex={isMobile ? 1 : 'none'}>
               <Button type='primary' block={isMobile} loading={applyingAnswerSheets}
                                   // @ts-ignore
-          style={{ marginTop: 20 }} onClick={()=>applyAnswerSheets(undefined,{
+                style={{ marginTop: 20 }} onClick={() => applyAnswerSheets({
+                                                    // @ts-ignore
+            responses:answerSheets.files.map(f=>f.responses).flat()
+          },{
             onError: (e:any) => {
               message.open({
                 type: 'error',
