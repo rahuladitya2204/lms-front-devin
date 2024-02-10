@@ -64,15 +64,15 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   //   updateAnswerSheetApi();
   //  },[files])
     // @ts-ignore
-  const handleUpload = (file, cb?: Function) => {
-    debugger;
+  const handleUpload = (file, cb?: (d:Types.AnswerSheet)=>void) => {
+    // debugger;
     const d = form.getFieldsValue();
     d.files = [...files, ...file];
     // add(file)
     // form.setFieldValue(['files'], FILES);
     updateAnswerSheetApi(d,cb)
   }
-  const updateAnswerSheetApi = (d:Types.AnswerSheet,cb?:Function) => {
+  const updateAnswerSheetApi = (d:Types.AnswerSheet,cb?: (d:Types.AnswerSheet)=>void) => {
     // console.log(d, 'dddd');
     updateAnswerSheet({ data: d}, {
       onSuccess: () => {
@@ -80,7 +80,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
           type: 'success',
           content: `Answer Sheets Updated`
         })
-        cb && cb();
+        cb && cb(d);
       }
     });
   }
@@ -155,9 +155,14 @@ onSuccess: ({image,responses}) => {
                   <Button type='primary' icon={<CheckOutlined/>} onClick={() => {
                 handleUpload(files.map((f) => {
    return { file: f._id, url: f.url,responses:responses }
-                }, () => {
-                  applyAnswerSheets(undefined)
-                }));
+                }), (c) => {
+                  // @ts-ignore
+                  applyAnswerSheets({responses:c.files.map(f=>f.responses).flat()}, {
+                    onSuccess: () => {
+                      closeModal();
+                    }
+                  })
+                });
                  closeModal();
                     }}>Accept</Button>
                   </Col>
@@ -287,7 +292,8 @@ name={fileDetails.name} // Assuming this is how you access the file name
       {(files.length)?<><Divider/>
       <Row gutter={[20, 20]} justify={'center'}>
         <Col flex={isMobile ? 1 : 'none'}>
-          <Button type='primary' block={isMobile} loading={applyingAnswerSheets}
+              <Button type='primary' block={isMobile} loading={applyingAnswerSheets}
+                                  // @ts-ignore
           style={{ marginTop: 20 }} onClick={()=>applyAnswerSheets(undefined,{
             onError: (e:any) => {
               message.open({
