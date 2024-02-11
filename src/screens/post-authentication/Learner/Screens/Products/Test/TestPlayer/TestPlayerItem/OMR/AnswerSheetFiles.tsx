@@ -186,9 +186,11 @@ onSuccess: ({image,responses}) => {
     uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
       onChange={(files: any) => {
         console.log(files,'ffifif')
-      const file=files[0].originFileObj
+        compressImage(files[0].originFileObj).then(file => {
+        return convertFileToBase64(file).then(url=>VerifyAnswerSheet([{url}]))
+      })
       // console.log(files, 'uploaded')
-      convertFileToBase64(file).then(url=>VerifyAnswerSheet([{url}]))
+      
  
     }}
   />;
