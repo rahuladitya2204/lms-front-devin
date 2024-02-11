@@ -370,7 +370,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
       const isUser = ((type === 'user') || learnerId);
       const NAMESPACE = isUser ? User : Learner;
 
-      const { mutate: verifyAnswerSheet, isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId, learnerId);
+      const { mutate: verifyAnswerSheet, isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId);
       const {openModal } = useModal();
       const VerifyAnswerSheet = (url:string) => {
     verifyAnswerSheet({

@@ -100,6 +100,7 @@ import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
 import ThemeProvider from './ThemeProvider'
 import TopicsScreen from '@User/Screens/Admin/Topics/TopicsScreen'
+import UploadAnswerSheets from '@User/Screens/Tests/TestCreator/TestBuilder/UploadAnswerSheets'
 import UploadPDFForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'
 import UserAccount from '@User/Screens/Settings/Account/Account'
@@ -208,6 +209,7 @@ const router = (userType: string) => {
               <Route path='' element={<UserFullPageHolder />}>
                 <Route path="app/test/:testId/answer-sheet/:learnerId" element={<TestAnswerSheet />} />
                 <Route path="app/test/:testId/answer-sheet/:learnerId/upload-answer-sheet" element={<AnswerSheetFiles />} /> 
+                <Route path="app/test/:testId/answer-sheet/upload" element={<UploadAnswerSheets />} /> 
   
  <Route path="login" element={<UserLoginScreen />} />
             <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />

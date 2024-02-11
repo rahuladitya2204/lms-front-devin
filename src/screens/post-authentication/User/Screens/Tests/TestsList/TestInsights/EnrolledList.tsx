@@ -17,6 +17,7 @@ import EnrollLearner from '../../TestCreator/TestLearners/EnrolLearner'
 import MoreButton from '@Components/MoreButton'
 import TestStatusTag from './TestStatusTag'
 import { Typography } from '@Components/Typography'
+import UploadAnswerSheets from '../../TestCreator/TestBuilder/UploadAnswerSheets'
 import dayjs from 'dayjs'
 import { openWindow } from '@Components/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
@@ -53,11 +54,24 @@ const TestEnrolledList = () => {
       dataSource={enrolledProducts}
       loading={loadingEp || removingEnrollment}
       extra={[
-        <ActionModal title="Add Learner" cta={<Button>Add Learner</Button>}>
-          <EnrollLearner
-            product={{ type: Enum.ProductType.TEST, id: testId + '' }}
-          />
-        </ActionModal>
+        <Row gutter={[20, 20]}>
+          {/* <Col>
+            <Button
+              onClick={() =>
+              }
+              type="primary"
+            >
+              Upload Sheets
+            </Button>
+          </Col> */}
+          <Col>
+            <ActionModal title="Add Learner" cta={<Button>Add Learner</Button>}>
+              <EnrollLearner
+                product={{ type: Enum.ProductType.TEST, id: testId + '' }}
+              />
+            </ActionModal>
+          </Col>
+        </Row>
       ]}
     >
       {/* <TableColumn

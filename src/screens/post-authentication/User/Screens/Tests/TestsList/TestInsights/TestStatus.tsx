@@ -36,6 +36,13 @@ const TestStatus = () => {
     menu={{
       items: [
         {
+          label: 'Upload Answer Sheets',
+          key:'upload-answer-sheet',
+          onClick: () => {
+            window.open(`/app/test/${testId}/answer-sheet/upload`)
+          }
+        },
+        {
           label: 'Send Result Whatsapp', key: 'whatsapp', icon: <WhatsAppOutlined />, onClick: () => {
             sendResultViaWhatsapp();
         }}
