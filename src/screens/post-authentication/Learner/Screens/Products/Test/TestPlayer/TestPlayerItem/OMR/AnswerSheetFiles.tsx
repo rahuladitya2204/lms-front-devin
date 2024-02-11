@@ -5,6 +5,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
 import React, { Fragment, useCallback, useEffect } from 'react'
 import { blobToFile, compressImage, convertImageToBlob } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
+import { convertFileToBase64, openWindow } from '@Components/SunEditor/utils'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppImage from '@Components/Image'
@@ -13,7 +14,6 @@ import MediaUpload from '@Components/MediaUpload'
 import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import PerspectiveCropper from '@Components/PerspectiveCropper'
 import { Typography } from '@Components/Typography'
-import { openWindow } from '@Components/SunEditor/utils'
 import update from 'immutability-helper'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
@@ -179,23 +179,16 @@ onSuccess: ({image,responses}) => {
   }
   const { isMobile } = useBreakpoint();
   const UploadButton = (isMobile ) ? <Button type='primary' onClick={() => {
-    openCamera().then(file => {
-      // const file = blobToFile(blob);
-      uploadFiles({
-        // @ts-ignore
-        files: [{ file: file }],
-onSuccess: ([{ url,name,_id }]) => {
-  // debugger;
-          // closeModal && closeModal();
-  VerifyAnswerSheet([{ name, url,_id }]);
-        }
-      })
+    openCamera().then((file)=>convertFileToBase64(file)).then(base64Url => {
+      VerifyAnswerSheet([{url: base64Url}]);
     });
-  }}>Click Photo</Button> :<MediaUpload compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
+  }}>Click Photo</Button> :<MediaUpload disabled compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
     uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
-    onUpload={(files: Types.FileType[]) => {
+      onChange={(files: any) => {
+        console.log(files,'ffifif')
+      const file=files[0].originFileObj
       // console.log(files, 'uploaded')
-      VerifyAnswerSheet(files)
+      convertFileToBase64(file).then(url=>VerifyAnswerSheet([{url}]))
  
     }}
   />;

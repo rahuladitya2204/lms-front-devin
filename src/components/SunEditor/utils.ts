@@ -68,3 +68,25 @@ export function isMongoId(str: string) {
   const objectIdRegex = /^[0-9a-fA-F]{24}$/
   return objectIdRegex.test(str)
 }
+
+export function convertFileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    // Create a new FileReader instance
+    const reader = new FileReader();
+
+    // Set up the onload event handler to resolve the promise with the result
+    reader.onload = () => {
+      // The result attribute contains the data as a base64 encoded string
+      const base64String = reader.result as string;
+      resolve(base64String);
+    };
+
+    // Set up the onerror event handler to reject the promise in case of an error
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    // Read the file as a data URL (which will be base64 encoded)
+    reader.readAsDataURL(file);
+  });
+}

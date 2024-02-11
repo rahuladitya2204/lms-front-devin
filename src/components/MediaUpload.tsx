@@ -21,6 +21,7 @@ interface CompressOptions extends Compressor.Options {
 interface MediaUploadPropsI {
   onUpload?: (d: any, file: File) => void;
   children?: ReactNode;
+  onChange?: Function;
   isProtected?: boolean;
   closeModal?: () => void;
   perspective?: boolean;
@@ -28,6 +29,7 @@ interface MediaUploadPropsI {
   listType?: string;
   prefixKey?: string;
   source?: Types.FileSource;
+  disabled?: boolean;
   uploadType?: string;
   name?: string | string[];
   compress?: Partial<CompressOptions>;
@@ -115,10 +117,12 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     if (!isProcessing.current) {
       // console.log(fileList,'file')
        // Process files for upload here
-    if (fileList.length > 0) {
+      if (fileList.length > 0) {
+        if (!props.disabled) {
       // Assuming `UploadFile` function processes the files
       // @ts-ignore
       UploadFile(fileList.map(f => f.originFileObj));
+      }
     }
     }
    
@@ -133,8 +137,9 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
              const onChange = ({ file, fileList }) => {
     // debugger;
             // @ts-ignore
-    setFileList(fileList);
+               setFileList(fileList);
                // @ts-ignore
+               props.onChange(fileList)
   }
 
   const UploadButton = (
