@@ -38,7 +38,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   // @ts-ignore
   const { mutate: updateAnswerSheet,isLoading: updatingAnswer } = NAMESPACE.Queries.useUpdateAnswerSheets(testId,learnerId);
   // @ts-ignore
-  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId,learnerId);
+  const { mutate: verifyAnswerSheet,isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheetFile(testId,learnerId);
   // @ts-ignore
   const { mutate: applyAnswerSheets,isLoading: applyingAnswerSheets } = NAMESPACE.Queries.useEvaluateAnswerSheets(testId,learnerId);
   const [form] = Form.useForm<Types.AnswerSheet>();
@@ -123,10 +123,8 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   } = Common.Queries.useUploadFiles();
   const user = Store.useAuthentication(s => s.user);
   const VerifyAnswerSheet = (files: any[]) => {
-    const url = files[0].url;
-    verifyAnswerSheet({
-      url: url,
-    }, {
+    const file = files[0].file;
+    verifyAnswerSheet(file, {
         // @ts-ignore
 onSuccess: ({image,responses}) => {
         openModal(<Spin spinning={uploadingFile}>
@@ -142,11 +140,11 @@ onSuccess: ({image,responses}) => {
         </Spin>, {
           closable: true,
           title: `Verify Answer Sheet`,
-          footer: closeModal => {
+          footer: closeSmallModal => {
             return [<Row justify={'space-between'}>
               <Col>
               <Button icon={<CloseOutlined />}
-            onClick={() => closeModal()}
+            onClick={() => closeSmallModal()}
             danger>
               Reject</Button>
               </Col>
@@ -154,17 +152,12 @@ onSuccess: ({image,responses}) => {
                 <Row gutter={[20,10]}>
                   <Col>
                   <Button type='primary' icon={<CheckOutlined/>} onClick={() => {
-                handleUpload(files.map((f) => {
-   return { file: f._id, url: f.url,responses:responses }
-                }), (c) => {
-                  // @ts-ignore
-                  applyAnswerSheets({responses:c.files.map(f=>f.responses).flat()}, {
-                    onSuccess: () => {
-                      closeModal();
-                    }
-                  })
-                });
-                 closeModal();
+                 applyAnswerSheets({responses:responses}, {
+                  onSuccess: () => {
+                     props.closeModal && props.closeModal();
+                  }
+                 })
+                      closeSmallModal();
                     }}>Accept</Button>
                   </Col>
                 </Row>
@@ -179,15 +172,13 @@ onSuccess: ({image,responses}) => {
   }
   const { isMobile } = useBreakpoint();
   const UploadButton = (isMobile ) ? <Button type='primary' onClick={() => {
-    openCamera().then((file)=>convertFileToBase64(file)).then(base64Url => {
-      VerifyAnswerSheet([{url: base64Url}]);
-    });
+    openCamera().then((file)=>VerifyAnswerSheet([{file: file}]))
   }}>Click Photo</Button> :<MediaUpload disabled compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
     uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
       onChange={(files: any) => {
         console.log(files,'ffifif')
         compressImage(files[0].originFileObj).then(file => {
-        return convertFileToBase64(file).then(url=>VerifyAnswerSheet([{url}]))
+        return convertFileToBase64(file).then(url=>VerifyAnswerSheet([{file: files[0].originFileObj}]))
       })
       // console.log(files, 'uploaded')
       
@@ -364,14 +355,15 @@ name={fileDetails.name} // Assuming this is how you access the file name
       drag(drop(ref));
       const isUser = ((type === 'user') || learnerId);
       const NAMESPACE = isUser ? User : Learner;
-
-      const { mutate: verifyAnswerSheet, isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheet(testId);
+      // @ts-ignore
+      const { mutate: verifyAnswerSheet, isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheetFile(testId);
       const {openModal } = useModal();
       const VerifyAnswerSheet = (url:string) => {
     verifyAnswerSheet({
       url: url,
     }, {
-      onSuccess: ({ image }) => {
+           // @ts-ignore
+ onSuccess: ({ image }) => {
         console.log(image,'imimi')
         openModal(<Row gutter={[20,20]}>
           <Col span={24}>

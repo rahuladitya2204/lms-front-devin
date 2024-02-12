@@ -4,6 +4,8 @@ import { Utils } from '@adewaskar/lms-common'
 if (process.env.REACT_APP_BUILD_ENV !== 'production') {
   Network.Axios.defaults.baseURL =
     process.env.REACT_APP_API_URL || 'http://localhost:4000'
+  Network.AxiosNormal.defaults.baseURL =
+    process.env.REACT_APP_API_URL || 'http://localhost:4000'
 }
 
 Network.Axios.defaults.transformRequest = [
@@ -30,6 +32,12 @@ Network.Axios.defaults.transformRequest = [
     if (token) {
       headers.set('x-auth', token)
     }
+    const customType = headers.get('Content-Type-Custom')
+    console.log(customType, 'customType')
+    if (customType) {
+      headers.set(`Content-Type`, undefined)
+    }
+    console.log(headers, data, 'hshshshsh')
     if (headers.get('x-req-type')) {
       return data
     } else {
