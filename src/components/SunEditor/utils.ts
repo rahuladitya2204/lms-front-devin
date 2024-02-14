@@ -90,3 +90,27 @@ export function convertFileToBase64(file: File): Promise<string> {
     reader.readAsDataURL(file);
   });
 }
+
+
+export function compareArrays<T>(arr1: T[], arr2: T[]): boolean {
+  // Convert both arrays to Sets to remove duplicates and for efficient comparison
+  const set1 = new Set(arr1);
+  const set2 = new Set(arr2);
+
+  // Check if every element in set1 is also in set2
+  // @ts-ignore
+  for (let item of set1) {
+    if (!set2.has(item)) {
+      return false; // If any item in arr1 is not found in arr2, return false
+    }
+  }
+
+  return true; // Every item in arr1 is found in arr2
+}
+
+// Example usage
+const arr1 = [1, 2, 3, 4];
+const arr2 = [4, 3, 2, 1];
+const result = compareArrays(arr1, arr2);
+
+console.log(result); // Output: true

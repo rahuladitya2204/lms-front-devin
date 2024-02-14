@@ -13,9 +13,9 @@ import {
   UsergroupAddOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons'
+import { Enum, Types } from '@adewaskar/lms-common'
 
 import { MenuProps } from 'antd'
-import { Types } from '@adewaskar/lms-common'
 
 export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
@@ -26,6 +26,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Products',
     icon: <BookOutlined />,
+    roles: [Enum.UserRole.PRODUCT_MANAGER],
     path: '/app/products',
     children: [
       {
@@ -62,6 +63,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     title: 'Users',
     icon: <UsergroupAddOutlined />,
     path: '/app/users',
+    roles: [Enum.UserRole.USER_MANAGER],
     children: [
       {
         title: 'Learners',
@@ -79,6 +81,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     title: 'Marketing',
     icon: <SoundOutlined />,
     path: '/app/marketing',
+    roles: [Enum.UserRole.MARKETING_MANAGER],
     children: [
       {
         title: 'Campaign',
@@ -132,6 +135,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: 'Settings',
     icon: <SettingOutlined />,
+    roles:[Enum.UserRole.ORG_MANAGER],
     path: '/app/settings',
     children: [
       {

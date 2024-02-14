@@ -1,7 +1,7 @@
-import { Button, Form, Input, Modal } from 'antd'
+import { Button, Form, Input, Modal, Select } from 'antd'
+import { Constants, Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
-import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
@@ -105,10 +105,35 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
       >
         <Input placeholder="Mobile Number of the learner" type="number" />
       </Form.Item>
+      <Form.Item
+        label="Roles"
+        name="roles"
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: `Please enter a role!`
+          }
+          // {
+          //   len: 10,
+          //   message: 'Contact number should be 10 digits!'
+          // }
+        ]}
+      >
+        <Select
+          mode="multiple"
+          options={Constants.USER_ROLES.map(i => {
+            return {
+              label: i.slug.toUpperCase(),
+              value: i.slug
+            }
+          })}
+        />
+      </Form.Item>
       <Button
         loading={createUserLoading || updateUserLoading}
         key="submit"
-        htmlType='submit'
+        htmlType="submit"
         type="primary"
         // onClick={form.submit}
       >

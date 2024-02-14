@@ -1,15 +1,16 @@
 import { Col, Menu, Row } from 'antd'
+import { Enum, Store, User } from '@adewaskar/lms-common'
 import Layout, { Content, Sider } from '@Components/Layout'
 import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'
 import React, { useEffect, useState } from 'react'
-import { Store, User } from '@adewaskar/lms-common'
 
 import AppProvider from 'screens/AppProvider'
 import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import OrgLogo from '@Components/OrgLogo'
 import ThemeProvider from 'screens/ThemeProvider'
 import { UserOutlined } from '@ant-design/icons'
+import { compareArrays } from '@Components/SunEditor/utils'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
@@ -51,6 +52,7 @@ export const AppSider = () => {
   if (isAdmin) {
     menuItems.unshift({
       title: 'Admin',
+      roles: [Enum.UserRole.NEWS_MANAGER],
       icon: <UserOutlined />,
       path: 'admin',
       children: [
@@ -67,6 +69,10 @@ export const AppSider = () => {
       ]
     })
   }
+  const { data: { roles } } = User.Queries.useGetUserDetails()
+  const filteredMenuItems = menuItems.filter(mItem =>
+    compareArrays(mItem.roles || [], roles)
+  )
   const { isDesktop } = useBreakpoint()
   return (
     <Sider
@@ -83,7 +89,7 @@ export const AppSider = () => {
         theme="light"
         defaultSelectedKeys={['1']}
         mode="inline"
-        items={MenuItems(menuItems)}
+        items={MenuItems(filteredMenuItems)}
       />
     </Sider>
   )
