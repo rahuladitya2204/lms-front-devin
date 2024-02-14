@@ -112,7 +112,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
     onClick={() => {
       console.log(isMobile,'momom')
       if (isMobile) {
-        openWindow(`/app/test/${testId}/upload-answer-sheet`, (refetchTestStatus:boolean) => {
+        openWindow(`/app/test/${testId}/upload-answer-sheet`, (refetchTestStatus: boolean) => {
+          // debugger;
           if (refetchTestStatus) {
             message.open({
               type: 'success',

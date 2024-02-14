@@ -45,7 +45,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   const message = useMessage();
   const files = Form.useWatch(['files'], form) || [];
   const filledCount = Form.useWatch(['metrics', 'filled'], form);
-  // console.log(files,'files')
+  const { isMobile } = useBreakpoint();
   // console.log(learnerId, props.type,NAMESPACE, 'learnerId');
   const { data: {
     status: {
@@ -59,7 +59,14 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
       // console.log(answerSheets.files, 'updated');
       form.setFieldsValue(answerSheets);
     }
-  }, [answerSheets])
+  }, [answerSheets]);
+
+  // useEffect(() => {
+  //   console.log(window?.opener?.onComplete,'window?.opener?.onComplete')
+  //   if (isMobile && !(window?.opener?.onComplete)) {
+  //     window.close();
+  //   }
+  //  },[isMobile])
   
   // useEffect(() => {
   //   updateAnswerSheetApi();
@@ -157,7 +164,13 @@ onSuccess: ({image,responses}) => {
                   <Button type='primary' icon={<CheckOutlined/>} onClick={() => {
                  applyAnswerSheets({responses:responses}, {
                   onSuccess: () => {
-                     props.closeModal && props.closeModal();
+                     if (window?.opener?.onComplete) {
+                       window?.opener?.onComplete(true);
+                      window.close()
+                     }
+                     else {
+                      props.closeModal && props.closeModal();
+                     }
                   }
                  })
                       closeSmallModal();
@@ -173,7 +186,6 @@ onSuccess: ({image,responses}) => {
       }
     });
   }
-  const { isMobile } = useBreakpoint();
   const UploadButton = (isMobile ) ? <Button type='primary' onClick={() => {
     openCamera().then((file)=>VerifyAnswerSheet([{file: file}]))
   }}>Click Photo</Button> :<MediaUpload disabled compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
@@ -229,7 +241,7 @@ onSuccess: ({image,responses}) => {
           </Col>
         </Row> */}
             <div>
-            <Spin spinning={uploadingFile || loadingTestStatus || updatingAnswer || uploadingFile}>
+            <Spin spinning={uploadingFile || loadingTestStatus || updatingAnswer || uploadingFile || applyingAnswerSheets}>
   {!files.length?<Empty  style={{marginTop:15}} description={
           <Row gutter={[10,20]}>
             <Col span={24}>
