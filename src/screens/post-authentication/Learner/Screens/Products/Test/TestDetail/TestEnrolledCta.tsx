@@ -25,7 +25,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
     const { data: { status }, isLoading: loadingResult } = Learner.Queries.useGetTestResult(testId, {
         enabled: !!(enrolledDetails?.metadata?.test.endedAt)
     });
-  console.log(enrolledDetails,'enrolledDetails')
+  // console.log(enrolledDetails,'enrolledDetails')
     const testEndDate = enrolledDetails.metadata.test.endedAt || test.live.endedAt;
     const testStartDate =
       enrolledDetails.metadata.test.startedAt || test.live.startedAt;
@@ -88,7 +88,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
         }
       }
       else {
-        console.log(testStartDate, 'enrolledDetails')
+        // console.log(testStartDate, 'enrolledDetails')
         if (!testStartDate) {
           return <Button size='large' onClick={() => navigate(`/app/test/${testId}/start`)} block type='primary'>
             Start Test

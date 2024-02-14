@@ -13,6 +13,7 @@ import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload'
 import { compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
+import { debounce } from 'lodash'
 import styled from '@emotion/styled'
 
 interface CompressOptions extends Compressor.Options {
@@ -140,6 +141,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
                setFileList(fileList);
                // @ts-ignore
                props.onChange(fileList)
+               console.log('Again')
   }
 
   const UploadButton = (
@@ -151,7 +153,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
 
   let UploadComponent = (
     <Dragger
-      onChange={onChange}
+      onChange={debounce(onChange,500)}
       multiple={props.multiple}
       beforeUpload={(info,fileList) => {
         setFileList(fileList)
@@ -173,7 +175,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   if (props.uploadType === 'pdf') {
     UploadComponent = (
       <CustomUpload
-        onChange={onChange}
+        onChange={debounce(onChange,500)}
         multiple={props.multiple}
         beforeUpload={(info,fileList) => {
           setFileList(fileList)
@@ -198,7 +200,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
     const ImageUploadComponent = (
       <CustomUpload
         accept="image/png,image/jpeg"
-        onChange={onChange}
+        onChange={debounce(onChange,500)}
         multiple={props.multiple}
         fileList={fileList}
         name="avatar"
@@ -224,7 +226,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
   if (props.uploadType === 'file') {
     UploadComponent = (
       <Dragger
-        onChange={onChange}
+        onChange={debounce(onChange,500)}
         style={{ paddingLeft: 10, paddingRight: 10 }}
         name="avatar"
         listType="picture-card"

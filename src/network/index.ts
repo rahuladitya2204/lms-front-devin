@@ -33,11 +33,11 @@ Network.Axios.defaults.transformRequest = [
       headers.set('x-auth', token)
     }
     const customType = headers.get('Content-Type-Custom')
-    console.log(customType, 'customType')
+    // console.log(customType, 'customType')
     if (customType) {
       headers.set(`Content-Type`, undefined)
     }
-    console.log(headers, data, 'hshshshsh')
+    // console.log(headers, data, 'hshshshsh')
     if (headers.get('x-req-type')) {
       return data
     } else {

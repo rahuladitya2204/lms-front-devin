@@ -53,7 +53,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
     }
       // @ts-ignore
   }, isFetching: loadingTestStatus } = NAMESPACE.Queries.useGetTestStatus(testId, learnerId);
-  console.log(answerSheets,'answerSheets')
+  // console.log(answerSheets,'answerSheets')
   useEffect(() => {
     if (answerSheets.files) {
       // console.log(answerSheets.files, 'updated');
@@ -176,7 +176,7 @@ onSuccess: ({image,responses}) => {
   }}>Click Photo</Button> :<MediaUpload disabled compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
     uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
       onChange={(files: any) => {
-        console.log(files,'ffifif')
+        // console.log(files,'ffifif')
         compressImage(files[0].originFileObj).then(file => {
         return convertFileToBase64(file).then(url=>VerifyAnswerSheet([{file: files[0].originFileObj}]))
       })
