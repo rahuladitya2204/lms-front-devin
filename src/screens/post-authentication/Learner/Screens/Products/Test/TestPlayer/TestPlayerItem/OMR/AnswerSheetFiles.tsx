@@ -125,6 +125,9 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   const VerifyAnswerSheet = (files: any[]) => {
     const file = files[0].file;
     verifyAnswerSheet(file, {
+      onError: (er: any) => {
+        message.open({ type: 'error', content: er.response.data.message })
+      },
         // @ts-ignore
 onSuccess: ({image,responses}) => {
         openModal(<Spin spinning={uploadingFile}>
