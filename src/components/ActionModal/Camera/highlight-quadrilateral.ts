@@ -46,7 +46,7 @@ export function highlightQuadrilateral(url: string) {
       }
 
       if (maxContourIndex !== -1) {
-        let color = new cv.Scalar(0, 0, 0, 255); // Black color
+        let color = new cv.Scalar(255, 0, 0, 255); // Black color
         cv.drawContours(
           srcMat,
           contours,

@@ -25,6 +25,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
   const cameraRef = useRef<CameraType>(null);
   const [facingMode, setFacingMode] = useState('environment');
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [highlightedImage, setHighlightedImage] = useState<string | null>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null); // Store captured image
   const [resolveCapture, setResolveCapture] = useState<(blob: Blob | null) => void>(() => {});
   const handleCapture = useCallback(async () => {
@@ -32,11 +33,12 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
     // const testUrl=await imageUrlToDataUrl(`https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/noprefix/1705772455227.png`)
     // @ts-ignore
     const res = (await highlightQuadrilateral(imageUrl));
-    console.log(res,'res')
+    // console.log(res,'res')
     // @ts-ignore
-    imageUrl = res.url;
+    const highlighted = res.url;
     // console.log(imageUrl,'lkl')
     if (imageUrl) {
+      setHighlightedImage(highlighted)
       // @ts-ignore
       // const imageUrl = URL.createObjectURL(imageBlob);
       setPreviewImage(imageUrl); // Set image for preview
@@ -90,8 +92,8 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
         {!previewImage && <Camera facingMode={facingMode} ref={cameraRef} />}
         {previewImage && (
           <div style={{position:'relative'}}>
-                   <Alert icon={<WarningOutlined/>} style={{position:'absolute',height:40,top: 10,right: 10,left: 10,width:'90%'}} type='warning' message='Please keep the page boundary in focus' />
- <img src={previewImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
+                   <Alert icon={<WarningOutlined/>} style={{position:'absolute',height:40,top: 10,right: 10,left: 10,width:'90%'}} type='warning' message='The OMR sheet boundary must be highlighted in red' />
+ {highlightedImage?<img src={highlightedImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />:null}
             <Button shape='circle' danger icon={<CloseOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,left:'30%'}} onClick={handleCancel}></Button>
             <Button shape='circle' type='primary' icon={<CheckOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,right:'30%'}} onClick={handleAccept}></Button>
           </div>
