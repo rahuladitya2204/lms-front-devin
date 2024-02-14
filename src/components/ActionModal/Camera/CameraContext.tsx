@@ -92,7 +92,10 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
         {!previewImage && <Camera facingMode={facingMode} ref={cameraRef} />}
         {previewImage && (
           <div style={{position:'relative'}}>
-                   <Alert icon={<WarningOutlined/>} style={{position:'absolute',height:40,top: 10,right: 10,left: 10,width:'90%'}} type='warning' message='The OMR sheet boundary must be highlighted in red' />
+            <Alert showIcon icon={<WarningOutlined style={{ fontSize: 20 }} />}
+              style={{ position: 'absolute', height: 40, top: 10, right: 10, left: 10, width: '90%' }}
+              type='error'
+              message='The OMR sheet boundary must be highlighted in red' />
  {highlightedImage?<img src={highlightedImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />:null}
             <Button shape='circle' danger icon={<CloseOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,left:'30%'}} onClick={handleCancel}></Button>
             <Button shape='circle' type='primary' icon={<CheckOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,right:'30%'}} onClick={handleAccept}></Button>
