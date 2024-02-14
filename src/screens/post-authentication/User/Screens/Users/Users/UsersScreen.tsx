@@ -81,7 +81,7 @@ function UsersScreen() {
                       {
                         label: 'Edit User',
                         onClick: () => {
-                          window.open(`users/${record._id}/editor`, '_blank')
+                          openModal(<AddUser data={record} />)
                         },
                         key: 'edit',
                         icon: <EditOutlined />

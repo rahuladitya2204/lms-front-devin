@@ -1,4 +1,4 @@
-import { Button, DatePicker, Form, Select } from 'antd'
+import { Button, Col, DatePicker, Form, Row, Select } from 'antd'
 import { Types, User } from '@adewaskar/lms-common'
 
 import FileList from '@Components/FileList'
@@ -60,7 +60,7 @@ export default function UploadNews(props: UploadNewsPropsI) {
     [props.data]
   )
   const files = Form.useWatch(['files'], form) || []
-  console.log(files, 'files')
+  // console.log(files, 'files')
   return (
     <Form layout="vertical" form={form} onFinish={onSubmit}>
       <Form.Item label="Date" name="date">
@@ -94,18 +94,18 @@ export default function UploadNews(props: UploadNewsPropsI) {
           const updatedFiles = files.filter((f: any) => f.file !== fileId)
           form.setFieldValue(['files'], updatedFiles)
         }}
-        // onDeleteFile={(fileId: string) => {
-        //   const files = item.files.filter((f: any) => f.file !== fileId)
-        //   onFormChange({ files })
-        // }}
         files={files}
       />
-      <Form.Item label="Publication" name="publication">
+      {/* <Form.Item label="Publication" name="publication">
         <Select options={PUBLICATIONS} />
-      </Form.Item>
-      <Button loading={uploadingNews} onClick={form.submit} type="primary">
-        Upload News Paper
-      </Button>
+      </Form.Item> */}
+      <Row justify={'end'}>
+        <Col>
+          <Button loading={uploadingNews} onClick={form.submit} type="primary">
+            Upload News Paper
+          </Button>
+        </Col>
+      </Row>
     </Form>
   )
 }

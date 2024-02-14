@@ -76,6 +76,7 @@ import NewsScreen from '@User/Screens/Admin/News/NewsScreen'
 import NotFoundScreen from './NotFoundScreen/NotFoundScreen'
 import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
 import OauthRedirect from '@Learner/Screens/OauthRedirect/OauthRedirectScreen'
+import OrganisationScreen from '@User/Screens/Admin/Organisations/OrganisationsScreen'
 import PackageDetailViewer from '@Learner/Screens/Products/Package/PackageDetailsViewer'
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
@@ -252,6 +253,7 @@ const router = (userType: string) => {
         <Route path="app" element={<UserRootScreen />}>
                 <Route path="dashboard" element={<UserDashboard />} />
                 <Route path="admin/news" element={<NewsScreen />} />
+                <Route path="admin/organisation" element={<OrganisationScreen />} />
                 <Route path="admin/topics" element={<TopicsScreen />} />
           <Route path="settings" element={<SettingsScreen />} />
           <Route path="asset-library" element={<AssetLibraryScreen />} />

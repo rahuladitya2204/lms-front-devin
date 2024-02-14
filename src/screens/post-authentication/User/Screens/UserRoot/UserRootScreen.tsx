@@ -52,29 +52,37 @@ export const AppSider = () => {
   if (isAdmin) {
     menuItems.unshift({
       title: 'Admin',
-      roles: [Enum.UserRole.NEWS_MANAGER],
       icon: <UserOutlined />,
       path: 'admin',
       children: [
         {
           title: 'News',
           // icon: <PaperClipOutlined />,
-          path: 'news'
+          path: 'news',
+          roles: [Enum.UserRole.NEWS_MANAGER]
         },
         {
           title: 'Topics',
           // icon: <PaperClipOutlined />,
           path: 'topics'
+        },
+        {
+          title: 'Organisations',
+          // icon: <PaperClipOutlined />,
+          path: 'organisation',
+          roles: [Enum.UserRole.ORG_MANAGER]
         }
       ]
     })
   }
   const { data: { roles } } = User.Queries.useGetUserDetails()
-  const filteredMenuItems = menuItems.filter(
-    mItem =>
+  const filteredMenuItems = menuItems.filter(mItem => {
+    const t =
       compareArrays(mItem.roles || [], roles) ||
       roles.find(r => Enum.UserRole.ADMIN)
-  )
+
+    return t
+  })
   const { isDesktop } = useBreakpoint()
   return (
     <Sider
