@@ -41,7 +41,10 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
       setHighlightedImage(highlighted)
       // @ts-ignore
       // const imageUrl = URL.createObjectURL(imageBlob);
-      setPreviewImage(imageUrl); // Set image for preview
+      imageUrl = (await highlightQuadrilateral(imageUrl,false)).url;
+      if (imageUrl) {
+        setPreviewImage(imageUrl); // Set image for preview
+      }
       // No need to close the modal here, as we're going to show the preview
     }
   }, []);
