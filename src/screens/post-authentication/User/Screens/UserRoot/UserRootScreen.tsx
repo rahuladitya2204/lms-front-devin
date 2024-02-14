@@ -70,8 +70,10 @@ export const AppSider = () => {
     })
   }
   const { data: { roles } } = User.Queries.useGetUserDetails()
-  const filteredMenuItems = menuItems.filter(mItem =>
-    compareArrays(mItem.roles || [], roles)
+  const filteredMenuItems = menuItems.filter(
+    mItem =>
+      compareArrays(mItem.roles || [], roles) ||
+      roles.find(r => Enum.UserRole.ADMIN)
   )
   const { isDesktop } = useBreakpoint()
   return (

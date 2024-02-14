@@ -1,4 +1,6 @@
-import { Constants, Types, User } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
+
+import { compareArrays } from '@Components/SunEditor/utils'
 
 interface AclComponentPropsI {
   permissions: Types.UserRolePermission[];
@@ -6,9 +8,9 @@ interface AclComponentPropsI {
 }
 
 export default function AclComponent(props: AclComponentPropsI) {
-  const PERMISSIONS = useGetUserPermissions()
+  const { permissions, isAdmin } = useGetUserPermissions()
   // @ts-ignore
-  if (PERMISSIONS.includes(props.permissions)) {
+  if (compareArrays(permissions, props.permissions) || isAdmin) {
     return props.children
   } else {
     return null
@@ -17,8 +19,11 @@ export default function AclComponent(props: AclComponentPropsI) {
 
 export const useGetUserPermissions = () => {
   const { data: { roles } } = User.Queries.useGetUserDetails()
-  const PERMISSIONS = roles
+  const permissions = roles
     .map(r => Constants.USER_ROLES.find(r => r.slug === r.slug)?.permissions)
     .flat()
-  return PERMISSIONS
+  return {
+    permissions,
+    isAdmin: roles.find(r => r === Enum.UserRole.ADMIN)
+  }
 }
