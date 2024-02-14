@@ -1,10 +1,10 @@
-import { Button, Modal } from 'antd';
+import { Alert, Button, Modal } from 'antd';
 import { Camera, CameraType } from 'react-camera-pro';
-import { CameraOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
+import { CameraOutlined, CheckOutlined, CloseOutlined, WarningOutlined } from '@ant-design/icons';
 import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { blobToFile, compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 
-// import { highlightQuadrilateral } from './highlight-quadrilateral';
+import { highlightQuadrilateral } from './highlight-quadrilateral';
 // @ts-ignore
 import { useOpenCv } from 'opencv-react';
 
@@ -31,7 +31,10 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
     let imageUrl = await cameraRef.current?.takePhoto();
     // const testUrl=await imageUrlToDataUrl(`https://upload-junk.s3.us-west-2.amazonaws.com/6368e34a86402abb8d2737a9/noprefix/1705772455227.png`)
     // @ts-ignore
-    // const highlighted = await highlightQuadrilateral(imageUrl);
+    const res = (await highlightQuadrilateral(imageUrl));
+    console.log(res,'res')
+    // @ts-ignore
+    imageUrl = res.url;
     // console.log(imageUrl,'lkl')
     if (imageUrl) {
       // @ts-ignore
@@ -87,7 +90,8 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
         {!previewImage && <Camera facingMode={facingMode} ref={cameraRef} />}
         {previewImage && (
           <div style={{position:'relative'}}>
-            <img src={previewImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
+                   <Alert icon={<WarningOutlined/>} style={{position:'absolute',height:40,top: 10,right: 10,left: 10,width:'90%'}} type='warning' message='Please keep the page boundary in focus' />
+ <img src={previewImage} alt="Captured" style={{ width: '100%', height: 'auto' }} />
             <Button shape='circle' danger icon={<CloseOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,left:'30%'}} onClick={handleCancel}></Button>
             <Button shape='circle' type='primary' icon={<CheckOutlined/>} style={{position:'absolute',width:40,height:40,bottom:44,right:'30%'}} onClick={handleAccept}></Button>
           </div>

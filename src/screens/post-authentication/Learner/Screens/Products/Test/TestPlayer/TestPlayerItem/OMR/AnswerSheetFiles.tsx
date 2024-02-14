@@ -140,7 +140,7 @@ onSuccess: ({image,responses}) => {
         openModal(<Spin spinning={uploadingFile}>
           <Row gutter={[20,20]}>
             <Col span={24}>
-            <Alert icon={<InfoOutlined/>} type='info' message={`Filled Bubbles Found: ${responses.length}`} />
+            <Alert icon={<InfoOutlined/>} type='info' message={`Questions Attempted: ${responses.length}`} />
             </Col>
             <Col span={24}>
           <Image src={image} />
