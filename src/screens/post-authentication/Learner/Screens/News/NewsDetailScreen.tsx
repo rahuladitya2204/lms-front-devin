@@ -91,7 +91,7 @@ export default function NewsDetailScreen() {
 
   return (
     <Header
-      title={`News: ${dayjs(newsItem.date).format('LL')}`}
+      title={`Welcome to Nimble Bee News Headquarters`}
       extra={[
         <div style={{ marginTop: 5 }}>
           <Button
@@ -135,7 +135,7 @@ export default function NewsDetailScreen() {
                   />
                 </Form.Item>
               </Col>
-              {(newsItem?.audio?.url) ? (
+              {newsItem?.audio?.url ? (
                 <Col span={24}>
                   <Divider />
                   <Title level={3}>Play News</Title>
