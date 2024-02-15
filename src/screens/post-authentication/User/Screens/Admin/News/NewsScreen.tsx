@@ -13,9 +13,12 @@ import {
 import { Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
+import AudioPlayer from '@Components/AudioPlayer'
 import Header from '@Components/Header'
 import MoreButton from '@Components/MoreButton'
 import NewsDetailScreen from './NewsDetailScreen'
+import NewsStatusTag from './NewsStatusTag'
+import { NotificationOutlined } from '@ant-design/icons'
 import React from 'react'
 // import PDFViewer from '@Components/PDFViewer'
 import UploadNews from './UploadNews'
@@ -31,6 +34,12 @@ export default function NewsScreen() {
     mutate: summarizeNews,
     isLoading: summarizing
   } = User.Queries.useSummarizeNews()
+
+  const {
+    mutate: notifyUsers,
+    isLoading: notifying
+  } = User.Queries.useNotifyNews()
+
   const { data, isLoading: loadingNews } = User.Queries.useGetNews()
   const {
     mutate: deleteNews,
@@ -93,12 +102,25 @@ export default function NewsScreen() {
                   )}
                 />
                 <Table.Column
-                  title="Publication"
-                  dataIndex="publication"
-                  key="publication"
+                  title="Status"
+                  dataIndex="status"
+                  key="status"
                   render={(_: any, record: Types.News) => (
-                    <Space size="middle">{record.publication}</Space>
+                    // @ts-ignore
+                    <NewsStatusTag status={record.status} />
                   )}
+                />
+                <Table.Column
+                  title="Audio"
+                  dataIndex="audio"
+                  key="audio"
+                  render={(_: any, record: Types.News) =>
+                    record?.audio?.url ? (
+                      <AudioPlayer src={record.audio.url} />
+                    ) : (
+                      'No Audio Found'
+                    )
+                  }
                 />
                 <Table.Column
                   title="Action"
@@ -106,6 +128,42 @@ export default function NewsScreen() {
                   render={(_: any, record: Types.News, index: number) => (
                     <MoreButton
                       items={[
+                        {
+                          label: 'Notify Everyone',
+                          key: 'notify',
+                          icon: <NotificationOutlined />,
+                          onClick: () => {
+                            if (record?.audio?.url) {
+                              confirm({
+                                title: 'Are you sure to notify everyone?',
+                                // icon: <ExclamationCircleOutlined />,
+                                content: `Please listen to the audio once, only then send it`,
+                                onOk() {
+                                  notifyUsers(
+                                    {
+                                      id: record._id + ''
+                                    },
+                                    {
+                                      onSuccess: () => {
+                                        message.open({
+                                          type: 'success',
+                                          content: 'Notifications Sent'
+                                        })
+                                      }
+                                    }
+                                  )
+                                },
+                                okText: 'Delete'
+                              })
+                            } else {
+                              message.open({
+                                type: 'error',
+                                content: 'No Audio Found, Please refresh page'
+                              })
+                            }
+                          }
+                        },
+
                         {
                           label: 'Generate Summary',
                           onClick: () =>

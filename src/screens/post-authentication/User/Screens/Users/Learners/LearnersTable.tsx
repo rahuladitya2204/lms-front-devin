@@ -1,12 +1,14 @@
 import { Button, Card, Col, Modal, Row, Space, Tag } from 'antd'
-import { CloseOutlined, DeleteOutlined } from '@ant-design/icons'
+import { CloseOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import { Enum, Types } from '@adewaskar/lms-common'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 
+import AddLearner from './AddLearners'
 import MoreButton from '@Components/MoreButton'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 
 const confirm = Modal.confirm
 
@@ -20,6 +22,7 @@ function LearnersTable() {
   const {
     mutate: changeAccountStatus
   } = User.Queries.useUpdateLearnerAccountStatus()
+  const { openModal } = useModal()
   return (
     <Table
       searchFields={['name', 'email', 'contactNo']}
@@ -70,9 +73,17 @@ function LearnersTable() {
       <TableColumn
         title="Action"
         key="action"
-        render={(_: any, record: Types.User) => (
+        render={(_: any, record: Types.Learner) => (
           <MoreButton
             items={[
+              {
+                label: 'Edit Learner',
+                icon: <EditOutlined />,
+                key: 'edit-learner',
+                onClick: () => {
+                  openModal(<AddLearner data={record} />)
+                }
+              },
               {
                 label:
                   record.status === Enum.LearnerAccountStatus.ACTIVE

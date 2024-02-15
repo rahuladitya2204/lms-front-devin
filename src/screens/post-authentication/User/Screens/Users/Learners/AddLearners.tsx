@@ -1,7 +1,17 @@
-import { Button, Col, Form, Input, Modal, Row, message } from 'antd'
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Switch,
+  message
+} from 'antd'
+import { Constants, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
-import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
 interface CreateLearnerComponentPropsI {
@@ -75,13 +85,32 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
               message: `Please enter learner's mobile number!`
             },
             {
-              len: 10,
+              max: 12,
               message: 'Contact number should be 10 digits!'
             }
           ]}
         >
           <Input placeholder="Mobile Number of the learner" type="number" />
         </Form.Item>
+        <Row justify={'space-between'}>
+          <Col span={24}>
+            <Form.Item
+              valuePropName="checked"
+              label="News"
+              name={['news', 'enabled']}
+            >
+              <Switch />
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Form.Item
+              label="Preferred Language"
+              name={['news', 'preferredLanguage']}
+            >
+              <Select options={Constants.LANGUAGES} />
+            </Form.Item>
+          </Col>
+        </Row>
         <Row justify={'end'}>
           <Col>
             <Button
@@ -91,7 +120,7 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
               htmlType="submit"
               // onClick={form.submit}
             >
-              Add Learner
+              {props.data?._id ? 'Update Learner' : 'Add Learner'}
             </Button>
           </Col>
         </Row>

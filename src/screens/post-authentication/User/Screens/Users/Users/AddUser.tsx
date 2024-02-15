@@ -1,4 +1,14 @@
-import { Button, Form, Input, Modal, Select } from 'antd'
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Modal,
+  Row,
+  Select,
+  Switch
+} from 'antd'
 import { Constants, Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
@@ -105,6 +115,27 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
       >
         <Input placeholder="Mobile Number of the learner" type="number" />
       </Form.Item>
+
+      <Row justify={'space-between'}>
+        <Col span={24}>
+          <Form.Item
+            valuePropName="checked"
+            label="News"
+            name={['news', 'enabled']}
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+        <Col span={24}>
+          <Form.Item
+            label="Preferred Language"
+            name={['news', 'preferredLanguage']}
+          >
+            <Select options={Constants.LANGUAGES} />
+          </Form.Item>
+        </Col>
+      </Row>
+
       <Form.Item
         label="Roles"
         name="roles"
