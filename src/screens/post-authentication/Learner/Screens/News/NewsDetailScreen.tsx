@@ -46,38 +46,35 @@ export default function NewsDetailScreen() {
   const paramsDate = params.get('date')
   // const paramsLang = params.get('language')
   const [date, setDate] = useState(dayjs().startOf('day'))
-  // const [lang, setLang] = useState('')
   useEffect(
     () => {
-      // console.log(params,'paor')
       if (paramsDate) {
-        setDate(dayjs(paramsDate).startOf('day'))
+        const parsedDate = dayjs(paramsDate)
+        if (parsedDate.isValid()) {
+          setDate(parsedDate.startOf('day'))
+        } else {
+          // Handle invalid date format by redirecting or setting a default date
+        }
       } else {
-        setParams({
-          // @ts-ignore
-          date: dayjs()
-            .startOf('day')
-            .toISOString()
-          // language: lang
-        })
+        const newDate = dayjs()
+          .startOf('day')
+          .toISOString()
+        setParams({ date: newDate })
       }
     },
-    [paramsDate]
+    [paramsDate, setParams]
   )
-  // useEffect(
-  //   () => {
-  //     // console.log(params,'paor')
-  //     if (paramsLang) {
-  //       setLang(paramsLang)
-  //     } else {
-  //       setParams({
-  //         language: 'hin',
-  //         date: date.toISOString()
-  //       })
-  //     }
-  //   },
-  //   [paramsLang]
-  // )
+
+  // When setting the new date from the DatePicker
+  const handleDateChange = (dateValue: any) => {
+    const newDate = dateValue
+      ? dateValue.startOf('day').toISOString()
+      : dayjs()
+          .startOf('day')
+          .toISOString()
+    setParams({ date: newDate })
+  }
+
   const { id } = useParams()
   const navigate = useNavigate()
   const { data: newsItem, isLoading } = Learner.Queries.useGetNewsItem(
@@ -126,12 +123,7 @@ export default function NewsDetailScreen() {
                   <DatePicker
                     value={date}
                     style={{ width: 200 }}
-                    onChange={e =>
-                      setParams({
-                        date: e?.toISOString()
-                        // language: lang
-                      })
-                    }
+                    onChange={dateValue => handleDateChange(dateValue)}
                   />
                 </Form.Item>
               </Col>

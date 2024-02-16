@@ -273,7 +273,15 @@ function TestBuilderScreen() {
         title={
           <span>
             {' '}
-            <BackButton onClick={() => navigate('../app/products/test')} />
+            <BackButton
+              // @ts-ignore
+              disabled={!test.category}
+              // @ts-ignore
+              onClick={() => {
+                console.log(test.category, 'asasas')
+                navigate(`../app/products/test#${test.category}`)
+              }}
+            />
             {test.title}{' '}
             {!test.live.enabled ? <Tag color="blur">Live Test</Tag> : null}
           </span>

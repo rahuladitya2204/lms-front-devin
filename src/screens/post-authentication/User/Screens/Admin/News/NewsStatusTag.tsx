@@ -13,7 +13,7 @@ export default function NewsStatusTag(props: NewsStatusTagPropsI) {
   }
   if (props.status === Enum.NewsStatus.IN_PROGRESS) {
     return (
-      <Tag icon={<SyncOutlined spin />} color="blue-inverse">
+      <Tag icon={<SyncOutlined spin />} color="orange-inverse">
         In Progress
       </Tag>
     )

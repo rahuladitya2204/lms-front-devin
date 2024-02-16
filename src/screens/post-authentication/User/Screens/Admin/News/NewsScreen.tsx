@@ -153,7 +153,7 @@ export default function NewsScreen() {
                                     }
                                   )
                                 },
-                                okText: 'Delete'
+                                okText: 'Yes, Notify'
                               })
                             } else {
                               message.open({

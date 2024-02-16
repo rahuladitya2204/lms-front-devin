@@ -115,7 +115,7 @@ const TestStatus = () => {
                       value={result.totalStudents}
                       // precision={2}
                       // valueStyle={{ color: '#3f8600' }}
-                      prefix={<UserOutlined />}
+                      // prefix={<UserOutlined />}
                       // suffix="%"
                     />
                   </Card>
