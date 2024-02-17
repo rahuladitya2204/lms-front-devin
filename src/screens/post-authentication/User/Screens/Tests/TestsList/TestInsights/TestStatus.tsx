@@ -87,7 +87,7 @@ const TestStatus = () => {
       title={
         <span>
           {' '}
-          <BackButton onClick={() => navigate('..')} /> Tests:{' '}
+          <BackButton onClick={() => navigate(`/app/products/test#${test.category}`)} /> Tests:{' '}
           {test.title}
         </span>
       }

@@ -12,19 +12,29 @@ import {
   Tabs,
   Tag
 } from 'antd'
-import { Constants, Enum, Types } from '@adewaskar/lms-common'
+import {
+  BarChartOutlined,
+  PrinterOutlined,
+  SettingOutlined
+} from '@ant-design/icons'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react'
+import MoreButton from '@Components/MoreButton'
+import PrintPrompt from '../TestCreator/TestBuilder/PrintPrompt'
 import TestCard from './TestCard'
+import TestStatusTag from './TestStatus'
 import { Typography } from '@Components/Typography'
 import { User } from '@adewaskar/lms-common'
+import { formatTime } from 'video.js/dist/types/utils/time'
+import { useModal } from '@Components/ActionModal/ModalContext'
+import { useNavigate } from 'react-router'
 
 const { Text } = Typography
 
 function TestsList(props: { filter: Types.GetTestsFilter }) {
-  const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1].map(
-    () => Constants.INITIAL_TEST_DETAILS
-  )
+  const navigate = useNavigate()
+  const { openModal } = useModal()
   const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
     props.filter
@@ -39,15 +49,103 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
   return (
     <Fragment>
       <Fragment>
-        <List
+        <Table
+          loading={loading}
+          dataSource={data.filter(test =>
+            props.filter.status.includes(test.status)
+          )}
+        >
+          <Table.Column
+            title="Title"
+            dataIndex="title"
+            key="title"
+            render={(_: any, test: Types.Test) => (
+              <Button
+                onClick={() => navigate(`${test._id}/editor#information`)}
+                type="link"
+                size="small"
+              >
+                {test.title}
+              </Button>
+            )}
+          />
+          <Table.Column
+            title="Analysis"
+            dataIndex="analysis"
+            key="analysis"
+            render={(_: any, test: Types.Test) => (
+              <Button
+                icon={<BarChartOutlined />}
+                size="small"
+                type="primary"
+                onClick={() => navigate(`${test._id}/status`)}
+              >
+                Show Analysis
+              </Button>
+            )}
+          />
+          <Table.Column
+            title="Questions"
+            dataIndex="status"
+            key="status"
+            render={(_: any, test: Types.Test) =>
+              test.sections.map(i => i.items).flat().length
+            }
+          />
+          <Table.Column
+            title="Status"
+            dataIndex="status"
+            key="status"
+            // @ts-ignore
+            render={(_: any, test: Types.Test) => <TestStatusTag test={test} />}
+          />
+
+          <Table.Column
+            title="Enrolled"
+            dataIndex="enrolled"
+            key="enrolled"
+            render={(_: any, test: Types.Test) => test.analytics.enrolled.count}
+          />
+          <Table.Column
+            title="Duration"
+            dataIndex="duration"
+            key="duration"
+            render={(_: any, test: Types.Test) =>
+              test.duration.enabled ? test.duration.value + ' mins' : '-'
+            }
+          />
+          <Table.Column
+            title="Action"
+            key="action"
+            render={(_: any, test: Types.Test, index: number) => (
+              <MoreButton
+                items={[
+                  {
+                    label: 'Open Test Builder',
+                    key: 'test-builder',
+                    icon: <SettingOutlined />,
+                    onClick: () => {
+                      window.open(`/app/products/test/${test._id}/builder`)
+                    }
+                  },
+                  {
+                    label: 'Print Action',
+                    key: 'print',
+                    icon: <PrinterOutlined />,
+                    onClick: () => {
+                      openModal(<PrintPrompt testId={test._id + ''} />, {
+                        title: 'Print'
+                      })
+                    }
+                  }
+                ]}
+              />
+            )}
+          />
+        </Table>
+        {/* <List
           grid={{ gutter: 20, column: 4, xs: 1, sm: 2, md: 3 }}
           size="large"
-          // pagination={{
-          //   onChange: (page) => {
-          //     console.log(page);
-          //   },
-          //   pageSize: 3,
-          // }}
           dataSource={
             loading
               ? SkeletonArr
@@ -69,7 +167,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               </div>
             )
           }}
-        />
+        /> */}
       </Fragment>
     </Fragment>
   )

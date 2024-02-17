@@ -147,7 +147,7 @@ function TestEditor() {
           <Card
             title={
               <span>
-                <BackButton onClick={() => navigate(`../app/products/test`)} />{' '}
+                <BackButton disabled={!test.category} onClick={() => navigate(`../app/products/test#${test.category}`)} />{' '}
                 {test.title}
               </span>
             }
