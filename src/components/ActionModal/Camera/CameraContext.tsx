@@ -90,11 +90,17 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
     // setIsModalVisible(false);
   }, []);
 
+  const handleClose = useCallback(() => {
+    // Handle cancel for single image mode
+    setPreviewImage(null);
+    setIsModalVisible(false);
+  }, []);
+
   return (
     <CameraContext.Provider value={{ openCamera }}>
       {children}
-      <Modal closable={false} visible={isModalVisible} footer={null} onCancel={handleCancel} bodyStyle={{ textAlign: 'center', padding: 0, position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }}>
-        <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }} onClick={handleCancel} />
+      <Modal closable={false} visible={isModalVisible} footer={null} onCancel={handleClose} bodyStyle={{ textAlign: 'center', padding: 0, position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }}>
+        <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }} onClick={handleClose} />
         {!previewImage && <Camera facingMode="environment" ref={cameraRef} />}
         {previewImage && !multiple && (
           <div style={{ position: 'relative' }}>
