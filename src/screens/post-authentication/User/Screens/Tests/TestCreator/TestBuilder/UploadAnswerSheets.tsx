@@ -1,4 +1,14 @@
-import { Button, Card, Col, Dropdown, Form, Image, Row, message } from 'antd'
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Form,
+  Image,
+  Modal,
+  Row,
+  message
+} from 'antd'
 import {
   CameraOutlined,
   DeleteOutlined,
@@ -15,6 +25,7 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
 import { useParams } from 'react-router'
 
+const { confirm } = Modal
 export default function UploadAnswerSheets() {
   const { testId } = useParams()
   const { data: test, isLoading: loadingTest } = User.Queries.useGetTestDetails(
@@ -175,15 +186,15 @@ export default function UploadAnswerSheets() {
             >
               <Form.List name="answerSheets">
                 {(fields, { remove }) => (
-                  <Row gutter={16}>
+                  <Row gutter={[20, 30]} align={'middle'}>
                     {fields.map(({ key, name, fieldKey }) => (
-                      <Col key={key} span={4}>
+                      <Col key={key} xs={24} sm={12} md={6} lg={4}>
                         <Row>
-                          <Col span={24}>
+                          {/* <Col span={24}>
                             <TestAnswerSheetProcessStatusTag
                               answerSheet={answerSheets[key]}
                             />
-                          </Col>
+                          </Col> */}
                           <Col span={24}>
                             <Form.Item
                               name={[name, 'url']}
@@ -198,13 +209,26 @@ export default function UploadAnswerSheets() {
                             </Form.Item>
                           </Col>
                           <Col span={24}>
+                            <TestAnswerSheetProcessStatusTag
+                              answerSheet={answerSheets[key]}
+                            />
+                          </Col>
+                          <Col span={24}>
                             <Button
                               style={{ width: 100 }}
                               size="small"
                               danger
                               icon={<DeleteOutlined />}
                               onClick={() => {
-                                handleDelete(name)
+                                confirm({
+                                  title: `Are you sure`,
+                                  // icon: <ExclamationCircleOutlined />,
+                                  content: `You want to delete this image`,
+                                  onOk() {
+                                    handleDelete(name)
+                                  },
+                                  okText: 'Delete'
+                                })
                               }}
                             >
                               Delete

@@ -46,7 +46,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
     }
   }, [enableQuadrilateralHighlighting, multiple]);
 
-  const openCamera = useCallback((isMultiple = true) => {
+  const openCamera = useCallback((isMultiple = false) => {
     setMultiple(isMultiple);
     setIsModalVisible(true);
     setPreviewImage(null); // Ensure preview is reset every time camera is opened
