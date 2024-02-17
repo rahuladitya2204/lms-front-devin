@@ -5,6 +5,9 @@ import { Types, User } from '@adewaskar/lms-common'
 
 import Header from '@Components/Header'
 import MediaUpload from '@Components/MediaUpload'
+import TestAnswerSheetProcessStatusTag from './UploadTestAnswerSheetProcessTag'
+import useBreakpoint from '@Hooks/useBreakpoint'
+import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
 import { useParams } from 'react-router'
 
 export default function UploadAnswerSheets() {
@@ -53,12 +56,25 @@ export default function UploadAnswerSheets() {
       }
     )
   }
+  const {
+    mutate: processAnswerSheets,
+    isLoading: processingAnswerSheets
+  } = User.Queries.useProcessAnswerSheets(testId + '')
+  const { isMobile } = useBreakpoint()
+  const { openCamera } = useCamera()
   return (
     <Header
       title={`${test?.title || 'Upload Answer Sheets'}`}
       extra={[
-        <Button onClick={form.submit} loading={updating} type="primary">
+        <Button onClick={form.submit} loading={updating}>
           Save Changes
+        </Button>,
+        <Button
+          onClick={() => processAnswerSheets()}
+          loading={processingAnswerSheets}
+          type="primary"
+        >
+          Process Answer Sheets
         </Button>
       ]}
     >
@@ -98,6 +114,11 @@ export default function UploadAnswerSheets() {
                     {fields.map(({ key, name, fieldKey }) => (
                       <Col key={key} span={4}>
                         <Row>
+                          <Col span={24}>
+                            <TestAnswerSheetProcessStatusTag
+                              answerSheet={answerSheets[key]}
+                            />
+                          </Col>
                           <Col span={24}>
                             <Form.Item
                               name={[name, 'url']}

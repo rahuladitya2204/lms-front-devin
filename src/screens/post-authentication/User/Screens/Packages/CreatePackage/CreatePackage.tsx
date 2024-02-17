@@ -14,6 +14,7 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
+import BackButton from '@Components/BackButton'
 import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 import Header from '@Components/Header'
 import PackageDetails from './PackageDetails/PackageDetails'
@@ -135,7 +136,15 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   </Button>;
   console.log(isPackageValid,'isPackageValid')
   return (
-    <Header onBack={()=>navigate('../')} title='Create Package' extra={[
+    <Header onBack={() => navigate('../')}
+    title={
+      <span>
+        <BackButton disabled={!packageDetails.category}
+          onClick={() => navigate(`/app/products/packages`)} />{' '}
+        {packageDetails._id?(packageDetails.title):'Create Package'}
+      </span>
+    }
+      extra={[
       ...(packageDetails.status===Enum.PackageStatus.PUBLISHED?[UnpublishPackage,<Tag color='green'>Published</Tag>]:[]),
       (isPackageValid && (packageDetails.status !== Enum.PackageStatus.PUBLISHED))?PublishPackage:null,
       SavePackage]}>
