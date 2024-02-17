@@ -64,7 +64,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
       const file = await compressImage(blobToFile(blob, 'captured-image.jpg', 'image/jpeg'), {
         maxWidth: 1240, maxHeight: 1754, quality: 1
       });
-      resolveCapture([file]); // Ensure to resolve with an array for consistency
+      resolveCapture(file); // Ensure to resolve with an array for consistency
       setIsModalVisible(false);
       setPreviewImage(null); // Reset after processing
     }
