@@ -87,7 +87,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
   const handleCancel = useCallback(() => {
     // Handle cancel for single image mode
     setPreviewImage(null);
-    setIsModalVisible(false);
+    // setIsModalVisible(false);
   }, []);
 
   return (
