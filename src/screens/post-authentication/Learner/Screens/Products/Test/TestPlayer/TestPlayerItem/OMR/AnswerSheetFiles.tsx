@@ -374,7 +374,8 @@ name={fileDetails.name} // Assuming this is how you access the file name
       const { mutate: verifyAnswerSheet, isLoading: verifyingAnswerSheet } = NAMESPACE.Queries.useVerifyAnswerSheetFile(testId);
       const {openModal } = useModal();
       const VerifyAnswerSheet = (url:string) => {
-    verifyAnswerSheet({
+        verifyAnswerSheet({
+      // @ts-ignore
       url: url,
     }, {
            // @ts-ignore

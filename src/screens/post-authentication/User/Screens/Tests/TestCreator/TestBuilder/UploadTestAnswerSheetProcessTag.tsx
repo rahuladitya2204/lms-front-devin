@@ -33,19 +33,31 @@ export default function TestAnswerSheetProcessStatusTag({
     )
   }
 
+  if (answerSheet.status === Enum.TestAnswerSheetProcessStatus.IMAGE_UNCLEAR) {
+    return (
+      <Tag
+        style={{ width: 100, textAlign: 'center', marginBottom: 5 }}
+        color="red-inverse"
+      >
+        Image Unclear
+      </Tag>
+    )
+  }
+
   if (
     answerSheet.status ===
     Enum.TestAnswerSheetProcessStatus.ENROLLMENT_NOT_FOUND
   ) {
     return (
-      <Tag icon={<CloseOutlined />}
+      <Tag
+        icon={<CloseOutlined />}
         style={{ width: 100, textAlign: 'center', marginBottom: 5 }}
         color="red-inverse"
       >
-         Enrollment
+        Enrollment
       </Tag>
     )
   }
 
-  return <span>-</span>
+  return null
 }

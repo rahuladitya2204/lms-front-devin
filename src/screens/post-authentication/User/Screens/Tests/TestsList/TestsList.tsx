@@ -15,7 +15,8 @@ import {
 import {
   BarChartOutlined,
   PrinterOutlined,
-  SettingOutlined
+  SettingOutlined,
+  UploadOutlined
 } from '@ant-design/icons'
 import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 
@@ -136,6 +137,14 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
                       openModal(<PrintPrompt testId={test._id + ''} />, {
                         title: 'Print'
                       })
+                    }
+                  },
+                  {
+                    label: 'Upload Answer Sheets',
+                    key: 'upload-answer-sheet',
+                    icon: <UploadOutlined />,
+                    onClick: () => {
+                      window.open(`/app/test/${test._id}/answer-sheet/upload`)
                     }
                   }
                 ]}

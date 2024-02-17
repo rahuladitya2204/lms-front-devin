@@ -79,7 +79,6 @@ export default function UploadNews(props: UploadNewsPropsI) {
             form.setFieldValue(
               ['files'],
               [
-                ...files,
                 {
                   file: e._id,
                   url: e.url

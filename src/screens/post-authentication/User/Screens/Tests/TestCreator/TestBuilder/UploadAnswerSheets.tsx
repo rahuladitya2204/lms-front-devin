@@ -1,5 +1,9 @@
-import { Button, Card, Col, Form, Image, Row, message } from 'antd'
-import { DeleteOutlined, UploadOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Dropdown, Form, Image, Row, message } from 'antd'
+import {
+  DeleteOutlined,
+  SettingOutlined,
+  UploadOutlined
+} from '@ant-design/icons'
 import React, { useEffect } from 'react'
 import { Types, User } from '@adewaskar/lms-common'
 
@@ -66,22 +70,37 @@ export default function UploadAnswerSheets() {
     <Header
       title={`${test?.title || 'Upload Answer Sheets'}`}
       extra={[
-        <Button onClick={form.submit} loading={updating}>
-          Save Changes
-        </Button>,
-        <Button
-          onClick={() => processAnswerSheets()}
-          loading={processingAnswerSheets}
+        <Dropdown.Button
           type="primary"
+          menu={{
+            items: [
+              {
+                label: 'Process Answer Sheets',
+                icon: <SettingOutlined />,
+                key: 'process-answer-sheet',
+                onClick: () => processAnswerSheets()
+              }
+            ]
+          }}
+          onClick={form.submit}
+          loading={updating || processingAnswerSheets}
         >
-          Process Answer Sheets
-        </Button>
+          Save Changes
+        </Dropdown.Button>
+        // <Button
+        //   onClick={() => processAnswerSheets()}
+        //   loading={processingAnswerSheets}
+        //   type="primary"
+        // >
+        //   Process Answer Sheets
+        // </Button>
       ]}
     >
       <Form onFinish={submit} form={form} initialValues={{ answerSheets: [] }}>
         <Row>
           <Col span={24}>
             <Card
+              style={{ minHeight: '80vh' }}
               loading={loadingTest}
               title="Upload Answer Sheets"
               extra={
@@ -93,16 +112,18 @@ export default function UploadAnswerSheets() {
                   renderItem={() => (
                     <Button icon={<UploadOutlined />}>Upload Files</Button>
                   )}
-                  onUpload={([file]: Types.FileType[]) => {
+                  onUpload={(files: Types.FileType[]) => {
                     const answerSheets =
                       form.getFieldValue('answerSheets') || []
-                    const newAnswerSheets = {
-                      url: file.url,
-                      // pageNo: answerSheets.length + 1,
-                      responses: [] // Assuming initial responses are empty
-                    }
+                    const newAnswerSheets = files.map(file => {
+                      return {
+                        url: file.url,
+                        // pageNo: answerSheets.length + 1,
+                        responses: [] // Assuming initial responses are empty
+                      }
+                    })
                     form.setFieldsValue({
-                      answerSheets: [...answerSheets, newAnswerSheets]
+                      answerSheets: [...answerSheets, ...newAnswerSheets]
                     })
                   }}
                 />

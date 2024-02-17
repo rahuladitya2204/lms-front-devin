@@ -12,6 +12,7 @@ import {
   Spin,
   Tag,
   Timeline,
+  message,
 } from 'antd'
 import { BookOutlined, MenuOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
@@ -30,8 +31,10 @@ import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
+import { openWindow } from '@Components/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useModal } from '@Components/ActionModal/ModalContext'
+import { useQueryClient } from '@tanstack/react-query'
 
 // const AnswerSheetFiles = React.lazy(() => import('./TestPlayerItem/OMR/AnswerSheetFiles')); // Lazy-loaded content
 
@@ -75,18 +78,33 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   );
 
   const testEndTime = enrolledProduct?.metadata?.test?.endedAt;
-
+  const { openModal} = useModal();
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
-
+  const qc = useQueryClient();
   const AnswerSheetButton = <ActionModal minHeight={500} lazy width={800}
     cta={<Button block={isMobile} type='primary'>Answer Sheet</Button>}
     title={<Row style={{ marginTop: 25 }}
       justify={'space-between'} align={'middle'}>
       <Col>
         <Title level={4}>Answer Sheet </Title></Col><Col>
-        <ActionModal cta={<Button type='primary' >Upload Answer Sheet</Button>}>
-          <AnswerSheetFiles testId={testId+''} />
-        </ActionModal></Col>
+        <Button type='primary' onClick={() => {
+             if (isMobile) {
+              openWindow(`/app/test/${testId}/upload-answer-sheet`, (refetchTestStatus: boolean) => {
+                // debugger;
+                if (refetchTestStatus) {
+                  message.open({
+                    type: 'success',
+                    content: `Answer Sheet Recorded successfully`
+                  });
+                  qc.invalidateQueries([`GET_TEST_STATUS`, testId]);
+                }
+              })
+            }
+            else {
+              openModal(<AnswerSheetFiles testId={testId + ''} />);
+            }
+        }} >Upload Answer Sheet</Button>
+      </Col>
     </Row>}
   >
     <OMRComponent testId={testId + ''} />

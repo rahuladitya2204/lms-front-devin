@@ -140,7 +140,7 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
             // @ts-ignore
                setFileList(fileList);
                // @ts-ignore
-               props.onChange(fileList)
+               props.onChange && props.onChange(fileList)
                console.log('Again')
   }
 
