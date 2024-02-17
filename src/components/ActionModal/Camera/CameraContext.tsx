@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Alert, Button, Modal } from 'antd';
+import { Alert, Badge, Button, Image, Modal } from 'antd';
 import { Camera, CameraType } from 'react-camera-pro';
 import { CameraOutlined, CheckOutlined, CloseOutlined, WarningOutlined } from '@ant-design/icons';
 import React, { createContext, useCallback, useContext, useRef, useState } from 'react';
@@ -103,15 +103,19 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: Ca
             <Button shape='circle' icon={<CheckOutlined />} style={{ position: 'absolute', width: 40, height: 40, bottom: 44, right: '30%' }} onClick={handleAccept}></Button>
           </div>
         )}
-        {!previewImage && <Button icon={<CameraOutlined />} style={{ position: 'absolute', left: '50%', bottom: 20, transform: 'translateX(-50%)' }} size="large" type="primary" shape="circle" onClick={handleCapture} />}
+        {!previewImage && <Button size='large' icon={<CameraOutlined />} style={{ position: 'absolute', left: '50%', bottom: 20, transform: 'translateX(-50%)' }} size="large" type="primary" shape="circle" onClick={handleCapture} />}
         {multiple && capturedImages.length > 0 && (
           <>
-            <div style={{ position: 'absolute', left: 10, bottom: 100, maxHeight: '300px', overflowY: 'auto' }}>
+            <div style={{ position: 'absolute', left: '24%', bottom: 10, maxHeight: '300px', overflowY: 'auto' }}>
+              <Badge style={{position:'absolute',top:15,right: 15}} count={capturedImages.length}>
+              <Image.PreviewGroup>
               {capturedImages.map((image, index) => (
-                <img key={index} src={image} alt="Thumbnail" style={{ width: '100px', marginRight: '5px' }} />
+                <Image key={index} src={image} alt="Thumbnail" style={{ width: '60px', marginRight: '5px',display: index===capturedImages.length-1?'block':'none' }} />
               ))}
+              </Image.PreviewGroup>
+             </Badge>
             </div>
-            <Button shape='circle' icon={<CheckOutlined />} style={{ position: 'absolute', right: 10, bottom: 20 }} onClick={handleDone} />
+            <Button shape='circle' icon={<CheckOutlined />} style={{ position: 'absolute', right: '30%', bottom: 20 }} onClick={handleDone} />
           </>
         )}
       </Modal>

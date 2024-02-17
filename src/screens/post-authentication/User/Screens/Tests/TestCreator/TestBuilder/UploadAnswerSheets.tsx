@@ -1,11 +1,12 @@
 import { Button, Card, Col, Dropdown, Form, Image, Row, message } from 'antd'
 import {
+  CameraOutlined,
   DeleteOutlined,
   SettingOutlined,
   UploadOutlined
 } from '@ant-design/icons'
+import { Common, Types, User } from '@adewaskar/lms-common'
 import React, { useEffect } from 'react'
-import { Types, User } from '@adewaskar/lms-common'
 
 import Header from '@Components/Header'
 import MediaUpload from '@Components/MediaUpload'
@@ -66,6 +67,10 @@ export default function UploadAnswerSheets() {
   } = User.Queries.useProcessAnswerSheets(testId + '')
   const { isMobile } = useBreakpoint()
   const { openCamera } = useCamera()
+  const {
+    mutate: uploadFiles,
+    isLoading: uploadingFile
+  } = Common.Queries.useUploadFiles()
   return (
     <Header
       title={`${test?.title || 'Upload Answer Sheets'}`}
@@ -104,29 +109,68 @@ export default function UploadAnswerSheets() {
               loading={loadingTest}
               title="Upload Answer Sheets"
               extra={
-                <MediaUpload
-                  compress={{ maxWidth: 1240, maxHeight: 1754, quality: 1 }}
-                  aspect={210 / 297}
-                  multiple
-                  uploadType="image"
-                  renderItem={() => (
-                    <Button icon={<UploadOutlined />}>Upload Files</Button>
-                  )}
-                  onUpload={(files: Types.FileType[]) => {
-                    const answerSheets =
-                      form.getFieldValue('answerSheets') || []
-                    const newAnswerSheets = files.map(file => {
-                      return {
-                        url: file.url,
-                        // pageNo: answerSheets.length + 1,
-                        responses: [] // Assuming initial responses are empty
-                      }
-                    })
-                    form.setFieldsValue({
-                      answerSheets: [...answerSheets, ...newAnswerSheets]
-                    })
-                  }}
-                />
+                isMobile ? (
+                  <Button
+                    loading={uploadingFile}
+                    onClick={() =>
+                      openCamera(true).then(files => {
+                        uploadFiles({
+                          files: files.map(f => {
+                            return {
+                              file: f
+                            }
+                          }),
+                          onSuccess: files => {
+                            console.log('Uploaded Files', files)
+                            const answerSheets =
+                              form.getFieldValue('answerSheets') || []
+                            const newAnswerSheets = files.map(file => {
+                              return {
+                                url: file.url,
+                                // pageNo: answerSheets.length + 1,
+                                responses: [] // Assuming initial responses are empty
+                              }
+                            })
+                            form.setFieldsValue({
+                              answerSheets: [
+                                ...answerSheets,
+                                ...newAnswerSheets
+                              ]
+                            })
+                          }
+                        })
+                      })
+                    }
+                    type="primary"
+                    icon={<CameraOutlined />}
+                  >
+                    Click Photo
+                  </Button>
+                ) : (
+                  <MediaUpload
+                    compress={{ maxWidth: 1240, maxHeight: 1754, quality: 1 }}
+                    aspect={210 / 297}
+                    multiple
+                    uploadType="image"
+                    renderItem={() => (
+                      <Button icon={<UploadOutlined />}>Upload Files</Button>
+                    )}
+                    onUpload={(files: Types.FileType[]) => {
+                      const answerSheets =
+                        form.getFieldValue('answerSheets') || []
+                      const newAnswerSheets = files.map(file => {
+                        return {
+                          url: file.url,
+                          // pageNo: answerSheets.length + 1,
+                          responses: [] // Assuming initial responses are empty
+                        }
+                      })
+                      form.setFieldsValue({
+                        answerSheets: [...answerSheets, ...newAnswerSheets]
+                      })
+                    }}
+                  />
+                )
               }
             >
               <Form.List name="answerSheets">
@@ -147,7 +191,7 @@ export default function UploadAnswerSheets() {
                               noStyle
                             >
                               <Image
-                                src={answerSheets[key].url}
+                                src={answerSheets[key]?.url}
                                 width={100}
                                 style={{ marginBottom: 8 }}
                               />
