@@ -48,8 +48,8 @@ function ThemeProvider(props: any) {
         theme={{
           algorithm: algorithm,
           token: {
-            colorPrimary: branding.colors.primary,
-            fontFamily: branding.font.name
+            colorPrimary: (branding?.colors?.primary) || 'blue',
+            fontFamily: (branding?.font?.name) || 'Jost'
             // algorithm: true
           }
         }}

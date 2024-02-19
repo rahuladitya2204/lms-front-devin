@@ -167,7 +167,7 @@ function TestEditor() {
                   okText: 'Yes, Publish'
                 })
               }}
-              style={{ marginRight: 15 }}
+              style={{ marginLeft: 15 }}
               icon={<UploadOutlined />}
             >
               Publish Test

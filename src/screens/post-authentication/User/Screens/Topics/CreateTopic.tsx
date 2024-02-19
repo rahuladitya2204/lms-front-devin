@@ -33,7 +33,7 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = props => {
         { id: props.data._id, data: e },
         {
           onSuccess: () => {
-            form.resetFields();
+            form.resetFields()
             props.closeModal && props.closeModal()
           }
         }
@@ -44,7 +44,7 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = props => {
         { data: e },
         {
           onSuccess: () => {
-            form.resetFields();
+            form.resetFields()
             props.closeModal && props.closeModal()
           }
         }
@@ -93,6 +93,7 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = props => {
         loading={createTopicLoading || updateTopicLoading}
         key="submit"
         type="primary"
+        htmlType="submit"
         onClick={form.submit}
       >
         Submit

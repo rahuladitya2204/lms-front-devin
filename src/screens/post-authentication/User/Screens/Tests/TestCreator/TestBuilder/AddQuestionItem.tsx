@@ -16,9 +16,11 @@ import {
   Spin,
   Switch,
   Tag,
+  Tree,
+  TreeSelect,
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
-import { DeleteTwoTone, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
+import { DeleteTwoTone, DownOutlined, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import ActionModal from '@Components/ActionModal/ActionModal';
@@ -33,6 +35,7 @@ import { Text } from '@Components/Typography/Typography';
 import TextArea from '@Components/Textarea';
 import { Typography } from '@Components/Typography';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
+import { buildTopicTree } from '../TestInformation/TestDetailsEditor/TestDetails';
 import { useParams } from 'react-router';
 import useTestBuilderUI from './hooks/useTestBuilder';
 import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
@@ -63,13 +66,14 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
   
   const [enterHtml, setEnterHtml] = useState(false);
   const {  itemId,id: testId } = useParams();
-  const { handleTopicsChange,topics,onFormChange,updateItem} = useUpdateTestForm(itemId+'');
+  const { handleTopicsChange,onFormChange,updateItem} = useUpdateTestForm(itemId+'');
   const item = useTestStore(s => s.currentQuestion);
   const { data: test } = User.Queries.useGetTestDetails(testId + '');
   const criterias = Form.useWatch('criterias', form);
  
   const isTestEnded = test.status === Enum.TestStatus.ENDED;
   const { navigate } = useTestNavigation(test);
+  const { data: topics } = User.Queries.useGetTopics();
 
   useEffect(() => {
     form.setFieldsValue(item);
@@ -176,15 +180,14 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           </Col>
           <Col span={12}>
             <Form.Item label='Topics' name='topics'>
-              <Select
-                onChange={console.log}
-                mode='multiple' showSearch
-                options={topics.filter(t => t.parentId === test.topic).map(t => {
-                return {
-                  label: t.title,
-                  value:t._id
-                }
-              })} />
+              <TreeSelect
+                treeData={buildTopicTree(topics,test.topic)}
+                // onExpand={onExpand}
+                // expandedKeys={expandedKeys}
+                // defaultExpandAll
+                // showLine
+              // switcherIcon={<DownOutlined />}
+              />
             </Form.Item>
           </Col>
 

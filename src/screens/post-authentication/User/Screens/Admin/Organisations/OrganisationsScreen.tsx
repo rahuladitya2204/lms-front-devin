@@ -53,7 +53,7 @@ export default function OrganisationScreen() {
     >
       <Row>
         <Col span={24}>
-          <Card>
+          <Card loading={loadingOrganisation}>
             {' '}
             <Spin spinning={false}>
               {/* @ts-ignore */}

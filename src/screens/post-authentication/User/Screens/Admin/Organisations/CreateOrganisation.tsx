@@ -95,7 +95,7 @@ export default function CreateOrganisation(props: CreateOrganisationPropsI) {
       <Row justify={'end'}>
         <Col>
           <Button loading={uploadingNews} onClick={form.submit} type="primary">
-            Upload News Paper
+            {props.data?._id ? 'Update Organisation' : 'Create Organisation'}
           </Button>
         </Col>
       </Row>

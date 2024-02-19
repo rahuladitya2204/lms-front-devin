@@ -13,6 +13,7 @@ import {
 } from 'antd'
 import {
   BarChartOutlined,
+  LineChartOutlined,
   PrinterOutlined,
   SettingOutlined,
   UploadOutlined
@@ -81,7 +82,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               dayjs(test.updatedAt).format('LL')
             }
           />
-          <TableColumn
+          {/* <TableColumn
             title="Analysis"
             dataIndex="analysis"
             key="analysis"
@@ -95,15 +96,15 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
                 Show Analysis
               </Button>
             )}
-          />
-          <TableColumn
+          /> */}
+          {/* <TableColumn
             title="Questions"
             dataIndex="status"
             key="status"
             render={(_: any, test: Types.Test) =>
               test.sections.map(i => i.items).flat().length
             }
-          />
+          /> */}
           <TableColumn
             title="Status"
             dataIndex="status"
@@ -116,7 +117,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             title="Enrolled"
             dataIndex="enrolled"
             key="enrolled"
-            render={(_: any, test: Types.Test) => test.analytics.enrolled.count}
+            render={(_: any, test: Types.Test) => (
+              <Text strong>{test.analytics.enrolled.count}</Text>
+            )}
           />
           <TableColumn
             title="Duration"
@@ -138,6 +141,14 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
                     icon: <SettingOutlined />,
                     onClick: () => {
                       window.open(`/app/products/test/${test._id}/builder`)
+                    }
+                  },
+                  {
+                    label: 'Show Analysis',
+                    key: 'show-analysis',
+                    icon: <LineChartOutlined />,
+                    onClick: () => {
+                      window.open(`/app/products/test/${test._id}/status`)
                     }
                   },
                   {

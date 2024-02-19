@@ -352,15 +352,19 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
 export default TestDetailsEditor
 
-export const buildTopicTree = (topics: Types.Topic[]) => {
-  const buildTreeData = (topics: Types.Topic[]): TopicNode[] => {
-    // @ts-ignore
-    return topics.filter(topic => !topic.parentId).map(topic => ({
-      ...topic,
-      value: topic._id,
-      title: topic.title,
-      children: buildSubTreeData(topic._id + '', topics)
-    }))
+export const buildTopicTree = (topics: Types.Topic[], topicId?: string) => {
+  const buildTreeData = (topics: Types.Topic[], parentId?: string): TopicNode[] => {
+    if (parentId) {
+      return buildSubTreeData(parentId, topics);
+    } else {
+      // @ts-ignore
+      return topics.filter(topic => !topic.parentId).map(topic => ({
+        ...topic,
+        value: topic._id,
+        title: topic.title,
+        children: buildSubTreeData(topic._id + '', topics)
+      }));
+    }
   }
 
   const buildSubTreeData = (
@@ -374,10 +378,11 @@ export const buildTopicTree = (topics: Types.Topic[]) => {
         value: topic._id,
         title: topic.title,
         children: buildSubTreeData(topic._id + '', topics)
-      }))
+      }));
     // @ts-ignore
-    return [...subTopics]
+    return [...subTopics];
   }
 
-  return buildTreeData(topics)
+  return buildTreeData(topics, topicId);
 }
+
