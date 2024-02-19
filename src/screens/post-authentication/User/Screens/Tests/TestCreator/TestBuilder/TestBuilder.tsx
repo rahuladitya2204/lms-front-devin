@@ -283,7 +283,9 @@ function TestBuilderScreen() {
               }}
             />
             {test.title}{' '}
-            {!test.live.enabled ? <Tag color="blur">Live Test</Tag> : null}
+            {test.live.enabled ? (
+              <Tag color="blue-inverse">Live Test</Tag>
+            ) : null}
           </span>
         }
         extra={[

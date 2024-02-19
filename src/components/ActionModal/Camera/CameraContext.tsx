@@ -18,7 +18,7 @@ interface CameraProviderPropsI {
   enableQuadrilateralHighlighting?: boolean;
 }
 
-export const CameraProvider = ({ children, enableQuadrilateralHighlighting }: CameraProviderPropsI) => {
+export const CameraProvider = ({ children, enableQuadrilateralHighlighting=true }: CameraProviderPropsI) => {
   const cameraRef = useRef<CameraType>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null); // For single image preview

@@ -8,7 +8,6 @@ import {
   Row,
   Skeleton,
   Space,
-  Table,
   Tabs,
   Tag
 } from 'antd'
@@ -19,6 +18,7 @@ import {
   UploadOutlined
 } from '@ant-design/icons'
 import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
+import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import { Fragment } from 'react'
 import MoreButton from '@Components/MoreButton'
@@ -27,6 +27,7 @@ import TestCard from './TestCard'
 import TestStatusTag from './TestStatus'
 import { Typography } from '@Components/Typography'
 import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 import { formatTime } from 'video.js/dist/types/utils/time'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useNavigate } from 'react-router'
@@ -51,12 +52,13 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     <Fragment>
       <Fragment>
         <Table
+          searchFields={['title']}
           loading={loading}
           dataSource={data.filter(test =>
             props.filter.status.includes(test.status)
           )}
         >
-          <Table.Column
+          <TableColumn
             title="Title"
             dataIndex="title"
             key="title"
@@ -70,7 +72,16 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               </Button>
             )}
           />
-          <Table.Column
+          <TableColumn
+            title="Last Updated"
+            dataIndex="lastUpdated"
+            key="lastUpdated"
+            render={(_: any, test: Types.Test) =>
+              // @ts-ignore
+              dayjs(test.updatedAt).format('LL')
+            }
+          />
+          <TableColumn
             title="Analysis"
             dataIndex="analysis"
             key="analysis"
@@ -85,7 +96,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               </Button>
             )}
           />
-          <Table.Column
+          <TableColumn
             title="Questions"
             dataIndex="status"
             key="status"
@@ -93,7 +104,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               test.sections.map(i => i.items).flat().length
             }
           />
-          <Table.Column
+          <TableColumn
             title="Status"
             dataIndex="status"
             key="status"
@@ -101,13 +112,13 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             render={(_: any, test: Types.Test) => <TestStatusTag test={test} />}
           />
 
-          <Table.Column
+          <TableColumn
             title="Enrolled"
             dataIndex="enrolled"
             key="enrolled"
             render={(_: any, test: Types.Test) => test.analytics.enrolled.count}
           />
-          <Table.Column
+          <TableColumn
             title="Duration"
             dataIndex="duration"
             key="duration"
@@ -115,7 +126,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               test.duration.enabled ? test.duration.value + ' mins' : '-'
             }
           />
-          <Table.Column
+          <TableColumn
             title="Action"
             key="action"
             render={(_: any, test: Types.Test, index: number) => (

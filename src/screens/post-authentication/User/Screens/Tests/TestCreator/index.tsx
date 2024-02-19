@@ -1,7 +1,9 @@
-import { Button, Card, Col, Form, Modal, Row, Skeleton, Spin, Tag } from 'antd'
+import { Button, Card, Col, Dropdown, Form, Modal, Row, Skeleton, Spin, Tag } from 'antd'
 import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import {
+  ExportOutlined,
   InfoCircleOutlined,
+  LinkOutlined,
   MenuOutlined,
   SafetyCertificateOutlined,
   SaveOutlined,
@@ -149,41 +151,38 @@ function TestEditor() {
               <span>
                 <BackButton disabled={!test.category} onClick={() => navigate(`../app/products/test#${test.category}`)} />{' '}
                 {test.title}
+                {test.status === Enum.TestStatus.PUBLISHED ? (
+                <Tag style={{marginLeft:10}} color="green">Test is published</Tag>
+              ): <Button
+              disabled={!Utils.validatePublishTest(test)}
+              onClick={() => {
+                confirm({
+                  title: 'Are you sure?',
+                  content: `You want to publish this Test?`,
+                  onOk() {
+                    publishTest({
+                      testId: test._id + ''
+                    })
+                  },
+                  okText: 'Yes, Publish'
+                })
+              }}
+              style={{ marginRight: 15 }}
+              icon={<UploadOutlined />}
+            >
+              Publish Test
+            </Button>}
               </span>
             }
             extra={[
-              test.status === Enum.TestStatus.PUBLISHED ? (
-                <Tag color="green">Test is published</Tag>
-              ) : !test.sections.length ? (
-                <Button
+              <Button icon={<ExportOutlined/>}
                   onClick={() => {
-                    navigate(`../app/products/test/${test._id}/builder`)
+                    window.open(`/app/products/test/${test._id}/builder`)
                   }}
                   style={{ marginRight: 10 }}
                 >
                   Go to Test Builder
-                </Button>
-              ) : (
-                <Button
-                  disabled={!Utils.validatePublishTest(test)}
-                  onClick={() => {
-                    confirm({
-                      title: 'Are you sure?',
-                      content: `You want to publish this Test?`,
-                      onOk() {
-                        publishTest({
-                          testId: test._id + ''
-                        })
-                      },
-                      okText: 'Yes, Publish'
-                    })
-                  }}
-                  style={{ marginRight: 15 }}
-                  icon={<UploadOutlined />}
-                >
-                  Publish Test
-                </Button>
-              ),
+                </Button>,
               <Button
                 disabled={!validateDraftTest()}
                 loading={loading}
