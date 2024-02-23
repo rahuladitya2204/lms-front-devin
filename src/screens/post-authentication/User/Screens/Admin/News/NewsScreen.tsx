@@ -110,7 +110,7 @@ export default function NewsScreen() {
                     <NewsStatusTag status={record.status} />
                   )}
                 />
-                <Table.Column
+                {/* <Table.Column
                   title="Audio"
                   dataIndex="audio"
                   key="audio"
@@ -121,7 +121,7 @@ export default function NewsScreen() {
                       'No Audio Found'
                     )
                   }
-                />
+                /> */}
                 <Table.Column
                   title="Action"
                   key="action"

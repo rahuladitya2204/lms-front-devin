@@ -13,6 +13,7 @@ import {
 } from 'antd'
 import {
   BarChartOutlined,
+  ClockCircleOutlined,
   LineChartOutlined,
   PrinterOutlined,
   SettingOutlined,
@@ -73,6 +74,19 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               </Button>
             )}
           />
+
+          <TableColumn
+            title="Input Type"
+            dataIndex="inputType"
+            key="inputType"
+            render={(_: any, test: Types.Test) =>
+              test?.input?.type === Enum.TestInputType.HANDWRITTEN ? (
+                <Tag color="orange-inverse">Subjective</Tag>
+              ) : (
+                <Tag color="blue-inverse">Objective</Tag>
+              )
+            }
+          />
           <TableColumn
             title="Last Updated"
             dataIndex="lastUpdated"
@@ -126,7 +140,13 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             dataIndex="duration"
             key="duration"
             render={(_: any, test: Types.Test) =>
-              test.duration.enabled ? test.duration.value + ' mins' : '-'
+              test.duration.enabled ? (
+                <Tag color='gold-inverse' icon={<ClockCircleOutlined />}>
+                  {test.duration.value + ' mins'}
+                </Tag>
+              ) : (
+                '-'
+              )
             }
           />
           <TableColumn
