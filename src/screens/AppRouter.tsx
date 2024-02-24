@@ -179,7 +179,7 @@ const router = (userType: string) => {
  </Route>
             <Route path="" element={<LearnerFullPageHolder />}>
             <Route path="news" element={<NewsDetailScreen />} />
-            <Route path="cropper" element={<PerspectiveCropper />} /> 
+            {/* <Route path="cropper" element={<PerspectiveCropper />} />  */}
 <Route path="affiliate" element={<AffiliateScreen />} />
   <Route path="app/test/:testId">
    <Route path="start" element={<TestRules />} /> 
