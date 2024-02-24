@@ -5,7 +5,7 @@ import { CameraOutlined, CheckOutlined, CloseOutlined, WarningOutlined } from '@
 import React, { createContext, useCallback, useContext, useRef, useState } from 'react';
 import { blobToFile, compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 
-import { highlightQuadrilateral } from './highlight-quadrilateral';
+// import { highlightQuadrilateral } from './highlight-quadrilateral';
 
 const CameraContext = createContext<CameraContextType | undefined>(undefined);
 
