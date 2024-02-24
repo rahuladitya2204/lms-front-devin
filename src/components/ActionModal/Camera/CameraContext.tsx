@@ -18,7 +18,7 @@ interface CameraProviderPropsI {
   enableQuadrilateralHighlighting?: boolean;
 }
 
-export const CameraProvider = ({ children, enableQuadrilateralHighlighting=true }: CameraProviderPropsI) => {
+export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false }: CameraProviderPropsI) => {
   const cameraRef = useRef<CameraType>(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null); // For single image preview
@@ -31,10 +31,10 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=true 
     if (imageUrl) {
       // Process for highlighting, if enabled
       let processedImageUrl = imageUrl;
-      if (enableQuadrilateralHighlighting) {
-        const res = await highlightQuadrilateral(imageUrl);
-        processedImageUrl = res.url;
-      }
+      // if (enableQuadrilateralHighlighting) {
+      //   const res = await highlightQuadrilateral(imageUrl);
+      //   processedImageUrl = res.url;
+      // }
       
       if (multiple) {
         // In multiple capture mode, add to the array
