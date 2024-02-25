@@ -67,7 +67,8 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                       </Title>
             {enrolledTest.metadata.test.endedAt ? <Row gutter={[0,10]}>
               <Col><Tag>Taken on {dayjs(enrolledTest.metadata.test.startedAt).format('LL')}</Tag></Col>
-                {enrolledTest.metadata.test.result.status === Enum.TestResultStatus.EVALUATED ? <Col><Tag color='volcano-inverse'>Scored: {enrolledTest?.metadata?.test?.result?.data?.metrics?.learnerScore}/{enrolledTest?.metadata?.test?.result?.data?.metrics?.totalTestScore}</Tag></Col> :
+                {enrolledTest.metadata.test.result.status === Enum.TestResultStatus.EVALUATED ? <Col>
+                  <Tag color='volcano-inverse'>Scored: {Math.ceil(enrolledTest?.metadata?.test?.result?.data?.metrics?.learnerScore)}/{enrolledTest?.metadata?.test?.result?.data?.metrics?.totalTestScore}</Tag></Col> :
                   <Tag color='orange-inverse' >Evaluation in progress</Tag> }
             </Row> :
               <Row><Col>

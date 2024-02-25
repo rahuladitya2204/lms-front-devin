@@ -98,7 +98,8 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
   const PublishPackage = <Button
     loading={publishingPackage}
     key="submit"
-    type="primary"
+    type="primary" 
+    disabled={!isPackageValid}
     onClick={() => {
       confirm({
         title: 'Are you sure?',
@@ -141,12 +142,13 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = props => {
       <span>
         <BackButton disabled={!packageDetails.category}
           onClick={() => navigate(`/app/products/packages`)} />{' '}
-        {packageDetails._id?(packageDetails.title):'Create Package'}
+        {packageDetails._id ? (packageDetails.title) : 'Create Package'}
+        {((packageDetails.status !== Enum.PackageStatus.PUBLISHED))?PublishPackage:null}
       </span>
     }
       extra={[
       ...(packageDetails.status===Enum.PackageStatus.PUBLISHED?[UnpublishPackage,<Tag color='green'>Published</Tag>]:[]),
-      (isPackageValid && (packageDetails.status !== Enum.PackageStatus.PUBLISHED))?PublishPackage:null,
+      // ((packageDetails.status !== Enum.PackageStatus.PUBLISHED))?PublishPackage:null,
       SavePackage]}>
       {/* <Spin  spinning={loadingPackage}> */}
       <Card>
