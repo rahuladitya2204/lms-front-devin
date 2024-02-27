@@ -91,6 +91,7 @@ import TestAnswerSheet from '@User/Screens/Tests/TestsList/TestInsights/TestAnsw
 import TestBuilderScreen from '@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder'
 import TestCompleted from '@Learner/Screens/Products/Test/TestPlayer/TestCompleted'
 import TestEditor from '@User/Screens/Tests/TestCreator'
+import TestEvaluator from '@User/Screens/Tests/TestEvaluator/TestEvaluatorScreen'
 import TestMetrics from '@Learner/Screens/Products/Test/TestResult/TestMetrics'
 import TestPlayer from '@Learner/Screens/Products/Test/TestPlayer/TestPlayer';
 import TestPlayerItemReiew from '@Learner/Screens/Products/Test/TestReview/TestPlayerItemReview'
@@ -234,7 +235,11 @@ const router = (userType: string) => {
             <Route path="quiz/:itemId" element={<CreateQuizForm />} />
             {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
           </Route>
-        </Route>
+                </Route>
+                <Route
+          path="app/products/test/:id/evaluator"
+          element={<TestEvaluator />}
+        ></Route>
         <Route
           path="app/products/test/:id/builder"
           element={<TestBuilderScreen />}

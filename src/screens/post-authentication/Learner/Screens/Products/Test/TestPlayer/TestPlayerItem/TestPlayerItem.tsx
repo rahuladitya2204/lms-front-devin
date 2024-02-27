@@ -1,4 +1,4 @@
-import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, UploadOutlined } from '@ant-design/icons';
+import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Space, Spin, Tag, Tooltip, theme } from 'antd';
 import { Enum, Learner, Store, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useState } from 'react';
@@ -80,7 +80,15 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       }
     });
   };
-
+  const ClearAnswerButton = <Button size='small' onClick={()=> form.setFieldsValue({
+    answer: {
+      options: [],
+      subjective: {
+        text:''
+      },
+      numeric:null
+    }
+  }) } type='dashed' icon={<ReloadOutlined />} style={{ marginLeft: 20 }}>Clear Answer</Button>;
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = questionType === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
@@ -110,7 +118,9 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 </Paragraph>
                 <Divider/>
               {questionType !== Enum.TestQuestionType.SUBJECTIVE ? <>
-                  <Text style={{
+                  <Row justify={'space-between'}>
+                    <Col>
+                    <Text style={{
                     marginTop: 20,
                     fontSize: questionType === Enum.TestQuestionType.SINGLE ? 16 : 18
                   }}
@@ -118,8 +128,13 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     {questionType === Enum.TestQuestionType.SINGLE ? 'Select one among others' : null}
                     {questionType === Enum.TestQuestionType.MULTIPLE ? 'Select all that apply' : null}
                     {questionType===Enum.TestQuestionType.FILL_IN_THE_BLANK?'Fill in the blank below':null}
-              {/* {questionType===Enum.TestQuestionType.NUMERIC?'Enter answer below':null} */}
-              </Text>
+                      </Text>
+                    </Col>
+                    <Col>
+                    {ClearAnswerButton}
+                    </Col>
+                    {/* <Col><Button>Clear</Button></Col> */}
+                 </Row>
                   {(questionType === Enum.TestQuestionType.SINGLE || questionType === Enum.TestQuestionType.MULTIPLE) ?
                     <Form.Item name={['answer', 'options']}  >
                       <OptionSelectedFormControl.Group style={{ width: '100%', display: 'block' }}>
@@ -212,7 +227,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             <Col style={{ display: 'flex', flex:isMobile?1:'',flexDirection: 'row-reverse',justifyContent:'space-between'}}>
               <Fragment>
               {isMobile?NextButton:null}
-      <Button
+ <Button
               disabled={!isValid}
               type="primary" loading={submittingAnswer}
               style={{ marginLeft: 20,marginRight:20 }}
@@ -220,10 +235,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             >
               Submit Answer
               </Button>
-              {isMobile?PrevButton:null}
+              {/* {ClearAnswerButton} */}
+  {isMobile?PrevButton:null}
             </Fragment>
 
-              {!isMobile?<>
+              {!isMobile ? <>
               {currentQuestion.isMarked ?
               <Button loading={updatingFlag}
                 type='primary'

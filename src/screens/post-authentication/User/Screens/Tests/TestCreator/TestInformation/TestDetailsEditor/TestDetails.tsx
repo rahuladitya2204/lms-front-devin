@@ -89,6 +89,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
   const isPublished = test.status === Enum.TestStatus.PUBLISHED
   const isLive = Form.useWatch(['live', 'enabled'], form)
+  const isHandwritten =
+    Form.useWatch(['input', 'type'], form) === Enum.TestInputType.HANDWRITTEN
   return (
     <Form
       form={form}
@@ -242,6 +244,31 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             <TreeSelect treeData={TOPIC_TREE_DATA} />
           </Form.Item>
         </Col>
+        {isHandwritten ? (
+          <Col span={8}>
+            <Form.Item
+              // label=""
+              label={`Evaluation Mode`}
+              name={['evaluation', 'mode']}
+              rules={[
+                { required: true, message: 'Please select evaluation mode' }
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: 'Manual',
+                    value: Enum.TestEvaluationMode.MANUAL
+                  },
+                  {
+                    label: 'Automatic',
+                    value: Enum.TestEvaluationMode.AUTOMATIC
+                  }
+                ]}
+              />
+            </Form.Item>
+          </Col>
+        ) : null}
         <Col span={12}>
           <Row gutter={[0, 20]} justify={'end'}>
             <Col flex={1}>
@@ -353,9 +380,12 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 export default TestDetailsEditor
 
 export const buildTopicTree = (topics: Types.Topic[], topicId?: string) => {
-  const buildTreeData = (topics: Types.Topic[], parentId?: string): TopicNode[] => {
+  const buildTreeData = (
+    topics: Types.Topic[],
+    parentId?: string
+  ): TopicNode[] => {
     if (parentId) {
-      return buildSubTreeData(parentId, topics);
+      return buildSubTreeData(parentId, topics)
     } else {
       // @ts-ignore
       return topics.filter(topic => !topic.parentId).map(topic => ({
@@ -363,7 +393,7 @@ export const buildTopicTree = (topics: Types.Topic[], topicId?: string) => {
         value: topic._id,
         title: topic.title,
         children: buildSubTreeData(topic._id + '', topics)
-      }));
+      }))
     }
   }
 
@@ -378,11 +408,10 @@ export const buildTopicTree = (topics: Types.Topic[], topicId?: string) => {
         value: topic._id,
         title: topic.title,
         children: buildSubTreeData(topic._id + '', topics)
-      }));
+      }))
     // @ts-ignore
-    return [...subTopics];
+    return [...subTopics]
   }
 
-  return buildTreeData(topics, topicId);
+  return buildTreeData(topics, topicId)
 }
-
