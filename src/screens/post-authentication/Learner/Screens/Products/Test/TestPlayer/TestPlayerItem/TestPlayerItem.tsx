@@ -88,7 +88,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       },
       numeric:null
     }
-  }) } type='dashed' icon={<ReloadOutlined />} style={{ marginLeft: 20 }}>Clear Answer</Button>;
+  }) } type='dashed' icon={<ReloadOutlined />} style={{ marginLeft: 20 }}>Clear</Button>;
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = questionType === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
