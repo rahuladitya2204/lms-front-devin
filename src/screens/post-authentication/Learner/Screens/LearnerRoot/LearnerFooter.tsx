@@ -3,6 +3,7 @@ import { Common, Learner } from '@adewaskar/lms-common'
 
 import { Footer } from '@Components/Layout'
 import { Fragment } from 'react'
+import { LinkOutlined } from '@ant-design/icons'
 import OrgLogo from '@Components/OrgLogo'
 import { Typography } from '@Components/Typography'
 
@@ -24,9 +25,19 @@ export default function LearnerFooter () {
       }}
     >
       <Divider style={{ marginBottom: 15 }} />
-      <Row>
+      <Row justify={'space-between'}>
+        <Col>
+          <LinkOutlined />
+          <Text
+            onClick={() => window.open('/app/policies')}
+            style={{ marginLeft: 5, cursor: 'pointer' }}
+            strong
+          >
+            View Policies
+          </Text>
+        </Col>
         <Col
-          span={24}
+          // span={24}
           style={{
             display: 'flex',
             justifyContent: 'center',
@@ -49,7 +60,7 @@ export default function LearnerFooter () {
                 {/* Created by AD */}
               </Text>
               <Text strong style={{ marginLeft: 5 }}>
-                © 2023
+                © 2024
               </Text>
             </Fragment>
           )}

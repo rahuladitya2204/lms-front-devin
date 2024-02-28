@@ -59,7 +59,7 @@ import LearnerCourses from './post-authentication/Learner/Screens/Products/Cours
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerEventsScreen from '@Learner/Screens/Products/Event/Events/EventScreen'
 import LearnerFullPageHolder from './LearnerFullPageHolder';
-import LearnerPrivacyPolicy from '@Learner/Screens/PrivacyPolicy/PrivacyPolicy'
+import LearnerPrivacyPolicy from '@Learner/Screens/ExtraPages/PrivacyPolicy'
 import LearnerRootScreen from '@Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
 import LearnerTestDetailScreen from '@Learner/Screens/Products/Test/TestDetail/TestDetail'
@@ -176,7 +176,7 @@ const router = (userType: string) => {
                 path=":orderId/successful"
                 element={<EnrolledCourseSuccessful />}
               />
-                       <Route path='privacy-policy' element={<LearnerPrivacyPolicy/>} />
+                       <Route path='policies' element={<LearnerPrivacyPolicy/>} />
  </Route>
             <Route path="" element={<LearnerFullPageHolder />}>
             <Route path="news" element={<NewsDetailScreen />} />
