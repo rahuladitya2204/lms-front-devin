@@ -115,7 +115,7 @@ export default function TestRules(props: TestRulesPropsI) {
                     </Tag>
                   ) : null
                 ) : test.duration.enabled ? (
-                  <Tag color="cyan">Time Limit: {test.duration.value} mins</Tag>
+                  <Tag color="blue-inverse">Time Limit: {test.duration.value} mins</Tag>
                 ) : null
               ]
             : null
