@@ -133,7 +133,10 @@ const LearnerHeader: React.FC = () => {
           <Row justify={'center'} align={'middle'}>
             <Col style={{ marginTop: -1 }}><CoinImage width={20} /></Col>
             <Col>
-              <Text style={{ fontSize: 16, marginLeft: 5 }} strong>  {Utils.UnitTypeToStr(user.wallet.balance)}</Text></Col>
+            <Text style={{ fontSize: 16, marginLeft: 5 }} strong>
+              {user.wallet.balance.value ? Utils.UnitTypeToStr(user.wallet.balance) : 'My Wallet'}
+            </Text>
+          </Col>
           </Row>
         </Button>
     </Tooltip>

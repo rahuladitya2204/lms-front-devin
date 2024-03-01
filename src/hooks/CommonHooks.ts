@@ -78,7 +78,7 @@ export const usePaymentCheckout = () => {
       currency: pgOrder.currency,
       name: organisation.name,
       // @ts-ignore
-      key: organisation.paymentGateway.key,
+      key: `rzp_live_iEDmEcvgsUO2LH`,
       image: organisation.logo,
       amount: pgOrder.amount,
       handler:cb

@@ -53,6 +53,13 @@ export const QUESTION_TYPES=[
   { value: Enum.TestQuestionType.SUBJECTIVE, label: 'Subjective' },
   { value: Enum.TestQuestionType.FILL_IN_THE_BLANK, label: 'Fill in the blank' },
 ];
+
+export const QUESTION_DIFFICULTY_LEVELS=[
+  { value: 'easy', label: 'Easy' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'difficult', label: 'Difficult' },
+];
+
 interface CreateQuestionFormPropsI {
   submit?: (d: Types.TestQuestion) => void;
   data?: Types.TestQuestion;
@@ -148,7 +155,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           <TextArea uploadPrefixKey={prefixKey} html={enterHtml ? false : { level: 3 }} readonly={isTestEnded} readOnly={item?.isAiGenerated} height={250} placeholder="Enter the question title" />
         </Form.Item>
         <Row gutter={[20, 20]}>
-          <Col span={12}>
+          <Col lg={6} md={12} sm={12} xs={24}>
             <Form.Item label='Question Type' name={'type'}>
               <Select disabled={isTestEnded}
                 style={{ width: '100%' }}
@@ -157,7 +164,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
 
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col lg={6} md={12} sm={12} xs={24}>
             <Form.Item name={['score', 'correct']} label="Correct Answer Score" required rules={[
               {
                 required: true,
@@ -168,7 +175,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               <Input readOnly={isTestEnded} placeholder="Enter the score for this question" />
             </Form.Item>
           </Col>
-          <Col span={6}>
+          <Col lg={6} md={12} sm={12} xs={24}>
             <Form.Item name={['score', 'incorrect']} label="Incorrect Answer Score" required rules={[
               {
                 required: true,
@@ -176,6 +183,15 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
               }
             ]}>
               <Input readOnly={isTestEnded} placeholder="Enter the score for this question" />
+            </Form.Item>
+          </Col>
+          <Col lg={6} md={12} sm={12} xs={24}>
+            <Form.Item label='Difficulty Level' name={'difficultyLevel'}>
+              <Select
+                style={{ width: '100%' }}
+                options={QUESTION_DIFFICULTY_LEVELS}
+              />
+
             </Form.Item>
           </Col>
           <Col span={12}>
