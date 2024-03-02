@@ -101,7 +101,7 @@ import TestReviewPlayer from '@Learner/Screens/Products/Test/TestReview/TestRevi
 import TestRules from '@Learner/Screens/Products/Test/TestPlayer/TestRules'
 import TestStatus from '@User/Screens/Tests/TestsList/TestInsights/TestStatus'
 import ThemeProvider from './ThemeProvider'
-import TopicsScreen from '@User/Screens/Admin/Topics/TopicsScreen'
+import TopicsScreen from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
 import UploadAnswerSheets from '@User/Screens/Tests/TestCreator/TestBuilder/UploadAnswerSheets'
 import UploadPDFForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadPDF/UploadPDFForm'
 import UploadVideoForm from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoForm'

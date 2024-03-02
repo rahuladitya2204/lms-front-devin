@@ -82,22 +82,17 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = props => {
         <Form.Item name="title" label="Title" required>
           <Input placeholder="Topic Title" />
         </Form.Item>
+
+        <Button
+          loading={createTopicLoading || updateTopicLoading}
+          key="submit"
+          type="primary"
+          htmlType="submit"
+          // onClick={}
+        >
+          Submit
+        </Button>
       </Form>
-      {/* <Button
-        key="back"
-        onClick={() => form.resetFields(['TopicName', 'title'])}
-      >
-        Clear
-      </Button>, */}
-      <Button
-        loading={createTopicLoading || updateTopicLoading}
-        key="submit"
-        type="primary"
-        htmlType="submit"
-        onClick={form.submit}
-      >
-        Submit
-      </Button>
     </Fragment>
   )
 }
