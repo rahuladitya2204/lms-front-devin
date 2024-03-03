@@ -31,7 +31,7 @@ import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
-import { openWindow } from '@Components/SunEditor/utils'
+import { openWindow } from '@Components/Editor/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'

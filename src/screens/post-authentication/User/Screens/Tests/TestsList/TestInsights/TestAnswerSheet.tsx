@@ -6,7 +6,7 @@ import OMRComponent, {
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
-import { openWindow } from '@Components/SunEditor/utils'
+import { openWindow } from '@Components/Editor/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'

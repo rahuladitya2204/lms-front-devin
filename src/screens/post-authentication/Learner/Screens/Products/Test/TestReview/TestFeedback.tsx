@@ -12,7 +12,7 @@ import React, { useMemo } from 'react'
 
 import AppImage from '@Components/Image'
 import { Typography } from '@Components/Typography'
-import { isMongoId } from '@Components/SunEditor/utils'
+import { isMongoId } from '@Components/Editor/SunEditor/utils'
 import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { Title } = Typography

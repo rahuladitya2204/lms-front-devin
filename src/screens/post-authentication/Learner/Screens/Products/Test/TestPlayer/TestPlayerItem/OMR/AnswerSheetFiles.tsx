@@ -5,7 +5,7 @@ import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
 import React, { Fragment, useCallback, useEffect } from 'react'
 import { blobToFile, compressImage, convertImageToBlob } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { convertFileToBase64, openWindow } from '@Components/SunEditor/utils'
+import { convertFileToBase64, openWindow } from '@Components/Editor/SunEditor/utils'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppImage from '@Components/Image'

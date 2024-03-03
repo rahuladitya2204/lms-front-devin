@@ -13,7 +13,7 @@ import TestEnrolledList from './EnrolledList'
 import { Text } from '@Components/Typography/Typography'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
-import { printPdf } from '@Components/SunEditor/utils'
+import { printPdf } from '@Components/Editor/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { confirm } = Modal;

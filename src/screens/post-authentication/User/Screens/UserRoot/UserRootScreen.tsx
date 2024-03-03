@@ -10,7 +10,7 @@ import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import OrgLogo from '@Components/OrgLogo'
 import ThemeProvider from 'screens/ThemeProvider'
 import { UserOutlined } from '@ant-design/icons'
-import { compareArrays } from '@Components/SunEditor/utils'
+import { compareArrays } from '@Components/Editor/SunEditor/utils'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
