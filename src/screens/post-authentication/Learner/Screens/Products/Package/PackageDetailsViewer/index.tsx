@@ -221,11 +221,12 @@ const PackageCard = ({packageId,plan,children}: {
                   </Button> :
                       <ProductCheckoutButton 
                       onSuccess={() => {
-                        message.open({
-                          type: 'success',
-                          content: `You have enrolled successfully`,
-                          particle: true
-                        })
+                      message.open({
+                        type: 'success',
+                        content: `You have enrolled successfully`,
+                        particle: true
+                      });
+                      navigate(`enrolled-package`)
                       }}
                       product={{ type: 'package', id: packageId + '' }}
                       block

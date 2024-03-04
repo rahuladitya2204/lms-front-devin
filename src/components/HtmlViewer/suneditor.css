@@ -26,9 +26,3 @@
     max-width: 100% !important; /* Ensures the image width doesn't exceed the container width */
     height: auto; /* Maintains the aspect ratio */
   }
-
-
-  .html-viewer  .ck.ck-editor__editable_inline {
-    border: 0 !important;
-    /* border-top: 0; */
-}

@@ -175,7 +175,7 @@ function TestEditor() {
               </span>
             }
             extra={[
-              <Button icon={<ExportOutlined/>}
+              <Button disabled={!test._id} icon={<ExportOutlined/>}
                   onClick={() => {
                     window.open(`/app/products/test/${test._id}/builder`)
                   }}
