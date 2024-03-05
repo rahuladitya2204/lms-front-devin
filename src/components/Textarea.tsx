@@ -1,9 +1,9 @@
 import { Form, Input } from 'antd'
 
-import CKEditorComponent from './Editor/CKEditor/CKEditor'
+import EditorComponent from './Editor/SunEditor/SunEditor'
+// import EditorComponent from './Editor/CKEditor/CKEditor'
 import { TextAreaProps as LibTextAreaProps } from 'antd/es/input'
 import React from 'react'
-import SunEditorComponent from './Editor/SunEditor/SunEditor'
 
 const { TextArea: AntDTextArea } = Input
 
@@ -30,7 +30,7 @@ const TextArea: React.FC<TextAreaProps> = props => {
   return (
     <Form.Item name={name} label={label}>
       {html ? (
-        <CKEditorComponent
+        <EditorComponent
           uploadPrefixKey={props.uploadPrefixKey}
           // @ts-ignore
           level={typeof html === 'object' ? html.level : 2}

@@ -1,4 +1,4 @@
-import './style.css'
+import './suneditor.css'
 
 import AppImage from '@Components/Image'
 import AudioPlayer from '@Components/AudioPlayer'

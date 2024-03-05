@@ -543,3 +543,8 @@ margin-left: -15px;
         display: none;
     }
 }
+
+.html-viewer  .ck.ck-editor__editable_inline, .html-viewer .ck.ck-editor__editable {
+    border: 0 !important;
+    /* border-top: 0; */
+}
