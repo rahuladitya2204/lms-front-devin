@@ -1,6 +1,7 @@
 import { Button, Form, Input, Select } from 'antd'
 import React, { Fragment, ReactNode, useEffect } from 'react'
 
+import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 
@@ -81,6 +82,15 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = props => {
         </Form.Item>
         <Form.Item name="title" label="Title" required>
           <Input placeholder="Topic Title" />
+        </Form.Item>
+
+        <Form.Item name={['content', 'text']} label="Content" required>
+          <TextArea
+            height={300}
+            html={{ level: 3 }}
+            name={['content', 'text']}
+            placeholder="Content"
+          />
         </Form.Item>
 
         <Button
