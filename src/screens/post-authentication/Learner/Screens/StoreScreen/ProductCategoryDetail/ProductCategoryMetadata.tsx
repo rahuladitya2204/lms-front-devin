@@ -1,13 +1,15 @@
+import { Button, List, Tag } from 'antd'
 import {
   CalendarOutlined,
   ClockCircleOutlined,
+  DownloadOutlined,
   EditOutlined,
   FileTextOutlined,
+  MoneyCollectOutlined,
   SafetyCertificateOutlined,
   ScheduleOutlined
 } from '@ant-design/icons'
 import { Constants, Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
-import { List, Tag } from 'antd'
 
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
@@ -20,56 +22,31 @@ const ListItem = styled(List.Item)`
 `
 
 const data = {
-  scheduledFor: {
-    title: 'Date',
+  registrationDate: {
+    title: 'Registration Date',
     icon: <CalendarOutlined />,
-    value: ''
+    value: '12'
   },
-  duration: {
-    title: 'Duration',
-    icon: <ClockCircleOutlined />,
+  salary: {
+    title: 'Salary',
+    icon: <MoneyCollectOutlined />,
     value: '43 Weeks'
   },
-  mode: {
-    title: 'ProductCategory Mode',
+  vacancies: {
+    title: 'Vacancies',
     icon: <EditOutlined />,
-    value: null
+    value: 'null'
   },
-  language: {
-    title: 'Language',
+  eligibility: {
+    title: 'Eligibility',
     icon: <FileTextOutlined />,
-    value: null
+    value: 'null'
   },
-  enrolled: {
-    title: 'Enrolled',
+  officialNotification: {
+    title: 'Official Notification',
     icon: <SafetyCertificateOutlined />,
     value: '1'
-  },
-  expiresAt: {
-    title: 'You can access till',
-    icon: <ScheduleOutlined />,
-    value: ''
   }
-  // questions: {
-  //   title: 'Questions',
-  //   icon: <EditOutlined />,
-  //   value: '-'
-  // },
-  // language: {
-  //   title: 'Language',
-  //   icon: <CheckCircleOutlined />,
-  //   value: 'English'
-  // },
-  // skillLevel: {
-  //   title: 'Skill Level',
-  //   icon: <CheckCircleOutlined />,
-  //   value: 'Beginner'
-  // },
-  // certificate: {
-  //   title: 'Certificate',
-  //   icon: <SafetyCertificateOutlined />,
-  //   value: 'Yes'
-  // }
 }
 
 interface ProductCategoryMetadataPropsI {
@@ -78,16 +55,36 @@ interface ProductCategoryMetadataPropsI {
 
 function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   const {
-    data: enrolledDetails,
+    data: categoryDetails,
     isLoading: loadingEnrolledProductCategory
-  } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'productCategory',
-    id: props.productCategory._id + ''
-  })
+  } = Learner.Queries.useGetProductCategoryDetails(props.productCategory._id)
 
-  if (enrolledDetails.plan.expiresAt) {
-    data.expiresAt.value = dayjs(enrolledDetails.plan.expiresAt).format('LL')
-  }
+  // @ts-ignore
+  data.registrationDate.value = ( // @ts-ignore
+    <Tag color="blue-inverse">{categoryDetails.info.registration.date}</Tag>
+  )
+
+  // @ts-ignore
+  data.salary.value = ( // @ts-ignore
+    <Tag color="orange-inverse">{categoryDetails.info.salaryRange}</Tag>
+  )
+
+  // @ts-ignore
+  data.vacancies.value = ( // @ts-ignore
+    <Tag color="purple-inverse">{categoryDetails.info.vacancies}</Tag>
+  )
+
+  // @ts-ignore
+  data.eligibility.value = ( // @ts-ignore
+    <Tag color="cyan-inverse">{categoryDetails.info.eligibility}</Tag>
+  )
+
+  // @ts-ignore
+  data.officialNotification.value = (
+    <Button icon={<DownloadOutlined />} type="primary" size="small">
+      Download PDF
+    </Button>
+  ) // @ts-ignore
 
   // data.certificate.value = props.productCategory.certificate ? 'Yes' : ''
   // data.questions.value = useMemo(
@@ -113,13 +110,3 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
 }
 
 export default ProductCategoryMetadata
-
-function formatTime(minute: number) {
-  const seconds = minute * 60
-  if (minute < 60) {
-    return `${minute} mins`
-  } else {
-    const hours = Math.floor(seconds / 3600)
-    return `${hours} hr`
-  }
-}

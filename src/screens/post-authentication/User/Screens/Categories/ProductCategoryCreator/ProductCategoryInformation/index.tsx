@@ -8,6 +8,7 @@ import Header from '@Components/Header'
 import ProductCategoryDetailsEditor from './ProductCategoryDetailsEditor/ProductCategoryDetails'
 import ProductCategoryFAQs from './ProductCategoryFAQs'
 import ProductCategoryLandingPage from './ProductCategoryLandingPage'
+import ProductCategoryNotifications from './ProductCategoryNotifications'
 import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
@@ -51,6 +52,11 @@ function ProductCategoryInformationEditor(props: any) {
             label: `FAQs`,
             key: 'faqs',
             children: <ProductCategoryFAQs />
+          },
+          {
+            label: `Notifications`,
+            key: 'notifs',
+            children: <ProductCategoryNotifications />
           }
           // {
           //   label: `Advanced`,

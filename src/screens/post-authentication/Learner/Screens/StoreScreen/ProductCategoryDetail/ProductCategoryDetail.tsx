@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Col, Collapse, Divider, Row, Skeleton, Space, Tag, message } from 'antd'
-import { CalendarOutlined, InfoOutlined, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
+import { CalendarOutlined, InfoOutlined, NotificationOutlined, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -35,24 +35,55 @@ export default function ProductCategoryDetailScreen(
 ) {
   const { id: productCategoryId } = useParams();
 
-  const {
-    data: enrolledDetails,
-    isLoading: loadingEnrolledProductCategory
-  } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'productCategory',
-    id: productCategoryId + ''
-  })
   const { data: productCategory, isLoading: loadingProductCategory } = Learner.Queries.useGetProductCategoryDetails(productCategoryId + '');
+  const TABS = [
+    {
+      label: 'Overview',
+      key: 'overview',
+      children: <Paragraph style={{ fontSize: 16 }}>
+        <HtmlViewer content={productCategory.landingPage.description} />
+      </Paragraph>
+    }
+  ];
+  if (productCategory?.info?.faqs?.length) {
+    TABS.push({
+      label: 'FAQs',
+      key: 'faqs',
+      children: <Collapse items={productCategory.info.faqs.map(faq => {
+        return {
+          label: faq.title,
+          children: <Paragraph>{faq.description}</Paragraph>
+        }
+      })} />
+    })
+  }
   const Metadata = <ProductCategoryMetadata productCategory={productCategory} />
+  const TabInfoUpdates = <Card>
+    <Tabs items={[
+      {
+        label: 'More Info',
+        key: 'info',
+        children: <ProductCategoryCard productCategoryId={productCategoryId + ''}>
+          {Metadata}
+        </ProductCategoryCard>
+      },
+      {
+        label: 'Latest Updates',
+        key: 'latest-updates',
+        children: <Row gutter={[20, 20]}>
+          {productCategory.info.updates.map(item => {
+          return <Col span={24}>
+            <Alert action={<Tag>{ dayjs(item.date).format('L')}</Tag>} icon={<NotificationOutlined/>} showIcon message={item.title} />
+          </Col>
+        })}
+        </Row>
+      }
+    ]} />
+  </Card>;
   return (
     <Row gutter={[20, 30]}>
     {loadingProductCategory ? null : <>
-      <Col md={24} sm={24} lg={0}>
-          <ProductCategoryCard productCategoryId={productCategoryId+''} />
-          {/* Replace with card image */}
-      {/* <CourseMetadata course={course} /> */}
-      </Col>
-        <Col lg={24} md={24} xs={0}>
+        <Col lg={24} md={24} sm={24} xs={24}>
           <Title  style={{
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
@@ -66,6 +97,11 @@ export default function ProductCategoryDetailScreen(
             {productCategory.subtitle}
           </Title>
         </Col>
+        <Col xs={24} md={24} sm={24} lg={0}>
+          {TabInfoUpdates}
+          {/* Replace with card image */}
+      {/* <CourseMetadata course={course} /> */}
+      </Col>
       </>}
          
 <Col span={24}>
@@ -94,25 +130,7 @@ export default function ProductCategoryDetailScreen(
                   <Skeleton active paragraph={{ rows: 20 }} />
                   </Col>
                 </Row>:
-                  <Tabs items={[
-                    {
-                      label: 'Overview',
-                      key: 'overview',
-                      children:    <Paragraph style={{ fontSize: 16 }}>
-                      <HtmlViewer content={productCategory.landingPage.description} />
-                    </Paragraph>
-                    },
-                    {
-                      label: 'FAQs',
-                      key: 'faqs',
-                      children:      <Collapse items={productCategory.info.faqs.map(faq => {
-                        return {
-                          label: faq.title,
-                          children: <Paragraph>{ faq.description}</Paragraph>
-                      }
-                    })}  />
-                    }
-                  ]} />
+                  <Tabs items={TABS} />
 }
                 </Col>
                 <Col span={24}>
@@ -125,10 +143,7 @@ export default function ProductCategoryDetailScreen(
             
  </Col>
           <Col xs={0} sm={0} md={0} lg={8}>
-            {/* @ts-ignore */}
-            <ProductCategoryCard productCategoryId={productCategoryId + ''} plan={productCategory.plan} >
-              {Metadata}
-            </ProductCategoryCard>
+          {TabInfoUpdates}
           </Col>
         </Row>
       </Col>
@@ -139,37 +154,10 @@ export default function ProductCategoryDetailScreen(
 
 const ProductCategoryCard = ({ productCategoryId,children}: { productCategoryId: string,children?:React.ReactNode}) => {
   const product = { type: 'productCategory', id: productCategoryId };
-  const navigate = useNavigate();
-  const { data: { wallet } } = Learner.Queries.useGetLearnerDetails();
-  const {
-    data: enrolledDetails,
-    isLoading: loadingEnrolledProductCategoryDetails
-  } = Learner.Queries.useGetEnrolledProductDetails(product)
-  const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const { data: productCategory, isLoading: loadingProductCategory } = Learner.Queries.useGetProductCategoryDetails(productCategoryId + '');
-
-  // console.log(productCategoryEndDate,'productCategoryEndDate')
-  // @ts-ignore
-  const Metadata = <ProductCategoryMetadata productCategory={productCategory} />;
-
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
-  const message = useMessage();
   const { isMobile,isDesktop, isTablet } = useBreakpoint();
   const isLoading = loadingProductCategory;
-  const { openModal } = useModal()
-  return   <Card
-  bodyStyle={{ padding: 10, paddingBottom: 20 }}
-  // style={{ height: '100%' }}
-    title={!isDesktop?<Text style={{
-      fontSize: 16,
-      whiteSpace: 'normal', // Ensures text wraps
-      overflowWrap: 'break-word' // Breaks words to prevent overflow
-    }}
-    >{productCategory.title}</Text>:null
-    }
-    extra={(isMobile || isTablet) ? <ActionDrawer title={productCategory.title}
-      cta={<Button shape='circle' icon={<InfoOutlined />}></Button>} > {Metadata} </ActionDrawer>:null}
-> {isLoading ?
+  return   <> {isLoading ?
   <>
     <Row gutter={[20, 10]}>
           <Col span={24}>
@@ -183,14 +171,14 @@ const ProductCategoryCard = ({ productCategoryId,children}: { productCategoryId:
         </Col>
     </Row>
   </>:<>    <Row gutter={[20, 40]} align="stretch">
-    <Col span={24}>
+    {/* <Col span={24}>
       <Image
         width={'100%'}
         height={200}
         preview={false}
         src={productCategory.thumbnailImage}
       />
-    </Col>
+    </Col> */}
     <Col span={24}>
         <Row gutter={[10, 10]}>
               <Col span={24}>
@@ -229,5 +217,5 @@ const ProductCategoryCard = ({ productCategoryId,children}: { productCategoryId:
     )} */}
   </Row></> }
 
-</Card>
+</>
 }
