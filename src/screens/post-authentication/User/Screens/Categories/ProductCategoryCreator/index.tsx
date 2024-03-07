@@ -29,6 +29,7 @@ import BackButton from '@Components/BackButton'
 import ProductCategoryInformationEditor from './ProductCategoryInformation'
 import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
+import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 
@@ -54,7 +55,15 @@ function ProductCategoryEditor() {
 
   useEffect(
     () => {
-      form.setFieldsValue(productCategoryDetails)
+      const i = { ...productCategoryDetails }
+      // @ts-ignore
+      i.info.updates = i.info.updates.map(ii => {
+        return {
+          ...ii,
+          date: dayjs(ii.date)
+        }
+      })
+      form.setFieldsValue(i)
     },
     [productCategoryDetails]
   )

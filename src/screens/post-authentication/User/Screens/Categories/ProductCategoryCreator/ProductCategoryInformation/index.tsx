@@ -29,6 +29,7 @@ function ProductCategoryInformationEditor(props: any) {
   return (
     <Spin spinning={loadingProductCategory}>
       <Tabs
+        // navigateWithHash
         destroyInactiveTabPane={false}
         items={[
           {

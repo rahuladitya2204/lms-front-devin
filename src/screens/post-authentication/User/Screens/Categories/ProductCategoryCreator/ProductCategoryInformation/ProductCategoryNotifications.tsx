@@ -1,6 +1,7 @@
 import { Button, Checkbox, Col, DatePicker, Form, Input, Row } from 'antd';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 
-import { PlusOutlined } from '@ant-design/icons';
+import TextArea from '@Components/Textarea';
 import { Title } from '@Components/Typography/Typography';
 
 export default function ProductCategoryNotifications() {
@@ -13,7 +14,7 @@ export default function ProductCategoryNotifications() {
             <>
               {fields.map(({ key, name, ...restField }) => (
                 <Row key={key} gutter={[40, 0]}>
-                  <Col span={8}>
+                  <Col span={4}>
                     <Form.Item
                       {...restField}
                       name={[name, 'title']}
@@ -26,6 +27,17 @@ export default function ProductCategoryNotifications() {
                   <Col span={8}>
                     <Form.Item
                       {...restField}
+                      name={[name, 'description']}
+                      rules={[{ required: true, message: 'Missing Notifications description' }]}
+                      label={`Notification ${name + 1} Title`}
+                    >
+                   {/* @ts-ignore */}
+                      <TextArea height={300} html={{level: 2}} name={[name, 'description']} placeholder="Enter Notification description" />
+                    </Form.Item>
+                  </Col>
+                  <Col span={3}>
+                    <Form.Item
+                      {...restField}
                       name={[name, 'date']}
                       rules={[{ required: true, message: 'Missing Notification date' }]}
                       label={`Notification ${name + 1} Date`}
@@ -33,7 +45,7 @@ export default function ProductCategoryNotifications() {
                       <DatePicker style={{ width: '100%' }} />
                     </Form.Item>
                   </Col>
-                  <Col span={6}>
+                  <Col span={2}>
                     <Form.Item
                       {...restField}
                       name={[name, 'displayAsBanner']}
@@ -43,9 +55,9 @@ export default function ProductCategoryNotifications() {
                       <Checkbox>Display as Banner</Checkbox>
                     </Form.Item>
                   </Col>
-                  <Col span={2}>
-                    <Button danger onClick={() => remove(name)}>
-                      Remove
+                  <Col span={1}>
+                    <Button icon={<DeleteOutlined/>} danger onClick={() => remove(name)}>
+                      
                     </Button>
                   </Col>
                 </Row>

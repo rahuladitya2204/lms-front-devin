@@ -1,5 +1,5 @@
-import { Alert, Button, Card, Col, Collapse, Divider, Row, Skeleton, Space, Tag, message } from 'antd'
-import { CalendarOutlined, InfoOutlined, NotificationOutlined, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
+import { Alert, Badge, Button, Card, Col, Collapse, Divider, List, Row, Skeleton, Space, Tag, Tooltip, message } from 'antd'
+import { CalendarOutlined, InfoCircleFilled, InfoOutlined, NotificationOutlined, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
@@ -73,13 +73,20 @@ export default function ProductCategoryDetailScreen(
         children: <Row gutter={[20, 20]}>
           {productCategory.info.updates.map(item => {
           return <Col span={24}>
-            <Alert action={<Tag>{ dayjs(item.date).format('L')}</Tag>} icon={<NotificationOutlined/>} showIcon message={item.title} />
+            <Alert action={<Row>
+              <Col><Tag>{dayjs(item.date).format('L')}</Tag></Col>
+              <Col>
+                <Tooltip color='#fff' placement='left' title={<HtmlViewer content={item.description} /> }>
+                  <InfoCircleFilled />
+              </Tooltip></Col>
+            </Row>} icon={<NotificationOutlined/>} showIcon message={item.title} />
           </Col>
         })}
         </Row>
       }
     ]} />
   </Card>;
+  const Banners = productCategory.info.updates.filter(i => i.displayAsBanner);
   return (
     <Row gutter={[20, 30]}>
     {loadingProductCategory ? null : <>
@@ -96,6 +103,17 @@ export default function ProductCategoryDetailScreen(
         }} level={5} >
             {productCategory.subtitle}
           </Title>
+          {Banners.length?<Badge.Ribbon placement='start' text={`${productCategory.title} latest updates`}>
+          <Card style={{paddingTop:20}}>
+              <Row gutter={[20,20]}>
+              {Banners.map(i => {
+                return <Col span={24}>
+                  <Alert type='error' action={<Tag color='orange-inverse'>{dayjs(i.date).format('L')}</Tag>} icon={<NotificationOutlined />} showIcon message={<strong>{i.title}</strong>} description={<HtmlViewer content={i.description} />}  />
+                </Col>
+              })}
+             </Row>
+            </Card>
+         </Badge.Ribbon>:null}
         </Col>
         <Col xs={24} md={24} sm={24} lg={0}>
           {TabInfoUpdates}
