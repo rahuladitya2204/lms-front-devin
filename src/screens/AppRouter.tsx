@@ -81,6 +81,8 @@ import PackageDetailViewer from '@Learner/Screens/Products/Package/PackageDetail
 import PackagesScreen from '@User/Screens/Packages/PackagesScreen'
 import PaymentSettings from '@User/Screens/Settings/Payments/PaymentSettings'
 import PerspectiveCropper from '@Components/PerspectiveCropper'
+import ProductCategoryDetailScreen from '@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail'
+import ProductCategoryEditor from '@User/Screens/Categories/ProductCategoryCreator'
 import PromosScreen from '@User/Screens/Marketing/Promos/PromosScreen'
 import ResetPassword from '@Learner/Screens/Login/ResetPassword'
 import RootScreen from './Root'
@@ -136,7 +138,7 @@ const router = (userType: string) => {
 <Route path="cart" element={<LearnerCart />} />
               <Route path="wallet" element={<LearnerWallet />} />
   <Route path="reset-password" element={<ResetPassword />} />
-              <Route path="category/:id" element={<CategoryDetail />} />
+              <Route path="category/:id" element={<ProductCategoryDetailScreen />} />
   <Route path="store" element={<LearnerStoreScreen />} />
               <Route path="account" element={<LearnerAccount />} />
  <Route path="tickets" element={<LearnersTicketsScreen />} />
@@ -205,14 +207,13 @@ const router = (userType: string) => {
  </Route>
             </Route>
             <Route path="*" element={<NotFoundScreen />} />
- </>
+        </>
         ) : <>
             <>
               <Route path='' element={<UserFullPageHolder />}>
                 <Route path="app/test/:testId/answer-sheet/:learnerId" element={<TestAnswerSheet />} />
                 <Route path="app/test/:testId/answer-sheet/:learnerId/upload-answer-sheet" element={<AnswerSheetFiles />} /> 
                 <Route path="app/test/:testId/answer-sheet/upload" element={<UploadAnswerSheets />} /> 
-  
  <Route path="login" element={<UserLoginScreen />} />
             <Route path="webpage-viewer/:pageId" element={<WebpageViewer />} />
         <Route
@@ -223,7 +224,8 @@ const router = (userType: string) => {
           path="app/products/courses/:id/editor"
           element={<CourseEditor />}
         />
- <Route path="app/products/test/:id/editor" element={<TestEditor />} />
+      <Route path="app/products/test/:id/editor" element={<TestEditor />} />
+      <Route path="app/products/category/:id/editor" element={<ProductCategoryEditor />} />
         <Route
           path="app/products/courses/:id/builder"
           element={<CourseBuilderScreen />}

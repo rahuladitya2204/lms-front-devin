@@ -6,6 +6,7 @@ import CreateCategory from './CreateCategory'
 import { EditOutlined } from '@ant-design/icons'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import Image from '@Components/Image'
+import { Link } from 'react-router-dom'
 import MoreButton from '@Components/MoreButton'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
@@ -47,7 +48,14 @@ function CategoriesScreen() {
               <Avatar size={60} src={record.thumbnailImage} />
             )}
           />
-          <Table.Column title="Name" dataIndex="title" key="title" />
+          <Table.Column
+            title="Name"
+            dataIndex="title"
+            key="title"
+            render={(_: any, record: Types.ProductCategory, index: number) => (
+              <Link to={`${record._id}/editor`}>{record.title}</Link>
+            )}
+          />
           <Table.Column
             title="Description"
             dataIndex="description"
@@ -70,9 +78,9 @@ function CategoriesScreen() {
                   {
                     label: 'Edit Category',
                     onClick: () =>
-                      openModal(<CreateCategory data={record} />, {
-                        title: 'Edit Category'
-                      }),
+                      window.open(
+                        `/app/products/product-category/${record._id}/editor`
+                      ),
                     key: 'edit'
                     // icon: <EditOutlined />,
                     // onClick: () => navigate(`${record._id}/edit`)
