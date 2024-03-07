@@ -64,7 +64,7 @@ export default function ProductCategoryDetailScreen(
         label: 'More Info',
         key: 'info',
         children: <ProductCategoryCard productCategoryId={productCategoryId + ''}>
-          {Metadata}
+          {productCategory.info?Metadata:null}
         </ProductCategoryCard>
       },
       {
