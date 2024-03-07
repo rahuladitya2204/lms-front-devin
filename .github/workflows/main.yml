@@ -16,8 +16,8 @@ jobs:
 
     - name: Install dependencies and build
       run: |
-        npm install --legacy-peer-deps
-        CI=false npm run build
+        yarn --frozen-lockfile
+        CI=false yarn build
       env:
         NODE_OPTIONS: --max-old-space-size=4096  # Correctly placed in the build step
 
