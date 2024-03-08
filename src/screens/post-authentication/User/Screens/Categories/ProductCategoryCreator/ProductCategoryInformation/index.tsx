@@ -8,6 +8,7 @@ import Header from '@Components/Header'
 import ProductCategoryDetailsEditor from './ProductCategoryDetailsEditor/ProductCategoryDetails'
 import ProductCategoryFAQs from './ProductCategoryFAQs'
 import ProductCategoryLandingPage from './ProductCategoryLandingPage'
+import ProductCategoryLinks from './ProductCategoryLinks'
 import ProductCategoryNotifications from './ProductCategoryNotifications'
 import Tabs from '@Components/Tabs'
 import { User } from '@adewaskar/lms-common'
@@ -58,6 +59,11 @@ function ProductCategoryInformationEditor(props: any) {
             label: `Notifications`,
             key: 'notifs',
             children: <ProductCategoryNotifications />
+          },
+          {
+            label: `Important Links`,
+            key: 'links',
+            children: <ProductCategoryLinks />
           }
           // {
           //   label: `Advanced`,

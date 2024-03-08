@@ -58,7 +58,7 @@ export default function ProductCategoryDetailScreen(
     })
   }
   const Metadata = <ProductCategoryMetadata productCategory={productCategory} />
-  const TabInfoUpdates = <Card>
+  const TabInfoUpdates = <Card style={{minHeight:400}}>
     <Tabs items={[
       {
         label: 'More Info',
@@ -119,7 +119,7 @@ export default function ProductCategoryDetailScreen(
           {TabInfoUpdates}
           {/* Replace with card image */}
       {/* <CourseMetadata course={course} /> */}
-      </Col>
+        </Col>
       </>}
          
 <Col span={24}>
@@ -127,7 +127,7 @@ export default function ProductCategoryDetailScreen(
           <Col xs={24} sm={24} md={24} lg={16} >
             {loadingProductCategory ?
               <Skeleton style={{ marginBottom: 30 }} active paragraph={{ rows: 1 }} /> : null}
-            <Card style={{paddingTop:0}}>
+            <Card style={{paddingTop:0,minHeight:400}}>
 
             <Row>
               {(productCategory.landingPage?.promoVideo?.url) ? (
@@ -162,6 +162,21 @@ export default function ProductCategoryDetailScreen(
  </Col>
           <Col xs={0} sm={0} md={0} lg={8}>
           {TabInfoUpdates}
+          </Col>
+          <Col lg={24} md={24} sm={24} xs={24}>
+          <Card title='Important Links'>
+          <Row>
+            <Col span={24}>
+              <Tabs activeKey={productCategory?.info?.links[0]?.title} tabPosition='left' items={productCategory.info.links.map(link => {
+                return {
+                  label: link.title,
+                  key:link.title,
+                  children:<HtmlViewer content={link.description} />
+                }
+              })} />
+            </Col>
+          </Row>
+       </Card>
           </Col>
         </Row>
       </Col>
