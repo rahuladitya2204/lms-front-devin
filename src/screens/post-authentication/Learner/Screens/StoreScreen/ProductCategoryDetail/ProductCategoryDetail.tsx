@@ -150,14 +150,15 @@ export default function ProductCategoryDetailScreen(
             </Col>
           </Row>
             </Col>
-            <Col>
+          {productCategory.info.isUpcoming?  <Col>
               <Row align={'middle'}>
                 <Col>
                   <ThunderboltFilled style={{ color: 'goldenrod', fontSize: 30 }} />
                 </Col><Col>
                   <Text style={{fontSize:22}} strong>Upcoming</Text>
                 </Col>
-              </Row></Col>
+              </Row>
+            </Col>:null}
           </Row>
           <Row>
           <Col span={24} style={{marginTop:20}}>
