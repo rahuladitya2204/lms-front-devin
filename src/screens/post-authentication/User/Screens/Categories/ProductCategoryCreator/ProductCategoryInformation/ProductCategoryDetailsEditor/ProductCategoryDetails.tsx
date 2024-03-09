@@ -123,7 +123,27 @@ function ProductCategoryDetailsEditor(
       >
         <Input />
       </Form.Item>
-
+      <Row>
+        <Col span={12}>
+        <Form.Item
+            valuePropName="checked"
+            name={['isLive']}
+            label='Live'
+          >
+            <Switch style={{ marginTop: 0 }} />
+      </Form.Item>
+        </Col>
+        <Col span={12}>
+                
+      <Form.Item
+            valuePropName="checked"
+            name={['info','isUpcoming']}
+            label='Upcoming'
+          >
+            <Switch style={{ marginTop: 0 }} />
+          </Form.Item>
+        </Col>
+  </Row>
 
       <Divider />
       <Row gutter={[40, 20]}>

@@ -1,5 +1,6 @@
-import { Avatar, Button, Space, Table } from 'antd'
+import { Avatar, Button, Space } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import Container from '@Components/Container'
@@ -42,14 +43,14 @@ function CategoriesScreen() {
       ]}
     >
       <Container>
-        <Table dataSource={data} loading={loading}>
-          <Table.Column
+        <Table searchFields={['title']} dataSource={data} loading={loading}>
+          <TableColumn
             title="Thumbnail Image"
             render={(_: any, record: Types.ProductCategory, index: number) => (
               <Avatar size={60} src={record.thumbnailImage} />
             )}
           />
-          <Table.Column
+          <TableColumn
             title="Name"
             dataIndex="title"
             key="title"
@@ -57,12 +58,12 @@ function CategoriesScreen() {
               <Link to={`${record._id}/editor`}>{record.title}</Link>
             )}
           />
-          <Table.Column
+          <TableColumn
             title="Description"
             dataIndex="description"
             key="description"
           />
-          {/* <Table.Column
+          {/* <TableColumn
             title="Total Courses"
             dataIndex="totalCourses"
             key="totalCourses"
@@ -70,7 +71,7 @@ function CategoriesScreen() {
               <Space size="middle">{record.products.length}</Space>
             )}
           /> */}
-          <Table.Column
+          <TableColumn
             title="Action"
             key="action"
             render={(_: any, record: Types.ProductCategory, index: number) => (

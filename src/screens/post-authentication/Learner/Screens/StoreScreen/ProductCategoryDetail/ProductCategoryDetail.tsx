@@ -48,7 +48,16 @@ export default function ProductCategoryDetailScreen(
         <HtmlViewer content={productCategory.landingPage.description} />
       </Paragraph>
     },
-    {
+    // ...productCategory.info.links.map(link => {
+    //   return {
+    //     label: link.title,
+    //     key:link.title,
+    //     children:<HtmlViewer content={link.description} />
+    //   }
+    // })
+  ];
+  if (packages.length) {
+    TABS.push({
       label: `Test Series(${packages.length})`,
       key: 'tests',
       children: <Row gutter={[20,20]}>
@@ -60,15 +69,8 @@ export default function ProductCategoryDetailScreen(
          </Col>
        })}
       </Row>
-    },
-    // ...productCategory.info.links.map(link => {
-    //   return {
-    //     label: link.title,
-    //     key:link.title,
-    //     children:<HtmlViewer content={link.description} />
-    //   }
-    // })
-  ];
+    })
+  }
   // if (productCategory?.info?.faqs?.length) {
   //   TABS.push({
   //     label: 'FAQs',
