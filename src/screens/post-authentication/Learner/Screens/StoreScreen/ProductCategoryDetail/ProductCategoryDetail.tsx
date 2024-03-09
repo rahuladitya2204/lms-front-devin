@@ -48,6 +48,13 @@ export default function ProductCategoryDetailScreen(
         <HtmlViewer content={productCategory.landingPage.description} />
       </Paragraph>
     },
+    ...productCategory.info.links.map(link => {
+      return {
+      label: link.title,
+      key:link.title,
+      children:<HtmlViewer content={link.description} />
+      }
+      })
     // ...productCategory.info.links.map(link => {
     //   return {
     //     label: link.title,
@@ -84,37 +91,37 @@ export default function ProductCategoryDetailScreen(
   //   })
   // }
   const Metadata = <ProductCategoryMetadata productCategory={productCategory} />
-  const TabInfoUpdates = <Card style={{minHeight:400}}>
-    <Tabs items={[
-      {
-        label: 'More Info',
-        key: 'info',
-        children: <ProductCategoryCard productCategoryId={productCategoryId + ''}>
-          {productCategory.info?Metadata:null}
-        </ProductCategoryCard>
-      },
-      {
-        label: 'Latest Updates',
-        key: 'latest-updates',
-        children: <Row gutter={[20, 20]}>
-          {productCategory.info.updates.map(item => {
-          return <Col span={24}>
-            <Alert action={<Row>
-              <Col><Tag>{dayjs(item.date).format('L')}</Tag></Col>
-              <Col>
-                <Tooltip color='#fff' placement='left' title={<HtmlViewer content={item.description} /> }>
-                  <InfoCircleFilled />
-              </Tooltip></Col>
-            </Row>} icon={<NotificationOutlined/>} showIcon message={item.title} />
-          </Col>
-        })}
-        </Row>
-      }
-    ]} />
-  </Card>;
+  // const TabInfoUpdates = <Card style={{minHeight:'auto'}}>
+  //   <Tabs items={[
+  //     {
+  //       label: 'More Info',
+  //       key: 'info',
+  //       children: <ProductCategoryCard productCategoryId={productCategoryId + ''}>
+  //         {productCategory.info?Metadata:null}
+  //       </ProductCategoryCard>
+  //     },
+  //     {
+  //       label: 'Latest Updates',
+  //       key: 'latest-updates',
+  //       children: <Row gutter={[20, 20]}>
+  //         {productCategory.info.updates.map(item => {
+  //         return <Col span={24}>
+  //           <Alert action={<Row>
+  //             <Col><Tag>{dayjs(item.date).format('L')}</Tag></Col>
+  //             <Col>
+  //               <Tooltip color='#fff' placement='left' title={<HtmlViewer content={item.description} /> }>
+  //                 <InfoCircleFilled />
+  //             </Tooltip></Col>
+  //           </Row>} icon={<NotificationOutlined/>} showIcon message={item.title} />
+  //         </Col>
+  //       })}
+  //       </Row>
+  //     }
+  //   ]} />
+  // </Card>;
   const Banners = productCategory.info.updates.filter(i => i.displayAsBanner);
   return (
-    <Row gutter={[20, 30]}>
+    <Row gutter={[20, 10]}>
     {loadingProductCategory ? null : <>
         <Col lg={24} md={24} sm={24} xs={24}>
           <Row align={'middle'}>
@@ -132,14 +139,20 @@ export default function ProductCategoryDetailScreen(
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
                 overflowWrap: 'break-word', // Breaks words to prevent overflow
-          margin: 0
+          margin: 0,
         }} level={5} >
             {productCategory.subtitle}
-          </Title>
-          </Col>
-         </Row>
+              </Title>
+              
+            </Col>
+            <Col span={24} style={{marginTop:20}}>
+              <Card>
+                {Metadata}
+            </Card>
+            </Col>
+ </Row>
           <Row style={{marginTop:20}} gutter={[20,20]}>
-            <Col span={24}>
+            {/* <Col span={24}>
             {Banners.length?<Badge.Ribbon color='orange-inverse' placement='start' text={`${productCategory.title} latest updates`}>
           <Card style={{paddingTop:20}}>
               {Banners.map(i => {
@@ -149,17 +162,14 @@ export default function ProductCategoryDetailScreen(
               })}
             </Card>
          </Badge.Ribbon>:null}
-          </Col>
+          </Col> */}
           </Row>
-        </Col>
-        <Col xs={24} md={24} sm={24} lg={0}>
-          {TabInfoUpdates}
         </Col>
       </>}
          
 <Col span={24}>
  <Row gutter={[30, 30]}>
-          <Col xs={24} sm={24} md={24} lg={16} >
+          <Col xs={24} sm={24} md={24} lg={24} >
             {loadingProductCategory ?
               <Skeleton style={{ marginBottom: 30 }} active paragraph={{ rows: 1 }} /> : null}
             <Card style={{paddingTop:0,minHeight:400}}>
@@ -183,7 +193,7 @@ export default function ProductCategoryDetailScreen(
                   <Skeleton active paragraph={{ rows: 20 }} />
                   </Col>
                 </Row>:
-                  <Tabs items={TABS} />
+                  <Tabs tabPosition={isMobile?'top':'left'} items={TABS} />
 }
                 </Col>
                 <Col span={24}>
@@ -195,10 +205,17 @@ export default function ProductCategoryDetailScreen(
             </Card>
             
  </Col>
-          <Col xs={0} sm={0} md={0} lg={8}>
-          {TabInfoUpdates}
-          </Col>
-          <Col lg={24} md={24} sm={24} xs={24}>
+          {/* <Col xs={0} sm={0} md={0} lg={8}>
+          <Tabs activeKey={productCategory?.info?.links[0]?.title} tabPosition={isMobile ? 'top' : 'left'}
+                    items={productCategory.info.links.map(link => {
+                return {
+                  label: link.title,
+                  key:link.title,
+                  children:<HtmlViewer content={link.description} />
+                }
+              })} />
+          </Col> */}
+          {/* <Col lg={24} md={24} sm={24} xs={24}>
           <Card title='Important Links'>
           <Row>
             <Col span={24}>
@@ -213,11 +230,11 @@ export default function ProductCategoryDetailScreen(
             </Col>
           </Row>
        </Card>
-          </Col>
+          </Col> */}
          {(productCategory?.info?.faqs?.length)? <Col lg={24} md={24} sm={24} xs={24}>
             <Card title='FAQs'>
             {productCategory.info.faqs.map(faq => {
-              return <Collapse expandIconPosition='end' ghost style={{marginTop:10}} items={[
+              return <Collapse expandIconPosition='end' style={{marginTop:10}} items={[
                 {
                   label: faq.title,
                   children: <Paragraph>{faq.description}</Paragraph>

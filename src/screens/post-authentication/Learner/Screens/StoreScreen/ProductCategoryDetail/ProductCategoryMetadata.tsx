@@ -20,6 +20,12 @@ import styled from '@emotion/styled'
 
 const { Text } = Typography
 
+const CustomList = styled(List)`
+  .ant-list-item-action {
+    margin-left: 30px !important;
+  }
+`
+
 const ListItem = styled(List.Item)`
   padding: 5px 15px;
 `
@@ -121,13 +127,18 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (
-    <List
+    <CustomList
+      grid={{ lg: 3, xxl: 3, md: 3, xl: 3, sm: 2, xs: 1 }}
+      style={{ marginLeft: 30 }}
       itemLayout="horizontal"
       dataSource={dataSource.filter(i => i.value)}
       renderItem={item => (
+        // @ts-ignore
         <ListItem actions={[<Text>{item.value}</Text>]}>
           <List.Item.Meta
+            // @ts-ignore
             avatar={item.icon}
+            // @ts-ignore
             title={<Text>{item.title}</Text>}
           />
         </ListItem>
