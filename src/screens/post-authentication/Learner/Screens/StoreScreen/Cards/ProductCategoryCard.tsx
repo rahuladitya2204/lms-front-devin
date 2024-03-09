@@ -4,7 +4,8 @@ import {
   BookOutlined,
   ClockCircleOutlined,
   EditOutlined,
-  RightOutlined
+  RightOutlined,
+  ThunderboltFilled
 } from '@ant-design/icons'
 import { Constants, Enum, Types } from '@adewaskar/lms-common'
 
@@ -33,7 +34,7 @@ margin-bottom: 20px; */
 function ProductCategoryCard(props: ProductCategoryCardPropsI) {
   const { productCategory } = props
   const navigate = useNavigate()
-  return (
+  const CardComponent = (
     <Card
       onClick={() => navigate(`../category/${productCategory._id}`)}
       hoverable
@@ -55,6 +56,11 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
               }}
             />
             <p style={{ margin: 0, paddingLeft: '10px', fontWeight: 'bold' }}>
+              {productCategory.info.isUpcoming ? (
+                <ThunderboltFilled
+                  style={{ color: 'goldenrod', marginRight: 5 }}
+                />
+              ) : null}
               {productCategory.title}
             </p>
           </div>
@@ -65,6 +71,7 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
       </Row>
     </Card>
   )
+  return CardComponent
 }
 
 export default ProductCategoryCard

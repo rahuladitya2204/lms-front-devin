@@ -153,7 +153,7 @@ export default function ProductCategoryDetailScreen(
           {productCategory.info.isUpcoming?  <Col>
               <Row align={'middle'}>
                 <Col>
-                  <ThunderboltFilled style={{ color: 'goldenrod', fontSize: 30 }} />
+                  <ThunderboltFilled style={{ color: 'goldenrod', fontSize: 30,marginRight: 5 }} />
                 </Col><Col>
                   <Text style={{fontSize:22}} strong>Upcoming</Text>
                 </Col>
