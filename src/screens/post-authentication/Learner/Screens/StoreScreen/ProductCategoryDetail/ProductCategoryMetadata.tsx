@@ -79,22 +79,23 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   )
 
   // @ts-ignore
-  data.salary.value = ( // @ts-ignore
+  data.salary.value = categoryDetails.info.salaryRange ? ( // @ts-ignore
     <Tag color="orange-inverse">{categoryDetails.info.salaryRange}</Tag>
-  )
+  ) : null
 
   // @ts-ignore
-  data.vacancies.value = ( // @ts-ignore
+  data.vacancies.value = categoryDetails.info.vacancies ? ( // @ts-ignore
     <Tag color="purple-inverse">{categoryDetails.info.vacancies}</Tag>
-  )
+  ) : null
 
   // @ts-ignore
-  data.eligibility.value = ( // @ts-ignore
+  data.eligibility.value = categoryDetails.info.eligibility ? ( // @ts-ignore
     <Tag color="cyan-inverse">{categoryDetails.info.eligibility}</Tag>
-  )
+  ) : null
 
   // @ts-ignore
-  data.officialNotification.value = (
+  data.officialNotification.value = categoryDetails.info.officialNotification
+    .link ? (
     <Button
       icon={<DownloadOutlined />}
       onClick={() =>
@@ -105,7 +106,7 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
     >
       Download PDF
     </Button>
-  ) // @ts-ignore
+  ) : null // @ts-ignore
 
   // @ts-ignore
   data.registrationLink.value = (

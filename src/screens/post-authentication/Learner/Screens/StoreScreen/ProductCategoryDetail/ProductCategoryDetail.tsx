@@ -41,44 +41,49 @@ export default function ProductCategoryDetailScreen(
   const { data: packages, isFetching: loading } = Learner.Queries.useGetPackages(productCategory._id, {
     enabled: !!productCategory._id
   })
-  const TABS = [
-    {
-      label: 'Overview',
-      key: 'overview',
-      children: <Paragraph style={{ fontSize: 16 }}>
-        <HtmlViewer content={productCategory.landingPage.description} />
-      </Paragraph>
-    },
-    ...productCategory.info.links.map(link => {
+  const TABS = useMemo(() => {
+    const i=[
+      {
+        label: 'Overview',
+        key: 'overview',
+        children: <Paragraph style={{ fontSize: 16 }}>
+          <HtmlViewer content={productCategory.landingPage.description} />
+        </Paragraph>
+      },
+      // ...productCategory.info.links.map(link => {
+      //   return {
+      //     label: link.title,
+      //     key:link.title,
+      //     children:<HtmlViewer content={link.description} />
+      //   }
+      // })
+    ];
+    if (packages.length) {
+      i.push({
+        label: `Test Series(${packages.length})`,
+        key: 'tests',
+        children: <Row gutter={[20,20]}>
+          {packages.map(bundle => {
+           return  <Col   sm={12} 
+           md={8} xs={24}
+             lg={8}  >
+             <PackageCard package={bundle} />
+           </Col>
+         })}
+        </Row>
+      })
+    }
+
+    i.push(  ...productCategory.info.links.map(link => {
       return {
       label: link.title,
       key:link.title,
       children:<HtmlViewer content={link.description} />
       }
-      })
-    // ...productCategory.info.links.map(link => {
-    //   return {
-    //     label: link.title,
-    //     key:link.title,
-    //     children:<HtmlViewer content={link.description} />
-    //   }
-    // })
-  ];
-  if (packages.length) {
-    TABS.push({
-      label: `Test Series(${packages.length})`,
-      key: 'tests',
-      children: <Row gutter={[20,20]}>
-        {packages.map(bundle => {
-         return  <Col   sm={12} 
-         md={8} xs={24}
-           lg={8}  >
-           <PackageCard package={bundle} />
-         </Col>
-       })}
-      </Row>
-    })
-  }
+    }))
+    
+    return i;
+   },[packages,productCategory])
   // if (productCategory?.info?.faqs?.length) {
   //   TABS.push({
   //     label: 'FAQs',
