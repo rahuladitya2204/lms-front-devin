@@ -1,7 +1,8 @@
 import { Alert, Avatar, Badge, Button, Card, Col, Collapse, Divider, List, Row, Skeleton, Space, Tag, Tooltip, message } from 'antd'
-import { CalendarOutlined, InfoCircleFilled, InfoOutlined, NotificationOutlined, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
+import { CalendarOutlined, InfoCircleFilled, InfoOutlined, NotificationOutlined, ThunderboltFilled, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, User, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
+import Icon, { HomeOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
@@ -124,7 +125,9 @@ export default function ProductCategoryDetailScreen(
     <Row gutter={[20, 10]}>
     {loadingProductCategory ? null : <>
         <Col lg={24} md={24} sm={24} xs={24}>
-          <Row align={'middle'}>
+          <Row justify={'space-between'} align={'middle'}>
+            <Col>
+            <Row align={'middle'}>
           <Col>
             <Avatar style={{width:100,height:100}} src={productCategory.thumbnailImage} />
           </Col>
@@ -145,12 +148,24 @@ export default function ProductCategoryDetailScreen(
               </Title>
               
             </Col>
-            <Col span={24} style={{marginTop:20}}>
+          </Row>
+            </Col>
+            <Col>
+              <Row align={'middle'}>
+                <Col>
+                  <ThunderboltFilled style={{ color: 'goldenrod', fontSize: 30 }} />
+                </Col><Col>
+                  <Text style={{fontSize:22}} strong>Upcoming</Text>
+                </Col>
+              </Row></Col>
+          </Row>
+          <Row>
+          <Col span={24} style={{marginTop:20}}>
               <Card>
                 {Metadata}
             </Card>
             </Col>
- </Row>
+          </Row>
           <Row style={{marginTop:20}} gutter={[20,20]}>
             {/* <Col span={24}>
             {Banners.length?<Badge.Ribbon color='orange-inverse' placement='start' text={`${productCategory.title} latest updates`}>
