@@ -128,7 +128,7 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   const dataSource = Object.keys(data).map(key => data[key])
   return (
     <CustomList
-      grid={{ lg: 3, xxl: 3, md: 3, xl: 3, sm: 2, xs: 1 }}
+      grid={{ lg: 3, xxl: 4, md: 3, xl: 3, sm: 2, xs: 1 }}
       style={{ marginLeft: 30 }}
       itemLayout="horizontal"
       dataSource={dataSource.filter(i => i.value)}
