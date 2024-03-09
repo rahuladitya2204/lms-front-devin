@@ -62,7 +62,8 @@ const LearnerHeader: React.FC = () => {
     mutate: logoutLearner,
     isLoading: loggingOut
   } = Learner.Queries.useLogoutLearner()
-  const {data: organisation } = Learner.Queries.useGetOrgDetails();
+  const { data: organisation } = Learner.Queries.useGetOrgDetails();
+  const isAdmin = Store.useGlobal(s => s.isAdmin);
   const { data: user, isFetching: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
   const isSignedIn = Store.useAuthentication(state => state.isSignedIn);
   const message = useMessage();

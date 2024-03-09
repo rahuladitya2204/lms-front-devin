@@ -53,12 +53,14 @@ import EnrolledCourseSuccessful from '@Learner/Screens/LearnerShop/EnrolledCours
 import EnrolledPackageDetailScreen from '@Learner/Screens/Products/Package/PackageDetailsViewer/EnrolledPackage/EnrolledPackageDetail'
 import EventDetailScreen from '@Learner/Screens/Products/Event/EventDetail'
 import EventsScreen from '@User/Screens/Event/EventScreen/Events'
+import ImageResizer from '@Components/ImageResizer/ImageResizer'
 import LearnerAccount from '@Learner/Screens/Account/Account'
 import LearnerCart from '@Learner/Screens/LearnerShop/LearnerCartScreen/LearnerCartScreen'
 import LearnerCourses from './post-authentication/Learner/Screens/Products/Courses'
 import LearnerEditor from './post-authentication/User/Screens/Users/Learners/LearnersEditor'
 import LearnerEventsScreen from '@Learner/Screens/Products/Event/Events/EventScreen'
 import LearnerFullPageHolder from './LearnerFullPageHolder';
+import LearnerHomeScreen from '@Learner/Screens/StoreScreen/HomeScreen'
 import LearnerPrivacyPolicy from '@Learner/Screens/ExtraPages/PrivacyPolicy'
 import LearnerRootScreen from '@Learner/Screens/LearnerRoot/LearnerRootScreen'
 import LearnerStoreScreen from '@Learner/Screens/StoreScreen/StoreScreen'
@@ -139,7 +141,8 @@ const router = (userType: string) => {
               <Route path="wallet" element={<LearnerWallet />} />
   <Route path="reset-password" element={<ResetPassword />} />
               <Route path="category/:id" element={<ProductCategoryDetailScreen />} />
-  <Route path="store" element={<LearnerStoreScreen />} />
+  {/* <Route path="store" element={<LearnerStoreScreen />} /> */}
+  <Route path="store" element={<LearnerHomeScreen />} />
               <Route path="account" element={<LearnerAccount />} />
  <Route path="tickets" element={<LearnersTicketsScreen />} />
               <Route path="tickets/:id" element={<LearnerTicketDetail />} />
@@ -182,7 +185,8 @@ const router = (userType: string) => {
  </Route>
             <Route path="" element={<LearnerFullPageHolder />}>
             <Route path="news" element={<NewsDetailScreen />} />
-            {/* <Route path="cropper" element={<PerspectiveCropper />} />  */}
+            <Route path="image-resizer" element={<ImageResizer />} />
+  {/* <Route path="cropper" element={<PerspectiveCropper />} />  */}
 <Route path="affiliate" element={<AffiliateScreen />} />
   <Route path="app/test/:testId">
    <Route path="start" element={<TestRules />} /> 

@@ -37,6 +37,7 @@ const { confirm } = Modal
 
 function ProductCategoryEditor() {
   const message = useMessage()
+  const [form] = Form.useForm()
   const { id } = useParams()
   const productCategoryId = id + ''
 
@@ -65,7 +66,7 @@ function ProductCategoryEditor() {
       })
       form.setFieldsValue(i)
     },
-    [productCategoryDetails]
+    [productCategoryDetails, form]
   )
 
   const updateProductCategory = (e: Types.ProductCategory) => {
@@ -73,7 +74,14 @@ function ProductCategoryEditor() {
     updateProductCategoryApi(
       {
         id: productCategoryId,
-        data: e
+        data: {
+          ...productCategoryDetails,
+          ...e,
+          info: {
+            ...productCategoryDetails.info,
+            ...e.info
+          }
+        }
       },
       {
         onSuccess: () => {
@@ -88,7 +96,6 @@ function ProductCategoryEditor() {
 
   const navigate = useNavigate()
   const { isMobile } = useBreakpoint()
-  const [form] = Form.useForm()
   const MainNavTabs = (
     <Tabs
       destroyInactiveTabPane={false}
@@ -189,6 +196,7 @@ function ProductCategoryEditor() {
             ]}
           >
             <Form
+              initialValues={productCategoryDetails}
               onFinish={updateProductCategory}
               layout="vertical"
               form={form}

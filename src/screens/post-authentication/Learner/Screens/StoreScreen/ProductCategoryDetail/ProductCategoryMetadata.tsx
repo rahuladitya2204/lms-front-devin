@@ -2,9 +2,12 @@ import { Button, List, Tag } from 'antd'
 import {
   CalendarOutlined,
   ClockCircleOutlined,
+  CloudDownloadOutlined,
   DownloadOutlined,
   EditOutlined,
+  FilePdfOutlined,
   FileTextOutlined,
+  LinkOutlined,
   MoneyCollectOutlined,
   SafetyCertificateOutlined,
   ScheduleOutlined
@@ -44,7 +47,12 @@ const data = {
   },
   officialNotification: {
     title: 'Official Notification',
-    icon: <SafetyCertificateOutlined />,
+    icon: <CloudDownloadOutlined />,
+    value: '1'
+  },
+  registrationLink: {
+    title: 'Registration Link',
+    icon: <LinkOutlined />,
     value: '1'
   }
 }
@@ -81,8 +89,27 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
 
   // @ts-ignore
   data.officialNotification.value = (
-    <Button icon={<DownloadOutlined />} type="primary" size="small">
+    <Button
+      icon={<DownloadOutlined />}
+      onClick={() =>
+        window.open(categoryDetails.info.officialNotification.link)
+      }
+      type="primary"
+      size="small"
+    >
       Download PDF
+    </Button>
+  ) // @ts-ignore
+
+  // @ts-ignore
+  data.registrationLink.value = (
+    <Button
+      icon={<LinkOutlined />}
+      onClick={() => window.open(categoryDetails.info.registration.link)}
+      type="primary"
+      size="small"
+    >
+      Open Link
     </Button>
   ) // @ts-ignore
 

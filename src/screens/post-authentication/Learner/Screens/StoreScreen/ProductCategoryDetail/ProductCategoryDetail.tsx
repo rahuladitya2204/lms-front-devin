@@ -1,6 +1,6 @@
-import { Alert, Badge, Button, Card, Col, Collapse, Divider, List, Row, Skeleton, Space, Tag, Tooltip, message } from 'antd'
+import { Alert, Avatar, Badge, Button, Card, Col, Collapse, Divider, List, Row, Skeleton, Space, Tag, Tooltip, message } from 'antd'
 import { CalendarOutlined, InfoCircleFilled, InfoOutlined, NotificationOutlined, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
-import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Learner, Store, Types, User, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -11,6 +11,7 @@ import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import Image from '@Components/Image'
 import LearnerLogin from '@Learner/Screens/Login'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+import PackageCard from '../Cards/PackageCard'
 import PriceCardContent from '@Learner/Screens/StoreScreen/Cards/PriceCardContent'
 import ProductCategoryMetadata from './ProductCategoryMetadata'
 import ProductCheckoutButton from '@Components/CheckoutButton'
@@ -34,8 +35,11 @@ export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
   const { id: productCategoryId } = useParams();
-
+  const { isMobile } = useBreakpoint();
   const { data: productCategory, isLoading: loadingProductCategory } = Learner.Queries.useGetProductCategoryDetails(productCategoryId + '');
+  const { data: packages, isFetching: loading } = Learner.Queries.useGetPackages(productCategory._id, {
+    enabled: !!productCategory._id
+  })
   const TABS = [
     {
       label: 'Overview',
@@ -43,20 +47,40 @@ export default function ProductCategoryDetailScreen(
       children: <Paragraph style={{ fontSize: 16 }}>
         <HtmlViewer content={productCategory.landingPage.description} />
       </Paragraph>
-    }
+    },
+    {
+      label: `Test Series(${packages.length})`,
+      key: 'tests',
+      children: <Row gutter={[20,20]}>
+        {packages.map(bundle => {
+         return  <Col   sm={12} 
+         md={8} xs={24}
+           lg={8}  >
+           <PackageCard package={bundle} />
+         </Col>
+       })}
+      </Row>
+    },
+    // ...productCategory.info.links.map(link => {
+    //   return {
+    //     label: link.title,
+    //     key:link.title,
+    //     children:<HtmlViewer content={link.description} />
+    //   }
+    // })
   ];
-  if (productCategory?.info?.faqs?.length) {
-    TABS.push({
-      label: 'FAQs',
-      key: 'faqs',
-      children: <Collapse items={productCategory.info.faqs.map(faq => {
-        return {
-          label: faq.title,
-          children: <Paragraph>{faq.description}</Paragraph>
-        }
-      })} />
-    })
-  }
+  // if (productCategory?.info?.faqs?.length) {
+  //   TABS.push({
+  //     label: 'FAQs',
+  //     key: 'faqs',
+  //     children: <Collapse items={productCategory.info.faqs.map(faq => {
+  //       return {
+  //         label: faq.title,
+  //         children: <Paragraph>{faq.description}</Paragraph>
+  //       }
+  //     })} />
+  //   })
+  // }
   const Metadata = <ProductCategoryMetadata productCategory={productCategory} />
   const TabInfoUpdates = <Card style={{minHeight:400}}>
     <Tabs items={[
@@ -91,34 +115,43 @@ export default function ProductCategoryDetailScreen(
     <Row gutter={[20, 30]}>
     {loadingProductCategory ? null : <>
         <Col lg={24} md={24} sm={24} xs={24}>
+          <Row align={'middle'}>
+          <Col>
+            <Avatar style={{width:100,height:100}} src={productCategory.thumbnailImage} />
+          </Col>
+          <Col flex={1} style={{marginLeft:15}}>
           <Title  style={{
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
-          overflowWrap: 'break-word' // Breaks words to prevent overflow
+                overflowWrap: 'break-word', // Breaks words to prevent overflow
+          margin: 0
         }} level={3}>{productCategory.title}</Title>
           <Title  style={{
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
-          overflowWrap: 'break-word' // Breaks words to prevent overflow
+                overflowWrap: 'break-word', // Breaks words to prevent overflow
+          margin: 0
         }} level={5} >
             {productCategory.subtitle}
           </Title>
-          {Banners.length?<Badge.Ribbon placement='start' text={`${productCategory.title} latest updates`}>
+          </Col>
+         </Row>
+          <Row style={{marginTop:20}} gutter={[20,20]}>
+            <Col span={24}>
+            {Banners.length?<Badge.Ribbon color='orange-inverse' placement='start' text={`${productCategory.title} latest updates`}>
           <Card style={{paddingTop:20}}>
-              <Row gutter={[20,20]}>
               {Banners.map(i => {
                 return <Col span={24}>
                   <Alert type='error' action={<Tag color='orange-inverse'>{dayjs(i.date).format('L')}</Tag>} icon={<NotificationOutlined />} showIcon message={<strong>{i.title}</strong>} description={<HtmlViewer content={i.description} />}  />
                 </Col>
               })}
-             </Row>
             </Card>
          </Badge.Ribbon>:null}
+          </Col>
+          </Row>
         </Col>
         <Col xs={24} md={24} sm={24} lg={0}>
           {TabInfoUpdates}
-          {/* Replace with card image */}
-      {/* <CourseMetadata course={course} /> */}
         </Col>
       </>}
          
@@ -167,7 +200,8 @@ export default function ProductCategoryDetailScreen(
           <Card title='Important Links'>
           <Row>
             <Col span={24}>
-              <Tabs activeKey={productCategory?.info?.links[0]?.title} tabPosition='left' items={productCategory.info.links.map(link => {
+                  <Tabs activeKey={productCategory?.info?.links[0]?.title} tabPosition={isMobile ? 'top' : 'left'}
+                    items={productCategory.info.links.map(link => {
                 return {
                   label: link.title,
                   key:link.title,
@@ -178,6 +212,19 @@ export default function ProductCategoryDetailScreen(
           </Row>
        </Card>
           </Col>
+         {(productCategory?.info?.faqs?.length)? <Col lg={24} md={24} sm={24} xs={24}>
+            <Card title='FAQs'>
+            {productCategory.info.faqs.map(faq => {
+              return <Collapse expandIconPosition='end' ghost style={{marginTop:10}} items={[
+                {
+                  label: faq.title,
+                  children: <Paragraph>{faq.description}</Paragraph>
+          }
+        ]} />
+            })}
+              
+          </Card>
+          </Col>:null}
         </Row>
       </Col>
     </Row>

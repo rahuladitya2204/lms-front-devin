@@ -1,9 +1,9 @@
 import { Avatar, Button, Space, Table } from 'antd'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import Container from '@Components/Container'
 import CreateCategory from './CreateCategory'
-import { EditOutlined } from '@ant-design/icons'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import Image from '@Components/Image'
 import { Link } from 'react-router-dom'
@@ -16,6 +16,7 @@ function CategoriesScreen() {
   const { data, isFetching: loading } = User.Queries.useGetProductCategories(
     'all'
   )
+  const { mutate: deleteCategory } = User.Queries.useDeleteProductCategory()
   const { openModal } = useModal()
 
   return (
@@ -84,16 +85,16 @@ function CategoriesScreen() {
                     key: 'edit'
                     // icon: <EditOutlined />,
                     // onClick: () => navigate(`${record._id}/edit`)
+                  },
+                  {
+                    label: 'Delete ',
+                    onClick: () => {
+                      deleteCategory({ id: record._id })
+                      //   window.open(`users/${record._id}/editor`, '_blank')
+                    },
+                    key: 'delete',
+                    icon: <DeleteOutlined />
                   }
-                  // {
-                  //   label: 'Delete ',
-                  //   onClick: () => {
-                  //     deleteItem(index)
-                  //     //   window.open(`users/${record._id}/editor`, '_blank')
-                  //   },
-                  //   key: 'edit',
-                  //   icon: <DeleteOutlined />
-                  // }
                 ]}
               />
             )}

@@ -14,6 +14,7 @@ import {
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useMemo } from 'react'
 
+import FileList from '@Components/FileList'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import { PlusOutlined } from '@ant-design/icons'
@@ -163,7 +164,7 @@ function ProductCategoryDetailsEditor(
             />
           </Form.Item>
         </Col>
-        <Col span={8}>
+        {/* <Col span={8}>
           <Form.Item
             // rules={[
             //   {
@@ -180,7 +181,7 @@ function ProductCategoryDetailsEditor(
               placeholder="Please enter official Notification Link"
             />
           </Form.Item>
-        </Col>
+        </Col> */}
       </Row>
       <Divider />
       <Row gutter={[40, 20]}>
@@ -238,6 +239,22 @@ function ProductCategoryDetailsEditor(
               placeholder="Please enter Salary Range"
             />
           </Form.Item>
+        </Col>
+        <Col span={6}>
+        <Form.Item name={['info','officialNotification','link']} required label="Oficial Notification">
+        <MediaUpload
+          uploadType="file" 
+          cropper={{ width: 330, height: 200 }}
+          name={['info','officialNotification','link']}
+          onUpload={e => {
+            form.setFieldValue(['info','officialNotification','link'], e.url);
+          }}
+            />
+            {form.getFieldValue(['info', 'officialNotification', 'link']) ?
+              <span>Notification File <span onClick={() => form.setFieldValue(['info','officialNotification','link'], null)}>X</span>
+              </span> : null}
+      </Form.Item>
+
         </Col>
       </Row>
       <Divider/>
