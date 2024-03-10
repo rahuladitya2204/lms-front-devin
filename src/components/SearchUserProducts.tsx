@@ -22,7 +22,7 @@ export default function SearchUserProducts(props: SearchUserProductsPropsI) {
       showSearch
       onSearch={setSearchValue}
       placeholder={props.label || 'Select to add product'}
-      style={{ width: 200, marginBottom: 20 }}
+      style={{ width: 300, marginBottom: 20 }}
       onSelect={props.onSelect}
       // @ts-ignore
       options={products.filter(p => p.status === 'published').map(e => {

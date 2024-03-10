@@ -131,7 +131,7 @@ export default function ProductCategoryDetailScreen(
     {loadingProductCategory ? null : <>
         <Col lg={24} md={24} sm={24} xs={24}>
           <Row justify={'space-between'} align={'middle'}>
-            <Col>
+            <Col sm={18} xs={24}>
             <Row align={'middle'}>
           <Col>
             <Avatar style={{width:100,height:100}} src={productCategory.thumbnailImage} />
@@ -142,7 +142,7 @@ export default function ProductCategoryDetailScreen(
           whiteSpace: 'normal', // Ensures text wraps
                 overflowWrap: 'break-word', // Breaks words to prevent overflow
           margin: 0
-        }} level={3}>{productCategory.title}</Title>
+                  }} level={3}>{productCategory.title}{isMobile?<span>(<ThunderboltFilled style={{ color: 'goldenrod', fontSize: 25 }} />Upcoming)</span>:null}</Title>
           <Title  style={{
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
@@ -155,7 +155,7 @@ export default function ProductCategoryDetailScreen(
             </Col>
           </Row>
             </Col>
-          {productCategory.info.isUpcoming?  <Col>
+          {productCategory.info.isUpcoming && !isMobile?  <Col sm={6}>
               <Row align={'middle'}>
                 <Col>
                   <ThunderboltFilled style={{ color: 'goldenrod', fontSize: 30,marginRight: 5 }} />
@@ -178,7 +178,7 @@ export default function ProductCategoryDetailScreen(
           <Card style={{paddingTop:20}}>
               {Banners.map(i => {
                 return <Col span={24}>
-                  <Alert type='error' action={<Tag color='orange-inverse'>{dayjs(i.date).format('L')}</Tag>} icon={<NotificationOutlined />} showIcon message={<strong>{i.title}</strong>} description={<HtmlViewer content={i.description} />}  />
+                  <Alert type='error' action={<Tag color='orange-inverse'>{dayjs(i.date).format('L')}</Tag>} icon={<NotificationOutlined />} message={<strong>{i.title}</strong>} description={<HtmlViewer content={i.description} />}  />
                 </Col>
               })}
             </Card>
