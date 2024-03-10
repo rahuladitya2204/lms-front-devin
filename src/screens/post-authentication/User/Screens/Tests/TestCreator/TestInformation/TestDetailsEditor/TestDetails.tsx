@@ -14,37 +14,16 @@ import {
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useMemo } from 'react'
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CreateCategory from '@User/Screens/Categories/CreateCategory'
-import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import { PlusOutlined } from '@ant-design/icons'
 import SelectProductCategory from '@Components/SelectProductCategory'
 import { TopicNode } from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
-import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
 
 const { TextArea } = Input
 
-const { Text } = Typography
-
-const LANGUAGES = [
-  {
-    value: Enum.LanguageEnum.ENGLIGH,
-    label: 'English'
-  },
-  {
-    value: Enum.LanguageEnum.HINDI,
-    label: 'Hindi'
-  },
-  {
-    value: Enum.LanguageEnum.FRENCH,
-    label: 'French'
-  }
-]
 const { useWatch } = Form
 
 interface TestDetailsEditorPropsI {
@@ -365,7 +344,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
               mode="multiple"
               showSearch
               placeholder="Select Language"
-              options={LANGUAGES}
+              options={Constants.LANGUAGES}
             />
           </Form.Item>
         </Col>

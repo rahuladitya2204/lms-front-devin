@@ -174,7 +174,7 @@ export default function ProductCategoryDetailScreen(
           </Row>
           <Row style={{marginTop:20}} gutter={[20,20]}>
             <Col span={24}>
-            {Banners.length?<Badge.Ribbon color='orange-inverse' placement='start' text={`${productCategory.title} latest updates`}>
+            {Banners.length?<Badge.Ribbon color='orange-inverse' placement='start' text={productCategory.title?`${productCategory.title} latest updates`:null}>
           <Card style={{paddingTop:20}}>
               {Banners.map(i => {
                 return <Col span={24}>

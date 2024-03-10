@@ -18,7 +18,7 @@ export default function ProductCategoryNotifications() {
                     <Form.Item
                       {...restField}
                       name={[name, 'title']}
-                      rules={[{ required: true, message: 'Missing Notifications title' }]}
+                      // rules={[{ required: true, message: 'Missing Notifications title' }]}
                       label={`Notification ${name + 1} Title`}
                     >
                       <Input placeholder="Enter Notification title" />
