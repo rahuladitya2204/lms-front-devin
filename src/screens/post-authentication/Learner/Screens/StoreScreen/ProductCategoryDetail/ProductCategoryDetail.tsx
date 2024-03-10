@@ -66,7 +66,7 @@ export default function ProductCategoryDetailScreen(
           {packages.map(bundle => {
            return  <Col   sm={12} 
            md={8} xs={24}
-             lg={8}  >
+             lg={8} xl={6} xxl={6}  >
              <PackageCard package={bundle} />
            </Col>
          })}
@@ -173,7 +173,7 @@ export default function ProductCategoryDetailScreen(
             </Col>
           </Row>
           <Row style={{marginTop:20}} gutter={[20,20]}>
-            {/* <Col span={24}>
+            <Col span={24}>
             {Banners.length?<Badge.Ribbon color='orange-inverse' placement='start' text={`${productCategory.title} latest updates`}>
           <Card style={{paddingTop:20}}>
               {Banners.map(i => {
@@ -183,7 +183,7 @@ export default function ProductCategoryDetailScreen(
               })}
             </Card>
          </Badge.Ribbon>:null}
-          </Col> */}
+          </Col>
           </Row>
         </Col>
       </>}

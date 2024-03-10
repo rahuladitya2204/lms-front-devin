@@ -51,6 +51,11 @@ const data = {
     icon: <FileTextOutlined />,
     value: 'null'
   },
+  examDate: {
+    title: 'Exam Date',
+    icon: <FileTextOutlined />,
+    value: 'null'
+  },
   officialNotification: {
     title: 'Official Notification',
     icon: <CloudDownloadOutlined />,
@@ -91,6 +96,15 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   // @ts-ignore
   data.eligibility.value = categoryDetails.info.eligibility ? ( // @ts-ignore
     <Tag color="cyan-inverse">{categoryDetails.info.eligibility}</Tag>
+  ) : null
+
+  // @ts-ignore
+  data.examDate.value = categoryDetails.info.examDate ? ( // @ts-ignore
+    <Tag color="red-inverse">
+      {categoryDetails.info.examDate
+        ? dayjs(categoryDetails.info.examDate).format('L')
+        : null}
+    </Tag>
   ) : null
 
   // @ts-ignore

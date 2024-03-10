@@ -184,6 +184,25 @@ function ProductCategoryDetailsEditor(
             />
           </Form.Item>
         </Col>
+        <Col span={8}>
+          <Form.Item
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: 'Please enter minimum passing score'
+            //   }
+            // ]}
+            name={['info','examDate']}
+
+            label="Exam Date"
+            // required
+          >
+            <Input
+              // type="number"
+              placeholder="Please enter exam date"
+            />
+          </Form.Item>
+        </Col>
         {/* <Col span={8}>
           <Form.Item
             // rules={[
