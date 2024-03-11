@@ -231,3 +231,57 @@ export const AdvancedEditorOptions = {
     ]
   ]
 }
+
+export const TEST_TEMPLATES = [
+  {
+    label: 'GPSC Class-3 CCE Yuva Upanishad',
+    value: 'gpscyuva',
+    template: {
+      sections: [
+        {
+          title: 'રિઝનિંગ',
+          itemCount: 40,
+          optionCount: 4,
+          score: { correct: 1, incorrect: -0.25 },
+          questionType: 'single'
+        },
+        {
+          title: 'ગણિત',
+          itemCount: 30,
+          optionCount: 4,
+          score: { correct: 1, incorrect: -0.25 },
+          questionType: 'single'
+        },
+        {
+          title: 'English',
+          itemCount: 15,
+          optionCount: 4,
+          score: { correct: 1, incorrect: -0.25 },
+          questionType: 'single'
+        },
+        {
+          title: 'ગુજરાતી',
+          itemCount: 15,
+          optionCount: 4,
+          score: { correct: 1, incorrect: -0.25 },
+          questionType: 'single'
+        }
+      ]
+    }
+  },
+  {
+    label: 'UPSC Prelims',
+    value: 'upscprelims',
+    template: {
+      sections: [
+        {
+          title: 'Section-1',
+          itemCount: 100,
+          optionCount: 4,
+          score: { correct: 2, incorrect: -0.67 },
+          questionType: 'single'
+        }
+      ]
+    }
+  }
+]

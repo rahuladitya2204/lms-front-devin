@@ -2,6 +2,7 @@ import { Button, Col, Divider, Form, Input, Modal, Row, Select, Tabs } from 'ant
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import { Enum, Types, User } from '@adewaskar/lms-common'
 
+import { TEST_TEMPLATES } from '@Components/Editor/SunEditor/constant';
 import { Typography } from '@Components/Typography';
 import { useState } from 'react';
 
@@ -86,13 +87,13 @@ const calculateTotalScore = (e: CreateTestOutline) => {
         // @ts-ignore
         children: <Form form={form2} onFinish={(e) => {
           // debugger;
-          const temp = TEMPLATES.find(t => t.value === e.template)?.template;
+          const temp = TEST_TEMPLATES.find(t => t.value === e.template)?.template;
           // @ts-ignore
           onSubmit(temp)
           
         }} layout='vertical'>
           <Form.Item name='template' label='Select Template'>
-            <Select options={TEMPLATES} />
+            <Select options={TEST_TEMPLATES} />
           </Form.Item>
           <Button style={{marginTop:50}} onClick={form2.submit} loading={updating} htmlType='submit' type="primary">
       Generate Template Outline
@@ -200,27 +201,3 @@ name={[field.name,'title']}
    ]} />
   )
 }
-
-const TEMPLATES = [
-  {
-    label: 'GPSC Class-3 CCE Yuva Upanishad',
-    value: "gpscyuva",
-    template: {
-      sections: [
-        { title: 'રિઝનિંગ', itemCount: 40, optionCount: 4, score: { correct: 1, incorrect: -0.25 }, questionType: 'single' },
-        { title: 'ગણિત', itemCount: 30, optionCount: 4, score: { correct: 1, incorrect: -0.25 }, questionType: 'single' },
-        { title: 'English', itemCount: 15, optionCount: 4, score: { correct: 1, incorrect: -0.25 }, questionType: 'single' },
-        { title: 'ગુજરાતી', itemCount: 15, optionCount: 4, score: { correct: 1, incorrect: -0.25 }, questionType: 'single' }
-      ]
-    }
-  },
-  {
-    label: 'UPSC Prelims',
-    value: "upscprelims",
-    template: {
-      sections: [
-        { title: 'Section-1', itemCount: 100, optionCount: 4, score: { correct: 2, incorrect: -0.67 }, questionType: 'single' },
-      ]
-    }
-  }
-];

@@ -350,6 +350,7 @@ const calculateGlobalIndex = (sections: Types.TestSection[], sectionIndex: numbe
   let globalIndex = 0;
   // Add up all items in previous sections
   for (let i = 0; i < sectionIndex; i++) {
+    if(sections[i]?.items)
     globalIndex += sections[i].items.length;
   }
   // Add the current item's index within its section
