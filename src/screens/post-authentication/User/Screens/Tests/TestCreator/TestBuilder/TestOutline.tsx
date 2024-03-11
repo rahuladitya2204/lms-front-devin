@@ -93,10 +93,10 @@ const calculateTotalScore = (e: CreateTestOutline) => {
           
         }} layout='vertical'>
           <Form.Item name='template' label='Select Template'>
-            <Select options={TEST_TEMPLATES} />
+            <Select placeholder='Select a template' style={{width: 300}} options={TEST_TEMPLATES} />
           </Form.Item>
           <Button style={{marginTop:50}} onClick={form2.submit} loading={updating} htmlType='submit' type="primary">
-      Generate Template Outline
+      Generate Outline
     </Button>
         </Form>
       },
