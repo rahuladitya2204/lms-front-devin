@@ -196,7 +196,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           </Col>
           <Col span={12}>
             <Form.Item label='Topics' name='topics'>
-              <TreeSelect
+              <TreeSelect multiple
                 treeData={buildTopicTree(topics,test.topic)}
                 // onExpand={onExpand}
                 // expandedKeys={expandedKeys}

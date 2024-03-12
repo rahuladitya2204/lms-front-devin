@@ -77,7 +77,7 @@ export default function ProductCategoryDetailScreen(
     i.push(  ...productCategory.info.links.map(link => {
       return {
       label: link.title,
-      key:link.title,
+      key:link.title.split(' ').join(''),
       children:<HtmlViewer content={link.description} />
       }
     }))
@@ -214,7 +214,7 @@ export default function ProductCategoryDetailScreen(
                   <Skeleton active paragraph={{ rows: 20 }} />
                   </Col>
                 </Row>:
-                  <Tabs tabPosition={isMobile?'top':'left'} items={TABS} />
+                  <Tabs navigateWithHash tabPosition={isMobile?'top':'left'} items={TABS} />
 }
                 </Col>
                 <Col span={24}>
