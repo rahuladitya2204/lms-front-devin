@@ -41,7 +41,7 @@ const useWatchTime = (courseId: string) => {
           }
         }
       } catch (er) {
-        console.log(er, 'er')
+        // console.log(er, 'er')
       }
 
       // Clean up event listener when the component is unmounted

@@ -175,7 +175,7 @@ const PackageCard = ({packageId,plan,children}: {
     type: 'package',
     id: '65656a12eff93f74224193e3'
   });
-  console.log(ep, 'er');
+
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const { openModal } = useModal()
 

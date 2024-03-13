@@ -132,9 +132,9 @@ export default function ProductCategoryDetailScreen(
     {loadingProductCategory ? null : <>
         <Col lg={24} md={24} sm={24} xs={24}>
           <Row justify={'space-between'} align={'middle'}>
-            <Col sm={18} xs={24}>
+            <Col sm={isMobile?24:18} xs={24}>
             <Row align={'middle'}>
-          <Col>
+          <Col style={{margin:isMobile?'auto':0,marginBottom:isMobile?15:'auto'}}>
             <Avatar style={{width:100,height:100}} src={productCategory.thumbnailImage} />
           </Col>
           <Col flex={1} style={{marginLeft:15}}>
@@ -142,13 +142,15 @@ export default function ProductCategoryDetailScreen(
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
                 overflowWrap: 'break-word', // Breaks words to prevent overflow
-          margin: 0
+          margin: 0,
+          textAlign: isMobile ?'center':'left'
                   }} level={3}>{productCategory.title}{isMobile?<span>(<ThunderboltFilled style={{ color: 'goldenrod', fontSize: 25 }} />Upcoming)</span>:null}</Title>
           <Title  style={{
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
                 overflowWrap: 'break-word', // Breaks words to prevent overflow
-          margin: 0,
+                    margin: isMobile ? 10 : 0,
+                    textAlign: isMobile ?'center':'left'
         }} level={5} >
             {productCategory.subtitle}
               </Title>

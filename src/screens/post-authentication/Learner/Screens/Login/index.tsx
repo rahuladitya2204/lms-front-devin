@@ -128,7 +128,6 @@ const OtpForm = (props:LearnerLoginPropsI) => {
           props.closeModal && props.closeModal();
         },
         onError: (er:any) => {
-          console.log(er,'er')
           message.open({
             type: 'error',
             content: er.response.data.message
