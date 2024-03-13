@@ -11,12 +11,14 @@ const getDeviceConfig = (width: number) => {
 }
 
 const useBreakpoint = () => {
+  const [width, setWidth] = useState(0)
   const [breakpoint, setBreakpoint] = useState(() =>
     getDeviceConfig(window.innerWidth)
   )
 
   useEffect(() => {
     const calcInnerWidth = () => {
+      setWidth(window.innerWidth)
       setBreakpoint(getDeviceConfig(window.innerWidth))
     }
     window.addEventListener('resize', calcInnerWidth)
@@ -26,7 +28,8 @@ const useBreakpoint = () => {
   return {
     isMobile: breakpoint === 'isMobile',
     isTablet: breakpoint === 'isTablet',
-    isDesktop: breakpoint === 'isDesktop'
+    isDesktop: breakpoint === 'isDesktop',
+    width
   }
 }
 

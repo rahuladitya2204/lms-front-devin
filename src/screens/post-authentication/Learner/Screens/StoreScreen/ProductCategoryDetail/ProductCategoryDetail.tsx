@@ -36,7 +36,7 @@ export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
   const { id: productCategoryId } = useParams();
-  const { isMobile } = useBreakpoint();
+  const { isMobile,width } = useBreakpoint();
   const { data: productCategory, isLoading: loadingProductCategory } = Learner.Queries.useGetProductCategoryDetails(productCategoryId + '');
   const { data: packages, isFetching: loading } = Learner.Queries.useGetPackages(productCategory._id, {
     enabled: !!productCategory._id
@@ -58,21 +58,21 @@ export default function ProductCategoryDetailScreen(
       //   }
       // })
     ];
-    if (packages.length) {
-      i.push({
-        label: `Test Series(${packages.length})`,
-        key: 'tests',
-        children: <Row gutter={[20,20]}>
-          {packages.map(bundle => {
-           return  <Col   sm={12} 
-           md={8} xs={24}
-             lg={8} xl={6} xxl={6}  >
-             <PackageCard package={bundle} />
-           </Col>
-         })}
-        </Row>
-      })
-    }
+    // if (packages.length) {
+    //   i.push({
+    //     label: `Test Series(${packages.length})`,
+    //     key: 'tests',
+    //     children: <Row gutter={[20,20]}>
+    //       {packages.map(bundle => {
+    //        return  <Col   sm={12} 
+    //        md={8} xs={24}
+    //          lg={8} xl={6} xxl={6}  >
+    //          <PackageCard package={bundle} />
+    //        </Col>
+    //      })}
+    //     </Row>
+    //   })
+    // }
 
     i.push(  ...productCategory.info.links.map(link => {
       return {
@@ -155,7 +155,7 @@ export default function ProductCategoryDetailScreen(
             </Col>
           </Row>
             </Col>
-          {productCategory.info.isUpcoming && !isMobile?  <Col sm={6}>
+          {productCategory.info.isUpcoming && !isMobile?  <Col style={{display:'flex',flexDirection:'row-reverse'}} sm={6}>
               <Row align={'middle'}>
                 <Col>
                   <ThunderboltFilled style={{ color: 'goldenrod', fontSize: 30,marginRight: 5 }} />
@@ -189,7 +189,20 @@ export default function ProductCategoryDetailScreen(
       </>}
          
 <Col span={24}>
- <Row gutter={[30, 30]}>
+        <Row gutter={[30, 30]}>
+        <Col span={24}>
+                        <Card title='Try our test series!'>
+                        <Row gutter={[20,20]}>
+                          {packages.map(bundle => {
+                          return <Col   sm={12} 
+                          md={8} xs={24}
+                            lg={8} xl={6} xxl={6}  >
+                            <PackageCard package={bundle} />
+                          </Col>
+                        })}
+                        </Row>
+                        </Card>
+                      </Col>
           <Col xs={24} sm={24} md={24} lg={24} >
             {loadingProductCategory ?
               <Skeleton style={{ marginBottom: 30 }} active paragraph={{ rows: 1 }} /> : null}
@@ -214,8 +227,23 @@ export default function ProductCategoryDetailScreen(
                   <Skeleton active paragraph={{ rows: 20 }} />
                   </Col>
                 </Row>:
-                  <Tabs navigateWithHash tabPosition={isMobile?'top':'left'} items={TABS} />
-}
+                    <Row>
+                      {/* <Col span={24}>
+                        <Card title='Try our test series!'>
+                        <Row gutter={[20,20]}>
+                          {packages.map(bundle => {
+                          return <Col   sm={12} 
+                          md={8} xs={24}
+                            lg={8} xl={6} xxl={6}  >
+                            <PackageCard package={bundle} />
+                          </Col>
+                        })}
+                        </Row>
+                        </Card>
+                      </Col> */}
+                      <Col span={24}>
+                      <Tabs style={{width: isMobile?(width-150):'auto'}} navigateWithHash tabPosition={isMobile?'top':'left'} items={TABS} />
+</Col></Row>}
                 </Col>
                 <Col span={24}>
 
@@ -226,32 +254,6 @@ export default function ProductCategoryDetailScreen(
             </Card>
             
  </Col>
-          {/* <Col xs={0} sm={0} md={0} lg={8}>
-          <Tabs activeKey={productCategory?.info?.links[0]?.title} tabPosition={isMobile ? 'top' : 'left'}
-                    items={productCategory.info.links.map(link => {
-                return {
-                  label: link.title,
-                  key:link.title,
-                  children:<HtmlViewer content={link.description} />
-                }
-              })} />
-          </Col> */}
-          {/* <Col lg={24} md={24} sm={24} xs={24}>
-          <Card title='Important Links'>
-          <Row>
-            <Col span={24}>
-                  <Tabs activeKey={productCategory?.info?.links[0]?.title} tabPosition={isMobile ? 'top' : 'left'}
-                    items={productCategory.info.links.map(link => {
-                return {
-                  label: link.title,
-                  key:link.title,
-                  children:<HtmlViewer content={link.description} />
-                }
-              })} />
-            </Col>
-          </Row>
-       </Card>
-          </Col> */}
          {(productCategory?.info?.faqs?.length)? <Col lg={24} md={24} sm={24} xs={24}>
             <Card title='FAQs'>
             {productCategory.info.faqs.map(faq => {
