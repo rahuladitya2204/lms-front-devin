@@ -18,7 +18,8 @@ import ProductCategoryMetadata from './ProductCategoryMetadata'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import ProductWalletNudge from '@Components/ProductWalletNudge'
 import SkeletonImage from '@Components/SkeletonImage'
-import Tabs from '@Components/Tabs'
+import Tabs from '@Components/Tabs';
+// import Tabs from '@Components/Tabs'
 import Title from 'antd/es/typography/Title'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
@@ -190,7 +191,7 @@ export default function ProductCategoryDetailScreen(
          
 <Col span={24}>
         <Row gutter={[30, 30]}>
-        <Col span={24}>
+        {packages.length?<Col span={24}>
                         <Card title='Try our test series!'>
                         <Row gutter={[20,20]}>
                           {packages.map(bundle => {
@@ -202,7 +203,7 @@ export default function ProductCategoryDetailScreen(
                         })}
                         </Row>
                         </Card>
-                      </Col>
+                      </Col>:null}
           <Col xs={24} sm={24} md={24} lg={24} >
             {loadingProductCategory ?
               <Skeleton style={{ marginBottom: 30 }} active paragraph={{ rows: 1 }} /> : null}
@@ -242,7 +243,12 @@ export default function ProductCategoryDetailScreen(
                         </Card>
                       </Col> */}
                       <Col span={24}>
-                      <Tabs style={{width: isMobile?(width-150):'auto'}} navigateWithHash tabPosition={isMobile?'top':'left'} items={TABS} />
+                        {/* {width}px */}
+                        {TABS.length?<Tabs
+                          style={{ width: isMobile ? (width - width*0.3) : 'auto' }}
+                          navigateWithHash
+                          tabPosition={isMobile ? 'top' : 'left'} 
+                          items={TABS} />:null}
 </Col></Row>}
                 </Col>
                 <Col span={24}>

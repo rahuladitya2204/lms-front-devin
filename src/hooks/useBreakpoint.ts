@@ -15,12 +15,13 @@ const useBreakpoint = () => {
   const [breakpoint, setBreakpoint] = useState(() =>
     getDeviceConfig(window.innerWidth)
   )
-
+  const calcInnerWidth = () => {
+    setWidth(window.innerWidth)
+    setBreakpoint(getDeviceConfig(window.innerWidth))
+  }
   useEffect(() => {
-    const calcInnerWidth = () => {
-      setWidth(window.innerWidth)
-      setBreakpoint(getDeviceConfig(window.innerWidth))
-    }
+    calcInnerWidth()
+
     window.addEventListener('resize', calcInnerWidth)
     return () => window.removeEventListener('resize', calcInnerWidth)
   }, [])
