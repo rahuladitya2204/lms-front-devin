@@ -131,7 +131,9 @@ function PackageDetailViewer () {
 
           <Row>
             <Col style={{ marginTop: 15 }} span={24}>
-              <PackageDetails package={bundle} />
+                  <Card bodyStyle={{paddingTop:5}}>
+                    <PackageDetails package={bundle} />
+              </Card>
             </Col>
           </Row>
         
