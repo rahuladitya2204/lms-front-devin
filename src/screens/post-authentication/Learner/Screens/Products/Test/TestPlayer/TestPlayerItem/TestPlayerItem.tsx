@@ -99,6 +99,23 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const NextButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
     {!isMobile ? 'Next' : ''}
   </Button>;
+  const MarkForReviewButton = currentQuestion.isMarked ?
+    <Button block={isMobile} style={{marginBottom:isMobile?20:0}} loading={updatingFlag}
+      type='primary'
+      onClick={() => updateQuestionResponseFlag({
+        questionId: questionId + '', flag: 'reviewed'
+      })}
+      icon={<CheckOutlined />} danger>
+      Mark as Done
+    </Button> : <Button block={isMobile} style={{marginBottom:isMobile?20:0}} loading={updatingFlag}
+      onClick={() => updateQuestionResponseFlag(
+        {
+          questionId: questionId + '',
+          flag: 'review-later'
+        })}
+      icon={<FlagOutlined />} danger type="default">
+      Mark for review
+    </Button>;
   // console.log(currentQuestion,'currentQuestion')
   // const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   return (
@@ -224,7 +241,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               {PrevButton}
               {NextButton}
           </Col>:null}
-            <Col style={{ display: 'flex', flex:isMobile?1:'',flexDirection: 'row-reverse',justifyContent:'space-between'}}>
+          {isMobile?MarkForReviewButton:null}
+ <Col style={{ display: 'flex', flex:isMobile?1:'',flexDirection: 'row-reverse',justifyContent:'space-between'}}>
               <Fragment>
               {isMobile?NextButton:null}
  <Button
@@ -236,30 +254,13 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               Submit Answer
               </Button>
               {/* {ClearAnswerButton} */}
-  {isMobile?PrevButton:null}
+                {isMobile ? PrevButton : null}
             </Fragment>
 
-              {!isMobile ? <>
-              {currentQuestion.isMarked ?
-              <Button loading={updatingFlag}
-                type='primary'
-                onClick={() => updateQuestionResponseFlag({
-                  questionId: questionId + '', flag: 'reviewed'
-                })}
-                icon={<CheckOutlined/>} danger>
-              Mark as Done
-              </Button> : <Button loading={updatingFlag}
-                onClick={() => updateQuestionResponseFlag(
-                  {
-                     questionId: questionId + '',
-                    flag: 'review-later'
-                  })}
-                icon={<FlagOutlined />} danger type="default">
-              Mark for review
-                  </Button>}
-              </>:null}
            
-          </Col>
+            </Col>
+            {!isMobile?MarkForReviewButton:null}
+
         </Row>
       </Form>
      </Card>
