@@ -130,8 +130,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       title: 'Are you sure?',
       // icon: <ExclamationCircleOutlined />,
       content: markCount ?
-        `You have marked ${markCount} question${markCount > 1 ? 's' : ''} for review. Are you sure you want to submit?` :
-        `You want to submit this test?`,
+        `You have marked ${markCount} question${markCount > 1 ? 's' : ''} for review. Are you sure you want to submit? You will not ble able to resubmit the test.` :
+        `You want to submit this test? You will not be able to resubmit the test.`,
       onOk() {
         endTest(
           { testId: test._id + '' },
