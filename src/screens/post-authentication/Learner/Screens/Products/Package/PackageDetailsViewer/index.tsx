@@ -130,10 +130,11 @@ function PackageDetailViewer () {
       
 
           <Row>
-            <Col style={{ marginTop: 15 }} span={24}>
-                  <Card bodyStyle={{paddingTop:5}}>
+                <Col style={{ marginTop: 15 }} span={24}>
+                {loadingPackage?<Skeleton.Button active style={{height: 400}} block />: <Card bodyStyle={{paddingTop:5}}>
                     <PackageDetails package={bundle} />
-              </Card>
+              </Card>}
+                 
             </Col>
           </Row>
         
