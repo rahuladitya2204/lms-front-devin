@@ -64,7 +64,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.TEST)
   const isProcturingOn = test.rules.procturing.enabled
   const { data: {
-    status:{startedAt, hasStarted, hasEnded}
+    status:{startedAt, hasStarted, hasEnded,sections}
   },isLoading: loadingStatus } = Learner.Queries.useGetTestStatus(testId+'')
   
   useEffect(
@@ -123,11 +123,15 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   //   icon={<BookOutlined />}
   // block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>
   const SubmitTestButton = <Button block={!isDesktop}
-  onClick={() => {
+    onClick={() => {
+      // @ts-ignore
+      const markCount = sections.map(a => a.items).flat().filter(i => i.isMarked).length;
     confirm({
       title: 'Are you sure?',
       // icon: <ExclamationCircleOutlined />,
-      content: `You want to submit this test?`,
+      content: markCount ?
+        `You have marked ${markCount} question${markCount > 1 ? 's' : ''} for review. Are you sure you want to submit?` :
+        `You want to submit this test?`,
       onOk() {
         endTest(
           { testId: test._id + '' },

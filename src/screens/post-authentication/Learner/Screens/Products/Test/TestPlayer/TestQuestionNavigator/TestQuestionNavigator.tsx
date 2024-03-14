@@ -43,7 +43,8 @@ export default function TestQuestionNavigatorType2(
           <>
           {(test.duration.enabled)?<Col span={24}>
             {/* <Button type='primary' style={{marginBottom:30}} danger block size='large'> Submit Test</Button> */}
-          <Row justify={'center'} align={'middle'}><Col>            {isLoading?<Skeleton.Button active shape='circle' style={{width:200,height:200}} />:((hasStarted&&!hasEnded)?<TestTimer testId={props.testId} />:null)}
+              <Row justify={'center'} align={'middle'}><Col>
+              <TestTimer testId={props.testId} /> 
 </Col></Row>
               <Divider style={{ margin: 0, marginTop: 10 }} />
  </Col>:null}

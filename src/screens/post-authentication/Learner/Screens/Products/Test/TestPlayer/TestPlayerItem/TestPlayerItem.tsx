@@ -241,7 +241,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               {PrevButton}
               {NextButton}
           </Col>:null}
-          {isMobile?MarkForReviewButton:null}
+          {MarkForReviewButton}
  <Col style={{ display: 'flex', flex:isMobile?1:'',flexDirection: 'row-reverse',justifyContent:'space-between'}}>
               <Fragment>
               {isMobile?NextButton:null}
@@ -259,7 +259,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
 
            
             </Col>
-            {!isMobile?MarkForReviewButton:null}
+            {/* {!isMobile?MarkForReviewButton:null} */}
 
         </Row>
       </Form>
