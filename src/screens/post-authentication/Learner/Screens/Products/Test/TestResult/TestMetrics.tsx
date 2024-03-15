@@ -73,6 +73,12 @@ export default function TestMetrics() {
     },
     [metrics]
   )
+  const {
+    data: enrolledProduct,isLoading: loadingEnrolledProduct
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: 'test',
+    id: testId + ''
+  })
   const { isMobile } = useBreakpoint()
   // console.log(pieChartData, 'as')
   const ViewSolutions = (
@@ -95,8 +101,12 @@ export default function TestMetrics() {
           // icon: <ExclamationCircleOutlined />,
           content: `You want to exit reviewing?`,
           onOk() {
-            navigate(`/app/test/${testId}`)
-          },
+            if (enrolledProduct.package) {
+              navigate(`/app/package/${enrolledProduct.package}/enrolled-package`)
+            }
+            else {
+              navigate(`/app/test/${testId}`)
+            }          },
           okText: 'Yes, Exit'
         })
       }}
@@ -368,7 +378,7 @@ export default function TestMetrics() {
         title={!isMobile ? `Test Result: ${test?.title}` : ExitButton}
         extra={
           <div style={{marginTop:10}}>
-            {ViewSolutions}
+            {ViewSolutions} {ExitButton}
           </div>
         }
       >

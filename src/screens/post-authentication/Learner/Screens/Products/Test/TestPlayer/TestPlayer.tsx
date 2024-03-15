@@ -53,7 +53,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const {
     mutate: endTest,
     isLoading: submittingTest
-  } = Learner.Queries.useEndTest()
+  } = Learner.Queries.useEndTest(testId+'')
   const {
     data: enrolledProduct,
     isLoading: loadingDetails
@@ -125,7 +125,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const SubmitTestButton = <Button block={!isDesktop}
     onClick={() => {
       // @ts-ignore
-      const markCount = sections.map(a => a.items).flat().filter(i => i.isMarked).length - 1;
+      const markCount = sections.map(a => a.items).flat().filter(i => i.isMarked).length;
     confirm({
       title: 'Are you sure?',
       // icon: <ExclamationCircleOutlined />,
@@ -134,7 +134,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         `You want to submit this test? You will not be able to resubmit the test.`,
       onOk() {
         endTest(
-          { testId: test._id + '' },
+          undefined,
           {
             onSuccess: () => {
               // if (!test.live.enabled) {

@@ -60,7 +60,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const {
     mutate: endTest,
     isLoading: submittingTest
-  } = Learner.Queries.useEndTest()
+  } = Learner.Queries.useEndTest(testId+'')
   const {
     data: enrolledProduct,isLoading: loadingEnrolledProduct
   } = Learner.Queries.useGetEnrolledProductDetails({
@@ -98,8 +98,8 @@ onClick={() => {
     // icon: <ExclamationCircleOutlined />,
     content: `You want to exit reviewing?`,
     onOk() {
-      if (test.package) {
-        navigate(`/app/test/${testId}`)
+      if (enrolledProduct.package) {
+        navigate(`/app/package/${enrolledProduct.package}/enrolled-package`)
       }
       else {
         navigate(`/app/test/${testId}`)
