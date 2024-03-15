@@ -105,22 +105,29 @@ export function useBlockBackButton() {
 
   useEffect(
     () => {
-      // Push onto history stack
-      window.history.pushState(null, document.title, location.pathname)
-      window.addEventListener('popstate', onBackButtonEvent)
+      // Add a dummy state to the history
       // @ts-ignore
-      function onBackButtonEvent(e) {
-        e.preventDefault()
-        // When the user tries to navigate back, replace the state.
-        window.history.go(1)
-        message.info('Back Button is disabled')
+      window.history.pushState(null, null, location.pathname)
+
+      // @ts-ignore
+      const handlePopState = event => {
+        // Prevent the default back action
+        event.preventDefault()
+        // Push another dummy state onto the history stack
+        // @ts-ignore
+        window.history.pushState(null, null, location.pathname)
       }
 
-      // Clean up
+      // Add the event listener for popstate
+      window.addEventListener('popstate', handlePopState)
+
+      // Clean up by removing the event listener
       return () => {
-        window.removeEventListener('popstate', onBackButtonEvent)
+        window.removeEventListener('popstate', handlePopState)
       }
     },
     [location.pathname]
   )
+
+  // More of your hook code...
 }
