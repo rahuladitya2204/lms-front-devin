@@ -378,7 +378,7 @@ export default function TestMetrics() {
         title={!isMobile ? `Test Result: ${test?.title}` : ExitButton}
         extra={
           <div style={{marginTop:10}}>
-            {ViewSolutions} {ExitButton}
+            {ViewSolutions} {!isMobile?ExitButton:null}
           </div>
         }
       >
