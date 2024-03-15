@@ -22,6 +22,7 @@ import { useReviewQuestion } from './TestPlayerItemReview'
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
   questionId: string;
+  closeDrawer?: Function;
 }
 const { confirm } = Modal
 const { Text, Title } = Typography
@@ -105,6 +106,9 @@ export default function TestReviewQuestionNavigator(
                         return (
                           <Col span={3}>
                             <NavLink
+                              onClick={() => {
+                                props.closeDrawer && props.closeDrawer()
+                              }}
                               style={{ width: '100%' }}
                               key={item._id}
                               to={`${item._id}`}

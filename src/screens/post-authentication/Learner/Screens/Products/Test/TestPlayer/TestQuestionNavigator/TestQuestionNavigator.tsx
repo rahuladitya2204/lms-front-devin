@@ -9,14 +9,15 @@ import TestTimer from './TestTimer'
 import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
-interface TestQuestionNavigatorType2PropsI {
+interface TestQuestionNavigatorPropsI {
   testId: string;
   questionId: string;
+  closeDrawer?: Function;
 }
 const { Title } = Typography
 
-export default function TestQuestionNavigatorType2(
-  props: TestQuestionNavigatorType2PropsI
+export default function TestQuestionNavigator(
+  props: TestQuestionNavigatorPropsI
 ) {
   const navigate = useNavigate()
   const { data: { status: {
@@ -110,7 +111,10 @@ export default function TestQuestionNavigatorType2(
                               // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
                               <Button
                                   // loading={loading && isCurrent}
-                                onClick={() => navigate(item._id)} danger={item.isMarked&&!isActive}
+                                  onClick={() => {
+                                    navigate(item._id)
+                                    props.closeDrawer && props.closeDrawer();
+                                }} danger={item.isMarked&&!isActive}
                                 type={
                                   isActive
                                     ? 'primary'

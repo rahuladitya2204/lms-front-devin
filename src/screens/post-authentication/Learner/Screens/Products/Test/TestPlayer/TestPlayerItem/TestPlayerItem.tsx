@@ -100,14 +100,16 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     {!isMobile ? 'Next' : ''}
   </Button>;
   const MarkForReviewButton = currentQuestion.isMarked ?
-    <Button block={isMobile} style={{marginBottom:isMobile?20:0}} loading={updatingFlag}
+    <Button block={isMobile}
+      style={{ marginBottom: isMobile ? 5 : 0 }}
+      loading={updatingFlag}
       type='primary'
       onClick={() => updateQuestionResponseFlag({
         questionId: questionId + '', flag: 'reviewed'
       })}
       icon={<CheckOutlined />} danger>
       Mark as Done
-    </Button> : <Button block={isMobile} style={{marginBottom:isMobile?20:0}} loading={updatingFlag}
+    </Button> : <Button block={isMobile} style={{marginBottom:isMobile?5:0}} loading={updatingFlag}
       onClick={() => updateQuestionResponseFlag(
         {
           questionId: questionId + '',
@@ -241,7 +243,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               {PrevButton}
               {NextButton}
           </Col>:null}
-          {MarkForReviewButton}
+            {MarkForReviewButton}
+            {isMobile?<Divider/>:null}
  <Col style={{ display: 'flex', flex:isMobile?1:'',flexDirection: 'row-reverse',justifyContent:'space-between'}}>
               <Fragment>
               {isMobile?NextButton:null}

@@ -125,7 +125,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const SubmitTestButton = <Button block={!isDesktop}
     onClick={() => {
       // @ts-ignore
-      const markCount = sections.map(a => a.items).flat().filter(i => i.isMarked).length;
+      const markCount = sections.map(a => a.items).flat().filter(i => i.isMarked).length - 1;
     confirm({
       title: 'Are you sure?',
       // icon: <ExclamationCircleOutlined />,

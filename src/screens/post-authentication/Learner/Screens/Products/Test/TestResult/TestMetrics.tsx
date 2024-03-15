@@ -161,7 +161,7 @@ export default function TestMetrics() {
                         Passing Score: {metrics.passingScore}
                       </Title>
                     ) : null}
-                    <Title style={{ marginBottom: 15 }} level={4}>
+                    <Title style={{ marginBottom: 15,margin: (!metrics.passingScore)?0:'auto' }} level={4}>
                       You Scored: {Math.ceil(metrics.learnerScore)} out of{' '}
                       {metrics.totalTestScore}
                     </Title>
@@ -187,9 +187,7 @@ export default function TestMetrics() {
                 ) : !(
                   pieChartData[0].value === 0 && pieChartData[1].value === 0
                 ) ? (
-                  !isMobile ? (
-                    PiechartComponent
-                  ) : null
+                  <Row><Col xs={24}>{PiechartComponent}</Col></Row>
                 ) : null}
               </Col>
               <Col xs={24} md={12} lg={16}>
