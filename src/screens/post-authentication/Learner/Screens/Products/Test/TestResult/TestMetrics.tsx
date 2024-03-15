@@ -4,6 +4,7 @@ import {
   Card,
   Col,
   Divider,
+  Dropdown,
   List,
   Modal,
   Progress,
@@ -12,6 +13,14 @@ import {
   Space,
   Tag
 } from 'antd'
+import {
+  ArrowLeftOutlined,
+  EditOutlined,
+  LinkOutlined,
+  LogoutOutlined,
+  MenuOutlined,
+  UserOutlined
+} from '@ant-design/icons'
 import {
   Bar,
   BarChart,
@@ -24,13 +33,6 @@ import {
   XAxis,
   YAxis
 } from 'recharts'
-import {
-  EditOutlined,
-  LinkOutlined,
-  LogoutOutlined,
-  MenuOutlined,
-  UserOutlined
-} from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
@@ -75,7 +77,7 @@ export default function TestMetrics() {
   // console.log(pieChartData, 'as')
   const ViewSolutions = (
     <Button
-      style={{ marginRight: 10 }}
+      style={{ marginRight: isMobile?0:10 }}
       onClick={() => navigate(`/app/test/${testId}/result/review`)}
       type="primary"
       icon={<EditOutlined />}
@@ -86,7 +88,7 @@ export default function TestMetrics() {
   const ExitButton = (
     <Button
       style={{ width: isMobile ? '100%' : 100 }}
-      icon={<LogoutOutlined />}
+      icon={isMobile?<ArrowLeftOutlined/>:<LogoutOutlined />}
       onClick={() => {
         confirm({
           title: 'Are you sure?',
@@ -363,27 +365,11 @@ export default function TestMetrics() {
       cta={<LearnerProfile />}
     >
       <Header
-        title={!isMobile ? `Test Result: ${test?.title}` : null}
+        title={!isMobile ? `Test Result: ${test?.title}` : ExitButton}
         extra={
-          isMobile ? (
-            <ActionDrawer
-              footer={() => [ExitButton]}
-              cta={
-                <Button
-                  type="primary"
-                  style={{ marginTop: 10 }}
-                  icon={<MenuOutlined />}
-                  // shape="circle"
-                />
-              }
-              extra={() => [ViewSolutions]}
-            >
-              {/* {ViewSolutions} */}
-              <div style={{ marginTop: 20 }}>{PiechartComponent}</div>
-            </ActionDrawer>
-          ) : (
-            [ViewSolutions, ExitButton]
-          )
+          <div style={{marginTop:10}}>
+            {ViewSolutions}
+          </div>
         }
       >
         <Tabs navigateWithHash items={TABS} />
