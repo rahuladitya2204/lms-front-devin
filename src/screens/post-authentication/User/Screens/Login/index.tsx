@@ -18,7 +18,37 @@ import { useModal } from '@Components/ActionModal/ModalContext'
 import { useNavigate } from 'react-router'
 import useOauth from './useOauth'
 
-function UserLogin () {
+interface UserLoginPropsI{
+  hideLogo?: boolean;
+}
+
+export function UserLogin (props:UserLoginPropsI) {
+  const { isTablet, isMobile } = useBreakpoint();
+  const { data: org} = User.Queries.useGetOrgDetails();
+  return <AuthenticationCard>
+  {isMobile?<OrgLogo width={'100%'} quality='high' />:null}
+<Tabs
+  items={[
+    {
+      label: 'Login with OTP',
+      key: 'otp',
+      children: (
+<OtpForm/>
+      )
+    },
+    {
+      label: 'Login with Email',
+      key: 'email',
+      children: (
+      <EmailForm/>
+      )
+    }
+  ]}
+/>
+</AuthenticationCard>
+}
+
+export default function UserLoginContainer(props: UserLoginPropsI) {
   const { isTablet, isMobile } = useBreakpoint();
   const { data: org} = User.Queries.useGetOrgDetails();
   return ( <Row style={{ minHeight: '100vh' }}>
@@ -54,27 +84,7 @@ function UserLogin () {
         style={{ justifyContent: 'center', display: 'flex' }}
         >
         <Card style={{ width: 350 }}>
-        <AuthenticationCard>
-        {isMobile?<OrgLogo width={'100%'} quality='high' />:null}
-      <Tabs
-        items={[
-          {
-            label: 'Login with OTP',
-            key: 'otp',
-            children: (
-      <OtpForm/>
-            )
-          },
-          {
-            label: 'Login with Email',
-            key: 'email',
-            children: (
-            <EmailForm/>
-            )
-          }
-        ]}
-      />
-    </AuthenticationCard>
+        <UserLogin {...props} />
         </Card>
       </Col>
     </Row>
@@ -83,8 +93,6 @@ function UserLogin () {
 
   )
 }
-
-export default UserLogin
 
 
 const OtpForm = () => {

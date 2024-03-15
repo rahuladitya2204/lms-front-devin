@@ -354,7 +354,7 @@ export default function TestMetrics() {
   }
 
   return (
-    <ProtectedContent
+    <ProtectedContent title="Verification Required"
       isVerified={learner.profile.status === Enum.LearnerProfileStatus.COMPLETE}
       message={
         <Alert
