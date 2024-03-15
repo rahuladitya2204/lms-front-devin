@@ -146,9 +146,8 @@ Exit
             <Col xs={24} lg={isDesktop ? 16 : 24}>
               {isLoading ? <TestItemSkeleton/>: <Fragment>
                 <Outlet />
-                <Card style={{ marginTop: 20 }}>
-                <TestPlayerMoreInfo itemId={questionId+''} test={test} />
-              </Card></Fragment>}
+                
+                <TestPlayerMoreInfo itemId={questionId+''} test={test} /></Fragment>}
               
            
             </Col>
