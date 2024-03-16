@@ -135,7 +135,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
           <Tag style={{fontSize:15,padding:'2px 5px'}} color='blue-inverse' >{!isMobile?'Correct Answer Score: ':'+' }{currentQuestion.score.correct}</Tag>,
         currentQuestion.score.incorrect?<Tag style={{fontSize:15,padding:'2px 5px'}} color='red-inverse' >{!isMobile?'Incorrect Answer Score: ':''} {currentQuestion.score.incorrect}</Tag>:null]} >
       <Form layout='vertical' form={form} onFinish={onFormSubmit}>
-        <div style={{ minHeight: '72vh' }}>
+        <div style={{ minHeight: '50vh' }}>
           <Row gutter={[20, 30]}>
               <Col span={24}>
                 <Paragraph style={language === 'hin' ? { fontSize: 16 } : {fontSize:15}}>
