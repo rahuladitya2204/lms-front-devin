@@ -26,7 +26,7 @@ const StyledHeader =
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 20px;
 `
 
 const CustomRow = styled.div`
@@ -43,7 +43,7 @@ const Header: React.FC<HeaderPropsI> = props => {
     <CustomRow>
       <CustomCol>
         <StyledHeader bgColor={props.bgColor}>
-          <Row align={'top'} justify={'space-between'} style={{ flex: 1 }}>
+          <Row justify={'space-between'} style={{ flex: 1 }}>
             <Col>
               <Space align="center">
                 {props.showBack ? <BackButton /> : null}

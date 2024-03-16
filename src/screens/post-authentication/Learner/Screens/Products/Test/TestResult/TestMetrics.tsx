@@ -29,9 +29,10 @@ import {
   Legend,
   Pie,
   PieChart,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from 'recharts'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
@@ -60,9 +61,10 @@ export default function TestMetrics() {
   const { testId } = useParams()
   const {
     data: { test, metrics, status, feedback, leaderboard },
-    isFetching: loadingResult
+    isFetching: loadingResult,
   } = Learner.Queries.useGetTestResult(testId + '')
   const { data: learner } = Learner.Queries.useGetLearnerDetails()
+  const { data: topics } = Learner.Queries.useGetTopics();
   const COLORS = ['#52c41a', '#FF4040', '#D3D3D3'] // Green for correct, Red for wrong, Grey for unattempted
   const pieChartData = useMemo(
     () => {
@@ -73,6 +75,34 @@ export default function TestMetrics() {
     },
     [metrics]
   )
+
+  const difficultyLevelData = useMemo(
+    () => {
+      return Object.keys(metrics.difficultyLevel).map(k => {
+        return {
+          difficultyLevel: k,
+          // @ts-ignore
+          ...metrics.difficultyLevel[k]
+        }
+      })
+    },
+    [metrics]
+  )
+
+
+  const topicsData = useMemo(
+    () => {
+      return metrics.topics.map(t => {
+        return {
+          ...t,
+          topic: topics.find(i=>i._id===t.topic)?.title
+        }
+      })
+    },
+    [metrics]
+  )
+
+  console.log(difficultyLevelData,'difficultyLevelData')
   const {
     data: enrolledProduct,isLoading: loadingEnrolledProduct
   } = Learner.Queries.useGetEnrolledProductDetails({
@@ -117,11 +147,39 @@ export default function TestMetrics() {
       Exit
     </Button>
   )
-  const PiechartComponent = (
+// @ts-ignore
+  const BarChartDifficultyLevel = <ResponsiveContainer height={300}>
+    <BarChart data={difficultyLevelData}>
+  <CartesianGrid strokeDasharray="3 3" />
+  <XAxis dataKey="difficultyLevel" />
+  <YAxis />
+  <Tooltip />
+  <Legend />
+  <Bar dataKey="correct" stackId="a" fill="#52c41a" name="Correct" />
+  <Bar dataKey="incorrect" stackId="a" fill="#f94041" name="Incorrect" />
+  <Bar dataKey="total" stackId="a" fill="#ffc658" name="Total" />
+  </BarChart>
+  </ResponsiveContainer>
+
+
+  const BarChartTopics = <ResponsiveContainer height={400}>
+    <BarChart data={topicsData}>
+  <CartesianGrid strokeDasharray="3 3" />
+  <XAxis dataKey="topic" />
+  <YAxis />
+  <Tooltip />
+  <Legend />
+  <Bar dataKey="correct" stackId="a" fill="#52c41a" name="Correct" />
+  <Bar dataKey="incorrect" stackId="a" fill="#f94041" name="Incorrect" />
+  <Bar dataKey="total" stackId="a" fill="#ffc658" name="Total" />
+</BarChart>
+  </ResponsiveContainer>
+
+  const PiechartComponent = <>
     <Card title="Overall Performance">
       <Row justify={'center'} align={'middle'}>
         <Col>
-          <PieChart width={300} height={250}>
+        <PieChart width={300} height={250}>
             <Pie
               data={pieChartData}
               dataKey="value"
@@ -142,11 +200,26 @@ export default function TestMetrics() {
             </Pie>
             <Tooltip />
             <Legend />
-          </PieChart>
+            </PieChart>
         </Col>
       </Row>
     </Card>
-  )
+    <Card style={{marginTop:20}} title='Difficulty Level Metrics'>
+              {loadingResult ? (
+                  <Card style={{ height: 300 }}>
+                    <Skeleton active />
+                  </Card>
+                ) : (
+                    // @ts-ignore
+                  test?._id
+                ) ? (
+                  <Row><Col xs={24}>{BarChartDifficultyLevel}</Col></Row>
+                ) : null}
+                
+
+    </Card>
+  </>
+
 
   if (status !== Enum.TestResultStatus.EVALUATED) {
     return <ProcessingResult testId={testId + ''} />
@@ -288,6 +361,11 @@ export default function TestMetrics() {
                             </Row>
                           )
                         })}
+                      </Card>
+                      </Col>
+                      <Col span={24}>
+                      <Card title="Topic wise report">
+                        {BarChartTopics}
                       </Card>
                     </Col>
                     {leaderboard && leaderboard.length ? (

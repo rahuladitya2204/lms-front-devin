@@ -168,11 +168,12 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                       <List
         dataSource={currentQuestion.options}
                           renderItem={(option, index) => {
-                            const SelectFormControlComponent = <Row gutter={[10,20]} align={'middle'}>
-                              <Col>
-                                <Text style={{textTransform:"capitalize"}} strong>{String.fromCharCode(97 + index)}</Text>.
+                            const SelectFormControlComponent = <Row style={{width:'100%'}} gutter={[0,20]} align={'middle'}>
+                              <Col span={1}>
+                                <Text style={{textTransform:"capitalize"}} strong>{String.fromCharCode(97 + index)}</Text>
                               </Col>
-                              <Col><OptionSelectedFormControl value={option._id}>
+                              <Col span={23}>
+                                <OptionSelectedFormControl value={option._id}>
 <Paragraph style={language === 'hin' ? { fontSize: 16 } : {fontSize:15}}>
                                          {/* @ts-ignore */}
                                          <HtmlViewer content={option.text[language]} />
