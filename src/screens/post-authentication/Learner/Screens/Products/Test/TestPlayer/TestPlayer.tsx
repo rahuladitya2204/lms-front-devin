@@ -205,8 +205,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       /></>: null}
     
       <Row>
-        <Col span={1} />
-        <Col span={22}>
+        <Col xs={0} sm={1} />
+        <Col xs={24} sm={22}>
           <Row gutter={[50, 30]}>
               <Col xs={24} sm={24}  md={24} lg={16}>
                 {isLoading?<TestItemSkeleton/>:<Outlet />  }             
@@ -225,7 +225,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
          
           </Row>
         </Col>
-        <Col span={1} />
+        <Col xs={0} sm={1} />
       </Row>
     </Header>
 

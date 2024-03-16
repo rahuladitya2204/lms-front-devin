@@ -99,6 +99,14 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const NextButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
     {!isMobile ? 'Next' : ''}
   </Button>;
+  const MarkForReviewCheckbox = <Col style={{ display: 'flex', justifyContent: 'center', flex: 1 }}>
+    <Spin spinning={updatingFlag}>
+    <Checkbox checked={currentQuestion.isMarked} onChange={e => updateQuestionResponseFlag({
+    questionId: questionId + '', flag: e.target.checked?'review-later':'reviewed'
+    })}><Text strong>Mark for Review</Text>
+      </Checkbox>
+    </Spin> 
+  </Col>
   const MarkForReviewButton = currentQuestion.isMarked ?
     <Button block={isMobile}
       style={{ marginBottom: isMobile ? 5 : 0 }}
@@ -160,12 +168,17 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                       <List
         dataSource={currentQuestion.options}
                           renderItem={(option, index) => {
-                            const SelectFormControlComponent=      <OptionSelectedFormControl value={option._id}>
+                            const SelectFormControlComponent = <Row gutter={[10,20]} align={'middle'}>
+                              <Col>
+                                <Text style={{textTransform:"capitalize"}} strong>{String.fromCharCode(97 + index)}</Text>.
+                              </Col>
+                              <Col><OptionSelectedFormControl value={option._id}>
 <Paragraph style={language === 'hin' ? { fontSize: 16 } : {fontSize:15}}>
                                          {/* @ts-ignore */}
                                          <HtmlViewer content={option.text[language]} />
                               </Paragraph>
-                          </OptionSelectedFormControl>
+                          </OptionSelectedFormControl></Col>
+                            </Row>
                             return (
           <List.Item>
             {SelectFormControlComponent}
@@ -243,7 +256,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               {PrevButton}
               {NextButton}
           </Col>:null}
-            {MarkForReviewButton}
+            {isMobile?MarkForReviewCheckbox:MarkForReviewButton}
             {isMobile?<Divider/>:null}
  <Col style={{ display: 'flex', flex:isMobile?1:'',flexDirection: 'row-reverse',justifyContent:'space-between'}}>
               <Fragment>
@@ -251,10 +264,10 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
  <Button
               disabled={!isValid}
               type="primary" loading={submittingAnswer}
-              style={{ marginLeft: 20,marginRight:20 }}
+              style={{ marginLeft: 20,marginRight:20,width:'80%' }}
               onClick={form.submit}
             >
-              Submit Answer
+              Save & Next
               </Button>
               {/* {ClearAnswerButton} */}
                 {isMobile ? PrevButton : null}
