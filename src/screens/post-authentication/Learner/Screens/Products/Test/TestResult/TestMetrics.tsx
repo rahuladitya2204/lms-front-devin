@@ -9,6 +9,7 @@ import {
   Modal,
   Progress,
   Row,
+  Select,
   Skeleton,
   Space,
   Tag
@@ -35,6 +36,7 @@ import {
   YAxis,
 } from 'recharts'
 import { Enum, Learner } from '@adewaskar/lms-common'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
@@ -52,7 +54,6 @@ import { Typography } from '@Components/Typography'
 import { buildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useMemo } from 'react'
 
 const { confirm } = Modal
 const { Title, Text } = Typography
@@ -60,6 +61,11 @@ const { Title, Text } = Typography
 export default function TestMetrics() {
   const navigate = useNavigate()
   const { testId } = useParams()
+  const { data: {
+    topic: topicId
+  }} = Learner.Queries.useGetTestDetails(testId+'', Enum.TestDetailMode.RESULT);
+  // @ts-ignore
+  const [selectedTopic, setSelectedTopic] = useState(topicId);
   const {
     data: { test, metrics, status, feedback, leaderboard },
     isFetching: loadingResult,
@@ -76,7 +82,11 @@ export default function TestMetrics() {
     },
     [metrics]
   )
-
+  useEffect(() => { 
+    setSelectedTopic(topicId)
+  },[topicId])
+  // @ts-ignore
+  const MAIN_TOPICS = buildTopicTree(topics, topicId, 2);
   const difficultyLevelData = useMemo(
     () => {
       return Object.keys(metrics.difficultyLevel).map(k => {
@@ -90,50 +100,57 @@ export default function TestMetrics() {
     [metrics]
   )
 
-
-  const topicsData = useMemo(
-    () => {
-      const top = {};
-      // @ts-ignore
-      const TOPICS = buildTopicTree(topics, test.topic, 2);
-      // @ts-ignore
-      TOPICS.forEach(topic => {
-      // @ts-ignore
-      if (!top[topic._id]) {
-      // @ts-ignore
-      top[topic._id] = {
+       // @ts-ignore
+  const currentLevel = selectedTopic === topicId ? 1 : 2;
+  console.log(currentLevel,'currentLevel')
+       // @ts-ignore
+       const TOPICS = buildTopicTree(topics, selectedTopic, selectedTopic!==topicId?1:2);
+       // @ts-ignore
+       const accumulateTopicData = (topic, topicMap) => {
+        if (!topicMap[topic._id]) {
+          topicMap[topic._id] = {
             correct: 0,
             incorrect: 0,
-            total: 0
+            total: 0,
+            topic: topic.title,
+            _id: topic._id,
+            parentId: topic.parentId,
+          };
+        }
+    
+        const topp = metrics.topics.find((t) => t.topic === topic._id);
+        if (topp) {
+          topicMap[topic._id].correct += topp.correct;
+          topicMap[topic._id].incorrect += topp.incorrect;
+          topicMap[topic._id].total += topp.total;
+    
+          if (topic.parentId && topicMap[topic.parentId]) {
+            topicMap[topic.parentId].correct += topp.correct;
+            topicMap[topic.parentId].incorrect += topp.incorrect;
+            topicMap[topic.parentId].total += topp.total;
           }
         }
-             // @ts-ignore
- topic.children.forEach(c => {
-      // @ts-ignore
-      const topp=metrics.topics.find(t=>t.topic===c._id)
-      if (topp) {
-      // @ts-ignore
-      top[topic._id].correct += topp.correct;
-      // @ts-ignore
-      top[topic._id].incorrect += topp.incorrect;
-      // @ts-ignore
-      top[topic._id].total += topp.total;
-          }
-        })
-      })
-      console.log(metrics.topics,top,'huhuhahaha')
-      return Object.keys(top).map(k => {
-        return {
-             // @ts-ignore
-   ...top[k],
-             // @ts-ignore
-             topic: TOPICS.find(t=>t._id===k).title
-        }
-      })
-    },
-    [metrics]
-  )
-
+    
+              //  @ts-ignore
+topic.children.forEach((child) => {
+          accumulateTopicData(child, topicMap);
+        });
+      };
+  const topicsData = useMemo(() => {
+        //  @ts-ignore
+      
+        const topicMap = {};
+        TOPICS.forEach((topic) => {
+          accumulateTopicData(topic, topicMap);
+        });
+      
+        return Object.values(topicMap).filter(
+            //  @ts-ignore
+            (t) => t.parentId === selectedTopic && t.total > 0
+        );
+      }, [metrics, TOPICS, selectedTopic]);
+      
+      console.log(topicsData,'topicsData',selectedTopic,'selected')
   // console.log(difficultyLevelData,'difficultyLevelData')
   const {
     data: enrolledProduct,isLoading: loadingEnrolledProduct
@@ -397,7 +414,31 @@ export default function TestMetrics() {
                       </Col>
                       {/* @ts-ignore */}
                      {test._id? <Col span={24}>
-                      <Card title="Topic wise report">
+                        <Card title="Topic wise report" extra={<Select style={{width: 200}} value={selectedTopic} onChange={(e) => {
+                          // console.log(e,'setSelectedTopic(e)')
+                          setSelectedTopic(e)
+                        }} placeholder='Select Topic'
+                        options={[
+                          {
+                            label: 'Overall',
+                            // @ts-ignore
+                            value: topicId,
+                          },
+                          ...MAIN_TOPICS.filter((i) => {
+                            const t = buildTopicTree(topics, i._id, 1);
+                            const topicMap = {};
+                            t.forEach((topic) => {
+                                 //  @ts-ignore
+     accumulateTopicData(topic, topicMap);
+                            });
+                       //  @ts-ignore
+             return Object.values(topicMap).some((topic) => topic.total > 0);
+                          }).map((t) => ({
+                            label: t.title,
+                            value: t._id,
+                          })),
+                        ]}
+                        />}>
                         {BarChartTopics}
                       </Card>
                     </Col>:null}
