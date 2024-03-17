@@ -196,14 +196,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
           </Col>
           <Col span={12}>
             <Form.Item label='Topics' name='topics'>
-              <Select
-                // mode='multiple'
-                options={topics.filter(t=>t.parentId===test.topic).map(t => {
-                  return {
-                    value: t._id,
-                    label: t.title
-                  }
-                })}
+              <TreeSelect
+                treeData={buildTopicTree(topics,test.topic,2)}
                 // onExpand={onExpand}
                 // expandedKeys={expandedKeys}
                 // defaultExpandAll

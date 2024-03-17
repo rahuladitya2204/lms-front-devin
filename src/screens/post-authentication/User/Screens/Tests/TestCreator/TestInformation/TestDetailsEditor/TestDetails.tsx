@@ -358,39 +358,49 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
 export default TestDetailsEditor
 
-export const buildTopicTree = (topics: Types.Topic[], topicId?: string) => {
+export const buildTopicTree = (topics: Types.Topic[], topicId?: string, level?: number) => {
   const buildTreeData = (
     topics: Types.Topic[],
-    parentId?: string
+    parentId?: string,
+    currentLevel: number = 1
   ): TopicNode[] => {
     if (parentId) {
-      return buildSubTreeData(parentId, topics)
+      return buildSubTreeData(parentId, topics, currentLevel);
     } else {
       // @ts-ignore
-      return topics.filter(topic => !topic.parentId).map(topic => ({
-        ...topic,
-        value: topic._id,
-        title: topic.title,
-        children: buildSubTreeData(topic._id + '', topics)
-      }))
+      return topics.filter(topic => !topic.parentId).map(topic => {
+        const children = level === undefined || currentLevel < level ? buildSubTreeData(topic._id + '', topics, currentLevel + 1) : [];
+        return {
+          ...topic,
+          value: topic._id,
+          title: topic.title,
+          disabled: level !== undefined && currentLevel === level - 1 && children.length > 0,
+          children
+        };
+      });
     }
-  }
+  };
 
   const buildSubTreeData = (
     parentId: string,
-    topics: Types.Topic[]
+    topics: Types.Topic[],
+    currentLevel: number
   ): TopicNode[] => {
     const subTopics = topics
       .filter(topic => topic.parentId === parentId)
-      .map(topic => ({
-        ...topic,
-        value: topic._id,
-        title: topic.title,
-        children: buildSubTreeData(topic._id + '', topics)
-      }))
+      .map(topic => {
+        const children = level === undefined || currentLevel < level ? buildSubTreeData(topic._id + '', topics, currentLevel + 1) : [];
+        return {
+          ...topic,
+          value: topic._id,
+          title: topic.title,
+          disabled: level !== undefined && currentLevel === level - 1 && children.length > 0,
+          children
+        };
+      });
     // @ts-ignore
-    return [...subTopics]
-  }
+    return [...subTopics];
+  };
 
-  return buildTreeData(topics, topicId)
-}
+  return buildTreeData(topics, topicId);
+};
