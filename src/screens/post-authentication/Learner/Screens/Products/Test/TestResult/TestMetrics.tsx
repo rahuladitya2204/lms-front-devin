@@ -102,7 +102,7 @@ export default function TestMetrics() {
 
        // @ts-ignore
   const currentLevel = selectedTopic === topicId ? 1 : 2;
-  console.log(currentLevel,'currentLevel')
+  // console.log(currentLevel,'currentLevel')
        // @ts-ignore
        const TOPICS = buildTopicTree(topics, selectedTopic, selectedTopic!==topicId?1:2);
        // @ts-ignore
@@ -150,7 +150,7 @@ topic.children.forEach((child) => {
         );
       }, [metrics, TOPICS, selectedTopic]);
       
-      console.log(topicsData,'topicsData',selectedTopic,'selected')
+      // console.log(topicsData,'topicsData',selectedTopic,'selected')
   // console.log(difficultyLevelData,'difficultyLevelData')
   const {
     data: enrolledProduct,isLoading: loadingEnrolledProduct
@@ -253,7 +253,7 @@ topic.children.forEach((child) => {
         </Col>
       </Row>
     </Card>
-    <Card style={{marginTop:20}} title='Difficulty Level Metrics'>
+    <Card style={{marginTop:20}} title='Difficulty Level Report'>
               {loadingResult ? (
                   <Card style={{ height: 300 }}>
                     <Skeleton active />
