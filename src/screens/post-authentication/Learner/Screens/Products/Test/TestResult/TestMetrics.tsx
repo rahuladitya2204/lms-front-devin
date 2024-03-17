@@ -49,6 +49,7 @@ import Tabs from '@Components/Tabs'
 import TestLeaderboard from './TestLeaderboard'
 import TestPlayerItemReiew from '../TestReview/TestPlayerItemReview'
 import { Typography } from '@Components/Typography'
+import { buildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
 import { capitalize } from 'lodash'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useMemo } from 'react'
@@ -92,17 +93,48 @@ export default function TestMetrics() {
 
   const topicsData = useMemo(
     () => {
-      return metrics.topics.map(t => {
+      const top = {};
+      // @ts-ignore
+      const TOPICS = buildTopicTree(topics, test.topic, 2);
+      // @ts-ignore
+      TOPICS.forEach(topic => {
+      // @ts-ignore
+      if (!top[topic._id]) {
+      // @ts-ignore
+      top[topic._id] = {
+            correct: 0,
+            incorrect: 0,
+            total: 0
+          }
+        }
+             // @ts-ignore
+ topic.children.forEach(c => {
+      // @ts-ignore
+      const topp=metrics.topics.find(t=>t.topic===c._id)
+      if (topp) {
+      // @ts-ignore
+      top[topic._id].correct += topp.correct;
+      // @ts-ignore
+      top[topic._id].incorrect += topp.incorrect;
+      // @ts-ignore
+      top[topic._id].total += topp.total;
+          }
+        })
+      })
+      console.log(metrics.topics,top,'huhuhahaha')
+      return Object.keys(top).map(k => {
         return {
-          ...t,
-          topic: topics.find(i=>i._id===t.topic)?.title
+             // @ts-ignore
+   ...top[k],
+             // @ts-ignore
+             topic: TOPICS.find(t=>t._id===k).title
         }
       })
     },
     [metrics]
   )
 
-  console.log(difficultyLevelData,'difficultyLevelData')
+  // console.log(difficultyLevelData,'difficultyLevelData')
   const {
     data: enrolledProduct,isLoading: loadingEnrolledProduct
   } = Learner.Queries.useGetEnrolledProductDetails({
@@ -123,7 +155,7 @@ export default function TestMetrics() {
   )
   const ExitButton = (
     <Button
-      style={{ width: isMobile ? '100%' : 100 }}
+      style={{ width: isMobile ? '100%' : 100,marginTop:10 }}
       icon={isMobile?<ArrowLeftOutlined/>:<LogoutOutlined />}
       onClick={() => {
         confirm({
@@ -363,11 +395,12 @@ export default function TestMetrics() {
                         })}
                       </Card>
                       </Col>
-                      <Col span={24}>
+                      {/* @ts-ignore */}
+                     {test._id? <Col span={24}>
                       <Card title="Topic wise report">
                         {BarChartTopics}
                       </Card>
-                    </Col>
+                    </Col>:null}
                     {leaderboard && leaderboard.length ? (
                       <Col span={24}>
                         <Card title="Leaderboard">

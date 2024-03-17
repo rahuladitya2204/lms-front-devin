@@ -195,7 +195,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = props => {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item label='Topics' name='topics'>
+            <Form.Item label='Topics' name='topic'>
               <TreeSelect
                 treeData={buildTopicTree(topics,test.topic,2)}
                 // onExpand={onExpand}
