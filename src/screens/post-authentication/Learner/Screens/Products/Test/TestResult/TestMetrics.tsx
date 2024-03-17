@@ -253,27 +253,39 @@ topic.children.forEach((child) => {
         </Col>
       </Row>
     </Card>
-    <Card style={{marginTop:20}} title='Difficulty Level Report'>
+ {difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0)?   <Card style={{marginTop:20}} title='Difficulty Level Report'>
               {loadingResult ? (
                   <Card style={{ height: 300 }}>
                     <Skeleton active />
                   </Card>
                 ) : (
                     // @ts-ignore
-                  test?._id
+                  ((test?._id))
                 ) ? (
                   <Row><Col xs={24}>{BarChartDifficultyLevel}</Col></Row>
                 ) : null}
                 
 
-    </Card>
+    </Card>:null}
   </>
-
+console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'difficultyLevelData.reduce((a,b)=>a.total+b.total,0)')
 
   if (status !== Enum.TestResultStatus.EVALUATED) {
     return <ProcessingResult testId={testId + ''} />
   }
-
+  const DROPDOWN_TOPICS = MAIN_TOPICS.filter((i) => {
+    const t = buildTopicTree(topics, i._id, 1);
+    const topicMap = {};
+    t.forEach((topic) => {
+      //  @ts-ignore
+      accumulateTopicData(topic, topicMap);
+    });
+    //  @ts-ignore
+    return Object.values(topicMap).some((topic) => topic.total > 0);
+  }).map((t) => ({
+    label: t.title,
+    value: t._id,
+  }));
   const TABS = [
     {
       label: 'Analysis',
@@ -413,7 +425,7 @@ topic.children.forEach((child) => {
                       </Card>
                       </Col>
                       {/* @ts-ignore */}
-                     {test._id? <Col span={24}>
+                     {test._id && DROPDOWN_TOPICS.length? <Col span={24}>
                         <Card title="Topic wise report" extra={<Select style={{width: 200}} value={selectedTopic} onChange={(e) => {
                           // console.log(e,'setSelectedTopic(e)')
                           setSelectedTopic(e)
@@ -424,19 +436,7 @@ topic.children.forEach((child) => {
                             // @ts-ignore
                             value: topicId,
                           },
-                          ...MAIN_TOPICS.filter((i) => {
-                            const t = buildTopicTree(topics, i._id, 1);
-                            const topicMap = {};
-                            t.forEach((topic) => {
-                                 //  @ts-ignore
-     accumulateTopicData(topic, topicMap);
-                            });
-                       //  @ts-ignore
-             return Object.values(topicMap).some((topic) => topic.total > 0);
-                          }).map((t) => ({
-                            label: t.title,
-                            value: t._id,
-                          })),
+                          ...DROPDOWN_TOPICS,
                         ]}
                         />}>
                         {BarChartTopics}
