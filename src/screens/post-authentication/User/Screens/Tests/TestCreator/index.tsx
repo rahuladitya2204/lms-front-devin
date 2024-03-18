@@ -177,7 +177,7 @@ function TestEditor() {
             extra={[
               <Button disabled={!test._id} icon={<ExportOutlined/>}
                   onClick={() => {
-                    window.open(`/app/products/test/${test._id}/builder`)
+                    navigate(`/app/products/test/${test._id}/builder`)
                   }}
                   style={{ marginRight: 10 }}
                 >

@@ -279,7 +279,7 @@ function TestBuilderScreen() {
               // @ts-ignore
               onClick={() => {
                 console.log(test.category, 'asasas')
-                navigate(`../app/products/test#${test.category}`)
+                navigate(`../app/products/test/${testId}/editor`)
               }}
             />
             {test.title}{' '}
