@@ -186,19 +186,20 @@ onSuccess: ({image,responses}) => {
       }
     });
   }
-  const UploadButton = (isMobile ) ? <Button type='primary' onClick={() => {
-    openCamera().then((file)=>VerifyAnswerSheet([{file: file}]))
-  }}>Click Photo</Button> :<MediaUpload disabled compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
-    uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
-      onChange={(files: any) => {
-        // console.log(files,'ffifif')
-        compressImage(files[0].originFileObj).then(file => {
-        return convertFileToBase64(file).then(url=>VerifyAnswerSheet([{file: files[0].originFileObj}]))
+  const UploadButton = (isMobile) ? <Button type='primary' onClick={() => {
+    openCamera().then((file:any) => {
+      console.log(file,'fififl')
+      uploadFiles({
+        files: [{ file: file }],
+        isProtected: false,
+        onSuccess: ([{url}]) => {
+          VerifyAnswerSheet([{ file: url }])
+        }
       })
-      // console.log(files, 'uploaded')
-      
- 
-    }}
+    })
+  }}>Click Photo</Button> : <MediaUpload compress={{ maxWidth: 1240, maxHeight: 1754, quality: 1 }} aspect={210 / 297} multiple
+    uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
+    onUpload={([{url}])=>VerifyAnswerSheet([{ file:url }])}
   />;
 
   const save = (d:Types.AnswerSheet) => {
