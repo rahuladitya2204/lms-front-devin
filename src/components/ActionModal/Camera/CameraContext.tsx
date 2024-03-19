@@ -98,9 +98,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
     setIsModalVisible(false);
   }, []);
 
-  useEffect(() => { 
-    requestCameraPermission();
-  },[])
+  // useEffect(() => { 
+  //   requestCameraPermission();
+  // },[])
 
   return (
     <CameraContext.Provider value={{ openCamera }}>
