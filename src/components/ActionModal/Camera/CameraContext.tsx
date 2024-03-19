@@ -49,12 +49,19 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
   }, [enableQuadrilateralHighlighting, multiple]);
 
   const openCamera = useCallback((isMultiple = false) => {
-    setMultiple(isMultiple);
-    setIsModalVisible(true);
-    setPreviewImage(null); // Ensure preview is reset every time camera is opened
-    setCapturedImages([]); // Always reset for a new session
-    return new Promise<File[] | null>((resolve) => {
-      setResolveCapture(() => resolve);
+    return new Promise<File[] | null>(async (resolve,reject) => {
+      try {
+        await requestCameraPermission();
+        setMultiple(isMultiple);
+        setIsModalVisible(true);
+        setPreviewImage(null); // Ensure preview is reset every time camera is opened
+        setCapturedImages([]); // Always reset for a new session
+        setResolveCapture(() => resolve);
+      } catch (error) {
+        console.error('Error requesting camera permission:', error);
+        alert('Please provide camera permissions to use this feature.');
+        reject();
+      }
     });
   }, []);
 
