@@ -99,13 +99,45 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
   return (
     <CameraContext.Provider value={{ openCamera }}>
       {children}
-      <Modal closable={false} visible={isModalVisible} footer={null} onCancel={handleClose} bodyStyle={{ textAlign: 'center', padding: 0, position: 'fixed', top: 0, bottom: 0, left: 0, right: 0 }}>
+      <Modal closable={false} visible={isModalVisible} footer={null} onCancel={handleClose}
+         bodyStyle={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+          padding: 0,
+          margin: 0,
+          overflow: 'hidden',
+        }}
+        >
         <Alert icon={<WarningOutlined/>} style={{zIndex:999,width:'80%',position:'absolute',top: 10,left:'3%' }} message='Make sure to capture OMR border in the image.' type='error' />
         <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }} onClick={handleClose} />
-        {!previewImage && <Camera facingMode="environment" ref={cameraRef} />}
+        {!previewImage && <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        width: '100%',
+        height: '100%',
+      }}>
+          <Camera facingMode="environment" ref={cameraRef} />
+        </div>}
         {previewImage && !multiple && (
-          <div style={{ position: 'relative' }}>
-            <img src={previewImage} alt="Preview" style={{ width: '100%', height: 'auto' }} />
+          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+            <img src={previewImage} alt="Preview"  style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+        }} />
             <Button shape='circle' icon={<CloseOutlined />} style={{ position: 'absolute', width: 40, height: 40, bottom: 44, left: '30%' }} onClick={handleCancel}></Button>
             <Button shape='circle' icon={<CheckOutlined />} style={{ position: 'absolute', width: 40, height: 40, bottom: 44, right: '30%' }} onClick={handleAccept}></Button>
           </div>

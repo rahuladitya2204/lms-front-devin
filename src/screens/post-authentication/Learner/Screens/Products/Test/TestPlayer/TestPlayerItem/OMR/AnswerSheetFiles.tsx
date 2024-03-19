@@ -186,9 +186,9 @@ onSuccess: ({image,responses}) => {
       }
     });
   }
-  const UploadButton = (isMobile) ? <Button type='primary' onClick={() => {
+  const UploadButton = <>
+  {isMobile?<><Button type='primary' onClick={() => {
     openCamera().then((file:any) => {
-      console.log(file,'fififl')
       uploadFiles({
         files: [{ file: file }],
         isProtected: false,
@@ -197,10 +197,13 @@ onSuccess: ({image,responses}) => {
         }
       })
     })
-  }}>Click Photo</Button> : <MediaUpload compress={{ maxWidth: 1240, maxHeight: 1754, quality: 1 }} aspect={210 / 297} multiple
+  }}>Click Photo</Button> 
+  <Divider>OR</Divider></>:null}
+  <MediaUpload compress={{ maxWidth: 1240, maxHeight: 1754, quality: 1 }} aspect={210 / 297} multiple
     uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
     onUpload={([{url}])=>VerifyAnswerSheet([{ file:url }])}
-  />;
+    />
+  </>
 
   const save = (d:Types.AnswerSheet) => {
     // console.log(d, 'dd');
