@@ -27,7 +27,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
   const [capturedImages, setCapturedImages] = useState<string[]>([]); // For storing URLs in multiple capture mode
   const [resolveCapture, setResolveCapture] = useState<(files: File[] | null) => void>(() => {});
   const [multiple, setMultiple] = useState(false); // Flag to indicate if multiple capture mode is enabled
-
+  const [isModalFullyOpen, setIsModalFullyOpen] = useState(false);
   const handleCapture = useCallback(async () => {
     const imageUrl = await cameraRef.current?.takePhoto();
     if (imageUrl) {
@@ -54,6 +54,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
         await requestCameraPermission();
         setMultiple(isMultiple);
         setIsModalVisible(true);
+        setTimeout(() => setIsModalFullyOpen(true), 1000);
         setPreviewImage(null); // Ensure preview is reset every time camera is opened
         setCapturedImages([]); // Always reset for a new session
         setResolveCapture(() => resolve);
@@ -103,6 +104,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
     // Handle cancel for single image mode
     setPreviewImage(null);
     setIsModalVisible(false);
+    setIsModalFullyOpen(false); // Reset the state when modal is closed
   }, []);
 
   // useEffect(() => { 
@@ -128,7 +130,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
         >
         <Alert icon={<WarningOutlined/>} style={{zIndex:999,width:'80%',position:'absolute',top: 10,left:'3%' }} message='Make sure to capture OMR border in the image.' type='error' />
         <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }} onClick={handleClose} />
-        {!previewImage && <div style={{
+        {!previewImage  && isModalFullyOpen && <div style={{
         position: 'absolute',
         top: 0,
         left: 0,
