@@ -2,8 +2,10 @@
 import { Alert, Badge, Button, Image, Modal } from 'antd';
 import { Camera, CameraType } from 'react-camera-pro';
 import { CameraOutlined, CheckOutlined, CloseOutlined, WarningOutlined } from '@ant-design/icons';
-import React, { createContext, useCallback, useContext, useRef, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { blobToFile, compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
+
+import { requestCameraPermission } from '@Components/Editor/SunEditor/utils';
 
 // import { highlightQuadrilateral } from './highlight-quadrilateral';
 
@@ -95,6 +97,10 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
     setPreviewImage(null);
     setIsModalVisible(false);
   }, []);
+
+  useEffect(() => { 
+    requestCameraPermission();
+  },[])
 
   return (
     <CameraContext.Provider value={{ openCamera }}>

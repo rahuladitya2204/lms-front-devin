@@ -114,3 +114,24 @@ const arr2 = [4, 3, 2, 1];
 const result = compareArrays(arr1, arr2);
 
 console.log(result); // Output: true
+
+
+export function requestCameraPermission() {
+  return new Promise((resolve, reject) => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          // Permission granted, resolve the promise
+          resolve(null);
+        })
+        .catch((error) => {
+          // Permission denied, reject the promise with an error
+          reject(new Error('Camera permission denied'));
+        });
+    } else {
+      // getUserMedia not supported, reject the promise with an error
+      reject(new Error('getUserMedia is not supported'));
+    }
+  });
+}
