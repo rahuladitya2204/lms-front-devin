@@ -1,0 +1,13 @@
+ul.ant-menu-sub {
+  background: #fff !important;
+}
+
+li[role="menuitem"].ant-menu-item-selected {
+  padding-left: 48px;
+  font-weight: bolder;
+}
+
+.ant-layout {
+  min-height: 100vh;
+  padding-bottom: 50px;
+}
