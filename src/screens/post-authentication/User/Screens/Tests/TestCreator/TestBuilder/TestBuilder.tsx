@@ -477,7 +477,7 @@ function TestBuilderScreen() {
       >
         <Row gutter={[16, 16]}>
           <Col span={6}>
-            <Card>
+            <Card bodyStyle={{ maxHeight: '82vh', overflowY: 'scroll' }}>
               <Row>
                 <Col span={24}>
                   <Form.Item>
