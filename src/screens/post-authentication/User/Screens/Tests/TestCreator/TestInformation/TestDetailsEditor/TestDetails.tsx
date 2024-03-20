@@ -216,11 +216,11 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Col span={8}>
           <Form.Item
             // label=""
-            label={`Topic`}
-            name={['topic']}
-            rules={[{ required: true, message: 'Please select a topic' }]}
+            label={`Topics`}
+            name={['topics']}
+            rules={[{ required: true, message: 'Please select topics' }]}
           >
-            <TreeSelect treeData={TOPIC_TREE_DATA} />
+            <TreeSelect multiple treeData={TOPIC_TREE_DATA} />
           </Form.Item>
         </Col>
         {isHandwritten ? (

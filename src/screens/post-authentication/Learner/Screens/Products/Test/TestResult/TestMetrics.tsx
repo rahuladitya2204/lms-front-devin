@@ -1,5 +1,6 @@
 import {
   Alert,
+  Tabs as AntdTabs,
   Button,
   Card,
   Col,
@@ -62,10 +63,11 @@ export default function TestMetrics() {
   const navigate = useNavigate()
   const { testId } = useParams()
   const { data: {
-    topic: topicId
+    topics: topicIds
   }} = Learner.Queries.useGetTestDetails(testId+'', Enum.TestDetailMode.RESULT);
   // @ts-ignore
-  const [selectedTopic, setSelectedTopic] = useState(topicId);
+  const [selectedMainTopic, setSelectedMainTopic] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState('');
   const {
     data: { test, metrics, status, feedback, leaderboard },
     isFetching: loadingResult,
@@ -83,10 +85,14 @@ export default function TestMetrics() {
     [metrics]
   )
   useEffect(() => { 
-    setSelectedTopic(topicId)
-  },[topicId])
+    setSelectedTopic(selectedMainTopic)
+  }, [topicIds,selectedMainTopic])
+  
+  useEffect(() => { 
+    setSelectedMainTopic(topicIds[0])
+  },[topicIds])
   // @ts-ignore
-  const MAIN_TOPICS = buildTopicTree(topics, topicId, 2);
+  const MAIN_TOPICS = buildTopicTree(topics, selectedMainTopic, 2);
   const difficultyLevelData = useMemo(
     () => {
       return Object.keys(metrics.difficultyLevel).map(k => {
@@ -99,12 +105,8 @@ export default function TestMetrics() {
     },
     [metrics]
   )
-
-       // @ts-ignore
-  const currentLevel = selectedTopic === topicId ? 1 : 2;
-  // console.log(currentLevel,'currentLevel')
-       // @ts-ignore
-       const TOPICS = buildTopicTree(topics, selectedTopic, selectedTopic!==topicId?1:2);
+console.log(MAIN_TOPICS,'MAIN_TOPICS')
+       const TOPICS = buildTopicTree(topics, selectedTopic, selectedTopic!==selectedMainTopic?1:2);
        // @ts-ignore
        const accumulateTopicData = (topic, topicMap) => {
         if (!topicMap[topic._id]) {
@@ -273,7 +275,8 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
   if (status !== Enum.TestResultStatus.EVALUATED) {
     return <ProcessingResult testId={testId + ''} />
   }
-  const DROPDOWN_TOPICS = MAIN_TOPICS.filter((i) => {
+  const DROPDOWN_TOPICS = MAIN_TOPICS
+    .filter((i) => {
     const t = buildTopicTree(topics, i._id, 1);
     const topicMap = {};
     t.forEach((topic) => {
@@ -282,7 +285,8 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
     });
     //  @ts-ignore
     return Object.values(topicMap).some((topic) => topic.total > 0);
-  }).map((t) => ({
+  })
+    .map((t) => ({
     label: t.title,
     value: t._id,
   }));
@@ -425,8 +429,10 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
                       </Card>
                       </Col>
                       {/* @ts-ignore */}
-                     {test._id && DROPDOWN_TOPICS.length? <Col span={24}>
-                        <Card title="Topic wise report" extra={<Select style={{width: 200}} value={selectedTopic} onChange={(e) => {
+                     {test._id ? <Col span={24}>
+                        <Card bodyStyle={{
+                          paddingTop: topicIds.length>1?0:'auto'
+                        }} title="Topic wise report" extra={ DROPDOWN_TOPICS.length>1? <Select style={{width: 200}} value={selectedTopic} onChange={(e) => {
                           // console.log(e,'setSelectedTopic(e)')
                           setSelectedTopic(e)
                         }} placeholder='Select Topic'
@@ -434,12 +440,20 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
                           {
                             label: 'Overall',
                             // @ts-ignore
-                            value: topicId,
+                            value: selectedMainTopic,
                           },
                           ...DROPDOWN_TOPICS,
                         ]}
-                        />}>
-                        {BarChartTopics}
+                        />: null}>
+                          {topicIds.length>1?<AntdTabs onChange={e => {
+                            setSelectedMainTopic(e)
+                          }} items={topicIds.map(t => {
+                            return {
+                              label: topics.find(top => top._id === t)?.title,
+                              key: t,
+                              children:BarChartTopics
+                          }
+                        })} />:BarChartTopics}
                       </Card>
                     </Col>:null}
                     {leaderboard && leaderboard.length ? (

@@ -15,6 +15,7 @@ import { cloneDeep } from 'lodash'
 import { htmlToText } from 'html-to-text'
 import styled from '@emotion/styled'
 import update from 'immutability-helper'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { confirm } = Modal;
@@ -160,6 +161,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
   }, []);
   const navigate = useNavigate();
   const { openModal } = useModal()
+  const { isDesktop } = useBreakpoint();
   return (
     <Space direction="vertical" style={{ width: '100%' }}>
    <DndProvider backend={HTML5Backend}>
@@ -268,7 +270,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                         <List.Item.Meta
                           style={{ cursor: 'pointer' }}
                           // title={<Text>{htmlToText(item.title)}</Text>}
-                          title={<Text>{`Question ${calculateGlobalIndex(sections, secIndex, itemIndex)+1}`}</Text>}
+                          title={<Text>{`${!isDesktop?'Q':'Question'} ${calculateGlobalIndex(sections, secIndex, itemIndex)+1}`}</Text>}
                           avatar={
                             <ReadOutlined />
                           }
