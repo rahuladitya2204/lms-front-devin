@@ -54,7 +54,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
         await requestCameraPermission();
         setMultiple(isMultiple);
         setIsModalVisible(true);
-        setTimeout(() => setIsModalFullyOpen(true), 1000);
+        setTimeout(() => setIsModalFullyOpen(true), 3000);
         setPreviewImage(null); // Ensure preview is reset every time camera is opened
         setCapturedImages([]); // Always reset for a new session
         setResolveCapture(() => resolve);
