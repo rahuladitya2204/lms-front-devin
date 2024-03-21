@@ -17,6 +17,7 @@ import { TERMS, TEST_RULES } from './constant'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
+import { ArrowLeftOutlined } from '@ant-design/icons'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import IDVerificationComponent from '@Learner/Screens/Procturing/hooks/IDVerification/IDVerificationComponent'
@@ -103,8 +104,23 @@ export default function TestRules(props: TestRulesPropsI) {
   return (
     <Spin spinning={loadingEnrolledTest}>
       <Header
-        showBack
-        title={test.title}
+        title={
+          <span>
+            <Button
+              icon={<ArrowLeftOutlined />}
+              onClick={() => {
+                if (enrolledProduct.package) {
+                  navigate(
+                    `/app/package/${enrolledProduct.package}/enrolled-package`
+                  )
+                } else {
+                  navigate(`/app/test/${testId}`)
+                }
+              }}
+            />{' '}
+            {test.title}
+          </span>
+        }
         extra={
           !isMobile
             ? [
@@ -115,7 +131,9 @@ export default function TestRules(props: TestRulesPropsI) {
                     </Tag>
                   ) : null
                 ) : test.duration.enabled ? (
-                  <Tag color="blue-inverse">Time Limit: {test.duration.value} mins</Tag>
+                  <Tag color="blue-inverse">
+                    Time Limit: {test.duration.value} mins
+                  </Tag>
                 ) : null
               ]
             : null

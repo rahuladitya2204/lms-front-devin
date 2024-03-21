@@ -3,15 +3,17 @@ import {
   Button,
   Card,
   Col,
+  Dropdown,
   Image,
   List,
   Progress,
   Row,
   Space,
   Tag,
+  message,
 } from 'antd'
 import { CheckCircleOutlined, CheckOutlined, VerifiedOutlined } from '@ant-design/icons';
-import { Enum, Types } from '@adewaskar/lms-common'
+import { Enum, Learner, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react';
 import LearnerTestResultStatus from '@Components/LearnerTestResultStatus';
@@ -27,11 +29,12 @@ interface EnrolledTestItemPropsI {
 }
 
 export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
-    const enrolledTest = props.enrolledProduct;
+  const enrolledTest = props.enrolledProduct;
     const test = enrolledTest.product.data as Types.Test;
   const navigate = useNavigate();
   const Ribbon = test.live.enabled ? Badge.Ribbon : Fragment;
   const { isMobile,isDesktop,isTablet} = useBreakpoint();
+  const { mutate: retryTest,isLoading: retryingTest}=Learner.Queries.useRetryTest(test._id+'')
   return (
     <List.Item style={{paddingLeft:0,paddingRight:0}}>
       <Card hoverable
@@ -99,7 +102,23 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                 >View Details</Button></Col>
                           {(enrolledTest.metadata.test.endedAt) ? <>
                 {/* {isDesktop?<LearnerTestResultStatus testId={test._id+''} />:null} */}
-                  <Col xs={24} sm={12}><Button
+                  <Col xs={24} sm={12}><Dropdown.Button loading={retryingTest} menu={{
+                    items: [{
+                      label: 'Retry Test',
+                      key: 'retry',
+                      onClick: () => {
+                        retryTest(undefined, {
+                          onSuccess: () => {
+                            message.open({
+                              type: 'success',
+                              content:'Retrying Test'
+                            })
+                            navigate(`../../test/${test._id}/start`)
+                          }
+                        })
+                      }
+                    }]
+                  }}
                     // icon={!isMobile ? <CheckCircleOutlined /> : null}
                     onClick={() => navigate(`../../test/${test._id}/result`)}
                     block={!isDesktop}
@@ -109,7 +128,7 @@ type='primary'
                     // size='small'
                   >
                   Solutions
-                </Button></Col>
+                </Dropdown.Button></Col>
                 </> : null}
    
                           {(!test?.live?.enabled) ?
