@@ -114,8 +114,8 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
   return (
     <CameraContext.Provider value={{ openCamera }}>
       {children}
-      <Modal closable={false} visible={isModalVisible} footer={null} onCancel={handleClose}
-         bodyStyle={{
+     {isModalVisible? <div className='camera-container'
+         style={{
           position: 'fixed',
           top: 0,
           left: 0,
@@ -125,19 +125,20 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
           height: '100%',
           padding: 0,
           margin: 0,
-          overflow: 'hidden',
+           overflow: 'hidden',
+          backgroundColor:'#fff'
         }}
         >
         <Alert icon={<WarningOutlined/>} style={{zIndex:999,width:'80%',position:'absolute',top: 10,left:'3%' }} message='Make sure to capture OMR border in the image.' type='error' />
         <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }} onClick={handleClose} />
         {!previewImage  && isModalFullyOpen && <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        width: '100%',
-        height: '100%',
+        // position: 'absolute',
+        // top: 0,
+        // left: 0,
+        // right: 0,
+        // bottom: 0,
+        // width: '100%',
+        // height: '100%',
       }}>
           <Camera facingMode="environment" ref={cameraRef} />
         </div>}
@@ -172,7 +173,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
             <Button shape='circle' icon={<CheckOutlined />} style={{ position: 'absolute', right: '30%', bottom: 20 }} onClick={handleDone} />
           </>
         )}
-      </Modal>
+      </div>:null}
     </CameraContext.Provider>
   );
 };
