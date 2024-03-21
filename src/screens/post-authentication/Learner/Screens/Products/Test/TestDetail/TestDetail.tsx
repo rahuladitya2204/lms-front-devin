@@ -215,15 +215,8 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               showIcon action={<Button size='small' onClick={() => navigate('result')}>View Result</Button>}
               />
             <Button size="large" onClick={()=>navigate('result/review')} type='primary' block>View solutions</Button>
-  const Metadata = testEndDate ? (test.live.enabled?<CompletedLiveTestCard test={test} />:<CompletedTestCard test={test} />) : <TestMetadata test={test} />;
             <Button danger style={{marginTop:10}} loading={retryingTest}
-                size="large" onClick={() => {
-                  retryTest(undefined, {
-                    onSuccess: () => {
-                      navigate('start')
-                    }
-                  })
-      }} type='primary' block
+      size="large" onClick={() => retryTest()} type='primary' block
     >
       Retry Test
     </Button>

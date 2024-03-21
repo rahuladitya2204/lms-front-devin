@@ -86,7 +86,7 @@ function CompletedLiveTestCard(props: CompletedLiveTestCardPropsI) {
     isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   // @ts-ignore
-  data.score.value = `${testResult.learnerScore}/${testResult.passingScore}`
+  // data.score.value = `${testResult.learnerScore}/${testResult.passingScore}`
 
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])

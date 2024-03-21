@@ -15,7 +15,7 @@ interface TestEnrolledCtaPropsI {
 export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
     const { testId } = props;
     const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '','');
-    const { mutate: retryTest}=Learner.Queries.useRetryTest(test._id+'')
+    const { mutate: retryTest, isLoading: retryingTest}=Learner.Queries.useRetryTest(test._id+'')
     const navigate =useNavigate();
     const {
         data: enrolledDetails,
@@ -107,7 +107,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
                 showIcon action={<Button size='small' onClick={() => navigate(`/app/test/${testId}/result`)}>View Result</Button>}
                 />
               <Button size="large" onClick={()=>navigate(`/app/test/${testId}/result/review`)} type='primary' block>View solutions</Button>
-              <Button danger
+              <Button danger loading={retryingTest}
       size="large" onClick={() => retryTest()} type='primary' block
     >
       Retry Test
