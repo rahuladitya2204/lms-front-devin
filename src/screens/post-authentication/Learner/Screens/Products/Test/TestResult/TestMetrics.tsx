@@ -429,7 +429,7 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
                       </Card>
                       </Col>
                       {/* @ts-ignore */}
-                     {test._id ? <Col span={24}>
+                     {test._id && DROPDOWN_TOPICS.length ? <Col span={24}>
                         <Card bodyStyle={{
                           paddingTop: topicIds.length>1?0:'auto'
                         }} title="Topic wise report" extra={ DROPDOWN_TOPICS.length>1? <Select style={{width: 200}} value={selectedTopic} onChange={(e) => {
