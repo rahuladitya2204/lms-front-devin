@@ -95,13 +95,13 @@ export default function TestMetrics() {
   const MAIN_TOPICS = buildTopicTree(topics, selectedMainTopic, 2);
   const difficultyLevelData = useMemo(
     () => {
-      return Object.keys(metrics.difficultyLevel).map(k => {
+      return metrics.difficultyLevel?Object.keys(metrics.difficultyLevel).map(k => {
         return {
           difficultyLevel: k,
           // @ts-ignore
           ...metrics.difficultyLevel[k]
         }
-      })
+      }):[]
     },
     [metrics]
   )
@@ -139,6 +139,9 @@ topic.children.forEach((child) => {
         });
       };
   const topicsData = useMemo(() => {
+    if (!metrics.topics) {
+      return [];
+    }
         //  @ts-ignore
       
         const topicMap = {};
