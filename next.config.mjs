@@ -2,6 +2,11 @@
 const nextConfig = {
   output: "export", // Outputs a Single-Page Application (SPA).
   distDir: "./dist", // Changes the build output directory to `./dist/`.
+  webpack: (config) => {
+    config.resolve.fallback = { fs: false };
+
+    return config;
+  },
 };
 
 export default nextConfig;

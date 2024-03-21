@@ -2,9 +2,9 @@ import "../../index.css";
 import { ClientOnly } from "./client";
 
 export function generateStaticParams() {
-  return [{ slug: [""] }];
+  return [{ slug: ["store"] }];
 }
 
-export default function Page() {
+export default function Page({ params }: { params: { slug: string[] } }) {
   return <ClientOnly />;
 }
