@@ -38,6 +38,7 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
       landingPage: data
     })
   }
+  const landingPageLength = landingPageDescription?.length
   return (
     <Form
       onValuesChange={onValuesChange}
@@ -96,16 +97,19 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
           <Empty description="Np promo video added" />
         )}
       </Card>
-
-      <Form.Item name={'description'} required label="Landing Page Description">
+      {landingPageLength < 200 ? (
         <Alert
           style={{ marginBottom: 10 }}
           type="error"
           message="Note minimum 200 words needed to display landing page text"
         />
-        {landingPageDescription?.length ? (
-          <Text type="danger">{landingPageDescription?.length} words</Text>
-        ) : null}
+      ) : null}
+      <Form.Item name={'description'} required label={<><Text>Landing Page Description</Text>{landingPageLength ? (
+         <div>
+            {' '} - <Text type="danger">{landingPageLength} words</Text>
+          </div>
+        ) : null}</> }>
+        
         <TextArea html name={'description'} />
       </Form.Item>
     </Form>
