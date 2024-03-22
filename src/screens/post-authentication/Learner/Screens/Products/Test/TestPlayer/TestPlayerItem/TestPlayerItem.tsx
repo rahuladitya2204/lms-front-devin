@@ -41,7 +41,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   } } } = Learner.Queries.useGetTestStatus(testId + '')
   const questions = useMemo(() => { 
     return sections.map(i => i.items).flat();
-  },[test])
+  },[sections])
+  
   const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer(testId + '');
   const answer = Form.useWatch(['answer'], form);
   const { isMobile } = useBreakpoint();
@@ -157,7 +158,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         <NavLink
                             style={{ width: '100%' }}
                             key={item._id}
-                            to={`${item._id}`}
+                            to={`/app/test/${testId}/player/${item._id}`}
                             children={() => {
                               const isActive = questionId === item._id
                               return (
@@ -166,7 +167,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                               <Button
                                   // loading={loading && isCurrent}
                                   onClick={() => {
-                                    navigate(item._id)
+                                    // navigate(`/app/test/${testId}/player/${item._id}`)
                                 }} danger={item.isMarked&&!isActive}
                                 type={
                                   isActive
