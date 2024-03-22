@@ -106,11 +106,10 @@ const isActive = questionId === item._id;
 return (
   <li key={item._id} style={{ flexShrink: 0, marginRight: 8 }}>
    <NavLink
-                              onClick={() => {
-                              }}
+
                               style={{ width: '100%' }}
                               key={item._id}
-                              to={`${item._id}`}
+                              to={`/app/test/${testId}/result/review/${item._id}`}
                               children={() => {
                                 const isActive = questionId === item._id
                                 return (

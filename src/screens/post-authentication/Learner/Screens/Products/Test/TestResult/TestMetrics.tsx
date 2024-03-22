@@ -342,7 +342,7 @@ topic.children.forEach((child) => {
                   </Card>
                 )}
                                 <Row style={{marginTop:15,marginBottom:15}} gutter={[30,30]}>
-                  <Col xs={24} sm={8}>
+                 {(metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered)? <Col xs={24} sm={8}>
                     <Card bordered={false}>
                     <Statistic
           title="Accuracy"
@@ -353,7 +353,7 @@ topic.children.forEach((child) => {
           suffix="%"
         />
                   </Card>
-                  </Col>
+                  </Col>:null}
 
                   <Col xs={24} sm={8}>
                     <Card bordered={false}>
