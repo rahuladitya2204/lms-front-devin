@@ -1,9 +1,10 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Skeleton, Space, Spin, Tag, Tooltip, theme } from 'antd';
 import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
+import { NavLink } from 'react-router-dom';
 import { Paragraph } from '@Components/Typography/Typography';
 import { TestAnswerTag } from '../TestResult/Table/TestResultTable';
 import TestItemSkeleton from './TestItemSkeleton';
@@ -73,12 +74,96 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const NextButton =  <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('next')} icon={<ForwardOutlined />}>
 {!isMobile?'Next':''}
   </Button>;
-  
+  const { isDesktop, width } = useBreakpoint();
+  const {
+    isLoading: loadingResult,
+    data: { test: { sections } }
+  } = Learner.Queries.useGetTestResult(testId + '');
+  console.log(sections,'sections')
+  const questions = useMemo(() => {
+    return sections.map(i => i.items).flat();
+  }, [sections]);
   const PrevButton = <Button shape={!isMobile?'default':'circle'} onClick={() => navigate('prev')}
   style={{ marginRight: !isMobile?20:0 }} icon={<BackwardOutlined />}>
 {!isMobile?'Previous':''}
   </Button>;
-  return loadingQuestion?<TestItemSkeleton/>:(
+  return loadingQuestion ? <TestItemSkeleton /> : <>
+  
+  
+  {!isDesktop? <Row align={'middle'}>
+    <Col flex={1} style={{ width: 0.72 * width }}> <ul
+      style={{
+        display: 'flex', marginBottom: 15, listStyle: 'none', padding: 0,
+        overflowX: 'auto',
+        scrollbarWidth: 'none', // For Firefox
+        msOverflowStyle: 'none', // For Internet Explorer and Edge
+        // '&::-webkit-scrollbar': {
+        //   display: 'none', // For Chrome, Safari, and Opera
+        // }
+      }}>
+{questions.map((item, index) => {
+const isActive = questionId === item._id;
+return (
+  <li key={item._id} style={{ flexShrink: 0, marginRight: 8 }}>
+   <NavLink
+                              onClick={() => {
+                              }}
+                              style={{ width: '100%' }}
+                              key={item._id}
+                              to={`${item._id}`}
+                              children={() => {
+                                const isActive = questionId === item._id
+                                return (
+                                  // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
+                                  // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
+                                  <Button
+                                    // loading={loading && isCurrent}
+                                    onClick={() => navigate(item._id + '')}
+                                    danger={item.isMarked}
+                                    type={
+                                      isActive
+                                        ? 'primary'
+                                        : item.isMarked
+                                          ? 'primary'
+                                          : item.isAnswered
+                                            ? 'primary'
+                                            : 'default'
+                                    }
+                                    style={{
+                                      backgroundColor: isActive
+                                        ? ''
+                                        : item.isAnswered
+                                          ? item.type !== 'subjective'
+                                            ? item.isCorrect
+                                              ? token.colorSuccessActive
+                                              : token.colorError
+                                            : token.colorWarningActive
+                                          : 'default'
+                                    }}
+                                    shape="circle"
+                                    // icon={
+                                    //   item.isAnswered ? (
+                                    //     <Fragment>
+                                    //       {item.isCorrect ? (
+                                    //         <CheckOutlined />
+                                    //       ) : (
+                                    //         <CloseOutlined />
+                                    //       )}
+                                    //     </Fragment>
+                                    //   ) : null
+                                    // }
+                                  >
+                                    {index + 1}
+                                  </Button>
+                                  //  </Badge>
+                                )
+                              }}
+                            />
+  </li>
+);
+})}
+    </ul></Col>
+  </Row>: null}
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={[<TestAnswerTag item={currentQuestion} />,
         !currentQuestion.notEvaluated? ((currentQuestion.scoreAchieved !== undefined) ?
@@ -163,7 +248,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         </Row>:null}
       </Form>
       </Card>
-  );
+  </>;
 }
 
 

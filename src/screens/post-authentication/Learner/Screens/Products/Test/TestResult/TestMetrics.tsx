@@ -368,7 +368,7 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
                   </Card>
                   </Col>
 
-                  <Col xs={24} sm={8}>
+                {(enrolledProduct.metadata.test.startedAt || enrolledProduct.metadata.test.endedAt) ?  <Col xs={24} sm={8}>
                     <Card bordered={false}>
                     <Statistic
           title="Time Taken"
@@ -379,7 +379,7 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
           // suffix="%"
         />
                   </Card>
-                  </Col>
+                  </Col>: null}
                 </Row>
                 
                 {loadingResult ? (
