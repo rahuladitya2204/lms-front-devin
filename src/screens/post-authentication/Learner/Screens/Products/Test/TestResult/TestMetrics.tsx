@@ -376,7 +376,7 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
           // precision={2}
           valueStyle={{fontSize: 20, color: 'purple' }}
           prefix={<ClockCircleOutlined />}
-          suffix="mins"
+          // suffix="mins"
         />
                   </Card>
                   </Col>: null}
