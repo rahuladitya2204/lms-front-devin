@@ -1,4 +1,15 @@
 import {
+  AimOutlined,
+  ArrowLeftOutlined,
+  ClockCircleOutlined,
+  EditOutlined,
+  LinkOutlined,
+  LogoutOutlined,
+  MenuOutlined,
+  SafetyCertificateOutlined,
+  UserOutlined
+} from '@ant-design/icons'
+import {
   Alert,
   Tabs as AntdTabs,
   Button,
@@ -13,16 +24,9 @@ import {
   Select,
   Skeleton,
   Space,
+  Statistic,
   Tag
 } from 'antd'
-import {
-  ArrowLeftOutlined,
-  EditOutlined,
-  LinkOutlined,
-  LogoutOutlined,
-  MenuOutlined,
-  UserOutlined
-} from '@ant-design/icons'
 import {
   Bar,
   BarChart,
@@ -36,7 +40,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { Enum, Learner } from '@adewaskar/lms-common'
+import { Enum, Learner, Utils } from '@adewaskar/lms-common'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -54,6 +58,7 @@ import TestPlayerItemReiew from '../TestReview/TestPlayerItemReview'
 import { Typography } from '@Components/Typography'
 import { buildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
 import { capitalize } from 'lodash'
+import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { confirm } = Modal
@@ -175,6 +180,7 @@ topic.children.forEach((child) => {
       View Solutions
     </Button>
   )
+  const timeTaken = (dayjs(enrolledProduct.metadata.test.endedAt).diff(dayjs(enrolledProduct.metadata.test.startedAt),'seconds'))
   const ExitButton = (
     <Button
       style={{ width: isMobile ? '100%' : 100,marginTop:10 }}
@@ -278,6 +284,8 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
   if (status !== Enum.TestResultStatus.EVALUATED) {
     return <ProcessingResult testId={testId + ''} />
   }
+  const questions = test.sections.map(i => i.items).flat();
+  const totalAnswered = metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered;
   const DROPDOWN_TOPICS = MAIN_TOPICS
     .filter((i) => {
     const t = buildTopicTree(topics, i._id, 1);
@@ -333,6 +341,47 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
                 </>:null} */}
                   </Card>
                 )}
+                                <Row style={{marginTop:15,marginBottom:15}} gutter={[30,30]}>
+                  <Col xs={24} sm={8}>
+                    <Card bordered={false}>
+                    <Statistic
+          title="Accuracy"
+          value={metrics.totalCorrectlyAnswered/(metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered)*100}
+          // precision={2}
+          valueStyle={{fontSize: 20, color: 'blue' }}
+          prefix={<AimOutlined />}
+          suffix="%"
+        />
+                  </Card>
+                  </Col>
+
+                  <Col xs={24} sm={8}>
+                    <Card bordered={false}>
+                    <Statistic
+          title="Completed"
+          value={totalAnswered/questions.length*100}
+          // precision={2}
+          valueStyle={{fontSize: 20, color: '#3f8600' }}
+          prefix={<SafetyCertificateOutlined />}
+          suffix="%"
+        />
+                  </Card>
+                  </Col>
+
+                  <Col xs={24} sm={8}>
+                    <Card bordered={false}>
+                    <Statistic
+          title="Time Taken"
+          value={Utils.formatSeconds(timeTaken)}
+          // precision={2}
+          valueStyle={{fontSize: 20, color: 'purple' }}
+          prefix={<ClockCircleOutlined />}
+          // suffix="%"
+        />
+                  </Card>
+                  </Col>
+                </Row>
+                
                 {loadingResult ? (
                   <Card style={{ height: 300 }}>
                     <Skeleton active />
@@ -342,6 +391,7 @@ console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'diffic
                 ) ? (
                   <Row><Col xs={24}>{PiechartComponent}</Col></Row>
                 ) : null}
+
               </Col>
               <Col xs={24} md={12} lg={16}>
                 {loadingResult ? (
