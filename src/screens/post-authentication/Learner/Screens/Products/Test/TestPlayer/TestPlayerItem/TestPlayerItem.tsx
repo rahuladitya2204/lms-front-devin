@@ -1,9 +1,10 @@
-import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons';
+import { AimOutlined, AppstoreOutlined, BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, InsertRowBelowOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Space, Spin, Tag, Tooltip, theme } from 'antd';
 import { Enum, Learner, Store, Types } from '@adewaskar/lms-common';
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
+import { NavLink } from 'react-router-dom';
 import { Paragraph } from '@Components/Typography/Typography';
 import TestPlayerFiles from './TestPlayerFiles';
 import TextArea from '@Components/Textarea';
@@ -24,6 +25,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   // useTestItemTime();
   const { questionId, testId } = useParams<{ questionId: string; testId: string }>();
   const {mutate: updateQuestionResponseFlag,isLoading: updatingFlag} = Learner.Queries.useUpdateQuestionResponseFlag(testId+'')
+  const { token } = theme.useToken()
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
   const message = useMessage();
   const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
@@ -34,7 +36,13 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '', Enum.TestDetailMode.TEST);
-  const { mutate: submitAnswer,isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer(testId+'');
+  const { data: { status: {
+    sections
+  } } } = Learner.Queries.useGetTestStatus(testId + '')
+  const questions = useMemo(() => { 
+    return sections.map(i => i.items).flat();
+  },[test])
+  const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer(testId + '');
   const answer = Form.useWatch(['answer'], form);
   const { isMobile } = useBreakpoint();
   const questionType = currentQuestion.type;
@@ -128,8 +136,63 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     </Button>;
   // console.log(currentQuestion,'currentQuestion')
   // const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
+  const { width, isDesktop} = useBreakpoint();
   return (
     <Spin spinning={loading}>
+     {!isDesktop? <Row align={'middle'}>
+        <Col flex={1} style={{ width: 0.72 * width }}> <ul
+          style={{
+            display: 'flex', marginBottom: 15, listStyle: 'none', padding: 0,
+            overflowX: 'auto',
+            scrollbarWidth: 'none', // For Firefox
+            msOverflowStyle: 'none', // For Internet Explorer and Edge
+            // '&::-webkit-scrollbar': {
+            //   display: 'none', // For Chrome, Safari, and Opera
+            // }
+          }}>
+  {questions.map((item, index) => {
+    const isActive = questionId === item._id;
+    return (
+      <li key={item._id} style={{ flexShrink: 0, marginRight: 8 }}>
+        <NavLink
+                            style={{ width: '100%' }}
+                            key={item._id}
+                            to={`${item._id}`}
+                            children={() => {
+                              const isActive = questionId === item._id
+                              return (
+                              // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
+                              // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
+                              <Button
+                                  // loading={loading && isCurrent}
+                                  onClick={() => {
+                                    navigate(item._id)
+                                }} danger={item.isMarked&&!isActive}
+                                type={
+                                  isActive
+                                    ? 'primary'
+                                    : (item.isMarked?'primary':(item.isAnswered ? 'primary' : 'default'))
+                                }
+                                style={{
+                                  backgroundColor: isActive
+                                    ? ''
+                                    : (item.isAnswered ? token.colorSuccessActive : 'default')
+                                }}
+                                shape="circle"
+                              >
+                                {index + 1}
+                                </Button>
+                                //  </Badge>
+                            )}}
+                          />
+      </li>
+    );
+  })}
+        </ul></Col>
+        <Col>
+        <Button shape='circle' icon={<InsertRowBelowOutlined />}></Button>
+        </Col>
+      </Row>: null}
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={[
           <Tag style={{fontSize:15,padding:'2px 5px'}} color='blue-inverse' >{!isMobile?'Correct Answer Score: ':'+' }{currentQuestion.score.correct}</Tag>,

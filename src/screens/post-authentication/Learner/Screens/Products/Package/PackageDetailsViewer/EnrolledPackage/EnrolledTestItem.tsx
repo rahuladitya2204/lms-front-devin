@@ -50,7 +50,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
             <Col flex={isMobile ? 1 : 'none'}
               xs={24}
               >
-            <Image
+            <Image style={{objectFit:'cover'}}
               height={isMobile?150:70}
                 width={!isMobile?100:'100%'}
                 preview={false}

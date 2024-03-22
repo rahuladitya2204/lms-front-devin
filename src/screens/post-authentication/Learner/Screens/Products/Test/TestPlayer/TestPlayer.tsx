@@ -14,7 +14,7 @@ import {
   Timeline,
   message,
 } from 'antd'
-import { BookOutlined, MenuOutlined } from '@ant-design/icons'
+import { BookOutlined, ClockCircleOutlined, MenuOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import React, { useEffect } from 'react'
@@ -156,8 +156,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
 </Button>
   const targetDate = dayjs(startedAt).add(test.duration.value, 'minutes').toString();
   const CountdownComponent =
-  test.duration.enabled?<Tag color="blue">
-  Time Left: <Countdown targetDate={targetDate} /> 
+  test.duration.enabled?<Tag icon={<ClockCircleOutlined/>}  color="blue">
+   <Countdown targetDate={targetDate} /> 
     </Tag>:null
     
   const QuestionNavigator = TestQuestionNavigator;
