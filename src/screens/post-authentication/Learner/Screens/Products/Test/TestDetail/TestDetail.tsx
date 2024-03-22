@@ -51,7 +51,7 @@ export default function TestDetailScreen(
     {loadingEnrolledTest ? <Skeleton paragraph={{ rows: 8 }} /> : <CompletedTestCard test={test} />}
   </> : <TestMetadata test={test} />;
 
-  const hideLandingPage = (test?.landingPage?.description?.length) < 20;
+  const hideLandingPage = (test?.landingPage?.description?.length) < 200;
   return (
     <Row gutter={[20, 30]}>
     {loadingTest ? null : <>
