@@ -9,25 +9,12 @@ import { requestCameraPermission } from '@Components/Editor/SunEditor/utils';
 
 // import { highlightQuadrilateral } from './highlight-quadrilateral';
 
-const CameraContext = createContext<CameraContextType | undefined>(undefined);
 
-interface CameraContextType {
-  openCamera: (multiple?: boolean) => Promise<File[]>;
-}
-
-interface CameraProviderPropsI {
-  children: React.ReactNode;
-  enableQuadrilateralHighlighting?: boolean;
-}
-
-export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false }: CameraProviderPropsI) => {
+export const AppCamera = ({  onClickPhoto, closeModal }: {onClickPhoto: Function, closeModal?:Function}) => {
   const cameraRef = useRef<CameraType>(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null); // For single image preview
   const [capturedImages, setCapturedImages] = useState<string[]>([]); // For storing URLs in multiple capture mode
-  const [resolveCapture, setResolveCapture] = useState<(files: File[] | null) => void>(() => {});
   const [multiple, setMultiple] = useState(false); // Flag to indicate if multiple capture mode is enabled
-  const [isModalFullyOpen, setIsModalFullyOpen] = useState(false);
   const handleCapture = useCallback(async () => {
     const imageUrl = await cameraRef.current?.takePhoto();
     if (imageUrl) {
@@ -46,25 +33,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
         setPreviewImage(processedImageUrl);
       }
     }
-  }, [enableQuadrilateralHighlighting, multiple]);
-
-  const openCamera = useCallback((isMultiple = false) => {
-    return new Promise<File[] | null>(async (resolve,reject) => {
-      try {
-        await requestCameraPermission();
-        setMultiple(isMultiple);
-        setIsModalVisible(true);
-        setTimeout(() => setIsModalFullyOpen(true), 3000);
-        setPreviewImage(null); // Ensure preview is reset every time camera is opened
-        setCapturedImages([]); // Always reset for a new session
-        setResolveCapture(() => resolve);
-      } catch (error) {
-        console.error('Error requesting camera permission:', error);
-        alert('Please provide camera permissions to use this feature.');
-        reject();
-      }
-    });
-  }, []);
+  }, [multiple]);
 
   const handleAccept = useCallback(async () => {
     // Handle accept for single image mode
@@ -74,8 +43,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
       const file = await compressImage(blobToFile(blob, 'captured-image.jpg', 'image/jpeg'), {
         maxWidth: 1240, maxHeight: 1754, quality: 1
       });
-      resolveCapture(file); // Ensure to resolve with an array for consistency
-      setIsModalVisible(false);
+      onClickPhoto(file); // Ensure to resolve with an array for consistency
+      handleClose()
+      // setIsModalVisible(false);
       setPreviewImage(null); // Reset after processing
     }
   }, [previewImage, multiple]);
@@ -88,8 +58,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
         const blob = await response.blob();
         return blobToFile(blob, 'captured-image.jpg', 'image/jpeg');
       }));
-      resolveCapture(files);
-      setIsModalVisible(false);
+      onClickPhoto(files);
+      handleClose()
+      // setIsModalVisible(false);
       setCapturedImages([]); // Reset after finalizing
     }
   }, [capturedImages, multiple]);
@@ -103,8 +74,9 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
   const handleClose = useCallback(() => {
     // Handle cancel for single image mode
     setPreviewImage(null);
-    setIsModalVisible(false);
-    setIsModalFullyOpen(false); // Reset the state when modal is closed
+    // setIsModalVisible(false);
+    // setIsModalFullyOpen(false); // Reset the state when modal is closed
+    closeModal && closeModal();
   }, []);
 
   // useEffect(() => { 
@@ -112,26 +84,12 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
   // },[])
 
   return (
-    <CameraContext.Provider value={{ openCamera }}>
-      {children}
-     {isModalVisible? <div className='camera-container'
-         style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          width: '100%',
-          height: '100%',
-          padding: 0,
-          margin: 0,
-           overflow: 'hidden',
-          backgroundColor:'#fff'
-        }}
+    <>
+     { <div
         >
-        <Alert icon={<WarningOutlined/>} style={{zIndex:999,width:'80%',position:'absolute',top: 10,left:'3%' }} message='Make sure to capture OMR border in the image.' type='error' />
-        <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 1000 }} onClick={handleClose} />
-        {!previewImage  && isModalFullyOpen && <div style={{
+        <Alert icon={<WarningOutlined/>} style={{zIndex:100000,width:'80%',position:'absolute',top: 10,left:'3%' }} message='Make sure to capture OMR border in the image.' type='error' />
+        {/* <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 100000 }} onClick={handleClose} /> */}
+        {!previewImage && <div style={{
         // position: 'absolute',
         // top: 0,
         // left: 0,
@@ -143,7 +101,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
           <Camera facingMode="environment" ref={cameraRef} />
         </div>}
         {previewImage && !multiple && (
-          <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+          <div >
             <img src={previewImage} alt="Preview"  style={{
           position: 'absolute',
           top: 0,
@@ -158,7 +116,7 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
             <Button shape='circle' icon={<CheckOutlined />} style={{ position: 'absolute', width: 40, height: 40, bottom: 44, right: '30%' }} onClick={handleAccept}></Button>
           </div>
         )}
-        {!previewImage && <Button size='large' icon={<CameraOutlined />} style={{ position: 'absolute', left: '50%', bottom: 20, transform: 'translateX(-50%)' }} size="large" type="primary" shape="circle" onClick={handleCapture} />}
+        {!previewImage && <Button size='large' icon={<CameraOutlined />} style={{ position: 'absolute', left: '50%', bottom: 20, transform: 'translateX(-50%)',zIndex: 100000 }} size="large" type="primary" shape="circle" onClick={handleCapture} />}
         {multiple && capturedImages.length > 0 && (
           <>
             <div style={{ position: 'absolute', left: '24%', bottom: 10, maxHeight: '300px', overflowY: 'auto' }}>
@@ -173,15 +131,15 @@ export const CameraProvider = ({ children, enableQuadrilateralHighlighting=false
             <Button shape='circle' icon={<CheckOutlined />} style={{ position: 'absolute', right: '30%', bottom: 20 }} onClick={handleDone} />
           </>
         )}
-      </div>:null}
-    </CameraContext.Provider>
+      </div>}
+    </>
   );
 };
 
 export const useCamera = () => {
-  const context = useContext(CameraContext);
+  const context = {}
   if (!context) {
-    throw new Error('useCamera must be used within a CameraProvider');
+    throw new Error('useCamera must be used within a AppCamera');
   }
   return context;
 };

@@ -110,7 +110,7 @@ export default function TestMetrics() {
     },
     [metrics]
   )
-console.log(MAIN_TOPICS,'MAIN_TOPICS')
+// console.log(MAIN_TOPICS,'MAIN_TOPICS')
        const TOPICS = buildTopicTree(topics, selectedTopic, selectedTopic!==selectedMainTopic?1:2);
        // @ts-ignore
        const accumulateTopicData = (topic, topicMap) => {
@@ -279,7 +279,7 @@ topic.children.forEach((child) => {
 
     </Card>:null}
   </>
-console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'difficultyLevelData.reduce((a,b)=>a.total+b.total,0)')
+// console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'difficultyLevelData.reduce((a,b)=>a.total+b.total,0)')
 
   if (status !== Enum.TestResultStatus.EVALUATED) {
     return <ProcessingResult testId={testId + ''} />

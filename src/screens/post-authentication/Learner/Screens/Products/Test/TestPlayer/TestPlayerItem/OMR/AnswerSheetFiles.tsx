@@ -1,4 +1,5 @@
 import { Alert, Button, Card, Col, Divider, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
+import { AppCamera, useCamera } from '@Components/ActionModal/Camera/AppCamera'
 import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, InfoOutlined, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { Common, Learner, Store, Types, User } from '@adewaskar/lms-common'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
@@ -16,7 +17,6 @@ import PerspectiveCropper from '@Components/PerspectiveCropper'
 import { Typography } from '@Components/Typography'
 import update from 'immutability-helper'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
@@ -188,14 +188,16 @@ onSuccess: ({image,responses}) => {
   }
   const UploadButton = <>
   {isMobile?<><Button type='primary' onClick={() => {
-    openCamera().then((file:any) => {
-      uploadFiles({
-        files: [{ file: file }],
-        isProtected: false,
-        onSuccess: ([{url}]) => {
-          VerifyAnswerSheet([{ file: url }])
-        }
-      })
+      openModal(<AppCamera onClickPhoto={(file: any) => {
+        uploadFiles({
+          files: [{ file: file }],
+          isProtected: false,
+          onSuccess: ([{url}]) => {
+            VerifyAnswerSheet([{ file: url }])
+          }
+        })
+      }} />, {
+      fullScreen: true
     })
   }}>Click Photo</Button> 
   <Divider>OR</Divider></>:null}
@@ -211,7 +213,6 @@ onSuccess: ({image,responses}) => {
     updateAnswerSheetApi(d);
   }
   const filledBubbleCount = answerSheets?.metrics?.filled;
-  const {openCamera } = useCamera();
   // console.log(answerSheets?.metrics?.filled,'akj')
   return (
     <div style={{paddingLeft:10,paddingRight:10}}>
