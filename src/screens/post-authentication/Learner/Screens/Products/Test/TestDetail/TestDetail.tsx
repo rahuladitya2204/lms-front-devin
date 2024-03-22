@@ -50,6 +50,8 @@ export default function TestDetailScreen(
   const Metadata = testEndDate ? <>
     {loadingEnrolledTest ? <Skeleton paragraph={{ rows: 8 }} /> : <CompletedTestCard test={test} />}
   </> : <TestMetadata test={test} />;
+
+  const hideLandingPage = (test?.landingPage?.description?.length) < 20;
   return (
     <Row gutter={[20, 30]}>
     {loadingTest ? null : <>
@@ -62,12 +64,14 @@ export default function TestDetailScreen(
           <Title  style={{
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
-          overflowWrap: 'break-word' // Breaks words to prevent overflow
+            overflowWrap: 'break-word', // Breaks words to prevent overflow
+          textAlign:hideLandingPage?'center':'left'
         }} level={3}>{test.title}</Title>
           <Title  style={{
           // fontSize: 16,
           whiteSpace: 'normal', // Ensures text wraps
-          overflowWrap: 'break-word' // Breaks words to prevent overflow
+            overflowWrap: 'break-word', // Breaks words to prevent overflow
+            textAlign:hideLandingPage?'center':'left'
         }} level={5} >
             {test.subtitle}
           </Title>
@@ -75,9 +79,10 @@ export default function TestDetailScreen(
       </>}
          
 <Col span={24}>
- <Row gutter={[30, 30]}>
-          <Col xs={24} sm={24} md={24} lg={16} >
-            {loadingTest?                  <Skeleton style={{marginBottom:30}} active paragraph={{ rows: 1 }} />:null}
+ <Row style={{display:'flex',justifyContent: hideLandingPage?'center':'start'}} gutter={[30, 30]}>
+        {!hideLandingPage?  <Col xs={24} sm={24} md={24} lg={16} >
+            {loadingTest ?
+              <Skeleton style={{ marginBottom: 30 }} active paragraph={{ rows: 1 }} /> : null}
             <Card style={{paddingTop:0}}>
 
             <Row>
@@ -107,7 +112,7 @@ export default function TestDetailScreen(
           
               
             </Card>
- </Col>
+ </Col>:null}
           <Col xs={0} sm={0} md={0} lg={8}>
             {/* @ts-ignore */}
             <TestCard testId={testId + ''} plan={test.plan} >
