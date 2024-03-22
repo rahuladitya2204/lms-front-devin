@@ -190,9 +190,9 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     );
   })}
         </ul></Col>
-        <Col>
+        {/* <Col>
         <Button shape='circle' icon={<InsertRowBelowOutlined />}></Button>
-        </Col>
+        </Col> */}
       </Row>: null}
       <Card title={`Question ${currentQuestionIndex + 1}`}
         extra={[
