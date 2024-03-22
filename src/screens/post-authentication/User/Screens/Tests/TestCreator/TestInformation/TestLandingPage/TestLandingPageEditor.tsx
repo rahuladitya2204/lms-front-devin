@@ -1,8 +1,9 @@
-import { Button, Card, Empty, Form, Input, Space } from 'antd'
+import { Alert, Button, Card, Empty, Form, Input, Space } from 'antd'
 
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'
 import SelectThumbnail from '@Components/SelectThumbnail'
+import { Text } from '@Components/Typography/Typography'
 import TextArea from '@Components/Textarea'
 //
 import { Types } from '@adewaskar/lms-common'
@@ -30,7 +31,7 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
     },
     [test]
   )
-
+  const landingPageDescription = Form.useWatch(['description'], form)
   const onValuesChange = (d: Partial<Types.TestLandingPage>) => {
     const data = deepPatch(test.landingPage, d)
     props.saveTest({
@@ -97,6 +98,14 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
       </Card>
 
       <Form.Item name={'description'} required label="Landing Page Description">
+        <Alert
+          style={{ marginBottom: 10 }}
+          type="error"
+          message="Note minimum 200 words needed to display landing page text"
+        />
+        {landingPageDescription?.length ? (
+          <Text type="danger">{landingPageDescription?.length} words</Text>
+        ) : null}
         <TextArea html name={'description'} />
       </Form.Item>
     </Form>
