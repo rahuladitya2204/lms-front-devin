@@ -347,7 +347,7 @@ topic.children.forEach((child) => {
                     <Statistic
           title="Accuracy"
           value={metrics.totalCorrectlyAnswered/(metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered)*100}
-          // precision={2}
+          precision={1}
           valueStyle={{fontSize: 20, color: 'blue' }}
           prefix={<AimOutlined />}
           suffix="%"
@@ -360,7 +360,7 @@ topic.children.forEach((child) => {
                     <Statistic
           title="Completed"
           value={totalAnswered/questions.length*100}
-          // precision={2}
+          precision={1}
           valueStyle={{fontSize: 20, color: '#3f8600' }}
           prefix={<SafetyCertificateOutlined />}
           suffix="%"

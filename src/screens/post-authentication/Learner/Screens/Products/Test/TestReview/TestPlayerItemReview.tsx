@@ -79,7 +79,6 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
     isLoading: loadingResult,
     data: { test: { sections } }
   } = Learner.Queries.useGetTestResult(testId + '');
-  console.log(sections,'sections')
   const questions = useMemo(() => {
     return sections.map(i => i.items).flat();
   }, [sections]);
