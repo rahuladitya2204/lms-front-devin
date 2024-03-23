@@ -47,7 +47,7 @@ const ThumbnailSkeleton = styled(Skeleton.Image)`
 `
 
 const Container = styled.div`
-  /* background-image: url(${image}); */
+  /* background-image: url(${image.src}); */
   background-size: contain;
   background-repeat: no-repeat;
   width: 100%;

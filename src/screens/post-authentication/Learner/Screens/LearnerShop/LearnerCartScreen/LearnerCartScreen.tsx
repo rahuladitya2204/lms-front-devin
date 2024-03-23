@@ -71,7 +71,7 @@ export default function LearnerCart() {
     </Row>
     
     <Row justify={'center'}>
-      <Col> <Image width={400} style={{marginTop:20}} src={BgImage}  /></Col>
+      <Col> <Image width={400} style={{marginTop:20}} src={BgImage.src}  /></Col>
    </Row>
   </Card> :(
     <Card>

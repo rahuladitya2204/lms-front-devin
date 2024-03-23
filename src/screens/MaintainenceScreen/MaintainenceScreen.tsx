@@ -18,7 +18,7 @@ export default function MaintainenceScreen () {
     >
       <Row justify={'center'}>
         <Col span={10}>
-          <Image src={underMaintainenceImg} />
+          <Image src={underMaintainenceImg.src} />
         </Col>
         <Col span={2} />
         <Col span={12}>

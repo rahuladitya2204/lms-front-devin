@@ -32,7 +32,6 @@ import { useNavigate, useParams } from 'react-router'
 
 import EnrolledTestItem from './EnrolledTestItem'
 import Image from '@Components/Image'
-import PlayIcon from '@Icons/play.svg'
 import Tabs from '@Components/Tabs'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'

@@ -44,7 +44,7 @@ function StoreScreen () {
           </Col>
           <Col span={12}>
           {/* <Calendar fullscreen={false} /> */}
-          <Image preview={false} src={BGImage} />
+          <Image preview={false} src={BGImage.src} />
           </Col>
         </Row>
       </Col>:null}
