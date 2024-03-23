@@ -87,8 +87,8 @@ export const AppCamera = ({  onClickPhoto, closeModal }: {onClickPhoto: Function
     <>
      { <div
         >
-        <Alert icon={<WarningOutlined/>} style={{zIndex:100000,width:'88%',position:'absolute',top: 10,left:'3%' }} message='Make sure to capture OMR border in the image.' type='error' />
-        {/* <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 100000 }} onClick={handleClose} /> */}
+        <Alert icon={<WarningOutlined/>} style={{zIndex:100000,width:'85%',position:'absolute',top: 10,left:'3%' }} message='Make sure to capture OMR border in the image.' type='error' />
+        <Button shape='circle' danger icon={<CloseOutlined />} style={{ position: 'fixed', top: 10, right: 10, zIndex: 100000 }} onClick={handleClose} />
         {!previewImage && <div style={{
         // position: 'absolute',
         // top: 0,
