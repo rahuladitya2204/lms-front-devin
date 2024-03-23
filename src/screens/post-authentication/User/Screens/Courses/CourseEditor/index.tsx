@@ -17,7 +17,7 @@ import { Outlet, useNavigate, useParams } from 'react-router'
 
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
-import { Course } from '@Common/lib/cjs/types/types/Courses.types'
+import { Course } from '@invinciblezealorg/lms-common/lib/cjs/types/types/Courses.types'
 import CourseCertificate from './CourseInformation/CourseAdvancedSettings/CourseCertificate/CourseCertificateScreen'
 import CourseDrip from './CourseDrip/CourseDrip'
 import CourseInformationEditor from './CourseInformation'

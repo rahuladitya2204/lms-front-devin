@@ -1,5 +1,5 @@
 import { Alert, Button, Col, Row, Skeleton } from "antd";
-import { Enum, Learner } from "@Common";
+import { Enum, Learner } from "@invinciblezealorg/lms-common";
 import React, { Fragment, useMemo } from "react";
 
 import Countdown from "@Components/Countdown";

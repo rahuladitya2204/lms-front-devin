@@ -24,7 +24,7 @@ import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'
 import { Learner } from '@invinciblezealorg/lms-common'
 import LearnerLogin from '@Learner/Screens/Login';
-import { LoginLearner } from '@Common/lib/cjs/types/Learner/Api';
+import { LoginLearner } from '@invinciblezealorg/lms-common/lib/cjs/types/Learner/Api';
 import ProductCheckoutButton from '@Components/CheckoutButton';
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 import image from './bg.svg'

@@ -4,7 +4,7 @@ import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 
-import { Course } from '@Common/lib/cjs/types/types/Courses.types'
+import { Course } from '@invinciblezealorg/lms-common/lib/cjs/types/types/Courses.types'
 import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
 import CourseDetailsEditor from './CourseDetailsEditor/CourseDetails'
 import CourseLandingPageEditor from './CourseLandingPage/CourseLandingPageEditor'

@@ -22,7 +22,7 @@ import ActionModal from '@Components/ActionModal/ActionModal';
 import Image from '@Components/Image'
 import { Learner } from '@invinciblezealorg/lms-common'
 import LearnerLogin from '@Learner/Screens/Login';
-import { LoginLearner } from '@Common/lib/cjs/types/Learner/Api';
+import { LoginLearner } from '@invinciblezealorg/lms-common/lib/cjs/types/Learner/Api';
 import PackageDetails from './PackageDetails'
 import PackageMetadata from './PackageMetadata'
 import PriceCardContent from '@Learner/Screens/StoreScreen/Cards/PriceCardContent';
