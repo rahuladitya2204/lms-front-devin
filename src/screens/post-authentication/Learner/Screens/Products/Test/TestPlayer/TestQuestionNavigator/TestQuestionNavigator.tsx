@@ -36,8 +36,12 @@ export default function TestQuestionNavigator(
   let runningIndex = 0;
   return (
       <Card
-      style={{ height: '80vh' }}
-      bodyStyle={{ overflow: 'scroll', height: '100%' }}
+      // style={{ height: '80vh' }}
+      bodyStyle={{
+        // overflow: 'scroll', height: '100%',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none'
+      }}
     >
       <Row>
         {isDesktop ? (
