@@ -11,9 +11,11 @@ import {
 const App = dynamic(() => import("../../App"), { ssr: false });
 
 export function ClientOnly() {
-  return;
+  const queryClient = new QueryClient();
 
-  <HydrationBoundary state={dehydrate(queryClient)}>
-    <App />
-  </HydrationBoundary>;
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <App />
+    </HydrationBoundary>
+  );
 }

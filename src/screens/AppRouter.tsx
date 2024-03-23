@@ -117,6 +117,7 @@ import WebsiteScreen from "@User/Screens/Builder/Website/Website";
 import WhatsappTemplateEditor from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor";
 import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen";
 import React from "react";
+import Test from "@User/Screens/Test";
 
 // const checkDuplicateRouteIds = (
 //   element: React.ReactNode,
@@ -143,6 +144,7 @@ const router = (userType: string) => {
   const routes = (
     <>
       <Route path="/hello-world" element={<h1>Working Next</h1>} />
+      <Route path="/test" element={<Test />} />
     </>
   );
 
