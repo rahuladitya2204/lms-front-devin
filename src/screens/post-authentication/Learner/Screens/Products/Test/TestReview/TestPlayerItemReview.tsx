@@ -1,4 +1,4 @@
-import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
+import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, CloseCircleTwoTone, CloseOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Skeleton, Space, Spin, Tag, Tooltip, theme } from 'antd';
 import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useMemo, useState } from 'react';
@@ -164,13 +164,15 @@ return (
     </ul></Col>
   </Row>: null}
       <Card title={`Question ${currentQuestionIndex + 1}`}
-        extra={[<TestAnswerTag item={currentQuestion} />,
+      extra={[isMobile ? <>
+        {currentQuestion.isCorrect ? <CheckCircleTwoTone style={{marginRight:5,position:"relative",top:3,fontSize:20,color:'green'}} />:<CloseCircleTwoTone style={{marginRight:5,position:"relative",top:3,fontSize:20,color: 'red'}}/>}
+      </> : <TestAnswerTag item={currentQuestion} />,
         !currentQuestion.notEvaluated? ((currentQuestion.scoreAchieved !== undefined) ?
           <Tag color={(currentQuestion.scoreAchieved > 0) ?
             // @ts-ignore
             'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}{currentQuestion.type==='subjective'?('/'+currentQuestion.score.correct):'' }</Tag> : 
             <Tag color='red-inverse'>Score: 0</Tag>) : null,
-          globalCorrectPercent!==null?<Tooltip title={`Only ${globalCorrectPercent}% people were able to answer this question correctly`}><Tag color='purple-inverse' icon={<GlobalOutlined />} >{(globalCorrectPercent)} %</Tag></Tooltip>:null
+          globalCorrectPercent!==null?<Tooltip title={`${(globalCorrectPercent<50 && globalCorrectPercent!==0)?'Only ':''}${globalCorrectPercent}% people were able to answer this question correctly`}><Tag color='purple-inverse' icon={<GlobalOutlined />} >{(globalCorrectPercent)} %</Tag></Tooltip>:null
         ]
       }
       >
