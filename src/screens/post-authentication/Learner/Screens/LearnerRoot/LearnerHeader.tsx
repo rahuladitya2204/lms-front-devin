@@ -62,7 +62,8 @@ const LearnerHeader: React.FC = () => {
     mutate: logoutLearner,
     isLoading: loggingOut
   } = Learner.Queries.useLogoutLearner()
-  const {data: organisation } = Learner.Queries.useGetOrgDetails();
+  const { data: organisation } = Learner.Queries.useGetOrgDetails();
+  const isAdmin = Store.useGlobal(s => s.isAdmin);
   const { data: user, isFetching: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
   const isSignedIn = Store.useAuthentication(state => state.isSignedIn);
   const message = useMessage();
@@ -133,7 +134,10 @@ const LearnerHeader: React.FC = () => {
           <Row justify={'center'} align={'middle'}>
             <Col style={{ marginTop: -1 }}><CoinImage width={20} /></Col>
             <Col>
-              <Text style={{ fontSize: 16, marginLeft: 5 }} strong>  {Utils.UnitTypeToStr(user.wallet.balance)}</Text></Col>
+            <Text style={{ fontSize: 16, marginLeft: 5 }} strong>
+              {user.wallet.balance.value ? Utils.UnitTypeToStr(user.wallet.balance) : 'My Wallet'}
+            </Text>
+          </Col>
           </Row>
         </Button>
     </Tooltip>

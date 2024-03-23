@@ -1,4 +1,5 @@
 import { Alert, Button, Card, Col, Empty, Form, FormInstance, Image, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
+import { AppCamera, useCamera } from '@Components/ActionModal/Camera/AppCamera'
 import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
@@ -13,8 +14,8 @@ import { MovableItem } from '@Components/DragAndDrop/MovableItem'
 import { Typography } from '@Components/Typography'
 import update from 'immutability-helper'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
 import useMessage from '@Hooks/useMessage'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import { useReviewQuestion } from '../../TestReview/TestPlayerItemReview'
 
 const {Text}=Typography;
@@ -97,10 +98,9 @@ const TestPlayerFiles = (props: { testId: string, questionId: string, review?: b
     mutate: uploadFiles,
     isLoading: uploadingFile
   } = Common.Queries.useUploadFiles();
-  const {openCamera } = useCamera();
+  const {openModal }=useModal()
   const UploadButton=  isMobile? <Button type='primary' onClick={() => {
-    openCamera().then(file => {
-      // const file = blobToFile(blob);
+    openModal(<AppCamera onClickPhoto={(file:any) => {
       uploadFiles({
         // @ts-ignore
         files: [{ file: file }],
@@ -112,7 +112,7 @@ onSuccess: (files) => {
                          }));
 }
       })
-    });
+    }} />)
   }}>Click Photo</Button> : <MediaUpload aspect={210/297} multiple
   uploadType="image" cropper={{aspect:16/9}} renderItem={()=><Button icon={<UploadOutlined />}>Upload</Button>}
   onUpload={(files:Types.FileType[]) => {

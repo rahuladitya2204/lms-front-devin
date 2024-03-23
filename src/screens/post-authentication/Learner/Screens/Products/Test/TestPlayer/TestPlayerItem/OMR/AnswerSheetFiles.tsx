@@ -1,11 +1,12 @@
 import { Alert, Button, Card, Col, Divider, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
+import { AppCamera, useCamera } from '@Components/ActionModal/Camera/AppCamera'
 import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, InfoOutlined, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { Common, Learner, Store, Types, User } from '@adewaskar/lms-common'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
 import React, { Fragment, useCallback, useEffect } from 'react'
 import { blobToFile, compressImage, convertImageToBlob } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { convertFileToBase64, openWindow } from '@Components/SunEditor/utils'
+import { convertFileToBase64, openWindow } from '@Components/Editor/SunEditor/utils'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppImage from '@Components/Image'
@@ -16,7 +17,6 @@ import PerspectiveCropper from '@Components/PerspectiveCropper'
 import { Typography } from '@Components/Typography'
 import update from 'immutability-helper'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
@@ -186,20 +186,26 @@ onSuccess: ({image,responses}) => {
       }
     });
   }
-  const UploadButton = (isMobile ) ? <Button type='primary' onClick={() => {
-    openCamera().then((file)=>VerifyAnswerSheet([{file: file}]))
-  }}>Click Photo</Button> :<MediaUpload disabled compress={{maxWidth: 1240,maxHeight: 1754,quality:1}} aspect={210 / 297} multiple
+  const UploadButton = <>
+  {isMobile?<><Button type='primary' onClick={() => {
+      openModal(<AppCamera onClickPhoto={(file: any) => {
+        uploadFiles({
+          files: [{ file: file }],
+          isProtected: false,
+          onSuccess: ([{url}]) => {
+            VerifyAnswerSheet([{ file: url }])
+          }
+        })
+      }} />, {
+      fullScreen: true
+    })
+  }}>Click Photo</Button> 
+  <Divider>OR</Divider></>:null}
+  <MediaUpload compress={{ maxWidth: 1240, maxHeight: 1754, quality: 1 }} aspect={210 / 297} multiple
     uploadType="image" renderItem={() => <Button icon={<UploadOutlined />}>Upload</Button>}
-      onChange={(files: any) => {
-        // console.log(files,'ffifif')
-        compressImage(files[0].originFileObj).then(file => {
-        return convertFileToBase64(file).then(url=>VerifyAnswerSheet([{file: files[0].originFileObj}]))
-      })
-      // console.log(files, 'uploaded')
-      
- 
-    }}
-  />;
+    onUpload={([{url}])=>VerifyAnswerSheet([{ file:url }])}
+    />
+  </>
 
   const save = (d:Types.AnswerSheet) => {
     // console.log(d, 'dd');
@@ -207,7 +213,6 @@ onSuccess: ({image,responses}) => {
     updateAnswerSheetApi(d);
   }
   const filledBubbleCount = answerSheets?.metrics?.filled;
-  const {openCamera } = useCamera();
   // console.log(answerSheets?.metrics?.filled,'akj')
   return (
     <div style={{paddingLeft:10,paddingRight:10}}>

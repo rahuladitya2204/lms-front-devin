@@ -3,6 +3,7 @@ import { Enum, Learner } from "@adewaskar/lms-common";
 import React, { Fragment, useMemo } from "react";
 
 import Countdown from "@Components/Countdown";
+import { ReloadOutlined } from "@ant-design/icons";
 import TestTimeCountdown from "@Components/TestTimeCountdown";
 import { useNavigate } from "react-router";
 
@@ -14,6 +15,7 @@ interface TestEnrolledCtaPropsI {
 export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
     const { testId } = props;
     const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '','');
+    const { mutate: retryTest, isLoading: retryingTest}=Learner.Queries.useRetryTest(test._id+'')
     const navigate =useNavigate();
     const {
         data: enrolledDetails,
@@ -105,6 +107,11 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
                 showIcon action={<Button size='small' onClick={() => navigate(`/app/test/${testId}/result`)}>View Result</Button>}
                 />
               <Button size="large" onClick={()=>navigate(`/app/test/${testId}/result/review`)} type='primary' block>View solutions</Button>
+              <Button danger loading={retryingTest}
+      size="large" onClick={() => retryTest()} type='primary' block
+    >
+      Retry Test
+    </Button>
               </>
             }
             else {

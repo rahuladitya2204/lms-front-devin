@@ -1,9 +1,11 @@
 import {
+  Anchor,
   Avatar,
   Badge,
   Button,
   Card,
   Col,
+  Divider,
   List,
   Row,
   Skeleton,
@@ -13,6 +15,7 @@ import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
+import { Link } from 'react-router-dom'
 import NoItemFound from '@Components/NoItemFound'
 import { SkeletonTestCard } from './PastTests'
 import { Typography } from '@Components/Typography'
@@ -51,7 +54,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
   return (
       <Row gutter={[20, 30]}>
     {/* @ts-ignore */}
-      {upcomingTests.map(({ product: { data: test } }:{ product: { data: Types.Test } }) => {
+      {upcomingTests.map(({ product: { data: test },package: bundle }:{ product: { data: Types.Test } }) => {
         const formattedDuration = test.duration.enabled?(Utils.formatTime(test?.duration.value*60)):null
   const CardComponent = (
           <Card hoverable
@@ -86,7 +89,10 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
                   <Text>Date: {dayjs(test?.live.scheduledAt).format('LL')}</Text>
                 ) : (
                ''
-                ) }</>
+                  )}
+                 {bundle?<> <Divider/>
+                {bundle?<PackageText id={bundle} />:null}</>:null}
+                </>
               }
               avatar={<CalendarOutlined />}
             />
@@ -109,3 +115,12 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
   )
 }
 export default UpcomingTest
+
+const PackageText = ({ id }: { id: string }) => {
+  const { data: bundle,isLoading: loadingPackage } = Learner.Queries.useGetPackageDetails(id)
+  // @ts-ignore
+  return loadingPackage?<Skeleton.Button block />:<Link onClick={(e) => {
+    window.open(`/app/package/${id}/enrolled-package`)
+    e.stopPropagation();
+  }}>{ bundle.title}</Link>;
+}

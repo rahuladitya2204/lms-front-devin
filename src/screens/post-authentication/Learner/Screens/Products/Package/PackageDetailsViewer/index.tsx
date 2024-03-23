@@ -130,8 +130,11 @@ function PackageDetailViewer () {
       
 
           <Row>
-            <Col style={{ marginTop: 15 }} span={24}>
-              <PackageDetails package={bundle} />
+                <Col style={{ marginTop: 15 }} span={24}>
+                {loadingPackage?<Skeleton.Button active style={{height: 400}} block />: <Card bodyStyle={{paddingTop:5}}>
+                    <PackageDetails package={bundle} />
+              </Card>}
+                 
             </Col>
           </Row>
         
@@ -175,7 +178,7 @@ const PackageCard = ({packageId,plan,children}: {
     type: 'package',
     id: '65656a12eff93f74224193e3'
   });
-  console.log(ep, 'er');
+
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const { openModal } = useModal()
 
@@ -221,11 +224,12 @@ const PackageCard = ({packageId,plan,children}: {
                   </Button> :
                       <ProductCheckoutButton 
                       onSuccess={() => {
-                        message.open({
-                          type: 'success',
-                          content: `You have enrolled successfully`,
-                          particle: true
-                        })
+                      message.open({
+                        type: 'success',
+                        content: `You have enrolled successfully`,
+                        particle: true
+                      });
+                      navigate(`enrolled-package`)
                       }}
                       product={{ type: 'package', id: packageId + '' }}
                       block

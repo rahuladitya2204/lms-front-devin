@@ -7,8 +7,10 @@ import LearnerLogin from '@Learner/Screens/Login'
 import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import { Outlet } from 'react-router'
 import ThemeProvider from './ThemeProvider'
+import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
 
 export default function LearnerFullPageHolder () {
+  useBlockBackButton()
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
   return (
     <ThemeProvider>

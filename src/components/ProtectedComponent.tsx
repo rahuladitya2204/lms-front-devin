@@ -5,13 +5,15 @@ import ActionModal from './ActionModal/ActionModal'
 
 interface ProtectedContentPropsI {
   children: React.ReactNode;
-  cta: React.ReactNode;
+  cta?: React.ReactNode;
   message?: React.ReactNode;
   isVerified?: boolean;
+  title?: React.ReactNode;
+  width?: number;
 }
 
 const ProtectedContent = (props: ProtectedContentPropsI) => {
-  const { isVerified, cta, message, children } = props
+  const { isVerified, cta, message, children, title } = props
   return (
     <div>
       <div style={{ filter: isVerified ? 'none' : 'blur(8px)' }}>
@@ -19,10 +21,11 @@ const ProtectedContent = (props: ProtectedContentPropsI) => {
       </div>
       {!isVerified && (
         <Modal
-          title="Verification Required"
+          title={title}
           open={true}
           closable={false}
           footer={null}
+          width={props.width}
           // keyboardClosable={false}
         >
           <Fragment>

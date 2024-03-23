@@ -8,9 +8,11 @@ import React, { useEffect, useState } from 'react'
 import AppProvider from 'screens/AppProvider'
 import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import OrgLogo from '@Components/OrgLogo'
+import ProtectedContent from '@Components/ProtectedComponent'
 import ThemeProvider from 'screens/ThemeProvider'
+import { UserLogin } from '../Login'
 import { UserOutlined } from '@ant-design/icons'
-import { compareArrays } from '@Components/SunEditor/utils'
+import { compareArrays } from '@Components/Editor/SunEditor/utils'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
@@ -24,6 +26,8 @@ const LogoHolder = styled.div`
 
 const UserRootScreen: React.FC = () => {
   const { isDesktop } = useBreakpoint()
+  const { isSignedIn } = Store.useAuthentication(s => s)
+  console.log(isSignedIn, 'isSignedIn, isAuthenticated')
   return (
     <ThemeProvider>
       <ModalProvider>
@@ -33,7 +37,14 @@ const UserRootScreen: React.FC = () => {
             <Content style={{ margin: '0 16px' }}>
               <Row gutter={[20, 20]}>
                 <Col span={24}>
-                  <Outlet />
+                  <ProtectedContent
+                    width={300}
+                    title="Login"
+                    cta={<UserLogin />}
+                    isVerified={isSignedIn}
+                  >
+                    <Outlet />
+                  </ProtectedContent>
                 </Col>
               </Row>
             </Content>

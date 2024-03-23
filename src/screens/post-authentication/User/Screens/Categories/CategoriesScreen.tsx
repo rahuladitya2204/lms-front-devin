@@ -1,11 +1,13 @@
-import { Avatar, Button, Space, Table } from 'antd'
+import { Avatar, Button, Space } from 'antd'
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import Container from '@Components/Container'
 import CreateCategory from './CreateCategory'
-import { EditOutlined } from '@ant-design/icons'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import Image from '@Components/Image'
+import { Link } from 'react-router-dom'
 import MoreButton from '@Components/MoreButton'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
@@ -15,6 +17,7 @@ function CategoriesScreen() {
   const { data, isFetching: loading } = User.Queries.useGetProductCategories(
     'all'
   )
+  const { mutate: deleteCategory } = User.Queries.useDeleteProductCategory()
   const { openModal } = useModal()
 
   return (
@@ -40,20 +43,27 @@ function CategoriesScreen() {
       ]}
     >
       <Container>
-        <Table dataSource={data} loading={loading}>
-          <Table.Column
+        <Table searchFields={['title']} dataSource={data} loading={loading}>
+          <TableColumn
             title="Thumbnail Image"
             render={(_: any, record: Types.ProductCategory, index: number) => (
               <Avatar size={60} src={record.thumbnailImage} />
             )}
           />
-          <Table.Column title="Name" dataIndex="title" key="title" />
-          <Table.Column
+          <TableColumn
+            title="Name"
+            dataIndex="title"
+            key="title"
+            render={(_: any, record: Types.ProductCategory, index: number) => (
+              <Link to={`${record._id}/editor`}>{record.title}</Link>
+            )}
+          />
+          <TableColumn
             title="Description"
             dataIndex="description"
             key="description"
           />
-          {/* <Table.Column
+          {/* <TableColumn
             title="Total Courses"
             dataIndex="totalCourses"
             key="totalCourses"
@@ -61,7 +71,7 @@ function CategoriesScreen() {
               <Space size="middle">{record.products.length}</Space>
             )}
           /> */}
-          <Table.Column
+          <TableColumn
             title="Action"
             key="action"
             render={(_: any, record: Types.ProductCategory, index: number) => (
@@ -70,22 +80,22 @@ function CategoriesScreen() {
                   {
                     label: 'Edit Category',
                     onClick: () =>
-                      openModal(<CreateCategory data={record} />, {
-                        title: 'Edit Category'
-                      }),
+                      window.open(
+                        `/app/products/product-category/${record._id}/editor`
+                      ),
                     key: 'edit'
                     // icon: <EditOutlined />,
                     // onClick: () => navigate(`${record._id}/edit`)
+                  },
+                  {
+                    label: 'Delete ',
+                    onClick: () => {
+                      deleteCategory({ id: record._id })
+                      //   window.open(`users/${record._id}/editor`, '_blank')
+                    },
+                    key: 'delete',
+                    icon: <DeleteOutlined />
                   }
-                  // {
-                  //   label: 'Delete ',
-                  //   onClick: () => {
-                  //     deleteItem(index)
-                  //     //   window.open(`users/${record._id}/editor`, '_blank')
-                  //   },
-                  //   key: 'edit',
-                  //   icon: <DeleteOutlined />
-                  // }
                 ]}
               />
             )}

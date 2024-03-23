@@ -1,5 +1,6 @@
 import { Enum, Learner, Types } from '@adewaskar/lms-common'
 
+import { Card } from 'antd'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
@@ -25,40 +26,43 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
   })
   // useWatchTime(props.course._id);
   const { currentQuestion } = useReviewQuestion()
-  const TAB_ITEMS = [
-    {
-      label: `Solution`,
-      key: 'notes',
-      children: (
-        <HtmlViewer content={currentQuestion.solution?.html[language] + ''} />
-      )
-    },
-    {
-      label: `Discussion`,
-      key: 'discussion',
-      children: (
-        <ProductDiscussion
-          itemId={props.itemId}
-          product={{ type: 'test', id: props.test._id + '' }}
-        />
-      )
-    }
-    // {
-    //   label: <Text strong>Announcements</Text>,
-    //   key: '4',
-    //   children: 'Tab 3'
-    // },
-    // {
-    //   label: <Text strong>Reviews</Text>,
-    //   key: '5',
-    //   children: 'Tab 3'
-    // },
-    // {
-    //   label: 'Learning Tools',
-    //   key: '6',
-    //   children: 'Tab 3'
-    // }
-  ]
+  const TAB_ITEMS = []
+  if (currentQuestion.solution?.html[language]) {
+    TAB_ITEMS.push(
+      {
+        label: `Solution`,
+        key: 'notes',
+        children: (
+          <HtmlViewer content={currentQuestion.solution?.html[language] + ''} />
+        )
+      },
+      {
+        label: `Discussion`,
+        key: 'discussion',
+        children: (
+          <ProductDiscussion
+            itemId={props.itemId}
+            product={{ type: 'test', id: props.test._id + '' }}
+          />
+        )
+      }
+      // {
+      //   label: <Text strong>Announcements</Text>,
+      //   key: '4',
+      //   children: 'Tab 3'
+      // },
+      // {
+      //   label: <Text strong>Reviews</Text>,
+      //   key: '5',
+      //   children: 'Tab 3'
+      // },
+      // {
+      //   label: 'Learning Tools',
+      //   key: '6',
+      //   children: 'Tab 3'
+      // }
+    )
+  }
   if (currentQuestion?.feedback?.met || currentQuestion?.feedback?.notMet) {
     TAB_ITEMS.unshift({
       label: `Feedback`,
@@ -72,7 +76,11 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = props => {
       )
     })
   }
-  return <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
+  return TAB_ITEMS.length ? (
+    <Card style={{ marginTop: 20 }}>
+      <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
+    </Card>
+  ) : null
 }
 
 export default TestPlayerMoreInfo

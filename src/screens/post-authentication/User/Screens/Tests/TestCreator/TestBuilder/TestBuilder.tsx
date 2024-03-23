@@ -24,7 +24,7 @@ import PrintPrompt from './PrintPrompt'
 import SetTestRules from './SetTestRules'
 import TestOutline from './TestOutline'
 import TestSectionsNavigator from './TestSectionsNavigator'
-import { printPdf } from '@Components/SunEditor/utils'
+import { printPdf } from '@Components/Editor/SunEditor/utils'
 import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
@@ -279,7 +279,7 @@ function TestBuilderScreen() {
               // @ts-ignore
               onClick={() => {
                 console.log(test.category, 'asasas')
-                navigate(`../app/products/test#${test.category}`)
+                navigate(`../app/products/test/${testId}/editor`)
               }}
             />
             {test.title}{' '}
@@ -375,11 +375,11 @@ function TestBuilderScreen() {
                       title: 'Print'
                     })
                 },
-                {
-                  label: 'Generate Criterias',
-                  key: 'gen-criterias',
-                  onClick: () => generateTestInfo({ fields: ['criteria'] })
-                },
+                // {
+                //   label: 'Generate Criterias',
+                //   key: 'gen-criterias',
+                //   onClick: () => generateTestInfo({ fields: ['criteria'] })
+                // },
                 {
                   label: 'Generate Topics',
                   key: 'gen-topics',
@@ -477,7 +477,7 @@ function TestBuilderScreen() {
       >
         <Row gutter={[16, 16]}>
           <Col span={6}>
-            <Card>
+            <Card bodyStyle={{ maxHeight: '82vh', overflowY: 'scroll' }}>
               <Row>
                 <Col span={24}>
                   <Form.Item>

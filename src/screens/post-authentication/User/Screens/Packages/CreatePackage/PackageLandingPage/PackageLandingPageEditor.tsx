@@ -60,7 +60,7 @@ export default function PackageLandingPageEditor(
         required
         label="Landing Page Description"
       >
-        <TextArea html name={'description'} />
+        <TextArea html={{ level: 3 }} name={'description'} />
       </Form.Item>
     </Fragment>
   )

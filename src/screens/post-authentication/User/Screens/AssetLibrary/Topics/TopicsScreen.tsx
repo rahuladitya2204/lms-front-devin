@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Button, Popconfirm, Tree } from 'antd';
-import { DeleteOutlined, DownOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, DownOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { Types, User } from '@adewaskar/lms-common';
 
@@ -42,11 +42,17 @@ export default function TopicsScreen() {
           title: renderTopicTitle(topic),
           children: buildSubTreeData(topic._id, topics)
         }));
-      
+      const currentTopic = topics.find(t => t._id === parentId);
       // Add the 'Add Subtopic' button as the first child
       const addSubTopicButton: TopicNode = {
         key: `add-${parentId}`,
         title: <Button type="link" icon={<PlusOutlined />} onClick={() => onAdd(parentId)}>Add Subtopic</Button>,
+        isLeaf: true
+      };
+
+      const editTopicButton: TopicNode = {
+        key: `edit-${parentId}`,
+        title: <Button type="link" icon={<EditOutlined />} onClick={() => onEdit(currentTopic)}>Edit Topic</Button>,
         isLeaf: true
       };
 
@@ -65,7 +71,7 @@ export default function TopicsScreen() {
       ),
       isLeaf: true
     };
-      return [addSubTopicButton,deleteTopicButton, ...subTopics];
+      return [addSubTopicButton,editTopicButton,deleteTopicButton, ...subTopics];
     };
 
     setTreeData(buildTreeData(topics));
@@ -85,6 +91,20 @@ export default function TopicsScreen() {
       />
     );
   };
+
+
+  const onEdit = (topic: Types.Topic) => {
+    openModal(
+      <CreateTopic
+        data={topic}
+        parentId={topic.parentId}
+        onFinish={() => {
+          refetchTopics();
+        }}
+      />
+    );
+  };
+
   const message = useMessage();
   const { mutate: deleteTopic} = User.Queries.useDeleteTopic();
   const onDelete = (id:string) => {

@@ -1,10 +1,9 @@
-import { Network } from '@adewaskar/lms-common'
+import { Network, Store } from '@adewaskar/lms-common'
+
 import { Utils } from '@adewaskar/lms-common'
 
 if (process.env.REACT_APP_BUILD_ENV !== 'production') {
   Network.Axios.defaults.baseURL =
-    process.env.REACT_APP_API_URL || 'http://localhost:4000'
-  Network.AxiosNormal.defaults.baseURL =
     process.env.REACT_APP_API_URL || 'http://localhost:4000'
 }
 
@@ -53,3 +52,20 @@ export const getToken = (userType?: string) => {
   const token = Utils.Storage.GetItem(`${userType}-auth-token`)
   return token
 }
+
+Network.Axios.interceptors.response.use(
+  response => {
+    // Any status code that lie within the range of 2xx cause this function to trigger
+    return response
+  },
+  error => {
+    const setIsSignedIn = Store.useAuthentication.getState().setIsSignedin
+    // Any status codes that falls outside the range of 2xx cause this function to trigger
+    if (error.response.status === 401) {
+      setIsSignedIn(false)
+      // Handle unauthorized access here
+      // e.g., Redirect to login, update state, show message, etc.
+    }
+    return Promise.reject(error)
+  }
+)

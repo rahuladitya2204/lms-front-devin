@@ -22,6 +22,7 @@ import { useReviewQuestion } from './TestPlayerItemReview'
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
   questionId: string;
+  closeDrawer?: Function;
 }
 const { confirm } = Modal
 const { Text, Title } = Typography
@@ -50,8 +51,13 @@ export default function TestReviewQuestionNavigator(
   let runningIndex = 0
   return (
     <Card
-      style={{ height: '80vh' }}
-      bodyStyle={{ overflow: 'scroll', height: '100%' }}
+      // style={{ height: '80vh' }}
+      bodyStyle={{
+        // overflow: 'scroll',
+        // height: '100%',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none'
+      }}
     >
       <Row>
         <Col span={24}>
@@ -105,6 +111,9 @@ export default function TestReviewQuestionNavigator(
                         return (
                           <Col span={3}>
                             <NavLink
+                              onClick={() => {
+                                props.closeDrawer && props.closeDrawer()
+                              }}
                               style={{ width: '100%' }}
                               key={item._id}
                               to={`${item._id}`}

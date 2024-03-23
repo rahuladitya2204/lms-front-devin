@@ -108,7 +108,7 @@ const AddUser: React.FC<CreateUserComponentPropsI> = props => {
             message: `Please enter user's mobile number!`
           },
           {
-            len: 12,
+            max: 12,
             message: 'Contact number should be 10 digits!'
           }
         ]}

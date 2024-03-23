@@ -18,11 +18,12 @@ import {
 import { Common, Types, User } from '@adewaskar/lms-common'
 import React, { useEffect } from 'react'
 
+import { AppCamera } from '@Components/ActionModal/Camera/AppCamera'
 import Header from '@Components/Header'
 import MediaUpload from '@Components/MediaUpload'
 import TestAnswerSheetProcessStatusTag from './UploadTestAnswerSheetProcessTag'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useCamera } from '@Components/ActionModal/Camera/CameraContext'
+import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 
 const { confirm } = Modal
@@ -72,12 +73,12 @@ export default function UploadAnswerSheets() {
       }
     )
   }
+  const { openModal } = useModal()
   const {
     mutate: processAnswerSheets,
     isLoading: processingAnswerSheets
   } = User.Queries.useProcessAnswerSheets(testId + '')
   const { isMobile } = useBreakpoint()
-  const { openCamera } = useCamera()
   const {
     mutate: uploadFiles,
     isLoading: uploadingFile
@@ -124,33 +125,40 @@ export default function UploadAnswerSheets() {
                   <Button
                     loading={uploadingFile}
                     onClick={() =>
-                      openCamera(true).then(files => {
-                        uploadFiles({
-                          files: files.map(f => {
-                            return {
-                              file: f
-                            }
-                          }),
-                          onSuccess: files => {
-                            console.log('Uploaded Files', files)
-                            const answerSheets =
-                              form.getFieldValue('answerSheets') || []
-                            const newAnswerSheets = files.map(file => {
-                              return {
-                                url: file.url,
-                                // pageNo: answerSheets.length + 1,
-                                responses: [] // Assuming initial responses are empty
+                      openModal(
+                        <AppCamera
+                          onClickPhoto={(files: any[]) => {
+                            uploadFiles({
+                              files: files.map(f => {
+                                return {
+                                  file: f
+                                }
+                              }),
+                              onSuccess: files => {
+                                console.log('Uploaded Files', files)
+                                const answerSheets =
+                                  form.getFieldValue('answerSheets') || []
+                                const newAnswerSheets = files.map(file => {
+                                  return {
+                                    url: file.url,
+                                    // pageNo: answerSheets.length + 1,
+                                    responses: [] // Assuming initial responses are empty
+                                  }
+                                })
+                                form.setFieldsValue({
+                                  answerSheets: [
+                                    ...answerSheets,
+                                    ...newAnswerSheets
+                                  ]
+                                })
                               }
                             })
-                            form.setFieldsValue({
-                              answerSheets: [
-                                ...answerSheets,
-                                ...newAnswerSheets
-                              ]
-                            })
-                          }
-                        })
-                      })
+                          }}
+                        />,
+                        {
+                          fullScreen: true
+                        }
+                      )
                     }
                     type="primary"
                     icon={<CameraOutlined />}

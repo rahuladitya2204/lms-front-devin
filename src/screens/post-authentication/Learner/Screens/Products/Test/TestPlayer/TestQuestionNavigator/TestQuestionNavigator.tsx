@@ -9,14 +9,15 @@ import TestTimer from './TestTimer'
 import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
-interface TestQuestionNavigatorType2PropsI {
+interface TestQuestionNavigatorPropsI {
   testId: string;
   questionId: string;
+  closeDrawer?: Function;
 }
 const { Title } = Typography
 
-export default function TestQuestionNavigatorType2(
-  props: TestQuestionNavigatorType2PropsI
+export default function TestQuestionNavigator(
+  props: TestQuestionNavigatorPropsI
 ) {
   const navigate = useNavigate()
   const { data: { status: {
@@ -35,15 +36,20 @@ export default function TestQuestionNavigatorType2(
   let runningIndex = 0;
   return (
       <Card
-      style={{ height: '80vh' }}
-      bodyStyle={{ overflow: 'scroll', height: '100%' }}
+      // style={{ height: '80vh' }}
+      bodyStyle={{
+        // overflow: 'scroll', height: '100%',
+        scrollbarWidth: 'none',
+        msOverflowStyle: 'none'
+      }}
     >
       <Row>
         {isDesktop ? (
           <>
           {(test.duration.enabled)?<Col span={24}>
             {/* <Button type='primary' style={{marginBottom:30}} danger block size='large'> Submit Test</Button> */}
-          <Row justify={'center'} align={'middle'}><Col>            {isLoading?<Skeleton.Button active shape='circle' style={{width:200,height:200}} />:((hasStarted&&!hasEnded)?<TestTimer testId={props.testId} />:null)}
+              <Row justify={'center'} align={'middle'}><Col>
+              <TestTimer testId={props.testId} /> 
 </Col></Row>
               <Divider style={{ margin: 0, marginTop: 10 }} />
  </Col>:null}
@@ -109,7 +115,10 @@ export default function TestQuestionNavigatorType2(
                               // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
                               <Button
                                   // loading={loading && isCurrent}
-                                onClick={() => navigate(item._id)} danger={item.isMarked&&!isActive}
+                                  onClick={() => {
+                                    navigate(item._id)
+                                    props.closeDrawer && props.closeDrawer();
+                                }} danger={item.isMarked&&!isActive}
                                 type={
                                   isActive
                                     ? 'primary'

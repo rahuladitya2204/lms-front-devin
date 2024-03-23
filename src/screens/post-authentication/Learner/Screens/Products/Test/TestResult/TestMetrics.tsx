@@ -1,15 +1,30 @@
 import {
+  AimOutlined,
+  ArrowLeftOutlined,
+  ClockCircleOutlined,
+  EditOutlined,
+  LinkOutlined,
+  LogoutOutlined,
+  MenuOutlined,
+  SafetyCertificateOutlined,
+  UserOutlined
+} from '@ant-design/icons'
+import {
   Alert,
+  Tabs as AntdTabs,
   Button,
   Card,
   Col,
   Divider,
+  Dropdown,
   List,
   Modal,
   Progress,
   Row,
+  Select,
   Skeleton,
   Space,
+  Statistic,
   Tag
 } from 'antd'
 import {
@@ -20,18 +35,13 @@ import {
   Legend,
   Pie,
   PieChart,
+  ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis
+  YAxis,
 } from 'recharts'
-import {
-  EditOutlined,
-  LinkOutlined,
-  LogoutOutlined,
-  MenuOutlined,
-  UserOutlined
-} from '@ant-design/icons'
-import { Enum, Learner } from '@adewaskar/lms-common'
+import { Enum, Learner, Utils } from '@adewaskar/lms-common'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
@@ -46,9 +56,11 @@ import Tabs from '@Components/Tabs'
 import TestLeaderboard from './TestLeaderboard'
 import TestPlayerItemReiew from '../TestReview/TestPlayerItemReview'
 import { Typography } from '@Components/Typography'
+import { buildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
 import { capitalize } from 'lodash'
+import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useMemo } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal
 const { Title, Text } = Typography
@@ -56,11 +68,19 @@ const { Title, Text } = Typography
 export default function TestMetrics() {
   const navigate = useNavigate()
   const { testId } = useParams()
+  const qc = useQueryClient();
+  const { data: {
+    topics: topicIds
+  }} = Learner.Queries.useGetTestDetails(testId+'', Enum.TestDetailMode.RESULT);
+  // @ts-ignore
+  const [selectedMainTopic, setSelectedMainTopic] = useState('');
+  const [selectedTopic, setSelectedTopic] = useState('');
   const {
     data: { test, metrics, status, feedback, leaderboard },
-    isFetching: loadingResult
+    isFetching: loadingResult,
   } = Learner.Queries.useGetTestResult(testId + '')
   const { data: learner } = Learner.Queries.useGetLearnerDetails()
+  const { data: topics } = Learner.Queries.useGetTopics();
   const COLORS = ['#52c41a', '#FF4040', '#D3D3D3'] // Green for correct, Red for wrong, Grey for unattempted
   const pieChartData = useMemo(
     () => {
@@ -71,11 +91,90 @@ export default function TestMetrics() {
     },
     [metrics]
   )
+  useEffect(() => { 
+    setSelectedTopic(selectedMainTopic)
+  }, [topicIds,selectedMainTopic])
+  
+  useEffect(() => { 
+    setSelectedMainTopic(topicIds[0])
+  },[topicIds])
+  // @ts-ignore
+  const MAIN_TOPICS = buildTopicTree(topics, selectedMainTopic, 2);
+  const difficultyLevelData = useMemo(
+    () => {
+      return metrics.difficultyLevel?Object.keys(metrics.difficultyLevel).map(k => {
+        return {
+          difficultyLevel: k,
+          // @ts-ignore
+          ...metrics.difficultyLevel[k]
+        }
+      }):[]
+    },
+    [metrics]
+  )
+// console.log(MAIN_TOPICS,'MAIN_TOPICS')
+       const TOPICS = buildTopicTree(topics, selectedTopic, selectedTopic!==selectedMainTopic?1:2);
+       // @ts-ignore
+       const accumulateTopicData = (topic, topicMap) => {
+        if (!topicMap[topic._id]) {
+          topicMap[topic._id] = {
+            correct: 0,
+            incorrect: 0,
+            total: 0,
+            topic: topic.title,
+            _id: topic._id,
+            parentId: topic.parentId,
+          };
+        }
+    
+        const topp = metrics.topics.find((t) => t.topic === topic._id);
+        if (topp) {
+          topicMap[topic._id].correct += topp.correct;
+          topicMap[topic._id].incorrect += topp.incorrect;
+          topicMap[topic._id].total += topp.total;
+    
+          if (topic.parentId && topicMap[topic.parentId]) {
+            topicMap[topic.parentId].correct += topp.correct;
+            topicMap[topic.parentId].incorrect += topp.incorrect;
+            topicMap[topic.parentId].total += topp.total;
+          }
+        }
+    
+              //  @ts-ignore
+topic.children.forEach((child) => {
+          accumulateTopicData(child, topicMap);
+        });
+      };
+  const topicsData = useMemo(() => {
+    if (!metrics.topics) {
+      return [];
+    }
+        //  @ts-ignore
+      
+        const topicMap = {};
+        TOPICS.forEach((topic) => {
+          accumulateTopicData(topic, topicMap);
+        });
+      
+        return Object.values(topicMap).filter(
+            //  @ts-ignore
+            (t) => t.parentId === selectedTopic && t.total > 0
+        );
+      }, [metrics, TOPICS, selectedTopic]);
+      
+      // console.log(topicsData,'topicsData',selectedTopic,'selected')
+  // console.log(difficultyLevelData,'difficultyLevelData')
+  const {
+    data: enrolledProduct,isLoading: loadingEnrolledProduct
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: 'test',
+    id: testId + ''
+  })
   const { isMobile } = useBreakpoint()
   // console.log(pieChartData, 'as')
   const ViewSolutions = (
     <Button
-      style={{ marginRight: 10 }}
+      style={{ marginRight: isMobile?0:10 }}
       onClick={() => navigate(`/app/test/${testId}/result/review`)}
       type="primary"
       icon={<EditOutlined />}
@@ -83,18 +182,23 @@ export default function TestMetrics() {
       View Solutions
     </Button>
   )
+  const timeTaken = (dayjs(enrolledProduct.metadata.test.endedAt).diff(dayjs(enrolledProduct.metadata.test.startedAt),'seconds'))
   const ExitButton = (
     <Button
-      style={{ width: isMobile ? '100%' : 100 }}
-      icon={<LogoutOutlined />}
+      style={{ width: isMobile ? '100%' : 100,marginTop:10 }}
+      icon={isMobile?<ArrowLeftOutlined/>:<LogoutOutlined />}
       onClick={() => {
         confirm({
           title: 'Are you sure?',
           // icon: <ExclamationCircleOutlined />,
           content: `You want to exit reviewing?`,
           onOk() {
-            navigate(`/app/test/${testId}`)
-          },
+            if (enrolledProduct.package) {
+              navigate(`/app/package/${enrolledProduct.package}/enrolled-package`)
+            }
+            else {
+              navigate(`/app/test/${testId}`)
+            }          },
           okText: 'Yes, Exit'
         })
       }}
@@ -105,11 +209,39 @@ export default function TestMetrics() {
       Exit
     </Button>
   )
-  const PiechartComponent = (
+// @ts-ignore
+  const BarChartDifficultyLevel = <ResponsiveContainer height={300}>
+    <BarChart data={difficultyLevelData}>
+  <CartesianGrid strokeDasharray="3 3" />
+  <XAxis dataKey="difficultyLevel" />
+  <YAxis />
+  <Tooltip />
+  <Legend />
+  <Bar dataKey="correct" stackId="a" fill="#52c41a" name="Correct" />
+  <Bar dataKey="incorrect" stackId="a" fill="#f94041" name="Incorrect" />
+  <Bar dataKey="total" stackId="a" fill="#ffc658" name="Total" />
+  </BarChart>
+  </ResponsiveContainer>
+
+
+  const BarChartTopics = <ResponsiveContainer height={400}>
+    <BarChart data={topicsData}>
+  <CartesianGrid strokeDasharray="3 3" />
+  <XAxis dataKey="topic" />
+  <YAxis />
+  <Tooltip />
+  <Legend />
+  <Bar dataKey="correct" stackId="a" fill="#52c41a" name="Correct" />
+  <Bar dataKey="incorrect" stackId="a" fill="#f94041" name="Incorrect" />
+  <Bar dataKey="total" stackId="a" fill="#ffc658" name="Total" />
+</BarChart>
+  </ResponsiveContainer>
+
+  const PiechartComponent = <>
     <Card title="Overall Performance">
       <Row justify={'center'} align={'middle'}>
         <Col>
-          <PieChart width={300} height={250}>
+        <PieChart width={300} height={250}>
             <Pie
               data={pieChartData}
               dataKey="value"
@@ -130,16 +262,47 @@ export default function TestMetrics() {
             </Pie>
             <Tooltip />
             <Legend />
-          </PieChart>
+            </PieChart>
         </Col>
       </Row>
     </Card>
-  )
+ {difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0)?   <Card style={{marginTop:20}} title='Difficulty Level Report'>
+              {loadingResult ? (
+                  <Card style={{ height: 300 }}>
+                    <Skeleton active />
+                  </Card>
+                ) : (
+                    // @ts-ignore
+                  ((test?._id))
+                ) ? (
+                  <Row><Col xs={24}>{BarChartDifficultyLevel}</Col></Row>
+                ) : null}
+                
+
+    </Card>:null}
+  </>
+// console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'difficultyLevelData.reduce((a,b)=>a.total+b.total,0)')
 
   if (status !== Enum.TestResultStatus.EVALUATED) {
     return <ProcessingResult testId={testId + ''} />
   }
-
+  const questions = test.sections.map(i => i.items).flat();
+  const totalAnswered = metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered;
+  const DROPDOWN_TOPICS = MAIN_TOPICS
+    .filter((i) => {
+    const t = buildTopicTree(topics, i._id, 1);
+    const topicMap = {};
+    t.forEach((topic) => {
+      //  @ts-ignore
+      accumulateTopicData(topic, topicMap);
+    });
+    //  @ts-ignore
+    return Object.values(topicMap).some((topic) => topic.total > 0);
+  })
+    .map((t) => ({
+    label: t.title,
+    value: t._id,
+  }));
   const TABS = [
     {
       label: 'Analysis',
@@ -161,7 +324,7 @@ export default function TestMetrics() {
                         Passing Score: {metrics.passingScore}
                       </Title>
                     ) : null}
-                    <Title style={{ marginBottom: 15 }} level={4}>
+                    <Title style={{ marginBottom: 15,margin: (!metrics.passingScore)?0:'auto' }} level={4}>
                       You Scored: {Math.ceil(metrics.learnerScore)} out of{' '}
                       {metrics.totalTestScore}
                     </Title>
@@ -180,6 +343,47 @@ export default function TestMetrics() {
                 </>:null} */}
                   </Card>
                 )}
+                                <Row style={{marginTop:15,marginBottom:15}} gutter={[30,30]}>
+                 {(metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered)? <Col xs={24} sm={8}>
+                    <Card bordered={false}>
+                    <Statistic
+          title="Accuracy"
+          value={metrics.totalCorrectlyAnswered/(metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered)*100}
+          precision={1}
+          valueStyle={{fontSize: 20, color: 'blue' }}
+          prefix={<AimOutlined />}
+          suffix="%"
+        />
+                  </Card>
+                  </Col>:null}
+
+                  <Col xs={24} sm={8}>
+                    <Card bordered={false}>
+                    <Statistic
+          title="Completed"
+          value={totalAnswered/questions.length*100}
+          precision={1}
+          valueStyle={{fontSize: 20, color: '#3f8600' }}
+          prefix={<SafetyCertificateOutlined />}
+          suffix="%"
+        />
+                  </Card>
+                  </Col>
+
+                {(enrolledProduct.metadata.test.startedAt || enrolledProduct.metadata.test.endedAt) ?  <Col xs={24} sm={8}>
+                    <Card bordered={false}>
+                    <Statistic
+          title="Time Taken"
+          value={Utils.formatSeconds(timeTaken)}
+          // precision={2}
+          valueStyle={{fontSize: 20, color: 'purple' }}
+          prefix={<ClockCircleOutlined />}
+          // suffix="mins"
+        />
+                  </Card>
+                  </Col>: null}
+                </Row>
+                
                 {loadingResult ? (
                   <Card style={{ height: 300 }}>
                     <Skeleton active />
@@ -187,10 +391,9 @@ export default function TestMetrics() {
                 ) : !(
                   pieChartData[0].value === 0 && pieChartData[1].value === 0
                 ) ? (
-                  !isMobile ? (
-                    PiechartComponent
-                  ) : null
+                  <Row><Col xs={24}>{PiechartComponent}</Col></Row>
                 ) : null}
+
               </Col>
               <Col xs={24} md={12} lg={16}>
                 {loadingResult ? (
@@ -279,7 +482,35 @@ export default function TestMetrics() {
                           )
                         })}
                       </Card>
-                    </Col>
+                      </Col>
+                      {/* @ts-ignore */}
+                     {test._id && DROPDOWN_TOPICS.length ? <Col span={24}>
+                        <Card bodyStyle={{
+                          paddingTop: topicIds.length>1?0:'auto'
+                        }} title="Topic wise report" extra={ DROPDOWN_TOPICS.length>1? <Select style={{width: 200}} value={selectedTopic} onChange={(e) => {
+                          // console.log(e,'setSelectedTopic(e)')
+                          setSelectedTopic(e)
+                        }} placeholder='Select Topic'
+                        options={[
+                          {
+                            label: 'Overall',
+                            // @ts-ignore
+                            value: selectedMainTopic,
+                          },
+                          ...DROPDOWN_TOPICS,
+                        ]}
+                        />: null}>
+                          {topicIds.length>1?<AntdTabs onChange={e => {
+                            setSelectedMainTopic(e)
+                          }} items={topicIds.map(t => {
+                            return {
+                              label: topics.find(top => top._id === t)?.title,
+                              key: t,
+                              children:BarChartTopics
+                          }
+                        })} />:BarChartTopics}
+                      </Card>
+                    </Col>:null}
                     {leaderboard && leaderboard.length ? (
                       <Col span={24}>
                         <Card title="Leaderboard">
@@ -354,7 +585,7 @@ export default function TestMetrics() {
   }
 
   return (
-    <ProtectedContent
+    <ProtectedContent title="Verification Required"
       isVerified={learner.profile.status === Enum.LearnerProfileStatus.COMPLETE}
       message={
         <Alert
@@ -365,27 +596,11 @@ export default function TestMetrics() {
       cta={<LearnerProfile />}
     >
       <Header
-        title={!isMobile ? `Test Result: ${test?.title}` : null}
+        title={!isMobile ? `Test Result: ${test?.title}` : ExitButton}
         extra={
-          isMobile ? (
-            <ActionDrawer
-              footer={() => [ExitButton]}
-              cta={
-                <Button
-                  type="primary"
-                  style={{ marginTop: 10 }}
-                  icon={<MenuOutlined />}
-                  // shape="circle"
-                />
-              }
-              extra={() => [ViewSolutions]}
-            >
-              {/* {ViewSolutions} */}
-              <div style={{ marginTop: 20 }}>{PiechartComponent}</div>
-            </ActionDrawer>
-          ) : (
-            [ViewSolutions, ExitButton]
-          )
+          <div style={{marginTop:10}}>
+            {ViewSolutions} {!isMobile?ExitButton:null}
+          </div>
         }
       >
         <Tabs navigateWithHash items={TABS} />

@@ -29,7 +29,7 @@ function TestLearners(props: TestLearnersPropsI) {
       <EnrollLearner product={{type:Enum.ProductType.TEST,id:props.testId}} />
     </ActionModal>]}>
       <Table
-        searchFields={['learner.name']}
+        searchFields={['learner.name','learner.contactNo','learner.email']}
         dataSource={data} loading={loading}>
         <TableColumn
           title="Name"

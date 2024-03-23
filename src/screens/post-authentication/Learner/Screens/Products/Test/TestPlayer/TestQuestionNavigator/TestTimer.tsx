@@ -7,6 +7,7 @@ import {
     List,
     Progress,
     Row,
+    Skeleton,
     Spin,
     Tag,
 } from 'antd'
@@ -37,8 +38,9 @@ export default function TestTimer(props: TestTimerPropsI) {
     const { data: test,isLoading: loadingTest } = Learner.Queries.useGetTestDetails(props.testId + '')
       const {
         data: { status: {
-          startedAt
-        }}
+          startedAt, hasStarted,hasEnded
+        } },
+        isLoading: loadingStatus
       } = Learner.Queries.useGetTestStatus(props.testId + '')
   
   const endingAt = useMemo(() => dayjs(startedAt)
@@ -46,8 +48,8 @@ export default function TestTimer(props: TestTimerPropsI) {
     .toString(), [startedAt, test]);
   
   const { percentLeft } = useCountdownTimer(endingAt);
-  
-    return  <div
+      
+    return <div
     style={{
       display: 'flex',
       justifyContent: 'center',
@@ -55,30 +57,32 @@ export default function TestTimer(props: TestTimerPropsI) {
       marginTop: 0
     }}
     title="Time Spent"
-  >
-    <Progress
-      size={200}
-      format={(percent) => {
-        return (
-          <Row>
-            <Col span={24}>
-              {percent===100? <Title type="secondary" style={{ fontSize: 18 }}>
-                Test has ended
-              </Title> : <>
-              <Title type="secondary" style={{ fontSize: 18 }}>
-                Remaining Time
-              </Title>
-              <Title style={{ marginTop: 0, fontSize: 25 }}>
-                    <Countdown targetDate={ endingAt} />
-                </Title>
-              </>}
-              
-            </Col>
-          </Row>
-        )
-      }}
-      type="circle"
-      percent={Math.ceil(100 - percentLeft)}
-    />
+    >
+      {(loadingTest || loadingStatus) ? <Skeleton.Button active shape='circle' style={{ width: 200, height: 200 }} /> :
+          (hasStarted && !hasEnded)?<Progress
+          size={200}
+          format={(percent) => {
+            return (
+              <Row>
+                <Col span={24}>
+                  {percent===100? <Title type="secondary" style={{ fontSize: 18 }}>
+                    Test has ended
+                  </Title> : <>
+                  <Title type="secondary" style={{ fontSize: 18 }}>
+                    Remaining Time
+                  </Title>
+                  <Title style={{ marginTop: 0, fontSize: 25 }}>
+                        <Countdown targetDate={ endingAt} />
+                    </Title>
+                  </>}
+                  
+                </Col>
+              </Row>
+            )
+          }}
+          type="circle"
+          percent={Math.ceil(100 - percentLeft)}
+        />:null
+      }
   </div>
 }

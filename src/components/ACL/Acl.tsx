@@ -1,6 +1,6 @@
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 
-import { compareArrays } from '@Components/SunEditor/utils'
+import { compareArrays } from '@Components/Editor/SunEditor/utils'
 
 interface AclComponentPropsI {
   permissions: Types.UserRolePermission[];

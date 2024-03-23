@@ -1,8 +1,6 @@
 import { Modal, Spin } from 'antd';
 import React, { ReactNode, Suspense, createContext, startTransition, useCallback, useContext, useState } from 'react';
 
-import { CameraProvider } from './Camera/CameraContext';
-
 interface ModalContextType {
   openModal: (content: ReactNode,opts?:ActionModalPropsI) => void;
   hideModal: () => void;
@@ -29,6 +27,7 @@ interface ActionModalPropsI {
   onClose?: () => void;
   lazy?: boolean;
   title?: string | React.ReactNode;
+  fullScreen?: boolean;
   width?: number;
   keyboardClosable?: boolean;
   height?: number;
@@ -70,14 +69,13 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
   return (
     // @ts-ignore
     <ModalContext.Provider value={{ openModal, hideModal, modalStack }}>
-      <CameraProvider>
-        {children}
-      </CameraProvider>
+           {children}
+
       {modalStack.map((modalItem, index) => (
         <Modal
           key={index}
           open={true}
-          onCancel={hideModal}
+          onCancel={hideModal} bodyStyle={modalItem.opts.fullScreen ? { height:'80vh' } : {}}
           {...modalItem.opts}
           footer={modalItem.opts.footer ? modalItem.opts.footer(hideModal) : null}
         >

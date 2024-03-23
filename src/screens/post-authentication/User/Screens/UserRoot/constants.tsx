@@ -33,6 +33,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         title: 'Tests',
         // icon: <PaperClipOutlined />,
         path: 'test',
+        // roles:[Enum.UserRole.TEST_MANAGER]
       },
       {
         title: 'Packages',

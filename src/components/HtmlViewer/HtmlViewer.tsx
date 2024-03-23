@@ -1,4 +1,4 @@
-import './style.css'
+import './suneditor.css'
 
 import AppImage from '@Components/Image'
 import AudioPlayer from '@Components/AudioPlayer'
@@ -55,7 +55,9 @@ function HtmlViewer(props: { content: string,noPreviewImage?:boolean }) {
   if (!children) {
     return null
   }
-  return <div className="html-viewer">{parse(children, options)}</div>
+  return <div className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred">
+    <div className="html-viewer">{parse(children, options)}</div>
+  </div>
 }
 
 export default HtmlViewer

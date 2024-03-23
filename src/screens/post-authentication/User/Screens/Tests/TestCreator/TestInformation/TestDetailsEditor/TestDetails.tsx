@@ -14,37 +14,16 @@ import {
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useMemo } from 'react'
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CreateCategory from '@User/Screens/Categories/CreateCategory'
-import GenerateWithAI from '../GenerateWithAiButton'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import { PlusOutlined } from '@ant-design/icons'
 import SelectProductCategory from '@Components/SelectProductCategory'
-import { TopicNode } from '@User/Screens/Admin/Topics/TopicsScreen'
-import { Typography } from '@Components/Typography'
+import { TopicNode } from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
 import dayjs from 'dayjs'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
 
 const { TextArea } = Input
 
-const { Text } = Typography
-
-const LANGUAGES = [
-  {
-    value: Enum.LanguageEnum.ENGLIGH,
-    label: 'English'
-  },
-  {
-    value: Enum.LanguageEnum.HINDI,
-    label: 'Hindi'
-  },
-  {
-    value: Enum.LanguageEnum.FRENCH,
-    label: 'French'
-  }
-]
 const { useWatch } = Form
 
 interface TestDetailsEditorPropsI {
@@ -89,6 +68,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
   const isPublished = test.status === Enum.TestStatus.PUBLISHED
   const isLive = Form.useWatch(['live', 'enabled'], form)
+  const isHandwritten =
+    Form.useWatch(['input', 'type'], form) === Enum.TestInputType.HANDWRITTEN
   return (
     <Form
       form={form}
@@ -235,13 +216,38 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Col span={8}>
           <Form.Item
             // label=""
-            label={`Topic`}
-            name={['topic']}
-            rules={[{ required: true, message: 'Please select a topic' }]}
+            label={`Topics`}
+            name={['topics']}
+            rules={[{ required: true, message: 'Please select topics' }]}
           >
-            <TreeSelect treeData={TOPIC_TREE_DATA} />
+            <TreeSelect multiple treeData={TOPIC_TREE_DATA} />
           </Form.Item>
         </Col>
+        {isHandwritten ? (
+          <Col span={8}>
+            <Form.Item
+              // label=""
+              label={`Evaluation Mode`}
+              name={['evaluation', 'mode']}
+              rules={[
+                { required: true, message: 'Please select evaluation mode' }
+              ]}
+            >
+              <Select
+                options={[
+                  {
+                    label: 'Manual',
+                    value: Enum.TestEvaluationMode.MANUAL
+                  },
+                  {
+                    label: 'Automatic',
+                    value: Enum.TestEvaluationMode.AUTOMATIC
+                  }
+                ]}
+              />
+            </Form.Item>
+          </Col>
+        ) : null}
         <Col span={12}>
           <Row gutter={[0, 20]} justify={'end'}>
             <Col flex={1}>
@@ -338,7 +344,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
               mode="multiple"
               showSearch
               placeholder="Select Language"
-              options={LANGUAGES}
+              options={Constants.LANGUAGES}
             />
           </Form.Item>
         </Col>
@@ -352,37 +358,49 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
 export default TestDetailsEditor
 
-export const buildTopicTree = (topics: Types.Topic[], topicId?: string) => {
-  const buildTreeData = (topics: Types.Topic[], parentId?: string): TopicNode[] => {
+export const buildTopicTree = (topics: Types.Topic[], topicId?: string, level?: number) => {
+  const buildTreeData = (
+    topics: Types.Topic[],
+    parentId?: string,
+    currentLevel: number = 1
+  ): TopicNode[] => {
     if (parentId) {
-      return buildSubTreeData(parentId, topics);
+      return buildSubTreeData(parentId, topics, currentLevel);
     } else {
       // @ts-ignore
-      return topics.filter(topic => !topic.parentId).map(topic => ({
-        ...topic,
-        value: topic._id,
-        title: topic.title,
-        children: buildSubTreeData(topic._id + '', topics)
-      }));
+      return topics.filter(topic => !topic.parentId).map(topic => {
+        const children = level === undefined || currentLevel < level ? buildSubTreeData(topic._id + '', topics, currentLevel + 1) : [];
+        return {
+          ...topic,
+          value: topic._id,
+          title: topic.title,
+          disabled: level !== undefined && currentLevel === level - 1 && children.length > 0,
+          children
+        };
+      });
     }
-  }
+  };
 
   const buildSubTreeData = (
     parentId: string,
-    topics: Types.Topic[]
+    topics: Types.Topic[],
+    currentLevel: number
   ): TopicNode[] => {
     const subTopics = topics
       .filter(topic => topic.parentId === parentId)
-      .map(topic => ({
-        ...topic,
-        value: topic._id,
-        title: topic.title,
-        children: buildSubTreeData(topic._id + '', topics)
-      }));
+      .map(topic => {
+        const children = level === undefined || currentLevel < level ? buildSubTreeData(topic._id + '', topics, currentLevel + 1) : [];
+        return {
+          ...topic,
+          value: topic._id,
+          title: topic.title,
+          disabled: level !== undefined && currentLevel === level - 1 && children.length > 0,
+          children
+        };
+      });
     // @ts-ignore
     return [...subTopics];
-  }
+  };
 
   return buildTreeData(topics, topicId);
-}
-
+};

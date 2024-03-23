@@ -1,7 +1,7 @@
 import { Button, Col, Divider, Form, Row, Switch } from 'antd'
 
 import { User } from '@adewaskar/lms-common'
-import { printPdf } from '@Components/SunEditor/utils'
+import { printPdf } from '@Components/Editor/SunEditor/utils'
 import useMessage from '@Hooks/useMessage'
 
 interface PrintPromptPropsI {
@@ -145,8 +145,8 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
             block
             onClick={() =>
               printOmr(
+                // @ts-ignore
                 {
-                  // @ts-ignore
                   omr: true
                 },
                 {

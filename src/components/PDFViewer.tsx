@@ -10,7 +10,8 @@ import { Spin } from 'antd'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 
 interface PDFViewerPropsI {
-  file: { _id: string };
+  file?: { _id: string };
+  url?: string;
   onLoadingStarted?: () => void;
   onLoadingEnded?: () => void;
 }
@@ -20,12 +21,12 @@ const PDFViewer = (props: PDFViewerPropsI) => {
   const {
     data: url,
     isFetching: loadingFile
-  } = Common.Queries.useGetPresignedUrlFromFile(props.file._id, {
-    enabled: !!props.file._id
+    // @ts-ignore
+  } = Common.Queries.useGetPresignedUrlFromFile(props?.file?._id, {
+    enabled: !!props?.file?._id
   })
-
+  const fileUrl = props?.file?._id ? url : props.url
   const defaultLayoutPluginInstance = defaultLayoutPlugin()
-
   return (
     <div
       className="pdf-container"
@@ -37,7 +38,7 @@ const PDFViewer = (props: PDFViewerPropsI) => {
             <Spin spinning={loading || loadingFile}>
               <div style={{ height: '100%' }}>
                 <Viewer
-                  fileUrl={url}
+                  fileUrl={fileUrl + ''}
                   plugins={[defaultLayoutPluginInstance]}
                   onDocumentLoad={() => setLoading(false)}
                   onZoom={() => setLoading(false)}

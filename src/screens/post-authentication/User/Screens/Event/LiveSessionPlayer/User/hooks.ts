@@ -7,9 +7,10 @@ import {
 import { Types, User } from '@adewaskar/lms-common'
 // hooks/useDeviceController.js
 import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
+import { message } from 'antd'
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react'
-import { useNavigate } from 'react-router'
 
 const useDeviceController = () => {
   const [deviceController, setDeviceController] = useState(null)
@@ -97,4 +98,36 @@ export const useHandleMeetingEnd = (onMeetingEnd?: any) => {
     },
     [meetingManager, onMeetingEnd]
   )
+}
+
+export function useBlockBackButton() {
+  const location = useLocation()
+
+  useEffect(
+    () => {
+      // Add a dummy state to the history
+      // @ts-ignore
+      window.history.pushState(null, null, location.pathname)
+
+      // @ts-ignore
+      const handlePopState = event => {
+        // Prevent the default back action
+        event.preventDefault()
+        // Push another dummy state onto the history stack
+        // @ts-ignore
+        window.history.pushState(null, null, location.pathname)
+      }
+
+      // Add the event listener for popstate
+      window.addEventListener('popstate', handlePopState)
+
+      // Clean up by removing the event listener
+      return () => {
+        window.removeEventListener('popstate', handlePopState)
+      }
+    },
+    [location.pathname]
+  )
+
+  // More of your hook code...
 }

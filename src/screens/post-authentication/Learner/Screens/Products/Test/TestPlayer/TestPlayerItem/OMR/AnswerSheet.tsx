@@ -28,7 +28,7 @@ import LearnerLogin from '@Learner/Screens/Login'
 import ProductCheckoutButton from '@Components/CheckoutButton'
 import { ReloadOutlined } from '@ant-design/icons'
 import TestEnrolledCta from '../../../TestDetail/TestEnrolledCta'
-import { openWindow } from '@Components/SunEditor/utils'
+import { openWindow } from '@Components/Editor/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
@@ -77,7 +77,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   const {
     mutate: endTest,
     isLoading: submittingTest
-  } = Learner.Queries.useEndTest();
+  } = Learner.Queries.useEndTest(testId+'');
   const { isDesktop } = useBreakpoint();
   const SubmitTestButton = <Button disabled={!ep.metadata.test.responses.length} block={!isDesktop}
     onClick={() => {
@@ -87,7 +87,8 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
         content: `You want to submit this test?`,
         onOk() {
           endTest(
-            { testId: test._id + '' },
+            undefined
+            ,
             {
               onSuccess: () => {
                 message.open({

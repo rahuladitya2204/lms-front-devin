@@ -15,6 +15,7 @@ import LearnerProfile from '../Account/LearnerProfile'
 import ThemeProvider from 'screens/ThemeProvider'
 import { Typography } from '@Components/Typography'
 import styled from '@emotion/styled'
+import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
 import useBreakpoint from '@Hooks/useBreakpoint'
 
 const { Title } = Typography;
@@ -27,6 +28,8 @@ const CustomLayout = styled(Layout)`
 `
 
 const LearnerRootScreen: React.FC = () => {
+  useBlockBackButton()
+
   const { orgId } = useParams()
   const [params] = useSearchParams()
   const userAuthToken = params.get('userAuthToken')

@@ -16,7 +16,7 @@ import {
 import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined, WarningOutlined } from '@ant-design/icons'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useMemo } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
@@ -43,10 +43,24 @@ const { Title,Text } = Typography
 export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const { testId,questionId } = useParams()
   const navigate = useNavigate()
+  const location = useLocation();
+
+  // useEffect(() => {
+  //   const unlisten = navigate((location, action) => {
+  //     if (action === 'POP') {
+  //       // The back button was pressed
+  //       console.log('Back button was pressed.');
+  //       // Perform any additional actions
+  //     }
+  //   });
+
+  //   // Clean up the listener when the component unmounts
+  //   return unlisten;
+  // }, [navigate, location]);
   const {
     mutate: endTest,
     isLoading: submittingTest
-  } = Learner.Queries.useEndTest()
+  } = Learner.Queries.useEndTest(testId+'')
   const {
     data: enrolledProduct,isLoading: loadingEnrolledProduct
   } = Learner.Queries.useGetEnrolledProductDetails({
@@ -84,7 +98,12 @@ onClick={() => {
     // icon: <ExclamationCircleOutlined />,
     content: `You want to exit reviewing?`,
     onOk() {
-      navigate(`/app/test/${testId}`)
+      if (enrolledProduct.package) {
+        navigate(`/app/package/${enrolledProduct.package}/enrolled-package`)
+      }
+      else {
+        navigate(`/app/test/${testId}`)
+      }
     },
     okText: 'Yes, Exit'
   })
@@ -127,9 +146,8 @@ Exit
             <Col xs={24} lg={isDesktop ? 16 : 24}>
               {isLoading ? <TestItemSkeleton/>: <Fragment>
                 <Outlet />
-                <Card style={{ marginTop: 20 }}>
-                <TestPlayerMoreInfo itemId={questionId+''} test={test} />
-              </Card></Fragment>}
+                
+                <TestPlayerMoreInfo itemId={questionId+''} test={test} /></Fragment>}
               
            
             </Col>

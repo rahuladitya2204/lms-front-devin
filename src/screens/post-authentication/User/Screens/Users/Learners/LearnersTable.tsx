@@ -67,7 +67,7 @@ function LearnersTable() {
         dataIndex="createdAt"
         key="createdAt"
         render={(_: any, record: Types.Learner) => (
-          <Space size="middle">{dayjs(record.createdAt).format('LL')}</Space>
+          <Space size="middle">{dayjs(record.createdAt).format('LLLL')}</Space>
         )}
       />
       <TableColumn

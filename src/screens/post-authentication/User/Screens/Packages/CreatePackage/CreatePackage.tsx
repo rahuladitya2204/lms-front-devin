@@ -10,7 +10,7 @@ import {
   Tag,
 } from 'antd'
 import { Enum, Types, Utils } from '@adewaskar/lms-common'
-import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+import React, { Fragment, ReactNode, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'

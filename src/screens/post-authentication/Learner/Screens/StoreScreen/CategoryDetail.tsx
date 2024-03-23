@@ -63,6 +63,7 @@ export default function CategoryDetail() {
             <AppImage height={400} src={category.thumbnailImage} />
           </Col>
           <Col span={24}>
+            {/* @ts-ignore */}
             <Title level={5}>{category.description}</Title>{' '}
           </Col>
           <Col span={24}>

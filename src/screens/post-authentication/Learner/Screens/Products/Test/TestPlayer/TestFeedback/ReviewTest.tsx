@@ -35,12 +35,14 @@ const ReviewTest: React.FC<ReviewTestPropsI> = ({ testId,closeModal ,onSubmit}) 
   }
   return  <>
    <Space style={{width:'100%'}} align='center' direction='vertical'>
-   <Title level={3}>How would you rate your experience with the test</Title>
+      <Title style={{textAlign:'center'}} level={3}>
+        Please rate us before seeing the result
+   </Title>
 <Form onFinish={submitReview} style={{textAlign:'center'}} layout='vertical' form={form}>
 <Form.Item rules={[{required:true,message:'Please give us a rating, it helps us improve'}]} name="rating">
           <Rate style={{ marginBottom: 30 }}  />
           </Form.Item>
-<Form.Item name="comment">
+<Form.Item rules={[{required:true,message:'Please give us a short feedback, we appreciate it.'}]} name="comment">
           <TextArea style={{width: 300}} rows={4} />
         </Form.Item>
         <Button loading={submittingReview} onClick={form.submit}>Submit</Button>

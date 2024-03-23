@@ -14,7 +14,7 @@ import {
   Timeline,
   message,
 } from 'antd'
-import { BookOutlined, MenuOutlined } from '@ant-design/icons'
+import { BookOutlined, ClockCircleOutlined, MenuOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import React, { useEffect } from 'react'
@@ -31,7 +31,7 @@ import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator
 import TestTimeCountdown from '@Components/TestTimeCountdown'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
-import { openWindow } from '@Components/SunEditor/utils'
+import { openWindow } from '@Components/Editor/SunEditor/utils'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
@@ -53,7 +53,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const {
     mutate: endTest,
     isLoading: submittingTest
-  } = Learner.Queries.useEndTest()
+  } = Learner.Queries.useEndTest(testId+'')
   const {
     data: enrolledProduct,
     isLoading: loadingDetails
@@ -64,7 +64,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '',Enum.TestDetailMode.TEST)
   const isProcturingOn = test.rules.procturing.enabled
   const { data: {
-    status:{startedAt, hasStarted, hasEnded}
+    status:{startedAt, hasStarted, hasEnded,sections}
   },isLoading: loadingStatus } = Learner.Queries.useGetTestStatus(testId+'')
   
   useEffect(
@@ -123,14 +123,18 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   //   icon={<BookOutlined />}
   // block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>
   const SubmitTestButton = <Button block={!isDesktop}
-  onClick={() => {
+    onClick={() => {
+      // @ts-ignore
+      const markCount = sections.map(a => a.items).flat().filter(i => i.isMarked).length;
     confirm({
       title: 'Are you sure?',
       // icon: <ExclamationCircleOutlined />,
-      content: `You want to submit this test?`,
+      content: markCount ?
+        `You have marked ${markCount} question${markCount > 1 ? 's' : ''} for review. Are you sure you want to submit? You will not ble able to resubmit the test.` :
+        `You want to submit this test? You will not be able to resubmit the test.`,
       onOk() {
         endTest(
-          { testId: test._id + '' },
+          undefined,
           {
             onSuccess: () => {
               // if (!test.live.enabled) {
@@ -152,8 +156,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
 </Button>
   const targetDate = dayjs(startedAt).add(test.duration.value, 'minutes').toString();
   const CountdownComponent =
-  test.duration.enabled?<Tag color="blue">
-  Time Left: <Countdown targetDate={targetDate} /> 
+  test.duration.enabled?<Tag icon={<ClockCircleOutlined/>}  color="blue">
+   <Countdown targetDate={targetDate} /> 
     </Tag>:null
     
   const QuestionNavigator = TestQuestionNavigator;
@@ -201,8 +205,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       /></>: null}
     
       <Row>
-        <Col span={1} />
-        <Col span={22}>
+        <Col xs={0} sm={1} />
+        <Col xs={24} sm={22}>
           <Row gutter={[50, 30]}>
               <Col xs={24} sm={24}  md={24} lg={16}>
                 {isLoading?<TestItemSkeleton/>:<Outlet />  }             
@@ -221,7 +225,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
          
           </Row>
         </Col>
-        <Col span={1} />
+        <Col xs={0} sm={1} />
       </Row>
     </Header>
 
