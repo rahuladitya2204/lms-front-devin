@@ -145,7 +145,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
   } = Learner.Queries.useGetTestResult(testId + '', {
     enabled: !!testEndDate
   });
-  const { mutate: retryTest,isLoading: retryingTest}=Learner.Queries.useRetryTest(test._id+'')
+  const { mutate: retryTest, isLoading: retryingTest } = Learner.Queries.useRetryTest(test._id + '');
   // console.log(testEndDate,'testEndDate')
   const Metadata = testEndDate ? (test.live.enabled?<CompletedLiveTestCard test={test} />:<CompletedTestCard test={test} />) : <TestMetadata test={test} />;
   const ENROLLED_CTA = useMemo(() => {
@@ -221,7 +221,15 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               />
             <Button size="large" onClick={()=>navigate('result/review')} type='primary' block>View solutions</Button>
             <Button danger style={{marginTop:10}} loading={retryingTest}
-      size="large" onClick={() => retryTest()} type='primary' block
+                size="large" onClick={() => retryTest(undefined, {
+                  onSuccess: () => {
+                    message.open({
+                      type: 'success',
+                      content:'All the best!'
+                    })
+                    navigate(`/app/test/${testId}/start`);
+        }
+      })} type='primary' block
     >
       Retry Test
     </Button>

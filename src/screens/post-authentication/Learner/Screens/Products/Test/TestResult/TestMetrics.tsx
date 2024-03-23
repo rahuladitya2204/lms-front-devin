@@ -60,6 +60,7 @@ import { buildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import { useQueryClient } from '@tanstack/react-query'
 
 const { confirm } = Modal
 const { Title, Text } = Typography
@@ -67,6 +68,7 @@ const { Title, Text } = Typography
 export default function TestMetrics() {
   const navigate = useNavigate()
   const { testId } = useParams()
+  const qc = useQueryClient();
   const { data: {
     topics: topicIds
   }} = Learner.Queries.useGetTestDetails(testId+'', Enum.TestDetailMode.RESULT);
