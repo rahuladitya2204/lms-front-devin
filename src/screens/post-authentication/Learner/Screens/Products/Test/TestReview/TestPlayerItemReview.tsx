@@ -66,6 +66,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const { navigate } = useTestNavigation(test);
   const OptionSelectedFormControl = currentQuestion.type === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
+  // @ts-ignore
+  const globalCorrectPercent = (currentQuestion.analytics?.attempted)?((currentQuestion.analytics?.correctAttempts) / (currentQuestion.analytics?.attempted)*100):null;
 
   const { token } = theme.useToken()
   const { isMobile} = useBreakpoint();
@@ -101,7 +103,6 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         // }
       }}>
 {questions.map((item, index) => {
-const isActive = questionId === item._id;
 return (
   <li key={item._id} style={{ flexShrink: 0, marginRight: 8 }}>
    <NavLink
@@ -168,7 +169,8 @@ return (
           <Tag color={(currentQuestion.scoreAchieved > 0) ?
             // @ts-ignore
             'green-inverse' : 'red-inverse'}>Score: {currentQuestion.scoreAchieved}{currentQuestion.type==='subjective'?('/'+currentQuestion.score.correct):'' }</Tag> : 
-            <Tag color='red-inverse'>Score: 0</Tag>):null
+            <Tag color='red-inverse'>Score: 0</Tag>) : null,
+          globalCorrectPercent!==null?<Tooltip title={`Only ${globalCorrectPercent}% people were able to answer this question correctly`}><Tag color='purple-inverse' icon={<GlobalOutlined />} >{(globalCorrectPercent)} %</Tag></Tooltip>:null
         ]
       }
       >
