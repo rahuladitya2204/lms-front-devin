@@ -141,19 +141,6 @@ import React from "react";
 
 const router = (userType: string) => {
   const routes = (
-<<<<<<< Updated upstream
-    <Route path="/" element={<RootScreen />}>
-      <>
-        <Route index element={<Navigate to="/app/store" />} />
-        <Route path="app" element={<LearnerRootScreen />}>
-          <Route path="store" element={<LearnerStoreScreen />} />
-        </Route>
-      </>
-      <Route path="lost" element={<NotFoundScreen />} />
-      <Route path="under-maintenance" element={<MaintainenceScreen />} />
-      <Route path="*" element={<NotFoundScreen />} />
-    </Route>
-=======
     <>
       <Route path="/hello-world" element={<h1>Working Next</h1>} />
       <Route path="/" element={<RootScreen />}>
@@ -449,7 +436,6 @@ const router = (userType: string) => {
         <Route path="*" element={<NotFoundScreen />} />
       </Route>
     </>
->>>>>>> Stashed changes
   );
 
   // Check for duplicate route IDs

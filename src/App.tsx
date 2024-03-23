@@ -5,6 +5,7 @@ import React from "react";
 
 import AppRouter from "./screens/AppRouter";
 import ErrorBoundary from "@Components/ErrorBoundary";
+import { ParticlesProvider } from "@Components/Particles/ParticleProvider";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -17,28 +18,22 @@ const queryClient = new QueryClient({
 
 function App() {
   return (
-<<<<<<< Updated upstream
-    <ErrorBoundary>
-      <AppRouter />
-    </ErrorBoundary>
-=======
     <ParticlesProvider>
       <QueryClientProvider client={queryClient}>
-        <Global
+        {/* <Global
           styles={{
             body: {
               margin: 0,
               padding: 0,
             },
           }}
-        />
+        /> */}
 
         <ErrorBoundary>
           <AppRouter />
         </ErrorBoundary>
       </QueryClientProvider>
     </ParticlesProvider>
->>>>>>> Stashed changes
   );
 }
 
