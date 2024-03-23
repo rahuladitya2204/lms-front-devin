@@ -12,7 +12,7 @@ interface Todo {
 type Todos = Array<Todo>;
 
 const Test = () => {
-  const { data, isLoading, isError } = useQuery<Todos>({
+  const { data, isLoading } = useQuery<Todos>({
     queryKey: ["todos"],
     queryFn: () =>
       fetch("https://jsonplaceholder.typicode.com/todos").then((res) =>
