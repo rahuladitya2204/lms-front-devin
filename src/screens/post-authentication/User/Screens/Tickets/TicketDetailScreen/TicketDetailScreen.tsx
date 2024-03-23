@@ -1,5 +1,5 @@
 import { Avatar, Button, Card, Col, Divider, Form, Input, List, Row, Skeleton, Space, Spin, Tag, Tooltip, theme } from 'antd'
-import { Store, Types, User } from '@invinciblezealorg/lms-common'
+import { Store, Types, User } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
 import Header from '@Components/Header';

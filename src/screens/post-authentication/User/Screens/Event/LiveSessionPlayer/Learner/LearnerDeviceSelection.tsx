@@ -4,7 +4,7 @@ import {
   PreviewVideo,
   QualitySelection,
 } from 'amazon-chime-sdk-component-library-react';
-import { Constants, Learner } from '@invinciblezealorg/lms-common';
+import { Constants, Learner } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 
 import { Typography } from '@Components/Typography';

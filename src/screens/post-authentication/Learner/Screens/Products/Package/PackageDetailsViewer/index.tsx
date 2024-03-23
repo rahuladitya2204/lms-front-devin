@@ -14,15 +14,15 @@ import {
   AlertOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Enum, Store, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal';
 import Image from '@Components/Image'
-import { Learner } from '@invinciblezealorg/lms-common'
+import { Learner } from '@adewaskar/lms-common'
 import LearnerLogin from '@Learner/Screens/Login';
-import { LoginLearner } from '@invinciblezealorg/lms-common/lib/cjs/types/Learner/Api';
+import { LoginLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api';
 import PackageDetails from './PackageDetails'
 import PackageMetadata from './PackageMetadata'
 import PriceCardContent from '@Learner/Screens/StoreScreen/Cards/PriceCardContent';

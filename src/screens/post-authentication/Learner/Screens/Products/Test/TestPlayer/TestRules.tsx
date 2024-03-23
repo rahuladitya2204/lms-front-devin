@@ -12,7 +12,7 @@ import {
   Tag,
   notification
 } from 'antd'
-import { Constants, Learner } from '@invinciblezealorg/lms-common'
+import { Constants, Learner } from '@adewaskar/lms-common'
 import { TERMS, TEST_RULES } from './constant'
 import { useNavigate, useParams } from 'react-router'
 

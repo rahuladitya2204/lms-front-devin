@@ -1,5 +1,5 @@
 import { Button, Form, Input, Modal } from 'antd';
-import { Constants, Types } from '@invinciblezealorg/lms-common';
+import { Constants, Types } from '@adewaskar/lms-common';
 import React, { Fragment, useEffect, useState } from 'react';
 
 interface AddItemPropsI {

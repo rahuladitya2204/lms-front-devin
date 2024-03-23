@@ -9,8 +9,8 @@ import Header from '@User/Screens/UserRoot/UserHeader'
 import Image from '@Components/Image'
 import { Link } from 'react-router-dom'
 import MoreButton from '@Components/MoreButton'
-import { Types } from '@invinciblezealorg/lms-common'
-import { User } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common'
 import { useModal } from '@Components/ActionModal/ModalContext'
 
 function CategoriesScreen() {

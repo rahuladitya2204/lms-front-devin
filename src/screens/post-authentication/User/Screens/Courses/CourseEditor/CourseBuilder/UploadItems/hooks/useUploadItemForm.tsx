@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { useOutletContext, useParams } from 'react-router'
 
 import { FormInstance } from 'antd/lib/form/Form'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import { debounce } from 'lodash'
 import useMessage from '@Hooks/useMessage'
 

@@ -4,7 +4,7 @@ import 'grapesjs/dist/css/grapes.min.css'
 import React, { Fragment, useEffect, useRef } from 'react'
 
 import { Button } from 'antd'
-import { Common } from '@invinciblezealorg/lms-common'
+import { Common } from '@adewaskar/lms-common'
 import Header from '@Components/Header'
 import { SaveOutlined } from '@ant-design/icons'
 import grapesjs from 'grapesjs'

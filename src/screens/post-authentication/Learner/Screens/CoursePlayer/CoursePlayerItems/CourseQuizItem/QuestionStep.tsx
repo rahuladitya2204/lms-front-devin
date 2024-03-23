@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Card, Checkbox, Col, List, Radio, Row } from 'antd'
-import { Enum, Types } from '@invinciblezealorg/lms-common'
+import { Enum, Types } from '@adewaskar/lms-common'
 
 import React from 'react'
 import { Typography } from '@Components/Typography';

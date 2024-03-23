@@ -2,7 +2,7 @@ import { Button, Form, Image, Input, Rate } from 'antd'
 
 import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 
 interface AddTestimonialPropsI {

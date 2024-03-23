@@ -5,7 +5,7 @@ import {
   PlusOutlined
 } from '@ant-design/icons'
 import { Col, Form, Row, Spin, Upload, UploadProps } from 'antd'
-import { Common, Types } from '@invinciblezealorg/lms-common'
+import { Common, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useRef, useState } from 'react'
 
 import Compressor from 'compressorjs'

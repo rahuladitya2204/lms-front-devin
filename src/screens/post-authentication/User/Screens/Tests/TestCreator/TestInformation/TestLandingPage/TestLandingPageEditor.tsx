@@ -6,7 +6,7 @@ import SelectThumbnail from '@Components/SelectThumbnail'
 import { Text } from '@Components/Typography/Typography'
 import TextArea from '@Components/Textarea'
 //
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useLayoutEffect } from 'react'
 // import { patchObject } from '../../utils'

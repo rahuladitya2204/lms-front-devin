@@ -2,7 +2,7 @@
 import { Image as AntDImage, ImageProps, Skeleton } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 
-import { Common } from '@invinciblezealorg/lms-common';
+import { Common } from '@adewaskar/lms-common';
 import { fabric } from 'fabric';
 import styled from '@emotion/styled';
 

@@ -4,7 +4,7 @@ import React, { Fragment, useState } from 'react'
 import QuizStepper from './QuizStepper'
 import { StarFilled } from '@ant-design/icons'
 import Stepper from '@Components/Stepper'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
 
 interface CoursePlayerItemsPropsI {

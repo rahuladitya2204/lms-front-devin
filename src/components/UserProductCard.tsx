@@ -1,5 +1,5 @@
 import { Button, Card, Col, Empty, Row, Spin } from 'antd'
-import { Enum, Learner, Types, User } from '@invinciblezealorg/lms-common'
+import { Enum, Learner, Types, User } from '@adewaskar/lms-common'
 import { useMemo, useState } from 'react'
 
 import AppImage from '@Components/Image'

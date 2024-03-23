@@ -6,7 +6,7 @@ import {
   CloseOutlined,
   FileImageOutlined
 } from '@ant-design/icons'
-import { Enum, Learner, Types } from '@invinciblezealorg/lms-common'
+import { Enum, Learner, Types } from '@adewaskar/lms-common'
 import { Paragraph, Text } from '@Components/Typography/Typography'
 import React, { useMemo } from 'react'
 

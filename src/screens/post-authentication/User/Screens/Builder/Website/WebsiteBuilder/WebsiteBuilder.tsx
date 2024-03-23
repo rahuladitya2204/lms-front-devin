@@ -2,7 +2,7 @@
 import 'grapesjs/dist/css/grapes.min.css'
 
 import { Button, Spin } from 'antd'
-import { Common, User } from '@invinciblezealorg/lms-common'
+import { Common, User } from '@adewaskar/lms-common'
 import React, { useEffect, useRef, useState } from 'react'
 
 import Header from '@Components/Header'

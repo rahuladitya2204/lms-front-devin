@@ -1,7 +1,7 @@
 import { Card, Col, List, Row } from 'antd'
 import { Text, Title } from '@Components/Typography/Typography'
 
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 
 export default function NewsDetailScreen(props: { data: Types.News }) {
   const { data } = props

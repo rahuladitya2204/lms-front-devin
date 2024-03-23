@@ -1,5 +1,5 @@
 import { Col, Collapse, List, Row, Spin, Tag } from 'antd'
-import { Common, Learner, Types } from '@invinciblezealorg/lms-common'
+import { Common, Learner, Types } from '@adewaskar/lms-common'
 import { LockOutlined, PlayCircleOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal/ActionModal'

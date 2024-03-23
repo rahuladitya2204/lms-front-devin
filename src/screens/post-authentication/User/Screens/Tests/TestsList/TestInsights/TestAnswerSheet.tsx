@@ -1,5 +1,5 @@
 import { Alert, Button, Card, Col, Divider, Row } from 'antd'
-import { Enum, User } from '@invinciblezealorg/lms-common'
+import { Enum, User } from '@adewaskar/lms-common'
 import OMRComponent, {
   OMRSKeleton
 } from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'

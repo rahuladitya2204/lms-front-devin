@@ -5,7 +5,7 @@ import {
   PlusOutlined
 } from '@ant-design/icons'
 
-import { Common } from '@invinciblezealorg/lms-common'
+import { Common } from '@adewaskar/lms-common'
 
 const { confirm } = Modal
 

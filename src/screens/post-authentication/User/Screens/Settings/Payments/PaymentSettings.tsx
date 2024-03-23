@@ -1,6 +1,6 @@
 import { Button, Card, Col, Divider, Form, Input, Row, Select } from 'antd'
 import { Fragment, useEffect } from 'react'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import Header from '@Components/Header'
 import { SaveOutlined } from '@ant-design/icons'

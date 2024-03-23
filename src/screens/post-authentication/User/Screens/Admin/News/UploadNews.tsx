@@ -1,5 +1,5 @@
 import { Button, Col, DatePicker, Form, Row, Select } from 'antd'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import FileList from '@Components/FileList'
 import MediaUpload from '@Components/MediaUpload'

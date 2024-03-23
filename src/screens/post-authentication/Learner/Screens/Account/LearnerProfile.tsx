@@ -13,7 +13,7 @@ import {
   Tabs,
   message
 } from 'antd'
-import { Learner, Store, Types } from '@invinciblezealorg/lms-common'
+import { Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { ActionModalI } from '@Components/ActionModal/ActionModal'
 import MediaUpload from '@Components/MediaUpload'

@@ -1,5 +1,5 @@
 import { Card, Col, List, Row, Spin, Tooltip } from 'antd'
-import { Learner, Utils } from '@invinciblezealorg/lms-common'
+import { Learner, Utils } from '@adewaskar/lms-common'
 
 import { CommissionStatusTag } from './CommissionStatus'
 import { InfoCircleOutlined } from '@ant-design/icons'

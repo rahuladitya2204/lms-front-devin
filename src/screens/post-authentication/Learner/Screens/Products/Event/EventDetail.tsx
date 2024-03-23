@@ -1,5 +1,5 @@
 import { Button, Card, Col, Row, Space, Tag } from 'antd'
-import { Constants, Learner, Store, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import { CalendarOutlined } from '@ant-design/icons'

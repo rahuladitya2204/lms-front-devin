@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, Row, Select } from 'antd'
-import { Enum, Types, User } from '@invinciblezealorg/lms-common'
+import { Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import InputTags from '@Components/InputTags/InputTags'

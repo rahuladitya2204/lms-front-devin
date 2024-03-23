@@ -34,7 +34,7 @@ import {
   WalletOutlined
 } from '@ant-design/icons'
 import { Fragment, useMemo } from 'react'
-import { Learner, Store, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Link, NavLink } from 'react-router-dom'
 import { Outlet, useNavigate } from 'react-router'
 

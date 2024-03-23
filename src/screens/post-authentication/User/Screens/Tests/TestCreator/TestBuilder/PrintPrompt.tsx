@@ -1,6 +1,6 @@
 import { Button, Col, Divider, Form, Row, Switch } from 'antd'
 
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import { printPdf } from '@Components/Editor/SunEditor/utils'
 import useMessage from '@Hooks/useMessage'
 

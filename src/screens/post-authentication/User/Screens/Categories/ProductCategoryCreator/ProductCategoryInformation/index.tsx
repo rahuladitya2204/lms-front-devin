@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Row, Spin } from 'antd'
-import { Constants, Types } from '@invinciblezealorg/lms-common'
+import { Constants, Types } from '@adewaskar/lms-common'
 import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
@@ -11,7 +11,7 @@ import ProductCategoryLandingPage from './ProductCategoryLandingPage'
 import ProductCategoryLinks from './ProductCategoryLinks'
 import ProductCategoryNotifications from './ProductCategoryNotifications'
 import Tabs from '@Components/Tabs'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 function ProductCategoryInformationEditor(props: any) {

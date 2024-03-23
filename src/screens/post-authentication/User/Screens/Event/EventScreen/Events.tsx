@@ -1,4 +1,4 @@
-import { Enum, User } from '@invinciblezealorg/lms-common'
+import { Enum, User } from '@adewaskar/lms-common'
 
 import { Button } from 'antd'
 import Calendar from '@Components/Calendar/Calendar'

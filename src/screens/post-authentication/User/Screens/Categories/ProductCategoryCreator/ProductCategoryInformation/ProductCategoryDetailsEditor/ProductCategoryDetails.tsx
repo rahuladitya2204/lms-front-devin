@@ -11,7 +11,7 @@ import {
   Switch,
   TreeSelect
 } from 'antd'
-import { Enum, Types, User } from '@invinciblezealorg/lms-common'
+import { Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useMemo } from 'react'
 
 import FileList from '@Components/FileList'

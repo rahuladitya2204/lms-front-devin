@@ -8,12 +8,12 @@ import {
     Space
 } from 'antd'
 import { BarChartOutlined, BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
-import { Constants, Types } from '@invinciblezealorg/lms-common'
+import { Constants, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import PriceCardContent from './PriceCardContent'
 import { Typography } from '@Components/Typography'
-import { Utils } from '@invinciblezealorg/lms-common'
+import { Utils } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import styled from '@emotion/styled'
 import { useNavigate } from 'react-router-dom'

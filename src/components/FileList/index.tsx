@@ -1,5 +1,5 @@
 import { Avatar, Button, Empty, List, Modal, Typography } from 'antd'
-import { Learner, Store, User } from '@invinciblezealorg/lms-common';
+import { Learner, Store, User } from '@adewaskar/lms-common';
 
 import CardItem from './types/CardItem';
 import ListItem from './types/ListItem';

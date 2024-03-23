@@ -9,7 +9,7 @@ import {
   Tag,
   Typography
 } from 'antd'
-import { Constants, Learner, Store, Types } from '@invinciblezealorg/lms-common'
+import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { useEffect, useState } from 'react'
 
 import TextArea from '@Components/Textarea'

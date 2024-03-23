@@ -13,7 +13,7 @@ import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts'
 
 import BackButton from '@Components/BackButton'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
-import { Learner } from '@invinciblezealorg/lms-common'
+import { Learner } from '@adewaskar/lms-common'
 import Tabs from '@Components/Tabs'
 import TestMetrics from './TestMetrics'
 import TestResultTable from './Table/TestResultTable'

@@ -5,9 +5,9 @@ import ActionModal from '@Components/ActionModal/ActionModal'
 import AddPromo from './CreatePromo'
 import CreatePromo from './CreatePromo'
 import Header from '@User/Screens/UserRoot/UserHeader'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 
 const { Text } = Typography

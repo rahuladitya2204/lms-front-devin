@@ -1,6 +1,6 @@
 import AddMoneyToWallet, { useCreateWallterOrder } from '@Learner/Screens/Account/LearnerWallet/AddMoneyToWallet'
 import { Button, ButtonProps, Modal } from 'antd'
-import { Enum, Learner, Store, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from './ActionModal/ActionModal'
 import ProductWalletNudge from './ProductWalletNudge'

@@ -1,5 +1,5 @@
 import { Button, Col, Form, Row, Select, Spin } from 'antd'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import { ActionModalI } from '@Components/ActionModal/ActionModal'
 import useMessage from '@Hooks/useMessage'

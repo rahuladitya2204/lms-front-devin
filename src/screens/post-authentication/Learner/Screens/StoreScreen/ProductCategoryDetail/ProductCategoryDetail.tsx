@@ -1,6 +1,6 @@
 import { Alert, Avatar, Badge, Button, Card, Col, Collapse, Divider, List, Row, Skeleton, Space, Tag, Tooltip, message } from 'antd'
 import { CalendarOutlined, InfoCircleFilled, InfoOutlined, NotificationOutlined, ThunderboltFilled, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
-import { Constants, Enum, Learner, Store, Types, User, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Learner, Store, Types, User, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
 import Icon, { HomeOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router'

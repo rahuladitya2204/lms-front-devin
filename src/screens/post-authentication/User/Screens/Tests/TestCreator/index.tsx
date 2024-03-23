@@ -1,5 +1,5 @@
 import { Button, Card, Col, Dropdown, Form, Modal, Row, Skeleton, Spin, Tag } from 'antd'
-import { Constants, Enum, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import {
   ExportOutlined,
   InfoCircleOutlined,
@@ -18,7 +18,7 @@ import BackButton from '@Components/BackButton'
 import Tabs from '@Components/Tabs'
 import TestInformationEditor from './TestInformation'
 import TestLearners from './TestLearners/TestLearners'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 

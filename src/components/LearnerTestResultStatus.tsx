@@ -1,4 +1,4 @@
-import { Enum, Learner } from '@invinciblezealorg/lms-common'
+import { Enum, Learner } from '@adewaskar/lms-common'
 import { Skeleton, Tag } from 'antd'
 
 import { Fragment } from 'react'

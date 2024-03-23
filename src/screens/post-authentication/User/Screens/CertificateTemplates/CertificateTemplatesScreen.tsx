@@ -1,13 +1,13 @@
 // @ts-nocheck
 import { Button, Card, Col, Row, Select, Space, Table, Tag } from 'antd'
-import { Common, Types } from '@invinciblezealorg/lms-common'
+import { Common, Types } from '@adewaskar/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddEmailTemplate from './AddCertificateTemplate'
 import { EmailTemplateStatusMap } from '../Marketing/Templates/Constant'
 import Header from '@Components/Header'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'
 

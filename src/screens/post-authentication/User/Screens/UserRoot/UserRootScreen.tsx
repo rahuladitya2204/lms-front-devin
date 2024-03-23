@@ -1,5 +1,5 @@
 import { Col, Menu, Row } from 'antd'
-import { Constants, Enum, Store, User } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Store, User } from '@adewaskar/lms-common'
 import Layout, { Content, Sider } from '@Components/Layout'
 import { MENU_ITEMS, MenuItems } from './constants'
 import { Outlet, useNavigate } from 'react-router'

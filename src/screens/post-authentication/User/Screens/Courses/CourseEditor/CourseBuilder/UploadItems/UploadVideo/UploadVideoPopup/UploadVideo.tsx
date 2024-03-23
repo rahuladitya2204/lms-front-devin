@@ -1,5 +1,5 @@
 import { Button, Col, Form, Row } from 'antd'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import ExternalVideo from './ExternalVideo'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'

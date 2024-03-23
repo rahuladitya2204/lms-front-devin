@@ -2,7 +2,7 @@ import Layout from '@Components/Layout'
 import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import { Outlet } from 'react-router'
 import ProtectedContent from '@Components/ProtectedComponent'
-import { Store } from '@invinciblezealorg/lms-common'
+import { Store } from '@adewaskar/lms-common'
 import ThemeProvider from 'screens/ThemeProvider'
 import { UserLogin } from '../Login'
 

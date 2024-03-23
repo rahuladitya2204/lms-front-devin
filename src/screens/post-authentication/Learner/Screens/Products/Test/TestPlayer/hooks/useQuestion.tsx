@@ -1,4 +1,4 @@
-import { Constants, Learner, Store, Types } from '@invinciblezealorg/lms-common'
+import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { sec } from 'mathjs'
 import { useMemo } from 'react'

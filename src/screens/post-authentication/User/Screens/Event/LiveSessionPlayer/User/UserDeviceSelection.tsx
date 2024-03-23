@@ -4,7 +4,7 @@ import {
   PreviewVideo,
   QualitySelection,
 } from 'amazon-chime-sdk-component-library-react';
-import { Constants, User } from '@invinciblezealorg/lms-common';
+import { Constants, User } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 import { SmileOutlined, VideoCameraOutlined } from '@ant-design/icons';
 

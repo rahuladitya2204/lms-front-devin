@@ -13,7 +13,7 @@ import {
   message,
 } from 'antd'
 import { CheckCircleOutlined, CheckOutlined, VerifiedOutlined } from '@ant-design/icons';
-import { Enum, Learner, Types } from '@invinciblezealorg/lms-common'
+import { Enum, Learner, Types } from '@adewaskar/lms-common'
 
 import { Fragment } from 'react';
 import LearnerTestResultStatus from '@Components/LearnerTestResultStatus';

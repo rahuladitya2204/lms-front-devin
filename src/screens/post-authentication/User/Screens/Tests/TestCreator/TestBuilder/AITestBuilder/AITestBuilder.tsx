@@ -1,6 +1,6 @@
 import { Button, Col, Divider, Form, Input, Modal, Row } from 'antd'
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal';
 import GenerateQuestionWithAI from '@User/Screens/ExtraComponents/TestQuestions/GenerateQuestionWithAI';

@@ -6,7 +6,7 @@ import {
   UploadOutlined
 } from '@ant-design/icons'
 import { Button, Col, Modal, Row, Tag } from 'antd'
-import { Enum, Types, User } from '@invinciblezealorg/lms-common'
+import { Enum, Types, User } from '@adewaskar/lms-common'
 import React, { useMemo } from 'react'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 import { useNavigate, useParams } from 'react-router'

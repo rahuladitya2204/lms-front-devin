@@ -4,7 +4,7 @@ import React, { useEffect } from 'react'
 
 import AppImage from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
 import dayjs from 'dayjs'
 

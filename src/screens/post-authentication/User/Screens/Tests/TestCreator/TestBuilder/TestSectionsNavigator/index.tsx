@@ -1,6 +1,6 @@
 import { Button, Collapse, List, Modal, Space, Tag, Tooltip } from 'antd'
 import { CheckCircleTwoTone, DeleteOutlined, ReadOutlined, WarningTwoTone } from '@ant-design/icons'
-import { Constants, Types, User, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
 import { Fragment, useCallback, useEffect, useState } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 

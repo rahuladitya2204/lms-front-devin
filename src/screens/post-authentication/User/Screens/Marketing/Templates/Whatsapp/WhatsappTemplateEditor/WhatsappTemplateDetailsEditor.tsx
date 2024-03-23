@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-import { Common, Types, User } from '@invinciblezealorg/lms-common';
+import { Common, Types, User } from '@adewaskar/lms-common';
 import { Form, Space, } from 'antd';
 import React, { Fragment } from 'react';
 

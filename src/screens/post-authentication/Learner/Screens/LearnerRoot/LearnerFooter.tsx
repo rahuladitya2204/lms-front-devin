@@ -1,5 +1,5 @@
 import { Col, Divider, Row, Skeleton, theme } from 'antd'
-import { Common, Learner } from '@invinciblezealorg/lms-common'
+import { Common, Learner } from '@adewaskar/lms-common'
 
 import { Footer } from '@Components/Layout'
 import { Fragment } from 'react'

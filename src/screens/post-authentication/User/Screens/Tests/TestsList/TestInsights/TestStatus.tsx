@@ -1,6 +1,6 @@
 import { Alert, Button, Card, Col, Dropdown, Modal, Row, Skeleton, Statistic, Tag } from 'antd'
 import { CloseOutlined, UserOutlined, WhatsAppOutlined } from '@ant-design/icons'
-import { Enum, User } from '@invinciblezealorg/lms-common'
+import { Enum, User } from '@adewaskar/lms-common'
 // import UpcomingTest from './UpcomingTest'
 import { useNavigate, useParams } from 'react-router'
 

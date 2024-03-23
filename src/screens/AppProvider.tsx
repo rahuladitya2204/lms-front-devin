@@ -1,5 +1,5 @@
 import { ConfigProvider, message } from 'antd'
-import { Learner, User } from '@invinciblezealorg/lms-common'
+import { Learner, User } from '@adewaskar/lms-common'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 
 import { ModalProvider } from '@Components/ActionModal/ModalContext'

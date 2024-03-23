@@ -11,7 +11,7 @@ import {
   Spin,
   Upload
 } from 'antd'
-import { Common, User } from '@invinciblezealorg/lms-common'
+import { Common, User } from '@adewaskar/lms-common'
 import { Fragment, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'

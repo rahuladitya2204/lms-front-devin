@@ -1,5 +1,5 @@
 import { Button, Col, Form, Row, Select } from 'antd'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import AppImage from '@Components/Image'
 import { DeleteOutlined } from '@ant-design/icons'

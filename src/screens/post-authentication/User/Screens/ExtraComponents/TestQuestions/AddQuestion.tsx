@@ -12,7 +12,7 @@ import {
   Select,
   Switch,
 } from 'antd'
-import { Constants, Enum, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
 import { Fragment, useEffect, useState } from 'react'
 

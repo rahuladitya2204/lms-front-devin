@@ -1,4 +1,4 @@
-import { Learner, Types } from '@invinciblezealorg/lms-common'
+import { Learner, Types } from '@adewaskar/lms-common'
 
 import Countdown from './Countdown'
 import dayjs from 'dayjs'

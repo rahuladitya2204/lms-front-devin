@@ -3,7 +3,7 @@
 import './style.css'
 
 import { Col, Form, Row, Spin, Tag } from 'antd'
-import { Common, Types } from '@invinciblezealorg/lms-common'
+import { Common, Types } from '@adewaskar/lms-common'
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 
 import { CKEditor } from '@ckeditor/ckeditor5-react'

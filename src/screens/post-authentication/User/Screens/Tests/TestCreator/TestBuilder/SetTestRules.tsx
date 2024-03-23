@@ -7,7 +7,7 @@ import {
   Space,
   Switch,
 } from 'antd'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import { Typography } from '@Components/Typography'
 import styled from 'styled-components'

@@ -1,4 +1,4 @@
-import { Learner, Store } from '@invinciblezealorg/lms-common'
+import { Learner, Store } from '@adewaskar/lms-common'
 import { useEffect, useRef } from 'react'
 
 import Plyr from 'plyr'

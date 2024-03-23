@@ -15,7 +15,7 @@ import {
   CaretRightOutlined,
   PlayCircleOutlined
 } from '@ant-design/icons'
-import { Learner, Store, Utils } from '@invinciblezealorg/lms-common'
+import { Learner, Store, Utils } from '@adewaskar/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { useEffect, useMemo, useState } from 'react'
 

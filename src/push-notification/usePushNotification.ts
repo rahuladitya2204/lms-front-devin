@@ -1,7 +1,7 @@
 import { getMessaging, onMessage } from 'firebase/messaging'
 import { useEffect, useState } from 'react'
 
-import { Learner } from '@invinciblezealorg/lms-common'
+import { Learner } from '@adewaskar/lms-common'
 import { generatePushToken } from './config'
 
 export const usePushNotification = (isSignedIn: boolean) => {

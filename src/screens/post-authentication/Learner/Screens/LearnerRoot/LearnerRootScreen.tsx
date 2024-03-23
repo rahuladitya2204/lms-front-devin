@@ -1,5 +1,5 @@
 import { Alert, Button, FloatButton } from 'antd'
-import { Enum, Learner, Store, Utils } from '@invinciblezealorg/lms-common'
+import { Enum, Learner, Store, Utils } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useMemo } from 'react'
 import { NavLink, useSearchParams } from 'react-router-dom'
 import { useOutletContext, useParams } from 'react-router'

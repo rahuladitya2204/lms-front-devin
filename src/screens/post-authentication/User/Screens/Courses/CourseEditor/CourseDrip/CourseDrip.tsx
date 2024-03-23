@@ -1,5 +1,5 @@
 import { Button, Card, Col, Row } from 'antd'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import DripSection from './DripSection'
 

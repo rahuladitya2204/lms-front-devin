@@ -1,7 +1,7 @@
 import { Button, Col, Divider, Form, Input, Radio, Row, Select, Space, Switch } from 'antd'
-import { Constants, Types } from '@invinciblezealorg/lms-common'
+import { Constants, Types } from '@adewaskar/lms-common'
 
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import { useEffect } from 'react'
 import useMessage from '@Hooks/useMessage'
 

@@ -10,8 +10,8 @@ import {
   Select,
   Space,
 } from 'antd'
-import { Constants, Types } from '@invinciblezealorg/lms-common'
-import { User, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Types } from '@adewaskar/lms-common'
+import { User, Utils } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddUser from '@User/Screens/Users/Users/AddUser'

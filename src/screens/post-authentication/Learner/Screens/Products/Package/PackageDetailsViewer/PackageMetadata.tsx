@@ -7,7 +7,7 @@ import {
   SafetyCertificateOutlined,
   VideoCameraOutlined
 } from '@ant-design/icons'
-import { Learner, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Learner, Types, Utils } from '@adewaskar/lms-common'
 import { List, Skeleton } from 'antd'
 
 import { Typography } from '@Components/Typography'

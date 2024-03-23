@@ -14,7 +14,7 @@ import {
   Timeline,
 } from 'antd'
 import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined, WarningOutlined } from '@ant-design/icons'
-import { Enum, Learner, Store } from '@invinciblezealorg/lms-common'
+import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useMemo } from 'react'
 import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
 

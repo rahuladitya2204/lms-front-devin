@@ -2,7 +2,7 @@
 import { Button, Popconfirm, Tree } from 'antd';
 import { DeleteOutlined, DownOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
-import { Types, User } from '@invinciblezealorg/lms-common';
+import { Types, User } from '@adewaskar/lms-common';
 
 import CreateTopic from '@User/Screens/Topics/CreateTopic';
 import Header from '@Components/Header';

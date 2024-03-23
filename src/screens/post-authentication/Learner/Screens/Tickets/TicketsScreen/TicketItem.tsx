@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Card, Col, Divider, Row, Space, Tag, Typography } from 'antd'
-import { Learner, Types } from '@invinciblezealorg/lms-common'
+import { Learner, Types } from '@adewaskar/lms-common'
 
 import BackButton from '@Components/BackButton'
 import FileList from '@Components/FileList'

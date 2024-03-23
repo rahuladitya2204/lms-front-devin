@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal/ActionModal'
 import MoreButton from '@Components/MoreButton'
 import { Table } from 'antd'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 
 interface OutcomesProps {
   outcomes: Outcome[];

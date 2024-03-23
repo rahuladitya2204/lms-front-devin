@@ -8,7 +8,7 @@ import {
   Spin,
   Switch,
 } from 'antd'
-import { Enum, Learner, Types, User, Utils } from '@invinciblezealorg/lms-common'
+import { Enum, Learner, Types, User, Utils } from '@adewaskar/lms-common'
 
 import { Typography } from '@Components/Typography'
 import { useEffect } from 'react'

@@ -11,19 +11,19 @@ import {
   UploadOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Enum, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
-import { Course } from '@invinciblezealorg/lms-common/lib/cjs/types/types/Courses.types'
+import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
 import CourseCertificate from './CourseInformation/CourseAdvancedSettings/CourseCertificate/CourseCertificateScreen'
 import CourseDrip from './CourseDrip/CourseDrip'
 import CourseInformationEditor from './CourseInformation'
 import CourseLearners from './CourseLearners/CourseLearners'
 import Tabs from '@Components/Tabs'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 const { confirm } = Modal

@@ -3,9 +3,9 @@ import { Fragment, useEffect } from 'react'
 import { Outlet, useParams } from 'react-router'
 
 import Header from '@User/Screens/UserRoot/UserHeader'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 import { UploadOutlined } from '@ant-design/icons'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import UserDetailsEditor from './UserDetailsEditor'
 import useMessage from '@Hooks/useMessage'
 

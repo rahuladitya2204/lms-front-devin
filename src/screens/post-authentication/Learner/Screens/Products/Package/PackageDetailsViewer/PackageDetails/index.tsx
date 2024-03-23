@@ -1,7 +1,7 @@
 import PackageOverview from './PackageOverview'
 import PackageProducts from './PackageProducts'
 import Tabs from '@Components/Tabs'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 
 interface PackageDetailsPropsI {
   package: Types.Package;

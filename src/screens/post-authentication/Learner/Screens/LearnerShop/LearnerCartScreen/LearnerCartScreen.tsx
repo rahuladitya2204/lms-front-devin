@@ -11,7 +11,7 @@ import {
   Space,
   Tag,
 } from 'antd';
-import { Learner, Utils } from '@invinciblezealorg/lms-common'
+import { Learner, Utils } from '@adewaskar/lms-common'
 
 import BgImage from './image.svg'
 import { HomeOutlined } from '@ant-design/icons';

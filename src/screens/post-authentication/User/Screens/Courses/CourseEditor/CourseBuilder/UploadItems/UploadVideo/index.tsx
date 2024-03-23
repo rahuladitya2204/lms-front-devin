@@ -2,7 +2,7 @@ import { Button, Form, Input } from 'antd';
 import React, { Fragment, useEffect } from 'react';
 
 import { AddItemProps } from '../UploadPDF';
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 
 const UploadVideo = (props:AddItemProps) => {
     const onSubmit = ({title}: { title: string }) => {

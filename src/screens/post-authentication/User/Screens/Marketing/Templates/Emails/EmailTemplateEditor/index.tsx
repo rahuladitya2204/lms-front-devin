@@ -3,8 +3,8 @@ import { Fragment, useEffect } from 'react'
 
 import EmailTemplateDetailsEditor from './EmailTemplateDetailsEditor'
 import Header from '@Components/Header'
-import { Types } from '@invinciblezealorg/lms-common'
-import { User } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router'
 

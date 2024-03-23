@@ -15,7 +15,7 @@ import {
 import { useEffect, useState } from 'react'
 
 import EmailTemplatesScreen from './EmailTemplatesScreen';
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 function EmailSettingScreen() {

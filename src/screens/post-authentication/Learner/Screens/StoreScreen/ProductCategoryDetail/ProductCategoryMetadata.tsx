@@ -12,7 +12,7 @@ import {
   SafetyCertificateOutlined,
   ScheduleOutlined
 } from '@ant-design/icons'
-import { Constants, Enum, Learner, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'

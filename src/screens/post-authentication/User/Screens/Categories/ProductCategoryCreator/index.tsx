@@ -10,7 +10,7 @@ import {
   Spin,
   Tag
 } from 'antd'
-import { Constants, Enum, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import {
   ExportOutlined,
   InfoCircleOutlined,
@@ -28,7 +28,7 @@ import ActionDrawer from '@Components/ActionDrawer'
 import BackButton from '@Components/BackButton'
 import ProductCategoryInformationEditor from './ProductCategoryInformation'
 import Tabs from '@Components/Tabs'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'

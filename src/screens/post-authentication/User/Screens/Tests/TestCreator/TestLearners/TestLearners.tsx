@@ -1,11 +1,11 @@
 import { Button, Modal, Rate, Space } from 'antd'
-import { Enum, Types } from '@invinciblezealorg/lms-common'
+import { Enum, Types } from '@adewaskar/lms-common'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import Container from '@Components/Container'
 import EnrollLearner from './EnrolLearner'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 

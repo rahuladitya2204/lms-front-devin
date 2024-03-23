@@ -1,5 +1,5 @@
 import { Row } from 'antd'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 
 interface AffiliateProductItemPropsI {
   product: Types.Product;

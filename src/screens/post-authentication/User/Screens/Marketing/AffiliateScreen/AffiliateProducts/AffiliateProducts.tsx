@@ -1,7 +1,7 @@
 import { Button, Card, Col, Row } from 'antd'
 
 import Tabs from '@Components/Tabs'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 
 export default function AffiliateProducts() {
   const { data: tests } = User.Queries.useGetTests()

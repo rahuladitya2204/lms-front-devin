@@ -1,5 +1,5 @@
 import { Button, Select, Spin } from 'antd'
-import { Enum, User } from '@invinciblezealorg/lms-common'
+import { Enum, User } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'

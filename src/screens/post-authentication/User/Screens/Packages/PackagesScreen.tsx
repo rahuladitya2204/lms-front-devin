@@ -10,8 +10,8 @@ import Header from '@User/Screens/UserRoot/UserHeader'
 import MoreButton from '@Components/MoreButton'
 import PackageCard from './CreatePackage/PackageCard'
 import PackageStatusTag from './PackageStatusTag'
-import { Types } from '@invinciblezealorg/lms-common'
-import { User } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
 
 function PackagesScreen() {

@@ -1,6 +1,6 @@
-import { Constants, Types } from '@invinciblezealorg/lms-common'
+import { Constants, Types } from '@adewaskar/lms-common'
 import { StarFilled, StarOutlined } from '@ant-design/icons'
-import { User, Utils } from '@invinciblezealorg/lms-common'
+import { User, Utils } from '@adewaskar/lms-common'
 
 import { Button } from 'antd'
 import { useEffect } from 'react'

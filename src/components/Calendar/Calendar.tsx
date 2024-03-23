@@ -1,9 +1,10 @@
-import React from 'react';
-import dayjs, { Dayjs } from 'dayjs';
 import { Badge, Calendar as LibCalendar } from 'antd';
 import type { BadgeProps, CalendarProps } from 'antd';
+import dayjs, { Dayjs } from 'dayjs';
+
+import React from 'react';
 // import 'antd/dist/antd.css';
-import { Types } from '@invinciblezealorg/lms-common';
+import { Types } from '@adewaskar/lms-common';
 
 // interface Event {
 //   _id: string;

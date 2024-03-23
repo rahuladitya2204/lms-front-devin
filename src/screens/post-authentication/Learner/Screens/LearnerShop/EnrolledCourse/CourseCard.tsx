@@ -1,5 +1,5 @@
 import { Button, Card, Col, Result, Row, Space } from 'antd'
-import { Learner, Types } from '@invinciblezealorg/lms-common'
+import { Learner, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import { Link } from 'react-router-dom'

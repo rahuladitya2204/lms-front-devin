@@ -1,11 +1,11 @@
 import { Button, Checkbox, Col, Form, Input, Row } from 'antd'
-import { Common, Learner, Store, Types } from '@invinciblezealorg/lms-common'
+import { Common, Learner, Store, Types } from '@adewaskar/lms-common'
 import React, { useEffect } from 'react'
 
 import { ActionModalI } from '@Components/ActionModal/ActionModal'
 import AppImage from '@Components/Image'
 import AuthenticationCard from '@Components/AuthenticationCard'
-import { Utils } from '@invinciblezealorg/lms-common'
+import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router-dom'
 

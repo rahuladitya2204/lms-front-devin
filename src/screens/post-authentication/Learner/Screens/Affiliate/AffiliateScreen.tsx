@@ -10,7 +10,7 @@ import {
   Tag,
   Tooltip,
 } from 'antd'
-import { Learner, Utils } from '@invinciblezealorg/lms-common'
+import { Learner, Utils } from '@adewaskar/lms-common'
 import { Navigate, useNavigate } from 'react-router'
 
 import AffiliateDashboard from './AffiliateDashboard'

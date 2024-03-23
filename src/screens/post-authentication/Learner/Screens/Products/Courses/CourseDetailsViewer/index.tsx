@@ -14,7 +14,7 @@ import {
   AlertOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Constants, Store, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Constants, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -22,9 +22,9 @@ import ActionModal from '@Components/ActionModal/ActionModal';
 import CourseDetails from './CourseDetails'
 import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'
-import { Learner } from '@invinciblezealorg/lms-common'
+import { Learner } from '@adewaskar/lms-common'
 import LearnerLogin from '@Learner/Screens/Login';
-import { LoginLearner } from '@invinciblezealorg/lms-common/lib/cjs/types/Learner/Api';
+import { LoginLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api';
 import ProductCheckoutButton from '@Components/CheckoutButton';
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 import image from './bg.svg'

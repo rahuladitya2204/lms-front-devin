@@ -2,7 +2,7 @@ import { Card, Col, List, Row, Skeleton } from 'antd'
 import React, { Fragment } from 'react'
 
 import CourseCard from './CourseCard'
-import { Learner } from '@invinciblezealorg/lms-common'
+import { Learner } from '@adewaskar/lms-common'
 import { useNavigate } from 'react-router'
 
 const LearnerCourseList: React.FC = () => {

@@ -1,5 +1,5 @@
 import { AutoComplete, Avatar, Space } from 'antd'
-import { Learner, Types } from '@invinciblezealorg/lms-common'
+import { Learner, Types } from '@adewaskar/lms-common'
 
 import Image from './Image'
 import Search from 'antd/es/input/Search'

@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Types } from '@invinciblezealorg/lms-common'
+import { Enum, Types } from '@adewaskar/lms-common'
 import { List, Modal, Table, Tag, Tooltip } from 'antd'
 
 import ActionModal from '@Components/ActionModal/ActionModal'

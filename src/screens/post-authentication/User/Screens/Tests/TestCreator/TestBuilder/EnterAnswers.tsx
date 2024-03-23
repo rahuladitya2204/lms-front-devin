@@ -7,7 +7,7 @@ import {
   Radio,
   Spin,
 } from 'antd'
-import { Enum, Types } from '@invinciblezealorg/lms-common'
+import { Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, useEffect } from 'react'
 
 import { Typography } from '@Components/Typography'

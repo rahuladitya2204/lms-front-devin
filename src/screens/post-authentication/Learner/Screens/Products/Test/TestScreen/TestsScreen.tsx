@@ -1,4 +1,4 @@
-import { Enum } from '@invinciblezealorg/lms-common'
+import { Enum } from '@adewaskar/lms-common'
 import PastEvent from './PastTests'
 import PastTest from './PastTests'
 import Tabs from '@Components/Tabs'

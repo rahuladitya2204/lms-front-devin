@@ -4,8 +4,8 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea'
-import { Types } from '@invinciblezealorg/lms-common'
-import { User } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
+import { User } from '@adewaskar/lms-common'
 
 interface CreateCategoryComponentPropsI {
   children?: ReactNode;

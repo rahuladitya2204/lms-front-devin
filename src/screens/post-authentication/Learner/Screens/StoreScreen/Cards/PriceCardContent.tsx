@@ -1,5 +1,5 @@
 import { Col, Row, Space, Tag, Typography } from "antd";
-import { Types, Utils } from "@invinciblezealorg/lms-common";
+import { Types, Utils } from "@adewaskar/lms-common";
 
 const {Text } = Typography;
 

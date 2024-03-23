@@ -1,5 +1,5 @@
 import { Card, Col, Row } from 'antd'
-import { Learner, Store } from '@invinciblezealorg/lms-common'
+import { Learner, Store } from '@adewaskar/lms-common'
 
 import Header from '@Components/Header'
 import Layout from '@Components/Layout'

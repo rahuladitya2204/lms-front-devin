@@ -1,6 +1,6 @@
 import { Button, Card, Form, Input } from 'antd'
 
-import { Learner } from '@invinciblezealorg/lms-common'
+import { Learner } from '@adewaskar/lms-common'
 import React from 'react'
 import { useNavigate } from 'react-router'
 

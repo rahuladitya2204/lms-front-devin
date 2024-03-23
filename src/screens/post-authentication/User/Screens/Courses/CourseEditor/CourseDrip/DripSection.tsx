@@ -16,7 +16,7 @@ import {
   QuestionCircleTwoTone,
   UserOutlined
 } from '@ant-design/icons'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import Segmented from '@Components/Segmented'
 import { Typography } from '@Components/Typography'

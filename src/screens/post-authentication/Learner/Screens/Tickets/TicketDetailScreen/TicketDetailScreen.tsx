@@ -1,5 +1,5 @@
 import { Avatar, Button, Card, Col, Form, Input, List, Row, Skeleton, Spin, Tooltip, theme } from 'antd'
-import { Learner, Store, Types } from '@invinciblezealorg/lms-common'
+import { Learner, Store, Types } from '@adewaskar/lms-common'
 
 import { Comment } from '@ant-design/compatible';
 import TextArea from '@Components/Textarea';

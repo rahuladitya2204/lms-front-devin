@@ -7,7 +7,7 @@ import {
 } from 'amazon-chime-sdk-component-library-react'
 import { useEvent, useHandleMeetingEnd } from './hooks'
 
-import { Learner } from '@invinciblezealorg/lms-common'
+import { Learner } from '@adewaskar/lms-common'
 import MeetingControls from './Player/MeetingControls'
 import NavigationControl from './Player/Navigation/NavigationControl'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'

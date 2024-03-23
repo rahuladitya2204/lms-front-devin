@@ -1,5 +1,5 @@
 import { Button, Card, Checkbox, Col, Divider, Form, Modal, Radio, Row, Skeleton, Space, Spin, Typography } from 'antd';
-import { Enum, Learner, Types, User } from '@invinciblezealorg/lms-common';
+import { Enum, Learner, Types, User } from '@adewaskar/lms-common';
 import React, { useEffect, useState } from 'react';
 
 import { ReloadOutlined } from '@ant-design/icons';

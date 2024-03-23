@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Collapse, List, Progress, Skeleton, Space } from 'antd'
-import { Learner, Types } from '@invinciblezealorg/lms-common'
+import { Learner, Types } from '@adewaskar/lms-common'
 import React, { Fragment } from 'react'
 
 import CoursePlayerNavigatorItem from './CoursePlayerNavigatorItem'

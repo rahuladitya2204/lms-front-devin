@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Input, Row, Select } from 'antd'
-import { Enum, Types, User } from '@invinciblezealorg/lms-common'
+import { Enum, Types, User } from '@adewaskar/lms-common'
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'

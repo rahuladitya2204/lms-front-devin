@@ -1,4 +1,4 @@
-import { Constants, Enum, Types, User } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 
 import { compareArrays } from '@Components/Editor/SunEditor/utils'
 

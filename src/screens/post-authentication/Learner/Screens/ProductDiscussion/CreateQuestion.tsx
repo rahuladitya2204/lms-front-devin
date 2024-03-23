@@ -1,9 +1,9 @@
 import { Button, Col, Form, Input, Row } from 'antd'
 import React, { useState } from 'react'
 
-import { Learner } from '@invinciblezealorg/lms-common'
+import { Learner } from '@adewaskar/lms-common'
 import TextArea from '@Components/Textarea'
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 
 interface CreateQuestionPropsI {
   product: Types.Product;

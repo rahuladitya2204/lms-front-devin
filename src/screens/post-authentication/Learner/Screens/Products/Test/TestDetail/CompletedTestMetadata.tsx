@@ -6,7 +6,7 @@ import {
   ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { Enum, Learner, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
 import { List, Tag } from 'antd'
 
 import { Typography } from '@Components/Typography'

@@ -89,8 +89,9 @@ import PromosScreen from "@User/Screens/Marketing/Promos/PromosScreen";
 import ResetPassword from "@Learner/Screens/Login/ResetPassword";
 import RootScreen from "./Root";
 import SettingsScreen from "@User/Screens/Settings/Settings";
-import { Store } from "@invinciblezealorg/lms-common";
+import { Store } from "@adewaskar/lms-common";
 import TemplatesScreen from "@User/Screens/Marketing/Templates/TemplatesScreen";
+import Test from "@User/Screens/Test";
 import TestAnswerSheet from "@User/Screens/Tests/TestsList/TestInsights/TestAnswerSheet";
 import TestBuilderScreen from "@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder";
 import TestCompleted from "@Learner/Screens/Products/Test/TestPlayer/TestCompleted";
@@ -128,7 +129,6 @@ import WebsiteScreen from "@User/Screens/Builder/Website/Website";
 import WhatsappTemplateEditor from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor";
 import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen";
 import { useEffect } from "react";
-import Test from "@User/Screens/Test";
 
 const router = (userType: string) => {
   return createBrowserRouter(

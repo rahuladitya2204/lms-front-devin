@@ -4,7 +4,7 @@ import React, { Fragment, useEffect } from 'react';
 import Image from '@Components/Image'
 import MediaUpload from '@Components/MediaUpload';
 import TextArea from '@Components/Textarea';
-import { Types } from '@invinciblezealorg/lms-common'
+import { Types } from '@adewaskar/lms-common'
 
 interface CreateUserComponentPropsI {
   userId: string;

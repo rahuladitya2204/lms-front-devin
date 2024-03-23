@@ -14,7 +14,7 @@ import {
 } from 'antd'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useLayoutEffect } from 'react'
-import { Types, User } from '@invinciblezealorg/lms-common'
+import { Types, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddCertificateTemplate from '@User/Screens/CertificateTemplates/AddCertificateTemplate'

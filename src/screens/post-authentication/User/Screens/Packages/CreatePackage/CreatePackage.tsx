@@ -9,7 +9,7 @@ import {
   Spin,
   Tag,
 } from 'antd'
-import { Enum, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Enum, Types, Utils } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -23,7 +23,7 @@ import PackagePlan from './PackagePricing'
 import PackagePricing from './PackagePricing'
 import Products from './PackageDetails/Products/Products'
 import Tabs from '@Components/Tabs'
-import { User } from '@invinciblezealorg/lms-common'
+import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 const { confirm} = Modal;

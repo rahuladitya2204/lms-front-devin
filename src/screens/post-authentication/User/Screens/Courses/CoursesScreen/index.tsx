@@ -1,5 +1,5 @@
 import { Button, Card, Col, Empty, List, Row, Skeleton, Spin } from 'antd'
-import { Constants, User } from '@invinciblezealorg/lms-common'
+import { Constants, User } from '@adewaskar/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import CourseCard from './CourseCard'

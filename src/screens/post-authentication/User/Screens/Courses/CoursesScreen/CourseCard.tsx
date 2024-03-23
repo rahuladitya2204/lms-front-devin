@@ -4,7 +4,7 @@ import {
   InfoCircleOutlined,
   ToolOutlined,
 } from '@ant-design/icons'
-import { Enum, Types } from '@invinciblezealorg/lms-common'
+import { Enum, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import dayjs from 'dayjs';

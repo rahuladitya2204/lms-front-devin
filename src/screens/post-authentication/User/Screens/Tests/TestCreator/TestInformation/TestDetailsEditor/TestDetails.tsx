@@ -11,7 +11,7 @@ import {
   Switch,
   TreeSelect
 } from 'antd'
-import { Constants, Enum, Types, User } from '@invinciblezealorg/lms-common'
+import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
 import { useEffect, useMemo } from 'react'
 
 import Image from '@Components/Image'

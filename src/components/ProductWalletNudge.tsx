@@ -1,4 +1,4 @@
-import { Learner, Store, Types, Utils } from '@invinciblezealorg/lms-common'
+import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 
 import { Alert } from 'antd'
 import { Text } from './Typography/Typography';

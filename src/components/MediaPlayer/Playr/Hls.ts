@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Common } from '@invinciblezealorg/lms-common'
+import { Common } from '@adewaskar/lms-common'
 import Hls from 'hls.js'
 
 export class CustomXhrLoader extends Hls.DefaultConfig.loader {
