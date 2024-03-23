@@ -8,7 +8,7 @@ import {
   IntermediateEditorOptions
 } from './constant'
 import { Col, Form, Row, Select, Spin, Tag } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Types } from '@invinciblezealorg/lms-common'
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 
 import SunEditor from 'suneditor-react'

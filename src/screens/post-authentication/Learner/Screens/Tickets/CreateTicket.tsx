@@ -1,5 +1,5 @@
 import { Alert, Button, Form, Input, Select, Space } from 'antd'
-import { Learner, Store, Types } from '@adewaskar/lms-common'
+import { Learner, Store, Types } from '@invinciblezealorg/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import FileList from '@Components/FileList';

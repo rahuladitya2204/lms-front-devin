@@ -1,4 +1,4 @@
-import { Enum, Learner, Types } from '@adewaskar/lms-common'
+import { Enum, Learner, Types } from '@invinciblezealorg/lms-common'
 
 import { Card } from 'antd'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'

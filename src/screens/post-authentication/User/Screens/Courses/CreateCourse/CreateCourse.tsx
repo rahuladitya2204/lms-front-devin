@@ -1,8 +1,8 @@
 import { Button, Form, Input, Modal, Select } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Learner, Types } from '@invinciblezealorg/lms-common'
 import React, { ReactNode } from 'react'
 
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import useMessage from '@Hooks/useMessage'
 import { useNavigate } from 'react-router'
 

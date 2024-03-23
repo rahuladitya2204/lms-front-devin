@@ -4,7 +4,7 @@ import {
   LogLevel,
   MeetingSessionConfiguration
 } from 'amazon-chime-sdk-js'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 // hooks/useDeviceController.js
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'

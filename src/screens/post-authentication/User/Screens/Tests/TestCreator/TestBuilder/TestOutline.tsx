@@ -1,6 +1,6 @@
 import { Button, Col, Divider, Form, Input, Modal, Row, Select, Tabs } from 'antd'
 import { DeleteTwoTone, PlusCircleTwoTone } from '@ant-design/icons';
-import { Enum, Types, User } from '@adewaskar/lms-common'
+import { Enum, Types, User } from '@invinciblezealorg/lms-common'
 
 import { TEST_TEMPLATES } from '@Components/Editor/SunEditor/constant';
 import { Typography } from '@Components/Typography';

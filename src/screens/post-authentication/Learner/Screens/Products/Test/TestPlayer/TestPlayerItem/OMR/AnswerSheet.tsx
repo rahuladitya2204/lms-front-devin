@@ -15,7 +15,7 @@ import {
   Spin,
   Typography
 } from 'antd'
-import { Enum, Learner, Store } from '@adewaskar/lms-common'
+import { Enum, Learner, Store } from '@invinciblezealorg/lms-common'
 import OMRComponent, { OMRSKeleton } from './OMRComponent'
 import React, { useEffect } from 'react'
 import { Text, Title } from '@Components/Typography/Typography'

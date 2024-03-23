@@ -1,5 +1,5 @@
 import { Card, Col, List, Row, Skeleton, Typography } from 'antd'
-import { Common, Learner, Types } from '@adewaskar/lms-common'
+import { Common, Learner, Types } from '@invinciblezealorg/lms-common'
 
 import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'

@@ -13,7 +13,7 @@ import {
 } from 'antd'
 import { CheckCircleTwoTone, InfoCircleOutlined } from '@ant-design/icons'
 import { Fragment, useMemo } from 'react'
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Learner, Store } from '@invinciblezealorg/lms-common'
 
 import Countdown from '@Components/Countdown'
 import { NavLink } from 'react-router-dom'

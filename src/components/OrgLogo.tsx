@@ -1,4 +1,4 @@
-import { Common, Store, User } from '@adewaskar/lms-common'
+import { Common, Store, User } from '@invinciblezealorg/lms-common'
 
 import Image from './Image'
 import { Skeleton } from 'antd'

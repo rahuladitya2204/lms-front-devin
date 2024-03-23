@@ -1,4 +1,4 @@
-import { Common, Constants, Enum, Store } from '@adewaskar/lms-common'
+import { Common, Constants, Enum, Store } from '@invinciblezealorg/lms-common'
 import { ConfigProvider, Spin, message, theme } from 'antd'
 import useMessage, { MessageContext } from '@Hooks/useMessage'
 

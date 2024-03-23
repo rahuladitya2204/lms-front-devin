@@ -1,5 +1,5 @@
 import Player from 'video.js/dist/types/player'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 
 interface Marker {
   text: string;

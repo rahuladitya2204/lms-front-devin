@@ -1,5 +1,5 @@
 import { Button, Card, Col, Empty, Row, Spin } from 'antd'
-import { Enum, Learner, Types } from '@adewaskar/lms-common'
+import { Enum, Learner, Types } from '@invinciblezealorg/lms-common'
 
 import AppImage from '@Components/Image'
 import { CheckOutlined } from '@ant-design/icons'

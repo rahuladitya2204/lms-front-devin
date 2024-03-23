@@ -5,7 +5,7 @@ import { Alert } from 'antd'
 import CourseQuestionStep from './QuestionStep'
 import QuizResult from './QuizResult'
 import Stepper from '@Components/Stepper'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { useQuizStore } from './useQuizStore'
 
 interface CoursePlayerItemsPropsI {

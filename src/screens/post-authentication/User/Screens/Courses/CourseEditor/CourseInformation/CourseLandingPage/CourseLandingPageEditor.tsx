@@ -1,6 +1,6 @@
 import { Button, Card, Empty, Form, Input } from 'antd'
 import { Fragment, useEffect, useLayoutEffect } from 'react'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import MediaUpload from '@Components/MediaUpload'

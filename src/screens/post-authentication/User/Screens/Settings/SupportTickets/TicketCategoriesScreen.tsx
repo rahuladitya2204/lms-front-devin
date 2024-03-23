@@ -4,8 +4,8 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateTicketCategory from './CreateTicketCategory'
 // import Header from '@Components/Header'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import dayjs from 'dayjs'
 
 function TicketCategorysScreen() {

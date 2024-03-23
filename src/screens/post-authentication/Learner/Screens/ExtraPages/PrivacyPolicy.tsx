@@ -1,4 +1,4 @@
-import { Common, Learner } from '@adewaskar/lms-common'
+import { Common, Learner } from '@invinciblezealorg/lms-common'
 
 export default function LearnerPrivacyPolicy () {
   const { data: { alias, name } } = Learner.Queries.useGetOrgDetails()

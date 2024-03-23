@@ -3,7 +3,7 @@ import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/legacy/build/pdf'
 
 import Compressor from 'compressorjs'
 import Hls from 'hls.js'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { cloneDeep } from 'lodash'
 import { jsonrepair } from 'jsonrepair'
 import { unit } from 'mathjs'

@@ -1,5 +1,5 @@
 import { Avatar, Card, Col, List, Row, Space, Table } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Learner, Types } from '@invinciblezealorg/lms-common'
 
 import Image from '@Components/Image'
 import dayjs from 'dayjs'

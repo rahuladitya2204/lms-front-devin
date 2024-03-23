@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { Button, Card, Col, Row, Select, Space, Table, Tabs, Tag } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Types } from '@invinciblezealorg/lms-common'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -8,7 +8,7 @@ import AddEmailTemplate from './AddEmailTemplate'
 import { EmailTemplateStatusMap } from './Constant'
 import EmailTemplatesScreen from '@User/Screens/Settings/EmailSetting/EmailTemplatesScreen'
 import Header from '@User/Screens/UserRoot/UserHeader'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import WhatsappTemplatesScreen from './Whatsapp/WhatsappTemplatesScreen'
 import { useNavigate } from 'react-router'
 import { useState } from 'react'

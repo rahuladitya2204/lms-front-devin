@@ -1,4 +1,4 @@
-import { Enum, User } from '@adewaskar/lms-common'
+import { Enum, User } from '@invinciblezealorg/lms-common'
 import { Image, Select } from 'antd'
 
 import { Typography } from './Typography';

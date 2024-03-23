@@ -1,6 +1,6 @@
-import { Network, Store } from '@adewaskar/lms-common'
+import { Network, Store } from '@invinciblezealorg/lms-common'
 
-import { Utils } from '@adewaskar/lms-common'
+import { Utils } from '@invinciblezealorg/lms-common'
 
 export const getToken = (userType?: string) => {
   if (!userType) {

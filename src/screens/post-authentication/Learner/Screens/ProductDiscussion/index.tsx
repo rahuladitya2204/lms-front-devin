@@ -6,7 +6,7 @@ import {
   Row,
   Typography
 } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types } from '@invinciblezealorg/lms-common'
 import React, { useState } from 'react'
 
 import { ArrowLeftOutlined } from '@ant-design/icons'

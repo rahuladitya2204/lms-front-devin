@@ -10,13 +10,13 @@ import {
   Tag
 } from 'antd'
 import { CheckOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Types, Utils } from '@adewaskar/lms-common'
+import { Enum, Types, Utils } from '@invinciblezealorg/lms-common'
 
 import { CampaignStatus } from './Constant'
 import Header from '@User/Screens/UserRoot/UserHeader'
 import MoreButton from '@Components/MoreButton'
 import { NavLink } from 'react-router-dom'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import dayjs from 'dayjs'
 import { useNavigate } from 'react-router'
 

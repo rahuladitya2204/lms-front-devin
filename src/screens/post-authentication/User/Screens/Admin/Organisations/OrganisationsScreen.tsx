@@ -10,7 +10,7 @@ import {
   Table,
   Upload
 } from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddUser from './AddUserToOrg'

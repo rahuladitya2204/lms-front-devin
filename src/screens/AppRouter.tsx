@@ -89,7 +89,7 @@ import PromosScreen from "@User/Screens/Marketing/Promos/PromosScreen";
 import ResetPassword from "@Learner/Screens/Login/ResetPassword";
 import RootScreen from "./Root";
 import SettingsScreen from "@User/Screens/Settings/Settings";
-import { Store } from "@adewaskar/lms-common";
+import { Store } from "@Common";
 import TemplatesScreen from "@User/Screens/Marketing/Templates/TemplatesScreen";
 import TestAnswerSheet from "@User/Screens/Tests/TestsList/TestInsights/TestAnswerSheet";
 import TestBuilderScreen from "@User/Screens/Tests/TestCreator/TestBuilder/TestBuilder";

@@ -1,7 +1,7 @@
 import { Button, Card, Col, Result, Row } from 'antd'
 
 import EnrolledCourseCard from './CourseCard'
-import { Learner } from '@adewaskar/lms-common'
+import { Learner } from '@invinciblezealorg/lms-common'
 import { useParams } from 'react-router'
 
 const EnrolledCourseSuccessful: React.FC = () => {

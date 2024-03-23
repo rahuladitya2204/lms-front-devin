@@ -1,7 +1,7 @@
 import { Avatar, Button, Divider, List, Modal } from 'antd'
 import { DownloadOutlined, FileTwoTone } from '@ant-design/icons'
 
-import { Common } from '@adewaskar/lms-common'
+import { Common } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography'
 import { unit } from 'mathjs'
 

@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react'
-import { Store, Types } from '@adewaskar/lms-common'
+import { Store, Types } from '@invinciblezealorg/lms-common'
 
 import { CustomXhrLoader } from './Hls'
 import ErrorBoundary from '@Components/ErrorBoundary'

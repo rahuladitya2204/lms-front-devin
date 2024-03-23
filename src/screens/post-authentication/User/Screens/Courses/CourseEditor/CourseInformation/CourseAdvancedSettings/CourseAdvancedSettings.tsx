@@ -19,7 +19,7 @@ import CourseCertificate from './CourseCertificate/CourseCertificateScreen'
 import GenerateWithAI from '../GenerateWithAiButton'
 import InputTags from '@Components/InputTags/InputTags'
 import TextArea from '@Components/Textarea'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography'
 
 const { Title } = Typography

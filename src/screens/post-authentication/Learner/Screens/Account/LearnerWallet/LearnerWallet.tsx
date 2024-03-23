@@ -5,7 +5,7 @@ import {
   PlusOutlined,
   WalletTwoTone
 } from '@ant-design/icons'
-import { Learner, Utils } from '@adewaskar/lms-common'
+import { Learner, Utils } from '@invinciblezealorg/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddMoneyToWallet from './AddMoneyToWallet'

@@ -1,4 +1,4 @@
-import { Common, Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
+import { Common, Constants, Learner, Store, Types, Utils } from '@invinciblezealorg/lms-common'
 import {
   createSearchParams,
   useNavigate,

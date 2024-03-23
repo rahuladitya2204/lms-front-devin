@@ -26,7 +26,7 @@ import {
   StepForwardOutlined,
   UserSwitchOutlined
 } from '@ant-design/icons'
-import { Enum, Learner, Utils } from '@adewaskar/lms-common'
+import { Enum, Learner, Utils } from '@invinciblezealorg/lms-common'
 import { Fragment, useMemo } from 'react'
 import { useNavigate, useParams } from 'react-router'
 

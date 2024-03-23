@@ -1,5 +1,5 @@
 import TextArea from '@Components/Textarea';
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Button, Form, Input } from 'antd'
 import { useEffect } from 'react';
 

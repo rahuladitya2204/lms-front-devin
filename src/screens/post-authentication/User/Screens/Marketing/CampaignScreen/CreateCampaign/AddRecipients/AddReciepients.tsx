@@ -1,4 +1,4 @@
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types } from '@invinciblezealorg/lms-common'
 import { Form, Input, Radio, Tag } from 'antd'
 import { useLayoutEffect, useState } from 'react'
 

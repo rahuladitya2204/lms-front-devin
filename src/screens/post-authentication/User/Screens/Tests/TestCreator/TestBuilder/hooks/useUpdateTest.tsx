@@ -1,4 +1,4 @@
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 import { useCallback, useEffect } from 'react'
 
 import { Form } from 'antd'

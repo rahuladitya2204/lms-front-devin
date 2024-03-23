@@ -9,7 +9,7 @@ import {
   Skeleton,
   Tag,
 } from 'antd'
-import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
+import { Constants, Learner, Store, Types } from '@invinciblezealorg/lms-common'
 
 import CourseNoteItem from './NoteItem'
 import CreateNote from './CreateNote'

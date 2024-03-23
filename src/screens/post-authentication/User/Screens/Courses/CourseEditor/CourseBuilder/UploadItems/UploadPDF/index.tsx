@@ -1,7 +1,7 @@
 import { Button, Form, Input, Modal, Tabs } from 'antd';
 import React, { Fragment, useEffect, useState } from 'react';
 
-import { Types } from '@adewaskar/lms-common';
+import { Types } from '@invinciblezealorg/lms-common';
 
 export interface AddItemProps {item?:Partial<Types.CourseSectionItem>,onFinish?:Function,closeModal?:Function}
 

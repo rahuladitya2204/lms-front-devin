@@ -6,7 +6,7 @@ import {
   VideoTileGrid
 } from 'amazon-chime-sdk-component-library-react'
 import { StyledContent, StyledLayout } from './Player/styled'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 import { useEffect, useState } from 'react'
 import { useEvent, useHandleMeetingEnd } from './hooks'
 

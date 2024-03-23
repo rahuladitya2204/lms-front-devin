@@ -5,7 +5,7 @@ import {
   ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Learner, Types, Utils } from '@invinciblezealorg/lms-common'
 import { List, Skeleton, Typography } from 'antd'
 
 import styled from '@emotion/styled'

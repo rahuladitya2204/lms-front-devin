@@ -1,7 +1,7 @@
 import { Avatar, Card, Col, Rate, Row } from 'antd'
 
 import React from 'react'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from './Typography'
 import { UserOutlined } from '@ant-design/icons'
 

@@ -16,7 +16,7 @@ import {
   EditOutlined,
   PlayCircleOutlined
 } from '@ant-design/icons'
-import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
+import { Constants, Learner, Store, Types } from '@invinciblezealorg/lms-common'
 import React, { useState } from 'react'
 
 import CreateNote from './CreateNote'

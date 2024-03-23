@@ -1,6 +1,6 @@
 import { Alert, Button, Card, Col, Empty, Form, FormInstance, Image, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
 import { AppCamera, useCamera } from '@Components/ActionModal/Camera/AppCamera'
-import { Common, Learner, Types } from '@adewaskar/lms-common'
+import { Common, Learner, Types } from '@invinciblezealorg/lms-common'
 import { DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, UploadOutlined, WarningOutlined } from '@ant-design/icons'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // TestPlayerFiles.tsx

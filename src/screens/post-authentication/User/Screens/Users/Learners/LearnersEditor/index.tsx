@@ -1,12 +1,12 @@
 import { Button, Card, Form, Tabs } from 'antd'
-import { Constants, Learner, Types } from '@adewaskar/lms-common'
+import { Constants, Learner, Types } from '@invinciblezealorg/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 
 import Header from '@User/Screens/UserRoot/UserHeader'
 import LearnerDetailsEditor from './LearnersDetailsEditor'
 import { UploadOutlined } from '@ant-design/icons'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 function LearnerEditor() {

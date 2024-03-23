@@ -10,7 +10,7 @@ import {
   Tag,
 } from 'antd'
 import { CalendarOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Learner, Types } from '@adewaskar/lms-common'
+import { Enum, Learner, Types } from '@invinciblezealorg/lms-common'
 
 import Image from '@Components/Image'
 import LearnerTestResultStatus from '@Components/LearnerTestResultStatus'

@@ -1,4 +1,4 @@
-import { Enum } from '@adewaskar/lms-common'
+import { Enum } from '@invinciblezealorg/lms-common'
 import { Tag } from 'antd'
 import { useMemo } from 'react'
 

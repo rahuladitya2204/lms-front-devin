@@ -1,7 +1,7 @@
 import { Button, Result } from 'antd'
 import { useNavigate, useParams } from 'react-router'
 
-import { Learner } from '@adewaskar/lms-common'
+import { Learner } from '@invinciblezealorg/lms-common'
 import ReviewTest from './TestFeedback/ReviewTest'
 
 export default function TestCompleted () {

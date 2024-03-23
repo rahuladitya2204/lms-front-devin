@@ -12,7 +12,7 @@ import {
 } from 'antd'
 import { Fragment, useEffect } from 'react'
 import { PlusOutlined, UploadOutlined } from '@ant-design/icons'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import { AddItemProps } from '../UploadPDF'

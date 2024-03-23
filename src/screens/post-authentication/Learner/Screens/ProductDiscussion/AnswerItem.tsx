@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, Row } from 'antd'
 import React, { useState } from 'react'
 
 import TextArea from '@Components/Textarea';
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 
 interface CreateQuestionPropsI {
   onSubmit: (query: Partial<Types.ProductDiscussionQuestion>) => void;

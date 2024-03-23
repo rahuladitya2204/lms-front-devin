@@ -11,8 +11,8 @@ import {
 import { DeleteOutlined, MoreOutlined } from '@ant-design/icons'
 
 import Container from '@Components/Container'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 

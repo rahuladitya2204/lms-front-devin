@@ -1,5 +1,5 @@
 import { Button, Modal, Space, Spin } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Types } from '@invinciblezealorg/lms-common'
 
 import Image from '@Components/Image'
 import { getVideoThumbnails } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'

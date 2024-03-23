@@ -1,4 +1,4 @@
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types } from '@invinciblezealorg/lms-common'
 
 import create from 'zustand'
 

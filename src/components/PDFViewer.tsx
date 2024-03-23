@@ -4,7 +4,7 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 import React, { useState } from 'react'
 import { Viewer, Worker } from '@react-pdf-viewer/core'
 
-import { Common } from '@adewaskar/lms-common'
+import { Common } from '@invinciblezealorg/lms-common'
 import ErrorBoundary from './ErrorBoundary'
 import { Spin } from 'antd'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'

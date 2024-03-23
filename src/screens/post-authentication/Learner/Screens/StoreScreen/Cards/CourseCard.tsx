@@ -8,11 +8,11 @@ import {
   Space
 } from 'antd'
 import { BarChartOutlined, BookOutlined, ClockCircleOutlined } from '@ant-design/icons'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types } from '@invinciblezealorg/lms-common'
 
 import Image from '@Components/Image'
 import { Typography } from '@Components/Typography'
-import { Utils } from '@adewaskar/lms-common'
+import { Utils } from '@invinciblezealorg/lms-common'
 import { capitalize } from 'lodash'
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import styled from '@emotion/styled'

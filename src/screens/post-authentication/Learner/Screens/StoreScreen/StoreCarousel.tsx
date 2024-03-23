@@ -1,6 +1,6 @@
 import { Carousel } from 'antd'
 import Image from '@Components/Image'
-import { Learner } from '@adewaskar/lms-common'
+import { Learner } from '@invinciblezealorg/lms-common'
 
 const contentStyle: React.CSSProperties = {
   margin: 0,

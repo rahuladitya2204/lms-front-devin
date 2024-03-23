@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, useEffect, useState } from 'react';
 
 import { AddItemProps } from '../UploadItems/UploadPDF';
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 
 const CreateTextItem: React.FC<Types.CreateItemPropsI> = (props:AddItemProps) => {
     const onSubmit = ({textHeading}: { textHeading: string }) => {

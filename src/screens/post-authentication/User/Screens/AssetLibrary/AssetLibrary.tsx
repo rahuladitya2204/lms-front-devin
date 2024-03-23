@@ -1,5 +1,5 @@
 import { Button, Card, Col, Modal, Row, Space, Spin, Table } from 'antd'
-import { Common, Store, Types, User } from '@adewaskar/lms-common'
+import { Common, Store, Types, User } from '@invinciblezealorg/lms-common'
 
 import { DeleteOutlined } from '@ant-design/icons'
 import FileTypeIcon from '@Components/FileTypeIcon'

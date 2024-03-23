@@ -11,7 +11,7 @@ import {
   Table
 } from 'antd'
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Types, User } from '@adewaskar/lms-common'
+import { Enum, Types, User } from '@invinciblezealorg/lms-common'
 import { Fragment, useCallback } from 'react'
 
 import ProductCard from '@Components/UserProductCard'

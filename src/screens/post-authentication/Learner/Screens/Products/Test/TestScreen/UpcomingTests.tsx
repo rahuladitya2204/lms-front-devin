@@ -12,7 +12,7 @@ import {
   Tag,
 } from 'antd'
 import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons'
-import { Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Learner, Types, Utils } from '@invinciblezealorg/lms-common'
 
 import Image from '@Components/Image'
 import { Link } from 'react-router-dom'

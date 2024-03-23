@@ -15,7 +15,7 @@ import {
   SettingOutlined,
   UploadOutlined
 } from '@ant-design/icons'
-import { Common, Types, User } from '@adewaskar/lms-common'
+import { Common, Types, User } from '@invinciblezealorg/lms-common'
 import React, { useEffect } from 'react'
 
 import { AppCamera } from '@Components/ActionModal/Camera/AppCamera'

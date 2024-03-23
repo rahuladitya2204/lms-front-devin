@@ -1,5 +1,5 @@
 import { Button, Col, Divider, Form, Input, Popover, Row } from "antd";
-import { Types, User } from "@adewaskar/lms-common";
+import { Types, User } from "@Common";
 import { useLayoutEffect, useState } from "react";
 
 import GenerateWithAi from "../GenerateWithAi";

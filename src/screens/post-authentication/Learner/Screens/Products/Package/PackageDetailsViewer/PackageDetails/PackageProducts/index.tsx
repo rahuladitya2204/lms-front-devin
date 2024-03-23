@@ -1,5 +1,5 @@
 import { Col, Collapse, List, Row, Skeleton, Tag } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Learner, Types } from '@invinciblezealorg/lms-common'
 
 import LearnerProductCard from '@Components/LearnerProductCard'
 import PackageProductsItem from './CurriculumItem'

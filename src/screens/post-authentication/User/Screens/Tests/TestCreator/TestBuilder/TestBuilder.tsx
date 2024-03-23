@@ -10,7 +10,7 @@ import {
   Spin,
   Tag
 } from 'antd'
-import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, User } from '@invinciblezealorg/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 
 import ActionModal from '@Components/ActionModal/ActionModal'

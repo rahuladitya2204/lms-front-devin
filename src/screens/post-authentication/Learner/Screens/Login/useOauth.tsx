@@ -1,4 +1,4 @@
-import { Store, User, Utils } from '@adewaskar/lms-common'
+import { Store, User, Utils } from '@invinciblezealorg/lms-common'
 import { useEffect, useState } from 'react'
 
 const useLearnerOauth = (provider: string) => {

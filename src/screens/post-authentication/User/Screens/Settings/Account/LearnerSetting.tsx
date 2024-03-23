@@ -1,6 +1,6 @@
 import { Button, Card, Checkbox, Col, DatePicker, Form, Input, Row, Select, Space, Table, Tag, Typography } from 'antd'
 import { DeleteOutlined, EditOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Enum, Types, User } from '@adewaskar/lms-common'
+import { Enum, Types, User } from '@invinciblezealorg/lms-common'
 import { Fragment, useEffect } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal';

@@ -8,7 +8,7 @@ import {
   Row,
   Space
 } from 'antd'
-import { Learner, Store } from '@adewaskar/lms-common'
+import { Learner, Store } from '@invinciblezealorg/lms-common'
 
 import BGImage from './image.svg'
 import CourseCard from './Cards/CourseCard'

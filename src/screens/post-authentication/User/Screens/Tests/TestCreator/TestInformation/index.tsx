@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Row, Spin } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types } from '@invinciblezealorg/lms-common'
 import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
@@ -9,7 +9,7 @@ import Tabs from '@Components/Tabs'
 import TestDetailsEditor from './TestDetailsEditor/TestDetails'
 import TestLandingPageEditor from './TestLandingPage/TestLandingPageEditor'
 import TestPricingEditor from '../TestPricingEditor/TestPricingEditor'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 function TestInformationEditor(props: any) {

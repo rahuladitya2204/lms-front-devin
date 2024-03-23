@@ -1,5 +1,5 @@
 import { Avatar, List, Skeleton, Tooltip, theme } from 'antd'
-import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
+import { Learner, Store, Types, Utils } from '@invinciblezealorg/lms-common'
 import React, { Fragment } from 'react'
 
 import { Comment } from '@ant-design/compatible'

@@ -2,7 +2,7 @@ import CourseCurriculum from './CourseCurriculum'
 import CourseOverview from './CourseOverview'
 import CourseReviews from './CourseReviews/CourseReviews'
 import Tabs from '@Components/Tabs';
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 
 interface CourseDetailsPropsI {
   course: Types.Course;

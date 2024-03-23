@@ -1,7 +1,7 @@
 import { Alert, Button, Card, Col, Divider, Empty, Form, FormInstance, Image, Input, Modal, Row, Space, Spin, Tooltip, message } from 'antd'
 import { AppCamera, useCamera } from '@Components/ActionModal/Camera/AppCamera'
 import { ArrowLeftOutlined, CheckOutlined, CloseOutlined, DeleteOutlined, EditFilled, EditOutlined, EditTwoTone, InfoOutlined, UploadOutlined, WarningOutlined } from '@ant-design/icons'
-import { Common, Learner, Store, Types, User } from '@adewaskar/lms-common'
+import { Common, Learner, Store, Types, User } from '@invinciblezealorg/lms-common'
 import { DndProvider, useDrag, useDrop } from 'react-dnd'
 // AnswerSheetFiles.tsx
 import React, { Fragment, useCallback, useEffect } from 'react'

@@ -3,7 +3,7 @@ import { Button, Col, Form, Row, Select, Spin } from 'antd'
 import ActionModal from './ActionModal/ActionModal'
 import CreateCategory from '@User/Screens/Categories/CreateCategory'
 import { PlusOutlined } from '@ant-design/icons'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import { useModal } from './ActionModal/ModalContext'
 
 interface SelectProductCategoryPropsI {

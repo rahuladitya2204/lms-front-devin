@@ -3,7 +3,7 @@ import React, { Fragment, useEffect, useState } from 'react';
 
 import { QUESTION_TYPES } from '../AddQuestionItem';
 import TextArea from '@Components/Textarea';
-import { Types } from '@adewaskar/lms-common';
+import { Types } from '@invinciblezealorg/lms-common';
 import { useTestStore } from '../hooks/useTestStore';
 
 interface AddTestSectionPropsI{

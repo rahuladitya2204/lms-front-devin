@@ -3,8 +3,8 @@ import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import BASE_EMAIL_TEMPLATE from './BaseEmailTemplate'
 import TextArea from '@Components/Textarea'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 
 interface CreateEmailTemplateComponentPropsI {
   children?: ReactNode;

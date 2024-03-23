@@ -2,7 +2,7 @@ import { Checkbox, Col, Form, Image, Input, Row } from 'antd'
 
 import ColorPicker from './ColorPaletteCustomizer'
 import MediaUpload from '@Components/MediaUpload'
-import { Store } from '@adewaskar/lms-common'
+import { Store } from '@invinciblezealorg/lms-common'
 import { generate } from '@ant-design/colors'
 import { useFormik } from 'formik'
 import useGetPalette from '@Hooks/useGetPalette'

@@ -1,5 +1,5 @@
 import { Button, Card, Col, Form, Modal, Row, Tabs } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types } from '@invinciblezealorg/lms-common'
 import React, {
   ReactNode,
   useEffect,
@@ -16,7 +16,7 @@ import CreateSmsTemplate from './CreateTemplate/Sms/CreateSmsTemplate'
 import CreateWhatsappTemplate from './CreateTemplate/Whatsapp/CreateWhatsappTemplate'
 import Header from '@Components/Header'
 import Stepper from '@Components/Stepper'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 

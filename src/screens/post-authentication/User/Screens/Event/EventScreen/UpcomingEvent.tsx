@@ -1,9 +1,9 @@
 import { Button, Card, Col, Row, Space, Table, Tabs, Tag } from 'antd'
 
 import Header from '@Components/Header'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import ViewRecording from '../RecordingPlayer'
 import dayjs from 'dayjs'

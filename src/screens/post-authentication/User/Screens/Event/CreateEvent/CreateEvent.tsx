@@ -13,7 +13,7 @@ import {
   Table,
   Tag,
 } from 'antd'
-import { Enum, Types } from '@adewaskar/lms-common'
+import { Enum, Types } from '@invinciblezealorg/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 
@@ -29,7 +29,7 @@ import LocationSelector from '@Components/LocationSelector'
 import MediaUpload from '@Components/MediaUpload'
 import PriceFormItem from '@Components/PriceFormItem'
 import TextArea from '@Components/Textarea'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import dayjs from 'dayjs'
 import { useQueryClient } from '@tanstack/react-query'

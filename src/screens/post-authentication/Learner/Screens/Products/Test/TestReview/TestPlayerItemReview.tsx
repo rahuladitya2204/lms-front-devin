@@ -1,6 +1,6 @@
 import { BackwardOutlined, CheckCircleTwoTone, CheckOutlined, CloseCircleTwoTone, CloseOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, GlobalOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Skeleton, Space, Spin, Tag, Tooltip, theme } from 'antd';
-import { Constants, Enum, Learner, Types } from '@adewaskar/lms-common';
+import { Constants, Enum, Learner, Types } from '@invinciblezealorg/lms-common';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';

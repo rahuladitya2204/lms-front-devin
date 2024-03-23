@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { Card, Divider, Space, Tag } from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 
 import FileList from '@Components/FileList'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'

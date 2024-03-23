@@ -3,7 +3,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { Badge, Calendar as LibCalendar } from 'antd';
 import type { BadgeProps, CalendarProps } from 'antd';
 // import 'antd/dist/antd.css';
-import { Types } from '@adewaskar/lms-common';
+import { Types } from '@invinciblezealorg/lms-common';
 
 // interface Event {
 //   _id: string;

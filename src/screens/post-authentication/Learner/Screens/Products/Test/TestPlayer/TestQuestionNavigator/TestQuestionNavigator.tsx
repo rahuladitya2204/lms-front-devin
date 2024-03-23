@@ -1,6 +1,6 @@
 import { ArrowDownOutlined, ArrowLeftOutlined, HighlightTwoTone, InfoCircleOutlined, WarningOutlined, WarningTwoTone } from '@ant-design/icons'
 import { Badge, Button, Card, Col, Divider, Modal, Row, Skeleton, Space, Spin, theme } from 'antd'
-import { Enum, Learner, Store } from '@adewaskar/lms-common'
+import { Enum, Learner, Store } from '@invinciblezealorg/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
 import { NavLink } from 'react-router-dom'

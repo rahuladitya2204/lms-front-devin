@@ -1,6 +1,6 @@
 import { Button, Form, Input, message } from 'antd'
 import React, { useState } from 'react'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 
 export default function EnterQuestionJson(props: {
   itemId: string,

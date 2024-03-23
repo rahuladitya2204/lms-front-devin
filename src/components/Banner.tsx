@@ -1,5 +1,5 @@
 import { Button, Modal } from 'antd'
-import { Constants, Learner, Store } from '@adewaskar/lms-common'
+import { Constants, Learner, Store } from '@invinciblezealorg/lms-common'
 import { useEffect, useState } from 'react'
 
 import AppImage from './Image'

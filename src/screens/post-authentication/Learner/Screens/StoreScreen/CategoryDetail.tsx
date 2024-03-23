@@ -1,5 +1,5 @@
 import { Col, Row, Skeleton } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Learner, Types } from '@invinciblezealorg/lms-common'
 
 import AppImage from '@Components/Image'
 import BackButton from '@Components/BackButton'

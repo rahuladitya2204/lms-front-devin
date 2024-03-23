@@ -1,4 +1,4 @@
-import { Enum, Types } from '@adewaskar/lms-common'
+import { Enum, Types } from '@invinciblezealorg/lms-common'
 
 import { SyncOutlined } from '@ant-design/icons';
 import { Tag } from 'antd'

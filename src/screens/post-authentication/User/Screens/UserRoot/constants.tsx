@@ -13,7 +13,7 @@ import {
   UsergroupAddOutlined,
   VideoCameraOutlined,
 } from '@ant-design/icons'
-import { Enum, Types } from '@adewaskar/lms-common'
+import { Enum, Types } from '@invinciblezealorg/lms-common'
 
 import { MenuProps } from 'antd'
 

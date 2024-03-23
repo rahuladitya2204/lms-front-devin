@@ -1,5 +1,5 @@
 import { Button, Card, Checkbox, Col, Divider, Empty, Form, Input, Progress, Row, Space, Spin, Typography } from 'antd'
-import { Common, Types, User } from '@adewaskar/lms-common'
+import { Common, Types, User } from '@invinciblezealorg/lms-common'
 import { Fragment, useEffect, useState } from 'react'
 import { UploadOutlined, VideoCameraOutlined } from '@ant-design/icons'
 import { debounce, uniqueId } from 'lodash'

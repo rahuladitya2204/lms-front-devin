@@ -1,6 +1,6 @@
 import { Alert, Button, Checkbox, Divider, Form, Input, Modal, Space } from 'antd'
 import { ArrowLeftOutlined, GoogleOutlined, MessageOutlined } from '@ant-design/icons'
-import { Common, Constants, Enum, Learner, Store, User } from '@adewaskar/lms-common'
+import { Common, Constants, Enum, Learner, Store, User } from '@invinciblezealorg/lms-common'
 import { Fragment, useEffect, useRef, useState } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -9,7 +9,7 @@ import OrgLogo from '@Components/OrgLogo'
 import ResetPassword from './RequestResetPassword'
 import Tabs from '@Components/Tabs'
 import { Typography } from '@Components/Typography'
-import { Utils } from '@adewaskar/lms-common'
+import { Utils } from '@invinciblezealorg/lms-common'
 import styled from '@emotion/styled';
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'

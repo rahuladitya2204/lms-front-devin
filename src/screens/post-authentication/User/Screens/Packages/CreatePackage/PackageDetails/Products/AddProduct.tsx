@@ -1,5 +1,5 @@
 import { Button, Form, Select } from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 import { useEffect, useMemo } from 'react';
 
 import ProductRow from './ProductRow';

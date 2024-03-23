@@ -8,7 +8,7 @@ import {
   Switch,
 } from 'antd'
 
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography';
 import styled from 'styled-components'
 import { useEffect } from 'react'

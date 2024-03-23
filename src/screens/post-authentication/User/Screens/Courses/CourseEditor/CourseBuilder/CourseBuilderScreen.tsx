@@ -11,7 +11,7 @@ import {
   Spin,
   Tag,
 } from 'antd'
-import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, User, Utils } from '@invinciblezealorg/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { cloneDeep, debounce } from 'lodash'

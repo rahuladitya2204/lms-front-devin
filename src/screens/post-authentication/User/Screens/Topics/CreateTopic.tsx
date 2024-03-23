@@ -2,8 +2,8 @@ import { Button, Form, Input, Select } from 'antd'
 import React, { Fragment, ReactNode, useEffect } from 'react'
 
 import TextArea from '@Components/Textarea'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 
 interface CreateTopicComponentPropsI {
   children?: ReactNode;

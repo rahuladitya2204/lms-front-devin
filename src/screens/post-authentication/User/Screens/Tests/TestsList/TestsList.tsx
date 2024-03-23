@@ -19,7 +19,7 @@ import {
   SettingOutlined,
   UploadOutlined
 } from '@ant-design/icons'
-import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, Utils } from '@invinciblezealorg/lms-common'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import { Fragment } from 'react'
@@ -28,7 +28,7 @@ import PrintPrompt from '../TestCreator/TestBuilder/PrintPrompt'
 import TestCard from './TestCard'
 import TestStatusTag from './TestStatus'
 import { Typography } from '@Components/Typography'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import dayjs from 'dayjs'
 import { formatTime } from 'video.js/dist/types/utils/time'
 import { useModal } from '@Components/ActionModal/ModalContext'

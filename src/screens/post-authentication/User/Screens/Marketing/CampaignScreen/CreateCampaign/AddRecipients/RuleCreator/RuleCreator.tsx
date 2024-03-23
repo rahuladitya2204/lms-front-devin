@@ -13,7 +13,7 @@ import {
 import { FormInstance } from 'antd/lib/form/Form'
 import { PlusOutlined } from '@ant-design/icons'
 import RuleRow from './RuleRow'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography'
 
 interface RuleCreatorPropsI {

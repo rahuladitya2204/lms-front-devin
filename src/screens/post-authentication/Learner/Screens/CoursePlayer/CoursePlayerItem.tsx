@@ -1,4 +1,4 @@
-import { Common, Learner, Store } from '@adewaskar/lms-common'
+import { Common, Learner, Store } from '@invinciblezealorg/lms-common'
 import { Fragment, useMemo, useState } from 'react'
 
 import CoursePlayerQuiz from './CoursePlayerItems/CourseQuizItem/QuizItem'

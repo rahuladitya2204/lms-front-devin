@@ -10,9 +10,9 @@ import { Avatar, Col, Row } from 'antd'
 import CourseReviews from '../CourseReviews/CourseReviews'
 import { Fragment } from 'react'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 
 const { Title, Text, Paragraph } = Typography
 

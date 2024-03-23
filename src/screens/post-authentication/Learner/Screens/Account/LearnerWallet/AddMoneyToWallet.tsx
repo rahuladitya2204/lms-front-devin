@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, Row } from 'antd'
-import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Learner, Types, Utils } from '@invinciblezealorg/lms-common'
 
 import CoinImage from './CoinImage'
 import Title from 'antd/es/typography/Title'

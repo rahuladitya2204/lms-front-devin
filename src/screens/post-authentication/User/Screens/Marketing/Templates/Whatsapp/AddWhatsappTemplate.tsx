@@ -2,8 +2,8 @@ import { Button, Form, Image, Input, Modal, Select } from 'antd'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
 import MediaUpload from '@Components/MediaUpload'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 
 interface CreateWhatsappTemplateComponentPropsI {
   children?: ReactNode;

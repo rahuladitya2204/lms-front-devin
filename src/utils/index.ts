@@ -1,5 +1,5 @@
 import { Color } from '@kurkle/color'
-import { Utils } from '@adewaskar/lms-common'
+import { Utils } from '@invinciblezealorg/lms-common'
 
 Utils.Storage.GetItem = (key: string) => localStorage.getItem(key)
 Utils.Storage.SetItem = (key: string, value: string) =>

@@ -1,5 +1,5 @@
 import { Alert, Card, Col, Row, Space, Table, Tag, Tooltip } from 'antd';
-import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common';
+import { Enum, Learner, Types, Utils } from '@invinciblezealorg/lms-common';
 import React, { useState } from 'react';
 
 import { GlobalOutlined } from '@ant-design/icons';

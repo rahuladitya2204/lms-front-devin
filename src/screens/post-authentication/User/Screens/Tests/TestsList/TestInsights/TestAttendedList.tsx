@@ -1,4 +1,4 @@
-import { Enum, Types, User } from '@adewaskar/lms-common'
+import { Enum, Types, User } from '@invinciblezealorg/lms-common'
 import React, { useMemo } from 'react'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 

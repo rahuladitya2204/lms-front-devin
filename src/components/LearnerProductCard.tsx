@@ -1,5 +1,5 @@
 import { Button, Card, Col, Empty, Row, Skeleton, Spin } from 'antd'
-import { Enum, Learner, Types, User } from '@adewaskar/lms-common'
+import { Enum, Learner, Types, User } from '@invinciblezealorg/lms-common'
 
 import AppImage from '@Components/Image'
 import { Text } from './Typography/Typography'

@@ -11,7 +11,7 @@ import {
   Spin,
   theme
 } from 'antd'
-import { Enum, Learner } from '@adewaskar/lms-common'
+import { Enum, Learner } from '@invinciblezealorg/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
 import { NavLink } from 'react-router-dom'

@@ -3,7 +3,7 @@ import './style.css'
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import OrgLogo from '@Components/OrgLogo'
 import React from 'react'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 
 const PreviewWhatsappTemplate = ({ content }: any) => {
   const { data: org } = User.Queries.useGetOrgDetails()

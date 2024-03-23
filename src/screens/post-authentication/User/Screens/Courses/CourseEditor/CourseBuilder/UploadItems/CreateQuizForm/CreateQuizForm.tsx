@@ -14,7 +14,7 @@ import {
   Tag,
   Tooltip,
 } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types } from '@invinciblezealorg/lms-common'
 import { DeleteOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect } from 'react'
 

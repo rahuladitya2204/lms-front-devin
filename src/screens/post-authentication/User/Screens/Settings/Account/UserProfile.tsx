@@ -12,7 +12,7 @@ import {
   Tabs,
   message
 } from 'antd'
-import { Store, Types, User } from '@adewaskar/lms-common'
+import { Store, Types, User } from '@invinciblezealorg/lms-common'
 
 import Header from '@Components/Header'
 import MediaUpload from '@Components/MediaUpload'

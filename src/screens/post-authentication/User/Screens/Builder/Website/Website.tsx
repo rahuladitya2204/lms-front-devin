@@ -1,7 +1,7 @@
 import { Button, Card, Space, Table, Tabs } from 'antd'
 
 import Header from '@Components/Header'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import WebsitePages from './WebsitePages/WebsitePages'
 
 interface WebsiteScreenPropsI {

@@ -2,7 +2,7 @@ import CourseNotes from './CourseNotes/CourseNotes'
 import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography'
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 

@@ -19,7 +19,7 @@ import {
   Tree,
   TreeSelect,
 } from 'antd'
-import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
+import { Constants, Enum, Types, User } from '@invinciblezealorg/lms-common'
 import { DeleteTwoTone, DownOutlined, PlusCircleTwoTone, UploadOutlined } from '@ant-design/icons';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 

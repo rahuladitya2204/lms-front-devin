@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal } from 'antd';
 import React, { Fragment, useEffect, useState } from 'react';
 
 import TextArea from '@Components/Textarea';
-import { Types } from '@adewaskar/lms-common';
+import { Types } from '@invinciblezealorg/lms-common';
 
 interface AddSectionPropsI{
   closeModal?: Function;

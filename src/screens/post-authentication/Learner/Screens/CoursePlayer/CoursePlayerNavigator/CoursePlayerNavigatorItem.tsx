@@ -8,13 +8,13 @@ import {
   Space,
   Tag,
 } from 'antd'
-import { Learner, Utils } from '@adewaskar/lms-common'
+import { Learner, Utils } from '@invinciblezealorg/lms-common'
 import { Unit, unit } from 'mathjs'
 
 import CourseItemIcon from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import { DownloadOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography'
 import { downloadFile } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import styled from '@emotion/styled'

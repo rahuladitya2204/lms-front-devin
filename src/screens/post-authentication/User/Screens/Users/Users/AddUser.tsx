@@ -9,10 +9,10 @@ import {
   Select,
   Switch
 } from 'antd'
-import { Constants, Enum, Types } from '@adewaskar/lms-common'
+import { Constants, Enum, Types } from '@invinciblezealorg/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
 
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 interface CreateUserComponentPropsI {

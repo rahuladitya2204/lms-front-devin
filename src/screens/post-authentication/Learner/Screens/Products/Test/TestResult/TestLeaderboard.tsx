@@ -1,4 +1,4 @@
-import { Enum, Learner, Types, User } from '@adewaskar/lms-common'
+import { Enum, Learner, Types, User } from '@invinciblezealorg/lms-common'
 import { Table, Tag } from 'antd'
 
 import { Title } from '@Components/Typography/Typography'

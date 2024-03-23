@@ -2,7 +2,7 @@ import { Col, Row } from 'antd'
 
 import AppProvider from 'screens/AppProvider'
 import Header from '@Components/Header'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import { useParams } from 'react-router'
 
 const TestEvaluator = () => {

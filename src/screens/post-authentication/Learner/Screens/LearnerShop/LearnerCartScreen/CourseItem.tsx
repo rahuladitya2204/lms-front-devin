@@ -14,7 +14,7 @@ import {
   Typography
 } from 'antd'
 import { CloseOutlined, DeleteOutlined } from '@ant-design/icons'
-import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Learner, Types, Utils } from '@invinciblezealorg/lms-common'
 
 import Image from '@Components/Image'
 

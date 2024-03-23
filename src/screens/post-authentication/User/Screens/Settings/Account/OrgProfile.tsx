@@ -1,6 +1,6 @@
 import { Button, Card, Col, ColorPicker, Form, Input, Row, Select, Spin, Tabs } from 'antd'
 import { CheckCircleOutlined, UploadOutlined } from '@ant-design/icons'
-import { Types, User } from '@adewaskar/lms-common'
+import { Types, User } from '@invinciblezealorg/lms-common'
 import { useEffect, useState } from 'react'
 
 import Image from '@Components/Image'

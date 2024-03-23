@@ -15,7 +15,7 @@ import {
   message,
 } from 'antd'
 import { BookOutlined, ClockCircleOutlined, MenuOutlined } from '@ant-design/icons'
-import { Enum, Learner } from '@adewaskar/lms-common'
+import { Enum, Learner } from '@invinciblezealorg/lms-common'
 import { Outlet, useNavigate, useParams } from 'react-router'
 import React, { useEffect } from 'react'
 

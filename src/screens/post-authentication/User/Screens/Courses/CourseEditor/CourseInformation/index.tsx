@@ -1,17 +1,17 @@
 import { Button, Card, Col, Form, Row } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Constants, Types } from '@invinciblezealorg/lms-common'
 import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { Fragment, useEffect, useState } from 'react'
 import { Outlet, useParams } from 'react-router'
 
-import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
+import { Course } from '@Common/lib/cjs/types/types/Courses.types'
 import CourseAdvancedSettings from './CourseAdvancedSettings/CourseAdvancedSettings'
 import CourseDetailsEditor from './CourseDetailsEditor/CourseDetails'
 import CourseLandingPageEditor from './CourseLandingPage/CourseLandingPageEditor'
 import CoursePricingEditor from './CoursePricingEditor/CoursePricingEditor'
 import Header from '@Components/Header'
 import Tabs from '@Components/Tabs'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 function CourseInformationEditor(props: any) {

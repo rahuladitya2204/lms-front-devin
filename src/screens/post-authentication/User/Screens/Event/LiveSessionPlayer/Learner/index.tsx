@@ -11,7 +11,7 @@ import {
 } from 'amazon-chime-sdk-component-library-react'
 import { Outlet, useParams } from 'react-router'
 
-import { Learner } from '@adewaskar/lms-common'
+import { Learner } from '@invinciblezealorg/lms-common'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 import { ThemeProvider } from 'styled-components'
 

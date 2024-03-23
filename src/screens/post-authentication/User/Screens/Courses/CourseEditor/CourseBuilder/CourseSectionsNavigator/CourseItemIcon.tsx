@@ -14,7 +14,7 @@ import {
 } from '@ant-design/icons'
 
 import { Fragment } from 'react'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 
 interface CourseItemIconPropsI {
   item: Types.CourseSectionItem;

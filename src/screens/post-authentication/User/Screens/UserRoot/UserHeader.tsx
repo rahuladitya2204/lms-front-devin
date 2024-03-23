@@ -16,7 +16,7 @@ import {
   UserOutlined
 } from '@ant-design/icons'
 import { Outlet, useNavigate } from 'react-router'
-import { Store, User } from '@adewaskar/lms-common'
+import { Store, User } from '@invinciblezealorg/lms-common'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import { AppSider } from './UserRootScreen'

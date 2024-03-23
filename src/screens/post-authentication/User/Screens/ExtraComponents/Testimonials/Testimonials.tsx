@@ -4,7 +4,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddTestimonial from './AddTestomonial'
 import MoreButton from '@Components/MoreButton'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 
 interface TestimonialsProps {
   testimonials: Types.Testimonial[];

@@ -1,5 +1,5 @@
 import { Button, Col, Form, Popover, Row } from "antd";
-import { Types, User } from "@adewaskar/lms-common";
+import { Types, User } from "@Common";
 
 import TextArea from "@Components/Textarea";
 

@@ -26,7 +26,7 @@ import {
   UserSwitchOutlined
 } from '@ant-design/icons'
 // @ts-nocheck
-import { Learner, Utils } from '@adewaskar/lms-common'
+import { Learner, Utils } from '@invinciblezealorg/lms-common'
 import {
   formatAvgCount,
   formatSeconds

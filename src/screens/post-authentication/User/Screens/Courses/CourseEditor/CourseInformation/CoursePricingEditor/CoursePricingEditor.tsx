@@ -5,8 +5,8 @@ import ActionModal from '@Components/ActionModal/ActionModal'
 import CreateCoursePlan from './CreateCoursePlan'
 import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
 import { Fragment } from 'react'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import useMessage from '@Hooks/useMessage'
 
 interface CoursePricingEditorPropsI {

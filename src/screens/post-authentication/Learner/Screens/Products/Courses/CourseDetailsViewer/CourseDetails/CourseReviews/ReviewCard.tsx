@@ -1,5 +1,5 @@
 import { Avatar, List, Rate } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Types } from '@invinciblezealorg/lms-common'
 
 import { Typography } from '@Components/Typography';
 import { capitalize } from 'lodash'

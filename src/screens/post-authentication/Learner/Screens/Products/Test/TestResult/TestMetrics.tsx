@@ -40,7 +40,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { Enum, Learner, Utils } from '@adewaskar/lms-common'
+import { Enum, Learner, Utils } from '@invinciblezealorg/lms-common'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 

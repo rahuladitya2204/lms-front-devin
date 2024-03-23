@@ -1,4 +1,4 @@
-import { Common, Types } from '@adewaskar/lms-common'
+import { Common, Types } from '@invinciblezealorg/lms-common'
 import React, { ReactNode, useState } from 'react'
 import { Upload, UploadProps } from 'antd'
 

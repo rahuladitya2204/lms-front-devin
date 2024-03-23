@@ -11,7 +11,7 @@ import {
 } from 'antd'
 
 import { DeleteOutlined } from '@ant-design/icons'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import dayjs from 'dayjs'
 
 export const OPERATORS = {

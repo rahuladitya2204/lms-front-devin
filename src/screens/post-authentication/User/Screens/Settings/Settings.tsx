@@ -2,9 +2,9 @@ import { Button, Checkbox, Form, Input } from 'antd'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
 import { NavLink } from 'react-router-dom'
-import { Types } from '@adewaskar/lms-common'
+import { Types } from '@invinciblezealorg/lms-common'
 import { Typography } from '@Components/Typography'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import { useFormik } from 'formik'
 
 function SettingsScreen() {

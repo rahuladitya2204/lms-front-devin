@@ -3,7 +3,7 @@ import { Button, Result } from 'antd'
 import Image from '@Components/Image'
 import LoadingScreen from '@Components/LoadingScreen'
 import React from 'react'
-import { Store } from '@adewaskar/lms-common'
+import { Store } from '@invinciblezealorg/lms-common'
 
 const NotFoundScreen: React.FC = () => {
   const isAliasValid = Store.useGlobal(s => s.isAliasValid);

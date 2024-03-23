@@ -1,11 +1,11 @@
 import { Button, Card, Col, Modal, Row, Space, Tag } from 'antd'
 import { CloseOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Types } from '@adewaskar/lms-common'
+import { Enum, Types } from '@invinciblezealorg/lms-common'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
 
 import AddLearner from './AddLearners'
 import MoreButton from '@Components/MoreButton'
-import { User } from '@adewaskar/lms-common'
+import { User } from '@invinciblezealorg/lms-common'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
