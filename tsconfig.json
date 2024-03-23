@@ -28,9 +28,6 @@
       "@Icons/*": [
        "icons/*"
      ],
-      "@Common": [
-       "@adewaskar/lms-common"
-     ],
      "@User/*": [
        "screens/post-authentication/User/*"
      ],
@@ -52,6 +49,10 @@
      "@Providers/*": [
       "providers/*"
     ],
+    // TODO: Remove once lms-common version is published with peer dependency
+    "@adewaskar/lms-common": [
+      "../node_modules/@invinciblezealorg/lms-common"
+    ]
     }
   },
   "include": [
