@@ -2,6 +2,7 @@ import React from "react";
 import "../index.css";
 
 import type { Metadata, Viewport } from "next";
+import Providers from "./providers";
 
 export const viewport: Viewport = {
   themeColor: "black",
@@ -18,7 +19,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    // <QueryProvider>
     <html lang="en">
       <head>
         <link rel="icon" href="%PUBLIC_URL%/logo192.png" />
@@ -32,9 +32,8 @@ export default function RootLayout({
       </head>
       <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
-        <div id="root">{children}</div>
+        <Providers>{children}</Providers>
       </body>
     </html>
-    // </QueryProvider>
   );
 }
