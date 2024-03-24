@@ -43,6 +43,12 @@
      "@Hooks/*": [
        "hooks/*"
      ],
+     "@ServerHooks/*": [
+      "server/hooks/*"
+     ],
+     "@ServerUtils/*": [
+      "server/utils/*"
+     ],
      "@Store/*": [
        "store/*"
      ],
