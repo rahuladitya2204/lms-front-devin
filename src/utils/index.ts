@@ -1,10 +1,21 @@
 import { Color } from '@kurkle/color'
 import { Utils } from '@adewaskar/lms-common'
 
-Utils.Storage.GetItem = (key: string) => localStorage.getItem(key)
-Utils.Storage.SetItem = (key: string, value: string) =>
-  localStorage.setItem(key, value)
-Utils.Storage.RemoveItem = (key: string) => localStorage.removeItem(key)
+Utils.Storage.GetItem = (key: string) => {
+  if(typeof window !== 'undefined') {
+    return localStorage.getItem(key);
+  }
+}
+Utils.Storage.SetItem = (key: string, value: string) => {
+  if(typeof window !== 'undefined') {
+    return localStorage.setItem(key, value);
+  }
+}
+Utils.Storage.RemoveItem = (key: string) => {
+  if(typeof window !== 'undefined') {
+    return localStorage.removeItem(key);
+  }
+}
 
 type GradientTypes = {
   type1: string[],

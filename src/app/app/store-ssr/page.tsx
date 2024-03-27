@@ -7,7 +7,6 @@ import { Common, Learner } from "@adewaskar/lms-common";
 
 export default async function Page({ params }: { params: { slug: string[] } }) {
   const subdomain = getSubdomainFromHost(headers().get("host"));
-  console.log("subdomain", subdomain);
   const { validateOrgAlias } = Common.Queries.Definitions;
   const { getLearnerProductCategories, getRecommendedProducts } =
     Learner.Queries.Definitions;
