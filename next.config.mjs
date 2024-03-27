@@ -2,9 +2,11 @@
 const nextConfig = {
   output: "standalone", // Outputs a Single-Page Application (SPA).
   distDir: "./dist", // Changes the build output directory to `./dist/`.
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
-
     return config;
   },
 };

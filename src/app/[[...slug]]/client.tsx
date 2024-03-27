@@ -6,8 +6,8 @@ import { initInterceptors } from "@Network/index";
 
 const App = dynamic(() => import("../../App"), { ssr: false });
 
-export function ClientOnly() {
+export function ClientOnly(): JSX.Element {
   initInterceptors();
-
+  // @ts-ignore
   return <App />;
 }

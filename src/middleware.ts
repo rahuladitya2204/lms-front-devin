@@ -7,6 +7,8 @@ import { Utils } from "@adewaskar/lms-common";
 
 export const config = {
   matcher: "/((?!api|static|.*\\..*|_next).*)",
+  runtime: "experimental-edge",
+  unstable_allowDynamic: ["**/node_modules/lodash/*.js"],
 };
 
 export async function middleware(request: NextRequest) {
