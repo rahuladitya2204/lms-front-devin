@@ -8,22 +8,34 @@ import getQueryClient from "../utils/getQueryClient";
 import { initInterceptors } from "@Network/index";
 
 type Queries = Array<FetchQueryOptions>;
+type Mutations = Array<Promise<any>>;
 
-async function prefetchQueries(queryClient: QueryClient, queries: Queries) {
+export async function prefetchQueries(
+  queryClient: QueryClient,
+  queries: Queries
+) {
   const promises = queries.map((query) => queryClient.prefetchQuery(query));
   const results = await Promise.all(promises);
   return results;
 }
 
+export async function prefetchMutations(mutations: Mutations) {
+  const results = await Promise.all(mutations);
+  return results;
+}
+
 export interface HydratorProps {
   children: React.ReactNode;
-  queries: Queries;
+  queries?: Queries;
 }
 
 export default async function Hydrator({ children, queries }: HydratorProps) {
   initInterceptors();
   const queryClient = getQueryClient();
-  await prefetchQueries(queryClient, queries);
+  if (queries && queries.length) {
+    await prefetchQueries(queryClient, queries);
+  }
+
   const dehydratedState = dehydrate(queryClient);
 
   return <Hydrate state={dehydratedState}>{children}</Hydrate>;

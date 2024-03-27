@@ -13,6 +13,15 @@ type GradientTypes = {
   type4: string[]
 }
 
+export function getSubdomainFromHost(host: string | null): string | undefined {
+  if (!host) return undefined;
+
+  const parts = host.split(".");
+  // Assuming the format is always [subdomain].[domain].[tld]
+  const subdomain = parts.slice(0, -2).join("-");
+  return subdomain;
+}
+
 export function generateGradients(primaryColor: string): GradientTypes {
   // Create a Color object
   const color = new Color(primaryColor)
