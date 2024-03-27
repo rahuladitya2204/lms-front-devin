@@ -1,17 +1,10 @@
 import LearnerHomeScreen from "@Learner/Screens/StoreScreen/HomeScreen";
-import Hydrator, { prefetchMutations } from "server/components/Hydrator";
-import { headers } from "next/headers";
-import { getSubdomainFromHost } from "@Utils/index";
+import Hydrator from "server/components/Hydrator";
+import { Learner } from "@adewaskar/lms-common";
 
-import { Common, Learner } from "@adewaskar/lms-common";
-
-export default async function Page({ params }: { params: { slug: string[] } }) {
-  const subdomain = getSubdomainFromHost(headers().get("host"));
-  const { validateOrgAlias } = Common.Queries.Definitions;
+export default async function Page() {
   const { getLearnerProductCategories, getRecommendedProducts } =
     Learner.Queries.Definitions;
-
-  await prefetchMutations([validateOrgAlias(subdomain ?? "")]);
 
   return (
     <Hydrator

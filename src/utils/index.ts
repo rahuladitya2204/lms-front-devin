@@ -6,11 +6,13 @@ Utils.Storage.GetItem = (key: string) => {
     return localStorage.getItem(key);
   }
 }
+
 Utils.Storage.SetItem = (key: string, value: string) => {
   if(typeof window !== 'undefined') {
     return localStorage.setItem(key, value);
   }
 }
+
 Utils.Storage.RemoveItem = (key: string) => {
   if(typeof window !== 'undefined') {
     return localStorage.removeItem(key);
@@ -24,8 +26,8 @@ type GradientTypes = {
   type4: string[]
 }
 
-export function getSubdomainFromHost(host: string | null): string | undefined {
-  if (!host) return undefined;
+export function getSubdomainFromHostname(host: string | null): string {
+  if (!host) return "";
 
   const parts = host.split(".");
   // Assuming the format is always [subdomain].[domain].[tld]
@@ -81,4 +83,19 @@ export function copyToClipboard(text: string): void {
   }
 
   document.body.removeChild(textarea)
+}
+
+export function parseCookies(cookieString: string): Record<string, string> {
+  const cookieValues: Record<string, string> = {};
+
+  if (cookieString) {
+    const cookies = cookieString.split('; ');
+
+    cookies.forEach((cookie) => {
+      const [name, value] = cookie.split('=');
+      cookieValues[name] = value;
+    });
+  }
+
+  return cookieValues;
 }

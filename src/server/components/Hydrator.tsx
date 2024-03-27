@@ -5,6 +5,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import getQueryClient from "../utils/getQueryClient";
+import { initInterceptors } from "@Network/index";
 
 type Queries = Array<FetchQueryOptions>;
 type Mutations = Array<Promise<any>>;
@@ -29,6 +30,8 @@ export interface HydratorProps {
 }
 
 export default async function Hydrator({ children, queries }: HydratorProps) {
+  initInterceptors();
+
   const queryClient = getQueryClient();
   if (queries && queries.length) {
     await prefetchQueries(queryClient, queries);

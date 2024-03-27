@@ -61,7 +61,7 @@ function LearnerHomeScreen() {
             />
             {arr.map((i) => {
               return (
-                <Col lg={6} md={8} sm={12} xs={24}>
+                <Col lg={6} md={8} sm={12} xs={24} key={i}>
                   <SkeletonImage
                     style={{
                       flex: 1,
@@ -100,9 +100,9 @@ function LearnerHomeScreen() {
             One Destination for Complete Exam Preparation
           </Title>
           <Row gutter={[30, 20]}>
-            {categories.map((cat) => {
+            {categories.map((cat, index) => {
               return (
-                <Col sm={12} md={8} xs={24} lg={6}>
+                <Col sm={12} md={8} xs={24} lg={6} key={index}>
                   <ProductCategoryCard productCategory={cat} />
                 </Col>
               );

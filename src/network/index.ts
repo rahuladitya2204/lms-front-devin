@@ -1,5 +1,5 @@
+import getRequestHeaders from "@ServerUtils/getRequestHeaders";
 import { Network, Store } from "@adewaskar/lms-common";
-
 import { Utils } from "@adewaskar/lms-common";
 
 export const getToken = (userType?: string) => {
@@ -39,9 +39,9 @@ const requestTransformer = [
     if (orgId) {
       headers.set("x-org", orgId);
     }
-    const orgAlias = Utils.Storage.GetItem("orgAlias");
-    const userType = Utils.Storage.GetItem("userType");
-    const affiliateId = Utils.Storage.GetItem("affiliateId");
+
+    const { orgAlias, affiliateId, userType } = getRequestHeaders();
+
     const token = getToken(userType);
     if (orgAlias) {
       headers.set("x-org-alias", orgAlias);
