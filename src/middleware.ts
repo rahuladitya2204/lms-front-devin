@@ -21,6 +21,7 @@ export async function middleware(request: NextRequest) {
     .catch(() => {});
 
   // if org is validated
+  // TODO: implement affiliate ID match
   if (result) {
     request.cookies.set({ name: "orgAlias", value: subdomain });
     request.cookies.set({
