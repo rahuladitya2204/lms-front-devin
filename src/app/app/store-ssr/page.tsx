@@ -1,7 +1,7 @@
 import LearnerHomeScreen from "@Learner/Screens/StoreScreen/HomeScreen";
 import Hydrator from "@ServerComponents/Hydrator";
 import { Learner } from "@adewaskar/lms-common";
-import LearnerLayout from "@ServerComponents/LearnerLayout";
+import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 
 export default function Page() {
   const {
@@ -22,9 +22,9 @@ export default function Page() {
         getLearnerDetails(),
       ]}
     >
-      <LearnerLayout>
+      <LearnerRootScreen>
         <LearnerHomeScreen />
-      </LearnerLayout>
+      </LearnerRootScreen>
     </Hydrator>
   );
 }

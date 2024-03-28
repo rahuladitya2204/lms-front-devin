@@ -7,6 +7,13 @@ import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
 import { jsonrepair } from 'jsonrepair'
 import { unit } from 'mathjs'
+import { getIsServer, getStaticPath } from '@ServerUtils/index'
+
+// console.log(process.env.PUBLIC_URL, hotttt);
+GlobalWorkerOptions.workerSrc = new URL(
+  '/pdf.worker.min.js',
+  getIsServer() ? getStaticPath() : window.location.origin,
+).href
 
 export const updateCourseSectionItem = (
   sections: Types.CourseSection[],

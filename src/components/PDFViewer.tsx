@@ -19,17 +19,6 @@ export interface PDFViewerPropsI {
 }
 
 const PDFViewer = (props: PDFViewerPropsI) => {
-  useEffect(() => {
-    GlobalWorkerOptions.workerSrc = new URL(
-      '/pdf.worker.min.js',
-      window.location.origin
-    ).href
-    
-  }, []);
-  return <PDFViewerInternal̦ {...props} />;
-}
-
-const PDFViewerInternal̦ = (props: PDFViewerPropsI) => {
   const [loading, setLoading] = useState(true)
 
   const {

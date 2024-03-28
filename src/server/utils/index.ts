@@ -1,6 +1,17 @@
 import { parseCookies } from "@Utils/index";
-import getIsServer from "./getIsServer";
 import { Utils } from "@adewaskar/lms-common";
+import path from "path";
+import getConfig from "next/config";
+
+export const getIsServer = (): boolean => {
+  return typeof window === "undefined";
+};
+
+export const getStaticPath = () => {
+  const staticPath = process.cwd() + getConfig().serverRuntimeConfig.staticFolder;
+  console.log(staticPath);
+  return staticPath;
+};
 
 export const getRequestHeaders = (): {
   orgAlias?: string;
@@ -25,5 +36,3 @@ export const getRequestHeaders = (): {
     affiliateId: Utils.Storage.GetItem("affiliateId"),
   };
 };
-
-export default getRequestHeaders;

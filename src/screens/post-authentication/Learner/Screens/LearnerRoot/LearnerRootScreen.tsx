@@ -1,9 +1,9 @@
+"use client";
 import { Alert, Button, FloatButton } from 'antd'
 import { Enum, Learner, Store, Utils } from '@adewaskar/lms-common'
-import { Fragment, useEffect, useMemo } from 'react'
-import { NavLink, useSearchParams } from 'react-router-dom'
+import { Fragment, useEffect } from 'react'
 import { useOutletContext, useParams } from 'react-router'
-
+import { useSearchParams } from 'next/navigation';
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'
 import CreateTicket from '../Tickets/CreateTicket'
@@ -14,25 +14,21 @@ import LearnerHeader from './LearnerHeader'
 import LearnerProfile from '../Account/LearnerProfile'
 import ThemeProvider from 'screens/ThemeProvider'
 import { Typography } from '@Components/Typography'
-import styled from '@emotion/styled'
 import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
-import useBreakpoint from '@Hooks/useBreakpoint'
+import useServerBreakpoint from '@ServerHooks/useServerBreakpoint'
 
 const { Title } = Typography;
 
-const CustomLayout = styled(Layout)`
-.ant-layout>div {
-  display: block;
-  width:auto;
+export interface LearnerRootScreenProps {
+  children?: React.ReactNode;
 }
-`
 
-const LearnerRootScreen: React.FC = () => {
+const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
   useBlockBackButton()
 
   const { orgId } = useParams()
-  const [params] = useSearchParams()
-  const userAuthToken = params.get('userAuthToken')
+  const searchParams = useSearchParams()
+  const userAuthToken = searchParams.get('userAuthToken')
   useEffect(
     () => {
       if (userAuthToken) {
@@ -51,12 +47,12 @@ const LearnerRootScreen: React.FC = () => {
     },
     [orgId]
   )
-  const { isMobile } = useBreakpoint()
-  const { showLoadingScreen } = useOutletContext<any>();
+  const { isMobile } = useServerBreakpoint()
+  const outletcontext = useOutletContext<any>();
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const {data: learner } = Learner.Queries.useGetLearnerDetails();
   return (
-    <ThemeProvider showLoadingScreen={showLoadingScreen} type="learner">
+    <ThemeProvider showLoadingScreen={outletcontext?.showLoadingScreen} type="learner">
       {/* <ApplyFavicon faviconUrl={ brand} /> */}
       <AppProvider>
         {isSignedIn ? (
@@ -77,7 +73,7 @@ const LearnerRootScreen: React.FC = () => {
                 />
               }
             >
-              <CreateTicket />
+              {/* <CreateTicket /> */}
             </ActionModal>
           ) : null
         ) : null}
@@ -93,7 +89,7 @@ const LearnerRootScreen: React.FC = () => {
     />:null}
          </Fragment>:null}
           <div style={{flex:1,paddingBottom:50}}>
-          <LearnerHeader />
+          <LearnerHeader children={children} />
          </div>
           <LearnerFooter/>
  </Layout>

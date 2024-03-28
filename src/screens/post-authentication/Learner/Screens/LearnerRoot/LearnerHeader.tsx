@@ -36,7 +36,7 @@ import {
 import { Fragment, useMemo } from 'react'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Link, NavLink } from 'react-router-dom'
-import { Outlet, useNavigate } from 'react-router'
+import { Outlet } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -47,17 +47,22 @@ import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import { Typography } from '@Components/Typography'
-import useBreakpoint from '@Hooks/useBreakpoint'
+import useServerBreakpoint from '@ServerHooks/useServerBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
 
 const { confirm } = Modal
 
 const { Content } = Layout
-const { Text, Title } = Typography
+const { Text } = Typography
 
-const LearnerHeader: React.FC = () => {
+export interface LearnerHeaderProps {
+  children?: React.ReactNode
+}
+
+const LearnerHeader = ({children}: LearnerHeaderProps) => {
   const {
     mutate: logoutLearner,
     isLoading: loggingOut
@@ -74,10 +79,10 @@ const LearnerHeader: React.FC = () => {
   };
   
   const { data: { items } } = Learner.Queries.useGetCartDetails()
-  const screen = useBreakpoint()
+  const screen = useServerBreakpoint()
   // console.log(screen, 'scrrrr')
   const isMobileOrTablet = screen.isMobile || screen.isTablet
-  const navigate = useNavigate()
+  const router = useRouter()
   const logout = (cb?: Function) => {
     confirm({
       title: 'Are you sure?',
@@ -90,7 +95,7 @@ const LearnerHeader: React.FC = () => {
               type: 'success',
               content:'Logged Out successfully.'
             })
-            navigate('../app/store')
+            router.push('../app/store')
           }
         })
       },
@@ -199,7 +204,7 @@ const LearnerHeader: React.FC = () => {
                 // defaultOpenKeys={['sub1']}
                 mode="inline"
                 onClick={e => {
-                  navigate(e.key)
+                  router.push(e.key)
                 }}
                 // theme="dark"
                 // inlineCollapsed={collapsed}
@@ -238,7 +243,7 @@ const LearnerHeader: React.FC = () => {
                         {Utils.getFirstLettersOfName(user.name)}
                       </Avatar>
                     }
-                    // onClick={() => navigate('../app/account')}
+                    // onClick={() => router.push('../app/account')}
                   >
                     {user?.name}
                   </Menu.Item>:null}
@@ -250,7 +255,7 @@ const LearnerHeader: React.FC = () => {
                   <Menu.Item
                     key="support"
                     icon={<UserOutlined />}
-                    onClick={() => navigate('../app/tickets')}
+                    onClick={() => router.push('../app/tickets')}
                   >
                     Help and Support
                   </Menu.Item>
@@ -285,7 +290,7 @@ const LearnerHeader: React.FC = () => {
       title={
         <Space style={{ cursor: 'pointer'}}>
           <OrgLogo
-            onClick={() => navigate('../app/store')}
+            onClick={() => router.push('../app/store')}
             // style={{ width: 60 }}
           />
 
@@ -311,7 +316,7 @@ const LearnerHeader: React.FC = () => {
           <Row style={{ paddingTop: 20 }}>
             <Col xs={1} sm={2} />
             <Col xs={22} sm={20}>
-              <Outlet />
+              { children ? children : <Outlet />}
             </Col>
             <Col xs={1} sm={2} />
           </Row>

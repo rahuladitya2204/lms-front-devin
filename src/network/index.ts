@@ -1,4 +1,4 @@
-import getRequestHeaders from "@ServerUtils/getRequestHeaders";
+import { getRequestHeaders } from "@ServerUtils/index";
 import { Network, Store } from "@adewaskar/lms-common";
 import { Utils } from "@adewaskar/lms-common";
 
