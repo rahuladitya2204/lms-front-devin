@@ -42,6 +42,7 @@ const requestTransformer = [
     const orgAlias = Utils.Storage.GetItem("orgAlias");
     const userType = Utils.Storage.GetItem("userType");
     const affiliateId = Utils.Storage.GetItem("affiliateId");
+    console.log("here", orgAlias, userType, affiliateId);
 
     const token = getToken(userType);
     if (orgAlias) {

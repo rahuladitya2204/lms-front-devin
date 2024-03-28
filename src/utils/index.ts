@@ -1,40 +1,43 @@
-import { Color } from '@kurkle/color'
-import { Utils } from '@adewaskar/lms-common'
-import { deleteCookie, getCookie, setCookie } from '@ServerUtils/index';
+import { Color } from "@kurkle/color";
+import { Utils } from "@adewaskar/lms-common";
+import { getIsServer, getServerCookie } from "@ServerUtils/index";
+import { parse, serialize } from "cookie";
 
 export const initStorage = () => {
-  console.log('initializing storage');
+  console.log("initializing storage");
   Utils.Storage.GetItem = (key: string) => {
-    if(typeof window !== 'undefined') {
-      return localStorage.getItem(key);
-    } else {
-      return getCookie(key);
+    const cookieString = getIsServer() ? getServerCookie() : document.cookie;
+    if (!getIsServer()) {
+      // console.log("cookie", cookieString, "on the client");
     }
-  }
-  
+    const cookies = parse(cookieString);
+    return cookies[key];
+  };
+
   Utils.Storage.SetItem = (key: string, value: string) => {
-    if(typeof window !== 'undefined') {
-      return localStorage.setItem(key, value);
-    } else {
-      return setCookie(key, value);
+    if (!getIsServer()) {
+      const cookieString = serialize(key, value, {
+        path: "/",
+        domain: window.location.hostname,
+      });
+      document.cookie = cookieString;
     }
-  }
-  
+  };
+
   Utils.Storage.RemoveItem = (key: string) => {
-    if(typeof window !== 'undefined') {
-      return localStorage.removeItem(key);
-    } else {
-      return deleteCookie(key);
+    if (!getIsServer()) {
+      const cookieString = serialize(key, "", { expires: new Date(0) });
+      document.cookie = cookieString;
     }
-  }
-}
+  };
+};
 
 type GradientTypes = {
-  type1: string[],
-  type2: string[],
-  type3: string[],
-  type4: string[]
-}
+  type1: string[];
+  type2: string[];
+  type3: string[];
+  type4: string[];
+};
 
 export function getSubdomainFromHostname(host: string | null): string {
   if (!host) return "";
@@ -47,62 +50,62 @@ export function getSubdomainFromHostname(host: string | null): string {
 
 export function generateGradients(primaryColor: string): GradientTypes {
   // Create a Color object
-  const color = new Color(primaryColor)
+  const color = new Color(primaryColor);
 
   // Generate gradients by manipulating the color
   const gradientType1 = `linear-gradient(45deg, ${color.hexString()}, ${color
     .lighten(0.3)
-    .hexString()})`
+    .hexString()})`;
   const gradientType2 = `linear-gradient(90deg, ${color.hexString()}, ${color
     .darken(0.3)
-    .hexString()})`
+    .hexString()})`;
   const gradientType3 = `linear-gradient(135deg, ${color.hexString()}, ${color
     .alpha(0.5)
-    .rgbString()})` // semi-transparent
+    .rgbString()})`; // semi-transparent
   const gradientType4 = `linear-gradient(180deg, ${color.hexString()}, ${color
     .rotate(180)
-    .hexString()})` // complementary color
+    .hexString()})`; // complementary color
   return {
     type1: [gradientType1],
     type2: [gradientType2],
     type3: [gradientType3],
-    type4: [gradientType4]
-  }
+    type4: [gradientType4],
+  };
 }
 
 export function copyToClipboard(text: string): void {
   // Create a temporary textarea element
-  const textarea = document.createElement('textarea')
-  textarea.value = text
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
 
   // Avoid scrolling to bottom
-  textarea.style.top = '0'
-  textarea.style.left = '0'
-  textarea.style.position = 'fixed'
+  textarea.style.top = "0";
+  textarea.style.left = "0";
+  textarea.style.position = "fixed";
 
-  document.body.appendChild(textarea)
-  textarea.focus()
-  textarea.select()
+  document.body.appendChild(textarea);
+  textarea.focus();
+  textarea.select();
 
   try {
-    const successful = document.execCommand('copy')
-    const msg = successful ? 'successful' : 'unsuccessful'
-    console.log('Copying text command was ' + msg)
+    const successful = document.execCommand("copy");
+    const msg = successful ? "successful" : "unsuccessful";
+    console.log("Copying text command was " + msg);
   } catch (err) {
-    console.error('Oops, unable to copy', err)
+    console.error("Oops, unable to copy", err);
   }
 
-  document.body.removeChild(textarea)
+  document.body.removeChild(textarea);
 }
 
 export function parseCookies(cookieString: string): Record<string, string> {
   const cookieValues: Record<string, string> = {};
 
   if (cookieString) {
-    const cookies = cookieString.split('; ');
+    const cookies = cookieString.split("; ");
 
     cookies.forEach((cookie) => {
-      const [name, value] = cookie.split('=');
+      const [name, value] = cookie.split("=");
       cookieValues[name] = value;
     });
   }

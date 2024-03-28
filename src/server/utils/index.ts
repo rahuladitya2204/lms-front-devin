@@ -1,25 +1,13 @@
 import { parseCookies } from "@Utils/index";
 import { Utils } from "@adewaskar/lms-common";
-import path from "path";
 import getConfig from "next/config";
 
 export const getIsServer = (): boolean => {
   return typeof window === "undefined";
 };
 
-export const getCookie = (key: string): string => {
-  const cookieString = require("next/headers").headers().get("cookie");
-  const cookies = parseCookies(cookieString);
-
-  return cookies[key];
-};
-
-export const setCookie = (key: string, value: string) => {
-  return require("next/headers").cookies().set(key, value);
-};
-
-export const deleteCookie = (key: string) => {
-  return require("next/headers").cookies().delete(key);
+export const getServerCookie = (): string => {
+  return require("next/headers").headers().get("cookie");
 };
 
 export const getStaticPath = () => {
