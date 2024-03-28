@@ -8,11 +8,6 @@ import { cloneDeep } from 'lodash'
 import { jsonrepair } from 'jsonrepair'
 import { unit } from 'mathjs'
 
-GlobalWorkerOptions.workerSrc = new URL(
-  '/pdf.worker.min.js',
-  window.location.origin
-).href
-
 export const updateCourseSectionItem = (
   sections: Types.CourseSection[],
   sectionId: string,

@@ -43,6 +43,9 @@
      "@Hooks/*": [
        "hooks/*"
      ],
+     "@ServerComponents/*": [
+      "server/components/*"
+     ],
      "@ServerHooks/*": [
       "server/hooks/*"
      ],

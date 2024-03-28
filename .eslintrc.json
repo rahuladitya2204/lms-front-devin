@@ -2,7 +2,7 @@
   "extends": "next",
   "rules": {
     "react/jsx-key": ["warn"],
-    "react/no-children-prop": ["warn"],
+    "react/no-children-prop": ["off"],
     "react/jsx-no-duplicate-props": ["warn"],
     "react/no-unescaped-entities": ["warn"]
   }

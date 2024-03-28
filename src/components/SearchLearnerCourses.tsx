@@ -4,12 +4,12 @@ import { Learner, Types } from '@adewaskar/lms-common'
 import Image from './Image'
 import Search from 'antd/es/input/Search'
 import { Title } from './Typography/Typography'
-import { useNavigate } from 'react-router'
+import { useRouter } from "next/navigation";
 import { useState } from 'react'
 
 export default function SearchLearnerCourses() {
   const [text, setText] = useState('')
-  const navigate = useNavigate()
+  const router = useRouter();
   const {
     data: seachedProducts,
     isFetching: loading
@@ -35,7 +35,7 @@ export default function SearchLearnerCourses() {
           label: (
             <Space
               onClick={e => {
-                navigate(`${productType}/${c._id}`)
+                router.push(`${productType}/${c._id}`)
               }}
               align="center"
               style={{ justifyContent: 'center', alignItems: 'center' }}

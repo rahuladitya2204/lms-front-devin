@@ -1,16 +1,30 @@
 import LearnerHomeScreen from "@Learner/Screens/StoreScreen/HomeScreen";
-import Hydrator from "server/components/Hydrator";
+import Hydrator from "@ServerComponents/Hydrator";
 import { Learner } from "@adewaskar/lms-common";
+import LearnerLayout from "@ServerComponents/LearnerLayout";
 
 export default function Page() {
-  const { getLearnerProductCategories, getRecommendedProducts } =
-    Learner.Queries.Definitions;
+  const {
+    getLearnerProductCategories,
+    getRecommendedProducts,
+    getCartDetails,
+    getOrgDetails,
+    getLearnerDetails,
+  } = Learner.Queries.Definitions;
   return (
     // @ts-ignore
     <Hydrator
-      queries={[getRecommendedProducts(), getLearnerProductCategories()]}
+      queries={[
+        getRecommendedProducts(),
+        getLearnerProductCategories(),
+        getCartDetails(),
+        getOrgDetails(),
+        getLearnerDetails(),
+      ]}
     >
-      <LearnerHomeScreen />
+      <LearnerLayout>
+        <LearnerHomeScreen />
+      </LearnerLayout>
     </Hydrator>
   );
 }
