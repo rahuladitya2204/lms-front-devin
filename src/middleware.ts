@@ -2,7 +2,7 @@ import { initInterceptors } from "@Network/index";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { validateOrgAlias } from "server/api";
-import { getSubdomainFromHostname } from "./utils";
+import { getSubdomainFromHostname, initStorage } from "./utils";
 import { Utils } from "@adewaskar/lms-common";
 
 export const config = {
@@ -14,6 +14,7 @@ export const config = {
 export async function middleware(request: NextRequest) {
   console.log("[Middleware]: started");
   initInterceptors();
+  initStorage();
 
   const subdomain = getSubdomainFromHostname(request.headers.get("host"));
   const result = await validateOrgAlias({ alias: subdomain })

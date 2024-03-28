@@ -1,5 +1,6 @@
 // utils/dehydration.ts
 import { initInterceptors } from "@Network/index";
+import { initStorage } from "@Utils/index";
 import { useEffect } from "react";
 
 export function useDehydrationEffect() {
@@ -8,6 +9,7 @@ export function useDehydrationEffect() {
   useEffect(() => {
     if (!isServer) {
       initInterceptors();
+      initStorage();
     }
   }, [isServer]);
 }

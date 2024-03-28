@@ -1,21 +1,31 @@
 import { Color } from '@kurkle/color'
 import { Utils } from '@adewaskar/lms-common'
+import { deleteCookie, getCookie, setCookie } from '@ServerUtils/index';
 
-Utils.Storage.GetItem = (key: string) => {
-  if(typeof window !== 'undefined') {
-    return localStorage.getItem(key);
+export const initStorage = () => {
+  console.log('initializing storage');
+  Utils.Storage.GetItem = (key: string) => {
+    if(typeof window !== 'undefined') {
+      return localStorage.getItem(key);
+    } else {
+      return getCookie(key);
+    }
   }
-}
-
-Utils.Storage.SetItem = (key: string, value: string) => {
-  if(typeof window !== 'undefined') {
-    return localStorage.setItem(key, value);
+  
+  Utils.Storage.SetItem = (key: string, value: string) => {
+    if(typeof window !== 'undefined') {
+      return localStorage.setItem(key, value);
+    } else {
+      return setCookie(key, value);
+    }
   }
-}
-
-Utils.Storage.RemoveItem = (key: string) => {
-  if(typeof window !== 'undefined') {
-    return localStorage.removeItem(key);
+  
+  Utils.Storage.RemoveItem = (key: string) => {
+    if(typeof window !== 'undefined') {
+      return localStorage.removeItem(key);
+    } else {
+      return deleteCookie(key);
+    }
   }
 }
 
