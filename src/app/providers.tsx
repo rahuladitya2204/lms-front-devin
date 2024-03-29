@@ -1,6 +1,8 @@
 "use client";
 
 import { ParticlesProvider } from "@Components/Particles/ParticleProvider";
+import { ServerAuthProvider } from "@ServerHooks/useServerAuth";
+import { Store } from "@adewaskar/lms-common";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function makeQueryClient() {
@@ -39,8 +41,14 @@ export default function Providers({ children }) {
   const queryClient = getQueryClient();
 
   return (
-    <ParticlesProvider>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-    </ParticlesProvider>
+    <Store.AuthenticationStoreProvider>
+      <Store.GlobalStoreProvider>
+        <ParticlesProvider>
+          <QueryClientProvider client={queryClient}>
+            <ServerAuthProvider>{children}</ServerAuthProvider>
+          </QueryClientProvider>
+        </ParticlesProvider>
+      </Store.GlobalStoreProvider>
+    </Store.AuthenticationStoreProvider>
   );
 }

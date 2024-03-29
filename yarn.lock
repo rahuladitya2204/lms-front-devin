@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz#bd9154aec9983f77b3a034ecaa015c2e4201f6cf"
   integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
 
-"@adewaskar/lms-common@3.1.487-alpha.5":
-  version "3.1.487-alpha.5"
-  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.5.tgz#34c951639c145a4f2da2d946ad4582e1fcb0e632"
-  integrity sha512-cjci8eUUI5AuK6CWbm80eb8oxibIv2M8/3CeSZw/Yg0ztg4BKRDxhu7K7WGfJRTgU4ccqJ5Txm5gSYF/7vqlpg==
+"@adewaskar/lms-common@3.1.487-alpha.9":
+  version "3.1.487-alpha.9"
+  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.9.tgz#b852be873659cfde650f9380fe8a02e3ae6a48b0"
+  integrity sha512-zBzv/PLt2bm9Ok2dQh0Aq4bXuhMsukrP5n8Xc/K0syYHuoZgkrI5+TqslOTpanDEZyP0nls6Xj0+zRpYw8EJAQ==
   dependencies:
     "@ant-design/colors" "^7.0.0"
     "@babel/core" "^7.21.0"
@@ -10462,6 +10462,11 @@ jest@27.4.3:
     "@jest/core" "^27.4.3"
     import-local "^3.0.2"
     jest-cli "^27.4.3"
+
+js-cookie@3.0.5:
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-3.0.5.tgz#0b7e2fd0c01552c58ba86e0841f94dc2557dcdbc"
+  integrity sha512-cEiJEAEoIbWfCZYKWhVwFuvPX1gETRYPw6LlaTKoxD3s2AkXzkCjnp6h0V77ozyqj0jakteJ4YqDJT830+lVGw==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
