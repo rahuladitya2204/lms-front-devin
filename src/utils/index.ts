@@ -46,7 +46,15 @@ type GradientTypes = {
   type4: string[];
 };
 
-export function getSubdomainFromHostname(host: string | null): string {
+export function getSubdomainFromHost(host: string | null): string {
+  if (!host) return "";
+
+  const parts = host.split(".");
+  // Assuming the format is always [subdomain].[domain].[tld]
+  const subdomain = parts.slice(0, -2).join("-");
+  return subdomain;
+}
+export function getHostnameFromHost(host: string | null): string {
   if (!host) return "";
 
   const parts = host.split(".");

@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 const useLearnerOauth = (provider: string) => {
   const [loading, setLoading] = useState(false)
   const { data: googleLoginUrl } = User.Queries.useGetProviderLoginUrl(provider)
-  const setIsSignedin = useServerAuth(state => state.setIsSignedIn)
+  const setIsSignedin = useServerAuth(state => state.setIsSignedin)
   useEffect(() => {
     window.addEventListener(
       'message',

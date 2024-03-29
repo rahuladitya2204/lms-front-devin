@@ -71,7 +71,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const isAdmin = Store.useGlobal(s => s.isAdmin);
   const { data: user, isFetching: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
-  const {isSignedIn, setIsSignedIn, isLoading: loadingAuth } = useServerAuth(s => s);
+  const {isSignedIn, isLoading: loadingAuth } = useServerAuth(s => s);
 
   const message = useMessage();
   const enrolledProducts = {
@@ -96,7 +96,6 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
       onOk() {
         logoutLearner({
           onSuccess: async () => {
-            setIsSignedIn(false);
             message.open({
               type: 'success',
               content:'Logged Out successfully.'

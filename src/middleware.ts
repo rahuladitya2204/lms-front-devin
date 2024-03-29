@@ -1,8 +1,7 @@
-import { initInterceptors } from "@Network/index";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { validateOrgAlias } from "server/api";
-import { getSubdomainFromHostname, initStorage } from "./utils";
+import { getHostnameFromHost, getSubdomainFromHost } from "./utils";
 import { Utils } from "@adewaskar/lms-common";
 import {
   ResponseCookies,
@@ -26,7 +25,8 @@ export async function middleware(request: NextRequest) {
   const hasOrgAlias = request.cookies.has("orgAlias");
   const hasUserType = request.cookies.has("userType");
 
-  const orgAlias = getSubdomainFromHostname(request.headers.get("host"));
+  const host = request.headers.get("host");
+  const orgAlias = getSubdomainFromHost(host);
   const userType = Utils.getUserType(orgAlias);
 
   try {
@@ -52,7 +52,11 @@ export async function middleware(request: NextRequest) {
       console.log("[Middleware] Setting ", cookie.name);
 
       updatedResponseCookies = true;
-      response.cookies.set({ ...rest, path: "/" });
+      response.cookies.set({
+        ...rest,
+        path: "/",
+        domain: getHostnameFromHost(host),
+      });
     }
   }
 

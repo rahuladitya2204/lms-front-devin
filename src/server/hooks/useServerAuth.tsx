@@ -5,23 +5,28 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Common } from "@adewaskar/lms-common";
+import { Common, Constants, Store, Types } from "@adewaskar/lms-common";
 import { useCookies } from "react-cookie";
 
-export interface ServerAuth {
-  userType: string;
-  isSignedIn: boolean;
-  isLoading: boolean;
-  setIsSignedIn: (value: boolean) => void;
+export interface ServerAuth
+  extends Pick<
+    Store.AuthenticationState<Types.User>,
+    | "isLoading"
+    | "isSignedIn"
+    | "setIsSignedin"
+    | "learner"
+    | "user"
+    | "userType"
+    | "validateUser"
+  > {
   checkAuthentication: () => Promise<void>;
 }
 
 export const ServerAuthContext = createContext<ServerAuth>({
-  userType: "",
-  isSignedIn: false,
-  isLoading: true,
-  setIsSignedIn: () => {},
+  ...Store.defaultAuthenticationState,
   checkAuthentication: async () => {},
+  setIsSignedin: () => {},
+  validateUser: async () => {},
 });
 
 export const ServerAuthProvider = ({ children }) => {
@@ -35,8 +40,9 @@ export const ServerAuthProvider = ({ children }) => {
   ]);
 
   const token = authCookies[tokenCookie];
-  const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { setIsSignedin, validateUser, ...restStore } = Store.useAuthentication(
+    (s) => s
+  );
 
   const checkAuthentication = useCallback(async () => {
     console.log("[ServerAuth]: userType", cookies.userType);
@@ -44,19 +50,13 @@ export const ServerAuthProvider = ({ children }) => {
       console.log("[ServerAuth]: token", token);
       if (token) {
         try {
-          const { validateUser } = Common.Queries.Definitions;
           const response = await validateUser(cookies.userType);
           console.log("[ServerAuth]: response", response);
-          if (response?.token) {
-            setIsSignedIn(true);
-          }
         } catch (error) {
           console.error("[ServerAuth]: Error validating token:", error);
-
           if (error?.response?.status === 403) {
             console.log("removing");
-            setIsSignedIn(false);
-
+            setIsSignedin(false);
             removeAuthCookie(tokenCookie, {
               path: "/",
               domain: window.location.hostname,
@@ -65,9 +65,14 @@ export const ServerAuthProvider = ({ children }) => {
         }
       }
     }
-
-    setIsLoading(false);
-  }, [cookies.userType, removeAuthCookie, token, tokenCookie]);
+  }, [
+    cookies.userType,
+    removeAuthCookie,
+    setIsSignedin,
+    token,
+    tokenCookie,
+    validateUser,
+  ]);
 
   useEffect(() => {
     checkAuthentication();
@@ -76,10 +81,10 @@ export const ServerAuthProvider = ({ children }) => {
   return (
     <ServerAuthContext.Provider
       value={{
-        isSignedIn,
-        isLoading,
+        setIsSignedin,
+        validateUser,
+        ...restStore,
         userType: cookies.userType,
-        setIsSignedIn: setIsSignedIn,
         checkAuthentication,
       }}
     >
