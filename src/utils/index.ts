@@ -7,10 +7,7 @@ export const initStorage = () => {
   console.log("initializing storage");
   Utils.Storage.GetItem = (key: string) => {
     const cookieString = getIsServer() ? getServerCookie() : document.cookie;
-    if (!getIsServer()) {
-      // console.log("cookie", cookieString, "on the client");
-    }
-    const cookies = parse(cookieString);
+    const cookies = parse(cookieString ?? "");
     return cookies[key];
   };
 

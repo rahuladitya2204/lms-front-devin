@@ -1,9 +1,13 @@
 import { initInterceptors } from "@Network/index";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { validateOrgAlias, validateUser } from "server/api";
+import { validateOrgAlias } from "server/api";
 import { getSubdomainFromHostname, initStorage } from "./utils";
 import { Utils } from "@adewaskar/lms-common";
+import {
+  ResponseCookies,
+  RequestCookies,
+} from "next/dist/server/web/spec-extension/cookies";
 
 export const config = {
   matcher: "/((?!api|static|.*\\..*|_next).*)",
@@ -11,58 +15,82 @@ export const config = {
   unstable_allowDynamic: ["**/node_modules/lodash/*.js"],
 };
 
+type SetResponseCookie = {
+  isSet: boolean;
+  name: string;
+  value: string;
+};
+
 export async function middleware(request: NextRequest) {
   console.log("[Middleware]: started");
   initInterceptors();
   initStorage();
 
-  const orgAliasSet = request.cookies.get("orgAlias");
-  const userTypeSet = request.cookies.get("userType");
+  const hasOrgAlias = request.cookies.has("orgAlias");
+  const hasUserType = request.cookies.has("userType");
 
   const orgAlias = getSubdomainFromHostname(request.headers.get("host"));
-  await validateOrgAlias({ alias: orgAlias })
-    .then((res) => {
-      return res.json();
-    })
-    .catch(() => {});
-
   const userType = Utils.getUserType(orgAlias);
-  request.cookies.set({ name: "orgAlias", value: orgAlias });
-  request.cookies.set({ name: "userType", value: userType });
 
-  const tokenCookieString = `${userType}-auth-token`;
-  const token = request.cookies.get(tokenCookieString);
-  if (token?.value) {
-    await validateUser({
-      userType,
-      orgAlias,
-      token: token.value,
-    })
-      .then((res) => res.json())
-      .catch(() => {});
+  try {
+    await validateOrgAlias({ alias: orgAlias }).then((res) => {
+      return res.json();
+    });
+  } catch {
+    return NextResponse.redirect(new URL("/not-found", request.url));
   }
 
   const response = NextResponse.next();
   // set response cookies for client side authentication
-  if (!orgAliasSet) {
-    response.cookies.set({
-      name: "orgAlias",
-      value: orgAlias,
-      path: "/",
-      domain: request.headers.get("host") ?? "",
-    });
+
+  const cookiesToSet: Array<SetResponseCookie> = [
+    { isSet: hasOrgAlias, name: "orgAlias", value: orgAlias },
+    { isSet: hasUserType, name: "userType", value: userType },
+  ];
+  let updatedResponseCookies = false;
+
+  for (let cookie of cookiesToSet) {
+    const { isSet, ...rest } = cookie;
+    if (!cookie.isSet) {
+      console.log("[Middleware] Setting ", cookie.name);
+
+      updatedResponseCookies = true;
+      response.cookies.set({ ...rest, path: "/" });
+    }
   }
-  if (!userTypeSet) {
-    response.cookies.set({
-      name: "userType",
-      value: userType,
-      path: "/",
-      domain: request.headers.get("host") ?? "",
-    });
+
+  // only apply set cookies to current request cookies
+  // if response cookies has been updated
+  if (updatedResponseCookies) {
+    applySetCookie(request, response);
   }
 
   console.log("[Middleware]: ended");
 
   // Continue with the request
   return response;
+}
+
+/**
+ * Copy cookies from the Set-Cookie header of the response to the Cookie header of the request,
+ * so that it will appear to SSR/RSC as if the user already has the new cookies.
+ */
+function applySetCookie(req: NextRequest, res: NextResponse): void {
+  // parse the outgoing Set-Cookie header
+  const setCookies = new ResponseCookies(res.headers);
+  // Build a new Cookie header for the request by adding the setCookies
+  const newReqHeaders = new Headers(req.headers);
+  const newReqCookies = new RequestCookies(newReqHeaders);
+  setCookies.getAll().forEach((cookie) => newReqCookies.set(cookie));
+  // set “request header overrides” on the outgoing response
+  NextResponse.next({
+    request: { headers: newReqHeaders },
+  }).headers.forEach((value, key) => {
+    if (
+      key === "x-middleware-override-headers" ||
+      key.startsWith("x-middleware-request-")
+    ) {
+      res.headers.set(key, value);
+    }
+  });
 }
