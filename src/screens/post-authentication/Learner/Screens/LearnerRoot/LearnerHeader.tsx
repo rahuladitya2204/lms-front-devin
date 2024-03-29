@@ -71,7 +71,8 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const isAdmin = Store.useGlobal(s => s.isAdmin);
   const { data: user, isFetching: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
-  const {isSignedIn, checkAuthentication, setIsSignedIn} = useServerAuth(s => s);
+  const {isSignedIn, setIsSignedIn, isLoading: loadingAuth } = useServerAuth(s => s);
+
   const message = useMessage();
   const enrolledProducts = {
     test: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'test'),
@@ -84,6 +85,9 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   // console.log(screen, 'scrrrr')
   const isMobileOrTablet = screen.isMobile || screen.isTablet
   const router = useRouter()
+
+  const contentLoading = loadingAuth || loadingLearnerDetails;
+
   const logout = (cb?: Function) => {
     confirm({
       title: 'Are you sure?',
@@ -132,8 +136,8 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   }, [isMobileOrTablet, isSignedIn, enrolledProducts]);
   const HeaderButtonSkeleton = <Skeleton.Button active style={{ width: 97, height: 32,borderRadius:15 }} />;
   const { openModal } = useModal()
-  const WalletButton = loadingLearnerDetails?HeaderButtonSkeleton:<NavLink to={`../app/wallet`} children={({ isActive }) => {
-    return loadingLearnerDetails?HeaderButtonSkeleton:<Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
+  const WalletButton = contentLoading?HeaderButtonSkeleton:<NavLink to={`../app/wallet`} children={({ isActive }) => {
+    return contentLoading?HeaderButtonSkeleton:<Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
         <Button style={{ paddingTop: 2, paddingLeft: 5 }}
           color='blue-inverse'
           // size={screen.isMobile?'small':'middle'}
@@ -154,7 +158,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
     <Space>
                 {screen.isDesktop && isSignedIn ? (
         <Space style={{ marginLeft: 45 }}>
-          {loadingLearnerDetails ? <Row gutter={[8, 0]}>
+          {contentLoading ? <Row gutter={[8, 0]}>
             <Col>{HeaderButtonSkeleton}</Col>
             <Col>
               {HeaderButtonSkeleton}
@@ -180,10 +184,10 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
               {/* <Divider orientation="right" /> */}
             </Space>
           ) : null}
-      {/* {loadingLearnerDetails ? <Skeleton.Avatar active style={{ width: 32, height: 32 }} /> : } */}
+      {/* {contentLoading ? <Skeleton.Avatar active style={{ width: 32, height: 32 }} /> : } */}
       <Fragment>
         {isMobileOrTablet ? (
-          loadingLearnerDetails ? <Skeleton.Avatar active style={{ width: 32, height: 32 }} /> : <Fragment>
+          contentLoading ? <Skeleton.Avatar active style={{ width: 32, height: 32 }} /> : <Fragment>
             {isSignedIn ? WalletButton : null}
             {isSignedIn ? <ActionDrawer width={300}
               extra={closeDrawer => [
@@ -216,7 +220,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
           </Fragment>
         ) : null}
       </Fragment>
-      {!isSignedIn ? (loadingLearnerDetails ? <Skeleton.Button style={{ width: 97, height: 32 }} active /> :
+      {!isSignedIn ? (contentLoading ? <Skeleton.Button style={{ width: 97, height: 32 }} active /> :
       <Button icon={<LoginOutlined />}
       type="primary"
       style={{ margin: '0 10px' }}
@@ -233,7 +237,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
               {WalletButton}
             </>
             ) : null}
-            {loadingLearnerDetails?<Skeleton.Button shape='circle' style={{width:32,height:32}} active />:<Dropdown
+            {contentLoading?<Skeleton.Button shape='circle' style={{width:32,height:32}} active />:<Dropdown
               trigger={['click']}
               placement="bottomLeft"
               overlay={

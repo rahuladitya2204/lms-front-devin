@@ -20,17 +20,12 @@ export async function middleware(request: NextRequest) {
   const userTypeSet = request.cookies.get("userType");
 
   const orgAlias = getSubdomainFromHostname(request.headers.get("host"));
-  const result = await validateOrgAlias({ alias: orgAlias })
+  await validateOrgAlias({ alias: orgAlias })
     .then((res) => {
       return res.json();
     })
     .catch(() => {});
 
-  // if org is validated
-  // TODO: implement affiliate ID match
-  if (!result) {
-    return;
-  }
   const userType = Utils.getUserType(orgAlias);
   request.cookies.set({ name: "orgAlias", value: orgAlias });
   request.cookies.set({ name: "userType", value: userType });
