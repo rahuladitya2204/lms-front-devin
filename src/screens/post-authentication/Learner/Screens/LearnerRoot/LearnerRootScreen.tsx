@@ -16,6 +16,7 @@ import ThemeProvider from 'screens/ThemeProvider'
 import { Typography } from '@Components/Typography'
 import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
 import useServerBreakpoint from '@ServerHooks/useServerBreakpoint'
+import useServerAuth from '@ServerHooks/useServerAuth';
 
 const { Title } = Typography;
 
@@ -49,7 +50,7 @@ const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
   )
   const { isMobile } = useServerBreakpoint()
   const outletcontext = useOutletContext<any>();
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
+  const isSignedIn = useServerAuth(s => s.isSignedIn);
   const {data: learner } = Learner.Queries.useGetLearnerDetails();
   return (
     <ThemeProvider showLoadingScreen={outletcontext?.showLoadingScreen} type="learner">
@@ -73,6 +74,7 @@ const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
                 />
               }
             >
+              Create Ticket (TODO Update)
               {/* <CreateTicket /> */}
             </ActionModal>
           ) : null

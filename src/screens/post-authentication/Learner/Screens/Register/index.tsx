@@ -8,6 +8,7 @@ import AuthenticationCard from '@Components/AuthenticationCard'
 import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import { useParams } from 'react-router-dom'
+import useServerAuth from '@ServerHooks/useServerAuth'
 
 interface LearnerRegisterPropsI extends ActionModalI {
   onRegisterSuccess?: Function;
@@ -16,7 +17,7 @@ interface LearnerRegisterPropsI extends ActionModalI {
 
 function LearnerRegister(props: LearnerRegisterPropsI) {
   const message = useMessage()
-  const setIsSignedin = Store.useAuthentication(s => s.setIsSignedin)
+  const setIsSignedin = useServerAuth(s => s.setIsSignedIn)
   const { data: organisation } = Learner.Queries.useGetOrgDetails()
   const [form] = Form.useForm()
   const {

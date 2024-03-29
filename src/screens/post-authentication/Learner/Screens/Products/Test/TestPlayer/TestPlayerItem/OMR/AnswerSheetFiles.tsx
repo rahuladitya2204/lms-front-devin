@@ -21,6 +21,7 @@ import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 import { useReviewQuestion } from '../../../TestReview/TestPlayerItemReview'
+import useServerAuth from '@ServerHooks/useServerAuth'
 
 const { Text } = Typography;
 
@@ -128,7 +129,6 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
     mutate: uploadFiles,
     isLoading: uploadingFile
   } = Common.Queries.useUploadFiles();
-  const user = Store.useAuthentication(s => s.user);
   const VerifyAnswerSheet = (files: any[]) => {
     const file = files[0].file;
     verifyAnswerSheet(file, {
@@ -411,8 +411,9 @@ name={fileDetails.name} // Assuming this is how you access the file name
         mutate: uploadFiles,
         isLoading: uploadingFile
       } = Common.Queries.useUploadFiles();
-      const user = Store.useAuthentication(s => s.user);
-      const prefixKey = `tests/${testId}/answer-sheets/${user._id}/page-${index+1}`;
+      // TODO: update this
+      // const user = useServerAuth(s => s.user);
+      const prefixKey = `tests/${testId}/answer-sheets/${'some-id'}/page-${index+1}`;
       return (
         <Spin spinning={uploadingFile}>
           <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>

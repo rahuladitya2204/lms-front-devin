@@ -25,6 +25,7 @@ import MoreButton from '@Components/MoreButton'
 import { Typography } from '@Components/Typography'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
+import useServerAuth from '@ServerHooks/useServerAuth'
 
 const { Text } = Typography
 const { confirm } = Modal
@@ -38,7 +39,7 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   const { sectionId, itemId } = useParams()
   const section = props.course.sections.find(s => s._id === sectionId)
   const item = section?.items.find(i => i._id === itemId);
-  const {name } = Store.useAuthentication(s => s.learner);
+  const {name } = useServerAuth(s => s.learner);
   const time = formatSeconds(props.note.time)
   const [selectedNote, setSelectedNote] = useState<Types.CourseNote>(Constants.INITIAL_COURSE_NOTE_DETAILS);
   const deleteNote = () => {

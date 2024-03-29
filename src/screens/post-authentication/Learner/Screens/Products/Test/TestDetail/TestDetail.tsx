@@ -26,6 +26,7 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
+import useServerAuth from '@ServerHooks/useServerAuth'
 
 const { Text, Paragraph } = Typography
 const { UnitTypeToStr } = Utils;
@@ -256,7 +257,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     }
  
   }, [test, enrolledDetails,status]);
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
+  const isSignedIn = useServerAuth(s => s.isSignedIn);
   const message = useMessage();
   const { isMobile,isDesktop, isTablet } = useBreakpoint();
   const isFree = plan.type === 'free';

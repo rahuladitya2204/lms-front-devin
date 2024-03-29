@@ -31,6 +31,7 @@ import image from './bg.svg'
 import styled from '@emotion/styled'
 import useMessage from '@Hooks/useMessage';
 import { useModal } from '@Components/ActionModal/ModalContext';
+import useServerAuth from '@ServerHooks/useServerAuth';
 
 const { UnitTypeToStr } = Utils;
 
@@ -198,7 +199,7 @@ const CourseCard = ({courseId,plan,children}: {
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
-  const {isSignedIn}= Store.useAuthentication(s => s);
+  const {isSignedIn}= useServerAuth(s => s);
 
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
 

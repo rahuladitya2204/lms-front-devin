@@ -71,7 +71,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const isAdmin = Store.useGlobal(s => s.isAdmin);
   const { data: user, isFetching: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
-  const isSignedIn = Store.useAuthentication(state => state.isSignedIn);
+  const {isSignedIn} = useServerAuth(s => s);
   const message = useMessage();
   const enrolledProducts = {
     test: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'test'),

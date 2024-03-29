@@ -22,7 +22,6 @@ import ActionModal from '@Components/ActionModal/ActionModal';
 import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
 import LearnerLogin from '@Learner/Screens/Login';
-import { LoginLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api';
 import PackageDetails from './PackageDetails'
 import PackageMetadata from './PackageMetadata'
 import PriceCardContent from '@Learner/Screens/StoreScreen/Cards/PriceCardContent';
@@ -35,6 +34,7 @@ import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint';
 import useMessage from '@Hooks/useMessage';
 import { useModal } from '@Components/ActionModal/ModalContext';
+import useServerAuth from '@ServerHooks/useServerAuth';
 
 const { UnitTypeToStr } = Utils;
 
@@ -172,7 +172,7 @@ const PackageCard = ({packageId,plan,children}: {
     updateCart({ data: { product: product }, action: 'add' });
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
-  const { isSignedIn } = Store.useAuthentication(s => s);
+  const { isSignedIn } = useServerAuth(s => s);
   const {isDesktop } = useBreakpoint();
   const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'package',

@@ -1,3 +1,4 @@
+import useServerAuth from '@ServerHooks/useServerAuth'
 import { Store, User, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
@@ -7,7 +8,7 @@ const useUserOauth = (provider: string) => {
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
   const { data: googleLoginUrl } = User.Queries.useGetProviderLoginUrl(provider)
-  const setIsSignedin = Store.useAuthentication(state => state.setIsSignedin)
+  const setIsSignedin = useServerAuth(state => state.setIsSignedIn)
   useEffect(() => {
     window.addEventListener(
       'message',

@@ -32,7 +32,7 @@ export default function ProductCheckoutButton(
     mutate: createOrder,
     isLoading: isCreatingOrder
   } = Learner.Queries.useCreateOrderFromProduct();
-  // const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
+  // const isSignedIn = useServerAuth(s => s.isSignedIn);
   const { addMoney, isLoading } = useCreateWallterOrder();
   const { data: { wallet } } = Learner.Queries.useGetLearnerDetails()
   const {

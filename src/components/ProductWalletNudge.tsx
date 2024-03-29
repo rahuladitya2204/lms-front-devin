@@ -3,6 +3,7 @@ import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Alert } from 'antd'
 import { Text } from './Typography/Typography';
 import { WalletTwoTone } from '@ant-design/icons'
+import useServerAuth from '@ServerHooks/useServerAuth';
 
 interface ProductWalletNudgePropsI {
   product: Types.Product;
@@ -12,7 +13,7 @@ export default function ProductWalletNudge(props: ProductWalletNudgePropsI) {
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(
     props.product
   )
-  const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
+  const isSignedIn = useServerAuth(s => s.isSignedIn)
   const { data: { wallet } } = Learner.Queries.useGetLearnerDetails()
   if (!(isSignedIn && wallet.balance.value > 0 && !isEnrolled)) {
     return null

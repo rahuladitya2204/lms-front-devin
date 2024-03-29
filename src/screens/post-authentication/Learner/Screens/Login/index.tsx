@@ -79,7 +79,7 @@ export default LearnerLogin
 
 const OtpForm = (props:LearnerLoginPropsI) => {
   const [form] = Form.useForm();
-  // const setIsSignedin = Store.useAuthentication(s => s.setIsSignedin);
+  // const setIsSignedin = useServerAuth(s => s.setIsSignedin);
   const message = useMessage();
   const [otpSent, setOtpSent] = useState(false);
   const { mutate: sendOtpApi, isLoading: sendingOtp } = Learner.Queries.useSendLoginOtp();
