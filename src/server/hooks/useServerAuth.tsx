@@ -21,6 +21,15 @@ export const ServerAuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [userType, setUserType] = useState("");
 
+  const wrapperSetIsSignedIn: ServerAuth['setIsSignedIn'] = (value) => {
+    if(value === false) {
+      const userType = Cookies.get("userType");
+      const tokenCookie = `${userType}-auth-token`;
+      Cookies.remove(tokenCookie);
+    }
+    setIsSignedIn(value);
+  }
+
   useEffect(() => {
     const checkAuthentication = async () => {
       const userType = Cookies.get("userType");
@@ -56,7 +65,7 @@ export const ServerAuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <ServerAuthContext.Provider value={{ isSignedIn, isLoading, userType, setIsSignedIn }}>
+    <ServerAuthContext.Provider value={{ isSignedIn, isLoading, userType, setIsSignedIn: wrapperSetIsSignedIn }}>
       {children}
     </ServerAuthContext.Provider>
   );
