@@ -410,9 +410,8 @@ name={fileDetails.name} // Assuming this is how you access the file name
         mutate: uploadFiles,
         isLoading: uploadingFile
       } = Common.Queries.useUploadFiles();
-      // TODO: update this
-      // const user = Store.useAuthentication(s => s.user);
-      const prefixKey = `tests/${testId}/answer-sheets/${'some-id'}/page-${index+1}`;
+      const user = Store.useAuthentication(s => s.user);
+      const prefixKey = `tests/${testId}/answer-sheets/${user._id}/page-${index+1}`;
       return (
         <Spin spinning={uploadingFile}>
           <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1 }}>

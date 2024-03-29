@@ -40,7 +40,6 @@ const NavigationProvider = ({ children }: Props) => {
   const [showMetrics, setShowMetrics] = useState(false);
   const isDesktopView = useRef(isDesktop());
 
-  // const location = useLocation();
   const meetingManager = useMeetingManager();
 
   useEffect(() => {

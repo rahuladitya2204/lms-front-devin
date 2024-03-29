@@ -9,7 +9,7 @@ import { useState } from 'react'
 
 export default function SearchLearnerCourses() {
   const [text, setText] = useState('')
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const {
     data: seachedProducts,
     isFetching: loading

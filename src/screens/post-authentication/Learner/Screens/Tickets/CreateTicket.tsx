@@ -17,8 +17,7 @@ interface CreateTicketComponentPropsI {
 const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
   const [files, setFiles] = useState<{ name: string, file: string }[]>([]);
   const message = useMessage();
-  // TODO: update this
-  // const user = Store.useAuthentication(u => u.user)
+  const user = Store.useAuthentication(u => u.user)
   const {
     mutate: createTicket,
     isLoading: createTicketLoading
@@ -145,7 +144,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
             isProtected
             uploadType="file"
             // TODO: update this
-            prefixKey={`tickets/${'some-id'}/files`}
+            prefixKey={`tickets/${user._id}/files`}
             onUpload={({ _id,name }) => {
               setFiles([...files, { name: name, file: _id }]);
             }}

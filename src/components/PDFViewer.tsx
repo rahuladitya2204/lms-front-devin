@@ -1,9 +1,7 @@
-// @ts-nocheck
-import { GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf'
 import '@react-pdf-viewer/core/lib/styles/index.css'
 import '@react-pdf-viewer/default-layout/lib/styles/index.css'
 
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Viewer, Worker } from '@react-pdf-viewer/core'
 
 import { Common } from '@adewaskar/lms-common'
@@ -11,7 +9,7 @@ import ErrorBoundary from './ErrorBoundary'
 import { Spin } from 'antd'
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout'
 
-export interface PDFViewerPropsI {
+interface PDFViewerPropsI {
   file?: { _id: string };
   url?: string;
   onLoadingStarted?: () => void;
@@ -20,7 +18,6 @@ export interface PDFViewerPropsI {
 
 const PDFViewer = (props: PDFViewerPropsI) => {
   const [loading, setLoading] = useState(true)
-
   const {
     data: url,
     isFetching: loadingFile

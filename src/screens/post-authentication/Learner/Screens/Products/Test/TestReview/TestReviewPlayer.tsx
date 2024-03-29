@@ -44,7 +44,6 @@ const { Title,Text } = Typography
 export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const { testId,questionId } = useParams()
   const navigate = useNavigate()
-  // const location = useLocation();
 
   // useEffect(() => {
   //   const unlisten = navigate((location, action) => {
