@@ -1,5 +1,5 @@
 //@ts-nocheck
-import { GlobalWorkerOptions, getDocument } from 'pdfjs-dist/legacy/build/pdf'
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf'
 
 import Compressor from 'compressorjs'
 import Hls from 'hls.js'
@@ -8,7 +8,6 @@ import { cloneDeep } from 'lodash'
 import { jsonrepair } from 'jsonrepair'
 import { unit } from 'mathjs'
 
-GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
 
 export const updateCourseSectionItem = (
   sections: Types.CourseSection[],
@@ -97,8 +96,6 @@ export function getReadingTime(html: string, wordsPerMinute = 200) {
   const minutes = wordCount / wordsPerMinute * 60
   return Math.ceil(minutes)
 }
-
-// @ts-nocheck
 
 const wordsPerMinute = 200 // Adjust this value based on your preference
 
