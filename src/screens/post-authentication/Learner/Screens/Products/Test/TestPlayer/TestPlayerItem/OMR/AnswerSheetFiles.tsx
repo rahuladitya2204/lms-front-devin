@@ -128,6 +128,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
     mutate: uploadFiles,
     isLoading: uploadingFile
   } = Common.Queries.useUploadFiles();
+  const user = Store.useAuthentication(s => s.user);
   const VerifyAnswerSheet = (files: any[]) => {
     const file = files[0].file;
     verifyAnswerSheet(file, {

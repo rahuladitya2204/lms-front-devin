@@ -143,7 +143,6 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
           <MediaUpload
             isProtected
             uploadType="file"
-            // TODO: update this
             prefixKey={`tickets/${user._id}/files`}
             onUpload={({ _id,name }) => {
               setFiles([...files, { name: name, file: _id }]);

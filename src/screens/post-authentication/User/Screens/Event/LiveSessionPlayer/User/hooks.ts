@@ -7,7 +7,7 @@ import {
 import { Types, User } from '@adewaskar/lms-common'
 // hooks/useDeviceController.js
 import { useEffect, useState } from 'react'
-import { useRouter, usePathname } from 'next/navigation';
+import { useLocation, useNavigate } from '@Router/index'
 
 import { message } from 'antd'
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react'
@@ -70,7 +70,7 @@ export const useEvent = (eventId: string) => {
 
 export const useHandleMeetingEnd = (onMeetingEnd?: any) => {
   const meetingManager = useMeetingManager()
-  const router = useRouter()
+  const navigate = useNavigate()
   useEffect(
     () => {
       if (!meetingManager?.meetingSession) {
@@ -81,7 +81,7 @@ export const useHandleMeetingEnd = (onMeetingEnd?: any) => {
         audioVideoDidStop: (sessionStatus: any) => {
           if (sessionStatus.statusCode() === sessionStatus.statusCode().Ended) {
             console.log('The meeting was ended for all attendees')
-            router.push('../ended')
+            navigate('../ended')
             onMeetingEnd && onMeetingEnd()
           } else {
             // navigate('../ended')
@@ -101,13 +101,13 @@ export const useHandleMeetingEnd = (onMeetingEnd?: any) => {
 }
 
 export function useBlockBackButton() {
-  const pathname = usePathname()
+  const location = useLocation()
 
   useEffect(
     () => {
       // Add a dummy state to the history
       // @ts-ignore
-      window.history.pushState(null, null, pathname)
+      window.history.pushState(null, null, location.pathname)
 
       // @ts-ignore
       const handlePopState = event => {
@@ -115,7 +115,7 @@ export function useBlockBackButton() {
         event.preventDefault()
         // Push another dummy state onto the history stack
         // @ts-ignore
-        window.history.pushState(null, null, pathname)
+        window.history.pushState(null, null, location.pathname)
       }
 
       // Add the event listener for popstate
@@ -126,7 +126,7 @@ export function useBlockBackButton() {
         window.removeEventListener('popstate', handlePopState)
       }
     },
-    [pathname]
+    [location.pathname]
   )
 
   // More of your hook code...
