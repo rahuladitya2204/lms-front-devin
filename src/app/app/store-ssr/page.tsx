@@ -21,10 +21,9 @@ export default function Page() {
       queries={[
         getRecommendedProducts(),
         getLearnerProductCategories(),
+        getOrgDetails(),
         // authenticated routes should only be called if token is present
-        ...(token
-          ? [getCartDetails(), getOrgDetails(), getLearnerDetails()]
-          : []),
+        ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
       <RouterProvider>

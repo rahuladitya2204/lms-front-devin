@@ -47,15 +47,21 @@ export const ServerAuthProvider = ({ children }) => {
           const { validateUser } = Common.Queries.Definitions;
           const response = await validateUser(cookies.userType);
           console.log("[ServerAuth]: response", response);
-
           if (response?.token) {
             setIsSignedIn(true);
-          } else {
-            setIsSignedIn(false);
-            removeAuthCookie(tokenCookie);
           }
         } catch (error) {
-          console.error("Error validating token:", error);
+          console.error("[ServerAuth]: Error validating token:", error);
+
+          if (error?.response?.status === 403) {
+            console.log("removing");
+            setIsSignedIn(false);
+
+            removeAuthCookie(tokenCookie, {
+              path: "/",
+              domain: window.location.hostname,
+            });
+          }
         }
       }
     }

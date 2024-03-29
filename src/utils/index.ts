@@ -26,7 +26,11 @@ export const initStorage = () => {
 
   Utils.Storage.RemoveItem = (key: string) => {
     if (!getIsServer()) {
-      const cookieString = serialize(key, "", { expires: new Date(0) });
+      const cookieString = serialize(key, "", {
+        expires: new Date(0),
+        path: "/",
+        domain: window.location.hostname,
+      });
       document.cookie = cookieString;
     }
   };
