@@ -14,7 +14,6 @@ import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 import { useQueryClient } from '@tanstack/react-query'
-import useServerAuth from '@ServerComponents/useServerAuth'
 
 const { Text, Title } = Typography
 

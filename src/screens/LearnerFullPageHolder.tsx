@@ -8,7 +8,6 @@ import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import { Outlet } from 'react-router'
 import ThemeProvider from './ThemeProvider'
 import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
-import useServerAuth from '@ServerComponents/useServerAuth'
 
 export default function LearnerFullPageHolder () {
   useBlockBackButton()

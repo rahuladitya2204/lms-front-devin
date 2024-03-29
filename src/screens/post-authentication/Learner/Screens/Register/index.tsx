@@ -8,7 +8,6 @@ import AuthenticationCard from '@Components/AuthenticationCard'
 import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
 import { useLocation } from '@Router/index'
-import useServerAuth from '@ServerComponents/useServerAuth'
 
 interface LearnerRegisterPropsI extends ActionModalI {
   onRegisterSuccess?: Function;

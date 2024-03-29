@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 
 import AppImage from './Image'
 import styled from 'styled-components'
-import useServerAuth from '@ServerComponents/useServerAuth'
 
 const AppModal = styled(Modal)`
   .ant-modal-content,

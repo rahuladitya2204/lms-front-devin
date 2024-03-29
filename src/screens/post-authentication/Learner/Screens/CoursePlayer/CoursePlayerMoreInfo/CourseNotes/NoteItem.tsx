@@ -25,7 +25,6 @@ import MoreButton from '@Components/MoreButton'
 import { Typography } from '@Components/Typography'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useParams } from 'react-router'
-import useServerAuth from '@ServerComponents/useServerAuth'
 
 const { Text } = Typography
 const { confirm } = Modal

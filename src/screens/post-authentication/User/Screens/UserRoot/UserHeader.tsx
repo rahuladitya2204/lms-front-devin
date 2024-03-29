@@ -26,7 +26,6 @@ import { PageHeaderProps } from '@ant-design/pro-layout'
 import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useQueryClient } from '@tanstack/react-query'
-import useServerAuth from '@ServerComponents/useServerAuth'
 
 const { confirm } = Modal
 

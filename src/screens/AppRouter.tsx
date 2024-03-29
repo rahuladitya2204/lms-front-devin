@@ -129,7 +129,6 @@ import WebsiteScreen from "@User/Screens/Builder/Website/Website";
 import WhatsappTemplateEditor from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor";
 import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen";
 import { useEffect } from "react";
-import useServerAuth from "@ServerComponents/useServerAuth";
 
 const router = (userType: string) => {
   return createBrowserRouter(

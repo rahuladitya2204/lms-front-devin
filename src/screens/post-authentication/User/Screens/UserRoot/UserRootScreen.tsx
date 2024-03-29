@@ -15,7 +15,6 @@ import { UserOutlined } from '@ant-design/icons'
 import { compareArrays } from '@Components/Editor/SunEditor/utils'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import useServerAuth from '@ServerComponents/useServerAuth'
 
 const LogoHolder = styled.div`
   padding: 20px;
