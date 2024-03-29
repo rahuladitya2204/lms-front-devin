@@ -26,11 +26,9 @@ export default function Page() {
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <RouterProvider>
         <LearnerRootScreen>
           <LearnerHomeScreen />
         </LearnerRootScreen>
-      </RouterProvider>
     </Hydrator>
   );
 }
