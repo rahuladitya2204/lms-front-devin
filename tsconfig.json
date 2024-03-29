@@ -37,6 +37,9 @@
      "@Network/*": [
        "network/*"
      ],
+     "@Router/*": [
+      "router/*"
+    ],
      "@Utils/*": [
        "utils/*"
      ],
