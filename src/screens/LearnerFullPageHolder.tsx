@@ -8,11 +8,11 @@ import { ModalProvider } from '@Components/ActionModal/ModalContext'
 import { Outlet } from 'react-router'
 import ThemeProvider from './ThemeProvider'
 import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
-import useServerAuth from '@ServerHooks/useServerAuth'
+import useServerAuth from '@ServerComponents/useServerAuth'
 
 export default function LearnerFullPageHolder () {
   useBlockBackButton()
-  const isSignedIn = useServerAuth(s => s.isSignedIn)
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
   return (
     <ThemeProvider>
       <ModalProvider>

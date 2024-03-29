@@ -52,7 +52,7 @@ import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
-import useServerAuth from '@ServerHooks/useServerAuth'
+import useServerAuth from '@ServerComponents/useServerAuth'
 
 const { confirm } = Modal
 
@@ -71,7 +71,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const isAdmin = Store.useGlobal(s => s.isAdmin);
   const { data: user, isFetching: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
-  const {isSignedIn, isLoading: loadingAuth } = useServerAuth(s => s);
+  const {isSignedIn, isLoading: loadingAuth } = Store.useAuthentication(s => s);
 
   const message = useMessage();
   const enrolledProducts = {

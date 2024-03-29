@@ -1,7 +1,7 @@
 "use client";
 
 import { ParticlesProvider } from "@Components/Particles/ParticleProvider";
-import { ServerAuthProvider } from "@ServerHooks/useServerAuth";
+import { ServerAuthProvider } from "@ServerComponents/ServerAuthProvider";
 import { Store } from "@adewaskar/lms-common";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 

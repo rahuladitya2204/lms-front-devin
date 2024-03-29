@@ -129,7 +129,7 @@ import WebsiteScreen from "@User/Screens/Builder/Website/Website";
 import WhatsappTemplateEditor from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor";
 import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen";
 import { useEffect } from "react";
-import useServerAuth from "@ServerHooks/useServerAuth";
+import useServerAuth from "@ServerComponents/useServerAuth";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -465,7 +465,7 @@ const router = (userType: string) => {
 };
 
 function AppRouter() {
-  const userType = useServerAuth((s) => s.userType);
+  const userType = Store.useAuthentication((s) => s.userType);
   // console.log(userType, 'userType');
   return <RouterProvider router={router(userType)} />;
 }

@@ -3,7 +3,6 @@ import { Learner, Store, User } from '@adewaskar/lms-common';
 
 import CardItem from './types/CardItem';
 import ListItem from './types/ListItem';
-import useServerAuth from '@ServerHooks/useServerAuth';
 
 interface FileListPropsI {
     type?: string;
@@ -15,7 +14,7 @@ interface FileListPropsI {
 }
 
 function FileList(props: FileListPropsI) {
-  const userType = useServerAuth(s => s.userType);
+  const userType = Store.useAuthentication(s => s.userType);
     let ListItemComponent = ListItem;
     if(props.type==='card') {
         ListItemComponent = CardItem;

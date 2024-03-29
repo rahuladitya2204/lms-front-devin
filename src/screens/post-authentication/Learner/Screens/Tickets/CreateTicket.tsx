@@ -6,7 +6,6 @@ import FileList from '@Components/FileList';
 import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea';
 import useMessage from '@Hooks/useMessage';
-import useServerAuth from '@ServerHooks/useServerAuth';
 
 interface CreateTicketComponentPropsI {
   children?: ReactNode;
@@ -19,7 +18,7 @@ const CreateTicket: React.FC<CreateTicketComponentPropsI> = props => {
   const [files, setFiles] = useState<{ name: string, file: string }[]>([]);
   const message = useMessage();
   // TODO: update this
-  // const user = useServerAuth(u => u.user)
+  // const user = Store.useAuthentication(u => u.user)
   const {
     mutate: createTicket,
     isLoading: createTicketLoading

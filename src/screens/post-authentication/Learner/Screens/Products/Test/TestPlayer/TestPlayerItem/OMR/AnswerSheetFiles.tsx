@@ -21,7 +21,7 @@ import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 import { useReviewQuestion } from '../../../TestReview/TestPlayerItemReview'
-import useServerAuth from '@ServerHooks/useServerAuth'
+import useServerAuth from '@ServerComponents/useServerAuth'
 
 const { Text } = Typography;
 
@@ -412,7 +412,7 @@ name={fileDetails.name} // Assuming this is how you access the file name
         isLoading: uploadingFile
       } = Common.Queries.useUploadFiles();
       // TODO: update this
-      // const user = useServerAuth(s => s.user);
+      // const user = Store.useAuthentication(s => s.user);
       const prefixKey = `tests/${testId}/answer-sheets/${'some-id'}/page-${index+1}`;
       return (
         <Spin spinning={uploadingFile}>

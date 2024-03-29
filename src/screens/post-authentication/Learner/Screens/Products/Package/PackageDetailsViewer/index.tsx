@@ -34,7 +34,6 @@ import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint';
 import useMessage from '@Hooks/useMessage';
 import { useModal } from '@Components/ActionModal/ModalContext';
-import useServerAuth from '@ServerHooks/useServerAuth';
 
 const { UnitTypeToStr } = Utils;
 
@@ -172,7 +171,7 @@ const PackageCard = ({packageId,plan,children}: {
     updateCart({ data: { product: product }, action: 'add' });
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
-  const { isSignedIn } = useServerAuth(s => s);
+  const { isSignedIn } = Store.useAuthentication(s => s);
   const {isDesktop } = useBreakpoint();
   const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
     type: 'package',

@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { usePushNotification } from 'push-notification/usePushNotification';
 import useRazorpay from "react-razorpay";
-import useServerAuth from '@ServerHooks/useServerAuth';
 
 export const useNavigateParams = () => {
   const navigate = useNavigate()
@@ -25,7 +24,7 @@ export const useGetNodeFromRouterOutlet = () => {
 
 export const useAppInit = () => {
   const isValidAlias = Store.useGlobal(s => s.isAliasValid);
-  const isSignedIn = useServerAuth(s => s.isSignedIn);
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   usePushNotification(isSignedIn);
   const { data: organisation,isLoading: loadingOrganisation } = Common.Queries.useGetOrgDetails();
   const { mutate: validateOrgAlias,isLoading: validatingOrgAlias } = Common.Queries.useValidateOrgAlias();

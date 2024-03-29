@@ -16,7 +16,6 @@ import ThemeProvider from 'screens/ThemeProvider'
 import { Typography } from '@Components/Typography'
 import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import useServerAuth from '@ServerHooks/useServerAuth';
 
 const { Title } = Typography;
 
@@ -50,7 +49,7 @@ const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
   )
   const { isMobile } = useBreakpoint()
   const outletcontext = useOutletContext<any>();
-  const isSignedIn = useServerAuth(s => s.isSignedIn);
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const {data: learner } = Learner.Queries.useGetLearnerDetails();
   return (
     <ThemeProvider showLoadingScreen={outletcontext?.showLoadingScreen} type="learner">

@@ -24,14 +24,12 @@ import CourseMetadata from './CourseMetadata'
 import Image from '@Components/Image'
 import { Learner } from '@adewaskar/lms-common'
 import LearnerLogin from '@Learner/Screens/Login';
-import { LoginLearner } from '@adewaskar/lms-common/lib/cjs/types/Learner/Api';
 import ProductCheckoutButton from '@Components/CheckoutButton';
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils';
 import image from './bg.svg'
 import styled from '@emotion/styled'
 import useMessage from '@Hooks/useMessage';
 import { useModal } from '@Components/ActionModal/ModalContext';
-import useServerAuth from '@ServerHooks/useServerAuth';
 
 const { UnitTypeToStr } = Utils;
 
@@ -199,7 +197,7 @@ const CourseCard = ({courseId,plan,children}: {
   }
   const { data: {items} } = Learner.Queries.useGetCartDetails();
   const isAddedToCart = items.find((cartItem:Types.CartItem) => cartItem.product.id === course._id);
-  const {isSignedIn}= useServerAuth(s => s);
+  const {isSignedIn}= Store.useAuthentication(s => s);
 
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
 

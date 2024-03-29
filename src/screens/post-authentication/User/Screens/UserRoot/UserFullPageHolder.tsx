@@ -5,10 +5,10 @@ import ProtectedContent from '@Components/ProtectedComponent'
 import { Store } from '@adewaskar/lms-common'
 import ThemeProvider from 'screens/ThemeProvider'
 import { UserLogin } from '../Login'
-import useServerAuth from '@ServerHooks/useServerAuth'
+import useServerAuth from '@ServerComponents/useServerAuth'
 
 export default function UserFullPageHolder () {
-  const { isSignedIn } = useServerAuth(s => s)
+  const { isSignedIn } = Store.useAuthentication(s => s)
   return (
     <ThemeProvider>
       <ModalProvider>

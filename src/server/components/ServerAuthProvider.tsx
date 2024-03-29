@@ -1,33 +1,6 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { Common, Constants, Store, Types } from "@adewaskar/lms-common";
+import { useCallback, useEffect } from "react";
+import { Store } from "@adewaskar/lms-common";
 import { useCookies } from "react-cookie";
-
-export interface ServerAuth
-  extends Pick<
-    Store.AuthenticationState<Types.User>,
-    | "isLoading"
-    | "isSignedIn"
-    | "setIsSignedin"
-    | "learner"
-    | "user"
-    | "userType"
-    | "validateUser"
-  > {
-  checkAuthentication: () => Promise<void>;
-}
-
-export const ServerAuthContext = createContext<ServerAuth>({
-  ...Store.defaultAuthenticationState,
-  checkAuthentication: async () => {},
-  setIsSignedin: () => {},
-  validateUser: async () => {},
-});
 
 export const ServerAuthProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -78,26 +51,5 @@ export const ServerAuthProvider = ({ children }) => {
     checkAuthentication();
   }, [checkAuthentication]);
 
-  return (
-    <ServerAuthContext.Provider
-      value={{
-        setIsSignedin,
-        validateUser,
-        ...restStore,
-        userType: cookies.userType,
-        checkAuthentication,
-      }}
-    >
-      {children}
-    </ServerAuthContext.Provider>
-  );
+  return <>{children}</>;
 };
-
-type UseServerAuthSelector<T> = (serverAuth: ServerAuth) => T;
-
-const useServerAuth = <T,>(selector: UseServerAuthSelector<T>) => {
-  const serverAuth = useContext(ServerAuthContext);
-  return selector(serverAuth);
-};
-
-export default useServerAuth;

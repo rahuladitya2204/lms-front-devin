@@ -15,7 +15,7 @@ import { UserOutlined } from '@ant-design/icons'
 import { compareArrays } from '@Components/Editor/SunEditor/utils'
 import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import useServerAuth from '@ServerHooks/useServerAuth'
+import useServerAuth from '@ServerComponents/useServerAuth'
 
 const LogoHolder = styled.div`
   padding: 20px;
@@ -27,7 +27,7 @@ const LogoHolder = styled.div`
 
 const UserRootScreen: React.FC = () => {
   const { isDesktop } = useBreakpoint()
-  const { isSignedIn } = useServerAuth(s => s)
+  const { isSignedIn } = Store.useAuthentication(s => s)
   console.log(isSignedIn, 'isSignedIn, isAuthenticated')
   return (
     <ThemeProvider>

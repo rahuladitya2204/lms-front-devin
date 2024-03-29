@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 import AppImage from './Image'
 import styled from 'styled-components'
-import useServerAuth from '@ServerHooks/useServerAuth'
+import useServerAuth from '@ServerComponents/useServerAuth'
 
 const AppModal = styled(Modal)`
   .ant-modal-content,
@@ -23,7 +23,7 @@ const AppModal = styled(Modal)`
 
 interface BannerPropsI {}
 export default function Banner(props: BannerPropsI) {
-  const isSignedIn = useServerAuth(s => s.isSignedIn)
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn)
   const { data: { banners } } = Learner.Queries.useGetOrgDetails()
   const [banner, setBanner] = useState(Constants.INITIAL_BANNER_DETAILS)
   const [shown, setShown] = useState(false)

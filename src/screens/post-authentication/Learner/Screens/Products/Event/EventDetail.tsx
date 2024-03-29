@@ -14,14 +14,14 @@ import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useParams } from 'react-router'
 import { useQueryClient } from '@tanstack/react-query'
-import useServerAuth from '@ServerHooks/useServerAuth'
+import useServerAuth from '@ServerComponents/useServerAuth'
 
 const { Text, Title } = Typography
 
 interface EventDetailScreenPropsI {}
 
 export default function EventDetailScreen(props: EventDetailScreenPropsI) {
-  const isSignedIn = useServerAuth(s => s.isSignedIn);
+  const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   const { eventId } = useParams()
   const {
     data: enrolledDetails
@@ -69,7 +69,7 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
 const EventCard = (props: { eventId: string }) => {
   const { eventId}=props
   const message = useMessage()
-  const { isSignedIn } = useServerAuth(s => s);
+  const { isSignedIn } = Store.useAuthentication(s => s);
   const { openModal } = useModal()
   const {
     data: enrolledDetails
