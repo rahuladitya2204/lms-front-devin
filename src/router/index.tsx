@@ -38,7 +38,7 @@ export const useNavigate = () => {
     (to, options: NavigateOptions = {}) => {
       const { replace = false, state = {} } = options;
 
-      router.replace(to.toString(), { scroll: replace, ...state });
+      router.replace(to.toString(), { scroll: !replace, ...state });
     },
     [router]
   );

@@ -14,6 +14,7 @@ import { useDehydrationEffect } from "@ServerHooks/useDehydrationEffect";
 const { Title, Paragraph } = Typography;
 
 function LearnerHomeScreen() {
+  // initialize application utils like interceptors and storage on client side
   useDehydrationEffect();
   const { isFetching } = Learner.Queries.useGetRecommendedProducts();
   const { data: categories } = Learner.Queries.useGetLearnerCategories();

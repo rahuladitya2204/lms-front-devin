@@ -2,6 +2,7 @@ import { Color } from "@kurkle/color";
 import { Utils } from "@adewaskar/lms-common";
 import { getIsServer, getServerCookie } from "@ServerUtils/index";
 import { parse, serialize } from "cookie";
+import { initInterceptors } from "@Network/index";
 
 export const initStorage = () => {
   console.log("initializing storage");
@@ -31,6 +32,11 @@ export const initStorage = () => {
       document.cookie = cookieString;
     }
   };
+};
+
+export const initializeApp = () => {
+  initInterceptors();
+  initStorage();
 };
 
 type GradientTypes = {

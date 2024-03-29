@@ -23,9 +23,6 @@ type SetResponseCookie = {
 
 export async function middleware(request: NextRequest) {
   console.log("[Middleware]: started");
-  initInterceptors();
-  initStorage();
-
   const hasOrgAlias = request.cookies.has("orgAlias");
   const hasUserType = request.cookies.has("userType");
 
