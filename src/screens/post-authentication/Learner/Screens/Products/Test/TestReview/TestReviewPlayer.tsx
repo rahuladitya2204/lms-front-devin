@@ -16,11 +16,12 @@ import {
 import { ArrowLeftOutlined, LogoutOutlined, MenuOutlined, WarningOutlined } from '@ant-design/icons'
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useMemo } from 'react'
-import { Outlet, useLocation, useNavigate, useParams } from 'react-router'
+import { Outlet } from 'react-router'
+import { useNavigate, useParams } from '@Router/index';
 
 import ActionDrawer from '@Components/ActionDrawer'
 import Header from '@Components/Header'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from '@Router/index'
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestItemSkeleton from './TestItemSkeleton'
 import TestPlayerMoreInfo from './TestPlayerMoreInfo'
@@ -43,7 +44,7 @@ const { Title,Text } = Typography
 export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const { testId,questionId } = useParams()
   const navigate = useNavigate()
-  const location = useLocation();
+  // const location = useLocation();
 
   // useEffect(() => {
   //   const unlisten = navigate((location, action) => {

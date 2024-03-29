@@ -10,7 +10,6 @@ import Tabs from '@Components/Tabs'
 import TestsList from './TestsList'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useModal } from '@Components/ActionModal/ModalContext'
-import { useSearchParams } from 'react-router-dom'
 
 const TestsScreen = () => {
   const [status, setStatus] = useState('upcoming')

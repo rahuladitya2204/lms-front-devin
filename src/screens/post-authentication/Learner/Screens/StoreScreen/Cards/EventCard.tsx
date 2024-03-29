@@ -16,7 +16,7 @@ import { Typography } from '@Components/Typography'
 import { Utils } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@Router/index'
 
 const { Text } = Typography
   

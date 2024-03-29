@@ -8,7 +8,7 @@ import React, {
   useRef,
   ReactNode
 } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation } from '@Router/index';
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react';
 
 

@@ -1,87 +1,153 @@
-import React from 'react'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
+import React, { useCallback } from "react";
+import Link, { LinkProps as NextLinkProps } from "next/link";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+  useParams,
+} from "next/navigation";
+import {
+  LinkProps,
+  Location,
+  NavLinkProps,
+  NavigateFunction,
+  NavigateOptions,
+} from "react-router-dom";
 
-export const NavLink = ({ to, activeClassName, exact, children, ...props }) => {
-  const router = useRouter()
-  const isActive = exact
-    ? router.pathname === to
-    : router.pathname.startsWith(to)
+export const useLocation = (): Location => {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const search = searchParams.toString();
+  const hash = ""; // Next.js doesn't have built-in support for hash routes
+  const state = undefined; // Next.js doesn't have built-in support for location state
+  const key = ""; // Next.js doesn't have built-in support for location key
 
-  const className = isActive ? activeClassName : ''
+  return {
+    pathname,
+    search,
+    hash,
+    state,
+    key,
+  };
+};
 
-  return (
-    <Link href={to} {...props}>
-      <a className={className}>{children}</a>
-    </Link>
-  )
-}
+export const useNavigate = () => {
+  const router = useRouter();
 
-export const useSearchParams = () => {
-  const router = useRouter()
-  const searchParams = new URLSearchParams(router.asPath.split('?')[1])
+  const navigate: NavigateFunction = useCallback(
+    (to, options: NavigateOptions = {}) => {
+      const { replace = false, state = {} } = options;
 
-  const get = key => searchParams.get(key)
-  const getAll = key => searchParams.getAll(key)
-  const has = key => searchParams.has(key)
-  const set = (key, value) => {
-    searchParams.set(key, value)
-    router.push(`${router.pathname}?${searchParams.toString()}`, undefined, {
-      shallow: true
-    })
-  }
-  const append = (key, value) => {
-    searchParams.append(key, value)
-    router.push(`${router.pathname}?${searchParams.toString()}`, undefined, {
-      shallow: true
-    })
-  }
-  const remove = key => {
-    searchParams.delete(key)
-    router.push(`${router.pathname}?${searchParams.toString()}`, undefined, {
-      shallow: true
-    })
-  }
-  const toString = () => searchParams.toString()
-
-  return [
-    Object.fromEntries(searchParams),
-    {
-      get,
-      getAll,
-      has,
-      set,
-      append,
-      remove,
-      toString
-    }
-  ]
-}
-
-import { useCallback } from 'react'
-
-const useNavigate = () => {
-  const router = useRouter()
-
-  const navigate = useCallback(
-    (path, options = {}) => {
-      const { replace = false, state = {} } = options
-
-      if (replace) {
-        router.replace(path, undefined, { shallow: true, ...state })
-      } else {
-        router.push(path, undefined, { shallow: true, ...state })
-      }
+      router.replace(to.toString(), { scroll: replace, ...state });
     },
     [router]
-  )
+  );
 
-  return navigate
-}
+  return navigate;
+};
 
-export const useParams = () => {
-  const router = useRouter()
-  const params = router.query
+export const NavLink = ({
+  to,
+  children,
+  caseSensitive = false,
+  className,
+  end = false,
+  style,
+  ...props
+}: NavLinkProps) => {
+  const pathname = usePathname();
+  const isActive = end
+    ? pathname === to
+    : caseSensitive
+    ? pathname.startsWith(to as string)
+    : pathname.toLowerCase().startsWith((to as string).toLowerCase());
 
-  return params
-}
+  const renderProps = {
+    isActive,
+    isPending: false,
+    isTransitioning: false,
+  };
+
+  const renderClassName =
+    typeof className === "function" ? className(renderProps) : className;
+  const renderStyle = typeof style === "function" ? style(renderProps) : style;
+
+  return (
+    <Link href={to} className={renderClassName} style={renderStyle} {...props}>
+      {typeof children === "function" ? children(renderProps) : children}
+    </Link>
+  );
+};
+
+// eslint-disable-next-line react/display-name
+const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
+  (
+    {
+      to,
+      replace,
+      reloadDocument,
+      state,
+      preventScrollReset,
+      relative,
+      ...props
+    },
+    ref
+  ) => {
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+
+    const href =
+      relative === "path" ? to : relative === "route" ? `${pathname}${to}` : to;
+
+    const finalHref = searchParams ? `${href}?${searchParams}` : href;
+
+    return (
+      <Link
+        href={finalHref}
+        ref={ref}
+        replace={replace}
+        scroll={!preventScrollReset}
+        {...props}
+      />
+    );
+  }
+);
+
+Link.displayName = "Link";
+
+const useReactRouterSearchParams = (): [
+  URLSearchParams,
+  (params: Record<string, string>, options?: { replace?: boolean }) => void
+] => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const setSearchParams = (
+    params: Record<string, string>,
+    options?: { replace?: boolean }
+  ) => {
+    const newSearchParams = new URLSearchParams(searchParams);
+
+    Object.entries(params).forEach(([key, value]) => {
+      newSearchParams.set(key, value);
+    });
+
+    const newSearch = newSearchParams.toString();
+    const newUrl = `${pathname}?${newSearch}`;
+
+    if (options?.replace) {
+      router.replace(newUrl);
+    } else {
+      router.push(newUrl);
+    }
+  };
+
+  return [searchParams, setSearchParams];
+};
+
+export {
+  ReactRouterLink as Link,
+  useReactRouterSearchParams as useSearchParams,
+  useParams,
+};

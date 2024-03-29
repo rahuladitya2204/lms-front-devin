@@ -4,7 +4,7 @@ import { Enum, Learner, Store, Types } from '@adewaskar/lms-common';
 import { Fragment, useEffect, useMemo, useState } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
-import { NavLink } from 'react-router-dom';
+import { NavLink } from '@Router/index';
 import { Paragraph } from '@Components/Typography/Typography';
 import TestPlayerFiles from './TestPlayerFiles';
 import TextArea from '@Components/Textarea';

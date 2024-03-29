@@ -24,7 +24,7 @@ import {
   MoneyCollectOutlined
 } from '@ant-design/icons'
 import { Constants, Learner } from '@adewaskar/lms-common'
-import { NavLink, useSearchParams } from 'react-router-dom'
+import { NavLink, useSearchParams } from '@Router/index'
 import { Text, Title } from '@Components/Typography/Typography'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router'

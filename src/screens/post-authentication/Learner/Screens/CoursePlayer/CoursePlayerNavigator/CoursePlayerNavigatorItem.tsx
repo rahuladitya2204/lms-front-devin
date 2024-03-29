@@ -13,7 +13,7 @@ import { Unit, unit } from 'mathjs'
 
 import CourseItemIcon from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
 import { DownloadOutlined } from '@ant-design/icons'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from '@Router/index'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
 import { downloadFile } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'

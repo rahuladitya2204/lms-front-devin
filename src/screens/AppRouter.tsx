@@ -16,8 +16,8 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
-  useNavigate,
 } from "react-router-dom";
+import { useNavigate } from '@Router/index';
 
 import AddPromo from "@User/Screens/Marketing/Promos/CreatePromo";
 import AddQuestion from "@User/Screens/Tests/TestCreator/TestBuilder/AddQuestionItem";

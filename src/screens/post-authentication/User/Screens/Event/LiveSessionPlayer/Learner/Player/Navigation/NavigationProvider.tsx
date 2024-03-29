@@ -8,7 +8,6 @@ import React, {
   useRef,
   ReactNode
 } from 'react';
-import { useLocation } from 'react-router-dom';
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react';
 
 
@@ -41,7 +40,7 @@ const NavigationProvider = ({ children }: Props) => {
   const [showMetrics, setShowMetrics] = useState(false);
   const isDesktopView = useRef(isDesktop());
 
-  const location = useLocation();
+  // const location = useLocation();
   const meetingManager = useMeetingManager();
 
   useEffect(() => {

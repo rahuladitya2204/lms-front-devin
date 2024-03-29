@@ -16,7 +16,7 @@ import { Utils } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import { formatAvgCount } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from '@Router/index'
 
 const { Text } = Typography
 

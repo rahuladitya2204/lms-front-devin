@@ -4,7 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import LibPerspectiveCropper from 'react-perspective-cropper'
 import useBreakpoint from '@Hooks/useBreakpoint'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from '@Router/index'
 
 interface PerspectiveCropperPropsI {
   image?: any;

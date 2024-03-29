@@ -3,7 +3,7 @@ import { Badge, Button, Card, Col, Divider, Modal, Row, Skeleton, Space, Spin, t
 import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink } from '@Router/index'
 import { TestNavigatorSkeleton } from '../../TestReview/TestItemSkeleton'
 import TestTimer from './TestTimer'
 import { Typography } from '@Components/Typography'

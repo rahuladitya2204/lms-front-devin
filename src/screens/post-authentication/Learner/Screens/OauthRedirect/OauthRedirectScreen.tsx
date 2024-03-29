@@ -1,6 +1,6 @@
 import { Tabs } from 'antd'
 import { useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams } from '@Router/index'
 
 export default function OauthRedirect () {
   let [searchParams, setSearchParams] = useSearchParams()

@@ -2,7 +2,7 @@ import { Button, Checkbox, Form, Input } from 'antd'
 import { Types, User } from '@adewaskar/lms-common'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from '@Router/index'
 import React from 'react'
 
 function UserRegisterScreen() {

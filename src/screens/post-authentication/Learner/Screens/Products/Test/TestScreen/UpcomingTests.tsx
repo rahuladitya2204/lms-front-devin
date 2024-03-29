@@ -15,7 +15,7 @@ import { CalendarOutlined, ClockCircleOutlined } from '@ant-design/icons'
 import { Learner, Types, Utils } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
-import { Link } from 'react-router-dom'
+import { Link } from '@Router/index'
 import NoItemFound from '@Components/NoItemFound'
 import { SkeletonTestCard } from './PastTests'
 import { Typography } from '@Components/Typography'

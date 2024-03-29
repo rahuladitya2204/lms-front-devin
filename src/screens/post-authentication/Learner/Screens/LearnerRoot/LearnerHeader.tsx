@@ -35,7 +35,7 @@ import {
 } from '@ant-design/icons'
 import { Fragment, useMemo } from 'react'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
-import { Link, NavLink } from 'react-router-dom'
+import { NavLink } from '@Router/index'
 import { Outlet } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'

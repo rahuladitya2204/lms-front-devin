@@ -14,7 +14,7 @@ import {
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { useNavigate, useParams } from 'react-router'
 
-import { NavLink } from 'react-router-dom'
+import { NavLink } from '@Router/index'
 import { TestNavigatorSkeleton } from './TestItemSkeleton'
 import { Typography } from '@Components/Typography'
 import { useReviewQuestion } from './TestPlayerItemReview'

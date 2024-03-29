@@ -17,7 +17,7 @@ import BgImage from './image.svg'
 import { HomeOutlined } from '@ant-design/icons';
 import Image from '@Components/Image';
 import LearnerCartCourseItem from './CourseItem'
-import { NavLink } from 'react-router-dom';
+import { NavLink } from '@Router/index';
 import { Typography } from '@Components/Typography';
 import useMessage from '@Hooks/useMessage';
 import { useNavigate } from 'react-router';

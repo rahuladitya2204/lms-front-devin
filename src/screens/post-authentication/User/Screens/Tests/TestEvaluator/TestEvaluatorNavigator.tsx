@@ -2,7 +2,7 @@ import { Button, Collapse, List, Modal, Space, Tag, Tooltip } from 'antd'
 import { CheckCircleTwoTone, DeleteOutlined, ReadOutlined, WarningTwoTone } from '@ant-design/icons'
 import { Constants, Types, User, Utils } from '@adewaskar/lms-common'
 import { Fragment, useCallback, useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink, useNavigate } from '@Router/index'
 
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'

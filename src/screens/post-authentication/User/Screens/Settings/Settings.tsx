@@ -1,7 +1,7 @@
 import { Button, Checkbox, Form, Input } from 'antd'
 
 import AuthenticationCard from '@Components/AuthenticationCard'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from '@Router/index'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
 import { User } from '@adewaskar/lms-common'

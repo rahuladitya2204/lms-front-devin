@@ -7,7 +7,7 @@ import AppImage from '@Components/Image'
 import AuthenticationCard from '@Components/AuthenticationCard'
 import { Utils } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
-import { useParams } from 'react-router-dom'
+import { useLocation } from '@Router/index'
 import useServerAuth from '@ServerHooks/useServerAuth'
 
 interface LearnerRegisterPropsI extends ActionModalI {

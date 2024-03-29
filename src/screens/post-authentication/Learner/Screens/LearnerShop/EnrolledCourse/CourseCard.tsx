@@ -2,7 +2,7 @@ import { Button, Card, Col, Result, Row, Space } from 'antd'
 import { Learner, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
-import { Link } from 'react-router-dom'
+import { Link } from '@Router/index';
 import { Typography } from '@Components/Typography'
 
 const { Title, Text } = Typography

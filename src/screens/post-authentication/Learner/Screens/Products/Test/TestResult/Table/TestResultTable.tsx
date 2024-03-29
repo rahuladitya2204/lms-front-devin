@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { GlobalOutlined } from '@ant-design/icons';
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import { Typography } from '@Components/Typography';
-import { useParams } from 'react-router-dom';
+import { useParams } from '@Router/index';
 
 const { Text,Title } = Typography;
 

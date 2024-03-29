@@ -1,7 +1,7 @@
 import { Learner, Store } from '@adewaskar/lms-common'
 import { useEffect, useRef, useState } from 'react'
 
-import { useParams } from 'react-router-dom'
+import { useParams } from '@Router/index'
 
 export const useTestItemTime = () => {
   const { questionId, testId } = useParams()

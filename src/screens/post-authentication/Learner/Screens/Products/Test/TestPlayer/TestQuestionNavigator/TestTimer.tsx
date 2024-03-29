@@ -16,7 +16,7 @@ import { Fragment, useMemo } from 'react'
 import { Learner, Store } from '@adewaskar/lms-common'
 
 import Countdown from '@Components/Countdown'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from '@Router/index'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import styled from 'styled-components'
