@@ -71,7 +71,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const isAdmin = Store.useGlobal(s => s.isAdmin);
   const { data: user, isFetching: loadingLearnerDetails } = Learner.Queries.useGetLearnerDetails();
-  const {isSignedIn} = useServerAuth(s => s);
+  const {isSignedIn, checkAuthentication, setIsSignedIn} = useServerAuth(s => s);
   const message = useMessage();
   const enrolledProducts = {
     test: user.enrolledProducts.filter(i => i.enrolledProduct.type === 'test'),
@@ -91,12 +91,13 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
       content: `You want to logout?`,
       onOk() {
         logoutLearner({
-          onSuccess: () => {
+          onSuccess: async () => {
+            setIsSignedIn(false);
             message.open({
               type: 'success',
               content:'Logged Out successfully.'
             })
-            router.push('../app/store')
+            router.push('../app/store-ssr')
           }
         })
       },

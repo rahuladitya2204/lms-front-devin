@@ -51,7 +51,7 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
   } = User.Queries.useLogoutUser()
   const navigate = useNavigate()
 
-  const { isSignedIn } = useServerAuth(state => state)
+  const { isSignedIn, setIsSignedIn } = useServerAuth(state => state)
 
   const logout = () => {
     confirm({
@@ -60,7 +60,8 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
       content: `You want to logout?`,
       onOk() {
         logoutUser(undefined, {
-          onSuccess: () => {
+          onSuccess: async () => {
+            setIsSignedIn(false);
             console.log('Loggin out')
             navigate('/login')
             qc.invalidateQueries()

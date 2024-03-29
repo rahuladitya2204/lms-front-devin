@@ -4,7 +4,6 @@ import { ParticlesProvider } from "@Components/Particles/ParticleProvider";
 import { ServerAuthProvider } from "@ServerHooks/useServerAuth";
 import { Store } from "@adewaskar/lms-common";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter } from "react-router-dom";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -45,11 +44,9 @@ export default function Providers({ children }) {
     <Store.AuthenticationStoreProvider>
       <Store.GlobalStoreProvider>
         <ParticlesProvider>
-          <BrowserRouter>
-            <QueryClientProvider client={queryClient}>
-              <ServerAuthProvider>{children}</ServerAuthProvider>
-            </QueryClientProvider>
-          </BrowserRouter>
+          <QueryClientProvider client={queryClient}>
+            <ServerAuthProvider>{children}</ServerAuthProvider>
+          </QueryClientProvider>
         </ParticlesProvider>
       </Store.GlobalStoreProvider>
     </Store.AuthenticationStoreProvider>

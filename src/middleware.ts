@@ -35,9 +35,10 @@ export async function middleware(request: NextRequest) {
   request.cookies.set({ name: "orgAlias", value: orgAlias });
   request.cookies.set({ name: "userType", value: userType });
 
-  const token = request.cookies.get(`${userType}-auth-token`);
+  const tokenCookieString = `${userType}-auth-token`;
+  const token = request.cookies.get(tokenCookieString);
   if (token?.value) {
-    const validated = await validateUser({
+    await validateUser({
       userType,
       orgAlias,
       token: token.value,
