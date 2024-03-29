@@ -5,7 +5,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import Cookies from "js-cookie";
 import { Common } from "@adewaskar/lms-common";
 import { useCookies } from "react-cookie";
 

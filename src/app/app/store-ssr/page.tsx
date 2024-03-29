@@ -3,6 +3,7 @@ import Hydrator from "@ServerComponents/Hydrator";
 import { Learner } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import RouterProvider from "@ServerComponents/RouterProvider";
+import { getToken } from "@Network/index";
 
 export default function Page() {
   const {
@@ -12,15 +13,18 @@ export default function Page() {
     getOrgDetails,
     getLearnerDetails,
   } = Learner.Queries.Definitions;
+
+  const token = getToken();
   return (
     // @ts-ignore
     <Hydrator
       queries={[
         getRecommendedProducts(),
         getLearnerProductCategories(),
-        getCartDetails(),
-        getOrgDetails(),
-        getLearnerDetails(),
+        // authenticated routes should only be called if token is present
+        ...(token
+          ? [getCartDetails(), getOrgDetails(), getLearnerDetails()]
+          : []),
       ]}
     >
       <RouterProvider>

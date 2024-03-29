@@ -15,7 +15,7 @@ import LearnerProfile from '../Account/LearnerProfile'
 import ThemeProvider from 'screens/ThemeProvider'
 import { Typography } from '@Components/Typography'
 import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
-import useServerBreakpoint from '@ServerHooks/useServerBreakpoint'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import useServerAuth from '@ServerHooks/useServerAuth';
 
 const { Title } = Typography;
@@ -48,7 +48,7 @@ const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
     },
     [orgId]
   )
-  const { isMobile } = useServerBreakpoint()
+  const { isMobile } = useBreakpoint()
   const outletcontext = useOutletContext<any>();
   const isSignedIn = useServerAuth(s => s.isSignedIn);
   const {data: learner } = Learner.Queries.useGetLearnerDetails();

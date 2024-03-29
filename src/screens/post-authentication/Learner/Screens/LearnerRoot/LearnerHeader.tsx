@@ -47,7 +47,7 @@ import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
 import { Typography } from '@Components/Typography'
-import useServerBreakpoint from '@ServerHooks/useServerBreakpoint'
+import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
@@ -80,7 +80,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   };
   
   const { data: { items } } = Learner.Queries.useGetCartDetails()
-  const screen = useServerBreakpoint()
+  const screen = useBreakpoint()
   // console.log(screen, 'scrrrr')
   const isMobileOrTablet = screen.isMobile || screen.isTablet
   const router = useRouter()

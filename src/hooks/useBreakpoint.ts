@@ -1,37 +1,46 @@
-import { useEffect, useState } from 'react'
+import { getIsServer } from "@ServerUtils/index";
+import { useEffect, useState } from "react";
 
 const getDeviceConfig = (width: number) => {
   if (width < 768) {
-    return 'isMobile'
+    return "isMobile";
   } else if (width >= 768 && width < 992) {
-    return 'isTablet'
+    return "isTablet";
   } else {
-    return 'isDesktop'
+    return "isDesktop";
   }
-}
+};
 
 const useBreakpoint = () => {
-  const [width, setWidth] = useState(0)
-  const [breakpoint, setBreakpoint] = useState(() =>
-    getDeviceConfig(window.innerWidth)
-  )
-  const calcInnerWidth = () => {
-    setWidth(window.innerWidth)
-    setBreakpoint(getDeviceConfig(window.innerWidth))
-  }
-  useEffect(() => {
-    calcInnerWidth()
+  const [width, setWidth] = useState(0);
+  const [breakpoint, setBreakpoint] = useState("");
 
-    window.addEventListener('resize', calcInnerWidth)
-    return () => window.removeEventListener('resize', calcInnerWidth)
-  }, [])
+  useEffect(() => {
+    const isServer = getIsServer();
+    const calcInnerWidth = () => {
+      setWidth(window.innerWidth);
+      setBreakpoint(getDeviceConfig(window.innerWidth));
+    };
+
+    if (!isServer) {
+      calcInnerWidth();
+      window.addEventListener("resize", calcInnerWidth);
+    }
+
+    return () => {
+      if (!isServer) {
+        window.removeEventListener("resize", calcInnerWidth);
+      }
+    };
+  }, []);
+
   // console.log()
   return {
-    isMobile: breakpoint === 'isMobile',
-    isTablet: breakpoint === 'isTablet',
-    isDesktop: breakpoint === 'isDesktop',
-    width
-  }
-}
+    isMobile: breakpoint === "isMobile",
+    isTablet: breakpoint === "isTablet",
+    isDesktop: breakpoint === "isDesktop",
+    width,
+  };
+};
 
-export default useBreakpoint
+export default useBreakpoint;

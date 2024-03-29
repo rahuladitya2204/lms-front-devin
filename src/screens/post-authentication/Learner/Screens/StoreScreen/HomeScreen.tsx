@@ -8,7 +8,7 @@ import ProductCategoryCard from "./Cards/ProductCategoryCard";
 import { Skeleton } from "antd";
 import SkeletonImage from "@Components/SkeletonImage";
 import { Typography } from "@Components/Typography";
-import useServerBreakpoint from "@ServerHooks/useServerBreakpoint";
+import useBreakpoint from "@Hooks/useBreakpoint";
 import { useDehydrationEffect } from "@ServerHooks/useDehydrationEffect";
 
 const { Title, Paragraph } = Typography;
@@ -17,7 +17,7 @@ function LearnerHomeScreen() {
   useDehydrationEffect();
   const { isFetching } = Learner.Queries.useGetRecommendedProducts();
   const { data: categories } = Learner.Queries.useGetLearnerCategories();
-  const { isMobile } = useServerBreakpoint();
+  const { isMobile } = useBreakpoint();
   const arr = [1, 1, 1, 1, 1, 1, 1, 1];
   return (
     <Row gutter={[30, 30]}>
