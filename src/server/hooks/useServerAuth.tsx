@@ -3,21 +3,23 @@ import Cookies from "js-cookie";
 import { Common } from "@adewaskar/lms-common";
 
 export interface ServerAuth {
-  userType: string | null | undefined;
+  userType: string;
   isSignedIn: boolean;
   isLoading: boolean;
+  setIsSignedIn: (value: boolean) => void;
 }
 
 export const ServerAuthContext = createContext<ServerAuth>({
-  userType: null,
+  userType: "",
   isSignedIn: false,
   isLoading: true,
+  setIsSignedIn: () => {},
 });
 
 export const ServerAuthProvider = ({ children }) => {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [userType, setUserType] = useState<string | null>();
+  const [userType, setUserType] = useState("");
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -54,14 +56,18 @@ export const ServerAuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <ServerAuthContext.Provider value={{ isSignedIn, isLoading, userType }}>
+    <ServerAuthContext.Provider value={{ isSignedIn, isLoading, userType, setIsSignedIn }}>
       {children}
     </ServerAuthContext.Provider>
   );
 };
 
-const useServerAuth = () => {
-  return useContext(ServerAuthContext);
+type UseServerAuthSelector<T> = (serverAuth: ServerAuth) => T;
+
+
+const useServerAuth = <T,>(selector: UseServerAuthSelector<T>) => {
+  const serverAuth = useContext(ServerAuthContext);
+  return selector(serverAuth);
 };
 
 export default useServerAuth;
