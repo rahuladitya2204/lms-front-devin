@@ -131,7 +131,6 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
   const isServer = getIsServer();
 
   useEffect(() => {
-    if (isServer) return;
     
     const loadVideo = async () => {
       const video = document.getElementById("playrrr") as HTMLVideoElement;
@@ -200,7 +199,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         className="plyr"
         controls
         preload="none"
-        poster="your_poster_image_url"
+        // poster="your_poster_image_url"
         id="playrrr"
       >
       </video>: <video
@@ -208,7 +207,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         className="plyr"
         controls
         preload="none"
-        poster="your_poster_image_url"
+        // poster="your_poster_image_url"
         id="playrrr"
       >
        <source src={props.url} />

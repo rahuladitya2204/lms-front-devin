@@ -5,6 +5,7 @@ import AudioPlayer from '@Components/AudioPlayer'
 import { Image } from 'antd'
 import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import parse from 'html-react-parser'
+import dynamic from 'next/dynamic'
 
 function HtmlViewer(props: { content: string,noPreviewImage?:boolean }) {
   const options = {
@@ -60,8 +61,6 @@ function HtmlViewer(props: { content: string,noPreviewImage?:boolean }) {
   </div>
 }
 
-export default HtmlViewer
-
 const cleanContent = (htmlContent: string, tags=['div', 'span', 'p', 'svg', 'path','li']): string => {
   // htmlContent = htmlContent.replace(/&nbsp;/g, '\t'); // Replace &nbsp; with \t (tab)
   const parser = new DOMParser();
@@ -85,3 +84,7 @@ const cleanContent = (htmlContent: string, tags=['div', 'span', 'p', 'svg', 'pat
   cleanNode(doc.body);
   return doc.body.innerHTML;
 };
+
+export default dynamic(() => Promise.resolve(HtmlViewer), {
+  ssr: false,
+});

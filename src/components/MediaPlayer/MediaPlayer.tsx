@@ -1,6 +1,5 @@
 import { Common, Store, Types } from '@adewaskar/lms-common'
-
-import PlayrComponent from './Playr/Playr'
+import dynamic from 'next/dynamic';
 
 import { useEffect } from 'react'
 
@@ -19,6 +18,15 @@ interface MediaPlayerPropsI {
   onLoadingStarted?: () => void;
   onLoadingEnded?: () => void;
 }
+
+// PlyrComponent uses plyr library which in-turn uses document object without a useEffect and hence errors out on SSR
+// To resolve the issue, this component is wrapped with next dynamic to not render this during SSR at all
+const PlayrComponent = dynamic(() => import('./Playr/Playr'), {
+  ssr: false,
+  // TODO: add a skeleton here for the PlyrComponent
+  loading: () => <div>Loading...</div>,
+});
+
 
 export const MediaPlayer = (props: MediaPlayerPropsI) => {
   const resetPlayer: any = Store.usePlayer(s => s.resetPlayerState)
