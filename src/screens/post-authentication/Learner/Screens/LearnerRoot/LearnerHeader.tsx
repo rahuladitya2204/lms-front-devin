@@ -99,7 +99,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
               type: 'success',
               content:'Logged Out successfully.'
             })
-            router.push('../app/store-ssr')
+            router.push('/app/store')
           }
         })
       },
@@ -259,7 +259,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
                   <Menu.Item
                     key="support"
                     icon={<UserOutlined />}
-                    onClick={() => router.push('../app/tickets')}
+                    onClick={() => router.push('/app/tickets')}
                   >
                     Help and Support
                   </Menu.Item>
@@ -294,7 +294,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
       title={
         <Space style={{ cursor: 'pointer'}}>
           <OrgLogo
-            onClick={() => router.push('../app/store')}
+            onClick={() => router.push('/app/store')}
             // style={{ width: 60 }}
           />
 

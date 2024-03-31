@@ -2,7 +2,7 @@
 import { initializeApp } from "@Utils/index";
 import { useEffect } from "react";
 
-export function useDehydrationEffect() {
+const useDehydration = () => {
   const isServer = typeof window === "undefined";
 
   useEffect(() => {
@@ -10,4 +10,6 @@ export function useDehydrationEffect() {
       initializeApp();
     }
   }, [isServer]);
-}
+};
+
+export default useDehydration;

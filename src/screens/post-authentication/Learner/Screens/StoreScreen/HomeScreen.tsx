@@ -9,13 +9,13 @@ import { Skeleton } from "antd";
 import SkeletonImage from "@Components/SkeletonImage";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
-import { useDehydrationEffect } from "@ServerHooks/useDehydrationEffect";
+import useDehydration from "@ServerHooks/useDehydration";
 
 const { Title, Paragraph } = Typography;
 
 function LearnerHomeScreen() {
   // initialize application utils like interceptors and storage on client side
-  useDehydrationEffect();
+  useDehydration();
   const { isFetching } = Learner.Queries.useGetRecommendedProducts();
   const { data: categories } = Learner.Queries.useGetLearnerCategories();
   const { isMobile } = useBreakpoint();

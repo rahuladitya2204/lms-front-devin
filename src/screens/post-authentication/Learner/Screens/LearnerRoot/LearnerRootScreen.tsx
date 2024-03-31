@@ -73,7 +73,9 @@ const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
                 />
               }
             >
-              <CreateTicket />
+              {/* TODO add this back */}
+              Create Ticket here
+              {/* <CreateTicket /> */}
             </ActionModal>
           ) : null
         ) : null}

@@ -17,6 +17,7 @@ import Hls from 'hls.js'
 import { LiveCaption } from './Caption'
 import Plyr from 'plyr'
 import { htmlToText } from 'html-to-text'
+import { getIsServer } from '@ServerUtils/index'
 
 // import 'plyr/dist/plyr.css'
 
@@ -127,7 +128,11 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
     plyrRef.current.config.markers = { enabled: !!points.length, points: points };
   },[props.notes])
 
+  const isServer = getIsServer();
+
   useEffect(() => {
+    if (isServer) return;
+    
     const loadVideo = async () => {
       const video = document.getElementById("playrrr") as HTMLVideoElement;
       var hls = new Hls({
@@ -160,7 +165,7 @@ const PlyrComponent = (props: VideoJsComponentPropsI) => {
         ],
       };
     }
-  }, [isHls, props.url]);
+  }, [isHls, props.url, isServer]);
 
 
   useEffect(() => {

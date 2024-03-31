@@ -3,13 +3,13 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { initInterceptors } from "@Network/index";
-import { useDehydrationEffect } from "@ServerHooks/useDehydrationEffect";
+import useDehydration from "@ServerHooks/useDehydration";
 
 const App = dynamic(() => import("../../App"), { ssr: false });
 
 export function ClientOnly(): JSX.Element {
   initInterceptors();
-  useDehydrationEffect();
+  useDehydration();
   // @ts-ignore
   return <App />;
 }
