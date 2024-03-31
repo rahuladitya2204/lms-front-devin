@@ -34,7 +34,7 @@ margin-bottom: 20px; */
 function ProductCategoryCard(props: ProductCategoryCardPropsI) {
   const { productCategory } = props;
   const CardComponent = (
-    <Link href={`/app/category/${productCategory._id}`}>
+    <Link href={`/app/category/${productCategory._id}`} prefetch={true}>
       <Card
         hoverable
         style={{ display: "flex", alignItems: "center" }}

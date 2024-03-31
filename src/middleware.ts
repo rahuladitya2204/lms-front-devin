@@ -25,39 +25,42 @@ export async function middleware(request: NextRequest) {
   const hasOrgAlias = request.cookies.has("orgAlias");
   const hasUserType = request.cookies.has("userType");
 
-  const host = request.headers.get("host");
-  const orgAlias = getSubdomainFromHost(host);
-  const userType = Utils.getUserType(orgAlias);
-
-  try {
-    await validateOrgAlias({ alias: orgAlias }).then((res) => {
-      return res.json();
-    });
-  } catch {
-    return NextResponse.redirect(new URL("/not-found", request.url));
-  }
-
   const response = NextResponse.next();
-  // set response cookies for client side authentication
-
-  const cookiesToSet: Array<SetResponseCookie> = [
-    { isSet: hasOrgAlias, name: "orgAlias", value: orgAlias },
-    { isSet: hasUserType, name: "userType", value: userType },
-  ];
   let updatedResponseCookies = false;
 
-  for (let cookie of cookiesToSet) {
-    const { isSet, ...rest } = cookie;
-    if (!cookie.isSet) {
-      console.log("[Middleware] Setting ", cookie.name);
+  try {
+    if (!hasOrgAlias || !hasUserType) {
+      const host = request.headers.get("host");
+      const orgAlias = getSubdomainFromHost(host);
+      const userType = Utils.getUserType(orgAlias);
 
-      updatedResponseCookies = true;
-      response.cookies.set({
-        ...rest,
-        path: "/",
-        domain: getHostnameFromHost(host),
+      console.log("[Middleware]: validating org alias");
+      await validateOrgAlias({ alias: orgAlias }).then((res) => {
+        return res.json();
       });
+
+      // set response cookies for client side authentication
+      const cookiesToSet: Array<SetResponseCookie> = [
+        { isSet: hasOrgAlias, name: "orgAlias", value: orgAlias },
+        { isSet: hasUserType, name: "userType", value: userType },
+      ];
+
+      for (let cookie of cookiesToSet) {
+        const { isSet, ...rest } = cookie;
+        if (!cookie.isSet) {
+          console.log("[Middleware] Setting ", cookie.name);
+
+          updatedResponseCookies = true;
+          response.cookies.set({
+            ...rest,
+            path: "/",
+            domain: getHostnameFromHost(host),
+          });
+        }
+      }
     }
+  } catch {
+    return NextResponse.redirect(new URL("/not-found", request.url));
   }
 
   // only apply set cookies to current request cookies
