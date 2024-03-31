@@ -10,7 +10,7 @@ import { SaveOutlined } from '@ant-design/icons'
 import grapesjs from 'grapesjs'
 import grapesjsPresetWebpage from 'grapesjs-preset-webpage'
 import pluginBlocksBasic from 'grapesjs-blocks-basic'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const WebsiteBuilderScreen = () => {
   const { pageId } = useParams()

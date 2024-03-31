@@ -2,7 +2,7 @@ import { Alert, Button, Card, Col, Divider, Row, Skeleton, Space, Tag, message }
 import { CalendarOutlined, InfoOutlined, WalletOutlined, WalletTwoTone } from '@ant-design/icons'
 import { Constants, Enum, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'

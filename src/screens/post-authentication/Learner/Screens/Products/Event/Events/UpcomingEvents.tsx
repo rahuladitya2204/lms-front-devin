@@ -3,7 +3,7 @@ import { Learner, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const { Meta } = Card
 

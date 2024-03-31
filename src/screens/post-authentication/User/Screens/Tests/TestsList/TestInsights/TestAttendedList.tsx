@@ -12,7 +12,7 @@ import dayjs from 'dayjs'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const OMRComponent = React.lazy(() =>
   import('@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent')

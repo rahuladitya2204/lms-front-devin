@@ -6,7 +6,7 @@ import { User } from '@adewaskar/lms-common'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import ViewRecording from '../RecordingPlayer'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const { Text } = Typography;
 

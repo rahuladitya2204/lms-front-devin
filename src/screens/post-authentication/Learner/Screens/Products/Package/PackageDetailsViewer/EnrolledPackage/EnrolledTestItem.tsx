@@ -20,7 +20,7 @@ import LearnerTestResultStatus from '@Components/LearnerTestResultStatus';
 import { Typography } from '@Components/Typography';
 import dayjs from 'dayjs';
 import useBreakpoint from '@Hooks/useBreakpoint';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '@Router/index';
 
 const { Title,Text } = Typography
 

@@ -1,7 +1,7 @@
 import { Button, Card, Col, Image, Row } from 'antd'
 
 import { Title } from './Typography/Typography';
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 interface NoItemFoundProps {
   text: string;

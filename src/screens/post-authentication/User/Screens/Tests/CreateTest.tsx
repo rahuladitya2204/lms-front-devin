@@ -29,7 +29,7 @@ import TextArea from '@Components/Textarea'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 interface CreateTestComponentPropsI {
     children?: ReactNode;

@@ -7,7 +7,7 @@ import React, { Fragment } from 'react';
 import PreviewTemplate from './PreviewTemplate';
 import TextArea from '@Components/Textarea';
 import { Typography } from '@Components/Typography';
-import { useParams } from 'react-router';
+import { useParams } from '@Router/index';
 
 ;
 

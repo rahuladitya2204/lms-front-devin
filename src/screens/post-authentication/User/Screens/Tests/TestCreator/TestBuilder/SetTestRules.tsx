@@ -12,7 +12,7 @@ import { Types, User } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
 import styled from 'styled-components'
 import { useEffect } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 interface SetTestRulesPropsI {
   closeModal?: () => void;

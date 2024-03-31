@@ -1,7 +1,8 @@
 import { Button, Card, Form, Tabs } from 'antd'
 import { Constants, Learner, Types } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
-import { Outlet, useParams } from 'react-router'
+import { Outlet } from 'react-router'
+import { useParams } from '@Router/index'
 
 import Header from '@User/Screens/UserRoot/UserHeader'
 import LearnerDetailsEditor from './LearnersDetailsEditor'

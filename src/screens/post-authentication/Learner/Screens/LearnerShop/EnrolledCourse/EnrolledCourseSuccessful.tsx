@@ -2,7 +2,7 @@ import { Button, Card, Col, Result, Row } from 'antd'
 
 import EnrolledCourseCard from './CourseCard'
 import { Learner } from '@adewaskar/lms-common'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const EnrolledCourseSuccessful: React.FC = () => {
   const { orderId } = useParams()

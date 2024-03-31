@@ -6,7 +6,7 @@ import Header from '@User/Screens/UserRoot/UserHeader'
 import PastEvent from './PastEvent'
 import Tabs from '@Components/Tabs'
 import UpcomingEvent from './UpcomingEvent'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const EventsScreen = () => {
   const navigate = useNavigate()

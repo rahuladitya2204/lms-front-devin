@@ -7,7 +7,7 @@ import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 interface WebsitePagesPropsI {
   //   courseId: string;

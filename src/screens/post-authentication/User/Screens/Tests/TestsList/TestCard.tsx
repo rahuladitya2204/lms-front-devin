@@ -12,7 +12,7 @@ import Image from '@Components/Image'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 interface TestCardProps {
   test: Types.Test;

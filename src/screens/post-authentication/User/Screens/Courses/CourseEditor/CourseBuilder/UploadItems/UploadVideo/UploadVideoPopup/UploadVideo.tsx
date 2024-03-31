@@ -8,7 +8,7 @@ import MediaUpload from '@Components/MediaUpload'
 import Tabs from '@Components/Tabs'
 import { getMetadata } from 'video-metadata-thumbnails'
 import { render } from '@testing-library/react'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 interface UploadVideoPropsI {
   prefixKey: string;

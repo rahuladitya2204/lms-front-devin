@@ -42,7 +42,7 @@ import {
 } from 'recharts'
 import { Enum, Learner, Utils } from '@adewaskar/lms-common'
 import { useEffect, useMemo, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'

@@ -20,7 +20,7 @@ import NoItemFound from '@Components/NoItemFound'
 import { SkeletonTestCard } from './PastTests'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const { Meta } = Card
 const { Text,Title } = Typography

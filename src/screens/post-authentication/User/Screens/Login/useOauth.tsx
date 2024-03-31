@@ -1,7 +1,7 @@
 import { Store, User, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const useUserOauth = (provider: string) => {
   const navigate = useNavigate()

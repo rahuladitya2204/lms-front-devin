@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { useOutletContext, useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 import { FormInstance } from 'antd/lib/form/Form'
 import { User } from '@adewaskar/lms-common'

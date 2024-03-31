@@ -32,7 +32,7 @@ import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
 import { formatTime } from 'video.js/dist/types/utils/time'
 import { useModal } from '@Components/ActionModal/ModalContext'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const { Text } = Typography
 

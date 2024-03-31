@@ -3,7 +3,7 @@ import { Common, Types } from '@adewaskar/lms-common'
 
 import Image from '@Components/Image'
 import { getVideoThumbnails } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 import { useState } from 'react'
 
 interface SelectThumbnailPropsI {

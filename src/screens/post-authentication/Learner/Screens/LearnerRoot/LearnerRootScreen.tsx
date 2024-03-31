@@ -2,7 +2,8 @@
 import { Alert, Button, FloatButton } from 'antd'
 import { Enum, Learner, Store, Utils } from '@adewaskar/lms-common'
 import { Fragment, useEffect } from 'react'
-import { useOutletContext, useParams } from 'react-router'
+import { useOutletContext } from 'react-router'
+import { useParams } from '@Router/index'
 import { useSearchParams } from 'next/navigation';
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'

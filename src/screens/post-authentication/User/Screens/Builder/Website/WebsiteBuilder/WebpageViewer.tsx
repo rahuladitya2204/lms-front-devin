@@ -1,6 +1,6 @@
 import { Types, User } from '@adewaskar/lms-common'
 
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const WebpageViewer = () => {
   const { pageId } = useParams()

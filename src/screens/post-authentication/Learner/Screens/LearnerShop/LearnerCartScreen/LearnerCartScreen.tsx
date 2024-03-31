@@ -20,7 +20,7 @@ import LearnerCartCourseItem from './CourseItem'
 import { NavLink } from '@Router/index';
 import { Typography } from '@Components/Typography';
 import useMessage from '@Hooks/useMessage';
-import { useNavigate } from 'react-router';
+import { useNavigate } from '@Router/index';
 import { usePaymentCheckout } from '@Hooks/CommonHooks';
 
 const { Title, Text } = Typography

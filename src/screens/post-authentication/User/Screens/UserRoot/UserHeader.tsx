@@ -15,7 +15,7 @@ import {
   ShoppingCartOutlined,
   UserOutlined
 } from '@ant-design/icons'
-import { Outlet, useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 import { Store, User } from '@adewaskar/lms-common'
 
 import ActionDrawer from '@Components/ActionDrawer'

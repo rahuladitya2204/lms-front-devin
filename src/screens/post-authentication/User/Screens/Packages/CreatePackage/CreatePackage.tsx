@@ -11,7 +11,7 @@ import {
 } from 'antd'
 import { Enum, Types, Utils } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import BackButton from '@Components/BackButton'

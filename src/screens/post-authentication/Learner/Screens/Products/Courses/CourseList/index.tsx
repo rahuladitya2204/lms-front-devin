@@ -3,7 +3,7 @@ import React, { Fragment } from 'react'
 
 import CourseCard from './CourseCard'
 import { Learner } from '@adewaskar/lms-common'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const LearnerCourseList: React.FC = () => {
   const {

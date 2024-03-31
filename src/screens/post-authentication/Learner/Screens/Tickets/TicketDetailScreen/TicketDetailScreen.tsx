@@ -6,7 +6,7 @@ import TextArea from '@Components/Textarea';
 import TicketItem from '../TicketsScreen/TicketItem';
 import { Typography } from '@Components/Typography';
 import dayjs from 'dayjs';
-import { useParams } from 'react-router';
+import { useParams } from '@Router/index';
 
 const { useToken } = theme
 

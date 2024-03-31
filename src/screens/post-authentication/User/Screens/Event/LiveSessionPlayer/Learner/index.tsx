@@ -9,7 +9,8 @@ import {
   RosterProvider,
   lightTheme
 } from 'amazon-chime-sdk-component-library-react'
-import { Outlet, useParams } from 'react-router'
+import { Outlet } from 'react-router'
+import { useParams } from '@Router/index'
 
 import { Learner } from '@adewaskar/lms-common'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'

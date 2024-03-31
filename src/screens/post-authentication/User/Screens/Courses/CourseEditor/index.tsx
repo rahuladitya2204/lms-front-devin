@@ -13,8 +13,7 @@ import {
 } from '@ant-design/icons'
 import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
 import { Fragment, useEffect, useState } from 'react'
-import { Outlet, useNavigate, useParams } from 'react-router'
-
+import { useNavigate, useParams } from '@Router/index'
 import AppProvider from 'screens/AppProvider'
 import BackButton from '@Components/BackButton'
 import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'

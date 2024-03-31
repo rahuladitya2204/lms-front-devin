@@ -16,7 +16,8 @@ import {
   PlayCircleOutlined
 } from '@ant-design/icons'
 import { Learner, Store, Utils } from '@adewaskar/lms-common'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 import { useEffect, useMemo, useState } from 'react'
 
 import ActionDrawer from '@Components/ActionDrawer'

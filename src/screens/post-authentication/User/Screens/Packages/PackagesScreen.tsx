@@ -12,7 +12,7 @@ import PackageCard from './CreatePackage/PackageCard'
 import PackageStatusTag from './PackageStatusTag'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 function PackagesScreen() {
   const { data, isFetching: loading } = User.Queries.useGetPackages()

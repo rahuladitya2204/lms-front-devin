@@ -16,7 +16,9 @@ import {
 } from 'antd'
 import { BookOutlined, ClockCircleOutlined, MenuOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
+
 import React, { useEffect } from 'react'
 
 import ActionDrawer from '@Components/ActionDrawer'

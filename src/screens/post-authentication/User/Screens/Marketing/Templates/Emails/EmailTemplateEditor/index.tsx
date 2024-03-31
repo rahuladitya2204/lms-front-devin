@@ -6,7 +6,7 @@ import Header from '@Components/Header'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 function EmailTemplateEditor() {
   const message = useMessage()

@@ -7,7 +7,7 @@ import React, {
   useMemo,
   useState
 } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import AddRecipients from './AddRecipients/AddReciepients'
 import CampaignForm from './CampaignForm/CampaignForm'

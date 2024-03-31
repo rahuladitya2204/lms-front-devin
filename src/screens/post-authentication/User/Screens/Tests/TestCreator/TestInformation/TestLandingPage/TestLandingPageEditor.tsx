@@ -10,7 +10,7 @@ import { Types } from '@adewaskar/lms-common'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { useLayoutEffect } from 'react'
 // import { patchObject } from '../../utils'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 interface TestLandingPageEditorPropsI {
   testId: string;

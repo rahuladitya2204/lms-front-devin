@@ -1,7 +1,7 @@
 import PastEvent from './PastEvents'
 import Tabs from '@Components/Tabs'
 import UpcomingEvent from './UpcomingEvents'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const EventsScreen = () => {
   const navigate = useNavigate()

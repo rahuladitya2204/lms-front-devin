@@ -6,7 +6,7 @@ import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const { Text } = Typography
 

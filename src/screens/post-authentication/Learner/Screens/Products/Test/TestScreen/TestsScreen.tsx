@@ -4,7 +4,7 @@ import PastTest from './PastTests'
 import Tabs from '@Components/Tabs'
 import UpcomingEvent from './UpcomingTests'
 import UpcomingTest from './UpcomingTests'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 import { useSearchParams } from '@Router/index'
 
 const EventsScreen = () => {

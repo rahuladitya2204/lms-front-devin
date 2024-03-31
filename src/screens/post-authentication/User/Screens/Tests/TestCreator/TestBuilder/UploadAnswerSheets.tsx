@@ -24,7 +24,7 @@ import MediaUpload from '@Components/MediaUpload'
 import TestAnswerSheetProcessStatusTag from './UploadTestAnswerSheetProcessTag'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import { useModal } from '@Components/ActionModal/ModalContext'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const { confirm } = Modal
 export default function UploadAnswerSheets() {

@@ -31,7 +31,7 @@ import {
   formatAvgCount,
   formatSeconds
 } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import Image from '@Components/Image'
 import PlayIcon from '@Icons/play.svg'

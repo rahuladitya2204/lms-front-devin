@@ -8,7 +8,7 @@ import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
 import PDFViewer from '@Components/PDFViewer'
 import { Spin } from 'antd'
 import { useGetNodeFromRouterOutlet } from '../../../../../hooks/CommonHooks'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 function CoursePlayerItem() {
   const [loading, setLoading] = useState(false)

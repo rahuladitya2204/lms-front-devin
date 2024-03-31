@@ -2,7 +2,7 @@ import { Card, Col, Layout, Menu, Row, Segmented, Statistic, Tabs, TabsProps } f
 
 import DashboardOverview from './Overview/Overview';
 import UserHeader from '../UserRoot/UserHeader';
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const { Content, Sider } = Layout
 

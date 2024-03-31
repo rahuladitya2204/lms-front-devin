@@ -18,7 +18,7 @@ import MoreButton from '@Components/MoreButton'
 import { NavLink } from '@Router/index'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const { confirm } = Modal
 

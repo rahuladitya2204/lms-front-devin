@@ -10,7 +10,7 @@ import EmailTemplatesScreen from '@User/Screens/Settings/EmailSetting/EmailTempl
 import Header from '@User/Screens/UserRoot/UserHeader'
 import { User } from '@adewaskar/lms-common'
 import WhatsappTemplatesScreen from './Whatsapp/WhatsappTemplatesScreen'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 import { useState } from 'react'
 
 function TemplatesScreen () {

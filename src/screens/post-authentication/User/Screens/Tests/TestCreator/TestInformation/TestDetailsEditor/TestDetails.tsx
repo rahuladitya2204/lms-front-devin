@@ -20,7 +20,7 @@ import SelectProductCategory from '@Components/SelectProductCategory'
 import { TopicNode } from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
 import dayjs from 'dayjs'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const { TextArea } = Input
 

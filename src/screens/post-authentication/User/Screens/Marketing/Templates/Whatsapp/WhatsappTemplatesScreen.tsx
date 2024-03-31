@@ -7,7 +7,7 @@ import AddWhatsappTemplate from './AddWhatsappTemplate'
 import Header from '@Components/Header'
 import { User } from '@adewaskar/lms-common'
 import { WhatsappTemplateStatusMap } from '../Constant'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 import { useState } from 'react'
 
 function WhatsappTemplatesScreen() {

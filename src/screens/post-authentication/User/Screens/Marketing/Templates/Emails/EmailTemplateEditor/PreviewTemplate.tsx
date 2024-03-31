@@ -4,7 +4,7 @@ import React, { Fragment } from 'react';
 
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import { Typography } from '@Components/Typography';
-import { useParams } from 'react-router';
+import { useParams } from '@Router/index';
 
 const { Text,Title } = Typography
 

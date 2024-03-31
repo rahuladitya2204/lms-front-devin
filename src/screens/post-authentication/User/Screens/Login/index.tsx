@@ -14,7 +14,7 @@ import { Utils } from '@adewaskar/lms-common'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 import useOauth from './useOauth'
 
 interface UserLoginPropsI{

@@ -4,7 +4,7 @@ import { useCallback, useEffect } from 'react'
 import { Form } from 'antd'
 import { FormInstance } from 'antd/lib/form/Form'
 import useMessage from '@Hooks/useMessage'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 import { useTestStore } from './useTestStore'
 
 function useUpdateTestForm(itemId: string) {

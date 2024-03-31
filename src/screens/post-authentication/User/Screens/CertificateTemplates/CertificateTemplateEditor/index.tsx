@@ -10,7 +10,7 @@ import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import { uniqueId } from 'lodash'
 import useMessage from '@Hooks/useMessage'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 import { useWatch } from 'antd/es/form/Form'
 
 const SIZES = {

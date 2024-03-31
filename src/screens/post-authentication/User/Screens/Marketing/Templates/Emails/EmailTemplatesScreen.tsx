@@ -9,7 +9,7 @@ import { EmailTemplateStatusMap } from './Constant'
 import Header from '@Components/Header'
 import MoreButton from '@Components/MoreButton'
 import { User } from '@adewaskar/lms-common'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 import { useState } from 'react'
 
 function EmailTemplatesScreen() {

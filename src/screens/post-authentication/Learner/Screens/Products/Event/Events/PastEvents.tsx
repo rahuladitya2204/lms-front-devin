@@ -12,7 +12,7 @@ import { Learner, Types } from '@adewaskar/lms-common'
 
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const { Text } = Typography
 

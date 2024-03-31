@@ -11,7 +11,7 @@ import {
   UserOutlined
 } from '@ant-design/icons'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import BackButton from '@Components/BackButton'

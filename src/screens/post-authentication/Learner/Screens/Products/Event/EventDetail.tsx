@@ -12,7 +12,7 @@ import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 import { useQueryClient } from '@tanstack/react-query'
 
 const { Text, Title } = Typography

@@ -16,7 +16,7 @@ import {
 } from '@ant-design/icons'
 import { Constants, Enum, Store, Types, Utils } from '@adewaskar/lms-common'
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionModal from '@Components/ActionModal/ActionModal';
 import Image from '@Components/Image'

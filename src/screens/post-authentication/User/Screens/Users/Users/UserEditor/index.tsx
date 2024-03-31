@@ -1,6 +1,7 @@
 import { Button, Card, Form, Tabs } from 'antd'
 import { Fragment, useEffect } from 'react'
-import { Outlet, useParams } from 'react-router'
+import { Outlet } from 'react-router'
+import { useParams } from '@Router/index'
 
 import Header from '@User/Screens/UserRoot/UserHeader'
 import { Types } from '@adewaskar/lms-common'

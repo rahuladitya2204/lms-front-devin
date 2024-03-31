@@ -28,7 +28,7 @@ import {
 } from '@ant-design/icons'
 import { Enum, Learner, Utils } from '@adewaskar/lms-common'
 import { Fragment, useMemo } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import EnrolledTestItem from './EnrolledTestItem'
 import Image from '@Components/Image'

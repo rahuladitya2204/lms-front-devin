@@ -6,7 +6,7 @@ import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import WhatsappTemplateDetailsEditor from './WhatsappTemplateDetailsEditor'
 import useMessage from '@Hooks/useMessage'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 function WhatsappTemplateEditor() {
   const message = useMessage()

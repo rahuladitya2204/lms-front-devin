@@ -15,7 +15,7 @@ import NavigationControl from './Player/Navigation/NavigationControl'
 import { NavigationProvider } from './Player/Navigation/NavigationProvider'
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react'
 import useMessage from '@Hooks/useMessage'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 let joined = false
 const EventPlayer = () => {

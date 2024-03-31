@@ -19,7 +19,7 @@ import TestMetrics from './TestMetrics'
 import TestResultTable from './Table/TestResultTable'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const { Title, Text } = Typography
 

@@ -14,7 +14,7 @@ import {
 } from 'antd'
 import { Constants, Learner } from '@adewaskar/lms-common'
 import { TERMS, TEST_RULES } from './constant'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import { ArrowLeftOutlined } from '@ant-design/icons'

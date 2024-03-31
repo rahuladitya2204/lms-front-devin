@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from 'antd'
 import { Learner, Utils } from '@adewaskar/lms-common'
-import { Navigate, useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 import AffiliateDashboard from './AffiliateDashboard'
 import AffiliateForm from './AffiliateForm'

@@ -11,7 +11,8 @@ import {
   Tag
 } from 'antd'
 import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppProvider from 'screens/AppProvider'

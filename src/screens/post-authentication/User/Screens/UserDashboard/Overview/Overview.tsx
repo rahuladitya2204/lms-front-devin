@@ -1,5 +1,4 @@
 import { Card, Col, Layout, Menu, Row, Segmented, Statistic } from 'antd'
-import { Outlet, useNavigate } from 'react-router'
 import React, { useState } from 'react'
 
 import ActiveUsers from '../Stats/ActiveUsers'

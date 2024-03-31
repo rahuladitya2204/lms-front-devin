@@ -7,7 +7,7 @@ import MediaUpload from '@Components/MediaUpload'
 import TextArea from '@Components/Textarea'
 import { deepPatch } from '../../CourseBuilder/utils'
 // import { patchObject } from '../../utils'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 interface CourseLandingPageEditorPropsI {
   courseId: string;

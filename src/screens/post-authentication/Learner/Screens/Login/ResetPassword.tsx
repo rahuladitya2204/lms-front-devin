@@ -2,7 +2,7 @@ import { Button, Card, Form, Input } from 'antd'
 
 import { Learner } from '@adewaskar/lms-common'
 import React from 'react'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const ResetPasswordForm = () => {
   const navigate = useNavigate()

@@ -12,7 +12,7 @@ import { Typography } from '@Components/Typography';
 import { htmlToText } from 'html-to-text';
 import useBreakpoint from '@Hooks/useBreakpoint';
 import useMessage from '@Hooks/useMessage';
-import { useParams } from 'react-router';
+import { useParams } from '@Router/index';
 import useQuestion from '../hooks/useQuestion';
 import { useTestItemTime } from '@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime';
 import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';

@@ -15,7 +15,7 @@ import {
 } from 'antd'
 import { Enum, Types } from '@adewaskar/lms-common'
 import React, { Fragment, ReactNode, useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AddTestimonial from '../../ExtraComponents/Testimonials/AddTestomonial'

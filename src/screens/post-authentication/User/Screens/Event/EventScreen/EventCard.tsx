@@ -10,7 +10,7 @@ import Image from '@Components/Image'
 import { Typography } from '@Components/Typography'
 import dayjs from 'dayjs'
 import styled from '@emotion/styled'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const { Text } = Typography
 

@@ -2,7 +2,7 @@ import { Alert, Button, Card, Col, Dropdown, Modal, Row, Skeleton, Statistic, Ta
 import { CloseOutlined, UserOutlined, WhatsAppOutlined } from '@ant-design/icons'
 import { Enum, User } from '@adewaskar/lms-common'
 // import UpcomingTest from './UpcomingTest'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import BackButton from '@Components/BackButton'
 import Header from '@Components/Header'

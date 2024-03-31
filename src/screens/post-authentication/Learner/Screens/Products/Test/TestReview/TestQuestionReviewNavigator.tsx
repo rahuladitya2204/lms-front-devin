@@ -12,7 +12,7 @@ import {
   theme
 } from 'antd'
 import { Enum, Learner } from '@adewaskar/lms-common'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import { NavLink } from '@Router/index'
 import { TestNavigatorSkeleton } from './TestItemSkeleton'

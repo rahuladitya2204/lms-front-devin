@@ -19,7 +19,7 @@ import { Enum, Learner, Store } from '@adewaskar/lms-common'
 import OMRComponent, { OMRSKeleton } from './OMRComponent'
 import React, { useEffect } from 'react'
 import { Text, Title } from '@Components/Typography/Typography'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AppImage from '@Components/Image'

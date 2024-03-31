@@ -9,7 +9,7 @@ import { Button, Col, Modal, Row, Tag } from 'antd'
 import { Enum, Types, User } from '@adewaskar/lms-common'
 import React, { useMemo } from 'react'
 import Table, { TableColumn } from '@Components/Table/TableComponent'
-import { useNavigate, useParams } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'

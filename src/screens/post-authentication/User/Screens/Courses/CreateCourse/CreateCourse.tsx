@@ -4,7 +4,7 @@ import React, { ReactNode } from 'react'
 
 import { User } from '@adewaskar/lms-common'
 import useMessage from '@Hooks/useMessage'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 interface CreateCourseComponentPropsI {
   children?: ReactNode;

@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react'
 import { VideoCameraOutlined } from '@ant-design/icons'
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react'
 import useMessage from '@Hooks/useMessage'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 const useDeviceController = () => {
   const [deviceController, setDeviceController] = useState(null)

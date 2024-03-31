@@ -1,7 +1,7 @@
 import { Button, Form } from 'antd'
 
 import { User } from '@adewaskar/lms-common'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 interface GenerateAIITemDetailsPropsI {
   field: string;

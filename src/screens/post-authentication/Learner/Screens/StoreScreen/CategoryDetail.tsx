@@ -10,7 +10,7 @@ import SkeletonImage from '@Components/SkeletonImage'
 import TestCard from './Cards/TestCard'
 import { Typography } from '@Components/Typography'
 import { capitalize } from 'lodash'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 interface CategoryDetailPropsI {}
 

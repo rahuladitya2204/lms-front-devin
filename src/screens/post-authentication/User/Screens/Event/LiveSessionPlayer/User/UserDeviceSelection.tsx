@@ -10,8 +10,8 @@ import { SmileOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 import { Typography } from '@Components/Typography';
 import { useEvent } from './hooks';
-import { useNavigate } from 'react-router';
-import { useParams } from 'react-router';
+import { useNavigate } from '@Router/index';
+import { useParams } from '@Router/index';
 
 const { Text } = Typography;
 

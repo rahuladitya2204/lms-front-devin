@@ -36,7 +36,7 @@ import TextArea from '@Components/Textarea';
 import { Typography } from '@Components/Typography';
 import UploadVideo from '@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo';
 import { buildTopicTree } from '../TestInformation/TestDetailsEditor/TestDetails';
-import { useParams } from 'react-router';
+import { useParams } from '@Router/index';
 import useTestBuilderUI from './hooks/useTestBuilder';
 import useTestNavigation from '@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation';
 import { useTestStore } from './hooks/useTestStore';

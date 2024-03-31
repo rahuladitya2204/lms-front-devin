@@ -15,7 +15,7 @@ import ThumbnailList from './ThumbnailList'
 import UploadVideo from './UploadVideoPopup/UploadVideo'
 import { getMetadata } from 'video-metadata-thumbnails'
 import styled from '@emotion/styled'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 const { Title } = Typography

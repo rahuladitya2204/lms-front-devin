@@ -10,7 +10,7 @@ import MediaUpload from '@Components/MediaUpload'
 import { getMetadata } from 'video-metadata-thumbnails'
 import { getVideoThumbnails } from '../../utils'
 import styled from '@emotion/styled'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 
 interface ThumbnailListPropsI {

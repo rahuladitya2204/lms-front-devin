@@ -24,7 +24,7 @@ import SelectProductCategory from '@Components/SelectProductCategory'
 import { Typography } from '@Components/Typography'
 import { deepPatch } from '../../CourseBuilder/utils'
 import { useEffect } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const { TextArea } = Input
 const { Text } = Typography

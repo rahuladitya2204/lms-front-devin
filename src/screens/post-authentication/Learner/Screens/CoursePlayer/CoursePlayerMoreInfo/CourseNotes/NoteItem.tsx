@@ -24,7 +24,7 @@ import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import MoreButton from '@Components/MoreButton'
 import { Typography } from '@Components/Typography'
 import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const { Text } = Typography
 const { confirm } = Modal

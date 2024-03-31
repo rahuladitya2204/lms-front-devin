@@ -24,7 +24,7 @@ import { Title } from '@Components/Typography/Typography'
 import { TopicNode } from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
 import { Typography } from '@Components/Typography'
 import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useParams } from 'react-router'
+import { useParams } from '@Router/index'
 
 const { Text } = Typography
 

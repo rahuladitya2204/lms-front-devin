@@ -8,7 +8,7 @@ import { StatusMap } from '@Learner/Screens/Tickets/Constants'
 import { Types } from '@adewaskar/lms-common'
 import { User } from '@adewaskar/lms-common'
 import dayjs from 'dayjs'
-import { useNavigate } from 'react-router'
+import { useNavigate } from '@Router/index'
 
 function TicketsScreen() {
   const { data: tickets, isFetching: loading } = User.Queries.useGetTickets()

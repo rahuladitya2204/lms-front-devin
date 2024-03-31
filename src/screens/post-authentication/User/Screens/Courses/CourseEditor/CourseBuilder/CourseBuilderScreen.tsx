@@ -12,7 +12,8 @@ import {
   Tag,
 } from 'antd'
 import { Constants, Enum, Types, User, Utils } from '@adewaskar/lms-common'
-import { Outlet, useNavigate, useParams } from 'react-router'
+import { Outlet } from 'react-router'
+import { useNavigate, useParams } from '@Router/index'
 import { SaveOutlined, UploadOutlined } from '@ant-design/icons'
 import { cloneDeep, debounce } from 'lodash'
 import { useEffect, useState } from 'react'
