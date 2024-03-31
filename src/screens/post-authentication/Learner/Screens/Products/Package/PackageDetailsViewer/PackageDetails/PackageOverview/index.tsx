@@ -23,7 +23,7 @@ function PackageOverview(props: PackageOverviewPropsI) {
   } = Learner.Queries.useGetPackageDetails(packageId, {
     enabled: !!packageId
   })
-  console.log(bundle, 'cococo')
+  // console.log(bundle, 'cococo')
   const { landingPage } = bundle
   return (
     <Fragment>

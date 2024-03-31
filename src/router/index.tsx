@@ -4,7 +4,7 @@ import {
   usePathname,
   useRouter,
   useSearchParams,
-  useParams,
+  useParams as useNextParams,
 } from "next/navigation";
 import {
   LinkProps,
@@ -12,7 +12,9 @@ import {
   NavLinkProps,
   NavigateFunction,
   NavigateOptions,
+  useParams as useReactRouterParams,
 } from "react-router-dom";
+import { useInRouterContext } from "react-router";
 
 export const useLocation = (): Location => {
   const pathname = usePathname();
@@ -38,7 +40,11 @@ export const useNavigate = () => {
     (to, options: NavigateOptions = {}) => {
       const { replace = false, state = {} } = options;
 
-      router.replace(to.toString(), { scroll: !replace, ...state });
+      if (replace) {
+        router.replace(to.toString(), { scroll: false });
+      } else {
+        router.push(to.toString(), { scroll: true });
+      }
     },
     [router]
   );
@@ -144,6 +150,16 @@ const useReactRouterSearchParams = (): [
   };
 
   return [searchParams, setSearchParams];
+};
+
+const useParams = () => {
+  const nextParams = useNextParams();
+  const reactRouterParams = useReactRouterParams();
+
+  // this checks if the route was loaded via the catch-all React application which loads the react router
+  const isInRouterContext = useInRouterContext();
+
+  return isInRouterContext ? reactRouterParams : nextParams;
 };
 
 export {

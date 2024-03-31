@@ -17,7 +17,7 @@ import { Typography } from '@Components/Typography'
 import { Utils } from '@adewaskar/lms-common'
 import { capitalize } from 'lodash'
 import styled from '@emotion/styled'
-import { useNavigate } from '@Router/index'
+import Link from 'next/link'
 
 const { Text } = Typography
 
@@ -35,16 +35,12 @@ margin-bottom: 20px; */
 
 function PackageCard(props: PackageCardPropsI) {
   const { package: bundle } = props;
-  const navigate = useNavigate();
   const plan = bundle.plan as unknown as Types.Plan || Constants.INITIAL_COURSE_PLAN_DETAILS;
   return (
-    // <Badge.Ribbon text="Best Seller" color="orange">
+    <Link href={`/app/package/${bundle._id}`}>
+      {/* // <Badge.Ribbon text="Best Seller" color="orange"> */}
       <CustomCard hoverable
-        onClick={() =>
-          navigate(
-            `../package/${bundle._id}`
-          )
-        } bodyStyle={{padding: 15}}
+        bodyStyle={{padding: 15}}
         cover={
           <Image alt="example" style={{height: 140}}
             src={
@@ -82,6 +78,7 @@ function PackageCard(props: PackageCardPropsI) {
           </Col>
         </Row>
       </CustomCard>
+    </Link>
   )
 }
 

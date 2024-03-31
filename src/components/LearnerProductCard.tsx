@@ -1,8 +1,8 @@
-import { Button, Card, Col, Empty, Row, Skeleton, Spin } from 'antd'
-import { Enum, Learner, Types, User } from '@adewaskar/lms-common'
+import { Button, Card, Col, Empty, Row, Skeleton, Spin } from "antd";
+import { Enum, Learner, Types, User } from "@adewaskar/lms-common";
 
-import AppImage from '@Components/Image'
-import { Text } from './Typography/Typography'
+import AppImage from "@Components/Image";
+import { Text } from "./Typography/Typography";
 
 interface LearnerProductCardPropsI {
   product: Types.Product;
@@ -12,12 +12,12 @@ interface LearnerProductCardPropsI {
 }
 
 const LearnerProductCard = (props: LearnerProductCardPropsI) => {
-  const { product: { type, id } } = props
   const {
-    data: product,
-    isLoading: loading
-  } = Learner.Queries.useGetProductDetail({ type, id })
-  console.log(type, id, '1321')
+    product: { type, id },
+  } = props;
+  const { data: product, isLoading: loading } =
+    Learner.Queries.useGetProductDetail({ type, id });
+  // console.log(type, id, '1321')
 
   return loading ? (
     <Skeleton.Button style={{ height: 178 }} block />
@@ -25,7 +25,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     <Card
       onClick={() => props.onClick && props.onClick()}
       hoverable
-      bodyStyle={{ padding: '20px 10px' }}
+      bodyStyle={{ padding: "20px 10px" }}
       cover={
         <AppImage
           placeholder
@@ -41,7 +41,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
         title={<Text>{product.title}</Text>}
       />
     </Card>
-  )
-}
+  );
+};
 
-export default LearnerProductCard
+export default LearnerProductCard;

@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Alert,
   Avatar,
@@ -34,6 +36,7 @@ import styled from '@emotion/styled'
 import useBreakpoint from '@Hooks/useBreakpoint';
 import useMessage from '@Hooks/useMessage';
 import { useModal } from '@Components/ActionModal/ModalContext';
+import useDehydration from '@ServerHooks/useDehydration';
 
 const { UnitTypeToStr } = Utils;
 
@@ -77,6 +80,7 @@ const PackageSubTitle = styled(Paragraph)`
 `
 
 function PackageDetailViewer () {
+  useDehydration();
   const { id: packageId } = useParams();
   const { data: bundle,isFetching: loadingPackage } = Learner.Queries.useGetPackageDetails(packageId + '', {
     enabled: !!packageId
