@@ -19,19 +19,16 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'
+          node-version: '18.x'
 
-      - name: Install yarn
+      - name: npm install, build, and test
         run: |
-          npm install -g yarn
-
-      - name: Build image
-        run: |
-          yarn --frozen-lockfile
-          yarn build
+          npm install
+          npm run build --if-present
+          npm run test --if-present
 
       - name: Zip artifact for deployment
-        run: zip release.zip ./dist -r
+        run: zip release.zip ./* -r
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -45,6 +42,8 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
 
     steps:
       - name: Download artifact from build job
@@ -54,6 +53,13 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
+      
+      - name: Login to Azure
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_4405A45699474090BBF161078DF725FB }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CF2241290AE3402CB767D18D2E330330 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F63FCF82167448FDAB2D87D1A5A3CCE9 }}
 
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
@@ -61,5 +67,5 @@ jobs:
         with:
           app-name: 'nimblebee-front'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_54028697B0E34693A610D66E94C2BFEF }}
           package: .
+          
