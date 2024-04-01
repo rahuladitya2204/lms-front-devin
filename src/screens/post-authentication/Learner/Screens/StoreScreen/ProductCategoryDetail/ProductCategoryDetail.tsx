@@ -182,8 +182,8 @@ export default function ProductCategoryDetailScreen(
             <Col span={24}>
             {Banners.length?<Badge.Ribbon color='orange-inverse' placement='start' text={productCategory.title?`${productCategory.title} latest updates`:null}>
           <Card style={{paddingTop:20}}>
-              {Banners.map(i => {
-                return <Col span={24}>
+              {Banners.map((i, idx) => {
+                return <Col span={24} key={idx}>
                   <Alert type='error' action={<Tag color='orange-inverse'>{dayjs(i.date).format('L')}</Tag>} icon={<NotificationOutlined />} message={<strong>{i.title}</strong>} description={<HtmlViewer content={i.description} />}  />
                 </Col>
               })}
@@ -199,8 +199,8 @@ export default function ProductCategoryDetailScreen(
         {packages.length?<Col span={24}>
                         <Card title='Try our test series!'>
                         <Row gutter={[20,20]}>
-                          {packages.map(bundle => {
-                          return <Col   sm={12} 
+                          {packages.map((bundle, idx) => {
+                          return <Col   sm={12} key={idx}
                           md={8} xs={24}
                             lg={8} xl={6} xxl={6}  >
                             <PackageCard package={bundle} />
@@ -267,8 +267,8 @@ export default function ProductCategoryDetailScreen(
  </Col>
          {(productCategory?.info?.faqs?.length)? <Col lg={24} md={24} sm={24} xs={24}>
             <Card title='FAQs'>
-            {productCategory.info.faqs.map(faq => {
-              return <Collapse expandIconPosition='end' style={{marginTop:10}} items={[
+            {productCategory.info.faqs.map((faq, idx) => {
+              return <Collapse expandIconPosition='end' style={{marginTop:10}} key={idx} items={[
                 {
                   label: faq.title,
                   children: <Paragraph>{faq.description}</Paragraph>

@@ -66,7 +66,7 @@ function PackageCard(props: PackageCardPropsI) {
  {Object.keys(bundle.products).filter(k=>bundle.products[k].length).map(key => {
               // @ts-ignore
               const products = bundle.products[key];
-              return <Tag color='orange-inverse' >{products.length} { capitalize(key)}s</Tag>
+              return <Tag key={key} color='orange-inverse' >{products.length} { capitalize(key)}s</Tag>
                   })}
    </Text>
         </Col>

@@ -63,13 +63,13 @@ export function getSubdomainFromHost(host: string | null): string {
   const subdomain = parts.slice(0, -2).join("-");
   return subdomain;
 }
+
 export function getHostnameFromHost(host: string | null): string {
   if (!host) return "";
 
-  const parts = host.split(".");
-  // Assuming the format is always [subdomain].[domain].[tld]
-  const subdomain = parts.slice(0, -2).join("-");
-  return subdomain;
+  // Remove the port number if present
+  const hostnameWithoutPort = host.split(':')[0];
+  return hostnameWithoutPort;
 }
 
 export function generateGradients(primaryColor: string): GradientTypes {

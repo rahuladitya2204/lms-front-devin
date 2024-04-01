@@ -48,7 +48,7 @@ export async function middleware(request: NextRequest) {
       for (let cookie of cookiesToSet) {
         const { isSet, ...rest } = cookie;
         if (!cookie.isSet) {
-          console.log("[Middleware] Setting ", cookie.name);
+          console.log("[Middleware] Setting ", cookie.name, getHostnameFromHost(host));
 
           updatedResponseCookies = true;
           response.cookies.set({
