@@ -9,7 +9,8 @@ import {
 } from "next/dist/server/web/spec-extension/cookies";
 
 export const config = {
-  matcher: "/((?!api|static|.*\\..*|_next).*)",
+  matcher:
+    "/((?!api|_next|static|public|favicon.ico|logo192.png|logo512.png|manifest.json).*)",
   runtime: "experimental-edge",
   unstable_allowDynamic: ["**/node_modules/lodash/*.js"],
 };
@@ -25,6 +26,14 @@ export async function middleware(request: NextRequest) {
   const hasOrgAlias = request.cookies.has("orgAlias");
   const hasUserType = request.cookies.has("userType");
 
+  console.log(
+    request.nextUrl.pathname,
+    request.headers.get("cookie"),
+    request.cookies.get("orgAlias"),
+    request.cookies.has("orgAlias"),
+    request.cookies.get("userType"),
+    request.cookies.has("userType")
+  );
   const response = NextResponse.next();
   let updatedResponseCookies = false;
 
@@ -48,7 +57,11 @@ export async function middleware(request: NextRequest) {
       for (let cookie of cookiesToSet) {
         const { isSet, ...rest } = cookie;
         if (!cookie.isSet) {
-          console.log("[Middleware] Setting ", cookie.name, getHostnameFromHost(host));
+          console.log(
+            "[Middleware] Setting ",
+            cookie.name,
+            getHostnameFromHost(host)
+          );
 
           updatedResponseCookies = true;
           response.cookies.set({
