@@ -1,6 +1,6 @@
 import React from "react";
 import "../index.css";
-import '../App.css';
+import "../App.css";
 
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
@@ -14,6 +14,11 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: "NimbleBee",
   description: "NimbleBee",
+  icons: {
+    icon: "/logo192.png",
+    apple: "/logo192.png",
+  },
+  manifest: "/manifest.json",
 };
 
 export default function RootLayout({
@@ -24,14 +29,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="%PUBLIC_URL%/logo192.png" />
-        <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+        <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Jost&display=swap"
           rel="stylesheet"
         />
-        <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
         <meta
           name="google-site-verification"
           content="SUaj-1D8lg5cN2bnBBCXbO_Op5Bfyv49Q7VbpyXH8Fg"

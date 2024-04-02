@@ -1,5 +1,6 @@
 {
   "extends": "next",
+  "parser": "@typescript-eslint/parser",
   "rules": {
     "react/jsx-key": ["warn"],
     "react/no-children-prop": ["off"],
