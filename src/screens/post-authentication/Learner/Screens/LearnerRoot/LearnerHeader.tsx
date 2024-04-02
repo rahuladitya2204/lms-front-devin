@@ -35,7 +35,7 @@ import {
 } from '@ant-design/icons'
 import { Fragment, useMemo } from 'react'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
-import { NavLink } from '@Router/index'
+import { Link, NavLink } from '@Router/index'
 import { Outlet } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
@@ -293,10 +293,9 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
       hideBack
       title={
         <Space style={{ cursor: 'pointer'}}>
-          <OrgLogo
-            onClick={() => router.push('/app/store')}
-            // style={{ width: 60 }}
-          />
+          <Link to="/app/store">
+            <OrgLogo />
+          </Link>
 
           {!isMobileOrTablet ? (
             <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
