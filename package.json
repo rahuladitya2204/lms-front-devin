@@ -9,6 +9,7 @@
     "@adewaskar/lms-common": "3.1.487-alpha.16",
     "@ant-design/compatible": "5.0.0",
     "@ant-design/icons": "4.7.0",
+    "@ant-design/nextjs-registry": "1.0.0",
     "@ant-design/pro-components": "2.3.34",
     "@babel/core": "7.16.0",
     "@emotion/css": "11.10.5",
