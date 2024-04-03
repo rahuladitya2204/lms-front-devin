@@ -11,7 +11,7 @@ const nextConfig = {
     config.resolve.fallback = { fs: false };
     return config;
   },
-  assetPrefix: isProd ? "https://nimblebee-front-cdn.azureedge.net" : undefined,
+  assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
 };
 
 export default nextConfig;

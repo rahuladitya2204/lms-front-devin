@@ -80,7 +80,7 @@ const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
             </ActionModal>
           ) : null
         ) : null}
-        <Layout style={{paddingBottom: 0,display:'flex'}}>
+        <Layout style={{paddingBottom: 0,display:'flex', minHeight:"100vh"}}>
           {((!isMobile)&&isSignedIn)?<Fragment>
             {(learner.profile.status === Enum.LearnerProfileStatus.INCOMPLETE || learner.profile.status === Enum.LearnerProfileStatus.PARTIAL_COMPLETE) ?
               <Alert action={<ActionModal height={600} width={300} title='Complete your profile' cta={<Button size='small' >Complete Profile</Button>}>
