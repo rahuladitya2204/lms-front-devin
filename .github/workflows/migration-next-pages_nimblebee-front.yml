@@ -64,6 +64,21 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_CF2241290AE3402CB767D18D2E330330 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F63FCF82167448FDAB2D87D1A5A3CCE9 }}
 
+      - name: Upload static files to Azure Blob Storage
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az storage blob sync --account-name nimblebeefrontstorage --auth-mode key --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './.next/standalone/.next/static' -c '$web' --destination-path '_next/static'
+            az storage blob sync --account-name nimblebeefrontstorage --auth-mode key --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './.next/standalone/public' -c '$web' --destination-path 'public'
+        continue-on-error: true
+
+      - name: Purge Azure CDN endpoint
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az cdn endpoint purge --content-paths '/*' --profile-name nimblebee-front-cdn --name nimblebee-front-cdn --resource-group nimblebee-front_group
+        continue-on-error: true
+
       - name: 'Deploy to Azure Web App'
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
