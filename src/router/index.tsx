@@ -101,11 +101,15 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ) => {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const hasAdditionalSearchParams =
+      Array.from(searchParams.entries()).length > 0;
 
     const href =
       relative === "path" ? to : relative === "route" ? `${pathname}${to}` : to;
 
-    const finalHref = searchParams ? `${href}?${searchParams}` : href;
+    const finalHref = hasAdditionalSearchParams
+      ? `${href}?${searchParams}`
+      : href;
 
     return (
       <Link

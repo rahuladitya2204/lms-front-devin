@@ -28,6 +28,7 @@ const responseSuccessInterceptor = (response) => {
 const responseErrorInterceptor = (error) => {
   // const setIsSignedIn = Store.useAuthentication.getState().setIsSignedin;
   // Any status codes that falls outside the range of 2xx cause this function to trigger
+  console.log("[HTTP Error]: ", error);
   if (error.response.status === 401) {
     // setIsSignedIn(false);
     // Handle unauthorized access here
