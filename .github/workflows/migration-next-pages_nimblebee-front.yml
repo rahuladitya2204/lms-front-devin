@@ -70,8 +70,8 @@ jobs:
         uses: azure/CLI@v1
         with:
           inlineScript: |
-            az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './.next/standalone/.next/static' -d '_next/static'
-            az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './.next/standalone/public' -d 'public'
+            az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './.next/static' -d '_next/static'
+            az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './public' -d 'public'
         continue-on-error: true
 
       - name: Purge Azure CDN endpoint
