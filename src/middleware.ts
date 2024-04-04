@@ -10,7 +10,7 @@ import {
 
 export const config = {
   matcher:
-    "/((?!api|_next/static|public|images|favicon.ico|logo192.png|logo512.png|manifest.json|not-found).*)",
+    "/((?!api|_next/static|public|images|favicon.ico|logo192.png|logo512.png|manifest.json|not-found|robots\d*\.txt).*)",
   runtime: "experimental-edge",
   unstable_allowDynamic: ["**/node_modules/lodash/*.js"],
 };
@@ -65,6 +65,7 @@ export async function middleware(request: NextRequest) {
           console.log(
             "[Middleware] Setting ",
             cookie.name,
+            cookie.value,
             getHostnameFromHost(host)
           );
 

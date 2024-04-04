@@ -1,4 +1,5 @@
-import { Network, Store } from "@adewaskar/lms-common";
+import { getIsServer } from "@ServerUtils/index";
+import { Network } from "@adewaskar/lms-common";
 
 import { Utils } from "@adewaskar/lms-common";
 
@@ -11,7 +12,9 @@ export const getToken = (userType?: string) => {
 };
 
 const requestSuccessInterceptor = (config) => {
-  config.baseURL = process.env.NEXT_PUBLIC_API_URL;
+  config.baseURL = getIsServer()
+    ? process.env.API_URL
+    : process.env.NEXT_PUBLIC_API_URL;
   // Any status code that lie within the range of 2xx cause this function to trigger
   return config;
 };
