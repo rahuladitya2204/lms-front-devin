@@ -10,7 +10,7 @@ import {
 
 export const config = {
   matcher:
-    "/((?!api|_next/static|public|images|favicon.ico|logo192.png|logo512.png|manifest.json).*)",
+    "/((?!api|_next/static|public|images|favicon.ico|logo192.png|logo512.png|manifest.json|not-found).*)",
   runtime: "experimental-edge",
   unstable_allowDynamic: ["**/node_modules/lodash/*.js"],
 };
@@ -49,7 +49,8 @@ export async function middleware(request: NextRequest) {
         await validateOrgAlias({ alias: orgAlias }).then((res) => {
           return res.json();
         });
-      } catch {
+      } catch (e) {
+        console.log("[Middleware] Error validating org alias", e);
         // TODO: catching these errors for testing on azure app service. Remove this when sanity testing is done
       }
       // set response cookies for client side authentication
