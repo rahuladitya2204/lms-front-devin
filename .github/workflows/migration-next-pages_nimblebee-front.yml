@@ -30,8 +30,10 @@ jobs:
           yarn --frozen-lockfile
           yarn build
 
+      # Zip files without retaining the parent directory paths but retains the children directory structure.
+      # Even though it uses cd, the terminal doesn't move to a different dir after the command is completed.
       - name: Zip artifact for deployment
-        run: zip release.zip ./.next/standalone -r
+        run: (cd ./.next/standalone && zip -r ../../release.zip .)
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
