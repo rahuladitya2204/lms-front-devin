@@ -44,10 +44,14 @@ export async function middleware(request: NextRequest) {
       const userType = Utils.getUserType(orgAlias);
 
       console.log("[Middleware]: validating org alias");
-      await validateOrgAlias({ alias: orgAlias }).then((res) => {
-        return res.json();
-      });
 
+      try {
+        await validateOrgAlias({ alias: orgAlias }).then((res) => {
+          return res.json();
+        });
+      } catch {
+        // TODO: catching these errors for testing on azure app service. Remove this when sanity testing is done
+      }
       // set response cookies for client side authentication
       const cookiesToSet: Array<SetResponseCookie> = [
         { isSet: hasOrgAlias, name: "orgAlias", value: orgAlias },
@@ -73,7 +77,7 @@ export async function middleware(request: NextRequest) {
       }
     }
   } catch {
-    return NextResponse.redirect(new URL("/not-found", request.url));
+    // return NextResponse.redirect(new URL("/not-found", request.url));
   }
 
   // only apply set cookies to current request cookies
