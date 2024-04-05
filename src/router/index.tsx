@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import Link, { LinkProps as NextLinkProps } from "next/link";
+import Link from "next/link";
 import {
   usePathname,
   useRouter,
