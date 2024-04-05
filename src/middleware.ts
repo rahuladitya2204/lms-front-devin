@@ -10,7 +10,7 @@ import {
 
 export const config = {
   matcher:
-    "/((?!api|_next/static|public|images|favicon.ico|logo192.png|logo512.png|manifest.json|not-found|robots\d*\.txt).*)",
+    "/((?!api|_next/static|public|images|favicon.ico|logo192.png|logo512.png|manifest.json|not-found|robotsd*.txt).*)",
   runtime: "experimental-edge",
   unstable_allowDynamic: ["**/node_modules/lodash/*.js"],
 };

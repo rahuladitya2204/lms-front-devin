@@ -1,4 +1,4 @@
-import { getIsServer } from "@ServerUtils/index";
+import { getIsServer, getServerBreakpoint } from "@ServerUtils/index";
 import { useEffect, useState } from "react";
 
 const getDeviceConfig = (width: number) => {
@@ -13,7 +13,8 @@ const getDeviceConfig = (width: number) => {
 
 const useBreakpoint = () => {
   const [width, setWidth] = useState(0);
-  const [breakpoint, setBreakpoint] = useState("");
+  const initialBreakpoint = getIsServer() ? getServerBreakpoint() : "";
+  const [breakpoint, setBreakpoint] = useState(initialBreakpoint);
 
   useEffect(() => {
     const isServer = getIsServer();

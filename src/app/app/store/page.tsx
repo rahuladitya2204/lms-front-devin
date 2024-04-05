@@ -25,9 +25,9 @@ export default function Page() {
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-        <LearnerRootScreen>
-          <LearnerHomeScreen />
-        </LearnerRootScreen>
+      <LearnerRootScreen>
+        <LearnerHomeScreen />
+      </LearnerRootScreen>
     </Hydrator>
   );
 }
