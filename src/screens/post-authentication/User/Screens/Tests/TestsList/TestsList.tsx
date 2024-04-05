@@ -66,7 +66,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             key="title"
             render={(_: any, test: Types.Test) => (
               <Button
-                onClick={() => navigate(`${test._id}/editor#information`)}
+                onClick={() => navigate(`/app/products/test/${test._id}/editor#information`)}
                 type="link"
                 size="small"
               >

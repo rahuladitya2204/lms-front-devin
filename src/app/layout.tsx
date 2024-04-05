@@ -12,8 +12,8 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "NimbleBee",
-  description: "NimbleBee",
+  title: "Testmint",
+  description: "Testmint",
   icons: {
     icon: "/logo192.png",
     apple: "/logo192.png",

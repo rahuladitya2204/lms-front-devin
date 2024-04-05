@@ -36,7 +36,6 @@ import {
 import { Fragment, useMemo } from 'react'
 import { Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { Link, NavLink } from '@Router/index'
-import { Outlet } from 'react-router'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'
@@ -45,8 +44,8 @@ import CoinImage from '../Account/LearnerWallet/CoinImage'
 import Header from '@Components/Header'
 import LoginScreen from '@Learner/Screens/Login'
 import OrgLogo from '@Components/OrgLogo'
+import { Outlet } from 'react-router'
 import SearchLearnerCourses from '@Components/SearchLearnerCourses'
-import { Typography } from '@Components/Typography'
 import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
@@ -56,6 +55,7 @@ import { useRouter } from 'next/navigation'
 const { confirm } = Modal
 
 const { Content } = Layout
+import { Typography } from '@Components/Typography'
 const { Text } = Typography
 
 export interface LearnerHeaderProps {
@@ -294,9 +294,8 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
       title={
         <Space style={{ cursor: 'pointer'}}>
           <Link to="/app/store">
-            <OrgLogo />
+            <OrgLogo showName /> 
           </Link>
-
           {!isMobileOrTablet ? (
             <Space style={{ display: 'flex', marginLeft: 25 }} align="center">
               {loadingLearnerDetails?<Skeleton.Button active style={{width:460,height:32}} />:<SearchLearnerCourses />}

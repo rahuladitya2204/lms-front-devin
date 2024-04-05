@@ -1,14 +1,16 @@
 import { Common, Store, User } from '@adewaskar/lms-common'
 
 import Image from './Image'
-import { Skeleton } from 'antd'
-
+import { Skeleton,Space } from 'antd'
+import { Typography } from '@Components/Typography'
+const { Text } = Typography
 interface OrgLogoPropsI {
   quality?: 'low' | 'high';
   noLoadNoShow?: boolean;
   width?: string | number;
   style?: any;
   onClick?: Function;
+  showName?:boolean;
 }
 
 function OrgLogo(props: OrgLogoPropsI) {
@@ -24,7 +26,8 @@ function OrgLogo(props: OrgLogoPropsI) {
   return !organisation._id ? (
     SkeletonButton
   ) : (
-    // @ts-ignore
+    <Space>
+     {/* @ts-ignore */}
     <Image
       noLoadNoShow
       noLoadNoShowPlaceholder={organisation._id ? SkeletonButton : <span />}
@@ -36,7 +39,9 @@ function OrgLogo(props: OrgLogoPropsI) {
       src={logo[props.quality ? props.quality : 'low'].url}
       {...props}
     />
-  )
+    {props.showName?<Text style={{fontSize:26}}>{organisation.shortName}</Text>:null}
+    </Space>
+    )
 }
 
 export default OrgLogo

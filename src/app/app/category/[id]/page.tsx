@@ -1,8 +1,8 @@
 import Hydrator from "@ServerComponents/Hydrator";
 import { Learner } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
-import { getToken } from "@Network/index";
 import ProductCategoryDetailScreen from "@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
+import { getToken } from "@Network/index";
 
 export default function Page({ params }: { params: { id: string } }) {
   const {
