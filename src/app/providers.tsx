@@ -46,9 +46,7 @@ export default function Providers({ children }) {
       <Store.GlobalStoreProvider>
         <QueryClientProvider client={queryClient}>
           <ServerAuthProvider>
-            <AntdRegistry>
-              <ParticlesProvider>{children}</ParticlesProvider>
-            </AntdRegistry>
+            <AntdRegistry>{children}</AntdRegistry>
           </ServerAuthProvider>
         </QueryClientProvider>
       </Store.GlobalStoreProvider>
