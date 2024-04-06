@@ -14,7 +14,7 @@ interface TestEnrolledCtaPropsI {
 
 export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
     const { testId } = props;
-    const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '','');
+    const { data: test, isLoading: loadingTest } = Learner.Queries.useGetTestDetails(testId + '');
     const { mutate: retryTest, isLoading: retryingTest}=Learner.Queries.useRetryTest(test._id+'')
     const navigate =useNavigate();
     const {

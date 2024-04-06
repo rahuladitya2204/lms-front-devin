@@ -34,7 +34,9 @@ export const initializeServerApp = () => {
 
   // always have to initialize app for each request on development server
   if (!isProd) {
+    console.log("Initializing Server Utils");
     initializeApp();
+    return;
   }
 
   // use global ref for initializing app only once on production server

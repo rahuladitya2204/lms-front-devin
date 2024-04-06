@@ -21,12 +21,17 @@ export default function Page({ params }: { params: { testId: string } }) {
     <Hydrator
       queries={[
         getLearnerProductCategories(),
-        getEnrolledProductDetails(params.testId, "test"),
         getTestDetails(params.testId),
-        getTestResult(params.testId),
         getOrgDetails(),
         // authenticated routes should only be called if token is present
-        ...(token ? [getCartDetails(), getLearnerDetails()] : []),
+        ...(token
+          ? [
+              getCartDetails(),
+              getLearnerDetails(),
+              getEnrolledProductDetails(params.testId, "test"),
+              getTestResult(params.testId),
+            ]
+          : []),
       ]}
     >
       <LearnerRootScreen>
