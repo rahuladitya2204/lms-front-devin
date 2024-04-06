@@ -3,8 +3,8 @@ import { Utils } from "@adewaskar/lms-common";
 import { getIsServer, getServerCookie } from "@ServerUtils/index";
 import { parse, serialize } from "cookie";
 import { initInterceptors } from "@Network/index";
-import localizedFormat from 'dayjs/plugin/localizedFormat'
-import relativeTime from 'dayjs/plugin/relativeTime';
+import localizedFormat from "dayjs/plugin/localizedFormat";
+import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 
 export const initStorage = () => {
@@ -38,13 +38,13 @@ export const initStorage = () => {
 };
 
 const initDateFormats = () => {
-  dayjs.extend(relativeTime)
+  dayjs.extend(relativeTime);
   dayjs.extend(localizedFormat);
-}
+};
 
 export const initializeApp = () => {
-  initDateFormats();
   initInterceptors();
+  initDateFormats();
   initStorage();
 };
 
@@ -68,7 +68,7 @@ export function getHostnameFromHost(host: string | null): string {
   if (!host) return "";
 
   // Remove the port number if present
-  const hostnameWithoutPort = host.split(':')[0];
+  const hostnameWithoutPort = host.split(":")[0];
   return hostnameWithoutPort;
 }
 

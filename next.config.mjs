@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const isProd = process.env.NODE_ENV === "production";
-
+// initialize application utils like interceptors and storage on server side  initInterceptors();
 const nextConfig = {
   output: "standalone", // Outputs a Single-Page Application (SPA).
   typescript: {

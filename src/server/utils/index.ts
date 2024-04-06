@@ -1,4 +1,10 @@
 import UAParser from "ua-parser-js";
+import { GlobalRef } from "./globalRef";
+import { initializeApp } from "@Utils/index";
+
+export const getServerEnv = () => {
+  return process.env.NODE_ENV;
+};
 
 export const getIsServer = (): boolean => {
   return typeof window === "undefined";
@@ -20,5 +26,22 @@ export const getServerBreakpoint = (): string => {
       return "isMobile";
     default:
       return "isDesktop";
+  }
+};
+
+export const initializeServerApp = () => {
+  const isProd = getServerEnv() === "production";
+
+  // always have to initialize app for each request on development server
+  if (!isProd) {
+    initializeApp();
+  }
+
+  // use global ref for initializing app only once on production server
+  const initialization = new GlobalRef("app.initialized");
+  if (!initialization.value) {
+    console.log("Initializing Server Utils", initialization.value);
+    initializeApp();
+    initialization.value = true;
   }
 };
