@@ -38,7 +38,7 @@ function PackageProducts(props: PackageProductsPropsI) {
                 const productTitle = capitalize(key)
                 // @ts-ignore
                 const products = bundle.products[key]
-                // console.log(products, '12')
+                console.log(products, 'productsproducts')
                 return (
                   <Panel
                     extra={
@@ -51,14 +51,14 @@ function PackageProducts(props: PackageProductsPropsI) {
                     key={key}
                   >
                     <Row gutter={[20, 30]}>
-                      {products.map((item: string) => (
+                      {products.map((item: Types.Test) => (
                         <Col xs={24} sm={12} md={8} lg={6}>
                           <LearnerProductCard
                             onClick={() => {
                               // @ts-ignore
-                              window.open(`../${key}/${item}`)
+                              window.open(`../${key}/${item._id}`)
                             }}
-                            product={{ id: item, type: key }}
+                            product={{ id: item._id, type: key,data: item }}
                           />
                         </Col>
                       ))}

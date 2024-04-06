@@ -74,14 +74,14 @@ function PackageMetadata(props: PackageMetadataPropsI) {
   } = Learner.Queries.useGetPackageDetails(packageId, {
     enabled: !!packageId
   })
-  if (bundle.products.test.length) {
-    data.tests.value = bundle.products.test.length + ''
+  if (bundle.products.test?.length) {
+    data.tests.value = bundle.products.test?.length + ''
   }
-  if (bundle.products.course.length) {
-    data.courses.value = bundle.products.course.length + ''
+  if (bundle.products.course?.length) {
+    data.courses.value = bundle.products.course?.length + ''
   }
-  if (bundle.products.event.length) {
-    data.events.value = bundle.products.event.length + ''
+  if (bundle.products.event?.length) {
+    data.events.value = bundle.products.event?.length + ''
   }
   if (bundle.analytics.enrolled.count) {
     data.enrolled.value = bundle.analytics.enrolled.count + ''

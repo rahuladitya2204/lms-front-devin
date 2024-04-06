@@ -113,7 +113,7 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
     return (
       <Link
-        href={finalHref}
+        href={finalHref || ''}
         ref={ref}
         replace={replace}
         scroll={!preventScrollReset}
