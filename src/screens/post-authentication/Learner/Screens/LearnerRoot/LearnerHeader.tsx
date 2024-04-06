@@ -134,7 +134,7 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
   }, [isMobileOrTablet, isSignedIn, enrolledProducts]);
   const HeaderButtonSkeleton = <Skeleton.Button active style={{ width: 97, height: 32,borderRadius:15 }} />;
   const { openModal } = useModal()
-  const WalletButton = contentLoading?HeaderButtonSkeleton:<NavLink to={`../app/wallet`} children={({ isActive }) => {
+  const WalletButton = contentLoading?HeaderButtonSkeleton:<NavLink to={`/app/wallet`} children={({ isActive }) => {
     return contentLoading?HeaderButtonSkeleton:<Tooltip title={!user.wallet.balance.value ? 'Please recharge your wallet for purchases' : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`}>
         <Button style={{ paddingTop: 2, paddingLeft: 5 }}
           color='blue-inverse'
