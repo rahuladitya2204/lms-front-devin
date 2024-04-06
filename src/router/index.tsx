@@ -68,7 +68,8 @@ export const NavLink = ({
     ? pathname.startsWith(to as string)
     : pathname.toLowerCase().startsWith((to as string).toLowerCase());
 
-  const renderProps = {
+    console.log(pathname,to,isActive,'huhhaha')
+    const renderProps = {
     isActive,
     isPending: false,
     isTransitioning: false,
@@ -100,6 +101,7 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
     ref
   ) => {
     const pathname = usePathname();
+    console.log(pathname,'pathname')
     const searchParams = useSearchParams();
     const hasAdditionalSearchParams =
       Array.from(searchParams.entries()).length > 0;

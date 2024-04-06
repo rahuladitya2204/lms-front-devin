@@ -162,20 +162,21 @@ const LearnerHeader = ({children}: LearnerHeaderProps) => {
               {HeaderButtonSkeleton}
             </Col>
           </Row> : menuItems.map((item, index) => (
-                <Link
+                <NavLink
                   key={index}
                   to={`/app/${item.key}`}
                   style={{ margin: '0 5px' }}
-                >
-                   <Button
+                  children={({ isActive }) => (
+                    <Button
                       style={{ borderRadius: 15 }}
                       size="middle"
                       icon={item.icon}
-                      // type={isActive ? 'primary' : 'default'}
+                      type={isActive ? 'primary' : 'default'}
                     >
                       {item.label}
                     </Button>
-                    </Link>
+                  )}
+                />
               ))}
               {}{' '}
               {/* <Divider orientation="right" /> */}
