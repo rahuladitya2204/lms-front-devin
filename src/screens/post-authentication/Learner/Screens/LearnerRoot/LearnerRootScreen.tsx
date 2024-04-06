@@ -17,6 +17,7 @@ import ThemeProvider from 'screens/ThemeProvider'
 import { Typography } from '@Components/Typography'
 import { useBlockBackButton } from '@User/Screens/Event/LiveSessionPlayer/User/hooks'
 import useBreakpoint from '@Hooks/useBreakpoint'
+import useDehydration from '@ServerHooks/useDehydration';
 
 const { Title } = Typography;
 
@@ -26,6 +27,7 @@ export interface LearnerRootScreenProps {
 
 const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
   useBlockBackButton()
+  useDehydration();
 
   const { orgId } = useParams()
   const searchParams = useSearchParams()

@@ -28,7 +28,6 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
-import useDehydration from '@ServerHooks/useDehydration';
 
 const { Text, Paragraph } = Typography
 const { UnitTypeToStr } = Utils;
@@ -38,7 +37,6 @@ interface ProductCategoryDetailScreenPropsI {}
 export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
-  useDehydration();
   const { id: productCategoryId } = useParams();
   const { isMobile,width } = useBreakpoint();
   const { data: productCategory, isLoading: loadingProductCategory } = Learner.Queries.useGetProductCategoryDetails(productCategoryId + '');

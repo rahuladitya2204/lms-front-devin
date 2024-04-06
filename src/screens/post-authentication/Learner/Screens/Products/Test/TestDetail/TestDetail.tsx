@@ -27,7 +27,6 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
-import useDehydration from '@ServerHooks/useDehydration';
 
 const { Text, Paragraph } = Typography
 const { UnitTypeToStr } = Utils;
@@ -129,7 +128,6 @@ export default function TestDetailScreen(
 
 
 const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,children?:React.ReactNode}) => {
-  useDehydration();
   const product = { type: 'test', id: testId };
   const navigate = useNavigate();
   const { data: { wallet } } = Learner.Queries.useGetLearnerDetails();
