@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: "18.x"
 
       - name: Install yarn
         run: |
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: "Production"
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
@@ -58,7 +58,7 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-      
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
@@ -67,25 +67,20 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F63FCF82167448FDAB2D87D1A5A3CCE9 }}
 
       - name: Upload static files to Azure Blob Storage
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './.next/static' -d '_next/static'
-            az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage --account-key ${{ secrets.AZURE_STORAGE_ACCOUNT_KEY }} -s './public' -d 'public'
+        run: |
+          az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage -s './.next/static' -d '_next/static'
+          az storage blob sync -c 'nimblebee-front-static' --account-name nimblebeefrontstorage -s './public' -d 'public'
         continue-on-error: true
 
       - name: Purge Azure CDN endpoint
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az cdn endpoint purge --content-paths '/*' --profile-name nimblebee-front-cdn --name nimblebee-front-cdn --resource-group nimblebee-front_group
+        run: |
+          az cdn endpoint purge --content-paths '/*' --profile-name nimblebee-front-cdn --name nimblebee-front-cdn --resource-group nimblebee-front_group
         continue-on-error: true
 
-      - name: 'Deploy to Azure Web App'
+      - name: "Deploy to Azure Web App"
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'nimblebee-front'
-          slot-name: 'Production'
+          app-name: "nimblebee-front"
+          slot-name: "Production"
           package: .
-          
