@@ -1,3 +1,4 @@
+"use client";
 import {
   Avatar,
   Button,
@@ -44,14 +45,14 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 const { Title, Text } = Typography
 const { Content } = Layout
 interface EnrolledPackageDetailScreenPropsI {
-  //   packageId: string;
+    packageId: string;
 }
 
 const EnrolledPackageDetailScreen: React.FC<
   EnrolledPackageDetailScreenPropsI
 > = props => {
   const navigate = useNavigate()
-  const { packageId } = useParams()
+  const { packageId } = props;
   const {
     data: { product: { data: packageData }, plan: { expiresAt }, enrolledAt },
     isLoading: loading
@@ -64,6 +65,7 @@ const EnrolledPackageDetailScreen: React.FC<
       enabled: !!packageId
     }
   )
+  console.log(packageData,'packageData')
   const { progress, totalItems, completedItems } = useMemo(
     () => {
       let totalItems = { test: 0, course: 0, event: 0 }

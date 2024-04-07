@@ -68,7 +68,7 @@ export const NavLink = ({
     ? pathname.startsWith(to as string)
     : pathname.toLowerCase().startsWith((to as string).toLowerCase());
 
-    console.log(pathname,to,isActive,'huhhaha')
+    // console.log(pathname,to,isActive,'huhhaha')
     const renderProps = {
     isActive,
     isPending: false,
