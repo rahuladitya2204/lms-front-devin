@@ -12,7 +12,8 @@ import Compressor from 'compressorjs'
 import Dragger from 'antd/es/upload/Dragger'
 import ImgCrop from 'antd-img-crop';
 import { RcFile } from 'antd/es/upload'
-import { compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
+// TODO: fix this import, not working correctly with SSR next
+// import { compressImage } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
 import { debounce } from 'lodash'
 import styled from '@emotion/styled'
 
@@ -93,7 +94,8 @@ const MediaUpload: React.FC<MediaUploadPropsI> = props => {
         }
   )),
       options: props.compress,
-      compressFn: props.compress? compressImage:undefined,
+      // TODO: fix this
+      compressFn: undefined,
       isProtected: props.isProtected,
       onUploadProgress: e => {
         // console.log(e, 'e')
