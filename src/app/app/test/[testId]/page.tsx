@@ -22,11 +22,11 @@ export default function Page({ params }: { params: { testId: string } }) {
       queries={[
         getLearnerProductCategories(),
         getOrgDetails(),
+        getTestDetails(params.testId),
         // authenticated routes should only be called if token is present
         ...(token
           ? [
               getCartDetails(),
-              getTestDetails(params.testId),
               getLearnerDetails(),
               getEnrolledProductDetails(params.testId, "test"),
               getTestResult(params.testId),
