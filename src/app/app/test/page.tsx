@@ -2,11 +2,11 @@ import Hydrator from "@ServerComponents/Hydrator";
 import { Learner } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
-import TestDetailScreen from "@Learner/Screens/Products/Test/TestDetail/TestDetail";
+import LearnerTestScreen from "@Learner/Screens/Products/Test/TestScreen/TestsScreen";
 
 export default function Page({ params }: { params: { testId: string } }) {
   const {
-    getLearnerProductCategories,
+    // getEnrolledProductList,
     getEnrolledProductDetails,
     getTestDetails,
     getOrgDetails,
@@ -20,22 +20,20 @@ export default function Page({ params }: { params: { testId: string } }) {
     // @ts-ignore
     <Hydrator
       queries={[
-        getLearnerProductCategories(),
         getOrgDetails(),
         // authenticated routes should only be called if token is present
         ...(token
           ? [
               getCartDetails(),
-              getTestDetails(params.testId),
               getLearnerDetails(),
-              getEnrolledProductDetails(params.testId, "test"),
+            //   getEnrolledProductList( "test"),
               getTestResult(params.testId),
             ]
           : []),
       ]}
     >
       <LearnerRootScreen>
-        <TestDetailScreen />
+        <LearnerTestScreen />
       </LearnerRootScreen>
     </Hydrator>
   );

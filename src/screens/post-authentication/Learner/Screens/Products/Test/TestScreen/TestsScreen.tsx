@@ -1,3 +1,4 @@
+"use client"
 import { Enum } from '@adewaskar/lms-common'
 import PastEvent from './PastTests'
 import PastTest from './PastTests'
