@@ -26,7 +26,7 @@ export interface LearnerRootScreenProps {
 }
 
 const LearnerRootScreen = ({children}: LearnerRootScreenProps) => {
-  useBlockBackButton()
+  // useBlockBackButton()
   useDehydration();
 
   const { orgId } = useParams()

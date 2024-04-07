@@ -1,3 +1,5 @@
+'use client'
+
 import {
   AimOutlined,
   ArrowLeftOutlined,
@@ -38,23 +40,23 @@ import {
   ResponsiveContainer,
   Tooltip,
   XAxis,
-  YAxis,
+  YAxis
 } from 'recharts'
 import { Enum, Learner, Utils } from '@adewaskar/lms-common'
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from '@Router/index'
 
-import ActionDrawer from '@Components/ActionDrawer'
-import ActionModal from '@Components/ActionModal/ActionModal'
+// import ActionDrawer from '@Components/ActionDrawer'
+// import ActionModal from '@Components/ActionModal/ActionModal'
 import Header from '@Components/Header'
-import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
+// import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
 import LearnerProfile from '@Learner/Screens/Account/LearnerProfile'
-import { NavLink } from '@Router/index'
+// import { NavLink } from '@Router/index'
 import ProcessingResult from './ProcessingResult'
 import ProtectedContent from '@Components/ProtectedComponent'
 import Tabs from '@Components/Tabs'
 import TestLeaderboard from './TestLeaderboard'
-import TestPlayerItemReiew from '../TestReview/TestPlayerItemReview'
+// import TestPlayerItemReiew from '../TestReview/TestPlayerItemReview'
 import { Typography } from '@Components/Typography'
 import { buildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
 import { capitalize } from 'lodash'
@@ -65,270 +67,289 @@ import { useQueryClient } from '@tanstack/react-query'
 const { confirm } = Modal
 const { Title, Text } = Typography
 
-export default function TestMetrics() {
+interface TestMetricsPropsI {
+  testId: string
+}
+
+export default function TestMetrics (props: TestMetricsPropsI) {
   const navigate = useNavigate()
-  const { testId } = useParams()
-  const qc = useQueryClient();
-  const { data: {
-    topics: topicIds
-  }} = Learner.Queries.useGetTestDetails(testId+'', Enum.TestDetailMode.RESULT);
+  const { testId } = props
+  const qc = useQueryClient()
+  const {
+    data: { topics: topicIds }
+  } = Learner.Queries.useGetTestDetails(testId + '', Enum.TestDetailMode.RESULT)
   // @ts-ignore
-  const [selectedMainTopic, setSelectedMainTopic] = useState('');
-  const [selectedTopic, setSelectedTopic] = useState('');
+  const [selectedMainTopic, setSelectedMainTopic] = useState('')
+  const [selectedTopic, setSelectedTopic] = useState('')
   const {
     data: { test, metrics, status, feedback, leaderboard },
-    isFetching: loadingResult,
+    isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(testId + '')
   const { data: learner } = Learner.Queries.useGetLearnerDetails()
-  const { data: topics } = Learner.Queries.useGetTopics();
+  const { data: topics } = Learner.Queries.useGetTopics()
   const COLORS = ['#52c41a', '#FF4040', '#D3D3D3'] // Green for correct, Red for wrong, Grey for unattempted
-  const pieChartData = useMemo(
-    () => {
-      return [
-        { name: 'Correctly Answered', value: metrics.totalCorrectlyAnswered },
-        { name: 'Wrongly Answered', value: metrics.totalWronglyAnswered }
-      ]
-    },
-    [metrics]
-  )
-  useEffect(() => { 
+  const pieChartData = useMemo(() => {
+    return [
+      { name: 'Correctly Answered', value: metrics.totalCorrectlyAnswered },
+      { name: 'Wrongly Answered', value: metrics.totalWronglyAnswered }
+    ]
+  }, [metrics])
+  useEffect(() => {
     setSelectedTopic(selectedMainTopic)
-  }, [topicIds,selectedMainTopic])
-  
-  useEffect(() => { 
+  }, [topicIds, selectedMainTopic])
+
+  useEffect(() => {
     setSelectedMainTopic(topicIds[0])
-  },[topicIds])
+  }, [topicIds])
   // @ts-ignore
-  const MAIN_TOPICS = buildTopicTree(topics, selectedMainTopic, 2);
-  const difficultyLevelData = useMemo(
-    () => {
-      return metrics.difficultyLevel?Object.keys(metrics.difficultyLevel).map(k => {
-        return {
-          difficultyLevel: k,
-          // @ts-ignore
-          ...metrics.difficultyLevel[k]
-        }
-      }):[]
-    },
-    [metrics]
-  )
-// console.log(MAIN_TOPICS,'MAIN_TOPICS')
-       const TOPICS = buildTopicTree(topics, selectedTopic, selectedTopic!==selectedMainTopic?1:2);
-       // @ts-ignore
-       const accumulateTopicData = (topic, topicMap) => {
-        if (!topicMap[topic._id]) {
-          topicMap[topic._id] = {
-            correct: 0,
-            incorrect: 0,
-            total: 0,
-            topic: topic.title,
-            _id: topic._id,
-            parentId: topic.parentId,
-          };
-        }
-    
-        const topp = metrics.topics.find((t) => t.topic === topic._id);
-        if (topp) {
-          topicMap[topic._id].correct += topp.correct;
-          topicMap[topic._id].incorrect += topp.incorrect;
-          topicMap[topic._id].total += topp.total;
-    
-          if (topic.parentId && topicMap[topic.parentId]) {
-            topicMap[topic.parentId].correct += topp.correct;
-            topicMap[topic.parentId].incorrect += topp.incorrect;
-            topicMap[topic.parentId].total += topp.total;
+  const MAIN_TOPICS = buildTopicTree(topics, selectedMainTopic, 2)
+  const difficultyLevelData = useMemo(() => {
+    return metrics.difficultyLevel
+      ? Object.keys(metrics.difficultyLevel).map(k => {
+          return {
+            difficultyLevel: k,
+            // @ts-ignore
+            ...metrics.difficultyLevel[k]
           }
-        }
-    
-              //  @ts-ignore
-topic.children.forEach((child) => {
-          accumulateTopicData(child, topicMap);
-        });
-      };
+        })
+      : []
+  }, [metrics])
+  // console.log(MAIN_TOPICS,'MAIN_TOPICS')
+  const TOPICS = buildTopicTree(
+    topics,
+    selectedTopic,
+    selectedTopic !== selectedMainTopic ? 1 : 2
+  )
+  // @ts-ignore
+  const accumulateTopicData = (topic, topicMap) => {
+    if (!topicMap[topic._id]) {
+      topicMap[topic._id] = {
+        correct: 0,
+        incorrect: 0,
+        total: 0,
+        topic: topic.title,
+        _id: topic._id,
+        parentId: topic.parentId
+      }
+    }
+
+    const topp = metrics.topics.find(t => t.topic === topic._id)
+    if (topp) {
+      topicMap[topic._id].correct += topp.correct
+      topicMap[topic._id].incorrect += topp.incorrect
+      topicMap[topic._id].total += topp.total
+
+      if (topic.parentId && topicMap[topic.parentId]) {
+        topicMap[topic.parentId].correct += topp.correct
+        topicMap[topic.parentId].incorrect += topp.incorrect
+        topicMap[topic.parentId].total += topp.total
+      }
+    }
+
+    //  @ts-ignore
+    topic.children.forEach(child => {
+      accumulateTopicData(child, topicMap)
+    })
+  }
   const topicsData = useMemo(() => {
     if (!metrics.topics) {
-      return [];
+      return []
     }
-        //  @ts-ignore
-      
-        const topicMap = {};
-        TOPICS.forEach((topic) => {
-          accumulateTopicData(topic, topicMap);
-        });
-      
-        return Object.values(topicMap).filter(
-            //  @ts-ignore
-            (t) => t.parentId === selectedTopic && t.total > 0
-        );
-      }, [metrics, TOPICS, selectedTopic]);
-      
-      // console.log(topicsData,'topicsData',selectedTopic,'selected')
+    //  @ts-ignore
+
+    const topicMap = {}
+    TOPICS.forEach(topic => {
+      accumulateTopicData(topic, topicMap)
+    })
+
+    return Object.values(topicMap).filter(
+      //  @ts-ignore
+      t => t.parentId === selectedTopic && t.total > 0
+    )
+  }, [metrics, TOPICS, selectedTopic])
+
+  // console.log(topicsData,'topicsData',selectedTopic,'selected')
   // console.log(difficultyLevelData,'difficultyLevelData')
-  const {
-    data: enrolledProduct,isLoading: loadingEnrolledProduct
-  } = Learner.Queries.useGetEnrolledProductDetails({
-    type: 'test',
-    id: testId + ''
-  })
+  const { data: enrolledProduct, isLoading: loadingEnrolledProduct } =
+    Learner.Queries.useGetEnrolledProductDetails({
+      type: 'test',
+      id: testId + ''
+    })
   const { isMobile } = useBreakpoint()
   // console.log(pieChartData, 'as')
   const ViewSolutions = (
     <Button
-      style={{ marginRight: isMobile?0:10 }}
+      style={{ marginRight: isMobile ? 0 : 10 }}
       onClick={() => navigate(`/app/test/${testId}/result/review`)}
-      type="primary"
+      type='primary'
       icon={<EditOutlined />}
     >
       View Solutions
     </Button>
   )
-  const timeTaken = (dayjs(enrolledProduct.metadata.test.endedAt).diff(dayjs(enrolledProduct.metadata.test.startedAt),'seconds'))
+  const timeTaken = dayjs(enrolledProduct.metadata.test.endedAt).diff(
+    dayjs(enrolledProduct.metadata.test.startedAt),
+    'seconds'
+  )
   const ExitButton = (
     <Button
-      style={{ width: isMobile ? '100%' : 100,marginTop:10 }}
-      icon={isMobile?<ArrowLeftOutlined/>:<LogoutOutlined />}
+      style={{ width: isMobile ? '100%' : 100, marginTop: 10 }}
+      icon={isMobile ? <ArrowLeftOutlined /> : <LogoutOutlined />}
       onClick={() => {
         confirm({
           title: 'Are you sure?',
           // icon: <ExclamationCircleOutlined />,
           content: `You want to exit reviewing?`,
-          onOk() {
+          onOk () {
             if (enrolledProduct.package) {
-              navigate(`/app/package/${enrolledProduct.package}/enrolled-package`)
-            }
-            else {
+              navigate(
+                `/app/package/${enrolledProduct.package}/enrolled-package`
+              )
+            } else {
               navigate(`/app/test/${testId}`)
-            }          },
+            }
+          },
           okText: 'Yes, Exit'
         })
       }}
-      type="primary"
+      type='primary'
       danger
       // loading={submittingTest}
     >
       Exit
     </Button>
   )
-// @ts-ignore
-  const BarChartDifficultyLevel = <ResponsiveContainer height={300}>
-    <BarChart data={difficultyLevelData}>
-  <CartesianGrid strokeDasharray="3 3" />
-  <XAxis dataKey="difficultyLevel" />
-  <YAxis />
-  <Tooltip />
-  <Legend />
-  <Bar dataKey="correct" stackId="a" fill="#52c41a" name="Correct" />
-  <Bar dataKey="incorrect" stackId="a" fill="#f94041" name="Incorrect" />
-  <Bar dataKey="total" stackId="a" fill="#ffc658" name="Total" />
-  </BarChart>
-  </ResponsiveContainer>
+  // @ts-ignore
+  const BarChartDifficultyLevel = (
+    <ResponsiveContainer height={300}>
+      <BarChart data={difficultyLevelData}>
+        <CartesianGrid strokeDasharray='3 3' />
+        <XAxis dataKey='difficultyLevel' />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey='correct' stackId='a' fill='#52c41a' name='Correct' />
+        <Bar dataKey='incorrect' stackId='a' fill='#f94041' name='Incorrect' />
+        <Bar dataKey='total' stackId='a' fill='#ffc658' name='Total' />
+      </BarChart>
+    </ResponsiveContainer>
+  )
 
+  const BarChartTopics = (
+    <ResponsiveContainer height={400}>
+      <BarChart data={topicsData}>
+        <CartesianGrid strokeDasharray='3 3' />
+        <XAxis dataKey='topic' />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Bar dataKey='correct' stackId='a' fill='#52c41a' name='Correct' />
+        <Bar dataKey='incorrect' stackId='a' fill='#f94041' name='Incorrect' />
+        <Bar dataKey='total' stackId='a' fill='#ffc658' name='Total' />
+      </BarChart>
+    </ResponsiveContainer>
+  )
 
-  const BarChartTopics = <ResponsiveContainer height={400}>
-    <BarChart data={topicsData}>
-  <CartesianGrid strokeDasharray="3 3" />
-  <XAxis dataKey="topic" />
-  <YAxis />
-  <Tooltip />
-  <Legend />
-  <Bar dataKey="correct" stackId="a" fill="#52c41a" name="Correct" />
-  <Bar dataKey="incorrect" stackId="a" fill="#f94041" name="Incorrect" />
-  <Bar dataKey="total" stackId="a" fill="#ffc658" name="Total" />
-</BarChart>
-  </ResponsiveContainer>
-
-  const PiechartComponent = <>
-    <Card title="Overall Performance">
-      <Row justify={'center'} align={'middle'}>
-        <Col>
-        <PieChart width={300} height={250}>
-            <Pie
-              data={pieChartData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              fill="#52c41a"
-              //   label={renderCustomizedLabel}
-              labelLine={false}
-            >
-              {pieChartData.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
+  const PiechartComponent = (
+    <>
+      <Card title='Overall Performance'>
+        <Row justify={'center'} align={'middle'}>
+          <Col>
+            <PieChart width={300} height={250}>
+              <Pie
+                data={pieChartData}
+                dataKey='value'
+                nameKey='name'
+                cx='50%'
+                cy='50%'
+                outerRadius={100}
+                fill='#52c41a'
+                //   label={renderCustomizedLabel}
+                labelLine={false}
+              >
+                {pieChartData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
             </PieChart>
-        </Col>
-      </Row>
-    </Card>
- {difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0)?   <Card style={{marginTop:20}} title='Difficulty Level Report'>
-              {loadingResult ? (
-                  <Card style={{ height: 300 }}>
-                    <Skeleton active />
-                  </Card>
-                ) : (
-                    // @ts-ignore
-                  ((test?._id))
-                ) ? (
-                  <Row><Col xs={24}>{BarChartDifficultyLevel}</Col></Row>
-                ) : null}
-                
-
-    </Card>:null}
-  </>
-// console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'difficultyLevelData.reduce((a,b)=>a.total+b.total,0)')
+          </Col>
+        </Row>
+      </Card>
+      {difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0) ? (
+        <Card style={{ marginTop: 20 }} title='Difficulty Level Report'>
+          {loadingResult ? (
+            <Card style={{ height: 300 }}>
+              <Skeleton active />
+            </Card>
+          ) : // @ts-ignore
+            test?._id ? (
+            <Row>
+              <Col xs={24}>{BarChartDifficultyLevel}</Col>
+            </Row>
+          ) : null}
+        </Card>
+      ) : null}
+    </>
+  )
+  // console.log(difficultyLevelData.reduce((sum, obj) => sum + obj.total, 0),'difficultyLevelData.reduce((a,b)=>a.total+b.total,0)')
 
   if (status !== Enum.TestResultStatus.EVALUATED) {
     return <ProcessingResult testId={testId + ''} />
   }
-  const questions = test.sections.map(i => i.items).flat();
-  const totalAnswered = metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered;
-  const DROPDOWN_TOPICS = MAIN_TOPICS
-    .filter((i) => {
-    const t = buildTopicTree(topics, i._id, 1);
-    const topicMap = {};
-    t.forEach((topic) => {
+  const questions = test.sections.map(i => i.items).flat()
+  const totalAnswered =
+    metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered
+  const DROPDOWN_TOPICS = MAIN_TOPICS.filter(i => {
+    const t = buildTopicTree(topics, i._id, 1)
+    const topicMap = {}
+    t.forEach(topic => {
       //  @ts-ignore
-      accumulateTopicData(topic, topicMap);
-    });
+      accumulateTopicData(topic, topicMap)
+    })
     //  @ts-ignore
-    return Object.values(topicMap).some((topic) => topic.total > 0);
-  })
-    .map((t) => ({
+    return Object.values(topicMap).some(topic => topic.total > 0)
+  }).map(t => ({
     label: t.title,
-    value: t._id,
-  }));
+    value: t._id
+  }))
   const TABS = [
     {
       label: 'Analysis',
       key: 'analysis',
-      children: <>
-        <Row gutter={[20, 20]}>
-          <Col span={24}>
-            <Row gutter={[20, 20]}>
-              <Col xs={24} md={12} lg={8}>
-                {loadingResult ? (
-                  <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                    <Skeleton active />
-                  </Card>
-                ) : (
-                  <Card style={{ marginBottom: 20, textAlign: 'center' }}>
-                    {/* @ts-ignore */}
-                    {test.passingScore ? (
-                      <Title level={4}>
-                        Passing Score: {metrics.passingScore}
+      children: (
+        <>
+          <Row gutter={[20, 20]}>
+            <Col span={24}>
+              <Row gutter={[20, 20]}>
+                <Col xs={24} md={12} lg={8}>
+                  {loadingResult ? (
+                    <Card style={{ marginBottom: 20, textAlign: 'center' }}>
+                      <Skeleton active />
+                    </Card>
+                  ) : (
+                    <Card style={{ marginBottom: 20, textAlign: 'center' }}>
+                      {/* @ts-ignore */}
+                      {test.passingScore ? (
+                        <Title level={4}>
+                          Passing Score: {metrics.passingScore}
+                        </Title>
+                      ) : null}
+                      <Title
+                        style={{
+                          marginBottom: 15,
+                          margin: !metrics.passingScore ? 0 : 'auto'
+                        }}
+                        level={4}
+                      >
+                        You Scored: {Math.ceil(metrics.learnerScore)} out of{' '}
+                        {metrics.totalTestScore}
                       </Title>
-                    ) : null}
-                    <Title style={{ marginBottom: 15,margin: (!metrics.passingScore)?0:'auto' }} level={4}>
-                      You Scored: {Math.ceil(metrics.learnerScore)} out of{' '}
-                      {metrics.totalTestScore}
-                    </Title>
-                    {/* {metrics.passingScore? <>
+                      {/* {metrics.passingScore? <>
                 {metrics.learnerScore >= metrics.passingScore ? (
                 <Alert
                   message="You have passed this test"
@@ -341,204 +362,244 @@ topic.children.forEach((child) => {
                 />
                   )}
                 </>:null} */}
-                  </Card>
-                )}
-                                <Row style={{marginTop:15,marginBottom:15}} gutter={[30,30]}>
-                 {(metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered)? <Col xs={24} sm={8}>
-                    <Card bordered={false}>
-                    <Statistic
-          title="Accuracy"
-          value={metrics.totalCorrectlyAnswered/(metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered)*100}
-          precision={1}
-          valueStyle={{fontSize: 20, color: 'blue' }}
-          prefix={<AimOutlined />}
-          suffix="%"
-        />
-                  </Card>
-                  </Col>:null}
-
-                  <Col xs={24} sm={8}>
-                    <Card bordered={false}>
-                    <Statistic
-          title="Completed"
-          value={totalAnswered/questions.length*100}
-          precision={1}
-          valueStyle={{fontSize: 20, color: '#3f8600' }}
-          prefix={<SafetyCertificateOutlined />}
-          suffix="%"
-        />
-                  </Card>
-                  </Col>
-
-                {(enrolledProduct.metadata.test.startedAt || enrolledProduct.metadata.test.endedAt) ?  <Col xs={24} sm={8}>
-                    <Card bordered={false}>
-                    <Statistic
-          title="Time Taken"
-          value={Utils.formatSeconds(timeTaken)}
-          // precision={2}
-          valueStyle={{fontSize: 20, color: 'purple' }}
-          prefix={<ClockCircleOutlined />}
-          // suffix="mins"
-        />
-                  </Card>
-                  </Col>: null}
-                </Row>
-                
-                {loadingResult ? (
-                  <Card style={{ height: 300 }}>
-                    <Skeleton active />
-                  </Card>
-                ) : !(
-                  pieChartData[0].value === 0 && pieChartData[1].value === 0
-                ) ? (
-                  <Row><Col xs={24}>{PiechartComponent}</Col></Row>
-                ) : null}
-
-              </Col>
-              <Col xs={24} md={12} lg={16}>
-                {loadingResult ? (
-                  <Card
-                    style={{
-                      marginBottom: 20,
-                      textAlign: 'center',
-                      height: 450
-                    }}
+                    </Card>
+                  )}
+                  <Row
+                    style={{ marginTop: 15, marginBottom: 15 }}
+                    gutter={[30, 30]}
                   >
-                    <Row gutter={[20, 30]}>
-                      <Col span={24}>
-                        <Row gutter={[20, 20]}>
-                          <Col span={12}>
-                            <Skeleton active />
-                          </Col>
-                          <Col span={12}>
-                            <Skeleton active />
-                          </Col>
-                        </Row>
-                      </Col>
-                      <Col span={24}>
-                        <Divider />
-                      </Col>
-                      <Col span={24}>
-                        <Row gutter={[20, 20]}>
-                          <Col span={12}>
-                            <Skeleton active />
-                          </Col>
-                          <Col span={12}>
-                            <Skeleton active />
-                          </Col>
-                        </Row>
-                      </Col>
-                    </Row>
-                  </Card>
-                ) : (
-                  <Row gutter={[20, 20]}>
-                    <Col span={24}>
-                      <Card title="Test Analysis Report">
-                        <Title level={3}>Section wise breakdown</Title>
-                        {test?.sections?.map(section => {
-                          const attemptedPercent = Math.ceil(
-                            section?.stats?.questionsAttempted /
-                            section?.stats?.totalQuestions *
-                            100
-                          )
-                          const correctPercent = Math.ceil(
-                            section?.stats?.questionsAnsweredCorrectly /
-                            section?.stats?.totalQuestions *
-                            100
-                          )
-                          return (
-                            <Row key={section.title}>
-                              <Col sm={24}>
-                                <Title level={5}>
-                                  {capitalize(section.title)}:
-                                </Title>
-                              </Col>
-                              <Col sm={24}>
-                                <Row gutter={[20, 20]}>
-                                  <Col span={12}>
-                                    Attempted{' '}
-                                    {section?.stats?.questionsAttempted}/{
-                                      section?.stats?.totalQuestions
-                                    }
-                                    <Progress
-                                      format={() => ''}
-                                      percent={attemptedPercent}
-                                    />
-                                  </Col>
-                                  <Col span={12}>
-                                    Correct{' '}
-                                    {section?.stats?.questionsAnsweredCorrectly}/{
-                                      section?.stats?.totalQuestions
-                                    }
-                                    <Progress
-                                      format={() => ''}
-                                      percent={correctPercent}
-                                    />
-                                  </Col>
-                                </Row>
-                              </Col>
-                              <Divider />
-                            </Row>
-                          )
-                        })}
-                      </Card>
-                      </Col>
-                      {/* @ts-ignore */}
-                     {test._id && DROPDOWN_TOPICS.length ? <Col span={24}>
-                        <Card bodyStyle={{
-                          paddingTop: topicIds.length>1?0:'auto'
-                        }} title="Topic wise report" extra={ DROPDOWN_TOPICS.length>1? <Select style={{width: 200}} value={selectedTopic} onChange={(e) => {
-                          // console.log(e,'setSelectedTopic(e)')
-                          setSelectedTopic(e)
-                        }} placeholder='Select Topic'
-                        options={[
-                          {
-                            label: 'Overall',
-                            // @ts-ignore
-                            value: selectedMainTopic,
-                          },
-                          ...DROPDOWN_TOPICS,
-                        ]}
-                        />: null}>
-                          {topicIds.length>1?<AntdTabs onChange={e => {
-                            setSelectedMainTopic(e)
-                          }} items={topicIds.map(t => {
-                            return {
-                              label: topics.find(top => top._id === t)?.title,
-                              key: t,
-                              children:BarChartTopics
-                          }
-                        })} />:BarChartTopics}
-                      </Card>
-                    </Col>:null}
-                    {leaderboard && leaderboard.length ? (
-                      <Col span={24}>
-                        <Card title="Leaderboard">
-                          <TestLeaderboard />
+                    {metrics.totalCorrectlyAnswered +
+                    metrics.totalWronglyAnswered ? (
+                      <Col xs={24} sm={8}>
+                        <Card bordered={false}>
+                          <Statistic
+                            title='Accuracy'
+                            value={
+                              (metrics.totalCorrectlyAnswered /
+                                (metrics.totalCorrectlyAnswered +
+                                  metrics.totalWronglyAnswered)) *
+                              100
+                            }
+                            precision={1}
+                            valueStyle={{ fontSize: 20, color: 'blue' }}
+                            prefix={<AimOutlined />}
+                            suffix='%'
+                          />
                         </Card>
                       </Col>
                     ) : null}
-                    {/* {} */}
+
+                    <Col xs={24} sm={8}>
+                      <Card bordered={false}>
+                        <Statistic
+                          title='Completed'
+                          value={(totalAnswered / questions.length) * 100}
+                          precision={1}
+                          valueStyle={{ fontSize: 20, color: '#3f8600' }}
+                          prefix={<SafetyCertificateOutlined />}
+                          suffix='%'
+                        />
+                      </Card>
+                    </Col>
+
+                    {enrolledProduct.metadata.test.startedAt ||
+                    enrolledProduct.metadata.test.endedAt ? (
+                      <Col xs={24} sm={8}>
+                        <Card bordered={false}>
+                          <Statistic
+                            title='Time Taken'
+                            value={Utils.formatSeconds(timeTaken)}
+                            // precision={2}
+                            valueStyle={{ fontSize: 20, color: 'purple' }}
+                            prefix={<ClockCircleOutlined />}
+                            // suffix="mins"
+                          />
+                        </Card>
+                      </Col>
+                    ) : null}
                   </Row>
-                )}
-              </Col>
-            </Row>
-          </Col>
-        </Row></>
-    },
-  ];
+
+                  {loadingResult ? (
+                    <Card style={{ height: 300 }}>
+                      <Skeleton active />
+                    </Card>
+                  ) : !(
+                      pieChartData[0].value === 0 && pieChartData[1].value === 0
+                    ) ? (
+                    <Row>
+                      <Col xs={24}>{PiechartComponent}</Col>
+                    </Row>
+                  ) : null}
+                </Col>
+                <Col xs={24} md={12} lg={16}>
+                  {loadingResult ? (
+                    <Card
+                      style={{
+                        marginBottom: 20,
+                        textAlign: 'center',
+                        height: 450
+                      }}
+                    >
+                      <Row gutter={[20, 30]}>
+                        <Col span={24}>
+                          <Row gutter={[20, 20]}>
+                            <Col span={12}>
+                              <Skeleton active />
+                            </Col>
+                            <Col span={12}>
+                              <Skeleton active />
+                            </Col>
+                          </Row>
+                        </Col>
+                        <Col span={24}>
+                          <Divider />
+                        </Col>
+                        <Col span={24}>
+                          <Row gutter={[20, 20]}>
+                            <Col span={12}>
+                              <Skeleton active />
+                            </Col>
+                            <Col span={12}>
+                              <Skeleton active />
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </Card>
+                  ) : (
+                    <Row gutter={[20, 20]}>
+                      <Col span={24}>
+                        <Card title='Test Analysis Report'>
+                          <Title level={3}>Section wise breakdown</Title>
+                          {test?.sections?.map(section => {
+                            const attemptedPercent = Math.ceil(
+                              (section?.stats?.questionsAttempted /
+                                section?.stats?.totalQuestions) *
+                                100
+                            )
+                            const correctPercent = Math.ceil(
+                              (section?.stats?.questionsAnsweredCorrectly /
+                                section?.stats?.totalQuestions) *
+                                100
+                            )
+                            return (
+                              <Row key={section.title}>
+                                <Col sm={24}>
+                                  <Title level={5}>
+                                    {capitalize(section.title)}:
+                                  </Title>
+                                </Col>
+                                <Col sm={24}>
+                                  <Row gutter={[20, 20]}>
+                                    <Col span={12}>
+                                      Attempted{' '}
+                                      {section?.stats?.questionsAttempted}/
+                                      {section?.stats?.totalQuestions}
+                                      <Progress
+                                        format={() => ''}
+                                        percent={attemptedPercent}
+                                      />
+                                    </Col>
+                                    <Col span={12}>
+                                      Correct{' '}
+                                      {
+                                        section?.stats
+                                          ?.questionsAnsweredCorrectly
+                                      }
+                                      /{section?.stats?.totalQuestions}
+                                      <Progress
+                                        format={() => ''}
+                                        percent={correctPercent}
+                                      />
+                                    </Col>
+                                  </Row>
+                                </Col>
+                                <Divider />
+                              </Row>
+                            )
+                          })}
+                        </Card>
+                      </Col>
+                      {/* @ts-ignore */}
+                      {test._id && DROPDOWN_TOPICS.length ? (
+                        <Col span={24}>
+                          <Card
+                            bodyStyle={{
+                              paddingTop: topicIds.length > 1 ? 0 : 'auto'
+                            }}
+                            title='Topic wise report'
+                            extra={
+                              DROPDOWN_TOPICS.length > 1 ? (
+                                <Select
+                                  style={{ width: 200 }}
+                                  value={selectedTopic}
+                                  onChange={e => {
+                                    // console.log(e,'setSelectedTopic(e)')
+                                    setSelectedTopic(e)
+                                  }}
+                                  placeholder='Select Topic'
+                                  options={[
+                                    {
+                                      label: 'Overall',
+                                      // @ts-ignore
+                                      value: selectedMainTopic
+                                    },
+                                    ...DROPDOWN_TOPICS
+                                  ]}
+                                />
+                              ) : null
+                            }
+                          >
+                            {topicIds.length > 1 ? (
+                              <AntdTabs
+                                onChange={e => {
+                                  setSelectedMainTopic(e)
+                                }}
+                                items={topicIds.map(t => {
+                                  return {
+                                    label: topics.find(top => top._id === t)
+                                      ?.title,
+                                    key: t,
+                                    children: BarChartTopics
+                                  }
+                                })}
+                              />
+                            ) : (
+                              BarChartTopics
+                            )}
+                          </Card>
+                        </Col>
+                      ) : null}
+                      {leaderboard && leaderboard.length ? (
+                        <Col span={24}>
+                          <Card title='Leaderboard'>
+                            <TestLeaderboard />
+                          </Card>
+                        </Col>
+                      ) : null}
+                      {/* {} */}
+                    </Row>
+                  )}
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </>
+      )
+    }
+  ]
 
   if (feedback.length) {
-    TABS.push(  {
+    TABS.push({
       label: 'Feedback',
       key: 'feedback',
-      children: <>
-        {
-          feedback.length ? (
+      children: (
+        <>
+          {feedback.length ? (
             <Col span={24}>
-              <Card title="Feedback">
+              <Card title='Feedback'>
                 <List
-                  size="large"
+                  size='large'
                   // pagination={{ position, align }}
                   dataSource={feedback}
                   renderItem={(item, index) => (
@@ -552,9 +613,18 @@ topic.children.forEach((child) => {
                                 <Text>
                                   {item.topics.map(topic => (
                                     <Button
-                                      icon={<LinkOutlined />} size='small'
-                                      style={{ marginBottom: 3, cursor: 'pointer' }}
-                                      color="blue" onClick={() => window.open(`https://www.google.com/search?q=${topic}`)}
+                                      icon={<LinkOutlined />}
+                                      size='small'
+                                      style={{
+                                        marginBottom: 3,
+                                        cursor: 'pointer'
+                                      }}
+                                      color='blue'
+                                      onClick={() =>
+                                        window.open(
+                                          `https://www.google.com/search?q=${topic}`
+                                        )
+                                      }
                                     >
                                       {topic}
                                     </Button>
@@ -563,13 +633,13 @@ topic.children.forEach((child) => {
                               </Space>
                             </Col>
                             <Col span={24}>
-                              {item.questionIds.map(i => (
+                              {/* {item.questionIds.map(i => (
                                 <ActionModal cta={<Button type="primary" size="small">
                                   View Question
                                 </Button>}>
                                   <TestPlayerItemReiew testId={testId} questionId={i} />
                                 </ActionModal>
-                              ))}
+                              ))} */}
                             </Col>
                           </Row>
                         }
@@ -580,17 +650,20 @@ topic.children.forEach((child) => {
                 />
               </Card>
             </Col>
-          ) : null}</>
+          ) : null}
+        </>
+      )
     })
   }
 
   return (
-    <ProtectedContent title="Verification Required"
+    <ProtectedContent
+      title='Verification Required'
       isVerified={learner.profile.status === Enum.LearnerProfileStatus.COMPLETE}
       message={
         <Alert
           icon={<UserOutlined />}
-          message="Please complete your profile to view test result"
+          message='Please complete your profile to view test result'
         />
       }
       cta={<LearnerProfile />}
@@ -598,8 +671,8 @@ topic.children.forEach((child) => {
       <Header
         title={!isMobile ? `Test Result: ${test?.title}` : ExitButton}
         extra={
-          <div style={{marginTop:10}}>
-            {ViewSolutions} {!isMobile?ExitButton:null}
+          <div style={{ marginTop: 10 }}>
+            {ViewSolutions} {!isMobile ? ExitButton : null}
           </div>
         }
       >

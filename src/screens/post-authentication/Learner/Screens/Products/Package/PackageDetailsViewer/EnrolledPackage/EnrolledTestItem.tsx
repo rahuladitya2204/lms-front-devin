@@ -135,14 +135,14 @@ type='primary'
                           {(!test?.live?.enabled) ?
                   (!enrolledTest.metadata.test.startedAt ? <Col xs={24} sm={12}><Button type='primary'
                   block={!isDesktop}
-                  onClick={() => navigate(`../../test/${test._id}/start`)}
+                  onClick={() => navigate(`/app/test/${test._id}/start`)}
                   // size='small'
                 >
                   Start Test
                   </Button></Col> : (!enrolledTest.metadata.test.endedAt ? <Col xs={24} sm={12}><Button
                       block={!isDesktop}
                       danger type='primary'
-                    onClick={() => navigate(`../../test/${test._id}/start`)}
+                    onClick={() => navigate(`/app/test/${test._id}/start`)}
                       // size='small'
                     >
                     Continue Test

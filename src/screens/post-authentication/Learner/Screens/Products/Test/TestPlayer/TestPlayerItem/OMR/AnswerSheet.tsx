@@ -22,6 +22,8 @@ import { Text, Title } from '@Components/Typography/Typography'
 import { useNavigate, useParams } from '@Router/index'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
+// const AnswerSheetFiles = React.lazy(() => import('./AnswerSheetFiles'));
+import AnswerSheetFiles from './AnswerSheetFiles'
 import AppImage from '@Components/Image'
 import Header from '@Components/Header'
 import LearnerLogin from '@Learner/Screens/Login'
@@ -34,9 +36,7 @@ import useMessage from '@Hooks/useMessage'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
 
-const AnswerSheetFiles = React.lazy(() => import('./AnswerSheetFiles'));
-
-const confirm = Modal.confirm
+const onfirm = Modal.confirm
 
 interface OMRComponentPropsI {
   testId?: string;

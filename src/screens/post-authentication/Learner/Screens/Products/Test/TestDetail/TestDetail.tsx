@@ -206,7 +206,7 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
     else {
       // console.log(enrolledDetails.metadata.test, 'enrolledDetails')
       if (!testStartDate) {
-        return <Button size='large' onClick={() => navigate('start')} block type='primary'>
+        return <Button size='large' onClick={() => navigate(`/app/test/${testId}/start`)} block type='primary'>
           Start Test
         </Button>
       }
@@ -218,9 +218,9 @@ const TestCard = ({ testId ,plan,children}: { testId: string,plan: Types.Plan,ch
               style={{ marginBottom: 20 }}
               message="You have attended this test."
               type="success"
-              showIcon action={<Button size='small' onClick={() => navigate('result')}>View Result</Button>}
+              showIcon action={<Button size='small' onClick={() => navigate(`/app/test/${testId}/result`)}>View Result</Button>}
               />
-            <Button size="large" onClick={()=>navigate('result/review')} type='primary' block>View solutions</Button>
+            <Button size="large" onClick={()=>navigate(`/app/test/${testId}/result/review`)} type='primary' block>View solutions</Button>
             <Button danger style={{marginTop:10}} loading={retryingTest}
                 size="large" onClick={() => retryTest(undefined, {
                   onSuccess: () => {

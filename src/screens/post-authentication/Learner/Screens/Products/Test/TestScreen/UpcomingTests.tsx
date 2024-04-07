@@ -60,7 +60,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
           <Card hoverable
             onClick={() => {
              // @ts-ignore
-             navigate(test?._id)
+             navigate(`/app/test/${test?._id}`)
             }}
             // style={{ width: 300 }}
             // @ts-ignore

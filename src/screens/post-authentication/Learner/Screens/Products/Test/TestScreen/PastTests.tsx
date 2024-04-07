@@ -95,7 +95,7 @@ const TestCard = ({ test, metadata }: { test: Types.Test, metadata: any }) => {
       // bodyStyle={{ padding: 10 }}
       hoverable
       onClick={() => {
-        navigate(test?._id + '')
+        navigate(`/app/test/${test?._id}`)
       }}
       cover={<Image height={200} alt="example" src={test?.thumbnailImage} />}
     >

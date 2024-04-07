@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Button,
   Checkbox,
@@ -30,10 +32,12 @@ import { useModal } from '@Components/ActionModal/ModalContext'
 
 const { Title, Text } = Typography
 
-interface TestRulesPropsI {}
+interface TestRulesPropsI {
+  testId: string;
+}
 
 export default function TestRules(props: TestRulesPropsI) {
-  const { testId } = useParams()
+  const { testId } = props;
   const {
     mutate: startTest,
     isLoading: startingTest
@@ -49,6 +53,7 @@ export default function TestRules(props: TestRulesPropsI) {
     type: 'test',
     id: testId + ''
   })
+  console.log(props,enrolledProduct,'propsprops')
   const isVerificationOn = test.rules.identityVerification.enabled
   const [form] = Form.useForm()
   const rule1 = Form.useWatch('rule-1', form)
@@ -82,7 +87,7 @@ export default function TestRules(props: TestRulesPropsI) {
         {
           onSuccess: () => {
             console.log('Helo')
-            navigate('../player')
+            navigate(`/app/test/${testId}/player`)
           }
         }
       )

@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Alert,
   Button,
@@ -16,17 +18,18 @@ import {
 } from 'antd'
 import { BookOutlined, ClockCircleOutlined, MenuOutlined } from '@ant-design/icons'
 import { Enum, Learner } from '@adewaskar/lms-common'
-import { Outlet } from 'react-router'
-import { useNavigate, useParams } from '@Router/index'
-
 import React, { useEffect } from 'react'
+import { useNavigate, useParams } from '@Router/index'
 
 import ActionDrawer from '@Components/ActionDrawer'
 import ActionModal from '@Components/ActionModal/ActionModal'
-import AnswerSheetFiles from './TestPlayerItem/OMR/AnswerSheetFiles'
+// import AnswerSheetFiles from './TestPlayerItem/OMR/AnswerSheetFiles'
 import Countdown from '@Components/Countdown'
 import Header from '@Components/Header'
 import { NavLink } from '@Router/index'
+const AnswerSheetFiles = React.lazy(() => import('./TestPlayerItem/OMR/AnswerSheetFiles')); // Lazy-loaded content
+// import OMRComponent from './TestPlayerItem/OMR/OMRComponent'
+const OMRComponent = React.lazy(() => import('./TestPlayerItem/OMR/OMRComponent')); // Lazy-loaded content
 import ProctoringComponent from '@Learner/Screens/Procturing/TestProcturing'
 import TestItemSkeleton from '../TestReview/TestItemSkeleton'
 import TestQuestionNavigator from './TestQuestionNavigator/TestQuestionNavigator'
@@ -38,19 +41,18 @@ import useBreakpoint from '@Hooks/useBreakpoint'
 import { useModal } from '@Components/ActionModal/ModalContext'
 import { useQueryClient } from '@tanstack/react-query'
 
-// const AnswerSheetFiles = React.lazy(() => import('./TestPlayerItem/OMR/AnswerSheetFiles')); // Lazy-loaded content
-
-const OMRComponent = React.lazy(() => import('./TestPlayerItem/OMR/OMRComponent')); // Lazy-loaded content
-
 const { confirm } = Modal
 
 interface TestPlayerPropsI {
+  testId: string;
+  questionId: string;
+  children: React.ReactNode;
 }
 
 const { Title } = Typography
 
 export default function TestPlayer(props: TestPlayerPropsI) {
-  const { testId, questionId } = useParams();
+  const { testId, questionId,children } = props;
   const navigate = useNavigate()
   const {
     mutate: endTest,
@@ -73,7 +75,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     () => {
       if (test.sections[0]?.items[0] && !questionId) {
         const itemId = test.sections[0].items[0]._id
-        navigate(`${itemId}`)
+        navigate(`/app/test/${testId}/player/${itemId}`)
       }
     },
     [test.sections]
@@ -142,7 +144,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
               // if (!test.live.enabled) {
               //   return navigate('../result')
               // }
-              navigate('../completed')
+              navigate(`/app/test/${testId}/completed`)
 
             }
           }
@@ -170,7 +172,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       </Card>
     </Header>
   }
-  const isLoading = loadingDetails || loadingStatus;
+  const isLoading =  loadingStatus;
   const SideDrawer = <ActionDrawer extra={() => [CountdownComponent]} footer={() => [
    
     // UpdatingTestStatus,
@@ -211,11 +213,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         <Col xs={24} sm={22}>
           <Row gutter={[50, 30]}>
               <Col xs={24} sm={24}  md={24} lg={16}>
-                {isLoading?<TestItemSkeleton/>:<Outlet />  }             
-              {/* only show if the test has ended */}
-              {/* {testEndTime?<Card style={{marginTop:20}}>
-                <TestPlayerMoreInfo itemId={questionId+''} test={test} />
-              </Card>:null} */}
+                {isLoading?<TestItemSkeleton/>:children  }             
             </Col>
             {isDesktop?<Col lg={8} md={0}>
               <Row gutter={[20, 20]}>

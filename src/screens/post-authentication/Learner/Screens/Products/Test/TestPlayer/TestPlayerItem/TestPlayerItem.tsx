@@ -1,3 +1,4 @@
+"use client"
 import { AimOutlined, AppstoreOutlined, BackwardOutlined, CheckCircleTwoTone, CheckOutlined, DeleteOutlined, FlagOutlined, ForwardOutlined, InsertRowBelowOutlined, ReloadOutlined, UploadOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Col, Divider, Form, Image, Input, List, Progress, Radio, Row, Space, Spin, Tag, Tooltip, theme } from 'antd';
 import { Enum, Learner, Store, Types } from '@adewaskar/lms-common';
@@ -6,7 +7,7 @@ import { Fragment, useEffect, useMemo, useState } from 'react';
 import HtmlViewer from '@Components/HtmlViewer/HtmlViewer';
 import { NavLink } from '@Router/index';
 import { Paragraph } from '@Components/Typography/Typography';
-import TestPlayerFiles from './TestPlayerFiles';
+// import TestPlayerFiles from './TestPlayerFiles';
 import TextArea from '@Components/Textarea';
 import { Typography } from '@Components/Typography';
 import { htmlToText } from 'html-to-text';
@@ -33,6 +34,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     id: testId + ''
   });
   const language = ep?.metadata?.test?.language;
+  console.log(ep,language,'huhhahaha');
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   const { data: test } = Learner.Queries.useGetTestDetails(testId + '', Enum.TestDetailMode.TEST);
@@ -302,7 +304,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     {(test.input.type === Enum.TestInputType.HANDWRITTEN) ?
                       <Form.Item>
                     {/* @ts-ignore */}
- <TestPlayerFiles questionId={questionId} testId={testId} form={form}/>
+ {/* <TestPlayerFiles questionId={questionId} testId={testId} form={form}/> */}
                     </Form.Item> : <Fragment>
                     {/* <Divider>(Pls note: either images above or answer below will be considered)</Divider> */}
                   <Text strong type='danger' >Answer in {currentQuestion.wordLimit} words</Text>

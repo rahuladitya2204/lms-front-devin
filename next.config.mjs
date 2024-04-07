@@ -6,6 +6,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  watchOptions: {
+    ignored: /node_modules|\.next/,
+  },
   webpack: (config) => {
     config.resolve.fallback = { fs: false };
     return config;

@@ -17,7 +17,6 @@ import {
   createBrowserRouter,
   createRoutesFromElements,
 } from "react-router-dom";
-import { useNavigate } from '@Router/index';
 
 import AddPromo from "@User/Screens/Marketing/Promos/CreatePromo";
 import AddQuestion from "@User/Screens/Tests/TestCreator/TestBuilder/AddQuestionItem";
@@ -129,6 +128,7 @@ import WebsiteScreen from "@User/Screens/Builder/Website/Website";
 import WhatsappTemplateEditor from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor";
 import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen";
 import { useEffect } from "react";
+import { useNavigate } from '@Router/index';
 
 const router = (userType: string) => {
   return createBrowserRouter(

@@ -31,6 +31,9 @@
      "@User/*": [
        "screens/post-authentication/User/*"
      ],
+     "@Screens/*": [
+      "screens/*"
+    ],
      "@Learner/*": [
        "screens/post-authentication/Learner/*"
      ],

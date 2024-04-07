@@ -1,3 +1,4 @@
+"use client"
 import {
   Alert,
   Button,
@@ -36,6 +37,7 @@ const { confirm } = Modal
 
 interface TestPlayerPropsI {
   isReview?: boolean;
+  children: React.ReactNode;
 }
 
 const { Title,Text } = Typography
@@ -144,7 +146,7 @@ Exit
           <Row gutter={[50, 30]}>
             <Col xs={24} lg={isDesktop ? 16 : 24}>
               {isLoading ? <TestItemSkeleton/>: <Fragment>
-                <Outlet />
+                {props.children}
                 
                 <TestPlayerMoreInfo itemId={questionId+''} test={test} /></Fragment>}
               

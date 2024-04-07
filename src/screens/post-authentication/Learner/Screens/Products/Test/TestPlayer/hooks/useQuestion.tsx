@@ -28,6 +28,7 @@ export default function useQuestion() {
     },
     [currentQuestionIndex, questions]
   )
+  console.log(currentQuestion,'sections')
 
   return {
     currentQuestion,
