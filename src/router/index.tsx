@@ -81,7 +81,7 @@ export const NavLink = ({
 
   return (
     <Link
-      // prefetch={false}
+      prefetch={false}
       href={to}
       className={renderClassName}
       style={renderStyle}

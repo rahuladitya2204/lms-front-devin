@@ -81,7 +81,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
       const itemId = test.sections[0].items[0]._id;
       navigate(`/app/test/${testId}/review/${itemId}`);
     }
-  }, [test.sections]);
+  }, [test.sections, questionId]);
 
   const endTestNow =
     enrolledProduct.metadata.test.endedAt ||
