@@ -84,7 +84,6 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
   const { mutate: applyAnswerSheets, isLoading: applyingAnswerSheets } =
     NAMESPACE.Queries.useEvaluateAnswerSheets(testId, learnerId);
   const [form] = Form.useForm<Types.AnswerSheet>();
-  const message = useMessage();
   const files = Form.useWatch(["files"], form) || [];
   const filledCount = Form.useWatch(["metrics", "filled"], form);
   const { isMobile } = useBreakpoint();

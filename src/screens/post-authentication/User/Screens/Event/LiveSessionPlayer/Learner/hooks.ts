@@ -12,6 +12,7 @@ import { VideoCameraOutlined } from '@ant-design/icons'
 import { useMeetingManager } from 'amazon-chime-sdk-component-library-react'
 import useMessage from '@Hooks/useMessage'
 import { useNavigate } from '@Router/index'
+import { message } from 'antd'
 
 const useDeviceController = () => {
   const [deviceController, setDeviceController] = useState(null)
@@ -34,7 +35,6 @@ export default useDeviceController
 
 export const useEvent = (eventId: string) => {
   const meetingManager = useMeetingManager()
-  const message = useMessage()
   const displayRecordingAlert = (session: Types.Event) => {
     console.log('11')
     if (session.recording.enabled) {

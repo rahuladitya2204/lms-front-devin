@@ -1,48 +1,49 @@
-import { Enum, Types, User } from '@adewaskar/lms-common'
-import React, { useMemo } from 'react'
-import Table, { TableColumn } from '@Components/Table/TableComponent'
+import { Enum, Types, User } from "@adewaskar/lms-common";
+import React, { useMemo } from "react";
+import Table, { TableColumn } from "@Components/Table/TableComponent";
 
-import MoreButton from '@Components/MoreButton'
-import { Tag } from 'antd'
+import MoreButton from "@Components/MoreButton";
+import { Tag } from "antd";
 // import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
-import { Title } from '@Components/Typography/Typography'
-import { Typography } from '@Components/Typography'
-import { capitalize } from 'lodash'
-import dayjs from 'dayjs'
-import useBreakpoint from '@Hooks/useBreakpoint'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
-import { useParams } from '@Router/index'
+import { Title } from "@Components/Typography/Typography";
+import { Typography } from "@Components/Typography";
+import { capitalize } from "lodash";
+import dayjs from "dayjs";
+import useBreakpoint from "@Hooks/useBreakpoint";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
+import { useParams } from "@Router/index";
 
-const OMRComponent = React.lazy(() =>
-  import('@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent')
-)
-const { Text } = Typography
+const OMRComponent = React.lazy(
+  () =>
+    import(
+      "@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent"
+    )
+);
+const { Text } = Typography;
 
 const TestAttendedList = () => {
-  const message = useMessage()
-  const { testId } = useParams()
+  const { testId } = useParams();
   const {
-    data: { result: { data, metrics } },
-    isLoading: loadingResult
-  } = User.Queries.useGetTestDetails(testId + '')
-  // console.log(data, 'data')
-  const ranked = useMemo(
-    () => {
-      return [...data].map((i, index) => {
-        // @ts-ignore
-        i.rank = index + 1
-        return i
-      })
+    data: {
+      result: { data, metrics },
     },
-    [data]
-  )
-  const { openModal } = useModal()
-  const { isMobile } = useBreakpoint()
+    isLoading: loadingResult,
+  } = User.Queries.useGetTestDetails(testId + "");
+  // console.log(data, 'data')
+  const ranked = useMemo(() => {
+    return [...data].map((i, index) => {
+      // @ts-ignore
+      i.rank = index + 1;
+      return i;
+    });
+  }, [data]);
+  const { openModal } = useModal();
+  const { isMobile } = useBreakpoint();
   return (
     // @ts-ignore
     <Table
-      searchFields={['learner.name', 'learner.email', 'learner.contactNo']}
+      searchFields={["learner.name", "learner.email", "learner.contactNo"]}
       // pagination={}
       dataSource={ranked}
       loading={loadingResult}
@@ -78,19 +79,18 @@ const TestAttendedList = () => {
         />
       ) : null} */}
       <TableColumn
-        responsive={['md']}
+        responsive={["md"]}
         title="Score"
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="blue-inverse">
-            {Math.ceil(record?.metrics?.learnerScore)}/{Math.ceil(
-              metrics?.totalTestScore
-            )}
+            {Math.ceil(record?.metrics?.learnerScore)}/
+            {Math.ceil(metrics?.totalTestScore)}
           </Tag>
         )}
         key="result"
       />
       <TableColumn
-        responsive={['md']}
+        responsive={["md"]}
         title="Time Spent"
         render={(_: any, record: Types.TestLearnerResult) =>
           `${Math.ceil(record?.metrics?.timeSpent / 3600000)} min`
@@ -105,14 +105,14 @@ const TestAttendedList = () => {
         key="percentile"
       /> */}
       <TableColumn
-        responsive={['md']}
+        responsive={["md"]}
         title="Submitted At"
         render={(_: any, record: Types.TestLearnerResult) =>
           // @ts-ignore
-          dayjs(record?.endedAt).format('LLL')
+          dayjs(record?.endedAt).format("LLL")
         }
         key="result"
-      />{' '}
+      />{" "}
       <TableColumn
         // responsive={['md']}
         title="Action"
@@ -122,31 +122,31 @@ const TestAttendedList = () => {
             <MoreButton
               items={[
                 {
-                  label: 'Show Answer Sheet',
-                  key: 'answer-sheet',
+                  label: "Show Answer Sheet",
+                  key: "answer-sheet",
                   onClick: () => {
                     openModal(
                       <OMRComponent
                         readonly
                         learnerId={record.learnerId}
                         type="user"
-                        testId={testId + ''}
+                        testId={testId + ""}
                       />,
                       {
                         width: 850,
                         lazy: true,
-                        title: `${record.learnerName}'s answer sheet`
+                        title: `${record.learnerName}'s answer sheet`,
                       }
-                    )
-                  }
-                }
+                    );
+                  },
+                },
               ]}
             />
-          )
+          );
         }}
       />
     </Table>
-  )
-}
+  );
+};
 
-export default TestAttendedList
+export default TestAttendedList;

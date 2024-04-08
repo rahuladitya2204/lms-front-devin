@@ -3,54 +3,49 @@ import {
   DeleteOutlined,
   EditOutlined,
   ReloadOutlined,
-  UploadOutlined
-} from '@ant-design/icons'
-import { Button, Col, Modal, Row, Tag } from 'antd'
-import { Enum, Types, User } from '@adewaskar/lms-common'
-import React, { useMemo } from 'react'
-import Table, { TableColumn } from '@Components/Table/TableComponent'
-import { useNavigate, useParams } from '@Router/index'
+  UploadOutlined,
+} from "@ant-design/icons";
+import { Button, Col, Modal, Row, Tag, message } from "antd";
+import { Enum, Types, User } from "@adewaskar/lms-common";
+import React, { useMemo } from "react";
+import Table, { TableColumn } from "@Components/Table/TableComponent";
+import { useNavigate, useParams } from "@Router/index";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
-import EnrollLearner from '../../TestCreator/TestLearners/EnrolLearner'
-import MoreButton from '@Components/MoreButton'
-import TestStatusTag from './TestStatusTag'
-import { Typography } from '@Components/Typography'
-import UploadAnswerSheets from '../../TestCreator/TestBuilder/UploadAnswerSheets'
-import dayjs from 'dayjs'
-import { openWindow } from '@Components/Editor/SunEditor/utils'
-import useBreakpoint from '@Hooks/useBreakpoint'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import AnswerSheetFiles from "@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles";
+import EnrollLearner from "../../TestCreator/TestLearners/EnrolLearner";
+import MoreButton from "@Components/MoreButton";
+import TestStatusTag from "./TestStatusTag";
+import { Typography } from "@Components/Typography";
+import UploadAnswerSheets from "../../TestCreator/TestBuilder/UploadAnswerSheets";
+import dayjs from "dayjs";
+import { openWindow } from "@Components/Editor/SunEditor/utils";
+import useBreakpoint from "@Hooks/useBreakpoint";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
-const { confirm } = Modal
-const TestAnswerSheet = React.lazy(() => import('./TestAnswerSheet'))
+const { confirm } = Modal;
+const TestAnswerSheet = React.lazy(() => import("./TestAnswerSheet"));
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const TestEnrolledList = () => {
-  const { testId } = useParams()
-  const {
-    data: enrolledProducts,
-    isLoading: loadingEp
-  } = User.Queries.useGetEnrolledProductLearners(testId + '')
-  const {
-    mutate: removeEnrollment,
-    isLoading: removingEnrollment
-  } = User.Queries.useRemoveEnrollmentOfLearner(testId + '')
+  const { testId } = useParams();
+  const { data: enrolledProducts, isLoading: loadingEp } =
+    User.Queries.useGetEnrolledProductLearners(testId + "");
+  const { mutate: removeEnrollment, isLoading: removingEnrollment } =
+    User.Queries.useRemoveEnrollmentOfLearner(testId + "");
   // console.log(enrolledProducts, 'papa')
-  const { openModal } = useModal()
+  const { openModal } = useModal();
   const { mutate: evaluateLearnerTest } = User.Queries.useEvaluateLearnerTest(
-    testId + ''
-  )
-  const { isMobile } = useBreakpoint()
-  const message = useMessage()
-  const navigate = useNavigate()
+    testId + ""
+  );
+  const { isMobile } = useBreakpoint();
+  const navigate = useNavigate();
   return (
     // @ts-ignore
     <Table
-      searchFields={['learner.name', 'learner.email', 'learner.contactNo']}
+      searchFields={["learner.name", "learner.email", "learner.contactNo"]}
       dataSource={enrolledProducts}
       loading={loadingEp || removingEnrollment}
       extra={[
@@ -67,11 +62,11 @@ const TestEnrolledList = () => {
           <Col>
             <ActionModal title="Add Learner" cta={<Button>Add Learner</Button>}>
               <EnrollLearner
-                product={{ type: Enum.ProductType.TEST, id: testId + '' }}
+                product={{ type: Enum.ProductType.TEST, id: testId + "" }}
               />
             </ActionModal>
           </Col>
-        </Row>
+        </Row>,
       ]}
     >
       {/* <TableColumn
@@ -99,7 +94,7 @@ const TestEnrolledList = () => {
       /> */}
       <TableColumn
         title="Test Status"
-        responsive={['md']}
+        responsive={["md"]}
         render={(_: any, record: Types.EnrolledProductDetails) => (
           <TestStatusTag ep={record} />
         )}
@@ -121,13 +116,13 @@ const TestEnrolledList = () => {
       /> */}
       <TableColumn
         title="Enrolled At"
-        responsive={['md']}
+        responsive={["md"]}
         render={(_: any, record: Types.TestLearnerResult) =>
           // @ts-ignore
-          dayjs(record?.enrolledAt).format('LLL')
+          dayjs(record?.enrolledAt).format("LLL")
         }
         key="result"
-      />{' '}
+      />{" "}
       <TableColumn
         title="Action"
         // responsive={['md']}
@@ -137,28 +132,28 @@ const TestEnrolledList = () => {
             <MoreButton
               items={[
                 {
-                  label: 'Reevaluate Test',
+                  label: "Reevaluate Test",
                   icon: <ReloadOutlined />,
-                  key: 'reevaluate',
+                  key: "reevaluate",
                   onClick: () => {
                     evaluateLearnerTest(
                       {
-                        learnerId: record.learner._id
+                        learnerId: record.learner._id,
                       },
                       {
                         onSuccess: () => {
                           message.open({
-                            type: 'success',
-                            content: 'Evaluation Initiated'
-                          })
-                        }
+                            type: "success",
+                            content: "Evaluation Initiated",
+                          });
+                        },
                       }
-                    )
-                  }
+                    );
+                  },
                 },
                 {
-                  label: 'Upload Answer Sheet',
-                  key: 'upload-answer-sheet',
+                  label: "Upload Answer Sheet",
+                  key: "upload-answer-sheet",
                   icon: <UploadOutlined />,
                   onClick: () => {
                     openModal(
@@ -168,14 +163,14 @@ const TestEnrolledList = () => {
                         type="user"
                       />,
                       {
-                        title: `${record.learner.name}'s answer sheet`
+                        title: `${record.learner.name}'s answer sheet`,
                       }
-                    )
-                  }
+                    );
+                  },
                 },
                 {
-                  label: 'Show Answer Sheet',
-                  key: 'answer-sheet',
+                  label: "Show Answer Sheet",
+                  key: "answer-sheet",
                   icon: <BookOutlined />,
                   onClick: () => {
                     // if (isMobile) {
@@ -185,21 +180,21 @@ const TestEnrolledList = () => {
                     // } else {
                     openModal(
                       <TestAnswerSheet
-                        testId={testId + ''}
+                        testId={testId + ""}
                         learnerId={record.learner._id}
                       />,
                       {
                         width: 950,
                         lazy: true,
-                        title: `${record.learner.name}'s answer sheet`
+                        title: `${record.learner.name}'s answer sheet`,
                       }
-                    )
-                  }
+                    );
+                  },
                   // }
                 },
                 {
-                  label: 'Delete Enrollment',
-                  key: 'remove-enrollment',
+                  label: "Delete Enrollment",
+                  key: "remove-enrollment",
                   icon: <DeleteOutlined />,
                   onClick: () => {
                     confirm({
@@ -208,19 +203,19 @@ const TestEnrolledList = () => {
                       // icon: <ExclamationCircleOutlined />,
                       content: `The user will loose access to current enrollment`,
                       onOk() {
-                        removeEnrollment({ learnerId: record.learner._id })
+                        removeEnrollment({ learnerId: record.learner._id });
                       },
-                      okText: 'Delete Enrollment'
-                    })
-                  }
-                }
+                      okText: "Delete Enrollment",
+                    });
+                  },
+                },
               ]}
             />
-          )
+          );
         }}
       />
     </Table>
-  )
-}
+  );
+};
 
-export default TestEnrolledList
+export default TestEnrolledList;

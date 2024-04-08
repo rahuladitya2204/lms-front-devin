@@ -1,13 +1,13 @@
-import { Button, Card, Col, Form, Row, Space, Table } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, Row, Space, Table } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CreateCoursePlan from './CreateCoursePlan'
-import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
-import { Fragment } from 'react'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import CreateCoursePlan from "./CreateCoursePlan";
+import CreatePlan from "@User/Screens/ExtraComponents/CreatePlan";
+import { Fragment } from "react";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
 
 interface CoursePricingEditorPropsI {
   courseId: string;
@@ -17,18 +17,17 @@ interface CoursePricingEditorPropsI {
 }
 
 function CoursePricingEditor(props: CoursePricingEditorPropsI) {
-  const message = useMessage()
   const { data, isFetching: loading } = User.Queries.useGetProductPlans(
     props.courseId
-  )
+  );
   return (
     <Fragment>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'Pricing Plan'}
+        title={"Pricing Plan"}
         extra={
           <ActionModal cta={<Button>Add Plan</Button>}>
-            <CreatePlan product={{ type: 'course', id: props.courseId }} />
+            <CreatePlan product={{ type: "course", id: props.courseId }} />
           </ActionModal>
         }
       >
@@ -40,9 +39,9 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
               <Table.Column
                 title="Listing Price"
                 render={(text, record: Types.Plan) => {
-                  return record.type !== 'free'
+                  return record.type !== "free"
                     ? `₹${record?.displayPrice?.value}`
-                    : ''
+                    : "";
                 }}
                 dataIndex="displayPrice.value"
                 key="displayPrice.value"
@@ -50,9 +49,9 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
               <Table.Column
                 title="Final Price"
                 render={(text, record: Types.Plan) => {
-                  return record.type !== 'free'
+                  return record.type !== "free"
                     ? `₹${record.finalPrice.value}`
-                    : ''
+                    : "";
                 }}
                 dataIndex="finalPrice.value"
                 key="finalPrice.value"
@@ -64,7 +63,7 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
                   <Space size="middle">
                     <ActionModal cta={<EditOutlined />}>
                       <CreatePlan
-                        product={{ type: 'course', id: props.courseId }}
+                        product={{ type: "course", id: props.courseId }}
                         plan={record}
                       />
                     </ActionModal>
@@ -77,7 +76,7 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
         </Row>
       </Card>
     </Fragment>
-  )
+  );
 }
 
-export default CoursePricingEditor
+export default CoursePricingEditor;

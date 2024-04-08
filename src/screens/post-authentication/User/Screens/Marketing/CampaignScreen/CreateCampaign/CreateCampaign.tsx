@@ -1,58 +1,51 @@
-import { Button, Card, Col, Form, Modal, Row, Tabs } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
+import { Button, Card, Col, Form, Modal, Row, Tabs, message } from "antd";
+import { Constants, Types } from "@adewaskar/lms-common";
 import React, {
   ReactNode,
   useEffect,
   useLayoutEffect,
   useMemo,
-  useState
-} from 'react'
-import { useNavigate, useParams } from '@Router/index'
+  useState,
+} from "react";
+import { useNavigate, useParams } from "@Router/index";
 
-import AddRecipients from './AddRecipients/AddReciepients'
-import CampaignForm from './CampaignForm/CampaignForm'
-import CreateEmailTemplate from './CreateTemplate/Email/CreateEmailTemplate'
-import CreateSmsTemplate from './CreateTemplate/Sms/CreateSmsTemplate'
-import CreateWhatsappTemplate from './CreateTemplate/Whatsapp/CreateWhatsappTemplate'
-import Header from '@Components/Header'
-import Stepper from '@Components/Stepper'
-import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-import useMessage from '@Hooks/useMessage'
+import AddRecipients from "./AddRecipients/AddReciepients";
+import CampaignForm from "./CampaignForm/CampaignForm";
+import CreateEmailTemplate from "./CreateTemplate/Email/CreateEmailTemplate";
+import CreateSmsTemplate from "./CreateTemplate/Sms/CreateSmsTemplate";
+import CreateWhatsappTemplate from "./CreateTemplate/Whatsapp/CreateWhatsappTemplate";
+import Header from "@Components/Header";
+import Stepper from "@Components/Stepper";
+import { User } from "@adewaskar/lms-common";
+import dayjs from "dayjs";
+import useMessage from "@Hooks/useMessage";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 interface CreateCampaignComponentPropsI {
   children?: ReactNode;
   data?: Partial<Types.Campaign>;
   onFinish?: Function;
 }
 
-const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
-  const { id } = useParams()
-  const params = useParams()
-  const navigate = useNavigate()
-  const message = useMessage()
-  const [form] = Form.useForm<Types.Campaign>()
-  const {
-    mutate: createCampaign,
-    isLoading: createCampaignLoading
-  } = User.Queries.useCreateCampaign()
-  const {
-    mutate: updateCampaignApi,
-    isLoading: updateCampaignLoading
-  } = User.Queries.useUpdateCampaign()
+const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = (props) => {
+  const { id } = useParams();
+  const params = useParams();
+  const navigate = useNavigate();
+  const [form] = Form.useForm<Types.Campaign>();
+  const { mutate: createCampaign, isLoading: createCampaignLoading } =
+    User.Queries.useCreateCampaign();
+  const { mutate: updateCampaignApi, isLoading: updateCampaignLoading } =
+    User.Queries.useUpdateCampaign();
 
-  const {
-    mutate: executeCampaign,
-    isLoading: initiatingExecution
-  } = User.Queries.useExecuteCampaign()
+  const { mutate: executeCampaign, isLoading: initiatingExecution } =
+    User.Queries.useExecuteCampaign();
 
   const { data: campaignDetails } = User.Queries.useGetCampaignDetails(
-    params.id + '',
+    params.id + "",
     {
-      enabled: !!params.id
+      enabled: !!params.id,
     }
-  )
+  );
 
   const saveDraft = (d: Types.Campaign) => {
     // if (!isFormValid) {
@@ -60,76 +53,72 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
     // }
     const data: Types.CreateCampaignPayload = {
       ...d,
-      status: 'draft'
-    }
+      status: "draft",
+    };
     if (campaignDetails?._id) {
       updateCampaignApi(
         { id: campaignDetails?._id, data: data },
         {
-          onSuccess: r => {
+          onSuccess: (r) => {
             message.open({
-              type: 'success',
-              content: 'Campaign Draft Saved'
-            })
-          }
+              type: "success",
+              content: "Campaign Draft Saved",
+            });
+          },
         }
-      )
+      );
     } else {
       createCampaign(data, {
-        onSuccess: r => {
+        onSuccess: (r) => {
           message.open({
-            type: 'success',
-            content: 'Saved'
-          })
+            type: "success",
+            content: "Saved",
+          });
           // navigate('../campaign')
-        }
-      })
+        },
+      });
     }
     // onFinish && onFinish(e)
-  }
+  };
 
-
-  useEffect(
-    () => {
-      // console.log(campaignDetails,'campaignDetails')
-      form.setFieldsValue(campaignDetails)
-      if (campaignDetails.scheduledAt) {
-        form.setFieldValue(['scheduledAt'], dayjs(campaignDetails.scheduledAt))
-      }
-    },
-    [campaignDetails]
-  )
-  const channel = Form.useWatch(['channel'], form);
+  useEffect(() => {
+    // console.log(campaignDetails,'campaignDetails')
+    form.setFieldsValue(campaignDetails);
+    if (campaignDetails.scheduledAt) {
+      form.setFieldValue(["scheduledAt"], dayjs(campaignDetails.scheduledAt));
+    }
+  }, [campaignDetails]);
+  const channel = Form.useWatch(["channel"], form);
 
   const isFormValid = () => {
     const fieldsError = form.getFieldsError();
     return fieldsError.every(({ errors }) => errors.length === 0);
-  }
-  const GET_TAB_ITEMS =  () => {
-    const arr = []
-    if (channel?.includes('email')) {
+  };
+  const GET_TAB_ITEMS = () => {
+    const arr = [];
+    if (channel?.includes("email")) {
       arr.push({
-        key: 'email',
+        key: "email",
         label: `Email`,
-        children: <CreateEmailTemplate />
-      })
+        children: <CreateEmailTemplate />,
+      });
     }
-    if (channel?.includes('whatsapp')) {
-      arr.push( {
-        key: 'whatsapp',
+    if (channel?.includes("whatsapp")) {
+      arr.push({
+        key: "whatsapp",
         label: `Whatsapp`,
-        children: <CreateWhatsappTemplate />
-      })
+        children: <CreateWhatsappTemplate />,
+      });
     }
-    if (channel?.includes('sms')) {
-      arr.push( {
-        key: 'sms',
+    if (channel?.includes("sms")) {
+      arr.push({
+        key: "sms",
         label: `SMS`,
-        children: <CreateSmsTemplate />
-      })
+        children: <CreateSmsTemplate />,
+      });
     }
     return arr;
-  }
+  };
   return (
     <Header
       showBack
@@ -143,36 +132,38 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
         >
           Save Draft
         </Button>,
-        (!!isFormValid())?<Button
-          type="primary"
-          loading={initiatingExecution}
-          onClick={() => {
-            confirm({
-              title: 'Are you sure?',
-              // icon: <ExclamationCircleOutlined />,
-              content: `You want to execute this campaign?`,
-              onOk() {
-                executeCampaign(
-                  { id: campaignDetails._id },
-                  {
-                    onSuccess: () => {
-                      navigate(`/app/marketing/campaign`)
-                    },
-                    onError: (e:any) => {
-                      message.open({
-                        type: 'error',
-                        content:e.response.data.message
-                      })
+        !!isFormValid() ? (
+          <Button
+            type="primary"
+            loading={initiatingExecution}
+            onClick={() => {
+              confirm({
+                title: "Are you sure?",
+                // icon: <ExclamationCircleOutlined />,
+                content: `You want to execute this campaign?`,
+                onOk() {
+                  executeCampaign(
+                    { id: campaignDetails._id },
+                    {
+                      onSuccess: () => {
+                        navigate(`/app/marketing/campaign`);
+                      },
+                      onError: (e: any) => {
+                        message.open({
+                          type: "error",
+                          content: e.response.data.message,
+                        });
+                      },
                     }
-                  }
-                )
-              },
-              okText: 'Yes, Execute'
-            })
-          }}
-        >
-          Execute Campaign
-        </Button>:null
+                  );
+                },
+                okText: "Yes, Execute",
+              });
+            }}
+          >
+            Execute Campaign
+          </Button>
+        ) : null,
       ]}
     >
       <Row gutter={[16, 16]}>
@@ -182,22 +173,22 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
               <Stepper
                 steps={[
                   {
-                    title: 'Title',
-                    content: <CampaignForm />
+                    title: "Title",
+                    content: <CampaignForm />,
                   },
                   {
-                    title: 'Recipients',
-                    content: <AddRecipients />
+                    title: "Recipients",
+                    content: <AddRecipients />,
                   },
                   {
-                    title: 'Template',
+                    title: "Template",
                     content: (
                       <Tabs
                         defaultActiveKey="1234321"
                         items={GET_TAB_ITEMS()}
                       />
-                    )
-                  }
+                    ),
+                  },
                 ]}
               />
             </Form>
@@ -205,7 +196,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = props => {
         </Col>
       </Row>
     </Header>
-  )
-}
+  );
+};
 
-export default CreateCampaign
+export default CreateCampaign;

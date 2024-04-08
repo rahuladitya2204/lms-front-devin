@@ -1,40 +1,37 @@
-import { Button, Card, Col, Modal, Row, Space } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import Table, { TableColumn } from '@Components/Table/TableComponent'
+import { Button, Card, Col, Modal, Row, Space, message } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import Table, { TableColumn } from "@Components/Table/TableComponent";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AddUser from './AddUser'
-import Container from '@Components/Container'
-import Header from '@User/Screens/UserRoot/UserHeader'
-import MoreButton from '@Components/MoreButton'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import AddUser from "./AddUser";
+import Container from "@Components/Container";
+import Header from "@User/Screens/UserRoot/UserHeader";
+import MoreButton from "@Components/MoreButton";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import dayjs from "dayjs";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 function UsersScreen() {
-  const { data, isFetching: loading } = User.Queries.useGetUsers()
-  const { openModal } = useModal()
-  const {
-    mutate: deleteUser,
-    isLoading: deletingUser
-  } = User.Queries.useDeleteUser()
-  const message = useMessage()
+  const { data, isFetching: loading } = User.Queries.useGetUsers();
+  const { openModal } = useModal();
+  const { mutate: deleteUser, isLoading: deletingUser } =
+    User.Queries.useDeleteUser();
   return (
     <Header
-      title={'Users'}
+      title={"Users"}
       extra={[
         <Button
           onClick={() => {
-            openModal(<AddUser> </AddUser>)
+            openModal(<AddUser> </AddUser>);
           }}
           type="primary"
         >
           Add User
-        </Button>
+        </Button>,
         // <ActionModal cta={<Button type="primary">Add User</Button>}>
         //   <AddUser> </AddUser>
         // </ActionModal>
@@ -44,7 +41,7 @@ function UsersScreen() {
         <Row>
           <Col span={24}>
             <Table
-              searchFields={['name', 'contactNo', 'email']}
+              searchFields={["name", "contactNo", "email"]}
               dataSource={data}
               loading={loading || deletingUser}
             >
@@ -68,7 +65,7 @@ function UsersScreen() {
                 key="createdAt"
                 render={(_: any, record: Types.User) => (
                   <Space size="middle">
-                    {dayjs(record.createdAt).format('LL')}
+                    {dayjs(record.createdAt).format("LL")}
                   </Space>
                 )}
               />
@@ -79,41 +76,41 @@ function UsersScreen() {
                   <MoreButton
                     items={[
                       {
-                        label: 'Edit User',
+                        label: "Edit User",
                         onClick: () => {
-                          openModal(<AddUser data={record} />)
+                          openModal(<AddUser data={record} />);
                         },
-                        key: 'edit',
-                        icon: <EditOutlined />
+                        key: "edit",
+                        icon: <EditOutlined />,
                       },
                       {
-                        label: 'Delete User',
+                        label: "Delete User",
                         onClick: () => {
                           confirm({
-                            title: 'Are you sure? You want to delete this user',
+                            title: "Are you sure? You want to delete this user",
                             // icon: <ExclamationCircleOutlined />,
                             content: `User will loose all the access to the platform`,
                             onOk() {
                               deleteUser(
                                 {
-                                  id: record._id
+                                  id: record._id,
                                 },
                                 {
                                   onSuccess: () => {
                                     message.open({
-                                      type: 'success',
-                                      content: 'User has been been deleted'
-                                    })
-                                  }
+                                      type: "success",
+                                      content: "User has been been deleted",
+                                    });
+                                  },
                                 }
-                              )
+                              );
                             },
-                            okText: 'Delete'
-                          })
+                            okText: "Delete",
+                          });
                         },
-                        key: 'delete',
-                        icon: <DeleteOutlined />
-                      }
+                        key: "delete",
+                        icon: <DeleteOutlined />,
+                      },
                     ]}
                   />
                 )}
@@ -123,7 +120,7 @@ function UsersScreen() {
         </Row>
       </Container>
     </Header>
-  )
+  );
 }
 
-export default UsersScreen
+export default UsersScreen;

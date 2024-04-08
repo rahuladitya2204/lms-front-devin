@@ -1,13 +1,13 @@
-import { Button, Card, Col, Form, Row, Space, Table } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, Row, Space, Table } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CreatePlan from '../../../ExtraComponents/CreatePlan'
-import { Fragment } from 'react'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import CreatePlan from "../../../ExtraComponents/CreatePlan";
+import { Fragment } from "react";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
 interface TestPricingEditorPropsI {
   testId: string;
@@ -17,21 +17,20 @@ interface TestPricingEditorPropsI {
 }
 
 function TestPricingEditor(props: TestPricingEditorPropsI) {
-  const message = useMessage()
   const { data, isFetching: loading } = User.Queries.useGetProductPlans(
     props.testId
-  )
-  const { openModal } = useModal()
+  );
+  const { openModal } = useModal();
   return (
     <Fragment>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'Pricing Plan'}
+        title={"Pricing Plan"}
         extra={
           <Button
             onClick={() =>
               openModal(
-                <CreatePlan product={{ type: 'test', id: props.testId }} />
+                <CreatePlan product={{ type: "test", id: props.testId }} />
               )
             }
           >
@@ -50,9 +49,9 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
               <Table.Column
                 title="Listing Price"
                 render={(text, record: Types.Plan) => {
-                  return record.type !== 'free'
+                  return record.type !== "free"
                     ? `₹${record?.displayPrice?.value}`
-                    : 'Free'
+                    : "Free";
                 }}
                 dataIndex="displayPrice.value"
                 key="displayPrice.value"
@@ -60,9 +59,9 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
               <Table.Column
                 title="Final Price"
                 render={(text, record: Types.Plan) => {
-                  return record.type !== 'free'
+                  return record.type !== "free"
                     ? `₹${record.finalPrice.value}`
-                    : 'Free'
+                    : "Free";
                 }}
                 dataIndex="finalPrice.value"
                 key="finalPrice.value"
@@ -76,10 +75,10 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
                       onClick={() => {
                         openModal(
                           <CreatePlan
-                            product={{ type: 'test', id: props.testId }}
+                            product={{ type: "test", id: props.testId }}
                             plan={record}
                           />
-                        )
+                        );
                       }}
                     />
                     {/* <ActionModal cta={<EditOutlined />}>
@@ -97,7 +96,7 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
         </Row>
       </Card>
     </Fragment>
-  )
+  );
 }
 
-export default TestPricingEditor
+export default TestPricingEditor;

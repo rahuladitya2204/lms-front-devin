@@ -1,47 +1,41 @@
-import { Button, Card, Form, Tabs } from 'antd'
-import { Constants, Learner, Types } from '@adewaskar/lms-common'
-import { Fragment, useEffect, useState } from 'react'
-import { Outlet } from 'react-router'
-import { useParams } from '@Router/index'
+import { Button, Card, Form, Tabs, message } from "antd";
+import { Constants, Learner, Types } from "@adewaskar/lms-common";
+import { Fragment, useEffect, useState } from "react";
+import { Outlet } from "react-router";
+import { useParams } from "@Router/index";
 
-import Header from '@User/Screens/UserRoot/UserHeader'
-import LearnerDetailsEditor from './LearnersDetailsEditor'
-import { UploadOutlined } from '@ant-design/icons'
-import { User } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
+import Header from "@User/Screens/UserRoot/UserHeader";
+import LearnerDetailsEditor from "./LearnersDetailsEditor";
+import { UploadOutlined } from "@ant-design/icons";
+import { User } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
 
 function LearnerEditor() {
-  const message = useMessage()
-  const { id: learnerId } = useParams()
-  const [learner, setLearner] = useState(Constants.INITIAL_LEARNER_DETAILS)
-  const {
-    mutate: updateLearner,
-    isLoading: loading
-  } = User.Queries.useUpdateLearner()
-  useEffect(
-    () => {
-      form.setFieldsValue(learner)
-    },
-    [learner]
-  )
+  const { id: learnerId } = useParams();
+  const [learner, setLearner] = useState(Constants.INITIAL_LEARNER_DETAILS);
+  const { mutate: updateLearner, isLoading: loading } =
+    User.Queries.useUpdateLearner();
+  useEffect(() => {
+    form.setFieldsValue(learner);
+  }, [learner]);
 
   const saveLearner = (data: Types.Learner) => {
     updateLearner(
       {
-        id: learnerId + '',
-        data: data
+        id: learnerId + "",
+        data: data,
       },
       {
         onSuccess: () => {
           message.open({
-            type: 'success',
-            content: 'Saved Learner Details'
-          })
-        }
+            type: "success",
+            content: "Saved Learner Details",
+          });
+        },
       }
-    )
-  }
-  const [form] = Form.useForm()
+    );
+  };
+  const [form] = Form.useForm();
   return (
     <Header
       hideBack
@@ -56,26 +50,26 @@ function LearnerEditor() {
           >
             Save Learner
           </Button>
-        </Fragment>
+        </Fragment>,
       ]}
     >
-      {' '}
+      {" "}
       <Card>
         <Tabs
           defaultActiveKey="1"
           items={[
             {
               label: `Profile Details`,
-              key: '1',
-              children: <LearnerDetailsEditor />
-            }
+              key: "1",
+              children: <LearnerDetailsEditor />,
+            },
           ]}
         />
 
         <Outlet />
       </Card>
     </Header>
-  )
+  );
 }
 
-export default LearnerEditor
+export default LearnerEditor;

@@ -1,40 +1,37 @@
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, message } from "antd";
 
-import { Learner } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
+import { Learner } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
 
 const RequestResetPassword = () => {
-  const [form] = Form.useForm()
-  const message = useMessage()
-  const {
-    mutate: requestPasswordReset,
-    isLoading
-  } = Learner.Queries.useRequestPasswordReset()
+  const [form] = Form.useForm();
+  const { mutate: requestPasswordReset, isLoading } =
+    Learner.Queries.useRequestPasswordReset();
 
   const handleSubmit = async () => {
     try {
-      const values = await form.validateFields()
+      const values = await form.validateFields();
       requestPasswordReset(
         { email: values.email },
         {
           onSuccess: () => {
             message.open({
-              type: 'success',
-              content: `Password reset email sent to ${values.email}`
-            })
+              type: "success",
+              content: `Password reset email sent to ${values.email}`,
+            });
           },
           onError: (er: any) => {
             message.open({
-              type: 'error',
-              content: er.response.data.message
-            })
-          }
+              type: "error",
+              content: er.response.data.message,
+            });
+          },
         }
-      )
+      );
     } catch (error) {
-      console.log('Validation failed:', error)
+      console.log("Validation failed:", error);
     }
-  }
+  };
 
   return (
     <Form form={form} layout="vertical" onFinish={handleSubmit}>
@@ -45,12 +42,12 @@ const RequestResetPassword = () => {
         rules={[
           {
             required: true,
-            message: 'Please enter your email!'
+            message: "Please enter your email!",
           },
           {
-            message: 'Please enter valid email!',
-            type: 'email'
-          }
+            message: "Please enter valid email!",
+            type: "email",
+          },
         ]}
       >
         <Input />
@@ -62,7 +59,7 @@ const RequestResetPassword = () => {
         </Button>
       </Form.Item>
     </Form>
-  )
-}
+  );
+};
 
-export default RequestResetPassword
+export default RequestResetPassword;

@@ -8,124 +8,118 @@ import {
   Row,
   Space,
   Spin,
-  Tag
-} from 'antd'
-import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
-import { Outlet } from 'react-router'
-import { useNavigate, useParams } from '@Router/index'
+  Tag,
+  message,
+} from "antd";
+import { Constants, Enum, Types, User } from "@adewaskar/lms-common";
+import { Outlet } from "react-router";
+import { useNavigate, useParams } from "@Router/index";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AppProvider from 'screens/AppProvider'
-import BackButton from '@Components/BackButton'
-import Header from '@Components/Header'
-import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload'
-import MoreButton from '@Components/MoreButton'
-import PrintPrompt from './PrintPrompt'
-import SetTestRules from './SetTestRules'
-import TestOutline from './TestOutline'
-import TestSectionsNavigator from './TestSectionsNavigator'
-import { printPdf } from '@Components/Editor/SunEditor/utils'
-import { updateTestSectionItem } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useEffect } from 'react'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
-import useTestBuilderUI from './hooks/useTestBuilder'
-import { useTestStore } from './hooks/useTestStore'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import AppProvider from "screens/AppProvider";
+import BackButton from "@Components/BackButton";
+import Header from "@Components/Header";
+import Image from "@Components/Image";
+import MediaUpload from "@Components/MediaUpload";
+import MoreButton from "@Components/MoreButton";
+import PrintPrompt from "./PrintPrompt";
+import SetTestRules from "./SetTestRules";
+import TestOutline from "./TestOutline";
+import TestSectionsNavigator from "./TestSectionsNavigator";
+import { printPdf } from "@Components/Editor/SunEditor/utils";
+import { updateTestSectionItem } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import { useEffect } from "react";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
+import useTestBuilderUI from "./hooks/useTestBuilder";
+import { useTestStore } from "./hooks/useTestStore";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 function TestBuilderScreen() {
-  const message = useMessage()
-  const {
-    mutate: updateTest,
-    isLoading: savingTest
-  } = User.Queries.useUpdateTest()
-  const { test, setTest } = useTestStore(s => s)
+  const { mutate: updateTest, isLoading: savingTest } =
+    User.Queries.useUpdateTest();
+  const { test, setTest } = useTestStore((s) => s);
 
-  const { id: testId, itemId } = useParams()
+  const { id: testId, itemId } = useParams();
   const {
     data: testDetails,
     isFetching: loadingTest,
-    isLoading: loadingTestFirst
-  } = User.Queries.useGetTestDetails(testId + '', {
-    enabled: !!testId
-  })
-  const {
-    mutate: deleteSectionApi,
-    isLoading: deletingSection
-  } = User.Queries.useDeleteTestSection()
-  const { getNavigator } = useTestBuilderUI()
-  const {
-    mutate: deleteSectionItemApi,
-    isLoading: deletingSectionItem
-  } = User.Queries.useDeleteTestSectionItem()
-  const navigate = useNavigate()
+    isLoading: loadingTestFirst,
+  } = User.Queries.useGetTestDetails(testId + "", {
+    enabled: !!testId,
+  });
+  const { mutate: deleteSectionApi, isLoading: deletingSection } =
+    User.Queries.useDeleteTestSection();
+  const { getNavigator } = useTestBuilderUI();
+  const { mutate: deleteSectionItemApi, isLoading: deletingSectionItem } =
+    User.Queries.useDeleteTestSectionItem();
+  const navigate = useNavigate();
   const { mutate: generateTestInfo } = User.Queries.useGetGenerativeTestInfo(
-    testId + ''
-  )
+    testId + ""
+  );
   const onAddSection = (section: Partial<Types.TestSection>) => {
-    console.log(section, 'section')
-    let TEST = test
+    console.log(section, "section");
+    let TEST = test;
     if (section._id) {
       TEST.sections.forEach((sec, index) => {
         if (sec._id === section._id) {
-          TEST.sections[index] = { ...sec, ...section }
+          TEST.sections[index] = { ...sec, ...section };
         }
-      })
+      });
     } else {
       // @ts-ignore
       const newSection: Types.TestSection = {
-        title: section.title + '',
-        commonDetail: section.commonDetail + '',
+        title: section.title + "",
+        commonDetail: section.commonDetail + "",
         items: [
           {
             ...Constants.INITIAL_TEST_QUESTION,
-            title: 'New Question',
+            title: "New Question",
             options: [
               Constants.INITIAL_TEST_QUESTION_OPTION,
               Constants.INITIAL_TEST_QUESTION_OPTION,
               Constants.INITIAL_TEST_QUESTION_OPTION,
-              Constants.INITIAL_TEST_QUESTION_OPTION
+              Constants.INITIAL_TEST_QUESTION_OPTION,
             ],
             solution: {
-              html: ''
+              html: "",
             },
-            _id: undefined
-          }
-        ]
-      }
-      TEST.sections.push(newSection)
+            _id: undefined,
+          },
+        ],
+      };
+      TEST.sections.push(newSection);
     }
 
     updateTest(
       {
-        id: testId || '',
+        id: testId || "",
         data: {
-          sections: TEST.sections
-        }
+          sections: TEST.sections,
+        },
       },
       {
-        onSuccess: test => {
+        onSuccess: (test) => {
           // if (item._id) {
           //   return navigate(`${item._id}`)
           // }
-          const newlyAdedItem = test.sections.pop().items.pop()
-          console.log(test.sections, 'newlyAdedItem')
+          const newlyAdedItem = test.sections.pop().items.pop();
+          console.log(test.sections, "newlyAdedItem");
           navigate(
             `../app/products/test/${TEST._id}/builder/${newlyAdedItem?._id}`
-          )
-        }
+          );
+        },
       }
-    )
-  }
+    );
+  };
 
   const onAddNewItem = (item: Partial<Types.TestQuestion>, index: number) => {
     // debugger;
-    let TEST = test
+    let TEST = test;
     const newItem: Partial<Types.TestQuestion> = {
-      ...item
-    }
+      ...item,
+    };
     // console.log(test, 'livviviv')
 
     if (item._id) {
@@ -135,155 +129,148 @@ function TestBuilderScreen() {
             // @ts-ignore
             TEST.sections[index].items[itemIndex] = {
               ...item,
-              ...newItem
-            }
+              ...newItem,
+            };
           }
         }
-      )
+      );
     } else {
       // @ts-ignore
-      TEST.sections[index].items.push(newItem)
+      TEST.sections[index].items.push(newItem);
     }
     updateTest(
       {
-        id: testId || '',
+        id: testId || "",
         data: {
-          sections: TEST.sections
-        }
+          sections: TEST.sections,
+        },
       },
       {
-        onSuccess: test => {
+        onSuccess: (test) => {
           // if (item._id) {
           //   return navigate(`${item._id}`)
           // }
-          const newlyAdedItem = [...test.sections[index].items].pop()
+          const newlyAdedItem = [...test.sections[index].items].pop();
           // console.log(test.sections, 'newlyAdedItem')
           navigate(
             `../app/products/test/${TEST._id}/builder/${newlyAdedItem?._id}`
-          )
-        }
+          );
+        },
       }
-    )
-  }
+    );
+  };
 
-  useEffect(
-    () => {
-      console.log(testDetails, 'detail')
-      setTest(testDetails)
-    },
-    [testDetails]
-  )
+  useEffect(() => {
+    console.log(testDetails, "detail");
+    setTest(testDetails);
+  }, [testDetails]);
 
   const saveTest = () => {
-    const Data = test
+    const Data = test;
     if (test._id) {
       updateTest(
         {
-          id: testId + '',
-          data: Data
+          id: testId + "",
+          data: Data,
         },
         {
           onSuccess: () => {
             message.open({
-              type: 'success',
-              content: 'Saved Changes'
-            })
-          }
+              type: "success",
+              content: "Saved Changes",
+            });
+          },
         }
-      )
+      );
     }
-  }
-  useEffect(
-    () => {
-      if (!itemId) {
-        const firstSection = test.sections.find(s => s.items.length)
-        if (firstSection && firstSection.items.length) {
-          const firstItem = firstSection.items[0]
-          if (firstItem.type) {
-            navigate(`${firstItem._id}`)
-          }
+  };
+  useEffect(() => {
+    if (!itemId) {
+      const firstSection = test.sections.find((s) => s.items.length);
+      if (firstSection && firstSection.items.length) {
+        const firstItem = firstSection.items[0];
+        if (firstItem.type) {
+          navigate(`${firstItem._id}`);
         }
       }
-    },
-    [test._id]
-  )
+    }
+  }, [test._id]);
 
   const updateTestSection = (itemId: string, item: Types.TestQuestion) => {
-    item._id = itemId
-    const TEST = test
-    TEST.sections = updateTestSectionItem(TEST.sections, item)
+    item._id = itemId;
+    const TEST = test;
+    TEST.sections = updateTestSectionItem(TEST.sections, item);
 
     setTest({
-      sections: TEST.sections
-    })
-  }
+      sections: TEST.sections,
+    });
+  };
 
   const deleteSection = (sectionId: string) => {
     deleteSectionApi(
       {
         data: {
-          testId: testId + '',
-          sectionId: sectionId
-        }
+          testId: testId + "",
+          sectionId: sectionId,
+        },
       },
       {
         onSuccess: () => {
-          const lastSection = test.sections.pop()
-          const lastItem = lastSection?.items.pop()
-          if (lastSection && lastItem) navigate(`${lastItem._id}`)
-        }
+          const lastSection = test.sections.pop();
+          const lastItem = lastSection?.items.pop();
+          if (lastSection && lastItem) navigate(`${lastItem._id}`);
+        },
       }
-    )
-  }
+    );
+  };
 
   const deleteSectionItem = (sectionId: string, itemId: string) => {
-    const TEST = test
+    const TEST = test;
     deleteSectionItemApi(
       {
         data: {
-          testId: testId + '',
+          testId: testId + "",
           // sectionId: sectionId,
-          itemId: itemId
-        }
+          itemId: itemId,
+        },
       },
       {
         onSuccess: () => {
-          const lastSection = test.sections.pop()
-          const lastItem = lastSection?.items.pop()
-          if (lastSection && lastItem) navigate(`${lastItem._id}`)
-        }
+          const lastSection = test.sections.pop();
+          const lastItem = lastSection?.items.pop();
+          if (lastSection && lastItem) navigate(`${lastItem._id}`);
+        },
       }
-    )
-  }
+    );
+  };
 
   const onReorderSections = (sections: Types.TestSection[]) => {
-    const TEST = test
-    TEST.sections = sections
-    setTest(TEST)
-  }
-  const {
-    mutate: unpublishTest,
-    isLoading: unpublishingTest
-  } = User.Queries.useUnpublishTest()
-  const isTestEnded = test.live.enabled && test.status === Enum.TestStatus.ENDED
-  const { openModal } = useModal()
+    const TEST = test;
+    TEST.sections = sections;
+    setTest(TEST);
+  };
+  const { mutate: unpublishTest, isLoading: unpublishingTest } =
+    User.Queries.useUnpublishTest();
+  const isTestEnded =
+    test.live.enabled && test.status === Enum.TestStatus.ENDED;
+  const { openModal } = useModal();
   // console.log(openModal, '111')
   return (
     <AppProvider>
       <Header
         title={
           <span>
-            {' '}
+            {" "}
             <BackButton
               // @ts-ignore
               disabled={!test.category}
               // @ts-ignore
               onClick={() => {
-                console.log(test.category, 'asasas')
-                navigate(`../app/products/test/${testId}/editor`)
+                console.log(test.category, "asasas");
+                navigate(`../app/products/test/${testId}/editor`);
               }}
             />
-            {test.title}{' '}
+            {test.title}{" "}
             {test.live.enabled ? (
               <Tag color="blue-inverse">Live Test</Tag>
             ) : null}
@@ -291,7 +278,7 @@ function TestBuilderScreen() {
         }
         extra={[
           <Row>
-            {' '}
+            {" "}
             {/* <Col span={24}>
               {!test.sections.length ? null : (
                 <ActionModal
@@ -327,8 +314,8 @@ function TestBuilderScreen() {
           // </Button>,
           test.status === Enum.TestStatus.PUBLISHED ? (
             <Space>
-              {' '}
-              <Tag color="green">Test is Published</Tag>{' '}
+              {" "}
+              <Tag color="green">Test is Published</Tag>{" "}
             </Space>
           ) : (
             <Space>
@@ -357,24 +344,24 @@ function TestBuilderScreen() {
           <Dropdown.Button
             loading={savingTest}
             onClick={() => saveTest()}
-            trigger={['click']}
+            trigger={["click"]}
             menu={{
               items: [
                 {
-                  label: 'Generate Test Outline',
-                  key: 'generate-outline',
+                  label: "Generate Test Outline",
+                  key: "generate-outline",
                   onClick: () =>
-                    openModal(<TestOutline testId={testId + ''} />, {
-                      width: 760
-                    })
+                    openModal(<TestOutline testId={testId + ""} />, {
+                      width: 760,
+                    }),
                 },
                 {
                   label: `Print Action`,
-                  key: 'print-test',
+                  key: "print-test",
                   onClick: () =>
-                    openModal(<PrintPrompt testId={testId + ''} />, {
-                      title: 'Print'
-                    })
+                    openModal(<PrintPrompt testId={testId + ""} />, {
+                      title: "Print",
+                    }),
                 },
                 // {
                 //   label: 'Generate Criterias',
@@ -382,9 +369,9 @@ function TestBuilderScreen() {
                 //   onClick: () => generateTestInfo({ fields: ['criteria'] })
                 // },
                 {
-                  label: 'Generate Topics',
-                  key: 'gen-topics',
-                  onClick: () => generateTestInfo({ fields: ['topic'] })
+                  label: "Generate Topics",
+                  key: "gen-topics",
+                  onClick: () => generateTestInfo({ fields: ["topic"] }),
                 },
                 // {
                 //   key: 'enter-answers',
@@ -403,26 +390,26 @@ function TestBuilderScreen() {
                 //   )
                 // },
                 {
-                  key: 'revert',
-                  label: 'Revert to draft',
+                  key: "revert",
+                  label: "Revert to draft",
                   onClick: () => {
                     confirm({
-                      title: 'Are you sure?',
+                      title: "Are you sure?",
                       // icon: <ExclamationCircleOutlined />,
                       content: `You want to Unpublish this test, It will be moved to Draft?`,
                       onOk() {
                         unpublishTest({
-                          testId: testId + ''
-                        })
+                          testId: testId + "",
+                        });
                         message.open({
-                          type: 'success',
-                          content: 'Test has been moved to draft'
-                        })
+                          type: "success",
+                          content: "Test has been moved to draft",
+                        });
                       },
-                      okText: 'Yes, Unpublish'
-                    })
-                  }
-                }
+                      okText: "Yes, Unpublish",
+                    });
+                  },
+                },
                 // {
                 //   label: (
                 //     <ActionModal
@@ -466,26 +453,26 @@ function TestBuilderScreen() {
                 //   key: 'enter-test-json'
                 //   // icon: <DeleteOutlined />
                 // }
-              ]
+              ],
             }}
             type="primary"
             // shape="circle"
             style={{ marginRight: 10 }}
           >
             Save Changes
-          </Dropdown.Button>
+          </Dropdown.Button>,
         ]}
       >
         <Row gutter={[16, 16]}>
           <Col span={6}>
-            <Card bodyStyle={{ maxHeight: '82vh', overflowY: 'scroll' }}>
+            <Card bodyStyle={{ maxHeight: "82vh", overflowY: "scroll" }}>
               <Row>
                 <Col span={24}>
                   <Form.Item>
                     <MediaUpload
                       source={{
-                        type: 'test.thumbnailImage',
-                        value: testId + ''
+                        type: "test.thumbnailImage",
+                        value: testId + "",
                       }}
                       uploadType="image"
                       compress={{ maxWidth: 330, maxHeight: 200, quality: 0.9 }}
@@ -501,15 +488,15 @@ function TestBuilderScreen() {
                           src={test.thumbnailImage}
                         />
                       )}
-                      onUpload={file => {
+                      onUpload={(file) => {
                         setTest({
-                          thumbnailImage: file.url
-                        })
+                          thumbnailImage: file.url,
+                        });
                       }}
                     />
                     <Row
-                      justify={'space-between'}
-                      style={{ margin: '20px 0 0', marginTop: 20 }}
+                      justify={"space-between"}
+                      style={{ margin: "20px 0 0", marginTop: 20 }}
                       gutter={[20, 20]}
                     >
                       <Col flex={1}>
@@ -518,9 +505,9 @@ function TestBuilderScreen() {
                       <Col flex={1}>
                         <Button
                           onClick={() => {
-                            openModal(<SetTestRules testId={testId + ''} />, {
-                              title: `Set Rules`
-                            })
+                            openModal(<SetTestRules testId={testId + ""} />, {
+                              title: `Set Rules`,
+                            });
                           }}
                           block
                           type="primary"
@@ -536,7 +523,7 @@ function TestBuilderScreen() {
                         }
                       >
                         <SetTestRules testId={testId + ''} />
-                      </ActionModal> */}{' '}
+                      </ActionModal> */}{" "}
                       </Col>
                     </Row>
                   </Form.Item>
@@ -552,7 +539,7 @@ function TestBuilderScreen() {
                     }
                   >
                     <TestSectionsNavigator
-                      testId={testId + ''}
+                      testId={testId + ""}
                       deleteSectionItem={deleteSectionItem}
                       deleteSection={deleteSection}
                       onAddNewItem={onAddNewItem}
@@ -616,7 +603,7 @@ function TestBuilderScreen() {
         </Row>
       </Header>
     </AppProvider>
-  )
+  );
 }
 
-export default TestBuilderScreen
+export default TestBuilderScreen;

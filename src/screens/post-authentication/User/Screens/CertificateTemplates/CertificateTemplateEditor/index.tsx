@@ -1,28 +1,28 @@
-import { Button, Card, Form, Select, Space } from 'antd'
-import { Fragment, useEffect } from 'react'
+import { Button, Card, Form, Select, Space, message } from "antd";
+import { Fragment, useEffect } from "react";
 
-import BackButton from '@Components/BackButton'
-import Header from '@Components/Header'
-import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload'
-import TextArea from '@Components/Textarea'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import { uniqueId } from 'lodash'
-import useMessage from '@Hooks/useMessage'
-import { useParams } from '@Router/index'
-import { useWatch } from 'antd/es/form/Form'
+import BackButton from "@Components/BackButton";
+import Header from "@Components/Header";
+import Image from "@Components/Image";
+import MediaUpload from "@Components/MediaUpload";
+import TextArea from "@Components/Textarea";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import { uniqueId } from "lodash";
+import useMessage from "@Hooks/useMessage";
+import { useParams } from "@Router/index";
+import { useWatch } from "antd/es/form/Form";
 
 const SIZES = {
   portrait: {
     width: 794,
-    height: 1100
+    height: 1100,
   },
-landscape: {
-  height: 794,
-  width: 1100
-  }
-}
+  landscape: {
+    height: 794,
+    width: 1100,
+  },
+};
 
 // const VARIABLES = [
 //   {
@@ -44,68 +44,64 @@ landscape: {
 // ]
 
 function CertificateTemplateEditor() {
-  const message = useMessage()
-  const { id: emailTemplateId } = useParams()
-  const {
-    mutate: updateCertificateTemplate,
-    isLoading: loading
-  } = User.Queries.useUpdateCertificateTemplate()
+  const { id: emailTemplateId } = useParams();
+  const { mutate: updateCertificateTemplate, isLoading: loading } =
+    User.Queries.useUpdateCertificateTemplate();
 
   const { data: template } = User.Queries.useGetCertificateTemplateDetails(
-    emailTemplateId + '',
+    emailTemplateId + "",
     {
-      enabled: !!emailTemplateId
+      enabled: !!emailTemplateId,
     }
-  )
+  );
 
   const saveCertificateTemplate = (data: Types.CertificateTemplate) => {
     updateCertificateTemplate(
       {
-        id: emailTemplateId + '',
-        data: data
+        id: emailTemplateId + "",
+        data: data,
       },
       {
         onSuccess: () => {
           message.open({
-            type: 'success',
-            content: 'Saved'
-          })
+            type: "success",
+            content: "Saved",
+          });
           // navigate('../')
-        }
+        },
       }
-    )
-  }
+    );
+  };
   const [form] = Form.useForm<Types.CertificateTemplate>();
 
   useEffect(() => {
-    console.log(template,'teee')
+    console.log(template, "teee");
     form.setFieldsValue(template);
   }, [template]);
-  
-  const bgImage = useWatch(['background', 'url'], form);
-  const layout = useWatch(['layout'], form);
+
+  const bgImage = useWatch(["background", "url"], form);
+  const layout = useWatch(["layout"], form);
   return (
-    <Header 
+    <Header
       title={<span>{template.title}</span>}
       extra={[
         <Fragment>
-          <Button
-            loading={loading}
-            onClick={form.submit}
-          >
+          <Button loading={loading} onClick={form.submit}>
             Save as Draft
           </Button>
-          <Button
-            loading={loading}
-            type="primary"
-          >
+          <Button loading={loading} type="primary">
             Publish Template
           </Button>
-        </Fragment>
+        </Fragment>,
       ]}
     >
-      <Form form={form} onFinish={saveCertificateTemplate} layout="vertical" autoComplete="off">
-      {/* <Form.Item name={['background','url']} label="Background Image" >
+      <Form
+        form={form}
+        onFinish={saveCertificateTemplate}
+        layout="vertical"
+        autoComplete="off"
+      >
+        {/* <Form.Item name={['background','url']} label="Background Image" >
            <MediaUpload
                     uploadType="image"
                     name={['background','url']}
@@ -121,26 +117,25 @@ function CertificateTemplateEditor() {
             }}
                   />
         </Form.Item> */}
-        <Form.Item name={['layout']} label="Layout" >
-        <Select
-      style={{ width: 300 }}
-      options={[
-        { value: 'portrait', label: 'Portrait' },
-        { value: 'landscape', label: 'Landscape' },
-      ]}
-    />
+        <Form.Item name={["layout"]} label="Layout">
+          <Select
+            style={{ width: 300 }}
+            options={[
+              { value: "portrait", label: "Portrait" },
+              { value: "landscape", label: "Landscape" },
+            ]}
+          />
         </Form.Item>
         <Form.Item name="template" label="Design">
-           {/* @ts-ignore */}
+          {/* @ts-ignore */}
           <TextArea html name="template" {...SIZES[layout]} />
-      </Form.Item>
+        </Form.Item>
       </Form>
     </Header>
-  )
+  );
 }
 
-export default CertificateTemplateEditor
-
+export default CertificateTemplateEditor;
 
 // function addInlineStyleToSunEditor(html:string, backgroundImageUrl:string) {
 //   // Step 1: Create a DOM element from the HTML string

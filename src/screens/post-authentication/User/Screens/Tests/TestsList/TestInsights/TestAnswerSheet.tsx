@@ -1,18 +1,18 @@
-import { Alert, Button, Card, Col, Divider, Row } from 'antd'
-import { Enum, User } from '@adewaskar/lms-common'
+import { Alert, Button, Card, Col, Divider, Row, message } from "antd";
+import { Enum, User } from "@adewaskar/lms-common";
 import OMRComponent, {
-  OMRSKeleton
-} from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
+  OMRSKeleton,
+} from "@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AnswerSheetFiles from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles'
-import { openWindow } from '@Components/Editor/SunEditor/utils'
-import useBreakpoint from '@Hooks/useBreakpoint'
-import { useEffect } from 'react'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
-import { useParams } from '@Router/index'
-import { useQueryClient } from '@tanstack/react-query'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import AnswerSheetFiles from "@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/AnswerSheetFiles";
+import { openWindow } from "@Components/Editor/SunEditor/utils";
+import useBreakpoint from "@Hooks/useBreakpoint";
+import { useEffect } from "react";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
+import { useParams } from "@Router/index";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface TestAnswerSheetPropsI {
   testId?: string;
@@ -20,28 +20,22 @@ interface TestAnswerSheetPropsI {
 }
 
 export default function TestAnswerSheet(props: TestAnswerSheetPropsI) {
-  const params = useParams()
-  const testId = (props.testId || params.testId) + ''
-  const learnerId = (props.learnerId || params.learnerId) + ''
+  const params = useParams();
+  const testId = (props.testId || params.testId) + "";
+  const learnerId = (props.learnerId || params.learnerId) + "";
   const {
     data: ep,
     mutate: getEp,
-    isLoading: loadingEp
-  } = User.Queries.useGetEnrolledLearnerProductDetails(testId)
-  const message = useMessage()
-  const {
-    mutate: evaluateLearnerTest,
-    isLoading: evaluatingResult
-  } = User.Queries.useEvaluateLearnerTest(testId + '')
-  useEffect(
-    () => {
-      getEp({ learnerId: learnerId })
-    },
-    [testId]
-  )
-  const { isMobile } = useBreakpoint()
-  const { openModal } = useModal()
-  const qc = useQueryClient()
+    isLoading: loadingEp,
+  } = User.Queries.useGetEnrolledLearnerProductDetails(testId);
+  const { mutate: evaluateLearnerTest, isLoading: evaluatingResult } =
+    User.Queries.useEvaluateLearnerTest(testId + "");
+  useEffect(() => {
+    getEp({ learnerId: learnerId });
+  }, [testId]);
+  const { isMobile } = useBreakpoint();
+  const { openModal } = useModal();
+  const qc = useQueryClient();
   return (
     <Card>
       {loadingEp ? (
@@ -53,23 +47,21 @@ export default function TestAnswerSheet(props: TestAnswerSheetPropsI) {
               onClick={() => {
                 if (isMobile) {
                   openWindow(
-                    `/app/test/${testId}/answer-sheet/${
-                      learnerId
-                    }/upload-answer-sheet`,
+                    `/app/test/${testId}/answer-sheet/${learnerId}/upload-answer-sheet`,
                     (refetchTestStatus: boolean) => {
                       if (refetchTestStatus) {
                         message.open({
-                          type: 'success',
-                          content: `Answer Sheet Recorded successfully`
-                        })
+                          type: "success",
+                          content: `Answer Sheet Recorded successfully`,
+                        });
                         qc.invalidateQueries([
                           `GET_TEST_STATUS`,
                           testId,
-                          learnerId
-                        ])
+                          learnerId,
+                        ]);
                       }
                     }
-                  )
+                  );
                 } else {
                   openModal(
                     <AnswerSheetFiles
@@ -78,9 +70,9 @@ export default function TestAnswerSheet(props: TestAnswerSheetPropsI) {
                       type="user"
                     />,
                     {
-                      title: 'Answer Sheet'
+                      title: "Answer Sheet",
                     }
-                  )
+                  );
                 }
               }}
               block={isMobile}
@@ -95,7 +87,7 @@ export default function TestAnswerSheet(props: TestAnswerSheetPropsI) {
               //   readonly
               learnerId={learnerId}
               type="user"
-              testId={testId + ''}
+              testId={testId + ""}
             />
           </Col>
           <Col span={24}>
@@ -109,17 +101,17 @@ export default function TestAnswerSheet(props: TestAnswerSheetPropsI) {
                     onClick={() => {
                       evaluateLearnerTest(
                         {
-                          learnerId: learnerId
+                          learnerId: learnerId,
                         },
                         {
                           onSuccess: () => {
                             message.open({
-                              type: 'success',
-                              content: 'Evaluation Initiated'
-                            })
-                          }
+                              type: "success",
+                              content: "Evaluation Initiated",
+                            });
+                          },
                         }
-                      )
+                      );
                     }}
                     danger
                   >
@@ -132,5 +124,5 @@ export default function TestAnswerSheet(props: TestAnswerSheetPropsI) {
         </Row>
       )}
     </Card>
-  )
+  );
 }

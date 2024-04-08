@@ -1,78 +1,75 @@
-import { Button, Card, Form } from 'antd'
-import { Fragment, useEffect } from 'react'
+import { Button, Card, Form, message } from "antd";
+import { Fragment, useEffect } from "react";
 
-import Header from '@Components/Header'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import WhatsappTemplateDetailsEditor from './WhatsappTemplateDetailsEditor'
-import useMessage from '@Hooks/useMessage'
-import { useParams } from '@Router/index'
+import Header from "@Components/Header";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import WhatsappTemplateDetailsEditor from "./WhatsappTemplateDetailsEditor";
+import useMessage from "@Hooks/useMessage";
+import { useParams } from "@Router/index";
 
 function WhatsappTemplateEditor() {
-  const message = useMessage()
-  const { id: emailTemplateId } = useParams()
-  const {
-    mutate: updateWhatsappTemplate,
-    isLoading: loading
-  } = User.Queries.useUpdateWhatsappTemplate()
+  const { id: emailTemplateId } = useParams();
+  const { mutate: updateWhatsappTemplate, isLoading: loading } =
+    User.Queries.useUpdateWhatsappTemplate();
 
   const { data: template } = User.Queries.useGetWhatsappTemplateDetails(
-    emailTemplateId + '',
+    emailTemplateId + "",
     {
-      enabled: !!emailTemplateId
+      enabled: !!emailTemplateId,
     }
-  )
+  );
 
   const saveWhatsappTemplate = (data: Types.WhatsappTemplate) => {
     updateWhatsappTemplate(
       {
-        id: emailTemplateId + '',
-        data: data
+        id: emailTemplateId + "",
+        data: data,
       },
       {
         onSuccess: () => {
           message.open({
-            type: 'success',
-            content: 'Saved'
-          })
+            type: "success",
+            content: "Saved",
+          });
           // navigate('../')
-        }
+        },
       }
-    )
-  }
+    );
+  };
   const [form] = Form.useForm<Types.WhatsappTemplate>();
 
   useEffect(() => {
     form.setFieldsValue(template);
-  },[template])
+  }, [template]);
 
   return (
     <Header
       title="Whatsapp Template Editor"
       extra={[
         <Fragment>
-          <Button
-            loading={loading}
-            onClick={form.submit}
-          >
+          <Button loading={loading} onClick={form.submit}>
             Save as Draft
           </Button>
-          <Button
-            loading={loading}
-            type="primary"
-          >
+          <Button loading={loading} type="primary">
             Publish Template
           </Button>
-        </Fragment>
+        </Fragment>,
       ]}
     >
-      <Form initialValues={template} form={form} onFinish={saveWhatsappTemplate} layout="vertical" autoComplete="off">
+      <Form
+        initialValues={template}
+        form={form}
+        onFinish={saveWhatsappTemplate}
+        layout="vertical"
+        autoComplete="off"
+      >
         <Card extra={<Button danger>Send test Mail</Button>}>
           <WhatsappTemplateDetailsEditor id={template._id} />
         </Card>
       </Form>
     </Header>
-  )
+  );
 }
 
-export default WhatsappTemplateEditor
+export default WhatsappTemplateEditor;

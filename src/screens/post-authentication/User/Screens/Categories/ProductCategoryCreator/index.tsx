@@ -8,9 +8,10 @@ import {
   Row,
   Skeleton,
   Spin,
-  Tag
-} from 'antd'
-import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
+  Tag,
+  message,
+} from "antd";
+import { Constants, Enum, Types, Utils } from "@adewaskar/lms-common";
 import {
   ExportOutlined,
   InfoCircleOutlined,
@@ -19,58 +20,50 @@ import {
   SafetyCertificateOutlined,
   SaveOutlined,
   UploadOutlined,
-  UserOutlined
-} from '@ant-design/icons'
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from '@Router/index'
+  UserOutlined,
+} from "@ant-design/icons";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "@Router/index";
 
-import ActionDrawer from '@Components/ActionDrawer'
-import BackButton from '@Components/BackButton'
-import ProductCategoryInformationEditor from './ProductCategoryInformation'
-import Tabs from '@Components/Tabs'
-import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-import useBreakpoint from '@Hooks/useBreakpoint'
-import useMessage from '@Hooks/useMessage'
+import ActionDrawer from "@Components/ActionDrawer";
+import BackButton from "@Components/BackButton";
+import ProductCategoryInformationEditor from "./ProductCategoryInformation";
+import Tabs from "@Components/Tabs";
+import { User } from "@adewaskar/lms-common";
+import dayjs from "dayjs";
+import useBreakpoint from "@Hooks/useBreakpoint";
+import useMessage from "@Hooks/useMessage";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 function ProductCategoryEditor() {
-  const message = useMessage()
-  const [form] = Form.useForm()
-  const { id } = useParams()
-  const productCategoryId = id + ''
+  const [form] = Form.useForm();
+  const { id } = useParams();
+  const productCategoryId = id + "";
 
-  const {
-    mutate: updateProductCategoryApi,
-    isLoading: updatingCategory
-  } = User.Queries.useUpdateProductCategory()
+  const { mutate: updateProductCategoryApi, isLoading: updatingCategory } =
+    User.Queries.useUpdateProductCategory();
 
-  const {
-    data: productCategoryDetails,
-    isFetching: loadingProductCategory
-  } = User.Queries.useGetProductCategoryDetails(productCategoryId, {
-    enabled: !!productCategoryId
-  })
-  console.log(productCategoryDetails, 'productCategoryId')
+  const { data: productCategoryDetails, isFetching: loadingProductCategory } =
+    User.Queries.useGetProductCategoryDetails(productCategoryId, {
+      enabled: !!productCategoryId,
+    });
+  console.log(productCategoryDetails, "productCategoryId");
 
-  useEffect(
-    () => {
-      const i = { ...productCategoryDetails }
-      // @ts-ignore
-      i.info.updates = i.info.updates.map(ii => {
-        return {
-          ...ii,
-          date: dayjs(ii.date)
-        }
-      })
-      form.setFieldsValue(i)
-    },
-    [productCategoryDetails, form]
-  )
+  useEffect(() => {
+    const i = { ...productCategoryDetails };
+    // @ts-ignore
+    i.info.updates = i.info.updates.map((ii) => {
+      return {
+        ...ii,
+        date: dayjs(ii.date),
+      };
+    });
+    form.setFieldsValue(i);
+  }, [productCategoryDetails, form]);
 
   const updateProductCategory = (e: Types.ProductCategory) => {
-    console.log(e, 'eeee')
+    console.log(e, "eeee");
     updateProductCategoryApi(
       {
         id: productCategoryId,
@@ -79,38 +72,39 @@ function ProductCategoryEditor() {
           ...e,
           info: {
             ...productCategoryDetails.info,
-            ...e.info
-          }
-        }
+            ...e.info,
+          },
+        },
       },
       {
         onSuccess: () => {
           message.open({
-            type: 'success',
-            content: 'Saved'
-          })
-        }
+            type: "success",
+            content: "Saved",
+          });
+        },
       }
-    )
-  }
+    );
+  };
 
-  const navigate = useNavigate()
-  const { isMobile } = useBreakpoint()
+  const navigate = useNavigate();
+  const { isMobile } = useBreakpoint();
   const MainNavTabs = (
     <Tabs
       destroyInactiveTabPane={false}
       navigateWithHash
-      tabPosition={'left'}
-      style={{ minHeight: '100vh' }}
+      tabPosition={"left"}
+      style={{ minHeight: "100vh" }}
       items={[
         {
           label: (
             <span>
-              <InfoCircleOutlined />Information
+              <InfoCircleOutlined />
+              Information
             </span>
           ),
-          key: 'information',
-          children: <ProductCategoryInformationEditor />
+          key: "information",
+          children: <ProductCategoryInformationEditor />,
         },
         // {
         //   label: (
@@ -136,11 +130,12 @@ function ProductCategoryEditor() {
         {
           label: (
             <span>
-              <SafetyCertificateOutlined />Certificate
+              <SafetyCertificateOutlined />
+              Certificate
             </span>
           ),
-          key: 'certificate',
-          children: null
+          key: "certificate",
+          children: null,
           //   (
           //   <ProductCategoryCertificate
           //     productCategoryId={productCategory._id}
@@ -148,10 +143,10 @@ function ProductCategoryEditor() {
           //     saveProductCategory={saveProductCategory}
           //   />
           // )
-        }
+        },
       ]}
     />
-  )
+  );
   return (
     <Spin spinning={false}>
       <Row gutter={[20, 20]}>
@@ -162,7 +157,7 @@ function ProductCategoryEditor() {
                 <BackButton
                   // disabled={!test.category}
                   onClick={() => navigate(`../app/products/category`)}
-                />{' '}
+                />{" "}
                 Edit Category
               </span>
             }
@@ -189,7 +184,7 @@ function ProductCategoryEditor() {
                 icon={<SaveOutlined />}
               >
                 Save
-              </Button>
+              </Button>,
               //   isMobile?<ActionDrawer cta={<Button icon={<MenuOutlined/>}></Button>}>
               //   {MainNavTabs}
               // </ActionDrawer>:null
@@ -210,7 +205,7 @@ function ProductCategoryEditor() {
         </Col> */}
       </Row>
     </Spin>
-  )
+  );
 }
 
-export default ProductCategoryEditor
+export default ProductCategoryEditor;

@@ -8,46 +8,40 @@ import {
   Space,
   Spin,
   Table,
-  Upload
-} from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+  Upload,
+  message,
+} from "antd";
+import { Types, User } from "@adewaskar/lms-common";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AudioPlayer from '@Components/AudioPlayer'
-import Header from '@Components/Header'
-import MoreButton from '@Components/MoreButton'
-import NewsDetailScreen from './NewsDetailScreen'
-import NewsStatusTag from './NewsStatusTag'
-import { NotificationOutlined } from '@ant-design/icons'
-import React from 'react'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import AudioPlayer from "@Components/AudioPlayer";
+import Header from "@Components/Header";
+import MoreButton from "@Components/MoreButton";
+import NewsDetailScreen from "./NewsDetailScreen";
+import NewsStatusTag from "./NewsStatusTag";
+import { NotificationOutlined } from "@ant-design/icons";
+import React from "react";
 // import PDFViewer from '@Components/PDFViewer'
-import UploadNews from './UploadNews'
-import dayjs from 'dayjs'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import UploadNews from "./UploadNews";
+import dayjs from "dayjs";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
-const PDFViewer = React.lazy(() => import('@Components/PDFViewer'))
-const { confirm } = Modal
+const PDFViewer = React.lazy(() => import("@Components/PDFViewer"));
+const { confirm } = Modal;
 
 export default function NewsScreen() {
-  const {
-    mutate: summarizeNews,
-    isLoading: summarizing
-  } = User.Queries.useSummarizeNews()
+  const { mutate: summarizeNews, isLoading: summarizing } =
+    User.Queries.useSummarizeNews();
 
-  const {
-    mutate: notifyUsers,
-    isLoading: notifying
-  } = User.Queries.useNotifyNews()
+  const { mutate: notifyUsers, isLoading: notifying } =
+    User.Queries.useNotifyNews();
 
-  const { data, isLoading: loadingNews } = User.Queries.useGetNews()
-  const {
-    mutate: deleteNews,
-    isLoading: deletingNews
-  } = User.Queries.useDeleteNews()
-  const { openModal } = useModal()
-  const message = useMessage()
-  console.log(data, 'ddd')
+  const { data, isLoading: loadingNews } = User.Queries.useGetNews();
+  const { mutate: deleteNews, isLoading: deletingNews } =
+    User.Queries.useDeleteNews();
+  const { openModal } = useModal();
+  console.log(data, "ddd");
   return (
     <Header
       title="News"
@@ -63,7 +57,7 @@ export default function NewsScreen() {
       <Row>
         <Col span={24}>
           <Card>
-            {' '}
+            {" "}
             <Spin spinning={loadingNews || deletingNews}>
               {/* @ts-ignore */}
               <Table dataSource={data}>
@@ -73,7 +67,7 @@ export default function NewsScreen() {
                   key="date"
                   render={(_: any, record: Types.News) => (
                     <Space size="middle">
-                      {dayjs(record.date).format('LL')}
+                      {dayjs(record.date).format("LL")}
                     </Space>
                   )}
                 />
@@ -92,11 +86,11 @@ export default function NewsScreen() {
                               width: 700,
                               lazy: true,
                               title: `News Paper: ${dayjs(record.date).format(
-                                'LL'
-                              )}`
-                            })
-                          }
-                        }
+                                "LL"
+                              )}`,
+                            });
+                          },
+                        };
                       })}
                     />
                   )}
@@ -129,68 +123,68 @@ export default function NewsScreen() {
                     <MoreButton
                       items={[
                         {
-                          label: 'Notify Everyone',
-                          key: 'notify',
+                          label: "Notify Everyone",
+                          key: "notify",
                           icon: <NotificationOutlined />,
                           onClick: () => {
                             if (record?.audio?.url) {
                               confirm({
-                                title: 'Are you sure to notify everyone?',
+                                title: "Are you sure to notify everyone?",
                                 // icon: <ExclamationCircleOutlined />,
                                 content: `Please listen to the audio once, only then send it`,
                                 onOk() {
                                   notifyUsers(
                                     {
-                                      id: record._id + ''
+                                      id: record._id + "",
                                     },
                                     {
                                       onSuccess: () => {
                                         message.open({
-                                          type: 'success',
-                                          content: 'Notifications Sent'
-                                        })
-                                      }
+                                          type: "success",
+                                          content: "Notifications Sent",
+                                        });
+                                      },
                                     }
-                                  )
+                                  );
                                 },
-                                okText: 'Yes, Notify'
-                              })
+                                okText: "Yes, Notify",
+                              });
                             } else {
                               message.open({
-                                type: 'error',
-                                content: 'No Audio Found, Please refresh page'
-                              })
+                                type: "error",
+                                content: "No Audio Found, Please refresh page",
+                              });
                             }
-                          }
+                          },
                         },
 
                         {
-                          label: 'Generate Summary',
+                          label: "Generate Summary",
                           onClick: () =>
                             summarizeNews(
-                              { id: record._id + '' },
+                              { id: record._id + "" },
                               {
                                 onSuccess: () => {
                                   message.open({
-                                    type: 'success',
-                                    content: 'Summaring Initiated'
-                                  })
-                                }
+                                    type: "success",
+                                    content: "Summaring Initiated",
+                                  });
+                                },
                               }
                             ),
-                          key: 'summarize'
+                          key: "summarize",
                         },
                         {
-                          label: 'View Summary',
+                          label: "View Summary",
                           onClick: () =>
                             openModal(<NewsDetailScreen data={record} />, {
-                              title: `${dayjs(record.date).format('LL')} news`,
-                              width: 700
+                              title: `${dayjs(record.date).format("LL")} news`,
+                              width: 700,
                             }),
-                          key: 'view'
+                          key: "view",
                         },
                         {
-                          label: 'Delete News',
+                          label: "Delete News",
                           onClick: () => {
                             confirm({
                               title: `Are you sure?`,
@@ -199,23 +193,23 @@ export default function NewsScreen() {
                               onOk() {
                                 deleteNews(
                                   {
-                                    id: record._id + ''
+                                    id: record._id + "",
                                   },
                                   {
                                     onSuccess: () => {
                                       message.open({
-                                        type: 'success',
-                                        content: 'News Delete Successfully'
-                                      })
-                                    }
+                                        type: "success",
+                                        content: "News Delete Successfully",
+                                      });
+                                    },
                                   }
-                                )
+                                );
                               },
-                              okText: 'Delete'
-                            })
+                              okText: "Delete",
+                            });
                           },
-                          key: 'delete'
-                        }
+                          key: "delete",
+                        },
                         // {
                         //   label: 'Edit Category',
                         //   onClick: () =>
@@ -234,5 +228,5 @@ export default function NewsScreen() {
         </Col>
       </Row>
     </Header>
-  )
+  );
 }

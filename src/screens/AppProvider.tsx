@@ -1,20 +1,12 @@
-import { ConfigProvider, message } from 'antd'
-import { Learner, User } from '@adewaskar/lms-common'
-import useMessage, { MessageContext } from '@Hooks/useMessage'
+import { ConfigProvider, message } from "antd";
+import { Learner, User } from "@adewaskar/lms-common";
+import useMessage, { MessageContext } from "@Hooks/useMessage";
 
-import { ModalProvider } from '@Components/ActionModal/ModalContext'
-import ThemeProvider from './ThemeProvider'
+import { ModalProvider } from "@Components/ActionModal/ModalContext";
+import ThemeProvider from "./ThemeProvider";
 
 function AppProvider(props: any) {
-  const [messageApi, context] = message.useMessage()
-  return (
-    <MessageContext.Provider value={messageApi}>
-      <ModalProvider>
-        {context}
-        {props.children}
-      </ModalProvider>
-    </MessageContext.Provider>
-  )
+  return <ModalProvider>{props.children}</ModalProvider>;
 }
 
-export default AppProvider
+export default AppProvider;

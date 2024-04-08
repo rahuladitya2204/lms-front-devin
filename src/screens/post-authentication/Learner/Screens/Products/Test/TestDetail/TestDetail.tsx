@@ -399,7 +399,6 @@ const TestCard = ({
     }
   }, [test, enrolledDetails, status]);
   const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
-  const message = useMessage();
   const { isMobile, isDesktop, isTablet } = useBreakpoint();
   const isFree = plan.type === "free";
   const isLoading = loadingTest;

@@ -1,30 +1,29 @@
-import { Button, Card, Col, Form, Row, Space, Table } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Form, Row, Space, Table } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CreatePlan from '@User/Screens/ExtraComponents/CreatePlan'
-import { Fragment } from 'react'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import CreatePlan from "@User/Screens/ExtraComponents/CreatePlan";
+import { Fragment } from "react";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
 
 interface PackagePricingPropsI {
   packageId: string;
 }
 
 function PackagePricing(props: PackagePricingPropsI) {
-  const message = useMessage()
   const { data, isFetching: loading } = User.Queries.useGetProductPlans(
     props.packageId
-  )
+  );
   return (
     <Fragment>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'Pricing Plan'}
+        title={"Pricing Plan"}
         extra={
           <ActionModal cta={<Button>Add Plan</Button>}>
-            <CreatePlan product={{ type: 'package', id: props.packageId }} />
+            <CreatePlan product={{ type: "package", id: props.packageId }} />
           </ActionModal>
         }
       >
@@ -36,9 +35,9 @@ function PackagePricing(props: PackagePricingPropsI) {
               <Table.Column
                 title="Listing Price"
                 render={(text, record: Types.Plan) => {
-                  return record.type !== 'free'
+                  return record.type !== "free"
                     ? `₹${record?.displayPrice?.value}`
-                    : ''
+                    : "";
                 }}
                 dataIndex="displayPrice.value"
                 key="displayPrice.value"
@@ -46,9 +45,9 @@ function PackagePricing(props: PackagePricingPropsI) {
               <Table.Column
                 title="Final Price"
                 render={(text, record: Types.Plan) => {
-                  return record.type !== 'free'
+                  return record.type !== "free"
                     ? `₹${record.finalPrice.value}`
-                    : ''
+                    : "";
                 }}
                 dataIndex="finalPrice.value"
                 key="finalPrice.value"
@@ -60,7 +59,7 @@ function PackagePricing(props: PackagePricingPropsI) {
                   <Space size="middle">
                     <ActionModal cta={<EditOutlined />}>
                       <CreatePlan
-                        product={{ type: 'package', id: props.packageId }}
+                        product={{ type: "package", id: props.packageId }}
                         plan={record}
                       />
                     </ActionModal>
@@ -73,7 +72,7 @@ function PackagePricing(props: PackagePricingPropsI) {
         </Row>
       </Card>
     </Fragment>
-  )
+  );
 }
 
-export default PackagePricing
+export default PackagePricing;

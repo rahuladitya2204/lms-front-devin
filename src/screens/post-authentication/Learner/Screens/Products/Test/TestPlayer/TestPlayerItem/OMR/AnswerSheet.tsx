@@ -14,6 +14,7 @@ import {
   Space,
   Spin,
   Typography,
+  message,
 } from "antd";
 import { Enum, Learner, Store } from "@adewaskar/lms-common";
 import OMRComponent, { OMRSKeleton } from "./OMRComponent";
@@ -66,7 +67,6 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   } = Learner.Queries.useGetTestResult(testId, {
     enabled: !!ep?.metadata?.test.endedAt,
   });
-  const message = useMessage();
   const { mutate: startTest, isLoading: startingTest } =
     Learner.Queries.useStartTest(testId + "");
   const allLoading = loadingTest || loadingEnrolledProduct;

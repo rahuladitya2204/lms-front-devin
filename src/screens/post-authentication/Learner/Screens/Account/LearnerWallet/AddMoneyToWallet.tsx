@@ -1,12 +1,12 @@
-import { Button, Col, Form, Input, Row } from 'antd'
-import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Button, Col, Form, Input, Row, message } from "antd";
+import { Constants, Learner, Types, Utils } from "@adewaskar/lms-common";
 
-import CoinImage from './CoinImage'
-import Title from 'antd/es/typography/Title'
-import { Typography } from '@Components/Typography'
-import { useEffect } from 'react'
-import useMessage from '@Hooks/useMessage'
-import { usePaymentCheckout } from '@Hooks/CommonHooks'
+import CoinImage from "./CoinImage";
+import Title from "antd/es/typography/Title";
+import { Typography } from "@Components/Typography";
+import { useEffect } from "react";
+import useMessage from "@Hooks/useMessage";
+import { usePaymentCheckout } from "@Hooks/CommonHooks";
 
 interface AddMoneyToWalletPropsI {
   closeModal?: Function;
@@ -14,61 +14,57 @@ interface AddMoneyToWalletPropsI {
   onSucces?: () => void;
 }
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
-  const message = useMessage()
-  const { data: learner } = Learner.Queries.useGetLearnerDetails()
-  const [form] = Form.useForm()
-  useEffect(
-    () => {
-      if (props.amount) form.setFieldsValue({ value: props.amount.value })
-    },
-    [props.amount?.value]
-  )
-  const { addMoney, isLoading } = useCreateWallterOrder()
+  const { data: learner } = Learner.Queries.useGetLearnerDetails();
+  const [form] = Form.useForm();
+  useEffect(() => {
+    if (props.amount) form.setFieldsValue({ value: props.amount.value });
+  }, [props.amount?.value]);
+  const { addMoney, isLoading } = useCreateWallterOrder();
   const onSubmit = (data: { value: number }) => {
     if (data.value === 0) {
-      return
+      return;
     }
-    const amount = { value: data.value, unit: Constants.DEFAULT_CURRENCY }
+    const amount = { value: data.value, unit: Constants.DEFAULT_CURRENCY };
     addMoney({
       amount: amount,
       onSuccess: () => {
         message.open({
-          type: 'success',
+          type: "success",
           content: `Recharge of ${Utils.UnitTypeToStr(amount)} was successful`,
-          particle: true
-        })
-        props.onSucces && props.onSucces()
-        props.closeModal && props.closeModal()
-      }
-    })
-  }
+          particle: true,
+        });
+        props.onSucces && props.onSucces();
+        props.closeModal && props.closeModal();
+      },
+    });
+  };
   return (
-    <Row justify={'center'} align={'middle'}>
-      <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
+    <Row justify={"center"} align={"middle"}>
+      <Col span={24} style={{ display: "flex", justifyContent: "center" }}>
         <CoinImage width={50} />
       </Col>
       <Col span={24}>
         <Form onFinish={onSubmit} layout="vertical" form={form}>
           <Title
             level={3}
-            style={{ textAlign: 'center', marginTop: 10, marginBottom: 15 }}
+            style={{ textAlign: "center", marginTop: 10, marginBottom: 15 }}
           >
             Recharge Wallet
           </Title>
           <Form.Item
-            style={{ display: 'flex', justifyContent: 'center' }}
+            style={{ display: "flex", justifyContent: "center" }}
             name="value"
             rules={[
               {
                 required: true,
-                message: 'Please enter a value'
-              }
+                message: "Please enter a value",
+              },
             ]}
           >
-            <Row align={'middle'}>
+            <Row align={"middle"}>
               <Col style={{ width: 15 }}>
                 <Text style={{ fontSize: 20, marginRight: 10 }}>
                   {/* @ts-ignore */}
@@ -91,36 +87,31 @@ const AddMoneyToWallet = (props: AddMoneyToWalletPropsI) => {
         </Form>
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default AddMoneyToWallet
+export default AddMoneyToWallet;
 
 export const useCreateWallterOrder = () => {
-  const message = useMessage()
-  const {
-    mutate: createOrder,
-    isLoading: creatingWalletOrder
-  } = Learner.Queries.useCreateWalletOrder()
-  const {
-    mutate: updatePaymentOrder,
-    isLoading: updatingPaymentOrder
-  } = Learner.Queries.useUpdateOrderStatus()
-  const { openCheckout } = usePaymentCheckout()
+  const { mutate: createOrder, isLoading: creatingWalletOrder } =
+    Learner.Queries.useCreateWalletOrder();
+  const { mutate: updatePaymentOrder, isLoading: updatingPaymentOrder } =
+    Learner.Queries.useUpdateOrderStatus();
+  const { openCheckout } = usePaymentCheckout();
 
   const addMoney = ({
     amount,
-    onSuccess
+    onSuccess,
   }: {
-    amount: Types.ValueUnitType,
-    onSuccess: Function
+    amount: Types.ValueUnitType;
+    onSuccess: Function;
   }) => {
     createOrder(
       {
         data: {
           value: amount.value,
-          unit: Constants.DEFAULT_CURRENCY
-        }
+          unit: Constants.DEFAULT_CURRENCY,
+        },
       },
       {
         onSuccess: ({ pgOrder, order }: any) => {
@@ -128,39 +119,39 @@ export const useCreateWallterOrder = () => {
             return updatePaymentOrder(
               {
                 orderId: order._id,
-                status: 'successful',
-                data: {}
+                status: "successful",
+                data: {},
               },
               {
                 onSuccess: () => {
                   message.open({
-                    type: 'success',
-                    content: 'Money added succesfully'
-                  })
-                  onSuccess && onSuccess()
-                }
+                    type: "success",
+                    content: "Money added succesfully",
+                  });
+                  onSuccess && onSuccess();
+                },
               }
-            )
+            );
           }
           openCheckout({ pgOrder, order }, (payment: any) => {
             updatePaymentOrder(
               {
                 orderId: order._id,
-                status: 'successful',
-                data: payment
+                status: "successful",
+                data: payment,
               },
               {
-                onSuccess: () => onSuccess && onSuccess()
+                onSuccess: () => onSuccess && onSuccess(),
               }
-            )
-          })
-        }
+            );
+          });
+        },
       }
-    )
-  }
+    );
+  };
 
   return {
     addMoney,
-    isLoading: creatingWalletOrder || updatingPaymentOrder
-  }
-}
+    isLoading: creatingWalletOrder || updatingPaymentOrder,
+  };
+};

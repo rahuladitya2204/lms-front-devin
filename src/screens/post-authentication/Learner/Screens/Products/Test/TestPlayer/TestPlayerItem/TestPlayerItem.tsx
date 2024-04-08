@@ -62,7 +62,6 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     Learner.Queries.useUpdateQuestionResponseFlag(testId + "");
   const { token } = theme.useToken();
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
-  const message = useMessage();
   const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
     type: Enum.ProductType.TEST,
     id: testId + "",

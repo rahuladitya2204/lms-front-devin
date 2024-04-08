@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Modal, Row, Spin, Tag } from 'antd'
+import { Button, Card, Col, Form, Modal, Row, Spin, Tag, message } from "antd";
 import {
   ClockCircleOutlined,
   EyeOutlined,
@@ -9,78 +9,70 @@ import {
   SettingOutlined,
   ToolOutlined,
   UploadOutlined,
-  UserOutlined
-} from '@ant-design/icons'
-import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
-import { Fragment, useEffect, useState } from 'react'
-import { useNavigate, useParams } from '@Router/index'
-import AppProvider from 'screens/AppProvider'
-import BackButton from '@Components/BackButton'
-import { Course } from '@adewaskar/lms-common/lib/cjs/types/types/Courses.types'
-import CourseCertificate from './CourseInformation/CourseAdvancedSettings/CourseCertificate/CourseCertificateScreen'
-import CourseDrip from './CourseDrip/CourseDrip'
-import CourseInformationEditor from './CourseInformation'
-import CourseLearners from './CourseLearners/CourseLearners'
-import Tabs from '@Components/Tabs'
-import { User } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
+  UserOutlined,
+} from "@ant-design/icons";
+import { Constants, Enum, Types, Utils } from "@adewaskar/lms-common";
+import { Fragment, useEffect, useState } from "react";
+import { useNavigate, useParams } from "@Router/index";
+import AppProvider from "screens/AppProvider";
+import BackButton from "@Components/BackButton";
+import { Course } from "@adewaskar/lms-common/lib/cjs/types/types/Courses.types";
+import CourseCertificate from "./CourseInformation/CourseAdvancedSettings/CourseCertificate/CourseCertificateScreen";
+import CourseDrip from "./CourseDrip/CourseDrip";
+import CourseInformationEditor from "./CourseInformation";
+import CourseLearners from "./CourseLearners/CourseLearners";
+import Tabs from "@Components/Tabs";
+import { User } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 function CourseEditor() {
-  const message = useMessage()
-  const { id } = useParams()
-  const courseId = id + ''
-  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS)
+  const { id } = useParams();
+  const courseId = id + "";
+  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
 
-  const {
-    mutate: updateCourseApi,
-    isLoading: loading
-  } = User.Queries.useUpdateCourse()
+  const { mutate: updateCourseApi, isLoading: loading } =
+    User.Queries.useUpdateCourse();
 
   const { data: courseDetails } = User.Queries.useGetCourseDetails(courseId, {
-    enabled: !!courseId
-  })
+    enabled: !!courseId,
+  });
 
-  const {
-    mutate: publishCourse,
-    isLoading: publishingCourse
-  } = User.Queries.usePublishCourse()
+  const { mutate: publishCourse, isLoading: publishingCourse } =
+    User.Queries.usePublishCourse();
 
-  useEffect(
-    () => {
-      setCourse(courseDetails)
-    },
-    [courseDetails]
-  )
+  useEffect(() => {
+    setCourse(courseDetails);
+  }, [courseDetails]);
 
   const saveCourse = (e: Partial<Course>) => {
     setCourse({
       ...course,
-      ...e
-    })
-  }
+      ...e,
+    });
+  };
   const updateCourse = () => {
     updateCourseApi(
       {
         id: courseId,
-        data: course
+        data: course,
       },
       {
         onSuccess: () => {
           message.open({
-            type: 'success',
-            content: 'Saved'
-          })
-        }
+            type: "success",
+            content: "Saved",
+          });
+        },
       }
-    )
-  }
+    );
+  };
 
   const validateDraftCourse = () => {
-    return course.title
-  }
-  const navigate = useNavigate()
+    return course.title;
+  };
+  const navigate = useNavigate();
   return (
     <AppProvider>
       <Spin spinning={publishingCourse}>
@@ -91,7 +83,7 @@ function CourseEditor() {
                 <span>
                   <BackButton
                     onClick={() => navigate(`../app/products/courses`)}
-                  />{' '}
+                  />{" "}
                   {course.title}
                 </span>
               }
@@ -102,7 +94,7 @@ function CourseEditor() {
                   <Button
                     style={{ marginRight: 10 }}
                     onClick={() => {
-                      navigate(`../app/products/courses/${course._id}/builder`)
+                      navigate(`../app/products/courses/${course._id}/builder`);
                     }}
                   >
                     Go to Course Builder
@@ -112,16 +104,16 @@ function CourseEditor() {
                     disabled={!Utils.validatePublishCourse(course)}
                     onClick={() => {
                       confirm({
-                        title: 'Are you sure?',
+                        title: "Are you sure?",
                         content: `You want to publish this course?`,
                         onOk() {
-                          console.log(course, 'course')
+                          console.log(course, "course");
                           publishCourse({
-                            courseId: course._id
-                          })
+                            courseId: course._id,
+                          });
                         },
-                        okText: 'Yes, Publish'
-                      })
+                        okText: "Yes, Publish",
+                      });
                     }}
                     style={{ marginRight: 15 }}
                     icon={<UploadOutlined />}
@@ -137,28 +129,29 @@ function CourseEditor() {
                   icon={<SaveOutlined />}
                 >
                   Save as draft
-                </Button>
+                </Button>,
               ]}
             >
               <Tabs
                 navigateWithHash
-                tabPosition={'left'}
-                style={{ minHeight: '100vh' }}
+                tabPosition={"left"}
+                style={{ minHeight: "100vh" }}
                 items={[
                   {
                     label: (
                       <span>
-                        <InfoCircleOutlined />Information
+                        <InfoCircleOutlined />
+                        Information
                       </span>
                     ),
-                    key: 'information',
+                    key: "information",
                     children: (
                       <CourseInformationEditor
                         saveCourse={saveCourse}
                         course={course}
                         courseId={courseId}
                       />
-                    )
+                    ),
                   },
                   // {
                   //   label: (
@@ -185,38 +178,41 @@ function CourseEditor() {
                   {
                     label: (
                       <span>
-                        <ClockCircleOutlined />Drip
+                        <ClockCircleOutlined />
+                        Drip
                       </span>
                     ),
-                    key: 'drip',
+                    key: "drip",
                     children: (
                       <CourseDrip saveCourse={saveCourse} course={course} />
-                    )
+                    ),
                   },
                   {
                     label: (
                       <span>
-                        <UserOutlined />Learners
+                        <UserOutlined />
+                        Learners
                       </span>
                     ),
-                    key: 'learners',
-                    children: <CourseLearners courseId={course._id} />
+                    key: "learners",
+                    children: <CourseLearners courseId={course._id} />,
                   },
                   {
                     label: (
                       <span>
-                        <SafetyCertificateOutlined />Certificate
+                        <SafetyCertificateOutlined />
+                        Certificate
                       </span>
                     ),
-                    key: 'certificate',
+                    key: "certificate",
                     children: (
                       <CourseCertificate
                         courseId={course._id}
                         course={course}
                         saveCourse={saveCourse}
                       />
-                    )
-                  }
+                    ),
+                  },
                 ]}
               />
             </Card>
@@ -227,7 +223,7 @@ function CourseEditor() {
         </Row>
       </Spin>
     </AppProvider>
-  )
+  );
 }
 
-export default CourseEditor
+export default CourseEditor;

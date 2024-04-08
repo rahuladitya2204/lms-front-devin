@@ -1,53 +1,47 @@
-import { Button, Card, Form, Tabs } from 'antd'
-import { Fragment, useEffect } from 'react'
-import { Outlet } from 'react-router'
-import { useParams } from '@Router/index'
+import { Button, Card, Form, Tabs, message } from "antd";
+import { Fragment, useEffect } from "react";
+import { Outlet } from "react-router";
+import { useParams } from "@Router/index";
 
-import Header from '@User/Screens/UserRoot/UserHeader'
-import { Types } from '@adewaskar/lms-common'
-import { UploadOutlined } from '@ant-design/icons'
-import { User } from '@adewaskar/lms-common'
-import UserDetailsEditor from './UserDetailsEditor'
-import useMessage from '@Hooks/useMessage'
+import Header from "@User/Screens/UserRoot/UserHeader";
+import { Types } from "@adewaskar/lms-common";
+import { UploadOutlined } from "@ant-design/icons";
+import { User } from "@adewaskar/lms-common";
+import UserDetailsEditor from "./UserDetailsEditor";
+import useMessage from "@Hooks/useMessage";
 
 function UserEditor() {
-  const message = useMessage()
-  const { id: userId } = useParams()
-  const [form] = Form.useForm()
-  const {
-    mutate: updateUser,
-    isLoading: loading
-  } = User.Queries.useUpdateUser()
+  const { id: userId } = useParams();
+  const [form] = Form.useForm();
+  const { mutate: updateUser, isLoading: loading } =
+    User.Queries.useUpdateUser();
 
   const { data: user } = User.Queries.useGetAppUserDetails(
-    userId + ''
+    userId + ""
     // {
     //   enabled: !!userId
     // }
-  )
-  useEffect(
-    () => {
-      form.setFieldsValue(user)
-    },
-    [user]
-  )
+  );
+  useEffect(() => {
+    form.setFieldsValue(user);
+  }, [user]);
 
   const saveUser = (data: Partial<Types.User>) => {
     updateUser(
       {
-        id: userId + '',
-        data
+        id: userId + "",
+        data,
       },
       {
         onSuccess: () => {
           message.open({
-            type: 'success',
-            content: 'Saved'
-          })
-        }
+            type: "success",
+            content: "Saved",
+          });
+        },
       }
-    )
-  }
+    );
+  };
 
   return (
     <Header
@@ -62,7 +56,7 @@ function UserEditor() {
           >
             Save User
           </Button>
-        </Fragment>
+        </Fragment>,
       ]}
     >
       <Form
@@ -77,26 +71,26 @@ function UserEditor() {
             items={[
               {
                 label: `Profile Details`,
-                key: '1',
+                key: "1",
                 children: (
                   <UserDetailsEditor saveUser={saveUser} userId={user._id} />
-                )
+                ),
               },
               {
                 label: `Courses`,
-                key: '2',
-                children: `Content of Tab Pane 2`
+                key: "2",
+                children: `Content of Tab Pane 2`,
               },
               {
                 label: `Purchase History`,
-                key: '3',
-                children: `Content of Tab Pane 3`
+                key: "3",
+                children: `Content of Tab Pane 3`,
               },
               {
                 label: `Advanced`,
-                key: '4',
-                children: `Content of Tab Pane 3`
-              }
+                key: "4",
+                children: `Content of Tab Pane 3`,
+              },
             ]}
           />
 
@@ -104,7 +98,7 @@ function UserEditor() {
         </Card>
       </Form>
     </Header>
-  )
+  );
 }
 
-export default UserEditor
+export default UserEditor;

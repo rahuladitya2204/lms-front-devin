@@ -1,38 +1,37 @@
-import { Button, Form, Input, Modal, Select } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
-import React, { ReactNode } from 'react'
+import { Button, Form, Input, message, Modal, Select } from "antd";
+import { Learner, Types } from "@adewaskar/lms-common";
+import React, { ReactNode } from "react";
 
-import { User } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
-import { useNavigate } from '@Router/index'
+import { User } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
+import { useNavigate } from "@Router/index";
 
 interface CreateCourseComponentPropsI {
   children?: ReactNode;
   closeModal?: any;
 }
 
-const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
-  const navigate = useNavigate()
-  const message = useMessage()
-  const {
-    mutate: createCourse,
-    isLoading: loading
-  } = User.Queries.useCreateCourse()
-  const [form] = Form.useForm()
+const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = (
+  props
+) => {
+  const navigate = useNavigate();
+  const { mutate: createCourse, isLoading: loading } =
+    User.Queries.useCreateCourse();
+  const [form] = Form.useForm();
 
   const onSubmit = (e: Types.Course) => {
-    console.log('Helo')
+    console.log("Helo");
     createCourse(e, {
-      onSuccess: course => {
-        navigate(`${course._id}/editor#information`)
+      onSuccess: (course) => {
+        navigate(`${course._id}/editor#information`);
         message.open({
-          type: 'success',
-          content: 'Have fun creating a course!'
-        })
-        props.closeModal && props.closeModal()
-      }
-    })
-  }
+          type: "success",
+          content: "Have fun creating a course!",
+        });
+        props.closeModal && props.closeModal();
+      },
+    });
+  };
 
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical">
@@ -41,7 +40,7 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
         label="Title"
         required
         tooltip="Title of your course"
-        rules={[{ required: true, message: 'Please mention title for course' }]}
+        rules={[{ required: true, message: "Please mention title for course" }]}
       >
         <Input placeholder="Enter your course title" />
       </Form.Item>
@@ -54,7 +53,7 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = props => {
         Submit
       </Button>
     </Form>
-  )
-}
+  );
+};
 
-export default CreateCourseComponent
+export default CreateCourseComponent;

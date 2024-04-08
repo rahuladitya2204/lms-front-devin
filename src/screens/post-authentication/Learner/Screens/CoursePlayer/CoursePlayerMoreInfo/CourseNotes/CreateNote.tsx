@@ -7,16 +7,17 @@ import {
   Row,
   Space,
   Tag,
-  Typography
-} from 'antd'
-import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
-import React, { useEffect, useState } from 'react'
+  Typography,
+  message,
+} from "antd";
+import { Constants, Learner, Store, Types } from "@adewaskar/lms-common";
+import React, { useEffect, useState } from "react";
 
-import TextArea from '@Components/Textarea'
-import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import useMessage from '@Hooks/useMessage'
+import TextArea from "@Components/Textarea";
+import { formatSeconds } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import useMessage from "@Hooks/useMessage";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 interface CourseNotesPropsI {
   courseId: string;
@@ -24,74 +25,68 @@ interface CourseNotesPropsI {
   item: string;
   selectedNote?: Types.CourseNote;
 }
-const CreateNote: React.FC<CourseNotesPropsI> = props => {
-  const message = useMessage()
-  const {
-    mutate: createNote,
-    isLoading: savingNote
-  } = Learner.Queries.useCreateNote()
-  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
-  const { mutate: updateNote } = Learner.Queries.useUpdateNote()
-  const { currentTime } = Store.usePlayer((s: any) => s.state)
-  const time = formatSeconds(props.selectedNote?.time || currentTime)
+const CreateNote: React.FC<CourseNotesPropsI> = (props) => {
+  const { mutate: createNote, isLoading: savingNote } =
+    Learner.Queries.useCreateNote();
+  const playerInstance = Store.usePlayer((s) => s.state.playerInstance);
+  const { mutate: updateNote } = Learner.Queries.useUpdateNote();
+  const { currentTime } = Store.usePlayer((s: any) => s.state);
+  const time = formatSeconds(props.selectedNote?.time || currentTime);
   // console.log(currentTime, 'currentTime')
   const onSave = (data: Partial<Types.CourseNote>) => {
     const note = {
-      content: data.content + '',
+      content: data.content + "",
       time: currentTime,
-      item: props.item
-    }
+      item: props.item,
+    };
     if (props.selectedNote) {
       updateNote(
         {
           courseId: props.courseId,
           // @ts-ignore
           data: {
-            content: note.content
+            content: note.content,
           },
-          noteId: props.selectedNote._id + ''
+          noteId: props.selectedNote._id + "",
         },
         {
-          onSuccess: r => {
+          onSuccess: (r) => {
             message.open({
-              type: 'success',
-              content: 'Note Updated'
-            })
-            form.resetFields()
-            props.onFinish && props.onFinish(r)
-          }
+              type: "success",
+              content: "Note Updated",
+            });
+            form.resetFields();
+            props.onFinish && props.onFinish(r);
+          },
         }
-      )
+      );
     } else {
       createNote(
         {
           courseId: props.courseId,
-          data: note
+          data: note,
         },
         {
-          onSuccess: r => {
+          onSuccess: (r) => {
             message.open({
-              type: 'success',
-              content: `Note Created at ${formatSeconds(note.time)}`
-            })
-            form.resetFields()
-            props.onFinish && props.onFinish(r)
-          }
+              type: "success",
+              content: `Note Created at ${formatSeconds(note.time)}`,
+            });
+            form.resetFields();
+            props.onFinish && props.onFinish(r);
+          },
         }
-      )
+      );
     }
 
-    console.log(note, 'daa')
-  }
-  const [form] = Form.useForm()
-  const isPlaying = !isNaN(currentTime)
-  useEffect(
-    () => {
-      form.setFieldsValue(props.selectedNote)
-    },
-    [props.selectedNote]
-  )
-  const noteContent = Form.useWatch('content', form)
+    console.log(note, "daa");
+  };
+  const [form] = Form.useForm();
+  const isPlaying = !isNaN(currentTime);
+  useEffect(() => {
+    form.setFieldsValue(props.selectedNote);
+  }, [props.selectedNote]);
+  const noteContent = Form.useWatch("content", form);
   return (
     <Form layout="vertical" onFinish={onSave} form={form}>
       <Row justify="start">
@@ -101,7 +96,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
               <Form.Item
                 label={
                   <Text disabled={!isPlaying}>
-                    {props.selectedNote ? 'Update Note at' : 'Create a note at'}{' '}
+                    {props.selectedNote ? "Update Note at" : "Create a note at"}{" "}
                     {isPlaying ? <Tag color="cyan">{time}</Tag> : null}
                   </Text>
                 }
@@ -118,7 +113,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
             </Col>
             <Col
               span={24}
-              style={{ display: 'flex', flexDirection: 'row-reverse' }}
+              style={{ display: "flex", flexDirection: "row-reverse" }}
             >
               {props.selectedNote ? (
                 <Button ghost type="primary" onClick={form.submit}>
@@ -138,8 +133,8 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
                 <Button
                   style={{ marginRight: 20 }}
                   onClick={() => {
-                    form.resetFields()
-                    props.onFinish && props.onFinish()
+                    form.resetFields();
+                    props.onFinish && props.onFinish();
                   }}
                 >
                   Cancel
@@ -150,7 +145,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = props => {
         </Col>
       </Row>
     </Form>
-  )
-}
+  );
+};
 
-export default CreateNote
+export default CreateNote;

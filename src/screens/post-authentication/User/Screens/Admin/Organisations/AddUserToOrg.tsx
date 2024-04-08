@@ -1,9 +1,9 @@
-import { Button, Form, Input, Modal, Select } from 'antd'
-import { Constants, Enum, Types } from '@adewaskar/lms-common'
-import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+import { Button, Form, Input, message, Modal, Select } from "antd";
+import { Constants, Enum, Types } from "@adewaskar/lms-common";
+import React, { Fragment, ReactNode, useEffect, useState } from "react";
 
-import { User } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
+import { User } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
 
 interface AddUserToOrgComponentPropsI {
   children?: ReactNode;
@@ -13,46 +13,40 @@ interface AddUserToOrgComponentPropsI {
   onFinish?: (data: Types.User) => void;
 }
 
-const AddUser: React.FC<AddUserToOrgComponentPropsI> = props => {
-  const {
-    mutate: addUserToOrg,
-    isLoading: addUserToOrgLoading
-  } = User.Queries.useAddUserToOrg()
-  const [form] = Form.useForm()
-  const message = useMessage()
-  const onSubmit = (e: { name: string, contactNo: string }) => {
+const AddUser: React.FC<AddUserToOrgComponentPropsI> = (props) => {
+  const { mutate: addUserToOrg, isLoading: addUserToOrgLoading } =
+    User.Queries.useAddUserToOrg();
+  const [form] = Form.useForm();
+  const onSubmit = (e: { name: string; contactNo: string }) => {
     addUserToOrg(
       {
         id: props.organisation,
-        data: e
+        data: e,
       },
       {
         onSuccess: () => {
           message.open({
-            type: 'success',
-            content: 'User added successfully'
-          })
-          props.closeModal && props.closeModal()
+            type: "success",
+            content: "User added successfully",
+          });
+          props.closeModal && props.closeModal();
         },
         onError: (er: any) => {
-          message.open({ type: 'error', content: er.response.data.message })
-        }
+          message.open({ type: "error", content: er.response.data.message });
+        },
       }
-    )
+    );
     // onFinish && onFinish(e)
-  }
+  };
 
-  useEffect(
-    () => {
-      form.setFieldsValue(props.data)
-    },
-    [props.data]
-  )
+  useEffect(() => {
+    form.setFieldsValue(props.data);
+  }, [props.data]);
 
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical">
       <Form.Item
-        rules={[{ required: true, message: 'Please enter name of the user' }]}
+        rules={[{ required: true, message: "Please enter name of the user" }]}
         name="name"
         label="Name"
         required
@@ -79,12 +73,12 @@ const AddUser: React.FC<AddUserToOrgComponentPropsI> = props => {
         rules={[
           {
             required: true,
-            message: `Please enter user's mobile number!`
+            message: `Please enter user's mobile number!`,
           },
           {
             max: 12,
-            message: 'Contact number should be 10 digits!'
-          }
+            message: "Contact number should be 10 digits!",
+          },
         ]}
       >
         <Input placeholder="Mobile Number of the user" type="number" />
@@ -96,8 +90,8 @@ const AddUser: React.FC<AddUserToOrgComponentPropsI> = props => {
         rules={[
           {
             required: true,
-            message: `Please enter a role!`
-          }
+            message: `Please enter a role!`,
+          },
           // {
           //   len: 10,
           //   message: 'Contact number should be 10 digits!'
@@ -106,11 +100,11 @@ const AddUser: React.FC<AddUserToOrgComponentPropsI> = props => {
       >
         <Select
           mode="multiple"
-          options={Constants.USER_ROLES.map(i => {
+          options={Constants.USER_ROLES.map((i) => {
             return {
               label: i.slug.toUpperCase(),
-              value: i.slug
-            }
+              value: i.slug,
+            };
           })}
         />
       </Form.Item>
@@ -124,7 +118,7 @@ const AddUser: React.FC<AddUserToOrgComponentPropsI> = props => {
         Submit
       </Button>
     </Form>
-  )
-}
+  );
+};
 
-export default AddUser
+export default AddUser;

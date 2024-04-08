@@ -1,70 +1,65 @@
-import { Button, Col, Divider, Form, Row, Switch } from 'antd'
+import { Button, Col, Divider, Form, message, Row, Switch } from "antd";
 
-import { User } from '@adewaskar/lms-common'
-import { printPdf } from '@Components/Editor/SunEditor/utils'
-import useMessage from '@Hooks/useMessage'
+import { User } from "@adewaskar/lms-common";
+import { printPdf } from "@Components/Editor/SunEditor/utils";
+import useMessage from "@Hooks/useMessage";
 
 interface PrintPromptPropsI {
   testId: string;
 }
 
 export default function PrintPrompt(props: PrintPromptPropsI) {
-  const [form] = Form.useForm()
-  const message = useMessage()
-  const {
-    mutate: printTest,
-    isLoading: printingTest
-  } = User.Queries.usePrintTest(props.testId + '')
+  const [form] = Form.useForm();
+  const { mutate: printTest, isLoading: printingTest } =
+    User.Queries.usePrintTest(props.testId + "");
   const onSubmit = (d: any) => {
     const body = {
       includeQuestions: false,
       includeSolutions: false,
       includeAnswers: false,
-      split: false
-    }
+      split: false,
+    };
 
     if (d.questions) {
-      body.includeQuestions = true
+      body.includeQuestions = true;
     }
     if (d.answers) {
-      body.includeAnswers = true
+      body.includeAnswers = true;
     }
     if (d.solutions) {
-      body.includeSolutions = true
+      body.includeSolutions = true;
     }
 
     if (d.full) {
-      body.includeQuestions = true
-      body.includeAnswers = true
-      body.includeSolutions = true
+      body.includeQuestions = true;
+      body.includeAnswers = true;
+      body.includeSolutions = true;
     }
-    body.split = d.split
+    body.split = d.split;
     printTest(body, {
       onSuccess: (url: string) => {
-        printPdf(url)
+        printPdf(url);
         message.open({
-          type: 'success',
-          content: 'Printing Done'
-        })
-      }
-    })
-  }
+          type: "success",
+          content: "Printing Done",
+        });
+      },
+    });
+  };
   const body = {
     questions: false,
     solutions: false,
     answers: false,
-    full: false
-  }
-  body.questions = Form.useWatch(['questions'], form)
-  body.answers = Form.useWatch(['answers'], form)
-  body.solutions = Form.useWatch(['solutions'], form)
-  const {
-    mutate: printOmr,
-    isLoading: printingOMR
-  } = User.Queries.usePrintTest(props.testId)
+    full: false,
+  };
+  body.questions = Form.useWatch(["questions"], form);
+  body.answers = Form.useWatch(["answers"], form);
+  body.solutions = Form.useWatch(["solutions"], form);
+  const { mutate: printOmr, isLoading: printingOMR } =
+    User.Queries.usePrintTest(props.testId);
   return (
     <Form style={{ marginTop: 15 }} form={form} onFinish={onSubmit}>
-      <Row justify={'space-between'} align="middle">
+      <Row justify={"space-between"} align="middle">
         <Col>Question Paper</Col>
         <Col>
           <Form.Item
@@ -76,7 +71,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
           </Form.Item>
         </Col>
       </Row>
-      <Row justify={'space-between'} align="middle">
+      <Row justify={"space-between"} align="middle">
         <Col> Answer Key</Col>
         <Col>
           <Form.Item
@@ -88,7 +83,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
           </Form.Item>
         </Col>
       </Row>
-      <Row justify={'space-between'} align="middle">
+      <Row justify={"space-between"} align="middle">
         <Col> Solutions</Col>
         <Col>
           <Form.Item
@@ -100,7 +95,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
           </Form.Item>
         </Col>
       </Row>
-      <Row justify={'space-between'} align="middle">
+      <Row justify={"space-between"} align="middle">
         <Col>Complete Test Paper</Col>
         <Col>
           <Form.Item
@@ -112,7 +107,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
           </Form.Item>
         </Col>
       </Row>
-      <Row justify={'space-between'} align="middle">
+      <Row justify={"space-between"} align="middle">
         <Col> Split Page</Col>
         <Col>
           <Form.Item
@@ -124,7 +119,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
           </Form.Item>
         </Col>
       </Row>
-      <Row gutter={[20, 20]} justify={'end'}>
+      <Row gutter={[20, 20]} justify={"end"}>
         <Col span={24}>
           <Button
             loading={printingTest}
@@ -147,13 +142,13 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
               printOmr(
                 // @ts-ignore
                 {
-                  omr: true
+                  omr: true,
                 },
                 {
-                  onSuccess: pdfStr => {
+                  onSuccess: (pdfStr) => {
                     //   console.log(pdfStr, 11)
-                    printPdf(pdfStr)
-                  }
+                    printPdf(pdfStr);
+                  },
                 }
               )
             }
@@ -163,5 +158,5 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
         </Col>
       </Row>
     </Form>
-  )
+  );
 }

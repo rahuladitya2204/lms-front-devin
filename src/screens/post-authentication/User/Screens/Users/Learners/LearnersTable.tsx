@@ -1,37 +1,33 @@
-import { Button, Card, Col, Modal, Row, Space, Tag } from 'antd'
-import { CloseOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Types } from '@adewaskar/lms-common'
-import Table, { TableColumn } from '@Components/Table/TableComponent'
+import { Button, Card, Col, Modal, Row, Space, Tag, message } from "antd";
+import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Enum, Types } from "@adewaskar/lms-common";
+import Table, { TableColumn } from "@Components/Table/TableComponent";
 
-import AddLearner from './AddLearners'
-import MoreButton from '@Components/MoreButton'
-import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import AddLearner from "./AddLearners";
+import MoreButton from "@Components/MoreButton";
+import { User } from "@adewaskar/lms-common";
+import dayjs from "dayjs";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
-const confirm = Modal.confirm
+const confirm = Modal.confirm;
 
 function LearnersTable() {
-  const { data, isFetching: loading } = User.Queries.useGetLearners()
-  const message = useMessage()
-  const {
-    mutate: deleteLearner,
-    isLoading: deletingLearner
-  } = User.Queries.useDeleteLearner()
-  const {
-    mutate: changeAccountStatus
-  } = User.Queries.useUpdateLearnerAccountStatus()
-  const { openModal } = useModal()
+  const { data, isFetching: loading } = User.Queries.useGetLearners();
+  const { mutate: deleteLearner, isLoading: deletingLearner } =
+    User.Queries.useDeleteLearner();
+  const { mutate: changeAccountStatus } =
+    User.Queries.useUpdateLearnerAccountStatus();
+  const { openModal } = useModal();
   return (
     <Table
-      searchFields={['name', 'email', 'contactNo']}
+      searchFields={["name", "email", "contactNo"]}
       dataSource={data}
       loading={loading || deletingLearner}
     >
       <TableColumn
         title="Name"
-        render={(_: any, record: Types.Learner) => record.name || '-'}
+        render={(_: any, record: Types.Learner) => record.name || "-"}
         dataIndex="name"
         key="name"
       />
@@ -39,7 +35,7 @@ function LearnersTable() {
         title="Email Adress"
         dataIndex="email"
         key="email"
-        render={(_: any, record: Types.Learner) => record.email || '-'}
+        render={(_: any, record: Types.Learner) => record.email || "-"}
       />
       <TableColumn title="Contact No" dataIndex="contactNo" key="contactNo" />
       <TableColumn
@@ -47,7 +43,7 @@ function LearnersTable() {
         dataIndex="profile.status"
         key="profile.status"
         render={(_: any, record: Types.Learner) =>
-          record.profile.status === 'incomplete' ? (
+          record.profile.status === "incomplete" ? (
             <Tag color="red-inverse">Incomplete</Tag>
           ) : (
             <Tag color="green-inverse">Complete</Tag>
@@ -59,7 +55,7 @@ function LearnersTable() {
         dataIndex="lastActive"
         key="lastActive"
         render={(_: any, record: Types.Learner) => (
-          <Space size="middle">{dayjs(record.lastActive).format('LLLL')}</Space>
+          <Space size="middle">{dayjs(record.lastActive).format("LLLL")}</Space>
         )}
       />
       <TableColumn
@@ -67,7 +63,7 @@ function LearnersTable() {
         dataIndex="createdAt"
         key="createdAt"
         render={(_: any, record: Types.Learner) => (
-          <Space size="middle">{dayjs(record.createdAt).format('LLLL')}</Space>
+          <Space size="middle">{dayjs(record.createdAt).format("LLLL")}</Space>
         )}
       />
       <TableColumn
@@ -77,28 +73,28 @@ function LearnersTable() {
           <MoreButton
             items={[
               {
-                label: 'Edit Learner',
+                label: "Edit Learner",
                 icon: <EditOutlined />,
-                key: 'edit-learner',
+                key: "edit-learner",
                 onClick: () => {
-                  openModal(<AddLearner data={record} />)
-                }
+                  openModal(<AddLearner data={record} />);
+                },
               },
               {
                 label:
                   record.status === Enum.LearnerAccountStatus.ACTIVE
-                    ? 'Revoke Access'
-                    : 'Release Access',
-                key: 'change-status',
+                    ? "Revoke Access"
+                    : "Release Access",
+                key: "change-status",
                 icon: <CloseOutlined />,
                 onClick: () => {
                   confirm({
-                    title: 'Are you sure?',
+                    title: "Are you sure?",
                     // icon: <ExclamationCircleOutlined />,
                     content: `You want to ${
                       record.status === Enum.LearnerAccountStatus.ACTIVE
-                        ? 'revoke'
-                        : 'release'
+                        ? "revoke"
+                        : "release"
                     } access for this learner`,
                     onOk() {
                       changeAccountStatus(
@@ -107,55 +103,56 @@ function LearnersTable() {
                           status:
                             record.status === Enum.LearnerAccountStatus.ACTIVE
                               ? Enum.LearnerAccountStatus.INACTIVE
-                              : Enum.LearnerAccountStatus.ACTIVE
+                              : Enum.LearnerAccountStatus.ACTIVE,
                         },
                         {
                           onSuccess: () => {
                             message.open({
-                              type: 'success',
-                              content: 'Learned status updated successfully'
-                            })
-                          }
+                              type: "success",
+                              content: "Learned status updated successfully",
+                            });
+                          },
                         }
-                      )
+                      );
                     },
                     okText:
                       record.status === Enum.LearnerAccountStatus.ACTIVE
-                        ? 'Revoke'
-                        : 'Give access'
-                  })
-                }
+                        ? "Revoke"
+                        : "Give access",
+                  });
+                },
               },
               {
-                label: 'Remove Learner',
-                key: 'remove',
+                label: "Remove Learner",
+                key: "remove",
                 icon: <DeleteOutlined />,
                 onClick: () => {
                   confirm({
-                    title: `Are you sure? You want to remove ${record.name ||
-                      record.email}`,
+                    title: `Are you sure? You want to remove ${
+                      record.name || record.email
+                    }`,
                     // icon: <ExclamationCircleOutlined />,
                     content: `Learner will no longer have any access to the platform`,
                     onOk() {
                       deleteLearner(record._id, {
                         onSuccess: () => {
                           message.open({
-                            type: 'success',
-                            content: 'Learner deleted successfully'
-                          })
-                        }
-                      })
+                            type: "success",
+                            content: "Learner deleted successfully",
+                          });
+                        },
+                      });
                     },
-                    okText: 'Revoke access'
-                  })
-                }
-              }
+                    okText: "Revoke access",
+                  });
+                },
+              },
             ]}
           />
         )}
       />
     </Table>
-  )
+  );
 }
 
-export default LearnersTable
+export default LearnersTable;

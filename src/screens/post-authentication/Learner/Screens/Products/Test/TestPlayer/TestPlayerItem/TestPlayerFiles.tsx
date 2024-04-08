@@ -55,7 +55,6 @@ const TestPlayerFiles = (props: {
   const { mutate: updateAnswer, isLoading: updatingAnswer } =
     Learner.Queries.useUpdateTestAnswer(props.testId);
   const form = Form.useFormInstance<Types.TestAnswer>();
-  const message = useMessage();
   const files = Form.useWatch(["answer", "subjective", "files"], form) || [];
   // @ts-ignore
   const handleUpload = (file) => {

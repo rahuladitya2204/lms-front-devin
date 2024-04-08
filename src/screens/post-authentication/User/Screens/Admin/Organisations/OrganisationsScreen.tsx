@@ -8,37 +8,34 @@ import {
   Space,
   Spin,
   Table,
-  Upload
-} from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+  Upload,
+} from "antd";
+import { Types, User } from "@adewaskar/lms-common";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AddUser from './AddUserToOrg'
-import CreateOrganisation from './CreateOrganisation'
-import Header from '@Components/Header'
-import MoreButton from '@Components/MoreButton'
-import React from 'react'
-import dayjs from 'dayjs'
-import useMessage from '@Hooks/useMessage'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import AddUser from "./AddUserToOrg";
+import CreateOrganisation from "./CreateOrganisation";
+import Header from "@Components/Header";
+import MoreButton from "@Components/MoreButton";
+import React from "react";
+import dayjs from "dayjs";
+import useMessage from "@Hooks/useMessage";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
 // import PDFViewer from '@Components/PDFViewer'
 
-const PDFViewer = React.lazy(() => import('@Components/PDFViewer'))
-const { confirm } = Modal
+const PDFViewer = React.lazy(() => import("@Components/PDFViewer"));
+const { confirm } = Modal;
 
 export default function OrganisationScreen() {
-  const {
-    data,
-    isLoading: loadingOrganisation
-  } = User.Queries.useGetOrganisations()
+  const { data, isLoading: loadingOrganisation } =
+    User.Queries.useGetOrganisations();
   //   const {
   //     mutate: deleteOrganisation,
   //     isLoading: deletingOrganisation
   //   } = User.Queries.useDeleteOrganisation()
-  const { openModal } = useModal()
-  const message = useMessage()
-  console.log(data, 'ddd')
+  const { openModal } = useModal();
+  console.log(data, "ddd");
   return (
     <Header
       title="Organisation"
@@ -54,7 +51,7 @@ export default function OrganisationScreen() {
       <Row>
         <Col span={24}>
           <Card loading={loadingOrganisation}>
-            {' '}
+            {" "}
             <Spin spinning={false}>
               {/* @ts-ignore */}
               <Table dataSource={data}>
@@ -160,21 +157,21 @@ export default function OrganisationScreen() {
                         //   key: 'delete'
                         // }
                         {
-                          label: 'Edit Organisation',
+                          label: "Edit Organisation",
                           onClick: () =>
                             openModal(<CreateOrganisation data={record} />, {
-                              title: 'Edit Organisation'
+                              title: "Edit Organisation",
                             }),
-                          key: 'edit'
+                          key: "edit",
                         },
                         {
-                          label: 'Add User',
+                          label: "Add User",
                           onClick: () =>
                             openModal(<AddUser organisation={record._id} />, {
-                              title: 'Add User'
+                              title: "Add User",
                             }),
-                          key: 'add-user'
-                        }
+                          key: "add-user",
+                        },
                       ]}
                     />
                   )}
@@ -185,5 +182,5 @@ export default function OrganisationScreen() {
         </Col>
       </Row>
     </Header>
-  )
+  );
 }

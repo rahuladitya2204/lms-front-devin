@@ -1,10 +1,10 @@
-import { Button, Col, DatePicker, Form, Row, Select } from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+import { Button, Col, DatePicker, Form, Row, Select, message } from "antd";
+import { Types, User } from "@adewaskar/lms-common";
 
-import FileList from '@Components/FileList'
-import MediaUpload from '@Components/MediaUpload'
-import { useEffect } from 'react'
-import useMessage from '@Hooks/useMessage'
+import FileList from "@Components/FileList";
+import MediaUpload from "@Components/MediaUpload";
+import { useEffect } from "react";
+import useMessage from "@Hooks/useMessage";
 
 interface UploadNewsPropsI {
   closeModal?: Function;
@@ -13,53 +13,47 @@ interface UploadNewsPropsI {
 
 const PUBLICATIONS = [
   {
-    label: 'The Hindu',
-    value: 'the-hindu'
+    label: "The Hindu",
+    value: "the-hindu",
   },
   {
-    label: 'The Tribune',
-    value: 'the-hindu'
-  }
-]
+    label: "The Tribune",
+    value: "the-hindu",
+  },
+];
 
 export default function UploadNews(props: UploadNewsPropsI) {
-  const [form] = Form.useForm()
-  const message = useMessage()
-  const {
-    mutate: uploadNews,
-    isLoading: uploadingNews
-  } = User.Queries.useUploadNews()
+  const [form] = Form.useForm();
+  const { mutate: uploadNews, isLoading: uploadingNews } =
+    User.Queries.useUploadNews();
   const onSubmit = (D: Types.News) => {
-    console.log(D, 'DDDD')
+    console.log(D, "DDDD");
     //   @ts-ignore
-    D.date = D.date.toDate()
+    D.date = D.date.toDate();
     uploadNews(
       {
-        data: D
+        data: D,
       },
       {
         onSuccess: () => {
           message.open({
-            type: 'success',
-            content: 'News Uploaded Successfully'
-          })
-          form.resetFields()
-          props.closeModal && props.closeModal()
-        }
+            type: "success",
+            content: "News Uploaded Successfully",
+          });
+          form.resetFields();
+          props.closeModal && props.closeModal();
+        },
       }
-    )
-  }
+    );
+  };
 
-  useEffect(
-    () => {
-      // @ts-ignore
-      if (props?.data?._id) {
-        form.setFieldsValue(props.data)
-      }
-    },
-    [props.data]
-  )
-  const files = Form.useWatch(['files'], form) || []
+  useEffect(() => {
+    // @ts-ignore
+    if (props?.data?._id) {
+      form.setFieldsValue(props.data);
+    }
+  }, [props.data]);
+  const files = Form.useWatch(["files"], form) || [];
   // console.log(files, 'files')
   return (
     <Form layout="vertical" form={form} onFinish={onSubmit}>
@@ -74,31 +68,31 @@ export default function UploadNews(props: UploadNewsPropsI) {
           width="100px"
           name="files"
           // renderItem={() => <Image width={'70%'} src={thumbnailImage} />}
-          onUpload={e => {
-            console.log(e, 'eeee')
+          onUpload={(e) => {
+            console.log(e, "eeee");
             form.setFieldValue(
-              ['files'],
+              ["files"],
               [
                 {
                   file: e._id,
-                  url: e.url
-                }
+                  url: e.url,
+                },
               ]
-            )
+            );
           }}
         />
       </Form.Item>
       <FileList
         onDeleteFile={(fileId: string) => {
-          const updatedFiles = files.filter((f: any) => f.file !== fileId)
-          form.setFieldValue(['files'], updatedFiles)
+          const updatedFiles = files.filter((f: any) => f.file !== fileId);
+          form.setFieldValue(["files"], updatedFiles);
         }}
         files={files}
       />
       {/* <Form.Item label="Publication" name="publication">
         <Select options={PUBLICATIONS} />
       </Form.Item> */}
-      <Row justify={'end'}>
+      <Row justify={"end"}>
         <Col>
           <Button loading={uploadingNews} onClick={form.submit} type="primary">
             Upload News Paper
@@ -106,5 +100,5 @@ export default function UploadNews(props: UploadNewsPropsI) {
         </Col>
       </Row>
     </Form>
-  )
+  );
 }

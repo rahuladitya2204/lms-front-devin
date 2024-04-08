@@ -11,6 +11,7 @@ import {
   Row,
   Skeleton,
   Tag,
+  message,
 } from "antd";
 import { AlertOutlined, UserOutlined } from "@ant-design/icons";
 import { Constants, Enum, Store, Types, Utils } from "@adewaskar/lms-common";
@@ -168,7 +169,6 @@ const PackageCard = ({
     Learner.Queries.useGetPackageDetails(packageId + "", {
       enabled: !!packageId,
     });
-  const message = useMessage();
   const navigate = useNavigate();
 
   const { mutate: updateCart, isLoading: addingToCart } =
