@@ -1,13 +1,14 @@
-import { Card, Col, Row, Skeleton } from 'antd'
+"use client";
+import { Card, Col, Row, Skeleton } from "antd";
 
-import { Fragment } from 'react'
+import { Fragment } from "react";
 
-export default function TestItemSkeleton () {
-  const SkelArray = [1, 1, 1, 1]
+export default function TestItemSkeleton() {
+  const SkelArray = [1, 1, 1, 1];
   return (
     <Card
       title={<Skeleton.Button style={{ height: 25 }} active />}
-      style={{ minHeight: '63vh' }}
+      style={{ minHeight: "63vh" }}
       extra={[
         <Row gutter={[10, 20]}>
           <Col>
@@ -24,10 +25,10 @@ export default function TestItemSkeleton () {
               size="small"
             />
           </Col>
-        </Row>
+        </Row>,
       ]}
     >
-      {' '}
+      {" "}
       <Skeleton style={{ marginBottom: 25 }} active paragraph={{ rows: 1 }} />
       <Row gutter={[10, 20]}>
         <Col span={24}>
@@ -37,7 +38,7 @@ export default function TestItemSkeleton () {
           <Col span={24}>
             <Row gutter={[10, 20]}>
               <Col>
-                <Skeleton.Avatar active size={20} shape={'circle'} />
+                <Skeleton.Avatar active size={20} shape={"circle"} />
               </Col>
               <Col flex={1}>
                 <Skeleton.Button active style={{ height: 20 }} block />
@@ -47,76 +48,15 @@ export default function TestItemSkeleton () {
         ))}
       </Row>
     </Card>
-  )
+  );
 }
 
 export const TestNavigatorSkeleton = () => {
   const ButtonSkelArray = [
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1,
-    1
-  ]
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+  ];
   return (
     <Row>
       <Col span={24}>
@@ -138,5 +78,5 @@ export const TestNavigatorSkeleton = () => {
         </Row>
       </Col>
     </Row>
-  )
-}
+  );
+};

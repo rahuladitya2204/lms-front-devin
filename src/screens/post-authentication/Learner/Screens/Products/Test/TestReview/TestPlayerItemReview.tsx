@@ -114,15 +114,17 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
     });
   }, [currentQuestion, form, questionId]);
   const answer = Form.useWatch(["answer"], form);
-  const { navigate } = useTestNavigation(test);
+  const { navigate } = useTestNavigation(test, "review");
   const OptionSelectedFormControl =
     currentQuestion.type === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
   const answerText = htmlToText(answer?.subjective?.text);
   // @ts-ignore
   const globalCorrectPercent = currentQuestion.analytics?.attempted
-    ? (currentQuestion.analytics?.correctAttempts /
-        currentQuestion.analytics?.attempted) *
-      100
+    ? Math.ceil(
+        (currentQuestion.analytics?.correctAttempts /
+          currentQuestion.analytics?.attempted) *
+          100
+      )
     : null;
 
   const { token } = theme.useToken();

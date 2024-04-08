@@ -68,8 +68,8 @@ export const NavLink = ({
     ? pathname.startsWith(to as string)
     : pathname.toLowerCase().startsWith((to as string).toLowerCase());
 
-    // console.log(pathname,to,isActive,'huhhaha')
-    const renderProps = {
+  // console.log(pathname,to,isActive,'huhhaha')
+  const renderProps = {
     isActive,
     isPending: false,
     isTransitioning: false,
@@ -80,7 +80,13 @@ export const NavLink = ({
   const renderStyle = typeof style === "function" ? style(renderProps) : style;
 
   return (
-    <Link href={to} className={renderClassName} style={renderStyle} {...props}>
+    <Link
+      // prefetch={false}
+      href={to}
+      className={renderClassName}
+      style={renderStyle}
+      {...props}
+    >
       {typeof children === "function" ? children(renderProps) : children}
     </Link>
   );
@@ -101,7 +107,7 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
     ref
   ) => {
     const pathname = usePathname();
-    console.log(pathname,'pathname')
+    console.log(pathname, "pathname");
     const searchParams = useSearchParams();
     const hasAdditionalSearchParams =
       Array.from(searchParams.entries()).length > 0;
@@ -115,7 +121,7 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
     return (
       <Link
-        href={finalHref || ''}
+        href={finalHref || ""}
         ref={ref}
         replace={replace}
         scroll={!preventScrollReset}

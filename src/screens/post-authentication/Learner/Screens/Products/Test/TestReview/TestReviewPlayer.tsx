@@ -76,12 +76,12 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
   );
   const isProcturingOn = test.rules.procturing.enabled;
 
-  // useEffect(() => {
-  //   if (test.sections[0]?.items[0] && !questionId) {
-  //     const itemId = test.sections[0].items[0]._id;
-  //     navigate(`/app/test/${testId}/result/review/${itemId}`);
-  //   }
-  // }, [test.sections]);
+  useEffect(() => {
+    if (test.sections[0]?.items[0] && !questionId) {
+      const itemId = test.sections[0].items[0]._id;
+      navigate(`/app/test/${testId}/review/${itemId}`);
+    }
+  }, [test.sections]);
 
   const endTestNow =
     enrolledProduct.metadata.test.endedAt ||
