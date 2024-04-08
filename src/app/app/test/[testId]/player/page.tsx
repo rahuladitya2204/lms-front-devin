@@ -28,27 +28,5 @@ export default function Page({
   } = Learner.Queries.Definitions;
 
   //   const token = getToken();
-  return (
-    // @ts-ignore
-    <Hydrator
-      queries={[
-        getOrgDetails(),
-        getLearnerDetails(),
-        //     // authenticated routes should only be called if token is present
-        //     ...(token
-        //       ? [
-        //           getCartDetails(),
-        //           getLearnerDetails(),
-        //         //   getEnrolledProductList( "test"),
-        //           getTestResult(params.testId),
-        //         ]
-        //       : []),
-      ]}
-    >
-      <LearnerFullPageHolder>
-        {/* @ts-ignore */}
-        <TestPlayer testId={params.testId}>{children}</TestPlayer>
-      </LearnerFullPageHolder>
-    </Hydrator>
-  );
+  return " Hey Man";
 }
