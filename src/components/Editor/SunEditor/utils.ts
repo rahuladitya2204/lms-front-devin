@@ -1,3 +1,5 @@
+import { TopicNode } from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
+import { Types } from '@adewaskar/lms-common'
 import katex, { KatexOptions } from 'katex'
 export function convertLatexToMathML(
   latexString: string,
@@ -135,3 +137,50 @@ export function requestCameraPermission() {
     }
   });
 }
+
+export const buildTopicTree = (topics: Types.Topic[], topicId?: string, level?: number) => {
+  const buildTreeData = (
+    topics: Types.Topic[],
+    parentId?: string,
+    currentLevel: number = 1
+  ): TopicNode[] => {
+    if (parentId) {
+      return buildSubTreeData(parentId, topics, currentLevel);
+    } else {
+      // @ts-ignore
+      return topics.filter(topic => !topic.parentId).map(topic => {
+        const children = level === undefined || currentLevel < level ? buildSubTreeData(topic._id + '', topics, currentLevel + 1) : [];
+        return {
+          ...topic,
+          value: topic._id,
+          title: topic.title,
+          disabled: level !== undefined && currentLevel === level - 1 && children.length > 0,
+          children
+        };
+      });
+    }
+  };
+
+  const buildSubTreeData = (
+    parentId: string,
+    topics: Types.Topic[],
+    currentLevel: number
+  ): TopicNode[] => {
+    const subTopics = topics
+      .filter(topic => topic.parentId === parentId)
+      .map(topic => {
+        const children = level === undefined || currentLevel < level ? buildSubTreeData(topic._id + '', topics, currentLevel + 1) : [];
+        return {
+          ...topic,
+          value: topic._id,
+          title: topic.title,
+          disabled: level !== undefined && currentLevel === level - 1 && children.length > 0,
+          children
+        };
+      });
+    // @ts-ignore
+    return [...subTopics];
+  };
+
+  return buildTreeData(topics, topicId);
+};

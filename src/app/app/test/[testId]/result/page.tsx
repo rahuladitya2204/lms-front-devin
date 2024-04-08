@@ -1,27 +1,26 @@
-import Hydrator from '@ServerComponents/Hydrator'
-import { Learner } from '@adewaskar/lms-common'
-import LearnerFullPageHolder from '@Screens/LearnerFullPageHolder'
-import LearnerRootScreen from '@Learner/Screens/LearnerRoot/LearnerRootScreen'
-import dynamic from 'next/dynamic'
-import { getToken } from '@Network/index'
+import Hydrator from "@ServerComponents/Hydrator";
+import { Learner } from "@adewaskar/lms-common";
+import LearnerFullPageHolder from "@Screens/LearnerFullPageHolder";
+
+import dynamic from "next/dynamic";
 
 const TestMetrics = dynamic(
-  () => import('@Learner/Screens/Products/Test/TestResult/TestMetrics'),
+  () => import("@Learner/Screens/Products/Test/TestResult/TestMetrics"),
   { ssr: false }
-)
+);
 
 export default function Page({
-  params
+  params,
 }: {
-  params: { testId: string, questionId: string }
+  params: { testId: string; questionId: string };
 }) {
-  const { getOrgDetails, getLearnerDetails } = Learner.Queries.Definitions
-  console.log(params, 'questionIdquestionId')
+  const { getOrgDetails, getLearnerDetails } = Learner.Queries.Definitions;
+  console.log(params, "questionIdquestionId");
   return (
     <Hydrator
       queries={[
         getOrgDetails(),
-        getLearnerDetails()
+        getLearnerDetails(),
         //     // authenticated routes should only be called if token is present
         //     ...(token
         //       ? [
@@ -38,5 +37,5 @@ export default function Page({
         <TestMetrics testId={params.testId} />
       </LearnerFullPageHolder>
     </Hydrator>
-  )
+  );
 }

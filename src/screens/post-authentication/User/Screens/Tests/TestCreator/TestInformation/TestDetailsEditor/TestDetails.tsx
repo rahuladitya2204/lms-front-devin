@@ -9,22 +9,23 @@ import {
   Select,
   Space,
   Switch,
-  TreeSelect
-} from 'antd'
-import { Constants, Enum, Types, User } from '@adewaskar/lms-common'
-import { useEffect, useMemo } from 'react'
+  TreeSelect,
+} from "antd";
+import { Constants, Enum, Types, User } from "@adewaskar/lms-common";
+import { useEffect, useMemo } from "react";
 
-import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload'
-import SelectProductCategory from '@Components/SelectProductCategory'
-import { TopicNode } from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
-import dayjs from 'dayjs'
-import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useParams } from '@Router/index'
+import Image from "@Components/Image";
+import MediaUpload from "@Components/MediaUpload";
+import SelectProductCategory from "@Components/SelectProductCategory";
+import { TopicNode } from "@User/Screens/AssetLibrary/Topics/TopicsScreen";
+import dayjs from "dayjs";
+import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import { useParams } from "@Router/index";
+import { buildTopicTree } from "@Components/Editor/SunEditor/utils";
 
-const { TextArea } = Input
+const { TextArea } = Input;
 
-const { useWatch } = Form
+const { useWatch } = Form;
 
 interface TestDetailsEditorPropsI {
   testId?: string;
@@ -33,43 +34,38 @@ interface TestDetailsEditorPropsI {
 }
 
 function TestDetailsEditor(props: TestDetailsEditorPropsI) {
-  const { test } = props
-  const [form] = Form.useForm()
-  const { id } = useParams()
-  const testId = props.testId || id
-  const { data: users } = User.Queries.useGetUsers()
-  const image = useWatch(['thumbnailImage'], form)
-  const isDurationEnabled = useWatch(['duration', 'enabled'], form)
-  const { listItems: categories } = User.Queries.useGetProductCategories('test')
-  const { data: topics } = User.Queries.useGetTopics()
-  const TOPIC_TREE_DATA = useMemo(
-    () => {
-      return buildTopicTree(topics)
-    },
-    [topics]
-  )
-  useEffect(
-    () => {
-      if (test.live.scheduledAt) {
-        console.log(test, 'fff')
-        // @ts-ignore
-        test.live.scheduledAt = dayjs(test.live.scheduledAt)
-      }
+  const { test } = props;
+  const [form] = Form.useForm();
+  const { id } = useParams();
+  const testId = props.testId || id;
+  const { data: users } = User.Queries.useGetUsers();
+  const image = useWatch(["thumbnailImage"], form);
+  const isDurationEnabled = useWatch(["duration", "enabled"], form);
+  const { listItems: categories } =
+    User.Queries.useGetProductCategories("test");
+  const { data: topics } = User.Queries.useGetTopics();
+  const TOPIC_TREE_DATA = useMemo(() => {
+    return buildTopicTree(topics);
+  }, [topics]);
+  useEffect(() => {
+    if (test.live.scheduledAt) {
+      console.log(test, "fff");
+      // @ts-ignore
+      test.live.scheduledAt = dayjs(test.live.scheduledAt);
+    }
 
-      form.setFieldsValue(test)
-    },
-    [test]
-  )
+    form.setFieldsValue(test);
+  }, [test]);
 
   const onValuesChange = (d: Partial<Types.Test>) => {
-    const data = deepPatch(test, d)
-    props.saveTest(data)
-  }
+    const data = deepPatch(test, d);
+    props.saveTest(data);
+  };
 
-  const isPublished = test.status === Enum.TestStatus.PUBLISHED
-  const isLive = Form.useWatch(['live', 'enabled'], form)
+  const isPublished = test.status === Enum.TestStatus.PUBLISHED;
+  const isLive = Form.useWatch(["live", "enabled"], form);
   const isHandwritten =
-    Form.useWatch(['input', 'type'], form) === Enum.TestInputType.HANDWRITTEN
+    Form.useWatch(["input", "type"], form) === Enum.TestInputType.HANDWRITTEN;
   return (
     <Form
       form={form}
@@ -95,8 +91,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
           source={{
-            type: 'test.image',
-            value: testId + ''
+            type: "test.image",
+            value: testId + "",
           }}
           uploadType="image"
           compress={{ quality: 0.8, maxHeight: 200, maxWidth: 330 }}
@@ -107,8 +103,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           height="300px"
           prefixKey={`Tests/${testId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={image} />}
-          onUpload={e => {
-            onValuesChange({ thumbnailImage: e.url })
+          onUpload={(e) => {
+            onValuesChange({ thumbnailImage: e.url });
           }}
         />
       </Form.Item>
@@ -118,7 +114,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         required
         label="Title"
         rules={[
-          { required: true, message: 'Please enter a title for the Test' }
+          { required: true, message: "Please enter a title for the Test" },
         ]}
       >
         <Input />
@@ -128,13 +124,13 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Input />
       </Form.Item>
       <Form.Item
-        name={'description'}
+        name={"description"}
         label="Description"
         rules={[
           {
             required: true,
-            message: 'Please enter a description for the Test'
-          }
+            message: "Please enter a description for the Test",
+          },
         ]}
       >
         <TextArea rows={4} placeholder="Enter the test description" />
@@ -164,12 +160,12 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             // label=""
             label={
               <Space>
-                Duration(in minutes){' '}
+                Duration(in minutes){" "}
                 {/* {isPublished ? '(Cannot change duration once published)' : ''}{' '} */}
                 <Form.Item
                   style={{ margin: 0 }}
                   valuePropName="checked"
-                  name={['duration', 'enabled']}
+                  name={["duration", "enabled"]}
                   // label="Send email to learner on course enrollment."
                 >
                   <Switch
@@ -179,8 +175,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                 </Form.Item>
               </Space>
             }
-            name={['duration', 'value']}
-            rules={[{ required: true, message: 'Please select duration!' }]}
+            name={["duration", "value"]}
+            rules={[{ required: true, message: "Please select duration!" }]}
           >
             <Input
               // readOnly={isPublished}
@@ -194,21 +190,21 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           <Form.Item
             // label=""
             label={`Input Type`}
-            name={['input', 'type']}
+            name={["input", "type"]}
             rules={[
-              { required: true, message: 'Please select user input mode' }
+              { required: true, message: "Please select user input mode" },
             ]}
           >
             <Select
               options={[
                 {
-                  label: 'Handwritten Images',
-                  value: Enum.TestInputType.HANDWRITTEN
+                  label: "Handwritten Images",
+                  value: Enum.TestInputType.HANDWRITTEN,
                 },
                 {
-                  label: 'Keyboard',
-                  value: Enum.TestInputType.KEYBOARD
-                }
+                  label: "Keyboard",
+                  value: Enum.TestInputType.KEYBOARD,
+                },
               ]}
             />
           </Form.Item>
@@ -217,8 +213,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           <Form.Item
             // label=""
             label={`Topics`}
-            name={['topics']}
-            rules={[{ required: true, message: 'Please select topics' }]}
+            name={["topics"]}
+            rules={[{ required: true, message: "Please select topics" }]}
           >
             <TreeSelect multiple treeData={TOPIC_TREE_DATA} />
           </Form.Item>
@@ -228,54 +224,54 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             <Form.Item
               // label=""
               label={`Evaluation Mode`}
-              name={['evaluation', 'mode']}
+              name={["evaluation", "mode"]}
               rules={[
-                { required: true, message: 'Please select evaluation mode' }
+                { required: true, message: "Please select evaluation mode" },
               ]}
             >
               <Select
                 options={[
                   {
-                    label: 'Manual',
-                    value: Enum.TestEvaluationMode.MANUAL
+                    label: "Manual",
+                    value: Enum.TestEvaluationMode.MANUAL,
                   },
                   {
-                    label: 'Automatic',
-                    value: Enum.TestEvaluationMode.AUTOMATIC
-                  }
+                    label: "Automatic",
+                    value: Enum.TestEvaluationMode.AUTOMATIC,
+                  },
                 ]}
               />
             </Form.Item>
           </Col>
         ) : null}
         <Col span={12}>
-          <Row gutter={[0, 20]} justify={'end'}>
+          <Row gutter={[0, 20]} justify={"end"}>
             <Col flex={1}>
               <Form.Item
                 rules={[
                   {
                     required: true,
-                    message: 'Please enter start time for the live test'
-                  }
+                    message: "Please enter start time for the live test",
+                  },
                 ]}
-                name={['live', 'scheduledAt']}
-                style={{ width: '100%' }}
+                name={["live", "scheduledAt"]}
+                style={{ width: "100%" }}
                 label={
-                  <Row align="middle" justify={'space-between'}>
+                  <Row align="middle" justify={"space-between"}>
                     <Col flex={1}>
                       {isLive
-                        ? 'Schedule Date'
+                        ? "Schedule Date"
                         : `Live ${
                             isPublished
-                              ? '(Cannot change date/time once published)'
-                              : ''
+                              ? "(Cannot change date/time once published)"
+                              : ""
                           }`}
                     </Col>
                     <Col>
                       <Form.Item
                         style={{ margin: 0, marginLeft: 10 }}
                         valuePropName="checked"
-                        name={['live', 'enabled']}
+                        name={["live", "enabled"]}
                         // label="Send email to learner on course enrollment."
                       >
                         <Switch checkedChildren="Live" unCheckedChildren="No" />
@@ -287,7 +283,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
               >
                 {isLive ? (
                   <DatePicker
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     disabled={isPublished}
                     showTime
                   />
@@ -316,14 +312,14 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           <Col span={8}>
             <Form.Item
               label="Select Result Trigger"
-              name={['live', 'result', 'trigger']}
+              name={["live", "result", "trigger"]}
             >
               <Select
                 showSearch
                 placeholder="Select Result Trigger"
                 options={[
-                  { label: 'Manual', value: 'manual' },
-                  { label: 'Immediate', value: 'immediate' }
+                  { label: "Manual", value: "manual" },
+                  { label: "Immediate", value: "immediate" },
                 ]}
               />
             </Form.Item>
@@ -338,7 +334,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             name="languages"
             required
             label="Languages"
-            rules={[{ required: true, message: 'Please select a language' }]}
+            rules={[{ required: true, message: "Please select a language" }]}
           >
             <Select
               mode="multiple"
@@ -349,58 +345,11 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           </Form.Item>
         </Col>
         <Col span={12}>
-          <SelectProductCategory name={['category']} />
+          <SelectProductCategory name={["category"]} />
         </Col>
       </Row>
     </Form>
-  )
+  );
 }
 
-export default TestDetailsEditor
-
-export const buildTopicTree = (topics: Types.Topic[], topicId?: string, level?: number) => {
-  const buildTreeData = (
-    topics: Types.Topic[],
-    parentId?: string,
-    currentLevel: number = 1
-  ): TopicNode[] => {
-    if (parentId) {
-      return buildSubTreeData(parentId, topics, currentLevel);
-    } else {
-      // @ts-ignore
-      return topics.filter(topic => !topic.parentId).map(topic => {
-        const children = level === undefined || currentLevel < level ? buildSubTreeData(topic._id + '', topics, currentLevel + 1) : [];
-        return {
-          ...topic,
-          value: topic._id,
-          title: topic.title,
-          disabled: level !== undefined && currentLevel === level - 1 && children.length > 0,
-          children
-        };
-      });
-    }
-  };
-
-  const buildSubTreeData = (
-    parentId: string,
-    topics: Types.Topic[],
-    currentLevel: number
-  ): TopicNode[] => {
-    const subTopics = topics
-      .filter(topic => topic.parentId === parentId)
-      .map(topic => {
-        const children = level === undefined || currentLevel < level ? buildSubTreeData(topic._id + '', topics, currentLevel + 1) : [];
-        return {
-          ...topic,
-          value: topic._id,
-          title: topic.title,
-          disabled: level !== undefined && currentLevel === level - 1 && children.length > 0,
-          children
-        };
-      });
-    // @ts-ignore
-    return [...subTopics];
-  };
-
-  return buildTreeData(topics, topicId);
-};
+export default TestDetailsEditor;

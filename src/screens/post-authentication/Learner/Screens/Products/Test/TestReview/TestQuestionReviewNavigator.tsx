@@ -9,54 +9,54 @@ import {
   Skeleton,
   Space,
   Spin,
-  theme
-} from 'antd'
-import { Enum, Learner } from '@adewaskar/lms-common'
-import { useNavigate, useParams } from '@Router/index'
+  theme,
+} from "antd";
+import { Enum, Learner } from "@adewaskar/lms-common";
+import { useNavigate, useParams } from "@Router/index";
 
-import { NavLink } from '@Router/index'
-import { TestNavigatorSkeleton } from './TestItemSkeleton'
-import { Typography } from '@Components/Typography'
-import { useReviewQuestion } from './TestPlayerItemReview'
+import { NavLink } from "@Router/index";
+import { TestNavigatorSkeleton } from "./TestItemSkeleton";
+import { Typography } from "@Components/Typography";
+import { useReviewQuestion } from "./useReviewQuestion";
 
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
   questionId: string;
   closeDrawer?: Function;
 }
-const { confirm } = Modal
-const { Text, Title } = Typography
+const { confirm } = Modal;
+const { Text, Title } = Typography;
 
 export default function TestReviewQuestionNavigator(
   props: TestReviewQuestionNavigatorPropsI
 ) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     isLoading: loadingResult,
-    data: { test: { sections } }
-  } = Learner.Queries.useGetTestResult(props.testId + '')
-  const { currentQuestion, loading } = useReviewQuestion()
+    data: {
+      test: { sections },
+    },
+  } = Learner.Queries.useGetTestResult(props.testId + "");
+  const { currentQuestion, loading } = useReviewQuestion();
   // const { isTablet, isDesktop, isMobile } = useBreakpoint()
-  const {
-    data: test,
-    isLoading: loadingTest
-  } = Learner.Queries.useGetTestDetails(
-    props.testId + '',
-    Enum.TestDetailMode.RESULT
-  )
+  const { data: test, isLoading: loadingTest } =
+    Learner.Queries.useGetTestDetails(
+      props.testId + "",
+      Enum.TestDetailMode.RESULT
+    );
 
-  const { token } = theme.useToken()
-  const { questionId } = useParams()
-  const isLoading = loadingResult || loadingTest
-  let runningIndex = 0
+  const { token } = theme.useToken();
+  const { questionId } = useParams();
+  const isLoading = loadingResult || loadingTest;
+  let runningIndex = 0;
   return (
     <Card
       // style={{ height: '80vh' }}
       bodyStyle={{
         // overflow: 'scroll',
         // height: '100%',
-        scrollbarWidth: 'none',
-        msOverflowStyle: 'none'
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
       }}
     >
       <Row>
@@ -68,7 +68,7 @@ export default function TestReviewQuestionNavigator(
                   shape="circle"
                   style={{ backgroundColor: token.colorSuccessActive }}
                   type="primary"
-                />{' '}
+                />{" "}
                 Corrrect Answer
               </Space>
             </Col>
@@ -87,14 +87,14 @@ export default function TestReviewQuestionNavigator(
                 <Button
                   style={{ backgroundColor: token.colorPrimary }}
                   shape="circle"
-                />{' '}
+                />{" "}
                 Current Question
               </Space>
             </Col>
           </Row>
         </Col>
         <Col span={24}>
-          <Title style={{ textAlign: 'center' }} level={3}>
+          <Title style={{ textAlign: "center" }} level={3}>
             Question Panel
           </Title>
           {isLoading ? (
@@ -107,44 +107,48 @@ export default function TestReviewQuestionNavigator(
                     <Title level={4}>{section.title}</Title>
                     <Row gutter={[20, 20]}>
                       {section.items.map((item: any, itemIndex: number) => {
-                        const totalIndex = runningIndex++
+                        const totalIndex = runningIndex++;
                         return (
                           <Col span={3}>
                             <NavLink
                               onClick={() => {
-                                props.closeDrawer && props.closeDrawer()
+                                props.closeDrawer && props.closeDrawer();
                               }}
-                              style={{ width: '100%' }}
+                              style={{ width: "100%" }}
                               key={item._id}
-                              to={`${item._id}`}
+                              to={`/app/test/${test._id}/review/${item._id}`}
                               children={() => {
-                                const isActive = questionId === item._id
+                                const isActive = questionId === item._id;
                                 return (
                                   // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
                                   // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
                                   <Button
                                     // loading={loading && isCurrent}
-                                    onClick={() => navigate(item._id + '')}
+                                    onClick={() =>
+                                      navigate(
+                                        `/app/test/${test._id}/review/${item._id}`
+                                      )
+                                    }
                                     danger={item.isMarked}
                                     type={
                                       isActive
-                                        ? 'primary'
+                                        ? "primary"
                                         : item.isMarked
-                                          ? 'primary'
-                                          : item.isAnswered
-                                            ? 'primary'
-                                            : 'default'
+                                        ? "primary"
+                                        : item.isAnswered
+                                        ? "primary"
+                                        : "default"
                                     }
                                     style={{
                                       backgroundColor: isActive
-                                        ? ''
+                                        ? ""
                                         : item.isAnswered
-                                          ? item.type !== 'subjective'
-                                            ? item.isCorrect
-                                              ? token.colorSuccessActive
-                                              : token.colorError
-                                            : token.colorWarningActive
-                                          : 'default'
+                                        ? item.type !== "subjective"
+                                          ? item.isCorrect
+                                            ? token.colorSuccessActive
+                                            : token.colorError
+                                          : token.colorWarningActive
+                                        : "default",
                                     }}
                                     shape="circle"
                                     // icon={
@@ -162,20 +166,20 @@ export default function TestReviewQuestionNavigator(
                                     {totalIndex + 1}
                                   </Button>
                                   //  </Badge>
-                                )
+                                );
                               }}
                             />
                           </Col>
-                        )
+                        );
                       })}
                     </Row>
                   </Col>
                 </Row>
-              )
+              );
             })
           )}
         </Col>
       </Row>
     </Card>
-  )
+  );
 }

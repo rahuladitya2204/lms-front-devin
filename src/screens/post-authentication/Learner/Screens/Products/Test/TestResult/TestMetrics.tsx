@@ -58,11 +58,11 @@ import Tabs from "@Components/Tabs";
 import TestLeaderboard from "./TestLeaderboard";
 // import TestPlayerItemReiew from '../TestReview/TestPlayerItemReview'
 import { Typography } from "@Components/Typography";
-import { buildTopicTree } from "@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails";
 import { capitalize } from "lodash";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useQueryClient } from "@tanstack/react-query";
+import { buildTopicTree } from "@Components/Editor/SunEditor/utils";
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -183,7 +183,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   const ViewSolutions = (
     <Button
       style={{ marginRight: isMobile ? 0 : 10 }}
-      onClick={() => navigate(`/app/test/${testId}/result/review`)}
+      onClick={() => navigate(`/app/test/${testId}/review`)}
       type="primary"
       icon={<EditOutlined />}
     >
@@ -580,7 +580,6 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                           </Card>
                         </Col>
                       ) : null}
-                      {/* {} */}
                     </Row>
                   )}
                 </Col>

@@ -128,7 +128,7 @@ import WebsiteScreen from "@User/Screens/Builder/Website/Website";
 import WhatsappTemplateEditor from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor";
 import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen";
 import { useEffect } from "react";
-import { useNavigate } from '@Router/index';
+import { useNavigate } from "@Router/index";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -218,10 +218,10 @@ const router = (userType: string) => {
                 <Route path="app/courses/:id/player" element={<CoursePlayer />}>
                   <Route path=":itemId" element={<CoursePlayerItem />} />
                 </Route>
-                <Route
+                {/* <Route
                   path="app/test/:testId/result"
                   element={<TestMetrics />}
-                />
+                /> */}
                 <Route
                   path="app/test/:testId/result/review"
                   element={<TestReviewPlayer />}

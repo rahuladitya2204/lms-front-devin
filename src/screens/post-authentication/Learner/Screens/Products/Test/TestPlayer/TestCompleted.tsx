@@ -1,13 +1,14 @@
-import { Button, Result } from 'antd'
-import { useNavigate, useParams } from '@Router/index'
+"use client";
+import { Button, Result } from "antd";
+import { useNavigate, useParams } from "@Router/index";
 
-import { Learner } from '@adewaskar/lms-common'
-import ReviewTest from './TestFeedback/ReviewTest'
+import { Learner } from "@adewaskar/lms-common";
+import ReviewTest from "./TestFeedback/ReviewTest";
 
-export default function TestCompleted () {
-  const { testId } = useParams()
-  const { data: test } = Learner.Queries.useGetTestDetails(testId + '')
-  const navigate = useNavigate()
+export default function TestCompleted() {
+  const { testId } = useParams();
+  const { data: test } = Learner.Queries.useGetTestDetails(testId + "");
+  const navigate = useNavigate();
   return (
     <Result
       status="success"
@@ -28,12 +29,12 @@ export default function TestCompleted () {
       <ReviewTest
         onSubmit={() => {
           if (!test.live.enabled) {
-            return navigate('../result')
+            return navigate(`/app/test/${testId}/result`);
           }
-          navigate('../')
+          navigate(`/app/test/${testId}`);
         }}
-        testId={testId + ''}
+        testId={testId + ""}
       />
     </Result>
-  )
+  );
 }

@@ -1,52 +1,51 @@
-import { Col, Modal, Row, Spin } from 'antd'
+import { Col, Modal, Row, Spin } from "antd";
 import React, {
   Fragment,
   Suspense,
   useEffect,
   useState,
-  useTransition
-} from 'react'
+  useTransition,
+} from "react";
 
 function ActionModal(props: ActionModalI) {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isPending, startTransition] = useTransition()
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  useEffect(
-    () => {
-      if (props.open) {
-        startTransition(() => {
-          setIsModalOpen(true)
-        })
-      } else {
-        setIsModalOpen(false)
-      }
-    },
-    [props.open, startTransition]
-  )
+  useEffect(() => {
+    if (props.open) {
+      startTransition(() => {
+        setIsModalOpen(true);
+      });
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [props.open, startTransition]);
 
   const closeModal = () => {
-    setIsModalOpen(false)
+    setIsModalOpen(false);
     if (props.onClose) {
-      props.onClose()
+      props.onClose();
     }
-  }
+  };
 
-  const isLazyLoaded = !!props.lazy
+  const isLazyLoaded = !!props.lazy;
   const CloseWithChildren = React.cloneElement(props.children, {
-    closeModal
+    closeModal,
   });
   const renderContent = () => {
     // console.log(props.children.$$typeof, 'LKLK')
     if (isLazyLoaded) {
       return (
-        <Suspense fallback={<Spin size="large" />}>{CloseWithChildren}</Suspense>
-      )
+        <Suspense fallback={<Spin size="large" />}>
+          {CloseWithChildren}
+        </Suspense>
+      );
     }
-    return CloseWithChildren
-  }
+    return CloseWithChildren;
+  };
   return (
     <Fragment>
-      <Spin style={{ display: 'inline-block' }} spinning={isPending}>
+      <Spin style={{ display: "inline-block" }} spinning={isPending}>
         {/* <Spin spinning={true}> */}
         <span onClick={() => startTransition(() => setIsModalOpen(true))}>
           {props.cta}
@@ -60,33 +59,37 @@ function ActionModal(props: ActionModalI) {
           title={props.title}
           open={isModalOpen}
           onCancel={closeModal}
-          style={{ minHeight: props.minHeight || 'auto' }}
+          style={{ minHeight: props.minHeight || "auto" }}
         >
-          <Row style={{  minHeight: props.minHeight || 'auto' }} justify={'center'} align={'middle'}>
+          <Row
+            style={{ minHeight: props.minHeight || "auto" }}
+            justify={"center"}
+            align={"middle"}
+          >
             <Col>{renderContent()}</Col>
           </Row>
         </Modal>
       </Spin>
     </Fragment>
-  )
+  );
 }
 function identifyVariable(variable: any) {
   // Check for a React lazy-loaded component
-  if (typeof variable === 'object' && variable !== null) {
-    if (variable.$$typeof === Symbol.for('react.lazy')) {
-      return 'promise'
+  if (typeof variable === "object" && variable !== null) {
+    if (variable.$$typeof === Symbol.for("react.lazy")) {
+      return "promise";
     }
   }
 
   // Other checks
-  if (typeof variable === 'function') {
-    return 'function'
+  if (typeof variable === "function") {
+    return "function";
   } else {
-    return typeof variable
+    return typeof variable;
   }
 }
 
-export default React.memo(ActionModal)
+export default React.memo(ActionModal);
 export interface ActionModalI {
   children?: any;
   closable?: boolean;
