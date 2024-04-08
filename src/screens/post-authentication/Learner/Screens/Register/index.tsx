@@ -1,13 +1,13 @@
-import { Button, Checkbox, Col, Form, Input, Row } from 'antd'
-import { Common, Learner, Store, Types } from '@adewaskar/lms-common'
-import React, { useEffect } from 'react'
+import { Button, Checkbox, Col, Form, Input, Row, message } from "antd";
+import { Common, Learner, Store, Types } from "@adewaskar/lms-common";
+import React, { useEffect } from "react";
 
-import { ActionModalI } from '@Components/ActionModal/ActionModal'
-import AppImage from '@Components/Image'
-import AuthenticationCard from '@Components/AuthenticationCard'
-import { Utils } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
-import { useLocation } from '@Router/index'
+import { ActionModalI } from "@Components/ActionModal/ActionModal";
+import AppImage from "@Components/Image";
+import AuthenticationCard from "@Components/AuthenticationCard";
+import { Utils } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
+import { useLocation } from "@Router/index";
 
 interface LearnerRegisterPropsI extends ActionModalI {
   onRegisterSuccess?: Function;
@@ -15,17 +15,14 @@ interface LearnerRegisterPropsI extends ActionModalI {
 }
 
 function LearnerRegister(props: LearnerRegisterPropsI) {
-  const message = useMessage()
-  const setIsSignedin = Store.useAuthentication(s => s.setIsSignedin)
-  const { data: organisation } = Learner.Queries.useGetOrgDetails()
-  const [form] = Form.useForm()
-  const {
-    mutate: Signup,
-    isLoading: loading
-  } = Learner.Queries.useRegisterLearner()
+  const setIsSignedin = Store.useAuthentication((s) => s.setIsSignedin);
+  const { data: organisation } = Learner.Queries.useGetOrgDetails();
+  const [form] = Form.useForm();
+  const { mutate: Signup, isLoading: loading } =
+    Learner.Queries.useRegisterLearner();
 
   const onFinish = async (values: Types.SignupData) => {
-    console.log('signing up')
+    console.log("signing up");
     Signup(
       {
         email: values.email,
@@ -33,70 +30,65 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
         name: values.name,
         contactNo: values.contactNo,
         onSuccess: (user: any) => {
-          console.log('hello', user, 'huh')
+          console.log("hello", user, "huh");
           if (user.organisation) {
-            Utils.Storage.SetItem('orgId', user.organisation)
+            Utils.Storage.SetItem("orgId", user.organisation);
           }
-          form.resetFields()
+          form.resetFields();
           message.open({
-            type: 'success',
-            content: `Registered successfully ${user.name}, Welcome to ${
-              organisation.name
-            }!`,
-            particle: true
+            type: "success",
+            content: `Registered successfully ${user.name}, Welcome to ${organisation.name}!`,
+            // particle: true
             // icon: organisation.logo
-          })
-          setIsSignedin(true)
-          props.onRegisterSuccess && props.onRegisterSuccess()
-          props.closeModal && props.closeModal()
-        }
+          });
+          setIsSignedin(true);
+          props.onRegisterSuccess && props.onRegisterSuccess();
+          props.closeModal && props.closeModal();
+        },
       },
       {
         onError: (er: any) => {
           message.open({
-            type: 'error',
-            content: er.response.data.message
-          })
+            type: "error",
+            content: er.response.data.message,
+          });
         },
-        onSettled: console.log
+        onSettled: console.log,
       }
-    )
-  }
+    );
+  };
 
   // @ts-ignore
   const validateToNextPassword = (_, value) => {
-    if (value && value !== form.getFieldValue('password')) {
+    if (value && value !== form.getFieldValue("password")) {
       return Promise.reject(
-        new Error('The two passwords that you entered do not match!')
-      )
+        new Error("The two passwords that you entered do not match!")
+      );
     }
-    return Promise.resolve()
-  }
+    return Promise.resolve();
+  };
 
-  useEffect(
-    () => {
-      console.log(props.data, 'asdasd')
-      if (props.data) {
-        form.setFieldsValue(props.data)
-      }
-    },
-    [props.data]
-  )
+  useEffect(() => {
+    console.log(props.data, "asdasd");
+    if (props.data) {
+      form.setFieldsValue(props.data);
+    }
+  }, [props.data]);
 
   const validateMessages = {
-    required: '${label} is required!',
+    required: "${label} is required!",
     types: {
-      email: '${label} is not a valid email!'
+      email: "${label} is not a valid email!",
     },
     string: {
-      min: '${label} must be at least ${min} characters'
-    }
-  }
+      min: "${label} must be at least ${min} characters",
+    },
+  };
 
   return (
-    <AuthenticationCard title={'Register'}>
+    <AuthenticationCard title={"Register"}>
       <Row>
-        <Col span={24} style={{ display: 'flex', justifyContent: 'center' }}>
+        <Col span={24} style={{ display: "flex", justifyContent: "center" }}>
           <AppImage width={150} src="/images/signup.svg" />
         </Col>
         <Col span={24}>
@@ -123,12 +115,12 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your contact number!'
+                  message: "Please input your contact number!",
                 },
                 {
                   len: 10,
-                  message: 'Contact number should be 10 digits!'
-                }
+                  message: "Contact number should be 10 digits!",
+                },
               ]}
               hasFeedback
             >
@@ -137,7 +129,7 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
             <Form.Item
               name="email"
               label="Email"
-              rules={[{ required: true, type: 'email' }]}
+              rules={[{ required: true, type: "email" }]}
               hasFeedback
             >
               <Input />
@@ -153,11 +145,11 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
             <Form.Item
               name="confirm"
               label="Confirm Password"
-              dependencies={['password']}
+              dependencies={["password"]}
               hasFeedback
               rules={[
-                { required: true, message: 'Please confirm your password!' },
-                { validator: validateToNextPassword }
+                { required: true, message: "Please confirm your password!" },
+                { validator: validateToNextPassword },
               ]}
             >
               <Input.Password />
@@ -175,7 +167,7 @@ function LearnerRegister(props: LearnerRegisterPropsI) {
         </Col>
       </Row>
     </AuthenticationCard>
-  )
+  );
 }
 
-export default LearnerRegister
+export default LearnerRegister;
