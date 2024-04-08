@@ -4,7 +4,7 @@ import { useNavigate, useParams } from '@Router/index'
 import { Types } from '@adewaskar/lms-common'
 
 function useTestNavigation(test: Types.Test) {
-  const { questionId: itemId } = useParams()
+  const { questionId: itemId,testId } = useParams()
   const navigate = useNavigate()
   const [currentIndexes, setCurrentIndexes] = useState({
     sectionIndex: -1,
@@ -53,7 +53,7 @@ function useTestNavigation(test: Types.Test) {
       if (isIndexValid) {
         const newSectionId = test.sections[sectionIndex]._id
         const newItemId = test.sections[sectionIndex].items[itemIndex]._id
-        navigate(`../${newItemId}`)
+        navigate(`/app/test/${testId}/review/${newItemId}`)
       }
     },
     [currentIndexes, test.sections, navigate, test._id]
