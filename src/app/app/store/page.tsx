@@ -1,8 +1,12 @@
-import LearnerHomeScreen from "@Learner/Screens/StoreScreen/HomeScreen";
+import LearnerHomeScreen from "@Screens/post-authentication/Learner/Screens/StoreScreen/HomeScreen/HomeScreen";
 import Hydrator from "@ServerComponents/Hydrator";
 import { Learner } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
+import { Suspense } from "react";
+import HomeScreenSkeleton from "@Screens/post-authentication/Learner/Screens/StoreScreen/HomeScreen/HomeScreenSkeleton";
+import LearnerRootScreenSkeleton from "@Screens/post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreenSkeleton";
+import Providers from "app/providers";
 
 export default function Page() {
   const {
@@ -15,7 +19,6 @@ export default function Page() {
 
   const token = getToken();
   return (
-    // @ts-ignore
     <Hydrator
       queries={[
         getRecommendedProducts(),

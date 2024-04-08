@@ -59,7 +59,7 @@ import LearnerCourses from "./post-authentication/Learner/Screens/Products/Cours
 import LearnerEditor from "./post-authentication/User/Screens/Users/Learners/LearnersEditor";
 import LearnerEventsScreen from "@Learner/Screens/Products/Event/Events/EventScreen";
 import LearnerFullPageHolder from "./LearnerFullPageHolder";
-import LearnerHomeScreen from "@Learner/Screens/StoreScreen/HomeScreen";
+import LearnerHomeScreen from "@Screens/post-authentication/Learner/Screens/StoreScreen/HomeScreen/HomeScreen";
 import LearnerPrivacyPolicy from "@Learner/Screens/ExtraPages/PrivacyPolicy";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import LearnerStoreScreen from "@Learner/Screens/StoreScreen/StoreScreen";
