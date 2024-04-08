@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { Store } from "@adewaskar/lms-common";
 import { useCookies } from "react-cookie";
+import { useAppInit } from "@Hooks/CommonHooks";
 
 export const ServerAuthProvider = ({ children }) => {
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -46,6 +47,8 @@ export const ServerAuthProvider = ({ children }) => {
     tokenCookie,
     validateUser,
   ]);
+
+  useAppInit();
 
   useEffect(() => {
     checkAuthentication();

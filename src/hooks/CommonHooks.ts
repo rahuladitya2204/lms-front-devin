@@ -22,46 +22,72 @@ export const useGetNodeFromRouterOutlet = () => {
   return {  courseId,sectionId };
 }
 
+/**
+ * Custom hook to determine if a component is currently mounted.
+ *
+ * @description
+ * The `useIsMounted` hook keeps track of the component's mounted state. 
+ * It returns a boolean value indicating whether the component is currently mounted or not.
+ *
+ * When the component mounts, the `useEffect` hook sets the `isMounted` state to `true`.
+ * When the component unmounts, the cleanup function sets the `isMounted` state to `false`.
+ *
+ * This hook is useful for conditionally executing code that depends on the component
+ * being mounted, such as accessing browser-specific APIs or performing DOM manipulations.
+ */
+const useIsMounted = () => {
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  return isMounted;
+};
+
+// SSR safe by using useIsMounted
 export const useAppInit = () => {
+  const isMounted = useIsMounted();
   const isValidAlias = Store.useGlobal(s => s.isAliasValid);
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   usePushNotification(isSignedIn);
-  const { data: organisation,isLoading: loadingOrganisation } = Common.Queries.useGetOrgDetails();
-  const { mutate: validateOrgAlias,isLoading: validatingOrgAlias } = Common.Queries.useValidateOrgAlias();
+  const { data: organisation, isLoading: loadingOrganisation } = Common.Queries.useGetOrgDetails();
+  const { mutate: validateOrgAlias, isLoading: validatingOrgAlias } = Common.Queries.useValidateOrgAlias();
   const { mutate: validateAffiliateId } = Common.Queries.useValidateAffiliateId();
-  let { subdomain, affiliateId } = useMemo(
-    () => {
-      const queryString = window.location.search;
-      const queryParams = new URLSearchParams(queryString);
-      const affiliateId = queryParams.get('ref'); // Replace 'myParam' with your parameter name
-      const parts = window.location.hostname.split('.');
-      // Assuming the format is always [subdomain].[domain].[tld]
-      const subdomain = parts.slice(0, -2).join('-');
-      // console.log(subdomain,'ddss')
-      return {
-        affiliateId,subdomain
-      }
-    },
-    [window.location]
-  )
-  useEffect(() => {// uncomment this later
-    const sd = subdomain + '';
-    // console.log(sd, 'ssss');
-    // const sd = `www`
-    validateOrgAlias({
-      alias: sd,
-    });
-  }, [])
+
+  const [subdomain, setSubdomain] = useState('');
+  const [affiliateId, setAffiliateId] = useState('');
 
   useEffect(() => {
-    if (affiliateId && isValidAlias) {
+    if (isMounted) {
+      const queryString = window.location.search;
+      const queryParams = new URLSearchParams(queryString);
+      const affiliateId = queryParams.get('ref') || '';
+      const parts = window.location.hostname.split('.');
+      const subdomain = parts.slice(0, -2).join('-');
+
+      setSubdomain(subdomain);
+      setAffiliateId(affiliateId);
+    }
+  }, [isMounted]);
+
+  useEffect(() => {
+    if (isMounted && subdomain) {
+      validateOrgAlias({ alias: subdomain ?? '' });
+    }
+  }, [isMounted, subdomain, validateOrgAlias]);
+
+  useEffect(() => {
+    if (isMounted && affiliateId && isValidAlias) {
       validateAffiliateId({ affiliateId });
-      }
-  },[affiliateId,isValidAlias])
+    }
+  }, [isMounted, affiliateId, isValidAlias, validateAffiliateId]);
 
-  return { isInitDone: (isValidAlias&&!loadingOrganisation) }
-}
-
+  return {
+    isInitDone: isValidAlias && !loadingOrganisation,
+  };
+};
 
 export const usePaymentCheckout = () => {
   const { data: organisation } = Learner.Queries.useGetOrgDetails()
