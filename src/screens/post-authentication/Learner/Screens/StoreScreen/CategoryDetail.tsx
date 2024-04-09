@@ -1,31 +1,27 @@
-import { Col, Row, Skeleton } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Col, Row, Skeleton } from "antd";
+import { Learner, Types } from "@adewaskar/lms-common";
 
-import AppImage from '@Components/Image'
-import BackButton from '@Components/BackButton'
-import CourseCard from './Cards/CourseCard'
-import EventCard from './Cards/EventCard'
-import Section from '@Components/Section'
-import SkeletonImage from '@Components/SkeletonImage'
-import TestCard from './Cards/TestCard'
-import { Typography } from '@Components/Typography'
-import { capitalize } from 'lodash'
-import { useParams } from '@Router/index'
+import AppImage from "@Components/Image";
+import BackButton from "@Components/BackButton";
+import CourseCard from "./Cards/CourseCard";
+import EventCard from "./Cards/EventCard";
+import Section from "@Components/Section";
+import SkeletonImage from "@Components/SkeletonImage";
+import TestCard from "./Cards/TestCard";
+import { Typography } from "@Components/Typography";
+import { capitalize } from "lodash";
+import { useParams } from "@Router/index";
 
 interface CategoryDetailPropsI {}
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
 export default function CategoryDetail() {
-  const { id: categoryId } = useParams()
-  const {
-    data: category,
-    isLoading: loadingCategory
-  } = Learner.Queries.useGetProductCategoryDetails(categoryId + '')
-  const {
-    data: products,
-    isLoading: loadingProducts
-  } = Learner.Queries.useGetCategoryProducts(categoryId + '')
+  const { id: categoryId } = useParams();
+  const { data: category, isLoading: loadingCategory } =
+    Learner.Queries.useGetProductCategoryDetails(categoryId + "");
+  const { data: products, isLoading: loadingProducts } =
+    Learner.Queries.useGetCategoryProducts(categoryId + "");
   // console.log(products, 'popopo')
   const SkeletonCards = (
     <Row gutter={[20, 20]}>
@@ -34,10 +30,10 @@ export default function CategoryDetail() {
           <Col sm={12} md={8} xs={24} lg={6} style={{ marginTop: 30 }}>
             <SkeletonImage active style={{ flex: 1, height: 200 }} />
           </Col>
-        )
+        );
       })}
     </Row>
-  )
+  );
   // const isLoading=
   return loadingCategory ? (
     <Row gutter={[20, 30]}>
@@ -64,42 +60,42 @@ export default function CategoryDetail() {
           </Col>
           <Col span={24}>
             {/* @ts-ignore */}
-            <Title level={5}>{category.description}</Title>{' '}
+            <Title level={5}>{category.description}</Title>{" "}
           </Col>
           <Col span={24}>
-            {Object.keys(products).map(key => {
+            {Object.keys(products).map((key) => {
               if (loadingProducts) {
                 return (
                   <Row gutter={[20, 30]}>
                     <Col span={24}>{SkeletonCards}</Col>
                   </Row>
-                )
+                );
               }
               /* @ts-ignore */
               return products[key]?.length ? (
                 <Section title={capitalize(key)}>
                   <Row gutter={[20, 20]}>
                     {/* @ts-ignore */}
-                    {products[key].map(product => {
+                    {products[key].map((product) => {
                       return (
                         <Col sm={12} md={8} xs={24} lg={6}>
-                          {key === 'courses' ? (
+                          {key === "courses" ? (
                             <CourseCard course={product} />
                           ) : null}
-                          {key === 'events' ? (
+                          {key === "events" ? (
                             <EventCard event={product} />
                           ) : null}
-                          {key === 'tests' ? <TestCard test={product} /> : null}
+                          {key === "tests" ? <TestCard test={product} /> : null}
                         </Col>
-                      )
+                      );
                     })}
                   </Row>
                 </Section>
-              ) : null
+              ) : null;
             })}
           </Col>
         </Row>
       </Col>
     </Row>
-  )
+  );
 }

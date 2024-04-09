@@ -1,15 +1,15 @@
-"use client"
-import { Enum } from '@adewaskar/lms-common'
-import PastEvent from './PastTests'
-import PastTest from './PastTests'
-import Tabs from '@Components/Tabs'
-import UpcomingEvent from './UpcomingTests'
-import UpcomingTest from './UpcomingTests'
-import { useNavigate } from '@Router/index'
-import { useSearchParams } from '@Router/index'
+"use client";
+import { Enum } from "@adewaskar/lms-common";
+import PastEvent from "./PastTests";
+import PastTest from "./PastTests";
+import Tabs from "@Components/Tabs";
+import UpcomingEvent from "./UpcomingTests";
+import UpcomingTest from "./UpcomingTests";
+import { useNavigate } from "@Router/index";
+import { useSearchParams } from "@Router/index";
 
 const EventsScreen = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   // const [params, setParams] = useSearchParams();
   return (
     // <Card
@@ -19,24 +19,24 @@ const EventsScreen = () => {
       navigateWithHash
       items={[
         {
-          key: 'upcoming',
+          key: "upcoming",
           label: `Upcoming`,
           children: (
             <UpcomingTest
               filter={{
-                status: [Enum.TestStatus.DRAFT, Enum.TestStatus.PUBLISHED]
+                status: [Enum.TestStatus.DRAFT, Enum.TestStatus.PUBLISHED],
               }}
             />
-          )
+          ),
         },
         {
-          key: 'past',
+          key: "past",
           label: `Past`,
-          children: <PastTest filter={{ status: [Enum.TestStatus.ENDED] }} />
-        }
+          children: <PastTest filter={{ status: [Enum.TestStatus.ENDED] }} />,
+        },
       ]}
     />
-  )
-}
+  );
+};
 
-export default EventsScreen
+export default EventsScreen;

@@ -68,12 +68,12 @@ const { confirm } = Modal;
 const { Title, Text } = Typography;
 
 interface TestMetricsPropsI {
-  testId: string;
+  // testId?: string;
 }
 
 export default function TestMetrics(props: TestMetricsPropsI) {
   const navigate = useNavigate();
-  const { testId } = props;
+  const { testId } = useParams();
   const qc = useQueryClient();
   const {
     data: { topics: topicIds },

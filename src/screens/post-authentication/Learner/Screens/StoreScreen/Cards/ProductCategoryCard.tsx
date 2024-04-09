@@ -16,6 +16,7 @@ import { Utils } from "@adewaskar/lms-common";
 import { capitalize } from "lodash";
 import styled from "@emotion/styled";
 import Link from "next/link";
+import { getIsServer } from "@ServerUtils/index";
 
 const { Text } = Typography;
 
@@ -33,8 +34,16 @@ margin-bottom: 20px; */
 
 function ProductCategoryCard(props: ProductCategoryCardPropsI) {
   const { productCategory } = props;
+  const isServer = getIsServer();
   const CardComponent = (
-    <Link href={`/app/category/${productCategory._id}`} prefetch={true}>
+    <Link
+      href={
+        isServer
+          ? `/category/${productCategory._id}`
+          : `/app/category/${productCategory._id}`
+      }
+      prefetch={true}
+    >
       <Card
         hoverable
         style={{ display: "flex", alignItems: "center" }}

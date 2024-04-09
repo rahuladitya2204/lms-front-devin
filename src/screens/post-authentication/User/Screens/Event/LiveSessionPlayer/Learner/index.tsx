@@ -1,34 +1,32 @@
 import {
   ConsoleLogger,
   DefaultDeviceController,
-  LogLevel
-} from 'amazon-chime-sdk-js'
+  LogLevel,
+} from "amazon-chime-sdk-js";
 import {
   GlobalStyles,
   MeetingProvider,
   RosterProvider,
-  lightTheme
-} from 'amazon-chime-sdk-component-library-react'
-import { Outlet } from 'react-router'
-import { useParams } from '@Router/index'
+  lightTheme,
+} from "amazon-chime-sdk-component-library-react";
+import { Outlet } from "react-router";
+import { useParams } from "@Router/index";
 
-import { Learner } from '@adewaskar/lms-common'
-import { NavigationProvider } from './Player/Navigation/NavigationProvider'
-import { ThemeProvider } from 'styled-components'
+import { Learner } from "@adewaskar/lms-common";
+import { NavigationProvider } from "./Player/Navigation/NavigationProvider";
+import { ThemeProvider } from "styled-components";
 
 const LearnerEventPlayerEnter = () => {
-  const { eventId } = useParams()
-  const logger = new ConsoleLogger('SDK', LogLevel.INFO)
-  const deviceController = new DefaultDeviceController(logger)
+  const { eventId } = useParams();
+  const logger = new ConsoleLogger("SDK", LogLevel.INFO);
+  const deviceController = new DefaultDeviceController(logger);
   const meetingConfig = {
     logLevel: LogLevel.INFO,
-    simulcastEnabled: true
-  }
-  const { data: session } = Learner.Queries.useGetEventDetails(
-    eventId + ''
-  )
+    simulcastEnabled: true,
+  };
+  const { data: session } = Learner.Queries.useGetEventDetails(eventId + "");
 
-  console.log(session, 'tukur')
+  console.log(session, "tukur");
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyles />
@@ -47,7 +45,7 @@ const LearnerEventPlayerEnter = () => {
         </NavigationProvider>
       </MeetingProvider>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default LearnerEventPlayerEnter
+export default LearnerEventPlayerEnter;

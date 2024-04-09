@@ -155,7 +155,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
         <span>
           <BackButton
             disabled={!packageDetails.category}
-            onClick={() => navigate(`/app/products/packages`)}
+            onClick={() => navigate(`/admin/products/packages`)}
           />{" "}
           {packageDetails._id ? packageDetails.title : "Create Package"}
           {packageDetails.status !== Enum.PackageStatus.PUBLISHED

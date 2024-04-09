@@ -1,39 +1,40 @@
-import { Store, User, Utils } from '@adewaskar/lms-common'
-import { useEffect, useState } from 'react'
+import { Store, User, Utils } from "@adewaskar/lms-common";
+import { useEffect, useState } from "react";
 
-import { useNavigate } from '@Router/index'
+import { useNavigate } from "@Router/index";
 
 const useUserOauth = (provider: string) => {
-  const navigate = useNavigate()
-  const [loading, setLoading] = useState(false)
-  const { data: googleLoginUrl } = User.Queries.useGetProviderLoginUrl(provider)
-  const setIsSignedin = Store.useAuthentication(state => state.setIsSignedin)
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const { data: googleLoginUrl } =
+    User.Queries.useGetProviderLoginUrl(provider);
+  const setIsSignedin = Store.useAuthentication((state) => state.setIsSignedin);
   useEffect(() => {
     window.addEventListener(
-      'message',
-      function(e) {
-        if (e.data.type === 'oauth-completed') {
-          console.log(e.data, 'token')
-          const token = e.data.data.token
-          Utils.Storage.SetItem('user-auth-token', token)
-          setIsSignedin(true)
-          setLoading(false)
-          navigate(`../app/courses`)
+      "message",
+      function (e) {
+        if (e.data.type === "oauth-completed") {
+          console.log(e.data, "token");
+          const token = e.data.data.token;
+          Utils.Storage.SetItem("user-auth-token", token);
+          setIsSignedin(true);
+          setLoading(false);
+          navigate(`/admin/courses`);
         }
       },
       false
-    )
-  }, [])
+    );
+  }, []);
 
   const openWindow = () => {
-    setLoading(true)
-    window.open(googleLoginUrl)
-  }
+    setLoading(true);
+    window.open(googleLoginUrl);
+  };
 
   return {
     openWindow,
-    loading
-  }
-}
+    loading,
+  };
+};
 
-export default useUserOauth
+export default useUserOauth;

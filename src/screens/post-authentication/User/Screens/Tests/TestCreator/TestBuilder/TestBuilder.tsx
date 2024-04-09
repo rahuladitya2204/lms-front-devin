@@ -107,7 +107,7 @@ function TestBuilderScreen() {
           const newlyAdedItem = test.sections.pop().items.pop();
           console.log(test.sections, "newlyAdedItem");
           navigate(
-            `../app/products/test/${TEST._id}/builder/${newlyAdedItem?._id}`
+            `/admin/products/test/${TEST._id}/builder/${newlyAdedItem?._id}`
           );
         },
       }
@@ -153,7 +153,7 @@ function TestBuilderScreen() {
           const newlyAdedItem = [...test.sections[index].items].pop();
           // console.log(test.sections, 'newlyAdedItem')
           navigate(
-            `../app/products/test/${TEST._id}/builder/${newlyAdedItem?._id}`
+            `/admin/products/test/${TEST._id}/builder/${newlyAdedItem?._id}`
           );
         },
       }
@@ -267,7 +267,7 @@ function TestBuilderScreen() {
               // @ts-ignore
               onClick={() => {
                 console.log(test.category, "asasas");
-                navigate(`../app/products/test/${testId}/editor`);
+                navigate(`/admin/products/test/${testId}/editor`);
               }}
             />
             {test.title}{" "}

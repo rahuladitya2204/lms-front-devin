@@ -1,15 +1,25 @@
-import { Avatar, Badge, Card, Col, Row, Space, Tag, Tooltip, Typography } from 'antd'
+import {
+  Avatar,
+  Badge,
+  Card,
+  Col,
+  Row,
+  Space,
+  Tag,
+  Tooltip,
+  Typography,
+} from "antd";
 import {
   BarChartOutlined,
   InfoCircleOutlined,
   ToolOutlined,
-} from '@ant-design/icons'
-import { Enum, Types } from '@adewaskar/lms-common'
+} from "@ant-design/icons";
+import { Enum, Types } from "@adewaskar/lms-common";
 
-import Image from '@Components/Image'
-import dayjs from 'dayjs';
-import styled from '@emotion/styled'
-import { useNavigate } from '@Router/index'
+import Image from "@Components/Image";
+import dayjs from "dayjs";
+import styled from "@emotion/styled";
+import { useNavigate } from "@Router/index";
 
 const { Text } = Typography;
 
@@ -21,32 +31,37 @@ const CourseCardHolder = styled(Card)`
   img {
     width: 100%;
   }
-`
+`;
 
 function CourseCard(props: CourseCardProps) {
   const navigate = useNavigate();
   const user = props.course.user as unknown as Types.User;
-  const coverImage = <Image height={200}
-    alt="example"
-    src={props.course.thumbnailImage}
-
-  />;
+  const coverImage = (
+    <Image height={200} alt="example" src={props.course.thumbnailImage} />
+  );
 
   const isPublished = props.course.status === Enum.CourseStatus.PUBLISHED;
   const isDraft = props.course.status === Enum.CourseStatus.DRAFT;
   return (
-    <CourseCardHolder hoverable
-
-      cover={(isDraft || isPublished)?
-        <Badge.Ribbon color={isDraft?"orange":"green"} text={isDraft?"Draft":"Published"}>
-         {coverImage}
-        </Badge.Ribbon>:coverImage
+    <CourseCardHolder
+      hoverable
+      cover={
+        isDraft || isPublished ? (
+          <Badge.Ribbon
+            color={isDraft ? "orange" : "green"}
+            text={isDraft ? "Draft" : "Published"}
+          >
+            {coverImage}
+          </Badge.Ribbon>
+        ) : (
+          coverImage
+        )
       }
       actions={[
         <InfoCircleOutlined
           onClick={() => navigate(`${props.course._id}/editor#information`)}
         />,
-        <Tooltip placement="bottom" title={'Go to course builder'}>
+        <Tooltip placement="bottom" title={"Go to course builder"}>
           <ToolOutlined
             onClick={() => navigate(`${props.course._id}/builder`)}
           />
@@ -58,9 +73,11 @@ function CourseCard(props: CourseCardProps) {
         //     }
         //   />
         // </Tooltip>,
-        <BarChartOutlined onClick={() => {
-          navigate(`${props.course._id}/analytics`)
-        }} />,
+        <BarChartOutlined
+          onClick={() => {
+            navigate(`${props.course._id}/analytics`);
+          }}
+        />,
         // <WechatOutlined />,
         // <SettingOutlined />
       ]}
@@ -68,21 +85,25 @@ function CourseCard(props: CourseCardProps) {
       <Card.Meta
         // @ts-ignore
         description={
-          <Row gutter={[20,10]}>
+          <Row gutter={[20, 10]}>
             <Col span={24}>
-            <Tag color="blue">Enrolled: {props.course.analytics.enrolled.count}</Tag>
-           </Col>
+              <Tag color="blue">
+                Enrolled: {props.course.analytics.enrolled.count}
+              </Tag>
+            </Col>
 
             <Col span={24}>
-              <Text style={{fontSize:14}}>Last Updated: {dayjs(props.course.updatedAt).format('l')}</Text>
-              </Col>
-        </Row>
-          }
+              <Text style={{ fontSize: 14 }}>
+                Last Updated: {dayjs(props.course.updatedAt).format("l")}
+              </Text>
+            </Col>
+          </Row>
+        }
         avatar={<Avatar src={user?.image} />}
-        title={props.course.title || ''} 
+        title={props.course.title || ""}
       />
     </CourseCardHolder>
-  )
+  );
 }
 
-export default CourseCard
+export default CourseCard;

@@ -1,75 +1,85 @@
-import { Button, Card, Col, Dropdown, Row, Select, Space, Table, Tag } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
-import { EditOutlined, PlusOutlined } from '@ant-design/icons'
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Row,
+  Select,
+  Space,
+  Table,
+  Tag,
+} from "antd";
+import { Common, Types } from "@adewaskar/lms-common";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AddWhatsappTemplate from './AddWhatsappTemplate'
-import Header from '@Components/Header'
-import { User } from '@adewaskar/lms-common'
-import { WhatsappTemplateStatusMap } from '../Constant'
-import { useNavigate } from '@Router/index'
-import { useState } from 'react'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import AddWhatsappTemplate from "./AddWhatsappTemplate";
+import Header from "@Components/Header";
+import { User } from "@adewaskar/lms-common";
+import { WhatsappTemplateStatusMap } from "../Constant";
+import { useNavigate } from "@Router/index";
+import { useState } from "react";
 
 function WhatsappTemplatesScreen() {
   // const navigate = useNavigate();
-  const { data, isFetching: loading } = User.Queries.useGetWhatsappTemplates()
-  const {mutate: sendForApproval } = User.Queries.useSendTemplateForApproval();
+  const { data, isFetching: loading } = User.Queries.useGetWhatsappTemplates();
+  const { mutate: sendForApproval } = User.Queries.useSendTemplateForApproval();
   return (
-      <Card
-        bodyStyle={{ padding: 0 }}
-        title={'Whatsapp Templates'}
-        extra={
-          <>
+    <Card
+      bodyStyle={{ padding: 0 }}
+      title={"Whatsapp Templates"}
+      extra={
+        <>
           <ActionModal
-          title="Create Whatsapp Template"
-          cta={
-            <Button style={{marginRight: 20}} icon={<PlusOutlined />} type="primary">
-              Create Custom Template
-            </Button>
-          }
-        >
-          <AddWhatsappTemplate> </AddWhatsappTemplate>
-        </ActionModal>
-          </>
-        }
-      >
-        <Row>
-          <Col span={24}>
-            <Table
-              dataSource={data}
-              loading={loading}
-            >
+            title="Create Whatsapp Template"
+            cta={
+              <Button
+                style={{ marginRight: 20 }}
+                icon={<PlusOutlined />}
+                type="primary"
+              >
+                Create Custom Template
+              </Button>
+            }
+          >
+            <AddWhatsappTemplate> </AddWhatsappTemplate>
+          </ActionModal>
+        </>
+      }
+    >
+      <Row>
+        <Col span={24}>
+          <Table dataSource={data} loading={loading}>
+            <Table.Column
+              title="Template Name"
+              dataIndex="title"
+              key="title"
+              render={(_: any, record: Types.WhatsappTemplate) => (
+                <Space size="middle">{record.name}</Space>
+              )}
+            />
 
             <Table.Column
-                  title="Template Name"
-                  dataIndex="title"
-                  key="title"
-                  render={(_: any, record: Types.WhatsappTemplate) => (
-                    <Space size="middle">{record.name}</Space>
-                  )}
-            />
-     
-     <Table.Column
-                title="Status"
-                dataIndex="status"
-                key="status"
-                render={(_: any, record: Types.WhatsappTemplate) => (
-                  <Space size="middle">
-                    {/* @ts-ignore */}
-                    <Tag color={WhatsappTemplateStatusMap[record.status].color}>
+              title="Status"
+              dataIndex="status"
+              key="status"
+              render={(_: any, record: Types.WhatsappTemplate) => (
+                <Space size="middle">
+                  {/* @ts-ignore */}
+                  <Tag color={WhatsappTemplateStatusMap[record.status].color}>
                     {/* @ts-ignore */}
                     {WhatsappTemplateStatusMap[record.status].title}
-                    </Tag>
-                  </Space>
-                )}
-              />
-            
+                  </Tag>
+                </Space>
+              )}
+            />
+
             <Table.Column
-                title="Category"
-                dataIndex="category"
-                key="category"
-              />
-{/* 
+              title="Category"
+              dataIndex="category"
+              key="category"
+            />
+            {/* 
 
               <Table.Column
                 title="Total Sent"
@@ -90,7 +100,7 @@ function WhatsappTemplatesScreen() {
                 key="failureCount"
               />
                */}
-              {/* <Table.Column
+            {/* <Table.Column
                 title="Status"
                 dataIndex="status"
                 key="status"
@@ -102,66 +112,70 @@ function WhatsappTemplatesScreen() {
                   </Space>
                 )}
               /> */}
-                    <Table.Column
-                title="Action"
-                key="action"
-                render={(_: any, record: Types.Ticket) => (
-                  <Dropdown.Button
-                    menu={{
-                      items: [
-                        record.status==='draft'?{
-                          label:  <a
-                          onClick={() => {
-                            sendForApproval({
-                              id: record._id + ''
-                            })
-                          }}
-                        >
-                          Send for approval
-                          </a>,
-                          key:'send'
-                          
-                        } : null,
-                        {
-                          label:  <a
-                          onClick={() => {
-                            sendForApproval({
-                              id: record._id + ''
-                            })
-                          }}
-                        >
-                          Edit Campign
-                          </a>,
-                          key:'edit'
-                          
-                        },
-                        {
-                          label:  <a
-                          onClick={() => {
-                            sendForApproval({
-                              id: record._id + ''
-                            })
-                          }}
-                        >
-                          Delete Campign
-                          </a>,
-                          key:'delete'
-                          
-                      }
-                      ]
-                    }}
-                    trigger={['click']}
-                  >
-                    More
-                  </Dropdown.Button>
-                )}
-              />
-            </Table>
-          </Col>
-        </Row>
-      </Card>
-
-  )
+            <Table.Column
+              title="Action"
+              key="action"
+              render={(_: any, record: Types.Ticket) => (
+                <Dropdown.Button
+                  menu={{
+                    items: [
+                      record.status === "draft"
+                        ? {
+                            label: (
+                              <a
+                                onClick={() => {
+                                  sendForApproval({
+                                    id: record._id + "",
+                                  });
+                                }}
+                              >
+                                Send for approval
+                              </a>
+                            ),
+                            key: "send",
+                          }
+                        : null,
+                      {
+                        label: (
+                          <a
+                            onClick={() => {
+                              sendForApproval({
+                                id: record._id + "",
+                              });
+                            }}
+                          >
+                            Edit Campign
+                          </a>
+                        ),
+                        key: "edit",
+                      },
+                      {
+                        label: (
+                          <a
+                            onClick={() => {
+                              sendForApproval({
+                                id: record._id + "",
+                              });
+                            }}
+                          >
+                            Delete Campign
+                          </a>
+                        ),
+                        key: "delete",
+                      },
+                    ],
+                  }}
+                  trigger={["click"]}
+                >
+                  More
+                </Dropdown.Button>
+              )}
+            />
+          </Table>
+        </Col>
+      </Row>
+    </Card>
+  );
 }
 
-export default WhatsappTemplatesScreen
+export default WhatsappTemplatesScreen;

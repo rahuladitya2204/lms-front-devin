@@ -33,11 +33,11 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 const { Title, Text } = Typography;
 
 interface TestRulesPropsI {
-  testId: string;
+  // testId?: string;
 }
 
 export default function TestRules(props: TestRulesPropsI) {
-  const { testId } = props;
+  const { testId } = useParams();
   const {} = Learner.Queries.useGetLearnerDetails();
   const { mutate: startTest, isLoading: startingTest } =
     Learner.Queries.useStartTest(testId + "");

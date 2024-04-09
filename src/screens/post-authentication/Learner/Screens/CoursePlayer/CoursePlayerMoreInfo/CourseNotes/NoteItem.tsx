@@ -8,66 +8,70 @@ import {
   Row,
   Space,
   Tag,
-} from 'antd'
+} from "antd";
 import {
   CaretDownOutlined,
   DeleteOutlined,
   DotChartOutlined,
   EditOutlined,
-  PlayCircleOutlined
-} from '@ant-design/icons'
-import { Constants, Learner, Store, Types } from '@adewaskar/lms-common'
-import React, { useState } from 'react'
+  PlayCircleOutlined,
+} from "@ant-design/icons";
+import { Constants, Learner, Store, Types } from "@adewaskar/lms-common";
+import React, { useState } from "react";
 
-import CreateNote from './CreateNote'
-import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
-import MoreButton from '@Components/MoreButton'
-import { Typography } from '@Components/Typography'
-import { formatSeconds } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useParams } from '@Router/index'
+import CreateNote from "./CreateNote";
+import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
+import MoreButton from "@Components/MoreButton";
+import { Typography } from "@Components/Typography";
+import { formatSeconds } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import { useParams } from "@Router/index";
 
-const { Text } = Typography
-const { confirm } = Modal
+const { Text } = Typography;
+const { confirm } = Modal;
 interface CourseNoteItemPropsI {
   course: Types.Course;
   note: Types.CourseNote;
 }
-const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
-  const { mutate: deleteNoteApi } = Learner.Queries.useDeleteNote()
-  const playerInstance = Store.usePlayer(s => s.state.playerInstance)
-  const { sectionId, itemId } = useParams()
-  const section = props.course.sections.find(s => s._id === sectionId)
-  const item = section?.items.find(i => i._id === itemId);
-  const {name } = Store.useAuthentication(s => s.learner);
-  const time = formatSeconds(props.note.time)
-  const [selectedNote, setSelectedNote] = useState<Types.CourseNote>(Constants.INITIAL_COURSE_NOTE_DETAILS);
+const CourseNoteItem: React.FC<CourseNoteItemPropsI> = (props) => {
+  const { mutate: deleteNoteApi } = Learner.Queries.useDeleteNote();
+  const playerInstance = Store.usePlayer((s) => s.state.playerInstance);
+  const { sectionId, itemId } = useParams();
+  const section = props.course.sections.find((s) => s._id === sectionId);
+  const item = section?.items.find((i) => i._id === itemId);
+  const { name } = Store.useAuthentication((s) => s.learner);
+  const time = formatSeconds(props.note.time);
+  const [selectedNote, setSelectedNote] = useState<Types.CourseNote>(
+    Constants.INITIAL_COURSE_NOTE_DETAILS
+  );
   const deleteNote = () => {
     confirm({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       // icon: <ExclamationCircleOutlined />,
       content: `You want to delete this note`,
       onOk() {
         deleteNoteApi(
           {
             courseId: props.course._id,
-            noteId: props.note._id + ''
+            noteId: props.note._id + "",
           },
           {
-            onSuccess: () => {}
+            onSuccess: () => {},
           }
-        )
+        );
       },
-      okText: 'Delete'
-    })
-  }
+      okText: "Delete",
+    });
+  };
 
   return selectedNote._id ? (
     <Row>
       <Col span={24}>
         <CreateNote
-          onFinish={e => setSelectedNote(Constants.INITIAL_COURSE_NOTE_DETAILS)}
+          onFinish={(e) =>
+            setSelectedNote(Constants.INITIAL_COURSE_NOTE_DETAILS)
+          }
           selectedNote={selectedNote}
-          item={itemId + ''}
+          item={itemId + ""}
           courseId={props.course._id}
         />
       </Col>
@@ -75,30 +79,34 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
   ) : (
     <List.Item
       actions={[
-          <Button onClick={ () => {
+        <Button
+          onClick={() => {
             if (playerInstance) {
-              playerInstance.currentTime = 3
+              playerInstance.currentTime = 3;
             }
-          }} icon={<PlayCircleOutlined/> }>Play Here</Button>,
+          }}
+          icon={<PlayCircleOutlined />}
+        >
+          Play Here
+        </Button>,
         <MoreButton
           items={[
-
             {
               label: `Edit`,
               onClick: () => {
-                setSelectedNote(props.note)
+                setSelectedNote(props.note);
               },
-              key: 'edit',
-              icon: <EditOutlined />
+              key: "edit",
+              icon: <EditOutlined />,
             },
             {
               label: `Delete`,
               onClick: deleteNote,
-              key: 'play',
-              icon: <DeleteOutlined />
-            }
+              key: "play",
+              icon: <DeleteOutlined />,
+            },
           ]}
-        />
+        />,
       ]}
     >
       <List.Item.Meta
@@ -119,7 +127,7 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = props => {
         }
       />
     </List.Item>
-  )
-}
+  );
+};
 
-export default CourseNoteItem
+export default CourseNoteItem;

@@ -82,7 +82,7 @@ function CourseEditor() {
               title={
                 <span>
                   <BackButton
-                    onClick={() => navigate(`../app/products/courses`)}
+                    onClick={() => navigate(`/admin/products/courses`)}
                   />{" "}
                   {course.title}
                 </span>
@@ -94,7 +94,7 @@ function CourseEditor() {
                   <Button
                     style={{ marginRight: 10 }}
                     onClick={() => {
-                      navigate(`../app/products/courses/${course._id}/builder`);
+                      navigate(`/admin/products/courses/${course._id}/builder`);
                     }}
                   >
                     Go to Course Builder

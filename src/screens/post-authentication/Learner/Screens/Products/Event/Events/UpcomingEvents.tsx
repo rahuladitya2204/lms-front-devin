@@ -1,18 +1,18 @@
-import { Avatar, Card, Col, List, Row, Space, Table } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Avatar, Card, Col, List, Row, Space, Table } from "antd";
+import { Learner, Types } from "@adewaskar/lms-common";
 
-import Image from '@Components/Image'
-import dayjs from 'dayjs'
-import { useNavigate } from '@Router/index'
+import Image from "@Components/Image";
+import dayjs from "dayjs";
+import { useNavigate } from "@Router/index";
 
-const { Meta } = Card
+const { Meta } = Card;
 
 function UpcomingEvent(props: { filter: Types.GetEventsFilter }) {
   const { data, isFetching: loading } = Learner.Queries.useGetEvents(
     props.filter
-  )
-  const navigate = useNavigate()
-  console.log(data, 'data')
+  );
+  const navigate = useNavigate();
+  console.log(data, "data");
   return (
     <List
       grid={{
@@ -22,14 +22,14 @@ function UpcomingEvent(props: { filter: Types.GetEventsFilter }) {
         md: 4,
         lg: 4,
         xl: 6,
-        xxl: 3
+        xxl: 3,
       }}
       dataSource={data}
-      renderItem={item => (
+      renderItem={(item) => (
         <List.Item
           onClick={() => {
             // @ts-ignore
-            navigate(item.product.id)
+            navigate(item.product.id);
           }}
         >
           <Card
@@ -53,12 +53,12 @@ function UpcomingEvent(props: { filter: Types.GetEventsFilter }) {
               // @ts-ignore
               title={item.product.data.title}
               // @ts-ignore
-              description={dayjs(item.product.data.scheduledAt).format('LLL')}
+              description={dayjs(item.product.data.scheduledAt).format("LLL")}
             />
           </Card>
         </List.Item>
       )}
     />
-  )
+  );
 }
-export default UpcomingEvent
+export default UpcomingEvent;

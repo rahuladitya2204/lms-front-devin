@@ -1,16 +1,16 @@
-import { Alert, Button, Card, Empty, Form, Input, Space } from 'antd'
+import { Alert, Button, Card, Empty, Form, Input, Space } from "antd";
 
-import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
-import MediaUpload from '@Components/MediaUpload'
-import SelectThumbnail from '@Components/SelectThumbnail'
-import { Text } from '@Components/Typography/Typography'
-import TextArea from '@Components/Textarea'
+import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
+import MediaUpload from "@Components/MediaUpload";
+import SelectThumbnail from "@Components/SelectThumbnail";
+import { Text } from "@Components/Typography/Typography";
+import TextArea from "@Components/Textarea";
 //
-import { Types } from '@adewaskar/lms-common'
-import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useLayoutEffect } from 'react'
+import { Types } from "@adewaskar/lms-common";
+import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import { useLayoutEffect } from "react";
 // import { patchObject } from '../../utils'
-import { useParams } from '@Router/index'
+import { useParams } from "@Router/index";
 
 interface TestLandingPageEditorPropsI {
   testId: string;
@@ -20,25 +20,22 @@ interface TestLandingPageEditorPropsI {
 }
 
 function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
-  const { id } = useParams()
-  const { test } = props
-  const testId = props.testId || id + ''
-  const [form] = Form.useForm()
-  const promoVideoFile = test.landingPage.promoVideo
-  useLayoutEffect(
-    () => {
-      form.setFieldsValue(test.landingPage)
-    },
-    [test]
-  )
-  const landingPageDescription = Form.useWatch(['description'], form)
+  const { id } = useParams();
+  const { test } = props;
+  const testId = props.testId || id + "";
+  const [form] = Form.useForm();
+  const promoVideoFile = test.landingPage.promoVideo;
+  useLayoutEffect(() => {
+    form.setFieldsValue(test.landingPage);
+  }, [test]);
+  const landingPageDescription = Form.useWatch(["description"], form);
   const onValuesChange = (d: Partial<Types.TestLandingPage>) => {
-    const data = deepPatch(test.landingPage, d)
+    const data = deepPatch(test.landingPage, d);
     props.saveTest({
-      landingPage: data
-    })
-  }
-  const landingPageLength = landingPageDescription?.length
+      landingPage: data,
+    });
+  };
+  const landingPageLength = landingPageDescription?.length;
   return (
     <Form
       onValuesChange={onValuesChange}
@@ -52,41 +49,41 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
         extra={[
           <MediaUpload
             source={{
-              type: 'test.promoVideo',
-              value: testId + ''
+              type: "test.promoVideo",
+              value: testId + "",
             }}
             prefixKey={`Tests/${testId}/promo`}
             width="300px"
             name="promoVideo"
             height="250px"
-            onUpload={d => {
-              console.log(d, 'eee')
+            onUpload={(d) => {
+              console.log(d, "eee");
               onValuesChange({
                 promoVideo: {
                   file: d._id,
-                  url: d.url
-                }
-              })
+                  url: d.url,
+                },
+              });
             }}
             renderItem={() => (
               <Button>
-                {promoVideoFile ? 'Replace Promo Video' : 'Upload Promo Video'}
+                {promoVideoFile ? "Replace Promo Video" : "Upload Promo Video"}
               </Button>
             )}
             // url={promoVideoFile}
-          />
+          />,
         ]}
       >
         <Space style={{ marginBottom: 20 }}>
           <SelectThumbnail
-            onSelect={e => {
-              console.log(e, 'e')
+            onSelect={(e) => {
+              console.log(e, "e");
               onValuesChange({
                 promoVideo: {
                   ...promoVideoFile,
-                  thumbnailImage: e.url
-                }
-              })
+                  thumbnailImage: e.url,
+                },
+              });
             }}
             url={promoVideoFile.url}
           />
@@ -104,16 +101,25 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
           message="Note minimum 200 words needed to display landing page text"
         />
       ) : null}
-      <Form.Item name={'description'} required label={<><Text>Landing Page Description</Text>{landingPageLength ? (
-         <div>
-            {' '} - <Text type="danger">{landingPageLength} words</Text>
-          </div>
-        ) : null}</> }>
-        
-        <TextArea html name={'description'} />
+      <Form.Item
+        name={"description"}
+        required
+        label={
+          <>
+            <Text>Landing Page Description</Text>
+            {landingPageLength ? (
+              <div>
+                {" "}
+                - <Text type="danger">{landingPageLength} words</Text>
+              </div>
+            ) : null}
+          </>
+        }
+      >
+        <TextArea html name={"description"} />
       </Form.Item>
     </Form>
-  )
+  );
 }
 
-export default TestLandingPageEditor
+export default TestLandingPageEditor;

@@ -1,28 +1,28 @@
-import PastEvent from './PastEvents'
-import Tabs from '@Components/Tabs'
-import UpcomingEvent from './UpcomingEvents'
-import { useNavigate } from '@Router/index'
+import PastEvent from "./PastEvents";
+import Tabs from "@Components/Tabs";
+import UpcomingEvent from "./UpcomingEvents";
+import { useNavigate } from "@Router/index";
 
 const EventsScreen = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   return (
     <Tabs
       // defaultActiveKey="1"
       items={[
         {
-          key: 'upcoming',
+          key: "upcoming",
           label: `Upcoming`,
-          children: <UpcomingEvent filter={{ status: 'created' }} />
+          children: <UpcomingEvent filter={{ status: "created" }} />,
         },
         {
-          key: 'past',
+          key: "past",
           label: `Past`,
-          children: <PastEvent filter={{ status: 'ended' }} />
-        }
+          children: <PastEvent filter={{ status: "ended" }} />,
+        },
       ]}
     />
-  )
-}
+  );
+};
 
-export default EventsScreen
+export default EventsScreen;

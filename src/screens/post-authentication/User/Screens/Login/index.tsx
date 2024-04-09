@@ -163,7 +163,7 @@ const OtpForm = () => {
               type: "success",
               content: `OTP Verified`,
             });
-            navigate(`../app/products/test`);
+            navigate(`/admin/products/test`);
           },
           onError: () => {
             message.open({
@@ -300,7 +300,7 @@ const EmailForm = () => {
         {
           onSuccess: (user) => {
             Utils.Storage.SetItem("orgId", user.organisation);
-            navigate(`../app/products/test`);
+            navigate(`/admin/products/test`);
           },
           onError: () => {
             message.open({

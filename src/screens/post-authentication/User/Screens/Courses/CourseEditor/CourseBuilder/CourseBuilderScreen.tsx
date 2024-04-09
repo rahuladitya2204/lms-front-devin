@@ -252,7 +252,7 @@ function CourseBuilderScreen() {
           <span>
             {" "}
             <BackButton
-              onClick={() => navigate("../app/products/courses")}
+              onClick={() => navigate("/admin/products/courses")}
             />{" "}
             {course.title}
           </span>

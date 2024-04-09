@@ -1,13 +1,13 @@
-import { Col, Row } from 'antd'
+import { Col, Row } from "antd";
 
-import AppProvider from 'screens/AppProvider'
-import Header from '@Components/Header'
-import { User } from '@adewaskar/lms-common'
-import { useParams } from '@Router/index'
+import AppProvider from "screens/AppProvider";
+import Header from "@Components/Header";
+import { User } from "@adewaskar/lms-common";
+import { useParams } from "@Router/index";
 
 const TestEvaluator = () => {
-  const { id: testID } = useParams()
-  const { data: test } = User.Queries.useGetTestDetails(testID + '')
+  const { id: testID } = useParams();
+  const { data: test } = User.Queries.useGetTestDetails(testID + "");
   return (
     <AppProvider>
       <Header title={`Test Evaluator: ${test.title}`}>
@@ -16,7 +16,7 @@ const TestEvaluator = () => {
         </Row>
       </Header>
     </AppProvider>
-  )
-}
+  );
+};
 
-export default TestEvaluator
+export default TestEvaluator;

@@ -1,47 +1,45 @@
-import { Button, Card, Form, Input } from 'antd'
+import { Button, Card, Form, Input } from "antd";
 
-import { Learner } from '@adewaskar/lms-common'
-import React from 'react'
-import { useNavigate } from '@Router/index'
+import { Learner } from "@adewaskar/lms-common";
+import React from "react";
+import { useNavigate } from "@Router/index";
 
 const ResetPasswordForm = () => {
-  const navigate = useNavigate()
-  const [form] = Form.useForm()
-  const {
-    mutate: resetPassword,
-    isLoading: resettingPassword
-  } = Learner.Queries.useResetPassword()
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
+  const { mutate: resetPassword, isLoading: resettingPassword } =
+    Learner.Queries.useResetPassword();
   const handleSubmit = ({
     password,
-    confirmPassword
+    confirmPassword,
   }: {
-    password: string,
-    confirmPassword: string
+    password: string;
+    confirmPassword: string;
   }) => {
     // if (password === confirmPassword) {
-    console.log(password, 'vlaki')
+    console.log(password, "vlaki");
     resetPassword(
       {
-        password
+        password,
       },
       {
         onSuccess: () => {
-          navigate('../store')
-        }
+          navigate("../store");
+        },
       }
-    )
+    );
     // }
 
     // Replace with your password reset logic
     // console.log('Received values of form: ', values)
-  }
+  };
 
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
         // height: '100vh'
       }}
     >
@@ -53,12 +51,12 @@ const ResetPasswordForm = () => {
             rules={[
               {
                 required: true,
-                message: 'Please input your new password!'
+                message: "Please input your new password!",
               },
               {
                 min: 8,
-                message: 'Password must be atleast 8 characters!'
-              }
+                message: "Password must be atleast 8 characters!",
+              },
             ]}
             hasFeedback
           >
@@ -68,23 +66,23 @@ const ResetPasswordForm = () => {
           <Form.Item
             name="confirm"
             label="Confirm New Password"
-            dependencies={['password']}
+            dependencies={["password"]}
             hasFeedback
             rules={[
               {
                 required: true,
-                message: 'Please confirm your new password!'
+                message: "Please confirm your new password!",
               },
               ({ getFieldValue }) => ({
                 validator(_, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve()
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
                   }
                   return Promise.reject(
-                    new Error('The two passwords do not match!')
-                  )
-                }
-              })
+                    new Error("The two passwords do not match!")
+                  );
+                },
+              }),
             ]}
           >
             <Input.Password />
@@ -103,7 +101,7 @@ const ResetPasswordForm = () => {
         </Form>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default ResetPasswordForm
+export default ResetPasswordForm;

@@ -1,7 +1,7 @@
-import { Button, Card, Col, Image, Row } from 'antd'
+import { Button, Card, Col, Image, Row } from "antd";
 
-import { Title } from './Typography/Typography';
-import { useNavigate } from '@Router/index'
+import { Title } from "./Typography/Typography";
+import { useNavigate } from "@Router/index";
 
 interface NoItemFoundProps {
   text: string;
@@ -9,36 +9,36 @@ interface NoItemFoundProps {
 }
 
 export default function NoItemFound(props: NoItemFoundProps) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <Row justify={'center'} align={'middle'}>
+    <Row justify={"center"} align={"middle"}>
       {props.text ? (
         <Col span={24}>
-          <Title style={{ textAlign: 'center', marginBottom: 30 }} level={2}>
+          <Title style={{ textAlign: "center", marginBottom: 30 }} level={2}>
             {props.text}
           </Title>
         </Col>
       ) : null}
       <Col
         span={24}
-        style={{ display: 'flex', justifyContent: 'center', marginBottom: 30 }}
+        style={{ display: "flex", justifyContent: "center", marginBottom: 30 }}
       >
-        <Button size="large" onClick={() => navigate('../store')}>
+        <Button size="large" onClick={() => navigate("../store")}>
           {props.cta ? props.cta : `Go Home`}
         </Button>
       </Col>
       <Col
         span={24}
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center'
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         {/* <Card> */}
-        <Image preview={false} src={'/images/no-item-found.svg'} />
+        <Image preview={false} src={"/images/no-item-found.svg"} />
         {/* </Card> */}
       </Col>
     </Row>
-  )
+  );
 }

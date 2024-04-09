@@ -1,41 +1,41 @@
-import { Col, Menu, Row } from 'antd'
-import { Constants, Enum, Store, User } from '@adewaskar/lms-common'
-import Layout, { Content, Sider } from '@Components/Layout'
-import { MENU_ITEMS, MenuItems } from './constants'
-import { Outlet } from 'react-router'
-import { useNavigate } from '@Router/index'
-import React, { useEffect, useState } from 'react'
+import { Col, Menu, Row } from "antd";
+import { Constants, Enum, Store, User } from "@adewaskar/lms-common";
+import Layout, { Content, Sider } from "@Components/Layout";
+import { MENU_ITEMS, MenuItems } from "./constants";
+import { Outlet } from "react-router";
+import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
-import AppProvider from 'screens/AppProvider'
-import { ModalProvider } from '@Components/ActionModal/ModalContext'
-import OrgLogo from '@Components/OrgLogo'
-import ProtectedContent from '@Components/ProtectedComponent'
-import ThemeProvider from 'screens/ThemeProvider'
-import { UserLogin } from '../Login'
-import { UserOutlined } from '@ant-design/icons'
-import { compareArrays } from '@Components/Editor/SunEditor/utils'
-import styled from '@emotion/styled'
-import useBreakpoint from '@Hooks/useBreakpoint'
+import AppProvider from "screens/AppProvider";
+import { ModalProvider } from "@Components/ActionModal/ModalContext";
+import OrgLogo from "@Components/OrgLogo";
+import ProtectedContent from "@Components/ProtectedComponent";
+import ThemeProvider from "screens/ThemeProvider";
+import { UserLogin } from "../Login";
+import { UserOutlined } from "@ant-design/icons";
+import { compareArrays } from "@Components/Editor/SunEditor/utils";
+import styled from "@emotion/styled";
+import useBreakpoint from "@Hooks/useBreakpoint";
 
 const LogoHolder = styled.div`
   padding: 20px;
   display: flex;
   justify-content: center;
-`
+`;
 
 // const { Content, Sider } = Layout
 
 const UserRootScreen: React.FC = () => {
-  const { isDesktop } = useBreakpoint()
-  const { isSignedIn } = Store.useAuthentication(s => s)
-  console.log(isSignedIn, 'isSignedIn, isAuthenticated')
+  const { isDesktop } = useBreakpoint();
+  const { isSignedIn } = Store.useAuthentication((s) => s);
+  console.log(isSignedIn, "isSignedIn, isAuthenticated");
   return (
     <ThemeProvider>
       <ModalProvider>
-        <Layout style={{ minHeight: '100vh' }}>
+        <Layout style={{ minHeight: "100vh" }}>
           {isDesktop ? <AppSider /> : null}
           <Layout className="site-layout">
-            <Content style={{ margin: '0 16px' }}>
+            <Content style={{ margin: "0 16px" }}>
               <Row gutter={[20, 20]}>
                 <Col span={24}>
                   <ProtectedContent
@@ -53,86 +53,88 @@ const UserRootScreen: React.FC = () => {
         </Layout>
       </ModalProvider>
     </ThemeProvider>
-  )
-}
+  );
+};
 
 export const AppSider = () => {
-  const [collapsed, setCollapsed] = useState(false)
-  const isAdmin = Store.useGlobal(s => s.isAdmin)
-  const navigate = useNavigate()
-  const menuItems = [...MENU_ITEMS]
+  const [collapsed, setCollapsed] = useState(false);
+  const isAdmin = Store.useGlobal((s) => s.isAdmin);
+  const navigate = useNavigate();
+  const menuItems = [...MENU_ITEMS];
   if (isAdmin) {
     menuItems.unshift({
-      title: 'Admin',
+      title: "Admin",
       icon: <UserOutlined />,
-      path: 'admin',
+      path: "admin",
       children: [
         {
-          title: 'News',
+          title: "News",
           // icon: <PaperClipOutlined />,
-          path: 'news',
-          roles: [Enum.UserRole.NEWS_MANAGER]
+          path: "news",
+          roles: [Enum.UserRole.NEWS_MANAGER],
         },
         {
-          title: 'Topics',
+          title: "Topics",
           // icon: <PaperClipOutlined />,
-          path: 'topics'
+          path: "topics",
         },
         {
-          title: 'Organisations',
+          title: "Organisations",
           // icon: <PaperClipOutlined />,
-          path: 'organisation',
-          roles: [Enum.UserRole.ORG_MANAGER]
-        }
-      ]
-    })
+          path: "organisation",
+          roles: [Enum.UserRole.ORG_MANAGER],
+        },
+      ],
+    });
   }
-  const { data: { roles } } = User.Queries.useGetUserDetails()
+  const {
+    data: { roles },
+  } = User.Queries.useGetUserDetails();
   const permissions = roles
-    .map(r => Constants.USER_ROLES.find(rr => rr.slug === r))
-    .flat()
+    .map((r) => Constants.USER_ROLES.find((rr) => rr.slug === r))
+    .flat();
   const filteredMenuItems = menuItems
-    .map(mItem => {
+    .map((mItem) => {
       // @ts-ignore
       mItem.children = mItem?.children?.filter(
         // @ts-ignore
-        u => {
+        (u) => {
           const P = (u?.roles || [])
-            .map(r => Constants.USER_ROLES.find(rr => rr.slug === r))
-            .flat()
+            .map((r) => Constants.USER_ROLES.find((rr) => rr.slug === r))
+            .flat();
           return (
             compareArrays(P || [], permissions) ||
-            roles.find(r => Enum.UserRole.ADMIN)
-          )
+            roles.find((r) => Enum.UserRole.ADMIN)
+          );
         }
-      )
-      return mItem
+      );
+      return mItem;
     })
     .filter(
-      u =>
+      (u) =>
         compareArrays(u.roles || [], roles) ||
-        roles.find(r => Enum.UserRole.ADMIN)
-    )
-  const { isDesktop } = useBreakpoint()
+        roles.find((r) => Enum.UserRole.ADMIN)
+    );
+  const { isDesktop } = useBreakpoint();
   return (
     <Sider
       collapsible={isDesktop}
       theme="light"
       collapsed={collapsed}
-      onCollapse={value => setCollapsed(value)}
+      onCollapse={(value) => setCollapsed(value)}
     >
       <LogoHolder>
         <OrgLogo width="150px" quality="high" />
       </LogoHolder>
       <Menu
-        onClick={e => navigate(e.key)}
+        onClick={(e) => navigate(e.key)}
         theme="light"
-        defaultSelectedKeys={['1']}
+        defaultSelectedKeys={["1"]}
         mode="inline"
         items={MenuItems(filteredMenuItems)}
       />
     </Sider>
-  )
-}
+  );
+};
 
-export default UserRootScreen
+export default UserRootScreen;

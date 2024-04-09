@@ -1,40 +1,37 @@
-import { Enum, Learner, Types, User } from '@adewaskar/lms-common'
-import { Table, Tag } from 'antd'
+import { Enum, Learner, Types, User } from "@adewaskar/lms-common";
+import { Table, Tag } from "antd";
 
-import { Title } from '@Components/Typography/Typography'
-import { Typography } from '@Components/Typography'
-import { capitalize } from 'lodash'
-import dayjs from 'dayjs'
-import { useMemo } from 'react'
-import { useParams } from '@Router/index'
+import { Title } from "@Components/Typography/Typography";
+import { Typography } from "@Components/Typography";
+import { capitalize } from "lodash";
+import dayjs from "dayjs";
+import { useMemo } from "react";
+import { useParams } from "@Router/index";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const TestLeaderboard = () => {
-  const { testId } = useParams()
+  const { testId } = useParams();
   const {
     data: { leaderboard },
-    isFetching: loadingResult
-  } = Learner.Queries.useGetTestResult(testId + '')
-  const { data: test } = User.Queries.useGetTestDetails(testId + '')
+    isFetching: loadingResult,
+  } = Learner.Queries.useGetTestResult(testId + "");
+  const { data: test } = User.Queries.useGetTestDetails(testId + "");
   const TOTAL_POSSIBLE_SCORE = test.sections.reduce((acc, section) => {
     const sectionScore = section.items.reduce(
       (sectionAcc, item) => sectionAcc + (item.score.correct || 0),
       0
-    )
-    return acc + sectionScore
-  }, 0)
-  const ranked = useMemo(
-    () => {
+    );
+    return acc + sectionScore;
+  }, 0);
+  const ranked = useMemo(() => {
+    // @ts-ignore
+    return [...leaderboard].map((i, index) => {
       // @ts-ignore
-      return [...leaderboard].map((i, index) => {
-        // @ts-ignore
-        i.rank = index + 1
-        return i
-      })
-    },
-    [leaderboard]
-  )
+      i.rank = index + 1;
+      return i;
+    });
+  }, [leaderboard]);
   return (
     // @ts-ignore
     <Table dataSource={ranked}>
@@ -70,9 +67,8 @@ const TestLeaderboard = () => {
         title="Score"
         render={(_: any, record: Types.TestLearnerResult) => (
           <Tag color="blue-inverse">
-            {Math.ceil(record?.metrics?.learnerScore)}/{Math.ceil(
-              record?.metrics?.totalTestScore
-            )}
+            {Math.ceil(record?.metrics?.learnerScore)}/
+            {Math.ceil(record?.metrics?.totalTestScore)}
           </Tag>
         )}
         key="result"
@@ -103,7 +99,7 @@ const TestLeaderboard = () => {
         key="result"
       /> */}
     </Table>
-  )
-}
+  );
+};
 
-export default TestLeaderboard
+export default TestLeaderboard;

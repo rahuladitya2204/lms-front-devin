@@ -129,6 +129,7 @@ import WhatsappTemplateEditor from "@User/Screens/Marketing/Templates/Whatsapp/W
 import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen";
 import { useEffect } from "react";
 import { useNavigate } from "@Router/index";
+import RoutingContext from "./RoutingContext";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -218,12 +219,12 @@ const router = (userType: string) => {
                 <Route path="app/courses/:id/player" element={<CoursePlayer />}>
                   <Route path=":itemId" element={<CoursePlayerItem />} />
                 </Route>
-                {/* <Route
+                <Route
                   path="app/test/:testId/result"
                   element={<TestMetrics />}
-                /> */}
+                />
                 <Route
-                  path="app/test/:testId/result/review"
+                  path="app/test/:testId/review"
                   element={<TestReviewPlayer />}
                 >
                   <Route path=":questionId" element={<TestPlayerItemReiew />} />
@@ -466,7 +467,11 @@ const router = (userType: string) => {
 function AppRouter() {
   const userType = Store.useAuthentication((s) => s.userType);
   // console.log(userType, 'userType');
-  return <RouterProvider router={router(userType)} />;
+  return (
+    <RoutingContext.Provider value={{ isBrowserRouter: true }}>
+      <RouterProvider router={router(userType)} />
+    </RoutingContext.Provider>
+  );
 }
 
 export default AppRouter;

@@ -1,18 +1,10 @@
-import {
-  Button,
-  Col,
-  Divider,
-  Form,
-  Row,
-  Space,
-  Switch,
-} from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+import { Button, Col, Divider, Form, Row, Space, Switch } from "antd";
+import { Types, User } from "@adewaskar/lms-common";
 
-import { Typography } from '@Components/Typography'
-import styled from 'styled-components'
-import { useEffect } from 'react'
-import { useParams } from '@Router/index'
+import { Typography } from "@Components/Typography";
+import styled from "styled-components";
+import { useEffect } from "react";
+import { useParams } from "@Router/index";
 
 interface SetTestRulesPropsI {
   closeModal?: () => void;
@@ -25,62 +17,55 @@ const SwitchButton = styled(Switch)`
       float: right !important;
     }
   }
-`
+`;
 
 export default function SetTestRules(props: SetTestRulesPropsI) {
-  const [form] = Form.useForm()
-  const testId = props.testId
-  const { data: test, isFetching: loadingTest } = User.Queries.useGetTestDetails(
-    testId + '',
-    {
-      enabled: !!testId
-    }
-  )
-  const {
-    mutate: updateTest,
-    isLoading: savingRules
-  } = User.Queries.useUpdateTest()
+  const [form] = Form.useForm();
+  const testId = props.testId;
+  const { data: test, isFetching: loadingTest } =
+    User.Queries.useGetTestDetails(testId + "", {
+      enabled: !!testId,
+    });
+  const { mutate: updateTest, isLoading: savingRules } =
+    User.Queries.useUpdateTest();
 
   const saveTest = (d: Partial<Types.Test>) => {
-    const Data = { ...test, ...d }
+    const Data = { ...test, ...d };
     if (test._id) {
       updateTest(
         {
-          id: testId + '',
-          data: Data
+          id: testId + "",
+          data: Data,
         },
         {
           onSuccess: () => {
-            props.closeModal && props.closeModal()
-          }
+            props.closeModal && props.closeModal();
+          },
         }
-      )
+      );
     }
-  }
+  };
 
-  useEffect(
-    () => {
-      form.setFieldsValue(test.rules)
-    },
-    [test]
-  )
+  useEffect(() => {
+    form.setFieldsValue(test.rules);
+  }, [test]);
 
   const onSubmit = (d: Types.TestRules) => {
     saveTest({
-      rules: d
-    })
-  }
+      rules: d,
+    });
+  };
 
-  const isLive = test.live.enabled
+  const isLive = test.live.enabled;
 
   return (
     <Form form={form} onFinish={onSubmit}>
-      <Row justify={'space-between'} align="middle">
+      <Row justify={"space-between"} align="middle">
         <Col>Enable Procturing</Col>
         <Col>
           <Form.Item
             valuePropName="checked"
-            name={['procturing', 'enabled']}
+            name={["procturing", "enabled"]}
             // label=""
           >
             <SwitchButton style={{ marginTop: 20 }} />
@@ -90,12 +75,12 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
 
       <Typography.Text>Exam will be AI monitored</Typography.Text>
       <Divider />
-      <Row justify={'space-between'} align="middle">
+      <Row justify={"space-between"} align="middle">
         <Col>ID Verification</Col>
         <Col>
           <Form.Item
             valuePropName="checked"
-            name={['identityVerification', 'enabled']}
+            name={["identityVerification", "enabled"]}
             help
           >
             <SwitchButton style={{ marginTop: 20 }} />
@@ -104,36 +89,41 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
       </Row>
 
       <Divider>Test Results</Divider>
-     {!isLive?<> <Row justify={'space-between'} align="middle">
-        <Col>Show Result Immediately</Col>
-        <Col>
-          <Form.Item
-            valuePropName="checked"
-            name={['results', 'showImmediate']}
-            help
-          >
-            <SwitchButton style={{ marginTop: 20 }} />
-          </Form.Item>
-        </Col>
-      </Row></> :null}
-      <Row justify={'space-between'} align="middle">
+      {!isLive ? (
+        <>
+          {" "}
+          <Row justify={"space-between"} align="middle">
+            <Col>Show Result Immediately</Col>
+            <Col>
+              <Form.Item
+                valuePropName="checked"
+                name={["results", "showImmediate"]}
+                help
+              >
+                <SwitchButton style={{ marginTop: 20 }} />
+              </Form.Item>
+            </Col>
+          </Row>
+        </>
+      ) : null}
+      <Row justify={"space-between"} align="middle">
         <Col>Show Result Leaderboard</Col>
         <Col>
           <Form.Item
             valuePropName="checked"
-            name={['results', 'showLeaderboard']}
+            name={["results", "showLeaderboard"]}
             help
           >
             <SwitchButton style={{ marginTop: 20 }} />
           </Form.Item>
         </Col>
-        </Row>  
-      <Row justify={'space-between'} align="middle">
+      </Row>
+      <Row justify={"space-between"} align="middle">
         <Col>Show Correct Answer Rate(Percent)</Col>
         <Col>
           <Form.Item
             valuePropName="checked"
-            name={['results', 'showCorrectAnswerPercent']}
+            name={["results", "showCorrectAnswerPercent"]}
             help
           >
             <SwitchButton style={{ marginTop: 20 }} />
@@ -164,15 +154,15 @@ export default function SetTestRules(props: SetTestRulesPropsI) {
       <Space
         style={{
           paddingTop: 20,
-          display: 'flex',
-          flexDirection: 'row-reverse'
+          display: "flex",
+          flexDirection: "row-reverse",
         }}
       >
-        {' '}
+        {" "}
         <Button loading={savingRules} type="primary" onClick={form.submit}>
           Submit
         </Button>
       </Space>
     </Form>
-  )
+  );
 }

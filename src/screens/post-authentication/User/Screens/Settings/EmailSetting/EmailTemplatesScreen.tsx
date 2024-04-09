@@ -1,26 +1,28 @@
 // @ts-nocheck
-import { Button, Card, Col, Row, Select, Space, Table, Tag } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
-import { EditOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Row, Select, Space, Table, Tag } from "antd";
+import { Common, Types } from "@adewaskar/lms-common";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import { EmailTemplateStatusMap } from '@User/Screens/Marketing/Templates/Constant'
-import Header from '@Components/Header'
-import { User } from '@adewaskar/lms-common'
-import { useNavigate } from '@Router/index'
-import { useState } from 'react'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import { EmailTemplateStatusMap } from "@User/Screens/Marketing/Templates/Constant";
+import Header from "@Components/Header";
+import { User } from "@adewaskar/lms-common";
+import { useNavigate } from "@Router/index";
+import { useState } from "react";
 
 function EmailTemplatesScreen() {
   // @ts-ignore
-  const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
+  const {
+    data: { EmailTemplatesMap },
+  } = Common.Queries.useGetAppConfig("user");
 
-  const navigate = useNavigate()
-  const { data, isFetching: loading } = User.Queries.useGetEmailTemplates()
+  const navigate = useNavigate();
+  const { data, isFetching: loading } = User.Queries.useGetEmailTemplates();
   return (
     <Row>
       <Col span={24}>
         <Table
-          dataSource={data.filter(r => r.type === 'default')}
+          dataSource={data.filter((r) => r.type === "default")}
           loading={loading}
         >
           <Table.Column
@@ -92,7 +94,7 @@ function EmailTemplatesScreen() {
         </Table>
       </Col>
     </Row>
-  )
+  );
 }
 
-export default EmailTemplatesScreen
+export default EmailTemplatesScreen;

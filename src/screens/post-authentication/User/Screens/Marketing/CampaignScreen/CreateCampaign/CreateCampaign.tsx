@@ -146,7 +146,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = (props) => {
                     { id: campaignDetails._id },
                     {
                       onSuccess: () => {
-                        navigate(`/app/marketing/campaign`);
+                        navigate(`/admin/marketing/campaign`);
                       },
                       onError: (e: any) => {
                         message.open({

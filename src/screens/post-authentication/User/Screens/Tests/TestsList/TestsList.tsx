@@ -9,36 +9,36 @@ import {
   Skeleton,
   Space,
   Tabs,
-  Tag
-} from 'antd'
+  Tag,
+} from "antd";
 import {
   BarChartOutlined,
   ClockCircleOutlined,
   LineChartOutlined,
   PrinterOutlined,
   SettingOutlined,
-  UploadOutlined
-} from '@ant-design/icons'
-import { Constants, Enum, Types, Utils } from '@adewaskar/lms-common'
-import Table, { TableColumn } from '@Components/Table/TableComponent'
+  UploadOutlined,
+} from "@ant-design/icons";
+import { Constants, Enum, Types, Utils } from "@adewaskar/lms-common";
+import Table, { TableColumn } from "@Components/Table/TableComponent";
 
-import { Fragment } from 'react'
-import MoreButton from '@Components/MoreButton'
-import PrintPrompt from '../TestCreator/TestBuilder/PrintPrompt'
-import TestCard from './TestCard'
-import TestStatusTag from './TestStatus'
-import { Typography } from '@Components/Typography'
-import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-import { formatTime } from 'video.js/dist/types/utils/time'
-import { useModal } from '@Components/ActionModal/ModalContext'
-import { useNavigate } from '@Router/index'
+import { Fragment } from "react";
+import MoreButton from "@Components/MoreButton";
+import PrintPrompt from "../TestCreator/TestBuilder/PrintPrompt";
+import TestCard from "./TestCard";
+import TestStatusTag from "./TestStatus";
+import { Typography } from "@Components/Typography";
+import { User } from "@adewaskar/lms-common";
+import dayjs from "dayjs";
+import { formatTime } from "video.js/dist/types/utils/time";
+import { useModal } from "@Components/ActionModal/ModalContext";
+import { useNavigate } from "@Router/index";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 function TestsList(props: { filter: Types.GetTestsFilter }) {
-  const navigate = useNavigate()
-  const { openModal } = useModal()
+  const navigate = useNavigate();
+  const { openModal } = useModal();
   const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
     props.filter
@@ -46,7 +46,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     //   // @ts-ignore
     //   enabled: !!props.filter.category
     // }
-  )
+  );
   // const filteredData=data.filter(pd => {
   //   return !pd.endedAt;
   // })
@@ -54,9 +54,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     <Fragment>
       <Fragment>
         <Table
-          searchFields={['title']}
+          searchFields={["title"]}
           loading={loading}
-          dataSource={data.filter(test =>
+          dataSource={data.filter((test) =>
             props.filter.status.includes(test.status)
           )}
         >
@@ -66,7 +66,11 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             key="title"
             render={(_: any, test: Types.Test) => (
               <Button
-                onClick={() => navigate(`/app/products/test/${test._id}/editor#information`)}
+                onClick={() =>
+                  navigate(
+                    `/admin/products/test/${test._id}/editor#information`
+                  )
+                }
                 type="link"
                 size="small"
               >
@@ -93,7 +97,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             key="lastUpdated"
             render={(_: any, test: Types.Test) =>
               // @ts-ignore
-              dayjs(test.updatedAt).format('LL')
+              dayjs(test.updatedAt).format("LL")
             }
           />
           {/* <TableColumn
@@ -141,11 +145,11 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             key="duration"
             render={(_: any, test: Types.Test) =>
               test.duration.enabled ? (
-                <Tag color='gold-inverse' icon={<ClockCircleOutlined />}>
-                  {test.duration.value + ' mins'}
+                <Tag color="gold-inverse" icon={<ClockCircleOutlined />}>
+                  {test.duration.value + " mins"}
                 </Tag>
               ) : (
-                '-'
+                "-"
               )
             }
           />
@@ -156,39 +160,41 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               <MoreButton
                 items={[
                   {
-                    label: 'Open Test Builder',
-                    key: 'test-builder',
+                    label: "Open Test Builder",
+                    key: "test-builder",
                     icon: <SettingOutlined />,
                     onClick: () => {
-                      window.open(`/app/products/test/${test._id}/builder`)
-                    }
+                      window.open(`/admin/products/test/${test._id}/builder`);
+                    },
                   },
                   {
-                    label: 'Show Analysis',
-                    key: 'show-analysis',
+                    label: "Show Analysis",
+                    key: "show-analysis",
                     icon: <LineChartOutlined />,
                     onClick: () => {
-                      window.open(`/app/products/test/${test._id}/status`)
-                    }
+                      window.open(`/admin/products/test/${test._id}/status`);
+                    },
                   },
                   {
-                    label: 'Print Action',
-                    key: 'print',
+                    label: "Print Action",
+                    key: "print",
                     icon: <PrinterOutlined />,
                     onClick: () => {
-                      openModal(<PrintPrompt testId={test._id + ''} />, {
-                        title: 'Print'
-                      })
-                    }
+                      openModal(<PrintPrompt testId={test._id + ""} />, {
+                        title: "Print",
+                      });
+                    },
                   },
                   {
-                    label: 'Upload Answer Sheets',
-                    key: 'upload-answer-sheet',
+                    label: "Upload Answer Sheets",
+                    key: "upload-answer-sheet",
                     icon: <UploadOutlined />,
                     onClick: () => {
-                      window.open(`/app/test/${test._id}/answer-sheet/upload`)
-                    }
-                  }
+                      window.open(
+                        `/admin/test/${test._id}/answer-sheet/upload`
+                      );
+                    },
+                  },
                 ]}
               />
             )}
@@ -221,14 +227,14 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
         /> */}
       </Fragment>
     </Fragment>
-  )
+  );
 }
-export default TestsList
+export default TestsList;
 
 const SkeletonCard = () => (
   <Card>
     <Skeleton active paragraph />
-    <Row justify={'space-between'}>
+    <Row justify={"space-between"}>
       <Col>
         <Skeleton.Button style={{ marginTop: 20 }} block />
       </Col>
@@ -238,6 +244,6 @@ const SkeletonCard = () => (
       <Col>
         <Skeleton.Button style={{ marginTop: 20 }} block />
       </Col>
-    </Row>{' '}
+    </Row>{" "}
   </Card>
-)
+);

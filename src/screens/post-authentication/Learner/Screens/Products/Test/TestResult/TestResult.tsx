@@ -1,34 +1,25 @@
 // @ts-nocheck
-import {
-  Card,
-  Col,
-  Divider,
-  List,
-  Progress,
-  Row,
-  Skeleton,
-  Tag,
-} from 'antd'
-import { Cell, Legend, Pie, PieChart, Tooltip } from 'recharts'
+import { Card, Col, Divider, List, Progress, Row, Skeleton, Tag } from "antd";
+import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
 
-import BackButton from '@Components/BackButton'
-import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
-import { Learner } from '@adewaskar/lms-common'
-import Tabs from '@Components/Tabs'
-import TestMetrics from './TestMetrics'
-import TestResultTable from './Table/TestResultTable'
-import { Typography } from '@Components/Typography'
-import { capitalize } from 'lodash'
-import { useParams } from '@Router/index'
+import BackButton from "@Components/BackButton";
+import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
+import { Learner } from "@adewaskar/lms-common";
+import Tabs from "@Components/Tabs";
+import TestMetrics from "./TestMetrics";
+import TestResultTable from "./Table/TestResultTable";
+import { Typography } from "@Components/Typography";
+import { capitalize } from "lodash";
+import { useParams } from "@Router/index";
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
-const LearnerTestResult = function() {
-  const { testId } = useParams()
+const LearnerTestResult = function () {
+  const { testId } = useParams();
   const {
     data: { test },
-    isFetching: loadingResult
-  } = Learner.Queries.useGetTestResult(testId + '')
+    isFetching: loadingResult,
+  } = Learner.Queries.useGetTestResult(testId + "");
   if (loadingResult) {
     return (
       <Row gutter={[20, 30]}>
@@ -39,7 +30,7 @@ const LearnerTestResult = function() {
           <LoadingSkeleton />
         </Col>
       </Row>
-    )
+    );
   }
   return (
     <Row gutter={[20, 20]}>
@@ -49,7 +40,7 @@ const LearnerTestResult = function() {
             <Card title={section.title}>
               <Row>
                 <List
-                  style={{ width: '100%' }}
+                  style={{ width: "100%" }}
                   dataSource={section.items}
                   renderItem={(item, itemIndex) => {
                     return (
@@ -60,15 +51,20 @@ const LearnerTestResult = function() {
                           <Col span={24}>
                             <Row>
                               <Col span={24} style={{ marginTop: 10 }}>
-                                <Row justify={'space-between'} align={'middle'}>
+                                <Row justify={"space-between"} align={"middle"}>
                                   <Col>
                                     {item.isAnswered ? (
                                       <>
-                                        { item.isCorrect?<Tag color="green">
-                                        Answered Correctly
-                                      </Tag>:<Tag color="red">
-                                        Wrongly Answered
-                                      </Tag>}</>
+                                        {item.isCorrect ? (
+                                          <Tag color="green">
+                                            Answered Correctly
+                                          </Tag>
+                                        ) : (
+                                          <Tag color="red">
+                                            Wrongly Answered
+                                          </Tag>
+                                        )}
+                                      </>
                                     ) : (
                                       <Tag color="blue">Not Answered</Tag>
                                     )}
@@ -77,8 +73,8 @@ const LearnerTestResult = function() {
                                     <Tag
                                       color={
                                         item.isCorrect
-                                          ? 'green-inverse'
-                                          : 'red-inverse'
+                                          ? "green-inverse"
+                                          : "red-inverse"
                                       }
                                     >
                                       Score: {item.score || 0}
@@ -89,29 +85,27 @@ const LearnerTestResult = function() {
                               <Col span={24}>
                                 <List
                                   style={{
-                                    margin: '20px 0',
-                                    borderRadius: 5
+                                    margin: "20px 0",
+                                    borderRadius: 5,
                                   }}
                                   bordered
                                   dataSource={item.options}
                                   renderItem={(answer, answerIndex) => {
-                                    const answeredByLearner = item.options.includes(
-                                      answerIndex
-                                    )
-                                    const isCorrectOption = item.correctOptions.includes(
-                                      answerIndex
-                                    )
+                                    const answeredByLearner =
+                                      item.options.includes(answerIndex);
+                                    const isCorrectOption =
+                                      item.correctOptions.includes(answerIndex);
                                     return (
                                       <Row
-                                        justify={'space-between'}
-                                        align={'middle'}
+                                        justify={"space-between"}
+                                        align={"middle"}
                                         style={{
                                           background: isCorrectOption
-                                            ? '#f6ffed'
+                                            ? "#f6ffed"
                                             : answeredByLearner &&
                                               !isCorrectOption
-                                              ? '#fff1f0'
-                                              : ''
+                                            ? "#fff1f0"
+                                            : "",
                                         }}
                                       >
                                         <Col>
@@ -119,7 +113,7 @@ const LearnerTestResult = function() {
                                             strong
                                             style={{
                                               margin: 10,
-                                              display: 'block'
+                                              display: "block",
                                             }}
                                           >
                                             <HtmlViewer content={answer} />
@@ -130,13 +124,13 @@ const LearnerTestResult = function() {
                                             {answeredByLearner ? (
                                               <span>You Answered</span>
                                             ) : (
-                                              ''
+                                              ""
                                             )}
                                           </Text>
                                         </Col>
                                         <Divider style={{ margin: 0 }} />
                                       </Row>
-                                    )
+                                    );
                                   }}
                                 />
                               </Col>
@@ -144,9 +138,9 @@ const LearnerTestResult = function() {
                           </Col>
                           <Col span={24}>
                             {item.solution?.html ? (
-                              <Card title={'Solution'}>
+                              <Card title={"Solution"}>
                                 <HtmlViewer
-                                  content={item.solution?.html + ''}
+                                  content={item.solution?.html + ""}
                                 />
                               </Card>
                             ) : (
@@ -156,17 +150,17 @@ const LearnerTestResult = function() {
                         </Row>
                         <Divider />
                       </Col>
-                    )
+                    );
                   }}
                 />
               </Row>
             </Card>
           </Col>
-        )
+        );
       })}
     </Row>
-  )
-}
+  );
+};
 
 export default function TestResult() {
   return (
@@ -175,25 +169,25 @@ export default function TestResult() {
         <BackButton>Back</BackButton>
       </Col> */}
       <Col span={24}>
-      <Tabs
-      navigateWithHash
-      defaultActiveKey="analysis"
-      items={[
-        {
-          key: 'analysis',
-          label: 'Analysis',
-          children: <TestMetrics />
-        },
-        {
-          key: 'solutions',
-          label: 'Solutions',
-          children: <TestResultTable />
-        }
-      ]}
-    />
+        <Tabs
+          navigateWithHash
+          defaultActiveKey="analysis"
+          items={[
+            {
+              key: "analysis",
+              label: "Analysis",
+              children: <TestMetrics />,
+            },
+            {
+              key: "solutions",
+              label: "Solutions",
+              children: <TestResultTable />,
+            },
+          ]}
+        />
       </Col>
     </Row>
-  )
+  );
 }
 
 export const LoadingSkeleton = () => {
@@ -206,7 +200,7 @@ export const LoadingSkeleton = () => {
               <Skeleton active paragraph={{ rows: 3 }} />
             </Col>
             <Col span={24}>
-              <Row justify={'space-between'}>
+              <Row justify={"space-between"}>
                 <Col>
                   <Skeleton.Button active />
                 </Col>
@@ -229,7 +223,7 @@ export const LoadingSkeleton = () => {
                 <Col span={24}>
                   <Skeleton.Input block />
                 </Col>
-              </Row>{' '}
+              </Row>{" "}
             </Col>
             <Col span={24}>
               <Skeleton paragraph={{ rows: 3 }} />
@@ -238,5 +232,5 @@ export const LoadingSkeleton = () => {
         </Card>
       </Col>
     </Row>
-  )
-}
+  );
+};

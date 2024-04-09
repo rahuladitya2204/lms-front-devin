@@ -1,19 +1,17 @@
-import { Card, Col, List, Row, Skeleton } from 'antd'
-import React, { Fragment } from 'react'
+import { Card, Col, List, Row, Skeleton } from "antd";
+import React, { Fragment } from "react";
 
-import CourseCard from './CourseCard'
-import { Learner } from '@adewaskar/lms-common'
-import { useNavigate } from '@Router/index'
+import CourseCard from "./CourseCard";
+import { Learner } from "@adewaskar/lms-common";
+import { useNavigate } from "@Router/index";
 
 const LearnerCourseList: React.FC = () => {
-  const {
-    data: enrolledCourses,
-    isFetching: loading
-  } = Learner.Queries.useGetEnrolledCourses()
-  console.log(enrolledCourses, 'enrolledCourses')
-  const navigate = useNavigate()
+  const { data: enrolledCourses, isFetching: loading } =
+    Learner.Queries.useGetEnrolledCourses();
+  console.log(enrolledCourses, "enrolledCourses");
+  const navigate = useNavigate();
   if (loading) {
-    const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1]
+    const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1];
     return (
       <Row gutter={[60, 100]}>
         {SkeletonArr.map(() => (
@@ -32,17 +30,17 @@ const LearnerCourseList: React.FC = () => {
                   <Skeleton.Button style={{ marginTop: 20 }} block />
                 </Col>
               </Row>{' '} */}
-            </Card>{' '}
+            </Card>{" "}
           </Col>
         ))}
       </Row>
-    )
+    );
   }
   return (
     <Row gutter={[20, 30]}>
-      {enrolledCourses.map(enrolledProduct => (
+      {enrolledCourses.map((enrolledProduct) => (
         <Col xs={24} sm={12} md={8} lg={6}>
-          {' '}
+          {" "}
           <CourseCard
             onClick={() =>
               navigate(`../enrolled-courses/${enrolledProduct.product.id}`)
@@ -54,7 +52,7 @@ const LearnerCourseList: React.FC = () => {
         </Col>
       ))}
     </Row>
-  )
-}
+  );
+};
 
-export default LearnerCourseList
+export default LearnerCourseList;

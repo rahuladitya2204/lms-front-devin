@@ -1,29 +1,29 @@
 import {
   BarChartOutlined,
   EditOutlined,
-  SettingOutlined
-} from '@ant-design/icons'
-import { Button, Col, Row, Space, Table } from 'antd'
+  SettingOutlined,
+} from "@ant-design/icons";
+import { Button, Col, Row, Space, Table } from "antd";
 
-import Container from '@Components/Container'
-import Header from '@User/Screens/UserRoot/UserHeader'
-import MoreButton from '@Components/MoreButton'
-import PackageCard from './CreatePackage/PackageCard'
-import PackageStatusTag from './PackageStatusTag'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import { useNavigate } from '@Router/index'
+import Container from "@Components/Container";
+import Header from "@User/Screens/UserRoot/UserHeader";
+import MoreButton from "@Components/MoreButton";
+import PackageCard from "./CreatePackage/PackageCard";
+import PackageStatusTag from "./PackageStatusTag";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import { useNavigate } from "@Router/index";
 
 function PackagesScreen() {
-  const { data, isFetching: loading } = User.Queries.useGetPackages()
-  const navigate = useNavigate()
+  const { data, isFetching: loading } = User.Queries.useGetPackages();
+  const navigate = useNavigate();
   return (
     <Header
-      title={'Packages'}
+      title={"Packages"}
       extra={[
         <Button onClick={() => navigate(`create`)} type="primary">
           Create New Package
-        </Button>
+        </Button>,
       ]}
     >
       <Row gutter={[20, 20]}>
@@ -105,7 +105,7 @@ function PackagesScreen() {
                       icon: <SettingOutlined />,
                       onClick: () => {
                         window.open(
-                          `/app/products/bundle/${bundle._id}/builder`
+                          `/admin/products/bundle/${bundle._id}/builder`
                         )
                       }
                     }
@@ -132,7 +132,7 @@ function PackagesScreen() {
         </Row>
       </Card> */}
     </Header>
-  )
+  );
 }
 
-export default PackagesScreen
+export default PackagesScreen;

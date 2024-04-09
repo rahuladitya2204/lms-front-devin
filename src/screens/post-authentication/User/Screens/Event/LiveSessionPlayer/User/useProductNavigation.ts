@@ -53,7 +53,7 @@ function useTestNavigation(test: Types.Test,type) {
       if (isIndexValid) {
         const newSectionId = test.sections[sectionIndex]._id
         const newItemId = test.sections[sectionIndex].items[itemIndex]._id
-        navigate(`/app/test/${testId}/${type}/${newItemId}`)
+        navigate(`/admin/test/${testId}/${type}/${newItemId}`)
       }
     },
     [currentIndexes, test.sections, navigate, test._id]

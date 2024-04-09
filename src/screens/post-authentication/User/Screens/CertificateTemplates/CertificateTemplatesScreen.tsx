@@ -1,48 +1,56 @@
 // @ts-nocheck
-import { Button, Card, Col, Row, Select, Space, Table, Tag } from 'antd'
-import { Common, Types } from '@adewaskar/lms-common'
-import { EditOutlined, PlusOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Row, Select, Space, Table, Tag } from "antd";
+import { Common, Types } from "@adewaskar/lms-common";
+import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import AddEmailTemplate from './AddCertificateTemplate'
-import { EmailTemplateStatusMap } from '../Marketing/Templates/Constant'
-import Header from '@Components/Header'
-import { User } from '@adewaskar/lms-common'
-import { useNavigate } from '@Router/index'
-import { useState } from 'react'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import AddEmailTemplate from "./AddCertificateTemplate";
+import { EmailTemplateStatusMap } from "../Marketing/Templates/Constant";
+import Header from "@Components/Header";
+import { User } from "@adewaskar/lms-common";
+import { useNavigate } from "@Router/index";
+import { useState } from "react";
 
 function EmailTemplatesScreen() {
   // @ts-ignore
-  const { data: { EmailTemplatesMap } } = Common.Queries.useGetAppConfig('user')
+  const {
+    data: { EmailTemplatesMap },
+  } = Common.Queries.useGetAppConfig("user");
 
   const navigate = useNavigate();
-  const { data, isFetching: loading } = User.Queries.useGetEmailTemplates()
-  const [type, setType] = useState('default')
+  const { data, isFetching: loading } = User.Queries.useGetEmailTemplates();
+  const [type, setType] = useState("default");
   return (
     <Header>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'Email Templates'}
+        title={"Email Templates"}
         extra={
           <>
-            {type==='custom'?<ActionModal
-          title="Create Email Template"
-          cta={
-            <Button style={{marginRight: 20}} icon={<PlusOutlined />} type="primary">
-              Create Custom Template
-            </Button>
-          }
-        >
-          <AddEmailTemplate> </AddEmailTemplate>
-        </ActionModal>:null}
-        <Select
-          defaultValue="default"
-          style={{ width: 200 }}
-          onChange={e => setType(e)}
-          options={[
-            { value: 'default', label: 'Default Templates' },
-            { value: 'custom', label: 'Custom Templates' }
-          ]}
+            {type === "custom" ? (
+              <ActionModal
+                title="Create Email Template"
+                cta={
+                  <Button
+                    style={{ marginRight: 20 }}
+                    icon={<PlusOutlined />}
+                    type="primary"
+                  >
+                    Create Custom Template
+                  </Button>
+                }
+              >
+                <AddEmailTemplate> </AddEmailTemplate>
+              </ActionModal>
+            ) : null}
+            <Select
+              defaultValue="default"
+              style={{ width: 200 }}
+              onChange={(e) => setType(e)}
+              options={[
+                { value: "default", label: "Default Templates" },
+                { value: "custom", label: "Custom Templates" },
+              ]}
             />
           </>
         }
@@ -50,10 +58,10 @@ function EmailTemplatesScreen() {
         <Row>
           <Col span={24}>
             <Table
-              dataSource={data.filter(r => r.type === type)}
+              dataSource={data.filter((r) => r.type === type)}
               loading={loading}
             >
-              {type === 'custom' ? (
+              {type === "custom" ? (
                 <Table.Column
                   title="Template Title"
                   dataIndex="title"
@@ -92,19 +100,18 @@ function EmailTemplatesScreen() {
                 key="totslSent"
               />
 
-
-<Table.Column
+              <Table.Column
                 title="Success Rate"
                 dataIndex="successCount"
                 key="successCount"
               />
 
-<Table.Column
+              <Table.Column
                 title="Failure Rate"
                 dataIndex="failureCount"
                 key="failureCount"
               />
-              
+
               <Table.Column
                 title="Status"
                 dataIndex="status"
@@ -123,9 +130,7 @@ function EmailTemplatesScreen() {
                 render={(_: any, record: Types.EmailTemplate) => (
                   <Space size="middle">
                     <EditOutlined
-                      onClick={() =>
-                       navigate(`${record._id}/editor`)
-                      }
+                      onClick={() => navigate(`${record._id}/editor`)}
                     />
                     {/* <DeleteOutlined /> */}
                   </Space>
@@ -136,7 +141,7 @@ function EmailTemplatesScreen() {
         </Row>
       </Card>
     </Header>
-  )
+  );
 }
 
-export default EmailTemplatesScreen
+export default EmailTemplatesScreen;

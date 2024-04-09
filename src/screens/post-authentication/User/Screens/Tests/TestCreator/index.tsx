@@ -159,7 +159,7 @@ function TestEditor() {
                 <BackButton
                   disabled={!test.category}
                   onClick={() =>
-                    navigate(`../app/products/test#${test.category}`)
+                    navigate(`/admin/products/test#${test.category}`)
                   }
                 />{" "}
                 {test.title}
@@ -195,7 +195,7 @@ function TestEditor() {
                 disabled={!test._id}
                 icon={<ExportOutlined />}
                 onClick={() => {
-                  navigate(`/app/products/test/${test._id}/builder`);
+                  navigate(`/admin/products/test/${test._id}/builder`);
                 }}
                 style={{ marginRight: 10 }}
               >

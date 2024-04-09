@@ -1,13 +1,13 @@
-import { Button, Card, Empty, Form, Input } from 'antd'
-import { Fragment, useEffect, useLayoutEffect } from 'react'
-import { Types, User } from '@adewaskar/lms-common'
+import { Button, Card, Empty, Form, Input } from "antd";
+import { Fragment, useEffect, useLayoutEffect } from "react";
+import { Types, User } from "@adewaskar/lms-common";
 
-import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
-import MediaUpload from '@Components/MediaUpload'
-import TextArea from '@Components/Textarea'
-import { deepPatch } from '../../CourseBuilder/utils'
+import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
+import MediaUpload from "@Components/MediaUpload";
+import TextArea from "@Components/Textarea";
+import { deepPatch } from "../../CourseBuilder/utils";
 // import { patchObject } from '../../utils'
-import { useParams } from '@Router/index'
+import { useParams } from "@Router/index";
 
 interface CourseLandingPageEditorPropsI {
   courseId: string;
@@ -17,25 +17,22 @@ interface CourseLandingPageEditorPropsI {
 }
 
 function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
-  const { id } = useParams()
-  const { course } = props
-  const courseId = props.courseId || id + ''
-  const [form] = Form.useForm()
-  const { useWatch } = Form
-  const promoVideoFile = course.landingPage.promoVideo
-  useLayoutEffect(
-    () => {
-      form.setFieldsValue(course.landingPage)
-    },
-    [course]
-  )
+  const { id } = useParams();
+  const { course } = props;
+  const courseId = props.courseId || id + "";
+  const [form] = Form.useForm();
+  const { useWatch } = Form;
+  const promoVideoFile = course.landingPage.promoVideo;
+  useLayoutEffect(() => {
+    form.setFieldsValue(course.landingPage);
+  }, [course]);
 
   const onValuesChange = (d: Partial<Types.LandingPage>) => {
-    const data = deepPatch(course.landingPage, d)
+    const data = deepPatch(course.landingPage, d);
     props.saveCourse({
-      landingPage: data
-    })
-  }
+      landingPage: data,
+    });
+  };
   return (
     <Form
       onValuesChange={onValuesChange}
@@ -49,31 +46,31 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
         extra={[
           <MediaUpload
             source={{
-              type: 'course.promoVideo',
-              value: courseId + ''
+              type: "course.promoVideo",
+              value: courseId + "",
             }}
             prefixKey={`courses/${courseId}/promo`}
             width="300px"
             name="promoVideo"
             height="250px"
-            onUpload={d => {
-              console.log(d, 'eee')
+            onUpload={(d) => {
+              console.log(d, "eee");
               onValuesChange({
                 promoVideo: {
                   file: d._id,
-                  url: d.url
-                }
-              })
+                  url: d.url,
+                },
+              });
             }}
             renderItem={() => (
               <Button>
                 {promoVideoFile?.url
-                  ? 'Replace Promo Video'
-                  : 'Upload Promo Video'}
+                  ? "Replace Promo Video"
+                  : "Upload Promo Video"}
               </Button>
             )}
             // url={promoVideoFile}
-          />
+          />,
         ]}
       >
         {promoVideoFile?.url ? (
@@ -83,11 +80,11 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
         )}
       </Card>
 
-      <Form.Item name={'description'} required label="Landing Page Description">
-        <TextArea html name={'description'} />
+      <Form.Item name={"description"} required label="Landing Page Description">
+        <TextArea html name={"description"} />
       </Form.Item>
     </Form>
-  )
+  );
 }
 
-export default CourseLandingPageEditor
+export default CourseLandingPageEditor;

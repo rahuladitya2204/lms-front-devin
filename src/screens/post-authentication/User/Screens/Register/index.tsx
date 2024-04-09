@@ -1,30 +1,30 @@
-import { Button, Checkbox, Form, Input } from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+import { Button, Checkbox, Form, Input } from "antd";
+import { Types, User } from "@adewaskar/lms-common";
 
-import AuthenticationCard from '@Components/AuthenticationCard'
-import { NavLink } from '@Router/index'
-import React from 'react'
+import AuthenticationCard from "@Components/AuthenticationCard";
+import { NavLink } from "@Router/index";
+import React from "react";
 
 function UserRegisterScreen() {
-  const { mutate: Signup, isLoading: loading } = User.Queries.useRegisterUser()
+  const { mutate: Signup, isLoading: loading } = User.Queries.useRegisterUser();
 
   const onFinish = (values: Types.SignupData) => {
-    Signup(values)
-  }
+    Signup(values);
+  };
 
   return (
     <AuthenticationCard title="Register">
       <Form
         layout="vertical"
         initialValues={{
-          remember: true
+          remember: true,
         }}
         onFinish={onFinish}
       >
         <Form.Item
           label="Name"
           name="name"
-          rules={[{ required: true, message: 'Please input your name!' }]}
+          rules={[{ required: true, message: "Please input your name!" }]}
         >
           <Input />
         </Form.Item>
@@ -35,20 +35,20 @@ function UserRegisterScreen() {
           rules={[
             {
               required: true,
-              message: 'Please input your contact number!',
-              len: 10
-            }
+              message: "Please input your contact number!",
+              len: 10,
+            },
           ]}
         >
-          <Input type='number' />
+          <Input type="number" />
         </Form.Item>
 
         <Form.Item
           label="Email"
           name="email"
           rules={[
-            { type: 'email', message: 'The input is not valid E-mail!' },
-            { required: true, message: 'Please input your E-mail!' }
+            { type: "email", message: "The input is not valid E-mail!" },
+            { required: true, message: "Please input your E-mail!" },
           ]}
         >
           <Input />
@@ -57,7 +57,7 @@ function UserRegisterScreen() {
         <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: 'Please input your password!' }]}
+          rules={[{ required: true, message: "Please input your password!" }]}
         >
           <Input.Password />
         </Form.Item>
@@ -73,7 +73,7 @@ function UserRegisterScreen() {
         </Form.Item>
       </Form>
     </AuthenticationCard>
-  )
+  );
 }
 
-export default UserRegisterScreen
+export default UserRegisterScreen;

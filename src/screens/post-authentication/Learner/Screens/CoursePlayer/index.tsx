@@ -9,34 +9,37 @@ import {
   Skeleton,
   Space,
   Tooltip,
-} from 'antd'
+} from "antd";
 import {
   CaretLeftOutlined,
   CaretRightOutlined,
-  PlayCircleOutlined
-} from '@ant-design/icons'
-import { Learner, Store, Utils } from '@adewaskar/lms-common'
-import { Outlet } from 'react-router'
-import { useNavigate, useParams } from '@Router/index'
-import { useEffect, useMemo, useState } from 'react'
+  PlayCircleOutlined,
+} from "@ant-design/icons";
+import { Learner, Store, Utils } from "@adewaskar/lms-common";
+import { Outlet } from "react-router";
+import { useNavigate, useParams } from "@Router/index";
+import { useEffect, useMemo, useState } from "react";
 
-import ActionDrawer from '@Components/ActionDrawer'
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CoursePlayerCollapsible from './CoursePlayerNavigator/CoursePlayerNavigator'
-import CoursePlayerMoreInfo from './CoursePlayerMoreInfo'
-import Header from '@Components/Header'
-import OrgLogo from '@Components/OrgLogo'
-import ReviewCourse from '../Products/Courses/ReviewCourse/ReviewCourse'
-import { Typography } from '@Components/Typography'
-import styled from '@emotion/styled'
-import useBreakpoint from '@Hooks/useBreakpoint'
+import ActionDrawer from "@Components/ActionDrawer";
+import ActionModal from "@Components/ActionModal/ActionModal";
+import CoursePlayerCollapsible from "./CoursePlayerNavigator/CoursePlayerNavigator";
+import CoursePlayerMoreInfo from "./CoursePlayerMoreInfo";
+import Header from "@Components/Header";
+import OrgLogo from "@Components/OrgLogo";
+import ReviewCourse from "../Products/Courses/ReviewCourse/ReviewCourse";
+import { Typography } from "@Components/Typography";
+import styled from "@emotion/styled";
+import useBreakpoint from "@Hooks/useBreakpoint";
 
 const PlayerSkeleton = () => {
-  return <>
-    <div style={{ borderRadius:'10px',marginTop:20,padding:10 }}>
-      <Skeleton active avatar paragraph={{ rows: 1 }} />
-      </div></>
-}
+  return (
+    <>
+      <div style={{ borderRadius: "10px", marginTop: 20, padding: 10 }}>
+        <Skeleton active avatar paragraph={{ rows: 1 }} />
+      </div>
+    </>
+  );
+};
 
 const ControlButton = styled(Button)`
   position: absolute;
@@ -46,7 +49,7 @@ const ControlButton = styled(Button)`
   border-radius: 0;
   display: block;
   z-index: 999;
-`
+`;
 
 const PlayerContainer = styled.div`
   /* .ant-row,
@@ -62,141 +65,150 @@ const PlayerContainer = styled.div`
   .ant-typography {
     color: #fff;
   } */
-`
+`;
 
 const CustomHeader = styled(Header)`
   .ant-layout-header {
     padding: 0 !important;
   }
-`
-const { Search } = Input
-const { Text } = Typography
+`;
+const { Search } = Input;
+const { Text } = Typography;
 
 function CoursePlayer() {
-  const [showReview, setShowReview] = useState(false)
-  const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress()
-  const { id: courseId, itemId, sectionId } = useParams()
+  const [showReview, setShowReview] = useState(false);
+  const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress();
+  const { id: courseId, itemId, sectionId } = useParams();
   const {
-    data: { metadata: { progress }, review, plan: { trialExpiresAt } },isLoading: loadingFirstEnrolledCourseDetail, isFetching: loadingEnrolledCourse
+    data: {
+      metadata: { progress },
+      review,
+      plan: { trialExpiresAt },
+    },
+    isLoading: loadingFirstEnrolledCourseDetail,
+    isFetching: loadingEnrolledCourse,
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
-      type: 'course',
-      id: courseId + ''
+      type: "course",
+      id: courseId + "",
     },
     {
-      enabled: !!courseId
+      enabled: !!courseId,
     }
-  )
-  const { data: course,isFetching:loadingCourse,isLoading: loadingCourseFirst } = Learner.Queries.useGetCourseDetails(courseId + '')
+  );
+  const {
+    data: course,
+    isFetching: loadingCourse,
+    isLoading: loadingCourseFirst,
+  } = Learner.Queries.useGetCourseDetails(courseId + "");
 
-  const navigate = useNavigate()
-  const [searchText, setSearchText] = useState('')
-  const sections = course.sections
+  const navigate = useNavigate();
+  const [searchText, setSearchText] = useState("");
+  const sections = course.sections;
 
-  useEffect(
-    () => {
-      if (progress >10 && !(review && typeof review !== 'undefined')) {
-        setShowReview(true)
-      }
-    },
-    [progress, review]
-  )
+  useEffect(() => {
+    if (progress > 10 && !(review && typeof review !== "undefined")) {
+      setShowReview(true);
+    }
+  }, [progress, review]);
 
-  useEffect(
-    () => {
-      if (itemId && sectionId) {
-        return navigate(`${itemId}`)
-      }
-      if (sections[0]?.items[0]) {
-        const sectionId = sections[0]._id
-        const itemId = sections[0].items[0]._id
-        navigate(`${itemId}`)
-      }
-    },
-    [sections]
-  )
+  useEffect(() => {
+    if (itemId && sectionId) {
+      return navigate(`${itemId}`);
+    }
+    if (sections[0]?.items[0]) {
+      const sectionId = sections[0]._id;
+      const itemId = sections[0].items[0]._id;
+      navigate(`${itemId}`);
+    }
+  }, [sections]);
 
-  const allItems = sections.map((s: any) => s.items).flat()
+  const allItems = sections.map((s: any) => s.items).flat();
 
-  const toggleItemCheck = () => {}
-  let currentItemIndex = 0
+  const toggleItemCheck = () => {};
+  let currentItemIndex = 0;
 
   allItems.forEach((i: any, index: number) => {
     if (i._id == itemId) {
-      currentItemIndex = index
+      currentItemIndex = index;
     }
-  })
+  });
 
-  const nextItem = allItems[currentItemIndex + 1]
-  const currentItem = allItems[currentItemIndex]
-  const prevItem = allItems[currentItemIndex - 1]
+  const nextItem = allItems[currentItemIndex + 1];
+  const currentItem = allItems[currentItemIndex];
+  const prevItem = allItems[currentItemIndex - 1];
 
   const next = () => {
-    navigate(`${nextItem._id}`)
-  }
+    navigate(`${nextItem._id}`);
+  };
 
   const prev = () => {
-    navigate(`${prevItem._id}`)
-  }
+    navigate(`${prevItem._id}`);
+  };
 
-  useEffect(
-    () => {
-      if (itemId && sectionId && courseId) {
-        // const currentTime = playerInstance?.currentTime
-        // console.log(currentTime, 'currentTime')
-        updateProgress({
-          courseId: courseId + '',
-          sectionId: sectionId + '',
-          action: 'LAST_PLAYED',
-          itemId: itemId,
-          data: {
-            // time: currentTime
-          }
-        })
-      }
-    },
-    [itemId, sectionId, courseId]
-  )
-  const { isMobile,isTablet,isDesktop} = useBreakpoint();
-  const items = sections.map(i => i.items).flat();
+  useEffect(() => {
+    if (itemId && sectionId && courseId) {
+      // const currentTime = playerInstance?.currentTime
+      // console.log(currentTime, 'currentTime')
+      updateProgress({
+        courseId: courseId + "",
+        sectionId: sectionId + "",
+        action: "LAST_PLAYED",
+        itemId: itemId,
+        data: {
+          // time: currentTime
+        },
+      });
+    }
+  }, [itemId, sectionId, courseId]);
+  const { isMobile, isTablet, isDesktop } = useBreakpoint();
+  const items = sections.map((i) => i.items).flat();
   const showTrialBanner = useMemo(
     () =>
-    trialExpiresAt?  Utils.isTrialExpiringSoon(trialExpiresAt, {
-        value: 1,
-        unit: 'day'
-      }):false,
+      trialExpiresAt
+        ? Utils.isTrialExpiringSoon(trialExpiresAt, {
+            value: 1,
+            unit: "day",
+          })
+        : false,
     [trialExpiresAt]
   );
 
   const isFetching = loadingEnrolledCourse || loadingCourse;
-  const CourseNavigator=<> 
-{(loadingCourseFirst || loadingFirstEnrolledCourseDetail)?<>
-        <Skeleton.Input block />
-  <PlayerSkeleton />
-      <PlayerSkeleton />
-      <PlayerSkeleton />
-      {/* <PlayerSkeleton/> */}
-    </> : <>
-    <Search
-  value={searchText}
-  placeholder="Search in course.."
-  onChange={e => setSearchText(e.target.value)}
-  size="large"
-  style={{ marginBottom: 20 }}
-        />
-        <CoursePlayerCollapsible
-      isMobile={isMobile || isTablet}
-  searchText={searchText}
-  courseId={course._id}
-  toggleItemCheck={toggleItemCheck}
-    /></>}
-   
-  </>
+  const CourseNavigator = (
+    <>
+      {loadingCourseFirst || loadingFirstEnrolledCourseDetail ? (
+        <>
+          <Skeleton.Input block />
+          <PlayerSkeleton />
+          <PlayerSkeleton />
+          <PlayerSkeleton />
+          {/* <PlayerSkeleton/> */}
+        </>
+      ) : (
+        <>
+          <Search
+            value={searchText}
+            placeholder="Search in course.."
+            onChange={(e) => setSearchText(e.target.value)}
+            size="large"
+            style={{ marginBottom: 20 }}
+          />
+          <CoursePlayerCollapsible
+            isMobile={isMobile || isTablet}
+            searchText={searchText}
+            courseId={course._id}
+            toggleItemCheck={toggleItemCheck}
+          />
+        </>
+      )}
+    </>
+  );
   return (
     <PlayerContainer>
       {showTrialBanner ? (
         <Alert
-          style={{ textAlign: 'center' }}
+          style={{ textAlign: "center" }}
           message="Your trial is about to expire"
           banner
         />
@@ -208,27 +220,37 @@ function CoursePlayer() {
         className="page-header"
         // bgColor="black"
         title={
-          <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
+          <Space style={{ cursor: "pointer", paddingLeft: 10 }}>
             <OrgLogo
-              onClick={() => navigate('../app/store')}
+              onClick={() => navigate("../app/store")}
               // style={{ width: 60 }}
             />
             <Divider type="vertical" />
-            {!isMobile?<Text style={{ fontSize: 16 }}>{course.title}</Text>:null}
+            {!isMobile ? (
+              <Text style={{ fontSize: 16 }}>{course.title}</Text>
+            ) : null}
           </Space>
         }
         subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
-        style={{ padding: 0, borderBottom: '1px solid #cac7c7' }}
+        style={{ padding: 0, borderBottom: "1px solid #cac7c7" }}
         extra={[
-          !isDesktop?<ActionDrawer
-          cta={isMobile?<Button shape='circle' icon={<PlayCircleOutlined />} />:<Button  icon={<PlayCircleOutlined />} >Show Playlist</Button>}
-        >
-         {CourseNavigator}
-        </ActionDrawer>:null
+          !isDesktop ? (
+            <ActionDrawer
+              cta={
+                isMobile ? (
+                  <Button shape="circle" icon={<PlayCircleOutlined />} />
+                ) : (
+                  <Button icon={<PlayCircleOutlined />}>Show Playlist</Button>
+                )
+              }
+            >
+              {CourseNavigator}
+            </ActionDrawer>
+          ) : null,
         ]}
-      />{' '}
+      />{" "}
       <Row
-        style={{ padding: '20px 10px'}}
+        style={{ padding: "20px 10px" }}
         gutter={[10, 40]}
         justify="space-between"
       >
@@ -239,8 +261,8 @@ function CoursePlayer() {
                 style={{
                   height: 550,
                   padding: 0,
-                  position: 'relative',
-                  background: '#fff'
+                  position: "relative",
+                  background: "#fff",
                   // overflow: 'scroll'
                 }}
                 // bodyStyle={{}}
@@ -253,7 +275,7 @@ function CoursePlayer() {
                     <ControlButton
                       style={{
                         left: 0,
-                        borderLeft: 0
+                        borderLeft: 0,
                       }}
                       onClick={prev}
                       icon={<CaretLeftOutlined />}
@@ -266,7 +288,7 @@ function CoursePlayer() {
                     <ControlButton
                       style={{
                         right: 0,
-                        borderRight: 0
+                        borderRight: 0,
                       }}
                       onClick={next}
                       icon={<CaretRightOutlined />}
@@ -278,17 +300,17 @@ function CoursePlayer() {
             </Col>
             <Col span={24}>
               <Card style={{ marginTop: 30 }}>
-                <CoursePlayerMoreInfo itemId={itemId+''} course={course} />
+                <CoursePlayerMoreInfo itemId={itemId + ""} course={course} />
               </Card>
             </Col>
           </Row>
         </Col>
         <Col lg={6} md={0} sm={0} xs={0}>
-         {CourseNavigator}
+          {CourseNavigator}
         </Col>
       </Row>
     </PlayerContainer>
-  )
+  );
 }
 
-export default CoursePlayer
+export default CoursePlayer;

@@ -8,36 +8,36 @@ import {
   Skeleton,
   Space,
   Tag,
-} from 'antd'
-import { CalendarOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Learner, Types } from '@adewaskar/lms-common'
+} from "antd";
+import { CalendarOutlined, EditOutlined } from "@ant-design/icons";
+import { Enum, Learner, Types } from "@adewaskar/lms-common";
 
-import Image from '@Components/Image'
-import LearnerTestResultStatus from '@Components/LearnerTestResultStatus'
-import NoItemFound from '@Components/NoItemFound'
-import SkeletonImage from '@Components/SkeletonImage'
-import { Typography } from '@Components/Typography'
-import dayjs from 'dayjs'
-import { useNavigate } from '@Router/index'
+import Image from "@Components/Image";
+import LearnerTestResultStatus from "@Components/LearnerTestResultStatus";
+import NoItemFound from "@Components/NoItemFound";
+import SkeletonImage from "@Components/SkeletonImage";
+import { Typography } from "@Components/Typography";
+import dayjs from "dayjs";
+import { useNavigate } from "@Router/index";
 
-const { Meta } = Card
-const { Text } = Typography
+const { Meta } = Card;
+const { Text } = Typography;
 
 function PastTest(props: { filter: Types.GetTestsFilter }) {
   const {
     data,
     isFetching: loading,
-    isLoading: loadingFirst
-  } = Learner.Queries.useGetEnrolledProductList('test')
-  console.log(data, 'data');
-  const pastTests = data.filter(pd => {
-    return pd.product?.data?.endedAt || pd.metadata.test.endedAt
-  })
+    isLoading: loadingFirst,
+  } = Learner.Queries.useGetEnrolledProductList("test");
+  console.log(data, "data");
+  const pastTests = data.filter((pd) => {
+    return pd.product?.data?.endedAt || pd.metadata.test.endedAt;
+  });
   if (!pastTests.length && !loadingFirst) {
-    return <NoItemFound text="No past tests yet. Lets get enrolled for one!" />
+    return <NoItemFound text="No past tests yet. Lets get enrolled for one!" />;
   }
   if (loading) {
-    const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1]
+    const SkeletonArr = [1, 1, 1, 1, 1, 1, 1, 1];
     return (
       <Row gutter={[20, 30]}>
         {SkeletonArr.map(() => (
@@ -46,13 +46,13 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
           </Col>
         ))}
       </Row>
-    )
+    );
   }
   return (
     <Row gutter={[30, 30]}>
       {pastTests.map(({ product: { data: test }, metadata }) => {
         // @ts-ignore
-        const CardComponent = <TestCard metadata={metadata} test={test} />
+        const CardComponent = <TestCard metadata={metadata} test={test} />;
         return (
           <Col xs={24} sm={12} md={8} lg={6}>
             {test?.live.enabled ? (
@@ -63,12 +63,12 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
               CardComponent
             )}
           </Col>
-        )
+        );
       })}
     </Row>
-  )
+  );
 }
-export default PastTest
+export default PastTest;
 
 export const SkeletonTestCard = () => {
   return (
@@ -83,19 +83,19 @@ export const SkeletonTestCard = () => {
     >
       <Skeleton active paragraph={{ rows: 1 }} />
     </Card>
-  )
-}
+  );
+};
 
-const TestCard = ({ test, metadata }: { test: Types.Test, metadata: any }) => {
-  const navigate = useNavigate()
-  const testStartDate = metadata.test.startedAt || test?.live?.startedAt
+const TestCard = ({ test, metadata }: { test: Types.Test; metadata: any }) => {
+  const navigate = useNavigate();
+  const testStartDate = metadata.test.startedAt || test?.live?.startedAt;
 
   return (
     <Card
       // bodyStyle={{ padding: 10 }}
       hoverable
       onClick={() => {
-        navigate(`/app/test/${test?._id}`)
+        navigate(`/app/test/${test?._id}`);
       }}
       cover={<Image height={200} alt="example" src={test?.thumbnailImage} />}
     >
@@ -103,12 +103,12 @@ const TestCard = ({ test, metadata }: { test: Types.Test, metadata: any }) => {
         title={test.title}
         description={
           <Space>
-            <LearnerTestResultStatus testId={test._id + ''} />
-            <Tag>{dayjs(testStartDate).format('LL')}</Tag>
+            <LearnerTestResultStatus testId={test._id + ""} />
+            <Tag>{dayjs(testStartDate).format("LL")}</Tag>
           </Space>
         }
         avatar={<EditOutlined />}
       />
     </Card>
-  )
-}
+  );
+};

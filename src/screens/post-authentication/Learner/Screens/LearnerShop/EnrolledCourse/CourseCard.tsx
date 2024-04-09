@@ -1,20 +1,20 @@
-import { Button, Card, Col, Result, Row, Space } from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Button, Card, Col, Result, Row, Space } from "antd";
+import { Learner, Types } from "@adewaskar/lms-common";
 
-import Image from '@Components/Image'
-import { Link } from '@Router/index';
-import { Typography } from '@Components/Typography'
+import Image from "@Components/Image";
+import { Link } from "@Router/index";
+import { Typography } from "@Components/Typography";
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
 interface EnrolledCourseCardPropsI {
-    courseId: string;
+  courseId: string;
 }
 
 const EnrolledCourseCard: React.FC<EnrolledCourseCardPropsI> = (props) => {
   const { data: course } = Learner.Queries.useGetCourseDetails(
-    props.courseId + ''
-  )
+    props.courseId + ""
+  );
   const user = course.user as unknown as Types.User;
   return (
     <Row gutter={[20, 20]} align="middle" justify="center">
@@ -26,8 +26,8 @@ const EnrolledCourseCard: React.FC<EnrolledCourseCardPropsI> = (props) => {
           <Space
             direction="vertical"
             style={{
-              display: 'flex',
-              justifyContent: 'space-around'
+              display: "flex",
+              justifyContent: "space-around",
             }}
           >
             <Title style={{ margin: 0 }} level={3}>
@@ -36,7 +36,8 @@ const EnrolledCourseCard: React.FC<EnrolledCourseCardPropsI> = (props) => {
             <Text>By {user?.name}</Text>
           </Space>
           <Link to={`../courses`}>
-                      <Button style={{ marginTop:15}}
+            <Button
+              style={{ marginTop: 15 }}
               type="primary"
               onClick={() => {
                 // navigate('./player', { replace: true });
@@ -48,7 +49,7 @@ const EnrolledCourseCard: React.FC<EnrolledCourseCardPropsI> = (props) => {
         </Space>
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default EnrolledCourseCard
+export default EnrolledCourseCard;

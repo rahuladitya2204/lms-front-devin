@@ -9,43 +9,39 @@ import {
   Spin,
   Tag,
   Tooltip,
-} from 'antd'
-import { Learner, Utils } from '@adewaskar/lms-common'
-import { useNavigate } from '@Router/index'
+} from "antd";
+import { Learner, Utils } from "@adewaskar/lms-common";
+import { useNavigate } from "@Router/index";
 
-import AffiliateDashboard from './AffiliateDashboard'
-import AffiliateForm from './AffiliateForm'
-import AffiliateProducts from './AffiliateProducts'
-import CoinImage from '../Account/LearnerWallet/CoinImage'
-import Header from '@Components/Header'
-import LearnerHeader from '../LearnerRoot/LearnerHeader'
-import Tabs from '@Components/Tabs'
-import { Typography } from '@Components/Typography'
-import useBreakpoint from '@Hooks/useBreakpoint'
-import useMessage from '@Hooks/useMessage'
+import AffiliateDashboard from "./AffiliateDashboard";
+import AffiliateForm from "./AffiliateForm";
+import AffiliateProducts from "./AffiliateProducts";
+import CoinImage from "../Account/LearnerWallet/CoinImage";
+import Header from "@Components/Header";
+import LearnerHeader from "../LearnerRoot/LearnerHeader/LearnerHeaderClient";
+import Tabs from "@Components/Tabs";
+import { Typography } from "@Components/Typography";
+import useBreakpoint from "@Hooks/useBreakpoint";
+import useMessage from "@Hooks/useMessage";
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
-export default function AffiliateScreen () {
-  const navigate = useNavigate()
-  const {
-    data: learner,
-    isLoading: loadingDetails
-  } = Learner.Queries.useGetLearnerDetails()
-  const {
-    data: affiliateDetails,
-    isLoading: loadingAffiliateDetails
-  } = Learner.Queries.useGetAffiliateAccountDetails({
-    enabled: !!learner.affiliate
-  })
-  const { isDesktop, isMobile } = useBreakpoint()
-  const wallet = affiliateDetails.wallet
-  const Balance = Utils.UnitTypeToStr(wallet.balance)
+export default function AffiliateScreen() {
+  const navigate = useNavigate();
+  const { data: learner, isLoading: loadingDetails } =
+    Learner.Queries.useGetLearnerDetails();
+  const { data: affiliateDetails, isLoading: loadingAffiliateDetails } =
+    Learner.Queries.useGetAffiliateAccountDetails({
+      enabled: !!learner.affiliate,
+    });
+  const { isDesktop, isMobile } = useBreakpoint();
+  const wallet = affiliateDetails.wallet;
+  const Balance = Utils.UnitTypeToStr(wallet.balance);
   const WalletButton = (
     <Tooltip
       title={
         !wallet.balance.value
-          ? 'No amount available for payout'
+          ? "No amount available for payout"
           : `Wallet Balance: ${Balance}`
       }
     >
@@ -55,13 +51,13 @@ export default function AffiliateScreen () {
           color="blue-inverse"
           // size={screen.isMobile?'small':'middle'}
         >
-          <Row justify={'center'} align={'middle'}>
+          <Row justify={"center"} align={"middle"}>
             <Col style={{ marginTop: -1 }}>
               <CoinImage width={20} />
             </Col>
             <Col>
               <Text style={{ fontSize: 16, marginLeft: 5 }} strong>
-                {' '}
+                {" "}
                 {Balance}
               </Text>
             </Col>
@@ -69,12 +65,12 @@ export default function AffiliateScreen () {
         </Button>
       </Spin>
     </Tooltip>
-  )
+  );
 
   return (
     <Spin spinning={loadingDetails}>
       <Header
-        onLogoClick={() => navigate('../app/store')}
+        onLogoClick={() => navigate("../app/store")}
         // showBack
         showLogo
         title="Affiliate Program"
@@ -82,8 +78,8 @@ export default function AffiliateScreen () {
       >
         {isMobile ? (
           <Row
-            align={'middle'}
-            justify={'space-between'}
+            align={"middle"}
+            justify={"space-between"}
             style={{ marginBottom: 10 }}
           >
             <Col>
@@ -94,40 +90,40 @@ export default function AffiliateScreen () {
             <Col>{WalletButton}</Col>
           </Row>
         ) : null}
-        <Card style={{ minHeight: '100vh' }}>
+        <Card style={{ minHeight: "100vh" }}>
           {loadingDetails ? (
             <Skeleton />
           ) : (
             <Tabs
               navigateWithHash
-              style={{ minHeight: '100vh' }}
-              tabPosition={isDesktop ? 'left' : 'top'}
+              style={{ minHeight: "100vh" }}
+              tabPosition={isDesktop ? "left" : "top"}
               items={
                 !learner.affiliate
                   ? [
-                    {
-                      label: 'Registration',
-                      key: 'register',
-                      children: <AffiliateForm />
-                    }
-                  ]
+                      {
+                        label: "Registration",
+                        key: "register",
+                        children: <AffiliateForm />,
+                      },
+                    ]
                   : [
-                    {
-                      label: 'Dashboard',
-                      key: 'dashboard',
-                      children: <AffiliateDashboard />
-                    },
-                    {
-                      label: 'Products',
-                      key: 'products',
-                      children: <AffiliateProducts />
-                    }
-                  ]
+                      {
+                        label: "Dashboard",
+                        key: "dashboard",
+                        children: <AffiliateDashboard />,
+                      },
+                      {
+                        label: "Products",
+                        key: "products",
+                        children: <AffiliateProducts />,
+                      },
+                    ]
               }
             />
           )}
         </Card>
       </Header>
     </Spin>
-  )
+  );
 }

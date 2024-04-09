@@ -1,25 +1,16 @@
-import {
-  Button,
-  Card,
-  Col,
-  Row,
-  Space,
-  Table,
-  Tabs,
-  Tag,
-} from 'antd'
-import { Learner, Types } from '@adewaskar/lms-common'
+import { Button, Card, Col, Row, Space, Table, Tabs, Tag } from "antd";
+import { Learner, Types } from "@adewaskar/lms-common";
 
-import { Typography } from '@Components/Typography'
-import dayjs from 'dayjs'
-import { useNavigate } from '@Router/index'
+import { Typography } from "@Components/Typography";
+import dayjs from "dayjs";
+import { useNavigate } from "@Router/index";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 function PastEvent(props: { filter: Types.GetEventsFilter }) {
   const { data, isFetching: loading } = Learner.Queries.useGetEvents(
     props.filter
-  )
+  );
   return (
     <Card bodyStyle={{ padding: 0 }}>
       <Row>
@@ -32,7 +23,7 @@ function PastEvent(props: { filter: Types.GetEventsFilter }) {
               key="startedAt"
               render={(_: any, record: Types.Test) => (
                 <Space size="middle">
-                  {dayjs(record.live.startedAt).format('LLL')}
+                  {dayjs(record.live.startedAt).format("LLL")}
                 </Space>
               )}
             />
@@ -43,8 +34,8 @@ function PastEvent(props: { filter: Types.GetEventsFilter }) {
               render={(_: any, record: Types.Test) => (
                 <Space size="middle">
                   {record.live.startedAt
-                    ? dayjs(record.live.startedAt).format('LLL')
-                    : '-'}
+                    ? dayjs(record.live.startedAt).format("LLL")
+                    : "-"}
                 </Space>
               )}
             />
@@ -78,6 +69,6 @@ function PastEvent(props: { filter: Types.GetEventsFilter }) {
         </Col>
       </Row>
     </Card>
-  )
+  );
 }
-export default PastEvent
+export default PastEvent;

@@ -1,33 +1,31 @@
-import { Button, Card, Col, Form, Row, Spin } from 'antd'
-import { Constants, Types } from '@adewaskar/lms-common'
-import { EyeOutlined, SaveOutlined, UploadOutlined } from '@ant-design/icons'
-import { Fragment, useEffect, useState } from 'react'
-import { Outlet } from 'react-router'
-import { useParams } from '@Router/index'
+import { Button, Card, Col, Form, Row, Spin } from "antd";
+import { Constants, Types } from "@adewaskar/lms-common";
+import { EyeOutlined, SaveOutlined, UploadOutlined } from "@ant-design/icons";
+import { Fragment, useEffect, useState } from "react";
+import { Outlet } from "react-router";
+import { useParams } from "@Router/index";
 
-import Header from '@Components/Header'
-import ProductCategoryDetailsEditor from './ProductCategoryDetailsEditor/ProductCategoryDetails'
-import ProductCategoryFAQs from './ProductCategoryFAQs'
-import ProductCategoryLandingPage from './ProductCategoryLandingPage'
-import ProductCategoryLinks from './ProductCategoryLinks'
-import ProductCategoryNotifications from './ProductCategoryNotifications'
-import Tabs from '@Components/Tabs'
-import { User } from '@adewaskar/lms-common'
-import useMessage from '@Hooks/useMessage'
+import Header from "@Components/Header";
+import ProductCategoryDetailsEditor from "./ProductCategoryDetailsEditor/ProductCategoryDetails";
+import ProductCategoryFAQs from "./ProductCategoryFAQs";
+import ProductCategoryLandingPage from "./ProductCategoryLandingPage";
+import ProductCategoryLinks from "./ProductCategoryLinks";
+import ProductCategoryNotifications from "./ProductCategoryNotifications";
+import Tabs from "@Components/Tabs";
+import { User } from "@adewaskar/lms-common";
+import useMessage from "@Hooks/useMessage";
 
 function ProductCategoryInformationEditor(props: any) {
-  const { id } = useParams()
-  const testId = id + ''
-  const [test, setProductCategory] = useState(Constants.INITIAL_TEST_DETAILS)
+  const { id } = useParams();
+  const testId = id + "";
+  const [test, setProductCategory] = useState(Constants.INITIAL_TEST_DETAILS);
 
-  const {
-    data: testDetails,
-    isFetching: loadingProductCategory
-  } = User.Queries.useGetProductCategoryDetails(testId, {
-    enabled: !!testId
-  })
+  const { data: testDetails, isFetching: loadingProductCategory } =
+    User.Queries.useGetProductCategoryDetails(testId, {
+      enabled: !!testId,
+    });
 
-  const form = Form.useForm()
+  const form = Form.useForm();
   return (
     <Spin spinning={loadingProductCategory}>
       <Tabs
@@ -37,35 +35,35 @@ function ProductCategoryInformationEditor(props: any) {
           {
             label: `Details`,
             active: true,
-            key: 'details',
+            key: "details",
             children: (
               <ProductCategoryDetailsEditor
                 saveProductCategory={props.saveProductCategory}
                 productCategory={props.test}
                 testId={props.testId}
               />
-            )
+            ),
           },
           {
             label: `Landing Page`,
-            key: 'landing-page',
-            children: <ProductCategoryLandingPage />
+            key: "landing-page",
+            children: <ProductCategoryLandingPage />,
           },
           {
             label: `FAQs`,
-            key: 'faqs',
-            children: <ProductCategoryFAQs />
+            key: "faqs",
+            children: <ProductCategoryFAQs />,
           },
           {
             label: `Notifications`,
-            key: 'notifs',
-            children: <ProductCategoryNotifications />
+            key: "notifs",
+            children: <ProductCategoryNotifications />,
           },
           {
             label: `Important Links`,
-            key: 'links',
-            children: <ProductCategoryLinks />
-          }
+            key: "links",
+            children: <ProductCategoryLinks />,
+          },
           // {
           //   label: `Advanced`,
           //   key: 'advanced',
@@ -82,7 +80,7 @@ function ProductCategoryInformationEditor(props: any) {
 
       <Outlet />
     </Spin>
-  )
+  );
 }
 
-export default ProductCategoryInformationEditor
+export default ProductCategoryInformationEditor;

@@ -7,50 +7,48 @@ import {
   Row,
   Space,
   Table,
-  Tag
-} from 'antd'
-import { CheckOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Types, Utils } from '@adewaskar/lms-common'
+  Tag,
+} from "antd";
+import { CheckOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Enum, Types, Utils } from "@adewaskar/lms-common";
 
-import { CampaignStatus } from './Constant'
-import Header from '@User/Screens/UserRoot/UserHeader'
-import MoreButton from '@Components/MoreButton'
-import { NavLink } from '@Router/index'
-import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-import { useNavigate } from '@Router/index'
+import { CampaignStatus } from "./Constant";
+import Header from "@User/Screens/UserRoot/UserHeader";
+import MoreButton from "@Components/MoreButton";
+import { NavLink } from "@Router/index";
+import { User } from "@adewaskar/lms-common";
+import dayjs from "dayjs";
+import { useNavigate } from "@Router/index";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 function CampaignsScreen() {
-  const { data, isFetching: loading } = User.Queries.useGetCampaigns()
-  const { mutate: executeCampaign } = User.Queries.useExecuteCampaign()
-  const {
-    mutate: deleteCampaignApi,
-    isLoading: deletingCampaign
-  } = User.Queries.useDeleteCampaign()
+  const { data, isFetching: loading } = User.Queries.useGetCampaigns();
+  const { mutate: executeCampaign } = User.Queries.useExecuteCampaign();
+  const { mutate: deleteCampaignApi, isLoading: deletingCampaign } =
+    User.Queries.useDeleteCampaign();
   // const { mutate: deleteCampaign } = User.Queries.usedeletec()
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const deleteCampaign = (id: string) => {
     confirm({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       // icon: <ExclamationCircleOutlined />,
       content: `You want to delete this campaign?`,
       onOk() {
-        deleteCampaignApi({ id })
+        deleteCampaignApi({ id });
       },
-      okText: 'Delete Campaign'
-    })
-  }
+      okText: "Delete Campaign",
+    });
+  };
 
   return (
     <Header
       title="Campaigns"
       extra={[
-        <Button onClick={() => navigate('../create-campaign')} type="primary">
+        <Button onClick={() => navigate("../create-campaign")} type="primary">
           Create Campaign
-        </Button>
+        </Button>,
       ]}
     >
       <Card bodyStyle={{ padding: 0 }}>
@@ -69,23 +67,23 @@ function CampaignsScreen() {
               />
               {/* <Table.Column title="Subject" dataIndex="subject" key="subject" /> */}
               <Table.Column
-                responsive={['md']}
+                responsive={["md"]}
                 title="Channel"
                 dataIndex="channel"
                 key="channel"
                 render={(_: any, record: Types.Campaign) =>
-                  record.channel.map(c => (
-                    <Tag color={'blue'}>{c?.toUpperCase()}</Tag>
+                  record.channel.map((c) => (
+                    <Tag color={"blue"}>{c?.toUpperCase()}</Tag>
                   ))
                 }
               />
               <Table.Column
                 title="Scheduled At"
                 dataIndex="scheduledAt"
-                responsive={['md']}
+                responsive={["md"]}
                 key="scheduledAt"
                 render={(_: any, record: Types.Campaign) =>
-                  dayjs(record.createdAt).format('LLL')
+                  dayjs(record.createdAt).format("LLL")
                 }
               />
               <Table.Column
@@ -103,10 +101,10 @@ function CampaignsScreen() {
               <Table.Column
                 title="Created At"
                 dataIndex="createdAt"
-                responsive={['md']}
+                responsive={["md"]}
                 key="createdAt"
                 render={(_: any, record: Types.Campaign) =>
-                  dayjs(record.createdAt).format('LLL')
+                  dayjs(record.createdAt).format("LLL")
                 }
               />
 
@@ -121,33 +119,33 @@ function CampaignsScreen() {
                           // @ts-ignore
                           !Utils.validateCampaign(record)
                             ? {
-                                key: 'execute',
-                                label: 'Execute Campaign',
+                                key: "execute",
+                                label: "Execute Campaign",
                                 // icon: <CheckOutlined />,
                                 onClick: () =>
                                   executeCampaign({
-                                    id: record._id
-                                  })
+                                    id: record._id,
+                                  }),
                               }
                             : null,
                           {
-                            key: 'edit',
-                            label: 'Edit Campaign',
+                            key: "edit",
+                            label: "Edit Campaign",
                             // icon: <EditOutlined />,
                             onClick: () =>
-                              navigate(`../edit-campaign/${record._id}`)
+                              navigate(`../edit-campaign/${record._id}`),
                           },
                           {
-                            key: 'delete',
-                            label: 'Delete Campaign',
+                            key: "delete",
+                            label: "Delete Campaign",
                             // icon: <DeleteOutlined />,
-                            onClick: () => deleteCampaign(record._id)
-                          }
+                            onClick: () => deleteCampaign(record._id),
+                          },
                         ]}
                       />
                     </Space>
                   ) : (
-                    '-'
+                    "-"
                   )
                 }
               />
@@ -156,7 +154,7 @@ function CampaignsScreen() {
         </Row>
       </Card>
     </Header>
-  )
+  );
 }
 
-export default CampaignsScreen
+export default CampaignsScreen;

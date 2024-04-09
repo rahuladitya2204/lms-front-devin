@@ -11,8 +11,8 @@ import {
   Select,
   Space,
   Spin,
-  Tag
-} from 'antd'
+  Tag,
+} from "antd";
 import {
   CloudOutlined,
   DotChartOutlined,
@@ -21,67 +21,60 @@ import {
   GlobalOutlined,
   LineChartOutlined,
   LogoutOutlined,
-  MoneyCollectOutlined
-} from '@ant-design/icons'
-import { Constants, Learner } from '@adewaskar/lms-common'
-import { NavLink, useSearchParams } from '@Router/index'
-import { Text, Title } from '@Components/Typography/Typography'
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from '@Router/index'
+  MoneyCollectOutlined,
+} from "@ant-design/icons";
+import { Constants, Learner } from "@adewaskar/lms-common";
+import { NavLink, useSearchParams } from "@Router/index";
+import { Text, Title } from "@Components/Typography/Typography";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "@Router/index";
 
-import AudioPlayer from '@Components/AudioPlayer'
-import Header from '@Components/Header'
-import HtmlViewer from '@Components/HtmlViewer/HtmlViewer'
-import OrgLogo from '@Components/OrgLogo'
-import PDFViewer from '@Components/PDFViewer'
-import Tabs from '@Components/Tabs'
-import dayjs from 'dayjs'
-import useBreakpoint from '@Hooks/useBreakpoint'
+import AudioPlayer from "@Components/AudioPlayer";
+import Header from "@Components/Header";
+import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
+import OrgLogo from "@Components/OrgLogo";
+import PDFViewer from "@Components/PDFViewer";
+import Tabs from "@Components/Tabs";
+import dayjs from "dayjs";
+import useBreakpoint from "@Hooks/useBreakpoint";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 export default function NewsDetailScreen() {
-  const [params, setParams]: any[] = useSearchParams()
+  const [params, setParams]: any[] = useSearchParams();
   // console.log(params, 'lsls;l')
-  const paramsDate = params.get('date')
+  const paramsDate = params.get("date");
   // const paramsLang = params.get('language')
-  const [date, setDate] = useState(dayjs().startOf('day'))
-  useEffect(
-    () => {
-      if (paramsDate) {
-        const parsedDate = dayjs(paramsDate)
-        if (parsedDate.isValid()) {
-          setDate(parsedDate.startOf('day'))
-        } else {
-          // Handle invalid date format by redirecting or setting a default date
-        }
+  const [date, setDate] = useState(dayjs().startOf("day"));
+  useEffect(() => {
+    if (paramsDate) {
+      const parsedDate = dayjs(paramsDate);
+      if (parsedDate.isValid()) {
+        setDate(parsedDate.startOf("day"));
       } else {
-        const newDate = dayjs()
-          .startOf('day')
-          .toISOString()
-        setParams({ date: newDate })
+        // Handle invalid date format by redirecting or setting a default date
       }
-    },
-    [paramsDate, setParams]
-  )
+    } else {
+      const newDate = dayjs().startOf("day").toISOString();
+      setParams({ date: newDate });
+    }
+  }, [paramsDate, setParams]);
 
   // When setting the new date from the DatePicker
   const handleDateChange = (dateValue: any) => {
     const newDate = dateValue
-      ? dateValue.startOf('day').toISOString()
-      : dayjs()
-          .startOf('day')
-          .toISOString()
-    setParams({ date: newDate })
-  }
+      ? dateValue.startOf("day").toISOString()
+      : dayjs().startOf("day").toISOString();
+    setParams({ date: newDate });
+  };
 
-  const { id } = useParams()
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const navigate = useNavigate();
   const { data: newsItem, isLoading } = Learner.Queries.useGetNewsItem(
     date.toISOString()
-  )
+  );
 
-  const { isMobile, isDesktop } = useBreakpoint()
+  const { isMobile, isDesktop } = useBreakpoint();
   // if (!newsItem) {
   //   return <Title>News not uploaded</Title>
   // }
@@ -98,10 +91,10 @@ export default function NewsDetailScreen() {
                 // icon: <ExclamationCircleOutlined />,
                 content: `You want to exit?`,
                 onOk() {
-                  navigate('/')
+                  navigate("/");
                 },
-                okText: 'Exit'
-              })
+                okText: "Exit",
+              });
             }}
             icon={<LogoutOutlined />}
             type="primary"
@@ -109,7 +102,7 @@ export default function NewsDetailScreen() {
           >
             Exit
           </Button>
-        </div>
+        </div>,
       ]}
     >
       <Row>
@@ -123,7 +116,7 @@ export default function NewsDetailScreen() {
                   <DatePicker
                     value={date}
                     style={{ width: 200 }}
-                    onChange={dateValue => handleDateChange(dateValue)}
+                    onChange={(dateValue) => handleDateChange(dateValue)}
                   />
                 </Form.Item>
               </Col>
@@ -170,15 +163,15 @@ export default function NewsDetailScreen() {
                   tabPosition="top"
                   items={[
                     {
-                      label: 'Articles',
-                      key: 'articles',
+                      label: "Articles",
+                      key: "articles",
                       children: (
                         <Row gutter={[20, 30]}>
                           <Col span={24}>
                             <Tabs
                               tabPosition="top"
                               tabBarStyle={{ marginLeft: 0 }}
-                              items={NEWS_CATEGORIES.map(cat => {
+                              items={NEWS_CATEGORIES.map((cat) => {
                                 return {
                                   label: (
                                     <Text>
@@ -190,16 +183,16 @@ export default function NewsDetailScreen() {
                                     <Row>
                                       <Col span={24}>
                                         <Title
-                                          style={{ textAlign: 'center' }}
+                                          style={{ textAlign: "center" }}
                                           level={3}
                                         >
                                           {cat.icon} {cat.title}
                                         </Title>
                                         {newsItem.articles
-                                          .filter(i =>
+                                          .filter((i) =>
                                             i?.category?.includes(cat.title)
                                           )
-                                          .map(article => (
+                                          .map((article) => (
                                             <Col span={24}>
                                               <Card
                                                 style={{ marginBottom: 20 }}
@@ -210,21 +203,21 @@ export default function NewsDetailScreen() {
                                               >
                                                 {/* @ts-ignore */}
                                                 <Text>
-                                                  {article?.text['eng']}
+                                                  {article?.text["eng"]}
                                                 </Text>
                                               </Card>
                                             </Col>
                                           ))}
                                       </Col>
                                     </Row>
-                                  )
-                                }
+                                  ),
+                                };
                               })}
                             />
                           </Col>
                         </Row>
-                      )
-                    }
+                      ),
+                    },
                     // {
                     //   label: 'Summary',
                     //   key: 'summary',
@@ -268,7 +261,7 @@ export default function NewsDetailScreen() {
                   ]}
                 />
               ) : (
-                <Title style={{ textAlign: 'center' }}>
+                <Title style={{ textAlign: "center" }}>
                   News not curated yet..
                 </Title>
               )}
@@ -278,36 +271,36 @@ export default function NewsDetailScreen() {
         <Col sm={1} md={2} xs={0} />
       </Row>
     </Header>
-  )
+  );
 }
 
 const NEWS_CATEGORIES = [
   {
-    title: 'National News',
-    icon: <LineChartOutlined />
+    title: "National News",
+    icon: <LineChartOutlined />,
   },
   {
-    title: 'International News',
-    icon: <GlobalOutlined />
+    title: "International News",
+    icon: <GlobalOutlined />,
   },
   {
-    title: 'Economy and Business',
-    icon: <MoneyCollectOutlined />
+    title: "Economy and Business",
+    icon: <MoneyCollectOutlined />,
   },
   {
-    title: 'Science and Technology',
-    icon: <DotChartOutlined />
+    title: "Science and Technology",
+    icon: <DotChartOutlined />,
   },
   {
-    title: 'Environment and Ecology',
-    icon: <CloudOutlined />
+    title: "Environment and Ecology",
+    icon: <CloudOutlined />,
   },
   {
-    title: 'Sports',
-    icon: <DribbbleOutlined />
+    title: "Sports",
+    icon: <DribbbleOutlined />,
   },
   {
-    title: 'Editorials and Opinions',
-    icon: <EditOutlined />
-  }
-]
+    title: "Editorials and Opinions",
+    icon: <EditOutlined />,
+  },
+];

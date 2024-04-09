@@ -9,8 +9,8 @@ import {
   Progress,
   Row,
   Space,
-  Tag
-} from 'antd'
+  Tag,
+} from "antd";
 import {
   CalendarOutlined,
   ClockCircleOutlined,
@@ -23,62 +23,62 @@ import {
   PlayCircleTwoTone,
   SafetyCertificateOutlined,
   StepForwardOutlined,
-  UserSwitchOutlined
-} from '@ant-design/icons'
+  UserSwitchOutlined,
+} from "@ant-design/icons";
 // @ts-nocheck
-import { Learner, Utils } from '@adewaskar/lms-common'
+import { Learner, Utils } from "@adewaskar/lms-common";
 import {
   formatAvgCount,
-  formatSeconds
-} from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useNavigate, useParams } from '@Router/index'
+  formatSeconds,
+} from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import { useNavigate, useParams } from "@Router/index";
 
-import Image from '@Components/Image'
-import PlayIcon from '@Icons/play.svg'
-import { Typography } from '@Components/Typography'
-import dayjs from 'dayjs'
-import useBreakpoint from '@Hooks/useBreakpoint'
+import Image from "@Components/Image";
+import PlayIcon from "@Icons/play.svg";
+import { Typography } from "@Components/Typography";
+import dayjs from "dayjs";
+import useBreakpoint from "@Hooks/useBreakpoint";
 
-const { Title, Text } = Typography
-const { Content } = Layout
+const { Title, Text } = Typography;
+const { Content } = Layout;
 
 interface EnrolledCourseDetailScreenPropsI {
   //   courseId: string;
 }
 
-const EnrolledCourseDetailScreen: React.FC<
-  EnrolledCourseDetailScreenPropsI
-> = props => {
-  const navigate = useNavigate()
-  const { courseId } = useParams()
+const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
+  props
+) => {
+  const navigate = useNavigate();
+  const { courseId } = useParams();
   const {
     data: {
       metadata: { progress, completed, notes, lastPlayed, watchTime },
-      plan: { expiresAt }
-    }
+      plan: { expiresAt },
+    },
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
-      type: 'course',
-      id: courseId + ''
+      type: "course",
+      id: courseId + "",
     },
     {
-      enabled: !!courseId
+      enabled: !!courseId,
     }
-  )
+  );
 
-  const { data: course } = Learner.Queries.useGetCourseDetails(courseId + '')
+  const { data: course } = Learner.Queries.useGetCourseDetails(courseId + "");
 
-  const { user } = course
+  const { user } = course;
 
   const continueLearning = () => {
-    navigate(`../../courses/${lastPlayed.course}/player/${lastPlayed.item}`)
-  }
+    navigate(`../../courses/${lastPlayed.course}/player/${lastPlayed.item}`);
+  };
 
   const playItem = (sectionId: string, itemId: string) => {
-    navigate(`../../courses/${courseId}/player/${itemId}`)
-  }
+    navigate(`../../courses/${courseId}/player/${itemId}`);
+  };
 
-  const { isMobile, isTablet } = useBreakpoint()
+  const { isMobile, isTablet } = useBreakpoint();
 
   return (
     <Row>
@@ -97,7 +97,7 @@ const EnrolledCourseDetailScreen: React.FC<
                           //   @ts-ignore
                           src={user.image}
                         />
-                        <Text style={{ position: 'relative', top: 4 }}>
+                        <Text style={{ position: "relative", top: 4 }}>
                           {/* @ts-ignore  */}
                           {user.name}
                         </Text>
@@ -106,7 +106,7 @@ const EnrolledCourseDetailScreen: React.FC<
                     <Col
                       // xs={24}
                       flex={1}
-                      style={{ display: 'flex', justifyContent: 'flex-end' }}
+                      style={{ display: "flex", justifyContent: "flex-end" }}
                     >
                       {lastPlayed ? (
                         <Button
@@ -118,13 +118,13 @@ const EnrolledCourseDetailScreen: React.FC<
                         </Button>
                       ) : (
                         <Button
-                          size={isMobile ? 'large' : 'middle'}
+                          size={isMobile ? "large" : "middle"}
                           block={isMobile}
                           onClick={() => {
                             playItem(
                               course.sections[0]._id,
                               course.sections[0].items[0]._id
-                            )
+                            );
                           }}
                           icon={<PlayCircleOutlined />}
                           type="primary"
@@ -137,31 +137,31 @@ const EnrolledCourseDetailScreen: React.FC<
                   <Progress
                     style={{ padding: 0 }}
                     percent={progress}
-                    strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
+                    strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
                     format={() => null}
                   />
                   <Row gutter={[30, 10]}>
                     <Col sm={12} xs={24} md={8} lg={5}>
-                      <FundProjectionScreenOutlined />{' '}
+                      <FundProjectionScreenOutlined />{" "}
                       <Text strong>
                         {completed.length}/{course.totalItems} Lessons
                       </Text>
                     </Col>
 
                     <Col sm={12} xs={24} md={8} lg={5}>
-                      <EditOutlined />{' '}
+                      <EditOutlined />{" "}
                       <Text strong>{notes.length} Notes Taken</Text>
                     </Col>
 
                     <Col sm={12} xs={24} md={8} lg={5}>
-                      <ClockCircleOutlined />{' '}
+                      <ClockCircleOutlined />{" "}
                       <Text strong>{watchTime} Mins Watched</Text>
                     </Col>
 
                     {expiresAt ? (
                       <Col sm={12} xs={24} md={8} lg={5}>
-                        <CalendarOutlined />{' '}
-                        <Text strong>{dayjs(expiresAt).format('LLL')}</Text>
+                        <CalendarOutlined />{" "}
+                        <Text strong>{dayjs(expiresAt).format("LLL")}</Text>
                       </Col>
                     ) : null}
                   </Row>
@@ -181,11 +181,11 @@ const EnrolledCourseDetailScreen: React.FC<
 
         <Row>
           <Col span={24}>
-            <Card bordered={false} style={{ width: '100%', marginTop: 50 }}>
+            <Card bordered={false} style={{ width: "100%", marginTop: 50 }}>
               <Row gutter={[30, 30]}>
                 <Col lg={17} md={24} sm={24} xs={24}>
                   <Row gutter={[20, 30]}>
-                    {course.sections.map(section => {
+                    {course.sections.map((section) => {
                       return (
                         <Col span={24}>
                           <Title level={3} style={{ marginTop: 0 }}>
@@ -196,11 +196,11 @@ const EnrolledCourseDetailScreen: React.FC<
                             size="small"
                             bordered={false}
                             dataSource={section.items}
-                            renderItem={item => (
+                            renderItem={(item) => (
                               <List.Item>
                                 <Card
-                                  style={{ width: '100%', borderRadius: 10 }}
-                                  bodyStyle={{ padding: '0 20px' }}
+                                  style={{ width: "100%", borderRadius: 10 }}
+                                  bodyStyle={{ padding: "0 20px" }}
                                 >
                                   <Row gutter={[10, 10]}>
                                     {/* <Col>
@@ -215,7 +215,7 @@ const EnrolledCourseDetailScreen: React.FC<
                                       flex={1}
                                       style={{
                                         marginTop: 10,
-                                        marginBottom: 10
+                                        marginBottom: 10,
                                       }}
                                     >
                                       <Title
@@ -256,16 +256,16 @@ const EnrolledCourseDetailScreen: React.FC<
                                     <Col
                                       span={3}
                                       style={{
-                                        display: 'flex',
-                                        alignItems: 'center'
+                                        display: "flex",
+                                        alignItems: "center",
                                       }}
                                     >
                                       <Space>
                                         <Progress
                                           style={{
                                             visibility: item.isCompleted
-                                              ? 'visible'
-                                              : 'hidden'
+                                              ? "visible"
+                                              : "hidden",
                                           }}
                                           width={32}
                                           type="circle"
@@ -289,7 +289,7 @@ const EnrolledCourseDetailScreen: React.FC<
                             )}
                           />
                         </Col>
-                      )
+                      );
                     })}
                   </Row>
                 </Col>
@@ -308,27 +308,27 @@ const EnrolledCourseDetailScreen: React.FC<
                       </Title>
                       <Space direction="vertical">
                         <Text>
-                          <UserSwitchOutlined />{' '}
-                          {formatAvgCount(course.analytics.enrolled.count)}{' '}
+                          <UserSwitchOutlined />{" "}
+                          {formatAvgCount(course.analytics.enrolled.count)}{" "}
                           Learners
                         </Text>
                         <Text>
                           <CalendarOutlined />
-                          {'  '}
+                          {"  "}
                           {/* @ts-ignore */}
-                          {dayjs(course.updatedAt).format('MMMM D, YYYY')} last
+                          {dayjs(course.updatedAt).format("MMMM D, YYYY")} last
                           updated
                         </Text>
                         <Text>
                           <GlobalOutlined />
-                          {'  '}
+                          {"  "}
                           {/* @ts-ignore */}
-                          {course.language || 'English'}
+                          {course.language || "English"}
                         </Text>
                         {course.certificate ? (
                           <Text>
                             <SafetyCertificateOutlined />
-                            {'  '}
+                            {"  "}
                             Certificate of completion
                           </Text>
                         ) : null}
@@ -342,7 +342,7 @@ const EnrolledCourseDetailScreen: React.FC<
         </Row>
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default EnrolledCourseDetailScreen
+export default EnrolledCourseDetailScreen;

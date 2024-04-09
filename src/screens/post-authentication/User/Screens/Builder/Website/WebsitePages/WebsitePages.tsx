@@ -1,31 +1,31 @@
-import { Button, Card, Space, Table } from 'antd'
+import { Button, Card, Space, Table } from "antd";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CreateWebsitePage from './CreateWebsitePage'
-import { DeleteOutlined } from '@ant-design/icons'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import { capitalize } from 'lodash'
-import dayjs from 'dayjs'
-import { useNavigate } from '@Router/index'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import CreateWebsitePage from "./CreateWebsitePage";
+import { DeleteOutlined } from "@ant-design/icons";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import { capitalize } from "lodash";
+import dayjs from "dayjs";
+import { useNavigate } from "@Router/index";
 
 interface WebsitePagesPropsI {
   //   courseId: string;
 }
 
 function WebsitePages(props: WebsitePagesPropsI) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const {
     data: { pages },
-    isLoading: loading
-  } = User.Queries.useGetWebsiteDetails()
+    isLoading: loading,
+  } = User.Queries.useGetWebsiteDetails();
   return (
     <Card
       title="Website Pages"
       extra={[
         <ActionModal cta={<Button>Add Website Page</Button>}>
           <CreateWebsitePage />
-        </ActionModal>
+        </ActionModal>,
       ]}
     >
       <Table dataSource={pages} loading={loading}>
@@ -47,14 +47,14 @@ function WebsitePages(props: WebsitePagesPropsI) {
           key="updatedAt"
           render={(_: any, record: Types.WebsitePage) => (
             //@ts-ignore
-            <Space size="middle">{dayjs(record.updatedAt).format('LL')}</Space>
+            <Space size="middle">{dayjs(record.updatedAt).format("LL")}</Space>
           )}
         />
 
         <Table.Column
           title="Customize"
           render={(_: any, record: Types.Learner) => (
-            <Button onClick={() => navigate('builder')} size="small">
+            <Button onClick={() => navigate("builder")} size="small">
               Edit
             </Button>
           )}
@@ -76,7 +76,7 @@ function WebsitePages(props: WebsitePagesPropsI) {
         />
       </Table>
     </Card>
-  )
+  );
 }
 
-export default WebsitePages
+export default WebsitePages;

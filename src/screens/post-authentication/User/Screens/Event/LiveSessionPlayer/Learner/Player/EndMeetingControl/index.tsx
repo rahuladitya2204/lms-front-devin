@@ -9,39 +9,40 @@ import {
   ModalButtonGroup,
   ModalHeader,
   Phone,
-  useMeetingManager
-} from 'amazon-chime-sdk-component-library-react';
-import React, { useState } from 'react';
-import { useNavigate, useParams } from '@Router/index';
+  useMeetingManager,
+} from "amazon-chime-sdk-component-library-react";
+import React, { useState } from "react";
+import { useNavigate, useParams } from "@Router/index";
 
-import { StyledP } from './Styled';
-import { User } from '@adewaskar/lms-common';
+import { StyledP } from "./Styled";
+import { User } from "@adewaskar/lms-common";
 
 // import routes from '../../constants/routes';
 
 const EndMeetingControl: React.FC = () => {
   const { eventId } = useParams();
-  const { mutate:endMeeting} = User.Queries.useEndMeeting();
+  const { mutate: endMeeting } = User.Queries.useEndMeeting();
   const meetingManager = useMeetingManager();
   const [showModal, setShowModal] = useState(false);
   const toggleModal = (): void => setShowModal(!showModal);
-  const navigate=useNavigate()
-  const leaveMeeting = async (): Promise<void> => {
-  };
+  const navigate = useNavigate();
+  const leaveMeeting = async (): Promise<void> => {};
 
   const endMeetingForAll = async (): Promise<void> => {
     try {
       if (eventId) {
-        await endMeeting({ session: eventId }, {
-          onSuccess:async ()=> {
-            await meetingManager.leave();
-            navigate('../');
+        await endMeeting(
+          { session: eventId },
+          {
+            onSuccess: async () => {
+              await meetingManager.leave();
+              navigate("../");
+            },
           }
-        });
-       
+        );
       }
     } catch (e) {
-      console.log('Could not end meeting', e);
+      console.log("Could not end meeting", e);
     }
   };
 
@@ -71,7 +72,7 @@ const EndMeetingControl: React.FC = () => {
                 label="Leave Meeting"
                 closesModal
               />,
-              <ModalButton variant="secondary" label="Cancel" closesModal />
+              <ModalButton variant="secondary" label="Cancel" closesModal />,
             ]}
           />
         </Modal>

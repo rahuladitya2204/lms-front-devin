@@ -1,25 +1,16 @@
-import {
-  Button,
-  Checkbox,
-  Col,
-  Dropdown,
-  List,
-  Row,
-  Space,
-  Tag,
-} from 'antd'
-import { Learner, Utils } from '@adewaskar/lms-common'
-import { Unit, unit } from 'mathjs'
+import { Button, Checkbox, Col, Dropdown, List, Row, Space, Tag } from "antd";
+import { Learner, Utils } from "@adewaskar/lms-common";
+import { Unit, unit } from "mathjs";
 
-import CourseItemIcon from '@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon'
-import { DownloadOutlined } from '@ant-design/icons'
-import { NavLink } from '@Router/index'
-import { Types } from '@adewaskar/lms-common'
-import { Typography } from '@Components/Typography'
-import { downloadFile } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import styled from '@emotion/styled'
+import CourseItemIcon from "@User/Screens/Courses/CourseEditor/CourseBuilder/CourseSectionsNavigator/CourseItemIcon";
+import { DownloadOutlined } from "@ant-design/icons";
+import { NavLink } from "@Router/index";
+import { Types } from "@adewaskar/lms-common";
+import { Typography } from "@Components/Typography";
+import { downloadFile } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import styled from "@emotion/styled";
 
-const { Text } = Typography
+const { Text } = Typography;
 interface CoursePlayerNavigatorItemPropsI {
   item: Types.CourseSectionItem;
   courseId: string;
@@ -28,24 +19,24 @@ interface CoursePlayerNavigatorItemPropsI {
   toggleItemCheck: (itemID: string, value: boolean) => void;
 }
 
-const CourseListItem = styled(List.Item)(({isActive}:{isActive:boolean}) => {
-  return `
+const CourseListItem = styled(List.Item)(
+  ({ isActive }: { isActive: boolean }) => {
+    return `
    border-bottom: 1px solid #f0f0f0 !important;
   h4 {
     margin-top: 0;
   }
-  background: ${isActive?'#e9e9e9':'auto'};
-`
-})
+  background: ${isActive ? "#e9e9e9" : "auto"};
+`;
+  }
+);
 
 function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
-  let duration = props.item.metadata?.duration
+  let duration = props.item.metadata?.duration;
   if (!duration) {
-    duration = 0
+    duration = 0;
   }
-  let durationInMin = unit(duration, 'seconds')
-    .to('minute')
-    .toJSON()
+  let durationInMin = unit(duration, "seconds").to("minute").toJSON();
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress();
   const minDuration = Math.ceil(durationInMin.value);
   return (
@@ -65,16 +56,16 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
             avatar={
               <Checkbox
                 defaultChecked={props.item.isCompleted}
-                onChange={e => {
-                  e.stopPropagation()
+                onChange={(e) => {
+                  e.stopPropagation();
                   updateProgress({
-                    courseId: props.courseId || '',
+                    courseId: props.courseId || "",
                     sectionId: props.section._id,
-                    action: e.target.checked ? 'ADD' : 'REMOVE',
+                    action: e.target.checked ? "ADD" : "REMOVE",
                     itemId: props.item._id,
-                    data: null
-                  })
-                  props.toggleItemCheck(props.item._id, !!e.target.checked)
+                    data: null,
+                  });
+                  props.toggleItemCheck(props.item._id, !!e.target.checked);
                 }}
               />
             }
@@ -85,11 +76,14 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
             }
             description={
               <>
-                   {(props.item.type === 'video' || props.item.type === 'text' || props.item.type === 'pdf') && durationInMin ? (
+                {(props.item.type === "video" ||
+                  props.item.type === "text" ||
+                  props.item.type === "pdf") &&
+                durationInMin ? (
                   <Row
-                    justify={'space-between'}
+                    justify={"space-between"}
                     style={{
-                      marginTop: 10
+                      marginTop: 10,
                     }}
                     // direction="horizontal"
                     // align="center"
@@ -102,7 +96,10 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                         style={{ marginRight: 0 }}
                         color="blue-inverse"
                       >
-                        {minDuration<60?minDuration:Utils.formatSeconds(minDuration)} min
+                        {minDuration < 60
+                          ? minDuration
+                          : Utils.formatSeconds(minDuration)}{" "}
+                        min
                       </Tag>
                     </Col>
 
@@ -116,7 +113,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                                 key: index,
                                 label: (
                                   <a
-                                    onClick={() => downloadFile(file.file + '')}
+                                    onClick={() => downloadFile(file.file + "")}
                                     type="primary"
                                     target="_blank"
                                     href={file.file}
@@ -124,9 +121,9 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                                   >
                                     {file.name} <DownloadOutlined />
                                   </a>
-                                )
-                              }
-                            })
+                                ),
+                              };
+                            }),
                           }}
                           placement="bottomRight"
                         >
@@ -142,7 +139,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
         </CourseListItem>
       )}
     />
-  )
+  );
 }
 
-export default CoursePlayerNavigatorItem
+export default CoursePlayerNavigatorItem;

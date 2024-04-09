@@ -12,36 +12,36 @@ import {
   SoundOutlined,
   UsergroupAddOutlined,
   VideoCameraOutlined,
-} from '@ant-design/icons'
-import { Enum, Types } from '@adewaskar/lms-common'
+} from "@ant-design/icons";
+import { Enum, Types } from "@adewaskar/lms-common";
 
-import { MenuProps } from 'antd'
+import { MenuProps } from "antd";
 
 export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
-    title: 'Dashboard',
+    title: "Dashboard",
     icon: <DashboardOutlined />,
-    path: '/app/dashboard',
+    path: "/admin/dashboard",
   },
   {
-    title: 'Products',
+    title: "Products",
     icon: <BookOutlined />,
     roles: [Enum.UserRole.PRODUCT_MANAGER],
-    path: '/app/products',
+    path: "/admin/products",
     children: [
       {
-        title: 'Tests',
+        title: "Tests",
         // icon: <PaperClipOutlined />,
-        path: 'test',
+        path: "test",
         // roles:[Enum.UserRole.TEST_MANAGER]
       },
       {
-        title: 'Packages',
-        path: 'packages',
+        title: "Packages",
+        path: "packages",
       },
       {
-        title: 'Category',
-        path: 'category',
+        title: "Category",
+        path: "category",
         // icon: <AppstoreOutlined />
       },
       // {
@@ -53,58 +53,58 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
       //   title: 'Courses',
       //   path: 'courses',
       // },
-    ]
+    ],
   },
   {
-    title: 'Events',
+    title: "Events",
     icon: <CalendarOutlined />,
-    path: '/app/event',
+    path: "/admin/event",
   },
   {
-    title: 'Users',
+    title: "Users",
     icon: <UsergroupAddOutlined />,
-    path: '/app/users',
+    path: "/admin/users",
     roles: [Enum.UserRole.USER_MANAGER],
     children: [
       {
-        title: 'Learners',
-        path: 'learners',
+        title: "Learners",
+        path: "learners",
         // icon: <UserOutlined />
       },
       {
-        title: 'Users',
-        path: 'users',
+        title: "Users",
+        path: "users",
         // icon: <UserOutlined />
-      }
-    ]
+      },
+    ],
   },
   {
-    title: 'Marketing',
+    title: "Marketing",
     icon: <SoundOutlined />,
-    path: '/app/marketing',
+    path: "/admin/marketing",
     roles: [Enum.UserRole.MARKETING_MANAGER],
     children: [
       {
-        title: 'Campaign',
-        path: 'campaign',
+        title: "Campaign",
+        path: "campaign",
         // icon: <AppstoreOutlined />
       },
       {
-        title: 'Affiliate Program',
-        path: 'affiliate',
+        title: "Affiliate Program",
+        path: "affiliate",
         // icon: <AppstoreOutlined />
       },
       {
-        title: 'Templates',
-        path: 'templates',
+        title: "Templates",
+        path: "templates",
         // icon: <AppstoreOutlined />
       },
       {
-        title: 'Promo Codes',
-        path: 'promo-codes',
+        title: "Promo Codes",
+        path: "promo-codes",
         // icon: <AppstoreOutlined />
-      }
-    ]
+      },
+    ],
   },
   // {
   //   title: 'Website & App',
@@ -124,72 +124,67 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   //   ]
   // },
   {
-    title: 'Asset Library',
+    title: "Asset Library",
     icon: <FolderOpenOutlined />,
-    path: '/app/asset-library',
+    path: "/admin/asset-library",
   },
   {
-    title: 'Support Tickets',
+    title: "Support Tickets",
     icon: <CustomerServiceOutlined />,
-    path: '/app/tickets',
+    path: "/admin/tickets",
   },
   {
-    title: 'Settings',
+    title: "Settings",
     icon: <SettingOutlined />,
-    roles:[Enum.UserRole.ORG_MANAGER],
-    path: '/app/settings',
+    roles: [Enum.UserRole.ORG_MANAGER],
+    path: "/admin/settings",
     children: [
       {
-        title: 'My Profile',
-        path: 'profile',
-        icon: <AppstoreOutlined />
+        title: "My Profile",
+        path: "profile",
+        icon: <AppstoreOutlined />,
       },
       {
-        title: 'Org Account',
-        path: 'account',
-        icon: <AppstoreOutlined />
+        title: "Org Account",
+        path: "account",
+        icon: <AppstoreOutlined />,
       },
       {
-        title: 'Payments',
-        path: 'payments',
-        icon: <MoneyCollectOutlined />
+        title: "Payments",
+        path: "payments",
+        icon: <MoneyCollectOutlined />,
       },
-    ]
+    ],
   },
-]
+];
 
-
-export const MenuItems = (items:Types.MenuItemNode[]) => {
+export const MenuItems = (items: Types.MenuItemNode[]) => {
   return items.map((item, pIndex) => {
-    const ARGS = [item.title, `${item.path}`, item.icon]
+    const ARGS = [item.title, `${item.path}`, item.icon];
     const CHILDREN = item?.children?.map((childItem, cIndex) =>
       getItem(childItem.title, `${item.path}/${childItem.path}`, childItem.icon)
-    )
+    );
     if (CHILDREN) {
       // @ts-ignore
-      ARGS.push(CHILDREN)
+      ARGS.push(CHILDREN);
     }
     // @ts-ignore
-    return getItem(...ARGS)
-  })
-}
+    return getItem(...ARGS);
+  });
+};
 
-
-type MenuItem = Required<MenuProps>['items'][number];
-
-
+type MenuItem = Required<MenuProps>["items"][number];
 
 function getItem(
-    label: React.ReactNode,
-    key?: React.Key | null,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-  ): MenuItem {
-    return {
-      key,
-      icon,
-      children,
-      label,
-    } as MenuItem;
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  children?: MenuItem[]
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
 }
-  

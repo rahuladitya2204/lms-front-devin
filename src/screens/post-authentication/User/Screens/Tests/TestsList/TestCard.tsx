@@ -1,18 +1,18 @@
-import { Avatar, Badge, Card, Space, Tag, Tooltip } from 'antd'
+import { Avatar, Badge, Card, Space, Tag, Tooltip } from "antd";
 import {
   BarChartOutlined,
   EyeOutlined,
   FormatPainterOutlined,
   InfoCircleOutlined,
-  ToolOutlined
-} from '@ant-design/icons'
-import { Enum, Types } from '@adewaskar/lms-common'
+  ToolOutlined,
+} from "@ant-design/icons";
+import { Enum, Types } from "@adewaskar/lms-common";
 
-import Image from '@Components/Image'
-import { capitalize } from 'lodash'
-import dayjs from 'dayjs'
-import styled from '@emotion/styled'
-import { useNavigate } from '@Router/index'
+import Image from "@Components/Image";
+import { capitalize } from "lodash";
+import dayjs from "dayjs";
+import styled from "@emotion/styled";
+import { useNavigate } from "@Router/index";
 
 interface TestCardProps {
   test: Types.Test;
@@ -22,11 +22,13 @@ const TestCardHolder = styled(Card)`
   img {
     width: 100%;
   }
-`
+`;
 
 function TestCard({ test }: TestCardProps) {
-  const navigate = useNavigate()
-  const ThumbnailImage = <Image height={200} alt="example" src={test.thumbnailImage} />
+  const navigate = useNavigate();
+  const ThumbnailImage = (
+    <Image height={200} alt="example" src={test.thumbnailImage} />
+  );
   return (
     <TestCardHolder
       // bodyStyle={{ height: 115 }}
@@ -35,7 +37,7 @@ function TestCard({ test }: TestCardProps) {
         test.live.enabled ? (
           <Badge.Ribbon
             color="orange"
-            text={`Live: ${dayjs(test.live.scheduledAt).format('LLL')}`}
+            text={`Live: ${dayjs(test.live.scheduledAt).format("LLL")}`}
           >
             {ThumbnailImage}
           </Badge.Ribbon>
@@ -47,16 +49,16 @@ function TestCard({ test }: TestCardProps) {
         <InfoCircleOutlined
           onClick={() => navigate(`${test._id}/editor#information`)}
         />,
-        <Tooltip placement="bottom" title={'Go to Tests builder'}>
+        <Tooltip placement="bottom" title={"Go to Tests builder"}>
           <ToolOutlined onClick={() => navigate(`${test._id}/builder`)} />
         </Tooltip>,
-        <Tooltip placement="bottom" title={'Analysis'}>
+        <Tooltip placement="bottom" title={"Analysis"}>
           <BarChartOutlined
             onClick={() => {
-              navigate(`${test._id}/status`)
+              navigate(`${test._id}/status`);
             }}
           />
-        </Tooltip>
+        </Tooltip>,
         // <WechatOutlined />,
         // <SettingOutlined />
       ]}
@@ -68,10 +70,10 @@ function TestCard({ test }: TestCardProps) {
           </Space>
         }
         // avatar={<Avatar src={user?.image} />}
-        title={test.title || ''}
+        title={test.title || ""}
       />
     </TestCardHolder>
-  )
+  );
 }
 
-export default TestCard
+export default TestCard;

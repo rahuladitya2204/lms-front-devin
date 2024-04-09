@@ -9,40 +9,40 @@ import {
   Select,
   Space,
   Switch,
-  TreeSelect
-} from 'antd'
-import { Enum, Types, User } from '@adewaskar/lms-common'
-import { useEffect, useMemo } from 'react'
+  TreeSelect,
+} from "antd";
+import { Enum, Types, User } from "@adewaskar/lms-common";
+import { useEffect, useMemo } from "react";
 
-import FileList from '@Components/FileList'
-import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload'
-import { PlusOutlined } from '@ant-design/icons'
-import SelectProductCategory from '@Components/SelectProductCategory'
-import TextArea from '@Components/Textarea'
-import { Title } from '@Components/Typography/Typography'
-import { TopicNode } from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
-import { Typography } from '@Components/Typography'
-import { deepPatch } from '@User/Screens/Courses/CourseEditor/CourseBuilder/utils'
-import { useParams } from '@Router/index'
+import FileList from "@Components/FileList";
+import Image from "@Components/Image";
+import MediaUpload from "@Components/MediaUpload";
+import { PlusOutlined } from "@ant-design/icons";
+import SelectProductCategory from "@Components/SelectProductCategory";
+import TextArea from "@Components/Textarea";
+import { Title } from "@Components/Typography/Typography";
+import { TopicNode } from "@User/Screens/AssetLibrary/Topics/TopicsScreen";
+import { Typography } from "@Components/Typography";
+import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import { useParams } from "@Router/index";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const LANGUAGES = [
   {
     value: Enum.LanguageEnum.ENGLIGH,
-    label: 'English'
+    label: "English",
   },
   {
     value: Enum.LanguageEnum.HINDI,
-    label: 'Hindi'
+    label: "Hindi",
   },
   {
     value: Enum.LanguageEnum.FRENCH,
-    label: 'French'
-  }
-]
-const { useWatch } = Form
+    label: "French",
+  },
+];
+const { useWatch } = Form;
 
 interface ProductCategoryDetailsEditorPropsI {
   testId?: string;
@@ -53,11 +53,11 @@ interface ProductCategoryDetailsEditorPropsI {
 function ProductCategoryDetailsEditor(
   props: ProductCategoryDetailsEditorPropsI
 ) {
-  const { productCategory } = props
+  const { productCategory } = props;
   const form = Form.useFormInstance();
-  const { id } = useParams()
-  const testId = props.testId || id
-  const image = useWatch(['thumbnailImage'], form)
+  const { id } = useParams();
+  const testId = props.testId || id;
+  const image = useWatch(["thumbnailImage"], form);
   return (
     <>
       {/* <Form.Item name={['status']} required label="ProductCategory Status">
@@ -78,8 +78,8 @@ function ProductCategoryDetailsEditor(
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
           source={{
-            type: 'productCategory.image',
-            value: testId + ''
+            type: "productCategory.image",
+            value: testId + "",
           }}
           uploadType="image"
           compress={{ quality: 0.8, maxHeight: 200, maxWidth: 330 }}
@@ -90,8 +90,8 @@ function ProductCategoryDetailsEditor(
           height="300px"
           prefixKey={`ProductCategorys/${testId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={image} />}
-          onUpload={e => {
-            form.setFieldValue(['thumbnailImage'], e.url);
+          onUpload={(e) => {
+            form.setFieldValue(["thumbnailImage"], e.url);
           }}
         />
       </Form.Item>
@@ -103,8 +103,8 @@ function ProductCategoryDetailsEditor(
         rules={[
           {
             required: true,
-            message: 'Please enter a title for the ProductCategory'
-          }
+            message: "Please enter a title for the ProductCategory",
+          },
         ]}
       >
         <Input />
@@ -117,33 +117,28 @@ function ProductCategoryDetailsEditor(
         rules={[
           {
             required: true,
-            message: 'Please enter a subtitle for the ProductCategory'
-          }
+            message: "Please enter a subtitle for the ProductCategory",
+          },
         ]}
       >
         <Input />
       </Form.Item>
       <Row>
         <Col span={12}>
-        <Form.Item
-            valuePropName="checked"
-            name={['isLive']}
-            label='Live'
-          >
+          <Form.Item valuePropName="checked" name={["isLive"]} label="Live">
             <Switch style={{ marginTop: 0 }} />
-      </Form.Item>
+          </Form.Item>
         </Col>
         <Col span={12}>
-                
-      <Form.Item
+          <Form.Item
             valuePropName="checked"
-            name={['info','isUpcoming']}
-            label='Upcoming'
+            name={["info", "isUpcoming"]}
+            label="Upcoming"
           >
             <Switch style={{ marginTop: 0 }} />
           </Form.Item>
         </Col>
-  </Row>
+      </Row>
 
       <Divider />
       <Row gutter={[40, 20]}>
@@ -155,7 +150,7 @@ function ProductCategoryDetailsEditor(
             //     message: 'Please enter minimum passing score'
             //   }
             // ]}
-            name={['info','registration','date']}
+            name={["info", "registration", "date"]}
             label="Registration Date"
             // required
           >
@@ -173,8 +168,7 @@ function ProductCategoryDetailsEditor(
             //     message: 'Please enter minimum passing score'
             //   }
             // ]}
-            name={['info','registration','link']}
-
+            name={["info", "registration", "link"]}
             label="Registration Link"
             // required
           >
@@ -192,8 +186,7 @@ function ProductCategoryDetailsEditor(
             //     message: 'Please enter minimum passing score'
             //   }
             // ]}
-            name={['info','examDate']}
-
+            name={["info", "examDate"]}
             label="Exam Date"
             // required
           >
@@ -224,7 +217,7 @@ function ProductCategoryDetailsEditor(
       </Row>
       <Divider />
       <Row gutter={[40, 20]}>
-      <Col span={8}>
+        <Col span={8}>
           <Form.Item
             // rules={[
             //   {
@@ -232,7 +225,7 @@ function ProductCategoryDetailsEditor(
             //     message: 'Please enter minimum passing score'
             //   }
             // ]}
-            name={['info','eligibility']}
+            name={["info", "eligibility"]}
             label="Eligibility"
             // required
           >
@@ -250,7 +243,7 @@ function ProductCategoryDetailsEditor(
             //     message: 'Please enter minimum passing score'
             //   }
             // ]}
-            name={['info','vacancies']}
+            name={["info", "vacancies"]}
             label="Vacancies"
             // required
           >
@@ -268,8 +261,7 @@ function ProductCategoryDetailsEditor(
             //     message: 'Please enter minimum passing score'
             //   }
             // ]}
-            name={['info','salaryRange']}
-
+            name={["info", "salaryRange"]}
             label="Salary"
             // required
           >
@@ -280,27 +272,43 @@ function ProductCategoryDetailsEditor(
           </Form.Item>
         </Col>
         <Col span={6}>
-        <Form.Item name={['info','officialNotification','link']} required label="Oficial Notification">
-        <MediaUpload
-          uploadType="file" 
-          cropper={{ width: 330, height: 200 }}
-          name={['info','officialNotification','link']}
-          onUpload={e => {
-            form.setFieldValue(['info','officialNotification','link'], e.url);
-          }}
+          <Form.Item
+            name={["info", "officialNotification", "link"]}
+            required
+            label="Oficial Notification"
+          >
+            <MediaUpload
+              uploadType="file"
+              cropper={{ width: 330, height: 200 }}
+              name={["info", "officialNotification", "link"]}
+              onUpload={(e) => {
+                form.setFieldValue(
+                  ["info", "officialNotification", "link"],
+                  e.url
+                );
+              }}
             />
-            {form.getFieldValue(['info', 'officialNotification', 'link']) ?
-              <span>Notification File <span onClick={() => form.setFieldValue(['info','officialNotification','link'], null)}>X</span>
-              </span> : null}
-      </Form.Item>
-
+            {form.getFieldValue(["info", "officialNotification", "link"]) ? (
+              <span>
+                Notification File{" "}
+                <span
+                  onClick={() =>
+                    form.setFieldValue(
+                      ["info", "officialNotification", "link"],
+                      null
+                    )
+                  }
+                >
+                  X
+                </span>
+              </span>
+            ) : null}
+          </Form.Item>
         </Col>
       </Row>
-      <Divider/>
-
+      <Divider />
     </>
-  )
+  );
 }
 
-export default ProductCategoryDetailsEditor
-
+export default ProductCategoryDetailsEditor;

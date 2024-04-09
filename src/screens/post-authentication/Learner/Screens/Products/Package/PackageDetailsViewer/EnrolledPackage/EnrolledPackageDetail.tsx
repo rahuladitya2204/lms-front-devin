@@ -11,8 +11,8 @@ import {
   Row,
   Skeleton,
   Space,
-  Tag
-} from 'antd'
+  Tag,
+} from "antd";
 import {
   CalendarOutlined,
   ClockCircleOutlined,
@@ -25,92 +25,93 @@ import {
   PlayCircleTwoTone,
   SafetyCertificateOutlined,
   StepForwardOutlined,
-  UserSwitchOutlined
-} from '@ant-design/icons'
-import { Enum, Learner, Utils } from '@adewaskar/lms-common'
-import { Fragment, useMemo } from 'react'
-import { useNavigate, useParams } from '@Router/index'
+  UserSwitchOutlined,
+} from "@ant-design/icons";
+import { Enum, Learner, Utils } from "@adewaskar/lms-common";
+import { Fragment, useMemo } from "react";
+import { useNavigate, useParams } from "@Router/index";
 
-import EnrolledTestItem from './EnrolledTestItem'
-import Image from '@Components/Image'
-import Tabs from '@Components/Tabs'
-import { Typography } from '@Components/Typography'
-import { capitalize } from 'lodash'
-import dayjs from 'dayjs'
-import { sortBy } from 'lodash'
-import useBreakpoint from '@Hooks/useBreakpoint'
+import EnrolledTestItem from "./EnrolledTestItem";
+import Image from "@Components/Image";
+import Tabs from "@Components/Tabs";
+import { Typography } from "@Components/Typography";
+import { capitalize } from "lodash";
+import dayjs from "dayjs";
+import { sortBy } from "lodash";
+import useBreakpoint from "@Hooks/useBreakpoint";
 
 // @ts-nocheck
 
-const { Title, Text } = Typography
-const { Content } = Layout
+const { Title, Text } = Typography;
+const { Content } = Layout;
 interface EnrolledPackageDetailScreenPropsI {
-    packageId: string;
+  // packageId: string;
 }
 
 const EnrolledPackageDetailScreen: React.FC<
   EnrolledPackageDetailScreenPropsI
-> = props => {
-  const navigate = useNavigate()
-  const { packageId } = props;
+> = (props) => {
+  const navigate = useNavigate();
+  const { packageId } = useParams();
   const {
-    data: { product: { data: packageData }, plan: { expiresAt }, enrolledAt },
-    isLoading: loading
+    data: {
+      product: { data: packageData },
+      plan: { expiresAt },
+      enrolledAt,
+    },
+    isLoading: loading,
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: Enum.ProductType.PACKAGE,
-      id: packageId + ''
+      id: packageId + "",
     },
     {
-      enabled: !!packageId
+      enabled: !!packageId,
     }
-  )
-  console.log(packageData,'packageData')
-  const { progress, totalItems, completedItems } = useMemo(
-    () => {
-      let totalItems = { test: 0, course: 0, event: 0 }
-      let completedItems = { test: 0, course: 0, event: 0 }
+  );
+  console.log(packageData, "packageData");
+  const { progress, totalItems, completedItems } = useMemo(() => {
+    let totalItems = { test: 0, course: 0, event: 0 };
+    let completedItems = { test: 0, course: 0, event: 0 };
+    // @ts-ignore
+    if (!packageData.products) {
+      return { totalItems, completedItems, progress: 0 };
+    }
+    // @ts-ignore
+    Object.keys(packageData.products).forEach((k) => {
       // @ts-ignore
-      if (!packageData.products) {
-        return { totalItems, completedItems, progress: 0 }
-      }
-      // @ts-ignore
-      Object.keys(packageData.products).forEach(k => {
+      packageData.products[k].forEach((product) => {
         // @ts-ignore
-        packageData.products[k].forEach(product => {
+        totalItems[k] += 1;
+        if (product.metadata.test.endedAt) {
           // @ts-ignore
-          totalItems[k] += 1
-          if (product.metadata.test.endedAt) {
-            // @ts-ignore
-            completedItems[k] += 1
-          }
-        })
-      })
-      const progress =
-        Object.keys(completedItems)
-          // @ts-ignore
-          .map(k => completedItems[k])
-          .reduce((a, b) => a + b, 0) /
+          completedItems[k] += 1;
+        }
+      });
+    });
+    const progress =
+      (Object.keys(completedItems)
+        // @ts-ignore
+        .map((k) => completedItems[k])
+        .reduce((a, b) => a + b, 0) /
         Object.keys(totalItems)
           // @ts-ignore
-          .map(k => totalItems[k])
-          .reduce((a, b) => a + b, 0) *
-        100
-      // @ts-ignore
-      return {
-        progress,
-        totalItems,
-        completedItems
-      }
-    },
-    [packageData]
-  )
-  const { isMobile, isTablet, isDesktop } = useBreakpoint()
-  const PackageDetailSkel = isDesktop ? [1, 1, 1, 1, 1, 1] : [1, 1]
-  console.log(packageData, progress, 'packageData')
+          .map((k) => totalItems[k])
+          .reduce((a, b) => a + b, 0)) *
+      100;
+    // @ts-ignore
+    return {
+      progress,
+      totalItems,
+      completedItems,
+    };
+  }, [packageData]);
+  const { isMobile, isTablet, isDesktop } = useBreakpoint();
+  const PackageDetailSkel = isDesktop ? [1, 1, 1, 1, 1, 1] : [1, 1];
+  console.log(packageData, progress, "packageData");
   // console.log(packageData, 'packageData')
   // const { data: bundle } = Learner.Queries.useGetPackageDetails(packageId + '')
-  const skelArr = isDesktop ? [1, 1, 1, 1, 1] : [1, 1]
+  const skelArr = isDesktop ? [1, 1, 1, 1, 1] : [1, 1];
   return (
     <Row>
       <Col span={24}>
@@ -125,8 +126,8 @@ const EnrolledPackageDetailScreen: React.FC<
                         <Skeleton.Button
                           active
                           style={{
-                            width: '100%',
-                            height: 30
+                            width: "100%",
+                            height: 30,
 
                             // marginBottom: 20
                           }}
@@ -135,11 +136,11 @@ const EnrolledPackageDetailScreen: React.FC<
                       <Col span={24}>
                         <Skeleton.Button
                           active
-                          style={{ width: '100%', height: 8 }}
+                          style={{ width: "100%", height: 8 }}
                         />
                       </Col>
                       <Col span={24}>
-                        <Row justify={'space-between'}>
+                        <Row justify={"space-between"}>
                           {skelArr.map(() => (
                             <Col>
                               <Skeleton.Button
@@ -162,26 +163,26 @@ const EnrolledPackageDetailScreen: React.FC<
                         <Progress
                           style={{ padding: 0 }}
                           percent={progress || 0}
-                          strokeColor={{ '0%': '#108ee9', '100%': '#87d068' }}
+                          strokeColor={{ "0%": "#108ee9", "100%": "#87d068" }}
                           format={() => null}
                         />
                       </Col>
                       <Col span={24}>
                         <Row>
-                          {Object.keys(totalItems).map(key => {
+                          {Object.keys(totalItems).map((key) => {
                             //  @ts-ignore
                             if (!totalItems[key]) {
-                              return null
+                              return null;
                             }
                             return (
                               <Col>
                                 <Text strong>
                                   <EditOutlined /> {/* @ts-ignore */}
-                                  {completedItems[key]}/{totalItems[key]}{' '}
+                                  {completedItems[key]}/{totalItems[key]}{" "}
                                   {capitalize(key)}s Completed
                                 </Text>
                               </Col>
-                            )
+                            );
                           })}
                         </Row>
                       </Col>
@@ -197,13 +198,13 @@ const EnrolledPackageDetailScreen: React.FC<
                     ) : null}
                     {packageData?.test?.length ? (
                       <Col sm={12} xs={24} md={8} lg={5}>
-                        <EditOutlined />{' '}
+                        <EditOutlined />{" "}
                         <Text strong>{packageData?.test.length} Tests</Text>
                       </Col>
                     ) : null}
                     {packageData?.event?.length ? (
                       <Col sm={12} xs={24} md={8} lg={5}>
-                        <CalendarOutlined />{' '}
+                        <CalendarOutlined />{" "}
                         <Text strong> {packageData?.event.length} Events</Text>
                       </Col>
                     ) : null}
@@ -221,7 +222,7 @@ const EnrolledPackageDetailScreen: React.FC<
                   {loading ? (
                     <Skeleton.Image
                       active
-                      style={{ height: 200, width: '100%' }}
+                      style={{ height: 200, width: "100%" }}
                     />
                   ) : (
                     <Image
@@ -247,26 +248,26 @@ const EnrolledPackageDetailScreen: React.FC<
                       <Skeleton.Button
                         active
                         style={{
-                          width: '100%',
+                          width: "100%",
                           height: 30,
                           marginBottom: 15,
-                          marginTop: 20
+                          marginTop: 20,
                         }}
                       />
 
                       <Skeleton.Button
                         active
-                        style={{ width: '100%', height: 75, marginTop: 18 }}
+                        style={{ width: "100%", height: 75, marginTop: 18 }}
                       />
 
                       <Skeleton.Button
                         active
-                        style={{ width: '100%', height: 75, marginTop: 18 }}
+                        style={{ width: "100%", height: 75, marginTop: 18 }}
                       />
 
                       <Skeleton.Button
                         active
-                        style={{ width: '100%', height: 75, marginTop: 18 }}
+                        style={{ width: "100%", height: 75, marginTop: 18 }}
                       />
                     </Col>
                   ) : packageData?.products ? (
@@ -278,8 +279,8 @@ const EnrolledPackageDetailScreen: React.FC<
                         <Tabs
                           navigateWithHash
                           items={Object.keys(packageData?.products)
-                            .filter(k => packageData?.products[k].length)
-                            .map(k => {
+                            .filter((k) => packageData?.products[k].length)
+                            .map((k) => {
                               return {
                                 label: `${capitalize(k)}s`,
                                 key: k,
@@ -290,7 +291,7 @@ const EnrolledPackageDetailScreen: React.FC<
                                     bordered={false}
                                     dataSource={sortBy(
                                       packageData.products[k],
-                                      e => e.metadata.test.endedAt
+                                      (e) => e.metadata.test.endedAt
                                     )}
                                     renderItem={(item: any) => (
                                       <EnrolledTestItem
@@ -298,8 +299,8 @@ const EnrolledPackageDetailScreen: React.FC<
                                       />
                                     )}
                                   />
-                                )
-                              }
+                                ),
+                              };
                             })}
                         />
                       </Card>
@@ -327,8 +328,8 @@ const EnrolledPackageDetailScreen: React.FC<
                                 active
                                 style={{
                                   height: 14,
-                                  width: '100%',
-                                  marginBottom: 10
+                                  width: "100%",
+                                  marginBottom: 10,
                                 }}
                               />
                             </Col>
@@ -338,16 +339,16 @@ const EnrolledPackageDetailScreen: React.FC<
                         <Space direction="vertical">
                           <Text>
                             <CalendarOutlined />
-                            {'  '} Enrolled On {'  '}
-                            {dayjs(enrolledAt).format('MMMM D, YYYY')}{' '}
+                            {"  "} Enrolled On {"  "}
+                            {dayjs(enrolledAt).format("MMMM D, YYYY")}{" "}
                           </Text>
                           {expiresAt ? (
                             <Text>
                               <Divider />
                               <CalendarOutlined />
-                              {'  '} Expires At {'  '}
+                              {"  "} Expires At {"  "}
                               {/* @ts-ignore */}
-                              {dayjs(expiresAt).format('MMMM D, YYYY')}{' '}
+                              {dayjs(expiresAt).format("MMMM D, YYYY")}{" "}
                             </Text>
                           ) : null}
                           {/* <Text>
@@ -373,7 +374,7 @@ const EnrolledPackageDetailScreen: React.FC<
         </Row>
       </Col>
     </Row>
-  )
-}
+  );
+};
 
-export default EnrolledPackageDetailScreen
+export default EnrolledPackageDetailScreen;

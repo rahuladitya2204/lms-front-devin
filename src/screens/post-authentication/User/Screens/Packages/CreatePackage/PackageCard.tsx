@@ -1,18 +1,18 @@
-import { Avatar, Badge, Card, Space, Tag, Tooltip } from 'antd'
+import { Avatar, Badge, Card, Space, Tag, Tooltip } from "antd";
 import {
   BarChartOutlined,
   EyeOutlined,
   FormatPainterOutlined,
   InfoCircleOutlined,
-  ToolOutlined
-} from '@ant-design/icons'
-import { Enum, Types } from '@adewaskar/lms-common'
+  ToolOutlined,
+} from "@ant-design/icons";
+import { Enum, Types } from "@adewaskar/lms-common";
 
-import Image from '@Components/Image'
-import { capitalize } from 'lodash'
-import dayjs from 'dayjs'
-import styled from '@emotion/styled'
-import { useNavigate } from '@Router/index'
+import Image from "@Components/Image";
+import { capitalize } from "lodash";
+import dayjs from "dayjs";
+import styled from "@emotion/styled";
+import { useNavigate } from "@Router/index";
 
 interface PackageCardProps {
   package: Types.Package;
@@ -22,13 +22,13 @@ const PackageCardHolder = styled(Card)`
   img {
     width: 100%;
   }
-`
+`;
 
 function PackageCard({ package: productPackage }: PackageCardProps) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const ThumbnailImage = (
     <Image height={200} alt="example" src={productPackage.thumbnailImage} />
-  )
+  );
   return (
     <PackageCardHolder
       // onClick={() => navigate(``)}
@@ -44,13 +44,13 @@ function PackageCard({ package: productPackage }: PackageCardProps) {
         //     onClick={() => navigate(`${productPackage._id}/builder`)}
         //   />
         // </Tooltip>,
-        <Tooltip placement="bottom" title={'Analysis'}>
+        <Tooltip placement="bottom" title={"Analysis"}>
           <BarChartOutlined
             onClick={() => {
-              navigate(`${productPackage._id}/status`)
+              navigate(`${productPackage._id}/status`);
             }}
           />
-        </Tooltip>
+        </Tooltip>,
         // <WechatOutlined />,
         // <SettingOutlined />
       ]}
@@ -64,10 +64,10 @@ function PackageCard({ package: productPackage }: PackageCardProps) {
           </Space>
         }
         // avatar={<Avatar src={user?.image} />}
-        title={productPackage.title || ''}
+        title={productPackage.title || ""}
       />
     </PackageCardHolder>
-  )
+  );
 }
 
-export default PackageCard
+export default PackageCard;

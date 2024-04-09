@@ -48,19 +48,20 @@ import { openWindow } from "@Components/Editor/SunEditor/utils";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
+import { Outlet } from "react-router";
 
 const { confirm } = Modal;
 
 interface TestPlayerPropsI {
-  testId: string;
-  questionId: string;
-  children: React.ReactNode;
+  // testId: string;
+  // questionId: string;
+  // children: React.ReactNode;
 }
 
 const { Title } = Typography;
 
 export default function TestPlayer(props: TestPlayerPropsI) {
-  const { testId, questionId, children } = props;
+  const { testId, questionId } = useParams();
   const navigate = useNavigate();
   const { mutate: endTest, isLoading: submittingTest } =
     Learner.Queries.useEndTest(testId + "");
@@ -299,7 +300,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         <Col xs={24} sm={22}>
           <Row gutter={[50, 30]}>
             <Col xs={24} sm={24} md={24} lg={16}>
-              {isLoading ? <TestItemSkeleton /> : children}
+              {isLoading ? <TestItemSkeleton /> : <Outlet />}
             </Col>
             {isDesktop ? (
               <Col lg={8} md={0}>

@@ -1,14 +1,14 @@
-import { Button, Col, Form, Row } from 'antd'
-import { Types, User } from '@adewaskar/lms-common'
+import { Button, Col, Form, Row } from "antd";
+import { Types, User } from "@adewaskar/lms-common";
 
-import ExternalVideo from './ExternalVideo'
-import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
+import ExternalVideo from "./ExternalVideo";
+import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 // @ts-nocheck
-import MediaUpload from '@Components/MediaUpload'
-import Tabs from '@Components/Tabs'
-import { getMetadata } from 'video-metadata-thumbnails'
-import { render } from '@testing-library/react'
-import { useParams } from '@Router/index'
+import MediaUpload from "@Components/MediaUpload";
+import Tabs from "@Components/Tabs";
+import { getMetadata } from "video-metadata-thumbnails";
+import { render } from "@testing-library/react";
+import { useParams } from "@Router/index";
 
 interface UploadVideoPropsI {
   prefixKey: string;
@@ -18,8 +18,8 @@ interface UploadVideoPropsI {
 }
 
 export default function UploadVideo(props: UploadVideoPropsI) {
-  const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo()
-  const { id: courseId, sectionId, itemId } = useParams()
+  const { mutate: transcodeVideo } = User.Queries.useTranscodeVideo();
+  const { id: courseId, sectionId, itemId } = useParams();
   return (
     <Form.Item name={props.name}>
       <Tabs
@@ -34,15 +34,15 @@ export default function UploadVideo(props: UploadVideoPropsI) {
         defaultActiveKey="1"
         items={[
           {
-            label: 'Upload',
-            key: 'upload',
+            label: "Upload",
+            key: "upload",
             children: (
               <Row>
                 <Col span={24}>
                   <MediaUpload
                     source={{
-                      type: 'course.section.item.file',
-                      value: courseId + ''
+                      type: "course.section.item.file",
+                      value: courseId + "",
                     }}
                     prefixKey={props.prefixKey}
                     // fileName={props.item.title}
@@ -53,17 +53,17 @@ export default function UploadVideo(props: UploadVideoPropsI) {
                     onUpload={({ _id }, file) => {
                       // @ts-ignore
                       transcodeVideo({
-                        fileId: _id
-                      })
-                      console.log(file, _id, 'fff')
-                      getMetadata(file).then(r => {
+                        fileId: _id,
+                      });
+                      console.log(file, _id, "fff");
+                      getMetadata(file).then((r) => {
                         props.onUpload({
                           file: _id,
                           metadata: {
-                            duration: r.duration
-                          }
-                        })
-                      })
+                            duration: r.duration,
+                          },
+                        });
+                      });
                     }}
                     height="250px"
                     uploadType="video"
@@ -75,53 +75,53 @@ export default function UploadVideo(props: UploadVideoPropsI) {
                 ) : null} */}
                 </Col>
               </Row>
-            )
+            ),
             // children: <UploadFile />
           },
           {
-            label: 'Youtube',
-            key: 'youtube',
+            label: "Youtube",
+            key: "youtube",
             children: (
               <ExternalVideo
-                onSubmit={d => {
+                onSubmit={(d) => {
                   props.onUpload({
                     metadata: {
-                      duration: 100
+                      duration: 100,
                     },
                     // @ts-ignore
                     file: null,
                     external: {
-                      platform: 'youtube',
-                      url: d.link
-                    }
-                  })
+                      platform: "youtube",
+                      url: d.link,
+                    },
+                  });
                 }}
-                platform={{ label: 'Youtube', value: 'youtube' }}
+                platform={{ label: "Youtube", value: "youtube" }}
               />
-            )
+            ),
           },
           {
-            label: 'Vimeo',
-            key: 'vimeo',
+            label: "Vimeo",
+            key: "vimeo",
             children: (
               <ExternalVideo
-                onSubmit={d => {
+                onSubmit={(d) => {
                   props.onUpload({
                     metadata: {
-                      duration: 100
+                      duration: 100,
                     },
                     // @ts-ignore
                     file: null,
                     external: {
-                      platform: 'vimeo',
-                      url: d.link
-                    }
-                  })
+                      platform: "vimeo",
+                      url: d.link,
+                    },
+                  });
                 }}
-                platform={{ label: 'Vimeo', value: 'vimeo' }}
+                platform={{ label: "Vimeo", value: "vimeo" }}
               />
-            )
-          }
+            ),
+          },
           // {
           //   label: 'Upload',
           //   key: 'sprout',
@@ -146,5 +146,5 @@ export default function UploadVideo(props: UploadVideoPropsI) {
         ]}
       />
     </Form.Item>
-  )
+  );
 }

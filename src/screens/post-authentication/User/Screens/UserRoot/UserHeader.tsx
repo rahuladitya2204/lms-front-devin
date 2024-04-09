@@ -7,27 +7,27 @@ import {
   Modal,
   Row,
   Space,
-  Spin
-} from 'antd'
+  Spin,
+} from "antd";
 import {
   LogoutOutlined,
   MenuOutlined,
   ShoppingCartOutlined,
-  UserOutlined
-} from '@ant-design/icons'
-import { useNavigate } from '@Router/index'
-import { Store, User } from '@adewaskar/lms-common'
+  UserOutlined,
+} from "@ant-design/icons";
+import { useNavigate } from "@Router/index";
+import { Store, User } from "@adewaskar/lms-common";
 
-import ActionDrawer from '@Components/ActionDrawer'
-import { AppSider } from './UserRootScreen'
-import Header from '@Components/Header'
-import OrgLogo from '@Components/OrgLogo'
-import { PageHeaderProps } from '@ant-design/pro-layout'
-import { Typography } from '@Components/Typography'
-import useBreakpoint from '@Hooks/useBreakpoint'
-import { useQueryClient } from '@tanstack/react-query'
+import ActionDrawer from "@Components/ActionDrawer";
+import { AppSider } from "./UserRootScreen";
+import Header from "@Components/Header";
+import OrgLogo from "@Components/OrgLogo";
+import { PageHeaderProps } from "@ant-design/pro-layout";
+import { Typography } from "@Components/Typography";
+import useBreakpoint from "@Hooks/useBreakpoint";
+import { useQueryClient } from "@tanstack/react-query";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 interface HeaderPropsI extends PageHeaderProps {
   children?: React.ReactNode;
@@ -39,48 +39,46 @@ interface HeaderPropsI extends PageHeaderProps {
   bgColor?: string;
 }
 
-const { Content } = Layout
-const { Text, Title } = Typography
+const { Content } = Layout;
+const { Text, Title } = Typography;
 
-const UserHeader: React.FC<HeaderPropsI> = props => {
-  const qc = useQueryClient()
-  const {
-    mutate: logoutUser,
-    isLoading: loggingOut
-  } = User.Queries.useLogoutUser()
-  const navigate = useNavigate()
+const UserHeader: React.FC<HeaderPropsI> = (props) => {
+  const qc = useQueryClient();
+  const { mutate: logoutUser, isLoading: loggingOut } =
+    User.Queries.useLogoutUser();
+  const navigate = useNavigate();
 
-  const { isSignedIn } = Store.useAuthentication(state => state)
+  const { isSignedIn } = Store.useAuthentication((state) => state);
 
   const logout = () => {
     confirm({
-      title: 'Are you sure?',
+      title: "Are you sure?",
       icon: <LogoutOutlined />,
       content: `You want to logout?`,
       onOk() {
         logoutUser(undefined, {
           onSuccess: () => {
-            console.log('Loggin out')
-            navigate('/login')
-            qc.invalidateQueries()
-          }
-        })
+            console.log("Loggin out");
+            navigate("/login");
+            qc.invalidateQueries();
+          },
+        });
       },
-      okText: 'Yes, Logout'
-    })
-  }
+      okText: "Yes, Logout",
+    });
+  };
   const extraContent = isSignedIn ? (
     <Space>
       {props.extra}
       <Dropdown
-        trigger={['click']}
+        trigger={["click"]}
         placement="bottomLeft"
         overlay={
           <Menu>
-            <Menu.Item onClick={() => navigate('../account')}>
+            <Menu.Item onClick={() => navigate("../account")}>
               My Account
             </Menu.Item>
-            <Menu.Item onClick={() => navigate('tickets')}>
+            <Menu.Item onClick={() => navigate("tickets")}>
               Help and Support
             </Menu.Item>
             <Menu.Item onClick={logout}>Logout</Menu.Item>
@@ -90,15 +88,19 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
         <Button shape="circle" icon={<UserOutlined />} />
       </Dropdown>
     </Space>
-  ) : null
-  const { isMobile } = useBreakpoint()
+  ) : null;
+  const { isMobile } = useBreakpoint();
   return (
     <Header
       hideBack
       title={
-        <Space style={{ cursor: 'pointer', paddingLeft: 10 }}>
+        <Space style={{ cursor: "pointer", paddingLeft: 10 }}>
           {isMobile ? (
-            <ActionDrawer placement='left' width={200} cta={<Button icon={<MenuOutlined />} />}>
+            <ActionDrawer
+              placement="left"
+              width={200}
+              cta={<Button icon={<MenuOutlined />} />}
+            >
               <AppSider />
             </ActionDrawer>
           ) : null}
@@ -112,10 +114,10 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
       // className="site-layout-background"
       style={{ padding: 0 }}
     >
-      <Content style={{ margin: '0 16px' }}>
+      <Content style={{ margin: "0 16px" }}>
         <Spin tip="Please wait.. Logging you out." spinning={loggingOut}>
           <Row style={{ paddingTop: 20 }}>
-            <Col span={24} style={{ padding: '0 30px' }}>
+            <Col span={24} style={{ padding: "0 30px" }}>
               {props.children}
             </Col>
           </Row>
@@ -191,7 +193,7 @@ const UserHeader: React.FC<HeaderPropsI> = props => {
     //     </Content>
     //   </Spin>
     // </Header>
-  )
-}
+  );
+};
 
-export default UserHeader
+export default UserHeader;

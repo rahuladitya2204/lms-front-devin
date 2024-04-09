@@ -1,37 +1,37 @@
-import { Button, Checkbox, Form, Input } from 'antd'
+import { Button, Checkbox, Form, Input } from "antd";
 
-import AuthenticationCard from '@Components/AuthenticationCard'
-import { NavLink } from '@Router/index'
-import { Types } from '@adewaskar/lms-common'
-import { Typography } from '@Components/Typography'
-import { User } from '@adewaskar/lms-common'
-import { useFormik } from 'formik'
+import AuthenticationCard from "@Components/AuthenticationCard";
+import { NavLink } from "@Router/index";
+import { Types } from "@adewaskar/lms-common";
+import { Typography } from "@Components/Typography";
+import { User } from "@adewaskar/lms-common";
+import { useFormik } from "formik";
 
 function SettingsScreen() {
-  const { mutate: Signup, isLoading: loading } = User.Queries.useRegisterUser()
+  const { mutate: Signup, isLoading: loading } = User.Queries.useRegisterUser();
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
-      name: '',
-      contactNo: ''
+      email: "",
+      password: "",
+      name: "",
+      contactNo: "",
     },
     onSubmit: (values: Types.SignupData) => {
       Signup({
         email: values.email,
         password: values.password,
         name: values.name,
-        contactNo: values.contactNo
-      })
-    }
-  })
+        contactNo: values.contactNo,
+      });
+    },
+  });
   return (
-    <AuthenticationCard title={'Register'}>
-      {' '}
+    <AuthenticationCard title={"Register"}>
+      {" "}
       <Form
         layout="vertical"
         initialValues={{
-          remember: true
+          remember: true,
         }}
         onSubmitCapture={formik.handleSubmit}
       >
@@ -53,8 +53,8 @@ function SettingsScreen() {
           rules={[
             {
               required: true,
-              message: 'Please enter your password!'
-            }
+              message: "Please enter your password!",
+            },
           ]}
         >
           <Input
@@ -72,18 +72,18 @@ function SettingsScreen() {
             Submit
           </Button>
         </Form.Item>
-        <Form.Item style={{ textAlign: 'center' }}>
+        <Form.Item style={{ textAlign: "center" }}>
           <Typography.Text>
-            Already have an account?{' '}
+            Already have an account?{" "}
             <NavLink
-              to={'/login'}
+              to={"/login"}
               children={<Button type="link">Log In</Button>}
             />
           </Typography.Text>
         </Form.Item>
       </Form>
     </AuthenticationCard>
-  )
+  );
 }
 
-export default SettingsScreen
+export default SettingsScreen;

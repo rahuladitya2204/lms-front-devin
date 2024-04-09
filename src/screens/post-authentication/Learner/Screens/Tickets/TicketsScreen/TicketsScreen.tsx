@@ -1,19 +1,19 @@
-import { Button, Card, Col, Empty, Row, Skeleton, Space, Spin } from 'antd'
+import { Button, Card, Col, Empty, Row, Skeleton, Space, Spin } from "antd";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CreateTicket from '../CreateTicket'
-import { Learner } from '@adewaskar/lms-common'
-import { Link } from '@Router/index'
-import TicketItem from './TicketItem'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import CreateTicket from "../CreateTicket";
+import { Learner } from "@adewaskar/lms-common";
+import { Link } from "@Router/index";
+import TicketItem from "./TicketItem";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
-export default function TicketsScreen () {
+export default function TicketsScreen() {
   const {
     data: tickets,
     isLoading: loadingTicketsFirst,
-    isFetching
-  } = Learner.Queries.useGetTickets()
-  const { openModal } = useModal()
+    isFetching,
+  } = Learner.Queries.useGetTickets();
+  const { openModal } = useModal();
   if (loadingTicketsFirst) {
     return (
       <Row gutter={[20, 20]}>
@@ -33,17 +33,17 @@ export default function TicketsScreen () {
           <Skeleton active />
         </Col>
       </Row>
-    )
+    );
   }
   return tickets.length ? (
     <Spin spinning={isFetching}>
-      <Space size={[20, 30]} style={{ width: '100%' }} direction="vertical">
-        {tickets.map(ticket => {
+      <Space size={[20, 30]} style={{ width: "100%" }} direction="vertical">
+        {tickets.map((ticket) => {
           return (
-            <Link to={ticket._id + ''}>
+            <Link to={ticket._id + ""}>
               <TicketItem hideAttachments ticket={ticket} />
             </Link>
-          )
+          );
         })}
       </Space>
     </Spin>
@@ -56,7 +56,7 @@ export default function TicketsScreen () {
       >
         <Button
           onClick={() => {
-            openModal(<CreateTicket />)
+            openModal(<CreateTicket />);
           }}
           type="primary"
         >
@@ -67,5 +67,5 @@ export default function TicketsScreen () {
         </ActionModal> */}
       </Empty>
     </Card>
-  )
+  );
 }

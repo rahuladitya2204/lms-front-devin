@@ -23,7 +23,7 @@ const CreateTest: React.FC<CreateTestPropsI> = (props) => {
       onSuccess: ({ data: test }) => {
         console.log(test, "here it is");
         // @ts-ignore
-        navigate(`/app/products/test/${test._id}/editor#information`);
+        navigate(`/admin/products/test/${test._id}/editor#information`);
         message.open({
           type: "success",
           content: "Have fun creating a Test!",

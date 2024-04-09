@@ -40,7 +40,7 @@ import { Link, NavLink } from "@Router/index";
 import ActionDrawer from "@Components/ActionDrawer";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import AppImage from "@Components/Image";
-import CoinImage from "../Account/LearnerWallet/CoinImage";
+import CoinImage from "../../Account/LearnerWallet/CoinImage";
 import Header from "@Components/Header";
 import LoginScreen from "@Learner/Screens/Login";
 import OrgLogo from "@Components/OrgLogo";
@@ -58,15 +58,14 @@ const { Content } = Layout;
 import { Typography } from "@Components/Typography";
 const { Text } = Typography;
 
-export interface LearnerHeaderProps {
+export interface LearnerHeaderServerProps {
   children?: React.ReactNode;
 }
 
-const LearnerHeader = ({ children }: LearnerHeaderProps) => {
+const LearnerHeaderServer = ({ children }: LearnerHeaderServerProps) => {
   const { mutate: logoutLearner, isLoading: loggingOut } =
     Learner.Queries.useLogoutLearner();
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
-  const isAdmin = Store.useGlobal((s) => s.isAdmin);
   const { data: user, isFetching: loadingLearnerDetails } =
     Learner.Queries.useGetLearnerDetails();
   const { isSignedIn, isLoading: loadingAuth } = Store.useAuthentication(
@@ -114,47 +113,7 @@ const LearnerHeader = ({ children }: LearnerHeaderProps) => {
       okText: "Yes, Logout",
     });
   };
-  const menuItems = useMemo(() => {
-    const MENU_ITEMS = [
-      { label: "Home", key: "store", icon: <ShopOutlined /> },
-    ];
-    if (enrolledProducts.test && enrolledProducts.test.length) {
-      MENU_ITEMS.push({
-        label: "My Tests",
-        key: "test",
-        icon: <EditOutlined />,
-      });
-    }
-    if (enrolledProducts.event && enrolledProducts.event.length) {
-      MENU_ITEMS.push({
-        label: "My Events",
-        key: "event",
-        icon: <EditOutlined />,
-      });
-    }
-    if (enrolledProducts.course && enrolledProducts.course.length) {
-      MENU_ITEMS.push({
-        label: "My Courses",
-        key: "courses",
-        icon: <EditOutlined />,
-      });
-    }
-    if (isMobileOrTablet && isSignedIn) {
-      MENU_ITEMS.unshift({
-        label: "Wallet",
-        key: "wallet",
-        icon: <WalletOutlined />,
-      });
-      if (organisation.affiliate.enabled) {
-        MENU_ITEMS.push({
-          label: user.affiliate ? "Affiliate Program" : "Become an affiliate",
-          key: "../affiliate",
-          icon: <VerifiedOutlined />,
-        });
-      }
-    }
-    return MENU_ITEMS;
-  }, [isMobileOrTablet, isSignedIn, enrolledProducts]);
+
   const HeaderButtonSkeleton = (
     <Skeleton.Button
       active
@@ -240,7 +199,7 @@ const LearnerHeader = ({ children }: LearnerHeaderProps) => {
             <Skeleton.Avatar active style={{ width: 32, height: 32 }} />
           ) : (
             <Fragment>
-              {isSignedIn ? WalletButton : null}
+              {/* {isSignedIn ? WalletButton : null} */}
               {isSignedIn ? (
                 <ActionDrawer
                   width={300}
@@ -259,7 +218,7 @@ const LearnerHeader = ({ children }: LearnerHeaderProps) => {
                   ]}
                   cta={<Button icon={<MenuOutlined />} />}
                 >
-                  <Menu
+                  {/* <Menu
                     defaultSelectedKeys={["1"]}
                     // defaultOpenKeys={['sub1']}
                     mode="inline"
@@ -269,7 +228,7 @@ const LearnerHeader = ({ children }: LearnerHeaderProps) => {
                     // theme="dark"
                     // inlineCollapsed={collapsed}
                     items={menuItems}
-                  />
+                  /> */}
                 </ActionDrawer>
               ) : null}
             </Fragment>
@@ -370,7 +329,7 @@ const LearnerHeader = ({ children }: LearnerHeaderProps) => {
       hideBack
       title={
         <Space style={{ cursor: "pointer" }}>
-          <Link to="/app/store">
+          <Link to="/home">
             <OrgLogo showName />
           </Link>
           {!isMobileOrTablet ? (
@@ -409,4 +368,4 @@ const LearnerHeader = ({ children }: LearnerHeaderProps) => {
   );
 };
 
-export default LearnerHeader;
+export default LearnerHeaderServer;

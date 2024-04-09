@@ -1,31 +1,31 @@
 import {
   ConsoleLogger,
   DefaultDeviceController,
-  LogLevel
-} from 'amazon-chime-sdk-js'
+  LogLevel,
+} from "amazon-chime-sdk-js";
 import {
   GlobalStyles,
   MeetingProvider,
   RosterProvider,
-  lightTheme
-} from 'amazon-chime-sdk-component-library-react'
-import { Outlet } from 'react-router'
-import { useParams } from '@Router/index'
-import { Spin, Typography } from 'antd'
+  lightTheme,
+} from "amazon-chime-sdk-component-library-react";
+import { Outlet } from "react-router";
+import { useParams } from "@Router/index";
+import { Spin, Typography } from "antd";
 
-import { NavigationProvider } from './Player/Navigation/NavigationProvider'
-import { ThemeProvider } from 'styled-components'
+import { NavigationProvider } from "./Player/Navigation/NavigationProvider";
+import { ThemeProvider } from "styled-components";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const UserEventPlayerEnter = () => {
-  const { eventId } = useParams()
+  const { eventId } = useParams();
   // const logger = new ConsoleLogger('SDK', LogLevel.INFO)
 
   const meetingConfig = {
     logLevel: LogLevel.INFO,
-    simulcastEnabled: true
-  }
+    simulcastEnabled: true,
+  };
 
   return (
     <ThemeProvider theme={lightTheme}>
@@ -40,7 +40,7 @@ const UserEventPlayerEnter = () => {
         </NavigationProvider>
       </MeetingProvider>
     </ThemeProvider>
-  )
-}
+  );
+};
 
-export default UserEventPlayerEnter
+export default UserEventPlayerEnter;

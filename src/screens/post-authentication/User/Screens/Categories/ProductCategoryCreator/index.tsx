@@ -156,7 +156,7 @@ function ProductCategoryEditor() {
               <span>
                 <BackButton
                   // disabled={!test.category}
-                  onClick={() => navigate(`../app/products/category`)}
+                  onClick={() => navigate(`/admin/products/category`)}
                 />{" "}
                 Edit Category
               </span>
@@ -167,7 +167,7 @@ function ProductCategoryEditor() {
               //   icon={<ExportOutlined />}
               //   onClick={() => {
               //     window.open(
-              //       `/app/products/productCategory/${
+              //       `/admin/products/productCategory/${
               //         productCategory._id
               //       }/builder`
               //     )

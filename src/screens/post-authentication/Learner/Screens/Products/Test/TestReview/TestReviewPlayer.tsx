@@ -35,6 +35,7 @@ import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useReviewQuestion } from "./useReviewQuestion";
+import { Outlet } from "react-router";
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -42,7 +43,7 @@ const { confirm } = Modal;
 
 interface TestPlayerPropsI {
   isReview?: boolean;
-  children: React.ReactNode;
+  // children: React.ReactNode;
 }
 
 const { Title, Text } = Typography;
@@ -180,7 +181,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
                 <TestItemSkeleton />
               ) : (
                 <Fragment>
-                  {props.children}
+                  <Outlet />
                   <TestPlayerMoreInfo itemId={questionId + ""} test={test} />
                 </Fragment>
               )}

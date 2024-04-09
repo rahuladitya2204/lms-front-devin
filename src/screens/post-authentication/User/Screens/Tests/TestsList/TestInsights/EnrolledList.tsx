@@ -175,7 +175,7 @@ const TestEnrolledList = () => {
                   onClick: () => {
                     // if (isMobile) {
                     //   openWindow(
-                    //     `/app/test/${testId}/answer-sheet/${record.learner._id}`
+                    //     `/admin/test/${testId}/answer-sheet/${record.learner._id}`
                     //   )
                     // } else {
                     openModal(

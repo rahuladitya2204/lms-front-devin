@@ -1,7 +1,7 @@
-import { Button, Form } from 'antd'
+import { Button, Form } from "antd";
 
-import { User } from '@adewaskar/lms-common'
-import { useParams } from '@Router/index'
+import { User } from "@adewaskar/lms-common";
+import { useParams } from "@Router/index";
 
 interface GenerateAIITemDetailsPropsI {
   field: string;
@@ -14,25 +14,25 @@ interface GenerateAIITemDetailsPropsI {
 export default function GenerateAIItemDetails(
   props: GenerateAIITemDetailsPropsI
 ) {
-  const { field, label, onFinish } = props
-  const { itemId, id: testId } = useParams()
-  const form = Form.useFormInstance()
+  const { field, label, onFinish } = props;
+  const { itemId, id: testId } = useParams();
+  const form = Form.useFormInstance();
   const {
     mutate: generateItemInfoApi,
     isLoading: generatingSummary,
-    data: generatedInfo
-  } = User.Queries.useGetGenerativeTestItemInfo()
+    data: generatedInfo,
+  } = User.Queries.useGetGenerativeTestItemInfo();
   const generateItemInfo = (field: string) => {
     generateItemInfoApi(
-      { data: { testId: testId + '', itemId: itemId + '', fields: [field] } },
+      { data: { testId: testId + "", itemId: itemId + "", fields: [field] } },
       {
-        onSuccess: data => {
-          form.setFieldsValue(data)
-          onFinish && onFinish(data)
-        }
+        onSuccess: (data) => {
+          form.setFieldsValue(data);
+          onFinish && onFinish(data);
+        },
       }
-    )
-  }
+    );
+  };
 
   return (
     <Button
@@ -43,5 +43,5 @@ export default function GenerateAIItemDetails(
     >
       {label}
     </Button>
-  )
+  );
 }

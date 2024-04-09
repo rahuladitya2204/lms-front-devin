@@ -6,10 +6,10 @@ import React, {
   useContext,
   useEffect,
   useRef,
-  ReactNode
-} from 'react';
-import { useLocation } from '@Router/index';
-import { useMeetingManager } from 'amazon-chime-sdk-component-library-react';
+  ReactNode,
+} from "react";
+import { useLocation } from "@Router/index";
+import { useMeetingManager } from "amazon-chime-sdk-component-library-react";
 
 // import routes from '../constants/routes';
 
@@ -70,8 +70,8 @@ const NavigationProvider = ({ children }: Props) => {
       }
     };
 
-    window.addEventListener('resize', handler);
-    return () => window.removeEventListener('resize', handler);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
   }, []);
 
   const toggleRoster = (): void => {
@@ -83,7 +83,7 @@ const NavigationProvider = ({ children }: Props) => {
   };
 
   const toggleMetrics = () => {
-    setShowMetrics(currentState => !currentState);
+    setShowMetrics((currentState) => !currentState);
   };
 
   const openNavbar = (): void => {
@@ -112,7 +112,7 @@ const NavigationProvider = ({ children }: Props) => {
     openRoster,
     closeRoster,
     openNavbar,
-    closeNavbar
+    closeNavbar,
   };
   return (
     <NavigationContext.Provider value={providerValue}>
@@ -124,7 +124,7 @@ const NavigationProvider = ({ children }: Props) => {
 const useNavigation = (): NavigationContextType => {
   const context = useContext(NavigationContext);
   if (!context) {
-    throw Error('Use useNavigation in NavigationProvider');
+    throw Error("Use useNavigation in NavigationProvider");
   }
   return context;
 };

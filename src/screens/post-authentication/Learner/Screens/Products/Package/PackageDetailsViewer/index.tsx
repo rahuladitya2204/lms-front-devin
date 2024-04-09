@@ -241,7 +241,7 @@ const PackageCard = ({
                       {isEnrolled ? (
                         <Button
                           onClick={() =>
-                            navigate(
+                            window.open(
                               `/app/package/${packageId}/enrolled-package`
                             )
                           }

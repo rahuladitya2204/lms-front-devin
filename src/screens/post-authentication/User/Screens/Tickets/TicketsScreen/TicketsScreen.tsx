@@ -1,24 +1,24 @@
-import { Button, Card, Col, Dropdown, Row, Space, Table, Tag } from 'antd'
-import { DeleteOutlined, DownOutlined, EditOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Dropdown, Row, Space, Table, Tag } from "antd";
+import { DeleteOutlined, DownOutlined, EditOutlined } from "@ant-design/icons";
 
-import Header from '@User/Screens/UserRoot/UserHeader'
-import { MenuItemType } from 'antd/es/menu/hooks/useItems'
-import MoreButton from '@Components/MoreButton'
-import { StatusMap } from '@Learner/Screens/Tickets/Constants'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import dayjs from 'dayjs'
-import { useNavigate } from '@Router/index'
+import Header from "@User/Screens/UserRoot/UserHeader";
+import { MenuItemType } from "antd/es/menu/hooks/useItems";
+import MoreButton from "@Components/MoreButton";
+import { StatusMap } from "@Learner/Screens/Tickets/Constants";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import dayjs from "dayjs";
+import { useNavigate } from "@Router/index";
 
 function TicketsScreen() {
-  const { data: tickets, isFetching: loading } = User.Queries.useGetTickets()
-  const { mutate: updateTicketStatus } = User.Queries.useUpdateTicketStatus()
-  const navigate = useNavigate()
+  const { data: tickets, isFetching: loading } = User.Queries.useGetTickets();
+  const { mutate: updateTicketStatus } = User.Queries.useUpdateTicketStatus();
+  const navigate = useNavigate();
   return (
     <Header>
       <Card
         bodyStyle={{ padding: 0 }}
-        title={'Support Tickets'}
+        title={"Support Tickets"}
         // extra={
         //   <ActionModal cta={<Button type="primary">Add User</Button>}>
         //     <AddUser> </AddUser>
@@ -28,10 +28,10 @@ function TicketsScreen() {
         <Row>
           <Col span={24}>
             <Table
-              onRow={r => {
+              onRow={(r) => {
                 return {
                   // onClick: () => navigate(r._id + '')
-                }
+                };
               }}
               dataSource={tickets}
               loading={loading}
@@ -61,7 +61,7 @@ function TicketsScreen() {
                 render={(_: any, record: Types.Ticket) => (
                   <a
                     onClick={() => {
-                      navigate(record._id + '')
+                      navigate(record._id + "");
                     }}
                   >
                     {record.id}
@@ -96,7 +96,7 @@ function TicketsScreen() {
                 key="createdAt"
                 render={(_: any, record: Types.Ticket) => (
                   <Space size="middle">
-                    {dayjs(record.createdAt).format('LLLL')}
+                    {dayjs(record.createdAt).format("LLLL")}
                   </Space>
                 )}
               />
@@ -106,7 +106,7 @@ function TicketsScreen() {
                 key="lastRepliedAt"
                 render={(_: any, record: Types.Ticket) => (
                   <Space size="middle">
-                    {dayjs(record.lastRepliedAt).format('LLLL')}
+                    {dayjs(record.lastRepliedAt).format("LLLL")}
                   </Space>
                 )}
               />
@@ -114,57 +114,57 @@ function TicketsScreen() {
                 title="Action"
                 key="action"
                 render={(_: any, record: Types.Ticket) => {
-                  const items: MenuItemType[] = []
-                  if (record.status !== 'closed') {
+                  const items: MenuItemType[] = [];
+                  if (record.status !== "closed") {
                     items.push(
                       {
                         label: `Mark In Progress`,
-                        key: '0',
+                        key: "0",
                         onClick: () => {
                           updateTicketStatus({
-                            id: record._id + '',
-                            status: 'in-progress'
-                          })
-                        }
+                            id: record._id + "",
+                            status: "in-progress",
+                          });
+                        },
                       },
                       {
                         label: `Close Ticket`,
-                        key: '1',
+                        key: "1",
                         onClick: () => {
                           updateTicketStatus({
-                            id: record._id + '',
-                            status: 'closed'
-                          })
-                        }
+                            id: record._id + "",
+                            status: "closed",
+                          });
+                        },
                       }
-                    )
+                    );
                   } else {
                   }
 
-                  if (record.status !== 'closed') {
+                  if (record.status !== "closed") {
                     items.push({
-                      label: 'Mark In Progress',
-                      key: '0',
+                      label: "Mark In Progress",
+                      key: "0",
                       onClick: () => {
                         updateTicketStatus({
-                          id: record._id + '',
-                          status: 'in-progress'
-                        })
-                      }
-                    })
+                          id: record._id + "",
+                          status: "in-progress",
+                        });
+                      },
+                    });
                   } else {
                     items.push({
-                      label: 'Reopen Ticket',
+                      label: "Reopen Ticket",
                       onClick: () => {
                         updateTicketStatus({
-                          id: record._id + '',
-                          status: 'opened'
-                        })
+                          id: record._id + "",
+                          status: "opened",
+                        });
                       },
-                      key: '2'
-                    })
+                      key: "2",
+                    });
                   }
-                  return <MoreButton items={items} />
+                  return <MoreButton items={items} />;
                 }}
               />
             </Table>
@@ -172,7 +172,7 @@ function TicketsScreen() {
         </Row>
       </Card>
     </Header>
-  )
+  );
 }
 
-export default TicketsScreen
+export default TicketsScreen;

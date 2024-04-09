@@ -47,7 +47,7 @@ export default function TestAnswerSheet(props: TestAnswerSheetPropsI) {
               onClick={() => {
                 if (isMobile) {
                   openWindow(
-                    `/app/test/${testId}/answer-sheet/${learnerId}/upload-answer-sheet`,
+                    `/admin/test/${testId}/answer-sheet/${learnerId}/upload-answer-sheet`,
                     (refetchTestStatus: boolean) => {
                       if (refetchTestStatus) {
                         message.open({
