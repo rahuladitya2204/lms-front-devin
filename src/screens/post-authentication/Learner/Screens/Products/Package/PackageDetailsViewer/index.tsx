@@ -34,6 +34,7 @@ import styled from "@emotion/styled";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import PackageDetailViewerSkeleton from "./PackageDetailSkeleton";
 
 const { UnitTypeToStr } = Utils;
 
@@ -78,6 +79,7 @@ interface PackageDetailViewerPropsI {
 
 function PackageDetailViewer(props: PackageDetailViewerPropsI) {
   const { id: packageId } = useParams();
+  // const loadingPackage = true;
   const { data: bundle, isFetching: loadingPackage } =
     Learner.Queries.useGetPackageDetails(packageId + "", {
       enabled: !!packageId,
@@ -86,7 +88,9 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
     (bundle.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;
   // console.log(bundle, "bundle");
-  return (
+  return loadingPackage ? (
+    <PackageDetailViewerSkeleton />
+  ) : (
     <Container>
       <Row gutter={[20, 20]} justify="space-between">
         <Col span={24}>
@@ -102,46 +106,25 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
               </PackageSubTitle>
             </Col>
             <Col xs={24} sm={24} md={24} lg={16}>
-              {loadingPackage ? (
-                <Row justify="space-between" align="top" gutter={[20, 20]}>
-                  <Col span={24}>
-                    <Skeleton paragraph={{ rows: 1 }} />
-                  </Col>
-                  <Col span={8}>
-                    <Skeleton avatar paragraph={{ rows: 1 }} />
-                  </Col>
-                  <Col span={8}>
-                    <Skeleton paragraph={{ rows: 1 }} />
-                  </Col>
-                  <Col span={8}>
-                    <Skeleton paragraph={{ rows: 1 }} />
-                  </Col>
-                </Row>
-              ) : (
-                <Row justify="space-between" align="top" gutter={[20, 20]}>
-                  <Col span={24}>
-                    <Row gutter={[30, 30]}>
-                      <Col xs={24} lg={0}>
-                        <PackageCard plan={plan} packageId={packageId + ""} />
-                      </Col>
-                      <Col></Col>
-                    </Row>
-                  </Col>
-                </Row>
-              )}
+              <Row justify="space-between" align="top" gutter={[20, 20]}>
+                <Col span={24}>
+                  <Row gutter={[30, 30]}>
+                    <Col xs={24} lg={0}>
+                      <PackageCard plan={plan} packageId={packageId + ""} />
+                    </Col>
+                    <Col></Col>
+                  </Row>
+                </Col>
+              </Row>
 
               <Row>
                 <Col style={{ marginTop: 15 }} span={24}>
-                  {loadingPackage ? (
-                    <Skeleton.Button active style={{ height: 400 }} block />
-                  ) : (
-                    <Card bodyStyle={{ paddingTop: 5 }}>
-                      <PackageDetails
-                        isServer={props.isServer}
-                        package={bundle}
-                      />
-                    </Card>
-                  )}
+                  <Card bodyStyle={{ paddingTop: 5 }}>
+                    <PackageDetails
+                      isServer={props.isServer}
+                      package={bundle}
+                    />
+                  </Card>
                 </Col>
               </Row>
 
@@ -206,106 +189,87 @@ const PackageCard = ({
       bodyStyle={{ padding: 5, paddingBottom: 15 }}
       title={!isDesktop ? <Text>{bundle.title}</Text> : null}
     >
-      {isLoading ? (
-        <>
-          <Row gutter={[20, 10]}>
-            <Col span={24}>
-              <Image width={"100%"} height={200} preview={false} />
-            </Col>
-            <Col span={24}>
-              <Skeleton.Button block />
-            </Col>
-            <Col span={24}>
-              <Skeleton.Button block />
-              <Skeleton active paragraph={{ rows: 10 }} />
-            </Col>
-          </Row>
-        </>
-      ) : (
-        <>
-          {" "}
-          <Row gutter={[20, 10]}>
-            <Col span={24}>
-              <Image
-                width={"100%"}
-                height={200}
-                preview={false}
-                src={bundle.thumbnailImage}
-              />
-            </Col>
-            {!isEnrolled ? (
-              <Col span={24} style={{ padding: "0 20px" }}>
-                <PriceCardContent plan={plan} />
-                {!isMobile ? <Divider style={{ margin: 10 }} /> : null}
-              </Col>
-            ) : null}
+      <>
+        {" "}
+        <Row gutter={[20, 10]}>
+          <Col span={24}>
+            <Image
+              width={"100%"}
+              height={200}
+              preview={false}
+              src={bundle.thumbnailImage}
+            />
+          </Col>
+          {!isEnrolled ? (
             <Col span={24} style={{ padding: "0 20px" }}>
-              <Row gutter={[15, 15]}>
-                {children ? <Col span={24}>{children}</Col> : null}
-                {isSignedIn ? (
-                  <>
-                    <Col span={24}>
-                      {isEnrolled ? (
-                        <Button
-                          onClick={() =>
-                            window.open(
-                              `/app/package/${packageId}/enrolled-package`
-                            )
-                          }
-                          size="large"
-                          type="primary"
-                          block
-                        >
-                          Go to Package
-                        </Button>
-                      ) : (
-                        <ProductCheckoutButton
-                          onSuccess={() => {
-                            message.open({
-                              type: "success",
-                              content: `You have enrolled successfully`,
-                              // particle: true,
-                            });
-                            navigate(`enrolled-package`);
-                          }}
-                          product={{ type: "package", id: packageId + "" }}
-                          block
-                          type="primary"
-                        >
-                          Enroll Now
-                        </ProductCheckoutButton>
-                      )}
-                    </Col>{" "}
-                  </>
-                ) : (
+              <PriceCardContent plan={plan} />
+              {!isMobile ? <Divider style={{ margin: 10 }} /> : null}
+            </Col>
+          ) : null}
+          <Col span={24} style={{ padding: "0 20px" }}>
+            <Row gutter={[15, 15]}>
+              {children ? <Col span={24}>{children}</Col> : null}
+              {isSignedIn ? (
+                <>
                   <Col span={24}>
-                    <Button
-                      onClick={() => {
-                        openModal(<LearnerLogin />, {
-                          width: 300,
-                        });
-                      }}
-                      size="large"
-                      type="primary"
-                      block
-                    >
-                      Login to access this package
-                    </Button>
-                    {/* <ActionModal width={300}
+                    {isEnrolled ? (
+                      <Button
+                        onClick={() =>
+                          window.open(
+                            `/app/package/${packageId}/enrolled-package`
+                          )
+                        }
+                        size="large"
+                        type="primary"
+                        block
+                      >
+                        Go to Package
+                      </Button>
+                    ) : (
+                      <ProductCheckoutButton
+                        onSuccess={() => {
+                          message.open({
+                            type: "success",
+                            content: `You have enrolled successfully`,
+                            // particle: true,
+                          });
+                          navigate(`enrolled-package`);
+                        }}
+                        product={{ type: "package", id: packageId + "" }}
+                        block
+                        type="primary"
+                      >
+                        Enroll Now
+                      </ProductCheckoutButton>
+                    )}
+                  </Col>{" "}
+                </>
+              ) : (
+                <Col span={24}>
+                  <Button
+                    onClick={() => {
+                      openModal(<LearnerLogin />, {
+                        width: 300,
+                      });
+                    }}
+                    size="large"
+                    type="primary"
+                    block
+                  >
+                    Login to access this package
+                  </Button>
+                  {/* <ActionModal width={300}
                     cta={<Button size="large" type="primary" block>
             Login to access this package
                 </Button>}>
                   <LearnerLogin/>
                 </ActionModal> */}
-                  </Col>
-                )}
-              </Row>
-            </Col>
-          </Row>
-        </>
-      )}
-
-      {/* </Card> */}
+                </Col>
+              )}
+            </Row>
+          </Col>
+        </Row>
+      </>
     </Card>
   );
 };
