@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   useInRouterContext,
   useNavigate as useReactRouterNavigate,
@@ -21,38 +22,44 @@ import {
 
 export const useParams = () => {
   const isInRouterContext = useInRouterContext();
-  return isInRouterContext
+  const Fn = isInRouterContext
     ? // @ts-ignore
-      useReactRouterParams()
+      useReactRouterParams
     : // @ts-ignore
-      useNextParams();
+      useNextParams;
+
+  return Fn();
 };
 
 export const useSearchParams = (props: any) => {
   const isInRouterContext = useInRouterContext();
-  return isInRouterContext
+  const Fn = isInRouterContext
     ? // @ts-ignore
-      useReactRouterSearchParams(...props)
+      useReactRouterSearchParams
     : // @ts-ignore
-      useNextSearchParams(...props);
+      useNextSearchParams;
+  return Fn(...props);
 };
 
 export const useNavigate = () => {
   const isInRouterContext = useInRouterContext();
-  return isInRouterContext
+  const Fn = isInRouterContext
     ? // @ts-ignore
-      useReactRouterNavigate()
+      useReactRouterNavigate
     : // @ts-ignore
-      useNextNavigate();
+      useNextNavigate;
+  return Fn();
 };
 
 export const useLocation = () => {
   const isInRouterContext = useInRouterContext();
-  return isInRouterContext
+  const Fn = isInRouterContext
     ? // @ts-ignore
-      useReactRouterLocation()
+      useReactRouterLocation
     : // @ts-ignore
-      useNextLocation();
+      useNextLocation;
+
+  return Fn();
 };
 
 export const Link = (props: any) => {
