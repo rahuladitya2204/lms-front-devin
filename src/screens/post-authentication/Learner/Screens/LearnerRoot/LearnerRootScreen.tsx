@@ -26,11 +26,11 @@ const { Title } = Typography;
 
 export interface LearnerRootScreenProps {
   children?: React.ReactNode;
-  // isServer?: boolean;
+  isServer?: boolean;
 }
 
-const LearnerRootScreen = ({ children }: LearnerRootScreenProps) => {
-  const isServer = getIsServer();
+const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
+  // const isServer = getIsServer();
   console.log(isServer, "isServer");
   // useBlockBackButton()
   useDehydration();
@@ -112,7 +112,7 @@ const LearnerRootScreen = ({ children }: LearnerRootScreenProps) => {
             </Fragment>
           ) : null}
           <div style={{ flex: 1, paddingBottom: 50 }}>
-            <LearnerHeaderClient />
+            <LearnerHeaderClient children={children} />
           </div>
           <LearnerFooter />
         </Layout>

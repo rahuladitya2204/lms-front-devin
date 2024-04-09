@@ -36,9 +36,7 @@ function PackageCard(props: PackageCardPropsI) {
     Constants.INITIAL_COURSE_PLAN_DETAILS;
   const isServer = getIsServer();
   return (
-    <Link
-      href={isServer ? `/package/${bundle._id}` : `/app/package/${bundle._id}`}
-    >
+    <Link href={`/package/${bundle._id}`}>
       {/* // <Badge.Ribbon text="Best Seller" color="orange"> */}
       <CustomCard
         hoverable

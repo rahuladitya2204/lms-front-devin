@@ -38,9 +38,10 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
   const CardComponent = (
     <Link
       href={
-        isServer
-          ? `/category/${productCategory._id}`
-          : `/app/category/${productCategory._id}`
+        `/category/${productCategory._id}`
+        // isServer
+        //   ? `/category/${productCategory._id}`
+        //   : `/app/category/${productCategory._id}`
       }
       prefetch={true}
     >

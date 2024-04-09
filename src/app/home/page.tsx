@@ -28,7 +28,7 @@ export default function Page() {
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <LearnerRootScreen>
+      <LearnerRootScreen isServer>
         <LearnerHomeScreen />
       </LearnerRootScreen>
     </Hydrator>
