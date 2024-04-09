@@ -26,13 +26,13 @@ export default function Page({ params }: { params: { testId: string } }) {
           ? [
               getCartDetails(),
               getLearnerDetails(),
-            //   getEnrolledProductList( "test"),
+              //   getEnrolledProductList( "test"),
               getTestResult(params.testId),
             ]
           : []),
       ]}
     >
-      <LearnerRootScreen>
+      <LearnerRootScreen isServer>
         <LearnerTestScreen />
       </LearnerRootScreen>
     </Hydrator>

@@ -15,8 +15,8 @@ import { Typography } from "@Components/Typography";
 import { Utils } from "@adewaskar/lms-common";
 import { capitalize } from "lodash";
 import styled from "@emotion/styled";
-import Link from "next/link";
 import { getIsServer } from "@ServerUtils/index";
+import { Link } from "@Router/index";
 
 const { Text } = Typography;
 
@@ -24,6 +24,7 @@ const { UnitTypeToStr } = Utils;
 
 interface ProductCategoryCardPropsI {
   productCategory: Types.ProductCategory;
+  isServer?: boolean;
 }
 
 const CustomCard = styled(Card)`
@@ -34,14 +35,14 @@ margin-bottom: 20px; */
 
 function ProductCategoryCard(props: ProductCategoryCardPropsI) {
   const { productCategory } = props;
-  const isServer = getIsServer();
+  const isServer = props.isServer;
   const CardComponent = (
     <Link
-      href={
-        `/category/${productCategory._id}`
-        // isServer
-        //   ? `/category/${productCategory._id}`
-        //   : `/app/category/${productCategory._id}`
+      to={
+        // `/category/${productCategory._id}`
+        isServer
+          ? `/category/${productCategory._id}`
+          : `/app/category/${productCategory._id}`
       }
       prefetch={true}
     >

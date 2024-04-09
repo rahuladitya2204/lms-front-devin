@@ -72,7 +72,11 @@ const PackageSubTitle = styled(Paragraph)`
   font-size: 20px;
 `;
 
-function PackageDetailViewer() {
+interface PackageDetailViewerPropsI {
+  isServer?: boolean;
+}
+
+function PackageDetailViewer(props: PackageDetailViewerPropsI) {
   const { id: packageId } = useParams();
   const { data: bundle, isFetching: loadingPackage } =
     Learner.Queries.useGetPackageDetails(packageId + "", {
@@ -132,7 +136,10 @@ function PackageDetailViewer() {
                     <Skeleton.Button active style={{ height: 400 }} block />
                   ) : (
                     <Card bodyStyle={{ paddingTop: 5 }}>
-                      <PackageDetails package={bundle} />
+                      <PackageDetails
+                        isServer={props.isServer}
+                        package={bundle}
+                      />
                     </Card>
                   )}
                 </Col>
@@ -257,7 +264,7 @@ const PackageCard = ({
                             message.open({
                               type: "success",
                               content: `You have enrolled successfully`,
-                              particle: true,
+                              // particle: true,
                             });
                             navigate(`enrolled-package`);
                           }}

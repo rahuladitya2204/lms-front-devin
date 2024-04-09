@@ -112,7 +112,7 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
             </Fragment>
           ) : null}
           <div style={{ flex: 1, paddingBottom: 50 }}>
-            <LearnerHeaderClient children={children} />
+            <LearnerHeaderClient isServer={isServer} children={children} />
           </div>
           <LearnerFooter />
         </Layout>

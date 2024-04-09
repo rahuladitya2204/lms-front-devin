@@ -11,6 +11,7 @@ const { Panel } = Collapse;
 const { Text } = Typography;
 interface PackageProductsPropsI {
   package: Types.Package;
+  isServer?: boolean;
 }
 
 function PackageProducts(props: PackageProductsPropsI) {

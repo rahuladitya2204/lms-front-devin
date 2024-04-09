@@ -29,7 +29,7 @@ export default function Page() {
       ]}
     >
       <LearnerRootScreen isServer>
-        <LearnerHomeScreen />
+        <LearnerHomeScreen isServer />
       </LearnerRootScreen>
     </Hydrator>
   );

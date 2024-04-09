@@ -34,7 +34,7 @@ export default function Page({ params }: { params: { testId: string } }) {
           : []),
       ]}
     >
-      <LearnerRootScreen>
+      <LearnerRootScreen isServer>
         <TestDetailScreen />
       </LearnerRootScreen>
     </Hydrator>

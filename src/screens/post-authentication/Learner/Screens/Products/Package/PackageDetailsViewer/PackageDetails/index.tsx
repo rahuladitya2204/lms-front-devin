@@ -1,10 +1,11 @@
-import PackageOverview from './PackageOverview'
-import PackageProducts from './PackageProducts'
-import Tabs from '@Components/Tabs'
-import { Types } from '@adewaskar/lms-common'
+import PackageOverview from "./PackageOverview";
+import PackageProducts from "./PackageProducts";
+import Tabs from "@Components/Tabs";
+import { Types } from "@adewaskar/lms-common";
 
 interface PackageDetailsPropsI {
   package: Types.Package;
+  isServer?: boolean;
 }
 
 function PackageDetails(props: PackageDetailsPropsI) {
@@ -13,15 +14,20 @@ function PackageDetails(props: PackageDetailsPropsI) {
       navigateWithHash
       items={[
         {
-          key: 'overview',
+          key: "overview",
           label: `Overview`,
-          children: <PackageOverview package={props.package} />
+          children: <PackageOverview package={props.package} />,
         },
         {
-          key: 'products',
+          key: "products",
           label: `What's included`,
-          children: <PackageProducts package={props.package} />
-        }
+          children: (
+            <PackageProducts
+              isServer={props.isServer}
+              package={props.package}
+            />
+          ),
+        },
         // {
         //   key: 'reviews',
         //   label: `Reviews`,
@@ -31,7 +37,7 @@ function PackageDetails(props: PackageDetailsPropsI) {
       style={{ fontSize: 30 }}
       size="middle"
     />
-  )
+  );
 }
 
-export default PackageDetails
+export default PackageDetails;

@@ -13,7 +13,11 @@ import HomeScreenSkeleton from "./HomeScreenSkeleton";
 
 const { Title, Paragraph } = Typography;
 
-function LearnerHomeScreen() {
+interface LearnerHomeScreenPropsI {
+  isServer?: boolean;
+}
+
+function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
   // initialize application utils like interceptors and storage on client side
   const { isFetching } = Learner.Queries.useGetRecommendedProducts();
   const { data: categories } = Learner.Queries.useGetLearnerCategories();
@@ -57,7 +61,10 @@ function LearnerHomeScreen() {
               {categories.map((cat, index) => {
                 return (
                   <Col sm={12} md={8} xs={24} lg={6} key={index}>
-                    <ProductCategoryCard productCategory={cat} />
+                    <ProductCategoryCard
+                      isServer={props.isServer}
+                      productCategory={cat}
+                    />
                   </Col>
                 );
               })}

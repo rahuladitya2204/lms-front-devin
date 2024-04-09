@@ -64,7 +64,9 @@ import { useQueryClient } from "@tanstack/react-query";
 const { Text, Paragraph } = Typography;
 const { UnitTypeToStr } = Utils;
 
-interface ProductCategoryDetailScreenPropsI {}
+interface ProductCategoryDetailScreenPropsI {
+  isServer?: boolean;
+}
 
 export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
@@ -311,7 +313,10 @@ export default function ProductCategoryDetailScreen(
                         xl={6}
                         xxl={6}
                       >
-                        <PackageCard package={bundle} />
+                        <PackageCard
+                          isServer={props.isServer}
+                          package={bundle}
+                        />
                       </Col>
                     );
                   })}

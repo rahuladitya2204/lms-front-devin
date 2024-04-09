@@ -60,9 +60,13 @@ const { Text } = Typography;
 
 export interface LearnerHeaderClientProps {
   children?: React.ReactNode;
+  isServer?: boolean;
 }
 
-const LearnerHeaderClient = ({ children }: LearnerHeaderClientProps) => {
+const LearnerHeaderClient = ({
+  children,
+  isServer,
+}: LearnerHeaderClientProps) => {
   const { mutate: logoutLearner, isLoading: loggingOut } =
     Learner.Queries.useLogoutLearner();
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
@@ -370,7 +374,7 @@ const LearnerHeaderClient = ({ children }: LearnerHeaderClientProps) => {
       hideBack
       title={
         <Space style={{ cursor: "pointer" }}>
-          <Link to="/app/home">
+          <Link to={isServer ? "/home" : "/app/store"}>
             <OrgLogo showName />
           </Link>
           {!isMobileOrTablet ? (

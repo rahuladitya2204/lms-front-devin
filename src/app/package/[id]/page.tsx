@@ -23,8 +23,8 @@ export default function Page({ params }: { params: { id: string } }) {
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <LearnerRootScreen>
-        <PackageDetailViewer />
+      <LearnerRootScreen isServer>
+        <PackageDetailViewer isServer />
       </LearnerRootScreen>
     </Hydrator>
   );
