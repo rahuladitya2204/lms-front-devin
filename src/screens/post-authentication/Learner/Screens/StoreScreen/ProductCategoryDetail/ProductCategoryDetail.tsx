@@ -34,7 +34,7 @@ import {
   User,
   Utils,
 } from "@adewaskar/lms-common";
-import { Fragment, useMemo } from "react";
+import React, { Fragment, useMemo } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
 import { useParams } from "@Router/index";
 
@@ -60,12 +60,15 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
+import ProductCategoryTabs from "./ProductCategoryTabs";
+import { Outlet } from "react-router";
 
 const { Text, Paragraph } = Typography;
 const { UnitTypeToStr } = Utils;
 
 interface ProductCategoryDetailScreenPropsI {
   isServer?: boolean;
+  children?: React.ReactNode;
 }
 
 export default function ProductCategoryDetailScreen(
@@ -374,17 +377,12 @@ export default function ProductCategoryDetailScreen(
                         </Card>
                       </Col> */}
                       <Col span={24}>
-                        {/* {width}px */}
-                        {TABS.length ? (
-                          <Tabs
-                            style={{
-                              width: isMobile ? width - width * 0.3 : "auto",
-                            }}
-                            navigateWithHash
-                            tabPosition={isMobile ? "top" : "left"}
-                            items={TABS}
-                          />
-                        ) : null}
+                        {props.isServer ? (
+                          props.children
+                        ) : (
+                          // <ProductCategoryTabs id={productCategoryId + ""} />
+                          <Outlet />
+                        )}
                       </Col>
                     </Row>
                   )}

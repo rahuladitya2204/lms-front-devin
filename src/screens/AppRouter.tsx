@@ -130,6 +130,7 @@ import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/
 import { useEffect } from "react";
 import { useNavigate } from "@Router/index";
 import RoutingContext from "./RoutingContext";
+import ProductCategoryTabs from "./post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -148,7 +149,9 @@ const router = (userType: string) => {
                 <Route
                   path="category/:id"
                   element={<ProductCategoryDetailScreen />}
-                />
+                >
+                  <Route path=":type" element={<ProductCategoryTabs />} />
+                </Route>
                 {/* <Route path="store" element={<LearnerStoreScreen />} /> */}
                 <Route path="store" element={<LearnerHomeScreen />} />
                 <Route path="account" element={<LearnerAccount />} />
