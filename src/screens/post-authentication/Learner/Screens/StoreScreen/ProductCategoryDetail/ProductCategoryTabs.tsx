@@ -3,7 +3,7 @@
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Paragraph, Text } from "@Components/Typography/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
-import { Link, useNavigate, useParams } from "@Router/index";
+import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
 import { Button, Divider, Skeleton, Tabs } from "antd";
@@ -87,21 +87,22 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     <>
       {TABS.map((tab) => {
         return (
-          <Button
-            // type="text"
-            size="small"
-            type={tab.key === type ? "primary" : "default"}
-            onClick={() =>
-              navigate(
-                props.isServer
-                  ? `/category/${props.id}/${tab.key}`
-                  : `/app/category/${id}/${tab.key}`
-              )
+          <NavLink
+            to={
+              props.isServer
+                ? `/category/${props.id}/${tab.key}`
+                : `/category/${id}/${tab.key}`
             }
-            style={{ marginRight: 15, marginBottom: 10 }}
           >
-            {tab.label}
-          </Button>
+            <Button
+              // type="text"
+              size="small"
+              type={tab.key === type ? "primary" : "default"}
+              style={{ marginRight: 15, marginBottom: 10 }}
+            >
+              {tab.label}
+            </Button>
+          </NavLink>
         );
       })}
       <Divider />
