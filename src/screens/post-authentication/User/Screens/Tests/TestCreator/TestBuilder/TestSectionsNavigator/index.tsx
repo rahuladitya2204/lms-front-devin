@@ -384,7 +384,9 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                                   to={item._id}
                                   onClick={(e) => {
                                     e.preventDefault();
-                                    navigate(item._id);
+                                    navigate(
+                                      `/admin/products/test/${testId}/builder/${item._id}`
+                                    );
                                   }}
                                   children={({ isActive }) =>
                                     TestSectionListItem(isActive)

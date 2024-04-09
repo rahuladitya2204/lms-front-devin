@@ -190,7 +190,7 @@ function TestBuilderScreen() {
       if (firstSection && firstSection.items.length) {
         const firstItem = firstSection.items[0];
         if (firstItem.type) {
-          navigate(`${firstItem._id}`);
+          navigate(`/admin/products/test/${testId}/builder/${firstItem._id}`);
         }
       }
     }
@@ -218,7 +218,8 @@ function TestBuilderScreen() {
         onSuccess: () => {
           const lastSection = test.sections.pop();
           const lastItem = lastSection?.items.pop();
-          if (lastSection && lastItem) navigate(`${lastItem._id}`);
+          if (lastSection && lastItem)
+            navigate(`/admin/products/test/${testId}/builder/${lastItem._id}`);
         },
       }
     );
@@ -238,7 +239,8 @@ function TestBuilderScreen() {
         onSuccess: () => {
           const lastSection = test.sections.pop();
           const lastItem = lastSection?.items.pop();
-          if (lastSection && lastItem) navigate(`${lastItem._id}`);
+          if (lastSection && lastItem)
+            navigate(`/admin/products/test/${testId}/builder/${lastItem._id}`);
         },
       }
     );
