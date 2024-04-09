@@ -236,15 +236,15 @@ const router = (userType: string) => {
               <>
                 <Route path="" element={<UserFullPageHolder />}>
                   <Route
-                    path="app/test/:testId/answer-sheet/:learnerId"
+                    path="admin/test/:testId/answer-sheet/:learnerId"
                     element={<TestAnswerSheet />}
                   />
                   <Route
-                    path="app/test/:testId/answer-sheet/:learnerId/upload-answer-sheet"
+                    path="admin/test/:testId/answer-sheet/:learnerId/upload-answer-sheet"
                     element={<AnswerSheetFiles />}
                   />
                   <Route
-                    path="app/test/:testId/answer-sheet/upload"
+                    path="admin/test/:testId/answer-sheet/upload"
                     element={<UploadAnswerSheets />}
                   />
                   <Route path="login" element={<UserLoginScreen />} />
@@ -257,19 +257,19 @@ const router = (userType: string) => {
                     element={<CertificateTemplateEditor />}
                   />
                   <Route
-                    path="app/products/courses/:id/editor"
+                    path="admin/products/courses/:id/editor"
                     element={<CourseEditor />}
                   />
                   <Route
-                    path="app/products/test/:id/editor"
+                    path="admin/products/test/:id/editor"
                     element={<TestEditor />}
                   />
                   <Route
-                    path="app/products/category/:id/editor"
+                    path="admin/products/category/:id/editor"
                     element={<ProductCategoryEditor />}
                   />
                   <Route
-                    path="app/products/courses/:id/builder"
+                    path="admin/products/courses/:id/builder"
                     element={<CourseBuilderScreen />}
                   >
                     <Route path="">
@@ -284,11 +284,11 @@ const router = (userType: string) => {
                     </Route>
                   </Route>
                   <Route
-                    path="app/products/test/:id/evaluator"
+                    path="admin/products/test/:id/evaluator"
                     element={<TestEvaluator />}
                   ></Route>
                   <Route
-                    path="app/products/test/:id/builder"
+                    path="admin/products/test/:id/builder"
                     element={<TestBuilderScreen />}
                   >
                     <Route path="">
@@ -297,12 +297,12 @@ const router = (userType: string) => {
                     </Route>
                   </Route>
                   <Route
-                    path="app/website/builder/:pageId"
+                    path="admin/website/builder/:pageId"
                     element={<WebsiteBuilderScreen />}
                   />
                 </Route>
 
-                <Route path="app" element={<UserRootScreen />}>
+                <Route path="admin" element={<UserRootScreen />}>
                   <Route path="dashboard" element={<UserDashboard />} />
                   <Route path="admin/news" element={<NewsScreen />} />
                   <Route

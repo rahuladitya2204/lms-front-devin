@@ -1,39 +1,38 @@
-import { Avatar, Button, Space } from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import Table, { TableColumn } from '@Components/Table/TableComponent'
+import { Avatar, Button, Space } from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import Table, { TableColumn } from "@Components/Table/TableComponent";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import Container from '@Components/Container'
-import CreateCategory from './CreateCategory'
-import Header from '@User/Screens/UserRoot/UserHeader'
-import Image from '@Components/Image'
-import { Link } from '@Router/index'
-import MoreButton from '@Components/MoreButton'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import Container from "@Components/Container";
+import CreateCategory from "./CreateCategory";
+import Header from "@User/Screens/UserRoot/UserHeader";
+import Image from "@Components/Image";
+import { Link } from "@Router/index";
+import MoreButton from "@Components/MoreButton";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
 function CategoriesScreen() {
-  const { data, isFetching: loading } = User.Queries.useGetProductCategories(
-    'all'
-  )
-  const { mutate: deleteCategory } = User.Queries.useDeleteProductCategory()
-  const { openModal } = useModal()
+  const { data, isFetching: loading } =
+    User.Queries.useGetProductCategories("all");
+  const { mutate: deleteCategory } = User.Queries.useDeleteProductCategory();
+  const { openModal } = useModal();
 
   return (
     <Header
-      title={'Categories'}
+      title={"Categories"}
       extra={[
         <Button
           onClick={() => {
             openModal(<CreateCategory />, {
-              title: 'Create Category'
-            })
+              title: "Create Category",
+            });
           }}
           type="primary"
         >
           Create New Category
-        </Button>
+        </Button>,
         // <ActionModal
         //   title="Create Category"
         //   cta={<Button type="primary">Create New Category</Button>}
@@ -43,7 +42,7 @@ function CategoriesScreen() {
       ]}
     >
       <Container>
-        <Table searchFields={['title']} dataSource={data} loading={loading}>
+        <Table searchFields={["title"]} dataSource={data} loading={loading}>
           <TableColumn
             title="Thumbnail Image"
             render={(_: any, record: Types.ProductCategory, index: number) => (
@@ -78,24 +77,24 @@ function CategoriesScreen() {
               <MoreButton
                 items={[
                   {
-                    label: 'Edit Category',
+                    label: "Edit Category",
                     onClick: () =>
                       window.open(
-                        `/app/products/product-category/${record._id}/editor`
+                        `/admin/products/product-category/${record._id}/editor`
                       ),
-                    key: 'edit'
+                    key: "edit",
                     // icon: <EditOutlined />,
                     // onClick: () => navigate(`${record._id}/edit`)
                   },
                   {
-                    label: 'Delete ',
+                    label: "Delete ",
                     onClick: () => {
-                      deleteCategory({ id: record._id })
+                      deleteCategory({ id: record._id });
                       //   window.open(`users/${record._id}/editor`, '_blank')
                     },
-                    key: 'delete',
-                    icon: <DeleteOutlined />
-                  }
+                    key: "delete",
+                    icon: <DeleteOutlined />,
+                  },
                 ]}
               />
             )}
@@ -118,7 +117,7 @@ function CategoriesScreen() {
         </Row>
       </Card> */}
     </Header>
-  )
+  );
 }
 
-export default CategoriesScreen
+export default CategoriesScreen;
