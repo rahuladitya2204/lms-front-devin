@@ -1,4 +1,4 @@
-import { Col, Row, Skeleton } from "antd";
+import { Col, Row, Skeleton } from "@Lib/index";
 import { Learner, Types } from "@adewaskar/lms-common";
 
 import AppImage from "@Components/Image";

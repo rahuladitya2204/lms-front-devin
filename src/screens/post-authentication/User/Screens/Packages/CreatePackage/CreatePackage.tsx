@@ -9,7 +9,7 @@ import {
   Spin,
   Tag,
   message,
-} from "antd";
+} from "@Lib/index";
 import { Enum, Types, Utils } from "@adewaskar/lms-common";
 import React, { Fragment, ReactNode, useEffect } from "react";
 import { useNavigate, useParams } from "@Router/index";

@@ -6,7 +6,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
-import { Button, Divider, Skeleton, Tabs } from "antd";
+import { Button, Divider, Skeleton, Tabs } from "@Lib/index";
 import { useMemo } from "react";
 
 const CustomTabs = styled(Tabs)`

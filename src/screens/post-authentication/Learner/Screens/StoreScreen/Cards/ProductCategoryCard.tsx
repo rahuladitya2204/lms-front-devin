@@ -1,4 +1,14 @@
-import { Avatar, Badge, Card, Col, Divider, Rate, Row, Space, Tag } from "antd";
+import {
+  Avatar,
+  Badge,
+  Card,
+  Col,
+  Divider,
+  Rate,
+  Row,
+  Space,
+  Tag,
+} from "@Lib/index";
 import {
   BarChartOutlined,
   BookOutlined,

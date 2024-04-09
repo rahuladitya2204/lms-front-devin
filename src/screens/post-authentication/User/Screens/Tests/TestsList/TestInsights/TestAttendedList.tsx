@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
 import MoreButton from "@Components/MoreButton";
-import { Tag } from "antd";
+import { Tag } from "@Lib/index";
 // import OMRComponent from '@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/OMR/OMRComponent'
 import { Title } from "@Components/Typography/Typography";
 import { Typography } from "@Components/Typography";

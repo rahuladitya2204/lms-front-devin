@@ -12,7 +12,7 @@ import {
   Skeleton,
   Tag,
   message,
-} from "antd";
+} from "@Lib/index";
 import { AlertOutlined, UserOutlined } from "@ant-design/icons";
 import { Constants, Enum, Store, Types, Utils } from "@adewaskar/lms-common";
 import { useEffect, useState } from "react";

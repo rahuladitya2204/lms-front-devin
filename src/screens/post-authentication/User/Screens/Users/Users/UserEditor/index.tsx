@@ -1,4 +1,4 @@
-import { Button, Card, Form, Tabs, message } from "antd";
+import { Button, Card, Form, Tabs, message } from "@Lib/index";
 import { Fragment, useEffect } from "react";
 import { Outlet } from "react-router";
 import { useParams } from "@Router/index";

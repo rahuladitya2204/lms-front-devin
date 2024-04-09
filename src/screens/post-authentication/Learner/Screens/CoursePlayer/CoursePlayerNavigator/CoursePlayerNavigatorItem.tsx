@@ -1,4 +1,13 @@
-import { Button, Checkbox, Col, Dropdown, List, Row, Space, Tag } from "antd";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Dropdown,
+  List,
+  Row,
+  Space,
+  Tag,
+} from "@Lib/index";
 import { Learner, Utils } from "@adewaskar/lms-common";
 import { Unit, unit } from "mathjs";
 

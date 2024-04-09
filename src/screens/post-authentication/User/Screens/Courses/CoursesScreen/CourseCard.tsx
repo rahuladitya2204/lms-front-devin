@@ -8,7 +8,7 @@ import {
   Tag,
   Tooltip,
   Typography,
-} from "antd";
+} from "@Lib/index";
 import {
   BarChartOutlined,
   InfoCircleOutlined,

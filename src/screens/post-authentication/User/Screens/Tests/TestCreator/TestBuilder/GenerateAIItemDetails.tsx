@@ -1,4 +1,4 @@
-import { Button, Form } from "antd";
+import { Button, Form } from "@Lib/index";
 
 import { User } from "@adewaskar/lms-common";
 import { useParams } from "@Router/index";

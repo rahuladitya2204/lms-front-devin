@@ -12,7 +12,7 @@ import {
   Skeleton,
   Space,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import {
   CalendarOutlined,
   ClockCircleOutlined,

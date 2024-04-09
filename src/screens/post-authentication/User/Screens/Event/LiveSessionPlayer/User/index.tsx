@@ -11,7 +11,7 @@ import {
 } from "amazon-chime-sdk-component-library-react";
 import { Outlet } from "react-router";
 import { useParams } from "@Router/index";
-import { Spin, Typography } from "antd";
+import { Spin, Typography } from "@Lib/index";
 
 import { NavigationProvider } from "./Player/Navigation/NavigationProvider";
 import { ThemeProvider } from "styled-components";

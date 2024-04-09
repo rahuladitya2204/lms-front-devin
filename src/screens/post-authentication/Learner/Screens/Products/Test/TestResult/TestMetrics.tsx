@@ -28,7 +28,7 @@ import {
   Space,
   Statistic,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import {
   Bar,
   BarChart,

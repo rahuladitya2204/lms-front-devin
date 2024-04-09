@@ -1,4 +1,4 @@
-import { Button, Col, Form, Row } from "antd";
+import { Button, Col, Form, Row } from "@Lib/index";
 import { Types, User } from "@adewaskar/lms-common";
 
 import ExternalVideo from "./ExternalVideo";

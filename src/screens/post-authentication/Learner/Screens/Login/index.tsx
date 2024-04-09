@@ -8,7 +8,7 @@ import {
   Modal,
   Space,
   message,
-} from "antd";
+} from "@Lib/index";
 import {
   ArrowLeftOutlined,
   GoogleOutlined,

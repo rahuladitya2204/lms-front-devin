@@ -1,4 +1,4 @@
-import { ConfigProvider, message } from "antd";
+import { ConfigProvider, message } from "@Lib/index";
 import { Learner, User } from "@adewaskar/lms-common";
 import useMessage, { MessageContext } from "@Hooks/useMessage";
 

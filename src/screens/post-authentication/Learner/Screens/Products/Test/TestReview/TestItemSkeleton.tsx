@@ -1,5 +1,5 @@
 "use client";
-import { Card, Col, Row, Skeleton } from "antd";
+import { Card, Col, Row, Skeleton } from "@Lib/index";
 
 import { Fragment } from "react";
 

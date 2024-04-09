@@ -1,4 +1,4 @@
-import { Card, Col, Form, Input, Row, Space } from "antd";
+import { Card, Col, Form, Input, Row, Space } from "@Lib/index";
 import { Common, Store, Types, User } from "@adewaskar/lms-common";
 import React, { Fragment } from "react";
 

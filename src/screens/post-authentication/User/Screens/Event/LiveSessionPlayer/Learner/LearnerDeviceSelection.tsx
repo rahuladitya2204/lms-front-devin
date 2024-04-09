@@ -1,4 +1,4 @@
-import { Button, Card } from "antd";
+import { Button, Card } from "@Lib/index";
 import {
   CameraSelection,
   PreviewVideo,

@@ -9,7 +9,7 @@ import {
   Skeleton,
   Statistic,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import {
   CloseOutlined,
   UserOutlined,

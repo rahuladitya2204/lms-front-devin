@@ -14,7 +14,7 @@ import {
   Tag,
   Tooltip,
   theme,
-} from "antd";
+} from "@Lib/index";
 import { Store, Types, User } from "@adewaskar/lms-common";
 
 import { Comment } from "@ant-design/compatible";

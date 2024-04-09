@@ -1,4 +1,4 @@
-import { Button, Card, Form, Tabs, message } from "antd";
+import { Button, Card, Form, Tabs, message } from "@Lib/index";
 import { Constants, Learner, Types } from "@adewaskar/lms-common";
 import { Fragment, useEffect, useState } from "react";
 import { Outlet } from "react-router";

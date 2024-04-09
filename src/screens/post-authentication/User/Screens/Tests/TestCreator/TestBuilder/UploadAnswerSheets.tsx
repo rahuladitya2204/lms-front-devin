@@ -8,7 +8,7 @@ import {
   Modal,
   Row,
   message,
-} from "antd";
+} from "@Lib/index";
 import {
   CameraOutlined,
   DeleteOutlined,

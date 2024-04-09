@@ -15,7 +15,7 @@ import {
   Tag,
   Timeline,
   message,
-} from "antd";
+} from "@Lib/index";
 import {
   BookOutlined,
   ClockCircleOutlined,

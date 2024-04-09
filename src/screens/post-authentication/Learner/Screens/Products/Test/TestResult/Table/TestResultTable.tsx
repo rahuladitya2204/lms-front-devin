@@ -1,4 +1,4 @@
-import { Alert, Card, Col, Row, Space, Table, Tag, Tooltip } from "antd";
+import { Alert, Card, Col, Row, Space, Table, Tag, Tooltip } from "@Lib/index";
 import { Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
 import React, { useState } from "react";
 

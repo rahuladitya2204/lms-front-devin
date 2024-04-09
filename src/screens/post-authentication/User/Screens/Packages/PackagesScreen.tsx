@@ -3,7 +3,7 @@ import {
   EditOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Row, Space, Table } from "antd";
+import { Button, Col, Row, Space, Table } from "@Lib/index";
 
 import Container from "@Components/Container";
 import Header from "@User/Screens/UserRoot/UserHeader";

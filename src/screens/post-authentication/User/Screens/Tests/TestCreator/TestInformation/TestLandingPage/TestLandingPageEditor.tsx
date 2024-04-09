@@ -1,4 +1,4 @@
-import { Alert, Button, Card, Empty, Form, Input, Space } from "antd";
+import { Alert, Button, Card, Empty, Form, Input, Space } from "@Lib/index";
 
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import MediaUpload from "@Components/MediaUpload";

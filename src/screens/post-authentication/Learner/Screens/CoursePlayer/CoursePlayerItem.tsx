@@ -6,7 +6,7 @@ import CoursePlayerTextItem from "./CoursePlayerItems/Text";
 import ErrorBoundary from "@Components/ErrorBoundary";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PDFViewer from "@Components/PDFViewer";
-import { Spin } from "antd";
+import { Spin } from "@Lib/index";
 import { useGetNodeFromRouterOutlet } from "../../../../../hooks/CommonHooks";
 import { useParams } from "@Router/index";
 

@@ -1,4 +1,4 @@
-import { AutoComplete, Avatar, Space } from "antd";
+import { AutoComplete, Avatar, Space } from "@Lib/index";
 import { Learner, Types } from "@adewaskar/lms-common";
 
 import Image from "./Image";

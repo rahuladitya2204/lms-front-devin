@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Modal, Row, Tabs, message } from "antd";
+import { Button, Card, Col, Form, Modal, Row, Tabs, message } from "@Lib/index";
 import { Constants, Types } from "@adewaskar/lms-common";
 import React, {
   ReactNode,

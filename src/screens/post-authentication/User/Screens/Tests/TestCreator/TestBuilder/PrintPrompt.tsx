@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, message, Row, Switch } from "antd";
+import { Button, Col, Divider, Form, message, Row, Switch } from "@Lib/index";
 
 import { User } from "@adewaskar/lms-common";
 import { printPdf } from "@Components/Editor/SunEditor/utils";

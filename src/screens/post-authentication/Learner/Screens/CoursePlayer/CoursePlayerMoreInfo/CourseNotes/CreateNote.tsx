@@ -9,7 +9,7 @@ import {
   Tag,
   Typography,
   message,
-} from "antd";
+} from "@Lib/index";
 import { Constants, Learner, Store, Types } from "@adewaskar/lms-common";
 import React, { useEffect, useState } from "react";
 

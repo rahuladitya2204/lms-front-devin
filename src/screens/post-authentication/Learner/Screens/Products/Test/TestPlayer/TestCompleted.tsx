@@ -1,5 +1,5 @@
 "use client";
-import { Button, Result } from "antd";
+import { Button, Result } from "@Lib/index";
 import { useNavigate, useParams } from "@Router/index";
 
 import { Learner } from "@adewaskar/lms-common";

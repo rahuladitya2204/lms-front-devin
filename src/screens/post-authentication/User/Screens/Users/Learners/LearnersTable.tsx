@@ -1,4 +1,4 @@
-import { Button, Card, Col, Modal, Row, Space, Tag, message } from "antd";
+import { Button, Card, Col, Modal, Row, Space, Tag, message } from "@Lib/index";
 import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Enum, Types } from "@adewaskar/lms-common";
 import Table, { TableColumn } from "@Components/Table/TableComponent";

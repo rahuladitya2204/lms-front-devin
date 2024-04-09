@@ -1,4 +1,4 @@
-import { Alert, Button, Form, Input, Select, Space, message } from "antd";
+import { Alert, Button, Form, Input, Select, Space, message } from "@Lib/index";
 import { Learner, Store, Types } from "@adewaskar/lms-common";
 import React, { Fragment, ReactNode, useEffect, useState } from "react";
 

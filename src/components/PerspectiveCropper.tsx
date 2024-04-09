@@ -1,4 +1,4 @@
-import { Button, Col, Row } from "antd";
+import { Button, Col, Row } from "@Lib/index";
 import { CheckOutlined, ReloadOutlined } from "@ant-design/icons";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 

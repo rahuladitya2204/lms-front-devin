@@ -15,7 +15,7 @@ import {
   Spin,
   Typography,
   message,
-} from "antd";
+} from "@Lib/index";
 import { Enum, Learner, Store } from "@adewaskar/lms-common";
 import OMRComponent, { OMRSKeleton } from "./OMRComponent";
 import React, { useEffect } from "react";

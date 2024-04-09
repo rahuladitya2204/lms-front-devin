@@ -10,7 +10,7 @@ import {
   Skeleton,
   Spin,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import { CheckCircleTwoTone, InfoCircleOutlined } from "@ant-design/icons";
 import { Fragment, useMemo } from "react";
 import { Learner, Store } from "@adewaskar/lms-common";

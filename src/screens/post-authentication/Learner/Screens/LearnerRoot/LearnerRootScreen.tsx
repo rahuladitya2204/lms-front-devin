@@ -1,5 +1,5 @@
 "use client";
-import { Alert, Button, FloatButton } from "antd";
+import { Alert, Button, FloatButton } from "@Lib/index";
 import { Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
 import { Fragment, useEffect } from "react";
 import { useOutletContext } from "react-router";

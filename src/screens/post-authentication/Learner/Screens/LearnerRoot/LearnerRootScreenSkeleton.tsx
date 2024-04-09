@@ -8,7 +8,7 @@ import {
   Skeleton,
   Space,
   Spin,
-} from "antd";
+} from "@Lib/index";
 import { Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
 import { Fragment, useEffect } from "react";
 import { useOutletContext } from "react-router";

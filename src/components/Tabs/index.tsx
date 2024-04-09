@@ -1,4 +1,4 @@
-import { Tabs as AppTabs, TabsProps } from "antd";
+import { Tabs as AppTabs, TabsProps } from "@Lib/index";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "@Router/index";
 import { useRouter } from "next/navigation";

@@ -10,7 +10,7 @@ import {
   Space,
   Spin,
   theme,
-} from "antd";
+} from "@Lib/index";
 import { Enum, Learner } from "@adewaskar/lms-common";
 import { useNavigate, useParams } from "@Router/index";
 

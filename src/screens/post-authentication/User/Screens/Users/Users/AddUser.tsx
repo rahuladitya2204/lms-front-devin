@@ -9,7 +9,7 @@ import {
   Row,
   Select,
   Switch,
-} from "antd";
+} from "@Lib/index";
 import { Constants, Enum, Types } from "@adewaskar/lms-common";
 import React, { Fragment, ReactNode, useEffect, useState } from "react";
 

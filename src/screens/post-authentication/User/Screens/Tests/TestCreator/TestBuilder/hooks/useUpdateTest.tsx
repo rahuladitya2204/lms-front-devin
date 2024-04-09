@@ -1,7 +1,7 @@
 import { Types, User } from "@adewaskar/lms-common";
 import { useCallback, useEffect } from "react";
 
-import { Form } from "antd";
+import { Form } from "@Lib/index";
 import { FormInstance } from "antd/lib/form/Form";
 import useMessage from "@Hooks/useMessage";
 import { useParams } from "@Router/index";

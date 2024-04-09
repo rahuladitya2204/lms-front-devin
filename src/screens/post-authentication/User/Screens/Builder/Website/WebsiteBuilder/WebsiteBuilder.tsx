@@ -1,7 +1,7 @@
 // @ts-nocheck
 import "grapesjs/dist/css/grapes.min.css";
 
-import { Button, Spin } from "antd";
+import { Button, Spin } from "@Lib/index";
 import { Common, User } from "@adewaskar/lms-common";
 import React, { useEffect, useRef, useState } from "react";
 

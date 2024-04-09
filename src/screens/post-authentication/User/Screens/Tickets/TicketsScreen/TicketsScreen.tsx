@@ -1,4 +1,13 @@
-import { Button, Card, Col, Dropdown, Row, Space, Table, Tag } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Dropdown,
+  Row,
+  Space,
+  Table,
+  Tag,
+} from "@Lib/index";
 import { DeleteOutlined, DownOutlined, EditOutlined } from "@ant-design/icons";
 
 import Header from "@User/Screens/UserRoot/UserHeader";

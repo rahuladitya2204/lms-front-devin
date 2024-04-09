@@ -8,7 +8,7 @@ import {
   Row,
   Space,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import {
   CaretDownOutlined,
   DeleteOutlined,

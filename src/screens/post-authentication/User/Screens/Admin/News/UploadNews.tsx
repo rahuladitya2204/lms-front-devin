@@ -1,4 +1,12 @@
-import { Button, Col, DatePicker, Form, Row, Select, message } from "antd";
+import {
+  Button,
+  Col,
+  DatePicker,
+  Form,
+  Row,
+  Select,
+  message,
+} from "@Lib/index";
 import { Types, User } from "@adewaskar/lms-common";
 
 import FileList from "@Components/FileList";

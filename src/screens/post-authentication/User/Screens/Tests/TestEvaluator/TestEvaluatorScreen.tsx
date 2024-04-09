@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row } from "@Lib/index";
 
 import AppProvider from "screens/AppProvider";
 import Header from "@Components/Header";

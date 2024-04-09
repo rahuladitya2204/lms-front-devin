@@ -7,7 +7,7 @@ import {
   Progress,
   Space,
   Spin,
-} from "antd";
+} from "@Lib/index";
 import { Common, Types, User } from "@adewaskar/lms-common";
 import { Fragment, useEffect, useState } from "react";
 import { debounce, uniqueId } from "lodash";

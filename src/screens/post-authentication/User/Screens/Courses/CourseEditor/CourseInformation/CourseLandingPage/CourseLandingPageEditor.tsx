@@ -1,4 +1,4 @@
-import { Button, Card, Empty, Form, Input } from "antd";
+import { Button, Card, Empty, Form, Input } from "@Lib/index";
 import { Fragment, useEffect, useLayoutEffect } from "react";
 import { Types, User } from "@adewaskar/lms-common";
 

@@ -1,4 +1,4 @@
-import { Button, Card, Space, Table } from "antd";
+import { Button, Card, Space, Table } from "@Lib/index";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import CreateWebsitePage from "./CreateWebsitePage";

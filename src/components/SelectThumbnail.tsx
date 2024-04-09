@@ -1,4 +1,4 @@
-import { Button, Modal, Space, Spin } from "antd";
+import { Button, Modal, Space, Spin } from "@Lib/index";
 import { Common, Types } from "@adewaskar/lms-common";
 
 import Image from "@Components/Image";

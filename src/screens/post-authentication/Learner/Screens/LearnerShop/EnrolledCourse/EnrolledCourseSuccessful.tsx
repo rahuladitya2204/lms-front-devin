@@ -1,4 +1,4 @@
-import { Button, Card, Col, Result, Row } from "antd";
+import { Button, Card, Col, Result, Row } from "@Lib/index";
 
 import EnrolledCourseCard from "./CourseCard";
 import { Learner } from "@adewaskar/lms-common";

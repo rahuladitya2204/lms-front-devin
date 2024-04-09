@@ -1,4 +1,14 @@
-import { Button, Card, Col, Form, Modal, Row, Spin, Tag, message } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Form,
+  Modal,
+  Row,
+  Spin,
+  Tag,
+  message,
+} from "@Lib/index";
 import {
   ClockCircleOutlined,
   EyeOutlined,

@@ -1,4 +1,4 @@
-import { Col, Row, Space, Tag, Typography } from "antd";
+import { Col, Row, Space, Tag, Typography } from "@Lib/index";
 import { Types, Utils } from "@adewaskar/lms-common";
 import { useMemo } from "react";
 

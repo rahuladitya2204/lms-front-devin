@@ -11,7 +11,7 @@ import {
   Spin,
   Tag,
   message,
-} from "antd";
+} from "@Lib/index";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
 import { Outlet } from "react-router";
 import { useNavigate, useParams } from "@Router/index";

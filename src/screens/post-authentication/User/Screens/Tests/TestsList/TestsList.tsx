@@ -10,7 +10,7 @@ import {
   Space,
   Tabs,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import {
   BarChartOutlined,
   ClockCircleOutlined,

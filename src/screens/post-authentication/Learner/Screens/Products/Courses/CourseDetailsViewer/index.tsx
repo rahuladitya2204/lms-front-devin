@@ -10,7 +10,7 @@ import {
   Tag,
   Typography,
   message,
-} from "antd";
+} from "@Lib/index";
 import { AlertOutlined, UserOutlined } from "@ant-design/icons";
 import { Constants, Store, Types, Utils } from "@adewaskar/lms-common";
 import { useEffect, useState } from "react";

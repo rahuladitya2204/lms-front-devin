@@ -5,7 +5,7 @@ import {
   ReloadOutlined,
   UploadOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Modal, Row, Tag, message } from "antd";
+import { Button, Col, Modal, Row, Tag, message } from "@Lib/index";
 import { Enum, Types, User } from "@adewaskar/lms-common";
 import React, { useMemo } from "react";
 import Table, { TableColumn } from "@Components/Table/TableComponent";

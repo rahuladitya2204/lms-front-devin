@@ -15,7 +15,7 @@ import {
 } from "@ant-design/icons";
 import { Enum, Types } from "@adewaskar/lms-common";
 
-import { MenuProps } from "antd";
+import { MenuProps } from "@Lib/index";
 
 export const MENU_ITEMS: Types.MenuItemNode[] = [
   {

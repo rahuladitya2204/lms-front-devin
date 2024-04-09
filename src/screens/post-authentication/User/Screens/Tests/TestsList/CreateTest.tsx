@@ -1,4 +1,4 @@
-import { Button, Form, Input, message, Modal, Select } from "antd";
+import { Button, Form, Input, message, Modal, Select } from "@Lib/index";
 import { Learner, Types } from "@adewaskar/lms-common";
 import React, { ReactNode } from "react";
 

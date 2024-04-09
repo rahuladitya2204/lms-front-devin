@@ -1,4 +1,4 @@
-import { Button, Card, Form, message } from "antd";
+import { Button, Card, Form, message } from "@Lib/index";
 import { Fragment, useEffect } from "react";
 
 import EmailTemplateDetailsEditor from "./EmailTemplateDetailsEditor";

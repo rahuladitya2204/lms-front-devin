@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, List, Row, Space, Table } from "antd";
+import { Avatar, Card, Col, List, Row, Space, Table } from "@Lib/index";
 import { Learner, Types } from "@adewaskar/lms-common";
 
 import Image from "@Components/Image";

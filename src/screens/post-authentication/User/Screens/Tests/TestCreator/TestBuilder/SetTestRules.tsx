@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Form, Row, Space, Switch } from "antd";
+import { Button, Col, Divider, Form, Row, Space, Switch } from "@Lib/index";
 import { Types, User } from "@adewaskar/lms-common";
 
 import { Typography } from "@Components/Typography";

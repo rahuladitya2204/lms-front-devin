@@ -10,7 +10,7 @@ import {
   Table,
   Upload,
   message,
-} from "antd";
+} from "@Lib/index";
 import { Types, User } from "@adewaskar/lms-common";
 
 import ActionModal from "@Components/ActionModal/ActionModal";

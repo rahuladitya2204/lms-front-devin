@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Tag, message } from "antd";
+import { Button, Card, Col, Row, Space, Tag, message } from "@Lib/index";
 import { Constants, Learner, Store, Types, Utils } from "@adewaskar/lms-common";
 
 import ActionModal from "@Components/ActionModal/ActionModal";

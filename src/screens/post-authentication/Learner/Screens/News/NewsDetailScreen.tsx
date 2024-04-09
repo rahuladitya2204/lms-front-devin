@@ -12,7 +12,7 @@ import {
   Space,
   Spin,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import {
   CloudOutlined,
   DotChartOutlined,

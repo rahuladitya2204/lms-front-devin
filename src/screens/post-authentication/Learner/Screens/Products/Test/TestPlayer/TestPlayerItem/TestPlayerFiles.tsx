@@ -13,7 +13,7 @@ import {
   Spin,
   Tooltip,
   message,
-} from "antd";
+} from "@Lib/index";
 // import { AppCamera, useCamera } from "@Components/ActionModal/Camera/AppCamera";
 const AppCamera = dynamic(
   () => import("@Components/ActionModal/Camera/AppCamera"),

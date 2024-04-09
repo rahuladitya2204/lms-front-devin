@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Row, Space, Table } from "antd";
+import { Button, Card, Col, Form, Row, Space, Table } from "@Lib/index";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 
 import ActionModal from "@Components/ActionModal/ActionModal";

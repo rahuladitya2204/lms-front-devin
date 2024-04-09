@@ -10,7 +10,7 @@ import {
   Space,
   Switch,
   message,
-} from "antd";
+} from "@Lib/index";
 import { Constants, Types } from "@adewaskar/lms-common";
 
 import { User } from "@adewaskar/lms-common";

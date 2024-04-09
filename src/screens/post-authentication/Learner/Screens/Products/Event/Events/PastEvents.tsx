@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Table, Tabs, Tag } from "antd";
+import { Button, Card, Col, Row, Space, Table, Tabs, Tag } from "@Lib/index";
 import { Learner, Types } from "@adewaskar/lms-common";
 
 import { Typography } from "@Components/Typography";

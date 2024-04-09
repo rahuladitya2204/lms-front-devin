@@ -8,7 +8,7 @@ import {
   Space,
   Table,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import { Common, Types } from "@adewaskar/lms-common";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 

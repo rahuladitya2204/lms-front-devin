@@ -1,6 +1,6 @@
 "use client";
 import { Common, Constants, Enum, Store } from "@adewaskar/lms-common";
-import { ConfigProvider, Spin, message, theme } from "antd";
+import { ConfigProvider, Spin, message, theme } from "@Lib/index";
 import useMessage, { MessageContext } from "@Hooks/useMessage";
 
 import ApplyFavicon from "@Learner/Screens/LearnerRoot/ApplyFavicon";

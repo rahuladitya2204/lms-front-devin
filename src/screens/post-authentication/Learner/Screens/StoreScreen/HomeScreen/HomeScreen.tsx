@@ -1,11 +1,11 @@
 "use client";
-import { Col, Divider, Row } from "antd";
+import { Col, Divider, Row } from "@Lib/index";
 import { Learner } from "@adewaskar/lms-common";
 
 import BGImage from "./image.svg";
 import Image from "@Components/Image";
 import ProductCategoryCard from "../Cards/ProductCategoryCard";
-import { Skeleton } from "antd";
+import { Skeleton } from "@Lib/index";
 import SkeletonImage from "@Components/SkeletonImage";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";

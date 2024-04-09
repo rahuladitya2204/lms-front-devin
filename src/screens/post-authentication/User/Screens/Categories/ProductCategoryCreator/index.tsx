@@ -10,7 +10,7 @@ import {
   Spin,
   Tag,
   message,
-} from "antd";
+} from "@Lib/index";
 import { Constants, Enum, Types, Utils } from "@adewaskar/lms-common";
 import {
   ExportOutlined,

@@ -1,6 +1,6 @@
 "use client";
 
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row } from "@Lib/index";
 import { Learner, Store } from "@adewaskar/lms-common";
 
 import Header from "@Components/Header";

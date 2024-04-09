@@ -8,7 +8,7 @@ import {
   Select,
   Space,
   message,
-} from "antd";
+} from "@Lib/index";
 import { Constants, Types } from "@adewaskar/lms-common";
 import { Fragment, useEffect } from "react";
 

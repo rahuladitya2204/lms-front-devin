@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Button, Card, Col, Row, Select, Space, Table, Tag } from "antd";
+import { Button, Card, Col, Row, Select, Space, Table, Tag } from "@Lib/index";
 import { Common, Types } from "@adewaskar/lms-common";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 

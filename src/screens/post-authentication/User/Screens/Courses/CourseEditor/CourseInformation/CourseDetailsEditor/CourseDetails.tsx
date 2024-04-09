@@ -9,7 +9,7 @@ import {
   Row,
   Select,
   Space,
-} from "antd";
+} from "@Lib/index";
 import { Constants, Types } from "@adewaskar/lms-common";
 import { User, Utils } from "@adewaskar/lms-common";
 

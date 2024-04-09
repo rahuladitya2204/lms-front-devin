@@ -8,7 +8,7 @@ import {
   Statistic,
   Tabs,
   TabsProps,
-} from "antd";
+} from "@Lib/index";
 
 import DashboardOverview from "./Overview/Overview";
 import UserHeader from "../UserRoot/UserHeader";

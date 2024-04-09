@@ -10,7 +10,7 @@ import {
   Row,
   Skeleton,
   Tag,
-} from "antd";
+} from "@Lib/index";
 import { CalendarOutlined, ClockCircleOutlined } from "@ant-design/icons";
 import { Learner, Types, Utils } from "@adewaskar/lms-common";
 

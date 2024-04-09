@@ -9,7 +9,7 @@ import {
   Skeleton,
   Space,
   Tooltip,
-} from "antd";
+} from "@Lib/index";
 import {
   CaretLeftOutlined,
   CaretRightOutlined,

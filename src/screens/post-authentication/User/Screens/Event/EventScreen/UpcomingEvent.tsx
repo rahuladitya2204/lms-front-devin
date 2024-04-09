@@ -1,4 +1,4 @@
-import { Button, Card, Col, Row, Space, Table, Tabs, Tag } from "antd";
+import { Button, Card, Col, Row, Space, Table, Tabs, Tag } from "@Lib/index";
 
 import Header from "@Components/Header";
 import { Types } from "@adewaskar/lms-common";

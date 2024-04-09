@@ -1,5 +1,14 @@
 // @ts-nocheck
-import { Card, Col, Divider, List, Progress, Row, Skeleton, Tag } from "antd";
+import {
+  Card,
+  Col,
+  Divider,
+  List,
+  Progress,
+  Row,
+  Skeleton,
+  Tag,
+} from "@Lib/index";
 import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
 
 import BackButton from "@Components/BackButton";

@@ -9,7 +9,7 @@ import {
   Spin,
   Tag,
   Tooltip,
-} from "antd";
+} from "@Lib/index";
 import { Learner, Utils } from "@adewaskar/lms-common";
 import { useNavigate } from "@Router/index";
 
