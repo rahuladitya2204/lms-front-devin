@@ -31,19 +31,21 @@ export default function Page({
   return (
     // @ts-ignore
     <Hydrator
-      queries={[
-        getOrgDetails(),
-        getLearnerDetails(),
-        //     // authenticated routes should only be called if token is present
-        //     ...(token
-        //       ? [
-        //           getCartDetails(),
-        //           getLearnerDetails(),
-        //         //   getEnrolledProductList( "test"),
-        //           getTestResult(params.testId),
-        //         ]
-        //       : []),
-      ]}
+      queries={
+        [
+          // getOrgDetails(),
+          // getLearnerDetails(),
+          //     // authenticated routes should only be called if token is present
+          //     ...(token
+          //       ? [
+          //           getCartDetails(),
+          //           getLearnerDetails(),
+          //         //   getEnrolledProductList( "test"),
+          //           getTestResult(params.testId),
+          //         ]
+          //       : []),
+        ]
+      }
     >
       <LearnerFullPageHolder>
         {/* @ts-ignore */}

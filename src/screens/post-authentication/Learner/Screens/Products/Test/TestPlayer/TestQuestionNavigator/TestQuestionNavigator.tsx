@@ -139,7 +139,7 @@ export default function TestQuestionNavigator(
                             <NavLink
                               style={{ width: "100%" }}
                               key={item._id}
-                              to={`${item._id}`}
+                              to={`/app/test/${test._id}/player/${item._id}`}
                               children={() => {
                                 const isActive = questionId === item._id;
                                 return (

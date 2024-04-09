@@ -26,12 +26,12 @@ export default function Page({ params }: { params: { testId: string } }) {
     // @ts-ignore
     <Hydrator
       queries={[
-        getOrgDetails(),
+        // getOrgDetails(),
         //     // authenticated routes should only be called if token is present
         ...(token
           ? [
               // getCartDetails(),
-              getLearnerDetails(),
+              // getLearnerDetails(),
               //   getEnrolledProductList( "test"),
               // getTestResult(params.testId),
             ]
