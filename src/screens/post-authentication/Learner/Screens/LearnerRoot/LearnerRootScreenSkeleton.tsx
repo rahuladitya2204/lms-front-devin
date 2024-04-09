@@ -13,7 +13,6 @@ import { Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
 import { Fragment, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import { useParams } from "@Router/index";
-import { useSearchParams } from "@Router/index";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import AppProvider from "screens/AppProvider";
 import CreateTicket from "../Tickets/CreateTicket";
@@ -38,28 +37,6 @@ export interface LearnerRootScreenSkeletonProps {
 const LearnerRootScreenSkeleton = ({
   children,
 }: LearnerRootScreenSkeletonProps) => {
-  // useBlockBackButton()
-  useDehydration();
-
-  const { orgId } = useParams();
-  const searchParams = useSearchParams();
-  const userAuthToken = searchParams.get("userAuthToken");
-  useEffect(() => {
-    if (userAuthToken) {
-      Utils.Storage.SetItem("userType", `learner`);
-      Utils.Storage.SetItem("learner-auth-token", userAuthToken);
-    }
-  }, [userAuthToken]);
-
-  useEffect(() => {
-    if (orgId) {
-      Utils.Storage.SetItem("orgId", orgId + "");
-    }
-  }, [orgId]);
-  const { isMobile } = useBreakpoint();
-  const outletcontext = useOutletContext<any>();
-  const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
-  const { data: learner } = Learner.Queries.useGetLearnerDetails();
   const screen = useBreakpoint();
   const isMobileOrTablet = screen.isMobile || screen.isTablet;
   return (

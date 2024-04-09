@@ -3,7 +3,7 @@ import Link from "next/link";
 import {
   usePathname,
   useRouter,
-  useSearchParams,
+  useSearchParams as useNextSearchParams,
   useParams as useNextParams,
 } from "next/navigation";
 import {
@@ -18,7 +18,7 @@ import { useInRouterContext } from "react-router";
 
 export const useLocation = (): Location => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams = useNextSearchParams();
   const search = searchParams.toString();
   const hash = ""; // Next.js doesn't have built-in support for hash routes
   const state = undefined; // Next.js doesn't have built-in support for location state
@@ -108,7 +108,7 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
   ) => {
     const pathname = usePathname();
     console.log(pathname, "pathname");
-    const searchParams = useSearchParams();
+    const searchParams = useNextSearchParams();
     const hasAdditionalSearchParams =
       Array.from(searchParams.entries()).length > 0;
 
@@ -133,13 +133,13 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
 
 Link.displayName = "Link";
 
-const useReactRouterSearchParams = (): [
+const useSearchParams = (): [
   URLSearchParams,
   (params: Record<string, string>, options?: { replace?: boolean }) => void
 ] => {
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const searchParams = useNextSearchParams();
 
   const setSearchParams = (
     params: Record<string, string>,
@@ -174,8 +174,4 @@ const useParams = () => {
   return isInRouterContext ? reactRouterParams : nextParams;
 };
 
-export {
-  ReactRouterLink as Link,
-  useReactRouterSearchParams as useSearchParams,
-  useParams,
-};
+export { ReactRouterLink as Link, useSearchParams, useParams };

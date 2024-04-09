@@ -36,7 +36,7 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
   useDehydration();
 
   const { orgId } = useParams();
-  const searchParams = useSearchParams();
+  const [searchParams] = useSearchParams();
   const userAuthToken = searchParams.get("userAuthToken");
   useEffect(() => {
     if (userAuthToken) {
