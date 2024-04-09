@@ -1,16 +1,17 @@
 import { Tabs as AppTabs, TabsProps } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "@Router/index";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 interface AppTabPropsI extends TabsProps {
   navigateWithHash?: boolean;
 }
 
 function Tabs({ navigateWithHash, ...props }: AppTabPropsI) {
-  const pathname = usePathname();
-  const router = useRouter();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const [activeKey, setActiveKey] = useState("");
+  const router = useRouter();
 
   const updateHash = (pathname: string) => {
     if (navigateWithHash) {

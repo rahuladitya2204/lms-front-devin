@@ -13,7 +13,7 @@ import { Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
 import { Fragment, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import { useParams } from "@Router/index";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "@Router/index";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import AppProvider from "screens/AppProvider";
 import CreateTicket from "../Tickets/CreateTicket";

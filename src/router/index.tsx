@@ -31,14 +31,14 @@ export const useParams = () => {
   return Fn();
 };
 
-export const useSearchParams = (props: any) => {
+export const useSearchParams = () => {
   const isInRouterContext = useInRouterContext();
   const Fn = isInRouterContext
     ? // @ts-ignore
       useReactRouterSearchParams
     : // @ts-ignore
       useNextSearchParams;
-  return Fn(...props);
+  return Fn();
 };
 
 export const useNavigate = () => {

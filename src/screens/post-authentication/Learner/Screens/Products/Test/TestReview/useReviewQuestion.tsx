@@ -1,5 +1,5 @@
 import { Learner, Constants } from "@adewaskar/lms-common";
-import { useParams } from "next/navigation";
+import { useParams } from "@Router/index";
 
 export function useReviewQuestion(d?: { testId: string; questionId: string }) {
   const params = useParams();

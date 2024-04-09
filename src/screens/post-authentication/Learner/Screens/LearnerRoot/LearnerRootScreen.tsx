@@ -4,7 +4,7 @@ import { Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
 import { Fragment, useEffect } from "react";
 import { useOutletContext } from "react-router";
 import { useParams } from "@Router/index";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams } from "@Router/index";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import AppProvider from "screens/AppProvider";
 import CreateTicket from "../Tickets/CreateTicket";
@@ -18,7 +18,7 @@ import { Typography } from "@Components/Typography";
 import { useBlockBackButton } from "@User/Screens/Event/LiveSessionPlayer/User/hooks";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useDehydration from "@ServerHooks/useDehydration";
-import LearnerHeaderServer from "./LearnerHeader/LearnerHeaderServer";
+// import LearnerHeaderServer from "./LearnerHeader/LearnerHeaderServer";
 import LearnerHeaderClient from "./LearnerHeader/LearnerHeaderClient";
 import { getIsServer } from "@ServerUtils/index";
 
@@ -31,7 +31,7 @@ export interface LearnerRootScreenProps {
 
 const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
   // const isServer = getIsServer();
-  console.log(isServer, "isServer");
+  // console.log(isServer, "isServer");
   // useBlockBackButton()
   useDehydration();
 
