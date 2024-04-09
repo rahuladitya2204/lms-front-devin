@@ -1,3 +1,4 @@
+"use client";
 import { Common, Constants, Enum, Store } from "@adewaskar/lms-common";
 import { ConfigProvider, Spin, message, theme } from "antd";
 import useMessage, { MessageContext } from "@Hooks/useMessage";
