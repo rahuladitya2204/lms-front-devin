@@ -11,25 +11,13 @@ import {
   Tag,
   message,
 } from "@Lib/index";
-import {
-  CalendarOutlined,
-  InfoOutlined,
-  WalletOutlined,
-  WalletTwoTone,
-} from "@ant-design/icons";
-import {
-  Constants,
-  Enum,
-  Learner,
-  Store,
-  Types,
-  Utils,
-} from "@adewaskar/lms-common";
+import { InfoOutlined } from "@ant-design/icons";
+import { Constants, Enum, Learner, Store, Types } from "@adewaskar/lms-common";
 import { Fragment, useMemo } from "react";
 import { useNavigate, useParams } from "@Router/index";
 
 import ActionDrawer from "@Components/ActionDrawer";
-import ActionModal from "@Components/ActionModal/ActionModal";
+
 import CompletedLiveTestCard from "./CompleteLiveTestMetadata";
 import CompletedTestCard from "./CompletedTestMetadata";
 import Countdown from "@Components/Countdown";
@@ -39,7 +27,7 @@ import LearnerLogin from "@Learner/Screens/Login";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PriceCardContent from "@Learner/Screens/StoreScreen/Cards/PriceCardContent";
 import ProductCheckoutButton from "@Components/CheckoutButton";
-import ProductWalletNudge from "@Components/ProductWalletNudge";
+
 import SkeletonImage from "@Components/SkeletonImage";
 import TestMetadata from "./TestMetadata";
 import TestTimeCountdown from "@Components/TestTimeCountdown";
@@ -50,9 +38,9 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
+import TestDetailScreenSkeleton from "./TestDetailSkeletonScreen";
 
 const { Text, Paragraph } = Typography;
-const { UnitTypeToStr } = Utils;
 
 interface TestDetailScreenPropsI {}
 
@@ -61,7 +49,7 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
 
   const { data: enrolledDetails, isLoading: loadingEnrolledTest } =
     Learner.Queries.useGetEnrolledProductDetails({
-      type: "test",
+      type: Enum.ProductType.TEST,
       id: testId + "",
     });
   const { data: test, isLoading: loadingTest } =
@@ -73,52 +61,48 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
     enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const Metadata = testEndDate ? (
     <>
-      {loadingEnrolledTest ? (
-        <Skeleton paragraph={{ rows: 8 }} />
-      ) : (
-        <CompletedTestCard test={test} />
-      )}
+      <CompletedTestCard test={test} />
     </>
   ) : (
     <TestMetadata test={test} />
   );
-
-  const hideLandingPage = test?.landingPage?.description?.length < 200;
-  return (
+  const isLoading = loadingEnrolledTest || loadingTest;
+  const hideLandingPage = test?.landingPage?.description?.length < 200 || false;
+  return isLoading ? (
+    <TestDetailScreenSkeleton />
+  ) : (
     <Row gutter={[20, 30]}>
-      {loadingTest ? null : (
-        <>
-          <Col md={24} sm={24} lg={0}>
-            <TestCard plan={plan} testId={testId + ""} />
-            {/* Replace with card image */}
-            {/* <CourseMetadata course={course} /> */}
-          </Col>
-          <Col lg={24} md={24} xs={0}>
-            <Title
-              style={{
-                // fontSize: 16,
-                whiteSpace: "normal", // Ensures text wraps
-                overflowWrap: "break-word", // Breaks words to prevent overflow
-                textAlign: hideLandingPage ? "center" : "left",
-              }}
-              level={3}
-            >
-              {test.title}
-            </Title>
-            <Title
-              style={{
-                // fontSize: 16,
-                whiteSpace: "normal", // Ensures text wraps
-                overflowWrap: "break-word", // Breaks words to prevent overflow
-                textAlign: hideLandingPage ? "center" : "left",
-              }}
-              level={5}
-            >
-              {test.subtitle}
-            </Title>
-          </Col>
-        </>
-      )}
+      <>
+        <Col md={24} sm={24} lg={0}>
+          <TestCard plan={plan} testId={testId + ""} />
+          {/* Replace with card image */}
+          {/* <CourseMetadata course={course} /> */}
+        </Col>
+        <Col lg={24} md={24} xs={0}>
+          <Title
+            style={{
+              // fontSize: 16,
+              whiteSpace: "normal", // Ensures text wraps
+              overflowWrap: "break-word", // Breaks words to prevent overflow
+              textAlign: hideLandingPage ? "center" : "left",
+            }}
+            level={3}
+          >
+            {test.title}
+          </Title>
+          <Title
+            style={{
+              // fontSize: 16,
+              whiteSpace: "normal", // Ensures text wraps
+              overflowWrap: "break-word", // Breaks words to prevent overflow
+              textAlign: hideLandingPage ? "center" : "left",
+            }}
+            level={5}
+          >
+            {test.subtitle}
+          </Title>
+        </Col>
+      </>
 
       <Col span={24}>
         <Row
@@ -130,13 +114,6 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
         >
           {!hideLandingPage ? (
             <Col xs={24} sm={24} md={24} lg={16}>
-              {loadingTest ? (
-                <Skeleton
-                  style={{ marginBottom: 30 }}
-                  active
-                  paragraph={{ rows: 1 }}
-                />
-              ) : null}
               <Card style={{ paddingTop: 0 }}>
                 <Row>
                   {test.landingPage?.promoVideo?.url ? (
@@ -150,22 +127,9 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
                     </Col>
                   ) : null}
                   <Col span={24}>
-                    {loadingTest ? (
-                      <Row>
-                        <Col span={24}>
-                          {/* <Skeleton active paragraph={{ rows: 1 }} /> */}
-                          <SkeletonImage
-                            active
-                            style={{ flex: 1, height: 400 }}
-                          />
-                          <Skeleton active paragraph={{ rows: 20 }} />
-                        </Col>
-                      </Row>
-                    ) : (
-                      <Paragraph style={{ fontSize: 16 }}>
-                        <HtmlViewer content={test.landingPage.description} />
-                      </Paragraph>
-                    )}
+                    <Paragraph style={{ fontSize: 16 }}>
+                      <HtmlViewer content={test.landingPage.description} />
+                    </Paragraph>
                   </Col>
                 </Row>
               </Card>
@@ -192,7 +156,7 @@ const TestCard = ({
   plan: Types.Plan;
   children?: React.ReactNode;
 }) => {
-  const product = { type: "test", id: testId };
+  const product = { type: Enum.ProductType.TEST, id: testId };
   const navigate = useNavigate();
   const {
     data: { wallet },
