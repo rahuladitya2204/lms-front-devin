@@ -15,14 +15,14 @@ import {
 } from "@Lib/index";
 import { AlertOutlined, UserOutlined } from "@ant-design/icons";
 import { Constants, Enum, Store, Types, Utils } from "@adewaskar/lms-common";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "@Router/index";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import Image from "@Components/Image";
 import { Learner } from "@adewaskar/lms-common";
 import LearnerLogin from "@Learner/Screens/Login";
-import PackageDetails from "./PackageDetails";
+import PackageDetailsTabs from "./PackageDetailTabs";
 import PackageMetadata from "./PackageMetadata";
 import PriceCardContent from "@Learner/Screens/StoreScreen/Cards/PriceCardContent";
 import ProductCheckoutButton from "@Components/CheckoutButton";
@@ -35,6 +35,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import PackageDetailViewerSkeleton from "./PackageDetailSkeleton";
+import { Outlet } from "react-router";
 
 const { UnitTypeToStr } = Utils;
 
@@ -75,6 +76,7 @@ const PackageSubTitle = styled(Paragraph)`
 
 interface PackageDetailViewerPropsI {
   isServer?: boolean;
+  children?: React.ReactNode;
 }
 
 function PackageDetailViewer(props: PackageDetailViewerPropsI) {
@@ -120,10 +122,12 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
               <Row>
                 <Col style={{ marginTop: 15 }} span={24}>
                   <Card bodyStyle={{ paddingTop: 25 }}>
-                    <PackageDetails
-                      isServer={props.isServer}
-                      id={packageId + ""}
-                    />
+                    {props.isServer ? (
+                      props.children
+                    ) : (
+                      // <ProductCategoryTabs id={productCategoryId + ""} />
+                      <Outlet />
+                    )}
                   </Card>
                 </Col>
               </Row>

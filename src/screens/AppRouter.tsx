@@ -131,6 +131,7 @@ import { useEffect } from "react";
 import { useNavigate } from "@Router/index";
 import RoutingContext from "./RoutingContext";
 import ProductCategoryTabs from "./post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
+import PackageDetailsTabs from "./post-authentication/Learner/Screens/Products/Package/PackageDetailsViewer/PackageDetailTabs";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -163,7 +164,9 @@ const router = (userType: string) => {
                 </Route>
                 <Route path="package">
                   {/* <Route path="" element={<LearnerCourses />} /> */}
-                  <Route path=":id" element={<PackageDetailViewer />} />
+                  <Route path=":id" element={<PackageDetailViewer />}>
+                    <Route path=":type" element={<PackageDetailsTabs />} />
+                  </Route>
                   <Route
                     path=":packageId/enrolled-package"
                     element={<EnrolledPackageDetailScreen />}
