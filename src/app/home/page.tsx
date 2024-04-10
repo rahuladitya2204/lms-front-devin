@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import HomeScreenSkeleton from "@Screens/post-authentication/Learner/Screens/StoreScreen/HomeScreen/HomeScreenSkeleton";
 import LearnerRootScreenSkeleton from "@Screens/post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreenSkeleton";
 import Providers from "app/providers";
+import { HeadTag } from "./head";
 
 export default function Page() {
   const {
@@ -28,9 +29,11 @@ export default function Page() {
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <LearnerRootScreen isServer>
-        <LearnerHomeScreen isServer />
-      </LearnerRootScreen>
+      <HeadTag>
+        <LearnerRootScreen isServer>
+          <LearnerHomeScreen isServer />
+        </LearnerRootScreen>
+      </HeadTag>
     </Hydrator>
   );
 }

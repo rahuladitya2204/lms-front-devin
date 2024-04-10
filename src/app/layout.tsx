@@ -29,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
+      <head>
         <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
@@ -40,7 +40,7 @@ export default function RootLayout({
           name="google-site-verification"
           content="SUaj-1D8lg5cN2bnBBCXbO_Op5Bfyv49Q7VbpyXH8Fg"
         />
-      </Head>
+      </head>
       <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <Providers>{children}</Providers>
