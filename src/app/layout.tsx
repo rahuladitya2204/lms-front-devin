@@ -39,11 +39,6 @@ export default function RootLayout({
           name="google-site-verification"
           content="SUaj-1D8lg5cN2bnBBCXbO_Op5Bfyv49Q7VbpyXH8Fg"
         />
-
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-09G526DHYD"
-          strategy="lazyOnload"
-        />
       </Head>
       <Script id="google-analytics" strategy="lazyOnload">
         {`
@@ -53,6 +48,10 @@ export default function RootLayout({
             gtag('config', 'G-09G526DHYD');
           `}
       </Script>
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-09G526DHYD"
+        strategy="lazyOnload"
+      />
       <body>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <Providers>{children}</Providers>
