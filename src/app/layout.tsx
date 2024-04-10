@@ -9,6 +9,7 @@ import Script from "next/script";
 import Providers from "./providers";
 import axios from "axios";
 import { Utils } from "@adewaskar/lms-common";
+import { getCookie, getServerCookie } from "@ServerUtils/index";
 
 export const viewport: Viewport = {
   themeColor: "black",
@@ -22,23 +23,40 @@ export async function generateMetadata(
   },
   parent?: () => Promise<Metadata>
 ): Promise<Metadata> {
-  const alias = Utils.Storage.GetItem("orgAlias");
-  console.log(alias, "qqqq");
-  const apiUrl = process.env.API_URL;
-  // Fetch metadata from an API
-  const { data: organisation } = await axios(`${apiUrl}/learner/organisation`, {
-    headers: {
-      "x-org-alias": alias,
-    },
-  });
-  console.log(organisation, "organisation");
+  const alias = getCookie("orgAlias")?.split("-")[0];
+  const userType = getCookie("userType");
+  if (alias && userType) {
+    const apiUrl = process.env.API_URL;
+    // Fetch metadata from an API
+    const { data: organisation } = await axios(
+      `${apiUrl}/${userType}/organisation`,
+      {
+        headers: {
+          "x-org-alias": alias,
+        },
+      }
+    );
+    console.log(organisation, "organisation");
+    return {
+      title: organisation.name,
+      description: organisation.description,
+      icons: {
+        icon: organisation.branding.logo.low.url,
+        apple: organisation.branding.logo.low.url,
+      },
+      manifest: "/manifest.json",
+      // Add other metadata properties from the API response
+    };
+  }
+
+  // console.log(organisation, "organisation");
   return {
-    title: organisation.name,
-    description: organisation.description,
-    icons: {
-      icon: organisation.branding.logo.low.url,
-      apple: organisation.branding.logo.low.url,
-    },
+    title: "Testmint",
+    description: `Testmint`,
+    // icons: {
+    //   icon: organisation.branding.logo.low.url,
+    //   apple: organisation.branding.logo.low.url,
+    // },
     manifest: "/manifest.json",
     // Add other metadata properties from the API response
   };

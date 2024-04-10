@@ -58,7 +58,7 @@ function ThemeProvider(props: any) {
           )}
         </ModalProvider>
       </ConfigProvider>
-      <ApplyFavicon shortName={shortName} faviconUrl={branding.favIcon.url} />
+      {/* <ApplyFavicon shortName={shortName} faviconUrl={branding.favIcon.url} /> */}
     </>
   );
 }
