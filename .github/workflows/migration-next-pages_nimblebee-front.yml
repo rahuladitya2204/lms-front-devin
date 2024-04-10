@@ -27,7 +27,7 @@ jobs:
 
       - name: Build image
         run: |
-          yarn --frozen-lockfile
+          yarn install
           yarn build
 
       # Zip files without retaining the parent directory paths but retains the children directory structure.
