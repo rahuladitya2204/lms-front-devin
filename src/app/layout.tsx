@@ -7,20 +7,42 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
 import Providers from "./providers";
+import axios from "axios";
+import { Utils } from "@adewaskar/lms-common";
 
 export const viewport: Viewport = {
   themeColor: "black",
 };
 
-export const metadata: Metadata = {
-  title: "Testmint",
-  description: "Testmint",
-  icons: {
-    icon: "/logo192.png",
-    apple: "/logo192.png",
+export async function generateMetadata(
+  req: {
+    params: any;
+    searchParams: any;
+    headers: Headers;
   },
-  manifest: "/manifest.json",
-};
+  parent?: () => Promise<Metadata>
+): Promise<Metadata> {
+  const alias = Utils.Storage.GetItem("orgAlias");
+  console.log(alias, "qqqq");
+  const apiUrl = process.env.API_URL;
+  // Fetch metadata from an API
+  const { data: organisation } = await axios(`${apiUrl}/learner/organisation`, {
+    headers: {
+      "x-org-alias": alias,
+    },
+  });
+  console.log(organisation, "organisation");
+  return {
+    title: organisation.name,
+    description: organisation.description,
+    icons: {
+      icon: organisation.branding.logo.low.url,
+      apple: organisation.branding.logo.low.url,
+    },
+    manifest: "/manifest.json",
+    // Add other metadata properties from the API response
+  };
+}
 
 export default function RootLayout({
   children,
