@@ -29,8 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/manifest.json" />
+      <Head>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Jost&display=swap"
@@ -40,23 +39,24 @@ export default function RootLayout({
           name="google-site-verification"
           content="SUaj-1D8lg5cN2bnBBCXbO_Op5Bfyv49Q7VbpyXH8Fg"
         />
-      </head>
-      <body>
-        <noscript>You need to enable JavaScript to run this app.</noscript>
-        <Providers>{children}</Providers>
-      </body>
-      <Script
-        src="https://www.googletagmanager.com/gtag/js?id=G-09G526DHYD"
-        strategy="afterInteractive"
-      />
-      <Script id="google-analytics" strategy="afterInteractive">
-        {`
+
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-09G526DHYD"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){window.dataLayer.push(arguments);}
             gtag('js', new Date());
             gtag('config', 'G-09G526DHYD');
           `}
-      </Script>
+        </Script>
+      </Head>
+      <body>
+        <noscript>You need to enable JavaScript to run this app.</noscript>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
