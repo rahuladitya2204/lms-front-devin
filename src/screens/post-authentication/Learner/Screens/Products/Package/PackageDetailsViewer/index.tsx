@@ -119,10 +119,10 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
 
               <Row>
                 <Col style={{ marginTop: 15 }} span={24}>
-                  <Card bodyStyle={{ paddingTop: 5 }}>
+                  <Card bodyStyle={{ paddingTop: 25 }}>
                     <PackageDetails
                       isServer={props.isServer}
-                      package={bundle}
+                      id={packageId + ""}
                     />
                   </Card>
                 </Col>
