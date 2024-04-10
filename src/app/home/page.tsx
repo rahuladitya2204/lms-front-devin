@@ -3,10 +3,6 @@ import Hydrator from "@ServerComponents/Hydrator";
 import { Learner } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
-import { Suspense } from "react";
-import HomeScreenSkeleton from "@Screens/post-authentication/Learner/Screens/StoreScreen/HomeScreen/HomeScreenSkeleton";
-import LearnerRootScreenSkeleton from "@Screens/post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreenSkeleton";
-import Providers from "app/providers";
 import { HeadTag } from "./head";
 
 export default function Page() {

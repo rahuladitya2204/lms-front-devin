@@ -15,7 +15,6 @@ export const HeadTag = (props: HeadTagPropsI) => {
   const url = `https://${organisation.alias}.testmint.ai/home`;
   return (
     <>
-      {" "}
       <Head>
         {/* Title */}
         <title>{organisation.name}</title>
