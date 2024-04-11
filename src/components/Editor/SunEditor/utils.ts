@@ -1,4 +1,4 @@
-import { TopicNode } from '@User/Screens/AssetLibrary/Topics/TopicsScreen'
+import { TopicNode } from '@User/Screens/Admin/Topics/TopicsScreen'
 import { Types } from '@adewaskar/lms-common'
 import katex, { KatexOptions } from 'katex'
 export function convertLatexToMathML(

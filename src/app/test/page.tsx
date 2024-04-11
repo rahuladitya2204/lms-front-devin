@@ -4,6 +4,10 @@ import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
 import LearnerTestScreen from "@Learner/Screens/Products/Test/TestScreen/TestsScreen";
 
+import { generateMetadata as GenerateMetadata } from "./[testId]/page";
+
+export const generateMetadata = GenerateMetadata;
+
 export default function Page({ params }: { params: { testId: string } }) {
   const {
     // getEnrolledProductList,

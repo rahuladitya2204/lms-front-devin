@@ -16,15 +16,12 @@ export const viewport: Viewport = {
 };
 
 export async function generateMetadata(
-  req: {
-    params: any;
-    searchParams: any;
-    headers: Headers;
-  },
+  req: { params: any; searchParams: any; headers: Headers },
   parent?: () => Promise<Metadata>
 ): Promise<Metadata> {
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
+
   if (alias && userType) {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
@@ -36,29 +33,96 @@ export async function generateMetadata(
         },
       }
     );
-    console.log(organisation, "organisation");
+
+    const url = `https://${organisation.alias}.testmint.ai/home`;
+
     return {
-      title: organisation.name,
+      title: `${organisation.name} | ${organisation.description}`,
       description: organisation.description,
       icons: {
-        icon: organisation.branding.logo.low.url,
-        apple: organisation.branding.logo.low.url,
+        icon: organisation.branding.favIcon.url,
+        apple: organisation.branding.favIcon.url,
       },
+      viewport: "width=device-width, initial-scale=1",
+      themeColor: "#ffffff",
       manifest: "/manifest.json",
-      // Add other metadata properties from the API response
+      openGraph: {
+        title: organisation.name,
+        description: organisation.description,
+        type: "website",
+        url: url,
+        images: [
+          {
+            url: organisation.branding.logo.low.url,
+            width: 800,
+            height: 600,
+            alt: organisation.name,
+          },
+        ],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: organisation.name,
+        description: organisation.name,
+        images: [organisation.branding.logo.low.url],
+      },
+      alternates: {
+        canonical: url,
+      },
+      other: {
+        "application/ld+json": JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: organisation.name,
+          description: organisation.name,
+          url: url,
+        }),
+      },
     };
   }
 
-  // console.log(organisation, "organisation");
   return {
     title: "Testmint",
-    description: `Testmint`,
-    // icons: {
-    //   icon: organisation.branding.logo.low.url,
-    //   apple: organisation.branding.logo.low.url,
-    // },
+    description: "Testmint",
+    icons: {
+      icon: "/favicon.ico",
+      apple: "/apple-touch-icon.png",
+    },
+    viewport: "width=device-width, initial-scale=1",
+    themeColor: "#ffffff",
     manifest: "/manifest.json",
-    // Add other metadata properties from the API response
+    openGraph: {
+      title: "Testmint",
+      description: "Testmint",
+      type: "website",
+      url: "https://testmint.ai",
+      images: [
+        {
+          url: "/og-image.png",
+          width: 800,
+          height: 600,
+          alt: "Testmint",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Testmint",
+      description: "Testmint",
+      images: ["/twitter-image.png"],
+    },
+    alternates: {
+      canonical: "https://testmint.ai",
+    },
+    other: {
+      "application/ld+json": {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: "Testmint",
+        description: "Testmint",
+        url: "https://testmint.ai",
+      },
+    },
   };
 }
 
@@ -69,7 +133,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
+      {/* <Head>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
         <link
           href="https://fonts.googleapis.com/css2?family=Jost&display=swap"
@@ -79,7 +143,7 @@ export default function RootLayout({
           name="google-site-verification"
           content="SUaj-1D8lg5cN2bnBBCXbO_Op5Bfyv49Q7VbpyXH8Fg"
         />
-      </Head>
+      </Head> */}
       <Script id="google-analytics" strategy="lazyOnload">
         {`
             window.dataLayer = window.dataLayer || [];

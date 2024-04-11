@@ -17,7 +17,7 @@ import { useEffect, useMemo } from "react";
 import Image from "@Components/Image";
 import MediaUpload from "@Components/MediaUpload";
 import SelectProductCategory from "@Components/SelectProductCategory";
-import { TopicNode } from "@User/Screens/AssetLibrary/Topics/TopicsScreen";
+import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import dayjs from "dayjs";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useParams } from "@Router/index";

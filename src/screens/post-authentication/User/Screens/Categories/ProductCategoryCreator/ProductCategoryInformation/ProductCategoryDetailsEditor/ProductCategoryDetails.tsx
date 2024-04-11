@@ -21,7 +21,7 @@ import { PlusOutlined } from "@ant-design/icons";
 import SelectProductCategory from "@Components/SelectProductCategory";
 import TextArea from "@Components/Textarea";
 import { Title } from "@Components/Typography/Typography";
-import { TopicNode } from "@User/Screens/AssetLibrary/Topics/TopicsScreen";
+import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import { Typography } from "@Components/Typography";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useParams } from "@Router/index";
