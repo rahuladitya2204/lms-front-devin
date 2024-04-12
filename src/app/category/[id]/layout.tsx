@@ -3,7 +3,6 @@ import { Learner } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import ProductCategoryDetailScreen from "@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 import { getToken } from "@Network/index";
-import { HeadTag } from "./head";
 
 export default function Page({
   params,
@@ -32,11 +31,9 @@ export default function Page({
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <HeadTag id={params.id}>
-        <LearnerRootScreen isServer>
-          <ProductCategoryDetailScreen children={children} isServer />
-        </LearnerRootScreen>
-      </HeadTag>
+      <LearnerRootScreen isServer>
+        <ProductCategoryDetailScreen children={children} isServer />
+      </LearnerRootScreen>
     </Hydrator>
   );
 }

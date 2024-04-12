@@ -3,7 +3,7 @@ import { Learner, Types } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
 import TestDetailScreen from "@Learner/Screens/Products/Test/TestDetail/TestDetail";
-import { HeadTag } from "./head";
+
 import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
 import axios from "axios";
@@ -151,11 +151,9 @@ export default function Page({ params }: { params: { testId: string } }) {
           : []),
       ]}
     >
-      <HeadTag id={params.testId}>
-        <LearnerRootScreen isServer>
-          <TestDetailScreen />
-        </LearnerRootScreen>
-      </HeadTag>
+      <LearnerRootScreen isServer>
+        <TestDetailScreen />
+      </LearnerRootScreen>
     </Hydrator>
   );
 }
