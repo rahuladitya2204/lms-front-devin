@@ -24,7 +24,7 @@ export default function LearnerFooter() {
     >
       <Divider style={{ marginBottom: 15 }} />
       <Row justify={"space-between"}>
-        <Col>
+        {/* <Col>
           <LinkOutlined />
           <Text
             onClick={() => window.open("/app/policies")}
@@ -33,7 +33,7 @@ export default function LearnerFooter() {
           >
             View Policies
           </Text>
-        </Col>
+        </Col> */}
         <Col
           // span={24}
           style={{
@@ -53,7 +53,7 @@ export default function LearnerFooter() {
           ) : (
             <Fragment>
               <OrgLogo width={25} />
-              <Text style={{ marginLeft: 10 }} strong>
+              <Text style={{ marginLeft: 5 }} strong>
                 {organisation.shortName}
                 {/* Created by AD */}
               </Text>

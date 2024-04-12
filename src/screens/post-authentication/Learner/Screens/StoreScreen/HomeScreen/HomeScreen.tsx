@@ -59,7 +59,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
               style={{ marginBottom: 20, textAlign: "center", fontSize: 28 }}
               level={isMobile ? 2 : 1}
             >
-              One Destination for Complete Exam Preparation
+              Popular Exams
             </Title>
             <Row gutter={[30, 20]}>
               {categories.map((cat, index) => {
