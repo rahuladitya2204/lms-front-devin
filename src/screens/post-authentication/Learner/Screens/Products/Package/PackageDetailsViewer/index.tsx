@@ -89,7 +89,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
     });
 
   useEffect(() => {
-    if (!type) {
+    if (!type && !props.isServer) {
       navigate(`/app/package/${packageId}/overview`);
     }
   }, [type]);

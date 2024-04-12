@@ -89,7 +89,7 @@ export default function ProductCategoryDetailScreen(
   );
   console.log(productCategoryId, type, "productCategoryId");
   useEffect(() => {
-    if (!type) {
+    if (!type && !props.isServer) {
       navigate(`/app/category/${productCategoryId}/overview`);
     }
   }, [type]);
