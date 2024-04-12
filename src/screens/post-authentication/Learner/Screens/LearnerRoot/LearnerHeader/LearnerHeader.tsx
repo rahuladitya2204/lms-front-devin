@@ -88,7 +88,7 @@ const LearnerHeaderClient = ({
       (i) => i.enrolledProduct.type === "course"
     ),
   };
-  console.log(enrolledProducts.test, "kya baat hai");
+  // console.log(enrolledProducts.test, "kya baat hai");
   const {
     data: { items },
   } = Learner.Queries.useGetCartDetails();
