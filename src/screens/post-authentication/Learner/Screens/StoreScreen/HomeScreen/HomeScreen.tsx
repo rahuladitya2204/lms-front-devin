@@ -2,7 +2,7 @@
 import { Col, Divider, Row } from "@Lib/index";
 import { Learner } from "@adewaskar/lms-common";
 
-import BGImage from "./image.svg";
+import BGImage from "./image.png";
 import Image from "@Components/Image";
 import ProductCategoryCard from "../Cards/ProductCategoryCard";
 import { Skeleton } from "@Lib/index";
@@ -39,13 +39,17 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                     <br /> Complete Exam Preparation
                   </Title>
                   <Paragraph style={{ fontSize: 20 }}>
-                    🚀 Start your preparation for selections. For Free!
+                    🚀 Start your preparation today!
                   </Paragraph>
                   {/* <SearchLearnerCourses /> */}
                 </Col>
                 <Col span={12}>
                   {/* <Calendar fullscreen={false} /> */}
-                  <Image preview={false} src={BGImage.src} />
+                  <Image
+                    style={{ maxWidth: "32rem" }}
+                    preview={false}
+                    src={BGImage.src}
+                  />
                 </Col>
               </Row>
             </Col>

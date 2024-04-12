@@ -1,36 +1,34 @@
-import { Col, Divider, Row, Skeleton, theme } from 'antd'
-import { Common, Learner } from '@adewaskar/lms-common'
+import { Col, Divider, Row, Skeleton, theme } from "antd";
+import { Common, Learner } from "@adewaskar/lms-common";
 
-import { Footer } from '@Components/Layout'
-import { Fragment } from 'react'
-import { LinkOutlined } from '@ant-design/icons'
-import OrgLogo from '@Components/OrgLogo'
-import { Typography } from '@Components/Typography'
+import { Footer } from "@Components/Layout";
+import { Fragment } from "react";
+import { LinkOutlined } from "@ant-design/icons";
+import OrgLogo from "@Components/OrgLogo";
+import { Typography } from "@Components/Typography";
 
-const { Text } = Typography
+const { Text } = Typography;
 
-export default function LearnerFooter () {
-  const {
-    data: organisation,
-    isLoading: loading
-  } = Learner.Queries.useGetOrgDetails()
-  const { token } = theme.useToken()
+export default function LearnerFooter() {
+  const { data: organisation, isLoading: loading } =
+    Learner.Queries.useGetOrgDetails();
+  const { token } = theme.useToken();
   return (
     <Footer
       style={{
-        textAlign: 'center',
+        textAlign: "center",
         // backgroundColor: token.colorBgBase,
         marginTop: 20,
-        padding: 15
+        padding: 15,
       }}
     >
       <Divider style={{ marginBottom: 15 }} />
-      <Row justify={'space-between'}>
+      <Row justify={"space-between"}>
         <Col>
           <LinkOutlined />
           <Text
-            onClick={() => window.open('/app/policies')}
-            style={{ marginLeft: 5, cursor: 'pointer' }}
+            onClick={() => window.open("/app/policies")}
+            style={{ marginLeft: 5, cursor: "pointer" }}
             strong
           >
             View Policies
@@ -39,9 +37,9 @@ export default function LearnerFooter () {
         <Col
           // span={24}
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center'
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           {loading ? (
@@ -55,7 +53,7 @@ export default function LearnerFooter () {
           ) : (
             <Fragment>
               <OrgLogo width={25} />
-              <Text style={{ marginLeft: 20 }} strong>
+              <Text style={{ marginLeft: 10 }} strong>
                 {organisation.shortName}
                 {/* Created by AD */}
               </Text>
@@ -67,5 +65,5 @@ export default function LearnerFooter () {
         </Col>
       </Row>
     </Footer>
-  )
+  );
 }
