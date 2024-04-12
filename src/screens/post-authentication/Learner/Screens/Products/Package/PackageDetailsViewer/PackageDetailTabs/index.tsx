@@ -60,7 +60,7 @@ function PackageDetailsTabs(props: PackageDetailsTabsPropsI) {
           </NavLink>
         );
       })}
-      <Divider />
+      <Divider style={{ margin: "5px 0px 0px 0" }} />
       {TABS.find((tab) => tab.key === type)?.children}
     </>
   );

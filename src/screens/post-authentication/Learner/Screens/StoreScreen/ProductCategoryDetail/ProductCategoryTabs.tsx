@@ -105,7 +105,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           </NavLink>
         );
       })}
-      <Divider />
+      <Divider style={{ margin: "5px 0px 0px 0" }} />
       {
         <HtmlViewer
           content={TABS.find((tab) => tab.key === type)?.description + ""}
