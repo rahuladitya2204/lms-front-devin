@@ -374,7 +374,7 @@ const LearnerHeaderClient = ({
       hideBack
       title={
         <Space style={{ cursor: "pointer" }}>
-          <Link to={isServer ? "/home" : "/app/store"}>
+          <Link to={isServer ? "/" : "/app/store"}>
             <OrgLogo showName />
           </Link>
           {!isMobileOrTablet ? (
