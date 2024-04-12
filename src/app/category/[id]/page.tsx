@@ -26,7 +26,7 @@ export default function Page({
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <ProductCategoryTabs type={"overview"} id={params.id} />
+      <ProductCategoryTabs isServer type={"overview"} id={params.id} />
     </Hydrator>
   );
 }

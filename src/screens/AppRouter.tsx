@@ -151,7 +151,10 @@ const router = (userType: string) => {
                   path="category/:id"
                   element={<ProductCategoryDetailScreen />}
                 >
-                  <Route path=":type" element={<ProductCategoryTabs />} />
+                  <Route
+                    path=":type"
+                    element={<ProductCategoryTabs isServer={false} />}
+                  />
                 </Route>
                 {/* <Route path="store" element={<LearnerStoreScreen />} /> */}
                 <Route path="store" element={<LearnerHomeScreen />} />
@@ -165,7 +168,10 @@ const router = (userType: string) => {
                 <Route path="package">
                   {/* <Route path="" element={<LearnerCourses />} /> */}
                   <Route path=":id" element={<PackageDetailViewer />}>
-                    <Route path=":type" element={<PackageDetailsTabs />} />
+                    <Route
+                      path=":type"
+                      element={<PackageDetailsTabs isServer={false} />}
+                    />
                   </Route>
                   <Route
                     path=":packageId/enrolled-package"

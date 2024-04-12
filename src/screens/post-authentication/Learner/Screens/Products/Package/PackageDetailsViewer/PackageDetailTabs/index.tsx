@@ -46,7 +46,7 @@ function PackageDetailsTabs(props: PackageDetailsTabsPropsI) {
             to={
               props.isServer
                 ? `/package/${props.id}/${tab.key}`
-                : `/package/${id}/${tab.key}`
+                : `/app/package/${id}/${tab.key}`
             }
           >
             <Button

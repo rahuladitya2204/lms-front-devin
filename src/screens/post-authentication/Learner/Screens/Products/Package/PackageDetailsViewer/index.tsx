@@ -80,12 +80,19 @@ interface PackageDetailViewerPropsI {
 }
 
 function PackageDetailViewer(props: PackageDetailViewerPropsI) {
-  const { id: packageId } = useParams();
+  const { id: packageId, type } = useParams();
+  const navigate = useNavigate();
   // const loadingPackage = true;
   const { data: bundle, isFetching: loadingPackage } =
     Learner.Queries.useGetPackageDetails(packageId + "", {
       enabled: !!packageId,
     });
+
+  useEffect(() => {
+    if (!type) {
+      navigate(`/app/package/${packageId}/overview`);
+    }
+  }, [type]);
   const plan =
     (bundle.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;

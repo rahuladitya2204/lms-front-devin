@@ -34,9 +34,9 @@ import {
   User,
   Utils,
 } from "@adewaskar/lms-common";
-import React, { Fragment, useMemo } from "react";
+import React, { Fragment, useEffect, useMemo } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
-import { useParams } from "@Router/index";
+import { useNavigate, useParams } from "@Router/index";
 
 import ActionDrawer from "@Components/ActionDrawer";
 import ActionModal from "@Components/ActionModal/ActionModal";
@@ -75,7 +75,8 @@ interface ProductCategoryDetailScreenPropsI {
 export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
-  const { id: productCategoryId } = useParams();
+  const navigate = useNavigate();
+  const { id: productCategoryId, type } = useParams();
   const { isMobile, width } = useBreakpoint();
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
@@ -86,6 +87,12 @@ export default function ProductCategoryDetailScreen(
       enabled: !!productCategory._id,
     }
   );
+  console.log(productCategoryId, type, "productCategoryId");
+  useEffect(() => {
+    if (!type) {
+      navigate(`/app/category/${productCategoryId}/overview`);
+    }
+  }, [type]);
 
   const Metadata = (
     <ProductCategoryMetadata productCategory={productCategory} />
