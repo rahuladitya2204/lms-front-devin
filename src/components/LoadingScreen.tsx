@@ -1,7 +1,8 @@
-import { Space, Spin } from 'antd'
+"use client";
+import { Space, Spin } from "antd";
 
-import FullPageHolder from 'screens/FullPageHeader'
-import OrgLogo from './OrgLogo'
+import FullPageHolder from "screens/FullPageHeader";
+import OrgLogo from "./OrgLogo";
 
 function LoadingScreen(props: any) {
   return (
@@ -9,12 +10,12 @@ function LoadingScreen(props: any) {
       <Space
         align="center"
         style={{
-          display: 'flex',
+          display: "flex",
           flex: 1,
-          width: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-          height: '100vh'
+          width: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
         }}
       >
         <Space align="center">
@@ -23,7 +24,7 @@ function LoadingScreen(props: any) {
         </Space>
       </Space>
     </FullPageHolder>
-  )
+  );
 }
 
-export default LoadingScreen
+export default LoadingScreen;
