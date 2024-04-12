@@ -3,6 +3,7 @@ import { Learner } from "@adewaskar/lms-common";
 import PackageDetailsTabs from "@Screens/post-authentication/Learner/Screens/Products/Package/PackageDetailsViewer/PackageDetailTabs";
 
 import { generateMetadata as GenerateMetadata } from "./[type]/page";
+import { getToken } from "@Network/index";
 
 export const generateMetadata = GenerateMetadata;
 
@@ -11,17 +12,21 @@ export default function Page({
 }: {
   params: { type: string; id: string };
 }) {
-  const { getProductCategoryDetails, getPackages } =
-    Learner.Queries.Definitions;
+  const {
+    getProductCategoryDetails,
+    getPackages,
+    getLearnerDetails,
+    getPackageDetails,
+  } = Learner.Queries.Definitions;
+  const token = getToken();
   return (
     // @ts-ignore
     <Hydrator
       queries={[
-        getProductCategoryDetails(params.id),
-        getPackages(params.id),
+        getPackageDetails(params.id),
         // getOrgDetails(),
         // // authenticated routes should only be called if token is present
-        // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
+        ...(token ? [getLearnerDetails()] : []),
       ]}
     >
       <PackageDetailsTabs isServer type={"overview"} id={params.id} />

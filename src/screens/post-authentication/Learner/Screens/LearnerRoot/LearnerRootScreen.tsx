@@ -11,7 +11,7 @@ import CreateTicket from "../Tickets/CreateTicket";
 import { CustomerServiceOutlined } from "@ant-design/icons";
 import Layout from "@Components/Layout";
 import LearnerFooter from "./LearnerFooter";
-import LearnerHeader from "./LearnerHeader/LearnerHeaderClient";
+import LearnerHeader from "./LearnerHeader/LearnerHeader";
 import LearnerProfile from "../Account/LearnerProfile";
 import ThemeProvider from "screens/ThemeProvider";
 import { Typography } from "@Components/Typography";
@@ -19,7 +19,7 @@ import { useBlockBackButton } from "@User/Screens/Event/LiveSessionPlayer/User/h
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useDehydration from "@ServerHooks/useDehydration";
 // import LearnerHeaderServer from "./LearnerHeader/LearnerHeaderServer";
-import LearnerHeaderClient from "./LearnerHeader/LearnerHeaderClient";
+import LearnerHeaderClient from "./LearnerHeader/LearnerHeader";
 import { getIsServer } from "@ServerUtils/index";
 
 const { Title } = Typography;

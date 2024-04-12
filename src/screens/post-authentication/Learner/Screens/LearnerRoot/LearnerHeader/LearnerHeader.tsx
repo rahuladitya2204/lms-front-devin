@@ -88,7 +88,7 @@ const LearnerHeaderClient = ({
       (i) => i.enrolledProduct.type === "course"
     ),
   };
-
+  console.log(enrolledProducts.test, "kya baat hai");
   const {
     data: { items },
   } = Learner.Queries.useGetCartDetails();
@@ -218,6 +218,7 @@ const LearnerHeaderClient = ({
           ) : (
             menuItems.map((item, index) => (
               <NavLink
+                anchor={isServer}
                 key={index}
                 to={`/app/${item.key}`}
                 style={{ margin: "0 5px" }}

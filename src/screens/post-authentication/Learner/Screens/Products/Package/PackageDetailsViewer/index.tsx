@@ -119,7 +119,11 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
                 <Col span={24}>
                   <Row gutter={[30, 30]}>
                     <Col xs={24} lg={0}>
-                      <PackageCard plan={plan} packageId={packageId + ""} />
+                      <PackageCard
+                        isServer={!!props.isServer}
+                        plan={plan}
+                        packageId={packageId + ""}
+                      />
                     </Col>
                     <Col></Col>
                   </Row>
@@ -142,7 +146,11 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
               {/* </Card> */}
             </Col>
             <Col xs={0} sm={0} md={0} lg={8}>
-              <PackageCard plan={plan} packageId={packageId + ""}>
+              <PackageCard
+                isServer={!!props.isServer}
+                plan={plan}
+                packageId={packageId + ""}
+              >
                 <PackageMetadata package={bundle} />
               </PackageCard>
             </Col>
@@ -158,9 +166,11 @@ export default PackageDetailViewer;
 const PackageCard = ({
   packageId,
   plan,
+  isServer,
   children,
 }: {
   packageId: string;
+  isServer: boolean;
   plan: Types.Plan;
   children?: React.ReactNode;
 }) => {
@@ -225,7 +235,7 @@ const PackageCard = ({
                   <Col span={24}>
                     {isEnrolled ? (
                       <Link
-                        anchor
+                        anchor={isServer}
                         to={`/app/package/${packageId}/enrolled-package`}
                       >
                         <Button

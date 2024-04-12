@@ -19,6 +19,7 @@ import {
   useLocation as useReactRouterLocation,
   NavLink as ReactRouterNavLink,
 } from "react-router-dom";
+import { usePathname } from "next/navigation";
 
 export const useParams = () => {
   const isInRouterContext = useInRouterContext();
@@ -77,7 +78,18 @@ export const Link = (props: any) => {
 };
 
 export const NavLink = (props: any) => {
+  const pathname = usePathname();
+  // console.log(pathname, "pathname");
   const isInRouterContext = useInRouterContext();
+  if (props.anchor) {
+    return (
+      <a href={props.to}>
+        {typeof props.children === "function"
+          ? props.children({ isActive: pathname === props.to })
+          : props.children}
+      </a>
+    );
+  }
   return isInRouterContext ? (
     // @ts-ignore
     <ReactRouterNavLink {...props} />

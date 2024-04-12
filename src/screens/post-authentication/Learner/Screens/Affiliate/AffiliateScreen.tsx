@@ -18,7 +18,7 @@ import AffiliateForm from "./AffiliateForm";
 import AffiliateProducts from "./AffiliateProducts";
 import CoinImage from "../Account/LearnerWallet/CoinImage";
 import Header from "@Components/Header";
-import LearnerHeader from "../LearnerRoot/LearnerHeader/LearnerHeaderClient";
+import LearnerHeader from "../LearnerRoot/LearnerHeader/LearnerHeader";
 import Tabs from "@Components/Tabs";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";

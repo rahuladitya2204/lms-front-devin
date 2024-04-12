@@ -127,7 +127,8 @@ export default function Page({
 }: {
   params: { type: string; id: string };
 }) {
-  const { getPackageDetails } = Learner.Queries.Definitions;
+  const token = getToken();
+  const { getPackageDetails, getLearnerDetails } = Learner.Queries.Definitions;
   return (
     // @ts-ignore
     <Hydrator
@@ -136,7 +137,7 @@ export default function Page({
         // getPackages(params.id),
         // getOrgDetails(),
         // // authenticated routes should only be called if token is present
-        // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
+        ...(token ? [getLearnerDetails()] : []),
       ]}
     >
       <PackageDetailsTabs isServer type={params.type} id={params.id} />

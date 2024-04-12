@@ -38,7 +38,7 @@ function PackageProducts(props: PackageProductsPropsI) {
                   const productTitle = capitalize(key);
                   // @ts-ignore
                   const products = bundle.products[key];
-                  console.log(products, "productsproducts");
+                  // console.log(products, "productsproducts");
                   return (
                     <Panel
                       extra={

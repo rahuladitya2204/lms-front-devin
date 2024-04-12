@@ -19,7 +19,7 @@ import CreateTicket from "../Tickets/CreateTicket";
 import { CustomerServiceOutlined } from "@ant-design/icons";
 import Layout, { Content } from "@Components/Layout";
 import LearnerFooter from "./LearnerFooter";
-import LearnerHeader from "./LearnerHeader/LearnerHeaderClient";
+import LearnerHeader from "./LearnerHeader/LearnerHeader";
 import LearnerProfile from "../Account/LearnerProfile";
 import ThemeProvider from "screens/ThemeProvider";
 import { Typography } from "@Components/Typography";
