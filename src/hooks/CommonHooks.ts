@@ -1,6 +1,6 @@
 import { Common, Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { createSearchParams, useOutletContext } from 'react-router-dom'
-import { useNavigate, useParams } from '@Router/index';
+import { useNavigate, useParams } from '@Router/next';
 import { useEffect, useMemo, useState } from 'react'
 
 import { usePushNotification } from 'push-notification/usePushNotification';
