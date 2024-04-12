@@ -273,7 +273,7 @@ export function compressImage(file: File, options?: Partial<Compressor.Options>)
     new Compressor(file, {
       quality: 0.6, // Compression quality, 0.6 is 60% quality.
       convertSize: 0, // Images larger than this size in bytes will be converted to JPEG. Set to 0 to convert all images to JPEG.
-      mimeType: 'image/jpeg', // Convert the image to JPEG format.
+      mimeType: file.type.includes('png')?file.type: 'image/jpeg', // Convert the image to JPEG format.
       ...options,
       // @ts-ignore
       success(compressedFile) {
