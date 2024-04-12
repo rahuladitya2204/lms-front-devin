@@ -16,7 +16,7 @@ import {
 import { AlertOutlined, UserOutlined } from "@ant-design/icons";
 import { Constants, Enum, Store, Types, Utils } from "@adewaskar/lms-common";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import Image from "@Components/Image";
@@ -217,18 +217,23 @@ const PackageCard = ({
                 <>
                   <Col span={24}>
                     {isEnrolled ? (
-                      <Button
-                        onClick={() =>
-                          window.open(
-                            `/app/package/${packageId}/enrolled-package`
-                          )
-                        }
-                        size="large"
-                        type="primary"
-                        block
+                      <Link
+                        anchor
+                        to={`/app/package/${packageId}/enrolled-package`}
                       >
-                        Go to Package
-                      </Button>
+                        <Button
+                          // onClick={() =>
+                          //   window.open(
+                          //     `/app/package/${packageId}/enrolled-package`
+                          //   )
+                          // }
+                          size="large"
+                          type="primary"
+                          block
+                        >
+                          Go to Package
+                        </Button>
+                      </Link>
                     ) : (
                       <ProductCheckoutButton
                         onSuccess={() => {

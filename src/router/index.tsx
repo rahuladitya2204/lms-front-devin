@@ -64,6 +64,9 @@ export const useLocation = () => {
 
 export const Link = (props: any) => {
   const isInRouterContext = useInRouterContext();
+  if (props.anchor) {
+    return <a href={props.to}>{props.children}</a>;
+  }
   return isInRouterContext ? (
     // @ts-ignore
     <ReactRouterLink {...props} />
