@@ -19,7 +19,7 @@ const EnrolledCourseCard: React.FC<EnrolledCourseCardPropsI> = (props) => {
   return (
     <Row gutter={[20, 20]} align="middle" justify="center">
       <Col span={8}>
-        <Image preview={false} src={course.thumbnailImage} />
+        <Image alt={course.title} preview={false} src={course.thumbnailImage} />
       </Col>
       <Col span={16}>
         <Space direction="vertical">

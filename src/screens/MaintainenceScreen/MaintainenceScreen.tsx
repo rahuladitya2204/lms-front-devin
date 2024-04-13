@@ -1,24 +1,24 @@
-import { Button, Col, Row } from 'antd'
+import { Button, Col, Row } from "antd";
 
-import Image from '@Components/Image'
-import { Typography } from '@Components/Typography'
-import underMaintainenceImg from './image.svg'
+import Image from "@Components/Image";
+import { Typography } from "@Components/Typography";
+import underMaintainenceImg from "./image.svg";
 
-const { Title } = Typography
+const { Title } = Typography;
 
-export default function MaintainenceScreen () {
+export default function MaintainenceScreen() {
   return (
     <div
       style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <Row justify={'center'}>
+      <Row justify={"center"}>
         <Col span={10}>
-          <Image src={underMaintainenceImg.src} />
+          <Image alt="Under Maintenance" src={underMaintainenceImg.src} />
         </Col>
         <Col span={2} />
         <Col span={12}>
@@ -27,10 +27,10 @@ export default function MaintainenceScreen () {
             We'll be back
           </Title>
           <Button type="primary" size="large">
-            Notify me{' '}
+            Notify me{" "}
           </Button>
         </Col>
       </Row>
     </div>
-  )
+  );
 }

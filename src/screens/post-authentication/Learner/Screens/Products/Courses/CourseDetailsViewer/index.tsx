@@ -224,7 +224,12 @@ const CourseCard = ({
         <>
           <Row gutter={[20, 10]}>
             <Col span={24}>
-              <Image width={"100%"} height={200} preview={false} />
+              <Image
+                alt="Loading"
+                width={"100%"}
+                height={200}
+                preview={false}
+              />
             </Col>
             <Col span={24}>
               <Skeleton.Button block />

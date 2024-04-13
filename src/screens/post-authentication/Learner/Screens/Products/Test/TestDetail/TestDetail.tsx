@@ -459,6 +459,7 @@ const TestCard = ({
                 width={"100%"}
                 height={200}
                 preview={false}
+                alt={test.title}
                 src={test.thumbnailImage}
               />
             </Col>

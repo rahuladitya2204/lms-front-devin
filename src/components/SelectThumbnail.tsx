@@ -104,7 +104,13 @@ const SelectThumbnail = (props: SelectThumbnailPropsI) => {
           {thumbnails.map(({ file, url }) => {
             return (
               <Space direction="vertical">
-                <Image preview width={200} height={100} src={url} />
+                <Image
+                  alt="Preview"
+                  preview
+                  width={200}
+                  height={100}
+                  src={url}
+                />
                 <Button size="small" onClick={() => uploadThumbnail(file)}>
                   Select as thumbnail
                 </Button>

@@ -66,7 +66,7 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
           <Col>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Avatar
-                alt="example"
+                alt={productCategory.title}
                 src={productCategory.thumbnailImage}
                 style={{
                   width: 50,

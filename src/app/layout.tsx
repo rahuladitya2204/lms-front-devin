@@ -114,7 +114,7 @@ export async function generateMetadata(
     alternates: {
       canonical: "https://testmint.ai",
     },
-    other: {
+    other: JSON.stringify({
       "application/ld+json": {
         "@context": "https://schema.org",
         "@type": "WebPage",
@@ -122,7 +122,7 @@ export async function generateMetadata(
         description: "Testmint",
         url: "https://testmint.ai",
       },
-    },
+    }),
   };
 }
 
@@ -133,17 +133,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      {/* <Head>
-        <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Jost&display=swap"
-          rel="stylesheet"
-        />
-        <meta
-          name="google-site-verification"
-          content="SUaj-1D8lg5cN2bnBBCXbO_Op5Bfyv49Q7VbpyXH8Fg"
-        />
-      </Head> */}
       <Script id="google-analytics" strategy="lazyOnload">
         {`
             window.dataLayer = window.dataLayer || [];

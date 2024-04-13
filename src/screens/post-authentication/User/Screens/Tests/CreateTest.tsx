@@ -176,7 +176,13 @@ const CreateTest: React.FC<CreateTestComponentPropsI> = (props) => {
                       cropper={{ aspect: 16 / 9 }}
                       width="100%"
                       // height="200px"
-                      renderItem={() => <Image preview={false} src={image} />}
+                      renderItem={() => (
+                        <Image
+                          alt={"Upload Image"}
+                          preview={false}
+                          src={image}
+                        />
+                      )}
                       onUpload={(file) => {
                         console.log(file, "uploaded image!");
                         form.setFieldValue("image", file.url);

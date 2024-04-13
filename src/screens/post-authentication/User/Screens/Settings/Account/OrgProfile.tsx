@@ -85,7 +85,13 @@ export default function OrgProfile() {
                 cropper={{ width: 150, height: 150 }}
                 compress={{ quality: 0.9, maxHeight: 150, height: 150 }}
                 width="100px"
-                renderItem={() => <Image width={"70%"} src={logo?.low?.url} />}
+                renderItem={() => (
+                  <Image
+                    alt={orgSetting.shortName}
+                    width={"70%"}
+                    src={logo?.low?.url}
+                  />
+                )}
                 onUpload={(e) => {
                   console.log(e, "eeee");
                   form.setFieldValue(["branding", "logo", "low", "url"], e.url);

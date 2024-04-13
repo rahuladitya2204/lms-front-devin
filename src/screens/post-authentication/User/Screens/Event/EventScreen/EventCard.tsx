@@ -27,7 +27,11 @@ const EventCardHolder = styled(Card)`
 function EventCard(props: EventCardProps) {
   const navigate = useNavigate();
   const coverImage = (
-    <Image height={200} alt="example" src={props.event.thumbnailImage} />
+    <Image
+      height={200}
+      alt={props.event.title}
+      src={props.event.thumbnailImage}
+    />
   );
 
   const isPublished = props.event.status === Enum.EventStatus.PUBLISHED;

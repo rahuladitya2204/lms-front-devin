@@ -89,7 +89,7 @@ function ProductCategoryDetailsEditor(
           width="200px"
           height="300px"
           prefixKey={`ProductCategorys/${testId}/thumbnailImage`}
-          renderItem={() => <Image preview={false} src={image} />}
+          renderItem={() => <Image alt={testId} preview={false} src={image} />}
           onUpload={(e) => {
             form.setFieldValue(["thumbnailImage"], e.url);
           }}

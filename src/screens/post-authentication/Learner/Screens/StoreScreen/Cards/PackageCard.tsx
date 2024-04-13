@@ -47,7 +47,7 @@ function PackageCard(props: PackageCardPropsI) {
         bodyStyle={{ padding: 15 }}
         cover={
           <Image
-            alt="example"
+            alt={bundle.title}
             style={{ height: 140 }}
             src={bundle.thumbnailImage}
           />

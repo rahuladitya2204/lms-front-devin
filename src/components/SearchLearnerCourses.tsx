@@ -42,7 +42,7 @@ export default function SearchLearnerCourses() {
                 shape="square"
                 style={{ background: "transparent" }}
                 size={45}
-                icon={<Image src={c.thumbnailImage} />}
+                icon={<Image alt={c.title} src={c.thumbnailImage} />}
               />{" "}
               <Space direction="vertical" align="baseline">
                 <Title style={{ margin: 0 }} level={5}>

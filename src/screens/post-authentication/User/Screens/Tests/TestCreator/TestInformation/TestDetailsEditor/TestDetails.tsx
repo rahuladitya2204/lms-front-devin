@@ -108,7 +108,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           width="200px"
           height="300px"
           prefixKey={`Tests/${testId}/thumbnailImage`}
-          renderItem={() => <Image preview={false} src={image} />}
+          renderItem={() => <Image alt={testId} preview={false} src={image} />}
           onUpload={(e) => {
             onValuesChange({ thumbnailImage: e.url });
           }}

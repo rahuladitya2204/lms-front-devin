@@ -36,7 +36,11 @@ export default function NoItemFound(props: NoItemFoundProps) {
         }}
       >
         {/* <Card> */}
-        <Image preview={false} src={"/images/no-item-found.svg"} />
+        <Image
+          alt="Not Found"
+          preview={false}
+          src={"/images/no-item-found.svg"}
+        />
         {/* </Card> */}
       </Col>
     </Row>

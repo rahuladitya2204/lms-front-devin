@@ -217,6 +217,7 @@ const PackageCard = ({
         <Row gutter={[20, 10]}>
           <Col span={24}>
             <Image
+              alt={bundle.title}
               width={"100%"}
               height={200}
               preview={false}

@@ -27,7 +27,12 @@ const TestCardHolder = styled(Card)`
 function TestCard({ test }: TestCardProps) {
   const navigate = useNavigate();
   const ThumbnailImage = (
-    <Image height={200} alt="example" src={test.thumbnailImage} />
+    <Image
+      alt={test.title}
+      height={200}
+      alt="example"
+      src={test.thumbnailImage}
+    />
   );
   return (
     <TestCardHolder

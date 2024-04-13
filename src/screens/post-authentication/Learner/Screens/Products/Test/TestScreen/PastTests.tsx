@@ -97,7 +97,7 @@ const TestCard = ({ test, metadata }: { test: Types.Test; metadata: any }) => {
       onClick={() => {
         navigate(`/app/test/${test?._id}`);
       }}
-      cover={<Image height={200} alt="example" src={test?.thumbnailImage} />}
+      cover={<Image alt={test.title} height={200} src={test?.thumbnailImage} />}
     >
       <Meta
         title={test.title}
