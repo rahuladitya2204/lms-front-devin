@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
 import axios from "axios";
 import TestPublicPlayer from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
+import LearnerFullPageHolder from "@Screens/LearnerFullPageHolder";
 
 export async function generateMetadata(req: {
   params: any;
@@ -150,9 +151,9 @@ export default function Page({
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <LearnerRootScreen isServer>
+      <LearnerFullPageHolder>
         <TestPublicPlayer children={children} />
-      </LearnerRootScreen>
+      </LearnerFullPageHolder>
     </Hydrator>
   );
 }

@@ -106,9 +106,7 @@ export default function TestPublicPlayerItemReiew(
 
   const language = context?.language || props.language || "eng";
   // todo
-  return loadingQuestion ? (
-    <TestItemSkeleton />
-  ) : (
+  return (
     <>
       {!isDesktop ? (
         <Row align={"middle"}>
@@ -284,10 +282,10 @@ export default function TestPublicPlayerItemReiew(
                 ) : (
                   <>
                     {/* {test.input.type === Enum.TestInputType.HANDWRITTEN ?
-                      <TestPublicPlayerFiles review testId={testId + ''} questionId={questionId + ''} /> :
-                      (answerGiven?.subjective?.text) ? <Form.Item label='Answer Given'>
-                      <HtmlViewer content={answerGiven?.subjective?.text} />
-                    </Form.Item>:<Tag color='red' >Not Answered</Tag>}      */}
+                  <TestPublicPlayerFiles review testId={testId + ''} questionId={questionId + ''} /> :
+                  (answerGiven?.subjective?.text) ? <Form.Item label='Answer Given'>
+                  <HtmlViewer content={answerGiven?.subjective?.text} />
+                </Form.Item>:<Tag color='red' >Not Answered</Tag>}      */}
                   </>
                 )}
                 {currentQuestion.type === Enum.TestQuestionType.NUMERIC ? (

@@ -33,6 +33,8 @@ import TestPublicQuestionNavigator from "./PYQTestQuestionNavigator";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { NavLink, useLocation, useNavigate, useParams } from "@Router/index";
+import TestPlayerMoreInfo from "./PYQTestPlayerMoreInfo";
+import TestPlayerSkeleton from "../TestPlayer/TestPlayerSkeleton";
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -42,8 +44,6 @@ interface TestPlayerPropsI {
   publicView?: boolean;
   children?: React.ReactNode;
 }
-
-const { Title, Text } = Typography;
 
 export default function TestPublicPlayer(props: TestPlayerPropsI) {
   const { testId, questionId } = useParams();
@@ -128,7 +128,9 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
         language: lang,
       })
     : null;
-  return (
+  return isLoading ? (
+    <TestPlayerSkeleton />
+  ) : (
     <Header
       title={
         <Space>
@@ -147,22 +149,18 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
         <Col span={22}>
           <Row gutter={[50, 30]}>
             <Col xs={24} lg={isDesktop ? 16 : 24}>
-              {isLoading ? (
-                <TestItemSkeleton />
-              ) : (
-                <Fragment>
-                  {ChildrenWithLanguage ? (
-                    ChildrenWithLanguage
-                  ) : (
-                    <Outlet context={{ language: lang }} />
-                  )}
-                  {/* <TestPlayerMoreInfo
-                    language={lang}
-                    itemId={questionId + ""}
-                    test={test}
-                  /> */}
-                </Fragment>
-              )}
+              <Fragment>
+                {ChildrenWithLanguage ? (
+                  ChildrenWithLanguage
+                ) : (
+                  <Outlet context={{ language: lang }} />
+                )}
+                <TestPlayerMoreInfo
+                  language={lang}
+                  itemId={questionId + ""}
+                  test={test}
+                />
+              </Fragment>
             </Col>
             {isDesktop ? (
               <Col lg={8} md={0}>
