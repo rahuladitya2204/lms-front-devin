@@ -34,7 +34,7 @@ export async function generateMetadata(req: {
     const url = `https://${alias}.testmint.ai/learner/test/${id}`;
 
     return {
-      title: `${test.title} | ${test.subtitle}`,
+      title: `[Solved] ${test.title}`,
       description: test.subtitle,
       // icons: {
       //   icon: test.thumbnailImage,
@@ -44,7 +44,7 @@ export async function generateMetadata(req: {
       themeColor: "#ffffff",
       manifest: "/manifest.json",
       openGraph: {
-        title: test.title,
+        title: `[Solved] ${test.title}`,
         description: test.subtitle,
         type: "website",
         url: url,

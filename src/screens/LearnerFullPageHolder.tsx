@@ -16,37 +16,43 @@ import useDehydration from "@ServerHooks/useDehydration";
 interface LearnerFullPageHolderPropsI {
   children?: React.ReactNode;
   isServer?: boolean;
+  noSignIn?: boolean;
 }
 
 export default function LearnerFullPageHolder(
   props: LearnerFullPageHolderPropsI
 ) {
-  useBlockBackButton();
+  // useBlockBackButton();
   useDehydration();
   const outletcontext = useOutletContext<any>();
   const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
-  // console.log(isSignedIn,'isSignedIn')
+  let Comp: React.ReactNode;
+  if (props.noSignIn) {
+    Comp = props.children;
+  } else {
+    Comp = isSignedIn ? (
+      props.children ? (
+        props.children
+      ) : (
+        <Outlet />
+      )
+    ) : (
+      <Row justify={"center"} align={"middle"}>
+        <Col>
+          <Card style={{ marginTop: 120, width: 300 }}>
+            <LearnerLogin />
+          </Card>
+        </Col>
+      </Row>
+    );
+  }
   return (
     <ThemeProvider showLoadingScreen={outletcontext?.showLoadingScreen}>
       <ModalProvider>
         <Layout
           style={{ minHeight: "100vh", paddingLeft: 10, paddingRight: 10 }}
         >
-          {isSignedIn ? (
-            props.children ? (
-              props.children
-            ) : (
-              <Outlet />
-            )
-          ) : (
-            <Row justify={"center"} align={"middle"}>
-              <Col>
-                <Card style={{ marginTop: 120, width: 300 }}>
-                  <LearnerLogin />
-                </Card>
-              </Col>
-            </Row>
-          )}
+          {Comp}
         </Layout>
       </ModalProvider>
     </ThemeProvider>
