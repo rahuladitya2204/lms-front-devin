@@ -48,6 +48,7 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
   const isServer = props.isServer;
   const CardComponent = (
     <Link
+      title={productCategory.title}
       to={
         // `/category/${productCategory._id}`
         isServer

@@ -156,6 +156,7 @@ const PackageText = ({ id }: { id: string }) => {
     <Skeleton.Button block />
   ) : (
     <Link
+      title={bundle.title}
       onClick={(e) => {
         window.open(`/app/package/${id}/enrolled-package`);
         e.stopPropagation();

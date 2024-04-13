@@ -38,6 +38,7 @@ function PackageCard(props: PackageCardPropsI) {
   const isServer = props.isServer;
   return (
     <Link
+      title={bundle.title}
       to={isServer ? `/package/${bundle._id}` : `/app/package/${bundle._id}`}
     >
       {/* // <Badge.Ribbon text="Best Seller" color="orange"> */}

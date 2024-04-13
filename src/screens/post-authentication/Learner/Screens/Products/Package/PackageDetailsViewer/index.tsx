@@ -235,6 +235,7 @@ const PackageCard = ({
                   <Col span={24}>
                     {isEnrolled ? (
                       <Link
+                        title={bundle.title}
                         anchor={isServer}
                         to={`/app/package/${packageId}/enrolled-package`}
                       >

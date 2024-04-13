@@ -57,7 +57,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
           <Col span={24}>
             <Title
               style={{ marginBottom: 20, textAlign: "center", fontSize: 28 }}
-              level={isMobile ? 2 : 1}
+              level={2}
             >
               Popular Exams
             </Title>
