@@ -12,12 +12,11 @@ import {
   theme,
 } from "antd";
 import { Enum, Learner } from "@adewaskar/lms-common";
-import { useNavigate, useParams } from "react-router";
 
-import { NavLink } from "react-router-dom";
 import { TestNavigatorSkeleton } from "../TestReview/TestItemSkeleton";
 import { Typography } from "@Components/Typography";
 import { useQuestion } from "./PYQTestPlayerItem";
+import { NavLink, useNavigate, useParams } from "@Router/index";
 
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;

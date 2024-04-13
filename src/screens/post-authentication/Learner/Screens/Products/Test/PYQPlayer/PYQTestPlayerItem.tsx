@@ -1,14 +1,8 @@
+"use client";
 import {
   BackwardOutlined,
   CheckCircleTwoTone,
-  CheckOutlined,
-  CloseCircleTwoTone,
-  CloseOutlined,
-  DeleteOutlined,
-  FlagOutlined,
   ForwardOutlined,
-  GlobalOutlined,
-  UploadOutlined,
 } from "@ant-design/icons";
 import {
   Button,
@@ -34,7 +28,6 @@ import { Constants, Enum, Learner, Types } from "@adewaskar/lms-common";
 import { Fragment, useEffect, useMemo, useState } from "react";
 
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
-import { NavLink } from "react-router-dom";
 import { Paragraph } from "@Components/Typography/Typography";
 import { TestAnswerTag } from "../TestResult/Table/TestResultTable";
 import TestItemSkeleton from "../TestReview/TestItemSkeleton";
@@ -43,14 +36,15 @@ import { Typography } from "@Components/Typography";
 import { htmlToText } from "html-to-text";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useOutletContext } from "react-router-dom";
-import { useParams } from "react-router";
 import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
+import { NavLink, useParams } from "@Router/index";
 
 const { Title, Text } = Typography;
 
 interface TestPublicPlayerItemReiewPropsI {
   testId?: string;
   questionId?: string;
+  language?: string;
 }
 
 export default function TestPublicPlayerItemReiew(
@@ -58,9 +52,9 @@ export default function TestPublicPlayerItemReiew(
 ) {
   const [form] = Form.useForm();
   // { questionId, testId }
-  const params = useParams<{ questionId: string; testId: string }>();
-  const questionId = (props.questionId || params.questionId) + "";
-  const testId = (props.testId || params.testId) + "";
+  const params = useParams();
+  const questionId = props.questionId || params.questionId;
+  const testId = props.testId || params.testId;
   const {
     currentQuestion,
     currentQuestionIndex,
@@ -77,9 +71,6 @@ export default function TestPublicPlayerItemReiew(
 
   const { token } = theme.useToken();
   const { isMobile } = useBreakpoint();
-  const correctOptions = currentQuestion?.options
-    ?.filter((i) => i.isCorrect)
-    .map((i) => i._id);
 
   const NextButton = (
     <Button
@@ -111,7 +102,10 @@ export default function TestPublicPlayerItemReiew(
     </Button>
   );
 
-  const { language } = useOutletContext();
+  const context: { language: string } = useOutletContext();
+
+  const language = context?.language || props.language || "eng";
+  // todo
   return loadingQuestion ? (
     <TestItemSkeleton />
   ) : (
@@ -199,8 +193,12 @@ export default function TestPublicPlayerItemReiew(
       <Card
         title={`Question ${currentQuestionIndex + 1}`}
         extra={[
-          <Tag color="">Correct: +{currentQuestion.score.correct}</Tag>,
-          <Tag color="">Incorrect: -{currentQuestion.score.correct}</Tag>,
+          <Tag color="green-inverse">
+            Correct: +{currentQuestion.score.correct}
+          </Tag>,
+          <Tag color="red-inverse">
+            Incorrect: -{currentQuestion.score.correct}
+          </Tag>,
         ]}
       >
         <Form layout="vertical" form={form}>
@@ -363,7 +361,7 @@ export function useQuestion(d?: { testId: string; questionId: string }) {
       notMet: "",
     },
   };
-
+  // console.log(currentQuestion, d?.testId, d?.questionId, "oh ywag");
   return {
     currentQuestion,
     currentQuestionIndex,

@@ -107,7 +107,7 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
     ref
   ) => {
     const pathname = usePathname();
-    console.log(pathname, "pathname");
+    // console.log(pathname, "pathname");
     const searchParams = useNextSearchParams();
     const hasAdditionalSearchParams =
       Array.from(searchParams.entries()).length > 0;

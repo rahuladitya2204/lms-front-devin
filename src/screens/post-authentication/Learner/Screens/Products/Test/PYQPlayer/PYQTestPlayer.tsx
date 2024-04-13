@@ -1,3 +1,4 @@
+"use client";
 import {
   Alert,
   Button,
@@ -21,20 +22,17 @@ import {
   WarningOutlined,
 } from "@ant-design/icons";
 import { Constants, Enum, Learner, Store } from "@adewaskar/lms-common";
-import { Fragment, useEffect, useMemo, useState } from "react";
-import { Outlet, useLocation, useNavigate, useParams } from "react-router";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
+import { Outlet } from "react-router";
 
 import ActionDrawer from "@Components/ActionDrawer";
 import Header from "@Components/Header";
-import { NavLink } from "react-router-dom";
 import ProctoringComponent from "@Learner/Screens/Procturing/TestProcturing";
 import TestItemSkeleton from "../TestReview/TestItemSkeleton";
 import TestPublicQuestionNavigator from "./PYQTestQuestionNavigator";
 import { Typography } from "@Components/Typography";
-import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
-import { useQuestion } from "./PYQTestPlayerItem";
-import TestPlayerMoreInfo from "./PYQTestPlayerMoreInfo";
+import { NavLink, useLocation, useNavigate, useParams } from "@Router/index";
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -42,6 +40,7 @@ const { confirm } = Modal;
 
 interface TestPlayerPropsI {
   publicView?: boolean;
+  children?: React.ReactNode;
 }
 
 const { Title, Text } = Typography;
@@ -56,6 +55,12 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
     testId + "",
     Enum.TestDetailMode.RESULT
   );
+
+  useEffect(() => {
+    if (test.languages.length) {
+      setLang(test.languages[0]);
+    }
+  }, [test]);
   const isProcturingOn = test.rules.procturing.enabled;
 
   useEffect(() => {
@@ -118,6 +123,11 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       })}
     />
   );
+  const ChildrenWithLanguage = props.children
+    ? React.cloneElement(props.children, {
+        language: lang,
+      })
+    : null;
   return (
     <Header
       title={
@@ -141,12 +151,16 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
                 <TestItemSkeleton />
               ) : (
                 <Fragment>
-                  <Outlet context={{ language: lang }} />
-                  <TestPlayerMoreInfo
+                  {ChildrenWithLanguage ? (
+                    ChildrenWithLanguage
+                  ) : (
+                    <Outlet context={{ language: lang }} />
+                  )}
+                  {/* <TestPlayerMoreInfo
                     language={lang}
                     itemId={questionId + ""}
                     test={test}
-                  />
+                  /> */}
                 </Fragment>
               )}
             </Col>
