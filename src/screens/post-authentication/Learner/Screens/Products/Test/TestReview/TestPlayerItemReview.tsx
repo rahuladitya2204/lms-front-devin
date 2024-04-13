@@ -185,6 +185,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                 return (
                   <li key={item._id} style={{ flexShrink: 0, marginRight: 8 }}>
                     <NavLink
+                      title={item.title}
                       style={{ width: "100%" }}
                       key={item._id}
                       to={`/app/test/${testId}/review/${item._id}`}

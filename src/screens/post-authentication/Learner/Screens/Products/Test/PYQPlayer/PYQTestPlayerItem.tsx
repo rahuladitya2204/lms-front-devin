@@ -131,6 +131,7 @@ export default function TestPublicPlayerItemReiew(
                 return (
                   <li key={item._id} style={{ flexShrink: 0, marginRight: 8 }}>
                     <NavLink
+                      title={item.title}
                       style={{ width: "100%" }}
                       key={item._id}
                       to={

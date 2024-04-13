@@ -142,7 +142,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
       title={
         <Space>
           {" "}
-          <NavLink to={`/app/test/${testId}/result`}>
+          <NavLink title={test.title} to={`/app/test/${testId}/result`}>
             <Button type="primary" icon={<ArrowLeftOutlined />}></Button>
           </NavLink>{" "}
           {!isMobile ? test.title : null}

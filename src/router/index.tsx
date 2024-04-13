@@ -83,7 +83,7 @@ export const NavLink = (props: any) => {
   const isInRouterContext = useInRouterContext();
   if (props.anchor) {
     return (
-      <a href={props.to}>
+      <a href={props.to} title={props.title || props.to.split("/").pop()}>
         {typeof props.children === "function"
           ? props.children({ isActive: pathname === props.to })
           : props.children}

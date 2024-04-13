@@ -88,6 +88,8 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       {TABS.map((tab) => {
         return (
           <NavLink
+            title={tab.label}
+            title={tab.label}
             to={
               props.isServer
                 ? `/category/${props.id}/${tab.key}`

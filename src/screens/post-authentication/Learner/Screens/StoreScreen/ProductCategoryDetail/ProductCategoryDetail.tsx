@@ -172,8 +172,9 @@ export default function ProductCategoryDetailScreen(
                       overflowWrap: "break-word", // Breaks words to prevent overflow
                       margin: 0,
                       textAlign: isMobile ? "center" : "left",
+                      fontSize: 25,
                     }}
-                    level={3}
+                    level={1}
                   >
                     {productCategory.title}
                     {isMobile ? (

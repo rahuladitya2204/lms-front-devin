@@ -111,6 +111,7 @@ export default function TestReviewQuestionNavigator(
                         return (
                           <Col span={3}>
                             <NavLink
+                              title={item.title}
                               onClick={() => {
                                 props.closeDrawer && props.closeDrawer();
                               }}

@@ -8,7 +8,7 @@ import {
   Space,
   Table,
   Tag,
-} from "@Lib/index";
+} from "@Lib";
 import { CheckOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Enum, Types, Utils } from "@adewaskar/lms-common";
 
@@ -60,7 +60,10 @@ function CampaignsScreen() {
                 dataIndex="title"
                 key="title"
                 render={(_: any, record: Types.Campaign) => (
-                  <NavLink to={`../edit-campaign/${record._id}`}>
+                  <NavLink
+                    title={record.title}
+                    to={`../edit-campaign/${record._id}`}
+                  >
                     {record.title}
                   </NavLink>
                 )}

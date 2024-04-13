@@ -314,6 +314,7 @@ const TestEvaluatorNavigator: React.FC<TestEvaluatorNavigatorPropsI> = ({
                             }}
                           >
                             <NavLink
+                              title={item.title}
                               style={{ width: "100%" }}
                               key={item._id}
                               to={item._id}

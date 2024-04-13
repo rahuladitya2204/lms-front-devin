@@ -170,6 +170,7 @@ const LearnerHeaderClient = ({
     HeaderButtonSkeleton
   ) : (
     <NavLink
+      title={`Wallet`}
       to={`/app/wallet`}
       children={({ isActive }) => {
         return contentLoading ? (
@@ -218,6 +219,7 @@ const LearnerHeaderClient = ({
           ) : (
             menuItems.map((item, index) => (
               <NavLink
+                title={item.label}
                 anchor={isServer}
                 key={index}
                 to={`/app/${item.key}`}

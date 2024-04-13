@@ -43,6 +43,7 @@ function PackageDetailsTabs(props: PackageDetailsTabsPropsI) {
       {TABS.map((tab) => {
         return (
           <NavLink
+            title={tab.label}
             to={
               props.isServer
                 ? `/package/${props.id}/${tab.key}`

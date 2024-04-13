@@ -135,7 +135,10 @@ function StoreScreen() {
                       <Col span={24} style={{ marginTop: 20 }}>
                         <Section
                           extra={[
-                            <NavLink to={`../category/${category._id}`}>
+                            <NavLink
+                              title={"View More"}
+                              to={`../category/${category._id}`}
+                            >
                               {" "}
                               <Button
                                 style={{ marginLeft: 20, marginBottom: 20 }}

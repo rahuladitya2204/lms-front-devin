@@ -210,7 +210,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       <Header
         title={test.title}
         extra={
-          <NavLink to={"../"}>
+          <NavLink title={"Back"} to={"../"}>
             <Button type="primary">Go Back</Button>
           </NavLink>
         }

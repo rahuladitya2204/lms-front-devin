@@ -137,6 +137,7 @@ export default function TestQuestionNavigator(
                         return (
                           <Col span={3}>
                             <NavLink
+                              title={item.title}
                               style={{ width: "100%" }}
                               key={item._id}
                               to={`/app/test/${test._id}/player/${item._id}`}

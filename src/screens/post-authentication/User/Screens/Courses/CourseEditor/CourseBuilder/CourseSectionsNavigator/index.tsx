@@ -328,6 +328,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                                 {
                                   item.type ? (
                                     <NavLink
+                                      title={item.title}
                                       style={{ width: "100%" }}
                                       key={item._id}
                                       to={`${item.type}/${item._id}`}

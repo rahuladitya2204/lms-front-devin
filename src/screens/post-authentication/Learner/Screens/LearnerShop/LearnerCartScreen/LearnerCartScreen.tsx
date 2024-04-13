@@ -82,7 +82,7 @@ export default function LearnerCart() {
       </Title>
       <Row justify={"center"}>
         <Col>
-          <NavLink to={"../store"}>
+          <NavLink to={"../store"} title={"Home"}>
             <Button
               icon={<HomeOutlined />}
               style={{ marginTop: 30 }}

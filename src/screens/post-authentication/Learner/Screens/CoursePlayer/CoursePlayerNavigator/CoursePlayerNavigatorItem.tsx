@@ -50,6 +50,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   const minDuration = Math.ceil(durationInMin.value);
   return (
     <NavLink
+      title={props.item.title}
       to={`${props.item._id}`}
       children={({ isActive }) => (
         <CourseListItem

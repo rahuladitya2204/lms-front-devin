@@ -68,7 +68,9 @@ const CustomRate = styled(Rate)`
 
 const MetaText = styled(Text)``;
 
-const PackageTitle = styled(Title)``;
+const PackageTitle = styled(Title)`
+  font-size: 25px;
+`;
 
 const PackageSubTitle = styled(Paragraph)`
   font-size: 20px;
@@ -105,7 +107,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
         <Col span={24}>
           <Row gutter={[30, 30]} style={{ lineHeight: 0 }}>
             <Col xs={0} sm={0} md={0} lg={24}>
-              <PackageTitle className="course-title" level={3}>
+              <PackageTitle className="course-title" level={1}>
                 {bundle.title}
               </PackageTitle>
               <Col span={24} />
