@@ -132,6 +132,8 @@ import { useNavigate } from "@Router/index";
 import RoutingContext from "./RoutingContext";
 import ProductCategoryTabs from "./post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 import PackageDetailsTabs from "./post-authentication/Learner/Screens/Products/Package/PackageDetailsViewer/PackageDetailTabs";
+import TestPublicPlayer from "./post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
+import TestPublicPlayerItemReiew from "./post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -218,6 +220,12 @@ const router = (userType: string) => {
                     path="upload-answer-sheet"
                     element={<AnswerSheetFiles />}
                   />
+                  <Route path="pyq" element={<TestPublicPlayer />}>
+                    <Route
+                      path=":questionId"
+                      element={<TestPublicPlayerItemReiew />}
+                    />
+                  </Route>
                   <Route path="player" element={<TestPlayer />}>
                     <Route path=":questionId" element={<TestPlayeritem />} />
                   </Route>

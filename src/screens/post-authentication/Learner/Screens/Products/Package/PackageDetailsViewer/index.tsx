@@ -259,7 +259,7 @@ const PackageCard = ({
                             content: `You have enrolled successfully`,
                             // particle: true,
                           });
-                          navigate(`enrolled-package`);
+                          // navigate(`enrolled-package`);
                         }}
                         product={{ type: "package", id: packageId + "" }}
                         block
