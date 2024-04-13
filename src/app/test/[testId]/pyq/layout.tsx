@@ -152,7 +152,7 @@ export default function Page({
       ]}
     >
       <LearnerFullPageHolder>
-        <TestPublicPlayer children={children} />
+        <TestPublicPlayer isServer children={children} />
       </LearnerFullPageHolder>
     </Hydrator>
   );

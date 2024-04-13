@@ -15,6 +15,7 @@ import useDehydration from "@ServerHooks/useDehydration";
 
 interface LearnerFullPageHolderPropsI {
   children?: React.ReactNode;
+  isServer?: boolean;
 }
 
 export default function LearnerFullPageHolder(

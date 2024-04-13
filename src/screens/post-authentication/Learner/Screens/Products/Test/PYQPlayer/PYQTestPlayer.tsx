@@ -43,6 +43,7 @@ const { confirm } = Modal;
 interface TestPlayerPropsI {
   publicView?: boolean;
   children?: React.ReactNode;
+  isServer?: boolean;
 }
 
 export default function TestPublicPlayer(props: TestPlayerPropsI) {
@@ -126,6 +127,7 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
   const ChildrenWithLanguage = props.children
     ? React.cloneElement(props.children, {
         language: lang,
+        isServer: props.isServer,
       })
     : null;
   return isLoading ? (

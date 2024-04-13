@@ -150,6 +150,7 @@ export default function Page({
       ]}
     >
       <TestPublicPlayerItemReiew
+        isServer
         testId={params.testId}
         questionId={params.questionId}
       />

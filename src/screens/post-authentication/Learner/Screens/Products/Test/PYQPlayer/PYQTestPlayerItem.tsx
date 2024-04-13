@@ -45,6 +45,7 @@ interface TestPublicPlayerItemReiewPropsI {
   testId?: string;
   questionId?: string;
   language?: string;
+  isServer?: boolean;
 }
 
 export default function TestPublicPlayerItemReiew(
@@ -65,7 +66,7 @@ export default function TestPublicPlayerItemReiew(
     Enum.TestDetailMode.RESULT
   );
   // const language = 'eng';
-  const { navigate } = useTestNavigation(test, "pyq");
+  const { navigate } = useTestNavigation(test, "pyq", props.isServer);
   const OptionSelectedFormControl =
     currentQuestion.type === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
 
@@ -132,7 +133,11 @@ export default function TestPublicPlayerItemReiew(
                     <NavLink
                       style={{ width: "100%" }}
                       key={item._id}
-                      to={`/app/test/${testId}/result/review/${item._id}`}
+                      to={
+                        props.isServer
+                          ? `/test/${testId}/result/review/${item._id}`
+                          : `/app/test/${testId}/result/review/${item._id}`
+                      }
                       children={() => {
                         const isActive = questionId === item._id;
                         return (
