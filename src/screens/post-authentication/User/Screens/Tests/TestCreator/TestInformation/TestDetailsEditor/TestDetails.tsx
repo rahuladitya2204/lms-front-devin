@@ -10,18 +10,17 @@ import {
   Space,
   Switch,
   TreeSelect,
-} from "@Lib/index";
+} from "antd";
 import { Constants, Enum, Types, User } from "@adewaskar/lms-common";
 import { useEffect, useMemo } from "react";
 
 import Image from "@Components/Image";
 import MediaUpload from "@Components/MediaUpload";
 import SelectProductCategory from "@Components/SelectProductCategory";
-import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
+import { TopicNode } from "@User/Screens/AssetLibrary/Topics/TopicsScreen";
 import dayjs from "dayjs";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
-import { useParams } from "@Router/index";
-import { buildTopicTree } from "@Components/Editor/SunEditor/utils";
+import { useParams } from "react-router";
 
 const { TextArea } = Input;
 
@@ -40,9 +39,16 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const testId = props.testId || id;
   const { data: users } = User.Queries.useGetUsers();
   const image = useWatch(["thumbnailImage"], form);
+  const isPyqEnabled = useWatch(["pyq", "enabled"], form);
   const isDurationEnabled = useWatch(["duration", "enabled"], form);
-  const { listItems: categories } =
+  const cat = useWatch(["category"], form);
+  const { listItems: categories, data: categoriesData } =
     User.Queries.useGetProductCategories("test");
+  const category = useMemo(() => {
+    return categoriesData.find((c) => c._id === cat);
+  }, [categoriesData, cat]);
+  // console.log(category, "category");
+  // console.log(categoriesData, "categoriesData");
   const { data: topics } = User.Queries.useGetTopics();
   const TOPIC_TREE_DATA = useMemo(() => {
     return buildTopicTree(topics);
@@ -139,6 +145,38 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
       <Row gutter={[40, 20]}>
         <Col span={8}>
           <Form.Item
+            label="Previous Year Questions"
+            style={{ margin: 0 }}
+            valuePropName="checked"
+            name={["pyq", "enabled"]}
+            // label="Send email to learner on course enrollment."
+          >
+            <Switch
+            // checkedChildren="PYQ"
+            // unCheckedChildren="No Pyq"
+            />
+          </Form.Item>
+        </Col>
+        {isPyqEnabled ? (
+          <>
+            <Col span={8}>
+              <Form.Item
+                label="PYQ Year"
+                style={{ margin: 0 }}
+                // valuePropName="checked"
+                name={["pyq", "year"]}
+                // label="Send email to learner on course enrollment."
+              >
+                <Input type="number" />
+              </Form.Item>
+            </Col>
+          </>
+        ) : null}
+      </Row>
+      <Divider />
+      <Row gutter={[40, 20]}>
+        <Col span={8}>
+          <Form.Item
             // rules={[
             //   {
             //     required: true,
@@ -206,6 +244,19 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                   value: Enum.TestInputType.KEYBOARD,
                 },
               ]}
+            />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item label="Exam" style={{ margin: 0 }} name={["exam"]}>
+            <Select
+              options={category?.exams.map((e) => {
+                return {
+                  label: e.title,
+                  // @ts-ignore
+                  value: e._id,
+                };
+              })}
             />
           </Form.Item>
         </Col>
@@ -329,7 +380,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
       <Divider />
 
       <Row gutter={[40, 20]}>
-        <Col span={12}>
+        <Col span={8}>
           <Form.Item
             name="languages"
             required
@@ -344,8 +395,27 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={8}>
           <SelectProductCategory name={["category"]} />
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            name="exam"
+            required
+            label="Exam"
+            rules={[{ required: true, message: "Please select an exam" }]}
+          >
+            <Select
+              showSearch
+              placeholder="Select Exam"
+              options={category?.exams?.map((c) => {
+                return {
+                  label: c.title,
+                  value: c._id,
+                };
+              })}
+            />
+          </Form.Item>
         </Col>
       </Row>
     </Form>
@@ -353,3 +423,68 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 }
 
 export default TestDetailsEditor;
+
+export const buildTopicTree = (
+  topics: Types.Topic[],
+  topicId?: string,
+  level?: number
+) => {
+  const buildTreeData = (
+    topics: Types.Topic[],
+    parentId?: string,
+    currentLevel: number = 1
+  ): TopicNode[] => {
+    if (parentId) {
+      return buildSubTreeData(parentId, topics, currentLevel);
+    } else {
+      // @ts-ignore
+      return topics
+        .filter((topic) => !topic.parentId)
+        .map((topic) => {
+          const children =
+            level === undefined || currentLevel < level
+              ? buildSubTreeData(topic._id + "", topics, currentLevel + 1)
+              : [];
+          return {
+            ...topic,
+            value: topic._id,
+            title: topic.title,
+            disabled:
+              level !== undefined &&
+              currentLevel === level - 1 &&
+              children.length > 0,
+            children,
+          };
+        });
+    }
+  };
+
+  const buildSubTreeData = (
+    parentId: string,
+    topics: Types.Topic[],
+    currentLevel: number
+  ): TopicNode[] => {
+    const subTopics = topics
+      .filter((topic) => topic.parentId === parentId)
+      .map((topic) => {
+        const children =
+          level === undefined || currentLevel < level
+            ? buildSubTreeData(topic._id + "", topics, currentLevel + 1)
+            : [];
+        return {
+          ...topic,
+          value: topic._id,
+          title: topic.title,
+          disabled:
+            level !== undefined &&
+            currentLevel === level - 1 &&
+            children.length > 0,
+          children,
+        };
+      });
+    // @ts-ignore
+    return [...subTopics];
+  };
+
+  return buildTreeData(topics, topicId);
+};

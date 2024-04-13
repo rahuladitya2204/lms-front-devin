@@ -13,7 +13,7 @@ if (hostParts.length > 2) {
 console.log(subdomain,'domain')
 // Fetch the URLs from your API
   const {data: urls} = await axios.get(`${apiUrl}/web/sitemap?subdomain=${subdomain || 'www'}`);
-  const currentDomain = `${protocol}//${host}`;
+  // const currentDomain = `${protocol}//${host}`;
   console.log(urls,host)
   // Generate the sitemap XML
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
@@ -22,7 +22,7 @@ console.log(subdomain,'domain')
         .map((url) => {
           return `
             <url>
-            <loc>${currentDomain}${url}</loc>
+            <loc>${url}</loc>
             <lastmod>${new Date().toISOString()}</lastmod>
               <changefreq>daily</changefreq>
               <priority>1.0</priority>

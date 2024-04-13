@@ -14,6 +14,7 @@ import ProductCategoryNotifications from "./ProductCategoryNotifications";
 import Tabs from "@Components/Tabs";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
+import ProductCategoryEXAMs from "./ProductCategoryExams";
 
 function ProductCategoryInformationEditor(props: any) {
   const { id } = useParams();
@@ -48,6 +49,11 @@ function ProductCategoryInformationEditor(props: any) {
             label: `Landing Page`,
             key: "landing-page",
             children: <ProductCategoryLandingPage />,
+          },
+          {
+            label: `Exams`,
+            key: "exams",
+            children: <ProductCategoryEXAMs />,
           },
           {
             label: `FAQs`,

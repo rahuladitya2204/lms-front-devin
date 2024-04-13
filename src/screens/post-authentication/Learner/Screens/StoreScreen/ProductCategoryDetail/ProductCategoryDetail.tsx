@@ -87,6 +87,10 @@ export default function ProductCategoryDetailScreen(
       enabled: !!productCategory._id,
     }
   );
+
+  const { data: PYQTests } = Learner.Queries.useGetPYQs(productCategory._id, {
+    enabled: !!productCategory._id,
+  });
   console.log(productCategoryId, type, "productCategoryId");
   useEffect(() => {
     if (!type && !props.isServer) {
@@ -97,6 +101,48 @@ export default function ProductCategoryDetailScreen(
   const Metadata = (
     <ProductCategoryMetadata productCategory={productCategory} />
   );
+  const PackageListComponent = (
+    <Row gutter={[20, 20]}>
+      {packages.map((bundle, idx) => {
+        return (
+          <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+            <PackageCard isServer={props.isServer} package={bundle} />
+          </Col>
+        );
+      })}
+    </Row>
+  );
+
+  const PYQTestsComponent = (
+    <Row gutter={[20, 20]}>
+      {PYQTests.map((bundle, idx) => {
+        return (
+          <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+            <PackageCard isServer={props.isServer} package={bundle} />
+          </Col>
+        );
+      })}
+    </Row>
+  );
+
+  const TABS = useMemo(() => {
+    const tabs: any[] = [];
+    if (packages.length) {
+      tabs.push({
+        label: "Test Series",
+        key: "test-series",
+        children: PackageListComponent,
+      });
+    }
+    if (PYQTests.length) {
+      tabs.push({
+        label: "Previous Year Papers",
+        key: "pyq",
+        children: PYQTestsComponent,
+      });
+    }
+    return tabs;
+  }, [packages, PYQTests]);
   const Banners = productCategory.info.updates.filter((i) => i.displayAsBanner);
   return loadingProductCategory ? (
     <ProductCategoryDetailSkeletonScreen />
@@ -226,27 +272,10 @@ export default function ProductCategoryDetailScreen(
         <Row gutter={[30, 30]}>
           {packages.length ? (
             <Col span={24}>
-              <Card title="Try our test series!">
-                <Row gutter={[20, 20]}>
-                  {packages.map((bundle, idx) => {
-                    return (
-                      <Col
-                        sm={12}
-                        key={idx}
-                        md={8}
-                        xs={24}
-                        lg={8}
-                        xl={6}
-                        xxl={6}
-                      >
-                        <PackageCard
-                          isServer={props.isServer}
-                          package={bundle}
-                        />
-                      </Col>
-                    );
-                  })}
-                </Row>
+              <Card
+              // title="Try our test series!"
+              >
+                {TABS.length > 1 ? <Tabs items={TABS} /> : TABS[0].children}
               </Card>
             </Col>
           ) : null}
