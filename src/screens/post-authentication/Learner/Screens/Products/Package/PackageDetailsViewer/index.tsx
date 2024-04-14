@@ -107,7 +107,11 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
         <Col span={24}>
           <Row gutter={[30, 30]} style={{ lineHeight: 0 }}>
             <Col xs={0} sm={0} md={0} lg={24}>
-              <PackageTitle className="course-title" level={1}>
+              <PackageTitle
+                style={{ fontSize: 25 }}
+                className="course-title"
+                level={1}
+              >
                 {bundle.title}
               </PackageTitle>
               <Col span={24} />
@@ -210,7 +214,13 @@ const PackageCard = ({
       hoverable
       style={{ padding: 0 }}
       bodyStyle={{ padding: 5, paddingBottom: 15 }}
-      title={!isDesktop ? <Text>{bundle.title}</Text> : null}
+      title={
+        !isDesktop ? (
+          <Title style={{ fontSize: 20 }} level={1}>
+            {bundle.title}
+          </Title>
+        ) : null
+      }
     >
       <>
         {" "}

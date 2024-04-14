@@ -176,7 +176,7 @@ export default function ProductCategoryDetailScreen(
                     }}
                     level={1}
                   >
-                    {productCategory.title}
+                    {productCategory.subtitle}
                     {isMobile ? (
                       <span>
                         (
@@ -187,7 +187,7 @@ export default function ProductCategoryDetailScreen(
                       </span>
                     ) : null}
                   </Title>
-                  <Title
+                  {/* <Title
                     style={{
                       // fontSize: 16,
                       whiteSpace: "normal", // Ensures text wraps
@@ -197,8 +197,8 @@ export default function ProductCategoryDetailScreen(
                     }}
                     level={5}
                   >
-                    {productCategory.subtitle}
-                  </Title>
+                    {productCategory.title}
+                  </Title> */}
                 </Col>
               </Row>
             </Col>
