@@ -43,6 +43,7 @@ export async function generateMetadata(req: {
       manifest: "/manifest.json",
       openGraph: {
         title: test.title,
+        locale: "en_IN",
         description: test.subtitle,
         type: "website",
         url: url,

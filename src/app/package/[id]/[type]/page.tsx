@@ -46,6 +46,7 @@ export async function generateMetadata(req: {
         title: bundle.title,
         description: bundle.subtitle,
         type: "website",
+        locale: "en_IN",
         url: url,
         images: [
           {

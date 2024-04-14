@@ -44,6 +44,7 @@ export async function generateMetadata(
         title: category.title,
         description: category.subtitle,
         type: "website",
+        locale: "en_IN",
         url: url,
         images: [
           {

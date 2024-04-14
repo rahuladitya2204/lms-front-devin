@@ -50,6 +50,7 @@ export async function generateMetadata(
         title: organisation.name,
         description: organisation.description,
         type: "website",
+        locale: "en_IN",
         url: url,
         images: [
           {

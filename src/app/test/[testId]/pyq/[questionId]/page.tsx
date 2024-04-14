@@ -90,6 +90,7 @@ export async function generateMetadata(req: {
     manifest: "/manifest.json",
     openGraph: {
       title: "Testmint",
+      locale: "en_IN",
       description: "Testmint",
       type: "website",
       url: "https://testmint.ai",

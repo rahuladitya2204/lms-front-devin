@@ -50,6 +50,66 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
   // const filteredData=data.filter(pd => {
   //   return !pd.endedAt;
   // })
+  const { mutate: publishTest, isLoading: publishingTest } =
+    User.Queries.usePublishTest();
+
+  const ITEMS = (test: Types.Test) => {
+    const i = [
+      {
+        label: "Open Test Builder",
+        key: "test-builder",
+        icon: <SettingOutlined />,
+        onClick: () => {
+          window.open(`/admin/products/test/${test._id}/builder`);
+        },
+      },
+      {
+        label: "Show Analysis",
+        key: "show-analysis",
+        icon: <LineChartOutlined />,
+        onClick: () => {
+          window.open(`/admin/products/test/${test._id}/status`);
+        },
+      },
+      {
+        label: "Print Action",
+        key: "print",
+        icon: <PrinterOutlined />,
+        onClick: () => {
+          openModal(<PrintPrompt testId={test._id + ""} />, {
+            title: "Print",
+          });
+        },
+      },
+      {
+        label: "Upload Answer Sheets",
+        key: "upload-answer-sheet",
+        icon: <UploadOutlined />,
+        onClick: () => {
+          window.open(`/admin/test/${test._id}/answer-sheet/upload`);
+        },
+      },
+    ];
+    if (
+      test._id &&
+      test.status !== Enum.TestStatus.PUBLISHED
+      // &&
+      // Utils.validatePublishTest(test)
+    ) {
+      i.unshift({
+        label: "Publish Test",
+        // disabled: !Utils.validatePublishTest(test),
+        key: "publish-test",
+        icon: <UploadOutlined />,
+        onClick: () => {
+          publishTest({
+            testId: test._id + "",
+          });
+        },
+      });
+    }
+    return i;
+  };
   return (
     <Fragment>
       <Fragment>
@@ -157,46 +217,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             title="Action"
             key="action"
             render={(_: any, test: Types.Test, index: number) => (
-              <MoreButton
-                items={[
-                  {
-                    label: "Open Test Builder",
-                    key: "test-builder",
-                    icon: <SettingOutlined />,
-                    onClick: () => {
-                      window.open(`/admin/products/test/${test._id}/builder`);
-                    },
-                  },
-                  {
-                    label: "Show Analysis",
-                    key: "show-analysis",
-                    icon: <LineChartOutlined />,
-                    onClick: () => {
-                      window.open(`/admin/products/test/${test._id}/status`);
-                    },
-                  },
-                  {
-                    label: "Print Action",
-                    key: "print",
-                    icon: <PrinterOutlined />,
-                    onClick: () => {
-                      openModal(<PrintPrompt testId={test._id + ""} />, {
-                        title: "Print",
-                      });
-                    },
-                  },
-                  {
-                    label: "Upload Answer Sheets",
-                    key: "upload-answer-sheet",
-                    icon: <UploadOutlined />,
-                    onClick: () => {
-                      window.open(
-                        `/admin/test/${test._id}/answer-sheet/upload`
-                      );
-                    },
-                  },
-                ]}
-              />
+              <MoreButton items={ITEMS(test)} />
             )}
           />
         </Table>
