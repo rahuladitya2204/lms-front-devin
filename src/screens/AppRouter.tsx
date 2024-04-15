@@ -134,6 +134,8 @@ import ProductCategoryTabs from "./post-authentication/Learner/Screens/StoreScre
 import PackageDetailsTabs from "./post-authentication/Learner/Screens/Products/Package/PackageDetailsViewer/PackageDetailTabs";
 import TestPublicPlayer from "./post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
 import TestPublicPlayerItemReiew from "./post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
+import CreateBlog from "@User/Screens/Blog/CreateBlog";
+import BlogsScreen from "@User/Screens/Blog/BlogScreen";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -393,6 +395,11 @@ const router = (userType: string) => {
                       <Route path="" element={<PromosScreen />} />
                       <Route path=":id/editor" element={<AddPromo />} />
                     </Route>
+                  </Route>
+                  <Route path="blogs">
+                    <Route path="" element={<BlogsScreen />} />
+                    <Route path="create" element={<CreateBlog />} />
+                    <Route path=":blogId/edit" element={<CreateBlog />} />
                   </Route>
                   <Route
                     path="email-templates/:id/editor"

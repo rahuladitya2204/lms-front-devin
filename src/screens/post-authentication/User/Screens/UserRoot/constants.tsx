@@ -4,6 +4,7 @@ import {
   CalendarOutlined,
   CustomerServiceOutlined,
   DashboardOutlined,
+  EditOutlined,
   FolderOpenOutlined,
   FundProjectionScreenOutlined,
   MoneyCollectOutlined,
@@ -22,6 +23,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     title: "Dashboard",
     icon: <DashboardOutlined />,
     path: "/admin/dashboard",
+  },
+  {
+    title: "Blogs",
+    icon: <EditOutlined />,
+    path: "/admin/blogs",
   },
   {
     title: "Products",

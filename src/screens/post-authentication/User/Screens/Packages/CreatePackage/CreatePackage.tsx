@@ -14,9 +14,8 @@ import { Enum, Types, Utils } from "@adewaskar/lms-common";
 import React, { Fragment, ReactNode, useEffect } from "react";
 import { useNavigate, useParams } from "@Router/index";
 
-import ActionModal from "@Components/ActionModal/ActionModal";
 import BackButton from "@Components/BackButton";
-import CreatePlan from "@User/Screens/ExtraComponents/CreatePlan";
+
 import Header from "@Components/Header";
 import PackageDetails from "./PackageDetails/PackageDetails";
 import PackageLandingPageEditor from "./PackageLandingPage/PackageLandingPageEditor";
