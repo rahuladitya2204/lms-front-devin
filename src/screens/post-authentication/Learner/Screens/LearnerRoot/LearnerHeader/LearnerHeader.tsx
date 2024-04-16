@@ -19,6 +19,7 @@ import {
   message,
 } from "@Lib/index";
 import {
+  BookOutlined,
   CalendarOutlined,
   DesktopOutlined,
   EditOutlined,
@@ -283,6 +284,22 @@ const LearnerHeaderClient = ({
           )
         ) : null}
       </Fragment>
+      <NavLink
+        to={isServer ? "/blog" : "/app/blog"}
+        children={({ isActive }) => {
+          return (
+            <Button
+              style={{ borderRadius: 15 }}
+              icon={<BookOutlined />}
+              type={isActive ? "primary" : "default"}
+              style={{ margin: "0 10px" }}
+              // onClick={() =>cons
+            >
+              Blogs
+            </Button>
+          );
+        }}
+      ></NavLink>
       {!isSignedIn ? (
         contentLoading ? (
           <Skeleton.Button style={{ width: 97, height: 32 }} active />
@@ -302,6 +319,7 @@ const LearnerHeaderClient = ({
           </Button>
         )
       ) : null}
+
       {isSignedIn && !isMobileOrTablet && (
         <Space>
           {!screen.isMobile ? <>{WalletButton}</> : null}

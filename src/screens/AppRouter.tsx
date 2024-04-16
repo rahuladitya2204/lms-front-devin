@@ -136,6 +136,8 @@ import TestPublicPlayer from "./post-authentication/Learner/Screens/Products/Tes
 import TestPublicPlayerItemReiew from "./post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 import CreateBlog from "@User/Screens/Blog/CreateBlog";
 import BlogsScreen from "@User/Screens/Blog/BlogScreen";
+import BlogDetailScreen from "./post-authentication/Learner/Screens/Blog/BlogDetail";
+import LearnerBlogsScreen from "./post-authentication/Learner/Screens/Blog/BlogsScreen";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -162,6 +164,8 @@ const router = (userType: string) => {
                 </Route>
                 {/* <Route path="store" element={<LearnerStoreScreen />} /> */}
                 <Route path="store" element={<LearnerHomeScreen />} />
+                <Route path="blog" element={<LearnerBlogsScreen />} />
+                <Route path="blog/:id" element={<BlogDetailScreen />} />
                 <Route path="account" element={<LearnerAccount />} />
                 <Route path="tickets" element={<LearnersTicketsScreen />} />
                 <Route path="tickets/:id" element={<LearnerTicketDetail />} />
