@@ -253,6 +253,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
                         required
                       >
                         <TextArea
+                          editorType="ck"
                           height={250}
                           html={{ level: 3 }}
                           label="Content"
