@@ -11,6 +11,15 @@ const nextConfig = {
     return config;
   },
   assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/home',
+        permanent: true,
+      },
+    ]
+  }
 };
 
 export default nextConfig;

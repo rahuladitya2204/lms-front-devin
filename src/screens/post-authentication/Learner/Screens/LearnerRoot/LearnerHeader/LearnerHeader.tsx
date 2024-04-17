@@ -284,7 +284,7 @@ const LearnerHeaderClient = ({
           )
         ) : null}
       </Fragment>
-      <NavLink
+      {/* <NavLink
         to={isServer ? "/blog" : "/app/blog"}
         children={({ isActive }) => {
           return (
@@ -299,7 +299,7 @@ const LearnerHeaderClient = ({
             </Button>
           );
         }}
-      ></NavLink>
+      ></NavLink> */}
       {!isSignedIn ? (
         contentLoading ? (
           <Skeleton.Button style={{ width: 97, height: 32 }} active />
