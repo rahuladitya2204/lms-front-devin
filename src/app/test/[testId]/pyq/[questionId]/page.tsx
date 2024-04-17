@@ -47,7 +47,7 @@ export async function generateMetadata(req: {
     // .slice(0, 70);
     return {
       title: `[Solved] ${questionTitle}`,
-      description: test.subtitle,
+      description: test.title,
       // icons: {
       //   icon: test.thumbnailImage,
       //   apple: test.thumbnailImage,
