@@ -35,6 +35,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { NavLink, useLocation, useNavigate, useParams } from "@Router/index";
 import TestPlayerMoreInfo from "./PYQTestPlayerMoreInfo";
 import TestPlayerSkeleton from "../TestPlayer/TestPlayerSkeleton";
+import { Title } from "@Components/Typography/Typography";
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -140,7 +141,9 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
           <NavLink to={`../app/test/${testId}/result`} title={test.title}>
             <Button type="primary" icon={<ArrowLeftOutlined />} />
           </NavLink>{" "}
-          {!isMobile ? test.title : null}
+          <Title style={{ fontSize: 20 }}>
+            {!isMobile ? test.title : null}
+          </Title>
         </Space>
       }
       subTitle={"asd"}
