@@ -63,17 +63,18 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       setLang(test.languages[0]);
     }
   }, [test]);
-  const isProcturingOn = test.rules.procturing.enabled;
+  // const isProcturingOn = test.rules.procturing.enabled;
+  console.log(questionId, test.sections, "test.sections");
 
   useEffect(() => {
     if (test.sections[0]?.items[0] && !questionId) {
       const itemId = test.sections[0].items[0]._id;
-      navigate(`${itemId}`);
+      navigate(`/test/${testId}/pyq/${itemId}`);
     }
     if (test.languages.length) {
       setLang(test.languages[0]);
     }
-  }, [test.sections]);
+  }, [test.sections, questionId]);
 
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
 

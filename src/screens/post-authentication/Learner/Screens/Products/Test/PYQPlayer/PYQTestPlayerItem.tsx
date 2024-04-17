@@ -257,7 +257,7 @@ export default function TestPublicPlayerItemReiew(
                                       style={{
                                         textTransform: "capitalize",
                                         marginLeft: option.isCorrect
-                                          ? -20
+                                          ? -18
                                           : "auto",
                                         // marginRight: 10,
                                       }}

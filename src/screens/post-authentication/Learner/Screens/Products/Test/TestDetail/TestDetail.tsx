@@ -12,7 +12,9 @@ import {
   message,
 } from "@Lib/index";
 import {
+  BookOutlined,
   CalendarOutlined,
+  EditOutlined,
   InfoOutlined,
   WalletOutlined,
   WalletTwoTone,
@@ -26,7 +28,7 @@ import {
   Utils,
 } from "@adewaskar/lms-common";
 import { Fragment, useMemo } from "react";
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 
 import ActionDrawer from "@Components/ActionDrawer";
 import ActionModal from "@Components/ActionModal/ActionModal";
@@ -55,7 +57,9 @@ import TestDetailSkeletonScreen from "./TestDetailSkeletonScreen";
 const { Text, Paragraph } = Typography;
 const { UnitTypeToStr } = Utils;
 
-interface TestDetailScreenPropsI {}
+interface TestDetailScreenPropsI {
+  isServer?: boolean;
+}
 
 export default function TestDetailScreen(props: TestDetailScreenPropsI) {
   const { testId } = useParams();
@@ -92,7 +96,11 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
       {loadingTest ? null : (
         <>
           <Col md={24} sm={24} lg={0}>
-            <TestCard plan={plan} testId={testId + ""} />
+            <TestCard
+              isServer={props.isServer}
+              plan={plan}
+              testId={testId + ""}
+            />
             {/* Replace with card image */}
             {/* <CourseMetadata course={course} /> */}
           </Col>
@@ -188,14 +196,16 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
 
 const TestCard = ({
   testId,
+  isServer,
   plan,
   children,
 }: {
   testId: string;
+  isServer?: boolean;
   plan: Types.Plan;
   children?: React.ReactNode;
 }) => {
-  const product = { type: "test", id: testId };
+  const product = { type: Enum.ProductType.TEST, id: testId };
   const navigate = useNavigate();
   const {
     data: { wallet },
@@ -320,7 +330,7 @@ const TestCard = ({
             block
             type="primary"
           >
-            Start Test
+            <EditOutlined /> Start Test
           </Button>
         );
       }
@@ -394,7 +404,7 @@ const TestCard = ({
               block
               type="primary"
             >
-              Continue Test
+              <EditOutlined /> Continue Test
             </Button>
           );
         }
@@ -474,82 +484,64 @@ const TestCard = ({
                 <Row gutter={[10, 10]}>
                   <Col span={24}>{children}</Col>
                   <Col span={24}>
-                    {
-                      isSignedIn ? (
-                        <>
-                          {isEnrolled ? (
-                            ENROLLED_CTA
-                          ) : (
-                            <ProductCheckoutButton
-                              onSuccess={() => {
-                                message.open({
-                                  type: "success",
-                                  content: `You have enrolled successfully`,
-                                  particle: true,
-                                });
-                              }}
-                              product={{ type: "test", id: testId + "" }}
-                              block
-                              type="primary"
-                            >
-                              {isFree ? "Enroll Now" : "Buy Now"}
-                            </ProductCheckoutButton>
-                          )}
-                        </>
-                      ) : (
-                        <Button
-                          onClick={() => {
-                            openModal(<LearnerLogin />, {
-                              width: 300,
-                            });
-                          }}
-                          size="large"
-                          type="primary"
-                          block
-                        >
-                          Login to access this test
-                        </Button>
-                      )
+                    {isSignedIn ? (
+                      <>
+                        {isEnrolled ? (
+                          ENROLLED_CTA
+                        ) : (
+                          <ProductCheckoutButton
+                            onSuccess={() => {
+                              message.open({
+                                type: "success",
+                                content: `You have enrolled successfully`,
+                              });
+                            }}
+                            product={{ type: "test", id: testId + "" }}
+                            block
+                            type="primary"
+                          >
+                            {isFree ? "Enroll Now" : "Buy Now"}
+                          </ProductCheckoutButton>
+                        )}
+                      </>
+                    ) : (
+                      <Button
+                        onClick={() => {
+                          openModal(<LearnerLogin />, {
+                            width: 300,
+                          });
+                        }}
+                        size="large"
+                        type="primary"
+                        block
+                      >
+                        Login to access this test
+                      </Button>
+                    )}
 
-                      //       <ActionModal width={300}
-                      //         cta={<Button size="large" type="primary" block>
-                      // Login to access this test
-                      //     </Button>}>
-                      //       <LearnerLogin/>
-                      //     </ActionModal>
-                    }
+                    {test.pyq.enabled ? (
+                      <Link
+                        to={
+                          isServer
+                            ? `/test/${testId}/pyq`
+                            : `/test/${testId}/pyq`
+                        }
+                      >
+                        <Button
+                          style={{ marginTop: 15 }}
+                          danger
+                          size="large"
+                          block
+                          type="dashed"
+                        >
+                          <BookOutlined /> View Paper Solutions
+                        </Button>
+                      </Link>
+                    ) : null}
                   </Col>
                 </Row>
               </Col>
             </Col>
-            {/* {isEnrolled ? (
-      <Col span={24}>
-        <Row gutter={[10, 10]}>
-          <Col span={24}>
-            <Button type="primary" block>
-              Join Test
-            </Button>
-          </Col>
-        </Row>
-      </Col>
-    ) : (
-      <Col span={24}>
-        <Row gutter={[10, 10]}>
-          <Col span={24}>
-            <TestMetadata test={test} />
-          </Col>
-          <Col span={24}>
-            <ProductCheckoutButton
-              product={{ type: 'test', id: testId + '' }}
-              block
-              type="primary"
-            >
-              Buy Now
-            </ProductCheckoutButton>
-          </Col>
-        </Row>
-      </Col>
-    )} */}
           </Row>
         </>
       )}

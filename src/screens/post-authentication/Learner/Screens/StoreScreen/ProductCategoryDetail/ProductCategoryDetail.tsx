@@ -111,7 +111,7 @@ export default function ProductCategoryDetailScreen(
                     </Button>
                   </Link>
                 </Col>
-                <Col xs={24} md={24} lg={12}>
+                <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
                   <Link
                     to={
                       props.isServer

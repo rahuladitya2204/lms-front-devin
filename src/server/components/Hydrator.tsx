@@ -34,7 +34,7 @@ export default async function Hydrator({ children, queries }: HydratorProps) {
 
   const queryClient = getQueryClient();
   if (queries && queries.length) {
-    await prefetchQueries(queryClient, queries);
+    const r = await prefetchQueries(queryClient, queries);
   }
 
   const dehydratedState = dehydrate(queryClient);

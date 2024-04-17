@@ -280,7 +280,7 @@ export function compressImage(file: File, options?: Partial<Compressor.Options>)
         if (options.grayscale) {
           compressedFile = convertToGrayscaleJPEG(compressedFile);
         }
-        // console.log(compressedFile,'rrrrr')
+
         console.log('Prev file', file, 'Compressed File', compressedFile, 'Size Saved', `${Math.ceil(
           unit(file.size - compressedFile.size, 'byte')
             .to('megabyte')
