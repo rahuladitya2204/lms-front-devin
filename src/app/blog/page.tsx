@@ -36,9 +36,9 @@ export default function Page({ params }: { params: { id: string } }) {
           : []),
       ]}
     >
-      <LearnerRootScreen isServer>
+      {/* <LearnerRootScreen isServer>
         <LearnerBlogsScreen />
-      </LearnerRootScreen>
+      </LearnerRootScreen> */}
     </Hydrator>
   );
 }

@@ -138,9 +138,9 @@ export default function Page({ params }: { params: { id: string } }) {
         ...(token ? [getLearnerDetails()] : []),
       ]}
     >
-      <LearnerRootScreen isServer>
+      {/* <LearnerRootScreen isServer>
         <BlogDetailScreen id={params.id} />
-      </LearnerRootScreen>
+      </LearnerRootScreen> */}
     </Hydrator>
   );
 }

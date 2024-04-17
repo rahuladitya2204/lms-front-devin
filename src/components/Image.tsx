@@ -1,10 +1,11 @@
+"use client";
 // @ts-nocheck
-import { Image as AntDImage, ImageProps } from 'antd'
-import { useEffect, useState } from 'react'
+import { Image as AntDImage, ImageProps } from "antd";
+import { useEffect, useState } from "react";
 
-import { Common } from '@adewaskar/lms-common'
-import { Skeleton } from 'antd'
-import styled from '@emotion/styled'
+import { Common } from "@adewaskar/lms-common";
+import { Skeleton } from "antd";
+import styled from "@emotion/styled";
 
 interface ImagePropsI extends ImageProps {
   file?: string;
@@ -14,8 +15,8 @@ interface ImagePropsI extends ImageProps {
 }
 
 const ImageHolder = styled.div(
-  (props: { width?: number, height: number }) => `
-width:${props.width ? props.width + 'px' : 'auto'};
+  (props: { width?: number; height: number }) => `
+width:${props.width ? props.width + "px" : "auto"};
 object-fit: cover;
 display: flex;
 align-items: center;
@@ -24,32 +25,29 @@ overflow: hidden;
 .ant-upload-wrapper.ant-upload-picture-card-wrapper{
   width: 100% !imporat;
 }
-height:${props.height ? props.height : 'auto'}px;
+height:${props.height ? props.height : "auto"}px;
 `
-)
+);
 
 const ImageComponent = styled(AntDImage)`
   object-fit: cover !important;
-`
+`;
 
-const FALLBACK = `/images/not-found.png`
+const FALLBACK = `/images/not-found.png`;
 
 function AppImage(props: ImagePropsI) {
-  const [hasLoaded, setHasLoaded] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(false);
   const { data: url } = Common.Queries.useGetPresignedUrlFromFile(props.file, {
-    enabled: !!props.file
-  })
-  const Url = props.src || url
+    enabled: !!props.file,
+  });
+  const Url = props.src || url;
 
-  useEffect(
-    () => {
-      setHasLoaded(false)
-      const img = new Image()
-      img.src = Url
-      img.onload = () => setHasLoaded(true)
-    },
-    [Url]
-  )
+  useEffect(() => {
+    setHasLoaded(false);
+    const img = new Image();
+    img.src = Url;
+    img.onload = () => setHasLoaded(true);
+  }, [Url]);
 
   // if (props.noLoadNoShowPlaceholder && !hasLoaded) {
   //   return <Skeleton.Image /> // Do not render anything if the image hasn't loaded and noLoadNoShowPlaceholder is true
@@ -77,7 +75,7 @@ function AppImage(props: ImagePropsI) {
       </ImageHolder>
       {props.caption ? <p style={{ margin: 0 }}>{props.caption}</p> : null}
     </div>
-  )
+  );
 }
 
-export default AppImage
+export default AppImage;
