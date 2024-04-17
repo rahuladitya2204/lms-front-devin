@@ -214,9 +214,11 @@ export default function TestPublicPlayerItemReiew(
                   {loadingQuestion ? (
                     <Skeleton paragraph={{ rows: 1 }} />
                   ) : (
-                    <HtmlViewer
-                      content={currentQuestion.title?.text[language] + ""}
-                    />
+                    <Title style={{ fontSize: 16, fontWeight: 600 }}>
+                      <HtmlViewer
+                        content={currentQuestion.title?.text[language] + ""}
+                      />
+                    </Title>
                   )}
                 </Paragraph>
                 {currentQuestion.type !== "subjective" ? (

@@ -1,5 +1,5 @@
 import Hydrator from "@ServerComponents/Hydrator";
-import { Learner, Types } from "@adewaskar/lms-common";
+import { Constants, Learner, Types } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
 import TestDetailScreen from "@Learner/Screens/Products/Test/TestDetail/TestDetail";
@@ -9,16 +9,27 @@ import { getCookie } from "@ServerUtils/index";
 import axios from "axios";
 import TestPublicPlayer from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
 import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
+import getQueryClient from "@ServerUtils/getQueryClient";
+import { htmlToText } from "html-to-text";
 
 export async function generateMetadata(req: {
   params: any;
   searchParams: any;
   headers: Headers;
 }): Promise<Metadata> {
+  const questionId = req.params.questionId;
+  const id = req.params.testId;
+  const test: Types.Test = await Learner.Api.GetTestDetails(id, "result");
+  // @ts-ignore
+  const question: Types.TestQuestion = test.sections
+    .map((i) => i.items)
+    .flat()
+    // @ts-ignore
+    .find((i) => i?._id === questionId);
+
   // console.log(req, "reqqq");
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
-  const id = req.params.testId;
   // console.log(alias, userType, id, "kututurur");
   if (alias && userType) {
     const apiUrl = process.env.API_URL;
@@ -32,9 +43,9 @@ export async function generateMetadata(req: {
       }
     );
     const url = `https://${alias}.testmint.ai/learner/test/${id}`;
-
+    const questionTitle = htmlToText(question?.title?.text?.eng).slice(0, 70);
     return {
-      title: `[Solved] ${test.title}`,
+      title: `[Solved] ${questionTitle}`,
       description: test.subtitle,
       // icons: {
       //   icon: test.thumbnailImage,

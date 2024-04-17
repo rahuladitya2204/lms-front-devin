@@ -83,7 +83,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   } = Learner.Queries.useGetTestStatus(testId + "");
 
   useEffect(() => {
-    console.log(test.sections, "test.sections");
+    // console.log(test.sections, "test.sections");
     if (test.sections[0]?.items[0] && !questionId) {
       const itemId = test.sections[0].items[0]._id;
       navigate(`/app/test/${testId}/player/${itemId}`);

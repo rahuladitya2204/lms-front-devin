@@ -64,7 +64,7 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
     }
   }, [test]);
   // const isProcturingOn = test.rules.procturing.enabled;
-  console.log(questionId, test.sections, "test.sections");
+  // console.log(questionId, test.sections, "test.sections");
 
   useEffect(() => {
     if (test.sections[0]?.items[0] && !questionId) {
