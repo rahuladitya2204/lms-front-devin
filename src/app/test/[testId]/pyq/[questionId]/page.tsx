@@ -43,7 +43,8 @@ export async function generateMetadata(req: {
       }
     );
     const url = `https://${alias}.testmint.ai/learner/test/${id}`;
-    const questionTitle = htmlToText(question?.title?.text?.eng).slice(0, 70);
+    const questionTitle = htmlToText(question?.title?.text?.eng);
+    // .slice(0, 70);
     return {
       title: `[Solved] ${questionTitle}`,
       description: test.subtitle,
