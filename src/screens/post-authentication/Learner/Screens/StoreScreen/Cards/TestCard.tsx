@@ -46,9 +46,11 @@ function TestCard(props: TestCardPropsI) {
     // <Badge.Ribbon text="Best Seller" color="orange">
     <CustomCard
       hoverable
-      onClick={() =>
-        navigate(props.isServer ? `/test/${test._id}` : `/app/test/${test._id}`)
-      }
+      onClick={(e) => {
+        navigate(
+          props.isServer ? `/test/${test._id}` : `/app/test/${test._id}`
+        );
+      }}
       bodyStyle={{ padding: 15 }}
       cover={
         !props.hideCoverImg ? (

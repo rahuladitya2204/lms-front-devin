@@ -98,31 +98,38 @@ export default function ProductCategoryDetailScreen(
           <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
             <TestCard hideCoverImg isServer={props.isServer} test={test}>
               <Row gutter={[20, 10]}>
-                <Col xs={24} md={24} lg={12}>
-                  <Link
-                    to={
-                      props.isServer
-                        ? `/test/${test._id}`
-                        : `/app/test/${test._id}`
-                    }
+                <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(
+                        props.isServer
+                          ? `/test/${test._id}`
+                          : `/app/test/${test._id}`
+                      );
+                    }}
+                    block
+                    type="primary"
                   >
-                    <Button block={!isDesktop} type="primary">
-                      <EditOutlined /> Attempt Now
-                    </Button>
-                  </Link>
+                    <BookOutlined /> Attemp Now
+                  </Button>
                 </Col>
                 <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
-                  <Link
-                    to={
-                      props.isServer
-                        ? `/test/${test._id}/pyq`
-                        : `/app/test/${test._id}/pyq`
-                    }
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      navigate(
+                        props.isServer
+                          ? `/test/${test._id}/pyq`
+                          : `/app/test/${test._id}/pyq`
+                      );
+                    }}
+                    type="dashed"
+                    block
+                    danger
                   >
-                    <Button block={!isDesktop} danger>
-                      <BookOutlined /> View Solutions
-                    </Button>
-                  </Link>
+                    <BookOutlined /> View Solutions
+                  </Button>
                 </Col>
               </Row>
             </TestCard>
