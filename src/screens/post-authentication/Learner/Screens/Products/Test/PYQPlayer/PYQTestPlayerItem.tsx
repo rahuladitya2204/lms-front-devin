@@ -197,6 +197,9 @@ export default function TestPublicPlayerItemReiew(
       <Card
         title={`Question ${currentQuestionIndex + 1}`}
         extra={[
+          currentQuestion.difficultyLevel ? (
+            <Tag>Difficulty Level: {currentQuestion.difficultyLevel}</Tag>
+          ) : null,
           <Tag color="green-inverse">
             Correct: +{currentQuestion.score.correct}
           </Tag>,

@@ -38,7 +38,7 @@ function TestLearners(props: TestLearnersPropsI) {
       <Table
         searchFields={["learner.name", "learner.contactNo", "learner.email"]}
         // @ts-ignore
-        dataSource={sortBy(data, "metadata.test.endedAt")}
+        dataSource={sortBy(data, "-metadata.test.endedAt")}
         loading={loading}
       >
         <TableColumn
@@ -135,7 +135,11 @@ render={(_: any, record: Types.Learner) => (
           key="rating"
           render={(_: any, record: Types.EnrolledProductDetails) => {
             const review = record?.review as unknown as Types.ProductReview;
-            return <Rate disabled allowHalf defaultValue={review?.rating} />;
+            return review?.rating ? (
+              <Rate disabled allowHalf defaultValue={review?.rating} />
+            ) : (
+              "-"
+            );
           }}
         />
         <TableColumn
