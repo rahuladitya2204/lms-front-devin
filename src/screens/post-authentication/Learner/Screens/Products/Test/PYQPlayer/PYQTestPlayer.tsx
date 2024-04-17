@@ -69,7 +69,11 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
   useEffect(() => {
     if (test.sections[0]?.items[0] && !questionId) {
       const itemId = test.sections[0].items[0]._id;
-      navigate(`/test/${testId}/pyq/${itemId}`);
+      navigate(
+        props.isServer
+          ? `/test/${testId}/pyq/${itemId}`
+          : `/app/test/${testId}/pyq/${itemId}`
+      );
     }
     if (test.languages.length) {
       setLang(test.languages[0]);

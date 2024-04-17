@@ -59,16 +59,17 @@ export default function ProductCategoryDetailScreen(
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
-  const { data: packages } = Learner.Queries.useGetPackages(
+  const { data: packages, isLoading: loadingPackages } =
+    Learner.Queries.useGetPackages(productCategory._id, {
+      enabled: !!productCategory._id,
+    });
+
+  const { data: PYQTests, isLoading: loadingPYQs } = Learner.Queries.useGetPYQs(
     productCategory._id,
     {
       enabled: !!productCategory._id,
     }
   );
-
-  const { data: PYQTests } = Learner.Queries.useGetPYQs(productCategory._id, {
-    enabled: !!productCategory._id,
-  });
 
   useEffect(() => {
     if (!type && !props.isServer) {
@@ -81,13 +82,19 @@ export default function ProductCategoryDetailScreen(
   );
   const PackageListComponent = (
     <Row gutter={[20, 20]}>
-      {packages.map((bundle, idx) => {
-        return (
-          <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
-            <PackageCard isServer={props.isServer} package={bundle} />
-          </Col>
-        );
-      })}
+      {loadingPackages
+        ? [1, 1, 1, 1, 1, 1].map((i, idx) => (
+            <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+              <Skeleton.Button active block style={{ height: 200 }} />
+            </Col>
+          ))
+        : packages.map((bundle, idx) => {
+            return (
+              <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+                <PackageCard isServer={props.isServer} package={bundle} />
+              </Col>
+            );
+          })}
     </Row>
   );
   const { isDesktop } = useBreakpoint();
@@ -102,10 +109,11 @@ export default function ProductCategoryDetailScreen(
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(
-                        props.isServer
-                          ? `/test/${test._id}`
-                          : `/app/test/${test._id}`
+                      window.open(
+                        // props.isServer
+                        //   ? `/test/${test._id}`
+                        //   :
+                        `/app/test/${test._id}`
                       );
                     }}
                     block
@@ -118,11 +126,7 @@ export default function ProductCategoryDetailScreen(
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(
-                        props.isServer
-                          ? `/test/${test._id}/pyq`
-                          : `/app/test/${test._id}/pyq`
-                      );
+                      window.open(`/app/test/${test._id}/pyq`);
                     }}
                     type="dashed"
                     block
