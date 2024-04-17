@@ -535,7 +535,7 @@ const TestCard = ({
                           block
                           type="dashed"
                         >
-                          <BookOutlined /> View Paper Solutions
+                          <BookOutlined /> View Detailed Solution
                         </Button>
                       </Link>
                     ) : null}
