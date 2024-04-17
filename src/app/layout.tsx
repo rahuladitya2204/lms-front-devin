@@ -10,6 +10,7 @@ import Providers from "./providers";
 import axios from "axios";
 import { Utils } from "@adewaskar/lms-common";
 import { getCookie, getServerCookie } from "@ServerUtils/index";
+import { AntdRegistry } from "@ant-design/nextjs-registry";
 
 export const viewport: Viewport = {
   themeColor: "black",

@@ -21,6 +21,8 @@ const { UnitTypeToStr } = Utils;
 
 interface TestCardPropsI {
   test: Types.Test;
+  isServer?: boolean;
+  hideCoverImg?: boolean;
 }
 
 const CustomCard = styled(Card)`
@@ -43,14 +45,18 @@ function TestCard(props: TestCardPropsI) {
     // <Badge.Ribbon text="Best Seller" color="orange">
     <CustomCard
       hoverable
-      onClick={() => navigate(`../test/${test._id}`)}
+      onClick={() =>
+        navigate(props.isServer ? `/test/${test._id}` : `/app/test/${test._id}`)
+      }
       bodyStyle={{ padding: 15 }}
       cover={
-        <Image
-          alt="example"
-          style={{ height: 140 }}
-          src={test.thumbnailImage}
-        />
+        !props.hideCoverImg ? (
+          <Image
+            alt="example"
+            style={{ height: 140 }}
+            src={test.thumbnailImage}
+          />
+        ) : null
       }
     >
       <Card.Meta

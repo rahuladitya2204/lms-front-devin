@@ -13,7 +13,7 @@ export default function Page({
 }: {
   params: { type: string; id: string };
 }) {
-  const { getProductCategoryDetails, getPackages } =
+  const { getProductCategoryDetails, getPackages, getPYQs } =
     Learner.Queries.Definitions;
   return (
     // @ts-ignore
@@ -21,6 +21,7 @@ export default function Page({
       queries={[
         getProductCategoryDetails(params.id),
         getPackages(params.id),
+        getPYQs(params.id),
         // getOrgDetails(),
         // // authenticated routes should only be called if token is present
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),

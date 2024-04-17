@@ -27,8 +27,8 @@ interface TextAreaProps extends LibTextAreaProps {
 
 const TextArea: React.FC<TextAreaProps> = (props) => {
   const { html, name, label, ...restProps } = props;
-  const EditorComponent =
-    props.editorType === "ck" ? CKEditorComponent : SunEditorComponent;
+  const EditorComponent = SunEditorComponent;
+  // props.editorType === "ck" ? CKEditorComponent : SunEditorComponent;
   return (
     <Form.Item name={name} label={label}>
       {html ? (
