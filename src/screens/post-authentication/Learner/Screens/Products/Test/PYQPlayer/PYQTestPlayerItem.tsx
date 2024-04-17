@@ -262,6 +262,7 @@ export default function TestPublicPlayerItemReiew(
                                           style={{
                                             position: "relative",
                                             top: -6,
+                                            left: -10,
                                           }}
                                           color={token.colorSuccessBg}
                                         />
@@ -271,8 +272,18 @@ export default function TestPublicPlayerItemReiew(
                                     <Paragraph
                                       style={
                                         language !== "eng"
-                                          ? { fontSize: 16 }
-                                          : { fontSize: 15 }
+                                          ? {
+                                              fontSize: 16,
+                                              marginLeft: option.isCorrect
+                                                ? -20
+                                                : "auto",
+                                            }
+                                          : {
+                                              fontSize: 15,
+                                              marginLeft: option.isCorrect
+                                                ? -20
+                                                : "auto",
+                                            }
                                       }
                                     >
                                       {/* @ts-ignore */}
