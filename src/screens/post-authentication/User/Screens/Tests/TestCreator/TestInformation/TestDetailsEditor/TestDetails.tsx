@@ -21,8 +21,7 @@ import { TopicNode } from "@User/Screens/AssetLibrary/Topics/TopicsScreen";
 import dayjs from "dayjs";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useParams } from "react-router";
-
-const { TextArea } = Input;
+import TextArea from "@Components/Textarea";
 
 const { useWatch } = Form;
 
@@ -168,6 +167,16 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                 // label="Send email to learner on course enrollment."
               >
                 <Input type="number" />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                label="Paper Notes"
+                style={{ margin: 0 }}
+                name={["pyq", "notes"]}
+                // label="Send email to learner on course enrollment."
+              >
+                <TextArea height={400} html={{ level: 3 }} />
               </Form.Item>
             </Col>
           </>

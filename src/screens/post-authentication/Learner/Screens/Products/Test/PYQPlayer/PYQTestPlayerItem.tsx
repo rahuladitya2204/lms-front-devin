@@ -259,6 +259,10 @@ export default function TestPublicPlayerItemReiew(
                                         title={`Correct Answer`}
                                       >
                                         <CheckCircleTwoTone
+                                          style={{
+                                            position: "relative",
+                                            top: -6,
+                                          }}
                                           color={token.colorSuccessBg}
                                         />
                                       </Tooltip>

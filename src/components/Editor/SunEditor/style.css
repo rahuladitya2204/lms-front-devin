@@ -15,3 +15,7 @@ li.variable-li:hover {
 .sun-editor .se-statusbar .se-resizing-bar .se-state {
     display: none;
 }
+
+.sun-editor input[tabindex="-1"] {
+    display: none;
+}
