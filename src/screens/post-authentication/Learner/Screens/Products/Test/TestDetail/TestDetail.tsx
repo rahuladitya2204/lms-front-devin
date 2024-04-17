@@ -522,9 +522,10 @@ const TestCard = ({
                     {test.pyq.enabled ? (
                       <Link
                         to={
-                          isServer
-                            ? `/test/${testId}/pyq`
-                            : `/test/${testId}/pyq`
+                          // isServer
+                          //   ? `/test/${testId}/pyq`
+                          // :
+                          `/app/test/${testId}/pyq`
                         }
                       >
                         <Button

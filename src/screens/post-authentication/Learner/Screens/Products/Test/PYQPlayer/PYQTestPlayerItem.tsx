@@ -234,9 +234,10 @@ export default function TestPublicPlayerItemReiew(
                         }}
                         type="secondary"
                       >
-                        {currentQuestion.type === Enum.TestQuestionType.SINGLE
+                        {/* {currentQuestion.type === Enum.TestQuestionType.SINGLE
                           ? "Select one among others"
-                          : "Select all that apply"}
+                          : "Select all that apply"} */}
+                        <Divider />
                       </Text>
                       <Form.Item name={["answer", "options"]}>
                         <List
