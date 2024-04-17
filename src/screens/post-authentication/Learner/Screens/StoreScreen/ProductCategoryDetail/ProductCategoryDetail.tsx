@@ -17,7 +17,9 @@ import {
   message,
 } from "@Lib/index";
 import {
+  BookOutlined,
   CalendarOutlined,
+  EditOutlined,
   InfoCircleFilled,
   InfoOutlined,
   NotificationOutlined,
@@ -26,7 +28,7 @@ import {
 import { Constants, Enum, Learner, Utils } from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useMemo } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PackageCard from "../Cards/PackageCard";
@@ -67,7 +69,7 @@ export default function ProductCategoryDetailScreen(
   const { data: PYQTests } = Learner.Queries.useGetPYQs(productCategory._id, {
     enabled: !!productCategory._id,
   });
-  console.log(productCategoryId, type, "productCategoryId");
+
   useEffect(() => {
     if (!type && !props.isServer) {
       navigate(`/app/category/${productCategoryId}/overview`);
@@ -88,13 +90,42 @@ export default function ProductCategoryDetailScreen(
       })}
     </Row>
   );
-
+  const { isDesktop } = useBreakpoint();
   const PYQTestsComponent = (
     <Row gutter={[20, 20]}>
-      {PYQTests.map((bundle, idx) => {
+      {PYQTests.map((test, idx) => {
         return (
           <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
-            <TestCard hideCoverImg isServer={props.isServer} test={bundle} />
+            <TestCard hideCoverImg isServer={props.isServer} test={test}>
+              <Row gutter={[20, 10]}>
+                <Col xs={24} md={24} lg={12}>
+                  <Link
+                    to={
+                      props.isServer
+                        ? `/test/${test._id}`
+                        : `/app/test/${test._id}`
+                    }
+                  >
+                    <Button block={!isDesktop} type="primary">
+                      <EditOutlined /> Attempt Now
+                    </Button>
+                  </Link>
+                </Col>
+                <Col xs={24} md={24} lg={12}>
+                  <Link
+                    to={
+                      props.isServer
+                        ? `/test/${test._id}/pyq`
+                        : `/app/test/${test._id}/pyq`
+                    }
+                  >
+                    <Button block={!isDesktop} danger>
+                      <BookOutlined /> View Solutions
+                    </Button>
+                  </Link>
+                </Col>
+              </Row>
+            </TestCard>
           </Col>
         );
       })}

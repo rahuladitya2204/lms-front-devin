@@ -23,6 +23,7 @@ interface TestCardPropsI {
   test: Types.Test;
   isServer?: boolean;
   hideCoverImg?: boolean;
+  children?: React.ReactNode;
 }
 
 const CustomCard = styled(Card)`
@@ -97,10 +98,17 @@ function TestCard(props: TestCardPropsI) {
           ) : null}
         </Col>
       </Row>
-      <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+
       <Row justify={"space-between"}>
         <Col span={24}>
-          <PriceCardContent plan={plan} />
+          {props.children ? (
+            props.children
+          ) : (
+            <>
+              <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+              <PriceCardContent plan={plan} />
+            </>
+          )}
         </Col>
       </Row>
     </CustomCard>

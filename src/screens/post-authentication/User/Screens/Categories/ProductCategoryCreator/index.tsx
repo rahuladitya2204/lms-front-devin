@@ -48,7 +48,6 @@ function ProductCategoryEditor() {
     User.Queries.useGetProductCategoryDetails(productCategoryId, {
       enabled: !!productCategoryId,
     });
-  console.log(productCategoryDetails, "productCategoryId");
 
   useEffect(() => {
     const i = { ...productCategoryDetails };

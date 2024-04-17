@@ -137,10 +137,10 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
     <Header
       title={
         <Space>
-          {" "}
+          {/* {" "}
           <NavLink to={`../app/test/${testId}/result`} title={test.title}>
             <Button type="primary" icon={<ArrowLeftOutlined />} />
-          </NavLink>{" "}
+          </NavLink>{" "} */}
           <Title style={{ fontSize: 20 }}>
             {!isMobile ? test.title : null}
           </Title>

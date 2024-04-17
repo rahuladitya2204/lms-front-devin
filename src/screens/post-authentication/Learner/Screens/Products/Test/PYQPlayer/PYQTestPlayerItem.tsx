@@ -241,7 +241,7 @@ export default function TestPublicPlayerItemReiew(
                       <Form.Item name={["answer", "options"]}>
                         <List
                           dataSource={currentQuestion?.options}
-                          renderItem={(option) => {
+                          renderItem={(option, index) => {
                             return (
                               <Row gutter={[0, 20]} key={option._id}>
                                 <Col span={24}>
@@ -250,39 +250,45 @@ export default function TestPublicPlayerItemReiew(
                                       display: "flex",
                                       flexDirection: "row",
                                       justifyContent: "flex-start",
+                                      // marginLeft: 10,
                                     }}
                                   >
-                                    {/* {JSON.stringify(option)} */}
-                                    {option.isCorrect ? (
-                                      <Tooltip
-                                        placement="top"
-                                        title={`Correct Answer`}
-                                      >
-                                        <CheckCircleTwoTone
-                                          style={{
-                                            position: "relative",
-                                            top: -6,
-                                            left: -10,
-                                          }}
-                                          color={token.colorSuccessBg}
-                                        />
-                                      </Tooltip>
-                                    ) : null}
+                                    <Text
+                                      style={{
+                                        textTransform: "capitalize",
+                                        marginLeft: option.isCorrect
+                                          ? -20
+                                          : "auto",
+                                        // marginRight: 10,
+                                      }}
+                                      strong
+                                    >
+                                      {option.isCorrect ? (
+                                        <Tooltip
+                                          placement="top"
+                                          title={`Correct Answer`}
+                                        >
+                                          <CheckCircleTwoTone
+                                            style={{
+                                              position: "relative",
+                                              top: 0,
+                                              left: 0,
+                                            }}
+                                            color={token.colorSuccessBg}
+                                          />
+                                        </Tooltip>
+                                      ) : null}{" "}
+                                      {String.fromCharCode(97 + index)}
+                                    </Text>
                                     {/* {SelectFormControlComponent} */}
                                     <Paragraph
                                       style={
                                         language !== "eng"
                                           ? {
                                               fontSize: 16,
-                                              marginLeft: option.isCorrect
-                                                ? -20
-                                                : "auto",
                                             }
                                           : {
                                               fontSize: 15,
-                                              marginLeft: option.isCorrect
-                                                ? -20
-                                                : "auto",
                                             }
                                       }
                                     >
