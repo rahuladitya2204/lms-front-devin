@@ -1,79 +1,81 @@
-"use client";
-// @ts-nocheck
-import { Image as AntDImage, ImageProps } from "antd";
+import Image from "next/image";
 import { useEffect, useState } from "react";
-
-import { Common } from "@adewaskar/lms-common";
-import { Skeleton } from "antd";
 import styled from "@emotion/styled";
+import { Skeleton } from "antd";
+import { Common } from "@adewaskar/lms-common";
 
-interface ImagePropsI extends ImageProps {
+interface ImagePropsI {
   file?: string;
-  holderStyle?: any;
+  src?: string;
+  width?: number | string; // Adjusted to support Next.js `Image` component use cases
+  height?: number | string;
+  holderStyle?: React.CSSProperties;
   noLoadNoShowPlaceholder?: React.ReactNode;
   caption?: React.ReactNode;
 }
 
 const ImageHolder = styled.div(
-  (props: { width?: number; height: number }) => `
-width:${props.width ? props.width + "px" : "auto"};
-object-fit: cover;
-display: flex;
-align-items: center;
-justify-content: center;
-overflow: hidden;
-.ant-upload-wrapper.ant-upload-picture-card-wrapper{
-  width: 100% !imporat;
-}
-height:${props.height ? props.height : "auto"}px;
-`
+  ({ width, height }: { width?: number; height: number }) => `
+    width: ${
+      width ? `${typeof width === "number" ? width + "px" : width}` : "auto"
+    };
+    object-fit: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    height: ${height || "auto"}px;
+  `
 );
 
-const ImageComponent = styled(AntDImage)`
-  object-fit: cover !important;
-`;
+const FALLBACK = "/images/not-found.png";
 
-const FALLBACK = `/images/not-found.png`;
-
-function AppImage(props: ImagePropsI) {
+function AppImage({
+  file,
+  src,
+  width,
+  height,
+  holderStyle,
+  noLoadNoShowPlaceholder,
+  caption,
+  ...props
+}: ImagePropsI) {
   const [hasLoaded, setHasLoaded] = useState(false);
-  const { data: url } = Common.Queries.useGetPresignedUrlFromFile(props.file, {
-    enabled: !!props.file,
+  const { data: url } = Common.Queries.useGetPresignedUrlFromFile(file, {
+    enabled: !!file,
   });
-  const Url = props.src || url;
+  const imageUrl = src || url;
 
   useEffect(() => {
     setHasLoaded(false);
-    const img = new Image();
-    img.src = Url;
+    // Use the global window object to reference the native Image constructor
+    const img = new window.Image();
+    img.src = imageUrl;
     img.onload = () => setHasLoaded(true);
-  }, [Url]);
-
-  // if (props.noLoadNoShowPlaceholder && !hasLoaded) {
-  //   return <Skeleton.Image /> // Do not render anything if the image hasn't loaded and noLoadNoShowPlaceholder is true
-  // }
+    // Handle the error state as well with `onerror`
+    img.onerror = () => setHasLoaded(false);
+  }, [imageUrl]);
 
   return (
     <div>
-      <ImageHolder
-        style={{ ...props.holderStyle }}
-        width={props.width}
-        height={props.height}
-      >
-        {props.noLoadNoShowPlaceholder && !hasLoaded ? (
-          props.noLoadNoShowPlaceholder
+      <ImageHolder style={holderStyle} width={width} height={height}>
+        {noLoadNoShowPlaceholder && !hasLoaded ? (
+          noLoadNoShowPlaceholder
         ) : (
-          <ImageComponent
-            preview={false}
-            width="100%"
-            height="100%"
-            {...props}
-            src={Url || FALLBACK}
-            fallback={<Skeleton.Image active />}
+          <Image
+            style={{ width: "100%", height: height ? "auto" : "100%" }}
+            width={10}
+            height={10}
+            // layout="fill"
+            objectFit="cover"
+            alt={props.alt}
+            // placeholder="blur"
+            src={imageUrl || FALLBACK}
+            unoptimized
           />
         )}
       </ImageHolder>
-      {props.caption ? <p style={{ margin: 0 }}>{props.caption}</p> : null}
+      {caption ? <p style={{ margin: 0 }}>{caption}</p> : null}
     </div>
   );
 }

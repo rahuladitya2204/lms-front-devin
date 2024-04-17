@@ -11,6 +11,9 @@ const nextConfig = {
     return config;
   },
   assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
+  images: {
+    domains: ['upload-junk.s3.us-west-2.amazonaws.com'],
+  },
   async redirects() {
     return [
       {
