@@ -67,7 +67,10 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
       // }
     );
   }
-  if (currentQuestion?.feedback?.met || currentQuestion?.feedback?.notMet) {
+  if (
+    currentQuestion?.feedback?.met?.text ||
+    currentQuestion?.feedback?.notMet?.text
+  ) {
     TAB_ITEMS.unshift({
       label: `Feedback`,
       key: "feedback",
