@@ -12,6 +12,7 @@ interface ImagePropsI {
   holderStyle?: React.CSSProperties;
   noLoadNoShowPlaceholder?: React.ReactNode;
   caption?: React.ReactNode;
+  style?: any;
 }
 
 const ImageHolder = styled.div(
@@ -63,7 +64,12 @@ function AppImage({
           noLoadNoShowPlaceholder
         ) : (
           <Image
-            style={{ width: "100%", height: height ? "auto" : "100%" }}
+            style={{
+              width: width ? width : "100%",
+              height: height ? height : "100%",
+              objectFit: "cover",
+              ...(props.style || {}),
+            }}
             width={10}
             height={10}
             // layout="fill"
