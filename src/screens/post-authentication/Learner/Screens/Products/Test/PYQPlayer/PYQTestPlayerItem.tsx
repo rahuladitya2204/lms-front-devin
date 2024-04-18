@@ -83,15 +83,10 @@ export default function TestPublicPlayerItemReiew(
     </Button>
   );
   const { isDesktop, width } = useBreakpoint();
-  const {
-    isLoading: loadingResult,
-    data: {
-      test: { sections },
-    },
-  } = Learner.Queries.useGetTestResult(testId + "");
   const questions = useMemo(() => {
-    return sections.map((i) => i.items).flat();
-  }, [sections]);
+    return test.sections.map((i) => i.items).flat();
+  }, [test.sections]);
+  // console.log(questions, "questions");
   const PrevButton = (
     <Button
       shape={!isMobile ? "default" : "circle"}
@@ -136,8 +131,8 @@ export default function TestPublicPlayerItemReiew(
                       key={item._id}
                       to={
                         props.isServer
-                          ? `/test/${testId}/result/review/${item._id}`
-                          : `/app/test/${testId}/result/review/${item._id}`
+                          ? `/test/${testId}/pyq/${item._id}`
+                          : `/app/test/${testId}/pyq/${item._id}`
                       }
                       children={() => {
                         const isActive = questionId === item._id;
@@ -198,13 +193,13 @@ export default function TestPublicPlayerItemReiew(
         title={`Question ${currentQuestionIndex + 1}`}
         extra={[
           currentQuestion.difficultyLevel ? (
-            <Tag>Difficulty Level: {currentQuestion.difficultyLevel}</Tag>
+            <Tag>{currentQuestion.difficultyLevel.toUpperCase()}</Tag>
           ) : null,
           <Tag color="green-inverse">
-            Correct: +{currentQuestion.score.correct}
+            {!isMobile ? "Correct:" : null} +{currentQuestion.score.correct}
           </Tag>,
           <Tag color="red-inverse">
-            Incorrect: -{currentQuestion.score.correct}
+            {!isMobile ? "Incorrect:" : null} -{currentQuestion.score.correct}
           </Tag>,
         ]}
       >
@@ -245,70 +240,72 @@ export default function TestPublicPlayerItemReiew(
                         <Divider />
                       </Text>
                       <Form.Item name={["answer", "options"]}>
-                        <List
-                          dataSource={currentQuestion?.options}
-                          renderItem={(option, index) => {
-                            return (
-                              <Row gutter={[0, 20]} key={option._id}>
-                                <Col span={24}>
-                                  <Space
-                                    style={{
-                                      display: "flex",
-                                      flexDirection: "row",
-                                      justifyContent: "flex-start",
-                                      // marginLeft: 10,
-                                    }}
-                                  >
-                                    <Text
+                        <div style={{ paddingLeft: 15 }}>
+                          <List
+                            dataSource={currentQuestion?.options}
+                            renderItem={(option, index) => {
+                              return (
+                                <Row gutter={[0, 20]} key={option._id}>
+                                  <Col span={24}>
+                                    <Space
                                       style={{
-                                        textTransform: "capitalize",
-                                        marginLeft: option.isCorrect
-                                          ? -18
-                                          : "auto",
-                                        // marginRight: 10,
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        justifyContent: "flex-start",
+                                        // marginLeft: 10,
                                       }}
-                                      strong
                                     >
-                                      {option.isCorrect ? (
-                                        <Tooltip
-                                          placement="top"
-                                          title={`Correct Answer`}
-                                        >
-                                          <CheckCircleTwoTone
-                                            style={{
-                                              position: "relative",
-                                              top: 0,
-                                              left: 0,
-                                            }}
-                                            color={token.colorSuccessBg}
-                                          />
-                                        </Tooltip>
-                                      ) : null}{" "}
-                                      {String.fromCharCode(97 + index)}
-                                    </Text>
-                                    {/* {SelectFormControlComponent} */}
-                                    <Paragraph
-                                      style={
-                                        language !== "eng"
-                                          ? {
-                                              fontSize: 16,
-                                            }
-                                          : {
-                                              fontSize: 15,
-                                            }
-                                      }
-                                    >
-                                      {/* @ts-ignore */}
-                                      <HtmlViewer
-                                        content={option.text[language]}
-                                      />
-                                    </Paragraph>
-                                  </Space>
-                                </Col>
-                              </Row>
-                            );
-                          }}
-                        />
+                                      <Text
+                                        style={{
+                                          textTransform: "capitalize",
+                                          marginLeft: option.isCorrect
+                                            ? -18
+                                            : "auto",
+                                          // marginRight: 10,
+                                        }}
+                                        strong
+                                      >
+                                        {option.isCorrect ? (
+                                          <Tooltip
+                                            placement="top"
+                                            title={`Correct Answer`}
+                                          >
+                                            <CheckCircleTwoTone
+                                              style={{
+                                                position: "relative",
+                                                top: 0,
+                                                left: -5,
+                                              }}
+                                              color={token.colorSuccessBg}
+                                            />
+                                          </Tooltip>
+                                        ) : null}{" "}
+                                        {String.fromCharCode(97 + index)}
+                                      </Text>
+                                      {/* {SelectFormControlComponent} */}
+                                      <Paragraph
+                                        style={
+                                          language !== "eng"
+                                            ? {
+                                                fontSize: 16,
+                                              }
+                                            : {
+                                                fontSize: 15,
+                                              }
+                                        }
+                                      >
+                                        {/* @ts-ignore */}
+                                        <HtmlViewer
+                                          content={option.text[language]}
+                                        />
+                                      </Paragraph>
+                                    </Space>
+                                  </Col>
+                                </Row>
+                              );
+                            }}
+                          />
+                        </div>
                       </Form.Item>
                     </>
                   ) : null

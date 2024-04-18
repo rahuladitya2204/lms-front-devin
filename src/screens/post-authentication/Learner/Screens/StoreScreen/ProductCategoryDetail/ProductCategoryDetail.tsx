@@ -100,7 +100,7 @@ export default function ProductCategoryDetailScreen(
   const { isDesktop } = useBreakpoint();
   const PYQTestsComponent = (
     <Row gutter={[20, 20]}>
-      {PYQTests.map((test, idx) => {
+      {PYQTests.sort((a) => a.pyq.year).map((test, idx) => {
         return (
           <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
             <TestCard hideCoverImg isServer={props.isServer} test={test}>
