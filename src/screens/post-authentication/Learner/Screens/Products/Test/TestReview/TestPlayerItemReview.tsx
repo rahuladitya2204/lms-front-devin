@@ -232,6 +232,9 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         </Row>
       ) : null}
       <Card
+        bodyStyle={{
+          paddingLeft: 35,
+        }}
         title={`Question ${currentQuestionIndex + 1}`}
         extra={[
           isMobile ? (
@@ -241,7 +244,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   style={{
                     marginRight: 5,
                     position: "relative",
-                    top: 3,
+                    top: 1,
                     fontSize: 20,
                     color: "green",
                   }}
@@ -333,6 +336,10 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                           style={{ width: "100%", display: "block" }}
                         >
                           <List
+                            style={{
+                              position: "relative",
+                              left: -23,
+                            }}
                             dataSource={currentQuestion?.options}
                             renderItem={(option) => {
                               const SelectFormControlComponent = (
@@ -353,17 +360,24 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                                       }}
                                     >
                                       {/* @ts-ignore */}
-                                      {correctOptions?.indexOf(option?._id) >
-                                      -1 ? (
-                                        <Tooltip
-                                          placement="top"
-                                          title={`Correct Answer`}
-                                        >
-                                          <CheckCircleTwoTone
-                                            color={token.colorSuccessBg}
-                                          />
-                                        </Tooltip>
-                                      ) : null}
+                                      <Tooltip
+                                        placement="top"
+                                        title={`Correct Answer`}
+                                      >
+                                        <CheckCircleTwoTone
+                                          style={{
+                                            position: "relative",
+                                            top: 1,
+                                            visibility:
+                                              correctOptions?.indexOf(
+                                                option?._id
+                                              ) > -1
+                                                ? "visible"
+                                                : "hidden",
+                                          }}
+                                          color={token.colorSuccessBg}
+                                        />
+                                      </Tooltip>
                                       {SelectFormControlComponent}
                                       <Paragraph
                                         style={
