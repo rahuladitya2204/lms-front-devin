@@ -132,7 +132,7 @@ export default function ProductCategoryDetailScreen(
                     block
                     danger
                   >
-                    <BookOutlined /> View Solutions
+                    <BookOutlined /> View Analysis
                   </Button>
                 </Col>
               </Row>
