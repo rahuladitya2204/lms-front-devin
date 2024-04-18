@@ -464,20 +464,26 @@ const TestCard = ({
         <>
           {" "}
           <Row gutter={[20, 40]} align="stretch">
-            <Col span={24}>
-              <Image
-                width={"100%"}
-                height={200}
-                preview={false}
-                alt={test.title}
-                src={test.thumbnailImage}
-              />
-            </Col>
+            {test.thumbnailImage ? (
+              <Col span={24}>
+                <Image
+                  width={"100%"}
+                  height={200}
+                  preview={false}
+                  alt={test.title}
+                  src={test.thumbnailImage}
+                />
+              </Col>
+            ) : null}
             <Col span={24} flex={1}>
               {!isEnrolled ? (
                 <Col span={24}>
-                  <PriceCardContent plan={plan} />
-                  {!isMobile ? <Divider /> : null}
+                  {!test.pyq.enabled ? (
+                    <>
+                      <PriceCardContent plan={plan} />
+                      {!isMobile ? <Divider /> : null}
+                    </>
+                  ) : null}
                 </Col>
               ) : null}
               <Col span={24}>
@@ -500,7 +506,11 @@ const TestCard = ({
                             block
                             type="primary"
                           >
-                            {isFree ? "Enroll Now" : "Buy Now"}
+                            {isFree
+                              ? test.pyq.enabled
+                                ? "Attempt Now"
+                                : "Enroll Now"
+                              : "Buy Now"}
                           </ProductCheckoutButton>
                         )}
                       </>
