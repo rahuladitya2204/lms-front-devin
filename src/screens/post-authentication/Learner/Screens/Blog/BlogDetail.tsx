@@ -20,7 +20,7 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
     enabled: !!id,
   });
   return (
-    <Row style={{ marginTop: 30 }}>
+    <Row gutter={[30, 30]} style={{ marginTop: 30 }}>
       <Col xs={24} lg={12}>
         <Paragraph strong>
           <ClockCircleOutlined style={{ position: "relative", top: 1 }} />{" "}
@@ -45,6 +45,9 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
         </Paragraph>
       </Col>
       <Col xs={24} lg={24} style={{ marginTop: 30 }}>
+        <Title level={3} style={{ marginTop: 0 }}>
+          To master your skills, practice our tests!
+        </Title>
         <CategoryProducts categoryId={blog.category} />
       </Col>
     </Row>
