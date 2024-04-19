@@ -42,7 +42,7 @@ export default function TopicsScreen() {
       parentId: string,
       topics: Types.Topic[]
     ): TopicNode[] => {
-      return topics
+      const subTopics = topics
         .filter((topic) => topic.parentId === parentId)
         .map((topic) => ({
           ...topic,
@@ -50,9 +50,64 @@ export default function TopicsScreen() {
           title: renderTopicTitle(topic),
           children: buildSubTreeData(topic._id, topics),
         }));
+
+      const addSubTopicButton: TopicNode = {
+        key: `add-${parentId}`,
+        title: (
+          <Button
+            type="link"
+            icon={<PlusOutlined />}
+            onClick={() => onAdd(parentId)}
+          >
+            Add Subtopic
+          </Button>
+        ),
+        isLeaf: true,
+      };
+
+      const editTopicButton: TopicNode = {
+        key: `edit-${parentId}`,
+        title: (
+          <Button
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => onEdit(topics.find((t) => t._id === parentId))}
+          >
+            Edit Topic
+          </Button>
+        ),
+        isLeaf: true,
+      };
+
+      const deleteTopicButton: TopicNode = {
+        key: `delete-${parentId}`,
+        title: (
+          <Popconfirm
+            title="Are you sure to delete this topic?"
+            onConfirm={() => onDelete(parentId)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="link" icon={<DeleteOutlined />} danger>
+              Delete Topic
+            </Button>
+          </Popconfirm>
+        ),
+        isLeaf: true,
+      };
+
+      return [
+        addSubTopicButton,
+        editTopicButton,
+        deleteTopicButton,
+        ...subTopics,
+      ];
     };
 
-    setTreeData(buildTreeData(topics));
+    const newTreeData = buildTreeData(topics);
+    if (JSON.stringify(newTreeData) !== JSON.stringify(treeData)) {
+      setTreeData(newTreeData);
+    }
   }, [topics]);
 
   const renderTopicTitle = (topic: Types.Topic) => <span>{topic.title}</span>;
