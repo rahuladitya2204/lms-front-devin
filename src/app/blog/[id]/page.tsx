@@ -23,8 +23,8 @@ export async function generateMetadata(req: {
   if (alias && userType) {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
-    const { data: test }: { data: Types.Test } = await axios(
-      `${apiUrl}/learner/test/${id}?mode=general`,
+    const { data: blog }: { data: Types.Blog } = await axios(
+      `${apiUrl}/learner/blog/${id}`,
       {
         headers: {
           "x-org-alias": alias,
@@ -34,35 +34,35 @@ export async function generateMetadata(req: {
     const url = `https://${alias}.testmint.ai/learner/test/${id}`;
 
     return {
-      title: `${test.title} | ${test.subtitle}`,
-      description: test.subtitle,
+      title: `${blog.title} | ${blog.subtitle}`,
+      description: blog.subtitle,
       // icons: {
-      //   icon: test.thumbnailImage,
-      //   apple: test.thumbnailImage,
+      //   icon: blog.thumbnailImage,
+      //   apple: blog.thumbnailImage,
       // },
       viewport: "width=device-width, initial-scale=1",
       themeColor: "#ffffff",
       manifest: "/manifest.json",
       openGraph: {
-        title: test.title,
+        title: blog.title,
         locale: "en_IN",
-        description: test.subtitle,
+        description: blog.subtitle,
         type: "website",
         url: url,
         images: [
           {
-            url: test.thumbnailImage,
+            url: blog.thumbnailImage,
             width: 800,
             height: 600,
-            alt: test.title,
+            alt: blog.title,
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
-        title: test.title,
-        description: test.title,
-        images: [test.thumbnailImage],
+        title: blog.title,
+        description: blog.title,
+        images: [blog.thumbnailImage],
       },
       alternates: {
         canonical: url,
@@ -71,8 +71,8 @@ export async function generateMetadata(req: {
         "application/ld+json": JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: test.title,
-          description: test.title,
+          name: blog.title,
+          description: blog.title,
           url: url,
         }),
       },
@@ -139,9 +139,9 @@ export default function Page({ params }: { params: { id: string } }) {
         ...(token ? [getLearnerDetails()] : []),
       ]}
     >
-      <LearnerFullPageHolder noSignIn isServer>
+      <LearnerRootScreen noSignIn isServer>
         <BlogDetailScreen id={params.id} />
-      </LearnerFullPageHolder>
+      </LearnerRootScreen>
     </Hydrator>
   );
 }

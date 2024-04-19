@@ -53,7 +53,6 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
       enabled: !!blogId,
     });
   useEffect(() => {
-    console.log(blogDetails, "blogDetailsblogDetails");
     form.setFieldsValue(blogDetails);
   }, [blogDetails]);
 
@@ -147,7 +146,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
       Save Details
     </Button>
   );
-  console.log(isBlogValid, "isBlogValid");
+  // console.log(isBlogValid, "isBlogValid");
   return (
     <Header
       onBack={() => navigate("/admin/blogs")}
@@ -233,7 +232,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
                             <AppImage preview={false} src={image} />
                           )}
                           onUpload={(file) => {
-                            console.log(file, "uploaded image!");
+                            // console.log(file, "uploaded image!");
                             form.setFieldValue("thumbnailImage", file.url);
                           }}
                         />

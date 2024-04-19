@@ -28,7 +28,7 @@ const LogoHolder = styled.div`
 const UserRootScreen: React.FC = () => {
   const { isDesktop } = useBreakpoint();
   const { isSignedIn } = Store.useAuthentication((s) => s);
-  console.log(isSignedIn, "isSignedIn, isAuthenticated");
+
   return (
     <ThemeProvider>
       <ModalProvider>
