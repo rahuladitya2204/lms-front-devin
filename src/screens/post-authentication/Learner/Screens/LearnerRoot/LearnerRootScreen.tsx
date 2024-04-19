@@ -27,6 +27,7 @@ const { Title } = Typography;
 export interface LearnerRootScreenProps {
   children?: React.ReactNode;
   isServer?: boolean;
+  noSignIn?: boolean;
 }
 
 const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {

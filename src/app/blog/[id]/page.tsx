@@ -8,6 +8,7 @@ import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
 import axios from "axios";
 import BlogDetailScreen from "@Screens/post-authentication/Learner/Screens/Blog/BlogDetail";
+import LearnerFullPageHolder from "@Screens/LearnerFullPageHolder";
 
 export async function generateMetadata(req: {
   params: any;
@@ -138,9 +139,9 @@ export default function Page({ params }: { params: { id: string } }) {
         ...(token ? [getLearnerDetails()] : []),
       ]}
     >
-      {/* <LearnerRootScreen isServer>
+      <LearnerFullPageHolder noSignIn isServer>
         <BlogDetailScreen id={params.id} />
-      </LearnerRootScreen> */}
+      </LearnerFullPageHolder>
     </Hydrator>
   );
 }

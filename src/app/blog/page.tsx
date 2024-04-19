@@ -6,6 +6,7 @@ import LearnerTestScreen from "@Learner/Screens/Products/Test/TestScreen/TestsSc
 
 import { generateMetadata as GenerateMetadata } from "./[id]/page";
 import LearnerBlogsScreen from "@Screens/post-authentication/Learner/Screens/Blog/BlogsScreen";
+import LearnerFullPageHolder from "@Screens/LearnerFullPageHolder";
 
 export const generateMetadata = GenerateMetadata;
 
@@ -36,9 +37,9 @@ export default function Page({ params }: { params: { id: string } }) {
           : []),
       ]}
     >
-      {/* <LearnerRootScreen isServer>
+      <LearnerFullPageHolder noSignIn isServer>
         <LearnerBlogsScreen />
-      </LearnerRootScreen> */}
+      </LearnerFullPageHolder>
     </Hydrator>
   );
 }
