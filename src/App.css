@@ -11,3 +11,19 @@ li[role="menuitem"].ant-menu-item-selected {
   min-height: 100vh;
   padding-bottom: 50px;
 }
+
+@font-face {
+  font-family: 'Jost';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/jost/v14/92zatBhPNqw73oTd4g.woff2) format('woff2');
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Jost', sans-serif;
+}

@@ -1,7 +1,6 @@
 import React from "react";
 import "../index.css";
 import "../App.css";
-import Head from "next/head";
 
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
