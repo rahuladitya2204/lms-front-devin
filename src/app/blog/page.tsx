@@ -11,15 +11,8 @@ import LearnerFullPageHolder from "@Screens/LearnerFullPageHolder";
 export const generateMetadata = GenerateMetadata;
 
 export default function Page({ params }: { params: { id: string } }) {
-  const {
-    // getEnrolledProductList,
-    getEnrolledProductDetails,
-    getBlogs,
-    getOrgDetails,
-    getCartDetails,
-    getLearnerDetails,
-    getTestResult,
-  } = Learner.Queries.Definitions;
+  const { getBlogs, getOrgDetails, getLearnerDetails } =
+    Learner.Queries.Definitions;
 
   const token = getToken();
   return (

@@ -1,3 +1,4 @@
+"use client";
 import { Title } from "@Components/Typography/Typography";
 import { Learner } from "@adewaskar/lms-common";
 import { Col, Row } from "antd";
