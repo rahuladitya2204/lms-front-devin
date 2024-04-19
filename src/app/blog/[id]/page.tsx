@@ -125,8 +125,13 @@ export async function generateMetadata(req: {
 }
 
 export default function Page({ params }: { params: { id: string } }) {
-  const { getBlogDetails, getOrgDetails, getTestResult, getLearnerDetails } =
-    Learner.Queries.Definitions;
+  const {
+    getBlogDetails,
+    getOrgDetails,
+    getPackages,
+    getPYQs,
+    getLearnerDetails,
+  } = Learner.Queries.Definitions;
 
   const token = getToken();
   return (
@@ -134,6 +139,8 @@ export default function Page({ params }: { params: { id: string } }) {
     <Hydrator
       queries={[
         getOrgDetails(),
+        getPackages(params.id),
+        getPYQs(params.id),
         getBlogDetails(params.id),
         // authenticated routes should only be called if token is present
         ...(token ? [getLearnerDetails()] : []),

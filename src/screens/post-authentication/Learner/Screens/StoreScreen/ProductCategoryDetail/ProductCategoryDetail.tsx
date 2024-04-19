@@ -59,17 +59,6 @@ export default function ProductCategoryDetailScreen(
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
-  const { data: packages, isLoading: loadingPackages } =
-    Learner.Queries.useGetPackages(productCategory._id, {
-      enabled: !!productCategory._id,
-    });
-
-  const { data: PYQTests, isLoading: loadingPYQs } = Learner.Queries.useGetPYQs(
-    productCategory._id,
-    {
-      enabled: !!productCategory._id,
-    }
-  );
 
   useEffect(() => {
     if (!type && !props.isServer) {
@@ -80,87 +69,7 @@ export default function ProductCategoryDetailScreen(
   const Metadata = (
     <ProductCategoryMetadata productCategory={productCategory} />
   );
-  const PackageListComponent = (
-    <Row gutter={[20, 20]}>
-      {loadingPackages
-        ? [1, 1, 1, 1, 1, 1].map((i, idx) => (
-            <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
-              <Skeleton.Button active block style={{ height: 200 }} />
-            </Col>
-          ))
-        : packages.map((bundle, idx) => {
-            return (
-              <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
-                <PackageCard isServer={props.isServer} package={bundle} />
-              </Col>
-            );
-          })}
-    </Row>
-  );
-  const { isDesktop } = useBreakpoint();
-  const PYQTestsComponent = (
-    <Row gutter={[20, 20]}>
-      {PYQTests.sort((a) => a.pyq.year).map((test, idx) => {
-        return (
-          <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
-            <TestCard hideCoverImg isServer={props.isServer} test={test}>
-              <Row gutter={[20, 10]}>
-                <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.open(
-                        // props.isServer
-                        //   ? `/test/${test._id}`
-                        //   :
-                        `/app/test/${test._id}`
-                      );
-                    }}
-                    block
-                    type="primary"
-                  >
-                    <BookOutlined /> Attemp Now
-                  </Button>
-                </Col>
-                <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      window.open(`/app/test/${test._id}/pyq`);
-                    }}
-                    type="dashed"
-                    block
-                    danger
-                  >
-                    <BookOutlined /> View Analysis
-                  </Button>
-                </Col>
-              </Row>
-            </TestCard>
-          </Col>
-        );
-      })}
-    </Row>
-  );
 
-  const TABS = useMemo(() => {
-    const tabs: any[] = [];
-    if (packages.length) {
-      tabs.push({
-        label: "Test Series",
-        key: "test-series",
-        children: PackageListComponent,
-      });
-    }
-    if (PYQTests.length) {
-      tabs.push({
-        label: "Previous Year Papers",
-        key: "pyq",
-        children: PYQTestsComponent,
-      });
-    }
-    return tabs;
-  }, [packages, PYQTests]);
   const Banners = productCategory.info.updates.filter((i) => i.displayAsBanner);
   return loadingProductCategory ? (
     <ProductCategoryDetailSkeletonScreen />
@@ -289,15 +198,10 @@ export default function ProductCategoryDetailScreen(
 
       <Col span={24}>
         <Row gutter={[30, 30]}>
-          {packages.length ? (
-            <Col span={24}>
-              <Card
-              // title="Try our test series!"
-              >
-                {TABS.length > 1 ? <Tabs items={TABS} /> : TABS[0].children}
-              </Card>
-            </Col>
-          ) : null}
+          <CategoryProducts
+            isServer={props.isServer}
+            categoryId={productCategoryId + ""}
+          />
           <Col xs={24} sm={24} md={24} lg={24}>
             <Card style={{ paddingTop: 0, minHeight: 400 }}>
               <Row>
@@ -368,3 +272,117 @@ export default function ProductCategoryDetailScreen(
     </Row>
   );
 }
+
+interface CategoryProductsPropsI {
+  categoryId: string;
+  isServer?: boolean;
+}
+
+export const CategoryProducts = (props: CategoryProductsPropsI) => {
+  const { categoryId } = props;
+  const { data: packages, isLoading: loadingPackages } =
+    Learner.Queries.useGetPackages(categoryId, {
+      enabled: !!categoryId,
+    });
+
+  const { data: PYQTests, isLoading: loadingPYQs } = Learner.Queries.useGetPYQs(
+    categoryId,
+    {
+      enabled: !!categoryId,
+    }
+  );
+  const PackageListComponent = (
+    <Row gutter={[20, 20]}>
+      {loadingPackages
+        ? [1, 1, 1, 1, 1, 1].map((i, idx) => (
+            <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+              <Skeleton.Button active block style={{ height: 200 }} />
+            </Col>
+          ))
+        : packages.map((bundle, idx) => {
+            return (
+              <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+                <PackageCard isServer={props.isServer} package={bundle} />
+              </Col>
+            );
+          })}
+    </Row>
+  );
+  const { isDesktop } = useBreakpoint();
+  const PYQTestsComponent = (
+    <Row gutter={[20, 20]}>
+      {PYQTests.sort((a) => a.pyq.year).map((test, idx) => {
+        return (
+          <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+            <TestCard hideCoverImg isServer={props.isServer} test={test}>
+              <Row gutter={[20, 10]}>
+                <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(
+                        // props.isServer
+                        //   ? `/test/${test._id}`
+                        //   :
+                        `/app/test/${test._id}`
+                      );
+                    }}
+                    block
+                    type="primary"
+                  >
+                    <BookOutlined /> Attemp Now
+                  </Button>
+                </Col>
+                <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
+                  <Button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      window.open(`/app/test/${test._id}/pyq`);
+                    }}
+                    type="dashed"
+                    block
+                    danger
+                  >
+                    <BookOutlined /> View Analysis
+                  </Button>
+                </Col>
+              </Row>
+            </TestCard>
+          </Col>
+        );
+      })}
+    </Row>
+  );
+
+  const TABS = useMemo(() => {
+    const tabs: any[] = [];
+    if (packages.length) {
+      tabs.push({
+        label: "Test Series",
+        key: "test-series",
+        children: PackageListComponent,
+      });
+    }
+    if (PYQTests.length) {
+      tabs.push({
+        label: "Previous Year Papers",
+        key: "pyq",
+        children: PYQTestsComponent,
+      });
+    }
+    return tabs;
+  }, [packages, PYQTests]);
+  return (
+    <>
+      {packages.length ? (
+        <Col span={24}>
+          <Card
+          // title="Try our test series!"
+          >
+            {TABS.length > 1 ? <Tabs items={TABS} /> : TABS[0].children}
+          </Card>
+        </Col>
+      ) : null}
+    </>
+  );
+};

@@ -7,6 +7,7 @@ import { Learner } from "@adewaskar/lms-common";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Col, Row } from "antd";
 import dayjs from "dayjs";
+import { CategoryProducts } from "../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 
 interface BlogDetailScreenPropsI {
   id: string;
@@ -38,6 +39,9 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
       </Col>
       <Col xs={24} lg={24} style={{ marginTop: 30 }}>
         <HtmlViewer content={blog.content} />
+      </Col>
+      <Col xs={24} lg={24} style={{ marginTop: 30 }}>
+        <CategoryProducts categoryId={blog.category} />
       </Col>
     </Row>
   );
