@@ -375,7 +375,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
   return (
     <>
       {packages.length ? (
-        <Col span={24} style={{ padding: 0 }}>
+        <Col span={24}>
           <Card
             bodyStyle={{ paddingTop: 0 }}
             // title="Try our test series!"

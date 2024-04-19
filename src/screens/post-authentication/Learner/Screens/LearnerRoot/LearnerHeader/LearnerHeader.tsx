@@ -238,7 +238,22 @@ const LearnerHeaderClient = ({
               />
             ))
           )}
-          {} {/* <Divider orientation="right" /> */}
+          <NavLink
+            to={isServer ? "/blog" : "/app/blog"}
+            children={({ isActive }) => {
+              return (
+                <Button
+                  style={{ borderRadius: 15 }}
+                  icon={<BookOutlined />}
+                  type={isActive ? "primary" : "default"}
+                  style={{ marginRight: 10, borderRadius: 15 }}
+                  // onClick={() =>cons
+                >
+                  Blogs
+                </Button>
+              );
+            }}
+          />
         </Space>
       ) : null}
       {/* {contentLoading ? <Skeleton.Avatar active style={{ width: 32, height: 32 }} /> : } */}
@@ -284,29 +299,14 @@ const LearnerHeaderClient = ({
           )
         ) : null}
       </Fragment>
-      {/* <NavLink
-        to={isServer ? "/blog" : "/app/blog"}
-        children={({ isActive }) => {
-          return (
-            <Button
-              style={{ borderRadius: 15 }}
-              icon={<BookOutlined />}
-              type={isActive ? "primary" : "default"}
-              style={{ margin: "0 10px" }}
-              // onClick={() =>cons
-            >
-              Blogs
-            </Button>
-          );
-        }}
-      ></NavLink> */}
+
       {!isSignedIn ? (
         contentLoading ? (
           <Skeleton.Button style={{ width: 97, height: 32 }} active />
         ) : (
           <Button
             icon={<LoginOutlined />}
-            type="primary"
+            type="dashed"
             style={{ margin: "0 10px" }}
             onClick={() =>
               openModal(<LoginScreen />, {
