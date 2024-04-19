@@ -30,8 +30,9 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
       </Col>
       <Col xs={24} lg={12}>
         <AppImage
-          style={{ borderRadius: 8 }}
-          height={320}
+          style={{ borderRadius: 8, width: "100%", maxHeight: 320 }}
+          // height={320}
+          width={"100%"}
           src={blog.thumbnailImage}
         />
       </Col>
