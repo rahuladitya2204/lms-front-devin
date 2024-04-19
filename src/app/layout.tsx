@@ -146,7 +146,7 @@ export default function RootLayout({
         src="https://www.googletagmanager.com/gtag/js?id=G-09G526DHYD"
         strategy="lazyOnload"
       />
-      <body>
+      <body style={{ margin: 0 }}>
         <noscript>You need to enable JavaScript to run this app.</noscript>
         <Providers>{children}</Providers>
       </body>

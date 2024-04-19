@@ -27,7 +27,9 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
           {dayjs(blog.updatedAt).format("LL")}
         </Paragraph>
         <Title style={{ marginTop: 0 }}>{blog.title}</Title>
-        <Paragraph style={{ marginTop: 0 }}>{blog.subtitle}</Paragraph>
+        <Title level={4} style={{ marginTop: 0 }}>
+          {blog.subtitle}
+        </Title>
       </Col>
       <Col xs={24} lg={12}>
         <AppImage
@@ -38,7 +40,9 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
         />
       </Col>
       <Col xs={24} lg={24} style={{ marginTop: 30 }}>
-        <HtmlViewer content={blog.content} />
+        <Paragraph style={{ fontSize: 16 }}>
+          <HtmlViewer content={blog.content} />
+        </Paragraph>
       </Col>
       <Col xs={24} lg={24} style={{ marginTop: 30 }}>
         <CategoryProducts categoryId={blog.category} />
