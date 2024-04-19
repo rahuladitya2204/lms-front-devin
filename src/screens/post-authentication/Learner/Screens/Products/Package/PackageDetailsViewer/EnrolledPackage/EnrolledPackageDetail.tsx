@@ -148,13 +148,11 @@ const EnrolledPackageDetailScreen: React.FC<
         style={{ width: "100%", display: "block", textAlign: "center" }}
         color="blue-inverse"
       >
-        {offlineKit?.delivery?.status?.toUpperCase()}
+        ORDER {offlineKit?.delivery?.status?.toUpperCase()}
       </Tag>
     </div>
   );
-  console.log(packageData, progress, "packageData");
-  // console.log(packageData, 'packageData')
-  // const { data: bundle } = Learner.Queries.useGetPackageDetails(packageId + '')
+
   const skelArr = isDesktop ? [1, 1, 1, 1, 1] : [1, 1];
   return (
     <Row>

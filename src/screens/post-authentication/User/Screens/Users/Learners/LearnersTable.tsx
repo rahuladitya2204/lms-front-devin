@@ -9,6 +9,7 @@ import { User } from "@adewaskar/lms-common";
 import dayjs from "dayjs";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import { sortBy } from "lodash";
 
 const confirm = Modal.confirm;
 
@@ -22,7 +23,7 @@ function LearnersTable() {
   return (
     <Table
       searchFields={["name", "email", "contactNo"]}
-      dataSource={data}
+      dataSource={sortBy(data, ["-lastActive", "name"])}
       loading={loading || deletingLearner}
     >
       <TableColumn
@@ -54,9 +55,15 @@ function LearnersTable() {
         title="Last Login"
         dataIndex="lastActive"
         key="lastActive"
-        render={(_: any, record: Types.Learner) => (
-          <Space size="middle">{dayjs(record.lastActive).format("LLLL")}</Space>
-        )}
+        render={(_: any, record: Types.Learner) =>
+          record.lastActive ? (
+            <Space size="middle">
+              {dayjs(record.lastActive).format("LLLL")}
+            </Space>
+          ) : (
+            "-"
+          )
+        }
       />
       <TableColumn
         title="Joined On"

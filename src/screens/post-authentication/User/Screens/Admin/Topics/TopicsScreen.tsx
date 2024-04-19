@@ -42,7 +42,7 @@ export default function TopicsScreen() {
       parentId: string,
       topics: Types.Topic[]
     ): TopicNode[] => {
-      const subTopics = topics
+      return topics
         .filter((topic) => topic.parentId === parentId)
         .map((topic) => ({
           ...topic,
@@ -50,59 +50,6 @@ export default function TopicsScreen() {
           title: renderTopicTitle(topic),
           children: buildSubTreeData(topic._id, topics),
         }));
-      const currentTopic = topics.find((t) => t._id === parentId);
-      // Add the 'Add Subtopic' button as the first child
-      const addSubTopicButton: TopicNode = {
-        key: `add-${parentId}`,
-        title: (
-          <Button
-            type="link"
-            icon={<PlusOutlined />}
-            onClick={() => onAdd(parentId)}
-          >
-            Add Subtopic
-          </Button>
-        ),
-        isLeaf: true,
-      };
-
-      const editTopicButton: TopicNode = {
-        key: `edit-${parentId}`,
-        title: (
-          <Button
-            type="link"
-            icon={<EditOutlined />}
-            onClick={() => onEdit(currentTopic)}
-          >
-            Edit Topic
-          </Button>
-        ),
-        isLeaf: true,
-      };
-
-      // Add the 'Delete Topic' button
-      const deleteTopicButton: TopicNode = {
-        key: `delete-${parentId}`,
-        title: (
-          <Popconfirm
-            title="Are you sure to delete this topic?"
-            onConfirm={() => onDelete(parentId)}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Button type="link" icon={<DeleteOutlined />} danger>
-              Delete Topic
-            </Button>
-          </Popconfirm>
-        ),
-        isLeaf: true,
-      };
-      return [
-        addSubTopicButton,
-        editTopicButton,
-        deleteTopicButton,
-        ...subTopics,
-      ];
     };
 
     setTreeData(buildTreeData(topics));
