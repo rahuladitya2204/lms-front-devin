@@ -1,4 +1,4 @@
-import { Button, List, Tag } from 'antd'
+import { Button, List, Tag } from "antd";
 import {
   CalendarOutlined,
   ClockCircleOutlined,
@@ -10,98 +10,95 @@ import {
   LinkOutlined,
   MoneyCollectOutlined,
   SafetyCertificateOutlined,
-  ScheduleOutlined
-} from '@ant-design/icons'
-import { Constants, Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
+  ScheduleOutlined,
+} from "@ant-design/icons";
+import { Constants, Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
 
-import { Typography } from '@Components/Typography'
-import dayjs from 'dayjs'
-import styled from '@emotion/styled'
+import { Typography } from "@Components/Typography";
+import dayjs from "dayjs";
+import styled from "@emotion/styled";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const CustomList = styled(List)`
   .ant-list-item-action {
     margin-left: 30px !important;
   }
-`
+`;
 
 const ListItem = styled(List.Item)`
   padding: 5px 15px;
-`
+`;
 
 const data = {
   registrationDate: {
-    title: 'Registration Date',
+    title: "Registration Date",
     icon: <CalendarOutlined />,
-    value: '12'
+    value: "12",
   },
   salary: {
-    title: 'Salary',
+    title: "Salary",
     icon: <MoneyCollectOutlined />,
-    value: '43 Weeks'
+    value: "43 Weeks",
   },
   vacancies: {
-    title: 'Vacancies',
+    title: "Vacancies",
     icon: <EditOutlined />,
-    value: 'null'
+    value: "null",
   },
   eligibility: {
-    title: 'Eligibility',
+    title: "Eligibility",
     icon: <FileTextOutlined />,
-    value: 'null'
+    value: "null",
   },
   examDate: {
-    title: 'Exam Date',
+    title: "Exam Date",
     icon: <FileTextOutlined />,
-    value: 'null'
+    value: "null",
   },
   officialNotification: {
-    title: 'Official Notification',
+    title: "Official Notification",
     icon: <CloudDownloadOutlined />,
-    value: '1'
+    value: "1",
   },
   registrationLink: {
-    title: 'Registration Link',
+    title: "Registration Link",
     icon: <LinkOutlined />,
-    value: '1'
-  }
-}
+    value: "1",
+  },
+};
 
 interface ProductCategoryMetadataPropsI {
   productCategory: Types.ProductCategory;
 }
 
 function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
-  const {
-    data: categoryDetails,
-    isLoading: loadingEnrolledProductCategory
-  } = Learner.Queries.useGetProductCategoryDetails(props.productCategory._id)
+  const { data: categoryDetails, isLoading: loadingEnrolledProductCategory } =
+    Learner.Queries.useGetProductCategoryDetails(props.productCategory._id);
 
   // @ts-ignore
-  data.registrationDate.value = ( // @ts-ignore
-    <Tag color="blue-inverse">{categoryDetails.info.registration.date}</Tag>
-  )
+  data.registrationDate.value = // @ts-ignore
+    <Tag color="blue-inverse">{categoryDetails.info.registration.date}</Tag>;
 
   // @ts-ignore
   data.salary.value = categoryDetails.info.salaryRange ? ( // @ts-ignore
     <Tag color="orange-inverse">{categoryDetails.info.salaryRange}</Tag>
-  ) : null
+  ) : null;
 
   // @ts-ignore
   data.vacancies.value = categoryDetails.info.vacancies ? ( // @ts-ignore
     <Tag color="purple-inverse">{categoryDetails.info.vacancies}</Tag>
-  ) : null
+  ) : null;
 
   // @ts-ignore
   data.eligibility.value = categoryDetails.info.eligibility ? ( // @ts-ignore
     <Tag color="cyan-inverse">{categoryDetails.info.eligibility}</Tag>
-  ) : null
+  ) : null;
 
   // @ts-ignore
   data.examDate.value = categoryDetails.info.examDate ? ( // @ts-ignore
     <Tag color="red-inverse">{categoryDetails.info.examDate}</Tag>
-  ) : null
+  ) : null;
 
   // @ts-ignore
   data.officialNotification.value = categoryDetails.info.officialNotification
@@ -116,7 +113,7 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
     >
       Download PDF
     </Button>
-  ) : null // @ts-ignore
+  ) : null; // @ts-ignore
 
   // @ts-ignore
   data.registrationLink.value = (
@@ -128,7 +125,7 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
     >
       Open Link
     </Button>
-  ) // @ts-ignore
+  ); // @ts-ignore
 
   // data.certificate.value = props.productCategory.certificate ? 'Yes' : ''
   // data.questions.value = useMemo(
@@ -136,14 +133,14 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   //   [props.productCategory]
   // )
   // @ts-ignore
-  const dataSource = Object.keys(data).map(key => data[key])
+  const dataSource = Object.keys(data).map((key) => data[key]);
   return (
     <CustomList
       grid={{ lg: 3, xxl: 4, md: 3, xl: 3, sm: 2, xs: 1 }}
       style={{ marginLeft: 30 }}
       itemLayout="horizontal"
-      dataSource={dataSource.filter(i => i.value)}
-      renderItem={item => (
+      dataSource={dataSource.filter((i) => i.value)}
+      renderItem={(item) => (
         // @ts-ignore
         <ListItem actions={[<Text>{item.value}</Text>]}>
           <List.Item.Meta
@@ -155,7 +152,7 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
         </ListItem>
       )}
     />
-  )
+  );
 }
 
-export default ProductCategoryMetadata
+export default ProductCategoryMetadata;

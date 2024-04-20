@@ -26,22 +26,6 @@ import { Typography } from "@Components/Typography";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useParams } from "@Router/index";
 
-const { Text } = Typography;
-
-const LANGUAGES = [
-  {
-    value: Enum.LanguageEnum.ENGLIGH,
-    label: "English",
-  },
-  {
-    value: Enum.LanguageEnum.HINDI,
-    label: "Hindi",
-  },
-  {
-    value: Enum.LanguageEnum.FRENCH,
-    label: "French",
-  },
-];
 const { useWatch } = Form;
 
 interface ProductCategoryDetailsEditorPropsI {
@@ -118,6 +102,20 @@ function ProductCategoryDetailsEditor(
           {
             required: true,
             message: "Please enter a subtitle for the ProductCategory",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+      <Form.Item
+        name="slug"
+        required
+        label="URL Slug"
+        rules={[
+          {
+            required: true,
+            message: "Please enter a slug for the ProductCategory",
           },
         ]}
       >

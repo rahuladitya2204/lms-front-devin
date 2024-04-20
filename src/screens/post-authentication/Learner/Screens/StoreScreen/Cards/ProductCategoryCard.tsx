@@ -52,8 +52,8 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
       to={
         // `/category/${productCategory._id}`
         isServer
-          ? `/category/${productCategory._id}`
-          : `/app/category/${productCategory._id}`
+          ? `/category/${productCategory.slug || productCategory._id}`
+          : `/app/category/${productCategory.slug || productCategory._id}`
       }
       prefetch={true}
     >

@@ -1,11 +1,12 @@
-import { Button, Form, Input, Modal, Space } from 'antd'
-import React, { Fragment, ReactNode, useEffect, useState } from 'react'
+import { Button, Form, Input, Modal, Space } from "antd";
+import React, { Fragment, ReactNode, useEffect, useState } from "react";
 
-import Image from '@Components/Image'
-import MediaUpload from '@Components/MediaUpload'
-import TextArea from '@Components/Textarea'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import Image from "@Components/Image";
+import MediaUpload from "@Components/MediaUpload";
+import TextArea from "@Components/Textarea";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import slugify from "slugify";
 
 interface CreateCategoryComponentPropsI {
   children?: ReactNode;
@@ -13,52 +14,45 @@ interface CreateCategoryComponentPropsI {
   data?: Types.ProductCategory;
 }
 
-const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
-  const {
-    mutate: createCategory,
-    isLoading: createCategoryLoading
-  } = User.Queries.useCreateProductCategory()
-  const {
-    mutate: updateCategory,
-    isLoading: updateCategoryLoading
-  } = User.Queries.useUpdateProductCategory()
-  const [form] = Form.useForm()
+const CreateCategory: React.FC<CreateCategoryComponentPropsI> = (props) => {
+  const { mutate: createCategory, isLoading: createCategoryLoading } =
+    User.Queries.useCreateProductCategory();
+  const { mutate: updateCategory, isLoading: updateCategoryLoading } =
+    User.Queries.useUpdateProductCategory();
+  const [form] = Form.useForm();
 
   const onSubmit = (e: Types.ProductCategory) => {
-    const id = props?.data?._id
-    const DATA = { ...e }
+    const id = props?.data?._id;
+    const DATA = { ...e, slug: slugify(e.title) };
     if (id) {
       // @ts-ignore
       updateCategory(
         { id: id, data: DATA },
         {
           onSuccess: () => {
-            form.resetFields()
-            props.closeModal && props.closeModal()
-          }
+            form.resetFields();
+            props.closeModal && props.closeModal();
+          },
         }
-      )
+      );
     } else {
       createCategory(
         { data: DATA },
         {
           onSuccess: () => {
-            form.resetFields()
-            props.closeModal && props.closeModal()
-          }
+            form.resetFields();
+            props.closeModal && props.closeModal();
+          },
         }
-      )
+      );
     }
-  }
+  };
 
-  useEffect(
-    () => {
-      form.setFieldsValue(props.data)
-    },
-    [props.data]
-  )
+  useEffect(() => {
+    form.setFieldsValue(props.data);
+  }, [props.data]);
 
-  const thumbnailImage = Form.useWatch(['thumbnailImage'], form)
+  const thumbnailImage = Form.useWatch(["thumbnailImage"], form);
 
   return (
     <Fragment>
@@ -81,7 +75,7 @@ const CreateCategory: React.FC<CreateCategoryComponentPropsI> = props => {
         </Space>
       </Form>
     </Fragment>
-  )
-}
+  );
+};
 
-export default CreateCategory
+export default CreateCategory;

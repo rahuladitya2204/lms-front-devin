@@ -138,7 +138,13 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               </Button>
             )}
           />
-
+          <TableColumn
+            title="URL Slug"
+            dataIndex="slug"
+            key="slug"
+            // @ts-ignore
+            render={(_: any, test: Types.Test) => test.slug || "-"}
+          />
           <TableColumn
             title="Input Type"
             dataIndex="inputType"

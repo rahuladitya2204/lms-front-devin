@@ -39,7 +39,11 @@ function PackageCard(props: PackageCardPropsI) {
   return (
     <Link
       title={bundle.title}
-      to={isServer ? `/package/${bundle._id}` : `/app/package/${bundle._id}`}
+      to={
+        isServer
+          ? `/package/${bundle.slug || bundle._id}`
+          : `/app/package/${bundle.slug || bundle._id}`
+      }
     >
       {/* // <Badge.Ribbon text="Best Seller" color="orange"> */}
       <CustomCard

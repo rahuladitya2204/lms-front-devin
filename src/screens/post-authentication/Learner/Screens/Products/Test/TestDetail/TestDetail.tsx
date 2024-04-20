@@ -205,7 +205,10 @@ const TestCard = ({
   plan: Types.Plan;
   children?: React.ReactNode;
 }) => {
-  const product = { type: Enum.ProductType.TEST, id: testId };
+  const { data: test, isLoading: loadingTest } =
+    Learner.Queries.useGetTestDetails(testId + "");
+
+  const product = { type: Enum.ProductType.TEST, id: test._id };
   const navigate = useNavigate();
   const {
     data: { wallet },
@@ -213,8 +216,6 @@ const TestCard = ({
   const { data: enrolledDetails, isLoading: loadingEnrolledTestDetails } =
     Learner.Queries.useGetEnrolledProductDetails(product);
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
-  const { data: test, isLoading: loadingTest } =
-    Learner.Queries.useGetTestDetails(testId + "");
   const testEndDate =
     enrolledDetails.metadata.test.endedAt || test.live.endedAt;
   const testStartDate =

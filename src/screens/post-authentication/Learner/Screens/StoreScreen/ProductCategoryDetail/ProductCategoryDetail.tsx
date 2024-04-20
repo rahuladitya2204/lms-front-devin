@@ -324,13 +324,13 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                         // props.isServer
                         //   ? `/test/${test._id}`
                         //   :
-                        `/app/test/${test._id}`
+                        `/app/test/${test.slug || test._id}`
                       );
                     }}
                     block
                     type="primary"
                   >
-                    <BookOutlined /> Attemp Now
+                    <BookOutlined /> Attempt Now
                   </Button>
                 </Col>
                 <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
