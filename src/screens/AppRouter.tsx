@@ -226,12 +226,12 @@ const router = (userType: string) => {
                     path="upload-answer-sheet"
                     element={<AnswerSheetFiles />}
                   />
-                  <Route path="pyq" element={<TestPublicPlayer />}>
+                  {/* <Route path="pyq" element={<TestPublicPlayer />}>
                     <Route
                       path=":questionId"
                       element={<TestPublicPlayerItemReiew />}
                     />
-                  </Route>
+                  </Route> */}
                   <Route path="player" element={<TestPlayer />}>
                     <Route path=":questionId" element={<TestPlayeritem />} />
                   </Route>
@@ -254,6 +254,17 @@ const router = (userType: string) => {
                   element={<TestReviewPlayer />}
                 >
                   <Route path=":questionId" element={<TestPlayerItemReiew />} />
+                </Route>
+              </Route>
+              <Route
+                path="app/test/:testId"
+                element={<LearnerFullPageHolder noSignIn />}
+              >
+                <Route path="pyq" element={<TestPublicPlayer />}>
+                  <Route
+                    path=":questionId"
+                    element={<TestPublicPlayerItemReiew />}
+                  />
                 </Route>
               </Route>
               <Route path="*" element={<NotFoundScreen />} />

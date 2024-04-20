@@ -28,7 +28,7 @@ export default function LearnerFullPageHolder(
   const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
   let Comp: React.ReactNode;
   if (props.noSignIn) {
-    Comp = props.children;
+    Comp = props.children || <Outlet />;
   } else {
     Comp = isSignedIn ? (
       props.children ? (
