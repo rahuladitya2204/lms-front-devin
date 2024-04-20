@@ -22,6 +22,7 @@ import dayjs from "dayjs";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useParams } from "react-router";
 import TextArea from "@Components/Textarea";
+import FileList from "@Components/FileList";
 
 const { useWatch } = Form;
 
@@ -69,6 +70,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
   const isPublished = test.status === Enum.TestStatus.PUBLISHED;
   const isLive = Form.useWatch(["live", "enabled"], form);
+  const files = Form.useWatch(["files"], form);
   const isHandwritten =
     Form.useWatch(["input", "type"], form) === Enum.TestInputType.HANDWRITTEN;
   return (
@@ -139,6 +141,24 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         ]}
       >
         <TextArea rows={4} placeholder="Enter the test description" />
+      </Form.Item>
+      <Form.Item name="files" required label="Files">
+        <MediaUpload
+          uploadType="file"
+          prefixKey={`Tests/${testId}/files`}
+          onUpload={({ name, _id }) => {
+            onValuesChange({
+              files: [...files, { name, file: _id }],
+            });
+          }}
+        />
+        <FileList
+          onDeleteFile={(fileId: string) => {
+            const FILES = files.filter((f: any) => f.file !== fileId);
+            onValuesChange({ files: FILES });
+          }}
+          files={files}
+        />
       </Form.Item>
       <Divider />
       <Row gutter={[40, 20]}>

@@ -1,16 +1,16 @@
-import { Button, Empty, List, Modal, Space, Spin } from 'antd'
+import { Button, Empty, List, Modal, Space, Spin } from "antd";
 import {
   DeleteOutlined,
   DownloadOutlined,
-  PlusOutlined
-} from '@ant-design/icons'
+  PlusOutlined,
+} from "@ant-design/icons";
 
-import { Common } from '@adewaskar/lms-common'
+import { Common } from "@adewaskar/lms-common";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 
 interface FileItemPropsI {
-  file: Partial<{ name: string, file: string }>;
+  file: Partial<{ name: string; file: string }>;
   onDeleteFile: (id: string) => void;
   useGetFileDetails: Function;
 }
@@ -18,51 +18,51 @@ interface FileItemPropsI {
 function FileItem({
   file: { name, file: fileId },
   useGetFileDetails,
-  onDeleteFile
+  onDeleteFile,
 }: FileItemPropsI) {
-  const { data: file } = useGetFileDetails(fileId + '')
-  const {
-    mutate: deleteFile,
-    isLoading: deletingFile
-  } = Common.Queries.useDeleteFile()
+  const { data: file } = useGetFileDetails(fileId + "");
+  const { mutate: deleteFile, isLoading: deletingFile } =
+    Common.Queries.useDeleteFile();
   // console
   return (
     <List.Item
       actions={[
         <a key="list-loadmore-edit">
           <DownloadOutlined
-            onClick={e => {
-              Common.Api.GetPresignedUrl(file._id).then(url => window.open(url))
+            onClick={(e) => {
+              Common.Api.GetPresignedUrlFromFile(file._id).then((url) =>
+                window.open(url)
+              );
             }}
           />
         </a>,
         <a key="list-loadmore-edit">
           <DeleteOutlined
-            onClick={e => {
+            onClick={(e) => {
               confirm({
-                title: 'Are you sure?',
+                title: "Are you sure?",
                 // icon: <ExclamationCircleOutlined />,
                 content: `You want to delete this file`,
                 onOk() {
                   deleteFile(
-                    { id: fileId + '' },
+                    { id: fileId + "" },
                     {
                       onSuccess: () => {
-                        onDeleteFile(fileId + '')
-                      }
+                        onDeleteFile(fileId + "");
+                      },
                     }
-                  )
+                  );
                 },
-                okText: 'Delete File'
-              })
+                okText: "Delete File",
+              });
             }}
           />
-        </a>
+        </a>,
       ]}
     >
       {file.name}
     </List.Item>
-  )
+  );
 }
 
-export default FileItem
+export default FileItem;
