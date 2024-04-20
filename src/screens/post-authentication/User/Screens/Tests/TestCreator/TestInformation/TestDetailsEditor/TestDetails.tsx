@@ -127,6 +127,17 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Input />
       </Form.Item>
 
+      <Form.Item
+        name="slug"
+        required
+        label="Slug"
+        rules={[
+          { required: true, message: "Please enter a slug for the Test" },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
       <Form.Item name="subtitle" label="Subtitle">
         <Input />
       </Form.Item>

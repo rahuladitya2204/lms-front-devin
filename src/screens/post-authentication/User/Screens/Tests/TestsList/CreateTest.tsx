@@ -1,7 +1,7 @@
 import { Button, Form, Input, message, Modal, Select } from "@Lib/index";
 import { Learner, Types } from "@adewaskar/lms-common";
 import React, { ReactNode } from "react";
-
+import slugify from "slugify";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
 import { useNavigate } from "@Router/index";
@@ -18,7 +18,8 @@ const CreateTest: React.FC<CreateTestPropsI> = (props) => {
   const [form] = Form.useForm();
 
   const onSubmit = (e: Types.Test) => {
-    console.log("Helo");
+    console.log("Helo", e);
+    e.slug = slugify(e.title);
     createTest(e, {
       onSuccess: ({ data: test }) => {
         console.log(test, "here it is");
