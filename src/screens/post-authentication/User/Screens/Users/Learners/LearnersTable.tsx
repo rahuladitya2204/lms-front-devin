@@ -23,7 +23,7 @@ function LearnersTable() {
   return (
     <Table
       searchFields={["name", "email", "contactNo"]}
-      dataSource={sortBy(data, ["-lastActive", "name"])}
+      dataSource={sortBy(data, ["-lastActive"])}
       loading={loading || deletingLearner}
     >
       <TableColumn

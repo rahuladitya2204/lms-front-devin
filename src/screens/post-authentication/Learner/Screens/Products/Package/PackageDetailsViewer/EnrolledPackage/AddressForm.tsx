@@ -14,9 +14,8 @@ interface OrderAddressFormPropsI {
 const OrderAddressForm = (props: OrderAddressFormPropsI) => {
   const [form] = Form.useForm<Types.LearnerOrderAddress>();
   const { data: learner } = Learner.Queries.useGetLearnerDetails();
-  const { mutate: updateOrderAddress } = Learner.Queries.useUpdateOrderAddress(
-    props.product
-  );
+  const { mutate: updateOrderAddress } =
+    Learner.Queries.useCreateOfflineKitOrder(props.product);
   useEffect(() => {
     if (learner._id) {
       form.setFieldsValue(learner.address);
@@ -39,15 +38,20 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
   return (
     <Form form={form} onFinish={onFinish} layout="vertical">
       <Form.Item
-        name="street"
+        name="line1"
         label="Street Address"
-        rules={[
-          { required: true, message: "Please enter your street address" },
-        ]}
+        rules={[{ required: true, message: "Please enter your line1 address" }]}
       >
-        <TextArea rows={4} placeholder="Enter your street address" />
+        <TextArea rows={2} placeholder="Enter your address" />
       </Form.Item>
 
+      <Form.Item
+        name="line2"
+        label="Street Address"
+        rules={[{ required: true, message: "Please enter your line2 address" }]}
+      >
+        <TextArea rows={2} placeholder="Enter your address" />
+      </Form.Item>
       <Form.Item
         name="city"
         label="City"

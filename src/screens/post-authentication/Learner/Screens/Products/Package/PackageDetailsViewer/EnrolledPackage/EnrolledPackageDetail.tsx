@@ -57,17 +57,17 @@ const EnrolledPackageDetailScreen: React.FC<
 > = (props) => {
   const navigate = useNavigate();
   const { packageId } = useParams();
-  const { mutate: updateOrderAddress } = Learner.Queries.useUpdateOrderAddress({
-    type: Enum.ProductType.PACKAGE,
-    id: packageId + "",
-  });
-
+  const { mutate: updateOrderAddress } =
+    Learner.Queries.useCreateOfflineKitOrder({
+      type: Enum.ProductType.PACKAGE,
+      id: packageId + "",
+    });
   const {
     data: {
       product: { data: packageData },
       plan: { expiresAt },
       enrolledAt,
-      offlineKit,
+      order: orderId,
     },
     isLoading: loading,
   } = Learner.Queries.useGetEnrolledProductDetails(
@@ -79,8 +79,9 @@ const EnrolledPackageDetailScreen: React.FC<
       enabled: !!packageId,
     }
   );
+  const { data: order } = Learner.Queries.useGetOrderDetails(orderId);
   // const { openModal } = useModal();
-  console.log(packageData, "packageData");
+  // console.log(packageData, "packageData");
   const { progress, totalItems, completedItems } = useMemo(() => {
     let totalItems = { test: 0, course: 0, event: 0 };
     let completedItems = { test: 0, course: 0, event: 0 };
@@ -119,39 +120,47 @@ const EnrolledPackageDetailScreen: React.FC<
   }, [packageData]);
   const { isMobile, isTablet, isDesktop } = useBreakpoint();
   const PackageDetailSkel = isDesktop ? [1, 1, 1, 1, 1, 1] : [1, 1];
-  const DownloadTestKit = !offlineKit?.delivery?.status ? (
-    <ActionModal
-      width={300}
-      title="Please Enter your address"
-      cta={
-        <Button danger type="dashed" size="large" block>
-          <PrinterOutlined /> Order Offline Kit
-        </Button>
-      }
-    >
-      <OrderAddressForm
-        onSubmit={(e) => {
-          console.log(e, "eeee");
-          updateOrderAddress({
-            address: e,
-          });
-        }}
-        product={{
-          id: packageId + "",
-          type: Enum.ProductType.PACKAGE,
-        }}
-      />
-    </ActionModal>
-  ) : (
-    <div style={{ marginTop: 20 }}>
-      <Tag
-        style={{ width: "100%", display: "block", textAlign: "center" }}
-        color="blue-inverse"
+  const DownloadTestKit = !loading ? (
+    !order?.offlineKit?.delivery?.status ? (
+      <ActionModal
+        width={300}
+        title="Please Enter your address"
+        cta={
+          <Button
+            style={{ marginTop: 20 }}
+            danger
+            type="dashed"
+            size="large"
+            block
+          >
+            <PrinterOutlined /> Order Offline Kit
+          </Button>
+        }
       >
-        ORDER {offlineKit?.delivery?.status?.toUpperCase()}
-      </Tag>
-    </div>
-  );
+        <OrderAddressForm
+          onSubmit={(e) => {
+            console.log(e, "eeee");
+            updateOrderAddress({
+              address: e,
+            });
+          }}
+          product={{
+            id: packageId + "",
+            type: Enum.ProductType.PACKAGE,
+          }}
+        />
+      </ActionModal>
+    ) : (
+      <div style={{ marginTop: 20 }}>
+        <Tag
+          style={{ width: "100%", display: "block", textAlign: "center" }}
+          color="blue-inverse"
+        >
+          ORDER {order?.offlineKit?.delivery?.status?.toUpperCase()}
+        </Tag>
+      </div>
+    )
+  ) : null;
 
   const skelArr = isDesktop ? [1, 1, 1, 1, 1] : [1, 1];
   return (
