@@ -479,7 +479,7 @@ const TestCard = ({
             <Col span={24} flex={1}>
               {!isEnrolled ? (
                 <Col span={24}>
-                  {!test.pyq.enabled ? (
+                  {!test?.pyq?.enabled ? (
                     <>
                       <PriceCardContent plan={plan} />
                       {!isMobile ? <Divider /> : null}
@@ -508,7 +508,7 @@ const TestCard = ({
                             type="primary"
                           >
                             {isFree
-                              ? test.pyq.enabled
+                              ? test?.pyq?.enabled
                                 ? "Attempt Now"
                                 : "Enroll Now"
                               : "Buy Now"}
@@ -530,7 +530,7 @@ const TestCard = ({
                       </Button>
                     )}
 
-                    {test.pyq.enabled ? (
+                    {test?.pyq?.enabled ? (
                       <Link
                         to={
                           // isServer
