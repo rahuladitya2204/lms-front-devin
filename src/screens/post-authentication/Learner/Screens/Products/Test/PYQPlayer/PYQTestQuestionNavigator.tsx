@@ -11,8 +11,9 @@ import {
   Spin,
   theme,
 } from "antd";
-import { Enum, Learner } from "@adewaskar/lms-common";
-
+import { Enum, Learner, Types } from "@adewaskar/lms-common";
+import { htmlToText } from "html-to-text";
+import slugify from "slugify";
 import { TestNavigatorSkeleton } from "../TestReview/TestItemSkeleton";
 import { Typography } from "@Components/Typography";
 import { useQuestion } from "./PYQTestPlayerItem";
@@ -30,18 +31,22 @@ export default function TestReviewQuestionNavigator(
   props: TestReviewQuestionNavigatorPropsI
 ) {
   const navigate = useNavigate();
-  const {
-    isLoading: loadingResult,
-    data: { sections },
-  } = Learner.Queries.useGetTestDetails(
-    props.testId + "",
-    Enum.TestDetailMode.RESULT
-  );
+  const { isLoading: loadingResult, data: test } =
+    Learner.Queries.useGetTestDetails(
+      props.testId + "",
+      Enum.TestDetailMode.RESULT
+    );
   const { currentQuestion, loading } = useQuestion();
 
   const { token } = theme.useToken();
-  const { questionId } = useParams();
+  const { questionId: qID } = useParams();
+  const questionId = getIdFromSlug(qID);
   const isLoading = loadingResult;
+  // const getSlugFromID = (item: Types.TestQuestion) => {
+  //   return `${`${htmlToText(item.title.text["eng"]).slice(0, 15)}----${
+  //     item._id
+  //   }`}`;
+  // };
   let runningIndex = 0;
   return (
     <Card
@@ -58,7 +63,7 @@ export default function TestReviewQuestionNavigator(
           <Title style={{ textAlign: "center" }} level={3}>
             Question Panel
           </Title>
-          {sections.map((section: any) => {
+          {test.sections.map((section: any) => {
             return (
               <Row>
                 <Col span={24}>
@@ -75,7 +80,9 @@ export default function TestReviewQuestionNavigator(
                             }}
                             style={{ width: "100%" }}
                             key={item._id}
-                            to={`${item._id}`}
+                            to={`/app/test/${
+                              test.slug || test._id
+                            }/pyq/${getSlugFromID(item)}`}
                             children={() => {
                               const isActive = questionId === item._id;
                               return (
@@ -137,3 +144,13 @@ export default function TestReviewQuestionNavigator(
     </Card>
   );
 }
+
+export const getSlugFromID = (item: Types.TestQuestion) => {
+  return `${`${slugify(htmlToText(item.title.text["eng"])).slice(0, 30)}----${
+    item._id
+  }`}`;
+};
+
+export const getIdFromSlug = (slug: string) => {
+  return slug.split(`-`).pop();
+};

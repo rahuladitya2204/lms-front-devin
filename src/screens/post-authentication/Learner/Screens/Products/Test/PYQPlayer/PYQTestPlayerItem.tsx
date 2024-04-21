@@ -38,6 +38,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { useOutletContext } from "react-router-dom";
 import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
 import { NavLink, useParams } from "@Router/index";
+import { getIdFromSlug } from "./PYQTestQuestionNavigator";
 
 const { Title, Text } = Typography;
 
@@ -54,7 +55,7 @@ export default function TestPublicPlayerItemReiew(
   const [form] = Form.useForm();
   // { questionId, testId }
   const params = useParams();
-  const questionId = props.questionId || params.questionId;
+  const questionId = getIdFromSlug(props.questionId || params.questionId);
   const testId = props.testId || params.testId;
   const {
     currentQuestion,
@@ -370,7 +371,7 @@ export default function TestPublicPlayerItemReiew(
 export function useQuestion(d?: { testId: string; questionId: string }) {
   const params = useParams();
   const testId = d?.testId || params.testId;
-  const questionId = d?.questionId || params.questionId;
+  const questionId = getIdFromSlug(d?.questionId || params.questionId);
   const {
     data: { sections },
     isFetching,

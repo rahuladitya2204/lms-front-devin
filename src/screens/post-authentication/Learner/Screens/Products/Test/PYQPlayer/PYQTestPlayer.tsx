@@ -29,7 +29,9 @@ import ActionDrawer from "@Components/ActionDrawer";
 import Header from "@Components/Header";
 import ProctoringComponent from "@Learner/Screens/Procturing/TestProcturing";
 import TestItemSkeleton from "../TestReview/TestItemSkeleton";
-import TestPublicQuestionNavigator from "./PYQTestQuestionNavigator";
+import TestPublicQuestionNavigator, {
+  getSlugFromID,
+} from "./PYQTestQuestionNavigator";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { NavLink, useLocation, useNavigate, useParams } from "@Router/index";
@@ -68,11 +70,12 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
 
   useEffect(() => {
     if (test.sections[0]?.items[0] && !questionId) {
-      const itemId = test.sections[0].items[0]._id;
+      const item = test.sections[0].items[0];
+      const itemId = item._id;
       navigate(
         props.isServer
-          ? `/test/${testId}/pyq/${itemId}`
-          : `/app/test/${testId}/pyq/${itemId}`
+          ? `/test/${testId}/pyq/${getSlugFromID(item)}`
+          : `/app/test/${testId}/pyq/${getSlugFromID(item)}`
       );
     }
     if (test.languages.length) {

@@ -337,7 +337,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      window.open(`/app/test/${test._id}/pyq`);
+                      window.open(`/app/test/${test.slug || test._id}/pyq`);
                     }}
                     type="dashed"
                     block
