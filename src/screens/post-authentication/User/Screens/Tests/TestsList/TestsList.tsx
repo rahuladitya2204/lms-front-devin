@@ -38,6 +38,7 @@ const { Text } = Typography;
 
 function TestsList(props: { filter: Types.GetTestsFilter }) {
   const navigate = useNavigate();
+  const { data: categories } = User.Queries.useGetProductCategories("all");
   const { openModal } = useModal();
   const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
@@ -121,13 +122,17 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           )}
         >
           <TableColumn
+            fixed
             title="Title"
             dataIndex="title"
             key="title"
             render={(_: any, test: Types.Test) => (
               <Button
                 onClick={() =>
-                  navigate(
+                  // navigate(
+                  //   `/admin/products/test/${test._id}/editor#information`
+                  // )
+                  window.open(
                     `/admin/products/test/${test._id}/editor#information`
                   )
                 }
@@ -139,13 +144,22 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             )}
           />
           <TableColumn
+            title="Category"
+            dataIndex="category"
+            key="category"
+            // @ts-ignore
+            render={(_: any, test: Types.Test) =>
+              categories.find((c) => c._id == test.category)?.title || "-"
+            }
+          />
+          <TableColumn
             title="URL Slug"
             dataIndex="slug"
             key="slug"
             // @ts-ignore
             render={(_: any, test: Types.Test) => test.slug || "-"}
           />
-          <TableColumn
+          {/* <TableColumn
             title="Input Type"
             dataIndex="inputType"
             key="inputType"
@@ -156,7 +170,8 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
                 <Tag color="blue-inverse">Objective</Tag>
               )
             }
-          />
+          /> */}
+
           <TableColumn
             title="Last Updated"
             dataIndex="lastUpdated"
@@ -196,7 +211,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             // @ts-ignore
             render={(_: any, test: Types.Test) => <TestStatusTag test={test} />}
           />
-
+          {/* 
           <TableColumn
             title="Enrolled"
             dataIndex="enrolled"
@@ -218,8 +233,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
                 "-"
               )
             }
-          />
+          /> */}
           <TableColumn
+            fixed
             title="Action"
             key="action"
             render={(_: any, test: Types.Test, index: number) => (

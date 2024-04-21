@@ -146,9 +146,10 @@ export default function TestReviewQuestionNavigator(
 }
 
 export const getSlugFromID = (item: Types.TestQuestion) => {
-  return `${`${slugify(htmlToText(item.title.text["eng"])).slice(0, 30)}----${
-    item._id
-  }`}`;
+  return `${`${slugify(htmlToText(item.title.text["eng"]).toLowerCase()).slice(
+    0,
+    50
+  )}----${item._id}`}`;
 };
 
 export const getIdFromSlug = (slug: string) => {

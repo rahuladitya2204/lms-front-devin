@@ -2,9 +2,11 @@ import { useCallback, useEffect, useState } from 'react'
 import { useNavigate, useParams } from '@Router/index'
 
 import { Types } from '@adewaskar/lms-common'
+import { getIdFromSlug } from '@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestQuestionNavigator'
 
 function useTestNavigation(test: Types.Test,type,isServer?:boolean) {
-  const { questionId: itemId,testId } = useParams()
+  const { questionId,testId } = useParams()
+  const itemId=type==='pyq'? getIdFromSlug(questionId):questionId;
   const navigate = useNavigate()
   const [currentIndexes, setCurrentIndexes] = useState({
     sectionIndex: -1,
