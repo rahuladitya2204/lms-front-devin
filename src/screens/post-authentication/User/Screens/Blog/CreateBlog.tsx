@@ -205,6 +205,21 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
                       >
                         <Input placeholder="Enter a title for the live session" />
                       </Form.Item>
+
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please enter a url slug of the blogs",
+                          },
+                        ]}
+                        name="slug"
+                        label="URL Slug"
+                        required
+                      >
+                        <Input placeholder="Enter a slug for the blog" />
+                      </Form.Item>
+
                       <Row gutter={[20, 20]}>
                         <Col span={12}>
                           <SelectProductCategory name="category" />

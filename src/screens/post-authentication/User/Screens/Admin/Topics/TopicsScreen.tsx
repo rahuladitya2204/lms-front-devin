@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Button, Popconfirm, Tree, message } from "@Lib/index";
+import { Button, Popconfirm, Skeleton, Tree, message } from "@Lib/index";
 import {
   DeleteOutlined,
   DownOutlined,
@@ -21,7 +21,11 @@ export interface TopicNode extends Types.Topic {
 }
 
 export default function TopicsScreen() {
-  const { data: topics, refetch: refetchTopics } = User.Queries.useGetTopics();
+  const {
+    data: topics,
+    refetch: refetchTopics,
+    isLoading: loading,
+  } = User.Queries.useGetTopics();
   const { openModal } = useModal();
   const [treeData, setTreeData] = useState<TopicNode[]>([]);
   const [expandedKeys, setExpandedKeys] = useState<string[]>([]);
@@ -163,22 +167,26 @@ export default function TopicsScreen() {
         <Button icon={<PlusOutlined />} onClick={() => onAdd(null)}>
           Add Root Topic
         </Button>
-        <Button
+        {/* <Button
           icon={<DeleteOutlined />}
           onClick={onDelete}
           style={{ marginLeft: "8px" }}
         >
           Delete Topic
-        </Button>
+        </Button> */}
       </div>
-      <Tree
-        treeData={treeData}
-        onExpand={onExpand}
-        expandedKeys={expandedKeys}
-        defaultExpandAll
-        showLine
-        switcherIcon={<DownOutlined />}
-      />
+      {loading ? (
+        <Skeleton.Button active block style={{ height: 90 }} />
+      ) : (
+        <Tree
+          treeData={treeData}
+          onExpand={onExpand}
+          expandedKeys={expandedKeys}
+          defaultExpandAll
+          showLine
+          switcherIcon={<DownOutlined />}
+        />
+      )}
     </Header>
   );
 }
