@@ -35,7 +35,7 @@ export default function OrganisationScreen() {
   //     isLoading: deletingOrganisation
   //   } = User.Queries.useDeleteOrganisation()
   const { openModal } = useModal();
-  console.log(data, "ddd");
+  // console.log(data, "ddd");
   return (
     <Header
       title="Organisation"

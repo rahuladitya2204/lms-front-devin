@@ -1,3 +1,4 @@
+"use client";
 import {
   Button,
   Card,
@@ -23,17 +24,14 @@ import {
   LogoutOutlined,
   MoneyCollectOutlined,
 } from "@ant-design/icons";
-import { Constants, Learner } from "@adewaskar/lms-common";
-import { NavLink, useSearchParams } from "@Router/index";
+import { Learner } from "@adewaskar/lms-common";
+import { useSearchParams } from "@Router/index";
 import { Text, Title } from "@Components/Typography/Typography";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "@Router/index";
 
 import AudioPlayer from "@Components/AudioPlayer";
 import Header from "@Components/Header";
-import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
-import OrgLogo from "@Components/OrgLogo";
-import PDFViewer from "@Components/PDFViewer";
 import Tabs from "@Components/Tabs";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
@@ -42,23 +40,25 @@ const { confirm } = Modal;
 
 export default function NewsDetailScreen() {
   const [params, setParams]: any[] = useSearchParams();
-  // console.log(params, 'lsls;l')
   const paramsDate = params.get("date");
-  // const paramsLang = params.get('language')
-  const [date, setDate] = useState(dayjs().startOf("day"));
+  const [date, setDate] = useState(() => {
+    if (paramsDate) {
+      const parsedDate = dayjs(paramsDate);
+      if (parsedDate.isValid()) {
+        return parsedDate.startOf("day");
+      }
+    }
+    return dayjs().startOf("day");
+  });
+
   useEffect(() => {
     if (paramsDate) {
       const parsedDate = dayjs(paramsDate);
       if (parsedDate.isValid()) {
         setDate(parsedDate.startOf("day"));
-      } else {
-        // Handle invalid date format by redirecting or setting a default date
       }
-    } else {
-      const newDate = dayjs().startOf("day").toISOString();
-      setParams({ date: newDate });
     }
-  }, [paramsDate, setParams]);
+  }, [paramsDate]);
 
   // When setting the new date from the DatePicker
   const handleDateChange = (dateValue: any) => {
@@ -71,7 +71,7 @@ export default function NewsDetailScreen() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: newsItem, isLoading } = Learner.Queries.useGetNewsItem(
-    date.toISOString()
+    date.startOf("day").toISOString()
   );
 
   const { isMobile, isDesktop } = useBreakpoint();
@@ -81,7 +81,7 @@ export default function NewsDetailScreen() {
 
   return (
     <Header
-      title={`Welcome to Nimble Bee News Headquarters`}
+      title={`Welcome to Testmint.ai News Headquarters`}
       extra={[
         <div style={{ marginTop: 5 }}>
           <Button

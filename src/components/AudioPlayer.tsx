@@ -1,7 +1,8 @@
-import 'react-h5-audio-player/lib/styles.css'
+"use client";
+import "react-h5-audio-player/lib/styles.css";
 
-import React from 'react'
-import ReactAudioPlayer from 'react-h5-audio-player'
+import React from "react";
+import ReactAudioPlayer from "react-h5-audio-player";
 
 interface AudioPlayerProps {
   src: string; // URL of the audio file
@@ -13,9 +14,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ src }) => {
       preload="auto"
       src={src}
       //   controls
-      style={{ width: '100%' }}
+      style={{ width: "100%" }}
     />
-  )
-}
+  );
+};
 
-export default AudioPlayer
+export default AudioPlayer;

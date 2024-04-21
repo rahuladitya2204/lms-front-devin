@@ -41,7 +41,7 @@ export default function NewsScreen() {
   const { mutate: deleteNews, isLoading: deletingNews } =
     User.Queries.useDeleteNews();
   const { openModal } = useModal();
-  console.log(data, "ddd");
+  // console.log(data, "ddd");
   return (
     <Header
       title="News"

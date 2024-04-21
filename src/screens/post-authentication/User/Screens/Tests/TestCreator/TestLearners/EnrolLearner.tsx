@@ -18,7 +18,7 @@ export default function EnrollLearner(props: EnrollLearnerPropsI) {
     User.Queries.useCreateEnrollmentOfLearner(props.product);
   const [form] = Form.useForm();
   const createEnrollment = (d: { learner: string }) => {
-    console.log(d, "ddd");
+    // console.log(d, "ddd");
     createLearnerEnrollment(
       {
         learnerId: d.learner,

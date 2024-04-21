@@ -6,6 +6,8 @@ import { initInterceptors } from "@Network/index";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
+import weekday from 'dayjs/plugin/weekday';
+import localeData from 'dayjs/plugin/localeData';
 
 export const initStorage = () => {
   console.log("initializing storage");
@@ -40,7 +42,10 @@ export const initStorage = () => {
 const initDateFormats = () => {
   dayjs.extend(relativeTime);
   dayjs.extend(localizedFormat);
+  dayjs.extend(weekday);
+  dayjs.extend(localeData);
 };
+
 
 export const initializeApp = () => {
   initInterceptors();

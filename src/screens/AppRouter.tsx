@@ -215,7 +215,7 @@ const router = (userType: string) => {
                 <Route path="policies" element={<LearnerPrivacyPolicy />} />
               </Route>
               <Route path="" element={<LearnerFullPageHolder />}>
-                <Route path="news" element={<NewsDetailScreen />} />
+                <Route path="app/news" element={<NewsDetailScreen />} />
                 <Route path="image-resizer" element={<ImageResizer />} />
                 {/* <Route path="cropper" element={<PerspectiveCropper />} />  */}
                 <Route path="affiliate" element={<AffiliateScreen />} />

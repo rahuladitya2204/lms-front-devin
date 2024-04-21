@@ -45,7 +45,7 @@ interface CreateEventComponentPropsI {
 const CreateEvent: React.FC<CreateEventComponentPropsI> = (props) => {
   const { eventId } = useParams();
   const isUpdate = !!eventId;
-  console.log(isUpdate, "ddd");
+  // console.log(isUpdate, "ddd");
   const [outcomes, setOutcomes] = useState<Outcome[]>([]);
   const [testimonials, setTestimonials] = useState<Types.Testimonial[]>([]);
   const navigate = useNavigate();
