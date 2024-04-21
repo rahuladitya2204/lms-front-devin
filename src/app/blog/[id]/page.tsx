@@ -147,7 +147,7 @@ export default function Page({ params }: { params: { id: string } }) {
       ]}
     >
       <LearnerRootScreen noSignIn isServer>
-        <BlogDetailScreen id={params.id} />
+        <BlogDetailScreen isServer id={params.id} />
       </LearnerRootScreen>
     </Hydrator>
   );

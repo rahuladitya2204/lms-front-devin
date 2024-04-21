@@ -31,7 +31,7 @@ export default function Page({ params }: { params: { id: string } }) {
       ]}
     >
       <LearnerFullPageHolder noSignIn isServer>
-        <LearnerBlogsScreen />
+        <LearnerBlogsScreen isServer />
       </LearnerFullPageHolder>
     </Hydrator>
   );

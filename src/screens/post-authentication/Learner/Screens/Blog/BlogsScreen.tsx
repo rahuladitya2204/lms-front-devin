@@ -4,7 +4,7 @@ import { Learner } from "@adewaskar/lms-common";
 import { Col, Row } from "antd";
 import BlogCard from "../StoreScreen/Cards/BlogCard";
 
-export default function LearnerBlogsScreen() {
+export default function LearnerBlogsScreen(props: { isServer?: boolean }) {
   const { data: blogs } = Learner.Queries.useGetBlogs();
   return (
     <Row>
@@ -13,7 +13,7 @@ export default function LearnerBlogsScreen() {
         <Row>
           {blogs.map((blog) => (
             <Col span={4}>
-              <BlogCard blog={blog} />
+              <BlogCard isServer={props.isServer} blog={blog} />
             </Col>
           ))}
         </Row>

@@ -21,6 +21,7 @@ const { UnitTypeToStr } = Utils;
 
 interface BlogCardPropsI {
   blog: Types.Blog;
+  isServer?: boolean;
 }
 
 const CustomCard = styled(Card)`
@@ -36,7 +37,13 @@ function BlogCard(props: BlogCardPropsI) {
     // <Badge.Ribbon text="Best Seller" color="orange">
     <CustomCard
       hoverable
-      onClick={() => navigate(`../blog/${blog._id}`)}
+      onClick={() =>
+        navigate(
+          props.isServer
+            ? `/blog/${blog.slug || blog._id}`
+            : `/app/blog/${blog.slug || blog._id}`
+        )
+      }
       bodyStyle={{ padding: 15 }}
       cover={
         <Image

@@ -11,6 +11,7 @@ import { CategoryProducts } from "../StoreScreen/ProductCategoryDetail/ProductCa
 
 interface BlogDetailScreenPropsI {
   id: string;
+  isServer?: boolean;
 }
 
 export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
