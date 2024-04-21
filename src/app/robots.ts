@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://www.nimblebee.io/sitemap.xml",
+    sitemap: "https://www.testmint.ai/sitemap.xml",
   };
 }
