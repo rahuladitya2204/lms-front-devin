@@ -44,19 +44,10 @@ function PackagesScreen() {
               )}
             />
             <Table.Column
-              title="Analysis"
-              dataIndex="analysis"
-              key="analysis"
-              render={(_: any, bundle: Types.Package) => (
-                <Button
-                  icon={<BarChartOutlined />}
-                  size="small"
-                  type="primary"
-                  onClick={() => navigate(`${bundle._id}/status`)}
-                >
-                  Show Analysis
-                </Button>
-              )}
+              title="URL Slug"
+              dataIndex="slug"
+              key="slug"
+              render={(_: any, bundle: Types.Package) => bundle.slug || "-"}
             />
             {/* <Table.Column
               title="Questions"

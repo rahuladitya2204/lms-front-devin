@@ -27,13 +27,9 @@ export default function ProductCheckoutButton(
   const {
     product: { id, type },
   } = props;
-  const {
-    data: {
-      // @ts-ignore
-      plan,
-    },
-  } = Learner.Queries.useGetProductDetail(props.product);
-  // console.log(plan, 'pupupu');
+  const { data: prod } = Learner.Queries.useGetProductDetail(props.product);
+  const { plan } = prod;
+  // console.log(plan, props.product, "hururay");
   const { mutate: createOrder, isLoading: isCreatingOrder } =
     Learner.Queries.useCreateOrderFromProduct();
   // const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
@@ -45,7 +41,7 @@ export default function ProductCheckoutButton(
     Learner.Queries.useUpdateOrderStatus({ id, type });
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const transactionStrategy = organisation.transaction.strategy;
-  const isFree = plan.type === "free";
+  const isFree = plan?.type === "free";
   const CreateOrder = () => {
     createOrder(
       { data: { type, id } },

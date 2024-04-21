@@ -52,7 +52,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
       enabled: !!packageId,
     });
   useEffect(() => {
-    console.log(packageDetails, "packageDetailspackageDetails");
+    // console.log(packageDetails, "packageDetailspackageDetails");
     form.setFieldsValue(packageDetails);
   }, [packageDetails]);
 
@@ -146,7 +146,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
       Save Details
     </Button>
   );
-  console.log(isPackageValid, "isPackageValid");
+  // console.log(isPackageValid, "isPackageValid");
   return (
     <Header
       onBack={() => navigate("../")}

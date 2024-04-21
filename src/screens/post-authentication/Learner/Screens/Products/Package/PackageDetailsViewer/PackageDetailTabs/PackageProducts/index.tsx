@@ -15,7 +15,7 @@ interface PackageProductsPropsI {
 }
 
 function PackageProducts(props: PackageProductsPropsI) {
-  const packageId = props.package._id;
+  const packageId = props.package.slug;
   const { data: bundle, isFetching: loadingPackage } =
     Learner.Queries.useGetPackageDetails(packageId, {
       enabled: !!packageId,

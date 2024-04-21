@@ -153,5 +153,5 @@ export const getSlugFromID = (item: Types.TestQuestion) => {
 };
 
 export const getIdFromSlug = (slug: string) => {
-  return slug.split(`-`).pop();
+  return slug?.split(`-`)?.pop();
 };
