@@ -14,6 +14,7 @@ interface ImagePropsI {
   noLoadNoShowPlaceholder?: React.ReactNode;
   caption?: React.ReactNode;
   style?: any;
+  priority?: boolean;
 }
 
 const ImageHolder = styled.div(
@@ -36,6 +37,7 @@ function AppImage({
   file,
   src,
   width,
+  priority,
   height,
   holderStyle,
   noLoadNoShowPlaceholder,
@@ -65,6 +67,7 @@ function AppImage({
           noLoadNoShowPlaceholder
         ) : (
           <Image
+            priority={!!priority}
             style={{
               width: width ? width : "100%",
               height: height ? height : "100%",

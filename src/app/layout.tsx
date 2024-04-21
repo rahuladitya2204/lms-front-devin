@@ -37,7 +37,9 @@ export async function generateMetadata(
     const url = `https://${organisation.alias}.testmint.ai/home`;
 
     return {
-      title: `${organisation.name} | ${organisation.description}`,
+      title: `${organisation.name}${
+        organisation.description ? ` | ${organisation.description}` : ""
+      }`,
       description: organisation.description,
       icons: {
         icon: organisation.branding.favIcon.url,

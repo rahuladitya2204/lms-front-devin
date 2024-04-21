@@ -46,6 +46,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                 <Col span={12}>
                   {/* <Calendar fullscreen={false} /> */}
                   <Image
+                    priority
                     style={{ maxWidth: "32rem" }}
                     preview={false}
                     src={BGImage.src}
