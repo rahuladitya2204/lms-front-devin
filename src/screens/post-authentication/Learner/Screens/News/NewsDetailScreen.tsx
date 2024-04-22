@@ -78,7 +78,7 @@ export default function NewsDetailScreen(props: NewsDetailScreenPropsI) {
     date.startOf("day").toISOString()
   );
 
-  const { isMobile, isDesktop } = useBreakpoint();
+  const { isMobile, isDesktop, width } = useBreakpoint();
   return (
     <Header
       title={`Welcome to Testmint.ai News Headquarters`}
@@ -110,12 +110,12 @@ export default function NewsDetailScreen(props: NewsDetailScreenPropsI) {
         <Col xs={24} md={20} sm={22}>
           <Card bodyStyle={{ minHeight: 600 }}>
             <Row>
-              <Col span={6}>
-                <Form.Item label="Select Date">
+              <Col xs={24} sm={6}>
+                <Form.Item label={!isMobile ? "Choose Date" : null}>
                   {/* @ts-ignore */}
                   <DatePicker
                     value={date}
-                    style={{ width: 200 }}
+                    style={{ width: isMobile ? "100%" : 200 }}
                     onChange={(dateValue) => handleDateChange(dateValue)}
                   />
                 </Form.Item>
@@ -163,7 +163,10 @@ export default function NewsDetailScreen(props: NewsDetailScreenPropsI) {
                   <Col span={24}>
                     <Tabs
                       tabPosition="top"
-                      tabBarStyle={{ marginLeft: 0 }}
+                      tabBarStyle={{
+                        marginLeft: 0,
+                        width: width < 400 ? 300 : "100%",
+                      }}
                       items={NEWS_CATEGORIES.map((cat) => {
                         return {
                           label: (
