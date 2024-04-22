@@ -25,7 +25,7 @@ export default function Page({ params }: { params: { date: string } }) {
       ]}
     >
       <LearnerFullPageHolder isServer>
-        <NewsDetailScreen />
+        <NewsDetailScreen date={params.date} />
       </LearnerFullPageHolder>
       {/* <h1>Hwloi</h1> */}
     </Hydrator>
