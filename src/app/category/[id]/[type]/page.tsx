@@ -16,6 +16,7 @@ export async function generateMetadata(
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
   const id = req.params.id;
+  const type = req.params.type;
   if (alias && userType) {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
@@ -28,7 +29,7 @@ export async function generateMetadata(
       }
     );
 
-    const url = `https://${alias}.testmint.ai/category/${id}`;
+    const url = `https://${alias}.testmint.ai/category/${id}/${type}`;
 
     return {
       title: `${category.title} | ${category.subtitle}`,

@@ -136,7 +136,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Script id="google-analytics" strategy="lazyOnload">
+      <Script
+        id="google-analytics"
+        //  strategy="lazyOnload"
+      >
         {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){window.dataLayer.push(arguments);}
@@ -146,7 +149,7 @@ export default function RootLayout({
       </Script>
       <Script
         src="https://www.googletagmanager.com/gtag/js?id=G-09G526DHYD"
-        strategy="lazyOnload"
+        // strategy="lazyOnload"
       />
       <body style={{ margin: 0 }}>
         <noscript>You need to enable JavaScript to run this app.</noscript>

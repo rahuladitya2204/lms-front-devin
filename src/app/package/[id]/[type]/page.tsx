@@ -18,6 +18,7 @@ export async function generateMetadata(req: {
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
   const id = req.params.id;
+  const type = req.params.type;
   // console.log(alias, userType, id, "kututurur");
   if (alias && userType) {
     const apiUrl = process.env.API_URL;
@@ -30,7 +31,7 @@ export async function generateMetadata(req: {
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/learner/package/${id}`;
+    const url = `https://${alias}.testmint.ai/learner/package/${id}/${type}`;
 
     return {
       title: `${bundle.title} | ${bundle.subtitle}`,
