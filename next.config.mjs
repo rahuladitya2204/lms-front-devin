@@ -21,6 +21,11 @@ const nextConfig = {
         destination: '/home',
         permanent: true,
       },
+      {
+        source: '/robots.txt',
+        destination: '/www/robots.txt',
+        permanent: true,
+      }
     ]
   }
 };
