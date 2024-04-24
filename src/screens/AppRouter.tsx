@@ -260,7 +260,10 @@ const router = (userType: string) => {
                 path="app/test/:testId"
                 element={<LearnerFullPageHolder noSignIn />}
               >
-                <Route path="pyq" element={<TestPublicPlayer />}>
+                <Route
+                  path="previous-year-questions"
+                  element={<TestPublicPlayer />}
+                >
                   <Route
                     path=":questionId"
                     element={<TestPublicPlayerItemReiew />}

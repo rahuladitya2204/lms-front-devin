@@ -132,8 +132,8 @@ export default function TestPublicPlayerItemReiew(
                       key={item._id}
                       to={
                         props.isServer
-                          ? `/test/${testId}/pyq/${item._id}`
-                          : `/app/test/${testId}/pyq/${item._id}`
+                          ? `/test/${testId}/previous-year-questions/${item._id}`
+                          : `/app/test/${testId}/previous-year-questions/${item._id}`
                       }
                       children={() => {
                         const isActive = questionId === item._id;

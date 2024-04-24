@@ -338,7 +338,9 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/test/${test.slug || test._id}/pyq`);
+                      navigate(
+                        `/test/${test.slug || test._id}/previous-year-questions`
+                      );
                     }}
                     type="dashed"
                     block

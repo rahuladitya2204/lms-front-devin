@@ -74,8 +74,8 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       const itemId = item._id;
       navigate(
         props.isServer
-          ? `/test/${testId}/pyq/${getSlugFromID(item)}`
-          : `/app/test/${testId}/pyq/${getSlugFromID(item)}`
+          ? `/test/${testId}/previous-year-questions/${getSlugFromID(item)}`
+          : `/app/test/${testId}/previous-year-questions/${getSlugFromID(item)}`
       );
     }
     if (test.languages.length) {
@@ -184,6 +184,7 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
                 <Row gutter={[20, 20]}>
                   <Col span={24}>
                     <QuestionNavigator
+                      isServer={props.isServer}
                       questionId={questionId + ""}
                       testId={testId + ""}
                     />

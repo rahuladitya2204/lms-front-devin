@@ -153,7 +153,7 @@ export default function Page({ params }: { params: { testId: string } }) {
       ]}
     >
       <LearnerRootScreen isServer>
-        <TestDetailScreen />
+        <TestDetailScreen isServer />
       </LearnerRootScreen>
     </Hydrator>
   );

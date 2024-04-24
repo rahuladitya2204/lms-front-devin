@@ -85,10 +85,14 @@ export default function TestReviewQuestionNavigator(
                               props.isServer
                                 ? `/test/${
                                     test.slug || test._id
-                                  }/pyq/${getSlugFromID(item)}`
+                                  }/previous-year-questions/${getSlugFromID(
+                                    item
+                                  )}`
                                 : `/app/test/${
                                     test.slug || test._id
-                                  }/pyq/${getSlugFromID(item)}`
+                                  }/previous-year-questions/${getSlugFromID(
+                                    item
+                                  )}`
                             }
                             children={() => {
                               const isActive = questionId === item._id;
@@ -97,7 +101,17 @@ export default function TestReviewQuestionNavigator(
                                 // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
                                 <Button
                                   // loading={loading && isCurrent}
-                                  onClick={() => navigate(item._id + "")}
+                                  // onClick={() =>
+                                  //   navigate(
+                                  //     props.isServer
+                                  //       ? `/test/${test.slug || test._id}/previous-year-questions/${
+                                  //           item._id
+                                  //         }`
+                                  //       : `/app/test/${
+                                  //           test.slug || test._id
+                                  //         }/previous-year-questions/${item._id}`
+                                  //   )
+                                  // }
                                   danger={item.isMarked}
                                   type={
                                     isActive

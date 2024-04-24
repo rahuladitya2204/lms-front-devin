@@ -183,8 +183,12 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
             </Col>
           ) : null}
           <Col xs={0} sm={0} md={0} lg={8}>
-            {/* @ts-ignore */}
-            <TestCard testId={testId + ""} plan={test.plan}>
+            <TestCard
+              isServer={props.isServer}
+              testId={testId + ""}
+              //  @ts-ignore
+              plan={test.plan}
+            >
               {Metadata}
             </TestCard>
           </Col>
@@ -533,10 +537,9 @@ const TestCard = ({
                     {test?.pyq?.enabled ? (
                       <Link
                         to={
-                          // isServer
-                          //   ? `/test/${testId}/pyq`
-                          // :
-                          `/app/test/${testId}/pyq`
+                          isServer
+                            ? `/test/${testId}/previous-year-questions`
+                            : `/app/test/${testId}/previous-year-questions`
                         }
                       >
                         <Button
