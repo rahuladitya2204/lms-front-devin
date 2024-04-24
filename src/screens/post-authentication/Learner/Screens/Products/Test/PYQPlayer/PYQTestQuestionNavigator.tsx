@@ -23,6 +23,7 @@ interface TestReviewQuestionNavigatorPropsI {
   testId: string;
   questionId: string;
   closeDrawer?: Function;
+  isServer?: boolean;
 }
 const { confirm } = Modal;
 const { Text, Title } = Typography;
@@ -80,9 +81,15 @@ export default function TestReviewQuestionNavigator(
                             }}
                             style={{ width: "100%" }}
                             key={item._id}
-                            to={`/app/test/${
-                              test.slug || test._id
-                            }/pyq/${getSlugFromID(item)}`}
+                            to={
+                              props.isServer
+                                ? `/test/${
+                                    test.slug || test._id
+                                  }/pyq/${getSlugFromID(item)}`
+                                : `/app/test/${
+                                    test.slug || test._id
+                                  }/pyq/${getSlugFromID(item)}`
+                            }
                             children={() => {
                               const isActive = questionId === item._id;
                               return (

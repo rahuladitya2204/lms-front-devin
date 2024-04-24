@@ -116,7 +116,11 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       ]}
       cta={<Button icon={<MenuOutlined />} />}
     >
-      <QuestionNavigator questionId={questionId + ""} testId={testId + ""} />
+      <QuestionNavigator
+        isServer={props.isServer}
+        questionId={questionId + ""}
+        testId={testId + ""}
+      />
     </ActionDrawer>
   );
   const LanguagesSelect = (
