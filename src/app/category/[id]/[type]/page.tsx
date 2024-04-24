@@ -16,7 +16,7 @@ export async function generateMetadata(
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
   const id = req.params.id;
-  const type = req.params.type;
+  const type = req.params.type || "overview";
   if (alias && userType) {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API

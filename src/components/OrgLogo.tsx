@@ -37,6 +37,7 @@ function OrgLogo(props: OrgLogoPropsI) {
         preview={false}
         // @ts-ignore
         src={logo[props.quality ? props.quality : "low"].url}
+        alt={organisation.name}
         {...props}
       />
       {props.showName ? (
