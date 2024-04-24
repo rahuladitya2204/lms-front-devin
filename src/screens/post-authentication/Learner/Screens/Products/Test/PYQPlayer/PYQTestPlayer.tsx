@@ -95,7 +95,9 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
           // icon: <ExclamationCircleOutlined />,
           content: `You want to exit reviewing?`,
           onOk() {
-            navigate(`/app/test/${testId}`);
+            navigate(
+              props.isServer ? `/test/${testId}` : `/app/test/${testId}`
+            );
           },
           okText: "Yes, Exit",
         });
