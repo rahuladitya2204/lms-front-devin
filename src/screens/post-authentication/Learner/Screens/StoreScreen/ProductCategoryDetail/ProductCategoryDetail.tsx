@@ -291,6 +291,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
       enabled: !!categoryId,
     }
   );
+  const navigate = useNavigate();
   const PackageListComponent = (
     <Row gutter={[20, 20]}>
       {loadingPackages
@@ -337,7 +338,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                   <Button
                     onClick={(e) => {
                       e.stopPropagation();
-                      window.open(`/app/test/${test.slug || test._id}/pyq`);
+                      navigate(`/test/${test.slug || test._id}/pyq`);
                     }}
                     type="dashed"
                     block

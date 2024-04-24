@@ -127,13 +127,15 @@ export default function Page({
 }: {
   params: { type: string; id: string };
 }) {
-  const { getProductCategoryDetails } = Learner.Queries.Definitions;
+  const { getProductCategoryDetails, getPackages, getPYQs } =
+    Learner.Queries.Definitions;
   return (
     // @ts-ignore
     <Hydrator
       queries={[
         getProductCategoryDetails(params.id),
-        // getPackages(params.id),
+        getPackages(params.id),
+        getPYQs(params.id),
         // getOrgDetails(),
         // // authenticated routes should only be called if token is present
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
