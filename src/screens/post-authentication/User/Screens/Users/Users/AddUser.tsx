@@ -108,7 +108,7 @@ const AddUser: React.FC<CreateUserComponentPropsI> = (props) => {
       >
         <Input placeholder="Mobile Number of the learner" type="number" />
       </Form.Item>
-
+      {/* 
       <Row justify={"space-between"}>
         <Col span={24}>
           <Form.Item
@@ -127,7 +127,7 @@ const AddUser: React.FC<CreateUserComponentPropsI> = (props) => {
             <Select options={Constants.LANGUAGES} />
           </Form.Item>
         </Col>
-      </Row>
+      </Row> */}
 
       <Form.Item
         label="Roles"
