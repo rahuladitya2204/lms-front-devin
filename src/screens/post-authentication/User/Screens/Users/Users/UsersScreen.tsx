@@ -51,6 +51,8 @@ function UsersScreen() {
                 dataIndex="contactNo"
                 key="contactNo"
               />
+
+              <TableColumn title="Roles" dataIndex="roles" key="roles" />
               {/* <TableColumn
                 title="Designation"
                 dataIndex="designation"
