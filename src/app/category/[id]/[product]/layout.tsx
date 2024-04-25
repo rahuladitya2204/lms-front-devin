@@ -35,8 +35,8 @@ export default function Page({
       {/* 123123 */}
       <CategoryProducts
         isServer
-        product={params.product}
-        type={params.type}
+        product={params.product || "test-series"}
+        type={params.type || "overview"}
         id={params.id}
       >
         {/* 123123 */}

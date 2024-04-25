@@ -142,9 +142,9 @@ export default function Page({
       ]}
     >
       <ProductCategoryTabs
-        product={params.product}
+        product={params.product || "test-series"}
         isServer
-        type={params.type}
+        type={params.type || "overview"}
         id={params.id}
       />
     </Hydrator>
