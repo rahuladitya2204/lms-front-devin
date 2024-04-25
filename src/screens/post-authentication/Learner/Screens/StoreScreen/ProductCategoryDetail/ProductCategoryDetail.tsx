@@ -28,7 +28,7 @@ import {
 import { Constants, Enum, Learner, Utils } from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useMemo } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
-import { Link, useNavigate, useParams } from "@Router/index";
+import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PackageCard from "../Cards/PackageCard";
@@ -48,13 +48,14 @@ const { Text, Paragraph } = Typography;
 interface ProductCategoryDetailScreenPropsI {
   isServer?: boolean;
   children?: React.ReactNode;
+  product?: string;
 }
 
 export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
   const navigate = useNavigate();
-  const { id: productCategoryId, type } = useParams();
+  const { id: productCategoryId, type = "overview", product } = useParams();
   const { isMobile, width } = useBreakpoint();
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
@@ -199,8 +200,10 @@ export default function ProductCategoryDetailScreen(
       <Col span={24}>
         <Row gutter={[30, 30]}>
           <CategoryProducts
+            type={type + ""}
             isServer={props.isServer}
             categoryId={productCategoryId + ""}
+            product={product + ""}
           />
           <Col xs={24} sm={24} md={24} lg={24}>
             <Card style={{ paddingTop: 0, minHeight: 400 }}>
@@ -275,11 +278,14 @@ export default function ProductCategoryDetailScreen(
 
 interface CategoryProductsPropsI {
   categoryId: string;
+  type: string;
   isServer?: boolean;
+  product: string;
+  children?: string;
 }
 
 export const CategoryProducts = (props: CategoryProductsPropsI) => {
-  const { categoryId } = props;
+  const { categoryId, type, product } = props;
   const { data: packages, isLoading: loadingPackages } =
     Learner.Queries.useGetPackages(categoryId, {
       enabled: !!categoryId,
@@ -375,17 +381,40 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
     }
     return tabs;
   }, [packages, PYQTests]);
+  console.log(product, "product");
   return (
     <>
-      {packages.length ? (
-        <Col span={24}>
-          <Card
-          // title="Try our test series!"
-          >
-            {TABS.length > 1 ? <Tabs items={TABS} /> : TABS[0].children}
-          </Card>
-        </Col>
-      ) : null}
+      {/* 12123123 */}
+      <Col span={24}>
+        <>
+          {TABS.map((tab) => {
+            return (
+              <NavLink
+                title={tab.label}
+                // title={tab.label}
+                to={
+                  props.isServer
+                    ? `/category/${categoryId}/${tab.key}/${type}`
+                    : `/app/category/${categoryId}/${tab.key}/${type}`
+                }
+              >
+                <Button
+                  // type="text"
+                  size="small"
+                  type={tab.key === product ? "primary" : "default"}
+                  style={{ marginRight: 15, marginBottom: 10 }}
+                >
+                  {tab.label}
+                </Button>
+              </NavLink>
+            );
+          })}
+          {/* <Divider style={{ margin: "5px 0px 10px 0" }} /> */}
+          {TABS.find((tab) => tab.key === product)?.children}
+        </>
+        {/* </Card> */}
+        {props.children ? props.children : <Outlet />}
+      </Col>
     </>
   );
 };

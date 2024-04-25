@@ -8,6 +8,7 @@ import { Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
 import { Button, Divider, Skeleton, Tabs } from "@Lib/index";
 import { useMemo } from "react";
+import { Outlet } from "react-router";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -22,12 +23,15 @@ interface ProductCategoryTabsPropsI {
   id?: string;
   type?: string;
   isServer?: boolean;
+  product?: string;
+  // children?: string;
 }
 
 export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   const params = useParams();
   const id = props.id || params.id;
   const type = props.type || params.type || "overview";
+  const product = props.product || params.product || "packages";
   const { data: productCategory, isLoading: loadingCategory } =
     Learner.Queries.useGetProductCategoryDetails(id + "");
   const { isMobile, width } = useBreakpoint();
@@ -43,29 +47,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           </Paragraph>
         ),
       },
-      // ...productCategory.info.links.map(link => {
-      //   return {
-      //     label: link.title,
-      //     key:link.title,
-      //     children:<HtmlViewer content={link.description} />
-      //   }
-      // })
     ];
-    // if (packages.length) {
-    //   i.push({
-    //     label: `Test Series(${packages.length})`,
-    //     key: 'tests',
-    //     children: <Row gutter={[20,20]}>
-    //       {packages.map(bundle => {
-    //        return  <Col   sm={12}
-    //        md={8} xs={24}
-    //          lg={8} xl={6} xxl={6}  >
-    //          <PackageCard package={bundle} />
-    //        </Col>
-    //      })}
-    //     </Row>
-    //   })
-    // }
 
     i.push(
       ...productCategory.info.links.map((link) => {
@@ -89,11 +71,10 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         return (
           <NavLink
             title={tab.label}
-            title={tab.label}
             to={
               props.isServer
-                ? `/category/${props.id}/${tab.key}`
-                : `/app/category/${id}/${tab.key}`
+                ? `/category/${props.id}/${product}/${tab.key}`
+                : `/app/category/${id}/${product}/${tab.key}`
             }
           >
             <Button

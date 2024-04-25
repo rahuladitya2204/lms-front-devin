@@ -22,32 +22,47 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: "Dashboard",
     icon: <DashboardOutlined />,
+    permissions: [Enum.UserRolePermissions.VIEW_DASHBOARD],
     path: "/admin/dashboard",
   },
   {
     title: "Blogs",
     icon: <EditOutlined />,
+    permissions: [
+      Enum.UserRolePermissions.CREATE_BLOGS,
+      Enum.UserRolePermissions.VIEW_BLOGS,
+      Enum.UserRolePermissions.UPDATE_BLOGS,
+    ],
     path: "/admin/blogs",
   },
   {
     title: "Products",
     icon: <BookOutlined />,
-    roles: [Enum.UserRole.PRODUCT_MANAGER],
+    permissions: [Enum.UserRolePermissions.GET_CATEGORY],
     path: "/admin/products",
     children: [
       {
         title: "Tests",
-        // icon: <PaperClipOutlined />,
+        permissions: [Enum.UserRolePermissions.GET_TESTS],
         path: "test",
         // roles:[Enum.UserRole.TEST_MANAGER]
       },
       {
         title: "Packages",
         path: "packages",
+        permissions: [
+          // Enum.UserRolePermissions.GET_,
+          Enum.UserRolePermissions.GET_PACKAGE,
+        ],
       },
       {
         title: "Category",
         path: "category",
+        permissions: [
+          // Enum.UserRolePermissions.CREATE_CATEGORY,
+          Enum.UserRolePermissions.GET_CATEGORY,
+          // Enum.UserRolePermissions.CREATE_CATEGORY,
+        ],
         // icon: <AppstoreOutlined />
       },
       // {
@@ -64,13 +79,18 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: "Events",
     icon: <CalendarOutlined />,
+    permissions: [
+      Enum.UserRolePermissions.VIEW_EVENTS,
+      Enum.UserRolePermissions.CREATE_EVENTS,
+      Enum.UserRolePermissions.UPDATE_EVENTS,
+    ],
     path: "/admin/event",
   },
   {
     title: "Users",
     icon: <UsergroupAddOutlined />,
     path: "/admin/users",
-    roles: [Enum.UserRole.USER_MANAGER],
+    permissions: [Enum.UserRolePermissions.GET_USERS],
     children: [
       {
         title: "Learners",
@@ -88,7 +108,8 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     title: "Marketing",
     icon: <SoundOutlined />,
     path: "/admin/marketing",
-    roles: [Enum.UserRole.MARKETING_MANAGER],
+    permissions: [Enum.UserRolePermissions.MANAGE_MARKETING],
+    // roles: [Enum.UserRole.MARKETING_MANAGER],
     children: [
       {
         title: "Campaign",
@@ -132,17 +153,19 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
     title: "Asset Library",
     icon: <FolderOpenOutlined />,
+    permissions: [Enum.UserRolePermissions.MANAGE_ASSET_LIBRARY],
     path: "/admin/asset-library",
   },
   {
     title: "Support Tickets",
+    permissions: [Enum.UserRolePermissions.MANAGE_SUPPORT_TICKETS],
     icon: <CustomerServiceOutlined />,
     path: "/admin/tickets",
   },
   {
     title: "Settings",
     icon: <SettingOutlined />,
-    roles: [Enum.UserRole.ORG_MANAGER],
+    permissions: [Enum.UserRolePermissions.MANAGE_SETTINGS],
     path: "/admin/settings",
     children: [
       {
@@ -164,19 +187,54 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
   },
 ];
 
-export const MenuItems = (items: Types.MenuItemNode[]) => {
-  return items.map((item, pIndex) => {
-    const ARGS = [item.title, `${item.path}`, item.icon];
-    const CHILDREN = item?.children?.map((childItem, cIndex) =>
-      getItem(childItem.title, `${item.path}/${childItem.path}`, childItem.icon)
-    );
-    if (CHILDREN) {
+export const MenuItems = (
+  items: Types.MenuItemNode[],
+  permissions: string[],
+  isAdmin: boolean
+) => {
+  return items
+    .filter((item) => {
+      if (isAdmin) {
+        return true;
+      }
+      // Check if the menu item has permissions
+      if (item.permissions) {
+        // If permissions are specified, check if the user has any of the required permissions
+        return item.permissions.some((permission) =>
+          permissions.includes(permission)
+        );
+      }
+      // If no permissions are specified, the menu item should be visible
+      return true;
+    })
+    .map((item, pIndex) => {
+      const ARGS = [item.title, `${item.path}`, item.icon];
+      const CHILDREN = item?.children
+        ?.filter((childItem) => {
+          // Check if the child menu item has permissions
+          if (childItem.permissions) {
+            // If permissions are specified, check if the user has any of the required permissions
+            return childItem.permissions.some((permission) =>
+              permissions.includes(permission)
+            );
+          }
+          // If no permissions are specified, the child menu item should be visible
+          return true;
+        })
+        .map((childItem, cIndex) =>
+          getItem(
+            childItem.title,
+            `${item.path}/${childItem.path}`,
+            childItem.icon
+          )
+        );
+      if (CHILDREN && CHILDREN.length > 0) {
+        // @ts-ignore
+        ARGS.push(CHILDREN);
+      }
       // @ts-ignore
-      ARGS.push(CHILDREN);
-    }
-    // @ts-ignore
-    return getItem(...ARGS);
-  });
+      return getItem(...ARGS);
+    });
 };
 
 type MenuItem = Required<MenuProps>["items"][number];

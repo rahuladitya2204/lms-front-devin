@@ -58,8 +58,12 @@ const UserRootScreen: React.FC = () => {
 
 export const AppSider = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const isAdmin = Store.useGlobal((s) => s.isAdmin);
+  const isAdminPortal = Store.useGlobal((s) => s);
   const navigate = useNavigate();
+  const {
+    data: { roles },
+  } = User.Queries.useGetUserDetails();
+  const isAdmin = isAdminPortal && roles.includes(Enum.UserRole.ADMIN);
   const menuItems = [...MENU_ITEMS];
   if (isAdmin) {
     menuItems.unshift({
@@ -71,7 +75,7 @@ export const AppSider = () => {
           title: "News",
           // icon: <PaperClipOutlined />,
           path: "news",
-          roles: [Enum.UserRole.NEWS_MANAGER],
+          // roles: [Enum.UserRole.NEWS_MANAGER],
         },
         {
           title: "Topics",
@@ -82,16 +86,16 @@ export const AppSider = () => {
           title: "Organisations",
           // icon: <PaperClipOutlined />,
           path: "organisation",
-          roles: [Enum.UserRole.ORG_MANAGER],
+          // roles: [Enum.UserRole.ORG_MANAGER],
         },
       ],
     });
   }
-  const {
-    data: { roles },
-  } = User.Queries.useGetUserDetails();
+
   const permissions = roles
     .map((r) => Constants.USER_ROLES.find((rr) => rr.slug === r))
+    .flat()
+    .map((r) => r?.permissions)
     .flat();
   const filteredMenuItems = menuItems
     .map((mItem) => {
@@ -131,7 +135,7 @@ export const AppSider = () => {
         theme="light"
         defaultSelectedKeys={["1"]}
         mode="inline"
-        items={MenuItems(filteredMenuItems)}
+        items={MenuItems(filteredMenuItems, permissions, isAdmin)}
       />
     </Sider>
   );

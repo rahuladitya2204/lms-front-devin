@@ -125,7 +125,7 @@ export async function generateMetadata(
 export default function Page({
   params,
 }: {
-  params: { type: string; id: string };
+  params: { type: string; id: string; product: string };
 }) {
   const { getProductCategoryDetails, getPackages, getPYQs } =
     Learner.Queries.Definitions;
@@ -141,7 +141,12 @@ export default function Page({
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <ProductCategoryTabs isServer type={params.type} id={params.id} />
+      <ProductCategoryTabs
+        product={params.product}
+        isServer
+        type={params.type}
+        id={params.id}
+      />
     </Hydrator>
   );
 }

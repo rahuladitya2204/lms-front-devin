@@ -82,7 +82,9 @@ import PackageDetailViewer from "@Learner/Screens/Products/Package/PackageDetail
 import PackagesScreen from "@User/Screens/Packages/PackagesScreen";
 import PaymentSettings from "@User/Screens/Settings/Payments/PaymentSettings";
 import PerspectiveCropper from "@Components/PerspectiveCropper";
-import ProductCategoryDetailScreen from "@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
+import ProductCategoryDetailScreen, {
+  CategoryProducts,
+} from "@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 import ProductCategoryEditor from "@User/Screens/Categories/ProductCategoryCreator";
 import PromosScreen from "@User/Screens/Marketing/Promos/PromosScreen";
 import ResetPassword from "@Learner/Screens/Login/ResetPassword";
@@ -158,9 +160,14 @@ const router = (userType: string) => {
                   element={<ProductCategoryDetailScreen />}
                 >
                   <Route
-                    path=":type"
-                    element={<ProductCategoryTabs isServer={false} />}
-                  />
+                    path=":product"
+                    element={<CategoryProducts isServer={false} />}
+                  >
+                    <Route
+                      path=":type"
+                      element={<ProductCategoryTabs isServer={false} />}
+                    />
+                  </Route>
                 </Route>
                 {/* <Route path="store" element={<LearnerStoreScreen />} /> */}
                 <Route path="store" element={<LearnerHomeScreen />} />
