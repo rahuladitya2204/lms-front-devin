@@ -89,7 +89,7 @@ function TestEditor() {
       navigateWithHash
       onTabClick={(e) => {
         if (e === "builder") {
-          window.open(`../${test._id}/builder`);
+          navigate(`../${test._id}/builder`);
         }
       }}
       tabPosition={"left"}

@@ -57,7 +57,7 @@ export default function NewsDetailScreen(props: NewsDetailScreenPropsI) {
   useEffect(() => {
     if (paramDate) {
       const parsedDate = dayjs(paramDate);
-      console.log(parsedDate, paramdate, "pod");
+      // console.log(parsedDate, paramdate, "pod");
       if (parsedDate.isValid()) {
         setDate(parsedDate.startOf("day"));
       }
