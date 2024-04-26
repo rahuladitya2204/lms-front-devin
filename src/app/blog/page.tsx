@@ -8,7 +8,7 @@ import { generateMetadata as GenerateMetadata } from "./[id]/page";
 import LearnerBlogsScreen from "@Screens/post-authentication/Learner/Screens/Blog/BlogsScreen";
 import LearnerFullPageHolder from "@Screens/LearnerFullPageHolder";
 
-export const generateMetadata = GenerateMetadata;
+// export const generateMetadata = GenerateMetadata;
 
 export default function Page({ params }: { params: { id: string } }) {
   const { getBlogs, getOrgDetails, getLearnerDetails } =
@@ -30,9 +30,9 @@ export default function Page({ params }: { params: { id: string } }) {
           : []),
       ]}
     >
-      <LearnerFullPageHolder noSignIn isServer>
+      <LearnerRootScreen noSignIn isServer>
         <LearnerBlogsScreen isServer />
-      </LearnerFullPageHolder>
+      </LearnerRootScreen>
     </Hydrator>
   );
 }

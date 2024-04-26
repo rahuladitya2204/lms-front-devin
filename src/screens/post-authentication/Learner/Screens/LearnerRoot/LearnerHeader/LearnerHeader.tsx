@@ -210,6 +210,22 @@ const LearnerHeaderClient = ({
   // Define the extraContent
   const extraContent = (
     <Space>
+      <NavLink
+        to={isServer ? "/blog" : "/app/blog"}
+        children={({ isActive }) => {
+          return (
+            <Button
+              style={{ borderRadius: 15 }}
+              icon={<BookOutlined />}
+              type={isActive ? "primary" : "default"}
+              style={{ marginRight: 10, borderRadius: 15 }}
+              // onClick={() =>cons
+            >
+              Blogs
+            </Button>
+          );
+        }}
+      />
       {screen.isDesktop && isSignedIn ? (
         <Space style={{ marginLeft: 45 }}>
           {contentLoading ? (
@@ -238,22 +254,6 @@ const LearnerHeaderClient = ({
               />
             ))
           )}
-          <NavLink
-            to={isServer ? "/blog" : "/app/blog"}
-            children={({ isActive }) => {
-              return (
-                <Button
-                  style={{ borderRadius: 15 }}
-                  icon={<BookOutlined />}
-                  type={isActive ? "primary" : "default"}
-                  style={{ marginRight: 10, borderRadius: 15 }}
-                  // onClick={() =>cons
-                >
-                  Blogs
-                </Button>
-              );
-            }}
-          />
         </Space>
       ) : null}
       {/* {contentLoading ? <Skeleton.Avatar active style={{ width: 32, height: 32 }} /> : } */}
