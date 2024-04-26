@@ -45,12 +45,12 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
           <HtmlViewer content={blog.content} />
         </Paragraph>
       </Col>
-      <Col xs={24} lg={24} style={{ marginTop: 30 }}>
+      {/* <Col xs={24} lg={24} style={{ marginTop: 30 }}>
         <Title level={3} style={{ marginTop: 0 }}>
           To master your skills, practice our tests!
         </Title>
         <CategoryProducts categoryId={blog.category} />
-      </Col>
+      </Col> */}
     </Row>
   );
 }
