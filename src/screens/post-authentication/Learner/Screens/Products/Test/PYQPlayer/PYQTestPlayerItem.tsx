@@ -67,7 +67,11 @@ export default function TestPublicPlayerItemReiew(
     Enum.TestDetailMode.RESULT
   );
   // const language = 'eng';
-  const { navigate } = useTestNavigation(test, "pyq", props.isServer);
+  const { navigate } = useTestNavigation(
+    test,
+    "previous-year-questions",
+    props.isServer
+  );
   const OptionSelectedFormControl =
     currentQuestion.type === Enum.TestQuestionType.SINGLE ? Radio : Checkbox;
 

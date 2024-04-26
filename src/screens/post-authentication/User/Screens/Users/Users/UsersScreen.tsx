@@ -46,11 +46,13 @@ function UsersScreen() {
               loading={loading || deletingUser}
             >
               <TableColumn title="Name" dataIndex="name" key="name" />
+              <TableColumn title="Email" dataIndex="email" key="email" />
               <TableColumn
                 title="Contact No"
                 dataIndex="contactNo"
                 key="contactNo"
               />
+              <TableColumn title="Status" dataIndex="status" key="status" />
 
               <TableColumn title="Roles" dataIndex="roles" key="roles" />
               {/* <TableColumn

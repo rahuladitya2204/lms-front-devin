@@ -6,7 +6,7 @@ import { getIdFromSlug } from '@Screens/post-authentication/Learner/Screens/Prod
 
 function useTestNavigation(test: Types.Test,type,isServer?:boolean) {
   const { questionId,testId } = useParams()
-  const itemId=type==='pyq'? getIdFromSlug(questionId):questionId;
+  const itemId=type==='previous-year-questions'? getIdFromSlug(questionId):questionId;
   const navigate = useNavigate()
   const [currentIndexes, setCurrentIndexes] = useState({
     sectionIndex: -1,

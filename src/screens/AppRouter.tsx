@@ -156,7 +156,7 @@ const router = (userType: string) => {
                 <Route path="wallet" element={<LearnerWallet />} />
                 <Route path="reset-password" element={<ResetPassword />} />
                 <Route
-                  path="category/:id"
+                  path="exam/:id"
                   element={<ProductCategoryDetailScreen />}
                 >
                   <Route

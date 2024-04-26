@@ -73,8 +73,8 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
             title={tab.label}
             to={
               props.isServer
-                ? `/category/${props.id}/${product}/${tab.key}`
-                : `/app/category/${id}/${product}/${tab.key}`
+                ? `/exam/${props.id}/${product}/${tab.key}`
+                : `/app/exam/${id}/${product}/${tab.key}`
             }
           >
             <Button

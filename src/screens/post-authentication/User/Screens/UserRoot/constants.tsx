@@ -211,6 +211,9 @@ export const MenuItems = (
       const ARGS = [item.title, `${item.path}`, item.icon];
       const CHILDREN = item?.children
         ?.filter((childItem) => {
+          if (isAdmin) {
+            return true;
+          }
           // Check if the child menu item has permissions
           if (childItem.permissions) {
             // If permissions are specified, check if the user has any of the required permissions

@@ -50,10 +50,10 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
     <Link
       title={productCategory.title}
       to={
-        // `/category/${productCategory._id}`
+        // `/exam/${productCategory._id}`
         isServer
-          ? `/category/${productCategory.slug || productCategory._id}`
-          : `/app/category/${productCategory.slug || productCategory._id}`
+          ? `/exam/${productCategory.slug || productCategory._id}`
+          : `/app/exam/${productCategory.slug || productCategory._id}`
       }
       prefetch={true}
     >

@@ -63,7 +63,7 @@ export default function ProductCategoryDetailScreen(
 
   useEffect(() => {
     if (!type && !props.isServer) {
-      navigate(`/app/category/${productCategoryId}/overview`);
+      navigate(`/app/exam/${productCategoryId}/overview`);
     }
   }, [type]);
 
@@ -375,7 +375,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
     if (PYQTests.length) {
       tabs.push({
         label: "Previous Year Papers",
-        key: "pyq",
+        key: "previous-year-questions",
         children: PYQTestsComponent,
       });
     }
@@ -394,8 +394,8 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                 // title={tab.label}
                 to={
                   props.isServer
-                    ? `/category/${categoryId}/${tab.key}/${type}`
-                    : `/app/category/${categoryId}/${tab.key}/${type}`
+                    ? `/exam/${categoryId}/${tab.key}/${type}`
+                    : `/app/exam/${categoryId}/${tab.key}/${type}`
                 }
               >
                 <Button
