@@ -1,9 +1,10 @@
-import { Form, Input } from "antd";
+import { Button, Form, Input } from "antd";
 
 import SunEditorComponent from "./Editor/SunEditor/SunEditor";
 import CKEditorComponent from "./Editor/CKEditor/CKEditor";
 import { TextAreaProps as LibTextAreaProps } from "antd/es/input";
 import React from "react";
+import { User } from "@adewaskar/lms-common";
 
 const { TextArea: AntDTextArea } = Input;
 
@@ -28,9 +29,34 @@ interface TextAreaProps extends LibTextAreaProps {
 const TextArea: React.FC<TextAreaProps> = (props) => {
   const { html, name, label, ...restProps } = props;
   const EditorComponent = SunEditorComponent;
+  const { mutate: rephraseText } = User.Queries.useRephraseText();
+  const form = Form.useFormInstance();
   // props.editorType === "ck" ? CKEditorComponent : SunEditorComponent;
   return (
-    <Form.Item name={name} label={label}>
+    <Form.Item
+      name={name}
+      label={label}
+      // extra={
+      //   <Button
+      //     onClick={() =>
+      //       rephraseText(
+      //         {
+      //           html: true,
+      //           text: restProps.value + "",
+      //         },
+      //         {
+      //           onSuccess: (v) => {
+      //             console.log(v, "vv");
+      //             form.setFieldValue(name, v);
+      //           },
+      //         }
+      //       )
+      //     }
+      //   >
+      //     Rephrase Text
+      //   </Button>
+      // }
+    >
       {html ? (
         <EditorComponent
           uploadPrefixKey={props.uploadPrefixKey}
