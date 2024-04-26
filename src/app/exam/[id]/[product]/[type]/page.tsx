@@ -29,7 +29,7 @@ export async function generateMetadata(
       }
     );
 
-    const url = `https://${alias}.testmint.ai/category/${id}/${type}`;
+    const url = `https://${alias}.testmint.ai/exam/${id}/${type}`;
 
     return {
       title: `${category.title} | ${category.subtitle}`,

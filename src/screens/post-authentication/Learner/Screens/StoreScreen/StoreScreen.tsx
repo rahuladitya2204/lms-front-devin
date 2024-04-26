@@ -137,7 +137,7 @@ function StoreScreen() {
                           extra={[
                             <NavLink
                               title={"View More"}
-                              to={`../category/${category._id}`}
+                              to={`../exam/${category._id}`}
                             >
                               {" "}
                               <Button
