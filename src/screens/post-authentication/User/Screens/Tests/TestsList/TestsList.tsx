@@ -39,6 +39,7 @@ const { Text } = Typography;
 function TestsList(props: { filter: Types.GetTestsFilter }) {
   const navigate = useNavigate();
   const { data: categories } = User.Queries.useGetProductCategories("all");
+  const { data: users } = User.Queries.useGetUsers();
   const { openModal } = useModal();
   const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
@@ -139,17 +140,37 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
                 type="link"
                 size="small"
               >
-                {test.title}
+                <Text style={{ color: "#1577ff" }}>{test.title}</Text>
               </Button>
             )}
           />
           <TableColumn
-            title="Category"
+            title="Exam"
             dataIndex="category"
             key="category"
             // @ts-ignore
             render={(_: any, test: Types.Test) =>
               categories.find((c) => c._id == test.category)?.title || "-"
+            }
+          />
+          <TableColumn
+            title="Created By"
+            dataIndex="createdBy"
+            key="createdBy"
+            // @ts-ignore
+            render={(_: any, test: Types.Test) =>
+              // @ts-ignore
+              users.find((c) => c._id == test.createdBy)?.name || "-"
+            }
+          />
+          <TableColumn
+            title="Last Updated By"
+            dataIndex="updatedBy"
+            key="updatedBy"
+            // @ts-ignore
+            render={(_: any, test: Types.Test) =>
+              // @ts-ignore
+              users.find((c) => c._id == test.updatedBy)?.name || "-"
             }
           />
           <TableColumn

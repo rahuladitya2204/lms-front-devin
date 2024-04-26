@@ -198,7 +198,12 @@ export default function TestPublicPlayerItemReiew(
         title={`Question ${currentQuestionIndex + 1}`}
         extra={[
           currentQuestion.difficultyLevel ? (
-            <Tag>{currentQuestion.difficultyLevel.toUpperCase()}</Tag>
+            <Tag>
+              <Text strong>
+                {/* Level:  */}
+                {currentQuestion.difficultyLevel.toUpperCase()}
+              </Text>
+            </Tag>
           ) : null,
           <Tag color="green-inverse">
             {!isMobile ? "Correct:" : null} +{currentQuestion.score.correct}
