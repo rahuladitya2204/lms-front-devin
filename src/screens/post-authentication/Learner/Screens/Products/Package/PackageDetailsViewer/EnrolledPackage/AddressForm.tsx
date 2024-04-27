@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { Form, Input, Button, Select } from "antd";
-import { Learner, Types } from "@adewaskar/lms-common";
+import { Constants, Learner, Types } from "@adewaskar/lms-common";
 import TextArea from "@Components/Textarea";
+import { uniq } from "lodash";
 
 const { Option } = Select;
 
@@ -34,12 +35,28 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
       }
     );
   };
+  const state = Form.useWatch(["state"], form);
 
+  const CITIES = useMemo(() => {
+    return uniq(
+      Constants.CITY_LIST.filter((i) => i.state === state).map((i) => i.name)
+    );
+  }, [Constants.CITY_LIST, state]);
+
+  const STATES = useMemo(() => {
+    return uniq(Constants.CITY_LIST.map((i) => i.state));
+  }, [Constants.CITY_LIST]);
+  console.log(state, CITIES, "sslslslsk");
   return (
-    <Form form={form} onFinish={onFinish} layout="vertical">
+    <Form
+      style={{ width: 400, marginTop: 20 }}
+      form={form}
+      onFinish={onFinish}
+      layout="vertical"
+    >
       <Form.Item
         name="line1"
-        label="Street Address"
+        label="Address Line - 1"
         rules={[{ required: true, message: "Please enter your line1 address" }]}
       >
         <TextArea rows={2} placeholder="Enter your address" />
@@ -47,17 +64,10 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
 
       <Form.Item
         name="line2"
-        label="Street Address"
+        label="Address Line - 2"
         rules={[{ required: true, message: "Please enter your line2 address" }]}
       >
         <TextArea rows={2} placeholder="Enter your address" />
-      </Form.Item>
-      <Form.Item
-        name="city"
-        label="City"
-        rules={[{ required: true, message: "Please enter your city" }]}
-      >
-        <Input placeholder="Enter your city" />
       </Form.Item>
 
       <Form.Item
@@ -65,7 +75,30 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
         label="State"
         rules={[{ required: true, message: "Please select your state" }]}
       >
-        <Input placeholder="Enter your state" />
+        <Select
+          showSearch
+          options={STATES.map((state) => {
+            return {
+              label: state,
+              value: state,
+            };
+          })}
+        />
+      </Form.Item>
+      <Form.Item
+        name="city"
+        label="City"
+        rules={[{ required: true, message: "Please enter your city" }]}
+      >
+        <Select
+          showSearch
+          options={CITIES.map((city) => {
+            return {
+              label: city,
+              value: city,
+            };
+          })}
+        />
       </Form.Item>
 
       <Form.Item

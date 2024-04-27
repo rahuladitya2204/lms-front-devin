@@ -12,6 +12,7 @@ import {
   Row,
   Skeleton,
   Space,
+  Spin,
   Tag,
   Timeline,
 } from "@Lib/index";
@@ -83,9 +84,10 @@ const EnrolledPackageDetailScreen: React.FC<
       enabled: !!packageId,
     }
   );
-  const { data: order } = Learner.Queries.useGetOrderDetails(orderId, {
-    enabled: !!orderId,
-  });
+  const { data: order, isLoading: loadingOrder } =
+    Learner.Queries.useGetOrderDetails(orderId, {
+      enabled: !!orderId,
+    });
   const { data: ts } = Learner.Queries.useGetOfflineOrderTrackingStatus(
     orderId,
     {
@@ -182,7 +184,7 @@ const EnrolledPackageDetailScreen: React.FC<
   const DownloadTestKit = !loading ? (
     !order?.offlineKit?.delivery?.status ? (
       <ActionModal
-        width={300}
+        width={500}
         title="Please Enter your address"
         cta={
           <Button
@@ -210,37 +212,30 @@ const EnrolledPackageDetailScreen: React.FC<
         />
       </ActionModal>
     ) : (
-      <div style={{ marginTop: 20 }}>
-        {/* <Title
-          style={{
-            textAlign: "center",
-            marginBottom: 20,
-          }}
-          level={4}
-        >
-          Tracking Offline Kit
-        </Title> */}
-        <Collapse defaultActiveKey={["order"]}>
-          <Collapse.Panel header="Tracking Offline Kit" key="order">
-            <Timeline
-              items={trackingStatus.map((status) => {
-                return {
-                  children: (
-                    <Text>
-                      {status.activity} (
-                      <Text strong>{dayjs(status.date).format("LL")}</Text>)
-                    </Text>
-                  ),
-                  // dot: dayjs(status.date).format("LL"),
-                  // color: trackingStatus.length < 2 ? "blue" : "green",
-                  // dot: trackingStatus.length < 2 ? null : <CheckCircleFilled />,
-                  // children: status.status,
-                };
-              })}
-            />
-          </Collapse.Panel>
-        </Collapse>
-      </div>
+      <Spin spinning={loadingOrder}>
+        <div style={{ marginTop: 20 }}>
+          <Collapse defaultActiveKey={["order"]}>
+            <Collapse.Panel header="Tracking Offline Kit" key="order">
+              <Timeline
+                items={trackingStatus.map((status) => {
+                  return {
+                    children: (
+                      <Text>
+                        {status.activity} (
+                        <Text strong>{dayjs(status.date).format("LL")}</Text>)
+                      </Text>
+                    ),
+                    // dot: dayjs(status.date).format("LL"),
+                    // color: trackingStatus.length < 2 ? "blue" : "green",
+                    // dot: trackingStatus.length < 2 ? null : <CheckCircleFilled />,
+                    // children: status.status,
+                  };
+                })}
+              />
+            </Collapse.Panel>
+          </Collapse>
+        </div>
+      </Spin>
     )
   ) : null;
   const EnrolledPackageExtra = (

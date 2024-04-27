@@ -29,7 +29,7 @@ function PastTest(props: { filter: Types.GetTestsFilter }) {
     isFetching: loading,
     isLoading: loadingFirst,
   } = Learner.Queries.useGetEnrolledProductList("test");
-  console.log(data, "data");
+  // console.log(data, "data");
   const pastTests = data.filter((pd) => {
     return pd.product?.data?.endedAt || pd.metadata.test.endedAt;
   });
@@ -103,7 +103,7 @@ const TestCard = ({ test, metadata }: { test: Types.Test; metadata: any }) => {
         title={test.title}
         description={
           <Space>
-            <LearnerTestResultStatus testId={test._id + ""} />
+            {/* <LearnerTestResultStatus testId={test._id + ""} /> */}
             <Tag>{dayjs(testStartDate).format("LL")}</Tag>
           </Space>
         }

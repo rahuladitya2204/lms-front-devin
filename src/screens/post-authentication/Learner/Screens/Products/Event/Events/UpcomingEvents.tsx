@@ -12,7 +12,7 @@ function UpcomingEvent(props: { filter: Types.GetEventsFilter }) {
     props.filter
   );
   const navigate = useNavigate();
-  console.log(data, "data");
+  // console.log(data, "data");
   return (
     <List
       grid={{
