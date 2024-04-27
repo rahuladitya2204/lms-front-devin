@@ -225,8 +225,13 @@ const EnrolledPackageDetailScreen: React.FC<
             <Timeline
               items={trackingStatus.map((status) => {
                 return {
-                  children: status.activity,
-                  dot: dayjs(status.date).format("LL"),
+                  children: (
+                    <Text>
+                      {status.activity} (
+                      <Text strong>{dayjs(status.date).format("LL")}</Text>)
+                    </Text>
+                  ),
+                  // dot: dayjs(status.date).format("LL"),
                   // color: trackingStatus.length < 2 ? "blue" : "green",
                   // dot: trackingStatus.length < 2 ? null : <CheckCircleFilled />,
                   // children: status.status,
