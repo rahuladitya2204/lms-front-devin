@@ -35,6 +35,7 @@ interface SunEditorPropsI {
   name?: string | string[];
   variables?: Types.Variable[];
   uploadPrefixKey?: string;
+  modifyCta?: boolean;
   value?: string;
   mode?: string;
   readonly?: boolean;
@@ -241,28 +242,30 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
             })}
           </Col>
         </Row>
-        <Row justify="end">
-          <Col>
-            <ActionModal
-              closable={false}
-              title="Modify Text"
-              cta={
-                <Button
-                  type="primary"
-                  size="small"
-                  style={{ marginBottom: 10 }}
-                >
-                  Modify Text
-                </Button>
-              }
-            >
-              <RephraseTextComponent
-                text={value}
-                onComplete={(modifiedText) => props.onChange(modifiedText)}
-              />
-            </ActionModal>
-          </Col>
-        </Row>
+        {props.modifyCta ? (
+          <Row justify="end">
+            <Col>
+              <ActionModal
+                closable={false}
+                title="Modify Text"
+                cta={
+                  <Button
+                    type="primary"
+                    size="small"
+                    style={{ marginBottom: 10 }}
+                  >
+                    Modify Text
+                  </Button>
+                }
+              >
+                <RephraseTextComponent
+                  text={value}
+                  onComplete={(modifiedText) => props.onChange(modifiedText)}
+                />
+              </ActionModal>
+            </Col>
+          </Row>
+        ) : null}
         <SunEditor
           getSunEditorInstance={(editor) => (editorRef.current = editor)}
           // onFocus={props.onFocus}

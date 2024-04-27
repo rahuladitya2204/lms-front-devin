@@ -172,6 +172,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
           >
             {/* @ts-ignore */}
             <TextArea
+              modifyCta
               uploadPrefixKey={prefixKey}
               html={enterHtml ? false : { level: 3 }}
               readonly={isTestEnded}
@@ -613,6 +614,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
           <Card title="Solution Text">
             <Form.Item name={["solution", "html", language]} required>
               <TextArea
+                modifyCta
                 uploadPrefixKey={prefixKey}
                 height={350}
                 html={{ level: 3 }}

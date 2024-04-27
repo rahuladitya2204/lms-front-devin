@@ -15,6 +15,7 @@ interface TextAreaProps extends LibTextAreaProps {
   uploadPrefixKey?: string;
   name?: string | string[];
   value?: string;
+  modifyCta?: boolean;
   onChange?: (d: string) => void;
   label?: string;
   defaultValue?: string;
@@ -59,6 +60,7 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
     >
       {html ? (
         <EditorComponent
+          modifyCta={props.modifyCta}
           uploadPrefixKey={props.uploadPrefixKey}
           // @ts-ignore
           level={typeof html === "object" ? html.level : 2}
