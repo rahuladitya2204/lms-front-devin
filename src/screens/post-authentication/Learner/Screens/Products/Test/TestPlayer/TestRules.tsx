@@ -114,7 +114,7 @@ export default function TestRules(props: TestRulesPropsI) {
               onClick={() => {
                 if (enrolledProduct.package) {
                   navigate(
-                    `/app/package/${enrolledProduct.package}/enrolled-package`
+                    `/app/test-series/${enrolledProduct.package}/enrolled-package`
                   );
                 } else {
                   navigate(`/app/test/${testId}`);

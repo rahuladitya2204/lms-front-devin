@@ -31,7 +31,7 @@ export async function generateMetadata(req: {
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/learner/package/${id}/${type}`;
+    const url = `https://${alias}.testmint.ai/test-series/${id}/${type}`;
 
     return {
       title: `${bundle.title} | ${bundle.subtitle}`,

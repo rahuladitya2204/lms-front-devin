@@ -180,7 +180,7 @@ const router = (userType: string) => {
                   <Route path="" element={<LearnerCourses />} />
                   <Route path=":id" element={<CourseDetailViewer />} />
                 </Route>
-                <Route path="package">
+                <Route path="test-series">
                   {/* <Route path="" element={<LearnerCourses />} /> */}
                   <Route path=":id" element={<PackageDetailViewer />}>
                     <Route

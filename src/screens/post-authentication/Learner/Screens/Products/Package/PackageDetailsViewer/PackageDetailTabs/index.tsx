@@ -46,8 +46,8 @@ function PackageDetailsTabs(props: PackageDetailsTabsPropsI) {
             title={tab.label}
             to={
               props.isServer
-                ? `/package/${props.id}/${tab.key}`
-                : `/app/package/${id}/${tab.key}`
+                ? `/test-series/${props.id}/${tab.key}`
+                : `/app/test-series/${id}/${tab.key}`
             }
           >
             <Button

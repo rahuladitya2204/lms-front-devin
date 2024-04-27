@@ -14,6 +14,8 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 import SunEditor from "suneditor-react";
 import { uniqueId } from "lodash";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
+import { Title } from "@Components/Typography/Typography";
+import ActionModal from "@Components/ActionModal/ActionModal";
 
 interface SunEditorPropsI {
   height?: number;
@@ -231,50 +233,55 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
         </Row>
         <Row justify="end">
           <Col>
-            <Popconfirm
+            <ActionModal
               title="Rephrased Text"
-              description={
-                <Row gutter={[10, 10]}>
-                  {/* <Col span={24}>Rephrased Text</Col> */}
-                  <Spin spinning={rephrasing}>
-                    <Col style={{ minWidth: 400, minHeight: 250 }} span={24}>
-                      <HtmlViewer content={rephrasedText} />
-                    </Col>
-                  </Spin>
-                </Row>
+              cta={
+                <Button
+                  loading={rephrasing}
+                  type="primary"
+                  size="small"
+                  style={{ marginBottom: 10 }}
+                  onClick={() =>
+                    rephraseText(
+                      {
+                        html: true,
+                        text: value,
+                      },
+                      {
+                        onSuccess: (v) => {
+                          console.log(v, "vv");
+                          setRephrasedText(v);
+                        },
+                      }
+                    )
+                  }
+                >
+                  Rephrase Text
+                </Button>
               }
-              onConfirm={() => {
-                // @ts-ignore
-                props.onChange(rephrasedText);
-                setRephrasedText("");
-              }}
+              // onConfirm={() => {
+              //   // @ts-ignore
+              //   props.onChange(rephrasedText);
+              //   setRephrasedText("");
+              // }}
               onCancel={() => setRephrasedText("setRephrasedText")}
               okText="Replace Text"
               cancelText="No"
             >
-              <Button
-                loading={rephrasing}
-                type="primary"
-                size="small"
-                style={{ marginBottom: 10 }}
-                onClick={() =>
-                  rephraseText(
-                    {
-                      html: true,
-                      text: value,
-                    },
-                    {
-                      onSuccess: (v) => {
-                        console.log(v, "vv");
-                        setRephrasedText(v);
-                      },
-                    }
-                  )
-                }
-              >
-                Rephrase Text
-              </Button>
-            </Popconfirm>
+              <Row gutter={[10, 10]}>
+                {/* <Col span={24}>Rephrased Text</Col> */}
+                <Spin tip="Rephrasing Text" spinning={rephrasing}>
+                  <Col span={24}>
+                    <Title level={4}>Old Text</Title>
+                    <HtmlViewer content={value} />
+                  </Col>
+                  <Col style={{ minWidth: 400, minHeight: 250 }} span={24}>
+                    <Title level={4}>Rephrased Text</Title>
+                    <HtmlViewer content={rephrasedText} />
+                  </Col>
+                </Spin>
+              </Row>
+            </ActionModal>
           </Col>
         </Row>
         <SunEditor

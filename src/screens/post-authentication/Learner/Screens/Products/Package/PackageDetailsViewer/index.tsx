@@ -92,7 +92,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
 
   useEffect(() => {
     if (!type && !props.isServer) {
-      navigate(`/app/package/${packageId}/overview`);
+      navigate(`/app/test-series/${packageId}/overview`);
     }
   }, [type]);
   const plan =
@@ -250,12 +250,12 @@ const PackageCard = ({
                       <Link
                         title={bundle.title}
                         anchor={isServer}
-                        to={`/app/package/${packageId}/enrolled-package`}
+                        to={`/app/test-series/${packageId}/enrolled-package`}
                       >
                         <Button
                           // onClick={() =>
                           //   window.open(
-                          //     `/app/package/${packageId}/enrolled-package`
+                          //     `/app/test-series/${packageId}/enrolled-package`
                           //   )
                           // }
                           size="large"
