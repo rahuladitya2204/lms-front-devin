@@ -181,11 +181,11 @@ const PackageCard = ({
   children?: React.ReactNode;
 }) => {
   const { isMobile, isTablet } = useBreakpoint();
-  const product = { type: "package", id: packageId };
   const { data: bundle, isFetching: loadingPackage } =
     Learner.Queries.useGetPackageDetails(packageId + "", {
       enabled: !!packageId,
     });
+  const product = { type: Enum.ProductType.PACKAGE, id: bundle._id };
   const navigate = useNavigate();
 
   const { mutate: updateCart, isLoading: addingToCart } =
@@ -199,8 +199,8 @@ const PackageCard = ({
   const { isSignedIn } = Store.useAuthentication((s) => s);
   const { isDesktop } = useBreakpoint();
   const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
-    type: Enum.ProductType.PACKAGE,
-    id: "65656a12eff93f74224193e3",
+    type: product.type,
+    id: product.id,
   });
 
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);

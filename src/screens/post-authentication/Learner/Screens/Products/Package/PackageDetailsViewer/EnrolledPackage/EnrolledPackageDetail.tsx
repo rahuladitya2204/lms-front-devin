@@ -62,10 +62,16 @@ const EnrolledPackageDetailScreen: React.FC<
 > = (props) => {
   const navigate = useNavigate();
   const { packageId } = useParams();
+  const { data: bundle } = Learner.Queries.useGetPackageDetails(
+    packageId + "",
+    {
+      enabled: !!packageId,
+    }
+  );
   const { mutate: updateOrderAddress } =
     Learner.Queries.useCreateOfflineKitOrder({
       type: Enum.ProductType.PACKAGE,
-      id: packageId + "",
+      id: bundle._id + "",
     });
   const {
     data: {
@@ -78,10 +84,10 @@ const EnrolledPackageDetailScreen: React.FC<
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: Enum.ProductType.PACKAGE,
-      id: packageId + "",
+      id: bundle._id + "",
     },
     {
-      enabled: !!packageId,
+      enabled: !!bundle._id,
     }
   );
   const { data: order, isLoading: loadingOrder } =
@@ -206,7 +212,7 @@ const EnrolledPackageDetailScreen: React.FC<
             });
           }}
           product={{
-            id: packageId + "",
+            id: bundle._id + "",
             type: Enum.ProductType.PACKAGE,
           }}
         />
