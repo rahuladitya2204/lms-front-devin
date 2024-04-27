@@ -21,14 +21,14 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       onClick={() => props.onClick && props.onClick()}
       hoverable
       bodyStyle={{ padding: "20px 10px" }}
-      cover={
-        <AppImage
-          placeholder
-          height={120}
-          alt="example"
-          src={product.thumbnailImage}
-        />
-      }
+      // cover={
+      //   <AppImage
+      //     placeholder
+      //     height={120}
+      //     alt="example"
+      //     src={product.thumbnailImage}
+      //   />
+      // }
       actions={props.actions}
     >
       <Card.Meta

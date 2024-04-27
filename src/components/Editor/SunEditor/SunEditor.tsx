@@ -246,7 +246,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           <Row justify="end">
             <Col>
               <ActionModal
-                width={500}
+                width={900}
                 closable={false}
                 title="Modify Text"
                 cta={

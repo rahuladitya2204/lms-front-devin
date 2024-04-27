@@ -52,15 +52,17 @@ function TestCard(props: TestCardPropsI) {
         );
       }}
       bodyStyle={{ padding: 15 }}
-      cover={
-        !props.hideCoverImg ? (
-          <Image
-            alt="example"
-            style={{ height: 140 }}
-            src={test.thumbnailImage}
-          />
-        ) : null
-      }
+      // cover={
+      //   test.thumbnailImage ? (
+      //     !props.hideCoverImg ? (
+      //       <Image
+      //         alt="example"
+      //         style={{ height: 140 }}
+      //         src={test.thumbnailImage}
+      //       />
+      //     ) : null
+      //   ) : null
+      // }
     >
       <Card.Meta
         title={

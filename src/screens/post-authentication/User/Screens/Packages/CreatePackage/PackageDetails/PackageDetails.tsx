@@ -118,12 +118,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
             name={["description"]}
             required
           >
-            <TextArea
-              height={250}
-              // html
-              label="Description"
-              name={["description"]}
-            />
+            <TextArea height={250} name={["description"]} />
           </Form.Item>
         </Col>
         <Col span={24}>
