@@ -238,7 +238,7 @@ export default function LearnerCart() {
               onClick={() => {
                 createOrder(undefined, {
                   onSuccess: ({ pgOrder, order }: any) => {
-                    console.log(pgOrder, order, "order");
+                    // console.log(pgOrder, order, "order");
                     openCheckout({ pgOrder, order }, (payment: any) => {
                       console.log(payment, "paymentpayment");
                       updatePaymentOrder(

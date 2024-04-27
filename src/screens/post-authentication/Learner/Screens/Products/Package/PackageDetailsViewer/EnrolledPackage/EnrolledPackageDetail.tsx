@@ -104,7 +104,7 @@ const EnrolledPackageDetailScreen: React.FC<
     // },
     ...order.offlineKit.delivery.trackingStatus.scans,
   ];
-  console.log(order, "order");
+  // console.log(order, "order");
   // console.log(order, "orderorder");
   // const { openModal } = useModal();
   // console.log(packageData, "packageData");

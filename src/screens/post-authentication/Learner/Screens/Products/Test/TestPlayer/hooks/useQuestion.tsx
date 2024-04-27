@@ -24,7 +24,7 @@ export default function useQuestion() {
     // Only return INITIAL_TEST_QUESTION if there's no valid question available
     return Constants.INITIAL_TEST_QUESTION;
   }, [currentQuestionIndex, questions]);
-  console.log(currentQuestion, "sections");
+  // console.log(currentQuestion, "sections");
 
   return {
     currentQuestion,

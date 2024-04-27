@@ -67,7 +67,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     id: testId + "",
   });
   const language = ep?.metadata?.test?.language;
-  console.log(ep, language, "huhhahaha");
+  // console.log(ep, language, "huhhahaha");
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   const { data: test } = Learner.Queries.useGetTestDetails(

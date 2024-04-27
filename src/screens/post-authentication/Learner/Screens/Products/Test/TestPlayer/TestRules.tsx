@@ -77,7 +77,7 @@ export default function TestRules(props: TestRulesPropsI) {
   const navigate = useNavigate();
   const { isMobile } = useBreakpoint();
   const isAliasValid = Store.useGlobal((s) => s.isAliasValid);
-  console.log(isAliasValid, "isAliasValidisAliasValid");
+  // console.log(isAliasValid, "isAliasValidisAliasValid");
   const onSubmit = async () => {
     try {
       const data = await form.validateFields();
