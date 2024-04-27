@@ -94,13 +94,15 @@ const EnrolledPackageDetailScreen: React.FC<
   );
   const trackingStatus = [
     {
-      location:
+      activity:
         order.offlineKit.delivery.status === "created" ? "Order Received" : "",
+      // @ts-ignore
+      date: dayjs(order.offlineKit.orderedAt).format("LL"),
     },
     // {
     //   location: "In Progress",
     // },
-    ...ts,
+    ...order.offlineKit.delivery.trackingStatus.scans,
   ];
   console.log(order, "order");
   // console.log(order, "orderorder");
@@ -223,7 +225,8 @@ const EnrolledPackageDetailScreen: React.FC<
             <Timeline
               items={trackingStatus.map((status) => {
                 return {
-                  children: status.location,
+                  children: status.activity,
+                  dot: dayjs(status.date).format("LL"),
                   // color: trackingStatus.length < 2 ? "blue" : "green",
                   // dot: trackingStatus.length < 2 ? null : <CheckCircleFilled />,
                   // children: status.status,
