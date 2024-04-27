@@ -7,7 +7,17 @@ import {
   BasicEditorOptions,
   IntermediateEditorOptions,
 } from "./constant";
-import { Button, Col, Form, Popconfirm, Row, Select, Spin, Tag } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Popconfirm,
+  Row,
+  Select,
+  Spin,
+  Switch,
+  Tag,
+} from "antd";
 import { Common, Types, User } from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 
@@ -16,6 +26,8 @@ import { uniqueId } from "lodash";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Title } from "@Components/Typography/Typography";
 import ActionModal from "@Components/ActionModal/ActionModal";
+import { RephraseText } from "@adewaskar/lms-common/lib/cjs/types/User/Api";
+import RephraseTextComponent from "./RephraseTextComponent";
 
 interface SunEditorPropsI {
   height?: number;
@@ -156,9 +168,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       return false;
     }
   };
-  const { mutate: rephraseText, isLoading: rephrasing } =
-    User.Queries.useRephraseText();
-  const [rephrasedText, setRephrasedText] = useState("");
+
   const handleImageUploadBefore = (file: any) => {
     const editorInstance = editorRef.current;
     // const file = files[0]
@@ -234,53 +244,22 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
         <Row justify="end">
           <Col>
             <ActionModal
-              title="Rephrased Text"
+              closable={false}
+              title="Modify Text"
               cta={
                 <Button
-                  loading={rephrasing}
                   type="primary"
                   size="small"
                   style={{ marginBottom: 10 }}
-                  onClick={() =>
-                    rephraseText(
-                      {
-                        html: true,
-                        text: value,
-                      },
-                      {
-                        onSuccess: (v) => {
-                          console.log(v, "vv");
-                          setRephrasedText(v);
-                        },
-                      }
-                    )
-                  }
                 >
-                  Rephrase Text
+                  Modify Text
                 </Button>
               }
-              // onConfirm={() => {
-              //   // @ts-ignore
-              //   props.onChange(rephrasedText);
-              //   setRephrasedText("");
-              // }}
-              onCancel={() => setRephrasedText("setRephrasedText")}
-              okText="Replace Text"
-              cancelText="No"
             >
-              <Row gutter={[10, 10]}>
-                {/* <Col span={24}>Rephrased Text</Col> */}
-                <Spin tip="Rephrasing Text" spinning={rephrasing}>
-                  <Col span={24}>
-                    <Title level={4}>Old Text</Title>
-                    <HtmlViewer content={value} />
-                  </Col>
-                  <Col style={{ minWidth: 400, minHeight: 250 }} span={24}>
-                    <Title level={4}>Rephrased Text</Title>
-                    <HtmlViewer content={rephrasedText} />
-                  </Col>
-                </Spin>
-              </Row>
+              <RephraseTextComponent
+                text={value}
+                onComplete={(modifiedText) => props.onChange(modifiedText)}
+              />
             </ActionModal>
           </Col>
         </Row>
