@@ -14,7 +14,7 @@ interface OrderAddressFormPropsI {
 const OrderAddressForm = (props: OrderAddressFormPropsI) => {
   const [form] = Form.useForm<Types.LearnerOrderAddress>();
   const { data: learner } = Learner.Queries.useGetLearnerDetails();
-  const { mutate: updateOrderAddress } =
+  const { mutate: updateOrderAddress, isLoading } =
     Learner.Queries.useCreateOfflineKitOrder(props.product);
   useEffect(() => {
     if (learner._id) {
@@ -77,7 +77,7 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
       </Form.Item>
 
       <Form.Item>
-        <Button block type="primary" htmlType="submit">
+        <Button loading={isLoading} block type="primary" htmlType="submit">
           Submit
         </Button>
       </Form.Item>

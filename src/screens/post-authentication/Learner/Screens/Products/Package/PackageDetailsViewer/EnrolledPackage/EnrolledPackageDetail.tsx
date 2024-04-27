@@ -4,6 +4,7 @@ import {
   Button,
   Card,
   Col,
+  Collapse,
   Divider,
   Layout,
   List,
@@ -189,7 +190,7 @@ const EnrolledPackageDetailScreen: React.FC<
             size="large"
             block
           >
-            <PrinterOutlined /> Order Offline Kit
+            <FileOutlined /> Order Offline Kit
           </Button>
         }
       >
@@ -208,7 +209,7 @@ const EnrolledPackageDetailScreen: React.FC<
       </ActionModal>
     ) : (
       <div style={{ marginTop: 20 }}>
-        <Title
+        {/* <Title
           style={{
             textAlign: "center",
             marginBottom: 20,
@@ -216,21 +217,67 @@ const EnrolledPackageDetailScreen: React.FC<
           level={4}
         >
           Tracking Offline Kit
-        </Title>
-        <Timeline
-          items={trackingStatus.map((status) => {
-            return {
-              children: status.location,
-              // color: trackingStatus.length < 2 ? "blue" : "green",
-              // dot: trackingStatus.length < 2 ? null : <CheckCircleFilled />,
-              // children: status.status,
-            };
-          })}
-        />
+        </Title> */}
+        <Collapse defaultActiveKey={["order"]}>
+          <Collapse.Panel header="Tracking Offline Kit" key="order">
+            <Timeline
+              items={trackingStatus.map((status) => {
+                return {
+                  children: status.location,
+                  // color: trackingStatus.length < 2 ? "blue" : "green",
+                  // dot: trackingStatus.length < 2 ? null : <CheckCircleFilled />,
+                  // children: status.status,
+                };
+              })}
+            />
+          </Collapse.Panel>
+        </Collapse>
       </div>
     )
   ) : null;
+  const EnrolledPackageExtra = (
+    <Row>
+      <Col span={24}>
+        <Card style={{ marginTop: 20 }}>
+          {loading ? (
+            <Row gutter={[0, 10]}>
+              {PackageDetailSkel.map(() => (
+                <Col span={24}>
+                  <Skeleton.Button
+                    block
+                    active
+                    style={{
+                      height: 14,
+                      width: "100%",
+                      marginBottom: 10,
+                    }}
+                  />
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <Space direction="vertical">
+              <Text>
+                <CalendarOutlined />
+                {"  "} Enrolled On {"  "}
+                {dayjs(enrolledAt).format("MMMM D, YYYY")}{" "}
+              </Text>
+              {expiresAt ? (
+                <Text>
+                  <Divider style={{ margin: 0 }} />
+                  {/* <CalendarOutlined />
+              {"  "} Expires At {"  "}
+              {dayjs(expiresAt).format("MMMM D, YYYY")}{" "} */}
+                </Text>
+              ) : null}
+            </Space>
+          )}
 
+          {DownloadTestKit}
+        </Card>
+      </Col>
+    </Row>
+  );
   const skelArr = isDesktop ? [1, 1, 1, 1, 1] : [1, 1];
   return (
     <Row>
@@ -308,7 +355,6 @@ const EnrolledPackageDetailScreen: React.FC<
                       </Col>
                     </Row>
                   )}
-
                   <Row gutter={[30, 10]}>
                     {packageData?.course?.length ? (
                       <Col sm={12} xs={24} md={8} lg={5}>
@@ -359,6 +405,9 @@ const EnrolledPackageDetailScreen: React.FC<
         </Row>
 
         <Row>
+          <Col xl={0} lg={24} md={24} sm={24} xs={24}>
+            {EnrolledPackageExtra}
+          </Col>
           <Col span={24}>
             <Row gutter={[30, 30]}>
               <Col xl={19} lg={24} md={24} sm={24} xs={24}>
@@ -428,55 +477,8 @@ const EnrolledPackageDetailScreen: React.FC<
                   ) : null}
                 </Row>
               </Col>
-              {/* <Col span={1} /> */}
               <Col xl={5} lg={0} md={0} sm={0} xs={0}>
-                <Row>
-                  {/* <Col span={24}>
-                      <Title level={5}>Package Description</Title>
-                      <Text>{packageData?.description}</Text>
-
-                      <Divider />
-                    </Col> */}
-                  <Col span={24}>
-                    <Card style={{ marginTop: 20 }}>
-                      {loading ? (
-                        <Row gutter={[0, 10]}>
-                          {PackageDetailSkel.map(() => (
-                            <Col span={24}>
-                              <Skeleton.Button
-                                block
-                                active
-                                style={{
-                                  height: 14,
-                                  width: "100%",
-                                  marginBottom: 10,
-                                }}
-                              />
-                            </Col>
-                          ))}
-                        </Row>
-                      ) : (
-                        <Space direction="vertical">
-                          <Text>
-                            <CalendarOutlined />
-                            {"  "} Enrolled On {"  "}
-                            {dayjs(enrolledAt).format("MMMM D, YYYY")}{" "}
-                          </Text>
-                          {expiresAt ? (
-                            <Text>
-                              <Divider style={{ margin: 0 }} />
-                              {/* <CalendarOutlined />
-                              {"  "} Expires At {"  "}
-                              {dayjs(expiresAt).format("MMMM D, YYYY")}{" "} */}
-                            </Text>
-                          ) : null}
-                        </Space>
-                      )}
-
-                      {DownloadTestKit}
-                    </Card>
-                  </Col>
-                </Row>
+                {EnrolledPackageExtra}
               </Col>
             </Row>
           </Col>
