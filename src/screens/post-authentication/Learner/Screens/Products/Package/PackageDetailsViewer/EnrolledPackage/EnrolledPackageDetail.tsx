@@ -12,9 +12,12 @@ import {
   Skeleton,
   Space,
   Tag,
+  Timeline,
 } from "@Lib/index";
 import {
   CalendarOutlined,
+  CheckCircleFilled,
+  CheckOutlined,
   ClockCircleOutlined,
   EditOutlined,
   FileOutlined,
@@ -79,7 +82,27 @@ const EnrolledPackageDetailScreen: React.FC<
       enabled: !!packageId,
     }
   );
-  const { data: order } = Learner.Queries.useGetOrderDetails(orderId);
+  const { data: order } = Learner.Queries.useGetOrderDetails(orderId, {
+    enabled: !!orderId,
+  });
+  const { data: ts } = Learner.Queries.useGetOfflineOrderTrackingStatus(
+    orderId,
+    {
+      enabled: !!orderId,
+    }
+  );
+  const trackingStatus = [
+    {
+      location:
+        order.offlineKit.delivery.status === "created" ? "Order Received" : "",
+    },
+    // {
+    //   location: "In Progress",
+    // },
+    ...ts,
+  ];
+  console.log(order, "order");
+  // console.log(order, "orderorder");
   // const { openModal } = useModal();
   // console.log(packageData, "packageData");
   const { progress, totalItems, completedItems } = useMemo(() => {
@@ -120,6 +143,39 @@ const EnrolledPackageDetailScreen: React.FC<
   }, [packageData]);
   const { isMobile, isTablet, isDesktop } = useBreakpoint();
   const PackageDetailSkel = isDesktop ? [1, 1, 1, 1, 1, 1] : [1, 1];
+  // const trackingStatus = [
+  //   {
+  //     location: "Order Received",
+  //   },
+  //   {
+  //     date: "2021-12-23 14:23:18",
+  //     status: "X-PPOM",
+  //     activity: "In Transit - Shipment picked up",
+  //     location: "Palwal_NewColony_D (Haryana)",
+  //     "sr-status": "42",
+  //   },
+  //   {
+  //     date: "2021-12-23 14:19:37",
+  //     status: "FMPUR-101",
+  //     activity: "Manifested - Pickup scheduled",
+  //     location: "Palwal_NewColony_D (Haryana)",
+  //     "sr-status": "NA",
+  //   },
+  //   {
+  //     date: "2021-12-23 14:19:34",
+  //     status: "X-UCI",
+  //     activity: "Manifested - Consignment Manifested",
+  //     location: "Palwal_NewColony_D (Haryana)",
+  //     "sr-status": "5",
+  //   },
+  //   // {
+  //   //   date: "2021-12-23 14:19:34",
+  //   //   status: "Delivered",
+  //   //   activity: "Manifested - Consignment Manifested",
+  //   //   location: "Palwal_NewColony_D (Haryana)",
+  //   //   "sr-status": "5",
+  //   // },
+  // ];
   const DownloadTestKit = !loading ? (
     !order?.offlineKit?.delivery?.status ? (
       <ActionModal
@@ -152,12 +208,25 @@ const EnrolledPackageDetailScreen: React.FC<
       </ActionModal>
     ) : (
       <div style={{ marginTop: 20 }}>
-        <Tag
-          style={{ width: "100%", display: "block", textAlign: "center" }}
-          color="blue-inverse"
+        <Title
+          style={{
+            textAlign: "center",
+            marginBottom: 20,
+          }}
+          level={4}
         >
-          ORDER {order?.offlineKit?.delivery?.status?.toUpperCase()}
-        </Tag>
+          Tracking Offline Kit
+        </Title>
+        <Timeline
+          items={trackingStatus.map((status) => {
+            return {
+              children: status.location,
+              // color: trackingStatus.length < 2 ? "blue" : "green",
+              // dot: trackingStatus.length < 2 ? null : <CheckCircleFilled />,
+              // children: status.status,
+            };
+          })}
+        />
       </div>
     )
   ) : null;
