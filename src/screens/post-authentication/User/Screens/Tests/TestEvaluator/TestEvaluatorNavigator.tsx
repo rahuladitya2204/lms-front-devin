@@ -263,7 +263,7 @@ const TestEvaluatorNavigator: React.FC<TestEvaluatorNavigatorPropsI> = ({
                         })
                         .filter((i) => i);
                       const { isValid: isQuestionValid, message } =
-                        Utils.validateTestQuestion(item, test.languages);
+                        Utils.validateTestQuestion(item, test);
                       if (!isQuestionValid) {
                         actions.unshift(
                           <Tooltip title={message}>

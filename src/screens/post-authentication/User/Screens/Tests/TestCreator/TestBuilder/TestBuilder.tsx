@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -26,9 +27,9 @@ import PrintPrompt from "./PrintPrompt";
 import SetTestRules from "./SetTestRules";
 import TestOutline from "./TestOutline";
 import TestSectionsNavigator from "./TestSectionsNavigator";
-import { printPdf } from "@Components/Editor/SunEditor/utils";
+import { isTopicsAssigned, printPdf } from "@Components/Editor/SunEditor/utils";
 import { updateTestSectionItem } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import useTestBuilderUI from "./hooks/useTestBuilder";
@@ -256,6 +257,9 @@ function TestBuilderScreen() {
   const isTestEnded =
     test.live.enabled && test.status === Enum.TestStatus.ENDED;
   const { openModal } = useModal();
+  // const isAssignedTopics = useMemo(() => {
+  //   return isTopicsAssigned(test);
+  // }, [test]);
   // console.log(openModal, '111')
   return (
     <AppProvider>
@@ -272,10 +276,15 @@ function TestBuilderScreen() {
                 navigate(`/admin/products/test/${testId}/editor`);
               }}
             />
-            {test.title}{" "}
-            {test.live.enabled ? (
-              <Tag color="blue-inverse">Live Test</Tag>
-            ) : null}
+            <Space>
+              {test.title}{" "}
+              {test.live.enabled ? (
+                <Tag color="blue-inverse">Live Test</Tag>
+              ) : null}
+              {/* {!isAssignedTopics ? (
+                <Alert message="Topic assigning is pending" />
+              ) : null} */}
+            </Space>
           </span>
         }
         extra={[
@@ -311,9 +320,6 @@ function TestBuilderScreen() {
               )}
             </Col> */}
           </Row>,
-          // <Button type="primary" loading={savingTest} onClick={saveTest}>
-          //   Save Changes
-          // </Button>,
           test.status === Enum.TestStatus.PUBLISHED ? (
             <Space>
               {" "}

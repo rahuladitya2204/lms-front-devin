@@ -80,19 +80,23 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
 
   const [enterHtml, setEnterHtml] = useState(false);
   const { itemId, id: testId } = useParams();
-  const { handleTopicsChange, onFormChange, updateItem } = useUpdateTestForm(
-    itemId + ""
-  );
+  const { onFormChange, updateItem } = useUpdateTestForm(itemId + "");
   const item = useTestStore((s) => s.currentQuestion);
   const { data: test } = User.Queries.useGetTestDetails(testId + "");
   const criterias = Form.useWatch("criterias", form);
 
   const isTestEnded = test.status === Enum.TestStatus.ENDED;
-  const { navigate } = useTestNavigation(test);
   const { data: topics } = User.Queries.useGetTopics();
 
   useEffect(() => {
-    form.setFieldsValue(item);
+    const i = {
+      ...item,
+    };
+    if (!item.topic) {
+      // @ts-ignore
+      i.topic = null;
+    }
+    form.setFieldsValue(i);
   }, [item]);
 
   const submit = (e: Types.TestQuestion) => {
@@ -236,7 +240,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Topics" name="topic">
+              <Form.Item label="Topic" name="topic">
                 <TreeSelect
                   treeData={test.topics
                     .map((topicId) => buildTopicTree(topics, topicId, 2))

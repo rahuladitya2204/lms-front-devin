@@ -33,6 +33,7 @@ import dayjs from "dayjs";
 import { formatTime } from "video.js/dist/types/utils/time";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useNavigate } from "@Router/index";
+import { isTopicsAssigned } from "@Components/Editor/SunEditor/utils";
 
 const { Text } = Typography;
 
@@ -154,13 +155,17 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             }
           />
           <TableColumn
-            title="Created By"
-            dataIndex="createdBy"
-            key="createdBy"
+            title="Topics Assigned"
+            dataIndex="topicsAssigned"
+            key="topicsAssigned"
             // @ts-ignore
             render={(_: any, test: Types.Test) =>
               // @ts-ignore
-              users.find((c) => c._id == test.createdBy)?.name || "-"
+              isTopicsAssigned(test) ? (
+                <Tag color="green-inverse">Assigned</Tag>
+              ) : (
+                <Tag color="red-inverse">Pending</Tag>
+              )
             }
           />
           <TableColumn

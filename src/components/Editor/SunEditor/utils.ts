@@ -184,3 +184,16 @@ export const buildTopicTree = (topics: Types.Topic[], topicId?: string, level?: 
 
   return buildTreeData(topics, topicId);
 };
+
+export const isTopicsAssigned=(test:Types.Test) => {
+  let isValid = true;
+  test.sections.forEach((s) => {
+    s.items.forEach((i) => {
+      console.log(i, "iiii");
+      if (!i.topic) {
+        isValid = false;
+      }
+    });
+  });
+  return isValid;
+}
