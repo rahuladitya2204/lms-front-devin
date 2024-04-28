@@ -166,6 +166,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             title="Topics Assigned"
             dataIndex="topicsAssigned"
             key="topicsAssigned"
+            fixed
             // @ts-ignore
             render={(_: any, test: Types.Test) =>
               // @ts-ignore
@@ -193,18 +194,6 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             // @ts-ignore
             render={(_: any, test: Types.Test) => test.slug || "-"}
           />
-          {/* <TableColumn
-            title="Input Type"
-            dataIndex="inputType"
-            key="inputType"
-            render={(_: any, test: Types.Test) =>
-              test?.input?.type === Enum.TestInputType.HANDWRITTEN ? (
-                <Tag color="orange-inverse">Subjective</Tag>
-              ) : (
-                <Tag color="blue-inverse">Objective</Tag>
-              )
-            }
-          /> */}
 
           <TableColumn
             title="Last Updated"
@@ -215,29 +204,6 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               dayjs(test.updatedAt).format("LL")
             }
           />
-          {/* <TableColumn
-            title="Analysis"
-            dataIndex="analysis"
-            key="analysis"
-            render={(_: any, test: Types.Test) => (
-              <Button
-                icon={<BarChartOutlined />}
-                size="small"
-                type="primary"
-                onClick={() => navigate(`${test._id}/status`)}
-              >
-                Show Analysis
-              </Button>
-            )}
-          /> */}
-          {/* <TableColumn
-            title="Questions"
-            dataIndex="status"
-            key="status"
-            render={(_: any, test: Types.Test) =>
-              test.sections.map(i => i.items).flat().length
-            }
-          /> */}
           <TableColumn
             title="Status"
             dataIndex="status"
@@ -245,29 +211,6 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             // @ts-ignore
             render={(_: any, test: Types.Test) => <TestStatusTag test={test} />}
           />
-          {/* 
-          <TableColumn
-            title="Enrolled"
-            dataIndex="enrolled"
-            key="enrolled"
-            render={(_: any, test: Types.Test) => (
-              <Text strong>{test.analytics.enrolled.count}</Text>
-            )}
-          />
-          <TableColumn
-            title="Duration"
-            dataIndex="duration"
-            key="duration"
-            render={(_: any, test: Types.Test) =>
-              test.duration.enabled ? (
-                <Tag color="gold-inverse" icon={<ClockCircleOutlined />}>
-                  {test.duration.value + " mins"}
-                </Tag>
-              ) : (
-                "-"
-              )
-            }
-          /> */}
           <TableColumn
             fixed
             title="Action"
@@ -277,31 +220,6 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             )}
           />
         </Table>
-        {/* <List
-          grid={{ gutter: 20, column: 4, xs: 1, sm: 2, md: 3 }}
-          size="large"
-          dataSource={
-            loading
-              ? SkeletonArr
-              : data.filter(test => props.filter.status.includes(test.status))
-          }
-          renderItem={test => {
-            const TestCardComponent = <TestCard test={test} />
-            return (
-              <div style={{ padding: 30 }}>
-                {loading ? (
-                  <SkeletonCard />
-                ) : test.status === Enum.TestStatus.PUBLISHED ? (
-                  <Badge.Ribbon text="Published" color="orange">
-                    {TestCardComponent}
-                  </Badge.Ribbon>
-                ) : (
-                  TestCardComponent
-                )}
-              </div>
-            )
-          }}
-        /> */}
       </Fragment>
     </Fragment>
   );

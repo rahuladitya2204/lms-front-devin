@@ -4,7 +4,7 @@ import { Learner, Types } from "@adewaskar/lms-common";
 import Image from "./Image";
 import Search from "antd/es/input/Search";
 import { Title } from "./Typography/Typography";
-import { useNavigate } from "@Router/index";
+import { Link, useNavigate } from "@Router/index";
 import { useState } from "react";
 
 export default function SearchLearnerCourses() {
@@ -31,28 +31,27 @@ export default function SearchLearnerCourses() {
       return items.map((c) => {
         return {
           label: (
-            <Space
-              onClick={(e) => {
-                navigate(`${productType}/${c._id}`);
-              }}
-              align="center"
-              style={{ justifyContent: "center", alignItems: "center" }}
-            >
-              <Avatar
-                shape="square"
-                style={{ background: "transparent" }}
-                size={45}
-                icon={<Image alt={c.title} src={c.thumbnailImage} />}
-              />{" "}
-              <Space direction="vertical" align="baseline">
-                <Title style={{ margin: 0 }} level={5}>
-                  {c.title}
-                </Title>
-                {/* <Text style={{ margin: 0 }}>
+            <Link to={`${productType}/${c._id}`}>
+              <Space
+                align="center"
+                style={{ justifyContent: "center", alignItems: "center" }}
+              >
+                <Avatar
+                  shape="square"
+                  style={{ background: "transparent" }}
+                  size={45}
+                  icon={<Image alt={c.title} src={c.thumbnailImage} />}
+                />{" "}
+                <Space direction="vertical" align="baseline">
+                  <Title style={{ margin: 0 }} level={5}>
+                    {c.title}
+                  </Title>
+                  {/* <Text style={{ margin: 0 }}>
                     Taught By: {user.name}
                   </Text> */}
+                </Space>
               </Space>
-            </Space>
+            </Link>
           ),
           value: c.title,
         };

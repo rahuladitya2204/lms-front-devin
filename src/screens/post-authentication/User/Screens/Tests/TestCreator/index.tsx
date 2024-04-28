@@ -23,7 +23,7 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 
 import ActionDrawer from "@Components/ActionDrawer";
 import BackButton from "@Components/BackButton";
@@ -191,16 +191,15 @@ function TestEditor() {
               </span>
             }
             extra={[
-              <Button
-                disabled={!test._id}
-                icon={<ExportOutlined />}
-                onClick={() => {
-                  navigate(`/admin/products/test/${test._id}/builder`);
-                }}
-                style={{ marginRight: 10 }}
-              >
-                Go to Test Builder
-              </Button>,
+              <Link to={`/admin/products/test/${test._id}/builder`}>
+                <Button
+                  disabled={!test._id}
+                  icon={<ExportOutlined />}
+                  style={{ marginRight: 10 }}
+                >
+                  Go to Test Builder
+                </Button>
+              </Link>,
               <Button
                 disabled={!validateDraftTest()}
                 loading={loading}

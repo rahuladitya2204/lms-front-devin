@@ -24,6 +24,7 @@ interface TestCardPropsI {
   isServer?: boolean;
   hideCoverImg?: boolean;
   children?: React.ReactNode;
+  noClick?: boolean;
 }
 
 const CustomCard = styled(Card)`
@@ -47,9 +48,11 @@ function TestCard(props: TestCardPropsI) {
     <CustomCard
       hoverable
       onClick={(e) => {
-        navigate(
-          props.isServer ? `/test/${test._id}` : `/app/test/${test._id}`
-        );
+        if (!props.noClick) {
+          navigate(
+            props.isServer ? `/test/${test._id}` : `/app/test/${test._id}`
+          );
+        }
       }}
       bodyStyle={{ padding: 15 }}
       // cover={

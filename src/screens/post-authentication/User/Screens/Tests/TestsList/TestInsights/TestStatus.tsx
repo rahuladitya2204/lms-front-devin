@@ -17,7 +17,7 @@ import {
 } from "@ant-design/icons";
 import { Enum, User } from "@adewaskar/lms-common";
 // import UpcomingTest from './UpcomingTest'
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 
 import BackButton from "@Components/BackButton";
 import Header from "@Components/Header";
@@ -113,11 +113,9 @@ const TestStatus = () => {
     <Header
       title={
         <span>
-          {" "}
-          <BackButton
-            disabled={!test.category}
-            onClick={() => navigate(`/admin/products/test#${test.category}`)}
-          />{" "}
+          <Link to={`/admin/products/test#${test.category}`}>
+            <BackButton disabled={!test.category} />
+          </Link>{" "}
           Tests: {test.title}
         </span>
       }

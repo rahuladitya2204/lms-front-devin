@@ -321,7 +321,12 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
       {PYQTests.sort((a) => a.pyq.year).map((test, idx) => {
         return (
           <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
-            <TestCard hideCoverImg isServer={props.isServer} test={test}>
+            <TestCard
+              noClick
+              hideCoverImg
+              isServer={props.isServer}
+              test={test}
+            >
               <Row gutter={[20, 10]}>
                 <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
                   <Button
@@ -341,19 +346,15 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                   </Button>
                 </Col>
                 <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
-                  <Button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      navigate(
-                        `/test/${test.slug || test._id}/previous-year-questions`
-                      );
-                    }}
-                    type="dashed"
-                    block
-                    danger
+                  <Link
+                    to={`/test/${
+                      test.slug || test._id
+                    }/previous-year-questions`}
                   >
-                    <BookOutlined /> View Analysis
-                  </Button>
+                    <Button type="dashed" block danger>
+                      <BookOutlined /> View Analysis
+                    </Button>
+                  </Link>
                 </Col>
               </Row>
             </TestCard>

@@ -31,7 +31,6 @@ function OrgLogo(props: OrgLogoPropsI) {
       <Image
         noLoadNoShow
         noLoadNoShowPlaceholder={organisation._id ? SkeletonButton : <span />}
-        // onClick={() => navigate('../app/store')}
         style={{ cursor: "pointer", margin: "auto", ...(props.style || {}) }}
         width={props.width || `45px`}
         preview={false}

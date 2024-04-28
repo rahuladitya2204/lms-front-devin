@@ -320,7 +320,6 @@ const TestEvaluatorNavigator: React.FC<TestEvaluatorNavigatorPropsI> = ({
                               to={item._id}
                               onClick={(e) => {
                                 e.preventDefault();
-                                navigate(item._id);
                               }}
                               children={({ isActive }) =>
                                 TestSectionListItem(isActive)

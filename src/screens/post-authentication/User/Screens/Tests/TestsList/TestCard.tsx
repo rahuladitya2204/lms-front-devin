@@ -12,7 +12,7 @@ import Image from "@Components/Image";
 import { capitalize } from "lodash";
 import dayjs from "dayjs";
 import styled from "@emotion/styled";
-import { useNavigate } from "@Router/index";
+import { Link, useNavigate } from "@Router/index";
 
 interface TestCardProps {
   test: Types.Test;
@@ -51,9 +51,9 @@ function TestCard({ test }: TestCardProps) {
         )
       }
       actions={[
-        <InfoCircleOutlined
-          onClick={() => navigate(`${test._id}/editor#information`)}
-        />,
+        <Link to={`${test._id}/editor#information`}>
+          <InfoCircleOutlined />
+        </Link>,
         <Tooltip placement="bottom" title={"Go to Tests builder"}>
           <ToolOutlined onClick={() => navigate(`${test._id}/builder`)} />
         </Tooltip>,

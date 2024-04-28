@@ -10,7 +10,7 @@ import Image from "@Components/Image";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import styled from "@emotion/styled";
-import { useNavigate } from "@Router/index";
+import { Link, useNavigate } from "@Router/index";
 
 const { Text } = Typography;
 
@@ -67,11 +67,9 @@ function EventCard(props: EventCardProps) {
         //     }
         //   />
         // </Tooltip>,
-        <BarChartOutlined
-          onClick={() => {
-            navigate(`${props.event._id}/analytics`);
-          }}
-        />,
+        <Link to={`${props.event._id}/analytics`}>
+          <BarChartOutlined />
+        </Link>,
         // <WechatOutlined />,
         // <SettingOutlined />
       ]}
