@@ -175,9 +175,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             render={(_: any, test: Types.Test) =>
               // @ts-ignore
               isTopicsAssigned(test) ? (
-                <Tag color="green-inverse">Assigned</Tag>
+                <Tag color="green">Assigned</Tag>
               ) : (
-                <Tag color="red-inverse">Pending</Tag>
+                <Tag color="red">Pending</Tag>
               )
             }
           />
