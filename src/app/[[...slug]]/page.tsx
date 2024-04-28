@@ -7,8 +7,6 @@ import { ClientOnly } from "./client";
 // }
 
 export default function Page({ params }: { params: { slug: string[] } }) {
-  // if (!params.slug) {
-  //   return <HomePage />;
-  // }
+  console.log(params, "params");
   return <ClientOnly />;
 }

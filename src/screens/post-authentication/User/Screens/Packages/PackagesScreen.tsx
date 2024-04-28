@@ -35,7 +35,7 @@ function PackagesScreen() {
               key="title"
               render={(_: any, bundle: Types.Package) => (
                 <Button
-                  onClick={() => navigate(`${bundle._id}/edit`)}
+                  onClick={() => navigate(`${bundle._id}/editor`)}
                   type="link"
                   size="small"
                 >

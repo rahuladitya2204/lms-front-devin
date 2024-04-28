@@ -140,6 +140,7 @@ import CreateBlog from "@User/Screens/Blog/CreateBlog";
 import BlogsScreen from "@User/Screens/Blog/BlogScreen";
 import BlogDetailScreen from "./post-authentication/Learner/Screens/Blog/BlogDetail";
 import LearnerBlogsScreen from "./post-authentication/Learner/Screens/Blog/BlogsScreen";
+import PackageInformationEditor from "@User/Screens/Packages/CreatePackage/CreatePackage";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -313,6 +314,11 @@ const router = (userType: string) => {
                     element={<TestEditor />}
                   />
                   <Route
+                    path="admin/products/package/:packageId/editor"
+                    element={<PackageInformationEditor />}
+                  />
+                  {/* <Route path=":packageId/edit" element={<CreatePackage />} /> */}
+                  <Route
                     path="admin/products/category/:id/editor"
                     element={<ProductCategoryEditor />}
                   />
@@ -451,11 +457,11 @@ const router = (userType: string) => {
                     </Route>
                     <Route path="packages">
                       <Route path="" element={<PackagesScreen />} />
-                      <Route path="create" element={<CreatePackage />} />
+                      {/* <Route path="create" element={<CreatePackage />} />
                       <Route
                         path=":packageId/edit"
                         element={<CreatePackage />}
-                      />
+                      /> */}
                     </Route>
                     <Route path="category">
                       <Route path="" element={<CategoriesScreen />} />

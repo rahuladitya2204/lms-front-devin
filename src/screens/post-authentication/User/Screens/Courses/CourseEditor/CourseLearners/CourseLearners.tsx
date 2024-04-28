@@ -1,34 +1,27 @@
-import {
-  Button,
-  Card,
-  Col,
-  Dropdown,
-  Modal,
-  Row,
-  Space,
-  Table,
-} from 'antd'
-import { DeleteOutlined, MoreOutlined } from '@ant-design/icons'
+import { Button, Card, Col, Dropdown, Modal, Row, Space, Table } from "antd";
+import { DeleteOutlined, MoreOutlined } from "@ant-design/icons";
 
-import Container from '@Components/Container'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
-import { capitalize } from 'lodash'
-import dayjs from 'dayjs'
+import Container from "@Components/Container";
+import { Enum, Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import { capitalize } from "lodash";
+import dayjs from "dayjs";
 
-const { confirm } = Modal
+const { confirm } = Modal;
 interface CourseLearnersPropsI {
   courseId: string;
 }
 
 function CourseLearners(props: CourseLearnersPropsI) {
   const { data, isLoading: loading } = User.Queries.useGetCourseLearners(
-    props.courseId + ''
-  )
+    props.courseId + ""
+  );
 
-  const {
-    mutate: removeLearnerFromCourse
-  } = User.Queries.useRemoveLearnerFromCourse()
+  const { mutate: removeLearnerFromCourse } =
+    User.Queries.useRemoveLearnerFromProduct({
+      type: Enum.ProductType.PACKAGE,
+      id: props.courseId,
+    });
 
   return (
     <Container title="Course Learners" extra={[<Button>Add Learner</Button>]}>
@@ -45,7 +38,7 @@ function CourseLearners(props: CourseLearnersPropsI) {
           dataIndex="email"
           key="email"
           render={(_: any, record: Types.EnrolledCourse) => (
-            <Space size="middle">{dayjs(record.enrolledAt).format('LL')}</Space>
+            <Space size="middle">{dayjs(record.enrolledAt).format("LL")}</Space>
           )}
         />
         <Table.Column
@@ -81,17 +74,17 @@ render={(_: any, record: Types.Learner) => (
                 <Button
                   onClick={() => {
                     confirm({
-                      title: 'Are you sure?',
+                      title: "Are you sure?",
                       // icon: <ExclamationCircleOutlined />,
                       content: `You want to refund this course to the user`,
                       onOk() {
                         removeLearnerFromCourse({
                           courseId: props.courseId,
-                          learnerId: record.learner._id
-                        })
+                          learnerId: record.learner._id,
+                        });
                       },
-                      okText: 'Initiate Refund'
-                    })
+                      okText: "Initiate Refund",
+                    });
                   }}
                   size="small"
                   type="primary"
@@ -116,12 +109,12 @@ render={(_: any, record: Types.Learner) => (
           <MoreOutlined />
         </Dropdown> */}
               </Space>
-            )
+            );
           }}
         />
       </Table>
     </Container>
-  )
+  );
 }
 
-export default CourseLearners
+export default CourseLearners;

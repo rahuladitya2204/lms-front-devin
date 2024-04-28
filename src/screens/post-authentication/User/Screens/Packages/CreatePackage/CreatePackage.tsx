@@ -25,6 +25,8 @@ import Products from "./PackageDetails/Products/Products";
 import Tabs from "@Components/Tabs";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
+import PackageUsers from "./PackageLearners";
+import PackageLearners from "./PackageLearners";
 
 const { confirm } = Modal;
 interface CreatePackageComponentPropsI {
@@ -37,12 +39,50 @@ interface CreatePackageComponentPropsI {
 
 const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
   const { packageId } = useParams();
-  const isEdit = !!packageId;
+  return (
+    <Card>
+      <Row gutter={[20, 30]}>
+        <Col span={24}>
+          <>
+            <Tabs
+              destroyInactiveTabPane={false}
+              navigateWithHash
+              items={[
+                {
+                  label: "Details",
+                  key: "details",
+                  children: <PackageDetails packageId={packageId + ""} />,
+                },
+                {
+                  label: "Products",
+                  key: "products",
+                  children: <Products />,
+                },
+                {
+                  label: "Landing Page",
+                  key: "landing-page",
+                  children: (
+                    <PackageLandingPageEditor packageId={packageId + ""} />
+                  ),
+                },
+                {
+                  label: "Pricing",
+                  key: "pricing",
+                  children: <PackagePricing packageId={packageId + ""} />,
+                },
+              ]}
+            />
+          </>
+        </Col>
+      </Row>
+    </Card>
+  );
+};
+
+export default function PackageInformationEditor() {
+  const { packageId } = useParams();
   const navigate = useNavigate();
-  const { mutate: createPackage, isLoading: createPackageLoading } =
-    User.Queries.useCreatePackage();
-  const { mutate: updatePackage, isLoading: updatePackageLoading } =
-    User.Queries.useUpdatePackage();
+  const isEdit = !!packageId;
   const { mutate: publishPackage, isLoading: publishingPackage } =
     User.Queries.usePublishPackage();
   const { mutate: unpublishPackage, isLoading: unpublishingPackage } =
@@ -52,7 +92,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
       enabled: !!packageId,
     });
   useEffect(() => {
-    // console.log(packageDetails, "packageDetailspackageDetails");
+    console.log(packageDetails, "packageDetailspackageDetails");
     form.setFieldsValue(packageDetails);
   }, [packageDetails]);
 
@@ -64,7 +104,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
     };
     if (isEdit) {
       updatePackage(
-        { id: packageId, data: data },
+        { id: packageId + "", data: data },
         {
           onSuccess: () => {
             message.open({
@@ -85,8 +125,8 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
               type: "success",
               content: "Package Created",
             });
-            props.onSuccess && props.onSuccess();
-            props.closeModal && props.closeModal();
+            // props.onSuccess && props.onSuccess();
+            // props.closeModal && props.closeModal();
           },
         }
       );
@@ -94,6 +134,10 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
   };
   const plan = packageDetails.plan as unknown as Types.Plan;
   const isPackageValid = Utils.validatePublishPackage(packageDetails);
+  const { mutate: createPackage, isLoading: createPackageLoading } =
+    User.Queries.useCreatePackage();
+  const { mutate: updatePackage, isLoading: updatePackageLoading } =
+    User.Queries.useUpdatePackage();
   const PublishPackage = (
     <Button
       loading={publishingPackage}
@@ -146,7 +190,6 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
       Save Details
     </Button>
   );
-  // console.log(isPackageValid, "isPackageValid");
   return (
     <Header
       onBack={() => navigate("../")}
@@ -170,47 +213,20 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
         SavePackage,
       ]}
     >
-      {/* <Spin  spinning={loadingPackage}> */}
-      <Card>
-        <Row gutter={[20, 30]}>
-          <Col span={24}>
-            <>
-              <Form form={form} onFinish={onSubmit} layout="vertical">
-                <Tabs
-                  navigateWithHash
-                  items={[
-                    {
-                      label: "Details",
-                      key: "details",
-                      children: <PackageDetails packageId={packageId + ""} />,
-                    },
-                    {
-                      label: "Products",
-                      key: "products",
-                      children: <Products />,
-                    },
-                    {
-                      label: "Landing Page",
-                      key: "landing-page",
-                      children: (
-                        <PackageLandingPageEditor packageId={packageId + ""} />
-                      ),
-                    },
-                    {
-                      label: "Pricing",
-                      key: "pricing",
-                      children: <PackagePricing packageId={packageId + ""} />,
-                    },
-                  ]}
-                />
-              </Form>
-            </>
-          </Col>
-        </Row>
-      </Card>
-      {/* </Spin> */}
+      <Form form={form} onFinish={onSubmit} layout="vertical">
+        <Tabs
+          destroyInactiveTabPane={false}
+          tabPosition="left"
+          items={[
+            { label: "Information", key: "info", children: <CreatePackage /> },
+            {
+              label: "Learners",
+              key: "learners",
+              children: <PackageLearners packageId={packageId + ""} />,
+            },
+          ]}
+        />
+      </Form>
     </Header>
   );
-};
-
-export default CreatePackage;
+}
