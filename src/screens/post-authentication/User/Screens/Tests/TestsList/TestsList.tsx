@@ -201,7 +201,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             key="lastUpdated"
             render={(_: any, test: Types.Test) =>
               // @ts-ignore
-              dayjs(test.updatedAt).format("LL")
+              dayjs(test.updatedAt).format("LLL")
             }
           />
           <TableColumn

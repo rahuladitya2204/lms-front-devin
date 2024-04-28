@@ -69,23 +69,21 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     <Card style={{ marginTop: 20 }}>
       {TABS.map((tab) => {
         return (
-          <NavLink
-            title={tab.label}
-            to={
-              props.isServer
-                ? `/exam/${props.id}/${product}/${tab.key}`
-                : `/app/exam/${id}/${product}/${tab.key}`
-            }
+          <Button
+            onClick={() => {
+              navigate(
+                props.isServer
+                  ? `/exam/${props.id}/${product}/${tab.key}`
+                  : `/app/exam/${id}/${product}/${tab.key}`
+              );
+            }}
+            // type="text"
+            size="small"
+            type={tab.key === type ? "primary" : "default"}
+            style={{ marginRight: 15, marginBottom: 10 }}
           >
-            <Button
-              // type="text"
-              size="small"
-              type={tab.key === type ? "primary" : "default"}
-              style={{ marginRight: 15, marginBottom: 10 }}
-            >
-              {tab.label}
-            </Button>
-          </NavLink>
+            {tab.label}
+          </Button>
         );
       })}
       <Divider style={{ margin: "5px 0px 0px 0" }} />

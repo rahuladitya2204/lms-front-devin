@@ -66,7 +66,7 @@ export const NavLink = ({
     ? pathname === to
     : caseSensitive
     ? pathname.startsWith(to as string)
-    : pathname.toLowerCase().startsWith((to as string).toLowerCase());
+    : pathname.toLowerCase().startsWith((to as string)?.toLowerCase());
 
   // console.log(pathname,to,isActive,'huhhaha')
   const renderProps = {
