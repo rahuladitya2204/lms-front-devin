@@ -35,6 +35,9 @@ interface EnrolledTestItemPropsI {
 export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
   const enrolledTest = props.enrolledProduct;
   const test = enrolledTest.product.data as Types.Test;
+  const { data: category } = Learner.Queries.useGetProductCategoryDetails(
+    test.category + ""
+  );
   const navigate = useNavigate();
   const Ribbon = test?.live?.enabled ? Badge.Ribbon : Fragment;
   const { isMobile, isDesktop, isTablet } = useBreakpoint();
@@ -117,13 +120,25 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                     {test.duration.enabled ? (
                       <Tag color="blue-inverse">{test.duration.value} mins</Tag>
                     ) : null}
-                    {test.pyq.enabled ? (
+                    {/* {test.pyq.enabled ? (
                       <Tag color="orange-inverse">
                         Previous Year Paper - {test.pyq.year}
                       </Tag>
-                    ) : null}
+                    ) : null} */}
                     {test.input.type === Enum.TestInputType.HANDWRITTEN ? (
                       <Tag color="orange-inverse">Handwritten</Tag>
+                    ) : null}
+                    {test.exam ? (
+                      <Tag color="orange-inverse">
+                        {/* ts-ignore */}
+                        {
+                          // ts-ignore
+                          category.exams.find((e) => e._id === test.exam)?.title
+                        }{" "}
+                        {test.pyq.enabled ? (
+                          <span> - {test.pyq.year}</span>
+                        ) : null}
+                      </Tag>
                     ) : null}
                     {test.live.scheduledAt &&
                     !enrolledTest.metadata.test.startedAt ? (
