@@ -66,7 +66,7 @@ function ActionModal(props: ActionModalI) {
             justify={"center"}
             align={"middle"}
           >
-            <Col>{renderContent()}</Col>
+            <Col span={24}>{renderContent()}</Col>
           </Row>
         </Modal>
       </Spin>
