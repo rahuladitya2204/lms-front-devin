@@ -14,7 +14,7 @@ import {
 } from "@Lib/index";
 import { Constants, Enum, Types, User } from "@adewaskar/lms-common";
 import { Outlet } from "react-router";
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import AppProvider from "screens/AppProvider";
@@ -267,15 +267,12 @@ function TestBuilderScreen() {
         title={
           <span>
             {" "}
-            <BackButton
-              // @ts-ignore
-              disabled={!test.category}
-              // @ts-ignore
-              onClick={() => {
-                console.log(test.category, "asasas");
-                navigate(`/admin/products/test/${testId}/editor`);
-              }}
-            />
+            <Link to={`/admin/products/test/${testId}/editor`}>
+              <BackButton
+                // @ts-ignore
+                disabled={!test.category}
+              />
+            </Link>
             <Space>
               {test.title}{" "}
               {test.live.enabled ? (

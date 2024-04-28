@@ -381,9 +381,12 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                                 <NavLink
                                   style={{ width: "100%" }}
                                   key={item._id}
-                                  to={`/admin/products/test/${testId}/builder/${item._id}`}
+                                  to={item._id}
                                   onClick={(e) => {
                                     e.preventDefault();
+                                    navigate(
+                                      `/admin/products/test/${testId}/builder/${item._id}`
+                                    );
                                   }}
                                   children={({ isActive }) =>
                                     TestSectionListItem(isActive)
