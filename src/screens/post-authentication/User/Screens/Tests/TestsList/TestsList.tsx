@@ -4,10 +4,13 @@ import {
   Card,
   Col,
   Empty,
+  Form,
   List,
   Row,
+  Select,
   Skeleton,
   Space,
+  Switch,
   Tabs,
   Tag,
 } from "@Lib/index";
@@ -22,7 +25,7 @@ import {
 import { Constants, Enum, Types, Utils } from "@adewaskar/lms-common";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import MoreButton from "@Components/MoreButton";
 import PrintPrompt from "../TestCreator/TestBuilder/PrintPrompt";
 import TestCard from "./TestCard";
@@ -113,15 +116,29 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     }
     return i;
   };
+  const [isPYQ, setIsPYQ] = useState(false);
   return (
     <Fragment>
       <Fragment>
         <Table
           searchFields={["title"]}
           loading={loading}
-          dataSource={data.filter((test) =>
-            props.filter.status.includes(test.status)
+          dataSource={data.filter(
+            (test) =>
+              props.filter.status.includes(test.status) &&
+              (isPYQ ? test?.pyq?.enabled === true : true)
           )}
+          extra={[
+            <Form.Item label="Previous Year Questions">
+              <Switch
+                checked={!!isPYQ}
+                onChange={(e) => {
+                  console.log(e, "eeee");
+                  setIsPYQ(e);
+                }}
+              />
+            </Form.Item>,
+          ]}
         >
           <TableColumn
             fixed

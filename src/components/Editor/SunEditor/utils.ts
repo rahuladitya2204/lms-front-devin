@@ -189,7 +189,6 @@ export const isTopicsAssigned=(test:Types.Test) => {
   let isValid = true;
   test.sections.forEach((s) => {
     s.items.forEach((i) => {
-      console.log(i, "iiii");
       if (!i.topic) {
         isValid = false;
       }
