@@ -117,6 +117,11 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                     {test.duration.enabled ? (
                       <Tag color="blue-inverse">{test.duration.value} mins</Tag>
                     ) : null}
+                    {test.pyq.enabled ? (
+                      <Tag color="orange-inverse">
+                        Previous Year Paper - {test.pyq.year}
+                      </Tag>
+                    ) : null}
                     {test.input.type === Enum.TestInputType.HANDWRITTEN ? (
                       <Tag color="orange-inverse">Handwritten</Tag>
                     ) : null}
