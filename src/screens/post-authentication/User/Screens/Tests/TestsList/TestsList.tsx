@@ -155,12 +155,16 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           />
           <TableColumn
             title="Exam"
-            dataIndex="category"
-            key="category"
+            dataIndex="exam"
+            key="exam"
             // @ts-ignore
-            render={(_: any, test: Types.Test) =>
-              categories.find((c) => c._id == test.category)?.title || "-"
-            }
+            render={(_: any, test: Types.Test) => {
+              const cat = categories.find((c) => c._id == test.category);
+              // @ts-ignore
+              const exam = cat?.exams.find((i) => i._id === test.exam);
+              // console.log(exam, "exam");
+              return `${cat?.title} ${exam ? `| ${exam.title}` : ""}`;
+            }}
           />
           <TableColumn
             title="Topics Assigned"
