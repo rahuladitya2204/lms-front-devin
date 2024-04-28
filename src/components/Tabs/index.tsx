@@ -10,19 +10,21 @@ interface AppTabPropsI extends TabsProps {
 function Tabs({ navigateWithHash, ...props }: AppTabPropsI) {
   const isInRouterContext = useInRouterContext();
   const [activeKey, setActiveKey] = useState("");
-
+  const useRouterModified = isInRouterContext
+    ? () => {
+        return {
+          push: () => {},
+        };
+      }
+    : useRouter;
+  const useLocationModified = isInRouterContext ? useLocation : () => {};
+  const useNavigateModified = isInRouterContext ? useNavigate : () => {};
   let location, navigate, router;
-
-  if (!isInRouterContext) {
-    // Using Next.js router
-    router = useRouter();
-    location = router;
-    navigate = router.push;
-  } else {
-    // Using React Router
-    location = useLocation();
-    navigate = useNavigate();
-  }
+  router = useRouterModified();
+  location = router;
+  navigate = router.push;
+  location = useLocationModified();
+  navigate = useNavigateModified();
 
   const updateHash = (pathname: string) => {
     if (navigateWithHash) {
