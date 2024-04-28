@@ -36,7 +36,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
   const enrolledTest = props.enrolledProduct;
   const test = enrolledTest.product.data as Types.Test;
   const navigate = useNavigate();
-  const Ribbon = test.live.enabled ? Badge.Ribbon : Fragment;
+  const Ribbon = test?.live?.enabled ? Badge.Ribbon : Fragment;
   const { isMobile, isDesktop, isTablet } = useBreakpoint();
   const { mutate: retryTest, isLoading: retryingTest } =
     Learner.Queries.useRetryTest(test._id + "");
