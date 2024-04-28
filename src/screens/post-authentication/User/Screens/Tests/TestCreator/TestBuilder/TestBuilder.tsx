@@ -267,12 +267,13 @@ function TestBuilderScreen() {
         title={
           <span>
             {" "}
-            <Link to={`/admin/products/test/${testId}/editor`}>
-              <BackButton
-                // @ts-ignore
-                disabled={!test.category}
-              />
-            </Link>
+            {/* <Link to={`/admin/products/test/${testId}/editor`}> */}
+            <BackButton
+              onClick={() => navigate(`/admin/products/test/${testId}/editor`)}
+              // @ts-ignore
+              disabled={!test.category}
+            />
+            {/* </Link> */}
             <Space>
               {test.title}{" "}
               {test.live.enabled ? (

@@ -7,18 +7,9 @@ interface AppTabPropsI extends TabsProps {
 }
 
 function Tabs({ navigateWithHash = false, ...props }: AppTabPropsI) {
-  const [activeKey, setActiveKey] = useState("");
+  const [activeKey, setActiveKey] = useState(props.items?.[0]?.key || "");
   const location = useLocation();
   const navigate = useNavigate();
-
-  // On component mount, set the active tab based on the URL hash or the first tab
-  useEffect(() => {
-    if (!props.items?.length) return;
-
-    const hash = location.hash?.slice(1);
-    const newActiveKey = hash || props.items[0]?.key;
-    setActiveKey(newActiveKey);
-  }, [location.hash, props.items]);
 
   const onChange = (activeKey: string) => {
     setActiveKey(activeKey);
