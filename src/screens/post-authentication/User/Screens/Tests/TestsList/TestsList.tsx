@@ -35,7 +35,7 @@ import { User } from "@adewaskar/lms-common";
 import dayjs from "dayjs";
 import { formatTime } from "video.js/dist/types/utils/time";
 import { useModal } from "@Components/ActionModal/ModalContext";
-import { useNavigate } from "@Router/index";
+import { NavLink, useNavigate } from "@Router/index";
 import { isTopicsAssigned } from "@Components/Editor/SunEditor/utils";
 
 const { Text } = Typography;
@@ -146,20 +146,11 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             dataIndex="title"
             key="title"
             render={(_: any, test: Types.Test) => (
-              <Button
-                onClick={() =>
-                  // navigate(
-                  //   `/admin/products/test/${test._id}/editor#information`
-                  // )
-                  window.open(
-                    `/admin/products/test/${test._id}/editor#information`
-                  )
-                }
-                type="link"
-                size="small"
+              <NavLink
+                to={`/admin/products/test/${test._id}/editor#information`}
               >
-                <Text style={{ color: "#1577ff" }}>{test.title}</Text>
-              </Button>
+                {test.title}
+              </NavLink>
             )}
           />
           <TableColumn
