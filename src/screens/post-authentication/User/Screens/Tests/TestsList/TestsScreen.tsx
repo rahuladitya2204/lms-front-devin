@@ -1,28 +1,26 @@
-import { Button, Select, Spin } from 'antd'
-import { Enum, User } from '@adewaskar/lms-common'
-import { useEffect, useState } from 'react'
+import { Button, Select, Spin } from "antd";
+import { Enum, User } from "@adewaskar/lms-common";
+import { useEffect, useState } from "react";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import CreateTest from './CreateTest'
-import Header from '@User/Screens/UserRoot/UserHeader'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import CreateTest from "./CreateTest";
+import Header from "@User/Screens/UserRoot/UserHeader";
 // import PastTest from './PastTest'
-import Tabs from '@Components/Tabs'
-import TestsList from './TestsList'
-import useBreakpoint from '@Hooks/useBreakpoint'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import Tabs from "@Components/Tabs";
+import TestsList from "./TestsList";
+import useBreakpoint from "@Hooks/useBreakpoint";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
 const TestsScreen = () => {
-  const [status, setStatus] = useState('upcoming')
-  const { isMobile } = useBreakpoint()
-  const {
-    data: categories,
-    isLoading: loadingCategories
-  } = User.Queries.useGetProductCategories('all')
+  const [status, setStatus] = useState("upcoming");
+  const { isMobile } = useBreakpoint();
+  const { data: categories, isLoading: loadingCategories } =
+    User.Queries.useGetProductCategories("all");
   const CategoriesSelect = (
     <Select
-      onChange={e => setStatus(e)}
+      onChange={(e) => setStatus(e)}
       value={status}
-      style={{ width: isMobile ? '100%' : 150 }}
+      style={{ width: isMobile ? "100%" : 150 }}
     >
       <Select.Option value={`upcoming`} key={`upcoming`}>
         Upcoming Tests
@@ -31,7 +29,7 @@ const TestsScreen = () => {
         Past Tests
       </Select.Option>
     </Select>
-  )
+  );
   // const navigate = useNavigate()
   const CreateCourseCta = (
     <Button onClick={() => openModal(<CreateTest />)} type="primary">
@@ -40,7 +38,7 @@ const TestsScreen = () => {
     // <ActionModal cta={<Button type="primary">Create Test</Button>}>
     //   <CreateTest />
     // </ActionModal>
-  )
+  );
 
   // useEffect(
   //   () => {
@@ -48,7 +46,7 @@ const TestsScreen = () => {
   //   },
   //   [categories]
   // )
-  const { openModal } = useModal()
+  const { openModal } = useModal();
   return (
     <Header title="Tests" extra={[CreateCourseCta]}>
       {isMobile ? (
@@ -61,7 +59,23 @@ const TestsScreen = () => {
           tabBarExtraContent={{ right: !isMobile ? CategoriesSelect : null }}
           // defaultActiveKey="1"
           items={[
-            ...categories.map(c => {
+            {
+              label: "All",
+              key: "non-category",
+              children: (
+                <TestsList
+                  filter={{
+                    // @ts-ignore
+                    status: [
+                      Enum.TestStatus.DRAFT,
+                      Enum.TestStatus.PUBLISHED,
+                      Enum.TestStatus.IN_PROGRESS,
+                    ],
+                  }}
+                />
+              ),
+            },
+            ...categories.map((c) => {
               return {
                 key: c._id,
                 label: c.title,
@@ -71,39 +85,23 @@ const TestsScreen = () => {
                       // @ts-ignore
                       category: c._id,
                       status:
-                        status === 'upcoming'
+                        status === "upcoming"
                           ? [
-                            Enum.TestStatus.DRAFT,
-                            Enum.TestStatus.PUBLISHED,
-                            Enum.TestStatus.IN_PROGRESS
-                          ]
-                          : [Enum.TestStatus.ENDED]
+                              Enum.TestStatus.DRAFT,
+                              Enum.TestStatus.PUBLISHED,
+                              Enum.TestStatus.IN_PROGRESS,
+                            ]
+                          : [Enum.TestStatus.ENDED],
                     }}
                   />
-                )
-              }
+                ),
+              };
             }),
-            {
-              label: 'All',
-              key: 'non-category',
-              children: (
-                <TestsList
-                  filter={{
-                    // @ts-ignore
-                    status: [
-                      Enum.TestStatus.DRAFT,
-                      Enum.TestStatus.PUBLISHED,
-                      Enum.TestStatus.IN_PROGRESS
-                    ]
-                  }}
-                />
-              )
-            }
           ]}
         />
       </Spin>
     </Header>
-  )
-}
+  );
+};
 
-export default TestsScreen
+export default TestsScreen;
