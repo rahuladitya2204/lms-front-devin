@@ -1,4 +1,4 @@
-import { Button, Modal, Rate, Space } from "antd";
+import { Button, Modal, Rate, Space, Spin } from "antd";
 import { Enum, Types } from "@adewaskar/lms-common";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
@@ -21,6 +21,11 @@ function PackageLearners(props: PackageLearnersPropsI) {
     User.Queries.useGetEnrolledProductLearners(props.packageId + "");
   const { mutate: removeEnrollment, isLoading: removingEnrollment } =
     User.Queries.useRemoveEnrollmentOfLearner(props.packageId + "");
+  const { mutate: refundLearner, isLoading: refunding } =
+    User.Queries.useRefundLearnerForProduct({
+      type: Enum.ProductType.PACKAGE,
+      id: props.packageId + "",
+    });
 
   return (
     <Container
@@ -36,40 +41,41 @@ function PackageLearners(props: PackageLearnersPropsI) {
         </ActionModal>,
       ]}
     >
-      <Table
-        searchFields={["learner.name", "learner.contactNo", "learner.email"]}
-        // @ts-ignore
-        dataSource={sortBy(data, "-metadata.package.endedAt")}
-        loading={loading}
-      >
-        <TableColumn
-          title="Name"
-          dataIndex="name"
-          render={(_: any, record: Types.EnrolledProductDetails) =>
-            // @ts-ignore
-            record.learner.name ? capitalize(record.learner.name) : "-"
-          }
-        />
-        <TableColumn
-          title="Enrolled At"
-          dataIndex="email"
-          key="email"
-          render={(_: any, record: Types.EnrolledProductDetails) => (
-            <Space size="middle">
-              {dayjs(record.enrolledAt).format("LLL")}
-            </Space>
-          )}
-        />
-        <TableColumn
-          title="Email"
-          dataIndex="learner.email"
-          key="learner.email"
-          render={(_: any, record: Types.EnrolledProductDetails) =>
-            // @ts-ignore
-            record.learner.email || "-"
-          }
-        />
-        {/* <TableColumn
+      <Spin spinning={refunding}>
+        <Table
+          searchFields={["learner.name", "learner.contactNo", "learner.email"]}
+          // @ts-ignore
+          dataSource={sortBy(data, "-metadata.package.endedAt")}
+          loading={loading}
+        >
+          <TableColumn
+            title="Name"
+            dataIndex="name"
+            render={(_: any, record: Types.EnrolledProductDetails) =>
+              // @ts-ignore
+              record.learner.name ? capitalize(record.learner.name) : "-"
+            }
+          />
+          <TableColumn
+            title="Enrolled At"
+            dataIndex="email"
+            key="email"
+            render={(_: any, record: Types.EnrolledProductDetails) => (
+              <Space size="middle">
+                {dayjs(record.enrolledAt).format("LLL")}
+              </Space>
+            )}
+          />
+          <TableColumn
+            title="Email"
+            dataIndex="learner.email"
+            key="learner.email"
+            render={(_: any, record: Types.EnrolledProductDetails) =>
+              // @ts-ignore
+              record.learner.email || "-"
+            }
+          />
+          {/* <TableColumn
 title="Last Login"
 dataIndex="lastActive"
 key="lastActive"
@@ -85,7 +91,7 @@ render={(_: any, record: Types.Learner) => (
   <Space size="middle">{dayjs(record.createdAt).format('LL')}</Space>
 )}
 /> */}
-        {/* <TableColumn
+          {/* <TableColumn
           title="Submitted At"
           dataIndex="email"
           key="email"
@@ -99,81 +105,82 @@ render={(_: any, record: Types.Learner) => (
             )
           }
         /> */}
-        <TableColumn
-          title="Rating"
-          dataIndex="rating"
-          key="rating"
-          render={(_: any, record: Types.EnrolledProductDetails) => {
-            const review = record?.review as unknown as Types.ProductReview;
-            return review?.rating ? (
-              <Rate disabled allowHalf defaultValue={review?.rating} />
-            ) : (
-              "-"
-            );
-          }}
-        />
-        <TableColumn
-          title="Rating Comment"
-          dataIndex="createdAt"
-          key="createdAt"
-          render={(_: any, record: Types.EnrolledProductDetails) => {
-            const review = record?.review as unknown as Types.ProductReview;
-            return review?.comment ? (
-              <Space size="middle">{review?.comment}</Space>
-            ) : (
-              "-"
-            );
-          }}
-        />
-        <TableColumn
-          title="Action"
-          key="action"
-          render={(_: any, record: Types.EnrolledProductDetails) => {
-            return (
-              <MoreButton
-                items={[
-                  {
-                    label: "Refund",
-                    key: "refund",
-                    // onClick: () => {
-                    //   confirm({
-                    //     title: "Are you sure?",
-                    //     // icon: <ExclamationCircleOutlined />,
-                    //     content: `You want to refund this package to the user`,
-                    //     onOk() {
-                    //       removeEnrollment({
-                    //         // @ts-ignore
-                    //         learnerId: record.learner._id,
-                    //       });
-                    //     },
-                    //     okText: "Initiate Refund",
-                    //   });
-                    // },
-                  },
-                  {
-                    label: "Remove Enmrollment",
-                    key: "remove",
-                    onClick: () => {
-                      confirm({
-                        title: "Are you sure?",
-                        // icon: <ExclamationCircleOutlined />,
-                        content: `You want to delete enrollment for this user`,
-                        onOk() {
-                          removeEnrollment({
-                            // @ts-ignore
-                            learnerId: record.learner._id,
-                          });
-                        },
-                        okText: "Initiate Refund",
-                      });
+          <TableColumn
+            title="Rating"
+            dataIndex="rating"
+            key="rating"
+            render={(_: any, record: Types.EnrolledProductDetails) => {
+              const review = record?.review as unknown as Types.ProductReview;
+              return review?.rating ? (
+                <Rate disabled allowHalf defaultValue={review?.rating} />
+              ) : (
+                "-"
+              );
+            }}
+          />
+          <TableColumn
+            title="Rating Comment"
+            dataIndex="createdAt"
+            key="createdAt"
+            render={(_: any, record: Types.EnrolledProductDetails) => {
+              const review = record?.review as unknown as Types.ProductReview;
+              return review?.comment ? (
+                <Space size="middle">{review?.comment}</Space>
+              ) : (
+                "-"
+              );
+            }}
+          />
+          <TableColumn
+            title="Action"
+            key="action"
+            render={(_: any, record: Types.EnrolledProductDetails) => {
+              return (
+                <MoreButton
+                  items={[
+                    {
+                      label: "Refund",
+                      key: "refund",
+                      onClick: () => {
+                        confirm({
+                          title: "Are you sure?",
+                          // icon: <ExclamationCircleOutlined />,
+                          content: `You want to refund this package to the user`,
+                          onOk() {
+                            refundLearner({
+                              // @ts-ignore
+                              learnerId: record.learner._id,
+                            });
+                          },
+                          okText: "Initiate Refund",
+                        });
+                      },
                     },
-                  },
-                ]}
-              />
-            );
-          }}
-        />
-      </Table>
+                    {
+                      label: "Remove Enmrollment",
+                      key: "remove",
+                      onClick: () => {
+                        confirm({
+                          title: "Are you sure?",
+                          // icon: <ExclamationCircleOutlined />,
+                          content: `You want to delete enrollment for this user`,
+                          onOk() {
+                            removeEnrollment({
+                              // @ts-ignore
+                              learnerId: record.learner._id,
+                            });
+                          },
+                          okText: "Delete ENrollment",
+                        });
+                      },
+                    },
+                  ]}
+                />
+              );
+            }}
+          />
+        </Table>
+      </Spin>
     </Container>
   );
 }

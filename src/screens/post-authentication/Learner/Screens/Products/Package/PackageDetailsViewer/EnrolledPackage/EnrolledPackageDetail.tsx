@@ -188,7 +188,7 @@ const EnrolledPackageDetailScreen: React.FC<
   //   // },
   // ];
   const DownloadTestKit = !loading ? (
-    !order?.offlineKit?.delivery?.status ? (
+    order?.offlineKit?.delivery?.status ? (
       <ActionModal
         width={500}
         title="Please Enter your address"

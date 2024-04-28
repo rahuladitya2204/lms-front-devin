@@ -63,6 +63,7 @@ import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useQueryClient } from "@tanstack/react-query";
 import { buildTopicTree } from "@Components/Editor/SunEditor/utils";
+import ProtectedLearnerProfile from "../../../LearnerRoot/ProtectedLearnerProfile";
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -88,7 +89,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
     data: { test, metrics, status, feedback, leaderboard },
     isFetching: loadingResult,
   } = Learner.Queries.useGetTestResult(testId + "");
-  const { data: learner } = Learner.Queries.useGetLearnerDetails();
+
   const { data: topics } = Learner.Queries.useGetTopics();
   const COLORS = ["#52c41a", "#FF4040", "#D3D3D3"]; // Green for correct, Red for wrong, Grey for unattempted
   const pieChartData = useMemo(() => {
@@ -175,7 +176,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   // console.log(difficultyLevelData,'difficultyLevelData')
   const { data: enrolledProduct, isLoading: loadingEnrolledProduct } =
     Learner.Queries.useGetEnrolledProductDetails({
-      type: "test",
+      type: Enum.ProductType.TEST,
       id: testId + "",
     });
   const { isMobile } = useBreakpoint();
@@ -659,17 +660,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   }
 
   return (
-    <ProtectedContent
-      title="Verification Required"
-      isVerified={learner.profile.status === Enum.LearnerProfileStatus.COMPLETE}
-      message={
-        <Alert
-          icon={<UserOutlined />}
-          message="Please complete your profile to view test result"
-        />
-      }
-      cta={<LearnerProfile />}
-    >
+    <ProtectedLearnerProfile>
       <Header
         title={!isMobile ? `Test Result: ${test?.title}` : ExitButton}
         extra={
@@ -680,6 +671,6 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       >
         <Tabs navigateWithHash items={TABS} />
       </Header>
-    </ProtectedContent>
+    </ProtectedLearnerProfile>
   );
 }

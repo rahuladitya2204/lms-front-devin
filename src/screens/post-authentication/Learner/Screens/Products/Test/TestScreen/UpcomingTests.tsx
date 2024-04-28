@@ -66,7 +66,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
         }: {
           product: { data: Types.Test };
         }) => {
-          const formattedDuration = test.duration.enabled
+          const formattedDuration = test?.duration?.enabled
             ? Utils.formatTime(test?.duration.value * 60)
             : null;
           const CardComponent = (
@@ -99,7 +99,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
                   <Text>
                     {/* @ts-ignore */}
                     {test.title}{" "}
-                    {test?.live.enabled ? (
+                    {test?.live?.enabled ? (
                       <Tag color="cyan">Live Test</Tag>
                     ) : null}{" "}
                   </Text>
@@ -114,9 +114,9 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
                         {formattedDuration}
                       </Tag>
                     ) : null}
-                    {test?.live.scheduledAt ? (
+                    {test?.live?.scheduledAt ? (
                       <Text>
-                        Date: {dayjs(test?.live.scheduledAt).format("LL")}
+                        Date: {dayjs(test?.live?.scheduledAt).format("LL")}
                       </Text>
                     ) : (
                       ""
@@ -138,7 +138,7 @@ function UpcomingTest(props: { filter: Types.GetTestsFilter }) {
             // @ts-ignore
             <Col xs={24} sm={12} md={8} lg={6}>
               {" "}
-              {test?.product?.data?.live.enabled ? (
+              {test?.product?.data?.live?.enabled ? (
                 <Badge.Ribbon text="live">{CardComponent}</Badge.Ribbon>
               ) : (
                 CardComponent

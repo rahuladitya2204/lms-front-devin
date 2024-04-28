@@ -57,7 +57,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
           text={test.live.enabled ? "Live" : null}
         >
           <Row gutter={[10, 10]}>
-            <Col flex={isMobile ? 1 : "none"} xs={24}>
+            {/* <Col flex={isMobile ? 1 : "none"} xs={24}>
               <Image
                 style={{ objectFit: "cover" }}
                 height={isMobile ? 150 : 70}
@@ -65,8 +65,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                 preview={false}
                 src={test?.thumbnailImage}
               />
-            </Col>
-            {/* <Col span={1} xs={0} /> */}
+            </Col> */}
             <Col
               flex={1}
               xs={24}

@@ -11,49 +11,46 @@ import {
   Select,
   Spin,
   Tabs,
-  message
-} from 'antd'
-import { Learner, Store, Types } from '@adewaskar/lms-common'
+  message,
+} from "antd";
+import { Learner, Store, Types } from "@adewaskar/lms-common";
 
-import { ActionModalI } from '@Components/ActionModal/ActionModal'
-import MediaUpload from '@Components/MediaUpload'
-import { useEffect } from 'react'
+import { ActionModalI } from "@Components/ActionModal/ActionModal";
+import MediaUpload from "@Components/MediaUpload";
+import { useEffect } from "react";
 
 interface LearnerProfilePropsI extends ActionModalI {}
 
 export default function LearnerProfile(props: LearnerProfilePropsI) {
-  const { data: { interests } } = Learner.Queries.useGetOrgDetails()
-  const [form] = Form.useForm()
+  const {
+    data: { interests },
+  } = Learner.Queries.useGetOrgDetails();
+  const [form] = Form.useForm();
   const {
     mutate: updateProfile,
-    isLoading: updatingProfile
+    isLoading: updatingProfile,
     // @ts-ignore
-  } = Learner.Queries.useUpdateLearnerProfile()
-  const {
-    data: learnerDetails,
-    isLoading: loadingDetails
-  } = Learner.Queries.useGetLearnerDetails()
+  } = Learner.Queries.useUpdateLearnerProfile();
+  const { data: learnerDetails, isLoading: loadingDetails } =
+    Learner.Queries.useGetLearnerDetails();
   const saveProfile = (d: Partial<Types.Learner>) => {
     updateProfile(
       { data: d },
       {
         onSuccess: () => {
-          message.success('Profile details saved')
-          props.closeModal && props.closeModal()
+          message.success("Profile details saved");
+          props.closeModal && props.closeModal();
         },
         onError: (e: any) => {
-          message.error(e.response.data.message)
-        }
+          message.error(e.response.data.message);
+        },
       }
-    )
-  }
+    );
+  };
 
-  useEffect(
-    () => {
-      form.setFieldsValue(learnerDetails)
-    },
-    [learnerDetails]
-  )
+  useEffect(() => {
+    form.setFieldsValue(learnerDetails);
+  }, [learnerDetails]);
 
   return (
     <Form onFinish={saveProfile} layout="vertical" form={form}>
@@ -61,8 +58,8 @@ export default function LearnerProfile(props: LearnerProfilePropsI) {
         rules={[
           {
             required: true,
-            message: 'Please enter your name'
-          }
+            message: "Please enter your name",
+          },
         ]}
         label="Name"
         name="name"
@@ -74,12 +71,12 @@ export default function LearnerProfile(props: LearnerProfilePropsI) {
           rules={[
             {
               required: true,
-              type: 'email',
-              message: 'Enter a valid email'
-            }
+              type: "email",
+              message: "Enter a valid email",
+            },
           ]}
           label="Email"
-          name={['email']}
+          name={["email"]}
         >
           <Input placeholder="Please enter your email" />
         </Form.Item>
@@ -91,17 +88,17 @@ export default function LearnerProfile(props: LearnerProfilePropsI) {
             {
               required: true,
               // type: ,
-              message: 'Enter a contact No'
-            }
+              message: "Enter a contact No",
+            },
           ]}
           label="Contact No"
-          name={['contactNo']}
+          name={["contactNo"]}
         >
           <Input type="number" placeholder="Please enter your contact number" />
         </Form.Item>
       ) : null}
 
-      {!learnerDetails?.interests?.length ? (
+      {/* {!learnerDetails?.interests?.length ? (
         <Form.Item
           style={{ marginBottom: 50 }}
           rules={[
@@ -125,11 +122,10 @@ export default function LearnerProfile(props: LearnerProfilePropsI) {
             })}
           </Select>
         </Form.Item>
-      ) : null}
+      ) : null} */}
       <Button block loading={updatingProfile} htmlType="submit" type="primary">
-        {' '}
         Save Details
       </Button>
     </Form>
-  )
+  );
 }
