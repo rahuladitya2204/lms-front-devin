@@ -161,13 +161,13 @@ const router = (userType: string) => {
                   element={<ProductCategoryDetailScreen />}
                 >
                   <Route
-                    path=":product"
+                    path=":product/:type"
                     element={<CategoryProducts isServer={false} />}
                   >
-                    <Route
+                    {/* <Route
                       path=":type"
                       element={<ProductCategoryTabs isServer={false} />}
-                    />
+                    /> */}
                   </Route>
                 </Route>
                 {/* <Route path="store" element={<LearnerStoreScreen />} /> */}

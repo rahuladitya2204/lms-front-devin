@@ -6,7 +6,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
-import { Button, Divider, Skeleton, Tabs } from "@Lib/index";
+import { Button, Card, Divider, Skeleton, Tabs } from "@Lib/index";
 import { useMemo } from "react";
 import { Outlet } from "react-router";
 
@@ -66,7 +66,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   return loadingCategory ? (
     <Skeleton.Button block active style={{ height: 400 }} />
   ) : (
-    <>
+    <Card style={{ marginTop: 20 }}>
       {TABS.map((tab) => {
         return (
           <NavLink
@@ -94,6 +94,6 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           content={TABS.find((tab) => tab.key === type)?.description + ""}
         />
       }
-    </>
+    </Card>
   );
 }

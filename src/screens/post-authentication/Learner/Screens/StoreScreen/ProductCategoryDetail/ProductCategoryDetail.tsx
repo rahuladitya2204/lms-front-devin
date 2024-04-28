@@ -42,6 +42,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Outlet } from "react-router";
 import ProductCategoryDetailSkeletonScreen from "./ProductCategoryDetailSkeleton";
 import TestCard from "../Cards/TestCard";
+import ProductCategoryTabs from "./ProductCategoryTabs";
 
 const { Text, Paragraph } = Typography;
 
@@ -206,48 +207,33 @@ export default function ProductCategoryDetailScreen(
             product={product + ""}
           />
           <Col xs={24} sm={24} md={24} lg={24}>
-            <Card style={{ paddingTop: 0, minHeight: 400 }}>
-              <Row>
-                {productCategory.landingPage?.promoVideo?.url ? (
-                  <Col span={24}>
-                    <MediaPlayer
-                      thumbnail={
-                        productCategory.landingPage.promoVideo.thumbnailImage
-                      }
-                      height={400}
-                      url={productCategory.landingPage.promoVideo.url}
-                    />
-                    <Divider />
-                  </Col>
-                ) : null}
+            <Row>
+              {productCategory.landingPage?.promoVideo?.url ? (
+                // <Card style={{ paddingTop: 0, minHeight: 400 }}>
                 <Col span={24}>
-                  <Row>
-                    {/* <Col span={24}>
-                        <Card title='Try our test series!'>
-                        <Row gutter={[20,20]}>
-                          {packages.map(bundle => {
-                          return <Col   sm={12} 
-                          md={8} xs={24}
-                            lg={8} xl={6} xxl={6}  >
-                            <PackageCard package={bundle} />
-                          </Col>
-                        })}
-                        </Row>
-                        </Card>
-                      </Col> */}
-                    <Col span={24}>
-                      {props.isServer ? (
-                        props.children
-                      ) : (
-                        // <ProductCategoryTabs id={productCategoryId + ""} />
-                        <Outlet />
-                      )}
-                    </Col>
-                  </Row>
+                  <MediaPlayer
+                    thumbnail={
+                      productCategory.landingPage.promoVideo.thumbnailImage
+                    }
+                    height={400}
+                    url={productCategory.landingPage.promoVideo.url}
+                  />
+                  <Divider />
                 </Col>
-                <Col span={24}></Col>
-              </Row>
-            </Card>
+              ) : // </Card>
+              null}
+              {/* <Col span={24}>
+                <Row>
+                  <Col span={24}>
+                    {props.isServer
+                      ? props.children
+                      : // <ProductCategoryTabs id={productCategoryId + ""} />
+                        null}
+                  </Col>
+                </Row>
+              </Col> */}
+              <Col span={24}></Col>
+            </Row>
           </Col>
           {productCategory?.info?.faqs?.length ? (
             <Col lg={24} md={24} sm={24} xs={24}>
@@ -387,7 +373,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
     <>
       {/* 12123123 */}
       <Col span={24}>
-        <>
+        <Card>
           {TABS.map((tab) => {
             return (
               <NavLink
@@ -412,9 +398,13 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
           })}
           {/* <Divider style={{ margin: "5px 0px 10px 0" }} /> */}
           {TABS.find((tab) => tab.key === product)?.children}
-        </>
+        </Card>
         {/* </Card> */}
-        {props.children ? props.children : <Outlet />}
+        {props.children ? (
+          props.children
+        ) : (
+          <ProductCategoryTabs isServer={false} />
+        )}
       </Col>
     </>
   );

@@ -25,6 +25,7 @@ interface TestCardPropsI {
   hideCoverImg?: boolean;
   children?: React.ReactNode;
   noClick?: boolean;
+  mini?: boolean;
 }
 
 const CustomCard = styled(Card)`
