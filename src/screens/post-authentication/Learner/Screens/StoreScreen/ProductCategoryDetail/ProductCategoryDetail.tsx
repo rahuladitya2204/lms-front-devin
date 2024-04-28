@@ -369,7 +369,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
     return tabs;
   }, [packages, PYQTests]);
   console.log(product, "product");
-  return (
+  return TABS.length ? (
     <>
       {/* 12123123 */}
       <Col span={24}>
@@ -396,6 +396,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
               </NavLink>
             );
           })}
+          <Divider style={{ margin: "5px 0 15px" }} />
           {/* <Divider style={{ margin: "5px 0px 10px 0" }} /> */}
           {TABS.find((tab) => tab.key === product)?.children}
         </Card>
@@ -407,5 +408,5 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
         )}
       </Col>
     </>
-  );
+  ) : null;
 };
