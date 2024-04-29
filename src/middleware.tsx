@@ -85,7 +85,7 @@ export async function middleware(request: NextRequest) {
   }
   const validRoutes = [
     "/test",
-    "blog",
+    "/blog",
     "/home",
     "/news",
     "/test-series",
