@@ -91,6 +91,8 @@ export async function middleware(request: NextRequest) {
     "/test-series",
     "/exam",
     "/app",
+    "/sitemap.xml",
+    // "/robots.txt",
     "/admin",
   ];
   const isValidRoute = validRoutes.some((route) =>
