@@ -1,3 +1,4 @@
+import NotFoundScreen from "./screens/NotFoundScreen/NotFoundScreen";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { validateOrgAlias } from "server/api";
@@ -7,6 +8,7 @@ import {
   ResponseCookies,
   RequestCookies,
 } from "next/dist/server/web/spec-extension/cookies";
+import { renderToString } from "react-dom/server";
 
 export const config = {
   matcher:
@@ -81,7 +83,30 @@ export async function middleware(request: NextRequest) {
   } catch {
     // return NextResponse.redirect(new URL("/not-found", request.url));
   }
-
+  const validRoutes = [
+    "/test",
+    "blog",
+    "/home",
+    "/news",
+    "/test-series",
+    "/exam",
+    "/app",
+    "/admin",
+  ];
+  const isValidRoute = validRoutes.some((route) =>
+    request.nextUrl.pathname.startsWith(route)
+  );
+  console.log(isValidRoute, "isValidRoute");
+  // Redirect to 404 if the route is not valid
+  if (!isValidRoute) {
+    const html = renderToString(<NotFoundScreen />);
+    return new Response(`<!DOCTYPE html>${html}`, {
+      status: 404,
+      headers: {
+        "Content-Type": "text/html",
+      },
+    });
+  }
   // only apply set cookies to current request cookies
   // if response cookies has been updated
   if (updatedResponseCookies) {
