@@ -12,7 +12,7 @@ export default function LearnerBlogsScreen(props: { isServer?: boolean }) {
         <Title>Please check out our blogs</Title>
         <Row>
           {blogs.map((blog) => (
-            <Col span={4}>
+            <Col lg={4} md={6} sm={12} xs={24}>
               <BlogCard isServer={props.isServer} blog={blog} />
             </Col>
           ))}

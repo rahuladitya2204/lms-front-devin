@@ -40,7 +40,7 @@ function OrgLogo(props: OrgLogoPropsI) {
         {...props}
       />
       {props.showName ? (
-        <Text style={{ fontSize: 26 }}>{organisation.name}</Text>
+        <Text style={{ fontSize: 22 }}>{organisation.name}</Text>
       ) : null}
     </Space>
   );

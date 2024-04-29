@@ -166,66 +166,76 @@ const LearnerHeaderClient = ({
       style={{ width: 97, height: 32, borderRadius: 15 }}
     />
   );
-  const { openModal } = useModal();
-  const WalletButton = contentLoading ? (
-    HeaderButtonSkeleton
-  ) : (
+  const BlogLink = (
     <NavLink
-      title={`Wallet`}
-      to={`/app/wallet`}
+      to={isServer ? "/blog" : "/app/blog"}
       children={({ isActive }) => {
-        return contentLoading ? (
-          HeaderButtonSkeleton
-        ) : (
-          <Tooltip
-            title={
-              !user.wallet.balance.value
-                ? "Please recharge your wallet for purchases"
-                : `Wallet Balance: ${Utils.UnitTypeToStr(user.wallet.balance)}`
-            }
+        return (
+          <Button
+            style={{ borderRadius: 15 }}
+            icon={<BookOutlined />}
+            type={isActive ? "primary" : "default"}
+            style={{ borderRadius: 15 }}
+            // onClick={() =>cons
           >
-            <Button
-              style={{ paddingTop: 2, paddingLeft: 5 }}
-              color="blue-inverse"
-              // size={screen.isMobile?'small':'middle'}
-            >
-              <Row justify={"center"} align={"middle"}>
-                <Col style={{ marginTop: -1 }}>
-                  <CoinImage width={20} />
-                </Col>
-                <Col>
-                  <Text style={{ fontSize: 16, marginLeft: 5 }} strong>
-                    {user.wallet.balance.value
-                      ? Utils.UnitTypeToStr(user.wallet.balance)
-                      : "My Wallet"}
-                  </Text>
-                </Col>
-              </Row>
-            </Button>
-          </Tooltip>
+            Blogs
+          </Button>
         );
       }}
     />
   );
+  const { openModal } = useModal();
+  const WalletButton = contentLoading ? (
+    HeaderButtonSkeleton
+  ) : (
+    <>
+      {BlogLink}
+      {!screen.isMobile ? (
+        <NavLink
+          title={`Wallet`}
+          to={`/app/wallet`}
+          children={({ isActive }) => {
+            return contentLoading ? (
+              HeaderButtonSkeleton
+            ) : (
+              <Tooltip
+                title={
+                  !user.wallet.balance.value
+                    ? "Please recharge your wallet for purchases"
+                    : `Wallet Balance: ${Utils.UnitTypeToStr(
+                        user.wallet.balance
+                      )}`
+                }
+              >
+                <Button
+                  style={{ paddingTop: 2, paddingLeft: 5 }}
+                  color="blue-inverse"
+                  // size={screen.isMobile?'small':'middle'}
+                >
+                  <Row justify={"center"} align={"middle"}>
+                    <Col style={{ marginTop: -1 }}>
+                      <CoinImage width={20} />
+                    </Col>
+                    <Col>
+                      <Text style={{ fontSize: 16, marginLeft: 5 }} strong>
+                        {user.wallet.balance.value
+                          ? Utils.UnitTypeToStr(user.wallet.balance)
+                          : "My Wallet"}
+                      </Text>
+                    </Col>
+                  </Row>
+                </Button>
+              </Tooltip>
+            );
+          }}
+        />
+      ) : null}
+    </>
+  );
+
   // Define the extraContent
   const extraContent = (
     <Space>
-      <NavLink
-        to={isServer ? "/blog" : "/app/blog"}
-        children={({ isActive }) => {
-          return (
-            <Button
-              style={{ borderRadius: 15 }}
-              icon={<BookOutlined />}
-              type={isActive ? "primary" : "default"}
-              style={{ marginRight: 10, borderRadius: 15 }}
-              // onClick={() =>cons
-            >
-              Blogs
-            </Button>
-          );
-        }}
-      />
       {screen.isDesktop && isSignedIn ? (
         <Space style={{ marginLeft: 45 }}>
           {contentLoading ? (
@@ -234,25 +244,28 @@ const LearnerHeaderClient = ({
               <Col>{HeaderButtonSkeleton}</Col>
             </Row>
           ) : (
-            menuItems.map((item, index) => (
-              <NavLink
-                title={item.label}
-                anchor={isServer}
-                key={index}
-                to={`/app/${item.key}`}
-                style={{ margin: "0 5px" }}
-                children={({ isActive }) => (
-                  <Button
-                    style={{ borderRadius: 15 }}
-                    size="middle"
-                    icon={item.icon}
-                    type={isActive ? "primary" : "default"}
-                  >
-                    {item.label}
-                  </Button>
-                )}
-              />
-            ))
+            <>
+              {/* {BlogLink} */}
+              {menuItems.map((item, index) => (
+                <NavLink
+                  title={item.label}
+                  anchor={isServer}
+                  key={index}
+                  to={`/app/${item.key}`}
+                  style={{ margin: "0 5px" }}
+                  children={({ isActive }) => (
+                    <Button
+                      style={{ borderRadius: 15 }}
+                      size="middle"
+                      icon={item.icon}
+                      type={isActive ? "primary" : "default"}
+                    >
+                      {item.label}
+                    </Button>
+                  )}
+                />
+              ))}
+            </>
           )}
         </Space>
       ) : null}
@@ -304,19 +317,22 @@ const LearnerHeaderClient = ({
         contentLoading ? (
           <Skeleton.Button style={{ width: 97, height: 32 }} active />
         ) : (
-          <Button
-            icon={<LoginOutlined />}
-            type="dashed"
-            style={{ margin: "0 10px" }}
-            onClick={() =>
-              openModal(<LoginScreen />, {
-                width: 300,
-                title: "Login",
-              })
-            }
-          >
-            Login
-          </Button>
+          <Space>
+            {BlogLink}
+            <Button
+              icon={<LoginOutlined />}
+              type="dashed"
+              style={{ margin: "0 10px" }}
+              onClick={() =>
+                openModal(<LoginScreen />, {
+                  width: 300,
+                  title: "Login",
+                })
+              }
+            >
+              Login
+            </Button>
+          </Space>
         )
       ) : null}
 
@@ -396,15 +412,17 @@ const LearnerHeaderClient = ({
       title={
         <Space style={{ cursor: "pointer" }}>
           <Link title={organisation.name} to={isServer ? "/" : "/app/store"}>
-            <OrgLogo showName />
+            <OrgLogo
+              //  showName={!screen.isMobile}
+              showName
+            />
           </Link>
           {!isMobileOrTablet ? (
             <Space style={{ display: "flex", marginLeft: 25 }} align="center">
               {loadingLearnerDetails ? (
                 <Skeleton.Button active style={{ width: 460, height: 32 }} />
-              ) : (
-                <SearchLearnerCourses />
-              )}
+              ) : // <SearchLearnerCourses />
+              null}
             </Space>
           ) : null}
           {/* <Search

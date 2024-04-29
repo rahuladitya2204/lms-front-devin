@@ -11,25 +11,26 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
   const options = {
     replace: (domNode: any) => {
       // console.log(domNode,'domon')
-      if (domNode.name === "img" && domNode.attribs) {
-        const style = domNode.attribs.style || "";
-        const widthMatch = style.match(/width:\s*([0-9]+px)/);
-        const heightMatch = style.match(/height:\s*([0-9]+px)/);
-        const width = widthMatch ? widthMatch[1] : "auto";
-        const height = heightMatch ? heightMatch[1] : "auto";
-        return (
-          <Image
-            style={{
-              ...style,
-              width: width || "auto",
-              height: height || "auto",
-            }} // Apply the width to AppImage
-            src={domNode.attribs.src}
-            alt={domNode.attribs.alt || "Image"}
-            preview={!!props.noPreviewImage}
-          />
-        );
-      }
+      // if (domNode.name === "img" && domNode.attribs) {
+      //   const style = domNode.attribs.style || "";
+      //   console.log(style, "style");
+      //   const widthMatch = style.match(/width:\s*([0-9]+px)/);
+      //   const heightMatch = style.match(/height:\s*([0-9]+px)/);
+      //   const width = widthMatch ? widthMatch[1] : "auto";
+      //   const height = heightMatch ? heightMatch[1] : "auto";
+      //   return (
+      //     <Image
+      //       style={{
+      //         ...style,
+      //         width: width || "auto",
+      //         height: height || "auto",
+      //       }} // Apply the width to AppImage
+      //       src={domNode.attribs.src}
+      //       alt={domNode.attribs.alt || "Image"}
+      //       preview={!!props.noPreviewImage}
+      //     />
+      //   );
+      // }
       if (domNode.name === "audio" && domNode.attribs) {
         const style = domNode.attribs.style || "";
         return (

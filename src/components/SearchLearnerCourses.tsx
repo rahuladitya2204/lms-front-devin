@@ -66,7 +66,7 @@ export default function SearchLearnerCourses() {
       }}
       popupClassName="certain-category-search-dropdown"
       dropdownMatchSelectWidth={500}
-      style={{ width: 250 }}
+      style={{ width: 300 }}
       options={listItems}
     >
       <Search
@@ -76,7 +76,7 @@ export default function SearchLearnerCourses() {
         loading={loading}
         onChange={(e: any) => setText(e.target.value)}
         onSearch={(e) => console.log(e, "eee")}
-        style={{ width: 500 }}
+        style={{ width: 250 }}
       />
     </AutoComplete>
   );
