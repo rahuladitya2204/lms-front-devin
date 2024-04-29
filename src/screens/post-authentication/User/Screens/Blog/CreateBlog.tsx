@@ -25,6 +25,8 @@ import AppImage from "@Components/Image";
 import MediaUpload from "@Components/MediaUpload";
 import SelectProductCategory from "@Components/SelectProductCategory";
 import InputTags from "@Components/InputTags/InputTags";
+import ActionModal from "@Components/ActionModal/ActionModal";
+import GenerateBlog from "./GenerateBlog";
 
 const { confirm } = Modal;
 interface CreateBlogComponentPropsI {
@@ -88,6 +90,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
             });
             props.onSuccess && props.onSuccess();
             props.closeModal && props.closeModal();
+            navigate("/admin/blogs");
           },
         }
       );
@@ -96,6 +99,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
   const isBlogValid = Utils.validatePublishBlog(blogDetails);
   const PublishBlog = (
     <Button
+      style={{ marginLeft: 10 }}
       loading={publishingBlog}
       key="submit"
       type="primary"
@@ -118,7 +122,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
   );
   const UnpublishBlog = (
     <Button
-      style={{ marginRight: 10 }}
+      style={{ marginRight: 10, marginLeft: 10 }}
       onClick={() => {
         confirm({
           title: "Are you sure?",
@@ -154,19 +158,26 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
         <span>
           <BackButton
             // disabled={!blogDetails.category}
-            onClick={() => navigate(`/admin/products/blogs`)}
+            onClick={() => navigate(`/admin/blogs`)}
           />{" "}
-          {blogDetails._id ? blogDetails.title : "Create Blog"}
+          Create Blog
           {blogDetails.status !== Enum.BlogStatus.PUBLISHED
             ? PublishBlog
-            : null}
+            : [
+                <Tag style={{ marginLeft: 10 }} color="green">
+                  Published
+                </Tag>,
+              ]}
         </span>
       }
       extra={[
-        ...(blogDetails.status === Enum.BlogStatus.PUBLISHED
-          ? [UnpublishBlog, <Tag color="green">Published</Tag>]
-          : []),
         // ((blogDetails.status !== Enum.BlogStatus.PUBLISHED))?PublishBlog:null,
+        <ActionModal
+          title="Generate Blog"
+          cta={<Button type="dashed">Generate Blog</Button>}
+        >
+          <GenerateBlog onComplete={(e) => form.setFieldsValue(e)} />
+        </ActionModal>,
         SaveBlog,
       ]}
     >
@@ -257,6 +268,16 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
                   <Row gutter={[20, 20]}>
                     <Col span={24}>
                       <Form.Item
+                        // extra={
+                        //   <ActionModal
+                        //     title="Generate Blog"
+                        //     cta={<Button type="primary">Generate Blog</Button>}
+                        //   >
+                        //     <GenerateBlog
+                        //       onComplete={(e) => form.setFieldsValue(e)}
+                        //     />
+                        //   </ActionModal>
+                        // }
                         rules={[
                           {
                             required: true,
@@ -268,7 +289,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
                       >
                         <TextArea
                           // editorType="ck"
-                          height={250}
+                          height={800}
                           html={{ level: 3 }}
                           label="Content"
                           name={["content"]}

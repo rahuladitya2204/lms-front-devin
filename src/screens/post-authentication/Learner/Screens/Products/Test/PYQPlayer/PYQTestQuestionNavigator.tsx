@@ -43,7 +43,7 @@ export default function TestReviewQuestionNavigator(
   const { questionId: qID } = useParams();
   const questionId = getIdFromSlug(qID);
   const isLoading = loadingResult;
-  // const getSlugFromID = (item: Types.TestQuestion) => {
+  // const Utils.getQuestionSlugFromID = (item: Types.TestQuestion) => {
   //   return `${`${htmlToText(item.title.text["eng"]).slice(0, 15)}----${
   //     item._id
   //   }`}`;
@@ -85,12 +85,12 @@ export default function TestReviewQuestionNavigator(
                               props.isServer
                                 ? `/test/${
                                     test.slug || test._id
-                                  }/previous-year-questions/${getSlugFromID(
+                                  }/previous-year-questions/${Utils.getQuestionSlugFromID(
                                     item
                                   )}`
                                 : `/app/test/${
                                     test.slug || test._id
-                                  }/previous-year-questions/${getSlugFromID(
+                                  }/previous-year-questions/${Utils.getQuestionSlugFromID(
                                     item
                                   )}`
                             }
@@ -165,13 +165,6 @@ export default function TestReviewQuestionNavigator(
     </Card>
   );
 }
-
-export const getSlugFromID = (item: Types.TestQuestion) => {
-  return `${`${slugify(htmlToText(item.title.text["eng"]).toLowerCase()).slice(
-    0,
-    50
-  )}----${item._id}`}`;
-};
 
 export const getIdFromSlug = (slug: string) => {
   return slug?.split(`-`)?.pop();

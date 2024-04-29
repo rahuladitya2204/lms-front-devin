@@ -21,7 +21,7 @@ import {
   MenuOutlined,
   WarningOutlined,
 } from "@ant-design/icons";
-import { Constants, Enum, Learner, Store } from "@adewaskar/lms-common";
+import { Constants, Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { Outlet } from "react-router";
 
@@ -29,9 +29,7 @@ import ActionDrawer from "@Components/ActionDrawer";
 import Header from "@Components/Header";
 import ProctoringComponent from "@Learner/Screens/Procturing/TestProcturing";
 import TestItemSkeleton from "../TestReview/TestItemSkeleton";
-import TestPublicQuestionNavigator, {
-  getSlugFromID,
-} from "./PYQTestQuestionNavigator";
+import TestPublicQuestionNavigator from "./PYQTestQuestionNavigator";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { NavLink, useLocation, useNavigate, useParams } from "@Router/index";
@@ -74,8 +72,12 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       const itemId = item._id;
       navigate(
         props.isServer
-          ? `/test/${testId}/previous-year-questions/${getSlugFromID(item)}`
-          : `/app/test/${testId}/previous-year-questions/${getSlugFromID(item)}`
+          ? `/test/${testId}/previous-year-questions/${Utils.getQuestionSlugFromID(
+              item
+            )}`
+          : `/app/test/${testId}/previous-year-questions/${Utils.getQuestionSlugFromID(
+              item
+            )}`
       );
     }
     if (test.languages.length) {

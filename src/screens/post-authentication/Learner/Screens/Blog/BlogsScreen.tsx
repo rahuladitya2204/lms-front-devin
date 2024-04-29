@@ -7,7 +7,7 @@ import BlogCard from "../StoreScreen/Cards/BlogCard";
 export default function LearnerBlogsScreen(props: { isServer?: boolean }) {
   const { data: blogs } = Learner.Queries.useGetBlogs();
   return (
-    <Row>
+    <Row gutter={[20, 20]}>
       <Col span={24}>
         <Title>Please check out our blogs</Title>
         <Row>
