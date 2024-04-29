@@ -34,7 +34,11 @@ export default function Page({
       ]}
     >
       <LearnerRootScreen isServer>
-        <ProductCategoryDetailScreen children={children} isServer />
+        <ProductCategoryDetailScreen
+          product="test-series"
+          children={children}
+          isServer
+        />
       </LearnerRootScreen>
     </Hydrator>
   );

@@ -7,9 +7,18 @@ interface AppTabPropsI extends TabsProps {
 }
 
 function Tabs({ navigateWithHash = false, ...props }: AppTabPropsI) {
-  const [activeKey, setActiveKey] = useState(props.items?.[0]?.key || "");
+  const [activeKey, setActiveKey] = useState("");
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const hash = location.hash.slice(1);
+    if (hash && props.items?.some((item) => item.key === hash)) {
+      setActiveKey(hash);
+    } else {
+      setActiveKey(props.items?.[0]?.key || "");
+    }
+  }, [location.hash, props.items]);
 
   const onChange = (activeKey: string) => {
     setActiveKey(activeKey);

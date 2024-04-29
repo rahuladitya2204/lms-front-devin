@@ -27,7 +27,12 @@ export default function Page({
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <ProductCategoryTabs isServer type={"overview"} id={params.id} />
+      <ProductCategoryTabs
+        product="test-series"
+        isServer
+        type={"overview"}
+        id={params.id}
+      />
     </Hydrator>
   );
 }

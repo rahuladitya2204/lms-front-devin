@@ -25,6 +25,7 @@ interface TestCardPropsI {
   hideCoverImg?: boolean;
   children?: React.ReactNode;
   noClick?: boolean;
+  hideMeta?: boolean;
   mini?: boolean;
 }
 
@@ -84,30 +85,32 @@ function TestCard(props: TestCardPropsI) {
           </Space>
         }
       />
-      <Row justify={"space-between"} style={{ marginTop: 10 }}>
-        <Col>
-          {formattedDuration ? (
-            <Tag
-              icon={<ClockCircleOutlined />}
-              color="blue-inverse"
-              style={{ fontSize: 13 }}
-            >
-              {formattedDuration}
-            </Tag>
-          ) : null}
-          {test.input.type === Enum.TestInputType.HANDWRITTEN ? (
-            <Tag
-              icon={<EditOutlined />}
-              color="volcano-inverse"
-              style={{ fontSize: 13 }}
-            >
-              Handwritten
-            </Tag>
-          ) : null}
-        </Col>
-      </Row>
+      {!props.hideMeta ? (
+        <Row justify={"space-between"} style={{ marginTop: 10 }}>
+          <Col>
+            {formattedDuration ? (
+              <Tag
+                icon={<ClockCircleOutlined />}
+                color="blue-inverse"
+                style={{ fontSize: 13 }}
+              >
+                {formattedDuration}
+              </Tag>
+            ) : null}
+            {test.input.type === Enum.TestInputType.HANDWRITTEN ? (
+              <Tag
+                icon={<EditOutlined />}
+                color="volcano-inverse"
+                style={{ fontSize: 13 }}
+              >
+                Handwritten
+              </Tag>
+            ) : null}
+          </Col>
+        </Row>
+      ) : null}
 
-      <Row justify={"space-between"}>
+      <Row justify={"space-between"} style={{ marginTop: 15 }}>
         <Col span={24}>
           {props.children ? (
             props.children

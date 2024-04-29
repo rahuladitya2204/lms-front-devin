@@ -308,6 +308,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
         return (
           <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
             <TestCard
+              hideMeta
               noClick
               hideCoverImg
               isServer={props.isServer}
