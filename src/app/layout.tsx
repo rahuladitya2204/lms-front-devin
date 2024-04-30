@@ -10,7 +10,8 @@ import axios from "axios";
 import { Utils } from "@adewaskar/lms-common";
 import { getCookie, getServerCookie } from "@ServerUtils/index";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-
+import { initDateFormats } from "@Utils/index";
+// initDateFormats();
 export const viewport: Viewport = {
   themeColor: "black",
 };

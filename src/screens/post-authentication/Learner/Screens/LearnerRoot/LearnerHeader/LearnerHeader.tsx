@@ -318,7 +318,7 @@ const LearnerHeaderClient = ({
           <Skeleton.Button style={{ width: 97, height: 32 }} active />
         ) : (
           <Space>
-            {BlogLink}
+            {!screen.isMobile ? BlogLink : null}
             <Button
               icon={<LoginOutlined />}
               type="dashed"

@@ -181,129 +181,129 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
         SaveBlog,
       ]}
     >
-      {/* <Spin  spinning={loadingBlog}> */}
-      <Card>
-        <Row gutter={[20, 30]}>
-          <Col span={24}>
-            <>
-              <Form form={form} onFinish={onSubmit} layout="vertical">
-                <Fragment>
-                  <Row gutter={[20, 20]}>
-                    <Col span={16}>
-                      <Form.Item
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter a title of the blogs",
-                          },
-                        ]}
-                        name="title"
-                        label="Blog Title"
-                        required
-                      >
-                        <Input placeholder="Enter a subtuitle for the live session" />
-                      </Form.Item>
-                      <Form.Item
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter a subtitle of the blogs",
-                          },
-                        ]}
-                        name="subtitle"
-                        label="Sub Title"
-                        required
-                      >
-                        <Input placeholder="Enter a title for the live session" />
-                      </Form.Item>
+      <Spin spinning={loadingBlog}>
+        <Card>
+          <Row gutter={[20, 30]}>
+            <Col span={24}>
+              <>
+                <Form form={form} onFinish={onSubmit} layout="vertical">
+                  <Fragment>
+                    <Row gutter={[20, 20]}>
+                      <Col span={16}>
+                        <Form.Item
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter a title of the blogs",
+                            },
+                          ]}
+                          name="title"
+                          label="Blog Title"
+                          required
+                        >
+                          <Input placeholder="Enter a subtuitle for the live session" />
+                        </Form.Item>
+                        <Form.Item
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter a subtitle of the blogs",
+                            },
+                          ]}
+                          name="subtitle"
+                          label="Sub Title"
+                          required
+                        >
+                          <Input placeholder="Enter a title for the live session" />
+                        </Form.Item>
 
-                      <Form.Item
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter a url slug of the blogs",
-                          },
-                        ]}
-                        name="slug"
-                        label="URL Slug"
-                        required
-                      >
-                        <Input placeholder="Enter a slug for the blog" />
-                      </Form.Item>
+                        <Form.Item
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter a url slug of the blogs",
+                            },
+                          ]}
+                          name="slug"
+                          label="URL Slug"
+                          required
+                        >
+                          <Input placeholder="Enter a slug for the blog" />
+                        </Form.Item>
 
-                      <Row gutter={[20, 20]}>
-                        <Col span={12}>
-                          <SelectProductCategory name="category" />
-                        </Col>
-                        <Col span={12}>
-                          <InputTags label="Tags" name="tags" />
-                        </Col>
-                      </Row>
-                    </Col>
-                    <Col span={8}>
-                      <Form.Item name={"thumbnailImage"}>
-                        <MediaUpload
-                          name={"thumbnailImage"}
-                          source={{
-                            type: "blog.thumbnail",
-                            value: blogId + "",
-                          }}
-                          uploadType="image"
-                          // prefixKey={`blogs/${blogId}/image`}
-                          cropper={{ width: 150, height: 150 }}
-                          width="100%"
-                          // height="200px"
-                          aspect={16 / 9}
-                          renderItem={() => (
-                            <AppImage preview={false} src={image} />
-                          )}
-                          onUpload={(file) => {
-                            // console.log(file, "uploaded image!");
-                            form.setFieldValue("thumbnailImage", file.url);
-                          }}
-                        />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row gutter={[20, 20]}>
-                    <Col span={24}>
-                      <Form.Item
-                        // extra={
-                        //   <ActionModal
-                        //     title="Generate Blog"
-                        //     cta={<Button type="primary">Generate Blog</Button>}
-                        //   >
-                        //     <GenerateBlog
-                        //       onComplete={(e) => form.setFieldsValue(e)}
-                        //     />
-                        //   </ActionModal>
-                        // }
-                        rules={[
-                          {
-                            required: true,
-                            message: "Please enter a content of the blogs",
-                          },
-                        ]}
-                        name={["content"]}
-                        required
-                      >
-                        <TextArea
-                          // editorType="ck"
-                          height={800}
-                          html={{ level: 3 }}
-                          label="Content"
+                        <Row gutter={[20, 20]}>
+                          <Col span={12}>
+                            <SelectProductCategory name="category" />
+                          </Col>
+                          <Col span={12}>
+                            <InputTags label="Tags" name="tags" />
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col span={8}>
+                        <Form.Item name={"thumbnailImage"}>
+                          <MediaUpload
+                            name={"thumbnailImage"}
+                            source={{
+                              type: "blog.thumbnail",
+                              value: blogId + "",
+                            }}
+                            uploadType="image"
+                            // prefixKey={`blogs/${blogId}/image`}
+                            cropper={{ width: 150, height: 150 }}
+                            width="100%"
+                            // height="200px"
+                            aspect={16 / 9}
+                            renderItem={() => (
+                              <AppImage preview={false} src={image} />
+                            )}
+                            onUpload={(file) => {
+                              // console.log(file, "uploaded image!");
+                              form.setFieldValue("thumbnailImage", file.url);
+                            }}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                    <Row gutter={[20, 20]}>
+                      <Col span={24}>
+                        <Form.Item
+                          // extra={
+                          //   <ActionModal
+                          //     title="Generate Blog"
+                          //     cta={<Button type="primary">Generate Blog</Button>}
+                          //   >
+                          //     <GenerateBlog
+                          //       onComplete={(e) => form.setFieldsValue(e)}
+                          //     />
+                          //   </ActionModal>
+                          // }
+                          rules={[
+                            {
+                              required: true,
+                              message: "Please enter a content of the blogs",
+                            },
+                          ]}
                           name={["content"]}
-                        />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                </Fragment>
-              </Form>
-            </>
-          </Col>
-        </Row>
-      </Card>
-      {/* </Spin> */}
+                          required
+                        >
+                          <TextArea
+                            // editorType="ck"
+                            height={800}
+                            html={{ level: 3 }}
+                            label="Content"
+                            name={["content"]}
+                          />
+                        </Form.Item>
+                      </Col>
+                    </Row>
+                  </Fragment>
+                </Form>
+              </>
+            </Col>
+          </Row>
+        </Card>
+      </Spin>
     </Header>
   );
 };

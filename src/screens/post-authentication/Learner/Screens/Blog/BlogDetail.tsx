@@ -5,7 +5,7 @@ import { Paragraph, Title } from "@Components/Typography/Typography";
 import { useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import { ClockCircleOutlined } from "@ant-design/icons";
-import { Card, Col, Row } from "antd";
+import { Card, Col, Row, Skeleton } from "antd";
 import dayjs from "dayjs";
 import { CategoryProducts } from "../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 
@@ -17,10 +17,13 @@ interface BlogDetailScreenPropsI {
 export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
   const { id: blogId } = useParams();
   const id = props.id || blogId;
-  const { data: blog } = Learner.Queries.useGetBlogDetails(id + "", {
-    enabled: !!id,
-  });
-  return (
+  const { data: blog, isLoading: loadingBlog } =
+    Learner.Queries.useGetBlogDetails(id + "", {
+      enabled: !!id,
+    });
+  return loadingBlog ? (
+    <BlogDetailSkeletonScreen />
+  ) : (
     <Card>
       <Row gutter={[30, 30]} style={{ marginTop: 30 }}>
         <Col xs={24} lg={12}>
@@ -52,6 +55,38 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
         </Title>
         <CategoryProducts categoryId={blog.category} />
       </Col> */}
+      </Row>
+    </Card>
+  );
+}
+
+export function BlogDetailSkeletonScreen() {
+  return (
+    <Card>
+      <Row gutter={[30, 30]} style={{ marginTop: 30 }}>
+        <Col xs={24} lg={12}>
+          <Paragraph strong>
+            <Skeleton.Button
+              block
+              active
+              style={{ height: 20, width: 108, marginBottom: 15 }}
+            />
+          </Paragraph>
+          <Skeleton.Button
+            block
+            active
+            style={{ height: 80, marginTop: 10, marginBottom: 15 }}
+          />
+          <Skeleton.Button block active style={{ height: 60 }} />
+        </Col>
+        <Col xs={24} lg={12}>
+          <Skeleton.Button block active style={{ height: 320 }} />
+        </Col>
+        <Col xs={24} lg={24} style={{ marginTop: 30 }}>
+          <Paragraph style={{ fontSize: 16 }}>
+            <Skeleton paragraph={{ rows: 20 }} active style={{ height: 600 }} />
+          </Paragraph>
+        </Col>
       </Row>
     </Card>
   );

@@ -39,7 +39,7 @@ export const initStorage = () => {
   };
 };
 
-const initDateFormats = () => {
+export const initDateFormats = () => {
   dayjs.extend(relativeTime);
   dayjs.extend(localizedFormat);
   dayjs.extend(weekday);
