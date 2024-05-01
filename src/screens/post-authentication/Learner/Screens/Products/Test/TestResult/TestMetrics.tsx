@@ -62,7 +62,6 @@ import { capitalize } from "lodash";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useQueryClient } from "@tanstack/react-query";
-import { buildTopicTree } from "@Components/Editor/SunEditor/utils";
 import ProtectedLearnerProfile from "../../../LearnerRoot/ProtectedLearnerProfile";
 
 const { confirm } = Modal;
@@ -106,7 +105,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
     setSelectedMainTopic(topicIds[0]);
   }, [topicIds]);
   // @ts-ignore
-  const MAIN_TOPICS = buildTopicTree(topics, selectedMainTopic, 2);
+  const MAIN_TOPICS = Utils.buildTopicTree(topics, selectedMainTopic, 2);
   const difficultyLevelData = useMemo(() => {
     return metrics.difficultyLevel
       ? Object.keys(metrics.difficultyLevel).map((k) => {
@@ -119,7 +118,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       : [];
   }, [metrics]);
   // console.log(MAIN_TOPICS,'MAIN_TOPICS')
-  const TOPICS = buildTopicTree(
+  const TOPICS = Utils.buildTopicTree(
     topics,
     selectedTopic,
     selectedTopic !== selectedMainTopic ? 1 : 2
@@ -177,7 +176,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   const { data: enrolledProduct, isLoading: loadingEnrolledProduct } =
     Learner.Queries.useGetEnrolledProductDetails({
       type: Enum.ProductType.TEST,
-      id: testId + "",
+      id: test._id + "",
     });
   const { isMobile } = useBreakpoint();
   // console.log(pieChartData, 'as')
@@ -223,6 +222,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       Exit
     </Button>
   );
+  console.log(difficultyLevelData, "difficultyLevelData");
   // @ts-ignore
   const BarChartDifficultyLevel = (
     <ResponsiveContainer height={300}>
@@ -309,7 +309,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   const totalAnswered =
     metrics.totalCorrectlyAnswered + metrics.totalWronglyAnswered;
   const DROPDOWN_TOPICS = MAIN_TOPICS.filter((i) => {
-    const t = buildTopicTree(topics, i._id, 1);
+    const t = Utils.buildTopicTree(topics, i._id, 1);
     const topicMap = {};
     t.forEach((topic) => {
       //  @ts-ignore

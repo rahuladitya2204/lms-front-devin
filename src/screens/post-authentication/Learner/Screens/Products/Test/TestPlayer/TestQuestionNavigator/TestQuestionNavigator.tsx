@@ -45,17 +45,19 @@ export default function TestQuestionNavigator(
     },
   } = Learner.Queries.useGetTestStatus(props.testId + "");
 
-  const { isLoading: loadingEnrolledTest } =
-    Learner.Queries.useGetEnrolledProductDetails({
-      type: "test",
-      id: props.testId,
-    });
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
   const { data: test, isLoading: loadingTest } =
     Learner.Queries.useGetTestDetails(
       props.testId + "",
       Enum.TestDetailMode.TEST
     );
+
+  const { isLoading: loadingEnrolledTest } =
+    Learner.Queries.useGetEnrolledProductDetails({
+      type: Enum.ProductType.TEST,
+      id: test._id,
+    });
+
   const { token } = theme.useToken();
   const { questionId } = useParams();
   const isLoading = loadingTest || loadingEnrolledTest;

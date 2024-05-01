@@ -397,7 +397,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
               </NavLink>
             );
           })}
-          <Divider style={{ margin: "5px 0 15px" }} />
+          {TABS.length ? <Divider style={{ margin: "5px 0 15px" }} /> : null}
           {/* <Divider style={{ margin: "5px 0px 10px 0" }} /> */}
           {TABS.find((tab) => tab.key === product)?.children}
         </Card>

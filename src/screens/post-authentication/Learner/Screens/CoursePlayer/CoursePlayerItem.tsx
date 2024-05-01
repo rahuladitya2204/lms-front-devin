@@ -1,4 +1,4 @@
-import { Common, Learner, Store } from "@adewaskar/lms-common";
+import { Common, Enum, Learner, Store } from "@adewaskar/lms-common";
 import { Fragment, useMemo, useState } from "react";
 
 import CoursePlayerQuiz from "./CoursePlayerItems/CourseQuizItem/QuizItem";
@@ -41,7 +41,7 @@ function CoursePlayerItem() {
     },
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
-      type: "course",
+      type: Enum.ProductType.COURSE,
       id: courseId + "",
     },
     {

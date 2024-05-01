@@ -65,15 +65,16 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const navigate = useNavigate();
   const { mutate: endTest, isLoading: submittingTest } =
     Learner.Queries.useEndTest(testId + "");
-  const { data: enrolledProduct, isLoading: loadingDetails } =
-    Learner.Queries.useGetEnrolledProductDetails({
-      type: Enum.ProductType.TEST,
-      id: testId + "",
-    });
   const { data: test } = Learner.Queries.useGetTestDetails(
     testId + "",
     Enum.TestDetailMode.TEST
   );
+  const { data: enrolledProduct, isLoading: loadingDetails } =
+    Learner.Queries.useGetEnrolledProductDetails({
+      type: Enum.ProductType.TEST,
+      id: test._id + "",
+    });
+
   const isProcturingOn = test.rules.procturing.enabled;
   const {
     data: {

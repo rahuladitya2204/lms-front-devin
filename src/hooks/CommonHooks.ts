@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from 'react'
 
 import { usePushNotification } from 'push-notification/usePushNotification';
 import useRazorpay from "react-razorpay";
+import { getServerEnv } from '@ServerUtils/index';
 
 export const useNavigateParams = () => {
   const navigate = useNavigate()
@@ -100,7 +101,7 @@ export const usePaymentCheckout = () => {
       currency: pgOrder.currency,
       name: organisation.name,
       // @ts-ignore
-      key: organisation.paymentGateway.key,
+      key: getServerEnv()==='production'?organisation.paymentGateway.key:'rzp_test_DSNLOopXvG9RMT',
       // key:'rzp_test_DSNLOopXvG9RMT',
       image: organisation.logo,
       amount: pgOrder.amount,

@@ -66,15 +66,16 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
   // }, [navigate, location]);
   const { mutate: endTest, isLoading: submittingTest } =
     Learner.Queries.useEndTest(testId + "");
-  const { data: enrolledProduct, isLoading: loadingEnrolledProduct } =
-    Learner.Queries.useGetEnrolledProductDetails({
-      type: Enum.ProductType.TEST,
-      id: testId + "",
-    });
   const { data: test, isLoading } = Learner.Queries.useGetTestDetails(
     testId + "",
     Enum.TestDetailMode.RESULT
   );
+  const { data: enrolledProduct, isLoading: loadingEnrolledProduct } =
+    Learner.Queries.useGetEnrolledProductDetails({
+      type: Enum.ProductType.TEST,
+      id: test._id + "",
+    });
+
   const isProcturingOn = test.rules.procturing.enabled;
 
   useEffect(() => {

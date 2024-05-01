@@ -14,7 +14,7 @@ import {
   Tag,
   notification,
 } from "@Lib/index";
-import { Constants, Learner, Store } from "@adewaskar/lms-common";
+import { Constants, Enum, Learner, Store } from "@adewaskar/lms-common";
 import { TERMS, TEST_RULES } from "./constant";
 import { useNavigate, useParams } from "@Router/index";
 
@@ -48,10 +48,15 @@ export default function TestRules(props: TestRulesPropsI) {
     },
   } = Learner.Queries.useGetTestStatus(testId + "");
   const { data: enrolledProduct, isLoading: loadingEnrolledTest } =
-    Learner.Queries.useGetEnrolledProductDetails({
-      type: "test",
-      id: testId + "",
-    });
+    Learner.Queries.useGetEnrolledProductDetails(
+      {
+        type: Enum.ProductType.TEST,
+        id: test._id + "",
+      },
+      {
+        enabled: !!test._id,
+      }
+    );
   console.log(props, enrolledProduct, "propsprops");
   const isVerificationOn = test.rules.identityVerification.enabled;
   const [form] = Form.useForm();

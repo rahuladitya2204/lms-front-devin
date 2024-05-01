@@ -63,14 +63,15 @@ interface TestDetailScreenPropsI {
 
 export default function TestDetailScreen(props: TestDetailScreenPropsI) {
   const { testId } = useParams();
+  const { data: test, isLoading: loadingTest } =
+    Learner.Queries.useGetTestDetails(testId + "");
 
   const { data: enrolledDetails, isFetching: loadingEnrolledTest } =
     Learner.Queries.useGetEnrolledProductDetails({
       type: Enum.ProductType.TEST,
-      id: testId + "",
+      id: test._id + "",
     });
-  const { data: test, isLoading: loadingTest } =
-    Learner.Queries.useGetTestDetails(testId + "");
+
   const plan =
     (test.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;

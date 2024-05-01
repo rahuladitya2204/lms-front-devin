@@ -1,5 +1,12 @@
 import { Button, Card, Col, Row, Space, Tag, message } from "@Lib/index";
-import { Constants, Learner, Store, Types, Utils } from "@adewaskar/lms-common";
+import {
+  Constants,
+  Enum,
+  Learner,
+  Store,
+  Types,
+  Utils,
+} from "@adewaskar/lms-common";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import { CalendarOutlined } from "@ant-design/icons";
@@ -25,7 +32,7 @@ export default function EventDetailScreen(props: EventDetailScreenPropsI) {
   const { data: enrolledDetails } =
     Learner.Queries.useGetEnrolledProductDetails(
       {
-        type: "event",
+        type: Enum.ProductType.EVENT,
         id: eventId + "",
       },
       {
@@ -72,7 +79,7 @@ const EventCard = (props: { eventId: string }) => {
   const { data: enrolledDetails } =
     Learner.Queries.useGetEnrolledProductDetails(
       {
-        type: "event",
+        type: Enum.ProductType.EVENT,
         id: eventId + "",
       },
       {

@@ -4,26 +4,26 @@ import {
   ClockCircleOutlined,
   CopyOutlined,
   ReadOutlined,
-  SafetyCertificateOutlined
-} from '@ant-design/icons'
-import { Enum, Learner, Types, Utils } from '@adewaskar/lms-common'
-import { List, Tag } from 'antd'
+  SafetyCertificateOutlined,
+} from "@ant-design/icons";
+import { Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
+import { List, Tag } from "antd";
 
-import { Typography } from '@Components/Typography'
-import dayjs from 'dayjs'
-import styled from '@emotion/styled'
+import { Typography } from "@Components/Typography";
+import dayjs from "dayjs";
+import styled from "@emotion/styled";
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const ListItem = styled(List.Item)`
   padding: 5px 15px;
-`
+`;
 
 const data = {
   takenOn: {
-    title: 'Taken On',
+    title: "Taken On",
     icon: <CalendarOutlined />,
-    value: ''
+    value: "",
   },
   // timeTaken: {
   //   title: 'Time Taken',
@@ -31,14 +31,14 @@ const data = {
   //   value: '43 Weeks'
   // },
   score: {
-    title: 'Score',
+    title: "Score",
     icon: <CheckCircleOutlined />,
-    value: '1'
+    value: "1",
   },
   language: {
-    title: 'Language',
+    title: "Language",
     icon: <CopyOutlined />,
-    value: 'English'
+    value: "English",
   },
   // skillLevel: {
   //   title: 'Skill Level',
@@ -46,39 +46,42 @@ const data = {
   //   value: 'Beginner'
   // },
   result: {
-    title: 'Result',
+    title: "Result",
     icon: <SafetyCertificateOutlined />,
-    value: <span />
-  }
-}
+    value: <span />,
+  },
+};
 
 interface CompletedTestCardPropsI {
   test: Types.Test;
 }
 
 function CompletedTestCard(props: CompletedTestCardPropsI) {
-  const test = props.test
-  const testId = props.test._id
+  const test = props.test;
+  const testId = props.test._id;
   const {
-    data: { test: testResult, status, metrics: { learnerScore, passingScore } },
-    isFetching: loadingResult
-  } = Learner.Queries.useGetTestResult(testId + '')
-  const {
-    data: enrolledDetails
-  } = Learner.Queries.useGetEnrolledProductDetails(
-    {
-      type: 'test',
-      id: testId + ''
+    data: {
+      test: testResult,
+      status,
+      metrics: { learnerScore, passingScore },
     },
-    {
-      enabled: !!testId
-    }
-  )
-  const testStartDate = enrolledDetails.metadata.test.startedAt
+    isFetching: loadingResult,
+  } = Learner.Queries.useGetTestResult(testId + "");
+  const { data: enrolledDetails } =
+    Learner.Queries.useGetEnrolledProductDetails(
+      {
+        type: Enum.ProductType.TEST,
+        id: test._id + "",
+      },
+      {
+        enabled: !!test._id,
+      }
+    );
+  const testStartDate = enrolledDetails.metadata.test.startedAt;
 
-  const testEndDate = enrolledDetails.metadata.test.endedAt
+  const testEndDate = enrolledDetails.metadata.test.endedAt;
   // @ts-ignore
-  data.takenOn.value = dayjs(testStartDate).format('LL')
+  data.takenOn.value = dayjs(testStartDate).format("LL");
   // data.timeTaken.value = formatTime(
   //   dayjs(testEndDate)
   //     .toDate()
@@ -88,9 +91,9 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
   //       .getTime()
   // )
   if (status === Enum.TestResultStatus.EVALUATED) {
-    data.score.value = `${Math.ceil(learnerScore)}/${Math.ceil(passingScore)}`
+    data.score.value = `${Math.ceil(learnerScore)}/${Math.ceil(passingScore)}`;
     // @ts-ignore
-    const isPassed = learnerScore >= passingScore
+    const isPassed = learnerScore >= passingScore;
     data.result.value = isPassed ? (
       <Tag style={{ marginRight: 0 }} color="green-inverse">
         Passed
@@ -99,21 +102,23 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
       <Tag style={{ marginRight: 0 }} color="red-inverse">
         Failed
       </Tag>
-    )
+    );
   } else {
-    data.score.value = ''
+    data.score.value = "";
     // @ts-ignore
-    data.result.value = null
+    data.result.value = null;
   }
   // @ts-ignore
 
   // @ts-ignore
-  const dataSource = Object.keys(data).map(key => data[key]).filter(i => i.value);
+  const dataSource = Object.keys(data)
+    .map((key) => data[key])
+    .filter((i) => i.value);
   return (
     <List
       itemLayout="horizontal"
       dataSource={dataSource}
-      renderItem={item => (
+      renderItem={(item) => (
         <ListItem actions={[<Text strong>{item.value}</Text>]}>
           <List.Item.Meta
             avatar={item.icon}
@@ -122,7 +127,7 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
         </ListItem>
       )}
     />
-  )
+  );
 }
 
-export default CompletedTestCard
+export default CompletedTestCard;

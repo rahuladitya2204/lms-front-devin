@@ -21,8 +21,8 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
   const navigate = useNavigate();
   const { data: enrolledDetails, isLoading: loadingEnrolledTestDetails } =
     Learner.Queries.useGetEnrolledProductDetails({
-      type: "test",
-      id: props.testId,
+      type: Enum.ProductType.TEST,
+      id: test._id + "",
     });
   const {
     data: { status },

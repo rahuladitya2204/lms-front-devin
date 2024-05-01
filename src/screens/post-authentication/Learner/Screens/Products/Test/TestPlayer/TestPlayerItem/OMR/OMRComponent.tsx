@@ -60,7 +60,7 @@ const OMRComponent: React.FC<OMRComponentPropsI> = ({
 
   // @ts-ignore
   const { mutate: submitResponses, isLoading: submittingResponses } =
-    NAMESPACE.Queries.useSubmitTestResponses(testId, learnerId);
+    NAMESPACE.Queries.useSubmitTestResponses(test._id + "", learnerId);
 
   useEffect(() => {
     // @ts-ignore

@@ -60,7 +60,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   const { isFetching: loadingEnrolledProduct, data: ep } =
     Learner.Queries.useGetEnrolledProductDetails({
       type: Enum.ProductType.TEST,
-      id: testId,
+      id: test._id,
     });
   const {
     data: { status },

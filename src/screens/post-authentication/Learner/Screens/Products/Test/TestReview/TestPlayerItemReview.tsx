@@ -62,17 +62,6 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const questionId = (props.questionId || params.questionId) + "";
   const testId = (props.testId || params.testId) + "";
   const {
-    data: {
-      metadata: {
-        test: { language },
-      },
-    },
-    isLoading: loadingEp,
-  } = Learner.Queries.useGetEnrolledProductDetails({
-    type: Enum.ProductType.TEST,
-    id: testId + "",
-  });
-  const {
     currentQuestion,
     currentQuestionIndex,
     loading: loadingQuestion,
@@ -82,6 +71,17 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
     testId + "",
     Enum.TestDetailMode.RESULT
   );
+  const {
+    data: {
+      metadata: {
+        test: { language },
+      },
+    },
+    isLoading: loadingEp,
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id: test._id + "",
+  });
   useEffect(() => {
     let answer = answerGiven;
     if (

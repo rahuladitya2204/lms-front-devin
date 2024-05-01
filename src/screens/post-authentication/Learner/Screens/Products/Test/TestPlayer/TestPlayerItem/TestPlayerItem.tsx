@@ -62,18 +62,19 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     Learner.Queries.useUpdateQuestionResponseFlag(testId + "");
   const { token } = theme.useToken();
   const [form] = Form.useForm<Types.SubmitTestAnswer>();
-  const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
-    type: Enum.ProductType.TEST,
-    id: testId + "",
-  });
-  const language = ep?.metadata?.test?.language;
-  // console.log(ep, language, "huhhahaha");
-  const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
   // const { mutate: submitAnswer, isLoading: submittingAnswer } = Learner.Queries.useSubmitTestAnswer();
   const { data: test } = Learner.Queries.useGetTestDetails(
     testId + "",
     Enum.TestDetailMode.TEST
   );
+  const { data: ep } = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id: test._id + "",
+  });
+  const language = ep?.metadata?.test?.language;
+  // console.log(ep, language, "huhhahaha");
+  const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
+
   const {
     data: {
       status: { sections },

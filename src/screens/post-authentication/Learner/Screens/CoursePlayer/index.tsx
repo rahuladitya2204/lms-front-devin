@@ -15,7 +15,7 @@ import {
   CaretRightOutlined,
   PlayCircleOutlined,
 } from "@ant-design/icons";
-import { Learner, Store, Utils } from "@adewaskar/lms-common";
+import { Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
 import { Outlet } from "react-router";
 import { useNavigate, useParams } from "@Router/index";
 import { useEffect, useMemo, useState } from "react";
@@ -89,7 +89,7 @@ function CoursePlayer() {
     isFetching: loadingEnrolledCourse,
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
-      type: "course",
+      type: Enum.ProductType.COURSE,
       id: courseId + "",
     },
     {
