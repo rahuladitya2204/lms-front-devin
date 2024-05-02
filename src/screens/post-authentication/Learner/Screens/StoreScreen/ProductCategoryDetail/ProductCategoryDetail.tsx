@@ -369,7 +369,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
     }
     return tabs;
   }, [packages, PYQTests]);
-  console.log(product, "product");
+  // console.log(product, "product");
   return TABS.length ? (
     <>
       <Col span={24}>

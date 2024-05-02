@@ -5,7 +5,7 @@ import {
   ClockCircleOutlined,
   EditOutlined,
 } from "@ant-design/icons";
-import { Constants, Enum, Types } from "@adewaskar/lms-common";
+import { Constants, Enum, Learner, Types } from "@adewaskar/lms-common";
 
 import Image from "@Components/Image";
 import PriceCardContent from "./PriceCardContent";
@@ -15,6 +15,8 @@ import { capitalize } from "lodash";
 import styled from "@emotion/styled";
 import { useNavigate } from "@Router/index";
 import MiniCard from "./MiniCard";
+import { Title } from "@Components/Typography/Typography";
+import AppImage from "@Components/Image";
 
 const { Text } = Typography;
 
@@ -39,6 +41,9 @@ margin-bottom: 20px; */
 function TestCard(props: TestCardPropsI) {
   const { test } = props;
   const navigate = useNavigate();
+  const { data: category } = Learner.Queries.useGetProductCategoryDetails(
+    test.category + ""
+  );
   const plan =
     (test.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;
@@ -53,9 +58,12 @@ function TestCard(props: TestCardPropsI) {
         title={test.title}
         subtitle={test.subtitle}
         accessoryLeft={
-          <Image src={test.thumbnailImage} width={80} height={80} />
+          <AppImage src={category.thumbnailImage} width={80} height={80} />
         }
-      />
+      >
+        <Title style={{ fontSize: 13 }}>{test.title}</Title>
+        {/* {TAGS} */}
+      </MiniCard>
     );
   }
 

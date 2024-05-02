@@ -51,8 +51,53 @@ function PackageCard(props: PackageCardPropsI) {
         </Tag>
       );
     });
+  let CARD = (
+    <CustomCard
+      hoverable
+      bodyStyle={{ padding: 15 }}
+      cover={
+        <Image
+          alt={bundle.title}
+          style={{ height: 140 }}
+          src={bundle.thumbnailImage}
+        />
+      }
+    >
+      <Card.Meta
+        title={
+          <Space size="small" direction="vertical">
+            <Text
+              ellipsis
+              style={{
+                fontSize: 16,
+                whiteSpace: "normal", // Ensures text wraps
+                overflowWrap: "break-word", // Breaks words to prevent overflow
+              }}
+            >
+              {bundle.title}
+            </Text>
+          </Space>
+        }
+      />
+      <Row justify={"space-between"} style={{ marginTop: 10 }}>
+        <Col>
+          <Text type="secondary" style={{ fontSize: 13 }}>
+            <Tag color="blue-inverse">Bundle</Tag>
+            {/* @ts-ignore */}
+            {TAGS}
+          </Text>
+        </Col>
+      </Row>
+      <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+      <Row justify={"space-between"}>
+        <Col span={24}>
+          <PriceCardContent plan={plan} />
+        </Col>
+      </Row>
+    </CustomCard>
+  );
   if (props.mini) {
-    return (
+    CARD = (
       <MiniCard
         title={bundle.title}
         subtitle={bundle.subtitle}
@@ -75,49 +120,7 @@ function PackageCard(props: PackageCardPropsI) {
       }
     >
       {/* // <Badge.Ribbon text="Best Seller" color="orange"> */}
-      <CustomCard
-        hoverable
-        bodyStyle={{ padding: 15 }}
-        cover={
-          <Image
-            alt={bundle.title}
-            style={{ height: 140 }}
-            src={bundle.thumbnailImage}
-          />
-        }
-      >
-        <Card.Meta
-          title={
-            <Space size="small" direction="vertical">
-              <Text
-                ellipsis
-                style={{
-                  fontSize: 16,
-                  whiteSpace: "normal", // Ensures text wraps
-                  overflowWrap: "break-word", // Breaks words to prevent overflow
-                }}
-              >
-                {bundle.title}
-              </Text>
-            </Space>
-          }
-        />
-        <Row justify={"space-between"} style={{ marginTop: 10 }}>
-          <Col>
-            <Text type="secondary" style={{ fontSize: 13 }}>
-              <Tag color="blue-inverse">Bundle</Tag>
-              {/* @ts-ignore */}
-              {TAGS}
-            </Text>
-          </Col>
-        </Row>
-        <Divider style={{ marginTop: 10, marginBottom: 10 }} />
-        <Row justify={"space-between"}>
-          <Col span={24}>
-            <PriceCardContent plan={plan} />
-          </Col>
-        </Row>
-      </CustomCard>
+      {CARD}
     </Link>
   );
 }

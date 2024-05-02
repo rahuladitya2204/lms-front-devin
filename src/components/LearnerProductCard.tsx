@@ -1,14 +1,15 @@
 import { Button, Card, Col, Empty, Row, Skeleton, Spin } from "@Lib/index";
 import { Enum, Learner, Types, User } from "@adewaskar/lms-common";
-
 import AppImage from "@Components/Image";
-import { Text } from "./Typography/Typography";
+import { Text, Title } from "./Typography/Typography";
+import MiniCard from "@Screens/post-authentication/Learner/Screens/StoreScreen/Cards/MiniCard";
 
 interface LearnerProductCardPropsI {
   product: Types.Product;
   children?: React.ReactNode;
   actions?: React.ReactNode[];
   onClick?: Function;
+  mini?: boolean;
 }
 
 const LearnerProductCard = (props: LearnerProductCardPropsI) => {
@@ -16,7 +17,16 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     product: { data: product },
   } = props;
 
-  return (
+  return props.mini ? (
+    <MiniCard
+      accessoryLeft={
+        <AppImage src={product.thumbnailImage} width={80} height={80} />
+      }
+    >
+      <Title style={{ fontSize: 13 }}>{product.title}</Title>
+      {props.children}
+    </MiniCard>
+  ) : (
     <Card
       onClick={() => props.onClick && props.onClick()}
       hoverable

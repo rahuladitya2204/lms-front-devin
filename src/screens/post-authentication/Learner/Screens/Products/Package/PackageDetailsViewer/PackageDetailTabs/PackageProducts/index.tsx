@@ -52,8 +52,9 @@ function PackageProducts(props: PackageProductsPropsI) {
                     >
                       <Row gutter={[20, 30]}>
                         {products.map((item: Types.Test) => (
-                          <Col xs={24} sm={12} md={8} lg={6}>
+                          <Col xs={24} sm={12} md={12} lg={12} xl={8}>
                             <LearnerProductCard
+                              mini
                               onClick={() => {
                                 // @ts-ignore
                                 window.open(`/${key}/${item._id}`);
@@ -63,7 +64,13 @@ function PackageProducts(props: PackageProductsPropsI) {
                                 type: key,
                                 data: item,
                               }}
-                            />
+                            >
+                              {item.duration.enabled ? (
+                                <Tag color="blue-inverse">
+                                  {item.duration.value} mins
+                                </Tag>
+                              ) : null}
+                            </LearnerProductCard>
                           </Col>
                         ))}
                       </Row>
