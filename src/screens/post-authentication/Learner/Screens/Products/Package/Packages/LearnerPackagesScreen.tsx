@@ -17,7 +17,7 @@ export default function LearnerPackagesScreen(props: { isServer?: boolean }) {
         <Row gutter={[20, 30]}>
           {blogs.map((blog) => (
             <Col lg={4} md={6} sm={12} xs={24}>
-              <BlogCard isServer={props.isServer} blog={blog} />
+              {/* <BlogCard isServer={props.isServer} blog={blog} /> */}
             </Col>
           ))}
         </Row>
