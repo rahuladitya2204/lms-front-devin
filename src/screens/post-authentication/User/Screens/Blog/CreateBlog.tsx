@@ -181,7 +181,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
         SaveBlog,
       ]}
     >
-      <Spin spinning={loadingBlog}>
+      <Spin spinning={!!(blogId && loadingBlog)}>
         <Card>
           <Row gutter={[20, 30]}>
             <Col span={24}>
