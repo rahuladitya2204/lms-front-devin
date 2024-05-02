@@ -74,7 +74,7 @@ function CompletedLiveTestCard(props: CompletedLiveTestCardPropsI) {
     : "Can be taken anytime";
   data.timeTaken.value = formatTime(
     dayjs(testEndDate).toDate().getTime() -
-      dayjs(testEndDate).toDate().getTime()
+      dayjs(testStartDate).toDate().getTime()
   );
 
   const {

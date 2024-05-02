@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { Form, Input, Button, Select, Row, Col } from "antd";
+import { Form, Input, Button, Select, Row, Col, message } from "antd";
 import { Constants, Learner, Types } from "@adewaskar/lms-common";
 import TextArea from "@Components/Textarea";
 import { uniq } from "lodash";
@@ -31,6 +31,10 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
       },
       {
         onSuccess: () => {
+          message.open({
+            type: "success",
+            content: "Offline Kit Order placed successfully",
+          });
           props.closeModal && props.closeModal();
         },
       }
