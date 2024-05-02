@@ -61,7 +61,6 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
         showLoadingScreen={outletcontext?.showLoadingScreen}
         type="learner"
       >
-        {/* <ApplyFavicon faviconUrl={ brand} /> */}
         <AppProvider>
           {isSignedIn ? (
             !isMobile ? (
