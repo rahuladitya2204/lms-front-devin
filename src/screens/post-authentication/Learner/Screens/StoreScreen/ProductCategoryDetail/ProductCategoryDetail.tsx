@@ -376,7 +376,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
         {props.children ? (
           props.children
         ) : (
-          <ProductCategoryTabs isServer={false} />
+          <ProductCategoryTabs isServer={props.isServer} />
         )}
       </Col>
       <Col span={24}>
