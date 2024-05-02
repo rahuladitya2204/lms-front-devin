@@ -34,7 +34,7 @@ export default function Page({ params }: { params: { id: string } }) {
         ]}
       >
         <LearnerRootScreen noSignIn isServer>
-          {/* <LearnerBlogsScreen isServer /> */}
+          <LearnerBlogsScreen isServer />
         </LearnerRootScreen>
       </Hydrator>
     </Suspense>
