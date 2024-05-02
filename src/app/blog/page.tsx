@@ -7,6 +7,7 @@ import LearnerTestScreen from "@Learner/Screens/Products/Test/TestScreen/TestsSc
 import { generateMetadata as GenerateMetadata } from "./[id]/page";
 import LearnerBlogsScreen from "@Screens/post-authentication/Learner/Screens/Blog/BlogsScreen";
 import LearnerFullPageHolder from "@Screens/LearnerFullPageHolder";
+import { Suspense } from "react";
 
 // export const generateMetadata = GenerateMetadata;
 
@@ -16,23 +17,26 @@ export default function Page({ params }: { params: { id: string } }) {
 
   const token = getToken();
   return (
-    // @ts-ignore
-    <Hydrator
-      queries={[
-        getOrgDetails(),
-        getBlogs(),
-        // authenticated routes should only be called if token is present
-        ...(token
-          ? [
-              // getCartDetails(),
-              getLearnerDetails(),
-            ]
-          : []),
-      ]}
-    >
-      <LearnerRootScreen noSignIn isServer>
-        <LearnerBlogsScreen isServer />
-      </LearnerRootScreen>
-    </Hydrator>
+    <Suspense>
+      {" "}
+      // @ts-ignore
+      <Hydrator
+        queries={[
+          getOrgDetails(),
+          getBlogs(),
+          // authenticated routes should only be called if token is present
+          ...(token
+            ? [
+                // getCartDetails(),
+                getLearnerDetails(),
+              ]
+            : []),
+        ]}
+      >
+        <LearnerRootScreen noSignIn isServer>
+          {/* <LearnerBlogsScreen isServer /> */}
+        </LearnerRootScreen>
+      </Hydrator>
+    </Suspense>
   );
 }
