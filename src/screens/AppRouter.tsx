@@ -160,15 +160,15 @@ const router = (userType: string) => {
                   path="exam/:id"
                   element={<ProductCategoryDetailScreen />}
                 >
-                  <Route
+                  {/* <Route
                     path=":product/:type"
                     element={<CategoryProducts isServer={false} />}
-                  >
-                    {/* <Route
-                      path=":type"
-                      element={<ProductCategoryTabs isServer={false} />}
-                    /> */}
-                  </Route>
+                  > */}
+                  <Route
+                    path=":type"
+                    element={<ProductCategoryTabs isServer={false} />}
+                  />
+                  {/* </Route> */}
                 </Route>
                 {/* <Route path="store" element={<LearnerStoreScreen />} /> */}
                 <Route path="store" element={<LearnerHomeScreen />} />

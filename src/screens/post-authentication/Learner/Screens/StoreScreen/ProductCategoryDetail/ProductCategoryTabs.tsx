@@ -73,8 +73,8 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
             onClick={() => {
               navigate(
                 props.isServer
-                  ? `/exam/${props.id}/${product}/${tab.key}`
-                  : `/app/exam/${id}/${product}/${tab.key}`
+                  ? `/exam/${props.id}/${tab.key}`
+                  : `/app/exam/${id}/${tab.key}`
               );
             }}
             // type="text"

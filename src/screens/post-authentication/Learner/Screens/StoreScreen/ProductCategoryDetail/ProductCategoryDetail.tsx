@@ -372,41 +372,17 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
   console.log(product, "product");
   return TABS.length ? (
     <>
-      {/* 12123123 */}
       <Col span={24}>
-        <Card>
-          {TABS.map((tab) => {
-            return (
-              <NavLink
-                title={tab.label}
-                // title={tab.label}
-                to={
-                  props.isServer
-                    ? `/exam/${categoryId}/${tab.key}/${type}`
-                    : `/app/exam/${categoryId}/${tab.key}/${type}`
-                }
-              >
-                <Button
-                  // type="text"
-                  size="small"
-                  type={tab.key === product ? "primary" : "default"}
-                  style={{ marginRight: 15, marginBottom: 10 }}
-                >
-                  {tab.label}
-                </Button>
-              </NavLink>
-            );
-          })}
-          {TABS.length ? <Divider style={{ margin: "5px 0 15px" }} /> : null}
-          {/* <Divider style={{ margin: "5px 0px 10px 0" }} /> */}
-          {TABS.find((tab) => tab.key === product)?.children}
-        </Card>
-        {/* </Card> */}
         {props.children ? (
           props.children
         ) : (
           <ProductCategoryTabs isServer={false} />
         )}
+      </Col>
+      <Col span={24}>
+        <Card bodyStyle={{ paddingTop: 0 }}>
+          <Tabs items={TABS} />
+        </Card>
       </Col>
     </>
   ) : null;
