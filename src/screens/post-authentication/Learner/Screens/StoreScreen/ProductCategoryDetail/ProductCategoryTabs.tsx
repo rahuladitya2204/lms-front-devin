@@ -31,10 +31,10 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   const params = useParams();
   const id = props.id || params.id;
   const type = props.type || params.type || "overview";
-  const product = props.product || params.product || "packages";
+  // const product = props.product || params.product || "packages";
   const { data: productCategory, isLoading: loadingCategory } =
     Learner.Queries.useGetProductCategoryDetails(id + "");
-  const { isMobile, width } = useBreakpoint();
+  // const { isMobile, width } = useBreakpoint();
   const TABS = useMemo(() => {
     const i = [
       {
@@ -73,7 +73,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
             onClick={() => {
               navigate(
                 props.isServer
-                  ? `/exam/${props.id}/${tab.key}`
+                  ? `/exam/${id}/${tab.key}`
                   : `/app/exam/${id}/${tab.key}`
               );
             }}

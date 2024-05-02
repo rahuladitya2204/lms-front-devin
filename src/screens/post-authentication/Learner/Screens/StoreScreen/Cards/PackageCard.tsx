@@ -14,6 +14,9 @@ import { capitalize } from "lodash";
 import styled from "@emotion/styled";
 import { getIsServer } from "@ServerUtils/index";
 import { Link } from "@Router/index";
+import MiniCard from "./MiniCard";
+import { Title } from "@Components/Typography/Typography";
+import AppImage from "@Components/Image";
 
 const { Text } = Typography;
 
@@ -22,6 +25,7 @@ const { UnitTypeToStr } = Utils;
 interface PackageCardPropsI {
   package: Types.Package;
   isServer?: boolean;
+  mini?: boolean;
 }
 
 const CustomCard = styled(Card)`
@@ -36,6 +40,31 @@ function PackageCard(props: PackageCardPropsI) {
     (bundle.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;
   const isServer = props.isServer;
+  const TAGS = Object.keys(bundle.products)
+    .filter((k) => bundle.products[k].length)
+    .map((key) => {
+      // @ts-ignore
+      const products = bundle.products[key];
+      return (
+        <Tag style={{ fontSize: 12 }} key={key} color="orange-inverse">
+          {products.length} {capitalize(key)}s
+        </Tag>
+      );
+    });
+  if (props.mini) {
+    return (
+      <MiniCard
+        title={bundle.title}
+        subtitle={bundle.subtitle}
+        accessoryLeft={
+          <AppImage src={bundle.thumbnailImage} width={80} height={80} />
+        }
+      >
+        <Title style={{ fontSize: 13 }}>{bundle.title}</Title>
+        {TAGS}
+      </MiniCard>
+    );
+  }
   return (
     <Link
       title={bundle.title}
@@ -78,17 +107,7 @@ function PackageCard(props: PackageCardPropsI) {
             <Text type="secondary" style={{ fontSize: 13 }}>
               <Tag color="blue-inverse">Bundle</Tag>
               {/* @ts-ignore */}
-              {Object.keys(bundle.products)
-                .filter((k) => bundle.products[k].length)
-                .map((key) => {
-                  // @ts-ignore
-                  const products = bundle.products[key];
-                  return (
-                    <Tag key={key} color="orange-inverse">
-                      {products.length} {capitalize(key)}s
-                    </Tag>
-                  );
-                })}
+              {TAGS}
             </Text>
           </Col>
         </Row>

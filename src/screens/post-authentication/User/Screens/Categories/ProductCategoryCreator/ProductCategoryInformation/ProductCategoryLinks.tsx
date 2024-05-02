@@ -6,33 +6,33 @@ import {
   DatePicker,
   Form,
   Input,
-  Row
-} from 'antd'
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons'
+  Row,
+} from "antd";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
-import TextArea from '@Components/Textarea'
-import { Title } from '@Components/Typography/Typography'
+import TextArea from "@Components/Textarea";
+import { Title } from "@Components/Typography/Typography";
 
 const panelStyle: React.CSSProperties = {
   marginBottom: 24,
   //   background: token.colorFillAlter,
   //   borderRadius: token.borderRadiusLG,
-  border: 'none'
-}
+  border: "none",
+};
 export default function ProductCategoryLinks() {
-  const form = Form.useFormInstance()
+  const form = Form.useFormInstance();
   return (
     <Row>
       <Col span={24}>
         <Title>Links</Title>
-        <Form.List name={['info', 'links']}>
+        <Form.List name={["info", "links"]}>
           {(fields, { add, remove }) => (
             <Collapse bordered={false}>
               {fields.map(({ key, name, ...restField }) => (
                 <Collapse.Panel
                   style={panelStyle}
                   header={
-                    form.getFieldValue(['info', 'links', key, 'title']) ||
+                    form.getFieldValue(["info", "links", key, "title"]) ||
                     `Link-${key + 1}`
                   }
                   key={key}
@@ -41,9 +41,9 @@ export default function ProductCategoryLinks() {
                     <Col span={24}>
                       <Form.Item
                         {...restField}
-                        name={[name, 'title']}
+                        name={[name, "title"]}
                         rules={[
-                          { required: true, message: 'Missing Links title' }
+                          { required: true, message: "Missing Links title" },
                         ]}
                         label={`Link ${name + 1} Title`}
                       >
@@ -53,12 +53,24 @@ export default function ProductCategoryLinks() {
                     <Col span={24}>
                       <Form.Item
                         {...restField}
-                        name={[name, 'description']}
+                        name={[name, "slug"]}
+                        rules={[
+                          { required: true, message: "Missing Link URL Slug" },
+                        ]}
+                        label={`Link ${name + 1} Title`}
+                      >
+                        <Input placeholder="Enter Link URL Slug" />
+                      </Form.Item>
+                    </Col>
+                    <Col span={24}>
+                      <Form.Item
+                        {...restField}
+                        name={[name, "description"]}
                         rules={[
                           {
                             required: true,
-                            message: 'Missing Links description'
-                          }
+                            message: "Missing Links description",
+                          },
                         ]}
                         label={`Link ${name + 1} Title`}
                       >
@@ -66,7 +78,7 @@ export default function ProductCategoryLinks() {
                           height={300}
                           html={{ level: 2 }}
                           //   @ts-ignore
-                          name={[name, 'description']}
+                          name={[name, "description"]}
                           placeholder="Enter Link description"
                         />
                       </Form.Item>
@@ -99,5 +111,5 @@ export default function ProductCategoryLinks() {
         </Form.List>
       </Col>
     </Row>
-  )
+  );
 }

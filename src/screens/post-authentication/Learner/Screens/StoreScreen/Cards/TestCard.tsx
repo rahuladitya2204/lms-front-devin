@@ -14,6 +14,7 @@ import { Utils } from "@adewaskar/lms-common";
 import { capitalize } from "lodash";
 import styled from "@emotion/styled";
 import { useNavigate } from "@Router/index";
+import MiniCard from "./MiniCard";
 
 const { Text } = Typography;
 
@@ -45,6 +46,19 @@ function TestCard(props: TestCardPropsI) {
   const formattedDuration = test.duration.enabled
     ? Utils.formatTime(test.duration.value * 60)
     : null;
+
+  if (props.mini) {
+    return (
+      <MiniCard
+        title={test.title}
+        subtitle={test.subtitle}
+        accessoryLeft={
+          <Image src={test.thumbnailImage} width={80} height={80} />
+        }
+      />
+    );
+  }
+
   return (
     // <Badge.Ribbon text="Best Seller" color="orange">
     <CustomCard
