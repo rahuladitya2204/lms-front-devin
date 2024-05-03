@@ -13,7 +13,7 @@ interface MiniCardPropsI {
 export default function MiniCard(props: MiniCardPropsI) {
   //   const { isMobile } = useBreakpoint();
   return (
-    <Card hoverable style={{ marginBottom: 20 }} bodyStyle={{ padding: 0 }}>
+    <Card hoverable style={{ marginBottom: 20 }} bodyStyle={{ padding: 15 }}>
       <Row align="middle">
         {props.accessoryLeft && (
           <Col xs={8} sm={8}>

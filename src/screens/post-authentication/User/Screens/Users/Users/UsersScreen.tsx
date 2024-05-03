@@ -1,4 +1,14 @@
-import { Button, Card, Col, Modal, Row, Space, message } from "@Lib/index";
+import {
+  Button,
+  Card,
+  Col,
+  Modal,
+  Row,
+  Space,
+  message,
+  Form,
+  Switch,
+} from "@Lib/index";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
@@ -7,15 +17,18 @@ import AddUser from "./AddUser";
 import Container from "@Components/Container";
 import Header from "@User/Screens/UserRoot/UserHeader";
 import MoreButton from "@Components/MoreButton";
-import { Types } from "@adewaskar/lms-common";
+import { Enum, Types } from "@adewaskar/lms-common";
 import { User } from "@adewaskar/lms-common";
 import dayjs from "dayjs";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import { useState } from "react";
+import UserAccountStatusTag from "./UserAccountStatusTag";
 
 const { confirm } = Modal;
 
 function UsersScreen() {
+  const [isDel, setShowDel] = useState(false);
   const { data, isFetching: loading } = User.Queries.useGetUsers();
   const { openModal } = useModal();
   const { mutate: deleteUser, isLoading: deletingUser } =
@@ -42,17 +55,75 @@ function UsersScreen() {
           <Col span={24}>
             <Table
               searchFields={["name", "contactNo", "email"]}
-              dataSource={data}
+              dataSource={
+                isDel
+                  ? data.filter(
+                      (i) => i.status !== Enum.UserAccountStatus.ACTIVE,
+                    )
+                  : data.filter(
+                      (i) => i.status === Enum.UserAccountStatus.ACTIVE,
+                    )
+              }
               loading={loading || deletingUser}
+              extra={[
+                <Form.Item label="Show Deleted Users">
+                  <Switch
+                    checked={!!isDel}
+                    onChange={(e) => {
+                      console.log(e, "eeee");
+                      setShowDel(e);
+                    }}
+                  />
+                </Form.Item>,
+              ]}
             >
-              <TableColumn title="Name" dataIndex="name" key="name" />
-              <TableColumn title="Email" dataIndex="email" key="email" />
+              <TableColumn
+                title="Name"
+                dataIndex="name"
+                key="name"
+                render={(_: any, record: Types.User) => (
+                  <>
+                    {record.name}
+                    {/* {record.status === Enum.UserAccountStatus.DELETED
+                      ? `[DELETED]`
+                      : null} */}
+                  </>
+                )}
+              />
+
+              {/* <TableColumn
+                render={(_: any, record: Types.User) => (
+                  <Space size="middle">{record.email || "-"}</Space>
+                )}
+                title="Email"
+                dataIndex="email"
+                key="email"
+              /> */}
+              <TableColumn
+                title="Last Login"
+                dataIndex="lastLogin"
+                key="lastLogin"
+                render={(_: any, record: Types.User) => (
+                  <Space size="middle">
+                    {dayjs(record.lastActive).format("LLL")}
+                  </Space>
+                )}
+              />
               <TableColumn
                 title="Contact No"
                 dataIndex="contactNo"
                 key="contactNo"
               />
-              <TableColumn title="Status" dataIndex="status" key="status" />
+              <TableColumn
+                title="Status"
+                dataIndex="status"
+                key="status"
+                render={(_: any, record: Types.User) => (
+                  <Space size="middle">
+                    <UserAccountStatusTag user={record} />
+                  </Space>
+                )}
+              />
 
               <TableColumn title="Roles" dataIndex="roles" key="roles" />
               {/* <TableColumn
@@ -106,7 +177,7 @@ function UsersScreen() {
                                       content: "User has been been deleted",
                                     });
                                   },
-                                }
+                                },
                               );
                             },
                             okText: "Delete",

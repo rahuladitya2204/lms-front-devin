@@ -517,8 +517,8 @@ const router = (userType: string) => {
           <Route path="under-maintenance" element={<MaintainenceScreen />} />
           <Route path="*" element={<NotFoundScreen />} />
         </Route>
-      </>
-    )
+      </>,
+    ),
   );
 };
 

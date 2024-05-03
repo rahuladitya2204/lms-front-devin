@@ -20,7 +20,9 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   return props.mini ? (
     <MiniCard
       accessoryLeft={
-        <AppImage src={product.thumbnailImage} width={80} height={80} />
+        product.thumbnailImage ? (
+          <AppImage src={product.thumbnailImage} width={80} height={80} />
+        ) : null
       }
     >
       <Title style={{ fontSize: 13 }}>{product.title}</Title>

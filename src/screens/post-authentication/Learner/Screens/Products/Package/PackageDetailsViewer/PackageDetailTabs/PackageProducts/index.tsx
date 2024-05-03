@@ -52,7 +52,7 @@ function PackageProducts(props: PackageProductsPropsI) {
                     >
                       <Row gutter={[20, 30]}>
                         {products.map((item: Types.Test) => (
-                          <Col xs={24} sm={12} md={12} lg={12} xl={8}>
+                          <Col xs={24} sm={12} md={12} lg={12} xl={12}>
                             <LearnerProductCard
                               mini
                               onClick={() => {
@@ -66,19 +66,28 @@ function PackageProducts(props: PackageProductsPropsI) {
                               }}
                             >
                               {item.duration.enabled ? (
-                                <Tag color="blue-inverse">
+                                <Tag
+                                  style={{ fontSize: 12 }}
+                                  color="blue-inverse"
+                                >
                                   {item.duration.value} mins
                                 </Tag>
                               ) : null}
                               {item?.stats?.score?.total ? (
-                                <Tag color="blue-inverse">
+                                <Tag
+                                  style={{ fontSize: 12 }}
+                                  color="orange-inverse"
+                                >
                                   {item.stats.score.total} marks
                                 </Tag>
                               ) : null}
 
                               {item?.stats?.question?.count ? (
-                                <Tag color="blue-inverse">
-                                  {item.stats.question.count} Qs
+                                <Tag
+                                  style={{ fontSize: 12 }}
+                                  color="red-inverse"
+                                >
+                                  {item.stats.question.count} Questions
                                 </Tag>
                               ) : null}
                             </LearnerProductCard>
