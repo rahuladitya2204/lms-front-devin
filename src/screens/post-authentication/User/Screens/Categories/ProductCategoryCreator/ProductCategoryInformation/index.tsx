@@ -30,7 +30,7 @@ function ProductCategoryInformationEditor(props: any) {
   return (
     <Spin spinning={loadingProductCategory}>
       <Tabs
-        // navigateWithHash
+        navigateWithHash
         destroyInactiveTabPane={false}
         items={[
           {
@@ -55,11 +55,11 @@ function ProductCategoryInformationEditor(props: any) {
             key: "exams",
             children: <ProductCategoryEXAMs />,
           },
-          {
-            label: `FAQs`,
-            key: "faqs",
-            children: <FAQsComponent name={["info", "faqs"]} />,
-          },
+          // {
+          //   label: `FAQs`,
+          //   key: "faqs",
+          //   children: <FAQsComponent name={["info", "faqs"]} />,
+          // },
           {
             label: `Notifications`,
             key: "notifs",

@@ -1,6 +1,6 @@
 import { Button, Col, Form, Input, Row } from "antd";
 
-import { PlusOutlined } from "@ant-design/icons";
+import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import TextArea from "@Components/Textarea";
 import { Title } from "@Components/Typography/Typography";
 
@@ -41,8 +41,26 @@ export default function FAQsComponent(props: FAQsComponentPropsI) {
                     </Form.Item>
                   </Col>
                   <Col span={2}>
-                    <Button danger onClick={() => remove(name)}>
-                      Remove
+                    <Button
+                      danger
+                      icon={<DeleteOutlined />}
+                      onClick={() => {
+                        Modal.confirm({
+                          closable: false,
+                          title: `Are you sure?`,
+                          // icon: <ExclamationCircleOutlined />,
+                          content: `You want to delete this FAQ?`,
+                          // footer: [
+
+                          // ],
+                          onOk() {
+                            remove(name);
+                          },
+                          okText: "Yes, Delete",
+                        });
+                      }}
+                    >
+                      {/* Remove */}
                     </Button>
                   </Col>
                 </Row>

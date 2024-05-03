@@ -6,12 +6,16 @@ import {
   DatePicker,
   Form,
   Input,
+  Modal,
   Row,
 } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 import TextArea from "@Components/Textarea";
 import { Title } from "@Components/Typography/Typography";
+import FAQsComponent from "@Components/FAQsComponent";
+import Tabs from "@Components/Tabs";
+import { Fragment } from "react";
 
 const panelStyle: React.CSSProperties = {
   marginBottom: 24,
@@ -35,64 +39,145 @@ export default function ProductCategoryLinks() {
                     form.getFieldValue(["info", "links", key, "title"]) ||
                     `Link-${key + 1}`
                   }
+                  extra={[
+                    <Button
+                      icon={<DeleteOutlined />}
+                      type="primary"
+                      size="small"
+                      danger
+                      onClick={() => {
+                        Modal.confirm({
+                          closable: false,
+                          title: `Are you sure?`,
+                          // icon: <ExclamationCircleOutlined />,
+                          content: `You want to delete this link?`,
+                          // footer: [
+
+                          // ],
+                          onOk() {
+                            remove(name);
+                          },
+                          okText: "Yes, Delete",
+                        });
+                      }}
+                    >
+                      Delete Link
+                    </Button>,
+                  ]}
                   key={key}
                 >
                   <Row key={key} gutter={[40, 0]}>
-                    <Col span={24}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "title"]}
-                        rules={[
-                          { required: true, message: "Missing Links title" },
-                        ]}
-                        label={`Link ${name + 1} Title`}
-                      >
-                        <Input placeholder="Enter Link title" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "slug"]}
-                        rules={[
-                          { required: true, message: "Missing Link URL Slug" },
-                        ]}
-                        label={`Link ${name + 1} URL Slug`}
-                      >
-                        <Input placeholder="Enter Link URL Slug" />
-                      </Form.Item>
-                    </Col>
-                    <Col span={24}>
-                      <Form.Item
-                        {...restField}
-                        name={[name, "description"]}
-                        rules={[
-                          {
-                            required: true,
-                            message: "Missing Links description",
-                          },
-                        ]}
-                        label={`Link ${name + 1} Title`}
-                      >
-                        <TextArea
-                          height={300}
-                          html={{ level: 2 }}
-                          //   @ts-ignore
-                          name={[name, "description"]}
-                          placeholder="Enter Link description"
-                        />
-                      </Form.Item>
-                    </Col>
+                    <Tabs
+                      style={{
+                        width: "100%",
+                        paddingLeft: 20,
+                        paddingRight: 20,
+                      }}
+                      // tabBarExtraContent={{
+                      //   right: (
+                      //     <Button
+                      //       icon={<DeleteOutlined />}
+                      //       type="primary"
+                      //       danger
+                      //       onClick={() => {
+                      //         Modal.confirm({
+                      //           closable: false,
+                      //           title: `Are you sure?`,
+                      //           // icon: <ExclamationCircleOutlined />,
+                      //           content: `You want to delete this link?`,
+                      //           // footer: [
 
-                    <Col span={23}>
-                      <Button
-                        icon={<DeleteOutlined />}
-                        danger
-                        onClick={() => remove(name)}
-                      >
-                        Delete Link
-                      </Button>
-                    </Col>
+                      //           // ],
+                      //           onOk() {
+                      //             remove(name);
+                      //           },
+                      //           okText: "Yes, Delete",
+                      //         });
+                      //       }}
+                      //     >
+                      //       Delete Link
+                      //     </Button>
+                      //   ),
+                      // }}
+                      destroyInactiveTabPane={false}
+                      items={[
+                        {
+                          label: "Details",
+                          key: "details",
+                          children: (
+                            <Fragment>
+                              <Col span={24}>
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "title"]}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Missing Links title",
+                                    },
+                                  ]}
+                                  label={`Title`}
+                                >
+                                  <Input placeholder="Enter Link title" />
+                                </Form.Item>
+                              </Col>
+                              <Col span={24}>
+                                <Form.Item
+                                  {...restField}
+                                  name={[name, "slug"]}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message: "Missing Link URL Slug",
+                                    },
+                                  ]}
+                                  label={`URL Slug`}
+                                >
+                                  <Input placeholder="Enter Link URL Slug" />
+                                </Form.Item>
+                              </Col>
+                            </Fragment>
+                          ),
+                        },
+                        {
+                          label: "Content",
+                          key: "content",
+                          children: (
+                            <Col span={24}>
+                              <Form.Item
+                                {...restField}
+                                name={[name, "description"]}
+                                rules={[
+                                  {
+                                    required: true,
+                                    message: "Missing Links description",
+                                  },
+                                ]}
+                                label={`Description`}
+                              >
+                                <TextArea
+                                  height={300}
+                                  html={{ level: 2 }}
+                                  //   @ts-ignore
+                                  name={[name, "description"]}
+                                  placeholder="Enter Link description"
+                                />
+                              </Form.Item>
+                            </Col>
+                          ),
+                        },
+                        {
+                          label: "FAQs",
+                          key: "faqs",
+                          children: (
+                            <Form.Item>
+                              {/* @ts-ignore */}
+                              <FAQsComponent name={[name, "faqs"]} />
+                            </Form.Item>
+                          ),
+                        },
+                      ]}
+                    />
                   </Row>
                 </Collapse.Panel>
               ))}
