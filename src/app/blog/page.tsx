@@ -18,8 +18,6 @@ export default function Page({ params }: { params: { id: string } }) {
   const token = getToken();
   return (
     <Suspense>
-      {" "}
-      // @ts-ignore
       <Hydrator
         queries={[
           getOrgDetails(),
