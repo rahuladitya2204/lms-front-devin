@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row } from "antd";
+import { Button, Col, Form, Input, Modal, Row } from "antd";
 
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import TextArea from "@Components/Textarea";
@@ -43,6 +43,7 @@ export default function FAQsComponent(props: FAQsComponentPropsI) {
                   <Col span={2}>
                     <Button
                       danger
+                      size="small"
                       icon={<DeleteOutlined />}
                       onClick={() => {
                         Modal.confirm({

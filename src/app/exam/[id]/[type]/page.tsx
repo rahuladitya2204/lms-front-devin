@@ -10,7 +10,7 @@ import axios from "axios";
 
 export async function generateMetadata(
   req: { params: any; searchParams: any; headers: Headers },
-  parent?: () => Promise<Metadata>
+  parent?: () => Promise<Metadata>,
 ): Promise<Metadata> {
   console.log(req, "reqqq");
   const alias = getCookie("orgAlias")?.split("-")[0];
@@ -26,14 +26,30 @@ export async function generateMetadata(
         headers: {
           "x-org-alias": alias,
         },
-      }
+      },
     );
-
+    const link =
+      type === "overview"
+        ? { seo: category.seo, faqs: category.info.faqs }
+        : category.info.links.find((link) => link.slug === type);
     const url = `https://${alias}.testmint.ai/exam/${id}/${type}`;
-
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: link?.faqs.map((faq) => {
+        return {
+          "@type": "Question",
+          name: faq.title,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.description,
+          },
+        };
+      }),
+    };
     return {
-      title: `${category.title} | ${category.subtitle}`,
-      description: category.subtitle,
+      title: link?.seo.meta.title,
+      description: link.seo.meta.description,
       // icons: {
       //   icon: category.thumbnailImage,
       //   apple: category.thumbnailImage,
@@ -73,6 +89,7 @@ export async function generateMetadata(
           description: category.title,
           url: url,
         }),
+        "schema:faq": JSON.stringify(faqSchema),
       },
     };
   }

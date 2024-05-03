@@ -15,6 +15,7 @@ import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
 import ProductCategoryEXAMs from "./ProductCategoryExams";
 import FAQsComponent from "@Components/FAQsComponent";
+import SEOComponent from "@Components/SEOComponent";
 
 function ProductCategoryInformationEditor(props: any) {
   const { id } = useParams();
@@ -49,6 +50,11 @@ function ProductCategoryInformationEditor(props: any) {
             label: `Landing Page`,
             key: "landing-page",
             children: <ProductCategoryLandingPage />,
+          },
+          {
+            label: "SEO",
+            key: "seo",
+            children: <SEOComponent name={["seo"]} />,
           },
           {
             label: `Exams`,

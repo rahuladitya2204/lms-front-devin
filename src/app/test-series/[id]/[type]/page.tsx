@@ -29,13 +29,26 @@ export async function generateMetadata(req: {
         headers: {
           "x-org-alias": alias,
         },
-      }
+      },
     );
     const url = `https://${alias}.testmint.ai/test-series/${id}/${type}`;
-
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: bundle?.faqs.map((faq) => {
+        return {
+          "@type": "Question",
+          name: faq.title,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.description,
+          },
+        };
+      }),
+    };
     return {
-      title: `${bundle.title} | ${bundle.subtitle}`,
-      description: bundle.subtitle,
+      title: bundle.seo.meta.title,
+      description: bundle.seo.meta.description,
       // icons: {
       //   icon: bundle.thumbnailImage,
       //   apple: bundle.thumbnailImage,
@@ -75,6 +88,7 @@ export async function generateMetadata(req: {
           description: bundle.title,
           url: url,
         }),
+        "schema:faq": JSON.stringify(faqSchema),
       },
     };
   }

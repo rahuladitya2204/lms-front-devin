@@ -27,13 +27,26 @@ export async function generateMetadata(req: {
         headers: {
           "x-org-alias": alias,
         },
-      }
+      },
     );
     const url = `https://${alias}.testmint.ai/learner/test/${id}`;
-
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: test?.faqs.map((faq) => {
+        return {
+          "@type": "Question",
+          name: faq.title,
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: faq.description,
+          },
+        };
+      }),
+    };
     return {
-      title: `${test.title} | ${test.subtitle}`,
-      description: test.subtitle,
+      title: test.seo.meta.title,
+      description: test.seo.meta.description,
       // icons: {
       //   icon: test.thumbnailImage,
       //   apple: test.thumbnailImage,
@@ -73,6 +86,7 @@ export async function generateMetadata(req: {
           description: test.title,
           url: url,
         }),
+        "schema:faq": JSON.stringify(faqSchema),
       },
     };
   }

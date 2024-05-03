@@ -16,6 +16,7 @@ import { Title } from "@Components/Typography/Typography";
 import FAQsComponent from "@Components/FAQsComponent";
 import Tabs from "@Components/Tabs";
 import { Fragment } from "react";
+import SEOComponent from "@Components/SEOComponent";
 
 const panelStyle: React.CSSProperties = {
   marginBottom: 24,
@@ -175,6 +176,12 @@ export default function ProductCategoryLinks() {
                               <FAQsComponent name={[name, "faqs"]} />
                             </Form.Item>
                           ),
+                        },
+                        {
+                          label: "SEO",
+                          key: "seo",
+                          // @ts-ignore
+                          children: <SEOComponent name={[name, "seo"]} />,
                         },
                       ]}
                     />
