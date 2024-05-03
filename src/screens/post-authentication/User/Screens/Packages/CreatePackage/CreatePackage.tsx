@@ -27,6 +27,8 @@ import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
 import PackageUsers from "./PackageLearners";
 import PackageLearners from "./PackageLearners";
+import SEOComponent from "@Components/SEOComponent";
+import FAQsComponent from "@Components/FAQsComponent";
 
 const { confirm } = Modal;
 interface CreatePackageComponentPropsI {
@@ -64,6 +66,16 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
                   children: (
                     <PackageLandingPageEditor packageId={packageId + ""} />
                   ),
+                },
+                {
+                  label: "FAQs",
+                  key: "faqs",
+                  children: <FAQsComponent name={["faqs"]} />,
+                },
+                {
+                  label: "SEO",
+                  key: "seo",
+                  children: <SEOComponent name={["seo"]} />,
                 },
                 {
                   label: "Pricing",
@@ -112,7 +124,7 @@ export default function PackageInformationEditor() {
               content: "Package updated",
             });
           },
-        }
+        },
       );
     } else {
       // @ts-ignore
@@ -128,7 +140,7 @@ export default function PackageInformationEditor() {
             // props.onSuccess && props.onSuccess();
             // props.closeModal && props.closeModal();
           },
-        }
+        },
       );
     }
   };

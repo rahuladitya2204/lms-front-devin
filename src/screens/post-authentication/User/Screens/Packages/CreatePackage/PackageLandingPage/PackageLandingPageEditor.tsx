@@ -1,20 +1,21 @@
-import { Button, Card, Empty, Form } from 'antd'
+import { Button, Card, Empty, Form } from "antd";
 
-import { Fragment } from 'react'
-import MediaPlayer from '@Components/MediaPlayer/MediaPlayer'
-import MediaUpload from '@Components/MediaUpload'
-import TextArea from '@Components/Textarea'
+import { Fragment } from "react";
+import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
+import MediaUpload from "@Components/MediaUpload";
+import TextArea from "@Components/Textarea";
+import FAQsComponent from "@Components/FAQsComponent";
 
 interface PackageLandingPageEditorPropsI {
   packageId: string;
 }
 
 export default function PackageLandingPageEditor(
-  props: PackageLandingPageEditorPropsI
+  props: PackageLandingPageEditorPropsI,
 ) {
-  const form = Form.useFormInstance()
-  const promoVideoFile = Form.useWatch(['landingPage'], form)
-  const { packageId } = props
+  const form = Form.useFormInstance();
+  const promoVideoFile = Form.useWatch(["landingPage"], form);
+  const { packageId } = props;
   return (
     <Fragment>
       <Card
@@ -23,29 +24,29 @@ export default function PackageLandingPageEditor(
         extra={[
           <MediaUpload
             source={{
-              type: 'package.promoVideo',
-              value: packageId + ''
+              type: "package.promoVideo",
+              value: packageId + "",
             }}
             prefixKey={`courses/${packageId}/promo`}
             width="300px"
-            name={['landingPage', 'promoVideo']}
+            name={["landingPage", "promoVideo"]}
             height="250px"
-            onUpload={d => {
-              console.log(d, 'eee')
-              form.setFieldValue(['landingPage', 'promoVideo'], {
+            onUpload={(d) => {
+              console.log(d, "eee");
+              form.setFieldValue(["landingPage", "promoVideo"], {
                 file: d._id,
-                url: d.url
-              })
+                url: d.url,
+              });
             }}
             renderItem={() => (
               <Button>
                 {promoVideoFile?.url
-                  ? 'Replace Promo Video'
-                  : 'Upload Promo Video'}
+                  ? "Replace Promo Video"
+                  : "Upload Promo Video"}
               </Button>
             )}
             // url={promoVideoFile}
-          />
+          />,
         ]}
       >
         {promoVideoFile?.url ? (
@@ -56,12 +57,13 @@ export default function PackageLandingPageEditor(
       </Card>
 
       <Form.Item
-        name={['landingPage', 'description']}
+        name={["landingPage", "description"]}
         required
         label="Landing Page Description"
       >
-        <TextArea html={{ level: 3 }} name={'description'} />
+        <TextArea html={{ level: 3 }} name={"description"} />
       </Form.Item>
+      {/* <FAQsComponent name={["faqs"]} /> */}
     </Fragment>
-  )
+  );
 }
