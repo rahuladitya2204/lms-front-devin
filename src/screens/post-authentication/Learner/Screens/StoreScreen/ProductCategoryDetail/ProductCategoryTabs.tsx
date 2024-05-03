@@ -6,10 +6,11 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
-import { Button, Card, Divider, Skeleton, Tabs } from "@Lib/index";
+import { Button, Card, Col, Divider, Row, Skeleton, Tabs } from "@Lib/index";
 import { useMemo } from "react";
 import { Outlet } from "react-router";
 import ShowMore from "@Components/ShowMore/ShowMore";
+import PackageCard from "../Cards/PackageCard";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -35,7 +36,29 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   // const product = props.product || params.product || "packages";
   const { data: productCategory, isLoading: loadingCategory } =
     Learner.Queries.useGetProductCategoryDetails(id + "");
+  const { data: packages, isLoading: loadingPackages } =
+    Learner.Queries.useGetPackages(id + "", {
+      enabled: !!id,
+    });
   // const { isMobile, width } = useBreakpoint();
+  const PackageListComponent = (
+    <Row gutter={[20, 20]}>
+      {loadingPackages
+        ? [1, 1, 1, 1, 1, 1].map((i, idx) => (
+            <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+              <Skeleton.Button active block style={{ height: 200 }} />
+            </Col>
+          ))
+        : packages.map((bundle, idx) => {
+            return (
+              <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+                <PackageCard mini isServer={props.isServer} package={bundle} />
+              </Col>
+            );
+          })}
+    </Row>
+  );
+
   const TABS = useMemo(() => {
     const i = [
       {
@@ -45,6 +68,11 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         children: (
           <HtmlViewer content={productCategory.landingPage.description} />
         ),
+      },
+      {
+        label: "Test Series",
+        key: "test-series",
+        children: PackageListComponent,
       },
     ];
 
@@ -60,8 +88,9 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     );
 
     return i;
-  }, [productCategory]);
+  }, [productCategory, packages]);
   const navigate = useNavigate();
+  const tab = TABS.find((tab) => tab.key === type);
   return loadingCategory ? (
     <Skeleton.Button block active style={{ height: 400 }} />
   ) : (
@@ -88,9 +117,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       <Divider style={{ margin: "5px 0px 0px 0" }} />
       {
         <ShowMore minHeight={300}>
-          <HtmlViewer
-            content={TABS.find((tab) => tab.key === type)?.description + ""}
-          />
+          {tab?.children || <HtmlViewer content={tab?.description + ""} />}
         </ShowMore>
       }
     </Card>

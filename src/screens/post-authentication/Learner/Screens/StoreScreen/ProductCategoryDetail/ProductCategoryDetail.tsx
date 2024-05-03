@@ -372,11 +372,11 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
   // console.log(product, "product");
   return TABS.length ? (
     <>
-      <Col span={24}>
+      {/* <Col span={24}>
         <Card bodyStyle={{ paddingTop: 0 }}>
           <Tabs items={TABS} />
         </Card>
-      </Col>
+      </Col> */}
       <Col span={24}>
         {props.children ? (
           props.children
