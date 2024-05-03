@@ -7,7 +7,6 @@ import { useParams } from "@Router/index";
 
 import Header from "@Components/Header";
 import ProductCategoryDetailsEditor from "./ProductCategoryDetailsEditor/ProductCategoryDetails";
-import ProductCategoryFAQs from "./ProductCategoryFAQs";
 import ProductCategoryLandingPage from "./ProductCategoryLandingPage";
 import ProductCategoryLinks from "./ProductCategoryLinks";
 import ProductCategoryNotifications from "./ProductCategoryNotifications";
@@ -15,6 +14,7 @@ import Tabs from "@Components/Tabs";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
 import ProductCategoryEXAMs from "./ProductCategoryExams";
+import FAQsComponent from "@Components/FAQsComponent";
 
 function ProductCategoryInformationEditor(props: any) {
   const { id } = useParams();
@@ -58,7 +58,7 @@ function ProductCategoryInformationEditor(props: any) {
           {
             label: `FAQs`,
             key: "faqs",
-            children: <ProductCategoryFAQs />,
+            children: <FAQsComponent name={["info", "faqs"]} />,
           },
           {
             label: `Notifications`,

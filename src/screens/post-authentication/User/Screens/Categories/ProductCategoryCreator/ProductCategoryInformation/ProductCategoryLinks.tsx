@@ -57,7 +57,7 @@ export default function ProductCategoryLinks() {
                         rules={[
                           { required: true, message: "Missing Link URL Slug" },
                         ]}
-                        label={`Link ${name + 1} Title`}
+                        label={`Link ${name + 1} URL Slug`}
                       >
                         <Input placeholder="Enter Link URL Slug" />
                       </Form.Item>
