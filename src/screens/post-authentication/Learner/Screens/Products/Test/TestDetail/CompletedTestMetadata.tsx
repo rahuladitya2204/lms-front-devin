@@ -93,7 +93,7 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
   if (status === Enum.TestResultStatus.EVALUATED) {
     data.score.value = `${Math.ceil(learnerScore)}/${Math.ceil(passingScore)}`;
     // @ts-ignore
-    const isPassed = learnerScore >= passingScore;
+    const isPassed = learnerScore && learnerScore >= passingScore;
     data.result.value = isPassed ? (
       <Tag style={{ marginRight: 0 }} color="green-inverse">
         Passed

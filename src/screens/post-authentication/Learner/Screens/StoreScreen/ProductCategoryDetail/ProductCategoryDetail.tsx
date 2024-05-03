@@ -373,16 +373,16 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
   return TABS.length ? (
     <>
       <Col span={24}>
+        <Card bodyStyle={{ paddingTop: 0 }}>
+          <Tabs items={TABS} />
+        </Card>
+      </Col>
+      <Col span={24}>
         {props.children ? (
           props.children
         ) : (
           <ProductCategoryTabs isServer={props.isServer} />
         )}
-      </Col>
-      <Col span={24}>
-        <Card bodyStyle={{ paddingTop: 0 }}>
-          <Tabs items={TABS} />
-        </Card>
       </Col>
     </>
   ) : null;

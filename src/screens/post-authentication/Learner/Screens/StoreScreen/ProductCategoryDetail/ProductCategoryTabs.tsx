@@ -9,6 +9,7 @@ import styled from "@emotion/styled";
 import { Button, Card, Divider, Skeleton, Tabs } from "@Lib/index";
 import { useMemo } from "react";
 import { Outlet } from "react-router";
+import ShowMore from "@Components/ShowMore/ShowMore";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -42,9 +43,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         key: "overview",
         description: productCategory.landingPage.description,
         children: (
-          <Paragraph style={{ fontSize: 16 }}>
-            <HtmlViewer content={productCategory.landingPage.description} />
-          </Paragraph>
+          <HtmlViewer content={productCategory.landingPage.description} />
         ),
       },
     ];
@@ -88,9 +87,11 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       })}
       <Divider style={{ margin: "5px 0px 0px 0" }} />
       {
-        <HtmlViewer
-          content={TABS.find((tab) => tab.key === type)?.description + ""}
-        />
+        <ShowMore minHeight={300}>
+          <HtmlViewer
+            content={TABS.find((tab) => tab.key === type)?.description + ""}
+          />
+        </ShowMore>
       }
     </Card>
   );
