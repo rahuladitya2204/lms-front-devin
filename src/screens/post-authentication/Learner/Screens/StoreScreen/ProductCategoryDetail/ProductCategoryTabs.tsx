@@ -52,7 +52,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       ...productCategory.info.links.map((link) => {
         return {
           label: link.title,
-          key: link.title.split(" ").join(""),
+          key: link.slug,
           description: link.description,
           children: <HtmlViewer content={link.description} />,
         };
