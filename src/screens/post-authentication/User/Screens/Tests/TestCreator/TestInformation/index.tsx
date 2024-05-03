@@ -12,6 +12,7 @@ import TestLandingPageEditor from "./TestLandingPage/TestLandingPageEditor";
 import TestPricingEditor from "../TestPricingEditor/TestPricingEditor";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
+import FAQsComponent from "@Components/FAQsComponent";
 
 function TestInformationEditor(props: any) {
   const { id } = useParams();
@@ -52,6 +53,11 @@ function TestInformationEditor(props: any) {
                 testId={props.testId}
               />
             ),
+          },
+          {
+            label: `FAQs`,
+            key: "faqs",
+            children: <FAQsComponent name={["faqs"]} />,
           },
           {
             label: `Pricing`,
