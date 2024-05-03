@@ -1,107 +1,44 @@
 import "./suneditor.css";
-
-import AppImage from "@Components/Image";
 import AudioPlayer from "@Components/AudioPlayer";
-import { Image } from "antd";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import parse from "html-react-parser";
-import dynamic from "next/dynamic";
+import cheerio from "cheerio";
 
 function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
   const options = {
     replace: (domNode: any) => {
-      // console.log(domNode,'domon')
-      // if (domNode.name === "img" && domNode.attribs) {
-      //   const style = domNode.attribs.style || "";
-      //   console.log(style, "style");
-      //   const widthMatch = style.match(/width:\s*([0-9]+px)/);
-      //   const heightMatch = style.match(/height:\s*([0-9]+px)/);
-      //   const width = widthMatch ? widthMatch[1] : "auto";
-      //   const height = heightMatch ? heightMatch[1] : "auto";
-      //   return (
-      //     <Image
-      //       style={{
-      //         ...style,
-      //         width: width || "auto",
-      //         height: height || "auto",
-      //       }} // Apply the width to AppImage
-      //       src={domNode.attribs.src}
-      //       alt={domNode.attribs.alt || "Image"}
-      //       preview={!!props.noPreviewImage}
-      //     />
-      //   );
-      // }
       if (domNode.name === "audio" && domNode.attribs) {
-        const style = domNode.attribs.style || "";
-        return (
-          <AudioPlayer
-            src={domNode.attribs.src}
-            // preview
-          />
-        );
+        return <AudioPlayer src={domNode.attribs.src} />;
       }
-
       if (domNode.name === "video" && domNode.attribs) {
-        const style = domNode.attribs.style || "";
-        return (
-          <MediaPlayer
-            url={domNode.attribs.src}
-            // preview
-          />
-        );
+        return <MediaPlayer url={domNode.attribs.src} />;
       }
     },
   };
 
-  // @ts-ignore
-  const children = cleanContent(props.children || props.content || "");
-  if (!children) {
+  const cleanedContent = cleanContent(props.content || "");
+  if (!cleanedContent) {
     return null;
   }
+
   return (
     <div className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred">
-      <div className="html-viewer">{parse(children, options)}</div>
+      <div className="html-viewer">{parse(cleanedContent, options)}</div>
     </div>
   );
 }
 
-const cleanContent = (
-  htmlContent: string,
-  tags = ["div", "span", "p", "svg", "path", "li"],
-): string => {
-  const getDOMParser = () => {
-    if (typeof window === "undefined") {
-      // Server-side (Node.js)
-      const { JSDOM } = require("jsdom");
-      return new JSDOM().window.DOMParser;
-    } else {
-      // Client-side (browser)
-      return window.DOMParser;
+const cleanContent = (htmlContent: string): string => {
+  const $ = cheerio.load(htmlContent);
+
+  // Remove empty tags
+  $("div, span, p, svg, path, li").each((_, el) => {
+    if ($(el).is(":empty")) {
+      $(el).remove();
     }
-  };
+  });
 
-  const DOMParser = getDOMParser();
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(htmlContent, "text/html");
-
-  const isEmptyNode = (node: Node): boolean => {
-    return (
-      node.childNodes.length === 0 && (node as Element).attributes.length === 0
-    );
-  };
-
-  const cleanNode = (node: Node): void => {
-    Array.from(node.childNodes).forEach((child) => {
-      cleanNode(child);
-      if (tags.includes(child.nodeName.toLowerCase()) && isEmptyNode(child)) {
-        node.removeChild(child);
-      }
-    });
-  };
-
-  cleanNode(doc.body);
-
-  return doc.body.innerHTML;
+  return $.html();
 };
 
 export default HtmlViewer;
