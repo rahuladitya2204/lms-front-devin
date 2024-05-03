@@ -70,6 +70,17 @@ function PackageProducts(props: PackageProductsPropsI) {
                                   {item.duration.value} mins
                                 </Tag>
                               ) : null}
+                              {item?.stats?.score?.total ? (
+                                <Tag color="blue-inverse">
+                                  {item.stats.score.total} marks
+                                </Tag>
+                              ) : null}
+
+                              {item?.stats?.question?.count ? (
+                                <Tag color="blue-inverse">
+                                  {item.stats.question.count} Qs
+                                </Tag>
+                              ) : null}
                             </LearnerProductCard>
                           </Col>
                         ))}

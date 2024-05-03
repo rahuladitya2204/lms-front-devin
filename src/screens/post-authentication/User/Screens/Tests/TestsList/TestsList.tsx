@@ -186,10 +186,20 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             dataIndex="updatedBy"
             key="updatedBy"
             // @ts-ignore
-            render={(_: any, test: Types.Test) =>
-              // @ts-ignore
-              users.find((c) => c._id == test.updatedBy)?.name || "-"
-            }
+            render={(_: any, test: Types.Test) => {
+              const user: Types.User =
+                users.find((c) => c._id == test.updatedBy) ||
+                Constants.INITIAL_USER_DETAILS;
+              if (
+                user?.status === Enum.UserAccountStatus.INACTIVE ||
+                user?.status === Enum.UserAccountStatus.DELETED
+              ) {
+                return `${
+                  user.name
+                } [${Enum.UserAccountStatus.DELETED.toUpperCase()}]`;
+              }
+              return user.name || "-";
+            }}
           />
           <TableColumn
             title="URL Slug"
