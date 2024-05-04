@@ -19,7 +19,7 @@ import {
   Tree,
   TreeSelect,
 } from "@Lib/index";
-import { Constants, Enum, Types, User } from "@adewaskar/lms-common";
+import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
 import {
   DeleteTwoTone,
   DownOutlined,
@@ -45,7 +45,6 @@ import useTestBuilderUI from "./hooks/useTestBuilder";
 import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
 import { useTestStore } from "./hooks/useTestStore";
 import useUpdateTestForm from "./hooks/useUpdateTest";
-import { buildTopicTree } from "@Components/Editor/SunEditor/utils";
 
 const { Title } = Typography;
 
@@ -146,6 +145,10 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   }, [criterias]);
   const prefixKey = `tests/${testId}/${itemId}`;
   const fillInTheBlanks = Form.useWatch("fillInTheBlanks", form);
+  const treeData = test.topics
+    .map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
+    .flat();
+  console.log(treeData, "treeData");
   const getFormComponent = (language: string) => (
     <Form
       name="test"
@@ -242,9 +245,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
             <Col span={12}>
               <Form.Item label="Topic" name="topic">
                 <TreeSelect
-                  treeData={test.topics
-                    .map((topicId) => buildTopicTree(topics, topicId, 2))
-                    .flat()}
+                  treeData={treeData}
                   // onExpand={onExpand}
                   // expandedKeys={expandedKeys}
                   // defaultExpandAll

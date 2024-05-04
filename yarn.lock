@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz#bd9154aec9983f77b3a034ecaa015c2e4201f6cf"
   integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
 
-"@adewaskar/lms-common@3.1.487-alpha.192":
-  version "3.1.487-alpha.192"
-  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.192.tgz#45b272a77ca2de886395679eb42df8e1237aa660"
-  integrity sha512-wW+LCvrGjuUHUOz1RV9RXv2mNzGcY70ihcxQ05idKYHR7kBPCvJY0vctR41EOgXPwKjbugOKttt6CAonEzupfQ==
+"@adewaskar/lms-common@3.1.487-alpha.195":
+  version "3.1.487-alpha.195"
+  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.195.tgz#1e061e5ffc5fa741e42dbeb7d0ff1211b8555758"
+  integrity sha512-m6r7Zwn/oIUb+XBl5CiOkYmTrsWuei8q1b/7CwglyKkEyWRHEWe8otjSYcqMKImYbnvQ/9VHxxTRsP0NAe+Tyw==
   dependencies:
     "@ant-design/colors" "^7.0.0"
     "@babel/core" "^7.21.0"
