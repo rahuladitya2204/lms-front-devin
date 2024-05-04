@@ -29,7 +29,7 @@ export async function generateMetadata(req: {
         headers: {
           "x-org-alias": alias,
         },
-      },
+      }
     );
     const url = `https://${alias}.testmint.ai/test-series/${id}/${type}`;
     const faqSchema = {
@@ -47,8 +47,8 @@ export async function generateMetadata(req: {
       }),
     };
     return {
-      title: bundle.seo.meta.title,
-      description: bundle.seo.meta.description,
+      title: bundle?.seo?.meta?.title,
+      description: bundle?.seo?.meta?.description,
       // icons: {
       //   icon: bundle.thumbnailImage,
       //   apple: bundle.thumbnailImage,
