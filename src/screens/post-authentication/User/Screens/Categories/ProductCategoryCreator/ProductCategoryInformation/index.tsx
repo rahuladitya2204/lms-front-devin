@@ -16,6 +16,7 @@ import useMessage from "@Hooks/useMessage";
 import ProductCategoryEXAMs from "./ProductCategoryExams";
 import FAQsComponent from "@Components/FAQsComponent";
 import SEOComponent from "@Components/SEOComponent";
+import TestSeries from "./TestSeries";
 
 function ProductCategoryInformationEditor(props: any) {
   const { id } = useParams();
@@ -75,6 +76,11 @@ function ProductCategoryInformationEditor(props: any) {
             label: `Important Links`,
             key: "links",
             children: <ProductCategoryLinks />,
+          },
+          {
+            label: `Test Series`,
+            key: "test-series",
+            children: <TestSeries />,
           },
           // {
           //   label: `Advanced`,

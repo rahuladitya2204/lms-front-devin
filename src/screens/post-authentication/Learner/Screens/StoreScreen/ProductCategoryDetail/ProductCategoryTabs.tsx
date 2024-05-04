@@ -6,7 +6,16 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
-import { Button, Card, Col, Divider, Row, Skeleton, Tabs } from "@Lib/index";
+import {
+  Button,
+  Card,
+  Col,
+  Collapse,
+  Divider,
+  Row,
+  Skeleton,
+  Tabs,
+} from "@Lib/index";
 import { useMemo } from "react";
 import { Outlet } from "react-router";
 import ShowMore from "@Components/ShowMore/ShowMore";
@@ -68,11 +77,13 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         children: (
           <HtmlViewer content={productCategory.landingPage.description} />
         ),
+        faqs: productCategory.info.faqs,
       },
       {
         label: "Test Series",
         key: "test-series",
         children: PackageListComponent,
+        faqs: productCategory.testSeries.faqs,
       },
     ];
 
@@ -83,6 +94,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           key: link.slug,
           description: link.description,
           children: <HtmlViewer content={link.description} />,
+          faqs: link.faqs,
         };
       })
     );
@@ -94,32 +106,57 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   return loadingCategory ? (
     <Skeleton.Button block active style={{ height: 400 }} />
   ) : (
-    <Card style={{ marginTop: 20 }}>
-      {TABS.map((tab) => {
-        return (
-          <Button
-            onClick={() => {
-              navigate(
-                props.isServer
-                  ? `/exam/${id}/${tab.key}`
-                  : `/app/exam/${id}/${tab.key}`
+    <Row gutter={[20, 20]}>
+      <Col span={24}>
+        <Card style={{ marginTop: 20 }}>
+          {TABS.map((tab) => {
+            return (
+              <Button
+                onClick={() => {
+                  navigate(
+                    props.isServer
+                      ? `/exam/${id}/${tab.key}`
+                      : `/app/exam/${id}/${tab.key}`
+                  );
+                }}
+                // type="text"
+                size="small"
+                type={tab.key === type ? "primary" : "default"}
+                style={{ marginRight: 15, marginBottom: 10 }}
+              >
+                {tab.label}
+              </Button>
+            );
+          })}
+          <Divider style={{ margin: "5px 0px 0px 0" }} />
+          {
+            <ShowMore minHeight={300}>
+              {tab?.children || <HtmlViewer content={tab?.description + ""} />}
+            </ShowMore>
+          }
+        </Card>
+      </Col>
+      {tab?.faqs?.length ? (
+        <Col lg={24} md={24} sm={24} xs={24}>
+          <Card title="FAQs">
+            {tab?.faqs?.map((faq, idx) => {
+              return (
+                <Collapse
+                  expandIconPosition="end"
+                  style={{ marginTop: 10 }}
+                  key={idx}
+                  items={[
+                    {
+                      label: faq.title,
+                      children: <Paragraph>{faq.description}</Paragraph>,
+                    },
+                  ]}
+                />
               );
-            }}
-            // type="text"
-            size="small"
-            type={tab.key === type ? "primary" : "default"}
-            style={{ marginRight: 15, marginBottom: 10 }}
-          >
-            {tab.label}
-          </Button>
-        );
-      })}
-      <Divider style={{ margin: "5px 0px 0px 0" }} />
-      {
-        <ShowMore minHeight={300}>
-          {tab?.children || <HtmlViewer content={tab?.description + ""} />}
-        </ShowMore>
-      }
-    </Card>
+            })}
+          </Card>
+        </Col>
+      ) : null}
+    </Row>
   );
 }

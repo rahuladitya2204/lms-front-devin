@@ -232,30 +232,11 @@ export default function ProductCategoryDetailScreen(
                   </Col>
                 </Row>
               </Col> */}
-              <Col span={24}></Col>
             </Row>
           </Col>
-          {productCategory?.info?.faqs?.length ? (
-            <Col lg={24} md={24} sm={24} xs={24}>
-              <Card title="FAQs">
-                {productCategory.info.faqs.map((faq, idx) => {
-                  return (
-                    <Collapse
-                      expandIconPosition="end"
-                      style={{ marginTop: 10 }}
-                      key={idx}
-                      items={[
-                        {
-                          label: faq.title,
-                          children: <Paragraph>{faq.description}</Paragraph>,
-                        },
-                      ]}
-                    />
-                  );
-                })}
-              </Card>
-            </Col>
-          ) : null}
+          {/* {productCategory?.info?.faqs?.length ? (
+          
+          ) : null} */}
         </Row>
       </Col>
     </Row>

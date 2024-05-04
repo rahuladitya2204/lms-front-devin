@@ -48,7 +48,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         // roles:[Enum.UserRole.TEST_MANAGER]
       },
       {
-        title: "Packages",
+        title: "Test Series",
         path: "packages",
         permissions: [
           // Enum.UserRolePermissions.GET_,
@@ -56,7 +56,7 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         ],
       },
       {
-        title: "Category",
+        title: "Exams",
         path: "category",
         permissions: [
           // Enum.UserRolePermissions.CREATE_CATEGORY,

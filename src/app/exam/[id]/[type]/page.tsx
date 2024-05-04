@@ -10,7 +10,7 @@ import axios from "axios";
 
 export async function generateMetadata(
   req: { params: any; searchParams: any; headers: Headers },
-  parent?: () => Promise<Metadata>,
+  parent?: () => Promise<Metadata>
 ): Promise<Metadata> {
   console.log(req, "reqqq");
   const alias = getCookie("orgAlias")?.split("-")[0];
@@ -26,11 +26,13 @@ export async function generateMetadata(
         headers: {
           "x-org-alias": alias,
         },
-      },
+      }
     );
     const link =
       type === "overview"
         ? { seo: category.seo, faqs: category.info.faqs }
+        : type === "test-series"
+        ? category.testSeries
         : category.info.links.find((link) => link.slug === type);
     const url = `https://${alias}.testmint.ai/exam/${id}/${type}`;
     const faqSchema = {
@@ -48,8 +50,8 @@ export async function generateMetadata(
       }),
     };
     return {
-      title: link?.seo.meta.title,
-      description: link.seo.meta.description,
+      title: link?.seo.meta.title + "",
+      description: link?.seo.meta.description + "",
       // icons: {
       //   icon: category.thumbnailImage,
       //   apple: category.thumbnailImage,
