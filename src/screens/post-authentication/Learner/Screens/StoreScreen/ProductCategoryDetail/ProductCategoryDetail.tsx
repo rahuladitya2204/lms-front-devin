@@ -80,20 +80,21 @@ export default function ProductCategoryDetailScreen(
       <>
         <Col lg={24} md={24} sm={24} xs={24}>
           <Row justify={"space-between"} align={"middle"}>
-            <Col sm={isMobile ? 24 : 18} xs={24}>
-              <Row align={"middle"}>
+            <Col lg={21}>
+              <Row>
                 <Col
                   style={{
                     margin: isMobile ? "auto" : 0,
                     marginBottom: isMobile ? 15 : "auto",
                   }}
+                  lg={3}
                 >
                   <Avatar
                     style={{ width: 100, height: 100 }}
                     src={productCategory.thumbnailImage}
                   />
                 </Col>
-                <Col flex={1} style={{ marginLeft: 15 }}>
+                <Col lg={18} style={{ display: "flex", alignItems: "center" }}>
                   <Title
                     style={{
                       // fontSize: 16,
@@ -101,11 +102,12 @@ export default function ProductCategoryDetailScreen(
                       overflowWrap: "break-word", // Breaks words to prevent overflow
                       margin: 0,
                       textAlign: isMobile ? "center" : "left",
-                      fontSize: 25,
+                      fontSize: isMobile ? 18 : 25,
                     }}
                     level={1}
                   >
                     {productCategory.subtitle}
+                    <br />
                     {isMobile ? (
                       <span>
                         (
@@ -134,7 +136,7 @@ export default function ProductCategoryDetailScreen(
             {productCategory.info.isUpcoming && !isMobile ? (
               <Col
                 style={{ display: "flex", flexDirection: "row-reverse" }}
-                sm={6}
+                lg={3}
               >
                 <Row align={"middle"}>
                   <Col>
