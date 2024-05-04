@@ -14,16 +14,9 @@ export default function MiniCard(props: MiniCardPropsI) {
   //   const { isMobile } = useBreakpoint();
   return (
     <Card hoverable style={{ marginBottom: 20 }} bodyStyle={{ padding: 15 }}>
-      <Row align="middle">
-        {props.accessoryLeft && (
-          <Col xs={8} sm={8}>
-            {props.accessoryLeft}
-          </Col>
-        )}
-        <Col xs={16} sm={16}>
-          {/* {props.subtitle && <div>{props.subtitle}</div>} */}
-          <div>{props.children}</div>
-        </Col>
+      <Row gutter={[20, 0]}>
+        {props.accessoryLeft ? <Col>{props.accessoryLeft}</Col> : null}
+        <Col style={{ flex: 1 }}>{props.children}</Col>
         {/* {props.accessoryRight && <Col>{props.accessoryRight}</Col>} */}
       </Row>
     </Card>

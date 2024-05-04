@@ -54,13 +54,13 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     <Row gutter={[20, 20]}>
       {loadingPackages
         ? [1, 1, 1, 1, 1, 1].map((i, idx) => (
-            <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+            <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
               <Skeleton.Button active block style={{ height: 200 }} />
             </Col>
           ))
         : packages.map((bundle, idx) => {
             return (
-              <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+              <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
                 <PackageCard mini isServer={props.isServer} package={bundle} />
               </Col>
             );
@@ -128,7 +128,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
               </Button>
             );
           })}
-          <Divider style={{ margin: "5px 0px 0px 0" }} />
+          <Divider style={{ margin: "5px 0px 20px 0" }} />
           {
             <ShowMore minHeight={300}>
               {tab?.children || <HtmlViewer content={tab?.description + ""} />}

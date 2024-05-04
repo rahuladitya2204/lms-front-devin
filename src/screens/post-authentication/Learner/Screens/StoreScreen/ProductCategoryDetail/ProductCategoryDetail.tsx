@@ -277,7 +277,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
           ))
         : packages.map((bundle, idx) => {
             return (
-              <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
+              <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
                 <PackageCard mini isServer={props.isServer} package={bundle} />
               </Col>
             );
