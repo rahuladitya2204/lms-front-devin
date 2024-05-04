@@ -20,6 +20,8 @@ import { useMemo } from "react";
 import { Outlet } from "react-router";
 import ShowMore from "@Components/ShowMore/ShowMore";
 import PackageCard from "../Cards/PackageCard";
+import { FAQsList } from "@Components/FAQsComponent";
+import Script from "next/script";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -35,6 +37,7 @@ interface ProductCategoryTabsPropsI {
   type?: string;
   isServer?: boolean;
   product?: string;
+  url: string;
   // children?: string;
 }
 
@@ -78,12 +81,14 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           <HtmlViewer content={productCategory.landingPage.description} />
         ),
         faqs: productCategory.info.faqs,
+        seo: productCategory.seo,
       },
       {
         label: "Test Series",
         key: "test-series",
         children: PackageListComponent,
         faqs: productCategory.testSeries.faqs,
+        seo: productCategory.testSeries.seo,
       },
     ];
 
@@ -95,6 +100,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           description: link.description,
           children: <HtmlViewer content={link.description} />,
           faqs: link.faqs,
+          seo: link.seo,
         };
       })
     );
@@ -128,6 +134,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
               </Button>
             );
           })}
+          <PageSchema url={props.url} seo={tab?.seo} />
           <Divider style={{ margin: "5px 0px 20px 0" }} />
           {
             <ShowMore minHeight={300}>
@@ -139,24 +146,27 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       {tab?.faqs?.length ? (
         <Col lg={24} md={24} sm={24} xs={24}>
           <Card title="FAQs">
-            {tab?.faqs?.map((faq, idx) => {
-              return (
-                <Collapse
-                  expandIconPosition="end"
-                  style={{ marginTop: 10 }}
-                  key={idx}
-                  items={[
-                    {
-                      label: faq.title,
-                      children: <Paragraph>{faq.description}</Paragraph>,
-                    },
-                  ]}
-                />
-              );
-            })}
+            <FAQsList faqs={tab?.faqs} />
           </Card>
         </Col>
       ) : null}
     </Row>
   );
 }
+
+export const PageSchema = ({ seo, url }) => {
+  return (
+    <Script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          name: seo.title,
+          description: seo.description,
+          url: url,
+        }),
+      }}
+    ></Script>
+  );
+};

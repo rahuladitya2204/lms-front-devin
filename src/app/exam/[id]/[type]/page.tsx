@@ -7,6 +7,8 @@ import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/St
 import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
 import axios from "axios";
+import Script from "next/script";
+const apiUrl = process.env.API_URL;
 
 export async function generateMetadata(
   req: { params: any; searchParams: any; headers: Headers },
@@ -18,37 +20,8 @@ export async function generateMetadata(
   const id = req.params.id;
   const type = req.params.type || "overview";
   if (alias && userType) {
-    const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
-    const { data: category }: { data: Types.ProductCategory } = await axios(
-      `${apiUrl}/learner/product-category/${id}`,
-      {
-        headers: {
-          "x-org-alias": alias,
-        },
-      }
-    );
-    const link =
-      type === "overview"
-        ? { seo: category.seo, faqs: category.info.faqs }
-        : type === "test-series"
-        ? category.testSeries
-        : category.info.links.find((link) => link.slug === type);
-    const url = `https://${alias}.testmint.ai/exam/${id}/${type}`;
-    const faqSchema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: link?.faqs.map((faq) => {
-        return {
-          "@type": "Question",
-          name: faq.title,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.description,
-          },
-        };
-      }),
-    };
+    const { category, link, url } = await getData({ id, type });
     return {
       title: link?.seo.meta.title + "",
       description: link?.seo.meta.description + "",
@@ -83,16 +56,16 @@ export async function generateMetadata(
       alternates: {
         canonical: url,
       },
-      other: {
-        "application/ld+json": JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          name: category.title,
-          description: category.title,
-          url: url,
-        }),
-        "schema:faq": JSON.stringify(faqSchema),
-      },
+      // other: {
+      //   "application/ld+json": JSON.stringify({
+      //     "@context": "https://schema.org",
+      //     "@type": "WebPage",
+      //     name: category.title,
+      //     description: category.title,
+      //     url: url,
+      //   }),
+      //   // "schema:faq": JSON.stringify(faqSchema),
+      // },
     };
   }
 
@@ -129,43 +102,75 @@ export async function generateMetadata(
     alternates: {
       canonical: "https://testmint.ai",
     },
-    other: {
-      "application/ld+json": JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        name: "Testmint",
-        description: "Testmint",
-        url: "https://testmint.ai",
-      }),
-    },
   };
 }
 
-export default function Page({
+export default async function Page({
   params,
 }: {
   params: { type: string; id: string; product: string };
 }) {
+  const { category, link, url } = await getData(params);
   const { getProductCategoryDetails, getPackages, getPYQs } =
     Learner.Queries.Definitions;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: category.title,
+    description: category.title,
+    url: url,
+  };
   return (
-    // @ts-ignore
-    <Hydrator
-      queries={[
-        getProductCategoryDetails(params.id),
-        getPackages(params.id),
-        getPYQs(params.id),
-        // getOrgDetails(),
-        // // authenticated routes should only be called if token is present
-        // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
-      ]}
-    >
-      <ProductCategoryTabs
-        product={params.product || "test-series"}
-        isServer
-        type={params.type || "overview"}
-        id={params.id}
-      />
-    </Hydrator>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd),
+        }}
+      ></script>
+      <Hydrator
+        queries={[
+          getProductCategoryDetails(params.id),
+          getPackages(params.id),
+          getPYQs(params.id),
+          // getOrgDetails(),
+          // // authenticated routes should only be called if token is present
+          // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
+        ]}
+      >
+        <ProductCategoryTabs
+          url={url}
+          product={params.product || "test-series"}
+          isServer
+          type={params.type || "overview"}
+          id={params.id}
+        />
+      </Hydrator>
+    </>
   );
+}
+
+async function getData({ id, type }) {
+  const alias = getCookie("orgAlias")?.split("-")[0];
+  const url = `https://${alias}.testmint.ai/exam/${id}/${type}`;
+
+  const { data: category }: { data: Types.ProductCategory } = await axios(
+    `${apiUrl}/learner/product-category/${id}`,
+    {
+      headers: {
+        "x-org-alias": alias,
+      },
+    }
+  );
+  const link =
+    type === "overview"
+      ? { seo: category.seo, faqs: category.info.faqs }
+      : type === "test-series"
+      ? category.testSeries
+      : category.info.links.find((link) => link.slug === type);
+  return {
+    category,
+    link,
+    url,
+  };
 }
