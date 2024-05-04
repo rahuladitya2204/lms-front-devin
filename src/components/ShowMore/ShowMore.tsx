@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Typography } from "antd";
 import styled from "@emotion/styled";
+import { ArrowDownOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 
@@ -16,6 +17,7 @@ const ViewMoreDiv = styled.div`
 
   .minified {
     position: relative;
+    max-height: ${({ minHeight }) => minHeight}px;
   }
 
   .expanded {
@@ -24,7 +26,7 @@ const ViewMoreDiv = styled.div`
 
   .blur-overlay {
     position: absolute;
-    bottom: 12px;
+    bottom: 0;
     left: 0;
     right: 0;
     height: 50px;
@@ -51,26 +53,28 @@ interface ShowMoreProps {
 const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
   const [showMore, setShowMore] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
+  const [isOverflowing, setIsOverflowing] = useState(false);
 
   useEffect(() => {
     if (contentRef.current) {
-      contentRef.current.style.maxHeight = showMore ? "none" : `${minHeight}px`;
+      const contentHeight = contentRef.current.scrollHeight;
+      setIsOverflowing(contentHeight > minHeight);
     }
-  }, [showMore, minHeight]);
+  }, [minHeight]);
 
   const toggleShowMore = () => {
     setShowMore(!showMore);
   };
 
   return (
-    <ViewMoreDiv>
+    <ViewMoreDiv minHeight={minHeight}>
       <div
         ref={contentRef}
         className={`content ${showMore ? "expanded" : "minified"}`}
       >
         <Paragraph>{children}</Paragraph>
       </div>
-      {!showMore && (
+      {isOverflowing && !showMore && (
         <div className="blur-overlay">
           <Button
             shape="round"
@@ -78,23 +82,10 @@ const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
             size="small"
             onClick={toggleShowMore}
           >
-            Show More
+            Show More <ArrowDownOutlined />
           </Button>
         </div>
       )}
-      {/* {showMore && (
-        <div className="show-less">
-          <Button
-            className="show-less"
-            shape="round"
-            type="primary"
-            size="small"
-            onClick={toggleShowMore}
-          >
-            Show Less
-          </Button>
-        </div>
-      )} */}
     </ViewMoreDiv>
   );
 };
