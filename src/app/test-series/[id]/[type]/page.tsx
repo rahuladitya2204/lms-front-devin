@@ -32,20 +32,6 @@ export async function generateMetadata(req: {
       }
     );
     const url = `https://${alias}.testmint.ai/test-series/${id}/${type}`;
-    const faqSchema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: bundle?.faqs.map((faq) => {
-        return {
-          "@type": "Question",
-          name: faq.title,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.description,
-          },
-        };
-      }),
-    };
     return {
       title: bundle?.seo?.meta?.title,
       description: bundle?.seo?.meta?.description,
@@ -81,14 +67,13 @@ export async function generateMetadata(req: {
         canonical: url,
       },
       other: {
-        "application/ld+json": JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "WebPage",
-          name: bundle.title,
-          description: bundle.title,
-          url: url,
-        }),
-        "schema:faq": JSON.stringify(faqSchema),
+        // "application/ld+json": JSON.stringify({
+        //   "@context": "https://schema.org",
+        //   "@type": "WebPage",
+        //   name: bundle.title,
+        //   description: bundle.title,
+        //   url: url,
+        // }),
       },
     };
   }
