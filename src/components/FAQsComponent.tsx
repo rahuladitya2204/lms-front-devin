@@ -128,6 +128,7 @@ export const FAQsList = (props: FAQsListPropsI) => {
       return (
         <>
           <Script
+            id="faq-list"
             type="application/ld+json"
             dangerouslySetInnerHTML={{
               __html: JSON.stringify(faqJson),

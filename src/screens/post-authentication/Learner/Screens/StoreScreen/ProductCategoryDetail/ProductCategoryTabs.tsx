@@ -157,6 +157,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
 export const PageSchema = ({ seo, url }) => {
   return (
     <Script
+      id="exam-script"
       type="application/ld+json"
       dangerouslySetInnerHTML={{
         __html: JSON.stringify({

@@ -149,6 +149,7 @@ export default function RootLayout({
           `}
       </Script>
       <Script
+        id="GTM"
         src="https://www.googletagmanager.com/gtag/js?id=G-09G526DHYD"
         // strategy="lazyOnload"
       />
