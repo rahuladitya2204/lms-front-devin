@@ -6,6 +6,7 @@ import Countdown from "@Components/Countdown";
 import { ReloadOutlined } from "@ant-design/icons";
 import TestTimeCountdown from "@Components/TestTimeCountdown";
 import { useNavigate } from "react-router";
+import { Link } from "@Router/index";
 
 interface TestEnrolledCtaPropsI {
   testId: string;
@@ -118,14 +119,11 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
     // console.log(testStartDate, 'enrolledDetails')
     if (!testStartDate) {
       return (
-        <Button
-          size="large"
-          onClick={() => navigate(`/app/test/${testId}/start`)}
-          block
-          type="primary"
-        >
-          Start Test
-        </Button>
+        <Link to={`/app/test/${testId}/start`}>
+          <Button size="large" block type="primary">
+            Start Test
+          </Button>
+        </Link>
       );
     }
     if (testStartDate) {

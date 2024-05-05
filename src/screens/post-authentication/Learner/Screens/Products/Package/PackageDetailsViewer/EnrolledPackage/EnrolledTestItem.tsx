@@ -24,7 +24,7 @@ import LearnerTestResultStatus from "@Components/LearnerTestResultStatus";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
-import { useNavigate } from "@Router/index";
+import { Link, useNavigate } from "@Router/index";
 
 const { Title, Text } = Typography;
 
@@ -184,40 +184,42 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                   <>
                     {/* {isDesktop?<LearnerTestResultStatus testId={test._id+''} />:null} */}
                     <Col xs={24} sm={12}>
-                      <Dropdown.Button
-                        loading={retryingTest}
-                        menu={{
-                          items: [
-                            {
-                              label: "Retry Test",
-                              key: "retry",
-                              onClick: () => {
-                                retryTest(undefined, {
-                                  onSuccess: () => {
-                                    message.open({
-                                      type: "success",
-                                      content: "Retrying Test",
-                                    });
-                                    navigate(`../../test/${test._id}/start`);
-                                  },
-                                });
+                      <Link to={`/app/test/${test._id}/result`}>
+                        <Dropdown.Button
+                          loading={retryingTest}
+                          menu={{
+                            items: [
+                              {
+                                label: "Retry Test",
+                                key: "retry",
+                                onClick: () => {
+                                  retryTest(undefined, {
+                                    onSuccess: () => {
+                                      message.open({
+                                        type: "success",
+                                        content: "Retrying Test",
+                                      });
+                                      navigate(`../../test/${test._id}/start`);
+                                    },
+                                  });
+                                },
                               },
-                            },
-                          ],
-                        }}
-                        // icon={!isMobile ? <CheckCircleOutlined /> : null}
-                        onClick={() =>
-                          navigate(`../../test/${test._id}/result`)
-                        }
-                        block={!isDesktop}
-                        // style={{ width: '100%' }}
-                        // @ts-ignore
-                        style={{ marginRight: isMobile ? 0 : null }}
-                        type="primary"
-                        // size='small'
-                      >
-                        Solutions
-                      </Dropdown.Button>
+                            ],
+                          }}
+                          // icon={!isMobile ? <CheckCircleOutlined /> : null}
+                          // onClick={() =>
+                          //   navigate(`../../test/${test._id}/result`)
+                          // }
+                          block={!isDesktop}
+                          // style={{ width: '100%' }}
+                          // @ts-ignore
+                          style={{ marginRight: isMobile ? 0 : null }}
+                          type="primary"
+                          // size='small'
+                        >
+                          Solutions
+                        </Dropdown.Button>
+                      </Link>
                     </Col>
                   </>
                 ) : null}
@@ -225,26 +227,30 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                 {!test?.live?.enabled ? (
                   !enrolledTest.metadata.test.startedAt ? (
                     <Col xs={24} sm={12}>
-                      <Button
-                        type="primary"
-                        block={!isDesktop}
-                        onClick={() => navigate(`/app/test/${test._id}/start`)}
-                        // size='small'
-                      >
-                        Start Test
-                      </Button>
+                      <Link to={`/app/test/${test._id}/start`}>
+                        <Button
+                          type="primary"
+                          block={!isDesktop}
+                          // onClick={() => navigate()}
+                          // size='small'
+                        >
+                          Start Test
+                        </Button>
+                      </Link>
                     </Col>
                   ) : !enrolledTest.metadata.test.endedAt ? (
                     <Col xs={24} sm={12}>
-                      <Button
-                        block={!isDesktop}
-                        danger
-                        type="primary"
-                        onClick={() => navigate(`/app/test/${test._id}/start`)}
-                        // size='small'
-                      >
-                        Continue Test
-                      </Button>
+                      <Link to={`/app/test/${test._id}/start`}>
+                        <Button
+                          block={!isDesktop}
+                          danger
+                          type="primary"
+                          // onClick={() => navigate(`/app/test/${test._id}/start`)}
+                          // size='small'
+                        >
+                          Continue Test
+                        </Button>
+                      </Link>
                     </Col>
                   ) : null
                 ) : null}

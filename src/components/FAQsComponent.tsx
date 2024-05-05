@@ -7,8 +7,6 @@ import { useEffect } from "react";
 import Script from "next/script";
 import { Types } from "@adewaskar/lms-common";
 import { Typography } from "./Typography";
-import { Helmet } from "react-helmet";
-import Head from "next/head";
 
 interface FAQsComponentPropsI {
   name: string | string[];
