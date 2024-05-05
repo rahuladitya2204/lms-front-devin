@@ -163,8 +163,8 @@ export const PageSchema = ({ seo, url }) => {
         __html: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebPage",
-          name: seo.title,
-          description: seo.description,
+          name: seo?.title,
+          description: seo?.description,
           url: url,
         }),
       }}
