@@ -8,13 +8,15 @@ import EnrollLearner from "./EnrolLearner";
 import { User } from "@adewaskar/lms-common";
 import { capitalize, sortBy } from "lodash";
 import dayjs from "dayjs";
+import Tabs from "@Components/Tabs";
+import * as React from "react";
 
 const { confirm } = Modal;
 interface TestLearnersPropsI {
   testId: string;
 }
 
-function TestLearners(props: TestLearnersPropsI) {
+function TestEnrolledLearners(props: TestLearnersPropsI) {
   const { data, isLoading: loading } =
     User.Queries.useGetEnrolledProductLearners(props.testId + "");
 
@@ -160,4 +162,74 @@ render={(_: any, record: Types.Learner) => (
   );
 }
 
-export default TestLearners;
+// export const TestLearnerOrders = (props: TestLearnersPropsI) => {
+//   const { data: orders, isLoading: loadingOrders } =
+//     User.Queries.useGetProductOrders({
+//       type: Enum.ProductType.TEST,
+//       id: props.testId,
+//     });
+//   return (
+//     <Container
+//       title="Enrolled Learners"
+//       extra={[
+//         <ActionModal
+//           title={`Learner Orders`}
+//           cta={<Button>Add Learner</Button>}
+//         >
+//           <EnrollLearner
+//             product={{ type: Enum.ProductType.TEST, id: props.testId }}
+//           />
+//         </ActionModal>,
+//       ]}
+//     >
+//       <Table
+//         searchFields={["learner.name", "learner.contactNo", "learner.email"]}
+//         // @ts-ignore
+//         dataSource={sortBy(orders, "-metadata.test.endedAt")}
+//         loading={loadingOrders}
+//       >
+//         <TableColumn
+//           title="Name"
+//           dataIndex="name"
+//           render={(_: any, record: Types.EnrolledProductDetails) =>
+//             // @ts-ignore
+//             record.learner.name ? capitalize(record.learner.name) : "-"
+//           }
+//         />
+//         <TableColumn
+//           title="Offline Kit Status"
+//           dataIndex="offlineKit.status"
+//           key="offlineKit.status"
+//           render={(_: any, record: Types.Order) => (
+//             <Space size="middle">
+//               {record?.offlineKit?.delivery?.status || "-"}
+//             </Space>
+//           )}
+//         />
+//       </Table>
+//     </Container>
+//   );
+// };
+
+// const TestL = React.memo((props: { testId: string }) => {
+//   return (
+//     <Tabs
+//       items={[
+//         {
+//           label: "Enrolled Learners",
+//           key: "enrolled-learners",
+//           children: <TestEnrolledLearners testId={props.testId} />,
+//         },
+//         {
+//           label: "Orders",
+//           key: "learner orders",
+//           children: <TestLearnerOrders testId={props.testId} />,
+//         },
+//       ]}
+//     />
+//   );
+// });
+
+// export default TestL;
+
+export default TestEnrolledLearners;

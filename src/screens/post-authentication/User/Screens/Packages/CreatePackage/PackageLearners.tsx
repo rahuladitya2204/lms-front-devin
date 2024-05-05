@@ -1,4 +1,4 @@
-import { Button, Modal, Rate, Space, Spin } from "antd";
+import { Button, Modal, Rate, Space, Spin, Tabs } from "antd";
 import { Enum, Types } from "@adewaskar/lms-common";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
@@ -8,8 +8,9 @@ import Container from "@Components/Container";
 import { User } from "@adewaskar/lms-common";
 import { capitalize, sortBy } from "lodash";
 import dayjs from "dayjs";
-import EnrollLearner from "@User/Screens/Tests/TestCreator/TestLearners/EnrolLearner";
 import MoreButton from "@Components/MoreButton";
+import * as React from "react";
+import EnrollLearner from "@User/Screens/Tests/TestCreator/TestLearners/EnrolLearner";
 
 const { confirm } = Modal;
 interface PackageLearnersPropsI {
@@ -36,7 +37,7 @@ function PackageLearners(props: PackageLearnersPropsI) {
           cta={<Button>Add Learner</Button>}
         >
           <EnrollLearner
-            product={{ type: Enum.ProductType.TEST, id: props.packageId }}
+            product={{ type: Enum.ProductType.PACKAGE, id: props.packageId }}
           />
         </ActionModal>,
       ]}
@@ -185,4 +186,72 @@ render={(_: any, record: Types.Learner) => (
   );
 }
 
-export default PackageLearners;
+export const PackageLearnerOrders = (props: PackageLearnersPropsI) => {
+  const { data: orders, isLoading: loadingOrders } =
+    User.Queries.useGetProductOrders({
+      type: Enum.ProductType.PACKAGE,
+      id: props.packageId,
+    });
+  return (
+    <Container
+      title="Enrolled Learners"
+      extra={[
+        <ActionModal
+          title={`Learner Orders`}
+          cta={<Button>Add Learner</Button>}
+        >
+          <EnrollLearner
+            product={{ type: Enum.ProductType.PACKAGE, id: props.packageId }}
+          />
+        </ActionModal>,
+      ]}
+    >
+      <Table
+        searchFields={["learner.name", "learner.contactNo", "learner.email"]}
+        // @ts-ignore
+        dataSource={sortBy(orders, "-metadata.test.endedAt")}
+        loading={loadingOrders}
+      >
+        <TableColumn
+          title="Name"
+          dataIndex="name"
+          render={(_: any, record: Types.EnrolledProductDetails) =>
+            // @ts-ignore
+            record.learner.name ? capitalize(record.learner.name) : "-"
+          }
+        />
+        <TableColumn
+          title="Offline Kit Status"
+          dataIndex="offlineKit.status"
+          key="offlineKit.status"
+          render={(_: any, record: Types.Order) => (
+            <Space size="middle">
+              {record?.offlineKit?.delivery?.status || "-"}
+            </Space>
+          )}
+        />
+      </Table>
+    </Container>
+  );
+};
+
+const PackageL = React.memo((props: { packageId: string }) => {
+  return (
+    <Tabs
+      items={[
+        {
+          label: "Enrolled Learners",
+          key: "enrolled-learners",
+          children: <PackageLearners packageId={props.packageId} />,
+        },
+        {
+          label: "Orders",
+          key: "learner orders",
+          children: <PackageLearnerOrders packageId={props.packageId} />,
+        },
+      ]}
+    />
+  );
+});
+
+export default PackageL;
