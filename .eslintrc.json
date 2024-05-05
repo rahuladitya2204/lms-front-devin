@@ -6,6 +6,7 @@
     "react/no-children-prop": ["off"],
     "react/jsx-no-duplicate-props": ["warn"],
     "react/no-unescaped-entities": ["warn"],
-    "react/jsx-no-comment-textnodes":["warn"]
+    "react/jsx-no-comment-textnodes":["warn"],
+    "react/display-name":["warn"]
   }
 }
