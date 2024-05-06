@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, Typography } from "antd";
 import styled from "@emotion/styled";
-import { ArrowDownOutlined } from "@ant-design/icons";
+import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 
 const { Paragraph } = Typography;
 
@@ -74,17 +74,33 @@ const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
       >
         <Paragraph>{children}</Paragraph>
       </div>
-      {isOverflowing && !showMore && (
-        <div className="blur-overlay">
-          <Button
-            shape="round"
-            type="primary"
-            size="small"
-            onClick={toggleShowMore}
-          >
-            Show More <ArrowDownOutlined />
-          </Button>
-        </div>
+      {isOverflowing && (
+        <>
+          {!showMore && (
+            <div className="blur-overlay">
+              <Button
+                shape="round"
+                type="primary"
+                size="small"
+                onClick={toggleShowMore}
+              >
+                Show More <ArrowDownOutlined />
+              </Button>
+            </div>
+          )}
+          {showMore && (
+            <div className="show-less">
+              <Button
+                shape="round"
+                type="primary"
+                size="small"
+                onClick={toggleShowMore}
+              >
+                Show Less <ArrowUpOutlined />
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </ViewMoreDiv>
   );

@@ -159,7 +159,8 @@ const ProductCategoryLinks = React.memo(() => {
                                   label={`Description`}
                                 >
                                   <TextArea
-                                    height={300}
+                                    modifyCta
+                                    height={700}
                                     html={{ level: 2 }}
                                     //   @ts-ignore
                                     name={[name, "description"]}
