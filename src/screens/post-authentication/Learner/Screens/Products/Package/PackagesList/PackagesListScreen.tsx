@@ -6,6 +6,7 @@ import { useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import { Card, Col, Row } from "antd";
 import { PackageListComponent } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
+import { FAQsList } from "@Components/FAQsComponent";
 
 interface PackageDetailViewerPropsI {
   isServer?: boolean;
@@ -30,6 +31,11 @@ export default function PackagesList(props: PackageDetailViewerPropsI) {
       <Col span={24}>
         <Card>
           <HtmlViewer content={category?.testSeries?.page?.content} />
+        </Card>
+      </Col>
+      <Col span={24}>
+        <Card title="FAQs">
+          <FAQsList faqs={category.testSeries.faqs} />
         </Card>
       </Col>
     </Row>
