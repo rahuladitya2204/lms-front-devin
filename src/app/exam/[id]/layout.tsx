@@ -33,7 +33,13 @@ export default function Page({
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <LearnerRootScreen isServer>{children}</LearnerRootScreen>
+      <LearnerRootScreen isServer>
+        <ProductCategoryDetailScreen
+          product="test-series"
+          children={children}
+          isServer
+        />
+      </LearnerRootScreen>
     </Hydrator>
   );
 }
