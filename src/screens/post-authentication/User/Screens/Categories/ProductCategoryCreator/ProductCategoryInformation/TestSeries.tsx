@@ -16,11 +16,17 @@ export default function TestSeries() {
         </Col>
         <Col span={24}>
           <Title>Page Content</Title>
-          <Form.Item label="URL Slug" name={["testSeries", "slug"]}>
+          <Form.Item label="Title" name={["testSeries", "page", "title"]}>
             <Input style={{ width: 300 }} />
           </Form.Item>
-          <Form.Item label="Content" name={["testSeries", "content"]}>
-            <TextArea html={{ level: 3 }} name={["testSeries", "content"]} />
+          <Form.Item label="URL Slug" name={["testSeries", "page", "slug"]}>
+            <Input style={{ width: 300 }} />
+          </Form.Item>
+          <Form.Item label="Content" name={["testSeries", "page", "content"]}>
+            <TextArea
+              html={{ level: 3 }}
+              name={["testSeries", "page", "content"]}
+            />
           </Form.Item>
         </Col>
       </Row>

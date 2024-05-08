@@ -42,7 +42,9 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Outlet } from "react-router";
 import ProductCategoryDetailSkeletonScreen from "./ProductCategoryDetailSkeleton";
 import TestCard from "../Cards/TestCard";
-import ProductCategoryTabs from "./ProductCategoryTabs";
+import ProductCategoryTabs, {
+  PackageListComponent,
+} from "./ProductCategoryTabs";
 
 const { Text, Paragraph } = Typography;
 
@@ -267,23 +269,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
     }
   );
   const navigate = useNavigate();
-  const PackageListComponent = (
-    <Row gutter={[20, 20]}>
-      {loadingPackages
-        ? [1, 1, 1, 1, 1, 1].map((i, idx) => (
-            <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
-              <Skeleton.Button active block style={{ height: 200 }} />
-            </Col>
-          ))
-        : packages.map((bundle, idx) => {
-            return (
-              <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
-                <PackageCard mini isServer={props.isServer} package={bundle} />
-              </Col>
-            );
-          })}
-    </Row>
-  );
+
   const { isDesktop } = useBreakpoint();
   const PYQTestsComponent = (
     <Row gutter={[20, 20]}>
@@ -340,7 +326,12 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
       tabs.push({
         label: "Test Series",
         key: "test-series",
-        children: PackageListComponent,
+        children: (
+          <PackageListComponent
+            id={categoryId + ""}
+            isServer={props.isServer}
+          />
+        ),
       });
     }
     if (PYQTests.length) {

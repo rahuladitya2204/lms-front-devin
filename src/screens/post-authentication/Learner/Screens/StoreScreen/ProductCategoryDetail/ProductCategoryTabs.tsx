@@ -52,24 +52,6 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     Learner.Queries.useGetPackages(id + "", {
       enabled: !!id,
     });
-  // const { isMobile, width } = useBreakpoint();
-  const PackageListComponent = (
-    <Row gutter={[20, 20]}>
-      {loadingPackages
-        ? [1, 1, 1, 1, 1, 1].map((i, idx) => (
-            <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
-              <Skeleton.Button active block style={{ height: 200 }} />
-            </Col>
-          ))
-        : packages.map((bundle, idx) => {
-            return (
-              <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
-                <PackageCard mini isServer={props.isServer} package={bundle} />
-              </Col>
-            );
-          })}
-    </Row>
-  );
 
   const TABS = useMemo(() => {
     const i = [
@@ -86,7 +68,13 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       {
         label: "Test Series",
         key: "test-series",
-        children: PackageListComponent,
+        children: (
+          <PackageListComponent
+            showAll
+            id={id + ""}
+            isServer={props.isServer}
+          />
+        ),
         faqs: productCategory.testSeries.faqs,
         seo: productCategory.testSeries.seo,
       },
@@ -169,5 +157,63 @@ export const PageSchema = ({ seo, url }) => {
         }),
       }}
     ></Script>
+  );
+};
+
+export const PackageListComponent = (props: {
+  id: string;
+  isServer?: boolean;
+  showAll?: boolean;
+}) => {
+  const navigate = useNavigate();
+  const id = props.id;
+  const { data: packages, isLoading: loadingPackages } =
+    Learner.Queries.useGetPackages(id + "", {
+      enabled: !!id,
+    });
+
+  const { data: category } = Learner.Queries.useGetProductCategoryDetails(id);
+  return (
+    <Row gutter={[20, 20]}>
+      {loadingPackages ? (
+        [1, 1, 1, 1, 1, 1].map((i, idx) => (
+          <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
+            <Skeleton.Button active block style={{ height: 200 }} />
+          </Col>
+        ))
+      ) : (
+        <>
+          {packages.map((bundle, idx) => {
+            return (
+              <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
+                <PackageCard mini isServer={props.isServer} package={bundle} />
+              </Col>
+            );
+          })}
+          {props.showAll ? (
+            <Col
+              span={24}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                onClick={() => {
+                  if (props.isServer) {
+                    navigate(`/test-series/${category.testSeries.page.slug}`);
+                  } else {
+                    navigate(
+                      `/app/test-series/${category.testSeries.page.slug}`
+                    );
+                  }
+                }}
+                type="primary"
+                size="small"
+              >
+                View All Test Series
+              </Button>
+            </Col>
+          ) : null}
+        </>
+      )}
+    </Row>
   );
 };

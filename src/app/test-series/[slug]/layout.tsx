@@ -7,29 +7,20 @@ import LearnerRootScreen from "@Screens/post-authentication/Learner/Screens/Lear
 
 export const generateMetadata = GenerateMetadata;
 
-export default function Page({ params }: { params: { slug: string } }) {
-  const {
-    getProductCategoryDetailsFromTestSeriesSlug,
-    getPackages,
-    getLearnerDetails,
-    getPackageDetails,
-  } = Learner.Queries.Definitions;
-  const token = getToken();
+export default function Page({
+  params,
+  children,
+}: {
+  params: { slug: string };
+  children?: React.ReactNode;
+}) {
+  // const {
+  //   getProductCategoryDetailsFromTestSeriesSlug,
+  //   getPackages,
+  //   getLearnerDetails,
+  //   getPackageDetails,
+  // } = Learner.Queries.Definitions;
+  // const token = getToken();
   console.log(params.slug, "ss;lllll");
-  return (
-    // @ts-ignore
-    <Hydrator
-      queries={[
-        getProductCategoryDetailsFromTestSeriesSlug(params.slug),
-        // getPackageDetails(params.id),
-        // getOrgDetails(),
-        // // authenticated routes should only be called if token is present
-        ...(token ? [getLearnerDetails()] : []),
-      ]}
-    >
-      <LearnerRootScreen isServer>
-        <PackagesList isServer slug={params.slug} />
-      </LearnerRootScreen>
-    </Hydrator>
-  );
+  return <LearnerRootScreen>{children}</LearnerRootScreen>;
 }

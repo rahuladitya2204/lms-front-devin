@@ -20,7 +20,7 @@ export async function generateMetadata(req: {
   const id = req.params.id;
   const type = req.params.type || "overview";
   // console.log(alias, userType, id, "kututurur");
-  if (alias && userType) {
+  if (alias && userType && id) {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
     const { data: bundle }: { data: Types.Package } = await axios(
@@ -31,7 +31,15 @@ export async function generateMetadata(req: {
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/test-series/${id}/${type}`;
+    const { data: category }: { data: Types.ProductCategory } = await axios(
+      `${apiUrl}/learner/product-category/${bundle.category._id}`,
+      {
+        headers: {
+          "x-org-alias": alias,
+        },
+      }
+    );
+    const url = `https://${alias}.testmint.ai/test-series/${category.testSeries.page.slug}/${id}/${type}`;
     return {
       title: bundle?.seo?.meta?.title,
       description: bundle?.seo?.meta?.description,

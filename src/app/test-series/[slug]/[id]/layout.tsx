@@ -29,9 +29,7 @@ export default function Page({
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
-      <LearnerRootScreen isServer>
-        <PackageDetailViewer children={children} isServer />
-      </LearnerRootScreen>
+      <PackageDetailViewer children={children} isServer />
     </Hydrator>
   );
 }

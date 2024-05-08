@@ -24,6 +24,11 @@ function PackageDetailsTabs(props: PackageDetailsTabsPropsI) {
     }
   );
 
+  const { data: category } = Learner.Queries.useGetProductCategoryDetails(
+    // @ts-ignore
+    bundle.category._id
+  );
+  console.log(category, "categorycategorycategory");
   const TABS = [
     {
       key: "overview",
@@ -46,8 +51,8 @@ function PackageDetailsTabs(props: PackageDetailsTabsPropsI) {
             title={tab.label}
             to={
               props.isServer
-                ? `/test-series/${props.id}/${tab.key}`
-                : `/app/test-series/${id}/${tab.key}`
+                ? `/test-series/${category.testSeries.page.slug}/${props.id}/${tab.key}`
+                : `/app/test-series/${category.testSeries.page.slug}/${id}/${tab.key}`
             }
           >
             <Button

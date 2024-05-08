@@ -4,7 +4,7 @@ import {
   BookOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
-import { Constants, Types } from "@adewaskar/lms-common";
+import { Constants, Learner, Types } from "@adewaskar/lms-common";
 
 import Image from "@Components/Image";
 import PriceCardContent from "./PriceCardContent";
@@ -36,6 +36,10 @@ margin-bottom: 20px; */
 
 function PackageCard(props: PackageCardPropsI) {
   const { package: bundle } = props;
+  const { data: category } = Learner.Queries.useGetProductCategoryDetails(
+    // @ts-ignore
+    bundle.category._id || bundle.category
+  );
   const plan =
     (bundle.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;
@@ -58,7 +62,7 @@ function PackageCard(props: PackageCardPropsI) {
       cover={
         <Image
           alt={bundle.title}
-          style={{ height: 140 }}
+          style={{ height: 120 }}
           src={bundle.thumbnailImage}
         />
       }
@@ -115,8 +119,12 @@ function PackageCard(props: PackageCardPropsI) {
       title={bundle.title}
       to={
         isServer
-          ? `/test-series/${bundle.slug || bundle._id}`
-          : `/app/test-series/${bundle.slug || bundle._id}`
+          ? `/test-series/${category.testSeries.page.slug}/${
+              bundle.slug || bundle._id
+            }`
+          : `/app/test-series/${category.testSeries.page.slug}/${
+              bundle.slug || bundle._id
+            }`
       }
     >
       {/* // <Badge.Ribbon text="Best Seller" color="orange"> */}

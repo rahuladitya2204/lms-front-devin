@@ -89,12 +89,16 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
     Learner.Queries.useGetPackageDetails(packageId + "", {
       enabled: !!packageId,
     });
-
+  const { data: category } = Learner.Queries.useGetProductCategoryDetails(
+    bundle.category
+  );
   useEffect(() => {
-    if (!type && !props.isServer) {
-      navigate(`/app/test-series/${packageId}/overview`);
+    if (!type && !props.isServer && category._id) {
+      navigate(
+        `/app/test-series/${category.testSeries.page.slug}/${packageId}/overview`
+      );
     }
-  }, [type]);
+  }, [type, category._id]);
   const plan =
     (bundle.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;
