@@ -227,7 +227,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
   return (
     <Fragment>
       <Spin spinning={loading}>
-        <Row gutter={[20, 10]} style={{ marginBottom: 20 }}>
+        <Row gutter={[20, 10]} style={{ marginBottom: 0 }}>
           <Col span={24}>
             {props?.variables?.map((v) => {
               return (

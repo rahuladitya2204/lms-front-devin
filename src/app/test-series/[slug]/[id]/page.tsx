@@ -19,6 +19,7 @@ export default function Page({
     getPackageDetails,
   } = Learner.Queries.Definitions;
   const token = getToken();
+  console.log(params.id, "params.idparams.idparams.idparams.id");
   return (
     // @ts-ignore
     <Hydrator

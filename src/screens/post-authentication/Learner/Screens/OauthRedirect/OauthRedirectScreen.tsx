@@ -4,7 +4,7 @@ import { useSearchParams } from "@Router/index";
 
 export default function OauthRedirect() {
   let [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get("token"), "params");
+  // console.log(searchParams.get("token"), "params");
   const token = searchParams.get("token");
   useEffect(() => {
     window.opener.postMessage({

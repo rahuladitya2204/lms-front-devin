@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect, useState } from "react";
 
-import { Drawer } from 'antd'
+import { Drawer } from "antd";
 
 interface ActionDrawerPropsI {
   children?: React.ReactNode;
@@ -10,7 +10,7 @@ interface ActionDrawerPropsI {
   width?: number | string;
   keyboardClosable?: boolean;
   height?: number | string;
-  placement?: 'top' | 'right' | 'bottom' | 'left';
+  placement?: "top" | "right" | "bottom" | "left";
   visible?: boolean;
   extra?: (fn: Function) => React.ReactNode[];
   cta?: React.ReactNode;
@@ -18,33 +18,28 @@ interface ActionDrawerPropsI {
 }
 
 function ActionDrawer(props: ActionDrawerPropsI) {
-  const [isVisible, setIsVisible] = useState(false)
+  const [isVisible, setIsVisible] = useState(false);
 
   const showDrawer = () => {
-    setIsVisible(true)
-  }
+    setIsVisible(true);
+  };
 
-  useEffect(
-    () => {
-      setIsVisible(!!props.visible)
-    },
-    [props.visible]
-  )
+  useEffect(() => {
+    setIsVisible(!!props.visible);
+  }, [props.visible]);
 
   const closeDrawer = () => {
-    setIsVisible(false)
-    props.onClose && props.onClose()
-  }
+    setIsVisible(false);
+    props.onClose && props.onClose();
+  };
 
   // Extend children with closeDrawer method
-  const childrenWithCloseDrawer = React.Children.map(
-    props.children,
-    child =>
-      React.isValidElement(child)
-        ? // @ts-ignore
-          React.cloneElement(child, { closeDrawer })
-        : child
-  )
+  const childrenWithCloseDrawer = React.Children.map(props.children, (child) =>
+    React.isValidElement(child)
+      ? // @ts-ignore
+        React.cloneElement(child, { closeDrawer })
+      : child
+  );
 
   return (
     <Fragment>
@@ -66,10 +61,10 @@ function ActionDrawer(props: ActionDrawerPropsI) {
         {isVisible && childrenWithCloseDrawer}
       </Drawer>
     </Fragment>
-  )
+  );
 }
 
-export default ActionDrawer
+export default ActionDrawer;
 
 export interface ActionDrawerI {
   closeDrawer?: () => void;
