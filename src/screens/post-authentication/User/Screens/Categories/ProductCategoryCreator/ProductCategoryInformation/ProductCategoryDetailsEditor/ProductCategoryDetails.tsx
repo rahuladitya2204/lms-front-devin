@@ -17,10 +17,10 @@ import { useEffect, useMemo } from "react";
 import FileList from "@Components/FileList";
 import Image from "@Components/Image";
 import MediaUpload from "@Components/MediaUpload";
-import { PlusOutlined } from "@ant-design/icons";
+import { CloseOutlined, FileOutlined, PlusOutlined } from "@ant-design/icons";
 import SelectProductCategory from "@Components/SelectProductCategory";
 import TextArea from "@Components/Textarea";
-import { Title } from "@Components/Typography/Typography";
+import { Text, Title } from "@Components/Typography/Typography";
 import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import { Typography } from "@Components/Typography";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
@@ -42,6 +42,7 @@ function ProductCategoryDetailsEditor(
   const { id } = useParams();
   const testId = props.testId || id;
   const image = useWatch(["thumbnailImage"], form);
+  const calendarUrl = useWatch(["info", "calendar", "link"], form);
   return (
     <>
       {/* <Form.Item name={['status']} required label="ProductCategory Status">
@@ -194,6 +195,94 @@ function ProductCategoryDetailsEditor(
             />
           </Form.Item>
         </Col>
+        {/* <Col span={8}>
+          <Form.Item
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: 'Please enter minimum passing score'
+            //   }
+            // ]}
+            name={['info','officialNotification','link']}
+            label="Official Notification Link"
+            // required
+          >
+            <Input
+              // type="string"
+              placeholder="Please enter official Notification Link"
+            />
+          </Form.Item>
+        </Col> */}
+      </Row>
+      <Divider />
+      <Row gutter={[40, 20]}>
+        <Col span={8}>
+          <Form.Item
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: 'Please enter minimum passing score'
+            //   }
+            // ]}
+            name={["info", "calendar", "date"]}
+            label="Calendar Release Date"
+            // required
+          >
+            <Input
+              // type="string"
+              placeholder="Please enter calendar release date"
+            />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            name={["info", "calendar", "link"]}
+            required
+            label="Calendar PDF"
+          >
+            <MediaUpload
+              uploadType="file"
+              cropper={{ width: 330, height: 200 }}
+              name={["info", "calendar", "link"]}
+              onUpload={(e) => {
+                form.setFieldValue(["info", "calendar", "link"], e.url);
+              }}
+            />
+            {form.getFieldValue(["info", "calendar", "link"]) ? (
+              <Text type="warning">
+                <span onClick={() => window.open(calendarUrl)}>
+                  <FileOutlined /> Calendar File{" "}
+                </span>
+                <Button
+                  type="dashed"
+                  size="small"
+                  icon={<CloseOutlined />}
+                  onClick={() =>
+                    form.setFieldValue(["info", "calendar", "link"], null)
+                  }
+                ></Button>
+              </Text>
+            ) : null}
+          </Form.Item>
+        </Col>
+        {/* <Col span={8}>
+          <Form.Item
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: 'Please enter minimum passing score'
+            //   }
+            // ]}
+            name={["info", "examDate"]}
+            label="Exam Date"
+            // required
+          >
+            <Input
+              // type="number"
+              placeholder="Please enter exam date"
+            />
+          </Form.Item>
+        </Col> */}
         {/* <Col span={8}>
           <Form.Item
             // rules={[

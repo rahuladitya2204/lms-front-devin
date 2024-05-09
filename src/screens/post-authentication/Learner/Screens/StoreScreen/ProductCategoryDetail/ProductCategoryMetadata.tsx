@@ -66,6 +66,11 @@ const data = {
     icon: <LinkOutlined />,
     value: "1",
   },
+  calendarLink: {
+    title: "Calendar Link",
+    icon: <LinkOutlined />,
+    value: "1",
+  },
 };
 
 interface ProductCategoryMetadataPropsI {
@@ -120,6 +125,29 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
     <Button
       icon={<LinkOutlined />}
       onClick={() => window.open(categoryDetails.info.registration.link)}
+      type="primary"
+      size="small"
+    >
+      Open Link
+    </Button>
+  ); // @ts-ignore
+
+  // @ts-ignore
+  data.calendarLink.value = (
+    <Button
+      icon={<LinkOutlined />}
+      onClick={() => window.open(categoryDetails.info.calendar.link)}
+      type="primary"
+      size="small"
+    >
+      Open Link
+    </Button>
+  ); // @ts-ignore
+
+  data.calendarLink.value = (
+    <Button
+      icon={<LinkOutlined />}
+      onClick={() => window.open(categoryDetails.info.calendar.link)}
       type="primary"
       size="small"
     >
