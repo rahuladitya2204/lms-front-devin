@@ -43,6 +43,7 @@ function PackageCard(props: PackageCardPropsI) {
   const plan =
     (bundle.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;
+  console.log(plan, "plan");
   const isServer = props.isServer;
   const TAGS = Object.keys(bundle.products)
     .filter((k) => bundle.products[k].length)
@@ -50,7 +51,7 @@ function PackageCard(props: PackageCardPropsI) {
       // @ts-ignore
       const products = bundle.products[key];
       return (
-        <Tag style={{ fontSize: 12 }} key={key} color="orange-inverse">
+        <Tag style={{ fontSize: 12 }} key={key} color="red-inverse">
           {products.length} {capitalize(key)}s
         </Tag>
       );
@@ -111,8 +112,21 @@ function PackageCard(props: PackageCardPropsI) {
       >
         <Title style={{ fontSize: 13 }}>{bundle.title}</Title>
         {TAGS}
+        {/* ts-ignore */}
+        {/* {plan.type === "free" ? <Tag color="purple-inverse">Free</Tag> : null} */}
       </MiniCard>
     );
+    if (plan.type === "free") {
+      return (
+        <Badge.Ribbon
+          color="cyan-inverse"
+          placement="start"
+          text="Try for free"
+        >
+          {CARD}
+        </Badge.Ribbon>
+      );
+    }
   }
   return (
     <Link
