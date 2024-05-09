@@ -1,7 +1,7 @@
 "use client";
 
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
-import { Paragraph, Text } from "@Components/Typography/Typography";
+import { Paragraph, Text, Title } from "@Components/Typography/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
@@ -65,19 +65,19 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         faqs: productCategory.info.faqs,
         seo: productCategory.seo,
       },
-      {
-        label: "Test Series",
-        key: "test-series",
-        children: (
-          <PackageListComponent
-            showAll
-            id={id + ""}
-            isServer={props.isServer}
-          />
-        ),
-        faqs: productCategory.testSeries.faqs,
-        seo: productCategory.testSeries.seo,
-      },
+      // {
+      //   label: "Test Series",
+      //   key: "test-series",
+      //   children: (
+      // <PackageListComponent
+      //   showAll
+      //   id={id + ""}
+      //   isServer={props.isServer}
+      // />
+      //   ),
+      //   faqs: productCategory.testSeries.faqs,
+      //   seo: productCategory.testSeries.seo,
+      // },
     ];
 
     i.push(
@@ -101,6 +101,33 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     <Skeleton.Button block active style={{ height: 400 }} />
   ) : (
     <Row gutter={[20, 20]}>
+      <Col span={24}>
+        <Row justify={"space-between"} align={"middle"}>
+          <Col>
+            <Title level={4}>Test Series</Title>
+          </Col>
+          <Col>
+            <Button
+              onClick={() => {
+                if (props.isServer) {
+                  navigate(
+                    `/test-series/${productCategory.testSeries.page.slug}`
+                  );
+                } else {
+                  navigate(
+                    `/app/test-series/${productCategory.testSeries.page.slug}`
+                  );
+                }
+              }}
+              type="primary"
+              size="small"
+            >
+              View All Test Series
+            </Button>
+          </Col>
+        </Row>
+        <PackageListComponent showAll id={id + ""} isServer={props.isServer} />
+      </Col>
       <Col span={24}>
         <Card style={{ marginTop: 20 }}>
           {TABS.map((tab) => {
@@ -195,7 +222,7 @@ export const PackageListComponent = (props: {
               span={24}
               style={{ display: "flex", justifyContent: "center" }}
             >
-              <Button
+              {/* <Button
                 onClick={() => {
                   if (props.isServer) {
                     navigate(`/test-series/${category.testSeries.page.slug}`);
@@ -209,7 +236,7 @@ export const PackageListComponent = (props: {
                 size="small"
               >
                 View All Test Series
-              </Button>
+              </Button> */}
             </Col>
           ) : null}
         </>
