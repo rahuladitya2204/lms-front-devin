@@ -133,10 +133,10 @@ function PackageCard(props: PackageCardPropsI) {
       title={bundle.title}
       to={
         isServer
-          ? `/test-series/${category.testSeries.page.slug}/${
+          ? `/test-series/${category?.testSeries?.page?.slug}/${
               bundle.slug || bundle._id
             }`
-          : `/app/test-series/${category.testSeries.page.slug}/${
+          : `/app/test-series/${category?.testSeries?.page?.slug}/${
               bundle.slug || bundle._id
             }`
       }
