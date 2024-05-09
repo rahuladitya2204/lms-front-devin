@@ -14,7 +14,7 @@ import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
 import TextArea from "@Components/Textarea";
 import { Title } from "@Components/Typography/Typography";
-import FAQsComponent from "@Components/FAQsComponent";
+import CreateFaqs from "@Components/CreateFaqsComponent";
 import Tabs from "@Components/Tabs";
 import { Fragment } from "react";
 import SEOComponent from "@Components/SEOComponent";
@@ -176,7 +176,7 @@ const ProductCategoryLinks = React.memo(() => {
                             children: (
                               <Form.Item>
                                 {/* @ts-ignore */}
-                                <FAQsComponent name={[name, "faqs"]} />
+                                <CreateFaqs name={[name, "faqs"]} />
                               </Form.Item>
                             ),
                           },

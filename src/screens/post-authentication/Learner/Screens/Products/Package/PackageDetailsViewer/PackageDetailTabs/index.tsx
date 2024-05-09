@@ -28,7 +28,7 @@ function PackageDetailsTabs(props: PackageDetailsTabsPropsI) {
     // @ts-ignore
     bundle.category._id
   );
-  console.log(category, "categorycategorycategory");
+
   const TABS = [
     {
       key: "overview",

@@ -28,7 +28,7 @@ import useMessage from "@Hooks/useMessage";
 import PackageUsers from "./PackageLearners";
 import PackageLearners from "./PackageLearners";
 import SEOComponent from "@Components/SEOComponent";
-import FAQsComponent from "@Components/FAQsComponent";
+import CreateFaqs from "@Components/CreateFaqsComponent";
 
 const { confirm } = Modal;
 interface CreatePackageComponentPropsI {
@@ -70,7 +70,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
                 {
                   label: "FAQs",
                   key: "faqs",
-                  children: <FAQsComponent name={["faqs"]} />,
+                  children: <CreateFaqs name={["faqs"]} />,
                 },
                 {
                   label: "SEO",
@@ -124,7 +124,7 @@ export default function PackageInformationEditor() {
               content: "Package updated",
             });
           },
-        },
+        }
       );
     } else {
       // @ts-ignore
@@ -140,7 +140,7 @@ export default function PackageInformationEditor() {
             // props.onSuccess && props.onSuccess();
             // props.closeModal && props.closeModal();
           },
-        },
+        }
       );
     }
   };

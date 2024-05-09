@@ -6,7 +6,7 @@ import { useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import { Card, Col, Row } from "antd";
 import { PackageListComponent } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
-import { FAQsList } from "@Components/FAQsComponent";
+import { FAQsList } from "@Components/CreateFaqsComponent";
 
 interface PackageDetailViewerPropsI {
   isServer?: boolean;

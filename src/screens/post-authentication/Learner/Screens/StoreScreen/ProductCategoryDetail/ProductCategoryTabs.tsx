@@ -20,7 +20,7 @@ import { useMemo } from "react";
 import { Outlet } from "react-router";
 import ShowMore from "@Components/ShowMore/ShowMore";
 import PackageCard from "../Cards/PackageCard";
-import { FAQsList } from "@Components/FAQsComponent";
+import { FAQsList } from "@Components/CreateFaqsComponent";
 import Script from "next/script";
 
 const CustomTabs = styled(Tabs)`

@@ -14,7 +14,7 @@ import Tabs from "@Components/Tabs";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
 import ProductCategoryEXAMs from "./ProductCategoryExams";
-import FAQsComponent from "@Components/FAQsComponent";
+import FAQsComponent from "@Components/CreateFaqsComponent";
 import SEOComponent from "@Components/SEOComponent";
 import TestSeries from "./TestSeries";
 

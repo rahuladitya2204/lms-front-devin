@@ -1,7 +1,7 @@
 import { Col, Form, Row } from "antd";
 
 import TextArea from "@Components/Textarea";
-import FAQsComponent from "@Components/FAQsComponent";
+import CreateFaqs from "@Components/CreateFaqsComponent";
 
 export default function ProductCategoryLandingPage() {
   return (
@@ -15,7 +15,7 @@ export default function ProductCategoryLandingPage() {
           />
         </Form.Item>
         <Form.Item>
-          <FAQsComponent name={["info", "faqs"]} />
+          <CreateFaqs name={["info", "faqs"]} />
         </Form.Item>
       </Col>
     </Row>

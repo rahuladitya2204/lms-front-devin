@@ -1,4 +1,4 @@
-import FAQsComponent from "@Components/FAQsComponent";
+import CreateFaqs from "@Components/CreateFaqsComponent";
 import SEOComponent from "@Components/SEOComponent";
 import TextArea from "@Components/Textarea";
 import { Title } from "@Components/Typography/Typography";
@@ -12,7 +12,7 @@ export default function TestSeries() {
           <SEOComponent name={["testSeries", "seo"]} />
         </Col>
         <Col span={24}>
-          <FAQsComponent name={["testSeries", "faqs"]} />
+          <CreateFaqs name={["testSeries", "faqs"]} />
         </Col>
         <Col span={24}>
           <Title>Page Content</Title>

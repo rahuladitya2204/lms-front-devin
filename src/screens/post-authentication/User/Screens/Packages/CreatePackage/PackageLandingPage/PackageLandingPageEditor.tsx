@@ -4,14 +4,14 @@ import { Fragment } from "react";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import MediaUpload from "@Components/MediaUpload";
 import TextArea from "@Components/Textarea";
-import FAQsComponent from "@Components/FAQsComponent";
+import FAQsComponent from "@Components/CreateFaqsComponent";
 
 interface PackageLandingPageEditorPropsI {
   packageId: string;
 }
 
 export default function PackageLandingPageEditor(
-  props: PackageLandingPageEditorPropsI,
+  props: PackageLandingPageEditorPropsI
 ) {
   const form = Form.useFormInstance();
   const promoVideoFile = Form.useWatch(["landingPage"], form);
