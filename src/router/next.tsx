@@ -43,7 +43,7 @@ export const useNavigate = () => {
       if (replace) {
         router.replace(to.toString(), { scroll: false });
       } else {
-        router.push(to.toString(), { scroll: true });
+        router.push(to.toString(), { scroll: false });
       }
     },
     [router]
@@ -124,7 +124,8 @@ const ReactRouterLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
         href={finalHref || ""}
         ref={ref}
         replace={replace}
-        scroll={!preventScrollReset}
+        // scroll={!preventScrollReset}
+        scroll={false}
         {...props}
       />
     );
