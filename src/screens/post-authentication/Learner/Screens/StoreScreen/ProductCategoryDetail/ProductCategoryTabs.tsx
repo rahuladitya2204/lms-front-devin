@@ -94,7 +94,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     );
 
     return i;
-  }, [productCategory, packages]);
+  }, [productCategory, packages, type]);
   const navigate = useNavigate();
   const tab = TABS.find((tab) => tab.key === type);
   return loadingCategory ? (

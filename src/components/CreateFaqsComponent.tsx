@@ -4,7 +4,7 @@ import { Button, Col, Collapse, Form, Input, Modal, Row } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 import TextArea from "@Components/Textarea";
 import { Title } from "@Components/Typography/Typography";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Script from "next/script";
 import { Types } from "@adewaskar/lms-common";
 import { Typography } from "./Typography";
@@ -109,49 +109,57 @@ interface FAQsListPropsI {
 }
 
 export const FAQsList = (props: FAQsListPropsI) => {
-  {
-    return props?.faqs?.map((faq, idx) => {
-      const { faqs } = props;
-      const faqJson = {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        mainEntity: faqs.map((faq) => {
-          return {
-            "@type": "Question",
-            name: faq.title,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: faq.description,
-            },
-          };
-        }),
-      };
-      return (
-        <>
-          <Script
-            id="faq-list"
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(faqJson),
-            }}
-          ></Script>
+  const { faqs: initialFaqs } = props;
+  const [faqs, setFaqs] = useState(initialFaqs);
 
-          <Collapse
-            destroyInactivePanel={false}
-            expandIconPosition="end"
-            style={{ marginTop: 10 }}
-            key={idx}
-            items={[
-              {
-                label: faq.title,
-                children: (
-                  <Typography.Paragraph>{faq.description}</Typography.Paragraph>
-                ),
-              },
-            ]}
-          />
-        </>
-      );
-    });
-  }
+  const faqJson = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => {
+      return {
+        "@type": "Question",
+        name: faq.title,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.description,
+        },
+      };
+    }),
+  };
+
+  const handlePanelChange = (key: string | string[]) => {
+    setFaqs((prevFaqs) =>
+      prevFaqs.map((faq) => {
+        if (faq.key === key) {
+          return { ...faq, hidden: !faq.hidden };
+        }
+        return faq;
+      })
+    );
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqJson),
+        }}
+      />
+      <Collapse
+        destroyInactivePanel={false}
+        expandIconPosition="end"
+        style={{ marginTop: 10 }}
+        onChange={handlePanelChange}
+      >
+        {faqs.map((faq) => (
+          <Collapse.Panel header={faq.title} key={faq.key}>
+            <div style={{ display: faq.hidden ? "none" : "block" }}>
+              <Typography.Paragraph>{faq.description}</Typography.Paragraph>
+            </div>
+          </Collapse.Panel>
+        ))}
+      </Collapse>
+    </>
+  );
 };
