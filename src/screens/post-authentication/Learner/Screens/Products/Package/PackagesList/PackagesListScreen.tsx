@@ -33,11 +33,13 @@ export default function PackagesList(props: PackageDetailViewerPropsI) {
           <HtmlViewer content={category?.testSeries?.page?.content} />
         </Card>
       </Col>
-      <Col span={24}>
-        <Card title="FAQs">
-          <FAQsList faqs={category.testSeries.faqs} />
-        </Card>
-      </Col>
+      {category.testSeries.faqs.length ? (
+        <Col span={24}>
+          <Card title="FAQs">
+            <FAQsList faqs={category.testSeries.faqs} />
+          </Card>
+        </Col>
+      ) : null}
     </Row>
   );
 }
