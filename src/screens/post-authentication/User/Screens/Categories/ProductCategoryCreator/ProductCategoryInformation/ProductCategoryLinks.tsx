@@ -1,6 +1,7 @@
 import React from "react";
 import {
   Button,
+  Card,
   Checkbox,
   Col,
   Collapse,
@@ -30,181 +31,192 @@ const ProductCategoryLinks = React.memo(() => {
   return (
     <Row>
       <Col span={24}>
-        <Title>Links</Title>
-        <Form.List name={["info", "links"]}>
-          {(fields, { add, remove }) => (
-            <>
-              {fields.map(({ key, name, ...restField }) => (
-                <Collapse>
-                  <Collapse.Panel
-                    style={panelStyle}
-                    header={
-                      form.getFieldValue(["info", "links", key, "title"]) ||
-                      `Link-${key + 1}`
-                    }
-                    extra={[
+        <Card
+        //  title="Links"
+        >
+          <Form.List name={["info", "links"]}>
+            {(fields, { add, remove }) => (
+              <>
+                <Tabs
+                  tabBarStyle={{
+                    width: 151,
+                    height: 700,
+                  }}
+                  tabPosition="left"
+                  tabBarExtraContent={{
+                    right: (
                       <Button
-                        icon={<DeleteOutlined />}
-                        type="primary"
-                        size="small"
-                        danger
-                        onClick={() => {
-                          Modal.confirm({
-                            closable: false,
-                            title: `Are you sure?`,
-                            // icon: <ExclamationCircleOutlined />,
-                            content: `You want to delete this link?`,
-                            // footer: [
-
-                            // ],
-                            onOk() {
-                              remove(name);
-                            },
-                            okText: "Yes, Delete",
-                          });
-                        }}
+                        type="dashed"
+                        onClick={() => add()}
+                        block
+                        icon={<PlusOutlined />}
                       >
-                        Delete Link
-                      </Button>,
-                    ]}
-                    key={key}
-                  >
-                    <Row key={key} gutter={[40, 0]}>
-                      <Tabs
-                        style={{
-                          width: "100%",
-                          paddingLeft: 20,
-                          paddingRight: 20,
-                        }}
-                        // tabBarExtraContent={{
-                        //   right: (
-                        //     <Button
-                        //       icon={<DeleteOutlined />}
-                        //       type="primary"
-                        //       danger
-                        //       onClick={() => {
-                        //         Modal.confirm({
-                        //           closable: false,
-                        //           title: `Are you sure?`,
-                        //           // icon: <ExclamationCircleOutlined />,
-                        //           content: `You want to delete this link?`,
-                        //           // footer: [
+                        Add Link
+                      </Button>
+                    ),
+                  }}
+                  items={fields.map(({ key, name, ...restField }) => {
+                    return {
+                      label:
+                        form.getFieldValue(["info", "links", key, "title"]) ||
+                        `Link-${key + 1}`,
+                      key: `link-${name}`,
+                      children: (
+                        <Row key={key} gutter={[40, 0]}>
+                          <Tabs
+                            tabBarExtraContent={{
+                              right: (
+                                <Button
+                                  icon={<DeleteOutlined />}
+                                  type="primary"
+                                  size="small"
+                                  danger
+                                  onClick={() => {
+                                    Modal.confirm({
+                                      closable: false,
+                                      title: `Are you sure?`,
+                                      // icon: <ExclamationCircleOutlined />,
+                                      content: `You want to delete this link?`,
+                                      // footer: [
 
-                        //           // ],
-                        //           onOk() {
-                        //             remove(name);
-                        //           },
-                        //           okText: "Yes, Delete",
-                        //         });
-                        //       }}
-                        //     >
-                        //       Delete Link
-                        //     </Button>
-                        //   ),
-                        // }}
-                        destroyInactiveTabPane={false}
-                        items={[
-                          {
-                            label: "Details",
-                            key: "details",
-                            children: (
-                              <Fragment>
-                                <Col span={24}>
-                                  <Form.Item
-                                    {...restField}
-                                    name={[name, "title"]}
-                                    rules={[
-                                      {
-                                        required: true,
-                                        message: "Missing Links title",
+                                      // ],
+                                      onOk() {
+                                        remove(name);
                                       },
-                                    ]}
-                                    label={`Title`}
-                                  >
-                                    <Input placeholder="Enter Link title" />
-                                  </Form.Item>
-                                </Col>
-                                <Col span={24}>
-                                  <Form.Item
-                                    {...restField}
-                                    name={[name, "slug"]}
-                                    rules={[
-                                      {
-                                        required: true,
-                                        message: "Missing Link URL Slug",
-                                      },
-                                    ]}
-                                    label={`URL Slug`}
-                                  >
-                                    <Input placeholder="Enter Link URL Slug" />
-                                  </Form.Item>
-                                </Col>
-                              </Fragment>
-                            ),
-                          },
-                          {
-                            label: "Content",
-                            key: "content",
-                            children: (
-                              <Col span={24}>
-                                <Form.Item
-                                  {...restField}
-                                  name={[name, "description"]}
-                                  rules={[
-                                    {
-                                      required: true,
-                                      message: "Missing Links description",
-                                    },
-                                  ]}
-                                  label={`Description`}
+                                      okText: "Yes, Delete",
+                                    });
+                                  }}
                                 >
-                                  <TextArea
-                                    modifyCta
-                                    height={700}
-                                    html={{ level: 2 }}
-                                    //   @ts-ignore
-                                    name={[name, "description"]}
-                                    placeholder="Enter Link description"
-                                  />
-                                </Form.Item>
-                              </Col>
-                            ),
-                          },
-                          {
-                            label: "FAQs",
-                            key: "faqs",
-                            children: (
-                              <Form.Item>
-                                {/* @ts-ignore */}
-                                <CreateFaqs name={[name, "faqs"]} />
-                              </Form.Item>
-                            ),
-                          },
-                          {
-                            label: "SEO",
-                            key: "seo",
-                            // @ts-ignore
-                            children: <SEOComponent name={[name, "seo"]} />,
-                          },
-                        ]}
-                      />
-                    </Row>
-                  </Collapse.Panel>
-                </Collapse>
-              ))}
-              <Form.Item style={{ marginTop: 20 }}>
-                <Button
-                  type="dashed"
-                  onClick={() => add()}
-                  block
-                  icon={<PlusOutlined />}
-                >
-                  Add Link
-                </Button>
-              </Form.Item>
-            </>
-          )}
-        </Form.List>
+                                  Delete Link
+                                </Button>
+                              ),
+                            }}
+                            style={{
+                              width: "100%",
+                              paddingLeft: 20,
+                              paddingRight: 20,
+                            }}
+                            // tabBarExtraContent={{
+                            //   right: (
+                            //     <Button
+                            //       icon={<DeleteOutlined />}
+                            //       type="primary"
+                            //       danger
+                            //       onClick={() => {
+                            //         Modal.confirm({
+                            //           closable: false,
+                            //           title: `Are you sure?`,
+                            //           // icon: <ExclamationCircleOutlined />,
+                            //           content: `You want to delete this link?`,
+                            //           // footer: [
+
+                            //           // ],
+                            //           onOk() {
+                            //             remove(name);
+                            //           },
+                            //           okText: "Yes, Delete",
+                            //         });
+                            //       }}
+                            //     >
+                            //       Delete Link
+                            //     </Button>
+                            //   ),
+                            // }}
+                            destroyInactiveTabPane={false}
+                            items={[
+                              {
+                                label: "Details",
+                                key: "details",
+                                children: (
+                                  <Fragment>
+                                    <Col span={24}>
+                                      <Form.Item
+                                        {...restField}
+                                        name={[name, "title"]}
+                                        rules={[
+                                          {
+                                            required: true,
+                                            message: "Missing Links title",
+                                          },
+                                        ]}
+                                        label={`Title`}
+                                      >
+                                        <Input placeholder="Enter Link title" />
+                                      </Form.Item>
+                                    </Col>
+                                    <Col span={24}>
+                                      <Form.Item
+                                        {...restField}
+                                        name={[name, "slug"]}
+                                        rules={[
+                                          {
+                                            required: true,
+                                            message: "Missing Link URL Slug",
+                                          },
+                                        ]}
+                                        label={`URL Slug`}
+                                      >
+                                        <Input placeholder="Enter Link URL Slug" />
+                                      </Form.Item>
+                                    </Col>
+                                  </Fragment>
+                                ),
+                              },
+                              {
+                                label: "Content",
+                                key: "content",
+                                children: (
+                                  <Col span={24}>
+                                    <Form.Item
+                                      {...restField}
+                                      name={[name, "description"]}
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: "Missing Links description",
+                                        },
+                                      ]}
+                                      label={`Description`}
+                                    >
+                                      <TextArea
+                                        modifyCta
+                                        height={700}
+                                        html={{ level: 2 }}
+                                        //   @ts-ignore
+                                        name={[name, "description"]}
+                                        placeholder="Enter Link description"
+                                      />
+                                    </Form.Item>
+                                  </Col>
+                                ),
+                              },
+                              {
+                                label: "FAQs",
+                                key: "faqs",
+                                children: (
+                                  <Form.Item>
+                                    {/* @ts-ignore */}
+                                    <CreateFaqs name={[name, "faqs"]} />
+                                  </Form.Item>
+                                ),
+                              },
+                              {
+                                label: "SEO",
+                                key: "seo",
+                                // @ts-ignore
+                                children: <SEOComponent name={[name, "seo"]} />,
+                              },
+                            ]}
+                          />
+                        </Row>
+                      ),
+                    };
+                  })}
+                />
+              </>
+            )}
+          </Form.List>
+        </Card>
       </Col>
     </Row>
   );
