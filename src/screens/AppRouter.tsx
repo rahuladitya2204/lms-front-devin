@@ -142,6 +142,7 @@ import BlogDetailScreen from "./post-authentication/Learner/Screens/Blog/BlogDet
 import LearnerBlogsScreen from "./post-authentication/Learner/Screens/Blog/BlogsScreen";
 import PackageInformationEditor from "@User/Screens/Packages/CreatePackage/CreatePackage";
 import PackagesList from "./post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesListScreen";
+import PackagesExamScreen from "./post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesExamScreen";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -185,8 +186,11 @@ const router = (userType: string) => {
                 <Route path="test-series">
                   {/* <Route path="" element={<LearnerCourses />} /> */}
                   <Route path=":slug" element={<PackagesList />} />
-
-                  <Route path=":slug/:id" element={<PackageDetailViewer />}>
+                  <Route path=":slug/:exam" element={<PackagesExamScreen />} />
+                  <Route
+                    path=":slug/:exam/:id"
+                    element={<PackageDetailViewer />}
+                  >
                     <Route
                       path=":type"
                       element={<PackageDetailsTabs isServer={false} />}

@@ -7,6 +7,7 @@ import PackagesList from "@Screens/post-authentication/Learner/Screens/Products/
 import axios from "axios";
 import { getCookie } from "@ServerUtils/index";
 import { Metadata } from "next";
+import PackagesExamScreen from "@Screens/post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesExamScreen";
 
 export async function generateMetadata(req: {
   params: any;
@@ -16,23 +17,23 @@ export async function generateMetadata(req: {
   console.log(req, "reqqq");
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
-  const slug = req.params.slug;
-  const type = req.params.type || "overview";
-  // console.log(alias, userType, id, "kututurur");
-  if (alias && userType && slug) {
+  const examSlug = req.params.exam;
+
+  if (alias && userType && examSlug) {
     const apiUrl = process.env.API_URL;
     const { data: category }: { data: Types.ProductCategory } = await axios(
-      `${apiUrl}/learner/product-category/test-series/slug/${slug}`,
+      `${apiUrl}/learner/product-category/exam/slug/${examSlug}`,
       {
         headers: {
           "x-org-alias": alias,
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/test-series/${slug}`;
+    const url = `https://${alias}.testmint.ai/test-series/${examSlug}`;
+    const exam = category.exams.find((i) => i.page.slug === examSlug);
     return {
-      title: category.testSeries?.seo?.meta?.title,
-      description: category.testSeries?.seo?.meta?.description,
+      title: exam?.seo?.meta?.title,
+      description: exam?.seo?.meta?.description,
       // icons: {
       //   icon: bundle.thumbnailImage,
       //   apple: bundle.thumbnailImage,
@@ -121,7 +122,7 @@ export async function generateMetadata(req: {
   };
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default function Page({ params }: { params: { exam: string } }) {
   const {
     getProductCategoryDetailsFromTestSeriesSlug,
     getPackages,
@@ -129,19 +130,19 @@ export default function Page({ params }: { params: { slug: string } }) {
     getPackageDetails,
   } = Learner.Queries.Definitions;
   const token = getToken();
-  console.log(params.slug, "ss;lllll");
+  console.log(params, "ss;lllll");
   return (
     // @ts-ignore
     <Hydrator
       queries={[
-        getProductCategoryDetailsFromTestSeriesSlug(params.slug),
+        getProductCategoryDetailsFromTestSeriesSlug(params.exam),
         // getPackageDetails(params.id),
         // getOrgDetails(),
         // // authenticated routes should only be called if token is present
         ...(token ? [getLearnerDetails()] : []),
       ]}
     >
-      <PackagesList isServer slug={params.slug} />
+      <PackagesExamScreen isServer exam={params.exam} />
     </Hydrator>
   );
 }

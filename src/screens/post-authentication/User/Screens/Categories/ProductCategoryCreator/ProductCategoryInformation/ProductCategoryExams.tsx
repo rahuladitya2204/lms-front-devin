@@ -150,10 +150,10 @@ const ProductCategoryEXAMs = React.memo(() => {
                                 ),
                               },
                               {
-                                label: "Page",
-                                key: "page",
+                                label: "Page Content",
+                                key: "content",
                                 children: (
-                                  <Row key={key} gutter={[40, 0]}>
+                                  <Row>
                                     <Col span={24}>
                                       <Form.Item
                                         {...restField}
@@ -184,40 +184,30 @@ const ProductCategoryEXAMs = React.memo(() => {
                                         <Input placeholder="Enter EXAM slug" />
                                       </Form.Item>
                                     </Col>
-                                    {/* <Col span={2}>
-                                <Button danger onClick={() => remove(name)}>
-                                  Remove
-                                </Button>
-                              </Col> */}
+                                    <Col span={24}>
+                                      <Form.Item
+                                        {...restField}
+                                        name={[name, "page", "content"]}
+                                        rules={[
+                                          {
+                                            required: true,
+                                            message:
+                                              "Missing Links description",
+                                          },
+                                        ]}
+                                        label={`Page Content`}
+                                      >
+                                        <TextArea
+                                          modifyCta
+                                          height={700}
+                                          html={{ level: 2 }}
+                                          //   @ts-ignore
+                                          name={[name, "page", "content"]}
+                                          placeholder="Enter Page Content"
+                                        />
+                                      </Form.Item>
+                                    </Col>
                                   </Row>
-                                ),
-                              },
-                              {
-                                label: "Content",
-                                key: "content",
-                                children: (
-                                  <Col span={24}>
-                                    <Form.Item
-                                      {...restField}
-                                      name={[name, "description"]}
-                                      rules={[
-                                        {
-                                          required: true,
-                                          message: "Missing Links description",
-                                        },
-                                      ]}
-                                      label={`Description`}
-                                    >
-                                      <TextArea
-                                        modifyCta
-                                        height={700}
-                                        html={{ level: 2 }}
-                                        //   @ts-ignore
-                                        name={[name, "description"]}
-                                        placeholder="Enter Link description"
-                                      />
-                                    </Form.Item>
-                                  </Col>
                                 ),
                               },
                               {

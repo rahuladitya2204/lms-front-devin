@@ -125,48 +125,36 @@ const ProductCategoryLinks = React.memo(() => {
                             destroyInactiveTabPane={false}
                             items={[
                               {
-                                label: "Details",
-                                key: "details",
-                                children: (
-                                  <Fragment>
-                                    <Col span={24}>
-                                      <Form.Item
-                                        {...restField}
-                                        name={[name, "title"]}
-                                        rules={[
-                                          {
-                                            required: true,
-                                            message: "Missing Links title",
-                                          },
-                                        ]}
-                                        label={`Title`}
-                                      >
-                                        <Input placeholder="Enter Link title" />
-                                      </Form.Item>
-                                    </Col>
-                                    <Col span={24}>
-                                      <Form.Item
-                                        {...restField}
-                                        name={[name, "slug"]}
-                                        rules={[
-                                          {
-                                            required: true,
-                                            message: "Missing Link URL Slug",
-                                          },
-                                        ]}
-                                        label={`URL Slug`}
-                                      >
-                                        <Input placeholder="Enter Link URL Slug" />
-                                      </Form.Item>
-                                    </Col>
-                                  </Fragment>
-                                ),
-                              },
-                              {
-                                label: "Content",
+                                label: "Page Content",
                                 key: "content",
                                 children: (
                                   <Col span={24}>
+                                    <Form.Item
+                                      {...restField}
+                                      name={[name, "title"]}
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: "Missing Links title",
+                                        },
+                                      ]}
+                                      label={`Title`}
+                                    >
+                                      <Input placeholder="Enter Link title" />
+                                    </Form.Item>
+                                    <Form.Item
+                                      {...restField}
+                                      name={[name, "slug"]}
+                                      rules={[
+                                        {
+                                          required: true,
+                                          message: "Missing Link URL Slug",
+                                        },
+                                      ]}
+                                      label={`URL Slug`}
+                                    >
+                                      <Input placeholder="Enter Link URL Slug" />
+                                    </Form.Item>
                                     <Form.Item
                                       {...restField}
                                       name={[name, "description"]}

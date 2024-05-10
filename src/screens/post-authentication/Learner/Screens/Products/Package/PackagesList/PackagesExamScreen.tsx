@@ -11,34 +11,37 @@ import { FAQsList } from "@Components/CreateFaqsComponent";
 interface PackageDetailViewerPropsI {
   isServer?: boolean;
   children?: React.ReactNode;
-  slug?: string;
+  exam?: string;
 }
 
-export default function PackagesList(props: PackageDetailViewerPropsI) {
+export default function PackagesExamScreen(props: PackageDetailViewerPropsI) {
   const params = useParams();
-  const slug = props.slug || params.slug;
+  const examSlug = props.exam || params.exam;
   const { data: category } =
-    Learner.Queries.useGetProductCategoryDetailsFromTestSeriesSlug(slug + "");
-  console.log(category, "category");
+    Learner.Queries.useGetProductCategoryDetailsFromExamSlug(examSlug + "", {
+      enabled: !!examSlug,
+    });
+  const exam = category.exams.find((e) => e.page.slug === examSlug);
+  console.log(category, exam, "category");
   return (
     <Row gutter={[20, 20]}>
       <Col span={24}>
-        <Title>{category?.testSeries?.page?.title}</Title>
+        <Title>{exam?.page?.title}</Title>
       </Col>
       <Col span={24}>
         <PackageListComponent isServer={props.isServer} id={category._id} />
       </Col>
-      {category?.testSeries?.page?.content ? (
+      {exam?.page?.content ? (
         <Col span={24}>
           <Card>
-            <HtmlViewer content={category?.testSeries?.page?.content} />
+            <HtmlViewer content={exam?.page?.content} />
           </Card>
         </Col>
       ) : null}
-      {category.testSeries.faqs.length ? (
+      {exam.faqs.length ? (
         <Col span={24}>
           <Card title="FAQs">
-            <FAQsList faqs={category.testSeries.faqs} />
+            <FAQsList faqs={exam?.faqs} />
           </Card>
         </Col>
       ) : null}
