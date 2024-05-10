@@ -23,7 +23,7 @@ export async function generateMetadata(req: {
   if (alias && userType && slug) {
     const apiUrl = process.env.API_URL;
     const { data: category }: { data: Types.ProductCategory } = await axios(
-      `${apiUrl}/learner/product-category/slug/${slug}`,
+      `${apiUrl}/learner/product-category/test-series/slug/${slug}`,
       {
         headers: {
           "x-org-alias": alias,

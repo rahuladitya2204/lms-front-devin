@@ -89,62 +89,63 @@ function ProductCategoryEditor() {
   const navigate = useNavigate();
   const { isMobile } = useBreakpoint();
   const MainNavTabs = (
-    <Tabs
-      destroyInactiveTabPane={false}
-      navigateWithHash
-      tabPosition={"left"}
-      style={{ minHeight: "100vh" }}
-      items={[
-        {
-          label: (
-            <span>
-              <InfoCircleOutlined />
-              Information
-            </span>
-          ),
-          key: "information",
-          children: <ProductCategoryInformationEditor />,
-        },
-        // {
-        //   label: (
-        //     <span>
-        //       <ToolOutlined />Builder
-        //     </span>
-        //   ),
-        //   key: 'builder'
-        // },
-        // {
-        //   label: (
-        //     <span>
-        //       <UserOutlined />Learners
-        //     </span>
-        //   ),
-        //   key: 'learners',
-        //   children: (
-        //     <ProductCategoryLearners
-        //       productCategoryId={productCategory._id + ''}
-        //     />
-        //   )
-        // },
-        {
-          label: (
-            <span>
-              <SafetyCertificateOutlined />
-              Certificate
-            </span>
-          ),
-          key: "certificate",
-          children: null,
-          //   (
-          //   <ProductCategoryCertificate
-          //     productCategoryId={productCategory._id}
-          //     productCategory={productCategory}
-          //     saveProductCategory={saveProductCategory}
-          //   />
-          // )
-        },
-      ]}
-    />
+    // <Tabs
+    //   destroyInactiveTabPane={false}
+    //   navigateWithHash
+    //   tabPosition={"left"}
+    //   style={{ minHeight: "100vh" }}
+    //   items={[
+    //     {
+    //       label: (
+    //         <span>
+    //           <InfoCircleOutlined />
+    //           Information
+    //         </span>
+    //       ),
+    //       key: "information",
+    //       children: <ProductCategoryInformationEditor />,
+    //     },
+    //     // {
+    //     //   label: (
+    //     //     <span>
+    //     //       <ToolOutlined />Builder
+    //     //     </span>
+    //     //   ),
+    //     //   key: 'builder'
+    //     // },
+    //     // {
+    //     //   label: (
+    //     //     <span>
+    //     //       <UserOutlined />Learners
+    //     //     </span>
+    //     //   ),
+    //     //   key: 'learners',
+    //     //   children: (
+    //     //     <ProductCategoryLearners
+    //     //       productCategoryId={productCategory._id + ''}
+    //     //     />
+    //     //   )
+    //     // },
+    //     {
+    //       label: (
+    //         <span>
+    //           <SafetyCertificateOutlined />
+    //           Certificate
+    //         </span>
+    //       ),
+    //       key: "certificate",
+    //       children: null,
+    //       //   (
+    //       //   <ProductCategoryCertificate
+    //       //     productCategoryId={productCategory._id}
+    //       //     productCategory={productCategory}
+    //       //     saveProductCategory={saveProductCategory}
+    //       //   />
+    //       // )
+    //     },
+    //   ]}
+    // />
+    <ProductCategoryInformationEditor />
   );
   return (
     <Spin spinning={false}>
