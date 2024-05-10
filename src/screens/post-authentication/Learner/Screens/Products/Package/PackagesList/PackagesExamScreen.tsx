@@ -38,7 +38,7 @@ export default function PackagesExamScreen(props: PackageDetailViewerPropsI) {
           </Card>
         </Col>
       ) : null}
-      {exam.faqs.length ? (
+      {exam?.faqs?.length ? (
         <Col span={24}>
           <Card title="FAQs">
             <FAQsList faqs={exam?.faqs} />
