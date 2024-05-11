@@ -24,10 +24,9 @@ const getAuthRequestHeaders = (props: AuthProps) => {
 export const validateOrgAlias = async ({ alias }: { alias: string }) => {
   console.log("API_URL", process.env.NEXT_PUBILC_API_URL, process.env.API_URL);
   return fetch(
-    process.env.API_URL + "/learner/organisation/alias/validate",
+    process.env.API_URL + `/learner/organisation/alias/validate-get?alias=${alias}`,
     {
-      method: "POST",
-      body: JSON.stringify({ alias: alias }),
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
