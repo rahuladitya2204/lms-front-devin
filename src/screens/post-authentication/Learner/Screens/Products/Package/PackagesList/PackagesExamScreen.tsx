@@ -21,8 +21,8 @@ export default function PackagesExamScreen(props: PackageDetailViewerPropsI) {
     Learner.Queries.useGetProductCategoryDetailsFromExamSlug(examSlug + "", {
       enabled: !!examSlug,
     });
-  const exam = category.exams.find((e) => e.page.slug === examSlug);
-  console.log(category, exam, "category");
+  const exam = category?.exams?.find((e) => e.page.slug === examSlug);
+  console.log(examSlug, category, "category");
   return (
     <Row gutter={[20, 20]}>
       <Col span={24}>

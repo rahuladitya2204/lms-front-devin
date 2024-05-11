@@ -39,7 +39,7 @@ export async function generateMetadata(req: {
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/test-series/${category.testSeries.page.slug}/${id}/${type}`;
+    const url = `https://${alias}.testmint.ai/exam/test-series/${id}/${type}`;
     return {
       title: bundle?.seo?.meta?.title,
       description: bundle?.seo?.meta?.description,

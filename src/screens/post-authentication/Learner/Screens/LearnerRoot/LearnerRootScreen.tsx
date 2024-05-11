@@ -55,7 +55,7 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
   const outletcontext = useOutletContext<any>();
   const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
   const { data: learner } = Learner.Queries.useGetLearnerDetails();
-  console.log(outletcontext, "outletcontext");
+  // console.log(outletcontext, "outletcontext");
   return (
     <Suspense>
       <ThemeProvider

@@ -183,19 +183,19 @@ const router = (userType: string) => {
                   <Route path="" element={<LearnerCourses />} />
                   <Route path=":id" element={<CourseDetailViewer />} />
                 </Route>
+                <Route
+                  path="exam/test-series/:id"
+                  element={<PackageDetailViewer />}
+                >
+                  <Route
+                    path=":type"
+                    element={<PackageDetailsTabs isServer={false} />}
+                  />
+                </Route>
                 <Route path="test-series">
                   {/* <Route path="" element={<LearnerCourses />} /> */}
                   <Route path=":slug" element={<PackagesList />} />
                   <Route path=":slug/:exam" element={<PackagesExamScreen />} />
-                  <Route
-                    path=":slug/:exam/:id"
-                    element={<PackageDetailViewer />}
-                  >
-                    <Route
-                      path=":type"
-                      element={<PackageDetailsTabs isServer={false} />}
-                    />
-                  </Route>
                   <Route
                     path=":packageId/enrolled-package"
                     element={<EnrolledPackageDetailScreen />}

@@ -18,7 +18,7 @@ export async function generateMetadata(req: {
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
   const examSlug = req.params.exam;
-
+  console.log(examSlug, "slug");
   if (alias && userType && examSlug) {
     const apiUrl = process.env.API_URL;
     const { data: category }: { data: Types.ProductCategory } = await axios(
@@ -31,6 +31,7 @@ export async function generateMetadata(req: {
     );
     const url = `https://${alias}.testmint.ai/test-series/${examSlug}`;
     const exam = category.exams.find((i) => i.page.slug === examSlug);
+    console.log(exam, examSlug, "examkmkm");
     return {
       title: exam?.seo?.meta?.title,
       description: exam?.seo?.meta?.description,
@@ -42,8 +43,8 @@ export async function generateMetadata(req: {
       themeColor: "#ffffff",
       manifest: "/manifest.json",
       openGraph: {
-        title: category.testSeries?.seo?.meta?.title,
-        description: category.testSeries?.seo?.meta?.description,
+        title: exam?.seo?.meta?.title,
+        description: exam?.seo?.meta?.description,
         type: "website",
         locale: "en_IN",
         url: url,
@@ -124,18 +125,18 @@ export async function generateMetadata(req: {
 
 export default function Page({ params }: { params: { exam: string } }) {
   const {
-    getProductCategoryDetailsFromTestSeriesSlug,
+    getProductCategoryDetailsFromExamSlug,
     getPackages,
     getLearnerDetails,
     getPackageDetails,
   } = Learner.Queries.Definitions;
   const token = getToken();
-  console.log(params, "ss;lllll");
+  console.log(params, "kuturi");
   return (
     // @ts-ignore
     <Hydrator
       queries={[
-        getProductCategoryDetailsFromTestSeriesSlug(params.exam),
+        getProductCategoryDetailsFromExamSlug(params.exam),
         // getPackageDetails(params.id),
         // getOrgDetails(),
         // // authenticated routes should only be called if token is present

@@ -129,7 +129,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     getPackageDetails,
   } = Learner.Queries.Definitions;
   const token = getToken();
-  console.log(params.slug, "ss;lllll");
+
   return (
     // @ts-ignore
     <Hydrator

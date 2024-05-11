@@ -21,7 +21,7 @@ export default function Page({
   } = Learner.Queries.Definitions;
 
   const token = getToken();
-  console.log(params.id, "ss;lllll");
+
   return (
     <Hydrator
       queries={[

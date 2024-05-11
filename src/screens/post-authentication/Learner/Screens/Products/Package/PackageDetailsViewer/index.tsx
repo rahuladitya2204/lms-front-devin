@@ -94,9 +94,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
   );
   useEffect(() => {
     if (!type && !props.isServer && category._id) {
-      navigate(
-        `/app/test-series/${category.testSeries.page.slug}/${packageId}/overview`
-      );
+      navigate(`/app/exam/test-series/${packageId}/overview`);
     }
   }, [type, category._id]);
   const plan =

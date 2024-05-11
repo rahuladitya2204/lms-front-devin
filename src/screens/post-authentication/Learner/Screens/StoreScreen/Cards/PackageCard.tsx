@@ -133,12 +133,8 @@ function PackageCard(props: PackageCardPropsI) {
       title={bundle.title}
       to={
         isServer
-          ? `/test-series/${category?.testSeries?.page?.slug}/${
-              bundle.slug || bundle._id
-            }`
-          : `/app/test-series/${category?.testSeries?.page?.slug}/${
-              bundle.slug || bundle._id
-            }`
+          ? `/exam/test-series/${bundle.slug || bundle._id}`
+          : `/app/exam/test-series/${bundle.slug || bundle._id}`
       }
     >
       {/* // <Badge.Ribbon text="Best Seller" color="orange"> */}
