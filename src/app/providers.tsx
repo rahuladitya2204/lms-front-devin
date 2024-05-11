@@ -5,6 +5,7 @@ import { ServerAuthProvider } from "@ServerComponents/ServerAuthProvider";
 import { Store } from "@adewaskar/lms-common";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
+import { ModalProvider } from "@Components/ActionModal/ModalContext";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -13,7 +14,7 @@ function makeQueryClient() {
         // With SSR, we usually want to set some default staleTime
         // above 0 to avoid refetching immediately on the client
         staleTime: 60 * 1000,
-        refetchOnWindowFocus: false
+        refetchOnWindowFocus: false,
       },
     },
   });
@@ -46,9 +47,11 @@ export default function Providers({ children }) {
     <Store.AuthenticationStoreProvider>
       <Store.GlobalStoreProvider>
         <QueryClientProvider client={queryClient}>
-          <ServerAuthProvider>
-            <AntdRegistry>{children}</AntdRegistry>
-          </ServerAuthProvider>
+          <ModalProvider>
+            <ServerAuthProvider>
+              <AntdRegistry>{children}</AntdRegistry>
+            </ServerAuthProvider>
+          </ModalProvider>
         </QueryClientProvider>
       </Store.GlobalStoreProvider>
     </Store.AuthenticationStoreProvider>

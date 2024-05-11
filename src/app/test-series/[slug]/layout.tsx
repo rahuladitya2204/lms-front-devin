@@ -1,6 +1,6 @@
 import Hydrator from "@ServerComponents/Hydrator";
 import { Learner, Types } from "@adewaskar/lms-common";
-import { generateMetadata as GenerateMetadata } from "./[exam]/[id]/[type]/page";
+import { generateMetadata as GenerateMetadata } from "../../exam/test-series/[id]/[type]/page";
 import { getToken } from "@Network/index";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import PageComponent from "./page";

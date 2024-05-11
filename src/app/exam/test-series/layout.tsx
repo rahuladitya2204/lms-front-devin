@@ -2,8 +2,8 @@ import Hydrator from "@ServerComponents/Hydrator";
 import { Learner, Types } from "@adewaskar/lms-common";
 import { generateMetadata as GenerateMetadata } from "./[id]/[type]/page";
 import { getToken } from "@Network/index";
-import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import PageComponent from "./page";
+import LearnerRootScreen from "@Screens/post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen";
 export const generateMetadata = GenerateMetadata;
 
 export default function Page({
@@ -32,10 +32,10 @@ export default function Page({
         ...(token ? [getLearnerDetails()] : []),
       ]}
     >
-      {/* <LearnerRootScreen isServer> */}
-      {/* <PageComponent params={params} /> */}
-      {children ? children : <PageComponent params={params} />}
-      {/* </LearnerRootScreen> */}
+      <LearnerRootScreen isServer>
+        {/* <PageComponent params={params} /> */}
+        {children ? children : <PageComponent params={params} />}
+      </LearnerRootScreen>
     </Hydrator>
   );
 }
