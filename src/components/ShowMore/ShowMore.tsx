@@ -56,11 +56,15 @@ const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
   const [isOverflowing, setIsOverflowing] = useState(false);
 
   useEffect(() => {
-    if (contentRef.current) {
-      const contentHeight = contentRef.current.scrollHeight;
-      setIsOverflowing(contentHeight > minHeight);
-    }
-  }, [minHeight]);
+    const checkOverflow = () => {
+      if (contentRef.current) {
+        const contentHeight = contentRef.current.scrollHeight;
+        setIsOverflowing(contentHeight > minHeight);
+      }
+    };
+
+    checkOverflow();
+  }, [children, minHeight]);
 
   const toggleShowMore = () => {
     setShowMore(!showMore);
@@ -84,7 +88,8 @@ const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
                 size="small"
                 onClick={toggleShowMore}
               >
-                Show More <ArrowDownOutlined />
+                Show More
+                <ArrowDownOutlined />
               </Button>
             </div>
           )}
@@ -96,7 +101,8 @@ const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
                 size="small"
                 onClick={toggleShowMore}
               >
-                Show Less <ArrowUpOutlined />
+                Show Less
+                <ArrowUpOutlined />
               </Button>
             </div>
           )}

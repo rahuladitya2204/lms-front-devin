@@ -204,8 +204,8 @@ export const PackageListComponent = (props: {
     <Row gutter={[20, 20]}>
       {loadingPackages ? (
         [1, 1, 1, 1, 1, 1].map((i, idx) => (
-          <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={8} xxl={6}>
-            <Skeleton.Button active block style={{ height: 200 }} />
+          <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
+            <Skeleton.Button active block style={{ height: 110 }} />
           </Col>
         ))
       ) : (
