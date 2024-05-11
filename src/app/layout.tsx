@@ -89,7 +89,7 @@ export async function generateMetadata(
     title: "Testmint",
     description: "Testmint",
     icons: {
-      icon: organisation.branding.favIcon.url,
+      // icon: organisation.branding.favIcon.url,
       apple: "/apple-touch-icon.png",
     },
     viewport: "width=device-width, initial-scale=1",

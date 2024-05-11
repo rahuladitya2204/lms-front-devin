@@ -1,5 +1,6 @@
+import LearnerHomeScreen from "@Screens/post-authentication/Learner/Screens/StoreScreen/HomeScreen/HomeScreen";
 import "../../index.css";
-
+import HomePage from "../home/page";
 import { ClientOnly } from "./client";
 // import HomePage from "../home/page";
 // export function generateStaticParams() {
@@ -7,6 +8,10 @@ import { ClientOnly } from "./client";
 // }
 
 export default function Page({ params }: { params: { slug: string[] } }) {
+  console.log(params.slug, "params.slug");
+  if (!params.slug) {
+    return <HomePage />;
+  }
   // console.log(params, "params");
   return <ClientOnly />;
 }

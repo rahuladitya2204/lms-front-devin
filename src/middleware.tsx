@@ -84,6 +84,7 @@ export async function middleware(request: NextRequest) {
     // return NextResponse.redirect(new URL("/not-found", request.url));
   }
   const validRoutes = [
+    "/",
     "/test",
     "/blog",
     "/home",
@@ -98,7 +99,7 @@ export async function middleware(request: NextRequest) {
   const isValidRoute = validRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
   );
-  console.log(isValidRoute, "isValidRoute");
+  console.log(request.nextUrl.pathname, "isValidRoute");
   // Redirect to 404 if the route is not valid
   if (!isValidRoute) {
     const html = renderToString(<NotFoundScreen />);
