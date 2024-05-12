@@ -93,10 +93,11 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
     bundle.category
   );
   useEffect(() => {
-    if (!type && !props.isServer && category._id) {
+    console.log(type, props.isServer, category, "aaa");
+    if (!type && !props.isServer) {
       navigate(`/app/exam/test-series/${packageId}/overview`);
     }
-  }, [type, category._id]);
+  }, [type, category._id, props.isServer]);
   const plan =
     (bundle.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;

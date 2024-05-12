@@ -27,7 +27,7 @@ export async function generateMetadata(req: {
         headers: {
           "x-org-alias": alias,
         },
-      },
+      }
     );
     const url = `https://${alias}.testmint.ai/learner/test/${id}`;
     const faqSchema = {
@@ -45,8 +45,8 @@ export async function generateMetadata(req: {
       }),
     };
     return {
-      title: test.seo.meta.title,
-      description: test.seo.meta.description,
+      title: test?.seo?.meta?.title,
+      description: test?.seo?.meta?.description,
       // icons: {
       //   icon: test.thumbnailImage,
       //   apple: test.thumbnailImage,
