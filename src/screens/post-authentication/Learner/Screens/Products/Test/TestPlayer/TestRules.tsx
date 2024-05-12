@@ -57,7 +57,7 @@ export default function TestRules(props: TestRulesPropsI) {
         enabled: !!test._id,
       }
     );
-  console.log(props, enrolledProduct, "propsprops");
+
   const isVerificationOn = test.rules.identityVerification.enabled;
   const [form] = Form.useForm();
   const rule1 = Form.useWatch("rule-1", form);

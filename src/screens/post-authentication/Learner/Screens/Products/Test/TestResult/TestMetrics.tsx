@@ -222,7 +222,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       Exit
     </Button>
   );
-  console.log(difficultyLevelData, "difficultyLevelData");
+  // console.log(difficultyLevelData, "difficultyLevelData");
   // @ts-ignore
   const BarChartDifficultyLevel = (
     <ResponsiveContainer height={300}>
