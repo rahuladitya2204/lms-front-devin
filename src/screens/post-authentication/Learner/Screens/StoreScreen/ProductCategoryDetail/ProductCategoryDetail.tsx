@@ -301,7 +301,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
     }
     return tabs;
   }, [packages, PYQTests]);
-  const [productTab, setProductTab] = useState("");
+  const [productTab, setProductTab] = useState("test-series");
   // console.log(product, "product");
   return TABS.length ? (
     <>

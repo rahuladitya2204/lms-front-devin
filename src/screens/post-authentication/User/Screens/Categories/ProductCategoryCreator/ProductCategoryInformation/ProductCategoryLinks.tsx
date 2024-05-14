@@ -10,6 +10,7 @@ import {
   Input,
   Modal,
   Row,
+  Switch,
 } from "antd";
 import { DeleteOutlined, PlusOutlined } from "@ant-design/icons";
 
@@ -129,6 +130,14 @@ const ProductCategoryLinks = React.memo(() => {
                                 key: "content",
                                 children: (
                                   <Col span={24}>
+                                    <Form.Item
+                                      label="Display On Landing Page"
+                                      valuePropName="checked"
+                                      {...restField}
+                                      name={[name, "displayOnLandingPage"]}
+                                    >
+                                      <Switch style={{ marginTop: 20 }} />
+                                    </Form.Item>
                                     <Form.Item
                                       {...restField}
                                       name={[name, "title"]}

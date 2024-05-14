@@ -81,16 +81,19 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     ];
 
     i.push(
-      ...productCategory.info.links.map((link) => {
-        return {
-          label: link.title,
-          key: link.slug,
-          description: link.description,
-          children: <HtmlViewer content={link.description} />,
-          faqs: link.faqs,
-          seo: link.seo,
-        };
-      })
+      ...productCategory.info.links
+        // .filter((l) => l.displayOnLandingPage)
+        .map((link) => {
+          return {
+            label: link.title,
+            displayOnLandingPage: link.displayOnLandingPage,
+            key: link.slug,
+            description: link.description,
+            children: <HtmlViewer content={link.description} />,
+            faqs: link.faqs,
+            seo: link.seo,
+          };
+        })
     );
 
     return i;
@@ -130,7 +133,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       </Col> */}
       <Col span={24}>
         <Card style={{ marginTop: 20 }}>
-          {TABS.map((tab) => {
+          {TABS.filter((i) => i.displayOnLandingPage).map((tab) => {
             return (
               <Button
                 onClick={() => {

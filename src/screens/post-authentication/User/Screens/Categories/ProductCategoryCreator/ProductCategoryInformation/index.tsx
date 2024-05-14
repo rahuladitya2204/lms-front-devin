@@ -83,11 +83,11 @@ function ProductCategoryInformationEditor(props: any) {
             key: "test-series",
             children: <TestSeries />,
           },
-          {
-            label: `Previous Year Papers`,
-            key: "pyq",
-            children: <PreviousYearPapers />,
-          },
+          // {
+          //   label: `Previous Year Papers`,
+          //   key: "pyq",
+          //   children: <PreviousYearPapers />,
+          // },
           // {
           //   label: `Advanced`,
           //   key: 'advanced',
