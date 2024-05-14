@@ -101,7 +101,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     <Skeleton.Button block active style={{ height: 400 }} />
   ) : (
     <Row gutter={[20, 20]}>
-      <Col span={24}>
+      {/* <Col span={24}>
         <Row justify={"space-between"} align={"middle"}>
           <Col>
             <Title level={4}>Test Series</Title>
@@ -127,7 +127,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           </Col>
         </Row>
         <PackageListComponent showAll id={id + ""} isServer={props.isServer} />
-      </Col>
+      </Col> */}
       <Col span={24}>
         <Card style={{ marginTop: 20 }}>
           {TABS.map((tab) => {
@@ -199,7 +199,6 @@ export const PackageListComponent = (props: {
       enabled: !!id,
     });
 
-  const { data: category } = Learner.Queries.useGetProductCategoryDetails(id);
   return (
     <Row gutter={[20, 20]}>
       {loadingPackages ? (

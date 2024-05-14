@@ -26,7 +26,7 @@ import {
   ThunderboltFilled,
 } from "@ant-design/icons";
 import { Constants, Enum, Learner, Utils } from "@adewaskar/lms-common";
-import React, { Fragment, useEffect, useMemo } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
@@ -257,21 +257,128 @@ interface CategoryProductsPropsI {
 
 export const CategoryProducts = (props: CategoryProductsPropsI) => {
   const { categoryId, type, product } = props;
+  const { data: category } =
+    Learner.Queries.useGetProductCategoryDetails(categoryId);
   const { data: packages, isLoading: loadingPackages } =
     Learner.Queries.useGetPackages(categoryId, {
       enabled: !!categoryId,
     });
 
+  const navigate = useNavigate();
+
+  const { isDesktop } = useBreakpoint();
   const { data: PYQTests, isLoading: loadingPYQs } = Learner.Queries.useGetPYQs(
     categoryId,
     {
       enabled: !!categoryId,
     }
   );
-  const navigate = useNavigate();
+  const TABS = useMemo(() => {
+    const tabs: any[] = [];
+    if (packages.length) {
+      tabs.push({
+        label: "Test Series",
+        key: "test-series",
+        children: (
+          <PackageListComponent
+            id={categoryId + ""}
+            isServer={props.isServer}
+          />
+        ),
+      });
+    }
+    if (PYQTests.length) {
+      tabs.push({
+        label: "Previous Year Papers",
+        key: "previous-year-questions",
+        children: (
+          <PYQTestsComponent
+            isServer={props.isServer}
+            categoryId={categoryId}
+          />
+        ),
+      });
+    }
+    return tabs;
+  }, [packages, PYQTests]);
+  const [productTab, setProductTab] = useState("");
+  // console.log(product, "product");
+  return TABS.length ? (
+    <>
+      <Col span={24}>
+        <Card bodyStyle={{ paddingTop: 0 }}>
+          <Tabs
+            onTabClick={(e) => {
+              console.log(e, "eeee");
+              setProductTab(e);
+            }}
+            items={TABS}
+            tabBarExtraContent={{
+              right:
+                productTab === "test-series" ? (
+                  <Button
+                    onClick={() => {
+                      if (props.isServer) {
+                        navigate(
+                          `/test-series/${category.testSeries.page.slug}`
+                        );
+                      } else {
+                        navigate(
+                          `/app/test-series/${category.testSeries.page.slug}`
+                        );
+                      }
+                    }}
+                    type="dashed"
+                    size="small"
+                  >
+                    View All Test Series
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => {
+                      if (props.isServer) {
+                        navigate(
+                          `/previous-year-questions/${category.testSeries.page.slug}`
+                        );
+                      } else {
+                        navigate(
+                          `/app/previous-year-questions/${category.testSeries.page.slug}`
+                        );
+                      }
+                    }}
+                    type="dashed"
+                    size="small"
+                  >
+                    View All PYQ Papers
+                  </Button>
+                ),
+            }}
+          />
+        </Card>
+      </Col>
+      <Col span={24}>
+        {props.children ? (
+          props.children
+        ) : (
+          <ProductCategoryTabs isServer={props.isServer} />
+        )}
+      </Col>
+    </>
+  ) : null;
+};
 
-  const { isDesktop } = useBreakpoint();
-  const PYQTestsComponent = (
+export const PYQTestsComponent = (props: {
+  isServer: boolean;
+  categoryId: string;
+}) => {
+  const { categoryId } = props;
+  const { data: PYQTests, isLoading: loadingPYQs } = Learner.Queries.useGetPYQs(
+    categoryId,
+    {
+      enabled: !!categoryId,
+    }
+  );
+  return (
     <Row gutter={[20, 20]}>
       {PYQTests.sort((a) => a.pyq.year).map((test, idx) => {
         return (
@@ -319,45 +426,4 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
       })}
     </Row>
   );
-
-  const TABS = useMemo(() => {
-    const tabs: any[] = [];
-    if (packages.length) {
-      tabs.push({
-        label: "Test Series",
-        key: "test-series",
-        children: (
-          <PackageListComponent
-            id={categoryId + ""}
-            isServer={props.isServer}
-          />
-        ),
-      });
-    }
-    if (PYQTests.length) {
-      tabs.push({
-        label: "Previous Year Papers",
-        key: "previous-year-questions",
-        children: PYQTestsComponent,
-      });
-    }
-    return tabs;
-  }, [packages, PYQTests]);
-  // console.log(product, "product");
-  return TABS.length ? (
-    <>
-      {/* <Col span={24}>
-        <Card bodyStyle={{ paddingTop: 0 }}>
-          <Tabs items={TABS} />
-        </Card>
-      </Col> */}
-      <Col span={24}>
-        {props.children ? (
-          props.children
-        ) : (
-          <ProductCategoryTabs isServer={props.isServer} />
-        )}
-      </Col>
-    </>
-  ) : null;
 };

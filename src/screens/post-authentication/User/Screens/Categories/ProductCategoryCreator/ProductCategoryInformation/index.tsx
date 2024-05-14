@@ -17,6 +17,7 @@ import ProductCategoryEXAMs from "./ProductCategoryExams";
 import FAQsComponent from "@Components/CreateFaqsComponent";
 import SEOComponent from "@Components/SEOComponent";
 import TestSeries from "./TestSeries";
+import PreviousYearPapers from "./PreviousYearPapers";
 
 function ProductCategoryInformationEditor(props: any) {
   const { id } = useParams();
@@ -81,6 +82,11 @@ function ProductCategoryInformationEditor(props: any) {
             label: `Test Series`,
             key: "test-series",
             children: <TestSeries />,
+          },
+          {
+            label: `Previous Year Papers`,
+            key: "pyq",
+            children: <PreviousYearPapers />,
           },
           // {
           //   label: `Advanced`,

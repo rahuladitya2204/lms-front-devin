@@ -143,6 +143,7 @@ import LearnerBlogsScreen from "./post-authentication/Learner/Screens/Blog/Blogs
 import PackageInformationEditor from "@User/Screens/Packages/CreatePackage/CreatePackage";
 import PackagesList from "./post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesListScreen";
 import PackagesExamScreen from "./post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesExamScreen";
+import PYQPapersScreen from "./post-authentication/Learner/Screens/Products/Test/PYQPapers/PYQPapersScreen";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -191,6 +192,10 @@ const router = (userType: string) => {
                     path=":type"
                     element={<PackageDetailsTabs isServer={false} />}
                   />
+                </Route>
+                <Route path="previous-year-papers">
+                  {/* <Route path="" element={<LearnerCourses />} /> */}
+                  <Route path=":slug" element={<PYQPapersScreen />} />
                 </Route>
                 <Route path="test-series">
                   {/* <Route path="" element={<LearnerCourses />} /> */}
