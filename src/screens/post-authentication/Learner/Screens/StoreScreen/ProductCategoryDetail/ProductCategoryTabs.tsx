@@ -85,8 +85,8 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         // .filter((l) => l.displayOnLandingPage)
         .map((link) => {
           return {
-            label: link.title,
-            displayOnLandingPage: link.displayOnLandingPage,
+            label: link?.displayOnLandingPage?.cta?.text || link.title,
+            displayOnLandingPage: link?.displayOnLandingPage?.enabled,
             key: link.slug,
             description: link.description,
             children: <HtmlViewer content={link.description} />,
@@ -133,7 +133,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       </Col> */}
       <Col span={24}>
         <Card style={{ marginTop: 20 }}>
-          {TABS.filter((i) => i.displayOnLandingPage).map((tab) => {
+          {TABS.filter((i) => i?.displayOnLandingPage).map((tab) => {
             return (
               <Button
                 onClick={() => {

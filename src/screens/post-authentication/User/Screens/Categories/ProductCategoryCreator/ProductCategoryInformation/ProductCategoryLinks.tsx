@@ -130,14 +130,43 @@ const ProductCategoryLinks = React.memo(() => {
                                 key: "content",
                                 children: (
                                   <Col span={24}>
-                                    <Form.Item
-                                      label="Display On Landing Page"
-                                      valuePropName="checked"
-                                      {...restField}
-                                      name={[name, "displayOnLandingPage"]}
-                                    >
-                                      <Switch style={{ marginTop: 20 }} />
-                                    </Form.Item>
+                                    <Row>
+                                      <Col span={4}>
+                                        <Form.Item
+                                          label="Display On Landing Page"
+                                          valuePropName="checked"
+                                          {...restField}
+                                          name={[
+                                            name,
+                                            "displayOnLandingPage",
+                                            "enabled",
+                                          ]}
+                                        >
+                                          <Switch style={{ marginTop: 20 }} />
+                                        </Form.Item>
+                                      </Col>
+                                      <Col span={8}>
+                                        <Form.Item
+                                          label="Display Page CTA Text"
+                                          // valuePropName="checked"
+                                          {...restField}
+                                          name={[
+                                            name,
+                                            "displayOnLandingPage",
+                                            "cta",
+                                            "text",
+                                          ]}
+                                        >
+                                          <Input
+                                            style={{
+                                              marginTop: 20,
+                                              width: 200,
+                                            }}
+                                          />
+                                        </Form.Item>
+                                      </Col>
+                                    </Row>
+
                                     <Form.Item
                                       {...restField}
                                       name={[name, "title"]}
