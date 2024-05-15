@@ -106,7 +106,7 @@ export default function ProductCategoryDetailScreen(
                       textAlign: isMobile ? "center" : "left",
                       fontSize: isMobile ? 18 : 25,
                     }}
-                    level={1}
+                    level={5}
                   >
                     {productCategory.subtitle}
                     <br />

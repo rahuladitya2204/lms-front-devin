@@ -4,7 +4,7 @@ import { EyeOutlined, SaveOutlined, UploadOutlined } from "@ant-design/icons";
 import { Fragment, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { useParams } from "@Router/index";
-
+import * as React from "react";
 import Header from "@Components/Header";
 import ProductCategoryDetailsEditor from "./ProductCategoryDetailsEditor/ProductCategoryDetails";
 import ProductCategoryLandingPage from "./ProductCategoryLandingPage";
@@ -106,5 +106,9 @@ function ProductCategoryInformationEditor(props: any) {
     </Spin>
   );
 }
+
+const ProductCategoryInformationEditorMemoed = React.memo(
+  ProductCategoryInformationEditor
+);
 
 export default ProductCategoryInformationEditor;

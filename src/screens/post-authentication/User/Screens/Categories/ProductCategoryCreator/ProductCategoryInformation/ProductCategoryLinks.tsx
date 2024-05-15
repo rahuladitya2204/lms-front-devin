@@ -40,7 +40,7 @@ const ProductCategoryLinks = React.memo(() => {
               <>
                 <Tabs
                   tabBarStyle={{
-                    width: 151,
+                    width: 300,
                     // height: 700,
                   }}
                   tabPosition="left"
