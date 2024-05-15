@@ -155,7 +155,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           <PageSchema url={props.url} seo={tab?.seo} />
           <Divider style={{ margin: "5px 0px 20px 0" }} />
           {
-            <ShowMore minHeight={300}>
+            <ShowMore minHeight={600}>
               {tab?.children || <HtmlViewer content={tab?.description + ""} />}
             </ShowMore>
           }
