@@ -149,13 +149,14 @@ export const FAQsList = (props: FAQsListPropsI) => {
         }}
       />
       <Collapse
+        defaultActiveKey={faqs.map((i) => i.title)}
         destroyInactivePanel={false}
         expandIconPosition="end"
         style={{ marginTop: 10 }}
         onChange={handlePanelChange}
       >
         {faqs.map((faq) => (
-          <Collapse.Panel header={faq.title} key={faq.key}>
+          <Collapse.Panel header={faq.title} key={faq.title}>
             <div style={{ display: faq.hidden ? "none" : "block" }}>
               <Typography.Paragraph>{faq.description}</Typography.Paragraph>
             </div>
