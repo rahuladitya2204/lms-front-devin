@@ -281,6 +281,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
         key: "test-series",
         children: (
           <PackageListComponent
+            showAll
             id={categoryId + ""}
             isServer={props.isServer}
           />
@@ -313,46 +314,46 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
               setProductTab(e);
             }}
             items={TABS}
-            tabBarExtraContent={{
-              right:
-                productTab === "test-series" ? (
-                  <Button
-                    onClick={() => {
-                      if (props.isServer) {
-                        navigate(
-                          `/test-series/${category.testSeries.page.slug}`
-                        );
-                      } else {
-                        navigate(
-                          `/app/test-series/${category.testSeries.page.slug}`
-                        );
-                      }
-                    }}
-                    type="dashed"
-                    size="small"
-                  >
-                    View All Test Series
-                  </Button>
-                ) : (
-                  <Button
-                    onClick={() => {
-                      if (props.isServer) {
-                        navigate(
-                          `/previous-year-questions/${category.testSeries.page.slug}`
-                        );
-                      } else {
-                        navigate(
-                          `/app/previous-year-questions/${category.testSeries.page.slug}`
-                        );
-                      }
-                    }}
-                    type="dashed"
-                    size="small"
-                  >
-                    View All PYQ Papers
-                  </Button>
-                ),
-            }}
+            // tabBarExtraContent={{
+            //   right:
+            //     productTab === "test-series" ? (
+            //       <Button
+            //         onClick={() => {
+            //           if (props.isServer) {
+            //             navigate(
+            //               `/test-series/${category.testSeries.page.slug}`
+            //             );
+            //           } else {
+            //             navigate(
+            //               `/app/test-series/${category.testSeries.page.slug}`
+            //             );
+            //           }
+            //         }}
+            //         type="dashed"
+            //         size="small"
+            //       >
+            //         View All Test Series
+            //       </Button>
+            //     ) : (
+            //       <Button
+            //         onClick={() => {
+            //           if (props.isServer) {
+            //             navigate(
+            //               `/previous-year-questions/${category.testSeries.page.slug}`
+            //             );
+            //           } else {
+            //             navigate(
+            //               `/app/previous-year-questions/${category.testSeries.page.slug}`
+            //             );
+            //           }
+            //         }}
+            //         type="dashed"
+            //         size="small"
+            //       >
+            //         View All PYQ Papers
+            //       </Button>
+            //     ),
+            // }}
           />
         </Card>
       </Col>

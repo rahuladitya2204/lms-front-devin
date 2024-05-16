@@ -12,6 +12,7 @@ import {
   Col,
   Collapse,
   Divider,
+  Dropdown,
   Row,
   Skeleton,
   Tabs,
@@ -22,6 +23,7 @@ import ShowMore from "@Components/ShowMore/ShowMore";
 import PackageCard from "../Cards/PackageCard";
 import { FAQsList } from "@Components/CreateFaqsComponent";
 import Script from "next/script";
+import { DownOutlined } from "@ant-design/icons";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -58,6 +60,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       {
         label: "Overview",
         key: "overview",
+        displayOnLandingPage: true,
         description: productCategory.landingPage.description,
         children: (
           <HtmlViewer content={productCategory.landingPage.description} />
@@ -133,25 +136,55 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       </Col> */}
       <Col span={24}>
         <Card style={{ marginTop: 20 }}>
-          {TABS.filter((i) => i?.displayOnLandingPage).map((tab) => {
-            return (
-              <Button
-                onClick={() => {
-                  navigate(
-                    props.isServer
-                      ? `/exam/${id}/${tab.key}`
-                      : `/app/exam/${id}/${tab.key}`
-                  );
+          <Row align={"middle"} justify={"space-between"}>
+            <Col>
+              {TABS.filter((i) => i?.displayOnLandingPage).map((tab) => {
+                return (
+                  <Button
+                    onClick={() => {
+                      navigate(
+                        props.isServer
+                          ? `/exam/${id}/${tab.key}`
+                          : `/app/exam/${id}/${tab.key}`
+                      );
+                    }}
+                    // type="text"
+                    size="small"
+                    type={tab.key === type ? "primary" : "default"}
+                    style={{ marginRight: 15, marginBottom: 10 }}
+                  >
+                    {tab.label}
+                  </Button>
+                );
+              })}
+            </Col>
+            <Col>
+              <Dropdown
+                trigger={["click"]}
+                menu={{
+                  items: TABS.filter((tab) => !tab?.displayOnLandingPage).map(
+                    (i) => {
+                      return {
+                        label: i.label,
+                        key: i.key,
+                        onClick: () => {
+                          navigate(
+                            props.isServer
+                              ? `/exam/${id}/${i.key}`
+                              : `/app/exam/${id}/${i.key}`
+                          );
+                        },
+                      };
+                    }
+                  ),
                 }}
-                // type="text"
-                size="small"
-                type={tab.key === type ? "primary" : "default"}
-                style={{ marginRight: 15, marginBottom: 10 }}
               >
-                {tab.label}
-              </Button>
-            );
-          })}
+                <Button type="dashed" danger size="small">
+                  View all <DownOutlined />
+                </Button>
+              </Dropdown>
+            </Col>
+          </Row>
           <PageSchema url={props.url} seo={tab?.seo} />
           <Divider style={{ margin: "5px 0px 20px 0" }} />
           {
@@ -201,7 +234,7 @@ export const PackageListComponent = (props: {
     Learner.Queries.useGetPackages(id + "", {
       enabled: !!id,
     });
-
+  const { data: category } = Learner.Queries.useGetProductCategoryDetails(id);
   return (
     <Row gutter={[20, 20]}>
       {loadingPackages ? (
@@ -224,7 +257,7 @@ export const PackageListComponent = (props: {
               span={24}
               style={{ display: "flex", justifyContent: "center" }}
             >
-              {/* <Button
+              <Button
                 onClick={() => {
                   if (props.isServer) {
                     navigate(`/test-series/${category.testSeries.page.slug}`);
@@ -234,11 +267,11 @@ export const PackageListComponent = (props: {
                     );
                   }
                 }}
-                type="primary"
+                type="dashed"
                 size="small"
               >
                 View All Test Series
-              </Button> */}
+              </Button>
             </Col>
           ) : null}
         </>

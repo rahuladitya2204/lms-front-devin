@@ -2,6 +2,14 @@ import "./suneditor.css";
 import { List, Typography } from "antd";
 import parse, { domToReact } from "html-react-parser";
 import { Element } from "domhandler";
+import styled from "@emotion/styled";
+
+const StyledListItem = styled(List.Item)`
+  p,
+  div {
+    margin: 0;
+  }
+`;
 
 const { Title, Paragraph } = Typography;
 
@@ -36,9 +44,9 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
               {node.children.map((child, childIndex) => {
                 if (child.type === "tag" && child.name === "li") {
                   return (
-                    <List.Item key={childIndex}>
-                      {domToReact(child.children)}
-                    </List.Item>
+                    <StyledListItem key={childIndex} style={{ margin: 0 }}>
+                      <Paragraph>{domToReact(child.children)}</Paragraph>
+                    </StyledListItem>
                   );
                 }
                 return null;
