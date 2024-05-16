@@ -35,6 +35,7 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
               {domToReact(node.children)}
             </Title>
           );
+        // case "span":
         case "p":
           return <Paragraph key={index}>{domToReact(node.children)}</Paragraph>;
         case "ul":

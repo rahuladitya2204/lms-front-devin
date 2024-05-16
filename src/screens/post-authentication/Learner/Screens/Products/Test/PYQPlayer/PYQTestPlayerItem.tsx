@@ -262,6 +262,7 @@ export default function TestPublicPlayerItemReiew(
                                         display: "flex",
                                         flexDirection: "row",
                                         justifyContent: "flex-start",
+                                        alignItems: "baseline",
                                         // marginLeft: 10,
                                       }}
                                     >
