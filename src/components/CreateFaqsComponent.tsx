@@ -111,7 +111,9 @@ interface FAQsListPropsI {
 export const FAQsList = (props: FAQsListPropsI) => {
   const { faqs: initialFaqs } = props;
   const [faqs, setFaqs] = useState(initialFaqs);
-
+  useEffect(() => {
+    setFaqs(initialFaqs);
+  }, [initialFaqs]);
   const faqJson = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
