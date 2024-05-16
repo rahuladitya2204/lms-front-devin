@@ -1,12 +1,13 @@
 import Hydrator from "@ServerComponents/Hydrator";
 import { Learner, Types } from "@adewaskar/lms-common";
-import PackageDetailsTabs from "@Screens/post-authentication/Learner/Screens/Products/Package/PackageDetailsViewer/PackageDetailTabs";
-
+import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
+import ProductCategoryDetailScreen from "@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 import { getToken } from "@Network/index";
-import PackagesList from "@Screens/post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesListScreen";
-import axios from "axios";
-import { getCookie } from "@ServerUtils/index";
+import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
+import PackageDetailsTabs from "@Screens/post-authentication/Learner/Screens/Products/Package/PackageDetailsViewer/PackageDetailTabs";
 import { Metadata } from "next";
+import { getCookie } from "@ServerUtils/index";
+import axios from "axios";
 
 export async function generateMetadata(req: {
   params: any;
@@ -16,23 +17,33 @@ export async function generateMetadata(req: {
   console.log(req, "reqqq");
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
-  const slug = req.params.slug;
+  const id = req.params.id;
   const type = req.params.type || "overview";
   // console.log(alias, userType, id, "kututurur");
-  if (alias && userType && slug) {
+  if (alias && userType && id) {
     const apiUrl = process.env.API_URL;
-    const { data: category }: { data: Types.ProductCategory } = await axios(
-      `${apiUrl}/learner/product-category/test-series/slug/${slug}`,
+    // Fetch metadata from an API
+    const { data: bundle }: { data: Types.Package } = await axios(
+      `${apiUrl}/learner/package/${id}`,
       {
         headers: {
           "x-org-alias": alias,
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/test-series/${slug}`;
+    // const { data: category }: { data: Types.ProductCategory } = await axios(
+    //   `${apiUrl}/learner/product-category/${bundle.category._id}`,
+    //   {
+    //     headers: {
+    //       "x-org-alias": alias,
+    //     },
+    //   }
+    // );
+    const url = `https://${alias}.testmint.ai/test-series/${id}/${type}`;
+    console.log(bundle, "bundle?.seo");
     return {
-      title: category.testSeries?.seo?.meta?.title,
-      description: category.testSeries?.seo?.meta?.description,
+      title: bundle?.seo?.meta?.title,
+      description: bundle?.seo?.meta?.description,
       // icons: {
       //   icon: bundle.thumbnailImage,
       //   apple: bundle.thumbnailImage,
@@ -41,25 +52,25 @@ export async function generateMetadata(req: {
       themeColor: "#ffffff",
       manifest: "/manifest.json",
       openGraph: {
-        title: category.testSeries?.seo?.meta?.title,
-        description: category.testSeries?.seo?.meta?.description,
+        title: bundle.title,
+        description: bundle.subtitle,
         type: "website",
         locale: "en_IN",
         url: url,
         images: [
           {
-            url: category.thumbnailImage,
+            url: bundle.thumbnailImage,
             width: 800,
             height: 600,
-            alt: category.title,
+            alt: bundle.title,
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
-        title: category.title,
-        description: category.title,
-        images: [category.thumbnailImage],
+        title: bundle.title,
+        description: bundle.title,
+        images: [bundle.thumbnailImage],
       },
       alternates: {
         canonical: url,
@@ -121,27 +132,25 @@ export async function generateMetadata(req: {
   };
 }
 
-export default function Page({ params }: { params: { slug: string } }) {
-  const {
-    getProductCategoryDetailsFromTestSeriesSlug,
-    getPackages,
-    getLearnerDetails,
-    getPackageDetails,
-  } = Learner.Queries.Definitions;
+export default function Page({
+  params,
+}: {
+  params: { type: string; id: string };
+}) {
   const token = getToken();
-
+  const { getPackageDetails, getLearnerDetails } = Learner.Queries.Definitions;
   return (
     // @ts-ignore
     <Hydrator
       queries={[
-        getProductCategoryDetailsFromTestSeriesSlug(params.slug),
-        // getPackageDetails(params.id),
+        getPackageDetails(params.id),
+        // getPackages(params.id),
         // getOrgDetails(),
         // // authenticated routes should only be called if token is present
         ...(token ? [getLearnerDetails()] : []),
       ]}
     >
-      <PackagesList isServer slug={params.slug} />
+      <PackageDetailsTabs isServer type={params.type} id={params.id} />
     </Hydrator>
   );
 }

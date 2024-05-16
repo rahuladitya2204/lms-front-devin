@@ -1,13 +1,10 @@
 import Hydrator from "@ServerComponents/Hydrator";
 import { Learner, Types } from "@adewaskar/lms-common";
-import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
-import ProductCategoryDetailScreen from "@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
-import { getToken } from "@Network/index";
 import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
 import axios from "axios";
-import Script from "next/script";
+
 const apiUrl = process.env.API_URL;
 
 export async function generateMetadata(

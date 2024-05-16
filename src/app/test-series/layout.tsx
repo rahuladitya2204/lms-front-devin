@@ -1,20 +1,20 @@
 import Hydrator from "@ServerComponents/Hydrator";
 import { Learner, Types } from "@adewaskar/lms-common";
-import { generateMetadata as GenerateMetadata } from "../../exam/test-series/[id]/[type]/page";
+import { generateMetadata as GenerateMetadata } from "./[id]/[type]/page";
 import { getToken } from "@Network/index";
-import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import PageComponent from "./page";
+import LearnerRootScreen from "@Screens/post-authentication/Learner/Screens/LearnerRoot/LearnerRootScreen";
 export const generateMetadata = GenerateMetadata;
 
 export default function Page({
   params,
   children,
 }: {
-  params: { slug: string };
+  params: { exam: string };
   children?: React.ReactNode;
 }) {
   const {
-    getProductCategoryDetailsFromTestSeriesSlug,
+    getProductCategoryDetailsFromExamSlug,
     getPackages,
     getLearnerDetails,
     getPackageDetails,
@@ -25,7 +25,7 @@ export default function Page({
   return (
     <Hydrator
       queries={[
-        getProductCategoryDetailsFromTestSeriesSlug(params.slug),
+        getProductCategoryDetailsFromExamSlug(params.exam),
         // getPackageDetails(params.id),
         // getOrgDetails(),
         // // authenticated routes should only be called if token is present
@@ -34,7 +34,8 @@ export default function Page({
     >
       <LearnerRootScreen isServer>
         {/* <PageComponent params={params} /> */}
-        {children ? children : <PageComponent params={params} />}
+        {/* {children ? children : <PageComponent params={params} />} */}
+        {children}
       </LearnerRootScreen>
     </Hydrator>
   );

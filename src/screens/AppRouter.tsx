@@ -184,10 +184,7 @@ const router = (userType: string) => {
                   <Route path="" element={<LearnerCourses />} />
                   <Route path=":id" element={<CourseDetailViewer />} />
                 </Route>
-                <Route
-                  path="exam/test-series/:id"
-                  element={<PackageDetailViewer />}
-                >
+                <Route path="test-series/:id" element={<PackageDetailViewer />}>
                   <Route
                     path=":type"
                     element={<PackageDetailsTabs isServer={false} />}
