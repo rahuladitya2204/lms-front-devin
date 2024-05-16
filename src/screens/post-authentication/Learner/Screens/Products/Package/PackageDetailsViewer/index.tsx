@@ -36,6 +36,7 @@ import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import PackageDetailViewerSkeleton from "./PackageDetailSkeleton";
 import { Outlet } from "react-router";
+import { FAQsList } from "@Components/CreateFaqsComponent";
 
 const { UnitTypeToStr } = Utils;
 
@@ -113,7 +114,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
               <PackageTitle
                 style={{ fontSize: 25 }}
                 className="course-title"
-                level={1}
+                level={5}
               >
                 {bundle.title}
               </PackageTitle>
@@ -139,7 +140,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
                 </Col>
               </Row>
 
-              <Row>
+              <Row gutter={[20, 30]}>
                 <Col style={{ marginTop: 15 }} span={24}>
                   <Card bodyStyle={{ paddingTop: 25 }}>
                     {props.isServer ? (
@@ -150,6 +151,13 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
                     )}
                   </Card>
                 </Col>
+                {bundle?.faqs?.length ? (
+                  <Col span={24}>
+                    <Card title="FAQs">
+                      <FAQsList faqs={bundle.faqs} />
+                    </Card>
+                  </Col>
+                ) : null}
               </Row>
 
               {/* </Card> */}
@@ -219,7 +227,7 @@ const PackageCard = ({
       bodyStyle={{ padding: 5, paddingBottom: 15 }}
       title={
         !isDesktop ? (
-          <Title style={{ fontSize: 20 }} level={1}>
+          <Title style={{ fontSize: 20 }} level={5}>
             {bundle.title}
           </Title>
         ) : null
