@@ -84,7 +84,7 @@ export default function TestSeries() {
               label: "SEO",
               key: "seo",
               // @ts-ignore
-              children: <SEOComponent name={["page", "seo"]} />,
+              children: <SEOComponent name={["testSeries", "page", "seo"]} />,
             },
           ]}
         />

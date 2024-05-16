@@ -296,6 +296,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
           <PYQTestsComponent
             isServer={props.isServer}
             categoryId={categoryId}
+            showAll
           />
         ),
       });
@@ -370,6 +371,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
 
 export const PYQTestsComponent = (props: {
   isServer: boolean;
+  showAll?: boolean;
   categoryId: string;
 }) => {
   const { categoryId } = props;
@@ -379,6 +381,9 @@ export const PYQTestsComponent = (props: {
       enabled: !!categoryId,
     }
   );
+  const navigate = useNavigate();
+  const { data: category } =
+    Learner.Queries.useGetProductCategoryDetails(categoryId);
   return (
     <Row gutter={[20, 20]}>
       {PYQTests.sort((a) => a.pyq.year).map((test, idx) => {
@@ -425,6 +430,27 @@ export const PYQTestsComponent = (props: {
           </Col>
         );
       })}
+      {props.showAll ? (
+        <Col span={24} style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            onClick={() => {
+              if (props.isServer) {
+                navigate(
+                  `/previous-year-papers/${category.testSeries.page.slug}`
+                );
+              } else {
+                navigate(
+                  `/app/previous-year-papers/${category.testSeries.page.slug}`
+                );
+              }
+            }}
+            type="dashed"
+            size="small"
+          >
+            View All Papers
+          </Button>
+        </Col>
+      ) : null}
     </Row>
   );
 };
