@@ -47,6 +47,22 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
       }
     );
   }
+  const {
+    mutate: printTestQuestionSolution,
+    isLoading: printingQuestionSolution,
+  } = Learner.Queries.usePrintTestQuestionSolution(props.test._id + "");
+  const printTestSolution = () => {
+    printTestQuestionSolution(
+      {
+        questionId: currentQuestion._id,
+      },
+      {
+        onSuccess: (d) => {
+          window.open(d);
+        },
+      }
+    );
+  };
 
   // return TAB_ITEMS.length ? (
   //   <Card style={{ marginTop: 20 }}>
@@ -64,8 +80,10 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
             <Button
               danger
               size="small"
+              loading={printingQuestionSolution}
               type="primary"
               icon={<DownloadOutlined />}
+              onClick={() => printTestSolution()}
             >
               Download Solution PDF
             </Button>,
@@ -81,7 +99,13 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
       <Col span={24}>
         <Row gutter={[30, 30]} justify={"center"} align={"middle"}>
           <Col flex={1}>
-            <Button icon={<DownloadOutlined />} block danger>
+            <Button
+              loading={printingQuestionSolution}
+              icon={<DownloadOutlined />}
+              block
+              danger
+              onClick={() => printTestSolution()}
+            >
               Download Solution PDF
             </Button>
           </Col>
