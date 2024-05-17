@@ -31,7 +31,7 @@ export async function generateMetadata(req: {
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/learner/test/${id}`;
+    const url = `https://${alias}.testmint.ai/blog/${id}`;
 
     return {
       title: `${blog.title} | ${blog.subtitle}`,

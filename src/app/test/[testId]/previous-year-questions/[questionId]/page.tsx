@@ -43,7 +43,7 @@ export async function generateMetadata(req: {
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/learner/test/${id}/${questionId}`;
+    const url = `https://${alias}.testmint.ai/test/${id}/${questionId}`;
     const questionTitle = htmlToText(question?.title?.text?.eng);
     // .slice(0, 70);
     return {

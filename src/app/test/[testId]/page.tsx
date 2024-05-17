@@ -29,7 +29,7 @@ export async function generateMetadata(req: {
         },
       }
     );
-    const url = `https://${alias}.testmint.ai/learner/test/${id}`;
+    const url = `https://${alias}.testmint.ai/test/${id}`;
     const faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
