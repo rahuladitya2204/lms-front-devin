@@ -6,6 +6,7 @@ import {
   Empty,
   Form,
   List,
+  Modal,
   Row,
   Select,
   Skeleton,
@@ -17,6 +18,7 @@ import {
 import {
   BarChartOutlined,
   ClockCircleOutlined,
+  DeleteOutlined,
   LineChartOutlined,
   PrinterOutlined,
   SettingOutlined,
@@ -59,6 +61,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
   const { mutate: publishTest, isLoading: publishingTest } =
     User.Queries.usePublishTest();
 
+  const { mutate: deleteTest, isLoading: deletingTest } =
+    User.Queries.useDeleteTest();
+
   const ITEMS = (test: Types.Test) => {
     const i = [
       {
@@ -95,6 +100,24 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           window.open(`/admin/test/${test._id}/answer-sheet/upload`);
         },
       },
+      {
+        label: "Delete Test",
+        key: "delete-test",
+        icon: <DeleteOutlined />,
+        onClick: () => {
+          Modal.confirm({
+            title: `Are you sure?`,
+            // icon: <ExclamationCircleOutlined />,
+            content: `You want to delete this test`,
+            onOk() {
+              deleteTest({
+                testId: test._id + "",
+              });
+            },
+            okText: "Yes, Delete",
+          });
+        },
+      },
     ];
     if (
       test._id &&
@@ -122,7 +145,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
       <Fragment>
         <Table
           searchFields={["title"]}
-          loading={loading}
+          loading={loading || deletingTest}
           dataSource={data.filter(
             (test) =>
               props.filter.status.includes(test.status) &&

@@ -86,6 +86,7 @@ const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
                 shape="round"
                 type="primary"
                 size="small"
+                style={{ position: "relative", top: -15 }}
                 onClick={toggleShowMore}
               >
                 Show More
