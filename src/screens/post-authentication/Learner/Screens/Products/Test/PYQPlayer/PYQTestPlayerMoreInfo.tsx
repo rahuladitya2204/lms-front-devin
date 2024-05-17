@@ -1,13 +1,15 @@
-import { Enum, Learner, Types } from "@adewaskar/lms-common";
+import { Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
 
-import { Button, Card } from "@Lib/index";
+import { Button, Card, Col, Row } from "@Lib/index";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import ProductDiscussion from "@Learner/Screens/ProductDiscussion";
 import React from "react";
 import Tabs from "@Components/Tabs";
 import { Typography } from "@Components/Typography";
 import { useQuestion } from "./PYQTestPlayerItem";
-import { DownloadOutlined } from "@ant-design/icons";
+import { DownloadOutlined, WhatsAppOutlined } from "@ant-design/icons";
+import ShowMore from "@Components/ShowMore/ShowMore";
+import { htmlToText } from "html-to-text";
 
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
@@ -19,6 +21,7 @@ interface TestPlayerMoreInfoPropsI {
 }
 
 const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
+  const testId = props.test.slug || props.test._id;
   // useWatchTime(props.course._id);
   const language = props.language;
   const { currentQuestion } = useQuestion();
@@ -52,17 +55,60 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
   // ) : null;
 
   return (
-    <Card
-      title="Detailed Solution"
-      style={{ marginTop: 20 }}
-      extra={[
-        <Button size="small" type="dashed" icon={<DownloadOutlined />}>
-          Download Solution PDF
-        </Button>,
-      ]}
-    >
-      <HtmlViewer content={currentQuestion.solution?.html[language] + ""} />
-    </Card>
+    <Row gutter={[20, 20]}>
+      <Col span={24}>
+        <Card
+          title="Detailed Solution"
+          style={{ marginTop: 20 }}
+          extra={[
+            <Button
+              danger
+              size="small"
+              type="primary"
+              icon={<DownloadOutlined />}
+            >
+              Download Solution PDF
+            </Button>,
+          ]}
+        >
+          <ShowMore minHeight={200}>
+            <HtmlViewer
+              content={currentQuestion.solution?.html[language] + ""}
+            />
+          </ShowMore>
+        </Card>
+      </Col>
+      <Col span={24}>
+        <Row gutter={[30, 30]} justify={"center"} align={"middle"}>
+          <Col flex={1}>
+            <Button icon={<DownloadOutlined />} block danger>
+              Download Solution PDF
+            </Button>
+          </Col>
+          <Col flex={1}>
+            <Button
+              onClick={() => {
+                window.open(
+                  `https://api.whatsapp.com/send?text=[SOLVED]${htmlToText(
+                    currentQuestion.title
+                  ).slice(
+                    0,
+                    50
+                  )}. Check Now: https://www.testmint.ai/test/${testId}/previous-year-questions/${Utils.getQuestionSlugFromID(
+                    currentQuestion
+                  )}`
+                );
+              }}
+              icon={<WhatsAppOutlined />}
+              block
+              type="primary"
+            >
+              Share on Whatsapp
+            </Button>
+          </Col>
+        </Row>
+      </Col>
+    </Row>
   );
 };
 
