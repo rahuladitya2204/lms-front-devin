@@ -1,12 +1,13 @@
 import { Enum, Learner, Types } from "@adewaskar/lms-common";
 
-import { Card } from "@Lib/index";
+import { Button, Card } from "@Lib/index";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import ProductDiscussion from "@Learner/Screens/ProductDiscussion";
 import React from "react";
 import Tabs from "@Components/Tabs";
 import { Typography } from "@Components/Typography";
 import { useQuestion } from "./PYQTestPlayerItem";
+import { DownloadOutlined } from "@ant-design/icons";
 
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
@@ -51,7 +52,15 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
   // ) : null;
 
   return (
-    <Card title="Detailed Solution" style={{ marginTop: 20 }}>
+    <Card
+      title="Detailed Solution"
+      style={{ marginTop: 20 }}
+      extra={[
+        <Button size="small" type="dashed" icon={<DownloadOutlined />}>
+          Download Solution PDF
+        </Button>,
+      ]}
+    >
       <HtmlViewer content={currentQuestion.solution?.html[language] + ""} />
     </Card>
   );

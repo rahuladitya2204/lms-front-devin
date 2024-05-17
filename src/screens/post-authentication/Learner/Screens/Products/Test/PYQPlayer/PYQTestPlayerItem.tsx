@@ -214,7 +214,8 @@ export default function TestPublicPlayerItemReiew(
         ]}
       >
         <Form layout="vertical" form={form}>
-          <div style={{ minHeight: "50vh" }}>
+          <div>
+            {/* <div style={{ minHeight: "50vh" }}> */}
             <Row gutter={[20, 30]}>
               <Col span={24}>
                 <Paragraph style={{ fontSize: 15 }}>
