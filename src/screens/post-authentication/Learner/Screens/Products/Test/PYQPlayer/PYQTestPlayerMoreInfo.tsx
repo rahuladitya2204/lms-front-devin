@@ -10,6 +10,7 @@ import { useQuestion } from "./PYQTestPlayerItem";
 import { DownloadOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import ShowMore from "@Components/ShowMore/ShowMore";
 import { htmlToText } from "html-to-text";
+import useBreakpoint from "@Hooks/useBreakpoint";
 
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
@@ -69,7 +70,7 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
   //     <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
   //   </Card>
   // ) : null;
-
+  const { isMobile } = useBreakpoint();
   return (
     <Row gutter={[20, 20]}>
       <Col span={24}>
@@ -85,7 +86,7 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
               icon={<DownloadOutlined />}
               onClick={() => printTestSolution()}
             >
-              Download Solution PDF
+              {isMobile ? "Solution" : "Download Solution PDF"}
             </Button>,
           ]}
         >
