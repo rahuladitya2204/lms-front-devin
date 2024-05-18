@@ -11,6 +11,7 @@ import { DownloadOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import ShowMore from "@Components/ShowMore/ShowMore";
 import { htmlToText } from "html-to-text";
 import useBreakpoint from "@Hooks/useBreakpoint";
+import AuthProtectedCTA from "@Components/AuthProtectedCTA";
 
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
@@ -77,18 +78,18 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
         <Card
           title="Detailed Solution"
           style={{ marginTop: 20 }}
-          extra={[
-            <Button
-              danger
-              size="small"
-              loading={printingQuestionSolution}
-              type="primary"
-              icon={<DownloadOutlined />}
-              onClick={() => printTestSolution()}
-            >
-              {isMobile ? "Solution" : "Download Solution PDF"}
-            </Button>,
-          ]}
+          // extra={[
+          //   <Button
+          //     danger
+          //     size="small"
+          //     loading={printingQuestionSolution}
+          //     type="primary"
+          //     icon={<DownloadOutlined />}
+          //     onClick={() => printTestSolution()}
+          //   >
+          //     {isMobile ? "Solution" : "Download Solution PDF"}
+          //   </Button>,
+          // ]}
         >
           <ShowMore minHeight={200}>
             <HtmlViewer
@@ -100,15 +101,16 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
       <Col span={24}>
         <Row gutter={[30, 30]} justify={"center"} align={"middle"}>
           <Col flex={1}>
-            <Button
-              loading={printingQuestionSolution}
-              icon={<DownloadOutlined />}
-              block
-              danger
-              onClick={() => printTestSolution()}
-            >
-              Download Solution PDF
-            </Button>
+            <AuthProtectedCTA onClick={() => printTestSolution()}>
+              <Button
+                loading={printingQuestionSolution}
+                icon={<DownloadOutlined />}
+                block
+                danger
+              >
+                Download Solution PDF
+              </Button>
+            </AuthProtectedCTA>
           </Col>
           <Col flex={1}>
             <Button

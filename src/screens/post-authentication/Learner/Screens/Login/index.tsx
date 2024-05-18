@@ -68,6 +68,7 @@ const StyledAuthenticationCard = styled.div`
 
 interface LearnerLoginPropsI {
   closeModal?: Function;
+  onSuccess?: Function;
 }
 
 function LearnerLogin(props: LearnerLoginPropsI) {
@@ -79,12 +80,22 @@ function LearnerLogin(props: LearnerLoginPropsI) {
           {
             label: "Login with OTP",
             key: "otp",
-            children: <OtpForm closeModal={props.closeModal} />,
+            children: (
+              <OtpForm
+                onSuccess={props.onSuccess}
+                closeModal={props.closeModal}
+              />
+            ),
           },
           {
             label: "Login with Email",
             key: "email",
-            children: <EmailForm closeModal={props.closeModal} />,
+            children: (
+              <EmailForm
+                onSuccess={props.onSuccess}
+                closeModal={props.closeModal}
+              />
+            ),
           },
         ]}
       />
@@ -153,6 +164,7 @@ const OtpForm = (props: LearnerLoginPropsI) => {
         },
         {
           onSuccess: () => {
+            props.onSuccess && props.onSuccess();
             props.closeModal && props.closeModal();
           },
           onError: (er: any) => {
@@ -324,6 +336,7 @@ const EmailForm = (props: LearnerLoginPropsI) => {
         },
         {
           onSuccess: () => {
+            props.onSuccess && props.onSuccess();
             props.closeModal && props.closeModal();
           },
           onError: (er: any) => {
