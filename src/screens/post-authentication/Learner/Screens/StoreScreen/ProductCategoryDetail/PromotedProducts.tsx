@@ -28,20 +28,25 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
     props.type,
     query
   );
+  console.log(props.type, "props.type");
   const linkPrefix = useMemo(() => {
-    let type;
+    let prefix = "test";
     switch (props.type) {
-      case "test":
-        type = "test";
-        return;
-
-      case "package":
-        type = "test-series";
-        return;
+      case "test": {
+        prefix = "test";
+        break;
+      }
+      case "package": {
+        prefix = "test-series";
+        break;
+      }
+      default: {
+        prefix = "test";
+      }
     }
-    return type;
-  }, [props.type]);
-  // console.log(products, props.type, "popopo");
+    return prefix;
+  }, [props]);
+  console.log(linkPrefix, props.type, "popopo");
   return (
     <Row gutter={[20, 20]}>
       {products.map((product, idx) => {
