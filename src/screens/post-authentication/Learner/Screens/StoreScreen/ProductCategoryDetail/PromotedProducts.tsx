@@ -12,14 +12,16 @@ interface PromotedProductsPropsI {
 }
 
 export default function PromotedProducts(props: PromotedProductsPropsI) {
+  const query = {
+    mode: props.mode,
+    ...(props.data ? props.data : {}),
+  };
+  console.log(query, props.type, "query");
   const { data: products } = Learner.Queries.useGetPromotedProducts(
     props.type,
-    {
-      mode: props.mode,
-      ...(props.data ? props.data : {}),
-    }
+    query
   );
-  console.log(products, "popopo");
+  // console.log(products, props.type, "popopo");
   return (
     <Row gutter={[20, 20]}>
       {products.map((product, idx) => {
