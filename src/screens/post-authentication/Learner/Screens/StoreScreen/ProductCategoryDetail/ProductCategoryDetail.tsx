@@ -44,7 +44,9 @@ import ProductCategoryDetailSkeletonScreen from "./ProductCategoryDetailSkeleton
 import TestCard from "../Cards/TestCard";
 import ProductCategoryTabs, {
   PackageListComponent,
+  TestListComponent,
 } from "./ProductCategoryTabs";
+import PromotedProducts from "./PromotedProducts";
 
 const { Text, Paragraph } = Typography;
 
@@ -280,11 +282,24 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
         label: "Test Series",
         key: "test-series",
         children: (
-          <PackageListComponent
-            showAll
-            id={categoryId + ""}
-            isServer={props.isServer}
-          />
+          <Row gutter={[20, 20]}>
+            <Col span={24}>
+              <PromotedProducts
+                data={{ category: categoryId }}
+                mode="free"
+                type="package"
+                isServer={!!props.isServer}
+              />
+            </Col>
+            <Col span={24}>
+              <PromotedProducts
+                data={{ category: categoryId }}
+                mode="free"
+                type="test"
+                isServer={!!props.isServer}
+              />
+            </Col>
+          </Row>
         ),
       });
     }

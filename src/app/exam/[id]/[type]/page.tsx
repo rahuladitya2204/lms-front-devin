@@ -1,5 +1,5 @@
 import Hydrator from "@ServerComponents/Hydrator";
-import { Learner, Types } from "@adewaskar/lms-common";
+import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
@@ -108,8 +108,12 @@ export default async function Page({
   params: { type: string; id: string; product: string };
 }) {
   const { category, link, url } = await getData(params);
-  const { getProductCategoryDetails, getPackages, getPYQs } =
-    Learner.Queries.Definitions;
+  const {
+    getProductCategoryDetails,
+    getPackages,
+    getPYQs,
+    getPromotedProducts,
+  } = Learner.Queries.Definitions;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -130,6 +134,14 @@ export default async function Page({
           getProductCategoryDetails(params.id),
           getPackages(params.id),
           getPYQs(params.id),
+          getPromotedProducts(Enum.ProductType.PACKAGE, {
+            mode: "free",
+            category: params.id,
+          }),
+          getPromotedProducts(Enum.ProductType.TEST, {
+            mode: "free",
+            category: params.id,
+          }),
           // getOrgDetails(),
           // // authenticated routes should only be called if token is present
           // ...(token ? [getCartDetails(), getLearnerDetails()] : []),

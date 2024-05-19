@@ -1,4 +1,15 @@
-import { Button, Card, Col, Empty, Row, Skeleton, Spin } from "@Lib/index";
+import {
+  Badge,
+  Button,
+  Card,
+  Col,
+  Divider,
+  Empty,
+  Row,
+  Skeleton,
+  Spin,
+  Tag,
+} from "@Lib/index";
 import { Enum, Learner, Types, User } from "@adewaskar/lms-common";
 import AppImage from "@Components/Image";
 import { Text, Title } from "./Typography/Typography";
@@ -16,8 +27,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   const {
     product: { data: product },
   } = props;
-
-  return props.mini ? (
+  const Component = props.mini ? (
     <MiniCard
       accessoryLeft={
         product.thumbnailImage ? (
@@ -27,6 +37,23 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     >
       <Title style={{ fontSize: 13 }}>{product.title}</Title>
       {props.children}
+      <Divider style={{ margin: "10px 0" }} />
+      {product.duration.enabled ? (
+        <Tag style={{ fontSize: 12 }} color="blue">
+          {product.duration.value} mins
+        </Tag>
+      ) : null}
+      {product?.stats?.score?.total ? (
+        <Tag style={{ fontSize: 12 }} color="orange">
+          {product.stats.score.total} marks
+        </Tag>
+      ) : null}
+
+      {product?.stats?.question?.count ? (
+        <Tag style={{ fontSize: 12 }} color="red">
+          {product.stats.question.count} Questions
+        </Tag>
+      ) : null}
     </MiniCard>
   ) : (
     <Card
@@ -49,6 +76,16 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       />
     </Card>
   );
+  if (product.plan.type === "free") {
+    return (
+      <Badge.Ribbon placement="start" text="Free">
+        {Component}
+      </Badge.Ribbon>
+    );
+  } else {
+    return Component;
+  }
+  return Component;
 };
 
 export default LearnerProductCard;

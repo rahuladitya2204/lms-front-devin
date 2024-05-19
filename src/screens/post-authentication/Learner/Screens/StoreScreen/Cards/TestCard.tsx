@@ -51,7 +51,26 @@ function TestCard(props: TestCardPropsI) {
   const formattedDuration = test.duration.enabled
     ? Utils.formatTime(test.duration.value * 60)
     : null;
+  const TAGS = (
+    <>
+      {test.duration.enabled ? (
+        <Tag style={{ fontSize: 12 }} color="blue-inverse">
+          {test.duration.value} mins
+        </Tag>
+      ) : null}
+      {test?.stats?.score?.total ? (
+        <Tag style={{ fontSize: 12 }} color="orange-inverse">
+          {test.stats.score.total} marks
+        </Tag>
+      ) : null}
 
+      {test?.stats?.question?.count ? (
+        <Tag style={{ fontSize: 12 }} color="red-inverse">
+          {test.stats.question.count} Questions
+        </Tag>
+      ) : null}
+    </>
+  );
   if (props.mini) {
     return (
       <MiniCard
@@ -62,7 +81,7 @@ function TestCard(props: TestCardPropsI) {
         }
       >
         <Title style={{ fontSize: 13 }}>{test.title}</Title>
-        {/* {TAGS} */}
+        {TAGS}
       </MiniCard>
     );
   }

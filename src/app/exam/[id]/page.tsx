@@ -1,5 +1,5 @@
 import Hydrator from "@ServerComponents/Hydrator";
-import { Learner } from "@adewaskar/lms-common";
+import { Enum, Learner } from "@adewaskar/lms-common";
 import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 import { generateMetadata as GenerateMetadata } from "./[type]/page";
 
@@ -10,8 +10,13 @@ export default function Page({
 }: {
   params: { type: string; id: string };
 }) {
-  const { getProductCategoryDetails, getPackages, getPYQs, getOrgDetails } =
-    Learner.Queries.Definitions;
+  const {
+    getProductCategoryDetails,
+    getPackages,
+    getPYQs,
+    getOrgDetails,
+    getPromotedProducts,
+  } = Learner.Queries.Definitions;
   return (
     // @ts-ignore
     <Hydrator
@@ -20,6 +25,14 @@ export default function Page({
         getProductCategoryDetails(params.id),
         getPackages(params.id),
         getPYQs(params.id),
+        getPromotedProducts(Enum.ProductType.PACKAGE, {
+          mode: "free",
+          category: params.id,
+        }),
+        getPromotedProducts(Enum.ProductType.TEST, {
+          mode: "free",
+          category: params.id,
+        }),
         // // authenticated routes should only be called if token is present
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}

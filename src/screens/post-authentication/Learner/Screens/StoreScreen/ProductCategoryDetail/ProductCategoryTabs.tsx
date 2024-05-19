@@ -7,6 +7,7 @@ import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
 import {
+  Badge,
   Button,
   Card,
   Col,
@@ -24,6 +25,7 @@ import PackageCard from "../Cards/PackageCard";
 import { FAQsList } from "@Components/CreateFaqsComponent";
 import Script from "next/script";
 import { DownOutlined } from "@ant-design/icons";
+import TestCard from "../Cards/TestCard";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -271,6 +273,76 @@ export const PackageListComponent = (props: {
                 size="small"
               >
                 View All Test Series
+              </Button>
+            </Col>
+          ) : null}
+        </>
+      )}
+    </Row>
+  );
+};
+
+export const TestListComponent = (props: {
+  id: string;
+  isServer?: boolean;
+  showAll?: boolean;
+}) => {
+  const navigate = useNavigate();
+  const id = props.id;
+  const { data: tests, isLoading: loadingTests } = Learner.Queries.useGetTests(
+    // @ts-ignore
+    {
+      category: id + "",
+      // status: [Enum],
+    },
+    {
+      enabled: !!id,
+    }
+  );
+  const { data: category } = Learner.Queries.useGetProductCategoryDetails(id);
+  return (
+    <Row gutter={[20, 20]}>
+      {loadingTests ? (
+        [1, 1, 1, 1, 1, 1].map((i, idx) => (
+          <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={8} xxl={6}>
+            <Skeleton.Button active block style={{ height: 110 }} />
+          </Col>
+        ))
+      ) : (
+        <>
+          {tests.map((test, idx) => {
+            const TestComponent = (
+              <TestCard mini isServer={props.isServer} test={test} />
+            );
+            return (
+              <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={8} xxl={6}>
+                {test.plan.type === "free" ? (
+                  <Badge.Ribbon text="Free" placement="start">
+                    {TestComponent}
+                  </Badge.Ribbon>
+                ) : (
+                  TestComponent
+                )}
+              </Col>
+            );
+          })}
+          {props.showAll ? (
+            <Col
+              span={24}
+              style={{ display: "flex", justifyContent: "center" }}
+            >
+              <Button
+                onClick={() => {
+                  if (props.isServer) {
+                    navigate(`/test/${category.testSeries.page.slug}`);
+                  } else {
+                    navigate(`/app/test/${category.testSeries.page.slug}`);
+                  }
+                }}
+                type="dashed"
+                size="small"
+              >
+                View All Tests
               </Button>
             </Col>
           ) : null}

@@ -1,4 +1,14 @@
-import { Button, Card, Col, Form, Input, Row, Select } from "antd";
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  Form,
+  Input,
+  Row,
+  Select,
+  Switch,
+} from "antd";
 import { Enum, Types, User } from "@adewaskar/lms-common";
 import { Fragment, useCallback, useEffect, useMemo, useState } from "react";
 
@@ -106,6 +116,21 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           </Form.Item>
         </Col>
       </Row>
+      <Divider />
+      <Row>
+        <Col>
+          <Form.Item
+            style={{ margin: 0, marginLeft: 10 }}
+            valuePropName="checked"
+            name={["promotion", "enabled"]}
+            label="Promoted"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Divider />
+
       <Row gutter={[20, 20]}>
         <Col span={24}>
           <Form.Item

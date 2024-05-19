@@ -65,7 +65,7 @@ function PackageProducts(props: PackageProductsPropsI) {
                                 data: item,
                               }}
                             >
-                              {item.duration.enabled ? (
+                              {/* {item.duration.enabled ? (
                                 <Tag
                                   style={{ fontSize: 12 }}
                                   color="blue-inverse"
@@ -89,7 +89,7 @@ function PackageProducts(props: PackageProductsPropsI) {
                                 >
                                   {item.stats.question.count} Questions
                                 </Tag>
-                              ) : null}
+                              ) : null} */}
                             </LearnerProductCard>
                           </Col>
                         ))}

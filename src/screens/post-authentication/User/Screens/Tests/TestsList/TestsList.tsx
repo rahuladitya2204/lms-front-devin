@@ -190,6 +190,18 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             }}
           />
           <TableColumn
+            title="Promoted"
+            dataIndex="slug"
+            key="slug"
+            render={(_: any, test: Types.Test) =>
+              test?.promotion?.enabled ? (
+                <Tag color="purple">Promoted</Tag>
+              ) : (
+                "-"
+              )
+            }
+          />
+          <TableColumn
             title="Topics Assigned"
             dataIndex="topicsAssigned"
             key="topicsAssigned"

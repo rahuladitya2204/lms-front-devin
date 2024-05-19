@@ -418,7 +418,19 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         ) : null}
       </Row>
       <Divider />
-
+      <Row>
+        <Col>
+          <Form.Item
+            style={{ margin: 0, marginLeft: 10 }}
+            valuePropName="checked"
+            name={["promotion", "enabled"]}
+            label="Promoted"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Divider />
       <Row gutter={[40, 20]}>
         <Col span={8}>
           <Form.Item

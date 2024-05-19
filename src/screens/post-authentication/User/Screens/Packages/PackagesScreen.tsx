@@ -3,7 +3,7 @@ import {
   EditOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Row, Space, Table } from "@Lib/index";
+import { Button, Col, Row, Space, Table, Tag } from "@Lib/index";
 
 import Container from "@Components/Container";
 import Header from "@User/Screens/UserRoot/UserHeader";
@@ -50,6 +50,18 @@ function PackagesScreen() {
               dataIndex="slug"
               key="slug"
               render={(_: any, bundle: Types.Package) => bundle.slug || "-"}
+            />
+            <Table.Column
+              title="Promoted"
+              dataIndex="slug"
+              key="slug"
+              render={(_: any, bundle: Types.Package) =>
+                bundle?.promotion?.enabled ? (
+                  <Tag color="purple">Promoted</Tag>
+                ) : (
+                  "-"
+                )
+              }
             />
             {/* <Table.Column
               title="Questions"
