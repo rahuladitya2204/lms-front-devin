@@ -134,14 +134,6 @@ export default async function Page({
           getProductCategoryDetails(params.id),
           // getPackages(params.id),
           getPYQs(params.id),
-          // getPromotedProducts(Enum.ProductType.PACKAGE, {
-          //   mode: "free",
-          //   category: params.id,
-          // }),
-          // getPromotedProducts(Enum.ProductType.TEST, {
-          //   mode: "free",
-          //   category: params.id,
-          // }),
           // getOrgDetails(),
           // // authenticated routes should only be called if token is present
           // ...(token ? [getCartDetails(), getLearnerDetails()] : []),

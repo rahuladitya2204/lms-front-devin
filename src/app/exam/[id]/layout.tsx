@@ -31,12 +31,11 @@ export default function Page({
         getPYQs(params.id),
         getOrgDetails(),
         getPromotedProducts(Enum.ProductType.PACKAGE, {
-          mode: "free",
           category: params.id,
         }),
         getPromotedProducts(Enum.ProductType.TEST, {
-          mode: "free",
           category: params.id,
+          mode: "free",
         }),
         // authenticated routes should only be called if token is present
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),

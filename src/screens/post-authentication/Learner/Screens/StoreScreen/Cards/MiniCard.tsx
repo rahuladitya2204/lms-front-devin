@@ -7,6 +7,7 @@ interface MiniCardPropsI {
   //   title: React.ReactNode | string;
   //   subtitle: React.ReactNode;
   children?: React.ReactNode;
+  footer?: React.ReactNode;
   accessoryLeft?: React.ReactNode;
 }
 
@@ -19,6 +20,11 @@ export default function MiniCard(props: MiniCardPropsI) {
         <Col style={{ flex: 1 }}>{props.children}</Col>
         {/* {props.accessoryRight && <Col>{props.accessoryRight}</Col>} */}
       </Row>
+      {props.footer ? (
+        <Row style={{ marginTop: 10 }}>
+          <Col span={24}>{props.footer}</Col>
+        </Row>
+      ) : null}
     </Card>
   );
 }

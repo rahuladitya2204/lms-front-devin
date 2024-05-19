@@ -282,20 +282,26 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
         label: "Test Series",
         key: "test-series",
         children: (
-          <Row gutter={[20, 20]}>
+          <Row>
             <Col span={24}>
+              <Title style={{ fontSize: 16 }} level={4}>
+                {category.title} Test Series
+              </Title>
               <PromotedProducts
                 data={{ category: categoryId }}
-                mode="free"
-                type="package"
+                category={categoryId}
+                type={Enum.ProductType.PACKAGE}
                 isServer={!!props.isServer}
               />
             </Col>
             <Col span={24}>
+              <Title style={{ fontSize: 16 }} level={4}>
+                {category.title} Free Tests
+              </Title>
               <PromotedProducts
-                data={{ category: categoryId }}
-                mode="free"
-                type="test"
+                data={{ category: categoryId, mode: "free" }}
+                category={categoryId}
+                type={Enum.ProductType.TEST}
                 isServer={!!props.isServer}
               />
             </Col>
