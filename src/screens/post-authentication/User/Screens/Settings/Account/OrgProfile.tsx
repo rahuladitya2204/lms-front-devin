@@ -76,7 +76,7 @@ export default function OrgProfile() {
             style={{ marginBottom: 50 }}
             required
             name={["branding", "logo", "low", "url"]}
-            label="Logo"
+            label="Low Resolution Logo"
           >
             <div style={{ width: 150, height: 100 }}>
               <MediaUpload
@@ -103,7 +103,7 @@ export default function OrgProfile() {
             style={{ marginBottom: 50 }}
             required
             name={["branding", "logo", "high", "url"]}
-            label="Logo"
+            label="High Resolution Logo"
           >
             <div style={{ width: 150, height: 100 }}>
               <MediaUpload

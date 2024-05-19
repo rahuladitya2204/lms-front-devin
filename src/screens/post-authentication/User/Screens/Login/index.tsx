@@ -79,7 +79,7 @@ export default function UserLoginContainer(props: UserLoginPropsI) {
         sm={{ span: 0 }}
         xs={{ span: 0 }}
       >
-        <Image preview={false} width={"90%"} src={org.branding.logo.high.url} />
+        <Image preview={false} width={"90%"} src={org.branding.logo.low.url} />
       </Col>
       <Col
         span={24}
