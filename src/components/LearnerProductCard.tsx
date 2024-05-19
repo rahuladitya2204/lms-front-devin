@@ -11,7 +11,14 @@ import {
   Tag,
   Tooltip,
 } from "@Lib/index";
-import { Constants, Enum, Learner, Types, User } from "@adewaskar/lms-common";
+import {
+  Constants,
+  Enum,
+  Learner,
+  Types,
+  User,
+  Utils,
+} from "@adewaskar/lms-common";
 import AppImage from "@Components/Image";
 import { Text, Title } from "./Typography/Typography";
 import MiniCard from "@Screens/post-authentication/Learner/Screens/StoreScreen/Cards/MiniCard";
@@ -23,6 +30,8 @@ import {
   InfoCircleOutlined,
   InfoCircleTwoTone,
 } from "@ant-design/icons";
+import { useModal } from "./ActionModal/ModalContext";
+import ShowSyllabus from "./ShowSyllabus";
 
 const CustomTag = styled(Text)`
   margin-top: 3px;
@@ -40,6 +49,12 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   const {
     product: { data: product },
   } = props;
+  // const { data: topics } = Learner.Queries.useGetTopics();
+  // const treeData = product?.topics
+  //   ?.map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
+  //   .flat();
+  // console.log(treeData, "treeData");
+  const { openModal } = useModal();
   const Component = props.mini ? (
     <MiniCard
       accessoryLeft={
@@ -51,10 +66,12 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
         <>
           {product?.languages?.length ? (
             <Col>
-              <Button style={{ padding: 0, fontSize: 13 }} type="link">
-                <BookTwoTone /> Syllabus
-              </Button>
-              <Divider type="vertical" />
+              {product?.topics?.length ? (
+                <>
+                  <ShowSyllabus testId={props.product.id} />
+                  <Divider type="vertical" />
+                </>
+              ) : null}
               <Button
                 style={{ padding: 0, fontSize: 13 }}
                 type="link"
