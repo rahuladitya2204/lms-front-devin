@@ -32,18 +32,20 @@ export function transformLatexInString(inputString: string): string {
 
 export function printPdf(downloadUrl: string, filename = 'test.pdf') {
   // Create a temporary download link
-  const downloadLink = document.createElement('a')
-  downloadLink.href = downloadUrl
-  downloadLink.target = '_blank' // Open in a new tab if it fails to download
-  downloadLink.download = filename || 'downloaded.pdf' // You can specify the default filename here
+  // const downloadLink = document.createElement('a')
+  // downloadLink.href = downloadUrl
+  // downloadLink.target = '_blank' // Open in a new tab if it fails to download
+  // downloadLink.download = filename || 'downloaded.pdf' // You can specify the default filename here
 
-  // Append the link to the document and click it
-  document.body.appendChild(downloadLink)
-  downloadLink.click()
+  // // Append the link to the document and click it
+  // document.body.appendChild(downloadLink)
+  // downloadLink.click()
 
-  // Clean up by removing the link and revoking the Blob URL
-  document.body.removeChild(downloadLink)
-  window.URL.revokeObjectURL(downloadUrl)
+  // // Clean up by removing the link and revoking the Blob URL
+  // document.body.removeChild(downloadLink)
+  // window.URL.revokeObjectURL(downloadUrl)
+
+  downloadFileFromUrl(downloadUrl,filename);
 }
 
 // function base64ToArrayBuffer(base64: string) {
@@ -148,4 +150,22 @@ export const isTopicsAssigned=(test:Types.Test) => {
     });
   });
   return isValid;
+}
+
+export async function downloadFileFromUrl(fileUrl: string, fileName: string): Promise<void> {
+  try {
+    const response = await fetch(fileUrl);
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
+  } catch (error) {
+    console.error('Error downloading file:', error);
+  }
 }

@@ -12,6 +12,7 @@ import ShowMore from "@Components/ShowMore/ShowMore";
 import { htmlToText } from "html-to-text";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import AuthProtectedCTA from "@Components/AuthProtectedCTA";
+import { downloadFileFromUrl } from "@Components/Editor/SunEditor/utils";
 
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
@@ -26,7 +27,7 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
   const testId = props.test.slug || props.test._id;
   // useWatchTime(props.course._id);
   const language = props.language;
-  const { currentQuestion } = useQuestion();
+  const { currentQuestion, currentQuestionIndex } = useQuestion();
   const TAB_ITEMS = [];
   if (currentQuestion.solution?.html[language]) {
     TAB_ITEMS.push(
@@ -60,7 +61,10 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
       },
       {
         onSuccess: (d) => {
-          window.open(d);
+          downloadFileFromUrl(
+            d,
+            `${props.test.title} - Question-${currentQuestionIndex + 1}`
+          );
         },
       }
     );

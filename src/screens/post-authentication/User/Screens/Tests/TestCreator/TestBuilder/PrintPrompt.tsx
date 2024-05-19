@@ -147,7 +147,7 @@ export default function PrintPrompt(props: PrintPromptPropsI) {
                 {
                   onSuccess: (pdfStr) => {
                     //   console.log(pdfStr, 11)
-                    printPdf(pdfStr);
+                    printPdf(pdfStr, "omr.pdf");
                   },
                 }
               )
