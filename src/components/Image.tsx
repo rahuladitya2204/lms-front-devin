@@ -29,6 +29,7 @@ const ImageHolder = styled.div(
     justify-content: center;
     overflow: hidden;
     height: ${height || "auto"}px;
+    border-radius: 6px;
   `
 );
 

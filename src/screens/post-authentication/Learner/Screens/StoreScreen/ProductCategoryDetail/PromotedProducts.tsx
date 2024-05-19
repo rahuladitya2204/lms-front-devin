@@ -3,6 +3,8 @@ import { Col, Row } from "antd";
 import PackageCard from "../Cards/PackageCard";
 import TestCard from "../Cards/TestCard";
 import LearnerProductCard from "@Components/LearnerProductCard";
+import { Link } from "@Router/index";
+import { useMemo } from "react";
 
 interface PromotedProductsPropsI {
   type: Enum.ProductType;
@@ -26,17 +28,38 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
     props.type,
     query
   );
+  const linkPrefix = useMemo(() => {
+    let type;
+    switch (props.type) {
+      case "test":
+        type = "test";
+        return;
+
+      case "package":
+        type = "test-series";
+        return;
+    }
+    return type;
+  }, [props.type]);
   // console.log(products, props.type, "popopo");
   return (
     <Row gutter={[20, 20]}>
       {products.map((product, idx) => {
         return (
           <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={8} xxl={8}>
-            <LearnerProductCard
-              mini
-              // isServer={props.isServer}
-              product={product}
-            />
+            <Link
+              to={
+                props.isServer
+                  ? `/${linkPrefix}/${product.id}`
+                  : `/app/${linkPrefix}/${product.id}`
+              }
+            >
+              <LearnerProductCard
+                mini
+                // isServer={props.isServer}
+                product={product}
+              />
+            </Link>
           </Col>
         );
       })}

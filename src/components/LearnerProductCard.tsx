@@ -155,7 +155,6 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   } else {
     return Component;
   }
-  return Component;
 };
 
 export default LearnerProductCard;
