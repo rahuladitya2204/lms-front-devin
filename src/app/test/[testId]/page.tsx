@@ -30,20 +30,6 @@ export async function generateMetadata(req: {
       }
     );
     const url = `https://${alias}.testmint.ai/test/${id}`;
-    const faqSchema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: test?.faqs.map((faq) => {
-        return {
-          "@type": "Question",
-          name: faq.title,
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: faq.description,
-          },
-        };
-      }),
-    };
     return {
       title: test?.seo?.meta?.title,
       description: test?.seo?.meta?.description,
@@ -86,7 +72,6 @@ export async function generateMetadata(req: {
           description: test.title,
           url: url,
         }),
-        "schema:faq": JSON.stringify(faqSchema),
       },
     };
   }

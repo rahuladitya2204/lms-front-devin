@@ -65,6 +65,7 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
   const { testId } = useParams();
   const { data: test, isLoading: loadingTest } =
     Learner.Queries.useGetTestDetails(testId + "");
+  // console.log(testId, "test");
 
   const { data: enrolledDetails, isFetching: loadingEnrolledTest } =
     Learner.Queries.useGetEnrolledProductDetails({
