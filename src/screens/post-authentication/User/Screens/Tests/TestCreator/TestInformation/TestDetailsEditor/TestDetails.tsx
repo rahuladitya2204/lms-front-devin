@@ -24,6 +24,7 @@ import TextArea from "@Components/Textarea";
 import FileList from "@Components/FileList";
 import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import { validateSlug } from "@Components/Editor/SunEditor/utils";
+import InputTags from "@Components/InputTags/InputTags";
 
 const { useWatch } = Form;
 
@@ -165,8 +166,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Input />
       </Form.Item>
       <Form.Item
-        name={"description"}
-        label="Description"
+        name={"keywords"}
+        label="Keywords"
         rules={[
           {
             required: true,
@@ -174,7 +175,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           },
         ]}
       >
-        <TextArea rows={4} placeholder="Enter the test description" />
+        <InputTags name={`keywords`} />
       </Form.Item>
       <Form.Item name="files" required label="Files">
         <MediaUpload

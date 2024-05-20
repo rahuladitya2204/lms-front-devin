@@ -275,6 +275,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
       enabled: !!categoryId,
     }
   );
+  const link = category.info.links.find((i) => i.slug === type);
   const TABS = useMemo(() => {
     const tabs: any[] = [];
     if (packages.length) {
@@ -288,7 +289,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                 {category.title} Test Series
               </Title>
               <PromotedProducts
-                data={{ category: categoryId }}
+                data={{ category: categoryId, keywords: link?.keywords }}
                 category={categoryId}
                 type={Enum.ProductType.PACKAGE}
                 isServer={!!props.isServer}
@@ -299,7 +300,11 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                 {category.title} Free Tests
               </Title>
               <PromotedProducts
-                data={{ category: categoryId, mode: "free" }}
+                data={{
+                  category: categoryId,
+                  mode: "free",
+                  keywords: link?.keywords,
+                }}
                 category={categoryId}
                 type={Enum.ProductType.TEST}
                 isServer={!!props.isServer}

@@ -151,7 +151,7 @@ export default async function Page({
   );
 }
 
-async function getData({ id, type }) {
+export async function getData({ id, type }) {
   const alias = getCookie("orgAlias")?.split("-")[0];
   const url = `https://${alias}.testmint.ai/exam/${id}/${type}`;
 

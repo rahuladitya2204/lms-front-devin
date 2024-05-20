@@ -127,6 +127,7 @@ function ProductCategoryDetailsEditor(
           },
           {
             validator: async (rule, value) => {
+              console.log(productCategory?.slug, value, "11");
               if (productCategory?.slug !== value) {
                 try {
                   await validateSlug(value, validateSlugApi);

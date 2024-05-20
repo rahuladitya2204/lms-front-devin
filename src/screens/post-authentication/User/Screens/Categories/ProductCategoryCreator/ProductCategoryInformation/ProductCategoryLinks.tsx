@@ -22,6 +22,7 @@ import { Fragment } from "react";
 import SEOComponent from "@Components/SEOComponent";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import GenerateContent from "@User/Screens/Blog/GenerateContent";
+import InputTags from "@Components/InputTags/InputTags";
 
 const panelStyle: React.CSSProperties = {
   marginBottom: 24,
@@ -206,6 +207,12 @@ const ProductCategoryLinks = React.memo(() => {
                                       label={`Title`}
                                     >
                                       <Input placeholder="Enter Link title" />
+                                    </Form.Item>
+                                    <Form.Item
+                                      name={[name, "keywords"]}
+                                      label="Keywords"
+                                    >
+                                      <InputTags name={[name, `keywords`]} />
                                     </Form.Item>
                                     <Form.Item
                                       {...restField}
