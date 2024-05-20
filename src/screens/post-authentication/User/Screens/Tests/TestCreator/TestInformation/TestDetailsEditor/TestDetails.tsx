@@ -145,12 +145,14 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           },
           {
             validator: async (rule, value) => {
-              try {
-                await validateSlug(value, validateSlugApi);
-                return Promise.resolve();
-              } catch (error) {
-                console.log(error);
-                return Promise.reject(error);
+              if (test?.slug !== value) {
+                try {
+                  await validateSlug(value, validateSlugApi);
+                  return Promise.resolve();
+                } catch (error) {
+                  console.log(error);
+                  return Promise.reject(error);
+                }
               }
             },
           },

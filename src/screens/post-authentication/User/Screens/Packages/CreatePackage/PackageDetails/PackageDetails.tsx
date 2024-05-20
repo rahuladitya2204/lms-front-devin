@@ -93,12 +93,14 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
               },
               {
                 validator: async (rule, value) => {
-                  try {
-                    await validateSlug(value, validateSlugApi);
-                    return Promise.resolve();
-                  } catch (error) {
-                    console.log(error);
-                    return Promise.reject(error);
+                  if (bundle?.slug !== value) {
+                    try {
+                      await validateSlug(value, validateSlugApi);
+                      return Promise.resolve();
+                    } catch (error) {
+                      console.log(error);
+                      return Promise.reject(error);
+                    }
                   }
                 },
               },
