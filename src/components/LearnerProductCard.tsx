@@ -163,7 +163,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       />
     </Card>
   );
-  if (product.plan.type === "free") {
+  if (product?.plan?.type === "free") {
     return (
       <Badge.Ribbon placement="start" text="Free">
         {Component}

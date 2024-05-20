@@ -24,28 +24,29 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        if (!showTooltip) {
-          openModal(
-            <Row>
-              <Col span={24}>
-                <Text>{syllabusText}</Text>
-              </Col>
-            </Row>,
-            {
-              title: `${test.title} Syllabus`,
-            }
-          );
-        }
+        // if (!showTooltip) {
+        openModal(
+          <Row>
+            <Col span={24}>
+              <Text>{syllabusText}</Text>
+            </Col>
+          </Row>,
+          {
+            title: `${test.title} Syllabus`,
+          }
+        );
+        // }
       }}
       style={{ padding: 0, fontSize: 13 }}
       type="link"
     >
-      <BookTwoTone /> Show Syllabus
+      <BookTwoTone /> Syllabus
     </Button>
   );
-  return showTooltip ? (
-    <Tooltip title={syllabusText}>{Component}</Tooltip>
-  ) : (
-    Component
-  );
+  //   return showTooltip ? (
+  //     <Tooltip title={syllabusText}>{}</Tooltip>
+  //   ) : (
+  //     Component
+  //   );
+  return Component;
 }
