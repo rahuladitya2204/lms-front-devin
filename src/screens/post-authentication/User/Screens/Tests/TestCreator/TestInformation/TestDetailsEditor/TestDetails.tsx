@@ -23,6 +23,7 @@ import { useParams } from "react-router";
 import TextArea from "@Components/Textarea";
 import FileList from "@Components/FileList";
 import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
+import { validateSlug } from "@Components/Editor/SunEditor/utils";
 
 const { useWatch } = Form;
 
@@ -40,6 +41,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const { data: users } = User.Queries.useGetUsers();
   const image = useWatch(["thumbnailImage"], form);
   const isPyqEnabled = useWatch(["pyq", "enabled"], form);
+  const { mutateAsync: validateSlugApi, status: validatingStatus } =
+    User.Queries.useValidateSlug("test");
   const isDurationEnabled = useWatch(["duration", "enabled"], form);
   const cat = useWatch(["category"], form);
   const { listItems: categories, data: categoriesData } =
@@ -131,8 +134,21 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         name="slug"
         required
         label="Slug"
+        validateStatus={
+          validatingStatus === "loading" ? "validating" : "success"
+        }
         rules={[
-          { required: true, message: "Please enter a slug for the Test" },
+          {
+            required: true,
+            message: "Please enter a slug for the test",
+          },
+          {
+            required: true,
+            validator: (rule, value) => {
+              // console.log(rule, value, "11111");
+              validateSlug(value, validateSlugApi);
+            },
+          },
         ]}
       >
         <Input />

@@ -20,6 +20,8 @@ import CreateFaqs from "@Components/CreateFaqsComponent";
 import Tabs from "@Components/Tabs";
 import { Fragment } from "react";
 import SEOComponent from "@Components/SEOComponent";
+import ActionModal from "@Components/ActionModal/ActionModal";
+import GenerateContent from "@User/Screens/Blog/GenerateContent";
 
 const panelStyle: React.CSSProperties = {
   marginBottom: 24,
@@ -67,29 +69,54 @@ const ProductCategoryLinks = React.memo(() => {
                           <Tabs
                             tabBarExtraContent={{
                               right: (
-                                <Button
-                                  icon={<DeleteOutlined />}
-                                  type="primary"
-                                  size="small"
-                                  danger
-                                  onClick={() => {
-                                    Modal.confirm({
-                                      closable: false,
-                                      title: `Are you sure?`,
-                                      // icon: <ExclamationCircleOutlined />,
-                                      content: `You want to delete this link?`,
-                                      // footer: [
+                                <Row gutter={[20, 20]}>
+                                  <Col>
+                                    <ActionModal
+                                      title="Generate Content"
+                                      cta={
+                                        <Button
+                                          type="primary"
+                                          size="small"
+                                          // type="dashed"
+                                        >
+                                          Generate Content
+                                        </Button>
+                                      }
+                                    >
+                                      <GenerateContent
+                                        onComplete={(e) =>
+                                          form.setFieldsValue(e)
+                                        }
+                                      />
+                                    </ActionModal>
+                                  </Col>
+                                  <Col>
+                                    {" "}
+                                    <Button
+                                      icon={<DeleteOutlined />}
+                                      type="primary"
+                                      size="small"
+                                      danger
+                                      onClick={() => {
+                                        Modal.confirm({
+                                          closable: false,
+                                          title: `Are you sure?`,
+                                          // icon: <ExclamationCircleOutlined />,
+                                          content: `You want to delete this link?`,
+                                          // footer: [
 
-                                      // ],
-                                      onOk() {
-                                        remove(name);
-                                      },
-                                      okText: "Yes, Delete",
-                                    });
-                                  }}
-                                >
-                                  Delete Link
-                                </Button>
+                                          // ],
+                                          onOk() {
+                                            remove(name);
+                                          },
+                                          okText: "Yes, Delete",
+                                        });
+                                      }}
+                                    >
+                                      Delete Link
+                                    </Button>
+                                  </Col>
+                                </Row>
                               ),
                             }}
                             style={{

@@ -26,7 +26,7 @@ import MediaUpload from "@Components/MediaUpload";
 import SelectProductCategory from "@Components/SelectProductCategory";
 import InputTags from "@Components/InputTags/InputTags";
 import ActionModal from "@Components/ActionModal/ActionModal";
-import GenerateBlog from "./GenerateBlog";
+import GenerateContent from "./GenerateContent";
 
 const { confirm } = Modal;
 interface CreateBlogComponentPropsI {
@@ -176,7 +176,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
           title="Generate Blog"
           cta={<Button type="dashed">Generate Blog</Button>}
         >
-          <GenerateBlog onComplete={(e) => form.setFieldsValue(e)} />
+          <GenerateContent onComplete={(e) => form.setFieldsValue(e)} />
         </ActionModal>,
         SaveBlog,
       ]}
@@ -273,7 +273,7 @@ const CreateBlog: React.FC<CreateBlogComponentPropsI> = (props) => {
                           //     title="Generate Blog"
                           //     cta={<Button type="primary">Generate Blog</Button>}
                           //   >
-                          //     <GenerateBlog
+                          //     <GenerateContent
                           //       onComplete={(e) => form.setFieldsValue(e)}
                           //     />
                           //   </ActionModal>

@@ -1,6 +1,7 @@
 import { TopicNode } from '@User/Screens/Admin/Topics/TopicsScreen'
 import { Types } from '@adewaskar/lms-common'
 import katex, { KatexOptions } from 'katex'
+import { debounce } from 'lodash'
 export function convertLatexToMathML(
   latexString: string,
   options?: KatexOptions
@@ -169,3 +170,16 @@ export async function downloadFileFromUrl(fileUrl: string, fileName: string): Pr
     console.error('Error downloading file:', error);
   }
 }
+
+export const validateSlug = debounce(async (slug:string,fn:(d:{slug:string})=>{exists:string}) => {
+  try {
+    const response = await fn({slug});
+    console.log(response,'sssss')
+    if (response.exists) {
+      return Promise.reject(response.exists);
+    }
+  } catch (error) {
+    console.error('Error checking slug:', error);
+    return Promise.reject('An error occurred while checking the slug');
+}
+},500);

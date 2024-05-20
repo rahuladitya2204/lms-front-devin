@@ -25,6 +25,7 @@ import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import { Typography } from "@Components/Typography";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useParams } from "@Router/index";
+import { validateSlug } from "@Components/Editor/SunEditor/utils";
 
 const { useWatch } = Form;
 
@@ -37,6 +38,8 @@ interface ProductCategoryDetailsEditorPropsI {
 function ProductCategoryDetailsEditor(
   props: ProductCategoryDetailsEditorPropsI
 ) {
+  const { mutateAsync: validateSlugApi, status: validatingStatus } =
+    User.Queries.useValidateSlug("category");
   const { productCategory } = props;
   const form = Form.useFormInstance();
   const { id } = useParams();
@@ -113,10 +116,21 @@ function ProductCategoryDetailsEditor(
         name="slug"
         required
         label="URL Slug"
+        hasFeedback
+        validateStatus={
+          validatingStatus === "loading" ? "validating" : "success"
+        }
         rules={[
           {
             required: true,
-            message: "Please enter a slug for the ProductCategory",
+            message: "Please enter a slug for the exam",
+          },
+          {
+            required: true,
+            validator: (rule, value) => {
+              // console.log(rule, value, "11111");
+              validateSlug(value, validateSlugApi);
+            },
           },
         ]}
       >
