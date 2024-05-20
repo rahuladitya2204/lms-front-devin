@@ -171,7 +171,7 @@ export async function downloadFileFromUrl(fileUrl: string, fileName: string): Pr
   }
 }
 
-export const validateSlug = debounce(async (slug:string,fn:(d:{slug:string})=>{exists:string}) => {
+export const validateSlug = async (slug:string,fn:(d:{slug:string})=>{exists:string}) => {
   try {
     const response = await fn({slug});
     console.log(response,'sssss')
@@ -182,4 +182,4 @@ export const validateSlug = debounce(async (slug:string,fn:(d:{slug:string})=>{e
     console.error('Error checking slug:', error);
     return Promise.reject('An error occurred while checking the slug');
 }
-},500);
+}

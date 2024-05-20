@@ -19,17 +19,17 @@ export const ServerAuthProvider = ({ children }) => {
   );
 
   const checkAuthentication = useCallback(async () => {
-    console.log("[ServerAuth]: userType", cookies.userType);
+    // console.log("[ServerAuth]: userType", cookies.userType);
     if (cookies.userType) {
-      console.log("[ServerAuth]: token", token);
+      // console.log("[ServerAuth]: token", token);
       if (token) {
         try {
           const response = await validateUser(cookies.userType);
-          console.log("[ServerAuth]: response", response);
+          // console.log("[ServerAuth]: response", response);
         } catch (error) {
-          console.error("[ServerAuth]: Error validating token:", error);
+          // console.error("[ServerAuth]: Error validating token:", error);
           if (error?.response?.status === 403) {
-            console.log("removing");
+            // console.log("removing");
             setIsSignedin(false);
             removeAuthCookie(tokenCookie, {
               path: "/",

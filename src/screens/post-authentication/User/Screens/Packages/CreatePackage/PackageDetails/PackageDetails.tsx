@@ -23,6 +23,7 @@ import ProductRow from "./Products/ProductRow";
 import SelectProductCategory from "@Components/SelectProductCategory";
 import Testimonials from "@User/Screens/ExtraComponents/Testimonials/Testimonials";
 import TextArea from "@Components/Textarea";
+import { validateSlug } from "@Components/Editor/SunEditor/utils";
 
 interface PackageDetailsPropsI {
   packageId: string;
@@ -40,7 +41,8 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
   const setTestimonials = (t: Types.Testimonial[]) => {
     form.setFieldValue(["testimonials"], t);
   };
-
+  const { mutateAsync: validateSlugApi, status: validatingStatus } =
+    User.Queries.useValidateSlug("package");
   return (
     <Fragment>
       <Row gutter={[20, 20]}>
@@ -80,7 +82,27 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
             ]}
             name="slug"
             label="URL Slug"
-            required
+            hasFeedback
+            validateStatus={
+              validatingStatus === "loading" ? "validating" : "success"
+            }
+            rules={[
+              {
+                required: true,
+                message: "Please enter a slug for the test series",
+              },
+              {
+                validator: async (rule, value) => {
+                  try {
+                    await validateSlug(value, validateSlugApi);
+                    return Promise.resolve();
+                  } catch (error) {
+                    console.log(error);
+                    return Promise.reject(error);
+                  }
+                },
+              },
+            ]}
           >
             <Input placeholder="Enter a slug for the live session" />
           </Form.Item>

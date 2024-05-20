@@ -134,6 +134,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         name="slug"
         required
         label="Slug"
+        hasFeedback
         validateStatus={
           validatingStatus === "loading" ? "validating" : "success"
         }
@@ -143,10 +144,14 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             message: "Please enter a slug for the test",
           },
           {
-            required: true,
-            validator: (rule, value) => {
-              // console.log(rule, value, "11111");
-              validateSlug(value, validateSlugApi);
+            validator: async (rule, value) => {
+              try {
+                await validateSlug(value, validateSlugApi);
+                return Promise.resolve();
+              } catch (error) {
+                console.log(error);
+                return Promise.reject(error);
+              }
             },
           },
         ]}
