@@ -228,21 +228,8 @@ export default function ProductCategoryDetailScreen(
                 </Col>
               ) : // </Card>
               null}
-              {/* <Col span={24}>
-                <Row>
-                  <Col span={24}>
-                    {props.isServer
-                      ? props.children
-                      : // <ProductCategoryTabs id={productCategoryId + ""} />
-                        null}
-                  </Col>
-                </Row>
-              </Col> */}
             </Row>
           </Col>
-          {/* {productCategory?.info?.faqs?.length ? (
-          
-          ) : null} */}
         </Row>
       </Col>
     </Row>
@@ -289,7 +276,11 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                 {category.title} Test Series
               </Title>
               <PromotedProducts
-                data={{ category: categoryId, keywords: link?.keywords }}
+                data={{
+                  category: categoryId,
+                  keywords: link?.keywords,
+                  limit: 3,
+                }}
                 category={categoryId}
                 type={Enum.ProductType.PACKAGE}
                 isServer={!!props.isServer}
@@ -304,6 +295,7 @@ export const CategoryProducts = (props: CategoryProductsPropsI) => {
                   category: categoryId,
                   mode: "free",
                   keywords: link?.keywords,
+                  limit: 3,
                 }}
                 category={categoryId}
                 type={Enum.ProductType.TEST}
