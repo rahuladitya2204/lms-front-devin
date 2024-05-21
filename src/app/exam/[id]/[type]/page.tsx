@@ -121,6 +121,14 @@ export default async function Page({
     description: category.title,
     url: url,
   };
+  console.log(
+    {
+      category: params.id,
+      mode: "free",
+      ...(link.keywords ? { keywords: link?.keywords } : []),
+    },
+    "11111"
+  );
   return (
     <>
       <script
@@ -134,9 +142,17 @@ export default async function Page({
           getProductCategoryDetails(params.id),
           // getPackages(params.id),
           getPYQs(params.id),
-          // getOrgDetails(),
-          // // authenticated routes should only be called if token is present
-          // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
+          getPromotedProducts(Enum.ProductType.PACKAGE, {
+            category: params.id,
+            ...(link.keywords ? { keywords: link?.keywords } : []),
+            limit: 3,
+          }),
+          getPromotedProducts(Enum.ProductType.TEST, {
+            category: params.id,
+            mode: "free",
+            ...(link.keywords ? { keywords: link?.keywords } : []),
+            limit: 3,
+          }),
         ]}
       >
         <ProductCategoryTabs

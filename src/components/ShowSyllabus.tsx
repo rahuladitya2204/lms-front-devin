@@ -17,7 +17,7 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
     .flat();
   const showTooltip = treeData.length < 10;
   const { openModal } = useModal();
-  console.log(treeData, "treeData");
+  // console.log(treeData, "treeData");
   const syllabusText = treeData.map((i) => capitalize(i.title)).join(", ");
   const Component = (
     <Button

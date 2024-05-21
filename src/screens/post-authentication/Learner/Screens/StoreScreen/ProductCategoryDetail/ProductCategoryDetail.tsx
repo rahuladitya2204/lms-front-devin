@@ -42,10 +42,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Outlet } from "react-router";
 import ProductCategoryDetailSkeletonScreen from "./ProductCategoryDetailSkeleton";
 import TestCard from "../Cards/TestCard";
-import ProductCategoryTabs, {
-  PackageListComponent,
-  TestListComponent,
-} from "./ProductCategoryTabs";
+import ProductCategoryTabs from "./ProductCategoryTabs";
 import PromotedProducts from "./PromotedProducts";
 import AppImage from "next/image";
 
@@ -210,186 +207,18 @@ export default function ProductCategoryDetailScreen(
 
       <Col span={24}>
         <Row gutter={[30, 30]}>
-          <CategoryProducts
-            type={type + ""}
-            isServer={props.isServer}
-            categoryId={productCategoryId + ""}
-            product={product + ""}
-          />
-          <Col xs={24} sm={24} md={24} lg={24}>
-            <Row>
-              {productCategory.landingPage?.promoVideo?.url ? (
-                // <Card style={{ paddingTop: 0, minHeight: 400 }}>
-                <Col span={24}>
-                  <MediaPlayer
-                    thumbnail={
-                      productCategory.landingPage.promoVideo.thumbnailImage
-                    }
-                    height={400}
-                    url={productCategory.landingPage.promoVideo.url}
-                  />
-                  <Divider />
-                </Col>
-              ) : // </Card>
-              null}
-            </Row>
+          <Col span={24}>
+            {props.children ? (
+              props.children
+            ) : (
+              <ProductCategoryTabs isServer={props.isServer} />
+            )}
           </Col>
         </Row>
       </Col>
     </Row>
   );
 }
-
-interface CategoryProductsPropsI {
-  categoryId: string;
-  type: string;
-  isServer?: boolean;
-  product: string;
-  children?: string;
-}
-
-export const CategoryProducts = (props: CategoryProductsPropsI) => {
-  const { categoryId, type, product } = props;
-  const { data: category } =
-    Learner.Queries.useGetProductCategoryDetails(categoryId);
-  const { data: packages, isLoading: loadingPackages } =
-    Learner.Queries.useGetPackages(categoryId, {
-      enabled: !!categoryId,
-    });
-
-  const navigate = useNavigate();
-
-  const { isDesktop } = useBreakpoint();
-  const { data: PYQTests, isLoading: loadingPYQs } = Learner.Queries.useGetPYQs(
-    categoryId,
-    {
-      enabled: !!categoryId,
-    }
-  );
-  const link = category.info.links.find((i) => i.slug === type);
-  const TABS = useMemo(() => {
-    const tabs: any[] = [];
-    if (packages.length) {
-      tabs.push({
-        label: "Test Series",
-        key: "test-series",
-        children: (
-          <Row>
-            <Col span={24}>
-              <Title style={{ fontSize: 16 }} level={4}>
-                {category.title} Test Series
-              </Title>
-              <PromotedProducts
-                data={{
-                  category: categoryId,
-                  keywords: link?.keywords,
-                  limit: 3,
-                }}
-                category={categoryId}
-                type={Enum.ProductType.PACKAGE}
-                isServer={!!props.isServer}
-              />
-            </Col>
-            <Col span={24}>
-              <Title style={{ fontSize: 16 }} level={4}>
-                {category.title} Free Tests
-              </Title>
-              <PromotedProducts
-                data={{
-                  category: categoryId,
-                  mode: "free",
-                  keywords: link?.keywords,
-                  limit: 3,
-                }}
-                category={categoryId}
-                type={Enum.ProductType.TEST}
-                isServer={!!props.isServer}
-              />
-            </Col>
-          </Row>
-        ),
-      });
-    }
-    if (PYQTests.length) {
-      tabs.push({
-        label: "Previous Year Papers",
-        key: "previous-year-questions",
-        children: (
-          <PYQTestsComponent
-            isServer={props.isServer}
-            categoryId={categoryId}
-            showAll
-          />
-        ),
-      });
-    }
-    return tabs;
-  }, [packages, PYQTests]);
-  const [productTab, setProductTab] = useState("test-series");
-  // console.log(product, "product");
-  return TABS.length ? (
-    <>
-      <Col span={24}>
-        <Card bodyStyle={{ paddingTop: 0 }}>
-          <Tabs
-            onTabClick={(e) => {
-              console.log(e, "eeee");
-              setProductTab(e);
-            }}
-            items={TABS}
-            // tabBarExtraContent={{
-            //   right:
-            //     productTab === "test-series" ? (
-            //       <Button
-            //         onClick={() => {
-            //           if (props.isServer) {
-            //             navigate(
-            //               `/test-series/${category.testSeries.page.slug}`
-            //             );
-            //           } else {
-            //             navigate(
-            //               `/app/test-series/${category.testSeries.page.slug}`
-            //             );
-            //           }
-            //         }}
-            //         type="dashed"
-            //         size="small"
-            //       >
-            //         View All Test Series
-            //       </Button>
-            //     ) : (
-            //       <Button
-            //         onClick={() => {
-            //           if (props.isServer) {
-            //             navigate(
-            //               `/previous-year-questions/${category.testSeries.page.slug}`
-            //             );
-            //           } else {
-            //             navigate(
-            //               `/app/previous-year-questions/${category.testSeries.page.slug}`
-            //             );
-            //           }
-            //         }}
-            //         type="dashed"
-            //         size="small"
-            //       >
-            //         View All PYQ Papers
-            //       </Button>
-            //     ),
-            // }}
-          />
-        </Card>
-      </Col>
-      <Col span={24}>
-        {props.children ? (
-          props.children
-        ) : (
-          <ProductCategoryTabs isServer={props.isServer} />
-        )}
-      </Col>
-    </>
-  ) : null;
-};
 
 export const PYQTestsComponent = (props: {
   isServer: boolean;

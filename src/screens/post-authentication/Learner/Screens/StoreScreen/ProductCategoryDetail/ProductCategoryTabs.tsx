@@ -4,7 +4,7 @@ import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Paragraph, Text, Title } from "@Components/Typography/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
-import { Learner } from "@adewaskar/lms-common";
+import { Enum, Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
 import {
   Badge,
@@ -18,7 +18,7 @@ import {
   Skeleton,
   Tabs,
 } from "@Lib/index";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Outlet } from "react-router";
 import ShowMore from "@Components/ShowMore/ShowMore";
 import PackageCard from "../Cards/PackageCard";
@@ -26,6 +26,9 @@ import { FAQsList } from "@Components/CreateFaqsComponent";
 import Script from "next/script";
 import { DownOutlined } from "@ant-design/icons";
 import TestCard from "../Cards/TestCard";
+
+import PromotedProducts from "./PromotedProducts";
+import { PYQTestsComponent } from "./ProductCategoryDetail";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -49,6 +52,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   const params = useParams();
   const id = props.id || params.id;
   const type = props.type || params.type || "overview";
+  // debugger;
   // const product = props.product || params.product || "packages";
   const { data: productCategory, isLoading: loadingCategory } =
     Learner.Queries.useGetProductCategoryDetails(id + "");
@@ -109,33 +113,13 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     <Skeleton.Button block active style={{ height: 400 }} />
   ) : (
     <Row gutter={[20, 20]}>
-      {/* <Col span={24}>
-        <Row justify={"space-between"} align={"middle"}>
-          <Col>
-            <Title level={4}>Test Series</Title>
-          </Col>
-          <Col>
-            <Button
-              onClick={() => {
-                if (props.isServer) {
-                  navigate(
-                    `/test-series/${productCategory.testSeries.page.slug}`
-                  );
-                } else {
-                  navigate(
-                    `/app/test-series/${productCategory.testSeries.page.slug}`
-                  );
-                }
-              }}
-              type="primary"
-              size="small"
-            >
-              View All Test Series
-            </Button>
-          </Col>
-        </Row>
-        <PackageListComponent showAll id={id + ""} isServer={props.isServer} />
-      </Col> */}
+      <Col span={24}>
+        <CategoryProducts
+          type={type + ""}
+          isServer={props.isServer}
+          categoryId={id + ""}
+        />
+      </Col>
       <Col span={24}>
         <Card style={{ marginTop: 20 }}>
           <Row align={"middle"} justify={"space-between"}>
@@ -225,129 +209,144 @@ export const PageSchema = ({ seo, url }) => {
   );
 };
 
-export const PackageListComponent = (props: {
-  id: string;
+interface CategoryProductsPropsI {
+  categoryId: string;
+  type: string;
   isServer?: boolean;
-  showAll?: boolean;
-}) => {
-  const navigate = useNavigate();
-  const id = props.id;
-  const { data: packages, isLoading: loadingPackages } =
-    Learner.Queries.useGetPackages(id + "", {
-      enabled: !!id,
-    });
-  const { data: category } = Learner.Queries.useGetProductCategoryDetails(id);
-  return (
-    <Row gutter={[20, 20]}>
-      {loadingPackages ? (
-        [1, 1, 1, 1, 1, 1].map((i, idx) => (
-          <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
-            <Skeleton.Button active block style={{ height: 110 }} />
-          </Col>
-        ))
-      ) : (
-        <>
-          {packages.map((bundle, idx) => {
-            return (
-              <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={6} xxl={6}>
-                <PackageCard mini isServer={props.isServer} package={bundle} />
-              </Col>
-            );
-          })}
-          {props.showAll ? (
-            <Col
-              span={24}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <Button
-                onClick={() => {
-                  if (props.isServer) {
-                    navigate(`/test-series/${category.testSeries.page.slug}`);
-                  } else {
-                    navigate(
-                      `/app/test-series/${category.testSeries.page.slug}`
-                    );
-                  }
-                }}
-                type="dashed"
-                size="small"
-              >
-                View All Test Series
-              </Button>
-            </Col>
-          ) : null}
-        </>
-      )}
-    </Row>
-  );
-};
+  children?: string;
+}
 
-export const TestListComponent = (props: {
-  id: string;
-  isServer?: boolean;
-  showAll?: boolean;
-}) => {
-  const navigate = useNavigate();
-  const id = props.id;
-  const { data: tests, isLoading: loadingTests } = Learner.Queries.useGetTests(
-    // @ts-ignore
+const CategoryProducts = (props: CategoryProductsPropsI) => {
+  const { categoryId, type } = props;
+  const { data: category } =
+    Learner.Queries.useGetProductCategoryDetails(categoryId);
+  const { data: packages, isLoading: loadingPackages } =
+    Learner.Queries.useGetPackages(categoryId, {
+      enabled: !!categoryId,
+    });
+
+  const { data: PYQTests, isLoading: loadingPYQs } = Learner.Queries.useGetPYQs(
+    categoryId,
     {
-      category: id + "",
-      // status: [Enum],
-    },
-    {
-      enabled: !!id,
+      enabled: !!categoryId,
     }
   );
-  const { data: category } = Learner.Queries.useGetProductCategoryDetails(id);
-  return (
-    <Row gutter={[20, 20]}>
-      {loadingTests ? (
-        [1, 1, 1, 1, 1, 1].map((i, idx) => (
-          <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={8} xxl={6}>
-            <Skeleton.Button active block style={{ height: 110 }} />
-          </Col>
-        ))
-      ) : (
-        <>
-          {tests.map((test, idx) => {
-            const TestComponent = (
-              <TestCard mini isServer={props.isServer} test={test} />
-            );
-            return (
-              <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={8} xxl={6}>
-                {test.plan.type === "free" ? (
-                  <Badge.Ribbon text="Free" placement="start">
-                    {TestComponent}
-                  </Badge.Ribbon>
-                ) : (
-                  TestComponent
-                )}
-              </Col>
-            );
-          })}
-          {props.showAll ? (
-            <Col
-              span={24}
-              style={{ display: "flex", justifyContent: "center" }}
-            >
-              <Button
-                onClick={() => {
-                  if (props.isServer) {
-                    navigate(`/test/${category.testSeries.page.slug}`);
-                  } else {
-                    navigate(`/app/test/${category.testSeries.page.slug}`);
-                  }
+  const link = category.info.links.find((i) => i.slug === type);
+  const TABS = useMemo(() => {
+    const tabs: any[] = [];
+    if (packages.length) {
+      tabs.push({
+        label: "Test Series",
+        key: "test-series",
+        children: (
+          <Row>
+            <Col span={24}>
+              <Title style={{ fontSize: 16 }} level={4}>
+                {category.title} Test Series
+              </Title>
+              <PromotedProducts
+                data={{
+                  category: categoryId,
+                  keywords: link?.keywords,
+                  limit: 3,
                 }}
-                type="dashed"
-                size="small"
-              >
-                View All Tests
-              </Button>
+                category={categoryId}
+                type={Enum.ProductType.PACKAGE}
+                isServer={!!props.isServer}
+              />
             </Col>
-          ) : null}
-        </>
-      )}
-    </Row>
+            <Col span={24}>
+              <Title style={{ fontSize: 16 }} level={4}>
+                {category.title} Free Tests
+              </Title>
+              <PromotedProducts
+                data={{
+                  category: categoryId,
+                  mode: "free",
+                  keywords: link?.keywords,
+                  limit: 3,
+                }}
+                category={categoryId}
+                type={Enum.ProductType.TEST}
+                isServer={!!props.isServer}
+              />
+            </Col>
+          </Row>
+        ),
+      });
+    }
+    if (PYQTests.length) {
+      tabs.push({
+        label: "Previous Year Papers",
+        key: "previous-year-questions",
+        children: (
+          <PYQTestsComponent
+            isServer={!!props.isServer}
+            categoryId={categoryId}
+            showAll
+          />
+        ),
+      });
+    }
+    return tabs;
+  }, [packages, PYQTests]);
+  const [productTab, setProductTab] = useState("test-series");
+  // console.log(product, "product");
+  return (
+    <>
+      {TABS.length ? (
+        <Col span={24}>
+          <Card bodyStyle={{ paddingTop: 0 }}>
+            <Tabs
+              onTabClick={(e) => {
+                console.log(e, "eeee");
+                setProductTab(e);
+              }}
+              items={TABS}
+              // tabBarExtraContent={{
+              //   right:
+              //     productTab === "test-series" ? (
+              //       <Button
+              //         onClick={() => {
+              //           if (props.isServer) {
+              //             navigate(
+              //               `/test-series/${category.testSeries.page.slug}`
+              //             );
+              //           } else {
+              //             navigate(
+              //               `/app/test-series/${category.testSeries.page.slug}`
+              //             );
+              //           }
+              //         }}
+              //         type="dashed"
+              //         size="small"
+              //       >
+              //         View All Test Series
+              //       </Button>
+              //     ) : (
+              //       <Button
+              //         onClick={() => {
+              //           if (props.isServer) {
+              //             navigate(
+              //               `/previous-year-questions/${category.testSeries.page.slug}`
+              //             );
+              //           } else {
+              //             navigate(
+              //               `/app/previous-year-questions/${category.testSeries.page.slug}`
+              //             );
+              //           }
+              //         }}
+              //         type="dashed"
+              //         size="small"
+              //       >
+              //         View All PYQ Papers
+              //       </Button>
+              //     ),
+              // }}
+            />
+          </Card>
+        </Col>
+      ) : null}
+    </>
   );
 };

@@ -142,7 +142,6 @@ import BlogDetailScreen from "./post-authentication/Learner/Screens/Blog/BlogDet
 import LearnerBlogsScreen from "./post-authentication/Learner/Screens/Blog/BlogsScreen";
 import PackageInformationEditor from "@User/Screens/Packages/CreatePackage/CreatePackage";
 import PackagesList from "./post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesListScreen";
-import PackagesExamScreen from "./post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesExamScreen";
 import PYQPapersScreen from "./post-authentication/Learner/Screens/Products/Test/PYQPapers/PYQPapersScreen";
 
 const router = (userType: string) => {
@@ -197,7 +196,7 @@ const router = (userType: string) => {
                 <Route path="test-series">
                   {/* <Route path="" element={<LearnerCourses />} /> */}
                   <Route path=":slug" element={<PackagesList />} />
-                  <Route path=":slug/:exam" element={<PackagesExamScreen />} />
+                  {/* <Route path=":slug/:exam" element={<PackagesExamScreen />} /> */}
                   <Route
                     path=":packageId/enrolled-package"
                     element={<EnrolledPackageDetailScreen />}

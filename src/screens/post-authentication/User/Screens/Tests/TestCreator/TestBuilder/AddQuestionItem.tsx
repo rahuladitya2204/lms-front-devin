@@ -148,7 +148,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   const treeData = test.topics
     .map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
     .flat();
-  console.log(treeData, "treeData");
+  // console.log(treeData, "treeData");
   const getFormComponent = (language: string) => (
     <Form
       name="test"

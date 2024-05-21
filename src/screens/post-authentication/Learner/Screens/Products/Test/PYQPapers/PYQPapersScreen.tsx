@@ -5,7 +5,6 @@ import { Title } from "@Components/Typography/Typography";
 import { useParams } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import { Card, Col, Row } from "antd";
-import { PackageListComponent } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 import { FAQsList } from "@Components/CreateFaqsComponent";
 import { PYQTestsComponent } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 import ShowMore from "@Components/ShowMore/ShowMore";
