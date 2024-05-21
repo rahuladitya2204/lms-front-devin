@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz#bd9154aec9983f77b3a034ecaa015c2e4201f6cf"
   integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
 
-"@adewaskar/lms-common@3.1.487-alpha.272":
-  version "3.1.487-alpha.272"
-  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.272.tgz#79e8b6d9e41cea230795d0ddd6914a99a9da20cb"
-  integrity sha512-ZB/dmrLia5jJeVvaDOcB7vgdV/oJhtiDQW1yqDvKJtVcqdkUgDKKYrI8Vgzaz1lbBCjEVF+9hO8le30/sUxhkQ==
+"@adewaskar/lms-common@3.1.487-alpha.283":
+  version "3.1.487-alpha.283"
+  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.283.tgz#b4ea23f8df9882fba4612112f23e53d1450be2cc"
+  integrity sha512-Cu9lbFUSQMtHrNYmTyfNhi9wcH2au2KIbl+LRmVq3JyMlyorH5HmiGnENGqIHFzfU/i49h7531uSNZX6ukjIuw==
   dependencies:
     "@ant-design/colors" "^7.0.0"
     "@babel/core" "^7.21.0"
@@ -27,6 +27,7 @@
     compressorjs "^1.2.1"
     dayjs "^1.11.10"
     lodash "^4.17.21"
+    slugify "^1.6.6"
     webpack "^5.76.0"
     webpack-cli "^5.0.1"
     zustand "^4.3.6"
