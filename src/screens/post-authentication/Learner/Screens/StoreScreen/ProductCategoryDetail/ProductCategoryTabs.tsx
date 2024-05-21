@@ -112,7 +112,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   return loadingCategory ? (
     <Skeleton.Button block active style={{ height: 400 }} />
   ) : (
-    <Row gutter={[20, 20]}>
+    <Row gutter={[0, 20]}>
       <Col span={24}>
         <CategoryProducts
           type={type + ""}
