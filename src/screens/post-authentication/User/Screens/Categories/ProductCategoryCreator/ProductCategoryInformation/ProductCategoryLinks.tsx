@@ -85,9 +85,13 @@ const ProductCategoryLinks = React.memo(() => {
                                       }
                                     >
                                       <GenerateContent
-                                        onComplete={(e) =>
-                                          form.setFieldsValue(e)
-                                        }
+                                        onComplete={(e) => {
+                                          console.log(e, "eeeee");
+                                          form.setFieldValue(
+                                            ["info", "links", name],
+                                            e
+                                          );
+                                        }}
                                       />
                                     </ActionModal>
                                   </Col>

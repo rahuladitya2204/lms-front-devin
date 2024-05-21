@@ -45,6 +45,7 @@ import TestCard from "../Cards/TestCard";
 import ProductCategoryTabs from "./ProductCategoryTabs";
 import PromotedProducts from "./PromotedProducts";
 import AppImage from "next/image";
+import ShowMore from "@Components/ShowMore/ShowMore";
 
 const { Text, Paragraph } = Typography;
 
@@ -180,23 +181,31 @@ export default function ProductCategoryDetailScreen(
                   }
                 >
                   <Card style={{ paddingTop: 20 }}>
-                    {Banners.map((i, idx) => {
-                      return (
-                        <Col span={24} key={idx}>
-                          <Alert
-                            type="error"
-                            action={
-                              <Tag color="orange-inverse">
-                                {dayjs(i.date).format("L")}
-                              </Tag>
-                            }
-                            icon={<NotificationOutlined />}
-                            message={<strong>{i.title}</strong>}
-                            description={<HtmlViewer content={i.description} />}
-                          />
-                        </Col>
-                      );
-                    })}
+                    <Row gutter={[20, 20]}>
+                      {" "}
+                      {Banners.map((i, idx) => {
+                        return (
+                          <Col span={24} key={idx}>
+                            <Alert
+                              type="error"
+                              action={
+                                <Tag color="orange-inverse">
+                                  {dayjs(i.date).format("L")}
+                                </Tag>
+                              }
+                              icon={<NotificationOutlined />}
+                              message={<strong>{i.title}</strong>}
+                              description={
+                                <ShowMore minHeight={100}>
+                                  {" "}
+                                  <HtmlViewer content={i.description} />
+                                </ShowMore>
+                              }
+                            />
+                          </Col>
+                        );
+                      })}
+                    </Row>
                   </Card>
                 </Badge.Ribbon>
               ) : null}

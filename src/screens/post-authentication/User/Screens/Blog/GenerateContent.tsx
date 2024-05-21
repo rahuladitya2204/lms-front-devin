@@ -57,7 +57,11 @@ export default function GenerateContent(props: GenerateContentPropsI) {
               {content.content ? (
                 <Button
                   onClick={() => {
-                    props.onComplete(content);
+                    props.onComplete({
+                      seo: content.seo,
+                      slug: content.slug,
+                      description: content.content,
+                    });
                     cancel();
                     props.closeModal && props.closeModal();
                   }}
