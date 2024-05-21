@@ -6,8 +6,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { Constants, Enum, Learner, Types } from "@adewaskar/lms-common";
-
-import Image from "@Components/Image";
+import Image from "next/image";
 import PriceCardContent from "./PriceCardContent";
 import { Typography } from "@Components/Typography";
 import { Utils } from "@adewaskar/lms-common";
@@ -16,7 +15,6 @@ import styled from "@emotion/styled";
 import { useNavigate } from "@Router/index";
 import MiniCard from "./MiniCard";
 import { Title } from "@Components/Typography/Typography";
-import AppImage from "@Components/Image";
 
 const { Text } = Typography;
 
@@ -77,7 +75,12 @@ function TestCard(props: TestCardPropsI) {
         title={test.title}
         subtitle={test.subtitle}
         accessoryLeft={
-          <AppImage src={category.thumbnailImage} width={80} height={80} />
+          <Image
+            alt={test.title}
+            src={category.thumbnailImage}
+            width={80}
+            height={80}
+          />
         }
       >
         <Title style={{ fontSize: 13 }}>{test.title}</Title>

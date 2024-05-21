@@ -11,6 +11,7 @@ import {
   Tag,
   Tooltip,
 } from "@Lib/index";
+import Image from "next/image";
 import {
   Constants,
   Enum,
@@ -19,7 +20,6 @@ import {
   User,
   Utils,
 } from "@adewaskar/lms-common";
-import AppImage from "@Components/Image";
 import { Text, Title } from "./Typography/Typography";
 import MiniCard from "@Screens/post-authentication/Learner/Screens/StoreScreen/Cards/MiniCard";
 import styled from "@emotion/styled";
@@ -59,7 +59,13 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     <MiniCard
       accessoryLeft={
         product.thumbnailImage ? (
-          <AppImage src={product.thumbnailImage} width={80} height={80} />
+          <Image
+            alt={product.title}
+            src={product.thumbnailImage}
+            width={80}
+            height={80}
+            style={{ borderRadius: 4 }}
+          />
         ) : null
       }
       footer={

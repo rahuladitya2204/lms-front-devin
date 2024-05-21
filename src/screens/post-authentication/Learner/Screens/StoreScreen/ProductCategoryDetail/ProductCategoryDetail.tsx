@@ -47,6 +47,7 @@ import ProductCategoryTabs, {
   TestListComponent,
 } from "./ProductCategoryTabs";
 import PromotedProducts from "./PromotedProducts";
+import AppImage from "next/image";
 
 const { Text, Paragraph } = Typography;
 
@@ -93,8 +94,11 @@ export default function ProductCategoryDetailScreen(
                   }}
                   lg={3}
                 >
-                  <Avatar
-                    style={{ width: 100, height: 100 }}
+                  <AppImage
+                    alt={productCategory.title}
+                    width={100}
+                    height={100}
+                    style={{ borderRadius: "50%" }}
                     src={productCategory.thumbnailImage}
                   />
                 </Col>

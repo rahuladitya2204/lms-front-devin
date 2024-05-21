@@ -19,7 +19,7 @@ import {
 } from "@ant-design/icons";
 import { Constants, Enum, Types } from "@adewaskar/lms-common";
 
-import Image from "@Components/Image";
+import Image from "next/image";
 import PriceCardContent from "./PriceCardContent";
 import { Typography } from "@Components/Typography";
 import { Utils } from "@adewaskar/lms-common";
@@ -65,12 +65,12 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
         <Row gutter={[20, 20]} justify={"space-between"} align={"middle"}>
           <Col>
             <div style={{ display: "flex", alignItems: "center" }}>
-              <Avatar
+              <Image
+                width={50}
+                height={50}
                 alt={productCategory.title}
                 src={productCategory.thumbnailImage}
                 style={{
-                  width: 50,
-                  height: 50,
                   borderRadius: "50%",
                   objectFit: "cover",
                   margin: "10px",
