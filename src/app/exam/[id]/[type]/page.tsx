@@ -144,13 +144,13 @@ export default async function Page({
           getPYQs(params.id),
           getPromotedProducts(Enum.ProductType.PACKAGE, {
             category: params.id,
-            ...(link.keywords ? { keywords: link?.keywords } : []),
+            ...(link.keywords ? { keywords: link?.keywords } : {}),
             limit: 3,
           }),
           getPromotedProducts(Enum.ProductType.TEST, {
             category: params.id,
             mode: "free",
-            ...(link.keywords ? { keywords: link?.keywords } : []),
+            ...(link.keywords ? { keywords: link?.keywords } : {}),
             limit: 3,
           }),
         ]}
