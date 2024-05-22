@@ -51,6 +51,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const category = useMemo(() => {
     return categoriesData.find((c) => c._id === cat);
   }, [categoriesData, cat]);
+  const { data: testDetail } = User.Queries.useGetTestDetails(testId + "");
   // console.log(category, "category");
   // console.log(categoriesData, "categoriesData");
   const { data: topics } = User.Queries.useGetTopics();
@@ -146,7 +147,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           },
           {
             validator: async (rule, value) => {
-              if (test?.slug !== value) {
+              console.log(testDetail?.slug, value, "112");
+              if (testDetail?.slug && testDetail?.slug !== value) {
                 try {
                   await validateSlug(value, validateSlugApi);
                   return Promise.resolve();

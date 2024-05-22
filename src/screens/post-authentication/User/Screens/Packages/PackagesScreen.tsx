@@ -3,8 +3,18 @@ import {
   EditOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Row, Space, Table, Tag } from "@Lib/index";
-
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  message,
+  Row,
+  Space,
+  Table,
+  Tag,
+} from "@Lib/index";
+import slugify from "slugify";
 import Container from "@Components/Container";
 import Header from "@User/Screens/UserRoot/UserHeader";
 import MoreButton from "@Components/MoreButton";
@@ -13,15 +23,18 @@ import PackageStatusTag from "./PackageStatusTag";
 import { Types } from "@adewaskar/lms-common";
 import { User } from "@adewaskar/lms-common";
 import { useNavigate } from "@Router/index";
+import { useModal } from "@Components/ActionModal/ModalContext";
+import { ReactNode } from "react";
 
 function PackagesScreen() {
   const { data, isFetching: loading } = User.Queries.useGetPackages();
   const navigate = useNavigate();
+  const { openModal } = useModal();
   return (
     <Header
       title={"Packages"}
       extra={[
-        <Button onClick={() => navigate(`create`)} type="primary">
+        <Button onClick={() => openModal(<CreatePackage />)} type="primary">
           Create New Package
         </Button>,
       ]}
@@ -141,3 +154,61 @@ function PackagesScreen() {
 }
 
 export default PackagesScreen;
+
+interface CreatePackagePropsI {
+  children?: ReactNode;
+  closeModal?: any;
+}
+
+const CreatePackage: React.FC<CreatePackagePropsI> = (props) => {
+  const navigate = useNavigate();
+  const { mutate: createPackage, isLoading: loading } =
+    User.Queries.useCreatePackage();
+  const [form] = Form.useForm();
+
+  const onSubmit = (e: Types.Package) => {
+    console.log("Helo", e);
+    e.slug = slugify(e.title);
+    createPackage(
+      {
+        data: e,
+      },
+      {
+        onSuccess: (bundle) => {
+          console.log(bundle, "here it is");
+          // @ts-ignore
+          navigate(`/admin/products/package/${bundle._id}/editor`);
+          message.open({
+            type: "success",
+            content: "Have fun creating a Package!",
+          });
+          props.closeModal && props.closeModal();
+        },
+      }
+    );
+  };
+  // const { listItems: users } = User.Queries.useGetUsers()
+  return (
+    <Form form={form} onFinish={onSubmit} layout="vertical">
+      <Form.Item
+        name="title"
+        label="Title"
+        required
+        tooltip="Title of your Package"
+        rules={[
+          { required: true, message: "Please mention title for Package" },
+        ]}
+      >
+        <Input placeholder="Enter your package title" />
+      </Form.Item>
+      <Button
+        loading={loading}
+        key="submit"
+        type="primary"
+        onClick={form.submit}
+      >
+        Submit
+      </Button>
+    </Form>
+  );
+};

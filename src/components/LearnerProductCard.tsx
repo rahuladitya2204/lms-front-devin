@@ -33,6 +33,8 @@ import {
 } from "@ant-design/icons";
 import { useModal } from "./ActionModal/ModalContext";
 import ShowSyllabus from "./ShowSyllabus";
+import { Link } from "@Router/index";
+import { useMemo } from "react";
 
 const CustomTag = styled(Text)`
   margin-top: 3px;
@@ -41,6 +43,7 @@ const CustomTag = styled(Text)`
 interface LearnerProductCardPropsI {
   product: Types.Product;
   children?: React.ReactNode;
+  isServer?: boolean;
   actions?: React.ReactNode[];
   onClick?: Function;
   mini?: boolean;
@@ -50,12 +53,36 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   const {
     product: { data: product },
   } = props;
-  // const { data: topics } = Learner.Queries.useGetTopics();
-  // const treeData = product?.topics
-  //   ?.map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
-  //   .flat();
-  // console.log(treeData, "treeData");
-  const { openModal } = useModal();
+  const linkPrefix = useMemo(() => {
+    let prefix = "test";
+    switch (props.product.type) {
+      case "test": {
+        prefix = "test";
+        break;
+      }
+      case "package": {
+        prefix = "test-series";
+        break;
+      }
+      default: {
+        prefix = "test";
+      }
+    }
+    return prefix;
+  }, [props]);
+  const TryNowButton = (
+    <Link
+      to={
+        props.isServer
+          ? `/${linkPrefix}/${product._id}`
+          : `/app/${linkPrefix}/${product._id}`
+      }
+    >
+      <Button type="primary" size="small" icon={<ExportOutlined />}>
+        Try Now
+      </Button>
+    </Link>
+  );
   const Component = props.mini ? (
     <MiniCard
       accessoryLeft={
@@ -94,13 +121,25 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
                     .join(", ")}
                 </Button>
               </Col>
-              <Col>
+              <Col>{TryNowButton}</Col>
+            </Row>
+          ) : null}
+          {/* <Row justify={"space-between"}>
+            <Col></Col>
+            <Col>
+              <Link
+                to={
+                  props.isServer
+                    ? `/${linkPrefix}/${product._id}`
+                    : `/app/${linkPrefix}/${product._id}`
+                }
+              >
                 <Button type="primary" size="small" icon={<ExportOutlined />}>
                   Try Now
                 </Button>
-              </Col>
-            </Row>
-          ) : null}
+              </Link>
+            </Col>
+          </Row> */}
         </>
       }
     >
@@ -144,10 +183,14 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
         </CustomTag>
       ) : null}
       {product?.products?.test ? (
-        <CustomTag color="purple">
-          {product?.products?.test?.length} Tests
-          <Divider type="vertical" />
-        </CustomTag>
+        <Row justify={"space-between"}>
+          <Col>
+            <CustomTag color="purple">
+              {product?.products?.test?.length} Tests
+            </CustomTag>
+          </Col>
+          <Col>{TryNowButton}</Col>
+        </Row>
       ) : null}
 
       {product?.stats?.question?.count ? (

@@ -41,6 +41,7 @@ interface CreatePackageComponentPropsI {
 
 const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
   const { packageId } = useParams();
+  const { data: bundle } = User.Queries.useGetPackageDetails(packageId + "");
   return (
     <Card>
       <Row gutter={[20, 30]}>
@@ -58,7 +59,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
                 {
                   label: "Products",
                   key: "products",
-                  children: <Products />,
+                  children: <Products category={bundle.category} />,
                 },
                 {
                   label: "Landing Page",

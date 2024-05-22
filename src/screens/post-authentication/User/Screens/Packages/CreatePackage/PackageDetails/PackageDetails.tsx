@@ -61,15 +61,15 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
             <Input placeholder="Enter a subtuitle for the live session" />
           </Form.Item>
           <Form.Item
-            rules={[
-              {
-                required: true,
-                message: "Please enter a subtitle of the packages",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: "Please enter a subtitle of the packages",
+            //   },
+            // ]}
             name="subtitle"
             label="Sub Title"
-            required
+            // required
           >
             <Input placeholder="Enter a title for the live session" />
           </Form.Item>
@@ -111,12 +111,12 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           <Form.Item
             name={"keywords"}
             label="Keywords"
-            rules={[
-              {
-                required: true,
-                message: "Please enter a description for the Test",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     message: "Please enter a description for the Test",
+            //   },
+            // ]}
           >
             <InputTags name={`keywords`} />
           </Form.Item>
@@ -168,7 +168,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
       <Divider />
 
       <Row gutter={[20, 20]}>
-        <Col span={24}>
+        {/* <Col span={24}>
           <Form.Item
             rules={[
               {
@@ -181,7 +181,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           >
             <TextArea height={250} name={["description"]} />
           </Form.Item>
-        </Col>
+        </Col> */}
         <Col span={24}>
           <Card
             title="Testimonials"

@@ -8,66 +8,69 @@ import {
   Row,
   Select,
   Space,
-  Table
-} from 'antd'
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons'
-import { Enum, Types, User } from '@adewaskar/lms-common'
-import { Fragment, useCallback } from 'react'
+  Table,
+} from "antd";
+import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { Enum, Types, User } from "@adewaskar/lms-common";
+import { Fragment, useCallback } from "react";
 
-import ProductCard from '@Components/UserProductCard'
-import SearchUserProducts from '@Components/SearchUserProducts'
-import { capitalize } from 'lodash'
+import ProductCard from "@Components/UserProductCard";
+import SearchUserProducts from "@Components/SearchUserProducts";
+import { capitalize } from "lodash";
 
 const PRODUCT_TYPES = [
-  { title: 'Test', value: Enum.ProductType.TEST },
-  { title: 'Events', value: Enum.ProductType.EVENT },
-  { title: 'Courses', value: Enum.ProductType.COURSE }
-]
+  { title: "Test", value: Enum.ProductType.TEST },
+  { title: "Events", value: Enum.ProductType.EVENT },
+  { title: "Courses", value: Enum.ProductType.COURSE },
+];
 interface ProductsProps {
+  category: string;
   // products: Types.Product[];
   // deleteItem: (index: number) => void;
   // submit: (index: number, d: { type: string, data: any }) => void;
 }
 
-export default function Products({  }: ProductsProps) {
+export default function Products({ category }: ProductsProps) {
   return (
     <Fragment>
       <Collapse
         collapsible="header"
-        defaultActiveKey={['1']}
-        items={PRODUCT_TYPES.map(product => {
-          const name = product.value
+        defaultActiveKey={["1"]}
+        items={PRODUCT_TYPES.map((product) => {
+          const name = product.value;
           return {
             key: name,
             label: capitalize(name),
             children: (
               <Row gutter={[20, 20]}>
                 <Col span={24}>
-                  <Form.List name={['products', name]}>
+                  <Form.List name={["products", name]}>
                     {(fields, { add, remove }) => {
                       return (
                         <ProductSection
+                          category={category}
                           add={add}
                           remove={remove}
                           fields={fields}
                           productType={product.value}
                           name={name}
                         />
-                      )
+                      );
                     }}
                   </Form.List>
                 </Col>
               </Row>
-            )
-          }
+            ),
+          };
         })}
       />
     </Fragment>
-  )
+  );
 }
 
 interface ProductSectionPropsI {
   productType: Enum.ProductType;
+  category: string;
   fields: FormListFieldData[];
   add: any;
   remove: any;
@@ -75,14 +78,15 @@ interface ProductSectionPropsI {
 }
 
 export const ProductSection = (props: ProductSectionPropsI) => {
-  const form = Form.useFormInstance()
+  const form = Form.useFormInstance();
   return (
     <Fragment>
       <Row>
         <Col span={24}>
           <SearchUserProducts
+            category={props.category}
             // @ts-ignore
-            onSelect={e => props.add(e)}
+            onSelect={(e) => props.add(e)}
             type={props.productType}
           />
         </Col>
@@ -90,10 +94,10 @@ export const ProductSection = (props: ProductSectionPropsI) => {
           <Row gutter={[20, 30]}>
             {props.fields.map((field, index) => {
               const fieldValue = form.getFieldValue([
-                'products',
+                "products",
                 props.name,
-                field.name
-              ])
+                field.name,
+              ]);
               // console.log(fieldValue, 'fieldValue')
               return (
                 <Col span={6}>
@@ -101,7 +105,7 @@ export const ProductSection = (props: ProductSectionPropsI) => {
                     // type={product.value}
                     product={{
                       type: props.productType,
-                      id: fieldValue
+                      id: fieldValue,
                     }}
                     actions={[
                       <Button
@@ -110,15 +114,15 @@ export const ProductSection = (props: ProductSectionPropsI) => {
                         icon={<DeleteOutlined />}
                       >
                         {/* Delete */}
-                      </Button>
+                      </Button>,
                     ]}
                   />
                 </Col>
-              )
+              );
             })}
           </Row>
         </Col>
       </Row>
     </Fragment>
-  )
-}
+  );
+};
