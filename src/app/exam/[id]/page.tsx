@@ -25,6 +25,15 @@ export default function Page({
         getProductCategoryDetails(params.id),
         getPackages(params.id),
         getPYQs(params.id),
+        getPromotedProducts(Enum.ProductType.PACKAGE, {
+          category: params.id,
+          limit: 3,
+        }),
+        getPromotedProducts(Enum.ProductType.TEST, {
+          category: params.id,
+          mode: "free",
+          limit: 3,
+        }),
         // // authenticated routes should only be called if token is present
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}

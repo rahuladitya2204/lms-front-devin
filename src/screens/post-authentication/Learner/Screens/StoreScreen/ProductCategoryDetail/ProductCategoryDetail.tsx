@@ -168,49 +168,61 @@ export default function ProductCategoryDetailScreen(
               <Card>{Metadata}</Card>
             </Col>
           </Row>
-          <Row style={{ marginTop: 20 }} gutter={[20, 20]}>
+          {/* <Row style={{ marginTop: 20 }} gutter={[20, 20]}>
             <Col span={24}>
-              {Banners.length ? (
-                <Badge.Ribbon
-                  color="orange-inverse"
-                  placement="start"
-                  text={
-                    productCategory.title
-                      ? `${productCategory.title} latest updates`
-                      : null
-                  }
-                >
-                  <Card style={{ paddingTop: 20 }}>
-                    <Row gutter={[20, 20]}>
-                      {" "}
-                      {Banners.map((i, idx) => {
-                        return (
-                          <Col span={24} key={idx}>
-                            <Alert
-                              type="error"
-                              action={
-                                <Tag color="orange-inverse">
-                                  {dayjs(i.date).format("L")}
-                                </Tag>
-                              }
-                              icon={<NotificationOutlined />}
-                              message={<strong>{i.title}</strong>}
-                              description={
-                                <ShowMore minHeight={100}>
-                                  {" "}
-                                  <HtmlViewer content={i.description} />
-                                </ShowMore>
-                              }
-                            />
-                          </Col>
-                        );
-                      })}
-                    </Row>
-                  </Card>
-                </Badge.Ribbon>
-              ) : null}
+              <Badge.Ribbon
+                color="orange-inverse"
+                placement="start"
+                text={
+                  productCategory.title
+                    ? // ? `${productCategory.title} latest updates`
+                      `Latest Updates`
+                    : null
+                }
+              >
+                {" "}
+                <Card>
+                  {Banners.length ? (
+                    <Collapse>
+                      <Collapse.Panel
+                        header={
+                          productCategory.title
+                            ? `${productCategory.title} Latest Updates`
+                            : null
+                        }
+                      >
+                        <Row gutter={[20, 20]}>
+                          {" "}
+                          {Banners.map((i, idx) => {
+                            return (
+                              <Col span={24} key={idx}>
+                                <Alert
+                                  type="error"
+                                  action={
+                                    <Tag color="orange-inverse">
+                                      {dayjs(i.date).format("L")}
+                                    </Tag>
+                                  }
+                                  icon={<NotificationOutlined />}
+                                  message={<strong>{i.title}</strong>}
+                                  description={
+                                    <ShowMore minHeight={100}>
+                                      {" "}
+                                      <HtmlViewer content={i.description} />
+                                    </ShowMore>
+                                  }
+                                />
+                              </Col>
+                            );
+                          })}
+                        </Row>
+                      </Collapse.Panel>
+                    </Collapse>
+                  ) : null}
+                </Card>
+              </Badge.Ribbon>
             </Col>
-          </Row>
+          </Row> */}
         </Col>
       </>
 

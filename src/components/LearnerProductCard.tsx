@@ -26,6 +26,7 @@ import styled from "@emotion/styled";
 import {
   BookOutlined,
   BookTwoTone,
+  ExportOutlined,
   FileTextTwoTone,
   InfoCircleOutlined,
   InfoCircleTwoTone,
@@ -71,26 +72,34 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       footer={
         <>
           {product?.languages?.length ? (
-            <Col>
-              {product?.topics?.length ? (
-                <>
-                  <ShowSyllabus testId={props.product.id} />
-                  <Divider type="vertical" />
-                </>
-              ) : null}
-              <Button
-                style={{ padding: 0, fontSize: 13 }}
-                type="link"
-                // title={``}
-              >
-                <FileTextTwoTone />
-                {product?.languages
-                  .map(
-                    (i) => Constants.LANGUAGES.find((l) => l.value === i)?.label
-                  )
-                  .join(", ")}
-              </Button>
-            </Col>
+            <Row justify={"space-between"}>
+              <Col>
+                {product?.topics?.length ? (
+                  <>
+                    <ShowSyllabus testId={props.product.id} />
+                    <Divider type="vertical" />
+                  </>
+                ) : null}
+                <Button
+                  style={{ padding: 0, fontSize: 13 }}
+                  type="link"
+                  // title={``}
+                >
+                  <FileTextTwoTone />
+                  {product?.languages
+                    .map(
+                      (i) =>
+                        Constants.LANGUAGES.find((l) => l.value === i)?.label
+                    )
+                    .join(", ")}
+                </Button>
+              </Col>
+              <Col>
+                <Button type="primary" size="small" icon={<ExportOutlined />}>
+                  Try Now
+                </Button>
+              </Col>
+            </Row>
           ) : null}
         </>
       }

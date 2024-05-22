@@ -29,6 +29,7 @@ import TestCard from "../Cards/TestCard";
 
 import PromotedProducts from "./PromotedProducts";
 import { PYQTestsComponent } from "./ProductCategoryDetail";
+import LearnerProductCard from "@Components/LearnerProductCard";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -56,11 +57,6 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   // const product = props.product || params.product || "packages";
   const { data: productCategory, isLoading: loadingCategory } =
     Learner.Queries.useGetProductCategoryDetails(id + "");
-  const { data: packages, isLoading: loadingPackages } =
-    Learner.Queries.useGetPackages(id + "", {
-      enabled: !!id,
-    });
-
   const TABS = useMemo(() => {
     const i = [
       {
@@ -74,19 +70,6 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         faqs: productCategory.info.faqs,
         seo: productCategory.seo,
       },
-      // {
-      //   label: "Test Series",
-      //   key: "test-series",
-      //   children: (
-      // <PackageListComponent
-      //   showAll
-      //   id={id + ""}
-      //   isServer={props.isServer}
-      // />
-      //   ),
-      //   faqs: productCategory.testSeries.faqs,
-      //   seo: productCategory.testSeries.seo,
-      // },
     ];
 
     i.push(
@@ -106,7 +89,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     );
 
     return i;
-  }, [productCategory, packages, type]);
+  }, [productCategory, type]);
   const navigate = useNavigate();
   const tab = TABS.find((tab) => tab.key === type);
   return loadingCategory ? (
@@ -218,63 +201,22 @@ interface CategoryProductsPropsI {
 
 const CategoryProducts = (props: CategoryProductsPropsI) => {
   const { categoryId, type } = props;
-  const { data: category } =
-    Learner.Queries.useGetProductCategoryDetails(categoryId);
-  const { data: packages, isLoading: loadingPackages } =
-    Learner.Queries.useGetPackages(categoryId, {
-      enabled: !!categoryId,
-    });
-
   const { data: PYQTests, isLoading: loadingPYQs } = Learner.Queries.useGetPYQs(
     categoryId,
     {
       enabled: !!categoryId,
     }
   );
-  const link = category.info.links.find((i) => i.slug === type);
+
   const TABS = useMemo(() => {
     const tabs: any[] = [];
-    if (packages.length) {
-      tabs.push({
-        label: "Test Series",
-        key: "test-series",
-        children: (
-          <Row>
-            <Col span={24}>
-              <Title style={{ fontSize: 16 }} level={4}>
-                {category.title} Test Series
-              </Title>
-              <PromotedProducts
-                data={{
-                  category: categoryId,
-                  keywords: link?.keywords,
-                  limit: 3,
-                }}
-                category={categoryId}
-                type={Enum.ProductType.PACKAGE}
-                isServer={!!props.isServer}
-              />
-            </Col>
-            <Col span={24}>
-              <Title style={{ fontSize: 16 }} level={4}>
-                {category.title} Free Tests
-              </Title>
-              <PromotedProducts
-                data={{
-                  category: categoryId,
-                  mode: "free",
-                  keywords: link?.keywords,
-                  limit: 3,
-                }}
-                category={categoryId}
-                type={Enum.ProductType.TEST}
-                isServer={!!props.isServer}
-              />
-            </Col>
-          </Row>
-        ),
-      });
-    }
+
+    tabs.push({
+      label: "Test Series",
+      key: "test-series",
+      children: <PromotedProducts categoryId={categoryId} />,
+    });
+
     if (PYQTests.length) {
       tabs.push({
         label: "Previous Year Papers",
@@ -289,9 +231,9 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
       });
     }
     return tabs;
-  }, [packages, PYQTests]);
+  }, [PYQTests]);
   const [productTab, setProductTab] = useState("test-series");
-  // console.log(product, "product");
+
   return (
     <>
       {TABS.length ? (

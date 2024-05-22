@@ -1,73 +1,91 @@
-import { Enum, Learner } from "@adewaskar/lms-common";
+import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import { Col, Row } from "antd";
 import PackageCard from "../Cards/PackageCard";
 import TestCard from "../Cards/TestCard";
 import LearnerProductCard from "@Components/LearnerProductCard";
 import { Link } from "@Router/index";
 import { useMemo } from "react";
+import { Title } from "@Components/Typography/Typography";
 
 interface PromotedProductsPropsI {
-  type: Enum.ProductType;
-  category: string;
   isServer: boolean;
-  data?: any;
+  categoryId: string;
+  type: string;
 }
 
 export default function PromotedProducts(props: PromotedProductsPropsI) {
-  const query = {
-    ...(props.data ? props.data : {}),
-  };
-  // console.log(query, props.type, "query");
-  // const { data: category } = Learner.Queries.useGetProductCategoryDetails(
-  //   props.category,
-  //   {
-  //     enabled: !!props.category,
-  //   }
-  // );
-  const { data: products } = Learner.Queries.useGetPromotedProducts(
-    props.type,
-    query
-  );
-  console.log(props.type, "props.type");
-  const linkPrefix = useMemo(() => {
-    let prefix = "test";
-    switch (props.type) {
-      case "test": {
-        prefix = "test";
-        break;
-      }
-      case "package": {
-        prefix = "test-series";
-        break;
-      }
-      default: {
-        prefix = "test";
-      }
+  const { categoryId, type } = props;
+  const { data: category } =
+    Learner.Queries.useGetProductCategoryDetails(categoryId);
+  const link = category.info.links.find((i) => i.slug === type);
+  const { data: packages } = Learner.Queries.useGetPromotedProducts(
+    Enum.ProductType.PACKAGE,
+    {
+      category: categoryId,
+      keywords: link?.keywords,
+      limit: 3,
     }
-    return prefix;
-  }, [props]);
-  console.log(linkPrefix, props.type, "popopo");
+  );
+
+  const { data: tests } = Learner.Queries.useGetPromotedProducts(
+    Enum.ProductType.TEST,
+    {
+      category: categoryId,
+      mode: "free",
+      keywords: link?.keywords,
+      limit: 3,
+    }
+  );
+
+  // console.log(linkPrefix, props.type, "popopo");
   return (
-    <Row gutter={[20, 20]}>
-      {products.map((product, idx) => {
-        return (
-          <Col sm={12} key={idx} md={12} xs={24} lg={12} xl={8} xxl={8}>
-            <Link
-              to={
-                props.isServer
-                  ? `/${linkPrefix}/${product.id}`
-                  : `/app/${linkPrefix}/${product.id}`
-              }
-            >
-              <LearnerProductCard
-                mini
-                // isServer={props.isServer}
-                product={product}
-              />
-            </Link>
-          </Col>
-        );
-      })}
+    <Row>
+      {packages.length ? (
+        <Col span={24}>
+          <Title style={{ fontSize: 16 }} level={4}>
+            {category.title} Test Series
+          </Title>
+          <Row gutter={[20, 20]}>
+            {packages.map((bundle) => {
+              return (
+                <Col
+                  sm={12}
+                  key={bundle._id}
+                  md={12}
+                  xs={24}
+                  lg={12}
+                  xl={8}
+                  xxl={8}
+                >
+                  <LearnerProductCard mini product={bundle} />
+                </Col>
+              );
+            })}
+          </Row>
+        </Col>
+      ) : null}
+      <Col span={24}>
+        <Title style={{ fontSize: 16 }} level={4}>
+          {category.title} Mock Tests
+        </Title>
+        <Row gutter={[20, 20]}>
+          {tests.map((test) => {
+            return (
+              <Col
+                sm={12}
+                key={test._id}
+                md={12}
+                xs={24}
+                lg={12}
+                xl={8}
+                xxl={8}
+              >
+                <LearnerProductCard mini product={test} />
+              </Col>
+            );
+          })}
+        </Row>
+      </Col>
     </Row>
   );
 }
