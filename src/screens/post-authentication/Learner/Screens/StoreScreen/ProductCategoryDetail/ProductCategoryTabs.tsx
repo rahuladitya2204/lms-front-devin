@@ -105,7 +105,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       </Col>
       <Col span={24}>
         <Card style={{ marginTop: 20 }}>
-          <Row align={"middle"} justify={"space-between"}>
+          <Row>
             <Col>
               {TABS.filter((i) => i?.displayOnLandingPage).map((tab) => {
                 return (

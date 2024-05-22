@@ -13,39 +13,37 @@ interface SearchUserProductsPropsI {
 }
 
 export default function SearchUserProducts(props: SearchUserProductsPropsI) {
-  const [searchValue, setSearchValue] = useState("");
-  console.log(searchValue, "valk");
   const { data: products } = User.Queries.useGetProductList(props.type, {
-    searchValue,
     category: props.category,
     status: ["published"],
   });
+
+  const filterOption = (inputValue: string, option: any) => {
+    return option.label.props.children[1]
+      .toLowerCase()
+      .includes(inputValue.toLowerCase());
+  };
+
   return (
     <Select
       showSearch
-      onSearch={setSearchValue}
+      filterOption={filterOption}
       placeholder={props.label || "Select to add product"}
       style={{ width: 300, marginBottom: 20 }}
       onSelect={props.onSelect}
-      // @ts-ignore
-      options={products
-        .filter((p) => p.status === "published")
-        .map((e) => {
-          return {
-            label: (
-              <Text>
-                {" "}
-                <Image
-                  preview={false}
-                  style={{ width: 50, height: 50 }}
-                  src={e.thumbnailImage}
-                />{" "}
-                {e.title}
-              </Text>
-            ),
-            value: e._id,
-          };
-        })}
+      options={products.map((e) => ({
+        label: (
+          <Text>
+            <Image
+              preview={false}
+              style={{ width: 50, height: 50 }}
+              src={e.thumbnailImage}
+            />{" "}
+            {e.title}
+          </Text>
+        ),
+        value: e._id,
+      }))}
     />
   );
 }

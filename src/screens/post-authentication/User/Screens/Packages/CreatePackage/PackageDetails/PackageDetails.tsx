@@ -108,24 +108,24 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           >
             <Input placeholder="Enter a slug for the live session" />
           </Form.Item>
-          <Form.Item
-            name={"keywords"}
-            label="Keywords"
-            // rules={[
-            //   {
-            //     required: true,
-            //     message: "Please enter a description for the Test",
-            //   },
-            // ]}
-          >
-            <InputTags name={`keywords`} />
-          </Form.Item>
+
           <Row gutter={[20, 20]}>
             <Col span={12}>
               <SelectProductCategory name="category" />
             </Col>
             <Col span={12}>
-              <InputTags label="Keywords" name="keywords" />
+              <Form.Item
+                name={"keywords"}
+                label="Keywords"
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please enter a description for the Test",
+                //   },
+                // ]}
+              >
+                <InputTags name={`keywords`} />
+              </Form.Item>{" "}
             </Col>
           </Row>
         </Col>
