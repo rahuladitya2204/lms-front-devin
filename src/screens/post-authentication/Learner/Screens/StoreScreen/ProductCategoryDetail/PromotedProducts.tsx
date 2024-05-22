@@ -57,7 +57,11 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
                   xl={8}
                   xxl={8}
                 >
-                  <LearnerProductCard mini product={bundle} />
+                  <LearnerProductCard
+                    isServer={props.isServer}
+                    mini
+                    product={bundle}
+                  />
                 </Col>
               );
             })}
@@ -80,7 +84,11 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
                 xl={8}
                 xxl={8}
               >
-                <LearnerProductCard mini product={test} />
+                <LearnerProductCard
+                  isServer={props.isServer}
+                  mini
+                  product={test}
+                />
               </Col>
             );
           })}
