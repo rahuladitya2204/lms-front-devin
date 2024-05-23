@@ -4,8 +4,8 @@ import { EyeOutlined, SaveOutlined, UploadOutlined } from "@ant-design/icons";
 import { Fragment, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { useParams } from "@Router/index";
+import * as React from "react";
 
-import Header from "@Components/Header";
 import Tabs from "@Components/Tabs";
 import TestDetailsEditor from "./TestDetailsEditor/TestDetails";
 import TestLandingPageEditor from "./TestLandingPage/TestLandingPageEditor";
@@ -13,8 +13,9 @@ import TestPricingEditor from "../TestPricingEditor/TestPricingEditor";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
 import CreateFaqs from "@Components/CreateFaqsComponent";
+import SEOComponent from "@Components/SEOComponent";
 
-function TestInformationEditor(props: any) {
+const TestInformationEditor = (props: any) => {
   const { id } = useParams();
   const testId = id + "";
   const [test, setTest] = useState(Constants.INITIAL_TEST_DETAILS);
@@ -30,6 +31,7 @@ function TestInformationEditor(props: any) {
   return (
     <Spin spinning={loadingTest}>
       <Tabs
+        navigateWithHash
         items={[
           {
             label: `Details`,
@@ -60,6 +62,11 @@ function TestInformationEditor(props: any) {
             children: <CreateFaqs name={["faqs"]} />,
           },
           {
+            label: `SEO`,
+            key: "seo",
+            children: <SEOComponent name={["seo"]} />,
+          },
+          {
             label: `Pricing`,
             key: "pricing",
             children: (
@@ -87,6 +94,8 @@ function TestInformationEditor(props: any) {
       <Outlet />
     </Spin>
   );
-}
+};
 
-export default TestInformationEditor;
+const MemoedTestInformationEditor = React.memo(TestInformationEditor);
+
+export default MemoedTestInformationEditor;

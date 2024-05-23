@@ -11,6 +11,7 @@ import {
   Tag,
   message,
 } from "@Lib/index";
+import * as React from "react";
 import { Constants, Enum, Types, Utils } from "@adewaskar/lms-common";
 import {
   ExportOutlined,
@@ -36,7 +37,7 @@ import useMessage from "@Hooks/useMessage";
 
 const { confirm } = Modal;
 
-function TestEditor() {
+const TestEditor = () => {
   const { id } = useParams();
   const testId = id + "";
   const [test, setTest] = useState<Types.Test>(Constants.INITIAL_TEST_DETAILS);
@@ -86,7 +87,7 @@ function TestEditor() {
   const { isMobile } = useBreakpoint();
   const MainNavTabs = (
     <Tabs
-      navigateWithHash
+      // navigateWithHash
       onTabClick={(e) => {
         if (e === "builder") {
           navigate(`../${test._id}/builder`);
@@ -223,6 +224,8 @@ function TestEditor() {
       </Row>
     </Spin>
   );
-}
+};
 
-export default TestEditor;
+const MemoedTestEditor = React.memo(TestEditor);
+
+export default MemoedTestEditor;
