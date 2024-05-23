@@ -31,30 +31,19 @@ const TestInformationEditor = (props: any) => {
   return (
     <Spin spinning={loadingTest}>
       <Tabs
+        destroyInactiveTabPane={false}
         navigateWithHash
         items={[
           {
             label: `Details`,
             active: true,
             key: "details",
-            children: (
-              <TestDetailsEditor
-                saveTest={props.saveTest}
-                test={props.test}
-                testId={props.testId}
-              />
-            ),
+            children: <TestDetailsEditor />,
           },
           {
             label: `Landing Page`,
             key: "landing-page",
-            children: (
-              <TestLandingPageEditor
-                saveTest={props.saveTest}
-                test={props.test}
-                testId={props.testId}
-              />
-            ),
+            children: <TestLandingPageEditor />,
           },
           {
             label: `FAQs`,

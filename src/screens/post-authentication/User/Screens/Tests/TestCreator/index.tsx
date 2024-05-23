@@ -40,12 +40,11 @@ const { confirm } = Modal;
 const TestEditor = () => {
   const { id } = useParams();
   const testId = id + "";
-  const [test, setTest] = useState<Types.Test>(Constants.INITIAL_TEST_DETAILS);
-
+  const [form] = Form.useForm();
   const { mutate: updateTestApi, isLoading: loading } =
     User.Queries.useUpdateTest();
 
-  const { data: testDetails, isFetching: loadingTest } =
+  const { data: test, isFetching: loadingTest } =
     User.Queries.useGetTestDetails(testId, {
       enabled: !!testId,
     });
@@ -54,16 +53,22 @@ const TestEditor = () => {
     User.Queries.usePublishTest();
 
   useEffect(() => {
-    setTest(testDetails);
-  }, [testDetails]);
+    if (test.live.scheduledAt) {
+      console.log(test, "fff");
+      // @ts-ignore
+      test.live.scheduledAt = dayjs(test.live.scheduledAt);
+    }
 
-  const saveTest = (e: Partial<Types.Test>) => {
-    setTest({
-      ...test,
-      ...e,
-    });
-  };
-  const updateTest = () => {
+    form.setFieldsValue(test);
+  }, [test]);
+
+  // const saveTest = (e: Partial<Types.Test>) => {
+  //   setTest({
+  //     ...test,
+  //     ...e,
+  //   });
+  // };
+  const updateTest = (test: Types.Test) => {
     updateTestApi(
       {
         id: testId,
@@ -80,9 +85,6 @@ const TestEditor = () => {
     );
   };
 
-  const validateDraftTest = () => {
-    return test.title;
-  };
   const navigate = useNavigate();
   const { isMobile } = useBreakpoint();
   const MainNavTabs = (
@@ -104,22 +106,9 @@ const TestEditor = () => {
             </span>
           ),
           key: "information",
-          children: (
-            <TestInformationEditor
-              saveTest={saveTest}
-              test={test}
-              testId={testId}
-            />
-          ),
+          children: <TestInformationEditor />,
         },
-        // {
-        //   label: (
-        //     <span>
-        //       <ToolOutlined />Builder
-        //     </span>
-        //   ),
-        //   key: 'builder'
-        // },
+
         {
           label: (
             <span>
@@ -202,10 +191,9 @@ const TestEditor = () => {
                 </Button>
               </Link>,
               <Button
-                disabled={!validateDraftTest()}
                 loading={loading}
                 type="primary"
-                onClick={updateTest}
+                onClick={form.submit}
                 icon={<SaveOutlined />}
               >
                 Save as draft
@@ -215,7 +203,9 @@ const TestEditor = () => {
               // </ActionDrawer>:null
             ]}
           >
-            {MainNavTabs}
+            <Form onFinish={updateTest} layout="vertical" form={form}>
+              {MainNavTabs}
+            </Form>
           </Card>
         </Col>
         {/* <Col span={20}>

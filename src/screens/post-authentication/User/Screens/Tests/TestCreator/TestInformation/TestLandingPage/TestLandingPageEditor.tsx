@@ -12,37 +12,19 @@ import { useLayoutEffect } from "react";
 // import { patchObject } from '../../utils'
 import { useParams } from "@Router/index";
 
-interface TestLandingPageEditorPropsI {
-  testId: string;
-  saveTest: Function;
-
-  test: Types.Test;
-}
+interface TestLandingPageEditorPropsI {}
 
 function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
-  const { id } = useParams();
-  const { test } = props;
-  const testId = props.testId || id + "";
-  const [form] = Form.useForm();
-  const promoVideoFile = test.landingPage.promoVideo;
-  useLayoutEffect(() => {
-    form.setFieldsValue(test.landingPage);
-  }, [test]);
+  const { id: testId } = useParams();
+
+  const form = Form.useFormInstance();
+  const promoVideoFile = Form.useWatch(["landingPage", "promoVideo"], form);
+
   const landingPageDescription = Form.useWatch(["description"], form);
-  const onValuesChange = (d: Partial<Types.TestLandingPage>) => {
-    const data = deepPatch(test.landingPage, d);
-    props.saveTest({
-      landingPage: data,
-    });
-  };
+
   const landingPageLength = landingPageDescription?.length;
   return (
-    <Form
-      onValuesChange={onValuesChange}
-      form={form}
-      layout="vertical"
-      autoComplete="off"
-    >
+    <>
       <Card
         style={{ marginTop: 20, marginBottom: 20 }}
         title="Promo Video"
@@ -54,15 +36,13 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
             }}
             prefixKey={`Tests/${testId}/promo`}
             width="300px"
-            name="promoVideo"
+            name={["landingPage", "promoVideo"]}
             height="250px"
             onUpload={(d) => {
               console.log(d, "eee");
-              onValuesChange({
-                promoVideo: {
-                  file: d._id,
-                  url: d.url,
-                },
+              form.setFieldValue(["landingPage", "promoVideo"], {
+                file: d._id,
+                url: d.url,
               });
             }}
             renderItem={() => (
@@ -78,14 +58,12 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
           <SelectThumbnail
             onSelect={(e) => {
               console.log(e, "e");
-              onValuesChange({
-                promoVideo: {
-                  ...promoVideoFile,
-                  thumbnailImage: e.url,
-                },
+              form.setFieldValue(["landingPage", "promoVideo"], {
+                ...promoVideoFile,
+                thumbnailImage: e.url,
               });
             }}
-            url={promoVideoFile.url}
+            url={promoVideoFile?.url}
           />
         </Space>
         {promoVideoFile?.url ? (
@@ -102,7 +80,7 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
         />
       ) : null}
       <Form.Item
-        name={"description"}
+        name={["landingPage", "description"]}
         required
         label={
           <>
@@ -116,9 +94,9 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
           </>
         }
       >
-        <TextArea html name={"description"} />
+        <TextArea name={["landingPage", "description"]} html />
       </Form.Item>
-    </Form>
+    </>
   );
 }
 

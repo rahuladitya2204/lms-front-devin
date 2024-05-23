@@ -29,18 +29,17 @@ import InputTags from "@Components/InputTags/InputTags";
 const { useWatch } = Form;
 
 interface TestDetailsEditorPropsI {
-  testId?: string;
-  saveTest: Function;
-  test: Types.Test;
+  // testId?: string;
+  // saveTest: Function;
+  // test: Types.Test;
 }
 
 function TestDetailsEditor(props: TestDetailsEditorPropsI) {
-  const { test } = props;
-  const [form] = Form.useForm();
-  const { id } = useParams();
-  const testId = props.testId || id;
-  const { data: users } = User.Queries.useGetUsers();
+  const { id: testId } = useParams();
+
+  const form = Form.useFormInstance();
   const image = useWatch(["thumbnailImage"], form);
+  const status = useWatch(["status"], form);
   const isPyqEnabled = useWatch(["pyq", "enabled"], form);
   const { mutateAsync: validateSlugApi, status: validatingStatus } =
     User.Queries.useValidateSlug("test");
@@ -48,43 +47,32 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const cat = useWatch(["category"], form);
   const { listItems: categories, data: categoriesData } =
     User.Queries.useGetProductCategories("test");
+  const { data: testDetail, isFetching: loadingTest } =
+    User.Queries.useGetTestDetails(testId + "", {
+      enabled: !!testId,
+    });
   const category = useMemo(() => {
     return categoriesData.find((c) => c._id === cat);
   }, [categoriesData, cat]);
-  const { data: testDetail } = User.Queries.useGetTestDetails(testId + "");
   // console.log(category, "category");
   // console.log(categoriesData, "categoriesData");
   const { data: topics } = User.Queries.useGetTopics();
   const TOPIC_TREE_DATA = useMemo(() => {
     return buildTopicTree(topics);
   }, [topics]);
-  useEffect(() => {
-    if (test.live.scheduledAt) {
-      console.log(test, "fff");
-      // @ts-ignore
-      test.live.scheduledAt = dayjs(test.live.scheduledAt);
-    }
-
-    form.setFieldsValue(test);
-  }, [test]);
 
   const onValuesChange = (d: Partial<Types.Test>) => {
     const data = deepPatch(test, d);
     props.saveTest(data);
   };
 
-  const isPublished = test.status === Enum.TestStatus.PUBLISHED;
+  const isPublished = status === Enum.TestStatus.PUBLISHED;
   const isLive = Form.useWatch(["live", "enabled"], form);
   const files = Form.useWatch(["files"], form);
   const isHandwritten =
     Form.useWatch(["input", "type"], form) === Enum.TestInputType.HANDWRITTEN;
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      autoComplete="off"
-      onValuesChange={onValuesChange}
-    >
+    <>
       {/* <Form.Item name={['status']} required label="Test Status">
         <Select style={{ width: 200 }} placeholder="Select Status`">
           {STATUSES.map((category: any) => {
@@ -167,16 +155,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
       <Form.Item name="subtitle" label="Subtitle">
         <Input />
       </Form.Item>
-      <Form.Item
-        name={"keywords"}
-        label="Keywords"
-        rules={[
-          {
-            required: true,
-            message: "Please enter a description for the Test",
-          },
-        ]}
-      >
+      <Form.Item name={"keywords"} label="Keywords">
         <InputTags name={`keywords`} />
       </Form.Item>
       <Form.Item name="files" required label="Files">
@@ -331,7 +310,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             // label=""
             label={`Topics`}
             name={["topics"]}
-            rules={[{ required: true, message: "Please select topics" }]}
+            // rules={[{ required: true, message: "Please select topics" }]}
           >
             <TreeSelect multiple treeData={TOPIC_TREE_DATA} />
           </Form.Item>
@@ -365,12 +344,12 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           <Row gutter={[0, 20]} justify={"end"}>
             <Col flex={1}>
               <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "Please enter start time for the live test",
-                  },
-                ]}
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please enter start time for the live test",
+                //   },
+                // ]}
                 name={["live", "scheduledAt"]}
                 style={{ width: "100%" }}
                 label={
@@ -481,7 +460,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             name="exam"
             required
             label="Exam"
-            rules={[{ required: true, message: "Please select an exam" }]}
+            // rules={[{ required: true, message: "Please select an exam" }]}
           >
             <Select
               showSearch
@@ -496,7 +475,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           </Form.Item>
         </Col>
       </Row>
-    </Form>
+    </>
   );
 }
 
