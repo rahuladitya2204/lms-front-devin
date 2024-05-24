@@ -18,7 +18,7 @@ function OrgLogo(props: OrgLogoPropsI) {
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const logo = organisation?.branding?.logo;
   const SkeletonButton = (
-    <Skeleton.Avatar active style={{ width: 45, height: 45 }} />
+    <Skeleton.Avatar active style={{ width: 35, height: 35 }} />
   );
   if (!logo) {
     return null;
@@ -32,7 +32,7 @@ function OrgLogo(props: OrgLogoPropsI) {
         noLoadNoShow
         noLoadNoShowPlaceholder={organisation._id ? SkeletonButton : <span />}
         style={{ cursor: "pointer", margin: "auto", ...(props.style || {}) }}
-        width={props.width || `45px`}
+        width={props.width || `35px`}
         preview={false}
         // @ts-ignore
         src={logo[props.quality ? props.quality : "low"].url}
