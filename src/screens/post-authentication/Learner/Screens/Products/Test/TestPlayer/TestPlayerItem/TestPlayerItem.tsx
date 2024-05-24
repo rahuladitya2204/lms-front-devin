@@ -47,6 +47,7 @@ import { useParams } from "@Router/index";
 import useQuestion from "../hooks/useQuestion";
 import { useTestItemTime } from "@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime";
 import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
+import TestPlayerFiles from "./TestPlayerFiles";
 
 const { Title, Text } = Typography;
 
@@ -495,7 +496,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     {test.input.type === Enum.TestInputType.HANDWRITTEN ? (
                       <Form.Item>
                         {/* @ts-ignore */}
-                        {/* <TestPlayerFiles questionId={questionId} testId={testId} form={form}/> */}
+                        <TestPlayerFiles
+                          questionId={questionId + ""}
+                          testId={testId + ""}
+                          form={form}
+                        />
                       </Form.Item>
                     ) : (
                       <Fragment>

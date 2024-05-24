@@ -8,17 +8,21 @@ import { Types } from "@adewaskar/lms-common";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import { useParams } from "react-router";
 
 interface TestPricingEditorPropsI {
-  testId: string;
   saveTest: Function;
 
   test: Types.Test;
 }
 
 function TestPricingEditor(props: TestPricingEditorPropsI) {
+  const { id: testId } = useParams();
   const { data, isFetching: loading } = User.Queries.useGetProductPlans(
-    props.testId
+    testId + "",
+    {
+      enabled: !!testId,
+    }
   );
   const { openModal } = useModal();
   return (
@@ -29,9 +33,7 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
         extra={
           <Button
             onClick={() =>
-              openModal(
-                <CreatePlan product={{ type: "test", id: props.testId }} />
-              )
+              openModal(<CreatePlan product={{ type: "test", id: testId }} />)
             }
           >
             Add Plan

@@ -237,7 +237,7 @@ const TestPlayerFiles = (props: {
                         const d = form.getFieldsValue();
                         // console.log(D,'POP')
                         const fileDetails =
-                          d.answer.subjective.files[field.name];
+                          d?.answer?.subjective?.files[field.name] || {};
                         return (
                           <Col xs={24} sm={12} md={6}>
                             <DraggableFileItem

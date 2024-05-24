@@ -14,7 +14,10 @@ interface PackagePricingPropsI {
 
 function PackagePricing(props: PackagePricingPropsI) {
   const { data, isFetching: loading } = User.Queries.useGetProductPlans(
-    props.packageId
+    props.packageId,
+    {
+      enabled: !!props.packageId,
+    }
   );
   return (
     <Fragment>

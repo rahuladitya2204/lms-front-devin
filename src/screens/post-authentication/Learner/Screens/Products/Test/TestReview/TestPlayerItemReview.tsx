@@ -283,7 +283,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
               <Tag color="red-inverse">Score: 0</Tag>
             )
           ) : null,
-          globalCorrectPercent !== null ? (
+          globalCorrectPercent !== null &&
+          currentQuestion.type !== "subjective" ? (
             <Tooltip
               title={`${
                 globalCorrectPercent < 50 && globalCorrectPercent !== 0

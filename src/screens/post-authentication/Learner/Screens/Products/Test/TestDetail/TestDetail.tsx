@@ -53,6 +53,7 @@ import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
 import TestDetailSkeletonScreen from "./TestDetailSkeletonScreen";
+import { FAQsList } from "@Components/CreateFaqsComponent";
 
 const { Text, Paragraph } = Typography;
 const { UnitTypeToStr } = Utils;
@@ -180,6 +181,13 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
                       </Paragraph>
                     )}
                   </Col>
+                  {test?.faqs?.length ? (
+                    <Col span={24}>
+                      <Card title="FAQs">
+                        <FAQsList faqs={test.faqs} />
+                      </Card>
+                    </Col>
+                  ) : null}
                 </Row>
               </Card>
             </Col>

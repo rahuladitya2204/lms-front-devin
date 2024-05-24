@@ -1,21 +1,21 @@
-import { Alert, Button, Col, Divider, Row, Space, Tag, Tooltip } from 'antd'
+import { Alert, Button, Col, Divider, Row, Space, Tag, Tooltip } from "antd";
 import {
   CheckCircleTwoTone,
   CheckOutlined,
   CloseCircleTwoTone,
   CloseOutlined,
-  FileImageOutlined
-} from '@ant-design/icons'
-import { Enum, Learner, Types } from '@adewaskar/lms-common'
-import { Paragraph, Text } from '@Components/Typography/Typography'
-import React, { useMemo } from 'react'
+  FileImageOutlined,
+} from "@ant-design/icons";
+import { Enum, Learner, Types } from "@adewaskar/lms-common";
+import { Paragraph, Text } from "@Components/Typography/Typography";
+import React, { useMemo } from "react";
 
-import AppImage from '@Components/Image'
-import { Typography } from '@Components/Typography'
-import { isMongoId } from '@Components/Editor/SunEditor/utils'
-import { useModal } from '@Components/ActionModal/ModalContext'
+import AppImage from "@Components/Image";
+import { Typography } from "@Components/Typography";
+import { isMongoId } from "@Components/Editor/SunEditor/utils";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
-const { Title } = Typography
+const { Title } = Typography;
 
 interface TestSolutionPropsI {
   currentQuestion: Types.TestStatusQuestionStats;
@@ -24,73 +24,69 @@ interface TestSolutionPropsI {
 }
 
 export function CriteriaElement(props: {
-  text: string,
-  testId: string,
-  itemId: string,
-  criterias: Types.TestQuestionCriteria[]
+  text: string;
+  testId: string;
+  itemId: string;
+  criterias: Types.TestQuestionCriteria[];
 }) {
   const { data: test } = Learner.Queries.useGetTestDetails(
     props.testId,
     Enum.TestDetailMode.RESULT
-  )
-  const item = useMemo(
-    () => {
-      const items = test.sections.map(s => s.items).flat()
-      return items.find(d => d._id === props.itemId)
-    },
-    [test, props.itemId]
-  )
+  );
+  const item = useMemo(() => {
+    const items = test.sections.map((s) => s.items).flat();
+    return items.find((d) => d._id === props.itemId);
+  }, [test, props.itemId]);
   function processStringWithMongoDBIds(
     inputString: string,
     callback: Function
   ) {
-    const objectIdRegex = /\b[0-9a-fA-F]{24}\b/g
-    let parts = inputString.split(objectIdRegex)
-    let matches = inputString.match(objectIdRegex) || []
+    const objectIdRegex = /\b[0-9a-fA-F]{24}\b/g;
+    let parts = inputString.split(objectIdRegex);
+    let matches = inputString.match(objectIdRegex) || [];
 
     return parts.flatMap((part, index) => [
       part,
-      index < matches.length ? callback(matches[index]) : null
-    ])
+      index < matches.length ? callback(matches[index]) : null,
+    ]);
   }
 
   const renderMongoId = (mongoId: string) => {
     // @ts-ignore
-    const d = item?.criterias.find(c => c._id === mongoId)
+    const d = item?.criterias.find((c) => c._id === mongoId);
     return (
       <Tooltip title={d?.criteria}>
         <Tag
           // style={{ cursor: 'pointer' }}
-          style={{ marginRight: 0, cursor: 'pointer' }}
+          style={{ marginRight: 0, cursor: "pointer" }}
         >
           Show More
         </Tag>
       </Tooltip>
-    )
-  }
+    );
+  };
 
   const processedContent = processStringWithMongoDBIds(
     props.text,
     renderMongoId
-  )
+  );
 
-  return <div>{processedContent}</div>
+  return <div>{processedContent}</div>;
 }
 
 const TestFeedback = (props: TestSolutionPropsI) => {
-  const { currentQuestion: { feedback } } = props
+  const {
+    currentQuestion: { feedback },
+  } = props;
   const { data: test } = Learner.Queries.useGetTestDetails(
     props.testId,
     Enum.TestDetailMode.RESULT
-  )
-  const item = useMemo(
-    () => {
-      const items = test.sections.map(s => s.items).flat()
-      return items.find(d => d._id === props.itemId)
-    },
-    [test, props.itemId]
-  )
-  const { openModal } = useModal()
+  );
+  const item = useMemo(() => {
+    const items = test.sections.map((s) => s.items).flat();
+    return items.find((d) => d._id === props.itemId);
+  }, [test, props.itemId]);
+  const { openModal } = useModal();
   // const testItem
   return (
     <Row>
@@ -103,19 +99,20 @@ const TestFeedback = (props: TestSolutionPropsI) => {
               <div>
                 {item?.criterias
                   ?.filter(
-                    i => i._id && feedback.met.criteriaIds.includes(i._id)
+                    (i) => i._id && feedback.met.criteriaIds.includes(i._id)
                   )
-                  .map(c => {
+                  .map((c) => {
                     return (
-                      <div>
+                      <div style={{ marginBottom: 10 }}>
                         <Space>
                           <Tag
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              // @ts-ignore
-                              openModal(<AppImage src={c.image} />, {
-                                title: c.criteria                              })
-                            }}
+                            style={{ cursor: "pointer" }}
+                            // onClick={() => {
+                            //   // @ts-ignore
+                            //   openModal(<AppImage src={c.image} />, {
+                            //     title: c.criteria,
+                            //   });
+                            // }}
                             icon={
                               // @ts-ignore
                               c.image ? (
@@ -130,15 +127,15 @@ const TestFeedback = (props: TestSolutionPropsI) => {
                             {c.score.toString()}
                           </Tag>
 
-                          <Title style={{ fontSize: 14 }} level={4}>
+                          <Title style={{ fontSize: 14, margin: 0 }} level={4}>
                             {c.criteria}
                           </Title>
                         </Space>
                       </div>
-                    )
+                    );
                   })}
-                <Divider />
-                <Paragraph style={{ fontSize: 16 }}>
+                <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+                <Paragraph style={{ fontSize: 14 }}>
                   <CriteriaElement
                     testId={props.testId}
                     itemId={props.itemId}
@@ -160,21 +157,21 @@ const TestFeedback = (props: TestSolutionPropsI) => {
               <div>
                 {item?.criterias
                   ?.filter(
-                    i => i._id && feedback.notMet.criteriaIds.includes(i._id)
+                    (i) => i._id && feedback.notMet.criteriaIds.includes(i._id)
                   )
-                  .map(c => {
+                  .map((c) => {
                     return (
-                      <div>
+                      <div style={{ marginBottom: 10 }}>
                         <Space>
-                          {' '}
+                          {" "}
                           <Tag
-                            style={{ cursor: 'pointer' }}
-                            onClick={() => {
-                              // @ts-ignore
-                              openModal(<AppImage src={c.image} />, {
-                                title: c.criteria
-                              })
-                            }}
+                            style={{ cursor: "pointer" }}
+                            // onClick={() => {
+                            //   // @ts-ignore
+                            //   openModal(<AppImage src={c.image} />, {
+                            //     title: c.criteria,
+                            //   });
+                            // }}
                             icon={
                               // @ts-ignore
                               c.image ? (
@@ -188,15 +185,15 @@ const TestFeedback = (props: TestSolutionPropsI) => {
                           >
                             {c.score.toString()}
                           </Tag>
-                          <Title style={{ fontSize: 14 }} level={4}>
+                          <Title style={{ fontSize: 14, margin: 0 }} level={4}>
                             {c.criteria}
                           </Title>
                         </Space>
                       </div>
-                    )
+                    );
                   })}
-                <Divider />
-                <Paragraph style={{ fontSize: 16 }}>
+                <Divider style={{ marginTop: 10, marginBottom: 10 }} />
+                <Paragraph style={{ fontSize: 14 }}>
                   <CriteriaElement
                     testId={props.testId}
                     itemId={props.itemId}
@@ -210,7 +207,7 @@ const TestFeedback = (props: TestSolutionPropsI) => {
         </Col>
       ) : null}
     </Row>
-  )
-}
+  );
+};
 
-export default TestFeedback
+export default TestFeedback;

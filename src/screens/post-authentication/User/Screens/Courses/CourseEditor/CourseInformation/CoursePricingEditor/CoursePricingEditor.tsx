@@ -18,7 +18,10 @@ interface CoursePricingEditorPropsI {
 
 function CoursePricingEditor(props: CoursePricingEditorPropsI) {
   const { data, isFetching: loading } = User.Queries.useGetProductPlans(
-    props.courseId
+    props.courseId,
+    {
+      enabled: !!props.courseId,
+    }
   );
   return (
     <Fragment>
