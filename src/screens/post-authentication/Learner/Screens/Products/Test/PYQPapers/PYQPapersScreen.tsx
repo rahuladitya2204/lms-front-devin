@@ -29,7 +29,7 @@ export default function PYQPapersScreen(props: PYQPapersScreenPropsI) {
       <Col span={24}>
         <ShowMore minHeight={200}>
           <PYQTestsComponent
-            isServer={props.isServer}
+            isServer={!!props.isServer}
             categoryId={category._id}
           />
         </ShowMore>

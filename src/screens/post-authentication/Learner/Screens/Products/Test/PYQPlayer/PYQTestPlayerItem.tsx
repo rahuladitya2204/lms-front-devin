@@ -104,9 +104,8 @@ export default function TestPublicPlayerItemReiew(
   );
 
   const context: { language: string } = useOutletContext();
+  const language = context?.language || props.language;
 
-  const language = context?.language || props.language || "eng";
-  // todo
   return (
     <>
       {!isDesktop ? (

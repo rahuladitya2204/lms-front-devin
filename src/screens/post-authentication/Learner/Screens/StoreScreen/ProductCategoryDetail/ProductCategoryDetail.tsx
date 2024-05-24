@@ -288,9 +288,15 @@ export const PYQTestsComponent = (props: {
                 </Col>
                 <Col xs={24} md={24} lg={24} xl={24} xxl={12}>
                   <Link
-                    to={`/test/${
-                      test.slug || test._id
-                    }/previous-year-questions`}
+                    to={
+                      props.isServer
+                        ? `/test/${
+                            test.slug || test._id
+                          }/previous-year-questions`
+                        : `/app/test/${
+                            test.slug || test._id
+                          }/previous-year-questions`
+                    }
                   >
                     <Button type="dashed" block danger>
                       <BookOutlined /> View Analysis

@@ -11,6 +11,7 @@ import TestPublicPlayer from "@Screens/post-authentication/Learner/Screens/Produ
 import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 import getQueryClient from "@ServerUtils/getQueryClient";
 import { htmlToText } from "html-to-text";
+const apiUrl = process.env.API_URL;
 
 export async function generateMetadata(req: {
   params: any;
@@ -35,14 +36,7 @@ export async function generateMetadata(req: {
   if (alias && userType) {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
-    const { data: test }: { data: Types.Test } = await axios(
-      `${apiUrl}/learner/test/${id}?mode=general`,
-      {
-        headers: {
-          "x-org-alias": alias,
-        },
-      }
-    );
+    const test = await getData(id, alias);
     const url = `https://${alias}.testmint.ai/test/${id}/previous-year-questions/${questionId}`;
     const questionTitle = htmlToText(question?.title?.text?.eng);
     // .slice(0, 70);
@@ -137,11 +131,12 @@ export async function generateMetadata(req: {
   };
 }
 
-export default function Page({
+export default async function Page({
   params,
 }: {
   params: { testId: string; questionId: string };
 }) {
+  const test = await getData(params.testId);
   const {
     getLearnerProductCategories,
     getEnrolledProductDetails,
@@ -166,6 +161,7 @@ export default function Page({
       <TestPublicPlayerItemReiew
         isServer
         testId={params.testId}
+        language={test.languages[0]}
         questionId={params.questionId}
       />
     </Hydrator>
@@ -174,4 +170,19 @@ export default function Page({
 
 export const getIdFromSlug = (slug: string) => {
   return slug?.split(`-`)?.pop();
+};
+
+export const getData = async (
+  id: string,
+  alias = "www"
+): Promise<Types.Test> => {
+  const { data: test }: { data: Types.Test } = await axios(
+    `${apiUrl}/learner/test/${id}?mode=general`,
+    {
+      headers: {
+        "x-org-alias": alias,
+      },
+    }
+  );
+  return test;
 };
