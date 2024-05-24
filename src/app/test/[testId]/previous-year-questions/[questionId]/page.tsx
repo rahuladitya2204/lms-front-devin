@@ -37,8 +37,9 @@ export async function generateMetadata(req: {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
     const test = await getData(id, alias);
+    const language = test.languages[0];
     const url = `https://${alias}.testmint.ai/test/${id}/previous-year-questions/${questionId}`;
-    const questionTitle = htmlToText(question?.title?.text?.eng);
+    const questionTitle = htmlToText(question?.title?.text[language]);
     // .slice(0, 70);
     return {
       title: `[Solved] ${questionTitle}`,

@@ -486,7 +486,7 @@ const LogoTop = () => {
         marginTop: 20,
       }}
     >
-      <OrgLogo showName width={100} />
+      <OrgLogo width={100} />
     </Space>
   );
 };
