@@ -29,9 +29,11 @@ export const AppCamera = ({
   onClickPhoto,
   closeModal,
   multiple,
+  fullscreen,
 }: {
   onClickPhoto: (f: File[]) => void;
   closeModal?: Function;
+  fullscreen?: boolean;
   multiple?: boolean;
 }) => {
   const cameraRef = useRef<CameraType>(null);
@@ -117,7 +119,7 @@ export const AppCamera = ({
   return (
     <>
       {
-        <div style={true ? fullscreenStyle : {}}>
+        <div style={fullscreenStyle}>
           <Alert
             icon={<WarningOutlined />}
             style={{
