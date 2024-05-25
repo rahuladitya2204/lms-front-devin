@@ -117,7 +117,7 @@ export const AppCamera = ({
   return (
     <>
       {
-        <div>
+        <div style={true ? fullscreenStyle : {}}>
           <Alert
             icon={<WarningOutlined />}
             style={{
@@ -272,4 +272,14 @@ export const useCamera = () => {
     throw new Error("useCamera must be used within a AppCamera");
   }
   return context;
+};
+
+const fullscreenStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  width: "100%",
+  height: "100%",
+  zIndex: 9999,
+  backgroundColor: "black",
 };

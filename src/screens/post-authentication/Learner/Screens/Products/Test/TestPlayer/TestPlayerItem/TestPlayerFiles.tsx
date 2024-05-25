@@ -326,16 +326,38 @@ const DraggableFileItem = ({
             <TestPlayerFileItem fileUrl={fileUrl} fileId={fileId} />
           </Col>
           <Col style={{ display: "flex", justifyContent: "center" }} span={24}>
-            {!review ? (
-              <Button
-                htmlType="button"
-                style={{ marginTop: 10 }}
-                danger
-                shape="circle"
-                icon={<DeleteOutlined />}
-                onClick={removeItem}
-              />
-            ) : null}
+            <Row align={"middle"} justify={"center"}>
+              <Col
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: 5,
+                  marginBottom: 10,
+                }}
+                span={24}
+              >
+                <Text strong>Page - {index + 1}</Text>
+              </Col>
+              {!review ? (
+                <Col
+                  span={24}
+                  style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Button
+                    htmlType="button"
+                    type="dashed"
+                    // style={{ marginTop: 10 }}
+                    danger
+                    size="small"
+                    // shape="circle"
+                    icon={<DeleteOutlined />}
+                    onClick={removeItem}
+                  >
+                    Delete
+                  </Button>
+                </Col>
+              ) : null}
+            </Row>
           </Col>
         </Row>
       </Card>
