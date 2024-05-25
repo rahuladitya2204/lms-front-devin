@@ -147,10 +147,15 @@ const TestPlayerFiles = (props: {
       onClick={() => {
         openModal(
           <AppCamera
-            onClickPhoto={(file: any) => {
+            multiple
+            onClickPhoto={(files) => {
               uploadFiles({
                 // @ts-ignore
-                files: [{ file: file }],
+                files: files.map((f) => {
+                  return {
+                    file: f,
+                  };
+                }),
                 onSuccess: (files) => {
                   // debugger;
                   // closeModal && closeModal();
@@ -189,7 +194,7 @@ const TestPlayerFiles = (props: {
     />
   );
   return (
-    <Spin spinning={updatingAnswer}>
+    <Spin spinning={updatingAnswer || uploadingFile}>
       <Card title="Answer Images" extra={[!props.review ? UploadButton : null]}>
         {imageIssues && imageIssues?.length ? (
           <Alert

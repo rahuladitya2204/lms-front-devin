@@ -118,7 +118,7 @@ export default function UploadAnswerSheets() {
                     onClick={() =>
                       openModal(
                         <AppCamera
-                          onClickPhoto={(files: any[]) => {
+                          onClickPhoto={(files) => {
                             uploadFiles({
                               files: files.map((f) => {
                                 return {

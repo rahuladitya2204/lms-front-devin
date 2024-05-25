@@ -258,7 +258,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
             onClick={() => {
               openModal(
                 <AppCamera
-                  onClickPhoto={(file: any) => {
+                  onClickPhoto={([file]) => {
                     uploadFiles({
                       files: [{ file: file }],
                       isProtected: false,

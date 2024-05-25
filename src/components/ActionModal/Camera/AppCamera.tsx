@@ -21,43 +21,38 @@ import {
 } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 
 import { requestCameraPermission } from "@Components/Editor/SunEditor/utils";
+import { uniqueId } from "lodash";
 
 // import { highlightQuadrilateral } from './highlight-quadrilateral';
 
 export const AppCamera = ({
   onClickPhoto,
   closeModal,
+  multiple,
 }: {
-  onClickPhoto: Function;
+  onClickPhoto: (f: File[]) => void;
   closeModal?: Function;
+  multiple?: boolean;
 }) => {
   const cameraRef = useRef<CameraType>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null); // For single image preview
   const [capturedImages, setCapturedImages] = useState<string[]>([]); // For storing URLs in multiple capture mode
-  const [multiple, setMultiple] = useState(false); // Flag to indicate if multiple capture mode is enabled
+
   const handleCapture = useCallback(async () => {
     const imageUrl = await cameraRef.current?.takePhoto();
     if (imageUrl) {
-      // Process for highlighting, if enabled
       let processedImageUrl = imageUrl;
-      // if (enableQuadrilateralHighlighting) {
-      //   const res = await highlightQuadrilateral(imageUrl);
-      //   processedImageUrl = res.url;
-      // }
 
-      if (multiple) {
-        // In multiple capture mode, add to the array
-        setCapturedImages((prev) => [...prev, processedImageUrl]);
-      } else {
-        // For single capture, just set the preview image
-        setPreviewImage(processedImageUrl);
-      }
+      // if (multiple) {
+      //   setCapturedImages((prev) => [...prev, processedImageUrl]);
+      // } else {
+      setPreviewImage(processedImageUrl);
+      // }
     }
-  }, [multiple]);
+  }, []);
 
   const handleAccept = useCallback(async () => {
-    // Handle accept for single image mode
-    if (previewImage && !multiple) {
+    if (previewImage) {
       const response = await fetch(previewImage);
       const blob = await response.blob();
       const file = await compressImage(
@@ -68,10 +63,15 @@ export const AppCamera = ({
           quality: 1,
         }
       );
-      onClickPhoto(file); // Ensure to resolve with an array for consistency
-      handleClose();
-      // setIsModalVisible(false);
-      setPreviewImage(null); // Reset after processing
+
+      if (multiple) {
+        setCapturedImages((prev) => [...prev, previewImage]);
+        setPreviewImage(null);
+      } else {
+        onClickPhoto([file]);
+        handleClose();
+        setPreviewImage(null);
+      }
     }
   }, [previewImage, multiple]);
 
@@ -82,7 +82,11 @@ export const AppCamera = ({
         capturedImages.map(async (imageUrl) => {
           const response = await fetch(imageUrl);
           const blob = await response.blob();
-          return blobToFile(blob, "captured-image.jpg", "image/jpeg");
+          return blobToFile(
+            blob,
+            `captured-image-${uniqueId()}.jpg`,
+            "image/jpeg"
+          );
         })
       );
       onClickPhoto(files);
@@ -150,7 +154,7 @@ export const AppCamera = ({
               <Camera facingMode="environment" ref={cameraRef} />
             </div>
           )}
-          {previewImage && !multiple && (
+          {previewImage && (
             <div>
               <img
                 src={previewImage}
@@ -209,13 +213,13 @@ export const AppCamera = ({
               onClick={handleCapture}
             />
           )}
-          {multiple && capturedImages.length > 0 && (
+          {multiple && !previewImage && capturedImages.length > 0 && (
             <>
               <div
                 style={{
                   position: "absolute",
-                  left: "24%",
-                  bottom: 10,
+                  left: 5,
+                  bottom: 0,
                   maxHeight: "300px",
                   overflowY: "auto",
                 }}
@@ -226,20 +230,24 @@ export const AppCamera = ({
                 >
                   <Image.PreviewGroup>
                     {capturedImages.map((image, index) => (
-                      <Image
-                        alt="Thumbnail"
-                        key={index}
-                        src={image}
-                        alt="Thumbnail"
-                        style={{
-                          width: "60px",
-                          marginRight: "5px",
-                          display:
-                            index === capturedImages.length - 1
-                              ? "block"
-                              : "none",
-                        }}
-                      />
+                      <div
+                        style={
+                          {
+                            //  position: "absolute", left: 5, bottom: 0
+                          }
+                        }
+                      >
+                        <Image
+                          alt="Thumbnail"
+                          key={index}
+                          src={image}
+                          style={{
+                            width: "30px",
+                            marginRight: "5px",
+                            display: "block",
+                          }}
+                        />
+                      </div>
                     ))}
                   </Image.PreviewGroup>
                 </Badge>
