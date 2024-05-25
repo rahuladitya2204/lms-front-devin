@@ -183,7 +183,7 @@ const TestEditor = () => {
             extra={[
               <Link to={`/admin/products/test/${test._id}/builder`}>
                 <Button
-                  disabled={!test._id}
+                  disabled={!(test._id && test.category)}
                   icon={<ExportOutlined />}
                   style={{ marginRight: 10 }}
                 >

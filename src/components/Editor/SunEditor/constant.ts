@@ -270,7 +270,7 @@ export const TEST_TEMPLATES = [
     }
   },
   {
-    label: 'UPSC Prelims',
+    label: 'UPSC Prelims Full Length',
     value: 'upscprelims',
     template: {
       sections: [
@@ -280,6 +280,36 @@ export const TEST_TEMPLATES = [
           optionCount: 4,
           score: { correct: 2, incorrect: -0.67 },
           questionType: 'single'
+        }
+      ]
+    }
+  },
+  {
+    label: 'UPSC Mains Essay',
+    value: 'upscmains-essay',
+    template: {
+      sections: [
+        {
+          title: 'Section-1',
+          itemCount: 2,
+          wordLimit: 1200,
+          score: { correct: 125, incorrect: 0 },
+          questionType: 'subjective'
+        }
+      ]
+    }
+  },
+  {
+    label: 'UPSC Mains Non Essay',
+    value: 'upscmains-nonessay',
+    template: {
+      sections: [
+        {
+          title: 'Section-1',
+          itemCount: 20,
+          wordLimit: 150,
+          score: { correct: 12.5, incorrect: 0 },
+          questionType: 'subjective'
         }
       ]
     }
