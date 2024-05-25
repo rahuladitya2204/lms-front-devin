@@ -179,23 +179,6 @@ TestOutlinePropsI) {
                                 <Input type="number" />
                               </Form.Item>
                             </Col>
-
-                            <Col span={2}>
-                              <Form.Item
-                                label={`Total Options`}
-                                rules={[
-                                  {
-                                    required: true,
-                                    message:
-                                      "Please enter the total options in each question",
-                                  },
-                                ]}
-                                initialValue={4}
-                                name={[field.name, "optionCount"]}
-                              >
-                                <Input type="number" />
-                              </Form.Item>
-                            </Col>
                             <Col span={4}>
                               <Form.Item
                                 label={`Question Type`}
@@ -230,6 +213,28 @@ TestOutlinePropsI) {
                                 />
                               </Form.Item>
                             </Col>
+                            {form.getFieldValue([
+                              field.name,
+                              "questionType",
+                            ]) !== "subjective" ? (
+                              <Col span={2}>
+                                <Form.Item
+                                  label={`Total Options`}
+                                  rules={[
+                                    {
+                                      required: true,
+                                      message:
+                                        "Please enter the total options in each question",
+                                    },
+                                  ]}
+                                  initialValue={4}
+                                  name={[field.name, "optionCount"]}
+                                >
+                                  <Input type="number" />
+                                </Form.Item>
+                              </Col>
+                            ) : null}
+
                             <Col span={3}>
                               <Form.Item
                                 style={{ width: 80 }}
