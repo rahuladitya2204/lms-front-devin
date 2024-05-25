@@ -75,7 +75,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const language = ep?.metadata?.test?.language;
   // console.log(ep, language, "huhhahaha");
   const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
-  console.log(currentQuestion.answerGiven, "currentQuestion");
+
   const {
     data: {
       status: { sections },

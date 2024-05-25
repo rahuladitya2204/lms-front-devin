@@ -14,11 +14,11 @@ import {
   Tooltip,
   message,
 } from "@Lib/index";
-// import { AppCamera, useCamera } from "@Components/ActionModal/Camera/AppCamera";
-const AppCamera = dynamic(
-  () => import("@Components/ActionModal/Camera/AppCamera"),
-  { ssr: false }
-);
+import { AppCamera, useCamera } from "@Components/ActionModal/Camera/AppCamera";
+// const AppCamera = dynamic(
+//   () => import("@Components/ActionModal/Camera/AppCamera"),
+//   { ssr: false }
+// );
 import { Common, Learner, Types } from "@adewaskar/lms-common";
 import {
   DeleteOutlined,
@@ -164,7 +164,7 @@ const TestPlayerFiles = (props: {
             }}
           />,
           {
-            lazy: true,
+            fullScreen: true,
           }
         );
       }}
@@ -389,6 +389,4 @@ const TestPlayerFileItem: React.FC<{ fileId: string; fileUrl: string }> = ({
   );
 };
 
-export default dynamic(() => Promise.resolve(TestPlayerFiles), {
-  ssr: false,
-});
+export default TestPlayerFiles;

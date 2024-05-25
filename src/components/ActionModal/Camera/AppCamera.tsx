@@ -123,7 +123,7 @@ export const AppCamera = ({
               top: 10,
               left: "3%",
             }}
-            message="Make sure to capture OMR border in the image."
+            message="Make sure to capture page border in the image."
             type="error"
           />
           <Button
