@@ -143,6 +143,7 @@ import LearnerBlogsScreen from "./post-authentication/Learner/Screens/Blog/Blogs
 import PackageInformationEditor from "@User/Screens/Packages/CreatePackage/CreatePackage";
 import PackagesList from "./post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesListScreen";
 import PYQPapersScreen from "./post-authentication/Learner/Screens/Products/Test/PYQPapers/PYQPapersScreen";
+import Fullscreen from "@Components/Fullscreen";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -248,7 +249,14 @@ const router = (userType: string) => {
                       element={<TestPublicPlayerItemReiew />}
                     />
                   </Route> */}
-                  <Route path="player" element={<TestPlayer />}>
+                  <Route
+                    path="player"
+                    element={
+                      <Fullscreen>
+                        <TestPlayer />
+                      </Fullscreen>
+                    }
+                  >
                     <Route path=":questionId" element={<TestPlayeritem />} />
                   </Route>
                   <Route path="completed" element={<TestCompleted />} />
@@ -267,7 +275,11 @@ const router = (userType: string) => {
                 />
                 <Route
                   path="app/test/:testId/review"
-                  element={<TestReviewPlayer />}
+                  element={
+                    <Fullscreen>
+                      <TestReviewPlayer />
+                    </Fullscreen>
+                  }
                 >
                   <Route path=":questionId" element={<TestPlayerItemReiew />} />
                 </Route>
