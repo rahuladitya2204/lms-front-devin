@@ -249,6 +249,7 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
       },
     });
   };
+  const { openCamera } = useCamera();
   const UploadButton = (
     <>
       {isMobile ? (
@@ -256,22 +257,15 @@ const AnswerSheetFiles = (props: AnswerSheetFilesPropsI) => {
           <Button
             type="primary"
             onClick={() => {
-              openModal(
-                <AppCamera
-                  onClickPhoto={([file]) => {
-                    uploadFiles({
-                      files: [{ file: file }],
-                      isProtected: false,
-                      onSuccess: ([{ url }]) => {
-                        VerifyAnswerSheet([{ file: url }]);
-                      },
-                    });
-                  }}
-                />,
-                {
-                  fullScreen: true,
-                }
-              );
+              openCamera().then(([file]) => {
+                uploadFiles({
+                  files: [{ file: file }],
+                  isProtected: false,
+                  onSuccess: ([{ url }]) => {
+                    VerifyAnswerSheet([{ file: url }]);
+                  },
+                });
+              });
             }}
           >
             Click Photo

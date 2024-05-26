@@ -18,7 +18,7 @@ import {
 import { Common, Types, User } from "@adewaskar/lms-common";
 import React, { useEffect } from "react";
 
-import { AppCamera } from "@Components/ActionModal/Camera/AppCamera";
+import { AppCamera, useCamera } from "@Components/ActionModal/Camera/AppCamera";
 import Header from "@Components/Header";
 import MediaUpload from "@Components/MediaUpload";
 import TestAnswerSheetProcessStatusTag from "./UploadTestAnswerSheetProcessTag";
@@ -74,6 +74,7 @@ export default function UploadAnswerSheets() {
   const { isMobile } = useBreakpoint();
   const { mutate: uploadFiles, isLoading: uploadingFile } =
     Common.Queries.useUploadFiles();
+  const { openCamera } = useCamera();
   return (
     <Header
       title={`${test?.title || "Upload Answer Sheets"}`}
@@ -116,40 +117,33 @@ export default function UploadAnswerSheets() {
                   <Button
                     loading={uploadingFile}
                     onClick={() =>
-                      openModal(
-                        <AppCamera
-                          onClickPhoto={(files) => {
-                            uploadFiles({
-                              files: files.map((f) => {
-                                return {
-                                  file: f,
-                                };
-                              }),
-                              onSuccess: (files) => {
-                                console.log("Uploaded Files", files);
-                                const answerSheets =
-                                  form.getFieldValue("answerSheets") || [];
-                                const newAnswerSheets = files.map((file) => {
-                                  return {
-                                    url: file.url,
-                                    // pageNo: answerSheets.length + 1,
-                                    responses: [], // Assuming initial responses are empty
-                                  };
-                                });
-                                form.setFieldsValue({
-                                  answerSheets: [
-                                    ...answerSheets,
-                                    ...newAnswerSheets,
-                                  ],
-                                });
-                              },
+                      openCamera().then((files) => {
+                        uploadFiles({
+                          files: files.map((f) => {
+                            return {
+                              file: f,
+                            };
+                          }),
+                          onSuccess: (files) => {
+                            console.log("Uploaded Files", files);
+                            const answerSheets =
+                              form.getFieldValue("answerSheets") || [];
+                            const newAnswerSheets = files.map((file) => {
+                              return {
+                                url: file.url,
+                                // pageNo: answerSheets.length + 1,
+                                responses: [], // Assuming initial responses are empty
+                              };
                             });
-                          }}
-                        />,
-                        {
-                          fullScreen: true,
-                        }
-                      )
+                            form.setFieldsValue({
+                              answerSheets: [
+                                ...answerSheets,
+                                ...newAnswerSheets,
+                              ],
+                            });
+                          },
+                        });
+                      })
                     }
                     type="primary"
                     icon={<CameraOutlined />}
