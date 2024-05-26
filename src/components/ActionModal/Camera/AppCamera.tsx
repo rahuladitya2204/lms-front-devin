@@ -22,6 +22,7 @@ import {
 
 import { requestCameraPermission } from "@Components/Editor/SunEditor/utils";
 import { uniqueId } from "lodash";
+import Fullscreen from "@Components/Fullscreen";
 
 const CameraContext = createContext({
   openCamera: () => Promise.resolve([]),
@@ -185,6 +186,7 @@ export const AppCamera = ({
       <Button
         shape="circle"
         danger
+        type="primary"
         icon={<CloseOutlined />}
         style={{ position: "fixed", top: 10, right: 5, zIndex: 100000 }}
         onClick={handleClose}
@@ -212,6 +214,8 @@ export const AppCamera = ({
           />
           <Button
             shape="circle"
+            danger
+            type="dashed"
             icon={<CloseOutlined />}
             style={{
               position: "absolute",
@@ -224,6 +228,7 @@ export const AppCamera = ({
           ></Button>
           <Button
             shape="circle"
+            type="dashed"
             icon={<CheckOutlined />}
             style={{
               position: "absolute",
@@ -246,6 +251,8 @@ export const AppCamera = ({
             bottom: 20,
             transform: "translateX(-50%)",
             zIndex: 100000,
+            width: 50,
+            height: 50,
           }}
           size="large"
           shape="circle"
@@ -267,29 +274,31 @@ export const AppCamera = ({
               style={{ position: "absolute", top: 15, right: 15 }}
               count={capturedImages.length}
             >
-              <Image.PreviewGroup>
-                {capturedImages.map((image, index) => (
-                  <div key={index}>
-                    <Image
-                      alt="Thumbnail"
-                      src={image}
-                      style={{
-                        width: "30px",
-                        marginRight: "5px",
-                        display: "block",
-                      }}
-                    />
-                  </div>
-                ))}
-              </Image.PreviewGroup>
+              {/* <Image.PreviewGroup> */}
+              {capturedImages.map((image, index) => (
+                <div key={index}>
+                  <Image
+                    alt="Thumbnail"
+                    src={image}
+                    style={{
+                      width: "30px",
+                      marginRight: "5px",
+                      display: "block",
+                    }}
+                  />
+                </div>
+              ))}
+              {/* </Image.PreviewGroup> */}
             </Badge>
           </div>
           <Button
-            shape="circle"
+            type="primary"
             icon={<CheckOutlined />}
-            style={{ position: "absolute", right: "30%", bottom: 20 }}
+            style={{ position: "absolute", right: 10, bottom: 30 }}
             onClick={handleDone}
-          />
+          >
+            Done
+          </Button>
         </>
       )}
     </Fullscreen>

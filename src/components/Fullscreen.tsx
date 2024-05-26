@@ -25,13 +25,22 @@ const Fullscreen = ({ children }) => {
 
     enterFullscreen();
 
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        exitFullscreen();
+      }
+    };
+
+    document.addEventListener("fullscreenchange", handleFullscreenChange);
+
     return () => {
+      document.removeEventListener("fullscreenchange", handleFullscreenChange);
       exitFullscreen();
     };
   }, []);
 
   if (permissionError) {
-    return children;
+    return <div>{children}</div>;
   }
 
   return <div ref={fullscreenRef}>{children}</div>;
