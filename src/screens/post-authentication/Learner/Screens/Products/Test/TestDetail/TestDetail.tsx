@@ -227,7 +227,7 @@ const TestCard = ({
   const {
     data: { wallet },
   } = Learner.Queries.useGetLearnerDetails();
-  const { data: enrolledDetails, isLoading: loadingEnrolledTestDetails } =
+  const { data: enrolledDetails, isFetching: loadingEnrolledTestDetails } =
     Learner.Queries.useGetEnrolledProductDetails(product);
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const testEndDate =

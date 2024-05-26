@@ -38,9 +38,6 @@ export const CameraProvider = ({ children }) => {
       // throw new Error("1");
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       stream.getTracks().forEach((track) => track.stop());
-
-      const fullscreenElement = document.documentElement;
-      await fullscreenElement.requestFullscreen();
       setIsOpen(true);
       setPermissionError(false);
       return new Promise((resolve) => {
@@ -60,9 +57,6 @@ export const CameraProvider = ({ children }) => {
     setIsOpen(false);
     setOnClickPhoto(null);
     setCloseModal(null);
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    }
   };
 
   return (
@@ -112,13 +106,6 @@ export const AppCamera = ({
   const cameraRef = useRef<CameraType>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [capturedImages, setCapturedImages] = useState<string[]>([]);
-  const fullscreenRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (fullscreenRef.current) {
-      fullscreenRef.current.requestFullscreen();
-    }
-  }, []);
 
   const handleCapture = useCallback(async () => {
     const imageUrl = await cameraRef.current?.takePhoto();
@@ -177,14 +164,11 @@ export const AppCamera = ({
 
   const handleClose = useCallback(() => {
     setPreviewImage(null);
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    }
     closeModal && closeModal();
   }, []);
 
   return (
-    <div ref={fullscreenRef}>
+    <Fullscreen>
       <Alert
         icon={<WarningOutlined />}
         style={{
@@ -308,6 +292,6 @@ export const AppCamera = ({
           />
         </>
       )}
-    </div>
+    </Fullscreen>
   );
 };
