@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Alert, Badge, Button, Image, Modal } from "antd";
+import { Alert, Badge, Button, Image, Modal, message } from "antd";
 import { Camera, CameraType } from "react-camera-pro";
 import {
   CameraOutlined,
@@ -31,26 +31,44 @@ export const CameraProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [onClickPhoto, setOnClickPhoto] = useState(null);
   const [closeModal, setCloseModal] = useState(null);
+  const [permissionError, setPermissionError] = useState(false);
 
-  const openCamera = (onClickPhotoHandler, closeModalHandler) => {
-    setIsOpen(true);
-    return new Promise((resolve) => {
-      setOnClickPhoto(() => (files) => {
-        resolve(files);
+  const openCamera = async () => {
+    try {
+      // throw new Error("1");
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      stream.getTracks().forEach((track) => track.stop());
+
+      const fullscreenElement = document.documentElement;
+      await fullscreenElement.requestFullscreen();
+      setIsOpen(true);
+      setPermissionError(false);
+      return new Promise((resolve) => {
+        setOnClickPhoto(() => (files) => {
+          resolve(files);
+        });
       });
-    });
+    } catch (error) {
+      console.error("Permission error:", error);
+      // setPermissionError(true);
+      message.error("Permission Error");
+      throw error;
+    }
   };
 
   const handleClose = () => {
     setIsOpen(false);
     setOnClickPhoto(null);
     setCloseModal(null);
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
   };
 
   return (
     <CameraContext.Provider value={{ openCamera }}>
       {children}
-      {isOpen && (
+      {isOpen && !permissionError && (
         <AppCamera
           onClickPhoto={onClickPhoto}
           closeModal={() => {
@@ -58,6 +76,17 @@ export const CameraProvider = ({ children }) => {
             handleClose();
           }}
         />
+      )}
+      {permissionError && (
+        <div>
+          <Alert
+            message="Permission Error"
+            description="Failed to access camera or enter fullscreen mode. Please check your browser permissions and try again."
+            type="error"
+            showIcon
+          />
+          <Button onClick={handleClose}>Close</Button>
+        </div>
       )}
     </CameraContext.Provider>
   );
