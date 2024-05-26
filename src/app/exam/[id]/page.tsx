@@ -1,15 +1,15 @@
 import Hydrator from "@ServerComponents/Hydrator";
-import { Enum, Learner } from "@adewaskar/lms-common";
+import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 import { generateMetadata as GenerateMetadata } from "./[type]/page";
+import { getCookie } from "@ServerUtils/index";
+import axios from "axios";
+const apiUrl = process.env.API_URL;
 
 export const generateMetadata = GenerateMetadata;
 
-export default function Page({
-  params,
-}: {
-  params: { type: string; id: string };
-}) {
+export default async function Page({ params }: { params: { id: string } }) {
+  const { category } = await getData({ id: params.id });
   const {
     getProductCategoryDetails,
     getPackages,
@@ -28,11 +28,13 @@ export default function Page({
         getPromotedProducts(Enum.ProductType.PACKAGE, {
           category: params.id,
           limit: 3,
+          keywords: category.keywords,
         }),
         getPromotedProducts(Enum.ProductType.TEST, {
           category: params.id,
           mode: "free",
           limit: 3,
+          keywords: category.keywords,
         }),
         // // authenticated routes should only be called if token is present
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
@@ -46,4 +48,23 @@ export default function Page({
       />
     </Hydrator>
   );
+}
+
+export async function getData({ id }) {
+  const alias = getCookie("orgAlias")?.split("-")[0];
+  const url = `https://${alias}.testmint.ai/exam/${id}`;
+
+  const { data: category }: { data: Types.ProductCategory } = await axios(
+    `${apiUrl}/learner/product-category/${id}`,
+    {
+      headers: {
+        "x-org-alias": alias,
+      },
+    }
+  );
+
+  return {
+    category,
+    url,
+  };
 }

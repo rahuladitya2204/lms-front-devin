@@ -26,10 +26,9 @@ import styled from "@emotion/styled";
 import {
   BookOutlined,
   BookTwoTone,
+  EditOutlined,
   ExportOutlined,
   FileTextTwoTone,
-  InfoCircleOutlined,
-  InfoCircleTwoTone,
 } from "@ant-design/icons";
 import { useModal } from "./ActionModal/ModalContext";
 import ShowSyllabus from "./ShowSyllabus";
@@ -38,6 +37,7 @@ import { useMemo } from "react";
 
 const CustomTag = styled(Text)`
   margin-top: 3px;
+  font-size: 13px;
 `;
 
 interface LearnerProductCardPropsI {
@@ -145,7 +145,18 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     >
       <Title style={{ fontSize: 13 }}>
         <Row justify={"space-between"}>
-          <Col> {product.title}</Col>
+          <Col>
+            {product.title}
+            {product?.input?.type === "handwritten" ? (
+              <Tag
+                style={{ marginLeft: 5 }}
+                icon={<EditOutlined />}
+                color="orange-inverse"
+              >
+                Handwritten
+              </Tag>
+            ) : null}
+          </Col>
           {/* {product?.languages?.length ? (
             <Col>
               <Tooltip

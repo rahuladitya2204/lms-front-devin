@@ -9,7 +9,7 @@ interface InputTagsProps {
   value?: string[];
 }
 
-const InputTags: React.FC<InputTagsProps> = ({
+const InputTagsComponent: React.FC<InputTagsProps> = ({
   ctaText,
   options = [],
   onChange,
@@ -98,12 +98,12 @@ const InputTags: React.FC<InputTagsProps> = ({
   );
 };
 
-const InputTagsFormItem: React.FC<InputTagsProps> = (props) => {
+const InputTags: React.FC<InputTagsProps> = (props) => {
   return (
     <Form.Item name={props.name} noStyle>
-      <InputTags {...props} />
+      <InputTagsComponent {...props} />
     </Form.Item>
   );
 };
 
-export default InputTagsFormItem;
+export default InputTags;

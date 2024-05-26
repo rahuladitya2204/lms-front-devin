@@ -17,7 +17,6 @@ export default function Page({
     getPYQs,
     getOrgDetails,
     getCartDetails,
-    getPromotedProducts,
     getLearnerDetails,
   } = Learner.Queries.Definitions;
 
@@ -30,13 +29,6 @@ export default function Page({
         getPackages(params.id),
         getPYQs(params.id),
         getOrgDetails(),
-        // getPromotedProducts(Enum.ProductType.PACKAGE, {
-        //   category: params.id,
-        // }),
-        // getPromotedProducts(Enum.ProductType.TEST, {
-        //   category: params.id,
-        //   mode: "free",
-        // }),
         // authenticated routes should only be called if token is present
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}

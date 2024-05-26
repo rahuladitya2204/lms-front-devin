@@ -214,7 +214,13 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
     tabs.push({
       label: "Test Series",
       key: "test-series",
-      children: <PromotedProducts categoryId={categoryId} />,
+      children: (
+        <PromotedProducts
+          categoryId={categoryId}
+          type={props.type}
+          isServer={!!props.isServer}
+        />
+      ),
     });
 
     if (PYQTests.length) {

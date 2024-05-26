@@ -11,6 +11,7 @@ import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/util
 import { useLayoutEffect } from "react";
 // import { patchObject } from '../../utils'
 import { useParams } from "@Router/index";
+import InputTags from "@Components/InputTags/InputTags";
 
 interface TestLandingPageEditorPropsI {}
 
@@ -72,6 +73,18 @@ function TestLandingPageEditor(props: TestLandingPageEditorPropsI) {
           <Empty description="Np promo video added" />
         )}
       </Card>
+      {/* <Form.Item
+        name={"keywords"}
+        label="Keywords"
+        // rules={[
+        //   {
+        //     required: true,
+        //     message: "Please enter a description for the Test",
+        //   },
+        // ]}
+      >
+        <InputTags name={`keywords`} />
+      </Form.Item> */}
       {landingPageLength < 200 ? (
         <Alert
           style={{ marginBottom: 10 }}

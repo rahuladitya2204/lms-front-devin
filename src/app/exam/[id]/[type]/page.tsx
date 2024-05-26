@@ -121,11 +121,12 @@ export default async function Page({
     description: category.title,
     url: url,
   };
+  const keywords = link?.keywords || category.keywords;
   console.log(
     {
       category: params.id,
       mode: "free",
-      ...(link.keywords ? { keywords: link?.keywords } : []),
+      ...(keywords ? { keywords: keywords } : []),
     },
     "11111"
   );
@@ -144,13 +145,13 @@ export default async function Page({
           getPYQs(params.id),
           getPromotedProducts(Enum.ProductType.PACKAGE, {
             category: params.id,
-            ...(link.keywords ? { keywords: link?.keywords } : {}),
+            ...(keywords?.length ? { keywords: keywords } : {}),
             limit: 3,
           }),
           getPromotedProducts(Enum.ProductType.TEST, {
             category: params.id,
             mode: "free",
-            ...(link.keywords ? { keywords: link?.keywords } : {}),
+            ...(keywords?.length ? { keywords: keywords } : {}),
             limit: 3,
           }),
         ]}

@@ -17,12 +17,15 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
   const { categoryId, type } = props;
   const { data: category } =
     Learner.Queries.useGetProductCategoryDetails(categoryId);
+  // console.log(category.keywords, link?.keywords, "keywords");
   const link = category.info.links.find((i) => i.slug === type);
+  const keywords = link?.keywords || category.keywords;
+  console.log(type, category, "link");
   const { data: packages } = Learner.Queries.useGetPromotedProducts(
     Enum.ProductType.PACKAGE,
     {
       category: categoryId,
-      keywords: link?.keywords,
+      ...(keywords?.length ? { keywords: keywords } : {}),
       limit: 3,
     }
   );
@@ -32,7 +35,7 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
     {
       category: categoryId,
       mode: "free",
-      keywords: link?.keywords,
+      ...(keywords?.length ? { keywords: keywords } : {}),
       limit: 3,
     }
   );
