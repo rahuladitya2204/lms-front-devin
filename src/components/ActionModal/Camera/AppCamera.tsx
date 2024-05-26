@@ -193,6 +193,7 @@ export const AppCamera = ({
           position: "absolute",
           top: 10,
           left: "3%",
+          fontSize: 13,
         }}
         message="Make sure to capture page border in the image."
         type="error"
@@ -201,7 +202,7 @@ export const AppCamera = ({
         shape="circle"
         danger
         icon={<CloseOutlined />}
-        style={{ position: "fixed", top: 10, right: 10, zIndex: 100000 }}
+        style={{ position: "fixed", top: 10, right: 5, zIndex: 100000 }}
         onClick={handleClose}
       />
       {!previewImage && (

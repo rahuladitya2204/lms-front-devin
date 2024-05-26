@@ -182,7 +182,7 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
           props.children || (
             <Button
               size="large"
-              onClick={() => navigate(`/app/test/${testId}/start`)}
+              onClick={() => navigate(`/app/test/${test._id}/start`)}
               block
               type="primary"
             >

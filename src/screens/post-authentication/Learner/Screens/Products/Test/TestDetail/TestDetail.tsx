@@ -415,7 +415,7 @@ const TestCard = ({
           return (
             <Button
               size="large"
-              onClick={() => navigate("start")}
+              onClick={() => navigate(`/app/test/${test._id}/start`)}
               block
               type="primary"
             >
