@@ -2,12 +2,15 @@ import React from "react";
 
 import AppRouter from "./screens/AppRouter";
 import ErrorBoundary from "@Components/ErrorBoundary";
+import { CameraProvider } from "@Components/ActionModal/Camera/AppCamera";
 
 function App() {
   // console.log("came in app!");
   return (
     <ErrorBoundary>
-      <AppRouter />
+      <CameraProvider>
+        <AppRouter />
+      </CameraProvider>
     </ErrorBoundary>
   );
 }

@@ -23,33 +23,79 @@ import {
 import { requestCameraPermission } from "@Components/Editor/SunEditor/utils";
 import { uniqueId } from "lodash";
 
-// import { highlightQuadrilateral } from './highlight-quadrilateral';
+const CameraContext = createContext({
+  openCamera: () => Promise.resolve([]),
+});
+
+export const CameraProvider = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [onClickPhoto, setOnClickPhoto] = useState(null);
+  const [closeModal, setCloseModal] = useState(null);
+
+  const openCamera = (onClickPhotoHandler, closeModalHandler) => {
+    setIsOpen(true);
+    return new Promise((resolve) => {
+      setOnClickPhoto(() => (files) => {
+        resolve(files);
+      });
+    });
+  };
+
+  const handleClose = () => {
+    setIsOpen(false);
+    setOnClickPhoto(null);
+    setCloseModal(null);
+  };
+
+  return (
+    <CameraContext.Provider value={{ openCamera }}>
+      {children}
+      {isOpen && (
+        <AppCamera
+          onClickPhoto={onClickPhoto}
+          closeModal={() => {
+            closeModal && closeModal();
+            handleClose();
+          }}
+        />
+      )}
+    </CameraContext.Provider>
+  );
+};
+
+export const useCamera = () => {
+  const context = useContext(CameraContext);
+  if (!context) {
+    throw new Error("useCamera must be used within a CameraProvider");
+  }
+  return context;
+};
 
 export const AppCamera = ({
   onClickPhoto,
   closeModal,
-  multiple,
-  fullscreen,
+  multiple = true,
 }: {
   onClickPhoto: (f: File[]) => void;
   closeModal?: Function;
-  fullscreen?: boolean;
   multiple?: boolean;
 }) => {
   const cameraRef = useRef<CameraType>(null);
-  const [previewImage, setPreviewImage] = useState<string | null>(null); // For single image preview
-  const [capturedImages, setCapturedImages] = useState<string[]>([]); // For storing URLs in multiple capture mode
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [capturedImages, setCapturedImages] = useState<string[]>([]);
+  const fullscreenRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (fullscreenRef.current) {
+      fullscreenRef.current.requestFullscreen();
+    }
+  }, []);
 
   const handleCapture = useCallback(async () => {
     const imageUrl = await cameraRef.current?.takePhoto();
     if (imageUrl) {
       let processedImageUrl = imageUrl;
-
-      // if (multiple) {
-      //   setCapturedImages((prev) => [...prev, processedImageUrl]);
-      // } else {
       setPreviewImage(processedImageUrl);
-      // }
     }
   }, []);
 
@@ -78,7 +124,6 @@ export const AppCamera = ({
   }, [previewImage, multiple]);
 
   const handleDone = useCallback(async () => {
-    // Finalize multiple captures
     if (multiple && capturedImages.length > 0) {
       const files = await Promise.all(
         capturedImages.map(async (imageUrl) => {
@@ -93,195 +138,146 @@ export const AppCamera = ({
       );
       onClickPhoto(files);
       handleClose();
-      // setIsModalVisible(false);
-      setCapturedImages([]); // Reset after finalizing
+      setCapturedImages([]);
     }
   }, [capturedImages, multiple]);
 
   const handleCancel = useCallback(() => {
-    // Handle cancel for single image mode
     setPreviewImage(null);
-    // setIsModalVisible(false);
   }, []);
 
   const handleClose = useCallback(() => {
-    // Handle cancel for single image mode
     setPreviewImage(null);
-    // setIsModalVisible(false);
-    // setIsModalFullyOpen(false); // Reset the state when modal is closed
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
     closeModal && closeModal();
   }, []);
 
-  // useEffect(() => {
-  //   requestCameraPermission();
-  // },[])
-
   return (
-    <>
-      {
-        <div style={fullscreenStyle}>
-          <Alert
-            icon={<WarningOutlined />}
+    <div ref={fullscreenRef}>
+      <Alert
+        icon={<WarningOutlined />}
+        style={{
+          zIndex: 100000,
+          width: "85%",
+          position: "absolute",
+          top: 10,
+          left: "3%",
+        }}
+        message="Make sure to capture page border in the image."
+        type="error"
+      />
+      <Button
+        shape="circle"
+        danger
+        icon={<CloseOutlined />}
+        style={{ position: "fixed", top: 10, right: 10, zIndex: 100000 }}
+        onClick={handleClose}
+      />
+      {!previewImage && (
+        <div>
+          <Camera facingMode="environment" ref={cameraRef} />
+        </div>
+      )}
+      {previewImage && (
+        <div>
+          <img
+            src={previewImage}
+            alt="Preview"
             style={{
-              zIndex: 100000,
-              width: "85%",
               position: "absolute",
-              top: 10,
-              left: "3%",
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "contain",
             }}
-            message="Make sure to capture page border in the image."
-            type="error"
           />
           <Button
             shape="circle"
-            danger
             icon={<CloseOutlined />}
-            style={{ position: "fixed", top: 10, right: 10, zIndex: 100000 }}
-            onClick={handleClose}
-          />
-          {!previewImage && (
-            <div
-              style={
-                {
-                  // position: 'absolute',
-                  // top: 0,
-                  // left: 0,
-                  // right: 0,
-                  // bottom: 0,
-                  // width: '100%',
-                  // height: '100%',
-                }
-              }
-            >
-              <Camera facingMode="environment" ref={cameraRef} />
-            </div>
-          )}
-          {previewImage && (
-            <div>
-              <img
-                src={previewImage}
-                alt="Preview"
-                style={{
-                  position: "absolute",
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                }}
-              />
-              <Button
-                shape="circle"
-                icon={<CloseOutlined />}
-                style={{
-                  position: "absolute",
-                  width: 40,
-                  height: 40,
-                  bottom: 44,
-                  left: "30%",
-                }}
-                onClick={handleCancel}
-              ></Button>
-              <Button
-                shape="circle"
-                icon={<CheckOutlined />}
-                style={{
-                  position: "absolute",
-                  width: 40,
-                  height: 40,
-                  bottom: 44,
-                  right: "30%",
-                }}
-                onClick={handleAccept}
-              ></Button>
-            </div>
-          )}
-          {!previewImage && (
-            <Button
-              size="large"
-              icon={<CameraOutlined />}
-              style={{
-                position: "absolute",
-                left: "50%",
-                bottom: 20,
-                transform: "translateX(-50%)",
-                zIndex: 100000,
-              }}
-              size="large"
-              type="primary"
-              shape="circle"
-              onClick={handleCapture}
-            />
-          )}
-          {multiple && !previewImage && capturedImages.length > 0 && (
-            <>
-              <div
-                style={{
-                  position: "absolute",
-                  left: 5,
-                  bottom: 0,
-                  maxHeight: "300px",
-                  overflowY: "auto",
-                }}
-              >
-                <Badge
-                  style={{ position: "absolute", top: 15, right: 15 }}
-                  count={capturedImages.length}
-                >
-                  <Image.PreviewGroup>
-                    {capturedImages.map((image, index) => (
-                      <div
-                        style={
-                          {
-                            //  position: "absolute", left: 5, bottom: 0
-                          }
-                        }
-                      >
-                        <Image
-                          alt="Thumbnail"
-                          key={index}
-                          src={image}
-                          style={{
-                            width: "30px",
-                            marginRight: "5px",
-                            display: "block",
-                          }}
-                        />
-                      </div>
-                    ))}
-                  </Image.PreviewGroup>
-                </Badge>
-              </div>
-              <Button
-                shape="circle"
-                icon={<CheckOutlined />}
-                style={{ position: "absolute", right: "30%", bottom: 20 }}
-                onClick={handleDone}
-              />
-            </>
-          )}
+            style={{
+              position: "absolute",
+              width: 40,
+              height: 40,
+              bottom: 44,
+              left: "30%",
+            }}
+            onClick={handleCancel}
+          ></Button>
+          <Button
+            shape="circle"
+            icon={<CheckOutlined />}
+            style={{
+              position: "absolute",
+              width: 40,
+              height: 40,
+              bottom: 44,
+              right: "30%",
+            }}
+            onClick={handleAccept}
+          ></Button>
         </div>
-      }
-    </>
+      )}
+      {!previewImage && (
+        <Button
+          size="large"
+          icon={<CameraOutlined />}
+          style={{
+            position: "absolute",
+            left: "50%",
+            bottom: 20,
+            transform: "translateX(-50%)",
+            zIndex: 100000,
+          }}
+          size="large"
+          shape="circle"
+          onClick={handleCapture}
+        />
+      )}
+      {multiple && !previewImage && capturedImages.length > 0 && (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              left: 5,
+              bottom: 0,
+              maxHeight: "300px",
+              overflowY: "auto",
+            }}
+          >
+            <Badge
+              style={{ position: "absolute", top: 15, right: 15 }}
+              count={capturedImages.length}
+            >
+              <Image.PreviewGroup>
+                {capturedImages.map((image, index) => (
+                  <div key={index}>
+                    <Image
+                      alt="Thumbnail"
+                      src={image}
+                      style={{
+                        width: "30px",
+                        marginRight: "5px",
+                        display: "block",
+                      }}
+                    />
+                  </div>
+                ))}
+              </Image.PreviewGroup>
+            </Badge>
+          </div>
+          <Button
+            shape="circle"
+            icon={<CheckOutlined />}
+            style={{ position: "absolute", right: "30%", bottom: 20 }}
+            onClick={handleDone}
+          />
+        </>
+      )}
+    </div>
   );
-};
-
-export const useCamera = () => {
-  const context = {};
-  if (!context) {
-    throw new Error("useCamera must be used within a AppCamera");
-  }
-  return context;
-};
-
-const fullscreenStyle = {
-  position: "fixed",
-  top: 0,
-  left: 0,
-  width: "100%",
-  height: "100%",
-  zIndex: 9999,
-  backgroundColor: "black",
 };

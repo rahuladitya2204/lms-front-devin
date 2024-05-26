@@ -15,10 +15,7 @@ import {
   message,
 } from "@Lib/index";
 import { AppCamera, useCamera } from "@Components/ActionModal/Camera/AppCamera";
-// const AppCamera = dynamic(
-//   () => import("@Components/ActionModal/Camera/AppCamera"),
-//   { ssr: false }
-// );
+
 import { Common, Learner, Types } from "@adewaskar/lms-common";
 import {
   DeleteOutlined,
@@ -35,14 +32,12 @@ import React, { Fragment, useCallback } from "react";
 import AppImage from "@Components/Image";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import MediaUpload from "@Components/MediaUpload";
-import { MovableItem } from "@Components/DragAndDrop/MovableItem";
 import { Typography } from "@Components/Typography";
 import update from "immutability-helper";
 import useBreakpoint from "@Hooks/useBreakpoint";
-import useMessage from "@Hooks/useMessage";
+
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useReviewQuestion } from "../../TestReview/useReviewQuestion";
-import dynamic from "next/dynamic";
 
 const { Text } = Typography;
 
@@ -141,37 +136,30 @@ const TestPlayerFiles = (props: {
   const { mutate: uploadFiles, isLoading: uploadingFile } =
     Common.Queries.useUploadFiles();
   const { openModal } = useModal();
+  const { openCamera } = useCamera();
   const UploadButton = isMobile ? (
     <Button
       type="primary"
       onClick={() => {
-        openModal(
-          <AppCamera
-            multiple
-            onClickPhoto={(files) => {
-              uploadFiles({
-                // @ts-ignore
-                files: files.map((f) => {
-                  return {
-                    file: f,
-                  };
-                }),
-                onSuccess: (files) => {
-                  // debugger;
-                  // closeModal && closeModal();
-                  handleUpload(
-                    files.map((f) => {
-                      return { file: f._id, url: f.url };
-                    })
-                  );
-                },
-              });
-            }}
-          />,
-          {
-            fullScreen: true,
-          }
-        );
+        openCamera().then((files) => {
+          uploadFiles({
+            // @ts-ignore
+            files: files.map((f) => {
+              return {
+                file: f,
+              };
+            }),
+            onSuccess: (files) => {
+              // debugger;
+              // closeModal && closeModal();
+              handleUpload(
+                files.map((f) => {
+                  return { file: f._id, url: f.url };
+                })
+              );
+            },
+          });
+        });
       }}
     >
       Click Photo

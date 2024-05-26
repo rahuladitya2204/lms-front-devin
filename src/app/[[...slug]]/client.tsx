@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { initInterceptors } from "@Network/index";
 import useDehydration from "@ServerHooks/useDehydration";
 import LoadingScreen from "@Components/LoadingScreen";
+import { CameraProvider } from "@Components/ActionModal/Camera/AppCamera";
 
 const App = dynamic(() => import("../../App"), { ssr: false });
 
