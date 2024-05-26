@@ -183,7 +183,10 @@ const TestPlayerFiles = (props: {
   );
   return (
     <Spin spinning={updatingAnswer || uploadingFile}>
-      <Card title="Answer Images" extra={[!props.review ? UploadButton : null]}>
+      <Card
+        title="Answer Images"
+        extra={[!props.review && files.length ? UploadButton : null]}
+      >
         {imageIssues && imageIssues?.length ? (
           <Alert
             icon={<WarningOutlined />}
