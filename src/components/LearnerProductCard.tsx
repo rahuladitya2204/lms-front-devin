@@ -146,10 +146,10 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       <Title style={{ fontSize: 13 }}>
         <Row justify={"space-between"}>
           <Col>
-            {product.title}
+            <Text style={{ marginRight: 5 }}>{product.title}</Text>
             {product?.input?.type === "handwritten" ? (
               <Tag
-                style={{ marginLeft: 5 }}
+                // style={{ margin: 5 }}
                 icon={<EditOutlined />}
                 color="orange-inverse"
               >
@@ -214,7 +214,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   ) : (
     <Card
       onClick={() => props.onClick && props.onClick()}
-      hoverable
+      // hoverable
       bodyStyle={{ padding: "20px 10px" }}
       // cover={
       //   <AppImage
