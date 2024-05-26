@@ -1,3 +1,4 @@
+import { Layout } from "antd";
 import React, { useEffect, useRef, useState } from "react";
 
 const Fullscreen = ({ children }) => {
@@ -8,7 +9,6 @@ const Fullscreen = ({ children }) => {
     const enterFullscreen = async () => {
       try {
         if (fullscreenRef.current) {
-          // @ts-ignore
           await fullscreenRef.current.requestFullscreen();
         }
       } catch (error) {
@@ -43,7 +43,13 @@ const Fullscreen = ({ children }) => {
     return <div>{children}</div>;
   }
 
-  return <div ref={fullscreenRef}>{children}</div>;
+  return (
+    <Layout.Content>
+      <div ref={fullscreenRef} style={{ width: "100%", height: "100%" }}>
+        {children}
+      </div>
+    </Layout.Content>
+  );
 };
 
 export default Fullscreen;

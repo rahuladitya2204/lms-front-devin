@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Alert, Badge, Button, Image, Modal, message } from "antd";
+import { Alert, Badge, Button, Image, Modal, Spin, message } from "antd";
 import { Camera, CameraType } from "react-camera-pro";
 import {
   CameraOutlined,
@@ -33,14 +33,16 @@ export const CameraProvider = ({ children }) => {
   const [onClickPhoto, setOnClickPhoto] = useState(null);
   const [closeModal, setCloseModal] = useState(null);
   const [permissionError, setPermissionError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const openCamera = async () => {
     try {
-      // throw new Error("1");
+      setIsLoading(true);
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
       stream.getTracks().forEach((track) => track.stop());
       setIsOpen(true);
       setPermissionError(false);
+      setIsLoading(false);
       return new Promise((resolve) => {
         setOnClickPhoto(() => (files) => {
           resolve(files);
@@ -48,7 +50,7 @@ export const CameraProvider = ({ children }) => {
       });
     } catch (error) {
       console.error("Permission error:", error);
-      // setPermissionError(true);
+      setIsLoading(false);
       message.error("Permission Error");
       throw error;
     }
@@ -61,29 +63,32 @@ export const CameraProvider = ({ children }) => {
   };
 
   return (
-    <CameraContext.Provider value={{ openCamera }}>
-      {children}
-      {isOpen && !permissionError && (
-        <AppCamera
-          onClickPhoto={onClickPhoto}
-          closeModal={() => {
-            closeModal && closeModal();
-            handleClose();
-          }}
-        />
-      )}
-      {permissionError && (
-        <div>
-          <Alert
-            message="Permission Error"
-            description="Failed to access camera or enter fullscreen mode. Please check your browser permissions and try again."
-            type="error"
-            showIcon
+    <Spin spinning={isLoading} tip="Opening Camera..">
+      <CameraContext.Provider value={{ openCamera }}>
+        {children}
+        {isOpen && !permissionError && (
+          <AppCamera
+            isLoading={isLoading}
+            onClickPhoto={onClickPhoto}
+            closeModal={() => {
+              closeModal && closeModal();
+              handleClose();
+            }}
           />
-          <Button onClick={handleClose}>Close</Button>
-        </div>
-      )}
-    </CameraContext.Provider>
+        )}
+        {permissionError && (
+          <div>
+            <Alert
+              message="Permission Error"
+              description="Failed to access camera or enter fullscreen mode. Please check your browser permissions and try again."
+              type="error"
+              showIcon
+            />
+            <Button onClick={handleClose}>Close</Button>
+          </div>
+        )}
+      </CameraContext.Provider>
+    </Spin>
   );
 };
 
@@ -98,11 +103,13 @@ export const useCamera = () => {
 export const AppCamera = ({
   onClickPhoto,
   closeModal,
+  isLoading,
   multiple = true,
 }: {
   onClickPhoto: (f: File[]) => void;
   closeModal?: Function;
   multiple?: boolean;
+  isLoading: boolean;
 }) => {
   const cameraRef = useRef<CameraType>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -191,11 +198,14 @@ export const AppCamera = ({
         style={{ position: "fixed", top: 10, right: 5, zIndex: 100000 }}
         onClick={handleClose}
       />
-      {!previewImage && (
+      {/* {!previewImage && (
         <div>
           <Camera facingMode="environment" ref={cameraRef} />
         </div>
-      )}
+      )} */}
+      <div>
+        <Camera facingMode="environment" ref={cameraRef} />
+      </div>
       {previewImage && (
         <div>
           <img

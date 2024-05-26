@@ -252,9 +252,9 @@ const router = (userType: string) => {
                   <Route
                     path="player"
                     element={
-                      <Fullscreen>
-                        <TestPlayer />
-                      </Fullscreen>
+                      // <Fullscreen>
+                      <TestPlayer />
+                      // </Fullscreen>
                     }
                   >
                     <Route path=":questionId" element={<TestPlayeritem />} />
@@ -276,9 +276,9 @@ const router = (userType: string) => {
                 <Route
                   path="app/test/:testId/review"
                   element={
-                    <Fullscreen>
-                      <TestReviewPlayer />
-                    </Fullscreen>
+                    // <Fullscreen>
+                    <TestReviewPlayer />
+                    // </Fullscreen>
                   }
                 >
                   <Route path=":questionId" element={<TestPlayerItemReiew />} />
