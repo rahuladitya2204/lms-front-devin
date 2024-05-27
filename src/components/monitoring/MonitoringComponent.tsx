@@ -6,9 +6,9 @@ import { Alert, message } from "antd";
 import html2canvas from "html2canvas";
 import { useEffect, useRef } from "react";
 
-const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 20;
+const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 15;
 const LAST_SCREENSHOT_TIME_KEY = "lastScreenshotTime";
-const CHECK_AFTER_MIN = 5;
+const CHECK_AFTER_MIN = 3;
 interface MonitoringComponentPropsI {
   children: React.ReactNode;
 }
@@ -23,6 +23,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     audioRef.current = new Audio(`/screenshot-sound.mp3`);
 
     const captureScreenshotAsync = async () => {
+      console.log("checking");
       try {
         const currentTime = Date.now();
         const lastScreenshotTime = localStorage.getItem(
@@ -67,7 +68,14 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
 
     const checkScreenshotInterval = setInterval(() => {
       captureScreenshotAsync();
-    }, CHECK_AFTER_MIN * 60 * 1000); // Check every minute
+    }, CHECK_AFTER_MIN * 60 * 1000);
+
+    // Check if lastScreenshotTime exists in localStorage
+    const lastScreenshotTime = localStorage.getItem(LAST_SCREENSHOT_TIME_KEY);
+    if (!lastScreenshotTime) {
+      // If lastScreenshotTime doesn't exist, take a screenshot immediately
+      captureScreenshotAsync();
+    }
 
     return () => {
       clearInterval(checkScreenshotInterval);
@@ -88,4 +96,41 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
   );
 }
 
-// ... (rest of the code remains the same)
+const captureScreenshot = (screenshotRef): Promise<File> => {
+  return new Promise((resolve, reject) => {
+    const element = document.body;
+    html2canvas(element)
+      .then((canvas) => {
+        const screenshotDataURL = canvas.toDataURL("image/png");
+
+        // Convert data URL to Blob
+        const blob = dataURLToBlob(screenshotDataURL);
+
+        // Create File object from Blob
+        const file = new File([blob], "screenshot.png", { type: "image/png" });
+
+        // Apply the screenshot effect
+        screenshotRef.current.classList.add("screenshot-effect");
+        setTimeout(() => {
+          screenshotRef.current.classList.remove("screenshot-effect");
+          resolve(file); // Resolve the Promise with the File object
+        }, 500);
+      })
+      .catch((error) => {
+        reject(error); // Reject the Promise if an error occurs
+      });
+  });
+};
+
+// Helper function to convert data URL to Blob
+const dataURLToBlob = (dataURL) => {
+  const parts = dataURL.split(";base64,");
+  const contentType = parts[0].split(":")[1];
+  const byteString = atob(parts[1]);
+  const arrayBuffer = new ArrayBuffer(byteString.length);
+  const uint8Array = new Uint8Array(arrayBuffer);
+  for (let i = 0; i < byteString.length; i++) {
+    uint8Array[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([arrayBuffer], { type: contentType });
+};
