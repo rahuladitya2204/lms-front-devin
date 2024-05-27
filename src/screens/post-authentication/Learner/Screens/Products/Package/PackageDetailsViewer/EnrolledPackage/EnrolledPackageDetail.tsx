@@ -455,7 +455,7 @@ const EnrolledPackageDetailScreen: React.FC<
                         bodyStyle={{ paddingTop: 10 }}
                       >
                         <Tabs
-                          navigateWithHash
+                          tabKey="package-detail"
                           items={Object.keys(packageData?.products)
                             .filter((k) => packageData?.products[k].length)
                             .map((k) => {

@@ -179,7 +179,7 @@ export default function TestResult() {
       </Col> */}
       <Col span={24}>
         <Tabs
-          navigateWithHash
+          tabKey="test-result"
           defaultActiveKey="analysis"
           items={[
             {

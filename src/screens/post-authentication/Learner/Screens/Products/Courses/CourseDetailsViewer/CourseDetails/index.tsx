@@ -1,8 +1,8 @@
-import CourseCurriculum from './CourseCurriculum'
-import CourseOverview from './CourseOverview'
-import CourseReviews from './CourseReviews/CourseReviews'
-import Tabs from '@Components/Tabs';
-import { Types } from '@adewaskar/lms-common'
+import CourseCurriculum from "./CourseCurriculum";
+import CourseOverview from "./CourseOverview";
+import CourseReviews from "./CourseReviews/CourseReviews";
+import Tabs from "@Components/Tabs";
+import { Types } from "@adewaskar/lms-common";
 
 interface CourseDetailsPropsI {
   course: Types.Course;
@@ -10,28 +10,29 @@ interface CourseDetailsPropsI {
 
 function CourseDetails(props: CourseDetailsPropsI) {
   return (
-    <Tabs navigateWithHash 
+    <Tabs
+      tabKey="course-detail"
       items={[
         {
-          key: 'overview',
+          key: "overview",
           label: `Overview`,
-          children: <CourseOverview course={props.course} />
+          children: <CourseOverview course={props.course} />,
         },
         {
-          key: 'curriculum',
+          key: "curriculum",
           label: `Curriculum`,
-          children: <CourseCurriculum course={props.course} />
+          children: <CourseCurriculum course={props.course} />,
         },
         {
-          key: 'reviews',
+          key: "reviews",
           label: `Reviews`,
-          children: <CourseReviews course={props.course} />
-        }
+          children: <CourseReviews course={props.course} />,
+        },
       ]}
       style={{ fontSize: 30 }}
       size="middle"
     />
-  )
+  );
 }
 
-export default CourseDetails
+export default CourseDetails;

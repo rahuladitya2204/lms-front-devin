@@ -669,7 +669,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
           </div>
         }
       >
-        <Tabs navigateWithHash items={TABS} />
+        <Tabs tabKey="test-metrics" items={TABS} />
       </Header>
     </ProtectedLearnerProfile>
   );

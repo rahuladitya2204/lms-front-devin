@@ -143,7 +143,7 @@ function CourseEditor() {
               ]}
             >
               <Tabs
-                navigateWithHash
+                tabKey="course-editor"
                 tabPosition={"left"}
                 style={{ minHeight: "100vh" }}
                 items={[

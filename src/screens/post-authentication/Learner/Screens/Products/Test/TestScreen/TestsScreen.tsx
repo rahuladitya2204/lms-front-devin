@@ -16,7 +16,7 @@ const EventsScreen = () => {
     //   // bodyStyle={{ paddingTop: 0 }}
     // >
     <Tabs
-      navigateWithHash
+      tabKey="tests"
       items={[
         {
           key: "upcoming",

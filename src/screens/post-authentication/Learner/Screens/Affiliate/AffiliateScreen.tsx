@@ -95,7 +95,7 @@ export default function AffiliateScreen() {
             <Skeleton />
           ) : (
             <Tabs
-              navigateWithHash
+              tabKey="affiliate"
               style={{ minHeight: "100vh" }}
               tabPosition={isDesktop ? "left" : "top"}
               items={
