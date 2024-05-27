@@ -2,23 +2,24 @@ import { Common, User } from "@adewaskar/lms-common";
 import "./screenshot-effect.css";
 import { Title } from "@Components/Typography/Typography";
 import { CameraOutlined } from "@ant-design/icons";
-import { Alert, message } from "antd";
+import { Alert, Button, Form, Input, message } from "antd";
 import html2canvas from "html2canvas";
 import { useEffect, useRef } from "react";
+import { useModal } from "@Components/ActionModal/ModalContext";
+import TextArea from "@Components/Textarea";
+import AppImage from "@Components/Image";
 
 const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 15;
 const LAST_SCREENSHOT_TIME_KEY = "lastScreenshotTime";
-const CHECK_AFTER_MIN = 3;
+const CHECK_AFTER_MIN = 1;
 interface MonitoringComponentPropsI {
   children: React.ReactNode;
 }
 
 export default function MonitoringComponent(props: MonitoringComponentPropsI) {
-  const { mutate: uploadFiles } = Common.Queries.useUploadFiles();
-  const { mutate: takeScreenshot } = User.Queries.useUpdateUserScreenshot();
   const audioRef = useRef<any>(null);
   const screenshotRef = useRef<any>(null);
-
+  const { openModal } = useModal();
   useEffect(() => {
     audioRef.current = new Audio(`/screenshot-sound.mp3`);
 
@@ -35,29 +36,11 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
           currentTime - parseInt(lastScreenshotTime) >=
             TIME_BETWEEN_SCREENSHOTS_IN_MIN * 60 * 1000
         ) {
-          const file = await captureScreenshot(screenshotRef);
+          const { file, url } = await captureScreenshot(screenshotRef);
           audioRef.current.play();
           message.success("Screenshot Captured");
-
-          uploadFiles(
-            {
-              files: [
-                {
-                  file,
-                  prefixKey: "monitoring/screenshots",
-                },
-              ],
-              onSuccess: () => {},
-            },
-            {
-              onSuccess: (url: string) => {
-                takeScreenshot({ url: url });
-                localStorage.setItem(
-                  LAST_SCREENSHOT_TIME_KEY,
-                  currentTime.toString()
-                );
-              },
-            }
+          openModal(
+            <ScreenshotForm file={file} currentTime={currentTime} image={url} />
           );
         }
       } catch (error) {
@@ -96,7 +79,9 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
   );
 }
 
-const captureScreenshot = (screenshotRef): Promise<File> => {
+const captureScreenshot = (
+  screenshotRef
+): Promise<{ file: File; url: string }> => {
   return new Promise((resolve, reject) => {
     const element = document.body;
     html2canvas(element)
@@ -113,7 +98,7 @@ const captureScreenshot = (screenshotRef): Promise<File> => {
         screenshotRef.current.classList.add("screenshot-effect");
         setTimeout(() => {
           screenshotRef.current.classList.remove("screenshot-effect");
-          resolve(file); // Resolve the Promise with the File object
+          resolve({ file, url: screenshotDataURL }); // Resolve the Promise with the File object
         }, 500);
       })
       .catch((error) => {
@@ -133,4 +118,74 @@ const dataURLToBlob = (dataURL) => {
     uint8Array[i] = byteString.charCodeAt(i);
   }
   return new Blob([arrayBuffer], { type: contentType });
+};
+
+const ScreenshotForm = ({
+  image,
+  currentTime,
+  closeModal,
+  file,
+}: {
+  image: string;
+  file: File;
+  closeModal?: Function;
+  currentTime: number;
+}) => {
+  const { mutate: uploadFiles, isLoading: uploadingScreenshot } =
+    Common.Queries.useUploadFiles();
+
+  const { mutate: takeScreenshot, isLoading: updatingScreenshot } =
+    User.Queries.useUpdateUserScreenshot();
+  const [form] = Form.useForm();
+  return (
+    <div>
+      <AppImage src={image} />
+      <Form
+        layout="vertical"
+        form={form}
+        onFinish={({ text }) => {
+          uploadFiles(
+            {
+              files: [
+                {
+                  file,
+                  prefixKey: "monitoring/screenshots",
+                },
+              ],
+              onSuccess: () => {},
+            },
+            {
+              onSuccess: (url: string) => {
+                takeScreenshot(
+                  { url, text },
+                  {
+                    onSuccess: () => {
+                      message.success("Work status updated");
+                      closeModal && closeModal();
+                    },
+                  }
+                );
+                localStorage.setItem(
+                  LAST_SCREENSHOT_TIME_KEY,
+                  currentTime.toString()
+                );
+              },
+            }
+          );
+        }}
+      >
+        <Form.Item label="What are you working on?" name="text">
+          <TextArea rows={2} />
+        </Form.Item>
+        <Button
+          loading={uploadingScreenshot || updatingScreenshot}
+          onClick={form.submit}
+          type="primary"
+          block
+        >
+          Submit
+        </Button>
+      </Form>
+    </div>
+  );
 };
