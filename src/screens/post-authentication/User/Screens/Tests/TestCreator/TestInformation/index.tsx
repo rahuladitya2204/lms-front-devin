@@ -32,7 +32,7 @@ const TestInformationEditor = (props: any) => {
     <Spin spinning={loadingTest}>
       <Tabs
         destroyInactiveTabPane={false}
-        navigateWithHash
+        tabKey="test-detail"
         items={[
           {
             label: `Details`,

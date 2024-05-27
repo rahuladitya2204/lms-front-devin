@@ -89,6 +89,7 @@ const TestEditor = () => {
   const { isMobile } = useBreakpoint();
   const MainNavTabs = (
     <Tabs
+      tabKey="test-creator"
       // navigateWithHash
       onTabClick={(e) => {
         if (e === "builder") {

@@ -55,7 +55,7 @@ const TestsScreen = () => {
       <Spin spinning={loadingCategories}>
         <Tabs
           tabPosition="left"
-          navigateWithHash
+          tabKey="test-list"
           tabBarExtraContent={{ right: !isMobile ? CategoriesSelect : null }}
           // defaultActiveKey="1"
           items={[

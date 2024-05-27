@@ -1,30 +1,33 @@
 import { useEffect, useState } from "react";
 import { Tabs as AppTabs, TabsProps } from "@Lib/index";
-import { useLocation, useNavigate } from "@Router/index";
+import { useSearchParams } from "@Router/index";
 
 interface AppTabPropsI extends TabsProps {
-  navigateWithHash?: boolean;
+  tabKey: string;
 }
 
-function Tabs({ navigateWithHash = false, ...props }: AppTabPropsI) {
+function Tabs({ tabKey, ...props }: AppTabPropsI) {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [activeKey, setActiveKey] = useState("");
-  const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const hash = location.hash.slice(1);
-    if (hash && props.items?.some((item) => item.key === hash)) {
-      setActiveKey(hash);
+    const tabActiveKey = searchParams.get(tabKey);
+    if (
+      tabActiveKey &&
+      props.items?.some((item) => item.key === tabActiveKey)
+    ) {
+      setActiveKey(tabActiveKey);
     } else {
       setActiveKey(props.items?.[0]?.key || "");
     }
-  }, [location.hash, props.items]);
+  }, [searchParams, props.items, tabKey]);
 
   const onChange = (activeKey: string) => {
     setActiveKey(activeKey);
-    if (navigateWithHash) {
-      navigate(`${location.pathname}#${activeKey}`);
-    }
+    setSearchParams({
+      ...Object.fromEntries(searchParams.entries()),
+      [tabKey]: activeKey,
+    });
   };
 
   return (

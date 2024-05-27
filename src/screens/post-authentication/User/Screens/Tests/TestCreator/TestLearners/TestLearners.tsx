@@ -8,7 +8,7 @@ import EnrollLearner from "./EnrolLearner";
 import { User } from "@adewaskar/lms-common";
 import { capitalize, sortBy } from "lodash";
 import dayjs from "dayjs";
-import Tabs from "@Components/Tabs";
+
 import * as React from "react";
 
 const { confirm } = Modal;

@@ -235,7 +235,7 @@ const TestStatus = () => {
                 right: !isMobile ? PrintResultButton : null,
               }}
               defaultActiveKey="1"
-              navigateWithHash
+              tabKey="test-status"
               items={[
                 {
                   key: "Attended",

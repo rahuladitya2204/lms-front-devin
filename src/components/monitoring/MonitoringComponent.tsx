@@ -1,4 +1,4 @@
-import { Common, User } from "@adewaskar/lms-common";
+import { Common, Store, User } from "@adewaskar/lms-common";
 import "./screenshot-effect.css";
 import { Title } from "@Components/Typography/Typography";
 import { CameraOutlined } from "@ant-design/icons";
@@ -9,10 +9,10 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import TextArea from "@Components/Textarea";
 import AppImage from "@Components/Image";
 
-const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 30;
+const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 60;
 const CLOSE_WITHOUT_INPUT_IN_MIN = 1;
 const LAST_SCREENSHOT_TIME_KEY = "lastScreenshotTime";
-const CHECK_AFTER_MIN = 2;
+const CHECK_AFTER_MIN = 5;
 interface MonitoringComponentPropsI {
   children: React.ReactNode;
 }
@@ -135,12 +135,12 @@ const ScreenshotForm = ({
   const { mutate: uploadFiles, isLoading: uploadingScreenshot } =
     Common.Queries.useUploadFiles();
 
-  const { mutate: takeScreenshot, isLoading: updatingScreenshot } =
-    User.Queries.useUpdateUserScreenshot();
+  const { mutate: updateUserLog, isLoading: updatingScreenshot } =
+    User.Queries.useUpdateUserLog();
   const [form] = Form.useForm();
 
   const submit = ({ url, text }) => {
-    takeScreenshot(
+    updateUserLog(
       { url, text },
       {
         onSuccess: () => {
@@ -163,10 +163,10 @@ const ScreenshotForm = ({
       clearInterval(timeout);
     };
   }, []);
-
+  const user = Store.useAuthentication((s) => s.user);
   return (
     <div>
-      <AppImage style={{ maxHeight: 300 }} src={image} />
+      <AppImage style={{ maxHeight: 300, marginBottom: 20 }} src={image} />
       <Form
         layout="vertical"
         form={form}
@@ -176,13 +176,13 @@ const ScreenshotForm = ({
               files: [
                 {
                   file,
-                  prefixKey: "monitoring/screenshots",
+                  prefixKey: `${user._id}/monitoring/screenshots`,
                 },
               ],
               onSuccess: () => {},
             },
             {
-              onSuccess: (url: string) => {
+              onSuccess: ([{ url }]) => {
                 submit({ text, url });
                 localStorage.setItem(
                   LAST_SCREENSHOT_TIME_KEY,

@@ -9,7 +9,11 @@ import {
   Form,
   Switch,
 } from "@Lib/index";
-import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PaperClipOutlined,
+} from "@ant-design/icons";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
@@ -24,6 +28,7 @@ import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useState } from "react";
 import UserAccountStatusTag from "./UserAccountStatusTag";
+import UserLogs from "./UserLogs";
 
 const { confirm } = Modal;
 
@@ -58,10 +63,10 @@ function UsersScreen() {
               dataSource={
                 isDel
                   ? data.filter(
-                      (i) => i.status !== Enum.UserAccountStatus.ACTIVE,
+                      (i) => i.status !== Enum.UserAccountStatus.ACTIVE
                     )
                   : data.filter(
-                      (i) => i.status === Enum.UserAccountStatus.ACTIVE,
+                      (i) => i.status === Enum.UserAccountStatus.ACTIVE
                     )
               }
               loading={loading || deletingUser}
@@ -159,6 +164,16 @@ function UsersScreen() {
                         icon: <EditOutlined />,
                       },
                       {
+                        label: "Show Logs",
+                        onClick: () => {
+                          openModal(<UserLogs id={record._id} />, {
+                            title: `${record.name}'s work updates`,
+                          });
+                        },
+                        key: "logs",
+                        icon: <PaperClipOutlined />,
+                      },
+                      {
                         label: "Delete User",
                         onClick: () => {
                           confirm({
@@ -177,7 +192,7 @@ function UsersScreen() {
                                       content: "User has been been deleted",
                                     });
                                   },
-                                },
+                                }
                               );
                             },
                             okText: "Delete",
