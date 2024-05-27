@@ -9,9 +9,10 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import TextArea from "@Components/Textarea";
 import AppImage from "@Components/Image";
 
-const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 15;
+const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 30;
+const CLOSE_WITHOUT_INPUT_IN_MIN = 1;
 const LAST_SCREENSHOT_TIME_KEY = "lastScreenshotTime";
-const CHECK_AFTER_MIN = 1;
+const CHECK_AFTER_MIN = 2;
 interface MonitoringComponentPropsI {
   children: React.ReactNode;
 }
@@ -137,9 +138,35 @@ const ScreenshotForm = ({
   const { mutate: takeScreenshot, isLoading: updatingScreenshot } =
     User.Queries.useUpdateUserScreenshot();
   const [form] = Form.useForm();
+
+  const submit = ({ url, text }) => {
+    takeScreenshot(
+      { url, text },
+      {
+        onSuccess: () => {
+          message.success("Work status updated");
+          closeModal && closeModal();
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      submit({
+        text: "No Input from user",
+        url: image,
+      });
+    }, CLOSE_WITHOUT_INPUT_IN_MIN * 60 * 1000);
+
+    return () => {
+      clearInterval(timeout);
+    };
+  }, []);
+
   return (
     <div>
-      <AppImage src={image} />
+      <AppImage style={{ maxHeight: 300 }} src={image} />
       <Form
         layout="vertical"
         form={form}
@@ -156,15 +183,7 @@ const ScreenshotForm = ({
             },
             {
               onSuccess: (url: string) => {
-                takeScreenshot(
-                  { url, text },
-                  {
-                    onSuccess: () => {
-                      message.success("Work status updated");
-                      closeModal && closeModal();
-                    },
-                  }
-                );
+                submit({ text, url });
                 localStorage.setItem(
                   LAST_SCREENSHOT_TIME_KEY,
                   currentTime.toString()
