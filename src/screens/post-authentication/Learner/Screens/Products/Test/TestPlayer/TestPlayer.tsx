@@ -209,6 +209,10 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   if (testEndTime) {
     return (
       <Header
+        // style={{
+        //   paddingRight: 0,
+        //   paddingTop: 10,
+        // }}
         title={test.title}
         extra={
           <NavLink title={"Back"} to={"../"}>
@@ -247,6 +251,10 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   );
   return (
     <Header
+      style={{
+        paddingRight: 10,
+        paddingTop: 10,
+      }}
       title={!isMobile ? test.title : CountdownComponent}
       subTitle={"asd"}
       extra={

@@ -20,7 +20,7 @@ function LoadingScreen(props: any) {
       >
         <Space align="center">
           <OrgLogo />
-          <Spin />
+          <Spin tip="Loading App.." />
         </Space>
       </Space>
     </FullPageHolder>

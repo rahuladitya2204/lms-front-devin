@@ -1,11 +1,11 @@
-import { Col, Row, Space } from 'antd'
+import { Col, Row, Space } from "antd";
 
-import BackButton from './BackButton'
-import OrgLogo from './OrgLogo'
-import { PageHeaderProps } from '@ant-design/pro-layout'
-import React from 'react'
-import { Title } from './Typography/Typography'
-import styled from '@emotion/styled'
+import BackButton from "./BackButton";
+import OrgLogo from "./OrgLogo";
+import { PageHeaderProps } from "@ant-design/pro-layout";
+import React from "react";
+import { Title } from "./Typography/Typography";
+import styled from "@emotion/styled";
 
 interface HeaderPropsI extends PageHeaderProps {
   children?: React.ReactNode;
@@ -19,31 +19,31 @@ interface HeaderPropsI extends PageHeaderProps {
   bgColor?: string;
 }
 
-const StyledHeader =
-  styled.header <
-  HeaderPropsI >
-  `
+const StyledHeader = styled.header<HeaderPropsI>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 0 20px;
-`
+`;
 
 const CustomRow = styled.div`
   display: flex;
   width: 100%;
-`
+`;
 
 const CustomCol = styled.div`
   flex: 1;
-`
+`;
 
-const Header: React.FC<HeaderPropsI> = props => {
+const Header: React.FC<HeaderPropsI> = (props) => {
   return (
     <CustomRow>
       <CustomCol>
-        <StyledHeader bgColor={props.bgColor}>
-          <Row justify={'space-between'} style={{ flex: 1 }}>
+        <StyledHeader
+          style={{ ...(props.style || {}) }}
+          bgColor={props.bgColor}
+        >
+          <Row justify={"space-between"} style={{ flex: 1 }}>
             <Col>
               <Space align="center">
                 {props.showBack ? <BackButton /> : null}
@@ -54,16 +54,16 @@ const Header: React.FC<HeaderPropsI> = props => {
                     <OrgLogo />
                   </span>
                 ) : null}
-                <Title level={4} style={{ margin: '10px 0' }}>
+                <Title level={4} style={{ margin: "10px 0" }}>
                   {props.title}
                 </Title>
               </Space>
             </Col>
             <Col
               style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
             >
               {/* You would include your BackButton or equivalent control here */}
@@ -76,7 +76,7 @@ const Header: React.FC<HeaderPropsI> = props => {
         <div style={{ padding: 10 }}>{props.children}</div>
       </CustomCol>
     </CustomRow>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;
