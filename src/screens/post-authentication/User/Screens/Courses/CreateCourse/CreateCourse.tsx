@@ -23,7 +23,7 @@ const CreateCourseComponent: React.FC<CreateCourseComponentPropsI> = (
     console.log("Helo");
     createCourse(e, {
       onSuccess: (course) => {
-        navigate(`${course._id}/editor#information`);
+        navigate(`${course._id}/editor`);
         message.open({
           type: "success",
           content: "Have fun creating a course!",

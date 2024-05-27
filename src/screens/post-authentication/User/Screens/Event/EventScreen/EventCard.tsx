@@ -53,7 +53,7 @@ function EventCard(props: EventCardProps) {
       }
       actions={[
         <InfoCircleOutlined
-          onClick={() => navigate(`${props.event._id}/editor#information`)}
+          onClick={() => navigate(`${props.event._id}/editor`)}
         />,
         <Tooltip placement="bottom" title={"Go to event builder"}>
           <ToolOutlined

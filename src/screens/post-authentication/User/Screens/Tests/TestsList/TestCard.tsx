@@ -51,7 +51,7 @@ function TestCard({ test }: TestCardProps) {
         )
       }
       actions={[
-        <Link to={`${test._id}/editor#information`}>
+        <Link to={`${test._id}/editor`}>
           <InfoCircleOutlined />
         </Link>,
         <Tooltip placement="bottom" title={"Go to Tests builder"}>
