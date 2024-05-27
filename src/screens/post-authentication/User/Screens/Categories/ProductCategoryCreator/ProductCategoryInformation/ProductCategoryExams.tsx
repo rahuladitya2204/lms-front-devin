@@ -26,6 +26,7 @@ const ProductCategoryEXAMs = React.memo(() => {
             {(fields, { add, remove }) => (
               <>
                 <Tabs
+                  tabKey="category-exam"
                   tabBarStyle={{
                     height: 700,
                   }}
@@ -51,6 +52,7 @@ const ProductCategoryEXAMs = React.memo(() => {
                       children: (
                         <>
                           <Tabs
+                            tabKey="category-exam-page"
                             tabBarExtraContent={{
                               right: (
                                 <Button

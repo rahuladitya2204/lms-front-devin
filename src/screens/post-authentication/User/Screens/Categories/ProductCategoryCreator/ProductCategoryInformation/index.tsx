@@ -33,7 +33,7 @@ function ProductCategoryInformationEditor(props: any) {
   return (
     <Spin spinning={loadingProductCategory}>
       <Tabs
-        navigateWithHash
+        tabKey="category-info"
         destroyInactiveTabPane={false}
         items={[
           {

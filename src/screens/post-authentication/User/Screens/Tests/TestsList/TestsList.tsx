@@ -79,7 +79,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
         key: "show-analysis",
         icon: <LineChartOutlined />,
         onClick: () => {
-          window.open(`/admin/products/test/${test._id}/status`);
+          navigate(`/admin/products/test/${test._id}/status`);
         },
       },
       {
@@ -169,9 +169,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             dataIndex="title"
             key="title"
             render={(_: any, test: Types.Test) => (
-              <NavLink
-                to={`/admin/products/test/${test._id}/editor#information`}
-              >
+              <NavLink to={`/admin/products/test/${test._id}/editor`}>
                 {test.title}
               </NavLink>
             )}

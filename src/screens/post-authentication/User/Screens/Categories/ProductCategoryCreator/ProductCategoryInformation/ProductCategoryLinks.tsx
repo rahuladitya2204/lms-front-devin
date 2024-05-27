@@ -42,6 +42,7 @@ const ProductCategoryLinks = React.memo(() => {
             {(fields, { add, remove }) => (
               <>
                 <Tabs
+                  tabKey="category-links"
                   tabBarStyle={{
                     width: 300,
                     // height: 700,
@@ -68,6 +69,7 @@ const ProductCategoryLinks = React.memo(() => {
                       children: (
                         <Row key={key} gutter={[40, 0]}>
                           <Tabs
+                            tabKey="category-page"
                             tabBarExtraContent={{
                               right: (
                                 <Row gutter={[20, 20]}>

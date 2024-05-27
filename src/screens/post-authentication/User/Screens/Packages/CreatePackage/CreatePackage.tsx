@@ -49,7 +49,7 @@ const CreatePackage: React.FC<CreatePackageComponentPropsI> = (props) => {
           <>
             <Tabs
               destroyInactiveTabPane={false}
-              navigateWithHash
+              tabKey="create-package"
               items={[
                 {
                   label: "Details",
