@@ -14,8 +14,8 @@ interface MonitoringComponentPropsI {
 export default function MonitoringComponent(props: MonitoringComponentPropsI) {
   const { mutate: uploadFiles } = Common.Queries.useUploadFiles();
   const { mutate: takeScrenshot } = User.Queries.useUpdateUserScreenshot();
-  const audioRef = useRef(null);
-  const screenshotRef = useRef(null);
+  const audioRef = useRef<any>(null);
+  const screenshotRef = useRef<any>(null);
   useEffect(() => {
     audioRef.current = new Audio(`/screenshot-sound.mp3`);
     const captureScreenshotAsync = async () => {
