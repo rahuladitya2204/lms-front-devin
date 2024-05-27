@@ -16,6 +16,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { compareArrays } from "@Components/Editor/SunEditor/utils";
 import styled from "@emotion/styled";
 import useBreakpoint from "@Hooks/useBreakpoint";
+import MonitoringComponent from "@Components/monitoring/MonitoringComponent";
 
 const LogoHolder = styled.div`
   padding: 20px;
@@ -32,25 +33,27 @@ const UserRootScreen: React.FC = () => {
   return (
     <ThemeProvider>
       <ModalProvider>
-        <Layout style={{ minHeight: "100vh" }}>
-          {isDesktop ? <AppSider /> : null}
-          <Layout className="site-layout">
-            <Content style={{ margin: "0 16px" }}>
-              <Row gutter={[20, 20]}>
-                <Col span={24}>
-                  <ProtectedContent
-                    width={300}
-                    title="Login"
-                    cta={<UserLogin />}
-                    isVerified={isSignedIn}
-                  >
-                    <Outlet />
-                  </ProtectedContent>
-                </Col>
-              </Row>
-            </Content>
+        <MonitoringComponent>
+          <Layout style={{ minHeight: "100vh" }}>
+            {isDesktop ? <AppSider /> : null}
+            <Layout className="site-layout">
+              <Content style={{ margin: "0 16px" }}>
+                <Row gutter={[20, 20]}>
+                  <Col span={24}>
+                    <ProtectedContent
+                      width={300}
+                      title="Login"
+                      cta={<UserLogin />}
+                      isVerified={isSignedIn}
+                    >
+                      <Outlet />
+                    </ProtectedContent>
+                  </Col>
+                </Row>
+              </Content>
+            </Layout>
           </Layout>
-        </Layout>
+        </MonitoringComponent>
       </ModalProvider>
     </ThemeProvider>
   );

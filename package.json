@@ -6,7 +6,7 @@
   },
   "private": true,
   "dependencies": {
-    "@adewaskar/lms-common": "3.1.487-alpha.293",
+    "@adewaskar/lms-common": "3.1.487-alpha.295",
     "@ant-design/compatible": "5.0.0",
     "@ant-design/icons": "4.7.0",
     "@ant-design/nextjs-registry": "1.0.0",
@@ -69,6 +69,7 @@
     "html-react-parser": "5.0.6",
     "html-to-text": "9.0.5",
     "html-webpack-plugin": "5.5.0",
+    "html2canvas": "^1.4.1",
     "identity-obj-proxy": "3.0.0",
     "interactjs": "1.10.17",
     "jsonrepair": "3.2.0",
