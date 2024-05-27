@@ -23,6 +23,15 @@ import {
 import { requestCameraPermission } from "@Components/Editor/SunEditor/utils";
 import { uniqueId } from "lodash";
 import Fullscreen from "@Components/Fullscreen";
+import styled from "styled-components";
+
+const CustomSpin = styled(Spin)`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(50%, 50%);
+  z-index: 999;
+`;
 
 const CameraContext = createContext({
   openCamera: () => Promise.resolve([]),
@@ -63,7 +72,8 @@ export const CameraProvider = ({ children }) => {
   };
 
   return (
-    <Spin spinning={isLoading} tip="Opening Camera..">
+    <>
+      <CustomSpin spinning={isLoading} tip="Opening Camera.." />
       <CameraContext.Provider value={{ openCamera }}>
         {children}
         {isOpen && !permissionError && (
@@ -88,7 +98,7 @@ export const CameraProvider = ({ children }) => {
           </div>
         )}
       </CameraContext.Provider>
-    </Spin>
+    </>
   );
 };
 
