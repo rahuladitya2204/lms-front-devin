@@ -13,13 +13,16 @@ export default function UserLogs({ id }: { id: string }) {
       <Row>
         {userLog._id ? (
           <Col span={24}>
-            <Title level={4}>
+            <Title level={5}>
               Started At: {dayjs(userLog.startedAt).format("LLL")}
             </Title>
-            <Title level={4}>
+            <Title level={5}>
               Last Updated At: {dayjs(userLog.lastUpdate).format("LLL")}
             </Title>
-            <Title level={4}>
+            {userLog.idleTime ? (
+              <Title level={5}>IDLE Time: {userLog.idleTime} mins</Title>
+            ) : null}
+            <Title level={5}>
               Total Time Logged:{" "}
               {formatDuration(userLog.startedAt, userLog.lastUpdate)}
             </Title>

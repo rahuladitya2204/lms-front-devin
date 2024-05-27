@@ -4,67 +4,113 @@ import { Title } from "@Components/Typography/Typography";
 import { CameraOutlined } from "@ant-design/icons";
 import { Alert, Button, Form, Input, message } from "antd";
 import html2canvas from "html2canvas";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import TextArea from "@Components/Textarea";
 import AppImage from "@Components/Image";
+import { useIdleTimer } from "react-idle-timer";
 
+const IDLE_TIMEOUT_IN_MINS = 10;
 const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 60;
 const CLOSE_WITHOUT_INPUT_IN_MIN = 1;
 const LAST_SCREENSHOT_TIME_KEY = "lastScreenshotTime";
 const CHECK_AFTER_MIN = 5;
+
 interface MonitoringComponentPropsI {
   children: React.ReactNode;
 }
 
 export default function MonitoringComponent(props: MonitoringComponentPropsI) {
   const audioRef = useRef<any>(null);
+  const [state, setState] = useState<string>("active");
+  const onIdle = () => {
+    setState("idle");
+  };
+
+  const onActive = () => {
+    setState("active");
+  };
+
+  const { start, pause } = useIdleTimer({
+    startManually: true,
+    timeout: IDLE_TIMEOUT_IN_MINS * 60 * 1000,
+    onIdle,
+    onActive,
+  });
   const screenshotRef = useRef<any>(null);
+  const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
   const { openModal } = useModal();
+  const { mutate: updateUserLog, isLoading: updatingScreenshot } =
+    User.Queries.useUpdateUserLog();
   useEffect(() => {
-    audioRef.current = new Audio(`/screenshot-sound.mp3`);
+    if (isSignedIn) {
+      audioRef.current = new Audio(`/screenshot-sound.mp3`);
 
-    const captureScreenshotAsync = async () => {
-      console.log("checking");
-      try {
-        const currentTime = Date.now();
-        const lastScreenshotTime = localStorage.getItem(
-          LAST_SCREENSHOT_TIME_KEY
-        );
-
-        if (
-          !lastScreenshotTime ||
-          currentTime - parseInt(lastScreenshotTime) >=
-            TIME_BETWEEN_SCREENSHOTS_IN_MIN * 60 * 1000
-        ) {
-          const { file, url } = await captureScreenshot(screenshotRef);
-          audioRef.current.play();
-          message.success("Screenshot Captured");
-          openModal(
-            <ScreenshotForm file={file} currentTime={currentTime} image={url} />
+      const captureScreenshotAsync = async () => {
+        console.log("checking");
+        try {
+          const currentTime = Date.now();
+          const lastScreenshotTime = localStorage.getItem(
+            LAST_SCREENSHOT_TIME_KEY
           );
+
+          if (
+            !lastScreenshotTime ||
+            currentTime - parseInt(lastScreenshotTime) >=
+              TIME_BETWEEN_SCREENSHOTS_IN_MIN * 60 * 1000
+          ) {
+            if (state === "idle") {
+              return;
+            }
+            const { file, url } = await captureScreenshot(screenshotRef);
+            audioRef.current.play();
+            message.success("Screenshot Captured");
+            openModal(
+              <ScreenshotForm
+                file={file}
+                currentTime={currentTime}
+                image={url}
+              />
+            );
+          }
+        } catch (error) {
+          // Handle any errors that occurred during the screenshot capture
+          console.error("Screenshot capture error:", error);
         }
-      } catch (error) {
-        // Handle any errors that occurred during the screenshot capture
-        console.error("Screenshot capture error:", error);
+      };
+
+      const checkScreenshotInterval = setInterval(() => {
+        captureScreenshotAsync();
+      }, CHECK_AFTER_MIN * 60 * 1000);
+
+      // Check if lastScreenshotTime exists in localStorage
+      const lastScreenshotTime = localStorage.getItem(LAST_SCREENSHOT_TIME_KEY);
+      if (!lastScreenshotTime) {
+        // If lastScreenshotTime doesn't exist, take a screenshot immediately
+        captureScreenshotAsync();
       }
-    };
 
-    const checkScreenshotInterval = setInterval(() => {
-      captureScreenshotAsync();
-    }, CHECK_AFTER_MIN * 60 * 1000);
-
-    // Check if lastScreenshotTime exists in localStorage
-    const lastScreenshotTime = localStorage.getItem(LAST_SCREENSHOT_TIME_KEY);
-    if (!lastScreenshotTime) {
-      // If lastScreenshotTime doesn't exist, take a screenshot immediately
-      captureScreenshotAsync();
+      return () => {
+        clearInterval(checkScreenshotInterval);
+      };
     }
+  }, [isSignedIn, state]);
 
-    return () => {
-      clearInterval(checkScreenshotInterval);
-    };
-  }, []);
+  useEffect(() => {
+    if (isSignedIn) {
+      start();
+    } else {
+      pause();
+    }
+  }, [isSignedIn]);
+
+  useEffect(() => {
+    if (state === "idle") {
+      updateUserLog({
+        idleTime: IDLE_TIMEOUT_IN_MINS,
+      });
+    }
+  }, [state]);
 
   return (
     <div ref={screenshotRef}>

@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz#bd9154aec9983f77b3a034ecaa015c2e4201f6cf"
   integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
 
-"@adewaskar/lms-common@3.1.487-alpha.305":
-  version "3.1.487-alpha.305"
-  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.305.tgz#b1b5816032d9ba3a13978723918b7eacd83e22bd"
-  integrity sha512-uqdj8KTgC3sMmRmB02Xjh+iEd9svH7E9QCq4cmkw3Xiolpa8qgdo80Wx80lBCEPuiPUjyd2u7NyErvh9bID4Zg==
+"@adewaskar/lms-common@3.1.487-alpha.307":
+  version "3.1.487-alpha.307"
+  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.307.tgz#6237959ddf0d04f46f7e149b1df2430aa1a78c5d"
+  integrity sha512-ViAB1olxcCxoUaOp1uV8MzGUimtCEXkGpZpGJ+5la2KuL+G9ikYvNiFk3e0RoQcIpAvklv4BNRKsO/Yy82qqfA==
   dependencies:
     "@ant-design/colors" "^7.0.0"
     "@babel/core" "^7.21.0"
@@ -13932,6 +13932,11 @@ react-helmet@^6.1.0:
     prop-types "^15.7.2"
     react-fast-compare "^3.1.1"
     react-side-effect "^2.1.0"
+
+react-idle-timer@^5.7.2:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/react-idle-timer/-/react-idle-timer-5.7.2.tgz#f506db28a86645dd1b87987116501703e512142b"
+  integrity sha512-+BaPfc7XEUU5JFkwZCx6fO1bLVK+RBlFH+iY4X34urvIzZiZINP6v2orePx3E6pAztJGE7t4DzvL7if2SL/0GQ==
 
 react-is@^16.10.2, react-is@^16.12.0, react-is@^16.13.1, react-is@^16.7.0:
   version "16.13.1"

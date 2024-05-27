@@ -6,7 +6,7 @@
   },
   "private": true,
   "dependencies": {
-    "@adewaskar/lms-common": "3.1.487-alpha.305",
+    "@adewaskar/lms-common": "3.1.487-alpha.307",
     "@ant-design/compatible": "5.0.0",
     "@ant-design/icons": "4.7.0",
     "@ant-design/nextjs-registry": "1.0.0",
@@ -109,6 +109,7 @@
     "react-google-places-autocomplete": "4.0.1",
     "react-h5-audio-player": "3.9.0",
     "react-helmet": "^6.1.0",
+    "react-idle-timer": "^5.7.2",
     "react-particles": "2.12.2",
     "react-pdf": "5.7.2",
     "react-perspective-cropper": "0.2.2",
