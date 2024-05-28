@@ -43,7 +43,7 @@ const data = {
   enrolled: {
     title: "Enrolled",
     icon: <SafetyCertificateOutlined />,
-    value: "1",
+    value: "10k+ Students",
   },
   expiresAt: {
     title: "You can access till",
@@ -90,7 +90,10 @@ function TestMetadata(props: TestMetadataPropsI) {
   data.duration.value = props.test.duration.enabled
     ? formatTime(props.test.duration.value)
     : null;
-  data.enrolled.value = `${props.test.analytics.enrolled.count} students`;
+  // commenting out for now
+  // if (props.test.analytics.enrolled.count) {
+  //   data.enrolled.value = `${props.test.analytics.enrolled.count} students`;
+  // }
   if (props.test.input.type === Enum.TestInputType.HANDWRITTEN) {
     // @ts-ignore
     data.mode.value = (
