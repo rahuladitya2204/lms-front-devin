@@ -130,6 +130,15 @@ function UsersScreen() {
                 )}
               />
 
+              <TableColumn
+                title="Monitoring"
+                dataIndex="monitoring.enabled"
+                key="monitoring.enabled"
+                render={(_: any, record: Types.User) =>
+                  record?.monitoring?.enabled ? "Yes" : "-"
+                }
+              />
+
               <TableColumn title="Roles" dataIndex="roles" key="roles" />
               {/* <TableColumn
                 title="Designation"

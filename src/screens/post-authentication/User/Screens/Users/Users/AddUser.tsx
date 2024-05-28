@@ -108,6 +108,13 @@ const AddUser: React.FC<CreateUserComponentPropsI> = (props) => {
       >
         <Input placeholder="Mobile Number of the learner" type="number" />
       </Form.Item>
+      <Form.Item
+        label="Enable Monitoring"
+        name={["monitoring", "enabled"]}
+        valuePropName="checked"
+      >
+        <Switch />
+      </Form.Item>
       {/* 
       <Row justify={"space-between"}>
         <Col span={24}>
