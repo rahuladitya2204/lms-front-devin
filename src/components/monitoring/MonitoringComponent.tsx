@@ -1,14 +1,16 @@
 import { Common, Store, User } from "@adewaskar/lms-common";
 import "./screenshot-effect.css";
-import { Title } from "@Components/Typography/Typography";
-import { CameraOutlined } from "@ant-design/icons";
-import { Alert, Button, Form, Input, message } from "antd";
+import { Text, Title } from "@Components/Typography/Typography";
+import { CameraOutlined, ClockCircleOutlined } from "@ant-design/icons";
+import { Alert, Button, Form, Input, Tag, message } from "antd";
 import html2canvas from "html2canvas";
 import { useEffect, useRef, useState } from "react";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import TextArea from "@Components/Textarea";
 import AppImage from "@Components/Image";
 import { useIdleTimer } from "react-idle-timer";
+import dayjs from "dayjs";
+import { LiveTimer } from "./LiveTimer";
 
 const IDLE_TIMEOUT_IN_MINS = 10;
 const TIME_BETWEEN_SCREENSHOTS_IN_MIN = 60;
@@ -38,7 +40,8 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     onActive,
   });
   const screenshotRef = useRef<any>(null);
-  const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
+  const { isSignedIn, user } = Store.useAuthentication((s) => s);
+  const { data: userLog } = User.Queries.useGetUserLog(user._id);
   const { openModal } = useModal();
   const { mutate: updateUserLog, isLoading: updatingScreenshot } =
     User.Queries.useUpdateUserLog();
@@ -116,10 +119,23 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     <div ref={screenshotRef}>
       <Alert
         style={{ borderRadius: 0 }}
-        message="You are being monitored"
+        message={"You are being monitored"}
         type="error"
         showIcon
         icon={<CameraOutlined />}
+        action={
+          userLog.startedAt ? (
+            <div style={{ width: 160 }}>
+              Time Logged{" "}
+              <Tag
+                // icon={<ClockCircleOutlined />}
+                color="blue"
+              >
+                <LiveTimer startedAt={userLog.startedAt} />
+              </Tag>
+            </div>
+          ) : null
+        }
       />
       {props.children}
     </div>
@@ -253,4 +269,18 @@ const ScreenshotForm = ({
       </Form>
     </div>
   );
+};
+
+const calculateTimeLogged = (startedAt) => {
+  const startTime = dayjs(startedAt);
+  const currentTime = dayjs();
+  const diffInSeconds = currentTime.diff(startTime, "second");
+
+  const timeDuration = dayjs.duration(diffInSeconds, "seconds");
+
+  const hours = String(timeDuration.hours()).padStart(2, "0");
+  const minutes = String(timeDuration.minutes()).padStart(2, "0");
+  const seconds = String(timeDuration.seconds()).padStart(2, "0");
+
+  return `${hours}:${minutes}:${seconds}`;
 };

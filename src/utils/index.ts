@@ -8,6 +8,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import dayjs from "dayjs";
 import weekday from 'dayjs/plugin/weekday';
 import localeData from 'dayjs/plugin/localeData';
+import duration from 'dayjs/plugin/duration';
 
 export const initStorage = () => {
   console.log("initializing storage");
@@ -44,6 +45,7 @@ export const initDateFormats = () => {
   dayjs.extend(localizedFormat);
   dayjs.extend(weekday);
   dayjs.extend(localeData);
+  dayjs.extend(duration);
 };
 
 
