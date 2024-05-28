@@ -3,11 +3,12 @@ import {
   ClockCircleOutlined,
   EditOutlined,
   FileTextOutlined,
+  InfoCircleOutlined,
   SafetyCertificateOutlined,
   ScheduleOutlined,
 } from "@ant-design/icons";
 import { Constants, Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
-import { List, Tag } from "antd";
+import { List, Tag, Tooltip } from "antd";
 
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
@@ -97,9 +98,15 @@ function TestMetadata(props: TestMetadataPropsI) {
   if (props.test.input.type === Enum.TestInputType.HANDWRITTEN) {
     // @ts-ignore
     data.mode.value = (
-      <Tag style={{ marginRight: 0 }} color="volcano-inverse">
-        Handwritten
-      </Tag>
+      <Tooltip title="Answer images will be evaluated by our AI">
+        <Tag
+          style={{ marginRight: 0 }}
+          color="volcano-inverse"
+          icon={<InfoCircleOutlined />}
+        >
+          Handwritten
+        </Tag>
+      </Tooltip>
     );
   }
   if (enrolledDetails.plan.expiresAt) {
@@ -109,9 +116,12 @@ function TestMetadata(props: TestMetadataPropsI) {
     // @ts-ignore
     data.language.value = Constants.LANGUAGES.filter((l) =>
       props.test.languages.includes(l.value)
-    )
-      .map((l) => l.label)
-      .join(", ");
+    ).map((l) => (
+      <Tag style={{ marginLeft: 10, marginRight: 0 }} color="purple">
+        {l.label}
+      </Tag>
+    ));
+    // .join(", ");
     if (props.test.languages.length > 1) {
       data.language.title = "Languages";
     }
