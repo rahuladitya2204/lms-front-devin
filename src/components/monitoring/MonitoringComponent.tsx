@@ -46,7 +46,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
   const { mutate: updateUserLog, isLoading: updatingScreenshot } =
     User.Queries.useUpdateUserLog();
   useEffect(() => {
-    if (isSignedIn && user.monitoring.enabled) {
+    if (isSignedIn && user?.monitoring?.enabled) {
       audioRef.current = new Audio(`/screenshot-sound.mp3`);
 
       const captureScreenshotAsync = async () => {
