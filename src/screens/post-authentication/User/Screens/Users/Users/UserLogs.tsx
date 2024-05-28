@@ -36,7 +36,9 @@ export default function UserLogs({ id }: { id: string }) {
                   _: any,
                   record: { date: string; message: string; url: string }
                 ) => (
-                  <Space size="middle">{dayjs(record.date).format("LL")}</Space>
+                  <Space size="middle">
+                    {dayjs(record.date).format("LLL")}
+                  </Space>
                 )}
               />
 

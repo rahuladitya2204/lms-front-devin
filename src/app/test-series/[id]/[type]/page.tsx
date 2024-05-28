@@ -42,8 +42,8 @@ export async function generateMetadata(req: {
     const url = `https://${alias}.testmint.ai/test-series/${id}/${type}`;
     console.log(bundle, "bundle?.seo");
     return {
-      title: bundle?.seo?.meta?.title,
-      description: bundle?.seo?.meta?.description,
+      title: bundle?.seo?.meta?.title || `${bundle.title}`,
+      description: bundle?.seo?.meta?.description || `${bundle.title}`,
       // icons: {
       //   icon: bundle.thumbnailImage,
       //   apple: bundle.thumbnailImage,

@@ -20,8 +20,8 @@ export async function generateMetadata(
     // Fetch metadata from an API
     const { category, link, url } = await getData({ id, type });
     return {
-      title: link?.seo?.meta?.title + "",
-      description: link?.seo?.meta?.description + "",
+      title: link?.seo?.meta?.title || `${category.title} Exam`,
+      description: link?.seo?.meta?.description || `${category.title} Exam`,
       // icons: {
       //   icon: category.thumbnailImage,
       //   apple: category.thumbnailImage,
