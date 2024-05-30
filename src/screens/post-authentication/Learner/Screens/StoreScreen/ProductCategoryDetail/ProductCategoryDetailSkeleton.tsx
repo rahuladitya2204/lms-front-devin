@@ -60,7 +60,9 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
-import ProductCategoryTabs from "./ProductCategoryTabs";
+import ProductCategoryTabs, {
+  ProductCategoryTabsSkeleton,
+} from "./ProductCategoryTabs";
 import { Outlet } from "react-router";
 
 const { Text, Paragraph } = Typography;
@@ -71,32 +73,14 @@ interface ProductCategoryDetailSkeletonScreenPropsI {
   children?: React.ReactNode;
 }
 
-export default function ProductCategoryDetailSkeletonScreen(
-  props: ProductCategoryDetailSkeletonScreenPropsI
-) {
-  const loadingProductCategory = true;
-  // if (productCategory?.info?.faqs?.length) {
-  //   TABS.push({
-  //     label: 'FAQs',
-  //     key: 'faqs',
-  //     children: <Collapse items={productCategory.info.faqs.map(faq => {
-  //       return {
-  //         label: faq.title,
-  //         children: <Paragraph>{faq.description}</Paragraph>
-  //       }
-  //     })} />
-  //   })
-  // }
+export default function ProductCategoryDetailSkeletonScreen() {
   return (
     <Row gutter={[20, 20]}>
       <Col span={24}>
-        <Skeleton.Button active block style={{ height: 100 }} />
-      </Col>
-      <Col span={24}>
-        <Skeleton.Button active block style={{ height: 240 }} />
-      </Col>
-      <Col span={24}>
         <Skeleton.Button active block style={{ height: 500 }} />
+      </Col>
+      <Col span={24}>
+        <ProductCategoryTabsSkeleton />
       </Col>
     </Row>
   );

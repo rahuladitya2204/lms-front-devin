@@ -93,9 +93,60 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   const navigate = useNavigate();
   const tab = TABS.find((tab) => tab.key === type);
   return loadingCategory ? (
-    <Skeleton.Button block active style={{ height: 400 }} />
+    <ProductCategoryTabsSkeleton />
   ) : (
     <Row gutter={[0, 20]}>
+      <Col span={24} style={{ marginTop: 15 }}>
+        <Row>
+          <Col>
+            {TABS.filter((i) => i?.displayOnLandingPage).map((tab) => {
+              return (
+                <Button
+                  onClick={() => {
+                    navigate(
+                      props.isServer
+                        ? `/exam/${id}/${tab.key}`
+                        : `/app/exam/${id}/${tab.key}`
+                    );
+                  }}
+                  // type="text"
+                  size="small"
+                  type={tab.key === type ? "primary" : "default"}
+                  style={{ marginRight: 15, marginBottom: 10 }}
+                >
+                  {tab.label}
+                </Button>
+              );
+            })}
+          </Col>
+          <Col>
+            <Dropdown
+              trigger={["click"]}
+              menu={{
+                items: TABS.filter((tab) => !tab?.displayOnLandingPage).map(
+                  (i) => {
+                    return {
+                      label: i.label,
+                      key: i.key,
+                      onClick: () => {
+                        navigate(
+                          props.isServer
+                            ? `/exam/${id}/${i.key}`
+                            : `/app/exam/${id}/${i.key}`
+                        );
+                      },
+                    };
+                  }
+                ),
+              }}
+            >
+              <Button type="dashed" danger size="small">
+                View all <DownOutlined />
+              </Button>
+            </Dropdown>
+          </Col>
+        </Row>
+      </Col>
       <Col span={24}>
         <CategoryProducts
           type={type + ""}
@@ -105,57 +156,8 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
       </Col>
       <Col span={24}>
         <Card>
-          <Row>
-            <Col>
-              {TABS.filter((i) => i?.displayOnLandingPage).map((tab) => {
-                return (
-                  <Button
-                    onClick={() => {
-                      navigate(
-                        props.isServer
-                          ? `/exam/${id}/${tab.key}`
-                          : `/app/exam/${id}/${tab.key}`
-                      );
-                    }}
-                    // type="text"
-                    size="small"
-                    type={tab.key === type ? "primary" : "default"}
-                    style={{ marginRight: 15, marginBottom: 10 }}
-                  >
-                    {tab.label}
-                  </Button>
-                );
-              })}
-            </Col>
-            <Col>
-              <Dropdown
-                trigger={["click"]}
-                menu={{
-                  items: TABS.filter((tab) => !tab?.displayOnLandingPage).map(
-                    (i) => {
-                      return {
-                        label: i.label,
-                        key: i.key,
-                        onClick: () => {
-                          navigate(
-                            props.isServer
-                              ? `/exam/${id}/${i.key}`
-                              : `/app/exam/${id}/${i.key}`
-                          );
-                        },
-                      };
-                    }
-                  ),
-                }}
-              >
-                <Button type="dashed" danger size="small">
-                  View all <DownOutlined />
-                </Button>
-              </Dropdown>
-            </Col>
-          </Row>
           <PageSchema url={props.url} seo={tab?.seo} />
-          <Divider style={{ margin: "5px 0px 20px 0" }} />
+          {/* <Divider style={{ margin: "5px 0px 20px 0" }} /> */}
           {
             <ShowMore minHeight={600}>
               {tab?.children || <HtmlViewer content={tab?.description + ""} />}
@@ -296,5 +298,33 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
         </Col>
       ) : null}
     </>
+  );
+};
+
+export const ProductCategoryTabsSkeleton = () => {
+  return (
+    <Row gutter={[20, 15]}>
+      <Divider style={{ margin: 0 }} />
+      <Col span={24}>
+        <Row gutter={[15, 10]}>
+          {[1, 1, 1, 1, 1, 1, 1].map(() => (
+            <Col>
+              <Skeleton.Button
+                block
+                style={{ height: 25, width: 120 }}
+                active
+              />
+            </Col>
+          ))}
+        </Row>
+      </Col>
+      <Col span={24}>
+        <Skeleton.Button block style={{ height: 400 }} active />
+      </Col>
+      {/* <Divider style={{ margin: 0 }} /> */}
+      <Col span={24}>
+        <Skeleton.Button block style={{ height: 400 }} active />
+      </Col>
+    </Row>
   );
 };
