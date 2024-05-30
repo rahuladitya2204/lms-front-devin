@@ -41,7 +41,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
   });
   const screenshotRef = useRef<any>(null);
   const { isSignedIn, user } = Store.useAuthentication((s) => s);
-  const { data: userLog } = User.Queries.useGetUserLog(user._id);
+  const { data: userLog } = User.Queries.useGetUserLog(user._id, "");
   const { openModal } = useModal();
   const { mutate: updateUserLog, isLoading: updatingScreenshot } =
     User.Queries.useUpdateUserLog();
@@ -202,15 +202,17 @@ const ScreenshotForm = ({
   const [form] = Form.useForm();
 
   const submit = ({ url, text }) => {
-    updateUserLog(
-      { url, text },
-      {
-        onSuccess: () => {
-          message.success("Work status updated");
-          closeModal && closeModal();
-        },
-      }
-    );
+    if (url) {
+      updateUserLog(
+        { url, text },
+        {
+          onSuccess: () => {
+            message.success("Work status updated");
+            closeModal && closeModal();
+          },
+        }
+      );
+    }
   };
 
   useEffect(() => {

@@ -2,15 +2,24 @@ import AppImage from "@Components/Image";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { Title } from "@Components/Typography/Typography";
 import { Types, User } from "@adewaskar/lms-common";
-import { Col, Divider, Image, Row, Space, Spin } from "antd";
+import { Col, DatePicker, Divider, Image, Row, Space, Spin } from "antd";
 import dayjs from "dayjs";
+import { sortBy } from "lodash";
+import { useState } from "react";
 
 export default function UserLogs({ id }: { id: string }) {
-  const { data: userLog, isLoading } = User.Queries.useGetUserLog(id);
-  // console.log(userLog, "userLog");
+  const [date, setDate] = useState(dayjs());
+  const { data: userLog, isLoading } = User.Queries.useGetUserLog(
+    id,
+    date?.toISOString()
+  );
+  const screenshots = sortBy(userLog.screenshots, ["-date"]);
   return (
     <Spin spinning={isLoading}>
       <Row>
+        <Col span={24}>
+          <DatePicker value={date} onChange={(e) => setDate(e)} />
+        </Col>
         {userLog._id ? (
           <Col span={24}>
             <Title level={5}>
@@ -30,7 +39,7 @@ export default function UserLogs({ id }: { id: string }) {
         ) : null}
         <Col span={24}>
           <Image.PreviewGroup>
-            <Table dataSource={userLog.screenshots}>
+            <Table dataSource={screenshots}>
               <TableColumn
                 render={(
                   _: any,
