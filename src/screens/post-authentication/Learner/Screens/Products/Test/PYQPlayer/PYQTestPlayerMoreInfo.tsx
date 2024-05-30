@@ -1,6 +1,6 @@
 import { Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
 
-import { Button, Card, Col, Row } from "@Lib/index";
+import { Button, Card, Col, Row, Skeleton } from "@Lib/index";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import ProductDiscussion from "@Learner/Screens/ProductDiscussion";
 import React from "react";
@@ -27,7 +27,11 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
   const testId = props.test.slug || props.test._id;
   // useWatchTime(props.course._id);
   const language = props.language;
-  const { currentQuestion, currentQuestionIndex } = useQuestion();
+  const {
+    currentQuestion,
+    currentQuestionIndex,
+    loading: loadingQuestion,
+  } = useQuestion();
   const TAB_ITEMS = [];
   if (currentQuestion.solution?.html[language]) {
     TAB_ITEMS.push(
@@ -78,30 +82,19 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
   const { isMobile } = useBreakpoint();
   return (
     <Row gutter={[20, 20]}>
-      <Col span={24}>
-        <Card
-          title="Detailed Solution"
-          style={{ marginTop: 20 }}
-          // extra={[
-          //   <Button
-          //     danger
-          //     size="small"
-          //     loading={printingQuestionSolution}
-          //     type="primary"
-          //     icon={<DownloadOutlined />}
-          //     onClick={() => printTestSolution()}
-          //   >
-          //     {isMobile ? "Solution" : "Download Solution PDF"}
-          //   </Button>,
-          // ]}
-        >
-          <ShowMore minHeight={200}>
-            <HtmlViewer
-              content={currentQuestion.solution?.html[language] + ""}
-            />
-          </ShowMore>
-        </Card>
-      </Col>
+      {loadingQuestion ? (
+        <Skeleton.Button active block style={{ height: 400 }} />
+      ) : (
+        <Col span={24}>
+          <Card title="Detailed Solution" style={{ marginTop: 20 }}>
+            <ShowMore minHeight={200}>
+              <HtmlViewer
+                content={currentQuestion.solution?.html[language] + ""}
+              />
+            </ShowMore>
+          </Card>
+        </Col>
+      )}
       <Col span={24}>
         <Row gutter={[30, 30]} justify={"center"} align={"middle"}>
           <Col flex={1}>

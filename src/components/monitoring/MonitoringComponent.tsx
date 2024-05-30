@@ -202,7 +202,7 @@ const ScreenshotForm = ({
   const [form] = Form.useForm();
 
   const submit = ({ url, text }) => {
-    if (url) {
+    if (url && text) {
       updateUserLog(
         { url, text },
         {
