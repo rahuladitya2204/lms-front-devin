@@ -32,7 +32,7 @@ export default function Page({
     // @ts-ignore
     <Hydrator
       queries={[
-        getOrgDetails(),
+        // getOrgDetails(),
         getTestDetails(params.testId),
         // authenticated routes should only be called if token is present
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
