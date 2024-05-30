@@ -83,55 +83,61 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
   return (
     <Row gutter={[20, 20]}>
       {loadingQuestion ? (
-        <Skeleton.Button active block style={{ height: 400 }} />
+        <Skeleton.Button
+          active
+          block
+          style={{ height: 400, margin: "20px 10px 0" }}
+        />
       ) : (
-        <Col span={24}>
-          <Card title="Detailed Solution" style={{ marginTop: 20 }}>
-            <ShowMore minHeight={200}>
-              <HtmlViewer
-                content={currentQuestion.solution?.html[language] + ""}
-              />
-            </ShowMore>
-          </Card>
-        </Col>
+        <>
+          <Col span={24}>
+            <Card title="Detailed Solution" style={{ marginTop: 20 }}>
+              <ShowMore minHeight={200}>
+                <HtmlViewer
+                  content={currentQuestion.solution?.html[language] + ""}
+                />
+              </ShowMore>
+            </Card>
+          </Col>
+          <Col span={24}>
+            <Row gutter={[30, 30]} justify={"center"} align={"middle"}>
+              <Col flex={1}>
+                <AuthProtectedCTA onClick={() => printTestSolution()}>
+                  <Button
+                    loading={printingQuestionSolution}
+                    icon={<DownloadOutlined />}
+                    block
+                    danger
+                  >
+                    Download Solution PDF
+                  </Button>
+                </AuthProtectedCTA>
+              </Col>
+              <Col flex={1}>
+                <Button
+                  onClick={() => {
+                    window.open(
+                      `https://api.whatsapp.com/send?text=[SOLVED]${htmlToText(
+                        currentQuestion.title
+                      ).slice(
+                        0,
+                        50
+                      )}. Check Now: https://www.testmint.ai/test/${testId}/previous-year-questions/${Utils.getQuestionSlugFromID(
+                        currentQuestion
+                      )}`
+                    );
+                  }}
+                  icon={<WhatsAppOutlined />}
+                  block
+                  type="primary"
+                >
+                  Share on Whatsapp
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </>
       )}
-      <Col span={24}>
-        <Row gutter={[30, 30]} justify={"center"} align={"middle"}>
-          <Col flex={1}>
-            <AuthProtectedCTA onClick={() => printTestSolution()}>
-              <Button
-                loading={printingQuestionSolution}
-                icon={<DownloadOutlined />}
-                block
-                danger
-              >
-                Download Solution PDF
-              </Button>
-            </AuthProtectedCTA>
-          </Col>
-          <Col flex={1}>
-            <Button
-              onClick={() => {
-                window.open(
-                  `https://api.whatsapp.com/send?text=[SOLVED]${htmlToText(
-                    currentQuestion.title
-                  ).slice(
-                    0,
-                    50
-                  )}. Check Now: https://www.testmint.ai/test/${testId}/previous-year-questions/${Utils.getQuestionSlugFromID(
-                    currentQuestion
-                  )}`
-                );
-              }}
-              icon={<WhatsAppOutlined />}
-              block
-              type="primary"
-            >
-              Share on Whatsapp
-            </Button>
-          </Col>
-        </Row>
-      </Col>
     </Row>
   );
 };
