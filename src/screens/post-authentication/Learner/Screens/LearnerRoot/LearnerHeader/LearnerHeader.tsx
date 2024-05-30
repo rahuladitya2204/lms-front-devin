@@ -408,6 +408,7 @@ const LearnerHeaderClient = ({
 
   return (
     <Header
+      // style={{ paddingLeft: 10, paddingRight: 10 }}
       hideBack
       title={
         <Space style={{ cursor: "pointer" }}>
@@ -435,7 +436,7 @@ const LearnerHeaderClient = ({
       // bgColor="#fff"
       extra={extraContent}
       // className="site-layout-background"
-      style={{ padding: 0, flex: 1 }}
+      style={{ padding: 0, flex: 1, paddingLeft: 10, paddingRight: 10 }}
     >
       <Content style={{ margin: "0 16px" }}>
         <Spin tip="Please wait.. Logging you out." spinning={loggingOut}>

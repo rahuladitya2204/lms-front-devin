@@ -63,15 +63,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import ProductCategoryTabs, {
   ProductCategoryTabsSkeleton,
 } from "./ProductCategoryTabs";
-import { Outlet } from "react-router";
-
-const { Text, Paragraph } = Typography;
-const { UnitTypeToStr } = Utils;
-
-interface ProductCategoryDetailSkeletonScreenPropsI {
-  isServer?: boolean;
-  children?: React.ReactNode;
-}
 
 export default function ProductCategoryDetailSkeletonScreen() {
   return (

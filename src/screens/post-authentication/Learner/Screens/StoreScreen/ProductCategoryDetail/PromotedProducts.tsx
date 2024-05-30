@@ -20,7 +20,7 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
   // console.log(category.keywords, link?.keywords, "keywords");
   const link = category.info.links.find((i) => i.slug === type);
   const keywords = link?.keywords || category.keywords;
-  console.log(type, category, "link");
+
   const { data: packages } = Learner.Queries.useGetPromotedProducts(
     Enum.ProductType.PACKAGE,
     {
