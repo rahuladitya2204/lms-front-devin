@@ -65,7 +65,15 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         displayOnLandingPage: true,
         description: productCategory.landingPage.description,
         children: (
-          <HtmlViewer content={productCategory.landingPage.description} />
+          <HtmlViewer
+            customStyles={`
+          img,figure {
+            margin: auto !important;
+            border-radius: 10px;
+          }
+          `}
+            content={productCategory.landingPage.description}
+          />
         ),
         faqs: productCategory.info.faqs,
         seo: productCategory.seo,
@@ -81,7 +89,17 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
             displayOnLandingPage: link?.displayOnLandingPage?.enabled,
             key: link.slug,
             description: link.description,
-            children: <HtmlViewer content={link.description} />,
+            children: (
+              <HtmlViewer
+                customStyles={`
+              img,figure {
+                margin: auto !important;
+                border-radius: 10px;
+              }
+              `}
+                content={link.description}
+              />
+            ),
             faqs: link.faqs,
             seo: link.seo,
           };
@@ -217,11 +235,13 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
       label: "Test Series",
       key: "test-series",
       children: (
-        <PromotedProducts
-          categoryId={categoryId}
-          type={props.type}
-          isServer={!!props.isServer}
-        />
+        <ShowMore minHeight={200}>
+          <PromotedProducts
+            categoryId={categoryId}
+            type={props.type}
+            isServer={!!props.isServer}
+          />
+        </ShowMore>
       ),
     });
 

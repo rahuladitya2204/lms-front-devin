@@ -247,7 +247,7 @@ const ProductCategoryLinks = React.memo(() => {
                                       <TextArea
                                         modifyCta
                                         height={700}
-                                        html={{ level: 2 }}
+                                        html={{ level: 3 }}
                                         //   @ts-ignore
                                         name={[name, "description"]}
                                         placeholder="Enter Link description"

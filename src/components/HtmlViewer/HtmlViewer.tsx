@@ -1,9 +1,8 @@
 import "./suneditor.css";
-import { List, Rate, Typography } from "antd";
+import { List, Rate, Typography, Image } from "antd";
 import parse, { domToReact } from "html-react-parser";
 import { Element } from "domhandler";
 import styled from "@emotion/styled";
-import { Text } from "@Components/Typography/Typography";
 
 const StyledListItem = styled(List.Item)`
   p,
@@ -14,10 +13,16 @@ const StyledListItem = styled(List.Item)`
 
 const { Title, Paragraph } = Typography;
 
-function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
-  // @ts-ignore
-  const children = props.children || props.content;
-  if (!children) {
+interface HtmlViewerProps {
+  content: string;
+  noPreviewImage?: boolean;
+  customStyles?: string;
+}
+
+function HtmlViewer(props: HtmlViewerProps) {
+  const { content, noPreviewImage, customStyles } = props;
+
+  if (!content) {
     return null;
   }
 
@@ -36,7 +41,6 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
               {domToReact(node.children)}
             </Title>
           );
-        // case "span":
         case "p":
           return <Paragraph key={index}>{domToReact(node.children)}</Paragraph>;
         case "ul":
@@ -47,7 +51,6 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
                 if (child.type === "tag" && child.name === "li") {
                   return (
                     <StyledListItem key={childIndex} style={{ margin: 0 }}>
-                      {/* <Text strong>{childIndex + 1}.</Text>{" "} */}
                       <Paragraph>{domToReact(child.children)}</Paragraph>
                     </StyledListItem>
                   );
@@ -56,7 +59,18 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
               })}
             </List>
           );
-        // Add more cases for other HTML tags you want to convert
+        case "img":
+          const src = node.attribs.src;
+          const alt = node.attribs.alt || "";
+          return (
+            <Image
+              className="html-viewer-img"
+              key={index}
+              src={src}
+              alt={alt}
+              preview={!noPreviewImage}
+            />
+          );
         default:
           return <div key={index}>{domToReact(node.children)}</div>;
       }
@@ -69,7 +83,8 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
   return (
     <div className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred">
       <div className="html-viewer">
-        {parse(children, { replace: convertNodeToElement })}
+        <style>{customStyles}</style>
+        {parse(content, { replace: convertNodeToElement })}
       </div>
     </div>
   );

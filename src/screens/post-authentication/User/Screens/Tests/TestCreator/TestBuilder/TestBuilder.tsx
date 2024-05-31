@@ -369,11 +369,11 @@ function TestBuilderScreen() {
                       title: "Print",
                     }),
                 },
-                // {
-                //   label: 'Generate Criterias',
-                //   key: 'gen-criterias',
-                //   onClick: () => generateTestInfo({ fields: ['criteria'] })
-                // },
+                {
+                  label: "Generate Criterias",
+                  key: "gen-criterias",
+                  onClick: () => generateTestInfo({ fields: ["criteria"] }),
+                },
                 {
                   label: "Generate Topics",
                   key: "gen-topics",
