@@ -47,10 +47,8 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
                 if (child.type === "tag" && child.name === "li") {
                   return (
                     <StyledListItem key={childIndex} style={{ margin: 0 }}>
-                      <Paragraph>
-                        {/* <Text strong>{childIndex + 1}.</Text>{" "} */}
-                        {domToReact(child.children)}
-                      </Paragraph>
+                      {/* <Text strong>{childIndex + 1}.</Text>{" "} */}
+                      <Paragraph>{domToReact(child.children)}</Paragraph>
                     </StyledListItem>
                   );
                 }
