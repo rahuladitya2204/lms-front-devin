@@ -98,7 +98,7 @@ export async function generateMetadata(
       title: organisation.name,
       description: organisation.name,
       type: "website",
-      url: "https://testmint.ai",
+      url: `https://${organisation.alias}.testmint.ai`,
       images: [
         {
           url: "/og-image.png",
