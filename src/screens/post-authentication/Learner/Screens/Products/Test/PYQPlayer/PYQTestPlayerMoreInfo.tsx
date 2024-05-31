@@ -105,23 +105,25 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
               style={{ marginTop: 15 }}
               title={`Try our latest ${category.title} Test Series`}
             >
-              <Row gutter={[20, 20]}>
-                {tests.map((product) => {
-                  return (
-                    <Col
-                      sm={12}
-                      key={product?._id + ""}
-                      md={12}
-                      xs={24}
-                      lg={12}
-                      xl={12}
-                      xxl={8}
-                    >
-                      <LearnerProductCard isServer mini product={product} />
-                    </Col>
-                  );
-                })}
-              </Row>
+              <ShowMore minHeight={200}>
+                <Row gutter={[20, 20]}>
+                  {tests.map((product) => {
+                    return (
+                      <Col
+                        sm={12}
+                        key={product?._id + ""}
+                        md={12}
+                        xs={24}
+                        lg={12}
+                        xl={12}
+                        xxl={8}
+                      >
+                        <LearnerProductCard isServer mini product={product} />
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </ShowMore>
             </Card>
             <Card title="Detailed Solution" style={{ marginTop: 20 }}>
               <ShowMore minHeight={200}>
