@@ -7,7 +7,7 @@ import Script from "next/script";
 
 import Providers from "./providers";
 import axios from "axios";
-import { Utils } from "@adewaskar/lms-common";
+import { Constants, Utils } from "@adewaskar/lms-common";
 import { getCookie, getServerCookie } from "@ServerUtils/index";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { initDateFormats } from "@Utils/index";
@@ -22,18 +22,17 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   const alias = getCookie("orgAlias")?.split("-")[0];
   const userType = getCookie("userType");
-
+  let organisation = Constants.INITIAL_ORG_DETAILS;
   if (alias && userType) {
     const apiUrl = process.env.API_URL;
     // Fetch metadata from an API
-    const { data: organisation } = await axios(
-      `${apiUrl}/${userType}/organisation`,
-      {
+    organisation = (
+      await axios(`${apiUrl}/${userType}/organisation`, {
         headers: {
           "x-org-alias": alias,
         },
-      }
-    );
+      })
+    ).data;
 
     const url = `https://${organisation.alias}.testmint.ai`;
 
@@ -86,8 +85,8 @@ export async function generateMetadata(
   }
 
   return {
-    title: "Testmint",
-    description: "Testmint",
+    title: organisation.name,
+    description: organisation.name,
     icons: {
       // icon: organisation.branding.favIcon.url,
       apple: "/apple-touch-icon.png",
@@ -96,8 +95,8 @@ export async function generateMetadata(
     themeColor: "#ffffff",
     manifest: "/manifest.json",
     openGraph: {
-      title: "Testmint",
-      description: "Testmint",
+      title: organisation.name,
+      description: organisation.name,
       type: "website",
       url: "https://testmint.ai",
       images: [
@@ -105,9 +104,10 @@ export async function generateMetadata(
           url: "/og-image.png",
           width: 800,
           height: 600,
-          alt: "Testmint",
+          alt: organisation.name,
         },
       ],
+      siteName: organisation.name,
     },
     twitter: {
       card: "summary_large_image",
