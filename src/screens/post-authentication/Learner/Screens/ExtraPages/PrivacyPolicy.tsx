@@ -1,7 +1,9 @@
-import { Common, Learner } from '@adewaskar/lms-common'
+import { Common, Learner } from "@adewaskar/lms-common";
 
-export default function LearnerPrivacyPolicy () {
-  const { data: { alias, name } } = Learner.Queries.useGetOrgDetails()
+export default function LearnerPrivacyPolicy() {
+  const {
+    data: { alias, name },
+  } = Learner.Queries.useGetOrgDetails();
   return (
     <div className="wrapper">
       <div className="page">
@@ -10,7 +12,7 @@ export default function LearnerPrivacyPolicy () {
             <div className="col-md-12">
               <h1>Comprehensive Policies for {name}</h1>
               <p>
-                Welcome to https://{alias}.nimblebee.io. Our commitment is to
+                Welcome to https://{alias}.testmint.ai. Our commitment is to
                 ensure a transparent, secure, and user-friendly experience.
                 Here, we outline our Terms of Use, Privacy Policy,
                 Refund/Cancellation Policy, and Shipping Policy, guiding your
@@ -23,7 +25,7 @@ export default function LearnerPrivacyPolicy () {
                   These Terms of Use constitute a legally binding agreement made
                   between you, whether personally or on behalf of an entity
                   (“you”) and {name} (“we,” “us” or “our”), concerning your
-                  access to and use of the https://{alias}.nimblebee.io website
+                  access to and use of the https://{alias}.testmint.ai website
                   as well as any other media form, media channel, mobile
                   website, or mobile application related, linked, or otherwise
                   connected thereto. You agree that by accessing the site, you
@@ -92,16 +94,15 @@ export default function LearnerPrivacyPolicy () {
                 please don't hesitate to reach out. Your feedback is invaluable
                 to us as we strive to improve our services and your experience
                 with {name}. Contact us through our website, or email us
-                directly at support@{alias}.nimblebee.io for assistance.
+                directly at support@{alias}.testmint.ai for assistance.
               </p>
 
               <h2>Our Address</h2>
               <p>SS Residency, Koramangala, Bangalore</p>
-              <hr />
             </div>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
