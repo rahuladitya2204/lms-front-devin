@@ -76,28 +76,20 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
       }
     );
   };
-  const { isMobile } = useBreakpoint();
+  // const { isMobile } = useBreakpoint();
   const { data: category } = Learner.Queries.useGetProductCategoryDetails(
     test.category + ""
-  );
-  const { data: packages } = Learner.Queries.useGetPromotedProducts(
-    Enum.ProductType.PACKAGE,
-    {
-      category: test.category,
-      // keywords: ["prelims"],
-      limit: 2,
-    }
   );
 
   const { data: tests } = Learner.Queries.useGetPromotedProducts(
     Enum.ProductType.TEST,
     {
       category: test.category,
-      // keywords: ["mains"],
-      limit: 2,
+      limit: 4,
+      mode: "free",
     }
   );
-  console.log(tests, packages, "12121");
+  // console.log(tests, packages, "12121");
   return (
     <Row gutter={[20, 20]}>
       {loadingQuestion ? (
@@ -114,35 +106,18 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
               title={`Try our latest ${category.title} Test Series`}
             >
               <Row gutter={[20, 20]}>
-                {packages.map((bundle) => {
+                {tests.map((product) => {
                   return (
                     <Col
                       sm={12}
-                      key={bundle?._id + ""}
+                      key={product?._id + ""}
                       md={12}
                       xs={24}
                       lg={12}
                       xl={12}
                       xxl={8}
                     >
-                      <LearnerProductCard isServer mini product={bundle} />
-                    </Col>
-                  );
-                })}
-              </Row>
-              <Row gutter={[20, 20]}>
-                {tests.map((test) => {
-                  return (
-                    <Col
-                      sm={12}
-                      key={test?._id + ""}
-                      md={12}
-                      xs={24}
-                      lg={12}
-                      xl={12}
-                      xxl={8}
-                    >
-                      <LearnerProductCard isServer mini product={test} />
+                      <LearnerProductCard isServer mini product={product} />
                     </Col>
                   );
                 })}
