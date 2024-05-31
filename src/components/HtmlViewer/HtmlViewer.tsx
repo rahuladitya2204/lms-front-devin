@@ -48,7 +48,7 @@ function HtmlViewer(props: { content: string; noPreviewImage?: boolean }) {
                   return (
                     <StyledListItem key={childIndex} style={{ margin: 0 }}>
                       <Paragraph>
-                        <Text strong>{childIndex + 1}.</Text>{" "}
+                        {/* <Text strong>{childIndex + 1}.</Text>{" "} */}
                         {domToReact(child.children)}
                       </Paragraph>
                     </StyledListItem>
