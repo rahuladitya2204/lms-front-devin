@@ -10,7 +10,8 @@ import { Title } from "@Components/Typography/Typography";
 interface PromotedProductsPropsI {
   isServer: boolean;
   categoryId: string;
-  type: string;
+  type?: string;
+  data: any;
 }
 
 export default function PromotedProducts(props: PromotedProductsPropsI) {
@@ -26,6 +27,7 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
     {
       category: categoryId,
       ...(keywords?.length ? { keywords: keywords } : {}),
+      ...(props.data || {}),
       limit: 3,
     }
   );

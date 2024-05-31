@@ -1,5 +1,5 @@
 import Hydrator from "@ServerComponents/Hydrator";
-import { Constants, Learner, Types } from "@adewaskar/lms-common";
+import { Constants, Enum, Learner, Types } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
 import TestDetailScreen from "@Learner/Screens/Products/Test/TestDetail/TestDetail";
@@ -11,6 +11,7 @@ import TestPublicPlayer from "@Screens/post-authentication/Learner/Screens/Produ
 import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 import getQueryClient from "@ServerUtils/getQueryClient";
 import { htmlToText } from "html-to-text";
+import { useGetPromotedProducts } from "@adewaskar/lms-common/lib/cjs/types/Learner/Api/queries";
 const apiUrl = process.env.API_URL;
 
 export async function generateMetadata(req: {
@@ -140,10 +141,11 @@ export default async function Page({
   const test = await getData(params.testId);
   const {
     getLearnerProductCategories,
-    getEnrolledProductDetails,
+    getProductCategoryDetails,
     getTestDetails,
     getOrgDetails,
     getCartDetails,
+    getPromotedProducts,
     getLearnerDetails,
     getTestResult,
   } = Learner.Queries.Definitions;
@@ -153,8 +155,16 @@ export default async function Page({
     // @ts-ignore
     <Hydrator
       queries={[
-        // getOrgDetails(),
+        getProductCategoryDetails(test.category + ""),
         getTestDetails(params.testId),
+        getPromotedProducts(Enum.ProductType.PACKAGE, {
+          category: test.category,
+          limit: 2,
+        }),
+        getPromotedProducts(Enum.ProductType.TEST, {
+          category: test.category,
+          limit: 2,
+        }),
         // authenticated routes should only be called if token is present
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
