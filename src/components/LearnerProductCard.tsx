@@ -70,6 +70,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     }
     return prefix;
   }, [props]);
+  const isFree = product?.plan?.type === "free";
   const TryNowButton = (
     <Link
       to={
@@ -79,7 +80,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       }
     >
       <Button type="primary" size="small" icon={<ExportOutlined />}>
-        Try Now
+        Try {isFree ? "for Free" : "Now"}
       </Button>
     </Link>
   );
@@ -232,7 +233,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       />
     </Card>
   );
-  if (product?.plan?.type === "free") {
+  if (isFree) {
     return (
       <Badge.Ribbon color="purple" placement="start" text="Free">
         {Component}
