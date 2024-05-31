@@ -94,7 +94,7 @@ export default function LearnerPrivacyPolicy() {
                 please don't hesitate to reach out. Your feedback is invaluable
                 to us as we strive to improve our services and your experience
                 with {name}. Contact us through our website, or email us
-                directly at support@{alias}.testmint.ai for assistance.
+                directly at support@{alias}-testmint.ai for assistance.
               </p>
 
               <h2>Our Address</h2>
