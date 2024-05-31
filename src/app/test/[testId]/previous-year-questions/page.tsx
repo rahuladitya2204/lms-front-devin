@@ -1,5 +1,5 @@
 import Hydrator from "@ServerComponents/Hydrator";
-import { Learner, Types } from "@adewaskar/lms-common";
+import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
 import TestDetailScreen from "@Learner/Screens/Products/Test/TestDetail/TestDetail";
@@ -10,15 +10,17 @@ import axios from "axios";
 import TestPublicPlayer from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
 import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 import { generateMetadata as GenerateMetadata } from "./[questionId]/page";
+import { getData } from "./[questionId]/page";
 export const generateMetadata = GenerateMetadata;
 
-export default function Page({
+export default async function Page({
   params,
 }: {
   params: { testId: string; questionId: string };
 }) {
+  const test = await getData(params.testId);
   const {
-    getLearnerProductCategories,
+    getPromotedProducts,
     getEnrolledProductDetails,
     getTestDetails,
     getOrgDetails,
@@ -34,6 +36,11 @@ export default function Page({
       queries={[
         // getOrgDetails(),
         getTestDetails(params.testId),
+        getPromotedProducts(Enum.ProductType.TEST, {
+          category: test.category,
+          limit: 4,
+          mode: "free",
+        }),
         // authenticated routes should only be called if token is present
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
