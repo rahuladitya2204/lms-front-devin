@@ -300,7 +300,7 @@ const LearnerHeaderClient = ({
                     // defaultOpenKeys={['sub1']}
                     mode="inline"
                     onClick={(e) => {
-                      router.push(e.key);
+                      router.push(`/app/${e.key}`);
                     }}
                     // theme="dark"
                     // inlineCollapsed={collapsed}

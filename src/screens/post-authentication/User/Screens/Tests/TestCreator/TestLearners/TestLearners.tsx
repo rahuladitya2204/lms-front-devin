@@ -40,7 +40,10 @@ function TestEnrolledLearners(props: TestLearnersPropsI) {
       <Table
         searchFields={["learner.name", "learner.contactNo", "learner.email"]}
         // @ts-ignore
-        dataSource={sortBy(data, "-metadata.test.endedAt")}
+        dataSource={sortBy(data, (item) => {
+          const review = item?.review as unknown as Types.ProductReview;
+          return review?.rating ? -review.rating : 0;
+        })}
         loading={loading}
       >
         <TableColumn

@@ -3,7 +3,7 @@ import { List, Rate, Typography, Image } from "antd";
 import parse, { domToReact } from "html-react-parser";
 import { Element } from "domhandler";
 import styled from "@emotion/styled";
-
+import "./style.css";
 const StyledListItem = styled(List.Item)`
   p,
   div {

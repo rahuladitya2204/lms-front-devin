@@ -68,8 +68,14 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           <HtmlViewer
             customStyles={`
           img,figure {
-            margin: auto !important;
             border-radius: 10px;
+            width: 100% !important;
+            height: auto !important;
+            display: block !important;
+            margin: auto !important;
+          }
+          img {
+            width: 100% !important;
           }
           `}
             content={productCategory.landingPage.description}
@@ -93,8 +99,14 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
               <HtmlViewer
                 customStyles={`
               img,figure {
-                margin: auto !important;
                 border-radius: 10px;
+                width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                margin: auto !important;
+              }
+              img {
+                width: 100% !important;
               }
               `}
                 content={link.description}

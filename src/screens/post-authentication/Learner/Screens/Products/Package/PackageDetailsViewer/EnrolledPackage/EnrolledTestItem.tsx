@@ -184,42 +184,40 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                   <>
                     {/* {isDesktop?<LearnerTestResultStatus testId={test._id+''} />:null} */}
                     <Col xs={24} sm={12}>
-                      <Link to={`/app/test/${test._id}/result`}>
-                        <Dropdown.Button
-                          loading={retryingTest}
-                          menu={{
-                            items: [
-                              {
-                                label: "Retry Test",
-                                key: "retry",
-                                onClick: () => {
-                                  retryTest(undefined, {
-                                    onSuccess: () => {
-                                      message.open({
-                                        type: "success",
-                                        content: "Retrying Test",
-                                      });
-                                      navigate(`../../test/${test._id}/start`);
-                                    },
-                                  });
-                                },
+                      <Dropdown.Button
+                        loading={retryingTest}
+                        menu={{
+                          items: [
+                            {
+                              label: "Retry Test",
+                              key: "retry",
+                              onClick: () => {
+                                retryTest(undefined, {
+                                  onSuccess: () => {
+                                    message.open({
+                                      type: "success",
+                                      content: "Retrying Test",
+                                    });
+                                    navigate(`../../test/${test._id}/start`);
+                                  },
+                                });
                               },
-                            ],
-                          }}
-                          // icon={!isMobile ? <CheckCircleOutlined /> : null}
-                          // onClick={() =>
-                          //   navigate(`../../test/${test._id}/result`)
-                          // }
-                          block={!isDesktop}
-                          // style={{ width: '100%' }}
-                          // @ts-ignore
-                          style={{ marginRight: isMobile ? 0 : null }}
-                          type="primary"
-                          // size='small'
-                        >
-                          Solutions
-                        </Dropdown.Button>
-                      </Link>
+                            },
+                          ],
+                        }}
+                        // icon={!isMobile ? <CheckCircleOutlined /> : null}
+                        // onClick={() =>
+                        //   navigate(`../../test/${test._id}/result`)
+                        // }
+                        block={!isDesktop}
+                        // style={{ width: '100%' }}
+                        // @ts-ignore
+                        style={{ marginRight: isMobile ? 0 : null }}
+                        type="primary"
+                        // size='small'
+                      >
+                        Solutions
+                      </Dropdown.Button>
                     </Col>
                   </>
                 ) : null}

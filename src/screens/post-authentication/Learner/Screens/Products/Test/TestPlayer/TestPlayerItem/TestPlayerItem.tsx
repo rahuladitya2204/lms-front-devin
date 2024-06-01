@@ -403,11 +403,12 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                                       value={option._id}
                                     >
                                       <Paragraph
-                                        style={
-                                          language === "hin"
+                                        style={{
+                                          margin: 0,
+                                          ...(language === "hin"
                                             ? { fontSize: 16 }
-                                            : { fontSize: 15 }
-                                        }
+                                            : { fontSize: 15 }),
+                                        }}
                                       >
                                         {/* @ts-ignore */}
                                         <HtmlViewer
