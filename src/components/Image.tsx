@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Skeleton } from "antd";
 import { Common } from "@adewaskar/lms-common";
+import { useModal } from "./ActionModal/ModalContext";
 
 interface ImagePropsI {
   file?: string;
@@ -15,6 +16,7 @@ interface ImagePropsI {
   noLoadNoShowPlaceholder?: React.ReactNode;
   caption?: React.ReactNode;
   style?: any;
+  preview?: boolean;
   priority?: boolean;
 }
 
@@ -44,6 +46,7 @@ function AppImage({
   holderStyle,
   noLoadNoShowPlaceholder,
   caption,
+  preview,
   ...props
 }: ImagePropsI) {
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -61,7 +64,8 @@ function AppImage({
     // Handle the error state as well with `onerror`
     img.onerror = () => setHasLoaded(false);
   }, [imageUrl]);
-
+  const { openModal } = useModal();
+  const IMG_SRC = imageUrl || FALLBACK;
   return (
     <div>
       <ImageHolder style={holderStyle} width={width} height={height}>
@@ -69,6 +73,11 @@ function AppImage({
           noLoadNoShowPlaceholder
         ) : (
           <Image
+            onClick={() => {
+              if (preview) {
+                openModal(<AppImage src={src} />);
+              }
+            }}
             priority={!!priority}
             style={{
               width: width ? width : "100%",
@@ -82,7 +91,7 @@ function AppImage({
             objectFit="cover"
             alt={props.alt || `${window.document.title} Image`}
             // placeholder="blur"
-            src={imageUrl || FALLBACK}
+            src={IMG_SRC}
             unoptimized
           />
         )}
