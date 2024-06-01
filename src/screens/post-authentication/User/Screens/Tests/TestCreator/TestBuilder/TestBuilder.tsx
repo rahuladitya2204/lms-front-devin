@@ -72,23 +72,7 @@ function TestBuilderScreen() {
       // @ts-ignore
       const newSection: Types.TestSection = {
         title: section.title + "",
-        commonDetail: section.commonDetail + "",
-        items: [
-          {
-            ...Constants.INITIAL_TEST_QUESTION,
-            title: "New Question",
-            options: [
-              Constants.INITIAL_TEST_QUESTION_OPTION,
-              Constants.INITIAL_TEST_QUESTION_OPTION,
-              Constants.INITIAL_TEST_QUESTION_OPTION,
-              Constants.INITIAL_TEST_QUESTION_OPTION,
-            ],
-            solution: {
-              html: "",
-            },
-            _id: undefined,
-          },
-        ],
+        items: [],
       };
       TEST.sections.push(newSection);
     }

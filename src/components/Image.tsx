@@ -8,7 +8,6 @@ import { Common } from "@adewaskar/lms-common";
 interface ImagePropsI {
   file?: string;
   alt?: string;
-  preview?: boolean;
   src?: string;
   width?: number | string; // Adjusted to support Next.js `Image` component use cases
   height?: number | string;

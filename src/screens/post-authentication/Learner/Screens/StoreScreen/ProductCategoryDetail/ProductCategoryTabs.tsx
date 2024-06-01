@@ -67,14 +67,14 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         children: (
           <HtmlViewer
             customStyles={`
-          img,figure {
+          .html-viewer img,figure {
             border-radius: 10px;
             width: 100% !important;
             height: auto !important;
             display: block !important;
             margin: auto !important;
           }
-          img {
+          .html-viewer img {
             width: 100% !important;
           }
           `}
@@ -98,14 +98,14 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
             children: (
               <HtmlViewer
                 customStyles={`
-              img,figure {
+                .html-viewer img,figure {
                 border-radius: 10px;
                 width: 100% !important;
                 height: auto !important;
                 display: block !important;
                 margin: auto !important;
               }
-              img {
+              .html-viewer img {
                 width: 100% !important;
               }
               `}
