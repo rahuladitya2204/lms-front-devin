@@ -41,10 +41,34 @@ export const features = [
     title: "Detailed Performance Metrics",
     icon: <BarChartOutlined />,
     color: "#754ebf",
+    page: {
+      title: "Detailed Performance Metrics",
+      list: {
+        items: [
+          `Instant results and comprehensive performance analysis`,
+          `Metrics include AIR (All India Rank), accuracy, percentile, and concept-wise breakdown`,
+          `Identifies areas of strength and topics needing improvement`,
+          `Enables data-driven adjustments to study plans`,
+          `Tracks progress over time for targeted preparation`,
+        ],
+      },
+    },
   },
   {
     title: "Vernacular Exams",
     icon: <HighlightOutlined />,
     color: "#d69e1f",
+    page: {
+      title: "Vernacular and Regional Exam Support",
+      list: {
+        items: [
+          `Offers multilingual platform with objective and subjective questions`,
+          `Provides expert-curated question banks tailored to regional exam syllabi and patterns`,
+          `Eliminates language barriers, allowing students to express thoughts comfortably`,
+          `Fills gap in exam preparation resources for diverse linguistic backgrounds`,
+          `Contributes to a more inclusive and equitable educational ecosystem`,
+        ],
+      },
+    },
   },
 ];
