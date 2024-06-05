@@ -342,59 +342,84 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                               left: -23,
                             }}
                             dataSource={currentQuestion?.options}
-                            renderItem={(option) => {
+                            renderItem={(option, index) => {
+                              // const SelectFormControlComponent = (
+                              //   <OptionSelectedFormControl
+                              //     style={{ marginRight: 0 }}
+                              //     disabled
+                              //     value={option._id}
+                              //   ></OptionSelectedFormControl>
+                              // );
                               const SelectFormControlComponent = (
-                                <OptionSelectedFormControl
-                                  style={{ marginRight: 0 }}
-                                  disabled
-                                  value={option._id}
-                                ></OptionSelectedFormControl>
-                              );
-                              return (
-                                <Row gutter={[0, 20]} key={option._id}>
-                                  <Col span={24}>
-                                    <Space
-                                      style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        justifyContent: "flex-start",
-                                      }}
+                                <Row
+                                  style={{ width: "100%" }}
+                                  gutter={[0, 20]}
+                                  align={"middle"}
+                                >
+                                  <Col span={1}>
+                                    <Text
+                                      style={{ textTransform: "capitalize" }}
+                                      strong
                                     >
-                                      {/* @ts-ignore */}
-                                      <Tooltip
-                                        placement="top"
-                                        title={`Correct Answer`}
-                                      >
-                                        <CheckCircleTwoTone
-                                          style={{
-                                            position: "relative",
-                                            top: 1,
-                                            visibility:
-                                              correctOptions?.indexOf(
-                                                option?._id
-                                              ) > -1
-                                                ? "visible"
-                                                : "hidden",
-                                          }}
-                                          color={token.colorSuccessBg}
-                                        />
-                                      </Tooltip>
-                                      {SelectFormControlComponent}
+                                      {String.fromCharCode(97 + index)}
+                                    </Text>
+                                  </Col>
+                                  <Col span={23} style={{ paddingLeft: 15 }}>
+                                    <OptionSelectedFormControl
+                                      disabled
+                                      value={option._id}
+                                    >
                                       <Paragraph
-                                        style={
-                                          language === "hin"
+                                        style={{
+                                          margin: 0,
+                                          ...(language === "hin"
                                             ? { fontSize: 16 }
-                                            : { fontSize: 15 }
-                                        }
+                                            : { fontSize: 15 }),
+                                        }}
                                       >
                                         {/* @ts-ignore */}
                                         <HtmlViewer
                                           content={option.text[language]}
                                         />
                                       </Paragraph>
-                                    </Space>
+                                    </OptionSelectedFormControl>
                                   </Col>
                                 </Row>
+                              );
+                              return (
+                                <List.Item>
+                                  <Row gutter={[0, 20]} key={option._id}>
+                                    <Col span={24}>
+                                      <Space
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "row",
+                                          justifyContent: "flex-start",
+                                        }}
+                                      >
+                                        <Tooltip
+                                          placement="top"
+                                          title={`Correct Answer`}
+                                        >
+                                          <CheckCircleTwoTone
+                                            style={{
+                                              position: "relative",
+                                              top: 1,
+                                              visibility:
+                                                correctOptions?.indexOf(
+                                                  option?._id
+                                                ) > -1
+                                                  ? "visible"
+                                                  : "hidden",
+                                            }}
+                                            color={token.colorSuccessBg}
+                                          />
+                                        </Tooltip>
+                                        {SelectFormControlComponent}
+                                      </Space>
+                                    </Col>
+                                  </Row>
+                                </List.Item>
                               );
                             }}
                           />
