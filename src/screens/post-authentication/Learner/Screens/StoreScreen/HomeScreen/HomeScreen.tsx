@@ -1,8 +1,9 @@
 "use client";
-import { Col, Divider, Row } from "@Lib/index";
+import { Avatar, Card, Col, Divider, List, Row, Space } from "@Lib/index";
 import { Learner } from "@adewaskar/lms-common";
 
-import BGImage from "./image.png";
+import HeroImg from "./image2.svg";
+import BgImg from "./bg.svg";
 import Image from "@Components/Image";
 import ProductCategoryCard from "../Cards/ProductCategoryCard";
 import { Skeleton } from "@Lib/index";
@@ -10,7 +11,17 @@ import SkeletonImage from "@Components/SkeletonImage";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import HomeScreenSkeleton from "./HomeScreenSkeleton";
-
+import Hero2 from "./hero2.svg";
+import OrgLogo from "@Components/OrgLogo";
+import { Text } from "@Components/Typography/Typography";
+import {
+  BarChartOutlined,
+  EditOutlined,
+  HighlightOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import { features } from "./constant";
+import { useModal } from "@Components/ActionModal/ModalContext";
 const { Title, Paragraph } = Typography;
 
 interface LearnerHomeScreenPropsI {
@@ -22,6 +33,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
   const { isFetching } = Learner.Queries.useGetRecommendedProducts();
   const { data: categories } = Learner.Queries.useGetLearnerCategories();
   const { isMobile } = useBreakpoint();
+  const { openModal } = useModal();
   return (
     <Row gutter={[30, 30]}>
       {isFetching ? (
@@ -32,6 +44,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
         <>
           {!isMobile ? (
             <Col span={24}>
+              {/* <Image src={BgImg.src} /> */}
               <Row align={"middle"} gutter={[20, 20]}>
                 <Col span={12} flex={1}>
                   <Title>
@@ -44,22 +57,91 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                   {/* <SearchLearnerCourses /> */}
                 </Col>
                 <Col span={12}>
-                  {/* <Calendar fullscreen={false} /> */}
-                  <Image
-                    priority
-                    style={{ maxWidth: "32rem" }}
-                    preview={false}
-                    src={BGImage.src}
-                  />
+                  <div>
+                    <Image
+                      priority
+                      style={{ maxWidth: "32rem" }}
+                      preview={false}
+                      src={HeroImg.src}
+                    />
+                  </div>
                 </Col>
               </Row>
+              <Divider />
             </Col>
           ) : null}
           <Col span={24}>
-            <Title
-              style={{ marginBottom: 20, textAlign: "center", fontSize: 28 }}
-              level={2}
-            >
+            <Row gutter={[40, 20]} align={"middle"}>
+              <Col xs={24} sm={12}>
+                <Image style={{ maxWidth: 200 }} src={Hero2.src} />
+              </Col>
+              <Col xs={24} sm={12}>
+                <Title
+                  style={{ margin: 0, textAlign: isMobile ? "center" : "left" }}
+                  level={4}
+                >
+                  Enroll for{" "}
+                  <Space style={{ position: "relative", top: 11 }}>
+                    <OrgLogo /> Testmint.ai
+                  </Space>{" "}
+                  Test Series
+                </Title>
+                <div
+                  // level={4}
+                  style={{
+                    fontSize: 15,
+                    marginBottom: 20,
+                    marginTop: 10,
+                    textAlign: isMobile ? "center" : "left",
+                  }}
+                >
+                  <Text>What you get with Testmint.ai's platform</Text>
+                </div>
+                <Row gutter={[20, 25]}>
+                  {features.map((feature) => {
+                    return (
+                      <Col
+                        span={12}
+                        style={{ cursor: "pointer" }}
+                        onClick={() =>
+                          openModal(<FeaturePageDetail feature={feature} />, {
+                            title: feature.page.title,
+                          })
+                        }
+                      >
+                        <Row gutter={[10, 10]} align={"middle"}>
+                          <Col>
+                            <Avatar
+                              style={{
+                                backgroundColor: feature.color,
+                                width: 40,
+                                height: 40,
+                                borderRadius: 10,
+                                display: "flex",
+                                justifyContent: "center",
+                              }}
+                              icon={feature.icon}
+                            />
+                          </Col>
+                          <Col>
+                            <Title
+                              style={{ margin: 0, fontSize: 17 }}
+                              level={4}
+                            >
+                              {feature.title}
+                            </Title>
+                          </Col>
+                        </Row>
+                      </Col>
+                    );
+                  })}
+                </Row>
+              </Col>
+            </Row>
+            <Divider />
+          </Col>
+          <Col span={24}>
+            <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
               Popular Exams
             </Title>
             <Row gutter={[30, 20]}>
@@ -82,3 +164,31 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
 }
 
 export default LearnerHomeScreen;
+
+export const FeaturePageDetail = (props: {
+  feature: {
+    title: string;
+    icon: React.ReactNode;
+    color: string;
+    page: {
+      content: string;
+      title: string;
+      list: {
+        items: string[];
+      };
+    };
+  };
+}) => {
+  const { feature } = props;
+  return (
+    <Row>
+      <Col span={24}>
+        {/* <Title level={3}>{feature.page.title}</Title> */}
+        <List
+          dataSource={feature?.page?.list?.items}
+          renderItem={(r) => <List.Item>{r}</List.Item>}
+        />
+      </Col>
+    </Row>
+  );
+};
