@@ -2,6 +2,7 @@ import {
   BarChartOutlined,
   EditOutlined,
   HighlightOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 
 export const features = [
@@ -22,7 +23,7 @@ export const features = [
   },
   {
     title: "Offline Test Kits",
-    icon: <EditOutlined />,
+    icon: <HomeOutlined />,
     color: "#c631c6",
     page: {
       title: "Offline Test Kits",

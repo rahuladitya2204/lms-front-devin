@@ -89,7 +89,7 @@ function AppImage({
             height={10}
             // layout="fill"
             objectFit="cover"
-            alt={props.alt || `${window.document.title} Image`}
+            alt={props.alt || `Image`}
             // placeholder="blur"
             src={IMG_SRC}
             unoptimized

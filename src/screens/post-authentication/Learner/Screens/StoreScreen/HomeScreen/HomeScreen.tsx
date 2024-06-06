@@ -18,10 +18,12 @@ import {
   BarChartOutlined,
   EditOutlined,
   HighlightOutlined,
+  RightOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import { features } from "./constant";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import MiniCard from "../Cards/MiniCard";
 const { Title, Paragraph } = Typography;
 
 interface LearnerHomeScreenPropsI {
@@ -32,7 +34,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
   // initialize application utils like interceptors and storage on client side
   const { isFetching } = Learner.Queries.useGetRecommendedProducts();
   const { data: categories } = Learner.Queries.useGetLearnerCategories();
-  const { isMobile } = useBreakpoint();
+  const { isMobile, isDesktop } = useBreakpoint();
   const { openModal } = useModal();
   return (
     <Row gutter={[30, 30]}>
@@ -80,11 +82,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                   style={{ margin: 0, textAlign: isMobile ? "center" : "left" }}
                   level={4}
                 >
-                  Enroll for{" "}
-                  <Space style={{ position: "relative", top: 11 }}>
-                    <OrgLogo /> Testmint.ai
-                  </Space>{" "}
-                  Test Series
+                  Enroll for Testmint.ai Test Series today!
                 </Title>
                 <div
                   // level={4}
@@ -97,41 +95,54 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                 >
                   <Text>What you get with Testmint.ai's platform</Text>
                 </div>
-                <Row gutter={[20, 25]}>
+                <Row gutter={[20, 10]}>
                   {features.map((feature) => {
                     return (
                       <Col
                         span={12}
-                        style={{ cursor: "pointer" }}
                         onClick={() =>
                           openModal(<FeaturePageDetail feature={feature} />, {
                             title: feature.page.title,
                           })
                         }
                       >
-                        <Row gutter={[10, 10]} align={"middle"}>
-                          <Col>
-                            <Avatar
+                        <MiniCard
+                          style={{ cursor: "pointer" }}
+                          accessoryRight={() => <RightOutlined />}
+                        >
+                          <Row
+                            justify={"center"}
+                            gutter={[20, 10]}
+                            align={"middle"}
+                          >
+                            <Col style={{ textAlign: "center" }} lg={5}>
+                              <Avatar
+                                style={{
+                                  backgroundColor: feature.color,
+                                  width: 40,
+                                  height: 40,
+                                  borderRadius: 10,
+                                  display: "flex",
+                                  justifyContent: "center",
+                                }}
+                                icon={feature.icon}
+                              />
+                            </Col>
+                            <Col
                               style={{
-                                backgroundColor: feature.color,
-                                width: 40,
-                                height: 40,
-                                borderRadius: 10,
-                                display: "flex",
-                                justifyContent: "center",
+                                textAlign: !isDesktop ? "center" : "left",
                               }}
-                              icon={feature.icon}
-                            />
-                          </Col>
-                          <Col>
-                            <Title
-                              style={{ margin: 0, fontSize: 17 }}
-                              level={4}
+                              lg={19}
                             >
-                              {feature.title}
-                            </Title>
-                          </Col>
-                        </Row>
+                              <Title
+                                style={{ margin: 0, fontSize: 17 }}
+                                level={4}
+                              >
+                                {feature.title}
+                              </Title>
+                            </Col>
+                          </Row>
+                        </MiniCard>
                       </Col>
                     );
                   })}
