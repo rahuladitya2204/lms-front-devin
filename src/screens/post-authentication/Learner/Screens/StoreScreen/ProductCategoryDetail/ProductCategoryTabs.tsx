@@ -93,7 +93,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   return loadingCategory ? (
     <ProductCategoryTabsSkeleton />
   ) : (
-    <Row gutter={[0, 20]}>
+    <Row gutter={[0, 10]}>
       <Col span={24} style={{ marginTop: 15 }}>
         <Row>
           <Col>
@@ -327,11 +327,7 @@ export const ProductCategoryTabsSkeleton = () => {
         <Row gutter={[15, 10]}>
           {[1, 1, 1, 1, 1, 1, 1].map(() => (
             <Col>
-              <Skeleton.Button
-                block
-                style={{ height: 25, width: 120 }}
-                active
-              />
+              <Skeleton.Button block style={{ height: 25, width: 90 }} active />
             </Col>
           ))}
         </Row>
