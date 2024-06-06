@@ -93,7 +93,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   return loadingCategory ? (
     <ProductCategoryTabsSkeleton />
   ) : (
-    <Row gutter={[0, 10]}>
+    <Row gutter={[0, 20]}>
       <Col span={24} style={{ marginTop: 15 }}>
         <Row>
           <Col>
