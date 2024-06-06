@@ -117,28 +117,26 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
 
   return (
     <div ref={screenshotRef}>
-      {user?.monitoring?.enabled ? (
-        <Alert
-          style={{ borderRadius: 0 }}
-          message={"You are being monitored"}
-          type="error"
-          showIcon
-          icon={<CameraOutlined />}
-          action={
-            userLog.startedAt ? (
-              <div style={{ width: 160 }}>
-                Time Logged{" "}
-                <Tag
-                  // icon={<ClockCircleOutlined />}
-                  color="blue"
-                >
-                  <LiveTimer startedAt={userLog.startedAt} />
-                </Tag>
-              </div>
-            ) : null
-          }
-        />
-      ) : null}
+      <Alert
+        style={{ borderRadius: 0 }}
+        message={"You are being monitored"}
+        type="error"
+        showIcon
+        icon={<CameraOutlined />}
+        action={
+          userLog.startedAt ? (
+            <div style={{ width: 160 }}>
+              Time Logged{" "}
+              <Tag
+                // icon={<ClockCircleOutlined />}
+                color="blue"
+              >
+                <LiveTimer startedAt={userLog.startedAt} />
+              </Tag>
+            </div>
+          ) : null
+        }
+      />
       {props.children}
     </div>
   );
