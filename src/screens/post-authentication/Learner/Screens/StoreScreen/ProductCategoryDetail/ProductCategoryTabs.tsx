@@ -64,23 +64,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
         key: "overview",
         displayOnLandingPage: true,
         description: productCategory.landingPage.description,
-        children: (
-          <HtmlViewer
-            customStyles={`
-          .html-viewer img,figure {
-            border-radius: 10px;
-            width: 100% !important;
-            height: auto !important;
-            display: block !important;
-            margin: auto !important;
-          }
-          .html-viewer img {
-            width: 100% !important;
-          }
-          `}
-            content={productCategory.landingPage.description}
-          />
-        ),
+        children: productCategory.landingPage.description,
         faqs: productCategory.info.faqs,
         seo: productCategory.seo,
       },
@@ -95,23 +79,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
             displayOnLandingPage: link?.displayOnLandingPage?.enabled,
             key: link.slug,
             description: link.description,
-            children: (
-              <HtmlViewer
-                customStyles={`
-                .html-viewer img,figure {
-                border-radius: 10px;
-                width: 100% !important;
-                height: auto !important;
-                display: block !important;
-                margin: auto !important;
-              }
-              .html-viewer img {
-                width: 100% !important;
-              }
-              `}
-                content={link.description}
-              />
-            ),
+            children: link.description,
             faqs: link.faqs,
             seo: link.seo,
           };
@@ -190,7 +158,25 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           {/* <Divider style={{ margin: "5px 0px 20px 0" }} /> */}
           {
             <ShowMore minHeight={600}>
-              {tab?.children || <HtmlViewer content={tab?.description + ""} />}
+              {tab?.children ? (
+                <HtmlViewer
+                  customStyles={`
+              .html-viewer img,figure {
+                border-radius: 10px;
+                width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                margin: auto !important;
+              }
+              .html-viewer img {
+                width: 100% !important;
+              }
+              `}
+                  content={tab.children}
+                />
+              ) : (
+                <HtmlViewer content={tab?.description + ""} />
+              )}
             </ShowMore>
           }
         </Card>
@@ -336,7 +322,7 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
 export const ProductCategoryTabsSkeleton = () => {
   return (
     <Row gutter={[20, 15]}>
-      <Divider style={{ margin: 0 }} />
+      {/* <Divider style={{ margin: 0 }} /> */}
       <Col span={24}>
         <Row gutter={[15, 10]}>
           {[1, 1, 1, 1, 1, 1, 1].map(() => (

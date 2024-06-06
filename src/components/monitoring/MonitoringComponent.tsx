@@ -115,7 +115,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
     }
   }, [state]);
 
-  return (
+  return user?.monitoring?.enabled ? (
     <div ref={screenshotRef}>
       <Alert
         style={{ borderRadius: 0 }}
@@ -139,7 +139,7 @@ export default function MonitoringComponent(props: MonitoringComponentPropsI) {
       />
       {props.children}
     </div>
-  );
+  ) : null;
 }
 
 const captureScreenshot = (
