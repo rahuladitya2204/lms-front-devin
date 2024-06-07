@@ -281,7 +281,7 @@ export const PYQTestsComponent = (props: {
                       );
                     }}
                     block
-                    type="primary"
+                    // type="primary"
                   >
                     <BookOutlined /> Attempt Now
                   </Button>
@@ -298,7 +298,7 @@ export const PYQTestsComponent = (props: {
                           }/previous-year-questions`
                     }
                   >
-                    <Button type="dashed" block danger>
+                    <Button type="primary" block danger>
                       <BookOutlined /> View Analysis
                     </Button>
                   </Link>
