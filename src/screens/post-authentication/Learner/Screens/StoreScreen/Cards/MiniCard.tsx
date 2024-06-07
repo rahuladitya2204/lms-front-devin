@@ -20,10 +20,10 @@ export default function MiniCard(props: MiniCardPropsI) {
       style={{ marginBottom: 20, ...(props.style || {}) }}
       bodyStyle={{ padding: 15 }}
     >
-      <Row gutter={[20, 0]}>
+      <Row gutter={[20, 0]} align={"middle"}>
         {props.accessoryLeft ? <Col>{props.accessoryLeft}</Col> : null}
         <Col style={{ flex: 1 }}>{props.children}</Col>
-        {/* {props.accessoryRight && <Col>{props.accessoryRight}</Col>} */}
+        {props.accessoryRight ? <Col>{props.accessoryRight()}</Col> : null}
       </Row>
       {props.footer ? (
         <Row style={{ marginTop: 10 }}>

@@ -100,7 +100,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                     return (
                       <Col
                         xs={24}
-                        md={12}
+                        sm={12}
                         onClick={() => window.open(`/blog/${feature.blog}`)}
                       >
                         <MiniCard
