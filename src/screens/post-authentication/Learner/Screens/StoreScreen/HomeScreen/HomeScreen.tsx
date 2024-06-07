@@ -16,6 +16,7 @@ import OrgLogo from "@Components/OrgLogo";
 import { Text } from "@Components/Typography/Typography";
 import {
   BarChartOutlined,
+  CaretRightOutlined,
   EditOutlined,
   HighlightOutlined,
   RightOutlined,
@@ -108,7 +109,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                             cursor: "pointer",
                             height: isMobile ? 120 : "auto",
                           }}
-                          accessoryRight={() => <RightOutlined />}
+                          accessoryRight={() => <CaretRightOutlined />}
                         >
                           <Row
                             justify={"center"}
