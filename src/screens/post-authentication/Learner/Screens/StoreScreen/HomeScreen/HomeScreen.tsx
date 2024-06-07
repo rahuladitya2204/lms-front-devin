@@ -25,6 +25,7 @@ import {
 import { features } from "./constant";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import MiniCard from "../Cards/MiniCard";
+import { Link } from "@Router/index";
 const { Title, Paragraph } = Typography;
 
 interface LearnerHomeScreenPropsI {
@@ -75,10 +76,10 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
           ) : null}
           <Col span={24}>
             <Row gutter={[40, 20]} align={"middle"}>
-              <Col xs={24} sm={12}>
+              <Col xs={24} sm={24} md={12}>
                 <Image style={{ maxWidth: 200 }} src={Hero2.src} />
               </Col>
-              <Col xs={24} sm={12}>
+              <Col xs={24} sm={24} md={12}>
                 <Title
                   style={{ margin: 0, textAlign: isMobile ? "center" : "left" }}
                   level={4}
@@ -99,51 +100,53 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                 <Row gutter={[20, 10]}>
                   {features.map((feature) => {
                     return (
-                      <Col
-                        xs={24}
-                        sm={12}
-                        onClick={() => window.open(`/blog/${feature.blog}`)}
-                      >
-                        <MiniCard
-                          style={{
-                            cursor: "pointer",
-                            height: isMobile ? 120 : "auto",
-                          }}
-                          accessoryRight={() => <CaretRightOutlined />}
-                        >
-                          <Row
-                            justify={"center"}
-                            gutter={[20, 10]}
-                            align={"middle"}
+                      <Col xs={24} sm={12}>
+                        <Link to={`/blog/${feature.blog}`}>
+                          <MiniCard
+                            style={{
+                              cursor: "pointer",
+                              // height: isMobile ? 120 : "auto",
+                            }}
+                            accessoryRight={() => <CaretRightOutlined />}
                           >
-                            <Col style={{ textAlign: "center" }} xs={24} lg={5}>
-                              <Avatar
-                                style={{
-                                  backgroundColor: feature.color,
-                                  width: 40,
-                                  height: 40,
-                                  borderRadius: 10,
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  margin: "auto",
-                                }}
-                                icon={feature.icon}
-                              />
-                            </Col>
-                            <Col xs={24} style={{}} lg={19}>
-                              <Title
-                                style={{
-                                  margin: 0,
-                                  fontSize: 17,
-                                  textAlign: `center`,
-                                }}
-                                level={4}
+                            <Row
+                              justify={"center"}
+                              gutter={[20, 10]}
+                              align={"middle"}
+                            >
+                              <Col
+                                style={{ textAlign: "center" }}
+                                xs={24}
+                                lg={5}
                               >
-                                {feature.title}
-                              </Title>
-                            </Col>
-                          </Row>
-                        </MiniCard>
+                                <Avatar
+                                  style={{
+                                    backgroundColor: feature.color,
+                                    width: 40,
+                                    height: 40,
+                                    borderRadius: 10,
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    margin: "auto",
+                                  }}
+                                  icon={feature.icon}
+                                />
+                              </Col>
+                              <Col xs={24} style={{}} lg={19}>
+                                <Title
+                                  style={{
+                                    margin: 0,
+                                    fontSize: 17,
+                                    textAlign: `center`,
+                                  }}
+                                  level={4}
+                                >
+                                  {feature.title}
+                                </Title>
+                              </Col>
+                            </Row>
+                          </MiniCard>
+                        </Link>
                       </Col>
                     );
                   })}
