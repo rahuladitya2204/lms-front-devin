@@ -99,11 +99,15 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                   {features.map((feature) => {
                     return (
                       <Col
-                        span={12}
+                        xs={24}
+                        md={12}
                         onClick={() => window.open(`/blog/${feature.blog}`)}
                       >
                         <MiniCard
-                          style={{ cursor: "pointer" }}
+                          style={{
+                            cursor: "pointer",
+                            height: isMobile ? 120 : "auto",
+                          }}
                           accessoryRight={() => <RightOutlined />}
                         >
                           <Row
@@ -111,7 +115,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                             gutter={[20, 10]}
                             align={"middle"}
                           >
-                            <Col style={{ textAlign: "center" }} lg={5}>
+                            <Col style={{ textAlign: "center" }} xs={24} lg={5}>
                               <Avatar
                                 style={{
                                   backgroundColor: feature.color,
@@ -120,18 +124,18 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                                   borderRadius: 10,
                                   display: "flex",
                                   justifyContent: "center",
+                                  margin: "auto",
                                 }}
                                 icon={feature.icon}
                               />
                             </Col>
-                            <Col
-                              style={{
-                                textAlign: !isDesktop ? "center" : "left",
-                              }}
-                              lg={19}
-                            >
+                            <Col xs={24} style={{}} lg={19}>
                               <Title
-                                style={{ margin: 0, fontSize: 17 }}
+                                style={{
+                                  margin: 0,
+                                  fontSize: 17,
+                                  textAlign: `center`,
+                                }}
                                 level={4}
                               >
                                 {feature.title}
