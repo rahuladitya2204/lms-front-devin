@@ -46,7 +46,28 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
         </Col>
         <Col xs={24} lg={24} style={{ marginTop: 30 }}>
           <Paragraph style={{ fontSize: 16 }}>
-            <HtmlViewer content={blog.content} />
+            <HtmlViewer
+              customStyles={`
+              .html-viewer img,figure {
+                border-radius: 10px;
+                width: 100% !important;
+                height: auto !important;
+                display: block !important;
+                margin: auto !important;
+              }
+              
+              .html-viewer img {
+                width: 100% !important;
+              }
+
+              // .html-viewer .ant-typography,
+              // .html-viewer .ant-typography span,
+              // .html-viewer .ant-typography div {
+              //   font-size: 16px !important;
+              // }
+              `}
+              content={blog.content}
+            />
           </Paragraph>
         </Col>
         {/* <Col xs={24} lg={24} style={{ marginTop: 30 }}>

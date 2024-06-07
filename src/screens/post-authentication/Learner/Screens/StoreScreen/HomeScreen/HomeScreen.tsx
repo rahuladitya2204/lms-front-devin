@@ -100,11 +100,7 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                     return (
                       <Col
                         span={12}
-                        onClick={() =>
-                          openModal(<FeaturePageDetail feature={feature} />, {
-                            title: feature.page.title,
-                          })
-                        }
+                        onClick={() => window.open(`/blog/${feature.blog}`)}
                       >
                         <MiniCard
                           style={{ cursor: "pointer" }}

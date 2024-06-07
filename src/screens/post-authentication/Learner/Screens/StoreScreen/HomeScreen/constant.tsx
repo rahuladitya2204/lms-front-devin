@@ -9,6 +9,7 @@ export const features = [
   {
     title: "Handwritten Answer Analysis",
     icon: <EditOutlined />,
+    blog: "handwritten-ai-analysis-demo",
     color: "#87d068",
     page: {
       title: "AI-Powered Handwritten Answer Analysis",
@@ -24,6 +25,7 @@ export const features = [
   {
     title: "Offline Test Kits",
     icon: <HomeOutlined />,
+    blog: "offline-test-kits-demo",
     color: "#c631c6",
     page: {
       title: "Offline Test Kits",
@@ -40,6 +42,7 @@ export const features = [
   },
   {
     title: "Detailed Performance Metrics",
+    blog: "performance-analytics-demo",
     icon: <BarChartOutlined />,
     color: "#754ebf",
     page: {
@@ -57,6 +60,7 @@ export const features = [
   },
   {
     title: "Vernacular Exams",
+    blog: "vernacular-test-demo",
     icon: <HighlightOutlined />,
     color: "#d69e1f",
     page: {
