@@ -1,7 +1,7 @@
 import AppImage from "@Components/Image";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { Title } from "@Components/Typography/Typography";
-import { Types, User } from "@adewaskar/lms-common";
+import { Store, Types, User } from "@adewaskar/lms-common";
 import { Col, DatePicker, Divider, Image, Row, Space, Spin } from "antd";
 import dayjs from "dayjs";
 import { sortBy } from "lodash";
@@ -9,6 +9,7 @@ import { useState } from "react";
 
 export default function UserLogs({ id }: { id: string }) {
   const [date, setDate] = useState(dayjs());
+  const user = Store.useAuthentication((s) => s.user);
   const { data: userLog, isLoading } = User.Queries.useGetUserLog(
     id,
     date?.toISOString()
@@ -33,7 +34,7 @@ export default function UserLogs({ id }: { id: string }) {
             ) : null}
             <Title level={5}>
               Total Time Logged:{" "}
-              {formatDuration(userLog.startedAt, userLog.lastUpdate)}
+              {formatDuration(userLog.startedAt, user.lastActive)}
             </Title>
           </Col>
         ) : null}
