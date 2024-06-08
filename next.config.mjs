@@ -15,18 +15,13 @@ const nextConfig = {
     domains: ['upload-junk.s3.us-west-2.amazonaws.com'],
   },
   async redirects() {
-    return process.env.NODE_ENV === 'production' || true ? [
-      {
-        source: '/:path*',
-        destination: ({ req, params }) => {
-          const { host } = req.headers;
-          const { path } = params;
-          const protocol = req.headers['x-forwarded-proto'] === 'http' ? 'https' : 'http';
-          return `${protocol}://${host}/${path}`;
-        },
-        permanent: true,
-      },
-    ] : [];
+    return [
+      // {
+      //   source: '/',
+      //   destination: '/home',
+      //   permanent: true,
+      // }
+    ]
   }
 };
 
