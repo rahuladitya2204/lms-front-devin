@@ -82,9 +82,7 @@ import PackageDetailViewer from "@Learner/Screens/Products/Package/PackageDetail
 import PackagesScreen from "@User/Screens/Packages/PackagesScreen";
 import PaymentSettings from "@User/Screens/Settings/Payments/PaymentSettings";
 import PerspectiveCropper from "@Components/PerspectiveCropper";
-import ProductCategoryDetailScreen, {
-  CategoryProducts,
-} from "@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
+import ProductCategoryDetailScreen from "@Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 import ProductCategoryEditor from "@User/Screens/Categories/ProductCategoryCreator";
 import PromosScreen from "@User/Screens/Marketing/Promos/PromosScreen";
 import ResetPassword from "@Learner/Screens/Login/ResetPassword";
@@ -144,6 +142,10 @@ import PackageInformationEditor from "@User/Screens/Packages/CreatePackage/Creat
 import PackagesList from "./post-authentication/Learner/Screens/Products/Package/PackagesList/PackagesListScreen";
 import PYQPapersScreen from "./post-authentication/Learner/Screens/Products/Test/PYQPapers/PYQPapersScreen";
 import Fullscreen from "@Components/Fullscreen";
+import InterviewRecorder from "./post-authentication/Learner/Screens/Interview/InterviewRecorder";
+import UserDeviceSelection from "@User/Screens/Event/LiveSessionPlayer/User/UserDeviceSelection";
+import UserEventPlayerEnter from "@User/Screens/Event/LiveSessionPlayer/User";
+import EventPlayer from "@User/Screens/Event/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -232,6 +234,15 @@ const router = (userType: string) => {
                 <Route path="policies" element={<LearnerPrivacyPolicy />} />
               </Route>
               <Route path="" element={<LearnerFullPageHolder />}>
+                <Route
+                  path="app/interview/player"
+                  element={<UserEventPlayerEnter />}
+                >
+                  <Route path="" element={<UserDeviceSelection />} />
+                  <Route path=":meetingId/session" element={<EventPlayer />} />
+                  <Route path="ended" element={<UserMeetingEnded />} />
+                </Route>
+                <Route path="app/interview" element={<InterviewRecorder />} />
                 <Route path="app/news" element={<NewsDetailScreen />} />
                 <Route path="image-resizer" element={<ImageResizer />} />
                 {/* <Route path="cropper" element={<PerspectiveCropper />} />  */}

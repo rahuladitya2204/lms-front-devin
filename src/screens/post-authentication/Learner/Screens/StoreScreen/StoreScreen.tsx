@@ -10,7 +10,7 @@ import {
 } from "@Lib/index";
 import { Learner, Store } from "@adewaskar/lms-common";
 
-import BGImage from "./HomeScreen/image.svg";
+import BGImage from "./HomeScreen/image2.svg";
 import CourseCard from "./Cards/CourseCard";
 import EventCard from "./Cards/EventCard";
 import { Fragment } from "react";

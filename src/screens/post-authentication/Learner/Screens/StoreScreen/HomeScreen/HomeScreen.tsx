@@ -3,7 +3,6 @@ import { Avatar, Card, Col, Divider, List, Row, Space } from "@Lib/index";
 import { Learner } from "@adewaskar/lms-common";
 
 import HeroImg from "./image2.svg";
-import BgImg from "./bg.svg";
 import Image from "@Components/Image";
 import ProductCategoryCard from "../Cards/ProductCategoryCard";
 import { Skeleton } from "@Lib/index";

@@ -7,7 +7,6 @@ import { Learner } from "@adewaskar/lms-common";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Skeleton } from "antd";
 import dayjs from "dayjs";
-import { CategoryProducts } from "../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 
 interface BlogDetailScreenPropsI {
   id: string;
@@ -60,11 +59,10 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
                 width: 100% !important;
               }
 
-              // .html-viewer .ant-typography,
-              // .html-viewer .ant-typography span,
-              // .html-viewer .ant-typography div {
-              //   font-size: 16px !important;
-              // }
+               .html-viewer div.ant-typography span,
+               .html-viewer div.ant-typography {
+                font-size: 16px !important;
+               }
               `}
               content={blog.content}
             />
