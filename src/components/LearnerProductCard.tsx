@@ -144,7 +144,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
         </>
       }
     >
-      <Title style={{ fontSize: 13 }}>
+      <Title level={5} style={{ fontSize: 13 }}>
         <Row justify={"space-between"}>
           <Col>
             <Text style={{ marginRight: 5 }}>{product.title}</Text>
