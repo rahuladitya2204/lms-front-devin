@@ -62,8 +62,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   }, [topics]);
 
   const onValuesChange = (d: Partial<Types.Test>) => {
-    const data = deepPatch(test, d);
-    props.saveTest(data);
+    // const data = deepPatch(test, d);
+    form.setFieldsValue(d);
   };
 
   const isPublished = status === Enum.TestStatus.PUBLISHED;
@@ -104,7 +104,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           prefixKey={`Tests/${testId}/thumbnailImage`}
           renderItem={() => <Image alt={testId} preview={false} src={image} />}
           onUpload={(e) => {
-            onValuesChange({ thumbnailImage: e.url });
+            form.setFieldsValue({ thumbnailImage: e.url });
           }}
         />
       </Form.Item>
