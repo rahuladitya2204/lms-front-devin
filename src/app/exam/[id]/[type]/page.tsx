@@ -4,6 +4,7 @@ import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/St
 import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
 import axios from "axios";
+import { RenderFAQJson } from "@Components/CreateFaqsComponent";
 
 const apiUrl = process.env.API_URL;
 
@@ -138,6 +139,7 @@ export default async function Page({
           __html: JSON.stringify(jsonLd),
         }}
       ></script>
+      <RenderFAQJson faqs={link?.faqs} />
       <Hydrator
         queries={[
           getProductCategoryDetails(params.id),

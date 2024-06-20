@@ -166,3 +166,28 @@ export const FAQsList = (props: FAQsListPropsI) => {
     </>
   );
 };
+
+export const RenderFAQJson = (props: { faqs: Types.FAQ[] }) => {
+  const faqJson = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: props.faqs.map((faq) => {
+      return {
+        "@type": "Question",
+        name: faq.title,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.description,
+        },
+      };
+    }),
+  };
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(faqJson),
+      }}
+    />
+  );
+};
