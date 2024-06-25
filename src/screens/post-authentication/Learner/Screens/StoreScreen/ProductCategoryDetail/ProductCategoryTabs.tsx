@@ -225,23 +225,30 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
       enabled: !!categoryId,
     }
   );
-
+  const { data: packages } = Learner.Queries.useGetPromotedProducts(
+    Enum.ProductType.PACKAGE,
+    {
+      category: categoryId,
+      limit: 3,
+    }
+  );
   const TABS = useMemo(() => {
     const tabs: any[] = [];
-
-    tabs.push({
-      label: "Test Series",
-      key: "test-series",
-      children: (
-        <ShowMore minHeight={200}>
-          <PromotedProducts
-            categoryId={categoryId}
-            type={props.type}
-            isServer={!!props.isServer}
-          />
-        </ShowMore>
-      ),
-    });
+    if (packages.length) {
+      tabs.push({
+        label: "Test Series",
+        key: "test-series",
+        children: (
+          <ShowMore minHeight={200}>
+            <PromotedProducts
+              categoryId={categoryId}
+              type={props.type}
+              isServer={!!props.isServer}
+            />
+          </ShowMore>
+        ),
+      });
+    }
 
     if (PYQTests.length) {
       tabs.push({
