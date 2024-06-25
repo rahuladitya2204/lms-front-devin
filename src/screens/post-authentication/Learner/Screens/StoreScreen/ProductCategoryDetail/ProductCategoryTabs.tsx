@@ -225,10 +225,18 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
       enabled: !!categoryId,
     }
   );
+  const { data: category } =
+    Learner.Queries.useGetProductCategoryDetails(categoryId);
+  // console.log(category.keywords, link?.keywords, "keywords");
+  const link = category.info.links.find((i) => i.slug === type);
+
+  const keywords = link?.keywords || category.keywords;
+
   const { data: packages } = Learner.Queries.useGetPromotedProducts(
     Enum.ProductType.PACKAGE,
     {
       category: categoryId,
+      ...(keywords?.length ? { keywords: keywords } : {}),
       limit: 3,
     }
   );
