@@ -136,14 +136,14 @@ export default function ProductCategoryDetailScreen(
                   {
                     // href: isServer ? `/home` : `/app/home`,
                     onClick: () => {
-                      navigate(isServer ? `/` : `/app/store`);
+                      navigate(props.isServer ? `/` : `/app/store`);
                     },
                     title: <>Home</>,
                   },
                   {
                     onClick: () => {
                       navigate(
-                        isServer
+                        props.isServer
                           ? `/exam/${productCategoryId}`
                           : `/app/exam/${productCategoryId}`
                       );
