@@ -85,7 +85,8 @@ export default function ProductCategoryDetailScreen(
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
-  const hidePopup = localStorage.getItem("hide_popup");
+  const hidePopup =
+    localStorage.getItem("hide_popup") || searchParams.get("hide_popup");
   // console.log(hidePopup, "hide popup");
   useEffect(() => {
     if (!type && !props.isServer) {
