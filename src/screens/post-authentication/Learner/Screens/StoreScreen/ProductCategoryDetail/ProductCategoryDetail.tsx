@@ -38,7 +38,13 @@ import {
 } from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
-import { Link, NavLink, useNavigate, useParams } from "@Router/index";
+import {
+  Link,
+  NavLink,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "@Router/index";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PackageCard from "../Cards/PackageCard";
@@ -71,6 +77,7 @@ export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [displayBanner, setDisplayBanner] = useState(false);
   const { openModal } = useModal();
   const { id: productCategoryId, type = "overview", product } = useParams();
@@ -78,7 +85,8 @@ export default function ProductCategoryDetailScreen(
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
-
+  const hidePopup = searchParams.get("hide_popup");
+  console.log(hidePopup, "hide popup");
   useEffect(() => {
     if (!type && !props.isServer) {
       navigate(`/app/exam/${productCategoryId}/overview`);
@@ -95,12 +103,18 @@ export default function ProductCategoryDetailScreen(
   useEffect(() => {
     setTimeout(() => {
       console.log(isSignedIn, productCategory, "learnerlearner");
-      if (!isLoading && !isSignedIn && productCategory._id && !displayBanner) {
+      if (
+        !isLoading &&
+        !isSignedIn &&
+        productCategory._id &&
+        !displayBanner &&
+        !hidePopup
+      ) {
         openModal(<ProductDetailSignup category={productCategory} />);
         setDisplayBanner(true);
       }
     }, 5000);
-  }, [isSignedIn, productCategory]);
+  }, [isSignedIn, productCategory, hidePopup]);
 
   return loadingProductCategory ? (
     <ProductCategoryDetailSkeletonScreen />
