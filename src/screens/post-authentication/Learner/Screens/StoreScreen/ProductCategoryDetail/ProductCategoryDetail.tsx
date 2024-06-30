@@ -28,6 +28,7 @@ import {
   InfoOutlined,
   NotificationOutlined,
   ThunderboltFilled,
+  UserOutlined,
 } from "@ant-design/icons";
 import {
   Constants,
@@ -39,7 +40,7 @@ import {
 } from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
-import { Typography as ANTDTypography } from "antd";
+import { Typography as ANTDTypography, Breadcrumb } from "antd";
 import {
   Link,
   NavLink,
@@ -66,6 +67,8 @@ import AppImage from "next/image";
 import ShowMore from "@Components/ShowMore/ShowMore";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import LearnerLogin from "../../Login";
+import { capitalize } from "lodash";
+import { isServer } from "@tanstack/react-query";
 
 const { Text, Paragraph } = Typography;
 
@@ -118,6 +121,7 @@ export default function ProductCategoryDetailScreen(
       }
     }, 5000);
   }, [isSignedIn, productCategory, hidePopup]);
+  const link = productCategory.info.links.find((i) => i.slug === type);
 
   return loadingProductCategory ? (
     <ProductCategoryDetailSkeletonScreen />
@@ -125,6 +129,46 @@ export default function ProductCategoryDetailScreen(
     <Row gutter={[20, 10]}>
       <>
         <Col lg={24} md={24} sm={24} xs={24}>
+          <Row style={{ marginBottom: 15 }}>
+            <Col span={24}>
+              <Breadcrumb
+                items={[
+                  {
+                    // href: isServer ? `/home` : `/app/home`,
+                    onClick: () => {
+                      navigate(isServer ? `/` : `/app/store`);
+                    },
+                    title: <>Home</>,
+                  },
+                  {
+                    onClick: () => {
+                      navigate(
+                        isServer
+                          ? `/exam/${productCategoryId}`
+                          : `/app/exam/${productCategoryId}`
+                      );
+                    },
+                    title: (
+                      <>
+                        {/* <UserOutlined /> */}
+                        <span>{productCategory.title}</span>
+                      </>
+                    ),
+                  },
+                  ...(link
+                    ? [
+                        {
+                          title: (
+                            <span>{link.displayOnLandingPage.cta.text}</span>
+                          ),
+                        },
+                      ]
+                    : []),
+                ]}
+              />
+            </Col>
+          </Row>
+
           <Row justify={"space-between"} align={"middle"}>
             <Col lg={21}>
               <Row>
