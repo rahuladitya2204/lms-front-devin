@@ -149,7 +149,7 @@ export const FAQsList = (props: FAQsListPropsI) => {
         }}
       />
       <Collapse
-        defaultActiveKey={faqs.map((i) => i.title)}
+        // defaultActiveKey={faqs.map((i) => i.title)}
         destroyInactivePanel={false}
         expandIconPosition="end"
         style={{ marginTop: 10 }}

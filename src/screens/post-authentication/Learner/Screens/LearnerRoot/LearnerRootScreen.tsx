@@ -116,7 +116,7 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
             <div style={{ flex: 1, paddingBottom: 50 }}>
               <LearnerHeaderClient isServer={isServer} children={children} />
             </div>
-            <LearnerFooter />
+            <LearnerFooter isServer={isServer} />
           </Layout>
         </AppProvider>
       </ThemeProvider>

@@ -1,17 +1,36 @@
-import { Col, Divider, Row, Skeleton, theme } from "antd";
+import { Col, ConfigProvider, Divider, Row, Skeleton, theme } from "antd";
 import { Common, Learner } from "@adewaskar/lms-common";
 
 import { Footer } from "@Components/Layout";
 import { Fragment } from "react";
-import { LinkOutlined } from "@ant-design/icons";
+import {
+  FacebookFilled,
+  InstagramFilled,
+  LinkOutlined,
+  LinkedinFilled,
+  TwitterSquareFilled,
+} from "@ant-design/icons";
 import OrgLogo from "@Components/OrgLogo";
 import { Typography } from "@Components/Typography";
+import { Text, Title } from "@Components/Typography/Typography";
+import Image from "next/image";
+import styled from "styled-components";
+import { Link } from "@Router/index";
 
-const { Text } = Typography;
+const CustomText = styled(Text)`
+  text-align: left;
+  display: block;
+`;
 
-export default function LearnerFooter() {
+interface LearnerFooterPropsI {
+  isServer?: boolean;
+}
+const { darkAlgorithm } = theme;
+
+export default function LearnerFooter(props: LearnerFooterPropsI) {
   const { data: organisation, isLoading: loading } =
     Learner.Queries.useGetOrgDetails();
+  const { data: categories } = Learner.Queries.useGetLearnerCategories();
   const { token } = theme.useToken();
   return (
     <Footer
@@ -22,26 +41,51 @@ export default function LearnerFooter() {
         padding: 15,
       }}
     >
-      <Divider style={{ marginBottom: 15 }} />
-      <Row justify={"space-between"}>
+      <ConfigProvider
+        theme={{
+          algorithm: [darkAlgorithm],
+        }}
+      ></ConfigProvider>
+      <Divider style={{ marginBottom: 0 }}>Testmint.ai</Divider>
+      <Row style={{ marginBottom: 20 }}>
+        <Col span={24}>
+          <Title level={5} style={{ fontSize: 16, textAlign: "left" }}>
+            Exams
+          </Title>
+          <Row>
+            {categories.map((cat) => {
+              return (
+                <Col style={{ display: "flex" }} span={6}>
+                  <CustomText style={{ textAlign: "left" }}>
+                    <Link
+                      to={
+                        props.isServer
+                          ? `/exam/${cat.slug}`
+                          : `/app/exam/${cat.slug}`
+                      }
+                    >
+                      {cat.title}
+                    </Link>
+                  </CustomText>
+                </Col>
+              );
+            })}
+          </Row>
+        </Col>
+        <Divider style={{ marginBottom: 0 }} />
+      </Row>
+      <Row>
         {/* <Col>
           <LinkOutlined />
-          <Text
+          <CustomText
             onClick={() => window.open("/app/policies")}
             style={{ marginLeft: 5, cursor: "pointer" }}
             strong
           >
             View Policies
-          </Text>
+          </CustomText>
         </Col> */}
-        <Col
-          // span={24}
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <Col span={24}>
           {loading ? (
             <Fragment>
               <Skeleton.Avatar active style={{ width: 25, height: 25 }} />
@@ -51,17 +95,95 @@ export default function LearnerFooter() {
               />
             </Fragment>
           ) : (
-            <Fragment>
-              <OrgLogo width={25} />
-              <Text style={{ marginLeft: 5 }} strong>
-                {organisation.shortName}
-                {/* Created by AD */}
-              </Text>
-              <Text strong style={{ marginLeft: 5 }}>
-                © 2024
-              </Text>
-            </Fragment>
+            <Row gutter={[40, 20]}>
+              <Col span={6}>
+                <Row gutter={[20, 10]}>
+                  <Col
+                    style={{ display: "flex", alignItems: "center" }}
+                    span={24}
+                  >
+                    <Image
+                      alt={organisation.shortName}
+                      width={108}
+                      height={25}
+                      src={organisation.branding.logo.high.url}
+                      // width={25}
+                    />
+                    <CustomText strong style={{ marginLeft: 5 }}>
+                      © 2024
+                    </CustomText>
+                  </Col>
+                  {/* <Col span={24}>
+                    <CustomText strong>{organisation.name}</CustomText>
+                  </Col> */}
+                  <Col span={24}>
+                    <CustomText style={{ width: 200 }}>
+                      Wework, Koramangala, Bangalore, 560030
+                    </CustomText>
+                  </Col>
+                </Row>
+              </Col>
+              <Col span={6}>
+                <CustomText strong>Company</CustomText>
+                <Row style={{ marginTop: 15 }} gutter={[10, 5]}>
+                  <Col span={24}>
+                    <CustomText>
+                      <Link>About us</Link>
+                    </CustomText>
+                  </Col>
+                  <Col span={24}>
+                    <CustomText>
+                      <Link target="_blank" to={`/policies`}>
+                        Policies
+                      </Link>
+                    </CustomText>
+                  </Col>
+                  <Col span={24}>
+                    <CustomText>
+                      <Link target="_blank" to={`/sitemap.xml`}>
+                        Sitemap
+                      </Link>
+                    </CustomText>
+                  </Col>
+                </Row>
+              </Col>
+              <Col span={6}>
+                <Row>
+                  <Col span={24}>
+                    <CustomText strong>Follow us on</CustomText>
+                  </Col>
+                  <Col span={24} style={{ marginTop: 15 }}>
+                    <Row gutter={[10, 10]}>
+                      <Col>
+                        <FacebookFilled />
+                      </Col>
+                      <Col>
+                        <TwitterSquareFilled />
+                      </Col>
+                      <Col>
+                        <LinkedinFilled />
+                      </Col>
+                      <Col>
+                        <InstagramFilled />
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
           )}
+        </Col>
+      </Row>
+      <Divider style={{ marginBottom: 10 }} />
+      <Row justify={"space-between"}>
+        <Col>
+          <CustomText strong>
+            Copyright © 2024 {organisation.name} Pvt. Ltd.: All rights reserved
+          </CustomText>
+        </Col>
+
+        <Col>
+          <Link>Privacy Policy</Link>
         </Col>
       </Row>
     </Footer>

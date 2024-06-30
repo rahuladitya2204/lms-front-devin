@@ -8,10 +8,13 @@ import {
   Col,
   Collapse,
   Divider,
+  Form,
+  Input,
   List,
   Row,
   Skeleton,
   Space,
+  Spin,
   Tag,
   Tooltip,
   message,
@@ -25,7 +28,14 @@ import {
   NotificationOutlined,
   ThunderboltFilled,
 } from "@ant-design/icons";
-import { Constants, Enum, Learner, Utils } from "@adewaskar/lms-common";
+import {
+  Constants,
+  Enum,
+  Learner,
+  Store,
+  Types,
+  Utils,
+} from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
@@ -46,6 +56,8 @@ import ProductCategoryTabs from "./ProductCategoryTabs";
 import PromotedProducts from "./PromotedProducts";
 import AppImage from "next/image";
 import ShowMore from "@Components/ShowMore/ShowMore";
+import { useModal } from "@Components/ActionModal/ModalContext";
+import LearnerLogin from "../../Login";
 
 const { Text, Paragraph } = Typography;
 
@@ -59,6 +71,8 @@ export default function ProductCategoryDetailScreen(
   props: ProductCategoryDetailScreenPropsI
 ) {
   const navigate = useNavigate();
+  const [displayBanner, setDisplayBanner] = useState(false);
+  const { openModal } = useModal();
   const { id: productCategoryId, type = "overview", product } = useParams();
   const { isMobile, width } = useBreakpoint();
   // const loadingProductCategory = true;
@@ -75,7 +89,21 @@ export default function ProductCategoryDetailScreen(
     <ProductCategoryMetadata productCategory={productCategory} />
   );
 
-  const Banners = productCategory.info.updates.filter((i) => i.displayAsBanner);
+  // const Banners = productCategory.info.updates.filter((i) => i.displayAsBanner);
+  const { isSignedIn, isLoading } = Store.useAuthentication((s) => s);
+  // const { data: learner } = Learner.Queries.useGetLearnerDetails();
+  useEffect(() => {
+    setTimeout(() => {
+      console.log(isSignedIn, productCategory, "learnerlearner");
+      if (!isLoading && !isSignedIn && productCategory._id && !displayBanner) {
+        openModal(<ProductDetailSignup category={productCategory} />, {
+          width: 400,
+        });
+        setDisplayBanner(true);
+      }
+    }, 5000);
+  }, [isSignedIn, productCategory]);
+
   return loadingProductCategory ? (
     <ProductCategoryDetailSkeletonScreen />
   ) : (
@@ -155,9 +183,7 @@ export default function ProductCategoryDetailScreen(
                     />
                   </Col>
                   <Col>
-                    <Text style={{ fontSize: 22 }} strong>
-                      Upcoming
-                    </Text>
+                    <Text style={{ fontSize: 22 }}>Upcoming</Text>
                   </Col>
                 </Row>
               </Col>
@@ -329,6 +355,58 @@ export const PYQTestsComponent = (props: {
           </Button>
         </Col>
       ) : null}
+    </Row>
+  );
+};
+
+const ProductDetailSignup = ({
+  category,
+}: {
+  category: Types.ProductCategory;
+}) => {
+  return (
+    <Row gutter={[10, 20]}>
+      <Col span={24}>
+        <Title level={3}>
+          Leaving Soon? Don't Miss Out 100+ Free {category.title} Test Series
+        </Title>
+        {/* <AppImage alt={category.title} src={category.thumbnailImage} /> */}
+        <Text>Also Mock Tests, Free Videos, Quizzes & Study Notes + More</Text>
+      </Col>
+      <Col span={24}>
+        {/* <Form>
+          <Form.Item>
+            <Input placeholder="Enter your phone number" />
+          </Form.Item>
+          <Button type="primary" block>
+            // Signup Now! Its Free
+          </Button>
+        </Form> */}
+        <LearnerLogin category={category._id} hideSignup mode="otp" />
+      </Col>
+      <Col span={24}>
+        <Text
+          // strong
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Avatar.Group
+            size={"small"}
+            // max={{
+            //   count: 2,
+            // }}
+          >
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=2" />
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=3" />
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=4" />
+          </Avatar.Group>
+          <Text strong>Valued by 1 Lakh+ Students</Text>
+        </Text>
+      </Col>
     </Row>
   );
 };

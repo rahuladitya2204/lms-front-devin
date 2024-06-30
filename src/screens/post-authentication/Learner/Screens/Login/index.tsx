@@ -2,10 +2,12 @@ import {
   Alert,
   Button,
   Checkbox,
+  Col,
   Divider,
   Form,
   Input,
   Modal,
+  Row,
   Space,
   message,
 } from "@Lib/index";
@@ -35,6 +37,7 @@ import styled from "@emotion/styled";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import useOauth from "./useOauth";
+import { useParams } from "@Router/index";
 
 // Define breakpoints for responsive design
 const breakpoints = {
@@ -47,7 +50,7 @@ const mq = (breakpoint: number) => `@media (max-width: ${breakpoint}px)`;
 
 // Define a styled component for the AuthenticationCard
 const StyledAuthenticationCard = styled.div`
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -69,36 +72,67 @@ const StyledAuthenticationCard = styled.div`
 interface LearnerLoginPropsI {
   closeModal?: Function;
   onSuccess?: Function;
+  mode?: "otp" | "email";
+  noImage?: boolean;
+  hideSignup?: boolean;
+  category?: string;
 }
 
-function LearnerLogin(props: LearnerLoginPropsI) {
+export function LearnerLogin(props: LearnerLoginPropsI) {
   return (
     <StyledAuthenticationCard>
-      <Tabs
-        centered
-        items={[
-          {
-            label: "Login with OTP",
-            key: "otp",
-            children: (
-              <OtpForm
-                onSuccess={props.onSuccess}
-                closeModal={props.closeModal}
-              />
-            ),
-          },
-          {
-            label: "Login with Email",
-            key: "email",
-            children: (
-              <EmailForm
-                onSuccess={props.onSuccess}
-                closeModal={props.closeModal}
-              />
-            ),
-          },
-        ]}
-      />
+      {props.mode ? (
+        <>
+          {props.mode === "email" ? (
+            <EmailForm
+              category={props.category}
+              hideSignup={props.hideSignup}
+              noImage
+              onSuccess={props.onSuccess}
+              closeModal={props.closeModal}
+            />
+          ) : (
+            <OtpForm
+              category={props.category}
+              noImage
+              hideSignup={props.hideSignup}
+              onSuccess={props.onSuccess}
+              closeModal={props.closeModal}
+            />
+          )}
+        </>
+      ) : (
+        <Tabs
+          tabKey={"Login"}
+          centered
+          items={[
+            {
+              label: "Login with OTP",
+              key: "otp",
+              children: (
+                <OtpForm
+                  category={props.category}
+                  onSuccess={props.onSuccess}
+                  hideSignup={props.hideSignup}
+                  closeModal={props.closeModal}
+                />
+              ),
+            },
+            {
+              label: "Login with Email",
+              key: "email",
+              children: (
+                <EmailForm
+                  category={props.category}
+                  onSuccess={props.onSuccess}
+                  hideSignup={props.hideSignup}
+                  closeModal={props.closeModal}
+                />
+              ),
+            },
+          ]}
+        />
+      )}
     </StyledAuthenticationCard>
   );
 }
@@ -124,7 +158,7 @@ const OtpForm = (props: LearnerLoginPropsI) => {
       // }
       console.log(contactNo, "lkllk");
       sendOtpApi(
-        { contactNo },
+        { contactNo, category: props.category + "" },
         {
           onSuccess: (user) => {
             message.open({
@@ -192,67 +226,71 @@ const OtpForm = (props: LearnerLoginPropsI) => {
           onRegisterSuccess={() => setShowRegister(false)}
         />
       </ActionModal>
-      <LogoTop />
+      {!props.noImage ? <LogoTop /> : null}
       {otpSent ? (
-        <Fragment>
-          <Alert
-            style={{ marginBottom: 10 }}
-            message={`OTP has been sent to ${contactNo}`}
-            type="success"
-          />
-          <Form
-            form={form}
-            initialValues={{ remember: true }}
-            layout="vertical"
-            onFinish={verifyOtp}
-          >
-            <Button
-              onClick={() => setOtpSent(false)}
+        <Row>
+          <Col span={24}>
+            <Alert
               style={{ marginBottom: 10 }}
-              type="link"
-              size="small"
-              icon={<ArrowLeftOutlined />}
+              message={`OTP has been sent to ${contactNo}`}
+              type="success"
+            />
+          </Col>
+          <Col span={24}>
+            <Form
+              form={form}
+              initialValues={{ remember: true }}
+              layout="vertical"
+              onFinish={verifyOtp}
             >
-              Back
-            </Button>
-            <Form.Item
-              label="Enter OTP"
-              name="code"
-              rules={[
-                {
-                  required: true,
-                  message: "Please enter the OTP sent to your number!",
-                },
-                {
-                  len: Constants.OTP_LENGTH,
-                  message: `OTP should be ${Constants.OTP_LENGTH} digits`,
-                },
-              ]}
-            >
-              <Input type="number" />
-            </Form.Item>
-            <Form.Item>
               <Button
-                loading={verifyingOtp}
-                block
-                type="primary"
-                htmlType="submit"
+                onClick={() => setOtpSent(false)}
+                style={{ marginBottom: 10 }}
+                type="link"
+                size="small"
+                icon={<ArrowLeftOutlined />}
               >
-                Verify OTP
+                Back
               </Button>
-            </Form.Item>
-            <Form.Item>
-              <Button
-                loading={sendingOtp}
-                block
-                type="default"
-                onClick={() => sendOtp(contactNo)}
+              <Form.Item
+                label="Enter OTP"
+                name="code"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter the OTP sent to your number!",
+                  },
+                  {
+                    len: Constants.OTP_LENGTH,
+                    message: `OTP should be ${Constants.OTP_LENGTH} digits`,
+                  },
+                ]}
               >
-                Resend OTP
-              </Button>
-            </Form.Item>
-          </Form>
-        </Fragment>
+                <Input type="number" />
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  loading={verifyingOtp}
+                  block
+                  type="primary"
+                  htmlType="submit"
+                >
+                  Verify OTP
+                </Button>
+              </Form.Item>
+              <Form.Item>
+                <Button
+                  loading={sendingOtp}
+                  block
+                  type="default"
+                  onClick={() => sendOtp(contactNo)}
+                >
+                  Resend OTP
+                </Button>
+              </Form.Item>
+            </Form>
+          </Col>
+        </Row>
       ) : (
         <Form
           form={form}
@@ -280,7 +318,8 @@ const OtpForm = (props: LearnerLoginPropsI) => {
             </Button>
           </Form.Item>
 
-          {org.register.type !== Enum.LearnerRegisterType.INVITE_ONLY ? (
+          {org.register.type !== Enum.LearnerRegisterType.INVITE_ONLY &&
+          !props.hideSignup ? (
             <Form.Item style={{ textAlign: "center" }}>
               <Typography.Text>
                 Don't have an account yet?{" "}
@@ -363,7 +402,7 @@ const EmailForm = (props: LearnerLoginPropsI) => {
   const { data: org } = Learner.Queries.useGetOrgDetails();
   return (
     <>
-      <LogoTop />
+      {!props.noImage ? <LogoTop /> : null}
       <Form
         form={form}
         initialValues={{
