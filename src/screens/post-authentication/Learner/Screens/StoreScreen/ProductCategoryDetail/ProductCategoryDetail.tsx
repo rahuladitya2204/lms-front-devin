@@ -22,6 +22,7 @@ import {
 import {
   BookOutlined,
   CalendarOutlined,
+  ClockCircleOutlined,
   EditOutlined,
   InfoCircleFilled,
   InfoOutlined,
@@ -38,6 +39,7 @@ import {
 } from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useMemo, useState } from "react";
 import Icon, { HomeOutlined } from "@ant-design/icons";
+import { Typography as ANTDTypography } from "antd";
 import {
   Link,
   NavLink,
@@ -81,7 +83,7 @@ export default function ProductCategoryDetailScreen(
   const [displayBanner, setDisplayBanner] = useState(false);
   const { openModal } = useModal();
   const { id: productCategoryId, type = "overview", product } = useParams();
-  const { isMobile, width } = useBreakpoint();
+  const { isMobile, isDesktop } = useBreakpoint();
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
@@ -142,41 +144,56 @@ export default function ProductCategoryDetailScreen(
                   />
                 </Col>
                 <Col lg={18} style={{ display: "flex", alignItems: "center" }}>
-                  <Title
-                    style={{
-                      // fontSize: 16,
-                      whiteSpace: "normal", // Ensures text wraps
-                      overflowWrap: "break-word", // Breaks words to prevent overflow
-                      margin: 0,
-                      textAlign: isMobile ? "center" : "left",
-                      fontSize: isMobile ? 18 : 25,
-                    }}
-                    level={5}
-                  >
-                    {productCategory.subtitle}
-                    <br />
-                    {isMobile ? (
-                      <span>
-                        (
-                        <ThunderboltFilled
-                          style={{ color: "goldenrod", fontSize: 25 }}
-                        />
-                        Upcoming)
-                      </span>
+                  <Row>
+                    <Col span={24}>
+                      <Title
+                        style={{
+                          // fontSize: 16,
+                          whiteSpace: "normal", // Ensures text wraps
+                          overflowWrap: "break-word", // Breaks words to prevent overflow
+                          margin: 0,
+                          textAlign: isMobile ? "center" : "left",
+                          fontSize: isMobile ? 18 : 25,
+                        }}
+                        level={5}
+                      >
+                        {productCategory.title}
+                        <br />
+                        {isMobile ? (
+                          <span>
+                            (
+                            <ThunderboltFilled
+                              style={{ color: "goldenrod", fontSize: 25 }}
+                            />
+                            Upcoming)
+                          </span>
+                        ) : null}
+                      </Title>
+                    </Col>
+                    <Col span={24}>
+                      <Text
+                        style={{
+                          // fontSize: 16,
+                          whiteSpace: "normal", // Ensures text wraps
+                          overflowWrap: "break-word", // Breaks words to prevent overflow
+                          margin: isMobile ? "auto" : 0,
+                          textAlign: isMobile ? "center" : "left",
+                          display: "block",
+                        }}
+                        // type="secondary"
+                      >
+                        <ClockCircleOutlined /> Last Updated on{" "}
+                        {dayjs(productCategory.updatedAt).format("LL")}
+                      </Text>
+                    </Col>
+                    {isDesktop ? (
+                      <Col span={24}>
+                        <ANTDTypography.Link>
+                          Authored by Aditya Dewaskar
+                        </ANTDTypography.Link>
+                      </Col>
                     ) : null}
-                  </Title>
-                  {/* <Title
-                    style={{
-                      // fontSize: 16,
-                      whiteSpace: "normal", // Ensures text wraps
-                      overflowWrap: "break-word", // Breaks words to prevent overflow
-                      margin: isMobile ? 10 : 0,
-                      textAlign: isMobile ? "center" : "left",
-                    }}
-                    level={5}
-                  >
-                    {productCategory.title}
-                  </Title> */}
+                  </Row>
                 </Col>
               </Row>
             </Col>
@@ -239,7 +256,7 @@ export default function ProductCategoryDetailScreen(
                                   type="error"
                                   action={
                                     <Tag color="orange-inverse">
-                                      {dayjs(i.date).format("L")}
+                                      {dayjs(i.date).format("LL")}
                                     </Tag>
                                   }
                                   icon={<NotificationOutlined />}
