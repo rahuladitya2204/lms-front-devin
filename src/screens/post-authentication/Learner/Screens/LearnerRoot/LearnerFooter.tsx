@@ -55,7 +55,7 @@ export default function LearnerFooter(props: LearnerFooterPropsI) {
           <Row>
             {categories.map((cat) => {
               return (
-                <Col style={{ display: "flex" }} span={6}>
+                <Col style={{ display: "flex" }} xs={12} sm={6}>
                   <CustomText style={{ textAlign: "left" }}>
                     <Link
                       to={
@@ -96,7 +96,7 @@ export default function LearnerFooter(props: LearnerFooterPropsI) {
             </Fragment>
           ) : (
             <Row gutter={[40, 20]}>
-              <Col span={6}>
+              <Col xs={12} sm={8}>
                 <Row gutter={[20, 10]}>
                   <Col
                     style={{ display: "flex", alignItems: "center" }}
@@ -123,7 +123,7 @@ export default function LearnerFooter(props: LearnerFooterPropsI) {
                   </Col>
                 </Row>
               </Col>
-              <Col span={6}>
+              <Col xs={12} sm={8}>
                 <CustomText strong>Company</CustomText>
                 <Row style={{ marginTop: 15 }} gutter={[10, 5]}>
                   <Col span={24}>
@@ -147,7 +147,7 @@ export default function LearnerFooter(props: LearnerFooterPropsI) {
                   </Col>
                 </Row>
               </Col>
-              <Col span={6}>
+              <Col xs={12} sm={8}>
                 <Row>
                   <Col span={24}>
                     <CustomText strong>Follow us on</CustomText>

@@ -268,7 +268,7 @@ const OtpForm = (props: LearnerLoginPropsI) => {
               >
                 <Input type="number" />
               </Form.Item>
-              <Form.Item>
+              <Form.Item style={{ marginBottom: 10 }}>
                 <Button
                   loading={verifyingOtp}
                   block

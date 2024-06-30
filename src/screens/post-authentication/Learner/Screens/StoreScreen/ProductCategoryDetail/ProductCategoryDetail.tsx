@@ -96,9 +96,7 @@ export default function ProductCategoryDetailScreen(
     setTimeout(() => {
       console.log(isSignedIn, productCategory, "learnerlearner");
       if (!isLoading && !isSignedIn && productCategory._id && !displayBanner) {
-        openModal(<ProductDetailSignup category={productCategory} />, {
-          width: 400,
-        });
+        openModal(<ProductDetailSignup category={productCategory} />);
         setDisplayBanner(true);
       }
     }, 5000);
