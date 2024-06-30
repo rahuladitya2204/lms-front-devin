@@ -85,8 +85,8 @@ export default function ProductCategoryDetailScreen(
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
-  const hidePopup = searchParams.get("hide_popup");
-  console.log(hidePopup, "hide popup");
+  const hidePopup = localStorage.getItem("hide_popup");
+  // console.log(hidePopup, "hide popup");
   useEffect(() => {
     if (!type && !props.isServer) {
       navigate(`/app/exam/${productCategoryId}/overview`);
@@ -111,7 +111,7 @@ export default function ProductCategoryDetailScreen(
         !hidePopup
       ) {
         openModal(<ProductDetailSignup category={productCategory} />);
-        setDisplayBanner(true);
+        localStorage.setItem("hide_popup", "true");
       }
     }, 5000);
   }, [isSignedIn, productCategory, hidePopup]);
