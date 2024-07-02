@@ -233,7 +233,7 @@ export default function ProductCategoryDetailScreen(
                     {isDesktop ? (
                       <Col span={24}>
                         <ANTDTypography.Link>
-                          Authored by Aditya Dewaskar
+                          Authored by Rahul Sharma
                         </ANTDTypography.Link>
                       </Col>
                     ) : null}
