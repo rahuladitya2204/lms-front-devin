@@ -8,24 +8,26 @@ import {
   Input,
   Row,
   Space,
-  Switch
-} from 'antd'
-import { Fragment, useEffect } from 'react'
-import { PlusOutlined, UploadOutlined } from '@ant-design/icons'
-import { Types, User } from '@adewaskar/lms-common'
+  Switch,
+} from "antd";
+import { Fragment, useEffect } from "react";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
+import { Types, User } from "@adewaskar/lms-common";
 
-import ActionModal from '@Components/ActionModal/ActionModal'
-import { AddItemProps } from '../UploadPDF'
-import FileList from '@Components/FileList'
-import InputTags from '@Components/InputTags/InputTags'
-import MediaUpload from '@Components/MediaUpload'
-import TextArea from '@Components/Textarea'
-import { getReadingTime } from '../../utils'
-import { uniqueId } from 'lodash'
-import useUploadItemForm from '../hooks/useUploadItemForm'
+import ActionModal from "@Components/ActionModal/ActionModal";
+import { AddItemProps } from "../UploadPDF";
+import FileList from "@Components/FileList";
+import InputTags from "@Components/InputTags/InputTags";
+import MediaUpload from "@Components/MediaUpload";
+import TextArea from "@Components/Textarea";
+import { getReadingTime } from "../../utils";
+import { uniqueId } from "lodash";
+import useUploadItemForm from "../hooks/useUploadItemForm";
+import { useOutletContext } from "react-router";
 
-const AddTextItem: React.FC<AddItemProps> = props => {
-  const [form] = Form.useForm()
+const AddTextItem: React.FC<AddItemProps> = (props) => {
+  const [form] = Form.useForm();
+  const [, , , language = "eng"] = useOutletContext<Types.CourseSection[][]>();
   const {
     onFormChange,
     topics,
@@ -33,59 +35,59 @@ const AddTextItem: React.FC<AddItemProps> = props => {
     item,
     courseId,
     sectionId,
-    itemId
-  } = useUploadItemForm(form)
+    itemId,
+  } = useUploadItemForm(form);
 
   const {
     data: summary,
     mutate: generateInfoApi,
-    isLoading: generatingSummary
-  } = User.Queries.useGenerateCourseItemInfo()
+    isLoading: generatingSummary,
+  } = User.Queries.useGenerateCourseItemInfo();
   const generateItemInfo = (fields: string[]) => {
     generateInfoApi(
-      { data: { courseId: courseId + '', itemId: itemId + '', fields } },
+      { data: { courseId: courseId + "", itemId: itemId + "", fields } },
       {
         onSuccess: ({ summary, topics }) => {
           if (summary) {
-            onFormChange({ summary: summary })
+            onFormChange({ summary: summary });
           }
           if (topics && topics.length) {
-            handleTopicsChange(topics)
+            handleTopicsChange(topics);
           }
-          console.log(topics, '123123')
+          console.log(topics, "123123");
           // form.setFieldValue('summary', summary);
-        }
+        },
       }
-    )
-  }
+    );
+  };
 
   return (
     <Fragment>
       <Form
         form={form}
         layout="vertical"
-        onValuesChange={e => {
+        onValuesChange={(e) => {
           const data: Partial<Types.CourseSectionItem> = {
-            ...e
-          }
+            ...e,
+          };
           if (e.description) {
             data.metadata = {
-              duration: getReadingTime(e.description)
-            }
+              duration: getReadingTime(e.description),
+            };
           }
-          console.log(data, 'data')
-          onFormChange(data)
+          console.log(data, "data");
+          onFormChange(data);
         }}
       >
-        <Form.Item name="title" label="Title" required>
+        <Form.Item name={["title", "text", language]} label="Title" required>
           <Input placeholder="Enter Text Content's title" />
         </Form.Item>
         <Form.Item>
           <Checkbox
             checked={item.isPreview}
-            onChange={e => {
-              const isPreview = e.target.checked
-              onFormChange({ isPreview })
+            onChange={(e) => {
+              const isPreview = e.target.checked;
+              onFormChange({ isPreview });
             }}
           >
             Avail this as a free lecture
@@ -125,17 +127,15 @@ const AddTextItem: React.FC<AddItemProps> = props => {
                 >
                   <MediaUpload
                     source={{
-                      type: 'course.section.item.files',
-                      value: courseId + ''
+                      type: "course.section.item.files",
+                      value: courseId + "",
                     }}
                     uploadType="file"
-                    prefixKey={`courses/${courseId}/${sectionId}/${
-                      itemId
-                    }/files/${uniqueId()}`}
+                    prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files/${uniqueId()}`}
                     onUpload={({ name, _id }) => {
                       onFormChange({
-                        files: [...item.files, { name, file: _id }]
-                      })
+                        files: [...item.files, { name, file: _id }],
+                      });
                     }}
                   />
                 </ActionModal>
@@ -143,17 +143,20 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             >
               <FileList
                 onDeleteFile={(fileId: string) => {
-                  const files = item.files.filter((f: any) => f.file !== fileId)
-                  onFormChange({ files })
+                  const files = item.files.filter(
+                    (f: any) => f.file !== fileId
+                  );
+                  onFormChange({ files });
                 }}
                 files={item.files}
               />
             </Card>
           </Col>
         </Row>
-        <Form.Item name="description" label="Description">
+        <Form.Item name={["description", "text", language]} label="Description">
           <TextArea
             html
+            height={700}
             // onChange={e =>
             //   onFormChange({
             //     description: e
@@ -164,13 +167,13 @@ const AddTextItem: React.FC<AddItemProps> = props => {
 
         {item.description ? (
           <Form.Item
-            name={'summary'}
+            name={"summary"}
             label={
               <span>
-                Summary{' '}
+                Summary{" "}
                 <Button
                   loading={generatingSummary}
-                  onClick={() => generateItemInfo(['summary'])}
+                  onClick={() => generateItemInfo(["summary"])}
                   type="primary"
                   size="small"
                 >
@@ -180,17 +183,17 @@ const AddTextItem: React.FC<AddItemProps> = props => {
             }
             required
           >
-            <TextArea html height={300} name={'summary'} />
+            <TextArea html height={300} name={"summary"} />
           </Form.Item>
         ) : null}
 
         <Form.Item
           label={
             <span>
-              Topics{' '}
+              Topics{" "}
               <Button
                 loading={generatingSummary}
-                onClick={() => generateItemInfo(['topics'])}
+                onClick={() => generateItemInfo(["topics"])}
                 type="primary"
                 size="small"
               >
@@ -205,7 +208,7 @@ const AddTextItem: React.FC<AddItemProps> = props => {
         </Form.Item>
       </Form>
     </Fragment>
-  )
-}
+  );
+};
 
-export default AddTextItem
+export default AddTextItem;

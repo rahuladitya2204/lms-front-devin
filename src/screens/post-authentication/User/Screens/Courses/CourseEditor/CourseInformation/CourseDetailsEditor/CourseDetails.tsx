@@ -170,12 +170,13 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         </Col>
         <Col span={12}>
           <Form.Item
-            name="language"
+            name="languages"
             required
-            label="Language"
+            label="Languages"
             rules={[{ required: true, message: "Please select a language" }]}
           >
             <Select
+              mode="multiple"
               showSearch
               placeholder="Select Language"
               options={Constants.LANGUAGES}

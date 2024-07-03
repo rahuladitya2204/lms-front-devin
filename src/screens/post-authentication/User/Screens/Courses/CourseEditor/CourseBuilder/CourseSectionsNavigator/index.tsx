@@ -102,6 +102,7 @@ interface CourseSectionsNavigatorPropsI {
   onAddSection: Function;
   deleteSection: (sId: string) => void;
   onReorderSections: (s: Types.CourseSection[]) => void;
+  language: string;
   deleteSectionItem: (secId: string, itemID: string) => void;
   onAddNewItem: (
     type: string,
@@ -113,6 +114,7 @@ interface CourseSectionsNavigatorPropsI {
 const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   sections,
   onAddNewItem,
+  language,
   deleteSection,
   onAddSection,
   deleteSectionItem,
@@ -260,7 +262,9 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   <CollapsePanel
                     extra={SectionOptionDropdown}
                     key={secIndex}
-                    header={section.title}
+                    header={
+                      section?.title?.text ? section?.title?.text[language] : ""
+                    }
                   >
                     <List
                       itemLayout="horizontal"

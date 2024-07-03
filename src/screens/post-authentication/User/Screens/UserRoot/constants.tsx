@@ -42,6 +42,12 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
     path: "/admin/products",
     children: [
       {
+        title: "Courses",
+        permissions: [Enum.UserRolePermissions.GET_TESTS],
+        path: "courses",
+        // roles:[Enum.UserRole.TEST_MANAGER]
+      },
+      {
         title: "Tests",
         permissions: [Enum.UserRolePermissions.GET_TESTS],
         path: "test",

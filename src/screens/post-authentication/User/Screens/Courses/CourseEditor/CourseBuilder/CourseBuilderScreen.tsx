@@ -31,11 +31,14 @@ import SetCourseRules from "./SetCourseRules";
 import { updateCourseSectionItem } from "./utils";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import Tabs from "@Components/Tabs";
+import { useCourseStore } from "./useCourseScore";
 
 const { confirm } = Modal;
 
 function CourseBuilderScreen() {
   const { id: courseId, itemId } = useParams();
+  const { course, setCourse } = useCourseStore((s) => s);
   const { mutate: updateCourse, isLoading: savingCourse } =
     User.Queries.useUpdateCourse();
   const { data: courseDetails, isLoading: loadingCourse } =
@@ -54,7 +57,6 @@ function CourseBuilderScreen() {
     User.Queries.useDeleteCourseSection();
   const { mutate: deleteSectionItemApi, isLoading: deletingSectionItem } =
     User.Queries.useDeleteCourseSectionItem();
-  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
   const navigate = useNavigate();
 
   const onAddSection = (section: Partial<Types.CourseSection>) => {
@@ -69,9 +71,13 @@ function CourseBuilderScreen() {
     } else {
       // @ts-ignore
       const newSection: Types.CourseSection = {
-        title: section.title + "",
+        title: {
+          text: Constants.INITIAL_LANG_TEXT,
+        },
         items: [],
-        description: "",
+        description: {
+          text: Constants.INITIAL_LANG_TEXT,
+        },
       };
       COURSE.sections.push(newSection);
     }
@@ -141,7 +147,8 @@ function CourseBuilderScreen() {
     });
   };
 
-  const saveCourse = (d: Partial<Types.Course>) => {
+  const saveCourse = () => {
+    const d = course;
     console.log("Saved");
     if (course._id) {
       updateCourse(
@@ -233,7 +240,6 @@ function CourseBuilderScreen() {
     const COURSE = cloneDeep(course);
     COURSE.sections = sections;
     setCourse(COURSE);
-    saveCourse(COURSE);
   };
   // const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
   //   courseId + ''
@@ -245,6 +251,7 @@ function CourseBuilderScreen() {
   const { mutate: unpublishCourse, isLoading: unpublishingCourse } =
     User.Queries.useUnpublishCourse();
   const { openModal } = useModal();
+  const [language, setLanguage] = useState("");
   return (
     <AppProvider>
       <Header
@@ -287,26 +294,38 @@ function CourseBuilderScreen() {
               </Button>
             </Space>
           ) : (
-            <Button
-              onClick={() => {
-                confirm({
-                  title: "Are you sure?",
-                  content: `You want to publish this course?`,
-                  onOk() {
-                    publishCourse({
-                      courseId: course._id,
-                    });
-                  },
-                  okText: "Yes, Publish",
-                });
-              }}
-              loading={publishingCourse}
-              // disabled={!Utils.validatePublishCourse(course)}
-              style={{ marginRight: 15 }}
-              icon={<UploadOutlined />}
-            >
-              Publish Course
-            </Button>
+            ((
+              <Button
+                onClick={() => {
+                  confirm({
+                    title: "Are you sure?",
+                    content: `You want to publish this course?`,
+                    onOk() {
+                      publishCourse({
+                        courseId: course._id,
+                      });
+                    },
+                    okText: "Yes, Publish",
+                  });
+                }}
+                loading={publishingCourse}
+                // disabled={!Utils.validatePublishCourse(course)}
+                style={{ marginRight: 15 }}
+                icon={<UploadOutlined />}
+              >
+                Publish Course
+              </Button>
+            ),
+            (
+              <Button
+                loading={savingCourse}
+                onClick={() => saveCourse()}
+                type="primary"
+                style={{ marginRight: 10 }}
+              >
+                Save Changes
+              </Button>
+            ))
           ),
           // <Button
           //   onClick={() => saveCourse(course)}
@@ -419,6 +438,7 @@ function CourseBuilderScreen() {
                   }
                 >
                   <CourseSectionsNavigator
+                    language={language}
                     deleteSectionItem={deleteSectionItem}
                     deleteSection={deleteSection}
                     onAddNewItem={onAddNewItem}
@@ -462,27 +482,31 @@ function CourseBuilderScreen() {
               />
             ) : null}
             <Card>
-              <Outlet context={[items, updateCourseSection, saveCourse]} />
-              {/* {loadingCourse ? <>
-                    <Row gutter={[20,20]}>
-                      <Col span={24}>
-                      <Skeleton.Input block />
-                    <Skeleton paragraph={{rows: 1}} />
-
-                      </Col>
-                      <Col span={24}>
-                      <Card>
-                    <Image style={{height: 400}} />
-                    </Card>
-                      </Col>
-                      <Col span={24}>
-                      <Card>
-                    <Image style={{height: 400}} />
-                    </Card>
-                      </Col>
-                    </Row>
-                 
-                  </> : <Outlet context={[items, updateCourseSection, saveCourse]} />} */}
+              <Tabs
+                destroyInactiveTabPane={false}
+                onTabClick={(e) => {
+                  setLanguage(e);
+                  console.log(e, "eee");
+                }}
+                items={Constants.LANGUAGES.filter((l) =>
+                  course?.languages?.includes(l.value)
+                )?.map((l) => {
+                  return {
+                    label: l.label,
+                    key: l.value,
+                    children: (
+                      <Outlet
+                        context={[
+                          items,
+                          updateCourseSection,
+                          saveCourse,
+                          l.value,
+                        ]}
+                      />
+                    ),
+                  };
+                })}
+              />
             </Card>
           </Col>
         </Row>
