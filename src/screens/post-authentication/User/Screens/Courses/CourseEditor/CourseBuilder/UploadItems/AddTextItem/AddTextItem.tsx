@@ -24,49 +24,33 @@ import { getReadingTime } from "../../utils";
 import { uniqueId } from "lodash";
 import useUploadItemForm from "../hooks/useUploadItemForm";
 import { useOutletContext } from "react-router";
+import { useParams } from "@Router/index";
+import useUpdateCourseForm from "../useUpdateCourseForm";
+import { useCourseStore } from "../../useCourseScore";
 
 const AddTextItem: React.FC<AddItemProps> = (props) => {
   const [form] = Form.useForm();
-  const [, , , language = "eng"] = useOutletContext<Types.CourseSection[][]>();
-  const {
-    onFormChange,
-    topics,
-    handleTopicsChange,
-    item,
-    courseId,
-    sectionId,
-    itemId,
-  } = useUploadItemForm(form);
+  const [, , , language] = useOutletContext<
+    Types.CourseSection[][]
+  >() as unknown as string;
+  const { itemId, id: courseId } = useParams();
+
+  const { onFormChange, updateItem } = useUpdateCourseForm(itemId + "");
+  const item = useCourseStore((s) => s.currentItem);
 
   const {
     data: summary,
     mutate: generateInfoApi,
     isLoading: generatingSummary,
   } = User.Queries.useGenerateCourseItemInfo();
-  const generateItemInfo = (fields: string[]) => {
-    generateInfoApi(
-      { data: { courseId: courseId + "", itemId: itemId + "", fields } },
-      {
-        onSuccess: ({ summary, topics }) => {
-          if (summary) {
-            onFormChange({ summary: summary });
-          }
-          if (topics && topics.length) {
-            handleTopicsChange(topics);
-          }
-          console.log(topics, "123123");
-          // form.setFieldValue('summary', summary);
-        },
-      }
-    );
-  };
 
   return (
     <Fragment>
       <Form
         form={form}
         layout="vertical"
-        onValuesChange={(e) => {
+        onValuesChange={(changedValues, e) => {
+          console.log(e, "eeee");
           const data: Partial<Types.CourseSectionItem> = {
             ...e,
           };
@@ -131,7 +115,7 @@ const AddTextItem: React.FC<AddItemProps> = (props) => {
                       value: courseId + "",
                     }}
                     uploadType="file"
-                    prefixKey={`courses/${courseId}/${sectionId}/${itemId}/files/${uniqueId()}`}
+                    prefixKey={`courses/${courseId}/${itemId}/files/${uniqueId()}`}
                     onUpload={({ name, _id }) => {
                       onFormChange({
                         files: [...item.files, { name, file: _id }],
@@ -155,56 +139,10 @@ const AddTextItem: React.FC<AddItemProps> = (props) => {
         </Row>
         <Form.Item name={["description", "text", language]} label="Description">
           <TextArea
+            name={["description", "text", language]}
             html
             height={700}
-            // onChange={e =>
-            //   onFormChange({
-            //     description: e
-            //   })
-            // }
           />
-        </Form.Item>
-
-        {item.description ? (
-          <Form.Item
-            name={"summary"}
-            label={
-              <span>
-                Summary{" "}
-                <Button
-                  loading={generatingSummary}
-                  onClick={() => generateItemInfo(["summary"])}
-                  type="primary"
-                  size="small"
-                >
-                  Generate with AI
-                </Button>
-              </span>
-            }
-            required
-          >
-            <TextArea html height={300} name={"summary"} />
-          </Form.Item>
-        ) : null}
-
-        <Form.Item
-          label={
-            <span>
-              Topics{" "}
-              <Button
-                loading={generatingSummary}
-                onClick={() => generateItemInfo(["topics"])}
-                type="primary"
-                size="small"
-              >
-                Generate with AI
-              </Button>
-            </span>
-          }
-          required
-          tooltip="This is a required field"
-        >
-          <InputTags name="topics" ctaText="Enter Topics" />
         </Form.Item>
       </Form>
     </Fragment>

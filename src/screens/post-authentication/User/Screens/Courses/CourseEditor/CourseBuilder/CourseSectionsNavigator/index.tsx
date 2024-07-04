@@ -305,7 +305,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                           >
                             <List.Item.Meta
                               style={{ cursor: "pointer" }}
-                              title={<Text>{item.title}</Text>}
+                              title={<Text>{item.title.text[language]}</Text>}
                               avatar={
                                 <CourseItemIcon type="outlined" item={item} />
                               }

@@ -23,7 +23,7 @@ import {
 } from "@ant-design/icons";
 import { Constants, Enum, Types, Utils } from "@adewaskar/lms-common";
 import { Fragment, useEffect, useState } from "react";
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 import AppProvider from "screens/AppProvider";
 import BackButton from "@Components/BackButton";
 import { Course } from "@adewaskar/lms-common/lib/cjs/types/types/Courses.types";
@@ -131,6 +131,11 @@ function CourseEditor() {
                     Publish Course
                   </Button>
                 ),
+                <Link to={`/admin/products/courses/${course._id}/builder`}>
+                  <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>
+                    Go to Course Builder
+                  </Button>
+                </Link>,
                 <Button
                   disabled={!validateDraftCourse()}
                   loading={loading}

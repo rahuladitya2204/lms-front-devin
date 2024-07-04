@@ -14,7 +14,7 @@ import {
 } from "@Lib/index";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
 import { Outlet } from "react-router";
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 import { SaveOutlined, UploadOutlined } from "@ant-design/icons";
 import { cloneDeep, debounce } from "lodash";
 import { useEffect, useState } from "react";
@@ -109,8 +109,9 @@ function CourseBuilderScreen() {
     let COURSE = cloneDeep(course);
     const sectionId = COURSE.sections[index]._id;
     const newItem: Partial<Types.CourseSectionItem> = {
-      title: item.title ? item.title : "",
-      description: item.description ? item.description : "",
+      title: {
+        text: Constants.INITIAL_LANG_TEXT,
+      },
       // _id: '',
       // fix later
       type,
@@ -294,29 +295,12 @@ function CourseBuilderScreen() {
               </Button>
             </Space>
           ) : (
-            ((
-              <Button
-                onClick={() => {
-                  confirm({
-                    title: "Are you sure?",
-                    content: `You want to publish this course?`,
-                    onOk() {
-                      publishCourse({
-                        courseId: course._id,
-                      });
-                    },
-                    okText: "Yes, Publish",
-                  });
-                }}
-                loading={publishingCourse}
-                // disabled={!Utils.validatePublishCourse(course)}
-                style={{ marginRight: 15 }}
-                icon={<UploadOutlined />}
-              >
-                Publish Course
-              </Button>
-            ),
-            (
+            <>
+              {/* <Link to={`/admin/products/course/${course._id}/builder`}>
+                <Button style={{ marginRight: 15 }} icon={<UploadOutlined />}>
+                  Go to Course Builder
+                </Button>
+              </Link> */}
               <Button
                 loading={savingCourse}
                 onClick={() => saveCourse()}
@@ -325,7 +309,7 @@ function CourseBuilderScreen() {
               >
                 Save Changes
               </Button>
-            ))
+            </>
           ),
           // <Button
           //   onClick={() => saveCourse(course)}
