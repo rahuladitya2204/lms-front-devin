@@ -321,164 +321,175 @@ function CourseBuilderScreen() {
           // </Button>
         ]}
       >
-        <Row gutter={[16, 16]}>
-          <Col span={8}>
-            <Row>
-              <Col span={24}>
-                <Form.Item>
-                  {loadingCourse ? (
-                    <Image preview={false} src={course.thumbnailImage} />
-                  ) : (
-                    <MediaUpload
-                      source={{
-                        type: "course.thumbnailImage",
-                        value: courseId + "",
-                      }}
-                      uploadType="image"
-                      prefixKey={`courses/${courseId}/thumbnailImage`}
-                      cropper={{ width: 330, height: 200 }}
-                      width="100%"
-                      // height="200px"
-                      aspect={16 / 9}
-                      renderItem={() => (
-                        <Image preview={false} src={course.thumbnailImage} />
-                      )}
-                      onUpload={(file) => {
-                        saveCourse({
-                          thumbnailImage: file.url,
-                        });
-                      }}
-                    />
-                  )}
-                  <Row
-                    justify={"space-between"}
-                    style={{ margin: "20px 0 0", marginTop: 20 }}
-                    gutter={[20, 20]}
-                  >
-                    {loadingCourse ? (
-                      <>
-                        <Col flex={1}>
-                          <Skeleton.Button block />
-                        </Col>
-                        <Col flex={1}>
-                          <Skeleton.Button block />
-                        </Col>{" "}
-                      </>
-                    ) : (
-                      <>
-                        <Col flex={1}>
-                          <Button block>Preview</Button>
-                        </Col>
-                        <Col flex={1}>
-                          <Button
-                            onClick={() => {
-                              openModal(
-                                <SetCourseRules
-                                  onSubmit={(d) =>
-                                    saveCourse({
-                                      rules: d,
-                                    })
+        <Tabs
+          tabPosition="top"
+          type="card"
+          tabKey="course-builder"
+          destroyInactiveTabPane={false}
+          onTabClick={(e) => {
+            setLanguage(e);
+            console.log(e, "eee");
+          }}
+          items={Constants.LANGUAGES.filter((l) =>
+            course?.languages?.includes(l.value)
+          )?.map((l) => {
+            return {
+              label: l.label,
+              key: l.value,
+              children: (
+                <Row gutter={[16, 16]}>
+                  <Col span={8}>
+                    <Row>
+                      <Col span={24}>
+                        <Form.Item>
+                          {loadingCourse ? (
+                            <Image
+                              preview={false}
+                              src={course.thumbnailImage}
+                            />
+                          ) : (
+                            <MediaUpload
+                              source={{
+                                type: "course.thumbnailImage",
+                                value: courseId + "",
+                              }}
+                              uploadType="image"
+                              prefixKey={`courses/${courseId}/thumbnailImage`}
+                              cropper={{ width: 330, height: 200 }}
+                              width="100%"
+                              // height="200px"
+                              aspect={16 / 9}
+                              renderItem={() => (
+                                <Image
+                                  preview={false}
+                                  src={course.thumbnailImage}
+                                />
+                              )}
+                              onUpload={(file) => {
+                                saveCourse({
+                                  thumbnailImage: file.url,
+                                });
+                              }}
+                            />
+                          )}
+                          <Row
+                            justify={"space-between"}
+                            style={{ margin: "20px 0 0", marginTop: 20 }}
+                            gutter={[20, 20]}
+                          >
+                            {loadingCourse ? (
+                              <>
+                                <Col flex={1}>
+                                  <Skeleton.Button block />
+                                </Col>
+                                <Col flex={1}>
+                                  <Skeleton.Button block />
+                                </Col>{" "}
+                              </>
+                            ) : (
+                              <>
+                                <Col flex={1}>
+                                  <Button block>Preview</Button>
+                                </Col>
+                                <Col flex={1}>
+                                  <Button
+                                    onClick={() => {
+                                      openModal(
+                                        <SetCourseRules
+                                          onSubmit={(d) =>
+                                            saveCourse({
+                                              rules: d,
+                                            })
+                                          }
+                                          data={course.rules}
+                                        />,
+                                        {
+                                          title: "Set Rules",
+                                        }
+                                      );
+                                    }}
+                                    block
+                                    type="primary"
+                                  >
+                                    Set Rules
+                                  </Button>
+                                  {/* <ActionModal
+                                  title="Set Rules"
+                                  cta={
+                                    <Button block type="primary">
+                                      Set Rules
+                                    </Button>
                                   }
-                                  data={course.rules}
-                                />,
+                                >
+                                  <SetCourseRules
+                                    onSubmit={d =>
+                                      saveCourse({
+                                        rules: d
+                                      })
+                                    }
+                                    data={course.rules}
+                                  />
+                                </ActionModal> */}
+                                </Col>
+                              </>
+                            )}
+                          </Row>
+                        </Form.Item>
+                      </Col>
+                      <Col span={24}>
+                        <Spin
+                          tip="Please wait.."
+                          spinning={
+                            deletingSection ||
+                            deletingSectionItem ||
+                            loadingCourse
+                          }
+                        >
+                          <CourseSectionsNavigator
+                            language={language}
+                            deleteSectionItem={deleteSectionItem}
+                            deleteSection={deleteSection}
+                            onAddNewItem={onAddNewItem}
+                            onAddSection={onAddSection}
+                            sections={course.sections}
+                            onReorderSections={onReorderSections}
+                          />
+                        </Spin>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col span={16}>
+                    {!course.sections.length ? (
+                      <Alert
+                        message="Generate course structure using AI"
+                        description="You can generate course outline using our AI"
+                        type="info"
+                        showIcon
+                        action={
+                          <GenerateWithAI
+                            courseId={course._id}
+                            fields={["sections"]}
+                            onValuesChange={({ sections }: any) => {
+                              updateCourse(
                                 {
-                                  title: "Set Rules",
+                                  id: courseId || "",
+                                  data: {
+                                    // @ts-ignore
+                                    sections: sections.sections,
+                                  },
+                                },
+                                {
+                                  onSuccess: () => {
+                                    navigate("");
+                                  },
                                 }
                               );
                             }}
-                            block
-                            type="primary"
-                          >
-                            Set Rules
-                          </Button>
-                          {/* <ActionModal
-                        title="Set Rules"
-                        cta={
-                          <Button block type="primary">
-                            Set Rules
-                          </Button>
+                          />
                         }
-                      >
-                        <SetCourseRules
-                          onSubmit={d =>
-                            saveCourse({
-                              rules: d
-                            })
-                          }
-                          data={course.rules}
-                        />
-                      </ActionModal> */}
-                        </Col>
-                      </>
-                    )}
-                  </Row>
-                </Form.Item>
-              </Col>
-              <Col span={24}>
-                <Spin
-                  tip="Please wait.."
-                  spinning={
-                    deletingSection || deletingSectionItem || loadingCourse
-                  }
-                >
-                  <CourseSectionsNavigator
-                    language={language}
-                    deleteSectionItem={deleteSectionItem}
-                    deleteSection={deleteSection}
-                    onAddNewItem={onAddNewItem}
-                    onAddSection={onAddSection}
-                    sections={course.sections}
-                    onReorderSections={onReorderSections}
-                  />
-                </Spin>
-              </Col>
-            </Row>
-          </Col>
-          <Col span={16}>
-            {!course.sections.length ? (
-              <Alert
-                message="Generate course structure using AI"
-                description="You can generate course outline using our AI"
-                type="info"
-                showIcon
-                action={
-                  <GenerateWithAI
-                    courseId={course._id}
-                    fields={["sections"]}
-                    onValuesChange={({ sections }: any) => {
-                      updateCourse(
-                        {
-                          id: courseId || "",
-                          data: {
-                            // @ts-ignore
-                            sections: sections.sections,
-                          },
-                        },
-                        {
-                          onSuccess: () => {
-                            navigate("");
-                          },
-                        }
-                      );
-                    }}
-                  />
-                }
-              />
-            ) : null}
-            <Card>
-              <Tabs
-                destroyInactiveTabPane={false}
-                onTabClick={(e) => {
-                  setLanguage(e);
-                  console.log(e, "eee");
-                }}
-                items={Constants.LANGUAGES.filter((l) =>
-                  course?.languages?.includes(l.value)
-                )?.map((l) => {
-                  return {
-                    label: l.label,
-                    key: l.value,
-                    children: (
+                      />
+                    ) : null}
+                    <Card>
                       <Outlet
                         context={[
                           items,
@@ -487,13 +498,13 @@ function CourseBuilderScreen() {
                           l.value,
                         ]}
                       />
-                    ),
-                  };
-                })}
-              />
-            </Card>
-          </Col>
-        </Row>
+                    </Card>
+                  </Col>
+                </Row>
+              ),
+            };
+          })}
+        />
       </Header>
     </AppProvider>
   );

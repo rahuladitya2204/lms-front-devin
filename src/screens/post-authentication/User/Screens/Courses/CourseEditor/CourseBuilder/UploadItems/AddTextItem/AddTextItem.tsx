@@ -1,152 +1,206 @@
 import {
-  Avatar,
+  Alert,
   Button,
   Card,
   Checkbox,
   Col,
+  Divider,
+  Empty,
   Form,
   Input,
+  Modal,
+  Progress,
+  Radio,
   Row,
-  Space,
+  Select,
+  Spin,
   Switch,
-} from "antd";
-import { Fragment, useEffect } from "react";
-import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
-import { Types, User } from "@adewaskar/lms-common";
+  Tag,
+  Tree,
+  TreeSelect,
+} from "@Lib/index";
+import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
+import {
+  DeleteTwoTone,
+  DownOutlined,
+  PlusCircleTwoTone,
+  UploadOutlined,
+} from "@ant-design/icons";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
-import { AddItemProps } from "../UploadPDF";
-import FileList from "@Components/FileList";
+import AppImage from "@Components/Image";
 import InputTags from "@Components/InputTags/InputTags";
+import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import MediaUpload from "@Components/MediaUpload";
+import Tabs from "@Components/Tabs";
+import { Text } from "@Components/Typography/Typography";
 import TextArea from "@Components/Textarea";
-import { getReadingTime } from "../../utils";
-import { uniqueId } from "lodash";
-import useUploadItemForm from "../hooks/useUploadItemForm";
-import { useOutletContext } from "react-router";
+import { Typography } from "@Components/Typography";
+import UploadVideo from "@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo";
 import { useParams } from "@Router/index";
-import useUpdateCourseForm from "../useUpdateCourseForm";
+import useCourseNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
 import { useCourseStore } from "../../useCourseScore";
+import useUpdateCourseForm from "../useUpdateCourseForm";
+import { useOutletContext } from "react-router";
 
-const AddTextItem: React.FC<AddItemProps> = (props) => {
+const { Title } = Typography;
+
+const { confirm } = Modal;
+
+export const QUESTION_DIFFICULTY_LEVELS = [
+  { value: "easy", label: "Easy" },
+  { value: "medium", label: "Medium" },
+  { value: "difficult", label: "Difficult" },
+];
+
+interface CreateQuestionFormPropsI {
+  submit?: (d: Types.CourseSectionItem) => void;
+  data?: Types.CourseSectionItem;
+  closeModal?: Function;
+  onFormChange?: (d: Partial<Types.CourseSectionItem>) => void;
+}
+
+const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   const [form] = Form.useForm();
-  const [, , , language] = useOutletContext<
-    Types.CourseSection[][]
-  >() as unknown as string;
-  const { itemId, id: courseId } = useParams();
 
+  const [enterHtml, setEnterHtml] = useState(false);
+  const { itemId, id: courseId } = useParams();
   const { onFormChange, updateItem } = useUpdateCourseForm(itemId + "");
   const item = useCourseStore((s) => s.currentItem);
+  console.log(item, "okokok");
+  const { data: course } = User.Queries.useGetCourseDetails(courseId + "");
+  const criterias = Form.useWatch("criterias", form);
+  // @ts-ignore
+  const [, , , language] = useOutletContext();
+  const { data: topics } = User.Queries.useGetTopics();
 
+  useEffect(() => {
+    const i = {
+      ...item,
+    };
+    if (!item.topic) {
+      // @ts-ignore
+      i.topic = null;
+    }
+    form.setFieldsValue(i);
+  }, [item]);
+
+  const submit = (e: Types.CourseSectionItem) => {
+    props.submit && props.submit({ ...e });
+    form.resetFields();
+    props.closeModal && props.closeModal();
+  };
+  const { data: file } = User.Queries.useGetFileDetails(
+    item?.solution?.video + "",
+    {
+      enabled: !!item?.solution?.video,
+    }
+  );
+
+  const jobId = file?.metadata?.video?.jobId;
   const {
-    data: summary,
-    mutate: generateInfoApi,
-    isLoading: generatingSummary,
-  } = User.Queries.useGenerateCourseItemInfo();
+    data: { status, progress },
+  } = User.Queries.useGetTranscodeVideoStatus(jobId, {
+    retry: true,
+    enabled: !!jobId,
+    retryDelay: 4000,
+  });
+  const { mutate: deleteSectionItemApi, isLoading: deletingSectionItem } =
+    User.Queries.useDeleteCourseSectionItem();
+  const DeleteSectionItem = () => {
+    confirm({
+      title: "Are you sure?",
+      content: `You want to delete this section item`,
+      onOk() {
+        deleteSectionItemApi({
+          data: { courseId: courseId + "", itemId: itemId + "" },
+        });
+      },
+      okText: "Delete",
+    });
+  };
+  const fileId = file.encoded || file._id;
+  const options = Form.useWatch("options", form) || [];
 
-  return (
-    <Fragment>
-      <Form
-        form={form}
-        layout="vertical"
-        onValuesChange={(changedValues, e) => {
-          console.log(e, "eeee");
-          const data: Partial<Types.CourseSectionItem> = {
-            ...e,
-          };
-          if (e.description) {
-            data.metadata = {
-              duration: getReadingTime(e.description),
-            };
-          }
-          console.log(data, "data");
-          onFormChange(data);
-        }}
-      >
-        <Form.Item name={["title", "text", language]} label="Title" required>
-          <Input placeholder="Enter Text Content's title" />
-        </Form.Item>
-        <Form.Item>
-          <Checkbox
-            checked={item.isPreview}
-            onChange={(e) => {
-              const isPreview = e.target.checked;
-              onFormChange({ isPreview });
-            }}
+  const prefixKey = `courses/${courseId}/${itemId}`;
+
+  const treeData = course?.topics
+    ?.map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
+    .flat();
+  // console.log(treeData, "treeData");
+  const getFormComponent = (language: string) => (
+    <Form
+      onFinish={submit}
+      initialValues={item}
+      onValuesChange={(changedValues, allValues) =>
+        onFormChange({
+          ...allValues,
+          ...(criterias || {}),
+        })
+      }
+      form={form}
+      layout="vertical"
+    >
+      <Row gutter={[10, 0]}>
+        <Col span={24}></Col>
+        <Col span={24}>
+          <Form.Item
+            name={["title", "text", language]}
+            label="Title"
+            required
+            rules={[
+              {
+                required: true,
+                message: "Enter questions's title",
+              },
+            ]}
           >
-            Avail this as a free lecture
-          </Checkbox>
-        </Form.Item>
-        {/* <Form.Item
-          name="topics"
-          label={
-            <span>
-              Topics{' '}
-              <Button
-                loading={generatingSummary}
-                onClick={() => generateItemInfo(['topics'])}
-                type="primary"
-                size="small"
-              >
-                Generate
-              </Button>
-            </span>
-          }
-          rules={[{ required: true, message: 'Please input your topics!' }]}
-        >
-          <InputTags
-            name="topics"
-            onChange={handleTopicsChange}
-            ctaText="Enter Topics"
-          />{' '}
-        </Form.Item> */}
-        <Row gutter={[20, 20]}>
-          <Col span={24}>
-            <Card
-              style={{ marginBottom: 20 }}
-              title="Course Files"
-              extra={
-                <ActionModal
-                  cta={<Button icon={<UploadOutlined />}> Upload Files</Button>}
-                >
-                  <MediaUpload
-                    source={{
-                      type: "course.section.item.files",
-                      value: courseId + "",
-                    }}
-                    uploadType="file"
-                    prefixKey={`courses/${courseId}/${itemId}/files/${uniqueId()}`}
-                    onUpload={({ name, _id }) => {
-                      onFormChange({
-                        files: [...item.files, { name, file: _id }],
-                      });
-                    }}
+            <Input />
+          </Form.Item>
+          <Row gutter={[20, 20]}>
+            <Col span={24}>
+              <Card title="Content">
+                <Form.Item name={["description", "html", language]} required>
+                  <TextArea
+                    uploadPrefixKey={prefixKey}
+                    height={350}
+                    html={{ level: 3 }}
                   />
-                </ActionModal>
-              }
-            >
-              <FileList
-                onDeleteFile={(fileId: string) => {
-                  const files = item.files.filter(
-                    (f: any) => f.file !== fileId
-                  );
-                  onFormChange({ files });
-                }}
-                files={item.files}
-              />
-            </Card>
-          </Col>
-        </Row>
-        <Form.Item name={["description", "text", language]} label="Description">
-          <TextArea
-            name={["description", "text", language]}
-            html
-            height={700}
-          />
-        </Form.Item>
-      </Form>
-    </Fragment>
+                </Form.Item>
+              </Card>
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Topic" name="topic">
+                <TreeSelect
+                  treeData={treeData}
+                  // onExpand={onExpand}
+                  // expandedKeys={expandedKeys}
+                  // defaultExpandAll
+                  // showLine
+                  // switcherIcon={<DownOutlined />}
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item label="Tags" name="tags">
+                <InputTags name="tags" />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Form>
+  );
+  return (
+    <Spin spinning={false}>
+      {/* <Divider/> */}
+      <Card>{getFormComponent(language.value)}</Card>
+    </Spin>
   );
 };
 
-export default AddTextItem;
+const AddTextItemMemoed = React.memo(AddTextItem);
+
+export default AddTextItemMemoed;

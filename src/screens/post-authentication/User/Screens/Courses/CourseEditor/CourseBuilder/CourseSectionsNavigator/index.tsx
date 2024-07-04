@@ -263,7 +263,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                     extra={SectionOptionDropdown}
                     key={secIndex}
                     header={
-                      section?.title?.text ? section?.title?.text[language] : ""
+                      section.title.text ? section.title.text[language] : ""
                     }
                   >
                     <List
@@ -305,7 +305,13 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                           >
                             <List.Item.Meta
                               style={{ cursor: "pointer" }}
-                              title={<Text>{item.title.text[language]}</Text>}
+                              title={
+                                <Text>
+                                  {item.title.text
+                                    ? item.title.text[language]
+                                    : ""}
+                                </Text>
+                              }
                               avatar={
                                 <CourseItemIcon type="outlined" item={item} />
                               }
