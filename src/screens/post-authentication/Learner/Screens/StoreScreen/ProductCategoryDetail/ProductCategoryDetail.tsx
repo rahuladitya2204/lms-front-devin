@@ -90,6 +90,7 @@ export default function ProductCategoryDetailScreen(
   // const loadingProductCategory = true;
   const { data: productCategory, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
+  // console.log(productCategory, "productCategory");
   const hidePopup =
     localStorage.getItem("hide_popup") || searchParams.get("hide_popup");
   // console.log(hidePopup, "hide popup");
@@ -159,7 +160,7 @@ export default function ProductCategoryDetailScreen(
                     ? [
                         {
                           title: (
-                            <span>{link.displayOnLandingPage.cta.text}</span>
+                            <span>{link?.displayOnLandingPage?.cta?.text}</span>
                           ),
                         },
                       ]
