@@ -63,7 +63,7 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
         bodyStyle={{ padding: 0, width: "100%" }}
       >
         <Row gutter={[20, 20]} justify={"space-between"} align={"middle"}>
-          <Col>
+          <Col style={{ flex: 1 }}>
             <div style={{ display: "flex", alignItems: "center" }}>
               <Image
                 width={50}
