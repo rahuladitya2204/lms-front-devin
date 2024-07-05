@@ -36,10 +36,14 @@ export const useCourseStore = create<CourseStoreState>((set) => ({
   },
   updateItem: (itemId, newItemData) => {
     set((state) => {
+      const D = {
+        ...newItemData,
+      };
+
       const updatedSections = state.course.sections.map((section) => {
         // Map through items in each section and update the item with matching itemId
         const updatedItems = section.items.map((item) =>
-          item._id === itemId ? { ...item, ...newItemData } : item
+          item._id === itemId ? { ...item, ...D } : item
         );
         return { ...section, items: updatedItems };
       });

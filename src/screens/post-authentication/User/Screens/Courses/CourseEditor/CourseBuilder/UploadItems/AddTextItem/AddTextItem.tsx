@@ -68,11 +68,11 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   const { itemId, id: courseId } = useParams();
   const { onFormChange, updateItem } = useUpdateCourseForm(itemId + "");
   const item = useCourseStore((s) => s.currentItem);
-  console.log(item, "okokok");
+  // console.log(item, "okokok");
   const { data: course } = User.Queries.useGetCourseDetails(courseId + "");
-  const criterias = Form.useWatch("criterias", form);
   // @ts-ignore
   const [, , , language] = useOutletContext();
+  console.log(language, "language");
   const { data: topics } = User.Queries.useGetTopics();
 
   useEffect(() => {
@@ -98,14 +98,6 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
     }
   );
 
-  const jobId = file?.metadata?.video?.jobId;
-  const {
-    data: { status, progress },
-  } = User.Queries.useGetTranscodeVideoStatus(jobId, {
-    retry: true,
-    enabled: !!jobId,
-    retryDelay: 4000,
-  });
   const { mutate: deleteSectionItemApi, isLoading: deletingSectionItem } =
     User.Queries.useDeleteCourseSectionItem();
   const DeleteSectionItem = () => {
@@ -120,8 +112,6 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
       okText: "Delete",
     });
   };
-  const fileId = file.encoded || file._id;
-  const options = Form.useWatch("options", form) || [];
 
   const prefixKey = `courses/${courseId}/${itemId}`;
 
@@ -131,14 +121,15 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   // console.log(treeData, "treeData");
   const getFormComponent = (language: string) => (
     <Form
+      name="course builder"
       onFinish={submit}
       initialValues={item}
-      onValuesChange={(changedValues, allValues) =>
+      onValuesChange={(changedValues, allValues) => {
+        console.log(allValues, "allValues");
         onFormChange({
           ...allValues,
-          ...(criterias || {}),
-        })
-      }
+        });
+      }}
       form={form}
       layout="vertical"
     >
@@ -190,13 +181,18 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
             </Col>
           </Row>
         </Col>
+        <Col span={24} style={{ display: "flex", justifyContent: "end" }}>
+          <Button type="primary" onClick={DeleteSectionItem} danger>
+            Delete Chapter
+          </Button>
+        </Col>
       </Row>
     </Form>
   );
   return (
     <Spin spinning={false}>
       {/* <Divider/> */}
-      <Card>{getFormComponent(language.value)}</Card>
+      <Card>{getFormComponent(language)}</Card>
     </Spin>
   );
 };

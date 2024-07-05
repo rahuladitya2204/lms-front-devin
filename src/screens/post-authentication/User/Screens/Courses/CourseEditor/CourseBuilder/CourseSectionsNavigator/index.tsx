@@ -120,6 +120,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   deleteSectionItem,
   onReorderSections,
 }) => {
+  console.log(language, "languagetuku");
   const [secEditable, setSecEditable] = useState({});
   const [enableSectionReorder, setEnableSectionReorder] = useState(true);
   const [itemRearrengeIndex, setItemRearrengeIndex] = useState<number | null>(

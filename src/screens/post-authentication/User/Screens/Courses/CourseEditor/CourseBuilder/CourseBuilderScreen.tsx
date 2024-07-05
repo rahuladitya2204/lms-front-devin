@@ -45,13 +45,7 @@ function CourseBuilderScreen() {
     User.Queries.useGetCourseDetails(courseId + "", {
       enabled: !!courseId,
     });
-  const savedDetails = (text?: string) => {
-    // message.open({
-    //   type: 'success',
-    //   content: text || `Saved`
-    // })
-  };
-  // const updateCourse = debounce(console.log, 600)
+  console.log(course, "121");
 
   const { mutate: deleteSectionApi, isLoading: deletingSection } =
     User.Queries.useDeleteCourseSection();
@@ -149,13 +143,14 @@ function CourseBuilderScreen() {
   };
 
   const saveCourse = () => {
-    const d = course;
     console.log("Saved");
     if (course._id) {
       updateCourse(
         {
           id: courseId + "",
-          data: { ...course, ...d },
+          data: {
+            sections: course.sections,
+          },
         },
         {
           onSuccess: () => {
