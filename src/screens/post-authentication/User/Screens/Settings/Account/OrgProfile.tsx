@@ -93,7 +93,6 @@ export default function OrgProfile() {
                   />
                 )}
                 onUpload={(e) => {
-                  console.log(e, "eeee");
                   form.setFieldValue(["branding", "logo", "low", "url"], e.url);
                 }}
               />
@@ -112,7 +111,6 @@ export default function OrgProfile() {
                 width="100px"
                 renderItem={() => <Image width={"70%"} src={logo?.high?.url} />}
                 onUpload={(e) => {
-                  console.log(e, "eeee");
                   form.setFieldValue(
                     ["branding", "logo", "high", "url"],
                     e.url

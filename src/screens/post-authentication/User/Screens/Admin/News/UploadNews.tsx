@@ -77,7 +77,6 @@ export default function UploadNews(props: UploadNewsPropsI) {
           name="files"
           // renderItem={() => <Image width={'70%'} src={thumbnailImage} />}
           onUpload={(e) => {
-            console.log(e, "eeee");
             form.setFieldValue(
               ["files"],
               [

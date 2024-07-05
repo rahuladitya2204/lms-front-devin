@@ -282,7 +282,6 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
           <Card bodyStyle={{ paddingTop: 0 }}>
             <Tabs
               onTabClick={(e) => {
-                console.log(e, "eeee");
                 setProductTab(e);
               }}
               items={TABS}

@@ -62,7 +62,6 @@ function ProductCategoryEditor() {
   }, [productCategoryDetails, form]);
 
   const updateProductCategory = (e: Types.ProductCategory) => {
-    console.log(e, "eeee");
     updateProductCategoryApi(
       {
         id: productCategoryId,

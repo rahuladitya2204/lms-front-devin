@@ -156,7 +156,6 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               <Switch
                 checked={!!isPYQ}
                 onChange={(e) => {
-                  console.log(e, "eeee");
                   setIsPYQ(e);
                 }}
               />

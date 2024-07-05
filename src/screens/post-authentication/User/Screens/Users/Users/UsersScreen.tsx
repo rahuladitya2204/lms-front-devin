@@ -75,7 +75,6 @@ function UsersScreen() {
                   <Switch
                     checked={!!isDel}
                     onChange={(e) => {
-                      console.log(e, "eeee");
                       setShowDel(e);
                     }}
                   />

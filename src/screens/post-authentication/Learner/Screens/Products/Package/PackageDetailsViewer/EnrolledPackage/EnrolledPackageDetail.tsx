@@ -206,7 +206,6 @@ const EnrolledPackageDetailScreen: React.FC<
       >
         <OrderAddressForm
           onSubmit={(e) => {
-            console.log(e, "eeee");
             updateOrderAddress({
               address: e,
             });
