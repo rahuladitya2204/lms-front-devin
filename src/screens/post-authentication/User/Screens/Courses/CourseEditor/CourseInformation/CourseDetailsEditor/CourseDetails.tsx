@@ -9,6 +9,8 @@ import {
   Row,
   Select,
   Space,
+  Spin,
+  TreeSelect,
 } from "@Lib/index";
 import { Constants, Types } from "@adewaskar/lms-common";
 import { User, Utils } from "@adewaskar/lms-common";
@@ -23,8 +25,9 @@ import { PlusOutlined } from "@ant-design/icons";
 import SelectProductCategory from "@Components/SelectProductCategory";
 import { Typography } from "@Components/Typography";
 import { deepPatch } from "../../CourseBuilder/utils";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "@Router/index";
+import { buildTopicTree } from "@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -79,6 +82,12 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       />
     );
   };
+
+  const { data: topics, isLoading: loadingTopics } =
+    User.Queries.useGetTopics();
+  const TOPIC_TREE_DATA = useMemo(() => {
+    return buildTopicTree(topics);
+  }, [topics]);
 
   return (
     <Form
@@ -157,7 +166,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         <TextArea rows={4} placeholder="Enter the course description" />
       </Form.Item>
       <Row gutter={[40, 20]}>
-        <Col span={12}>
+        <Col span={8}>
           <Form.Item
             label="Difficulty Level"
             name={["difficultyLevel"]}
@@ -168,7 +177,24 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             <Select options={DIFFICULTY_LEVELS} />
           </Form.Item>
         </Col>
-        <Col span={12}>
+        <Col span={8}>
+          <Form.Item
+            // label=""
+            label={`Topics`}
+            name={["topics"]}
+            // rules={[{ required: true, message: "Please select topics" }]}
+          >
+            {/* <Spin spinning={loadingTopics}> */}
+            <TreeSelect
+              loading={loadingTopics}
+              multiple
+              treeData={TOPIC_TREE_DATA}
+            />
+            {/* </Spin> */}
+          </Form.Item>
+        </Col>
+
+        <Col span={8}>
           <Form.Item
             name="languages"
             required

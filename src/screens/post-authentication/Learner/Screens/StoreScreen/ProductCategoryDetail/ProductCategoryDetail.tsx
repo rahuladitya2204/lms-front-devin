@@ -109,7 +109,6 @@ export default function ProductCategoryDetailScreen(
   // const { data: learner } = Learner.Queries.useGetLearnerDetails();
   useEffect(() => {
     setTimeout(() => {
-      console.log(isSignedIn, productCategory, "learnerlearner");
       if (
         !isLoading &&
         !isSignedIn &&
@@ -229,15 +228,16 @@ export default function ProductCategoryDetailScreen(
                       >
                         <ClockCircleOutlined /> Last Updated on{" "}
                         {dayjs(productCategory.updatedAt).format("LL")}
+                        {isDesktop ? (
+                          <>
+                            <Divider type="vertical" />{" "}
+                            <ANTDTypography.Link>
+                              Authored by Rahul Sharma
+                            </ANTDTypography.Link>
+                          </>
+                        ) : null}
                       </Text>
                     </Col>
-                    {isDesktop ? (
-                      <Col span={24}>
-                        <ANTDTypography.Link>
-                          Authored by Rahul Sharma
-                        </ANTDTypography.Link>
-                      </Col>
-                    ) : null}
                   </Row>
                 </Col>
               </Row>

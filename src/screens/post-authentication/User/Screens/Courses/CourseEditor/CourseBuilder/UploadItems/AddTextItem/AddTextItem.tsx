@@ -72,10 +72,11 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   const { data: course } = User.Queries.useGetCourseDetails(courseId + "");
   // @ts-ignore
   const [, , , language] = useOutletContext();
-  console.log(language, "language");
+  // console.log(language, "language");
   const { data: topics } = User.Queries.useGetTopics();
 
   useEffect(() => {
+    console.log(item, "okokok");
     const i = {
       ...item,
     };
@@ -125,7 +126,7 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
       onFinish={submit}
       initialValues={item}
       onValuesChange={(changedValues, allValues) => {
-        console.log(allValues, "allValues");
+        // console.log(allValues, "allValues");
         onFormChange({
           ...allValues,
         });
@@ -152,7 +153,7 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
           <Row gutter={[20, 20]}>
             <Col span={24}>
               <Card title="Content">
-                <Form.Item name={["description", "html", language]} required>
+                <Form.Item name={["description", "text", language]} required>
                   <TextArea
                     uploadPrefixKey={prefixKey}
                     height={350}
