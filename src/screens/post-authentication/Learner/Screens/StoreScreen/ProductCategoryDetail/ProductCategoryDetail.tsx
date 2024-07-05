@@ -202,7 +202,7 @@ export default function ProductCategoryDetailScreen(
                         }}
                         level={5}
                       >
-                        {productCategory.title}
+                        {productCategory.subtitle}
                         <br />
                         {isMobile ? (
                           <span>
