@@ -150,7 +150,13 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   return (
     <Spin spinning={false}>
       {/* <Divider/> */}
-      <Card>{getFormComponent(language)}</Card>
+      <Card
+      // bodyStyle={{
+      //   height: 550,
+      // }}
+      >
+        {getFormComponent(language)}
+      </Card>
     </Spin>
   );
 };

@@ -38,7 +38,7 @@ export const useCourseStore = create<CourseStoreState>((set) => ({
     }));
   },
   setCurrentItem: (item) => {
-    console.log("kya bat", item);
+    // console.log("kya bat", item);
     set((state) => ({
       currentItem: item,
     }));

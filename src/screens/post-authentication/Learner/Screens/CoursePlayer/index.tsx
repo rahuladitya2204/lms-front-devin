@@ -173,7 +173,7 @@ function CoursePlayer() {
         : false,
     [trialExpiresAt]
   );
-
+  const language = "eng";
   const isFetching = loadingEnrolledCourse || loadingCourse;
   const CourseNavigator = (
     <>
@@ -195,6 +195,7 @@ function CoursePlayer() {
             style={{ marginBottom: 20 }}
           />
           <CoursePlayerCollapsible
+            language={language}
             isMobile={isMobile || isTablet}
             searchText={searchText}
             courseId={course._id}
@@ -295,7 +296,7 @@ function CoursePlayer() {
                     />
                   </Tooltip>
                 ) : null}
-                <Outlet context={[items, course._id]} />
+                <Outlet context={[items, course._id, language]} />
               </div>
             </Col>
             <Col span={24}>

@@ -23,6 +23,7 @@ const { Text } = Typography;
 interface CoursePlayerNavigatorItemPropsI {
   item: Types.CourseSectionItem;
   courseId: string;
+  language: string;
   section: Types.CourseSection;
   itemIndex: number;
   toggleItemCheck: (itemID: string, value: boolean) => void;
@@ -50,7 +51,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   const minDuration = Math.ceil(durationInMin.value);
   return (
     <NavLink
-      title={props.item.title}
+      title={props.item.title?.text[props.language]}
       to={`${props.item._id}`}
       children={({ isActive }) => (
         <CourseListItem
@@ -81,7 +82,7 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
             }
             title={
               <Text ellipsis>
-                {props.itemIndex}. {props.item.title}
+                {props.itemIndex}. {props.item.title?.text[props.language]}
               </Text>
             }
             description={

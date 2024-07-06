@@ -9,8 +9,10 @@ import PDFViewer from "@Components/PDFViewer";
 import { Spin } from "@Lib/index";
 import { useGetNodeFromRouterOutlet } from "../../../../../hooks/CommonHooks";
 import { useParams } from "@Router/index";
+import { useOutletContext } from "react-router";
 
 function CoursePlayerItem() {
+  const [, , language] = useOutletContext();
   const [loading, setLoading] = useState(false);
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress();
   const { data: user } = Learner.Queries.useGetLearnerDetails();
