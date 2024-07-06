@@ -14,7 +14,7 @@ import { Fragment, useCallback, useEffect, useState } from "react";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import AddItem from "../AddItem";
-import AddSection from "../CreateNewItem/AddSection";
+
 import CourseItemIcon from "./CourseItemIcon";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -29,6 +29,7 @@ import update from "immutability-helper";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useCourseStore } from "../useCourseStore";
 import AddCourseSection from "./AddCourseSection";
+import AddSection from "../CreateNewItem/AddSection";
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -223,7 +224,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   label: (
                     <ActionModal cta={`Rename`}>
                       {/* @ts-ignore */}
-                      <AddSection
+                      <AddCourseSection
                         data={section}
                         onFinish={(e: { title: string }) =>
                           onAddSection({ ...section, ...e })
@@ -234,11 +235,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   key: "rename",
                 },
                 {
-                  label: (
-                    <span onClick={() => DeleteSection(section._id)}>
-                      Edit Section
-                    </span>
-                  ),
+                  label: `Edit Section`,
                   onClick: () =>
                     openModal(
                       <AddCourseSection

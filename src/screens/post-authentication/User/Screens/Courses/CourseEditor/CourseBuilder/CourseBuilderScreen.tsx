@@ -65,13 +65,9 @@ function CourseBuilderScreen() {
     } else {
       // @ts-ignore
       const newSection: Types.CourseSection = {
-        title: {
-          text: Constants.INITIAL_LANG_TEXT,
-        },
+        title: section.title,
         items: [],
-        description: {
-          text: Constants.INITIAL_LANG_TEXT,
-        },
+        description: section.description,
       };
       COURSE.sections.push(newSection);
     }
@@ -200,7 +196,7 @@ function CourseBuilderScreen() {
       },
       {
         onSuccess: () => {
-          savedDetails("Section Deleted");
+          message.success("Section Deleted");
           const lastSection = course.sections.pop();
           const lastItem = lastSection?.items.pop();
           if (lastSection && lastItem && lastItem.type)
