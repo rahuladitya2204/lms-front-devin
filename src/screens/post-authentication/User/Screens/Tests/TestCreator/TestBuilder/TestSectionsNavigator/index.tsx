@@ -216,7 +216,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                         }
                       />
                     ),
-                  key: "rename",
+                  key: "edit-section",
                 },
                 {
                   label: (

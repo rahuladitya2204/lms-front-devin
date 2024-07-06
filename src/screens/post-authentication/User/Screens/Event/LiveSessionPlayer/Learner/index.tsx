@@ -25,8 +25,6 @@ const LearnerEventPlayerEnter = () => {
     simulcastEnabled: true,
   };
   const { data: session } = Learner.Queries.useGetEventDetails(eventId + "");
-
-  console.log(session, "tukur");
   return (
     <ThemeProvider theme={lightTheme}>
       <GlobalStyles />

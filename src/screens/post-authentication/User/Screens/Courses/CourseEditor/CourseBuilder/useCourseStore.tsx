@@ -6,6 +6,8 @@ interface CourseStoreState {
   course: Types.Course;
   currentItem: Types.CourseSectionItem;
   setCourse: (course: Partial<Types.Course>) => void;
+  language: string;
+  setLanguage: (language: string) => void;
   setCurrentItem: (course: Types.CourseSectionItem) => void;
   updateSection: (
     id: string,
@@ -20,6 +22,7 @@ interface CourseStoreState {
 
 export const useCourseStore = create<CourseStoreState>((set) => ({
   course: Constants.INITIAL_COURSE_DETAILS,
+  language: "eng",
   currentItem: Constants.INITIAL_COURSE_SECTION_ITEM_DETAILS,
   setCourse: (course) => {
     set((state) => ({
@@ -29,12 +32,19 @@ export const useCourseStore = create<CourseStoreState>((set) => ({
       },
     }));
   },
-  setCurrentItem: (question) => {
+  setLanguage: (language) => {
     set((state) => ({
-      currentItem: question,
+      language,
+    }));
+  },
+  setCurrentItem: (item) => {
+    console.log("kya bat", item);
+    set((state) => ({
+      currentItem: item,
     }));
   },
   updateItem: (itemId, newItemData) => {
+    // console.log(itemId, newItemData, "oiui");
     set((state) => {
       const D = {
         ...newItemData,

@@ -118,7 +118,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           },
           onSuccess: ([uploadFile]) => {
             const id = uniqueId();
-            console.log(editorInstance, uploadFile, "kokokok");
+            // console.log(editorInstance, uploadFile, "kokokok");
             const videoHtml = `<video id=${id} data-id="${id}" data-type="userUpload" src="${uploadFile.url}" alt="Image" />`;
             // @ts-ignore
             editorInstance.insertHTML(videoHtml);
@@ -151,7 +151,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
           },
           onSuccess: ([uploadFile]) => {
             const id = uniqueId();
-            console.log(editorInstance, uploadFile, "kokokok");
+            // console.log(editorInstance, uploadFile, "kokokok");
             const audioHtml = `<audio id=${id} data-id="${id}" data-type="userUpload" src="${uploadFile.url}" alt="Image" />`;
             // @ts-ignore
             editorInstance.insertHTML(audioHtml);
@@ -198,7 +198,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
             },
             onSuccess: ([uploadFile]) => {
               const id = uniqueId();
-              console.log(editorInstance, uploadFile, "kokokok");
+              // console.log(editorInstance, uploadFile, "kokokok");
               const imageHtml = `<img id=${id} data-id="${id}" data-type="userUpload" src="${uploadFile.url}" alt="Image" />`;
               // @ts-ignore
               editorInstance.insertHTML(imageHtml);

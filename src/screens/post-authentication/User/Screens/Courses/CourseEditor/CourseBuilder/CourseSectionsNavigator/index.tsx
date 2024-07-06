@@ -27,6 +27,8 @@ import { cloneDeep } from "lodash";
 import styled from "@emotion/styled";
 import update from "immutability-helper";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import { useCourseStore } from "../useCourseStore";
+import AddCourseSection from "./AddCourseSection";
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -102,7 +104,7 @@ interface CourseSectionsNavigatorPropsI {
   onAddSection: Function;
   deleteSection: (sId: string) => void;
   onReorderSections: (s: Types.CourseSection[]) => void;
-  language: string;
+  // language: string;
   deleteSectionItem: (secId: string, itemID: string) => void;
   onAddNewItem: (
     type: string,
@@ -114,14 +116,13 @@ interface CourseSectionsNavigatorPropsI {
 const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
   sections,
   onAddNewItem,
-  language,
+  // language,
   deleteSection,
   onAddSection,
   deleteSectionItem,
   onReorderSections,
 }) => {
-  console.log(language, "languagetuku");
-  const [secEditable, setSecEditable] = useState({});
+  const language = useCourseStore((s) => s.language);
   const [enableSectionReorder, setEnableSectionReorder] = useState(true);
   const [itemRearrengeIndex, setItemRearrengeIndex] = useState<number | null>(
     null
@@ -235,6 +236,23 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                 {
                   label: (
                     <span onClick={() => DeleteSection(section._id)}>
+                      Edit Section
+                    </span>
+                  ),
+                  onClick: () =>
+                    openModal(
+                      <AddCourseSection
+                        data={section}
+                        onFinish={(e: { title: string }) =>
+                          onAddSection({ ...section, ...e })
+                        }
+                      />
+                    ),
+                  key: "edit-section",
+                },
+                {
+                  label: (
+                    <span onClick={() => DeleteSection(section._id)}>
                       Delete Section
                     </span>
                   ),
@@ -260,6 +278,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   expandIconPosition="start"
                   // ghost
                 >
+                  {/* {language} */}
                   <CollapsePanel
                     extra={SectionOptionDropdown}
                     key={secIndex}
@@ -309,7 +328,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                               title={
                                 <Text>
                                   {item.title.text
-                                    ? item.title.text[language || "eng"]
+                                    ? item.title.text[language]
                                     : ""}
                                 </Text>
                               }
@@ -342,7 +361,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                                       title={item.title}
                                       style={{ width: "100%" }}
                                       key={item._id}
-                                      to={`${item.type}/${item._id}`}
+                                      to={`${item.type}/${item._id}?course-builder=${language}`}
                                       children={({ isActive }) =>
                                         CourseSectionListItem(isActive)
                                       }

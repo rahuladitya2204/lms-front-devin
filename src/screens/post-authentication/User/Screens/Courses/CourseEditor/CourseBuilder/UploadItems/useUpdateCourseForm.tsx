@@ -1,17 +1,13 @@
 import { Types, User } from "@adewaskar/lms-common";
 import { useCallback, useEffect } from "react";
 
-import { Form } from "@Lib/index";
-import { FormInstance } from "antd/lib/form/Form";
-import useMessage from "@Hooks/useMessage";
-import { useParams } from "@Router/index";
-import { useCourseStore } from "../useCourseScore";
+import { useCourseStore } from "../useCourseStore";
 
 function useUpdateCourseForm(itemId: string) {
   const updateItem = useCourseStore((s) => s.updateItem); // Using updateItem from useCourseStore
   const course = useCourseStore((s) => s.course); // Using updateItem from useCourseStore
-  const setCurrentItem = useCourseStore((s) => s.setCurrentItem); // Using updateItem from useCourseStore
-  const currentItem = useCourseStore((s) => s.currentItem);
+  const setCurrentQuestion = useCourseStore((s) => s.setCurrentItem); // Using updateItem from useCourseStore
+  const currentQuestion = useCourseStore((s) => s.currentItem);
   const { data: topics } = User.Queries.useGetTopics();
 
   useEffect(() => {
@@ -19,10 +15,13 @@ function useUpdateCourseForm(itemId: string) {
       .flatMap((section) => section.items)
       .find((item) => item._id === itemId);
 
-    if (currentItem && (!currentItem || currentItem._id !== currentItem._id)) {
-      setCurrentItem(currentItem);
+    if (
+      currentItem &&
+      (!currentQuestion || currentItem._id !== currentQuestion._id)
+    ) {
+      setCurrentQuestion(currentItem);
     }
-  }, [itemId, course, setCurrentItem]);
+  }, [itemId, course, setCurrentQuestion]);
 
   const onFormChange = useCallback(
     (data: Partial<Types.CourseSectionItem>) => {
@@ -38,7 +37,6 @@ function useUpdateCourseForm(itemId: string) {
     updateItem,
     onFormChange,
     topics,
-    handleTopicsChange: () => {},
   };
 }
 
