@@ -6,6 +6,7 @@ import {
   Divider,
   Input,
   Row,
+  Select,
   Skeleton,
   Space,
   Tooltip,
@@ -15,7 +16,7 @@ import {
   CaretRightOutlined,
   PlayCircleOutlined,
 } from "@ant-design/icons";
-import { Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
+import { Constants, Enum, Learner, Store, Utils } from "@adewaskar/lms-common";
 import { Outlet } from "react-router";
 import { useNavigate, useParams } from "@Router/index";
 import { useEffect, useMemo, useState } from "react";
@@ -173,7 +174,12 @@ function CoursePlayer() {
         : false,
     [trialExpiresAt]
   );
-  const language = "eng";
+  useEffect(() => {
+    if (course?.languages?.length) {
+      setLanguage(course.languages[0]);
+    }
+  }, [course]);
+  const [language, setLanguage] = useState("");
   const isFetching = loadingEnrolledCourse || loadingCourse;
   const CourseNavigator = (
     <>
@@ -248,6 +254,18 @@ function CoursePlayer() {
               {CourseNavigator}
             </ActionDrawer>
           ) : null,
+          <Select
+            style={{ width: 150 }}
+            value={language}
+            onChange={(e) => setLanguage(e)}
+            options={course.languages.map((s) => {
+              const language = Constants.LANGUAGES.find((d) => d.value === s);
+              return {
+                label: language?.label,
+                value: language?.value,
+              };
+            })}
+          />,
         ]}
       />{" "}
       <Row
@@ -259,19 +277,21 @@ function CoursePlayer() {
           <Row>
             <Col span={24}>
               <div
-                style={{
-                  height: 550,
-                  padding: 0,
-                  position: "relative",
-                  background: "#fff",
-                  // overflow: 'scroll'
-                }}
+                style={
+                  {
+                    // height: 550,
+                    // padding: 0,
+                    // position: "relative",
+                    // background: "#fff",
+                    // overflow: 'scroll'
+                  }
+                }
                 // bodyStyle={{}}
               >
                 {currentItemIndex > 0 ? (
                   <Tooltip
                     placement="right"
-                    title={`Previous: ${prevItem.title}`}
+                    title={`Previous: ${prevItem?.title?.text[language]}`}
                   >
                     <ControlButton
                       style={{
@@ -285,7 +305,10 @@ function CoursePlayer() {
                 ) : null}
 
                 {currentItemIndex < allItems.length - 1 ? (
-                  <Tooltip placement="left" title={`Next: ${nextItem.title}`}>
+                  <Tooltip
+                    placement="left"
+                    title={`Next: ${nextItem?.title?.text[language]}`}
+                  >
                     <ControlButton
                       style={{
                         right: 0,
@@ -299,11 +322,11 @@ function CoursePlayer() {
                 <Outlet context={[items, course._id, language]} />
               </div>
             </Col>
-            <Col span={24}>
+            {/* <Col span={24}>
               <Card style={{ marginTop: 30 }}>
                 <CoursePlayerMoreInfo itemId={itemId + ""} course={course} />
               </Card>
-            </Col>
+            </Col> */}
           </Row>
         </Col>
         <Col lg={6} md={0} sm={0} xs={0}>

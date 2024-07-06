@@ -7,7 +7,7 @@ import ErrorBoundary from "@Components/ErrorBoundary";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PDFViewer from "@Components/PDFViewer";
 import { Spin } from "@Lib/index";
-import { useGetNodeFromRouterOutlet } from "../../../../../hooks/CommonHooks";
+
 import { useParams } from "@Router/index";
 import { useOutletContext } from "react-router";
 
@@ -100,7 +100,14 @@ function CoursePlayerItem() {
     // @ts-ignore
     <ErrorBoundary fallbackComponent={Component}>
       <Spin spinning={loading || loadingFile}>
-        <div style={{ height: 550, width: "100%" }}>{Component}</div>
+        <div
+          style={{
+            // height: 550,
+            width: "100%",
+          }}
+        >
+          {Component}
+        </div>
       </Spin>
     </ErrorBoundary>
   );
