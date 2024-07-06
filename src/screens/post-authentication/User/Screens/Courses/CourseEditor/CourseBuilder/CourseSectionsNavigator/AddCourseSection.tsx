@@ -31,6 +31,7 @@ const AddCourseSection: React.FC<AddCourseSectionPropsI> = (props) => {
   return (
     <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
       <Tabs
+        tabKey="addsection"
         items={Constants.LANGUAGES.map((language) => {
           return {
             label: language.label,
