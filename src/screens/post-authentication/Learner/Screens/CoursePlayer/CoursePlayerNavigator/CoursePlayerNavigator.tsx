@@ -108,7 +108,7 @@ function CoursePlayerNavigator({
                 <List
                   loading={loadingCourse}
                   dataSource={section.items.filter((item) => {
-                    const title = item.title?.text[language].toLowerCase();
+                    const title = item.title?.text[language]?.toLowerCase();
                     return title?.includes(text);
                   })}
                   renderItem={(item, itemIndex) => (
