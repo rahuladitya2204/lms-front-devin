@@ -221,20 +221,6 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   key: "add",
                 },
                 {
-                  label: (
-                    <ActionModal cta={`Rename`}>
-                      {/* @ts-ignore */}
-                      <AddCourseSection
-                        data={section}
-                        onFinish={(e: { title: string }) =>
-                          onAddSection({ ...section, ...e })
-                        }
-                      />
-                    </ActionModal>
-                  ),
-                  key: "rename",
-                },
-                {
                   label: `Edit Section`,
                   onClick: () =>
                     openModal(
