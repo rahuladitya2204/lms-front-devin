@@ -236,6 +236,19 @@ function CoursePlayer() {
             {!isMobile ? (
               <Text style={{ fontSize: 16 }}>{course.title}</Text>
             ) : null}
+            <Divider type="vertical" />
+            <Select
+              style={{ width: 150 }}
+              value={language}
+              onChange={(e) => setLanguage(e)}
+              options={course.languages.map((s) => {
+                const language = Constants.LANGUAGES.find((d) => d.value === s);
+                return {
+                  label: language?.label,
+                  value: language?.value,
+                };
+              })}
+            />
           </Space>
         }
         subTitle={<Text style={{ fontSize: 20 }}>{course.title}</Text>}
@@ -245,27 +258,21 @@ function CoursePlayer() {
             <ActionDrawer
               cta={
                 isMobile ? (
-                  <Button shape="circle" icon={<PlayCircleOutlined />} />
+                  <Button
+                    type="primary"
+                    shape="circle"
+                    icon={<PlayCircleOutlined />}
+                  />
                 ) : (
-                  <Button icon={<PlayCircleOutlined />}>Show Playlist</Button>
+                  <Button type="primary" icon={<PlayCircleOutlined />}>
+                    Show Playlist
+                  </Button>
                 )
               }
             >
               {CourseNavigator}
             </ActionDrawer>
           ) : null,
-          <Select
-            style={{ width: 150 }}
-            value={language}
-            onChange={(e) => setLanguage(e)}
-            options={course.languages.map((s) => {
-              const language = Constants.LANGUAGES.find((d) => d.value === s);
-              return {
-                label: language?.label,
-                value: language?.value,
-              };
-            })}
-          />,
         ]}
       />{" "}
       <Row
