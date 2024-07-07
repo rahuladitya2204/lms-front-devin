@@ -108,11 +108,12 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
         <Row gutter={[20, 20]}>
           <Col span={24}>
             <Form.Item
-              label="Content"
               name={["description", "text", language]}
+              label="Content"
               required
             >
               <TextArea
+                // name={["description", "text", language]}
                 uploadPrefixKey={prefixKey}
                 height={350}
                 html={{ level: 3 }}

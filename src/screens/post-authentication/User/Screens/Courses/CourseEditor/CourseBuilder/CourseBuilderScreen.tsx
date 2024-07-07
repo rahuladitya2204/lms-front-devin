@@ -260,11 +260,11 @@ function CourseBuilderScreen() {
     form.setFieldsValue(i);
   }, [item, language]);
 
-  // useEffect(() => {
-  //   if (course.languages.length) {
-  //     setLanguage(course.languages[0]);
-  //   }
-  // }, [course.languages]);
+  useEffect(() => {
+    if (course.languages.length) {
+      setLanguage(course.languages[0]);
+    }
+  }, [course.languages]);
 
   return (
     <AppProvider>
@@ -343,99 +343,101 @@ function CourseBuilderScreen() {
           form={form}
           layout="vertical"
         >
-          <Tabs
-            tabPosition="top"
-            type="card"
-            tabKey="course-builder"
-            destroyInactiveTabPane={false}
-            onTabClick={(e) => {
-              setLanguage(e);
-              console.log(e, "eee");
-            }}
-            items={Constants.LANGUAGES.filter((l) =>
-              course?.languages?.includes(l.value)
-            )?.map((l) => {
-              return {
-                label: l.label,
-                key: l.value,
-                children: (
-                  <Row gutter={[16, 16]}>
-                    <Col span={8}>
-                      <Row>
-                        <Col span={24}>
-                          <Form.Item>
+          {Constants.LANGUAGES.filter((l) =>
+            course?.languages?.includes(l.value)
+          ).map((l) => {
+            return (
+              <Button
+                type={l.value === language ? "primary" : "default"}
+                onClick={() => setLanguage(l.value)}
+                size="small"
+              >
+                {l.label}
+              </Button>
+            );
+          })}
+          {Constants.LANGUAGES.filter((l) =>
+            course?.languages?.includes(l.value)
+          ).map((l) => {
+            return (
+              <div style={{ display: l.value === language ? "block" : "none" }}>
+                <Row gutter={[16, 16]}>
+                  <Col span={8}>
+                    <Row>
+                      <Col span={24}>
+                        <Form.Item>
+                          {loadingCourse ? (
+                            <Image
+                              preview={false}
+                              src={course.thumbnailImage}
+                            />
+                          ) : (
+                            <MediaUpload
+                              source={{
+                                type: "course.thumbnailImage",
+                                value: courseId + "",
+                              }}
+                              uploadType="image"
+                              prefixKey={`courses/${courseId}/thumbnailImage`}
+                              cropper={{ width: 330, height: 200 }}
+                              width="100%"
+                              // height="200px"
+                              aspect={16 / 9}
+                              renderItem={() => (
+                                <Image
+                                  preview={false}
+                                  src={course.thumbnailImage}
+                                />
+                              )}
+                              onUpload={(file) => {
+                                saveCourse({
+                                  thumbnailImage: file.url,
+                                });
+                              }}
+                            />
+                          )}
+                          <Row
+                            justify={"space-between"}
+                            style={{ margin: "20px 0 0", marginTop: 20 }}
+                            gutter={[20, 20]}
+                          >
                             {loadingCourse ? (
-                              <Image
-                                preview={false}
-                                src={course.thumbnailImage}
-                              />
+                              <>
+                                <Col flex={1}>
+                                  <Skeleton.Button block />
+                                </Col>
+                                <Col flex={1}>
+                                  <Skeleton.Button block />
+                                </Col>{" "}
+                              </>
                             ) : (
-                              <MediaUpload
-                                source={{
-                                  type: "course.thumbnailImage",
-                                  value: courseId + "",
-                                }}
-                                uploadType="image"
-                                prefixKey={`courses/${courseId}/thumbnailImage`}
-                                cropper={{ width: 330, height: 200 }}
-                                width="100%"
-                                // height="200px"
-                                aspect={16 / 9}
-                                renderItem={() => (
-                                  <Image
-                                    preview={false}
-                                    src={course.thumbnailImage}
-                                  />
-                                )}
-                                onUpload={(file) => {
-                                  saveCourse({
-                                    thumbnailImage: file.url,
-                                  });
-                                }}
-                              />
-                            )}
-                            <Row
-                              justify={"space-between"}
-                              style={{ margin: "20px 0 0", marginTop: 20 }}
-                              gutter={[20, 20]}
-                            >
-                              {loadingCourse ? (
-                                <>
-                                  <Col flex={1}>
-                                    <Skeleton.Button block />
-                                  </Col>
-                                  <Col flex={1}>
-                                    <Skeleton.Button block />
-                                  </Col>{" "}
-                                </>
-                              ) : (
-                                <>
-                                  <Col flex={1}>
-                                    <Button block>Preview</Button>
-                                  </Col>
-                                  <Col flex={1}>
-                                    <Button
-                                      onClick={() => {
-                                        openModal(
-                                          <SetCourseRules
-                                            onSubmit={(d) =>
-                                              saveCourse({
-                                                rules: d,
-                                              })
-                                            }
-                                            data={course.rules}
-                                          />,
-                                          {
-                                            title: "Set Rules",
+                              <>
+                                <Col flex={1}>
+                                  <Button block>Preview</Button>
+                                </Col>
+                                <Col flex={1}>
+                                  <Button
+                                    onClick={() => {
+                                      openModal(
+                                        <SetCourseRules
+                                          onSubmit={(d) =>
+                                            saveCourse({
+                                              rules: d,
+                                            })
                                           }
-                                        );
-                                      }}
-                                      block
-                                      type="primary"
-                                    >
-                                      Set Rules
-                                    </Button>
-                                    {/* <ActionModal
+                                          data={course.rules}
+                                        />,
+                                        {
+                                          title: "Set Rules",
+                                        }
+                                      );
+                                    }}
+                                    block
+                                    type="primary"
+                                  >
+                                    Set Rules
+                                  </Button>
+                                  {/* <ActionModal
                                   title="Set Rules"
                                   cta={
                                     <Button block type="primary">
@@ -452,76 +454,75 @@ function CourseBuilderScreen() {
                                     data={course.rules}
                                   />
                                 </ActionModal> */}
-                                  </Col>
-                                </>
-                              )}
-                            </Row>
-                          </Form.Item>
-                        </Col>
-                        <Col span={24}>
-                          <Spin
-                            tip="Please wait.."
-                            spinning={
-                              deletingSection ||
-                              deletingSectionItem ||
-                              loadingCourse
-                            }
-                          >
-                            <CourseSectionsNavigator
-                              // language={language}
-                              deleteSectionItem={deleteSectionItem}
-                              deleteSection={deleteSection}
-                              onAddNewItem={onAddNewItem}
-                              onAddSection={onAddSection}
-                              sections={course.sections}
-                              onReorderSections={onReorderSections}
-                            />
-                          </Spin>
-                        </Col>
-                      </Row>
-                    </Col>
-                    <Col span={16}>
-                      {!course.sections.length ? (
-                        <Alert
-                          message="Generate course structure using AI"
-                          description="You can generate course outline using our AI"
-                          type="info"
-                          showIcon
-                          action={
-                            <GenerateWithAI
-                              courseId={course._id}
-                              fields={["sections"]}
-                              onValuesChange={({ sections }: any) => {
-                                updateCourse(
-                                  {
-                                    id: courseId || "",
-                                    data: {
-                                      // @ts-ignore
-                                      sections: sections.sections,
-                                    },
-                                  },
-                                  {
-                                    onSuccess: () => {
-                                      navigate("");
-                                    },
-                                  }
-                                );
-                              }}
-                            />
+                                </Col>
+                              </>
+                            )}
+                          </Row>
+                        </Form.Item>
+                      </Col>
+                      <Col span={24}>
+                        <Spin
+                          tip="Please wait.."
+                          spinning={
+                            deletingSection ||
+                            deletingSectionItem ||
+                            loadingCourse
                           }
-                        />
-                      ) : null}
-                      <Card>
-                        <Outlet
-                          context={[items, updateCourseSection, saveCourse]}
-                        />
-                      </Card>
-                    </Col>
-                  </Row>
-                ),
-              };
-            })}
-          />
+                        >
+                          <CourseSectionsNavigator
+                            // language={language}
+                            deleteSectionItem={deleteSectionItem}
+                            deleteSection={deleteSection}
+                            onAddNewItem={onAddNewItem}
+                            onAddSection={onAddSection}
+                            sections={course.sections}
+                            onReorderSections={onReorderSections}
+                          />
+                        </Spin>
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col span={16}>
+                    {!course.sections.length ? (
+                      <Alert
+                        message="Generate course structure using AI"
+                        description="You can generate course outline using our AI"
+                        type="info"
+                        showIcon
+                        action={
+                          <GenerateWithAI
+                            courseId={course._id}
+                            fields={["sections"]}
+                            onValuesChange={({ sections }: any) => {
+                              updateCourse(
+                                {
+                                  id: courseId || "",
+                                  data: {
+                                    // @ts-ignore
+                                    sections: sections.sections,
+                                  },
+                                },
+                                {
+                                  onSuccess: () => {
+                                    navigate("");
+                                  },
+                                }
+                              );
+                            }}
+                          />
+                        }
+                      />
+                    ) : null}
+                    <Card>
+                      <Outlet
+                        context={[items, updateCourseSection, saveCourse]}
+                      />
+                    </Card>
+                  </Col>
+                </Row>
+              </div>
+            );
+          })}
         </Form>
       </Header>
     </AppProvider>
