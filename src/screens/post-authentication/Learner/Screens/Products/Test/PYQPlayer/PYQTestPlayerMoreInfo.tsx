@@ -100,41 +100,50 @@ const TestPlayerMoreInfo: React.FC<TestPlayerMoreInfoPropsI> = (props) => {
         />
       ) : (
         <>
+          {tests.length ? (
+            <Col span={24}>
+              <Card
+                style={{ marginTop: 15 }}
+                title={`Try our latest ${category.title} Test Series`}
+              >
+                <ShowMore minHeight={200}>
+                  <Row gutter={[20, 20]}>
+                    {tests.map((product) => {
+                      return (
+                        <Col
+                          sm={12}
+                          key={product?._id + ""}
+                          md={12}
+                          xs={24}
+                          lg={12}
+                          xl={12}
+                          xxl={8}
+                        >
+                          <LearnerProductCard isServer mini product={product} />
+                        </Col>
+                      );
+                    })}
+                  </Row>
+                </ShowMore>
+              </Card>
+              {currentQuestion.solution?.html[language] ? (
+                <Card title="Detailed Solution" style={{ marginTop: 20 }}>
+                  <ShowMore minHeight={200}>
+                    <HtmlViewer
+                      content={currentQuestion.solution?.html[language] + ""}
+                    />
+                  </ShowMore>
+                </Card>
+              ) : null}
+            </Col>
+          ) : null}
           <Col span={24}>
-            <Card
-              style={{ marginTop: 15 }}
-              title={`Try our latest ${category.title} Test Series`}
+            <Row
+              gutter={[30, 30]}
+              justify={"center"}
+              align={"middle"}
+              style={{ marginTop: 20 }}
             >
-              <ShowMore minHeight={200}>
-                <Row gutter={[20, 20]}>
-                  {tests.map((product) => {
-                    return (
-                      <Col
-                        sm={12}
-                        key={product?._id + ""}
-                        md={12}
-                        xs={24}
-                        lg={12}
-                        xl={12}
-                        xxl={8}
-                      >
-                        <LearnerProductCard isServer mini product={product} />
-                      </Col>
-                    );
-                  })}
-                </Row>
-              </ShowMore>
-            </Card>
-            <Card title="Detailed Solution" style={{ marginTop: 20 }}>
-              <ShowMore minHeight={200}>
-                <HtmlViewer
-                  content={currentQuestion.solution?.html[language] + ""}
-                />
-              </ShowMore>
-            </Card>
-          </Col>
-          <Col span={24}>
-            <Row gutter={[30, 30]} justify={"center"} align={"middle"}>
               <Col flex={1}>
                 <AuthProtectedCTA onClick={() => printTestSolution()}>
                   <Button
