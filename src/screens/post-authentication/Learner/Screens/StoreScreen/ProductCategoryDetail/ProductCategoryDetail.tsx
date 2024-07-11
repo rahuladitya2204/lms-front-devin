@@ -91,8 +91,7 @@ export default function ProductCategoryDetailScreen(
   const { data: productCategory, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(productCategoryId + "");
   // console.log(productCategory, "productCategory");
-  const hidePopup =
-    localStorage.getItem("hide_popup") || searchParams.get("hide_popup");
+  const hidePopup = searchParams.get("hide_popup");
   // console.log(hidePopup, "hide popup");
   useEffect(() => {
     if (!type && !props.isServer) {
@@ -122,7 +121,7 @@ export default function ProductCategoryDetailScreen(
     }, 5000);
   }, [isSignedIn, productCategory, hidePopup]);
   const link = productCategory.info.links.find((i) => i.slug === type);
-
+  // console.log(link?.faqs, "aaa");
   return loadingProductCategory ? (
     <ProductCategoryDetailSkeletonScreen />
   ) : (

@@ -109,19 +109,13 @@ export default async function Page({
   params: { type: string; id: string; product: string };
 }) {
   const { category, link, url } = await getData(params);
+  console.log(link, "link");
   const {
     getProductCategoryDetails,
     getPackages,
     getPYQs,
     getPromotedProducts,
   } = Learner.Queries.Definitions;
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebPage",
-    name: category.title,
-    description: category.title,
-    url: url,
-  };
   const keywords = link?.keywords || category.keywords;
   console.log(
     {
@@ -133,12 +127,7 @@ export default async function Page({
   );
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd),
-        }}
-      ></script>
+      123123123
       <RenderFAQJson faqs={link?.faqs} />
       <Hydrator
         queries={[
