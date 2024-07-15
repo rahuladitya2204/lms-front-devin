@@ -127,7 +127,6 @@ export default async function Page({
   );
   return (
     <>
-      123123123
       <RenderFAQJson faqs={link?.faqs} />
       <Hydrator
         queries={[

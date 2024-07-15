@@ -28,7 +28,7 @@ import { Typography } from "@Components/Typography";
 import { useParams } from "@Router/index";
 import { useCourseStore } from "../../useCourseStore";
 import useUpdateCourseForm from "../useUpdateCourseForm";
-import { useOutletContext } from "react-router";
+import { useInRouterContext, useOutletContext } from "react-router";
 
 const { confirm } = Modal;
 
@@ -47,7 +47,8 @@ interface CreateQuestionFormPropsI {
 
 const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   const { itemId, id: courseId } = useParams();
-  const language = useCourseStore((s) => s.language);
+  // const language = useCourseStore((s) => s.language);
+  const [, , , language] = useOutletContext();
   // console.log(item, "okokok");
   const { data: course } = User.Queries.useGetCourseDetails(courseId + "");
   // @ts-ignore
@@ -74,80 +75,7 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   const treeData = course?.topics
     ?.map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
     .flat();
-  // console.log(treeData, "treeData");
-  const getFormComponent = (language: string) => (
-    // <Form
-    //   name="course builder"
-    //   onFinish={submit}
-    //   initialValues={item}
-    //   onValuesChange={(changedValues, allValues) => {
-    //     // console.log(allValues, "allValues");
-    //     onFormChange({
-    //       ...allValues,
-    //     });
-    //   }}
-    //   form={form}
-    //   layout="vertical"
-    // >
-    <Row gutter={[10, 0]}>
-      <Col span={24}></Col>
-      <Col span={24}>
-        <Form.Item
-          name={["title", "text", language]}
-          label="Title"
-          required
-          rules={[
-            {
-              required: true,
-              message: "Enter questions's title",
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Row gutter={[20, 20]}>
-          <Col span={24}>
-            <Form.Item
-              name={["description", "text", language]}
-              label="Content"
-              required
-            >
-              <TextArea
-                // name={["description", "text", language]}
-                uploadPrefixKey={prefixKey}
-                height={350}
-                html={{ level: 3 }}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label="Topic" name="topic">
-              <TreeSelect
-                treeData={treeData}
-                // onExpand={onExpand}
-                // expandedKeys={expandedKeys}
-                // defaultExpandAll
-                // showLine
-                // switcherIcon={<DownOutlined />}
-              />
-            </Form.Item>
-          </Col>
 
-          <Col span={12}>
-            <Form.Item label="Tags" name="tags">
-              <InputTags name="tags" />
-            </Form.Item>
-          </Col>
-        </Row>
-      </Col>
-      <Col span={24} style={{ display: "flex", justifyContent: "end" }}>
-        <Button type="primary" onClick={DeleteSectionItem} danger>
-          Delete Chapter
-        </Button>
-      </Col>
-    </Row>
-    // </Form>
-  );
   return (
     <Spin spinning={false}>
       {/* <Divider/> */}
@@ -156,7 +84,63 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
       //   height: 550,
       // }}
       >
-        {getFormComponent(language)}
+        <Row gutter={[10, 0]}>
+          <Col span={24}></Col>
+          <Col span={24}>
+            <Form.Item
+              name={["title", "text", language]}
+              label="Title"
+              required
+              rules={[
+                {
+                  required: true,
+                  message: "Enter questions's title",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+            <Row gutter={[20, 20]}>
+              <Col span={24}>
+                <Form.Item
+                  name={["description", "text", language]}
+                  label="Content"
+                  required
+                >
+                  <TextArea
+                    // name={["description", "text", language]}
+                    uploadPrefixKey={prefixKey}
+                    height={350}
+                    html={{ level: 3 }}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item label="Topic" name="topic">
+                  <TreeSelect
+                    treeData={treeData}
+                    // onExpand={onExpand}
+                    // expandedKeys={expandedKeys}
+                    // defaultExpandAll
+                    // showLine
+                    // switcherIcon={<DownOutlined />}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item label="Tags" name="tags">
+                  <InputTags name="tags" />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Col>
+          <Col span={24} style={{ display: "flex", justifyContent: "end" }}>
+            <Button type="primary" onClick={DeleteSectionItem} danger>
+              Delete Chapter
+            </Button>
+          </Col>
+        </Row>
       </Card>
     </Spin>
   );
