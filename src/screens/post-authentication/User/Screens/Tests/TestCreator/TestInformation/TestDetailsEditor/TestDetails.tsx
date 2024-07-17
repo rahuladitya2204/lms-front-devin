@@ -54,12 +54,8 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const category = useMemo(() => {
     return categoriesData.find((c) => c._id === cat);
   }, [categoriesData, cat]);
-  // console.log(category, "category");
-  // console.log(categoriesData, "categoriesData");
-  const { data: topics } = User.Queries.useGetTopics();
-  const TOPIC_TREE_DATA = useMemo(() => {
-    return buildTopicTree(topics);
-  }, [topics]);
+
+  const TOPIC_TREE_DATA = useBuildTopicTree();
 
   const onValuesChange = (d: Partial<Types.Test>) => {
     // const data = deepPatch(test, d);
@@ -480,6 +476,14 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 }
 
 export default TestDetailsEditor;
+
+export const useBuildTopicTree = (topicId?: string, level?: number) => {
+  const { data: topics } = User.Queries.useGetTopics();
+  const TOPIC_TREE_DATA = useMemo(() => {
+    return buildTopicTree(topics);
+  }, [topics]);
+  return TOPIC_TREE_DATA;
+};
 
 export const buildTopicTree = (
   topics: Types.Topic[],

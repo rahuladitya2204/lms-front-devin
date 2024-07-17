@@ -13,11 +13,13 @@ import {
   Radio,
   Row,
   Select,
+  Space,
   Spin,
   Switch,
   Tag,
   Tree,
   TreeSelect,
+  message,
 } from "@Lib/index";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
 import {
@@ -45,6 +47,9 @@ import useTestBuilderUI from "./hooks/useTestBuilder";
 import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
 import { useTestStore } from "./hooks/useTestStore";
 import useUpdateTestForm from "./hooks/useUpdateTest";
+import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
+import Table, { TableColumn } from "@Components/Table/TableComponent";
+import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 
 const { Title } = Typography;
 
@@ -690,15 +695,36 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
           defaultActiveKey={test.languages[0]}
           tabBarExtraContent={{
             right: (
-              <Button
-                size="small"
-                loading={deletingSectionItem}
-                type="primary"
-                danger
-                onClick={DeleteSectionItem}
-              >
-                Delete Question
-              </Button>
+              <Space>
+                <ActionModal
+                  cta={
+                    <Button
+                      size="small"
+                      loading={deletingSectionItem}
+                      type="primary"
+                    >
+                      Add Question
+                    </Button>
+                  }
+                >
+                  <AddQuestionFromBank
+                    topics={test.topics}
+                    onSelect={(question) => {
+                      form.setFieldsValue(question);
+                    }}
+                  />
+                </ActionModal>
+
+                <Button
+                  size="small"
+                  loading={deletingSectionItem}
+                  type="primary"
+                  danger
+                  onClick={DeleteSectionItem}
+                >
+                  Delete Question
+                </Button>
+              </Space>
             ),
           }}
           items={Constants.LANGUAGES.filter((t) =>
@@ -719,3 +745,99 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
 const AddQuestionMemoed = React.memo(AddQuestion);
 
 export default AddQuestionMemoed;
+
+export const AddQuestionFromBank = (props: {
+  onSelect: (t: Types.TestQuestion) => void;
+  closeModal?: Function;
+  topics: string[];
+}) => {
+  const { data: topics } = User.Queries.useGetTopics();
+  const TOPIC_TREE_DATA = props.topics
+    .map((topicId) => Utils.buildTopicTree(topics, topicId, 4))
+    .flat();
+  console.log(TOPIC_TREE_DATA, "TOPIC_TREE_DATA");
+  // const TOPIC_TREE_DATA = useBuildTopicTree(props.topicId);
+  const [form] = Form.useForm();
+  const {
+    mutate: getQuestionsFromBank,
+    isLoading,
+    data,
+  } = User.Queries.useGetQuestionsFromBank();
+
+  const submit = (data) => {
+    console.log(data, "ddd");
+    getQuestionsFromBank(
+      {
+        topics: [data.topics],
+        difficultyLevel: data.difficultyLevel,
+      }
+      // {
+      //   onSuccess: () => {
+      //     message.success("Question Selected");
+      //     props.closeModal && props.closeModal();
+      //   },
+      // }
+    );
+  };
+  return (
+    <Row>
+      <Col span={24}>
+        <Form onFinish={submit} form={form}>
+          <Form.Item label="Topic" name="topics">
+            <TreeSelect
+              treeData={TOPIC_TREE_DATA}
+              // onExpand={onExpand}
+              // expandedKeys={expandedKeys}
+              // defaultExpandAll
+              // showLine
+              // switcherIcon={<DownOutlined />}
+            />
+          </Form.Item>
+          <Form.Item label="Difficulty Level" name={"difficultyLevel"}>
+            <Select
+              style={{ width: "100%" }}
+              options={QUESTION_DIFFICULTY_LEVELS}
+            />
+          </Form.Item>
+          <Row justify={"end"}>
+            <Col>
+              <Button onClick={form.submit} loading={isLoading} type="primary">
+                Add Question
+              </Button>
+            </Col>
+          </Row>
+
+          {data?.length ? (
+            <Row>
+              <Col span={24}>
+                <Table dataSource={data}>
+                  <TableColumn
+                    // onClick={() => {
+                    //   props.onSelect()
+                    // }}
+                    render={(_: any, record: Types.TestQuestion) => (
+                      <p
+                        onClick={() => {
+                          props.onSelect(record);
+                          message.success("Question Selected");
+                          props.closeModal && props.closeModal();
+                        }}
+                      >
+                        {htmlToText(record.title.text.eng)}
+                      </p>
+                    )}
+                  />
+                  {/* <TableColumn
+                    render={(_: any, record: Types.TestQuestion) =>
+                      record.
+                    }
+                  /> */}
+                </Table>
+              </Col>
+            </Row>
+          ) : null}
+        </Form>
+      </Col>
+    </Row>
+  );
+};
