@@ -782,7 +782,13 @@ export const AddQuestionFromBank = (props: {
   return (
     <Row>
       <Col span={24}>
-        <Form onFinish={submit} form={form}>
+        <Form
+          initialValues={{
+            difficultyLevel: "",
+          }}
+          onFinish={submit}
+          form={form}
+        >
           <Form.Item label="Topic" name="topics">
             <TreeSelect
               treeData={TOPIC_TREE_DATA}
@@ -796,7 +802,10 @@ export const AddQuestionFromBank = (props: {
           <Form.Item label="Difficulty Level" name={"difficultyLevel"}>
             <Select
               style={{ width: "100%" }}
-              options={QUESTION_DIFFICULTY_LEVELS}
+              options={[
+                QUESTION_DIFFICULTY_LEVELS,
+                { label: "Ignore Level", value: "" },
+              ]}
             />
           </Form.Item>
           <Row justify={"end"}>
