@@ -54,6 +54,7 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
 import TestDetailSkeletonScreen from "./TestDetailSkeletonScreen";
 import { FAQsList } from "@Components/CreateFaqsComponent";
+import { ProductDetailSignup } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 
 const { Text, Paragraph } = Typography;
 const { UnitTypeToStr } = Utils;
@@ -96,6 +97,7 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
     <TestDetailSkeletonScreen />
   ) : (
     <Row gutter={[20, 30]}>
+      <ProductDetailSignup categoryId={test.category} />
       {loadingTest ? null : (
         <>
           <Col md={24} sm={24} lg={0}>

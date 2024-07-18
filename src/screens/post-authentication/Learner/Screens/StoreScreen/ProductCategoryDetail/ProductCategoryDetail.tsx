@@ -415,7 +415,7 @@ export const ProductDetailSignup = ({
   timeout = 5000,
 }: {
   categoryId: string;
-  timeout: number;
+  timeout?: number;
 }) => {
   const [searchParams] = useSearchParams();
   const hidePopup = searchParams.get("hide_popup");

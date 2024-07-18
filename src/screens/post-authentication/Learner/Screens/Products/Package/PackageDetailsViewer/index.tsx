@@ -37,20 +37,9 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import PackageDetailViewerSkeleton from "./PackageDetailSkeleton";
 import { Outlet } from "react-router";
 import { FAQsList } from "@Components/CreateFaqsComponent";
-
-const { UnitTypeToStr } = Utils;
+import { ProductDetailSignup } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 
 const { Title, Text, Paragraph } = Typography;
-
-const ThumbnailSkeleton = styled(Skeleton.Image)`
-  .ant-skeleton-image {
-    width: 100%;
-    height: 20px;
-  }
-  .ant-skeleton-active {
-    display: block !important;
-  }
-`;
 
 const Container = styled.div`
   /* background-image: url(${image.src}); */
@@ -60,14 +49,6 @@ const Container = styled.div`
   /* height: 100vh; */
   padding-top: 20px;
 `;
-
-const CustomRate = styled(Rate)`
-  .ant-rate-star {
-    margin-right: 5px;
-  }
-`;
-
-const MetaText = styled(Text)``;
 
 const PackageTitle = styled(Title)`
   font-size: 25px;
@@ -107,6 +88,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
     <PackageDetailViewerSkeleton />
   ) : (
     <Container>
+      <ProductDetailSignup categoryId={bundle.category} />
       <Row gutter={[20, 20]} justify="space-between">
         <Col span={24}>
           <Row gutter={[30, 30]} style={{ lineHeight: 0 }}>
