@@ -235,7 +235,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   );
   if (isFree) {
     return (
-      <Badge.Ribbon color="purple" placement="start" text="Free">
+      <Badge.Ribbon color="purple" placement="end" text="Free">
         {Component}
       </Badge.Ribbon>
     );

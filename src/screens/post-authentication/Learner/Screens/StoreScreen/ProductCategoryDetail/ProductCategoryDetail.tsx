@@ -410,7 +410,13 @@ export const PYQTestsComponent = (props: {
   );
 };
 
-export const ProductDetailSignup = ({ categoryId }: { categoryId: string }) => {
+export const ProductDetailSignup = ({
+  categoryId,
+  timeout = 5000,
+}: {
+  categoryId: string;
+  timeout: number;
+}) => {
   const [searchParams] = useSearchParams();
   const hidePopup = searchParams.get("hide_popup");
   const { isMobile } = useBreakpoint();
@@ -426,10 +432,14 @@ export const ProductDetailSignup = ({ categoryId }: { categoryId: string }) => {
         setShowModal(true);
         localStorage.setItem("hide_popup", "true");
       }
-    }, 5000);
+    }, timeout);
   }, [isSignedIn, categoryId, hidePopup]);
   return (
-    <Modal open={showModal && !isSignedIn}>
+    <Modal
+      onCancel={() => setShowModal(false)}
+      footer={null}
+      open={showModal && !isSignedIn}
+    >
       <Row gutter={[10, 20]}>
         <Col span={24}>
           <Title level={3}>
