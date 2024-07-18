@@ -697,13 +697,14 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
             right: (
               <Space>
                 <ActionModal
+                  width={800}
                   cta={
                     <Button
                       size="small"
                       loading={deletingSectionItem}
                       type="primary"
                     >
-                      Add Question
+                      Get Questions
                     </Button>
                   }
                 >
@@ -768,7 +769,9 @@ export const AddQuestionFromBank = (props: {
     console.log(data, "ddd");
     getQuestionsFromBank(
       {
-        topics: [data.topics],
+        topics: findNodeById(TOPIC_TREE_DATA, data.topics)?.subtopics || [
+          data.topics,
+        ],
         difficultyLevel: data.difficultyLevel,
       }
       // {
@@ -803,7 +806,7 @@ export const AddQuestionFromBank = (props: {
             <Select
               style={{ width: "100%" }}
               options={[
-                QUESTION_DIFFICULTY_LEVELS,
+                ...QUESTION_DIFFICULTY_LEVELS,
                 { label: "Ignore Level", value: "" },
               ]}
             />
@@ -819,11 +822,9 @@ export const AddQuestionFromBank = (props: {
           {data?.length ? (
             <Row>
               <Col span={24}>
-                <Table dataSource={data}>
+                <Table searchFields={["title.text.eng"]} dataSource={data}>
                   <TableColumn
-                    // onClick={() => {
-                    //   props.onSelect()
-                    // }}
+                    title="Title"
                     render={(_: any, record: Types.TestQuestion) => (
                       <p
                         onClick={() => {
@@ -836,11 +837,25 @@ export const AddQuestionFromBank = (props: {
                       </p>
                     )}
                   />
-                  {/* <TableColumn
+                  <TableColumn
+                    title="Title"
                     render={(_: any, record: Types.TestQuestion) =>
-                      record.
+                      record.difficultyLevel
                     }
-                  /> */}
+                  />
+                  <TableColumn
+                    title="Languages"
+                    render={(_: any, record: Types.TestQuestion) =>
+                      Object.keys(record.title.text)
+                        .filter((r) => record.title.text[r])
+                        .map(
+                          (l) =>
+                            Constants.LANGUAGES.find((ll) => ll.value === l)
+                              ?.label
+                        )
+                        .join(", ")
+                    }
+                  />
                 </Table>
               </Col>
             </Row>
@@ -850,3 +865,18 @@ export const AddQuestionFromBank = (props: {
     </Row>
   );
 };
+
+function findNodeById(tree: any[], id: string): any | null {
+  for (let node of tree) {
+    if (node._id === id) {
+      return node;
+    }
+    if (node.children) {
+      const found = findNodeById(node.children, id);
+      if (found) {
+        return found;
+      }
+    }
+  }
+  return null;
+}
