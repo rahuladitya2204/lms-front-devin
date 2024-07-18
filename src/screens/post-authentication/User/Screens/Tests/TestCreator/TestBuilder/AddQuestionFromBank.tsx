@@ -231,7 +231,7 @@ export const DifficultyLevelTag = (props: { difficultyLevel: string }) => {
   const DiffTag = useMemo(() => {
     switch (props.difficultyLevel) {
       case "easy": {
-        return <Tag color="yellow-inverse">Easy</Tag>;
+        return <Tag color="orange-inverse">Easy</Tag>;
         break;
       }
 
