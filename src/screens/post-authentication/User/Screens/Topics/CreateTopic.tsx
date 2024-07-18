@@ -1,9 +1,10 @@
-import { Button, Form, Input, Select } from 'antd'
-import React, { Fragment, ReactNode, useEffect } from 'react'
+import { Button, Form, Input, Select, TreeSelect } from "antd";
+import React, { Fragment, ReactNode, useEffect } from "react";
 
-import TextArea from '@Components/Textarea'
-import { Types } from '@adewaskar/lms-common'
-import { User } from '@adewaskar/lms-common'
+import TextArea from "@Components/Textarea";
+import { Types } from "@adewaskar/lms-common";
+import { User } from "@adewaskar/lms-common";
+import { useBuildTopicTree } from "../Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails";
 
 interface CreateTopicComponentPropsI {
   children?: ReactNode;
@@ -13,19 +14,15 @@ interface CreateTopicComponentPropsI {
   onFinish?: (data: Types.Topic) => void;
 }
 
-const AddTopic: React.FC<CreateTopicComponentPropsI> = props => {
-  const {
-    mutate: createTopic,
-    isLoading: createTopicLoading
-  } = User.Queries.useCreateTopic()
-  const {
-    mutate: updateTopic,
-    isLoading: updateTopicLoading
-  } = User.Queries.useUpdateTopic()
+const AddTopic: React.FC<CreateTopicComponentPropsI> = (props) => {
+  const { mutate: createTopic, isLoading: createTopicLoading } =
+    User.Queries.useCreateTopic();
+  const { mutate: updateTopic, isLoading: updateTopicLoading } =
+    User.Queries.useUpdateTopic();
 
-  const { listItems: topics } = User.Queries.useGetTopics()
+  const { listItems: topics } = User.Queries.useGetTopics();
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
   const onSubmit = (e: Partial<Types.Topic>) => {
     if (props.data) {
@@ -34,61 +31,49 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = props => {
         { id: props.data._id, data: e },
         {
           onSuccess: () => {
-            form.resetFields()
-            props.closeModal && props.closeModal()
-          }
+            form.resetFields();
+            props.closeModal && props.closeModal();
+          },
         }
-      )
+      );
     } else {
       createTopic(
         // @ts-ignore
         { data: e },
         {
           onSuccess: () => {
-            form.resetFields()
-            props.closeModal && props.closeModal()
-          }
+            form.resetFields();
+            props.closeModal && props.closeModal();
+          },
         }
-      )
+      );
     }
     // onFinish && onFinish(e)
-  }
+  };
 
-  useEffect(
-    () => {
-      form.setFieldsValue(props.data)
-    },
-    [props.data]
-  )
+  useEffect(() => {
+    form.setFieldsValue(props.data);
+  }, [props.data]);
 
-  useEffect(
-    () => {
-      form.setFieldValue(['parentId'], props.parentId)
-    },
-    [props.parentId]
-  )
-
+  useEffect(() => {
+    form.setFieldValue(["parentId"], props.parentId);
+  }, [props.parentId]);
+  const TOPIC_TREE_DATA = useBuildTopicTree();
   return (
     <Fragment>
       <Form form={form} onFinish={onSubmit} layout="vertical">
         <Form.Item name="parentId" label="Parent Topic" required>
-          <Select
-            placeholder="Select Parent Topic"
-            // defaultValue="lucy"
-            style={{ width: '100%' }}
-            // onChange={handleChange}
-            options={topics}
-          />
+          <TreeSelect treeData={TOPIC_TREE_DATA} />
         </Form.Item>
         <Form.Item name="title" label="Title" required>
           <Input placeholder="Topic Title" />
         </Form.Item>
 
-        <Form.Item name={['content', 'text']} label="Content" required>
+        <Form.Item name={["content", "text"]} label="Content" required>
           <TextArea
             height={300}
             html={{ level: 3 }}
-            name={['content', 'text']}
+            name={["content", "text"]}
             placeholder="Content"
           />
         </Form.Item>
@@ -104,7 +89,7 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = props => {
         </Button>
       </Form>
     </Fragment>
-  )
-}
+  );
+};
 
-export default AddTopic
+export default AddTopic;
