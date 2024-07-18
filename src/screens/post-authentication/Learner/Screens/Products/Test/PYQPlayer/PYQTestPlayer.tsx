@@ -36,6 +36,7 @@ import { NavLink, useLocation, useNavigate, useParams } from "@Router/index";
 import TestPlayerMoreInfo from "./PYQTestPlayerMoreInfo";
 import TestPlayerSkeleton from "../TestPlayer/TestPlayerSkeleton";
 import { Title } from "@Components/Typography/Typography";
+import { ProductDetailSignup } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -165,6 +166,7 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       subTitle={"asd"}
       extra={isDesktop ? [LanguagesSelect, ExitButton] : SideDrawer}
     >
+      <ProductDetailSignup categoryId={test.category + ""} />
       <Row>
         <Col span={1} />
         <Col span={22}>
