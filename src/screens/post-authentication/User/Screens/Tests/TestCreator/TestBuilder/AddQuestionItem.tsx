@@ -50,6 +50,7 @@ import useUpdateTestForm from "./hooks/useUpdateTest";
 import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
+import { AddQuestionFromBank } from "./AddQuestionFromBank";
 
 const { Title } = Typography;
 
@@ -697,6 +698,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
             right: (
               <Space>
                 <ActionModal
+                  title="Add Question from Bank"
                   width={800}
                   cta={
                     <Button
@@ -704,7 +706,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                       loading={deletingSectionItem}
                       type="primary"
                     >
-                      Get Questions
+                      Add Question
                     </Button>
                   }
                 >
@@ -746,137 +748,3 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
 const AddQuestionMemoed = React.memo(AddQuestion);
 
 export default AddQuestionMemoed;
-
-export const AddQuestionFromBank = (props: {
-  onSelect: (t: Types.TestQuestion) => void;
-  closeModal?: Function;
-  topics: string[];
-}) => {
-  const { data: topics } = User.Queries.useGetTopics();
-  const TOPIC_TREE_DATA = props.topics
-    .map((topicId) => Utils.buildTopicTree(topics, topicId, 4))
-    .flat();
-  console.log(TOPIC_TREE_DATA, "TOPIC_TREE_DATA");
-  // const TOPIC_TREE_DATA = useBuildTopicTree(props.topicId);
-  const [form] = Form.useForm();
-  const {
-    mutate: getQuestionsFromBank,
-    isLoading,
-    data,
-  } = User.Queries.useGetQuestionsFromBank();
-
-  const submit = (data) => {
-    console.log(data, "ddd");
-    getQuestionsFromBank(
-      {
-        topics: findNodeById(TOPIC_TREE_DATA, data.topics)?.subtopics || [
-          data.topics,
-        ],
-        difficultyLevel: data.difficultyLevel,
-      }
-      // {
-      //   onSuccess: () => {
-      //     message.success("Question Selected");
-      //     props.closeModal && props.closeModal();
-      //   },
-      // }
-    );
-  };
-  return (
-    <Row>
-      <Col span={24}>
-        <Form
-          initialValues={{
-            difficultyLevel: "",
-          }}
-          onFinish={submit}
-          form={form}
-        >
-          <Form.Item label="Topic" name="topics">
-            <TreeSelect
-              treeData={TOPIC_TREE_DATA}
-              // onExpand={onExpand}
-              // expandedKeys={expandedKeys}
-              // defaultExpandAll
-              // showLine
-              // switcherIcon={<DownOutlined />}
-            />
-          </Form.Item>
-          <Form.Item label="Difficulty Level" name={"difficultyLevel"}>
-            <Select
-              style={{ width: "100%" }}
-              options={[
-                ...QUESTION_DIFFICULTY_LEVELS,
-                { label: "Ignore Level", value: "" },
-              ]}
-            />
-          </Form.Item>
-          <Row justify={"end"}>
-            <Col>
-              <Button onClick={form.submit} loading={isLoading} type="primary">
-                Add Question
-              </Button>
-            </Col>
-          </Row>
-
-          {data?.length ? (
-            <Row>
-              <Col span={24}>
-                <Table searchFields={["title.text.eng"]} dataSource={data}>
-                  <TableColumn
-                    title="Title"
-                    render={(_: any, record: Types.TestQuestion) => (
-                      <p
-                        onClick={() => {
-                          props.onSelect(record);
-                          message.success("Question Selected");
-                          props.closeModal && props.closeModal();
-                        }}
-                      >
-                        {htmlToText(record.title.text.eng)}
-                      </p>
-                    )}
-                  />
-                  <TableColumn
-                    title="Title"
-                    render={(_: any, record: Types.TestQuestion) =>
-                      record.difficultyLevel
-                    }
-                  />
-                  <TableColumn
-                    title="Languages"
-                    render={(_: any, record: Types.TestQuestion) =>
-                      Object.keys(record.title.text)
-                        .filter((r) => record.title.text[r])
-                        .map(
-                          (l) =>
-                            Constants.LANGUAGES.find((ll) => ll.value === l)
-                              ?.label
-                        )
-                        .join(", ")
-                    }
-                  />
-                </Table>
-              </Col>
-            </Row>
-          ) : null}
-        </Form>
-      </Col>
-    </Row>
-  );
-};
-
-function findNodeById(tree: any[], id: string): any | null {
-  for (let node of tree) {
-    if (node._id === id) {
-      return node;
-    }
-    if (node.children) {
-      const found = findNodeById(node.children, id);
-      if (found) {
-        return found;
-      }
-    }
-  }
-  return null;
-}
