@@ -263,11 +263,13 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
         label: "Previous Year Papers",
         key: "previous-year-questions",
         children: (
-          <PYQTestsComponent
-            isServer={!!props.isServer}
-            categoryId={categoryId}
-            showAll
-          />
+          <ShowMore minHeight={200}>
+            <PYQTestsComponent
+              isServer={!!props.isServer}
+              categoryId={categoryId}
+              showAll
+            />
+          </ShowMore>
         ),
       });
     }

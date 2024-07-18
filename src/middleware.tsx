@@ -92,6 +92,7 @@ export async function middleware(request: NextRequest) {
     "/test-series",
     "/exam",
     "/app",
+    "/policies",
     "/sitemap.xml",
     // "/robots.txt",
     "/admin",
