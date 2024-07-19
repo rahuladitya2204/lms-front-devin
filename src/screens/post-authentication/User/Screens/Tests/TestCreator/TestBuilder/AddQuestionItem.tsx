@@ -711,6 +711,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                   }
                 >
                   <AddQuestionFromBank
+                    languages={test.languages}
                     topics={test.topics}
                     onSelect={(question) => {
                       form.setFieldsValue(question);

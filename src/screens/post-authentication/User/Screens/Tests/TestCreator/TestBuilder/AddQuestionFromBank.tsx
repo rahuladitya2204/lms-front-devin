@@ -75,10 +75,11 @@ export const AddQuestionFromBank = (props: {
   onSelect: (t: Types.TestQuestion) => void;
   closeModal?: Function;
   topics: string[];
+  languages: string[];
 }) => {
   const { data: topics } = User.Queries.useGetTopics();
   const TOPIC_TREE_DATA = props.topics
-    .map((topicId) => Utils.buildTopicTree(topics, topicId, 4))
+    .map((topicId) => Utils.buildTopicTree(topics, topicId, 3))
     .flat();
   console.log(TOPIC_TREE_DATA, "TOPIC_TREE_DATA");
   // const TOPIC_TREE_DATA = useBuildTopicTree(props.topicId);
@@ -95,6 +96,7 @@ export const AddQuestionFromBank = (props: {
       {
         topics: getChildNodeIds(TOPIC_TREE_DATA, data.topics) || [data.topics],
         difficultyLevel: data.difficultyLevel,
+        languages: data.languages,
       }
       // {
       //   onSuccess: () => {
@@ -108,8 +110,10 @@ export const AddQuestionFromBank = (props: {
     <Row>
       <Col span={24}>
         <Form
+          layout="vertical"
           initialValues={{
             difficultyLevel: "",
+            languages: props.languages,
           }}
           onFinish={submit}
           form={form}
@@ -124,6 +128,17 @@ export const AddQuestionFromBank = (props: {
               // switcherIcon={<DownOutlined />}
             />
           </Form.Item>
+          {/* <Form.Item name="languages">
+            <Select
+              mode="multiple"
+              options={Constants.LANGUAGES.map((language) => {
+                return {
+                  label: language.label,
+                  key: language.value,
+                };
+              })}
+            />
+          </Form.Item> */}
           <Form.Item label="Difficulty Level" name={"difficultyLevel"}>
             <Select
               style={{ width: "100%" }}
