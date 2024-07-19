@@ -367,6 +367,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                                     name={[name, "text", language]}
                                   >
                                     <TextArea
+                                      modifyCta
                                       uploadPrefixKey={prefixKey}
                                       height={150}
                                       html={enterHtml ? false : { level: 3 }}

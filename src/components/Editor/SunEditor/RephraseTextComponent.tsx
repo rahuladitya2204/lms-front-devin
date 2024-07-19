@@ -98,6 +98,7 @@ export default function RephraseTextComponent(
           <Button
             onClick={() => {
               setRephrasedText("");
+              setTranslateTo("");
               setFormat(false);
               props.closeModal && props.closeModal();
             }}
