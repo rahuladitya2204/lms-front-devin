@@ -34,6 +34,7 @@ import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import useTestBuilderUI from "./hooks/useTestBuilder";
 import { useTestStore } from "./hooks/useTestStore";
+import TestCreatorFromBank from "./TestCreatorFromBank";
 
 const { confirm } = Modal;
 
@@ -344,6 +345,21 @@ function TestBuilderScreen() {
                     openModal(<TestOutline testId={testId + ""} />, {
                       width: 760,
                     }),
+                },
+                {
+                  label: "Create Test using Bank",
+                  key: "generate-test-from-bank",
+                  onClick: () =>
+                    openModal(
+                      <TestCreatorFromBank
+                        sections={test.sections}
+                        testId={testId + ""}
+                      />,
+                      {
+                        width: 900,
+                        title: "Create Test From Bank",
+                      }
+                    ),
                 },
                 {
                   label: `Print Action`,

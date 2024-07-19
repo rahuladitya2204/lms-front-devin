@@ -166,7 +166,12 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       subTitle={"asd"}
       extra={isDesktop ? [LanguagesSelect, ExitButton] : SideDrawer}
     >
-      <ProductDetailSignup categoryId={test.category + ""} />
+      <ProductDetailSignup
+        product={{
+          type: "category",
+          id: test.category,
+        }}
+      />
       <Row>
         <Col span={1} />
         <Col span={22}>

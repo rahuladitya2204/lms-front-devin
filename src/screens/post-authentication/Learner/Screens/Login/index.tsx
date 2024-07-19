@@ -22,6 +22,7 @@ import {
   Enum,
   Learner,
   Store,
+  Types,
   User,
 } from "@adewaskar/lms-common";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -75,7 +76,7 @@ interface LearnerLoginPropsI {
   mode?: "otp" | "email";
   noImage?: boolean;
   hideSignup?: boolean;
-  category?: string;
+  product?: Types.Product;
 }
 
 export function LearnerLogin(props: LearnerLoginPropsI) {
@@ -85,7 +86,7 @@ export function LearnerLogin(props: LearnerLoginPropsI) {
         <>
           {props.mode === "email" ? (
             <EmailForm
-              category={props.category}
+              product={props.product}
               hideSignup={props.hideSignup}
               noImage
               onSuccess={props.onSuccess}
@@ -93,7 +94,7 @@ export function LearnerLogin(props: LearnerLoginPropsI) {
             />
           ) : (
             <OtpForm
-              category={props.category}
+              product={props.product}
               noImage
               hideSignup={props.hideSignup}
               onSuccess={props.onSuccess}
@@ -111,7 +112,7 @@ export function LearnerLogin(props: LearnerLoginPropsI) {
               key: "otp",
               children: (
                 <OtpForm
-                  category={props.category}
+                  product={props.product}
                   onSuccess={props.onSuccess}
                   hideSignup={props.hideSignup}
                   closeModal={props.closeModal}
@@ -123,7 +124,7 @@ export function LearnerLogin(props: LearnerLoginPropsI) {
               key: "email",
               children: (
                 <EmailForm
-                  category={props.category}
+                  product={props.product}
                   onSuccess={props.onSuccess}
                   hideSignup={props.hideSignup}
                   closeModal={props.closeModal}
@@ -158,7 +159,7 @@ const OtpForm = (props: LearnerLoginPropsI) => {
       // }
       console.log(contactNo, "lkllk");
       sendOtpApi(
-        { contactNo, category: props.category + "" },
+        { contactNo, product: props.product },
         {
           onSuccess: (user) => {
             message.open({

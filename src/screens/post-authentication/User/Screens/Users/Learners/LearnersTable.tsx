@@ -1,6 +1,6 @@
 import { Button, Card, Col, Modal, Row, Space, Tag, message } from "@Lib/index";
 import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
-import { Enum, Types } from "@adewaskar/lms-common";
+import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
 import AddLearner from "./AddLearners";
@@ -17,6 +17,7 @@ function LearnersTable() {
   const { data, isFetching: loading } = User.Queries.useGetLearners();
   const { mutate: deleteLearner, isLoading: deletingLearner } =
     User.Queries.useDeleteLearner();
+  const { data: categories } = Learner.Queries.useGetLearnerCategories();
   const { mutate: changeAccountStatus } =
     User.Queries.useUpdateLearnerAccountStatus();
   const { openModal } = useModal();
@@ -39,6 +40,14 @@ function LearnersTable() {
         render={(_: any, record: Types.Learner) => record.email || "-"}
       />
       <TableColumn title="Contact No" dataIndex="contactNo" key="contactNo" />
+      <TableColumn
+        title="Interests"
+        render={(_: any, record: Types.Learner) =>
+          record.interests
+            .map((i) => categories.find((c) => c._id === i.category)?.title)
+            .join(", ")
+        }
+      />
       <TableColumn
         title="Profile Status"
         dataIndex="profile.status"

@@ -1,59 +1,20 @@
 import {
-  Alert,
   Button,
-  Card,
-  Checkbox,
   Col,
-  Divider,
-  Empty,
   Form,
-  Input,
-  Modal,
-  Progress,
-  Radio,
   Row,
   Select,
-  Space,
-  Spin,
-  Switch,
   Tag,
-  Tree,
   TreeSelect,
   message,
 } from "@Lib/index";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
-import {
-  DeleteTwoTone,
-  DownOutlined,
-  PlusCircleTwoTone,
-  UploadOutlined,
-} from "@ant-design/icons";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
 
-import ActionModal from "@Components/ActionModal/ActionModal";
-import AppImage from "@Components/Image";
-import EnterLatexText from "./EnterLatexText";
-import GenerateAIItemDetails from "./GenerateAIItemDetails";
-import InputTags from "@Components/InputTags/InputTags";
-import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
-import MediaUpload from "@Components/MediaUpload";
-import Tabs from "@Components/Tabs";
-import { Text } from "@Components/Typography/Typography";
-import TextArea from "@Components/Textarea";
-import { Typography } from "@Components/Typography";
-import UploadVideo from "@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo";
-import { useParams } from "@Router/index";
-import useTestBuilderUI from "./hooks/useTestBuilder";
-import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
-import { useTestStore } from "./hooks/useTestStore";
-import useUpdateTestForm from "./hooks/useUpdateTest";
-import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
-
-const { Title } = Typography;
-
-const { confirm } = Modal;
+import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
+import TopicSelect from "@Components/TopicSelect";
 
 export const QUESTION_TYPES = [
   { value: Enum.TestQuestionType.SINGLE, label: "Single Choice" },
@@ -72,17 +33,16 @@ export const QUESTION_DIFFICULTY_LEVELS = [
   { value: "difficult", label: "Difficult" },
 ];
 export const AddQuestionFromBank = (props: {
-  onSelect: (t: Types.TestQuestion) => void;
+  onSelect?: (t: Types.TestQuestion) => void;
   closeModal?: Function;
   topics: string[];
+  items: Types.TestQuestion[];
+  multiple?: boolean;
   languages: string[];
 }) => {
-  const { data: topics } = User.Queries.useGetTopics();
-  const TOPIC_TREE_DATA = props.topics
-    .map((topicId) => Utils.buildTopicTree(topics, topicId, 3))
-    .flat();
-  console.log(TOPIC_TREE_DATA, "TOPIC_TREE_DATA");
-  // const TOPIC_TREE_DATA = useBuildTopicTree(props.topicId);
+  const TOPIC_TREE_DATA = useBuildTopicTree(props.topics, 4);
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [form] = Form.useForm();
   const {
     mutate: getQuestionsFromBank,
@@ -91,10 +51,11 @@ export const AddQuestionFromBank = (props: {
   } = User.Queries.useGetQuestionsFromBank();
 
   const submit = (data) => {
-    console.log(data, getChildNodeIds(TOPIC_TREE_DATA, data.topics), "ddd");
+    const nodeId = getChildNodeIds(TOPIC_TREE_DATA, data.topics);
+    console.log(data, nodeId, "ddd");
     getQuestionsFromBank(
       {
-        topics: getChildNodeIds(TOPIC_TREE_DATA, data.topics) || [data.topics],
+        topics: (nodeId?.length ? nodeId : [data.topics]).flat(),
         difficultyLevel: data.difficultyLevel,
         languages: data.languages,
       }
@@ -106,6 +67,10 @@ export const AddQuestionFromBank = (props: {
       // }
     );
   };
+  useEffect(() => {
+    setSelectedRows(props.items.map((i) => i._id));
+    setSelectedRows(props.items);
+  }, [props.items]);
   return (
     <Row>
       <Col span={24}>
@@ -118,16 +83,13 @@ export const AddQuestionFromBank = (props: {
           onFinish={submit}
           form={form}
         >
-          <Form.Item label="Topic" name="topics">
-            <TreeSelect
-              treeData={TOPIC_TREE_DATA}
-              // onExpand={onExpand}
-              // expandedKeys={expandedKeys}
-              // defaultExpandAll
-              // showLine
-              // switcherIcon={<DownOutlined />}
-            />
-          </Form.Item>
+          <TopicSelect
+            level={2}
+            label="Topics"
+            topicId={props.topics}
+            name="topics"
+            multiple
+          />
           {/* <Form.Item name="languages">
             <Select
               mode="multiple"
@@ -159,8 +121,21 @@ export const AddQuestionFromBank = (props: {
           {data?.length ? (
             <Row>
               <Col span={24}>
-                <Table searchFields={["title.text.eng"]} dataSource={data}>
+                <Table
+                  rowSelection={{
+                    type: "checkbox",
+                    selectedRowKeys,
+                    onChange: (selectedKeys, selectedRows) => {
+                      setSelectedRowKeys(selectedKeys);
+                      setSelectedRows(selectedRows);
+                    },
+                  }}
+                  searchFields={["title.text.eng"]}
+                  rowKey={"_id"}
+                  dataSource={data}
+                >
                   <TableColumn
+                    key={"title"}
                     title="Title"
                     render={(_: any, record: Types.TestQuestion) => {
                       const titleText = Object.keys(record.title.text)
@@ -169,9 +144,11 @@ export const AddQuestionFromBank = (props: {
                       return (
                         <p
                           onClick={() => {
-                            props.onSelect(record);
-                            message.success("Question Selected");
-                            props.closeModal && props.closeModal();
+                            if (!props.multiple && props.onSelect) {
+                              props.onSelect(record);
+                              message.success("Question Selected");
+                              props.closeModal && props.closeModal();
+                            }
                           }}
                         >
                           {htmlToText(titleText)}
@@ -180,6 +157,7 @@ export const AddQuestionFromBank = (props: {
                     }}
                   />
                   <TableColumn
+                    key={"diff-tag"}
                     title="Title"
                     render={(_: any, record: Types.TestQuestion) => (
                       <DifficultyLevelTag
@@ -188,6 +166,14 @@ export const AddQuestionFromBank = (props: {
                     )}
                   />
                   <TableColumn
+                    key={"topic"}
+                    title="Topic"
+                    render={(_: any, record: Types.TestQuestion) => (
+                      <TopicTag id={record.topic} />
+                    )}
+                  />
+                  <TableColumn
+                    key={"language"}
                     title="Languages"
                     render={(_: any, record: Types.TestQuestion) =>
                       Object.keys(record.title.text)
@@ -202,6 +188,20 @@ export const AddQuestionFromBank = (props: {
                   />
                 </Table>
               </Col>
+              {props.multiple ? (
+                <Col span={24}>
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      console.log(selectedRows, "111");
+                      props.onSelect && props.onSelect(selectedRows);
+                      props.closeModal && props.closeModal();
+                    }}
+                  >
+                    Save Selection
+                  </Button>
+                </Col>
+              ) : null}
             </Row>
           ) : null}
         </Form>
@@ -263,3 +263,8 @@ export const DifficultyLevelTag = (props: { difficultyLevel: string }) => {
   }, [props.difficultyLevel]);
   return DiffTag;
 };
+
+function TopicTag({ id }: { id: string }) {
+  const { data: topics } = User.Queries.useGetTopics();
+  return topics.find((t) => t._id === id)?.title;
+}

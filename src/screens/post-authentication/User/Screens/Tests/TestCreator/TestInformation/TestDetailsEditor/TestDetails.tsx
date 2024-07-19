@@ -11,7 +11,7 @@ import {
   Switch,
   TreeSelect,
 } from "antd";
-import { Constants, Enum, Types, User } from "@adewaskar/lms-common";
+import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
 import { useEffect, useMemo } from "react";
 
 import Image from "@Components/Image";
@@ -25,6 +25,7 @@ import FileList from "@Components/FileList";
 import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import { validateSlug } from "@Components/Editor/SunEditor/utils";
 import InputTags from "@Components/InputTags/InputTags";
+import TopicSelect from "@Components/TopicSelect";
 
 const { useWatch } = Form;
 
@@ -54,8 +55,6 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
   const category = useMemo(() => {
     return categoriesData.find((c) => c._id === cat);
   }, [categoriesData, cat]);
-
-  const TOPIC_TREE_DATA = useBuildTopicTree();
 
   const onValuesChange = (d: Partial<Types.Test>) => {
     // const data = deepPatch(test, d);
@@ -302,14 +301,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item
-            // label=""
-            label={`Topics`}
-            name={["topics"]}
-            // rules={[{ required: true, message: "Please select topics" }]}
-          >
-            <TreeSelect multiple treeData={TOPIC_TREE_DATA} />
-          </Form.Item>
+          <TopicSelect name="topics" label="Topics"></TopicSelect>
         </Col>
         {isHandwritten ? (
           <Col span={8}>
@@ -477,10 +469,14 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
 export default TestDetailsEditor;
 
-export const useBuildTopicTree = (topicId?: string, level?: number) => {
+export const useBuildTopicTree = (topic?: string | string[], level = 3) => {
   const { data: topics } = User.Queries.useGetTopics();
   const TOPIC_TREE_DATA = useMemo(() => {
-    return buildTopicTree(topics);
+    return Array.isArray(topic)
+      ? topic
+          ?.map((topicId) => Utils.buildTopicTree(topics, topicId, level))
+          ?.flat()
+      : Utils.buildTopicTree(topics, topic, level);
   }, [topics]);
   return TOPIC_TREE_DATA;
 };

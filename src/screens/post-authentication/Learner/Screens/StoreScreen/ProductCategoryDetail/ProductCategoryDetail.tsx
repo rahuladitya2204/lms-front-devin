@@ -103,7 +103,12 @@ export default function ProductCategoryDetailScreen(
   ) : (
     <Row gutter={[20, 10]}>
       <>
-        <ProductDetailSignup categoryId={productCategoryId + ""} />
+        <ProductDetailSignup
+          product={{
+            type: "category",
+            id: productCategoryId,
+          }}
+        />
         <Col lg={24} md={24} sm={24} xs={24}>
           <Row style={{ marginBottom: 15 }}>
             <Col span={24}>
@@ -411,16 +416,16 @@ export const PYQTestsComponent = (props: {
 };
 
 export const ProductDetailSignup = ({
-  categoryId,
+  product,
   timeout = 5000,
 }: {
-  categoryId: string;
+  product: Types.Product;
   timeout?: number;
 }) => {
   const [searchParams] = useSearchParams();
   const hidePopup = searchParams.get("hide_popup");
   const { isMobile } = useBreakpoint();
-
+  const categoryId = product.id;
   const { data: category, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(categoryId + "");
   const [showModal, setShowModal] = useState(false);
@@ -459,7 +464,7 @@ export const ProductDetailSignup = ({
             // Signup Now! Its Free
           </Button>
         </Form> */}
-          <LearnerLogin category={category._id} hideSignup mode="otp" />
+          <LearnerLogin product={product} hideSignup mode="otp" />
         </Col>
         <Col span={24}>
           <Text

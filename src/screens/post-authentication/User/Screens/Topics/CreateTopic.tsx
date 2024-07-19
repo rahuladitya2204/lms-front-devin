@@ -5,6 +5,7 @@ import TextArea from "@Components/Textarea";
 import { Types } from "@adewaskar/lms-common";
 import { User } from "@adewaskar/lms-common";
 import { useBuildTopicTree } from "../Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails";
+import TopicSelect from "@Components/TopicSelect";
 
 interface CreateTopicComponentPropsI {
   children?: ReactNode;
@@ -58,13 +59,10 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = (props) => {
   useEffect(() => {
     form.setFieldValue(["parentId"], props.parentId);
   }, [props.parentId]);
-  const TOPIC_TREE_DATA = useBuildTopicTree();
   return (
     <Fragment>
       <Form form={form} onFinish={onSubmit} layout="vertical">
-        <Form.Item name="parentId" label="Parent Topic" required>
-          <TreeSelect treeData={TOPIC_TREE_DATA} />
-        </Form.Item>
+        <TopicSelect name="parentId" label="Parent Topic"></TopicSelect>
         <Form.Item name="title" label="Title" required>
           <Input placeholder="Topic Title" />
         </Form.Item>

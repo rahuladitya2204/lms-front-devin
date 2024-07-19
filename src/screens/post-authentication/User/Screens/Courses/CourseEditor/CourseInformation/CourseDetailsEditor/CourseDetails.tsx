@@ -28,6 +28,7 @@ import { deepPatch } from "../../CourseBuilder/utils";
 import { useEffect, useMemo } from "react";
 import { useParams } from "@Router/index";
 import { buildTopicTree } from "@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails";
+import TopicSelect from "@Components/TopicSelect";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -82,12 +83,6 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
       />
     );
   };
-
-  const { data: topics, isLoading: loadingTopics } =
-    User.Queries.useGetTopics();
-  const TOPIC_TREE_DATA = useMemo(() => {
-    return buildTopicTree(topics);
-  }, [topics]);
 
   return (
     <Form
@@ -178,20 +173,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item
-            // label=""
-            label={`Topics`}
-            name={["topics"]}
-            // rules={[{ required: true, message: "Please select topics" }]}
-          >
-            {/* <Spin spinning={loadingTopics}> */}
-            <TreeSelect
-              loading={loadingTopics}
-              multiple
-              treeData={TOPIC_TREE_DATA}
-            />
-            {/* </Spin> */}
-          </Form.Item>
+          <TopicSelect name="topics" label="Topics" />
         </Col>
 
         <Col span={8}>
