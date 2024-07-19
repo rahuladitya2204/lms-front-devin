@@ -14,14 +14,45 @@ export default function RephraseTextComponent(
   props: RephraseTextComponentPropsI
 ) {
   const [rephrasedText, setRephrasedText] = useState("");
-  const [format, setFormat] = useState(false);
-  const [translateTo, setTranslateTo] = useState("");
+  const [form] = Form.useForm();
   const { mutate: rephraseText, isLoading: rephrasing } =
     User.Queries.useRephraseText();
+
+  const handleRephraseText = () => {
+    form.validateFields().then((values) => {
+      rephraseText(
+        {
+          formatted: values.format,
+          translateTo: Constants.LANGUAGES.find(
+            (i) => i.value === values.translateTo
+          )?.label,
+          text: props.text,
+        },
+        {
+          onSuccess: (v) => {
+            setRephrasedText(v);
+          },
+        }
+      );
+    });
+  };
+
+  const handleConfirm = () => {
+    props.onComplete(rephrasedText);
+    setRephrasedText("");
+    form.resetFields();
+    props.closeModal && props.closeModal();
+  };
+
+  const handleCancel = () => {
+    setRephrasedText("");
+    form.resetFields();
+    props.closeModal && props.closeModal();
+  };
+
   return (
-    <Form layout="vertical">
+    <Form form={form} layout="vertical">
       <Row gutter={[10, 10]}>
-        {/* <Col span={24}>Rephrased Text</Col> */}
         <Col span={24}>
           <Title level={4}>Old Text</Title>
           <HtmlViewer content={props.text} />
@@ -36,17 +67,17 @@ export default function RephraseTextComponent(
         ) : (
           <>
             <Col span={24}>
-              <Form.Item label="Formatting">
-                <Switch checked={format} onChange={setFormat} />
+              <Form.Item
+                name="format"
+                label="Formatting"
+                valuePropName="checked"
+              >
+                <Switch />
               </Form.Item>
             </Col>
             <Col span={24}>
-              <Form.Item label="Translate To">
-                <Select
-                  value={translateTo}
-                  onChange={setTranslateTo}
-                  options={Constants.LANGUAGES}
-                />
+              <Form.Item name="translateTo" label="Translate To">
+                <Select options={Constants.LANGUAGES} />
               </Form.Item>
             </Col>
           </>
@@ -57,54 +88,19 @@ export default function RephraseTextComponent(
           style={{ display: "flex", flexDirection: "row-reverse" }}
         >
           {rephrasedText ? (
-            <Button
-              type="primary"
-              onClick={() => {
-                props.onComplete(rephrasedText);
-                setRephrasedText("");
-                setFormat(false);
-
-                props.closeModal && props.closeModal();
-              }}
-            >
+            <Button type="primary" onClick={handleConfirm}>
               Confirm
             </Button>
           ) : (
             <Button
               type="primary"
               loading={rephrasing}
-              onClick={() => {
-                rephraseText(
-                  {
-                    // @ts-ignore
-                    formatted: format,
-                    translateTo: Constants.LANGUAGES.find(
-                      (i) => i.value === translateTo
-                    )?.label,
-                    text: props.text,
-                  },
-                  {
-                    onSuccess: (v) => {
-                      console.log(v, "vv");
-                      setRephrasedText(v);
-                    },
-                  }
-                );
-              }}
+              onClick={handleRephraseText}
             >
               Rephrase Text
             </Button>
           )}
-          <Button
-            onClick={() => {
-              setRephrasedText("");
-              setTranslateTo("");
-              setFormat(false);
-              props.closeModal && props.closeModal();
-            }}
-            style={{ marginRight: 10 }}
-            danger
-          >
+          <Button onClick={handleCancel} style={{ marginRight: 10 }} danger>
             Cancel
           </Button>
         </Col>

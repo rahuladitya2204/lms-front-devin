@@ -144,7 +144,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   };
   const fileId = file.encoded || file._id;
   const options = Form.useWatch("options", form) || [];
-
+  const { mutate: solveQuestion, isLoading: solvingQuestion } =
+    User.Queries.useSolveQuestion();
   // const topics=Form.useWatch(['topics'],form);
   useEffect(() => {
     onFormChange({ criterias });
@@ -623,7 +624,34 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
         )}
 
         <Col span={24}>
-          <Card title="Solution Text">
+          <Card
+            title="Solution Text"
+            extra={[
+              <Button
+                size="small"
+                loading={solvingQuestion}
+                onClick={() => {
+                  const body = {
+                    title: htmlToText(
+                      form.getFieldValue(["title", "text", language])
+                    ),
+                    options: options.map((i) => htmlToText(i.text[language])),
+                    language: Constants.LANGUAGES.find(
+                      (l) => l.value === language
+                    )?.label,
+                  };
+                  console.log(body, "popop");
+                  solveQuestion(body, {
+                    onSuccess: (d) => {
+                      form.setFieldValue(["solution", "html", language], d);
+                    },
+                  });
+                }}
+              >
+                Solve Question
+              </Button>,
+            ]}
+          >
             <Form.Item name={["solution", "html", language]} required>
               <TextArea
                 modifyCta
