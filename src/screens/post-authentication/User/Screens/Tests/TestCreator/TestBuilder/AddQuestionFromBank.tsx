@@ -15,6 +15,7 @@ import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
 import TopicSelect from "@Components/TopicSelect";
+import { Title } from "@Components/Typography/Typography";
 
 export const QUESTION_TYPES = [
   { value: Enum.TestQuestionType.SINGLE, label: "Single Choice" },
@@ -37,6 +38,7 @@ export const AddQuestionFromBank = (props: {
   closeModal?: Function;
   topics: string[];
   items: Types.TestQuestion[];
+  itemCount: number;
   multiple?: boolean;
   languages: string[];
 }) => {
@@ -68,12 +70,13 @@ export const AddQuestionFromBank = (props: {
     );
   };
   useEffect(() => {
-    setSelectedRows(props.items.map((i) => i._id));
+    setSelectedRowKeys(props.items.map((i) => i._id));
     setSelectedRows(props.items);
   }, [props.items]);
   return (
     <Row>
       <Col span={24}>
+        <Title level={4}>Total Question - {selectedRows.length}</Title>
         <Form
           layout="vertical"
           initialValues={{
@@ -129,6 +132,9 @@ export const AddQuestionFromBank = (props: {
                       setSelectedRowKeys(selectedKeys);
                       setSelectedRows(selectedRows);
                     },
+                    getCheckboxProps: (record) => ({
+                      disabled: props.itemCount === selectedRows.length, // Disable checkbox for rows where age is less than 40
+                    }),
                   }}
                   searchFields={["title.text.eng"]}
                   rowKey={"_id"}
@@ -189,7 +195,10 @@ export const AddQuestionFromBank = (props: {
                 </Table>
               </Col>
               {props.multiple ? (
-                <Col span={24}>
+                <Col
+                  span={24}
+                  style={{ flexDirection: "row", justifyContent: "end" }}
+                >
                   <Button
                     type="primary"
                     onClick={() => {

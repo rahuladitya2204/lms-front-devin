@@ -10,7 +10,11 @@ import {
   Tabs,
   TreeSelect,
 } from "antd";
-import { DeleteTwoTone, PlusCircleTwoTone } from "@ant-design/icons";
+import {
+  DeleteTwoTone,
+  PlusCircleTwoTone,
+  SearchOutlined,
+} from "@ant-design/icons";
 import { Enum, Types, User } from "@adewaskar/lms-common";
 
 import { TEST_TEMPLATES } from "@Components/Editor/SunEditor/constant";
@@ -83,7 +87,7 @@ TestCreatorFromBankPropsI) {
     User.Queries.useUpdateTest();
   const onSubmit = (e: CreateTestCreatorFromBank) => {
     console.log(e, items, "eee");
-    debugger;
+    // debugger;
     // return;
     const sections = e.sections.map((section, secIndex) => {
       const sectionItems = Array.from({ length: section.itemCount }).map(
@@ -212,7 +216,7 @@ TestCreatorFromBankPropsI) {
                             <AddQuestionFromBank
                               onSelect={(questions: Types.TestQuestion[]) => {
                                 const Items = [...items];
-                                Items[parseInt(field.name)] = questions;
+                                Items[parseInt(field.name)] = [...questions];
                                 setItems(Items);
                               }}
                               topics={testDetails.topics}
@@ -227,9 +231,9 @@ TestCreatorFromBankPropsI) {
                         }}
                         size="small"
                         type="primary"
-                      >
-                        Get Questions
-                      </Button>
+                        shape="default"
+                        icon={<SearchOutlined />}
+                      ></Button>
                     </Col>
                   </Row>
                 ))}

@@ -1,7 +1,7 @@
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Title } from "@Components/Typography/Typography";
-import { User } from "@adewaskar/lms-common";
-import { Button, Col, Form, Row, Switch } from "antd";
+import { Constants, User } from "@adewaskar/lms-common";
+import { Button, Col, Divider, Form, Row, Select, Switch } from "antd";
 import { useState } from "react";
 
 interface RephraseTextComponentPropsI {
@@ -15,77 +15,99 @@ export default function RephraseTextComponent(
 ) {
   const [rephrasedText, setRephrasedText] = useState("");
   const [format, setFormat] = useState(false);
+  const [translateTo, setTranslateTo] = useState("");
   const { mutate: rephraseText, isLoading: rephrasing } =
     User.Queries.useRephraseText();
   return (
-    <Row gutter={[10, 10]}>
-      {/* <Col span={24}>Rephrased Text</Col> */}
-      <Col span={24}>
-        <Title level={4}>Old Text</Title>
-        <HtmlViewer content={props.text} />
-      </Col>
-      {rephrasedText ? (
-        <Col style={{ minWidth: 400, minHeight: 250 }} span={24}>
-          <Title level={4}>Rephrased Text</Title>
-          <HtmlViewer content={rephrasedText} />
-        </Col>
-      ) : (
+    <Form layout="vertical">
+      <Row gutter={[10, 10]}>
+        {/* <Col span={24}>Rephrased Text</Col> */}
         <Col span={24}>
-          <Form.Item label="Formatting">
-            <Switch checked={format} onChange={setFormat} />
-          </Form.Item>
+          <Title level={4}>Old Text</Title>
+          <HtmlViewer content={props.text} />
         </Col>
-      )}
+        <Divider />
 
-      <Col span={24} style={{ display: "flex", flexDirection: "row-reverse" }}>
         {rephrasedText ? (
+          <Col style={{ minWidth: 400, minHeight: 250 }} span={24}>
+            <Title level={4}>Rephrased Text</Title>
+            <HtmlViewer content={rephrasedText} />
+          </Col>
+        ) : (
+          <>
+            <Col span={24}>
+              <Form.Item label="Formatting">
+                <Switch checked={format} onChange={setFormat} />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Form.Item label="Translate To">
+                <Select
+                  value={translateTo}
+                  onChange={setTranslateTo}
+                  options={Constants.LANGUAGES}
+                />
+              </Form.Item>
+            </Col>
+          </>
+        )}
+
+        <Col
+          span={24}
+          style={{ display: "flex", flexDirection: "row-reverse" }}
+        >
+          {rephrasedText ? (
+            <Button
+              type="primary"
+              onClick={() => {
+                props.onComplete(rephrasedText);
+                setRephrasedText("");
+                setFormat(false);
+
+                props.closeModal && props.closeModal();
+              }}
+            >
+              Confirm
+            </Button>
+          ) : (
+            <Button
+              type="primary"
+              loading={rephrasing}
+              onClick={() => {
+                rephraseText(
+                  {
+                    // @ts-ignore
+                    formatted: format,
+                    translateTo: Constants.LANGUAGES.find(
+                      (i) => i.value === translateTo
+                    )?.label,
+                    text: props.text,
+                  },
+                  {
+                    onSuccess: (v) => {
+                      console.log(v, "vv");
+                      setRephrasedText(v);
+                    },
+                  }
+                );
+              }}
+            >
+              Rephrase Text
+            </Button>
+          )}
           <Button
-            type="primary"
             onClick={() => {
-              props.onComplete(rephrasedText);
               setRephrasedText("");
               setFormat(false);
-
               props.closeModal && props.closeModal();
             }}
+            style={{ marginRight: 10 }}
+            danger
           >
-            Confirm
+            Cancel
           </Button>
-        ) : (
-          <Button
-            type="primary"
-            loading={rephrasing}
-            onClick={() => {
-              rephraseText(
-                {
-                  // @ts-ignore
-                  formatted: format,
-                  text: props.text,
-                },
-                {
-                  onSuccess: (v) => {
-                    console.log(v, "vv");
-                    setRephrasedText(v);
-                  },
-                }
-              );
-            }}
-          >
-            Rephrase Text
-          </Button>
-        )}
-        <Button
-          onClick={() => {
-            setRephrasedText("");
-            setFormat(false);
-            props.closeModal && props.closeModal();
-          }}
-          style={{ marginRight: 10 }}
-          danger
-        >
-          Cancel
-        </Button>
-      </Col>
-    </Row>
+        </Col>
+      </Row>
+    </Form>
   );
 }
