@@ -62,7 +62,11 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = (props) => {
   return (
     <Fragment>
       <Form form={form} onFinish={onSubmit} layout="vertical">
-        <TopicSelect name="parentId" label="Parent Topic"></TopicSelect>
+        <TopicSelect
+          level={4}
+          name="parentId"
+          label="Parent Topic"
+        ></TopicSelect>
         <Form.Item name="title" label="Title" required>
           <Input placeholder="Topic Title" />
         </Form.Item>
