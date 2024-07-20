@@ -301,7 +301,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           </Form.Item>
         </Col>
         <Col span={8}>
-          <TopicSelect level={2} name="topics" label="Topics"></TopicSelect>
+          <TopicSelect level={4} name="topics" label="Topics"></TopicSelect>
         </Col>
         {isHandwritten ? (
           <Col span={8}>

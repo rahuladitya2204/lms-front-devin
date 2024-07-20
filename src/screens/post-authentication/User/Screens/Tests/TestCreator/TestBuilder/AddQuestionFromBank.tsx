@@ -53,11 +53,11 @@ export const AddQuestionFromBank = (props: {
   } = User.Queries.useGetQuestionsFromBank();
 
   const submit = (data) => {
-    const nodeId = getChildNodeIds(TOPIC_TREE_DATA, data.topics);
+    const nodeId = data.topics.map((t) => getChildNodeIds(TOPIC_TREE_DATA, t));
     console.log(data, nodeId, "ddd");
     getQuestionsFromBank(
       {
-        topics: (nodeId?.length ? nodeId : [data.topics]).flat(),
+        topics: (nodeId?.length ? nodeId : data.topics).flat(),
         difficultyLevel: data.difficultyLevel,
         languages: data.languages,
       }
@@ -87,7 +87,7 @@ export const AddQuestionFromBank = (props: {
           form={form}
         >
           <TopicSelect
-            level={2}
+            level={4}
             label="Topics"
             topicId={props.topics}
             name="topics"
