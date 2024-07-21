@@ -199,6 +199,8 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             }
           />
           <TableColumn
+            // defaultSortOrder={"ascend"}
+            sorter={(a, b) => isTopicsAssigned(a) - isTopicsAssigned(b)}
             title="Topics Assigned"
             dataIndex="topicsAssigned"
             key="topicsAssigned"
@@ -213,6 +215,25 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               )
             }
           />
+          {/* <TableColumn
+            // defaultSortOrder={"ascend"}
+            sorter={(a, b) =>
+              Utils.validatePublishTest(a) - Utils.validatePublishTest(b)
+            }
+            title="Validate Status"
+            dataIndex="validateStatus"
+            key="validateStatus"
+            fixed
+            // @ts-ignore
+            render={(_: any, test: Types.Test) =>
+              // @ts-ignore
+              Utils.validatePublishTest(test) ? (
+                <Tag color="green">Valid</Tag>
+              ) : (
+                <Tag color="red">Invalid</Tag>
+              )
+            }
+          /> */}
           <TableColumn
             title="Last Updated By"
             dataIndex="updatedBy"
@@ -253,6 +274,8 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           <TableColumn
             title="Status"
             dataIndex="status"
+            // defaultSortOrder={"ascend"}
+            sorter={(a, b) => a.status - b.status}
             key="status"
             // @ts-ignore
             render={(_: any, test: Types.Test) => <TestStatusTag test={test} />}
