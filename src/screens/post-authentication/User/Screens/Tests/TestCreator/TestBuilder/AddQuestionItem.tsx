@@ -155,6 +155,12 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   const treeData = test.topics
     .map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
     .flat();
+  const { mutateAsync: translateQuestion, isLoading: translatingQuestion } =
+    User.Queries.useTranslateQuestion();
+  const langs = test.languages.filter(
+    (language) =>
+      !htmlToText(form.getFieldValue(["title", "text", language]) || "")
+  );
   // console.log(treeData, "treeData");
   const getFormComponent = (language: string) => (
     <Form
@@ -171,7 +177,52 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
       layout="vertical"
     >
       <Row gutter={[10, 30]}>
-        <Col span={24}></Col>
+        {langs.length ? (
+          <Col span={24}>
+            <Button
+              loading={translatingQuestion}
+              onClick={() => {
+                const promises = langs.map((language) => {
+                  const O = form.getFieldValue(["title", "text"]);
+                  const lng = Object.keys(O).filter((key) =>
+                    htmlToText(O[key])
+                  )[0];
+                  console.log(lng, "lng");
+                  const body = {
+                    title: form.getFieldValue(["title", "text", lng]),
+                    options: options.map((i) => i.text[lng]),
+                    language: Constants.LANGUAGES.find(
+                      (o) => o.value === language
+                    )?.label,
+                  };
+                  return translateQuestion(body);
+                });
+                Promise.all(promises).then((data) => {
+                  console.log(data, "huhuh");
+                  data.forEach((tr, index) => {
+                    form.setFieldValue(
+                      ["title", "text", langs[index]],
+                      tr.title
+                    );
+                    tr.options.forEach((opt, ind) => {
+                      form.setFieldValue(
+                        ["options", ind, "text", langs[index]],
+                        opt
+                      );
+                    });
+                  });
+                });
+              }}
+            >
+              Translate to{" "}
+              {langs
+                .map(
+                  (l) => Constants.LANGUAGES.find((o) => o.value === l)?.label
+                )
+                .join(", ")}
+            </Button>
+          </Col>
+        ) : null}
         <Col span={24}>
           <Form.Item
             name={["title", "text", language]}

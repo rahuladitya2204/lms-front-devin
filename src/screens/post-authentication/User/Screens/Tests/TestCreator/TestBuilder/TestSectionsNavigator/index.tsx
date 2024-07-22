@@ -8,8 +8,6 @@ import {
 import { Constants, Types, User, Utils } from "@adewaskar/lms-common";
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "@Router/index";
-
-import ActionModal from "@Components/ActionModal/ActionModal";
 import AddTestSection from "./AddSection";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";

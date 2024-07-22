@@ -44,7 +44,7 @@ function HtmlViewer(props: HtmlViewerProps) {
         case "p":
           return <Paragraph key={index}>{domToReact(node.children)}</Paragraph>;
         case "ul":
-        case "ol":
+          // case "ol":
           return (
             <List style={{ marginLeft: 15 }} key={index}>
               {node.children.map((child, childIndex) => {
