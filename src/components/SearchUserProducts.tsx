@@ -19,7 +19,7 @@ export default function SearchUserProducts(props: SearchUserProductsPropsI) {
   });
 
   const filterOption = (inputValue: string, option: any) => {
-    return option.label.props.children[1]
+    return option.label.props.children[2]
       .toLowerCase()
       .includes(inputValue.toLowerCase());
   };

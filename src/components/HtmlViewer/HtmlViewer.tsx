@@ -43,22 +43,22 @@ function HtmlViewer(props: HtmlViewerProps) {
           );
         case "p":
           return <Paragraph key={index}>{domToReact(node.children)}</Paragraph>;
-        case "ul":
-          // case "ol":
-          return (
-            <List style={{ marginLeft: 15 }} key={index}>
-              {node.children.map((child, childIndex) => {
-                if (child.type === "tag" && child.name === "li") {
-                  return (
-                    <StyledListItem key={childIndex} style={{ margin: 0 }}>
-                      <Paragraph>{domToReact(child.children)}</Paragraph>
-                    </StyledListItem>
-                  );
-                }
-                return null;
-              })}
-            </List>
-          );
+        // case "ul":
+        // case "ol":
+        //   return (
+        //     <List style={{ marginLeft: 15 }} key={index}>
+        //       {node.children.map((child, childIndex) => {
+        //         if (child.type === "tag" && child.name === "li") {
+        //           return (
+        //             <StyledListItem key={childIndex} style={{ margin: 0 }}>
+        //               <Paragraph>{domToReact(child.children)}</Paragraph>
+        //             </StyledListItem>
+        //           );
+        //         }
+        //         return null;
+        //       })}
+        //     </List>
+        //   );
         case "img":
           const src = node.attribs.src;
           const alt = node.attribs.alt || "";

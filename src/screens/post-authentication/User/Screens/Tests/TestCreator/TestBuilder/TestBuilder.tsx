@@ -35,6 +35,9 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import useTestBuilderUI from "./hooks/useTestBuilder";
 import { useTestStore } from "./hooks/useTestStore";
 import TestCreatorFromBank from "./TestCreatorFromBank";
+import { htmlToText } from "html-to-text";
+import { promises } from "dns";
+import { cloneDeep } from "lodash";
 
 const { confirm } = Modal;
 
@@ -170,6 +173,8 @@ function TestBuilderScreen() {
       );
     }
   };
+  const firstSection = test.sections.find((s) => s.items.length);
+  const firstItem = firstSection?.items[0];
   useEffect(() => {
     if (!itemId) {
       const firstSection = test.sections.find((s) => s.items.length);
@@ -242,10 +247,12 @@ function TestBuilderScreen() {
   const isTestEnded =
     test.live.enabled && test.status === Enum.TestStatus.ENDED;
   const { openModal } = useModal();
-  // const isAssignedTopics = useMemo(() => {
-  //   return isTopicsAssigned(test);
-  // }, [test]);
-  // console.log(openModal, '111')
+  const langs = test.languages;
+  const { mutateAsync: translateQuestion, isLoading: translatingQuestion } =
+    User.Queries.useTranslateQuestion();
+
+  const { mutateAsync: rephraseQuestion, isLoading: rephrasingQuestions } =
+    User.Queries.useRephraseText();
   return (
     <AppProvider>
       <Header
@@ -333,7 +340,7 @@ function TestBuilderScreen() {
             </Space>
           ),
           <Dropdown.Button
-            loading={savingTest}
+            loading={savingTest || translatingQuestion || rephrasingQuestions}
             onClick={() => saveTest()}
             trigger={["click"]}
             menu={{
@@ -345,6 +352,158 @@ function TestBuilderScreen() {
                     openModal(<TestOutline testId={testId + ""} />, {
                       width: 760,
                     }),
+                },
+                // {
+                //   key: "translate-question",
+                //   label: (
+                //     <>
+                //       Translate to{" "}
+                //       {langs
+                //         .map(
+                //           (l) =>
+                //             Constants.LANGUAGES.find((o) => o.value === l)
+                //               ?.label
+                //         )
+                //         .join(", ")}
+                //     </>
+                //   ),
+                //   onClick: async () => {
+                //     const promises = test.sections
+                //       .map((section, secIndex) => {
+                //         return section.items.map((item) => {
+                //           return langs.map(async (language) => {
+                //             const O = item.title.text;
+                //             const lng = Object.keys(O).find((key) =>
+                //               htmlToText(O[key])
+                //             );
+                //             const body = {
+                //               title: item.title.text[lng],
+                //               itemId: item._id,
+                //               options: item.options.map(
+                //                 (option) => option.text[lng]
+                //               ),
+                //               language: Constants.LANGUAGES.find(
+                //                 (o) => o.value === language
+                //               )?.label,
+                //             };
+                //             const translation = await translateQuestion(body);
+                //             if (translation && translation.title) {
+                //               translation.language = language;
+                //               translation.itemId = body.itemId;
+                //               return translation;
+                //             }
+                //             return null;
+                //           });
+                //         });
+                //       })
+                //       .flat(2); // Flatten the array of promises
+
+                //     const translations = (await Promise.all(promises)).filter(
+                //       Boolean
+                //     ); // Filter out null results
+
+                //     const TTEST = cloneDeep(test);
+
+                //     // Group translations by section and item
+                //     const translationMap = {};
+                //     translations.forEach((translation) => {
+                //       if (!translationMap[translation.itemId]) {
+                //         translationMap[translation.itemId] = [];
+                //       }
+                //       translationMap[translation.itemId].push(translation);
+                //     });
+
+                //     // Update the test sections with the translations
+                //     TTEST.sections.forEach((section) => {
+                //       section.items.forEach((item) => {
+                //         const itemTranslations = translationMap[item._id] || [];
+                //         itemTranslations.forEach((translation) => {
+                //           if (translation && translation.title) {
+                //             item.title.text[translation.language] =
+                //               translation.title;
+                //             item.options.forEach((option, index) => {
+                //               if (translation.options[index]) {
+                //                 option.text[translation.language] =
+                //                   translation.options[index];
+                //               }
+                //             });
+                //           }
+                //         });
+                //       });
+                //     });
+
+                //     setTest(TTEST);
+                //   },
+                // },
+                {
+                  key: "rephrase-question",
+                  label: <>Rephrase Questions</>,
+                  onClick: async () => {
+                    console.log("tulurrrr", langs);
+                    const promises = test.sections
+                      .map((section, secIndex) => {
+                        return section.items.map((item) => {
+                          return langs.map(async (language) => {
+                            const O = item.title.text;
+                            const lng = Object.keys(O).find((key) =>
+                              htmlToText(O[key])
+                            );
+                            const body = {
+                              title: O[lng],
+                              itemId: item._id,
+                              language: language,
+                            };
+
+                            const rephrasedText: string =
+                              await rephraseQuestion({
+                                text: body.title,
+                              });
+
+                            const rephrased: any = {
+                              title: rephrasedText,
+                            };
+                            if (rephrasedText) {
+                              rephrased.language = language;
+                              rephrased.itemId = body.itemId;
+                              return rephrased;
+                            }
+                            return null;
+                          });
+                        });
+                      })
+                      .flat(2); // Flatten the array of promises
+
+                    const translations = (await Promise.all(promises)).filter(
+                      Boolean
+                    ); // Filter out null results
+
+                    const TTEST = cloneDeep(test);
+
+                    // Group translations by section and item
+                    const translationMap = {};
+                    translations.forEach((translation) => {
+                      if (!translationMap[translation.itemId]) {
+                        translationMap[translation.itemId] = [];
+                      }
+                      translationMap[translation.itemId].push(translation);
+                    });
+
+                    // Update the test sections with the translations
+                    TTEST.sections.forEach((section) => {
+                      section.items.forEach((item) => {
+                        const itemTranslations = translationMap[item._id] || [];
+                        itemTranslations.forEach((translation) => {
+                          if (translation && translation.title) {
+                            console.log(item.title, translation, "opopop");
+                            item.title.text[translation.language] =
+                              translation.title;
+                          }
+                        });
+                      });
+                    });
+                    console.log(translationMap, "translationMap");
+                    setTest(TTEST);
+                  },
                 },
                 {
                   label: "Create Test using Bank",

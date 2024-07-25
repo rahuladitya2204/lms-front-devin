@@ -70,8 +70,8 @@ export const AddQuestionFromBank = (props: {
     );
   };
   useEffect(() => {
-    setSelectedRowKeys(props.items.map((i) => i._id));
-    setSelectedRows(props.items);
+    setSelectedRowKeys(props?.items?.map((i) => i?._id) || []);
+    setSelectedRows(props.items || []);
   }, [props.items]);
   return (
     <Row>

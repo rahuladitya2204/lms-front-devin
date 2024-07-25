@@ -44,8 +44,9 @@ function LearnersTable() {
         title="Interests"
         render={(_: any, record: Types.Learner) =>
           record.interests
-            .map((i) => categories.find((c) => c._id === i.category)?.title)
-            .join(", ")
+            .map((i) => categories.find((c) => c._id === i.id)?.title)
+            .filter((i) => i)
+            .join(", ") || "-"
         }
       />
       <TableColumn
