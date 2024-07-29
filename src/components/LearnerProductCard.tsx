@@ -75,8 +75,8 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     <Link
       to={
         props.isServer
-          ? `/${linkPrefix}/${product._id}`
-          : `/app/${linkPrefix}/${product._id}`
+          ? `/${linkPrefix}/${product.slug || product._id}`
+          : `/app/${linkPrefix}/${product.slug || product._id}`
       }
     >
       <Button type="primary" size="small" icon={<ExportOutlined />}>

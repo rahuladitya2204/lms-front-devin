@@ -6,6 +6,7 @@ import {
 } from "@ant-design/icons";
 
 import { Common } from "@adewaskar/lms-common";
+import { useState } from "react";
 
 const { confirm } = Modal;
 
@@ -20,6 +21,7 @@ function FileItem({
   useGetFileDetails,
   onDeleteFile,
 }: FileItemPropsI) {
+  const [downloadling, setDownloading] = useState(false);
   const { data: file } = useGetFileDetails(fileId + "");
   const { mutate: deleteFile, isLoading: deletingFile } =
     Common.Queries.useDeleteFile();
@@ -27,15 +29,19 @@ function FileItem({
   return (
     <List.Item
       actions={[
-        <a key="list-loadmore-edit">
-          <DownloadOutlined
-            onClick={(e) => {
-              Common.Api.GetPresignedUrlFromFile(file._id).then((url) =>
-                window.open(url)
-              );
-            }}
-          />
-        </a>,
+        <Spin spinning={downloadling}>
+          <a key="list-loadmore-edit">
+            <DownloadOutlined
+              onClick={(e) => {
+                setDownloading(true);
+                Common.Api.GetPresignedUrlFromFile(file._id).then((url) => {
+                  window.open(url);
+                  setDownloading(false);
+                });
+              }}
+            />
+          </a>
+        </Spin>,
         <a key="list-loadmore-edit">
           <DeleteOutlined
             onClick={(e) => {
