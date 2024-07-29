@@ -23,3 +23,5 @@ yarn-error.log*
 .next
 next-env.d.ts
 dist
+# Sentry Config File
+.env.sentry-build-plugin
