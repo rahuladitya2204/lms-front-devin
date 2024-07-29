@@ -9,7 +9,12 @@ import {
   Tag,
   message,
 } from "@Lib/index";
-import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import {
+  CloseOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+} from "@ant-design/icons";
 import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
@@ -116,6 +121,7 @@ function LearnersTable() {
               },
               {
                 label: "Show Enrolled Products",
+                icon: <EyeOutlined />,
                 key: "ep",
                 onClick: () => {
                   openModal(
@@ -213,7 +219,10 @@ export const EnrolledProductsOfLearner = (props: { learnerId: string }) => {
     User.Queries.useGetEnrolledProductsOfLearner(props.learnerId);
   return (
     <>
-      <Table loading={isLoading} dataSource={enrolledProducts}>
+      <Table
+        loading={isLoading}
+        dataSource={sortBy(enrolledProducts, ["-metadata.test.endedAt"])}
+      >
         <TableColumn
           title="Title"
           render={(_: any, record: Types.EnrolledProductDetails) =>
