@@ -1,4 +1,14 @@
-import { Button, Card, Col, Modal, Row, Space, Tag, message } from "@Lib/index";
+import {
+  Button,
+  Card,
+  Col,
+  Modal,
+  Rate,
+  Row,
+  Space,
+  Tag,
+  message,
+} from "@Lib/index";
 import { CloseOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
@@ -10,6 +20,7 @@ import dayjs from "dayjs";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { sortBy } from "lodash";
+import LearnerProductCard from "@Components/LearnerProductCard";
 
 const confirm = Modal.confirm;
 
@@ -47,6 +58,12 @@ function LearnersTable() {
             .map((i) => categories.find((c) => c._id === i.id)?.title)
             .filter((i) => i)
             .join(", ") || "-"
+        }
+      />
+      <TableColumn
+        title="Enrolled Products"
+        render={(_: any, record: Types.Learner) =>
+          record.enrolledProducts.length || "-"
         }
       />
       <TableColumn
@@ -95,6 +112,23 @@ function LearnersTable() {
                 key: "edit-learner",
                 onClick: () => {
                   openModal(<AddLearner data={record} />);
+                },
+              },
+              {
+                label: "Show Enrolled Products",
+                key: "ep",
+                onClick: () => {
+                  openModal(
+                    <Row gutter={[20, 20]}>
+                      <Col span={24}>
+                        <EnrolledProductsOfLearner learnerId={record._id} />
+                      </Col>
+                    </Row>,
+                    {
+                      title: `${record.name}'s enrolled products`,
+                      width: 700,
+                    }
+                  );
                 },
               },
               {
@@ -173,3 +207,69 @@ function LearnersTable() {
 }
 
 export default LearnersTable;
+
+export const EnrolledProductsOfLearner = (props: { learnerId: string }) => {
+  const { data: enrolledProducts, isLoading } =
+    User.Queries.useGetEnrolledProductsOfLearner(props.learnerId);
+  return (
+    <>
+      <Table loading={isLoading} dataSource={enrolledProducts}>
+        <TableColumn
+          title="Title"
+          render={(_: any, record: Types.EnrolledProductDetails) =>
+            record.product.data.title || "-"
+          }
+          dataIndex="title"
+          key="title"
+        />
+
+        <TableColumn
+          title="Enrolled At"
+          render={(_: any, record: Types.EnrolledProductDetails) =>
+            dayjs(record.enrolledAt).format("LLL")
+          }
+          dataIndex="enrolledAt"
+          key="enrolledAt"
+        />
+
+        <TableColumn
+          title="Started At"
+          render={(_: any, record: Types.EnrolledProductDetails) =>
+            record.metadata.test.startedAt
+              ? dayjs(record.metadata.test.startedAt).format("LLL")
+              : "-"
+          }
+          dataIndex="startedAt"
+          key="startedAT"
+        />
+
+        <TableColumn
+          title="Ended At"
+          render={(_: any, record: Types.EnrolledProductDetails) =>
+            record.metadata.test.endedAt
+              ? dayjs(record.metadata.test.endedAt).format("LLL")
+              : "-"
+          }
+          dataIndex="endedAt"
+          key="endedAt"
+        />
+        <TableColumn
+          title="Rating"
+          render={(_: any, record: Types.EnrolledProductDetails) =>
+            record.review ? (
+              <Rate
+                style={{ fontSize: 12 }}
+                disabled
+                value={record.review?.rating}
+              />
+            ) : (
+              "-"
+            )
+          }
+          dataIndex="endedAt"
+          key="endedAt"
+        />
+      </Table>
+    </>
+  );
+};
