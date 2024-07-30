@@ -25,3 +25,6 @@ next-env.d.ts
 dist
 # Sentry Config File
 .env.sentry-build-plugin
+
+# Sentry Config File
+.env.sentry-build-plugin

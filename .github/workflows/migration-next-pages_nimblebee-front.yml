@@ -29,9 +29,8 @@ jobs:
         run: |
           yarn install
           yarn build
-        with:
-          app-name: "nimblebee-front"
-          authToken: "https://0bffdb8000511639d7d229e07150ed86@o4507685656133632.ingest.us.sentry.io/4507685660459008"
+        env:
+          SENTRY_AUTH_TOKEN: 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
 
       # Zip files without retaining the parent directory paths but retains the children directory structure.
       # Even though it uses cd, the terminal doesn't move to a different dir after the command is completed.
