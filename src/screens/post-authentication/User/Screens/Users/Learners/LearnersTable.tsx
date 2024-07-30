@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   Card,
   Col,
@@ -226,7 +227,14 @@ export const EnrolledProductsOfLearner = (props: { learnerId: string }) => {
         <TableColumn
           title="Title"
           render={(_: any, record: Types.EnrolledProductDetails) =>
-            record.product.data.title || "-"
+            record.product.data.title ? (
+              <>
+                <Avatar src={record.product.data.thumbnailImage} />{" "}
+                {record.product.data.title}
+              </>
+            ) : (
+              "-"
+            )
           }
           dataIndex="title"
           key="title"

@@ -274,7 +274,7 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
       });
     }
     return tabs;
-  }, [PYQTests]);
+  }, [PYQTests, categoryId, type, packages]);
   const [productTab, setProductTab] = useState("test-series");
 
   return (

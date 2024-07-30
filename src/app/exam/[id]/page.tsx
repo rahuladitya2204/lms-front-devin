@@ -31,13 +31,17 @@ export default async function Page({ params }: { params: { id: string } }) {
           getPromotedProducts(Enum.ProductType.PACKAGE, {
             category: params.id,
             limit: 3,
-            keywords: category.keywords,
+            ...(category.keywords?.length
+              ? { keywords: category.keywords }
+              : {}),
           }),
           getPromotedProducts(Enum.ProductType.TEST, {
             category: params.id,
             mode: "free",
             limit: 3,
-            keywords: category.keywords,
+            ...(category.keywords?.length
+              ? { keywords: category.keywords }
+              : {}),
           }),
           // // authenticated routes should only be called if token is present
           // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
