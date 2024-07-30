@@ -196,7 +196,7 @@
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build && mv .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
+    "build": "node --max-old-space-size=4096 ./node_modules/.bin/next build && mv .next/static .next/standalone/.next/ && cp -r public .next/standalone/",
     "start": "node .next/standalone/server.js",
     "lint": "next lint"
   },
