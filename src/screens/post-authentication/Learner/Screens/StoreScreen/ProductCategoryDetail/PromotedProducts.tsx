@@ -75,34 +75,36 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
           </Row>
         </Col>
       ) : null}
-      <Col span={24}>
-        <Title style={{ fontSize: 16 }} level={4}>
-          {category.title} Mock Tests
-        </Title>
-        <Row gutter={[20, 20]}>
-          {tests.map((test) => {
-            return (
-              <Col
-                sm={12}
-                key={test._id}
-                md={12}
-                xs={24}
-                lg={12}
-                xl={8}
-                xxl={8}
-              >
-                <div style={{ marginLeft: 10 }}>
-                  <LearnerProductCard
-                    isServer={props.isServer}
-                    mini
-                    product={test}
-                  />
-                </div>
-              </Col>
-            );
-          })}
-        </Row>
-      </Col>
+      {tests.length ? (
+        <Col span={24}>
+          <Title style={{ fontSize: 16 }} level={4}>
+            {category.title} Mock Tests
+          </Title>
+          <Row gutter={[20, 20]}>
+            {tests.map((test) => {
+              return (
+                <Col
+                  sm={12}
+                  key={test._id}
+                  md={12}
+                  xs={24}
+                  lg={12}
+                  xl={8}
+                  xxl={8}
+                >
+                  <div style={{ marginLeft: 10 }}>
+                    <LearnerProductCard
+                      isServer={props.isServer}
+                      mini
+                      product={test}
+                    />
+                  </div>
+                </Col>
+              );
+            })}
+          </Row>
+        </Col>
+      ) : null}
     </Row>
   );
 }
