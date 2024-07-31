@@ -71,8 +71,13 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
     Learner.Queries.useGetPackageDetails(packageId + "", {
       enabled: !!packageId,
     });
+
+  console.log(bundle, "yukurr");
   const { data: category } = Learner.Queries.useGetProductCategoryDetails(
-    bundle.category
+    bundle.category,
+    {
+      enabled: !!bundle.category,
+    }
   );
   useEffect(() => {
     console.log(type, props.isServer, category, "aaa");

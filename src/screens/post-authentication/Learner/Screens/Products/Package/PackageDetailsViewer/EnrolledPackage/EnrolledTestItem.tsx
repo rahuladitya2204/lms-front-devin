@@ -43,6 +43,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
   const { isMobile, isDesktop, isTablet } = useBreakpoint();
   const { mutate: retryTest, isLoading: retryingTest } =
     Learner.Queries.useRetryTest(test._id + "");
+  const EXAM = category.exams.find((e) => e._id === test.exam);
   return (
     <List.Item style={{ paddingLeft: 0, paddingRight: 0 }}>
       <Card
@@ -120,7 +121,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                     {test.duration.enabled ? (
                       <Tag color="blue-inverse">{test.duration.value} mins</Tag>
                     ) : null}
-                    {/* {test.pyq.enabled ? (
+                    {/* {test?.pyq?.enabled ? (
                       <Tag color="orange-inverse">
                         Previous Year Paper - {test.pyq.year}
                       </Tag>
@@ -128,14 +129,14 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                     {test.input.type === Enum.TestInputType.HANDWRITTEN ? (
                       <Tag color="orange-inverse">Handwritten</Tag>
                     ) : null}
-                    {test.exam ? (
+                    {EXAM?.title ? (
                       <Tag color="orange-inverse">
                         {/* ts-ignore */}
                         {
                           // ts-ignore
-                          category.exams.find((e) => e._id === test.exam)?.title
+                          EXAM?.title
                         }{" "}
-                        {test.pyq.enabled ? (
+                        {test?.pyq?.enabled ? (
                           <span> - {test.pyq.year}</span>
                         ) : null}
                       </Tag>

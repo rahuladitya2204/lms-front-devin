@@ -47,7 +47,7 @@ function PackageLearners(props: PackageLearnersPropsI) {
           searchFields={["learner.name", "learner.contactNo", "learner.email"]}
           // @ts-ignore
           dataSource={sortBy(data, "-metadata.package.endedAt")}
-          loading={loading}
+          loading={loading || removingEnrollment}
         >
           <TableColumn
             title="Name"
@@ -158,7 +158,7 @@ render={(_: any, record: Types.Learner) => (
                       },
                     },
                     {
-                      label: "Remove Enmrollment",
+                      label: "Remove Enrollment",
                       key: "remove",
                       onClick: () => {
                         confirm({

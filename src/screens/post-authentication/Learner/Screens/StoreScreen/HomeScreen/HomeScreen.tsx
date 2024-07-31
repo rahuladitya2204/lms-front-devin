@@ -70,9 +70,27 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
                   </div>
                 </Col>
               </Row>
-              <Divider />
+              <Divider style={{ marginBottom: 0 }} />
             </Col>
           ) : null}
+          <Col span={24}>
+            <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
+              Popular Exams
+            </Title>
+            <Row gutter={[30, 20]}>
+              {categories.map((cat, index) => {
+                return (
+                  <Col sm={12} md={8} xs={24} lg={6} key={index}>
+                    <ProductCategoryCard
+                      isServer={props.isServer}
+                      productCategory={cat}
+                    />
+                  </Col>
+                );
+              })}
+            </Row>
+          </Col>
+          <Divider />
           <Col span={24}>
             <Row gutter={[40, 20]} align={"middle"}>
               <Col xs={24} sm={24} md={12}>
@@ -153,23 +171,6 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
               </Col>
             </Row>
             <Divider />
-          </Col>
-          <Col span={24}>
-            <Title style={{ marginBottom: 20, fontSize: 28 }} level={2}>
-              Popular Exams
-            </Title>
-            <Row gutter={[30, 20]}>
-              {categories.map((cat, index) => {
-                return (
-                  <Col sm={12} md={8} xs={24} lg={6} key={index}>
-                    <ProductCategoryCard
-                      isServer={props.isServer}
-                      productCategory={cat}
-                    />
-                  </Col>
-                );
-              })}
-            </Row>
           </Col>
         </>
       )}
