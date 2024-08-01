@@ -36,7 +36,6 @@ export default function GenerateWithAi(props: GenerateWithAiPropsI) {
                       body: data.content,
                       subject: data.subject,
                     };
-                    console.log(data, "aaaa");
                     props.onComplete(D);
                   },
                 }

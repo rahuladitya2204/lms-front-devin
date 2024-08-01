@@ -28,6 +28,7 @@ import image from "./bg.svg";
 import styled from "@emotion/styled";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { UnitTypeToStr } = Utils;
 
@@ -308,6 +309,13 @@ const CourseCard = ({
                           </Button>
                         ) : (
                           <ProductCheckoutButton
+                            onClick={() => {
+                              LogEvent(
+                                "Enroll Course Button",
+                                "Click",
+                                course.title
+                              );
+                            }}
                             onSuccess={() => {
                               message.open({
                                 type: "success",

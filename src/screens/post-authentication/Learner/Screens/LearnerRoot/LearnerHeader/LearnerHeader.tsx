@@ -57,6 +57,7 @@ const { confirm } = Modal;
 
 const { Content } = Layout;
 import { Typography } from "@Components/Typography";
+import { LogEvent } from "@ServerHooks/useDehydration";
 const { Text } = Typography;
 
 export interface LearnerHeaderClientProps {
@@ -252,6 +253,9 @@ const LearnerHeaderClient = ({
                   anchor={isServer}
                   key={index}
                   to={`/app/${item.key}`}
+                  onClick={() => {
+                    LogEvent("NavLink", "Click", item.label);
+                  }}
                   style={{ margin: "0 5px" }}
                   children={({ isActive }) => (
                     <Button

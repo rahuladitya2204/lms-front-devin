@@ -47,8 +47,6 @@ import useTestBuilderUI from "./hooks/useTestBuilder";
 import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
 import { useTestStore } from "./hooks/useTestStore";
 import useUpdateTestForm from "./hooks/useUpdateTest";
-import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
-import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { AddQuestionFromBank } from "./AddQuestionFromBank";
 

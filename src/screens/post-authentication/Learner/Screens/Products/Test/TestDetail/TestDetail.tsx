@@ -55,6 +55,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import TestDetailSkeletonScreen from "./TestDetailSkeletonScreen";
 import { FAQsList } from "@Components/CreateFaqsComponent";
 import { ProductDetailSignup } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { Text, Paragraph } = Typography;
 const { UnitTypeToStr } = Utils;
@@ -518,6 +519,13 @@ const TestCard = ({
                           ENROLLED_CTA
                         ) : (
                           <ProductCheckoutButton
+                            onClick={() => {
+                              LogEvent(
+                                "Enroll Test Button",
+                                "Click",
+                                test.title
+                              );
+                            }}
                             onSuccess={() => {
                               message.open({
                                 type: "success",

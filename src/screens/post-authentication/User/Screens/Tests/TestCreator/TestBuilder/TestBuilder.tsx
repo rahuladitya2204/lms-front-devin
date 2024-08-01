@@ -27,7 +27,6 @@ import PrintPrompt from "./PrintPrompt";
 import SetTestRules from "./SetTestRules";
 import TestOutline from "./TestOutline";
 import TestSectionsNavigator from "./TestSectionsNavigator";
-import { isTopicsAssigned, printPdf } from "@Components/Editor/SunEditor/utils";
 import { updateTestSectionItem } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useEffect, useMemo } from "react";
 import useMessage from "@Hooks/useMessage";

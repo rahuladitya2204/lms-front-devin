@@ -27,6 +27,7 @@ import { capitalize } from "lodash";
 import styled from "@emotion/styled";
 import { getIsServer } from "@ServerUtils/index";
 import { Link } from "@Router/index";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { Text } = Typography;
 
@@ -48,6 +49,10 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
   const isServer = props.isServer;
   const CardComponent = (
     <Link
+      onClick={() => {
+        console.log(productCategory.title, "aaaaa");
+        LogEvent("HomeScreen-Exam-Card", "Click", productCategory.title);
+      }}
       title={productCategory.title}
       to={
         // `/exam/${productCategory._id}`

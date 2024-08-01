@@ -96,7 +96,8 @@ export default function ProductCheckoutButton(
       ) : null}
       <Button
         size="large"
-        onClick={() => {
+        onClick={(e) => {
+          props.onClick && props.onClick(e);
           if (plan.finalPrice.value === 0) {
             return CreateOrder();
           }

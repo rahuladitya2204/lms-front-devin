@@ -38,6 +38,7 @@ import PackageDetailViewerSkeleton from "./PackageDetailSkeleton";
 import { Outlet } from "react-router";
 import { FAQsList } from "@Components/CreateFaqsComponent";
 import { ProductDetailSignup } from "../../../StoreScreen/ProductCategoryDetail/ProductCategoryDetail";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -72,7 +73,6 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
       enabled: !!packageId,
     });
 
-  console.log(bundle, "yukurr");
   const { data: category } = Learner.Queries.useGetProductCategoryDetails(
     bundle.category,
     {
@@ -270,6 +270,13 @@ const PackageCard = ({
                       </Link>
                     ) : (
                       <ProductCheckoutButton
+                        onClick={() => {
+                          LogEvent(
+                            "Enroll Package Button",
+                            "Click",
+                            bundle.title
+                          );
+                        }}
                         onSuccess={() => {
                           message.open({
                             type: "success",

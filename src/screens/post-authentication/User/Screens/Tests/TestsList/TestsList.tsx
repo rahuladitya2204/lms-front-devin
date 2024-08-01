@@ -47,6 +47,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
   const { data: categories } = User.Queries.useGetProductCategories("all");
   const { data: users } = User.Queries.useGetUsers();
   const { openModal } = useModal();
+  const { data: topics } = User.Queries.useGetTopics();
   const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
     props.filter
@@ -200,7 +201,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           />
           <TableColumn
             // defaultSortOrder={"ascend"}
-            sorter={(a, b) => isTopicsAssigned(a) - isTopicsAssigned(b)}
+            sorter={(a, b) =>
+              isTopicsAssigned(topics, a) - isTopicsAssigned(topics, b)
+            }
             title="Topics Assigned"
             dataIndex="topicsAssigned"
             key="topicsAssigned"
@@ -208,7 +211,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             // @ts-ignore
             render={(_: any, test: Types.Test) =>
               // @ts-ignore
-              isTopicsAssigned(test) ? (
+              isTopicsAssigned(topics, test) ? (
                 <Tag color="green">Assigned</Tag>
               ) : (
                 <Tag color="red">Pending</Tag>
@@ -253,6 +256,19 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               }
               return user.name || "-";
             }}
+          />
+          <TableColumn
+            title="Duration"
+            dataIndex="duration"
+            key="duration"
+            // @ts-ignore
+            render={(_: any, test: Types.Test) =>
+              test.duration.enabled ? (
+                <Tag color="blue-inverse">{test.duration.value} mins</Tag>
+              ) : (
+                "-"
+              )
+            }
           />
           <TableColumn
             title="URL Slug"

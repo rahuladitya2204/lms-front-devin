@@ -1,5 +1,6 @@
 import { TopicNode } from '@User/Screens/Admin/Topics/TopicsScreen'
-import { Types } from '@adewaskar/lms-common'
+import { useBuildTopicTree } from '@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails'
+import { Types, User, Utils } from '@adewaskar/lms-common'
 import katex, { KatexOptions } from 'katex'
 import { debounce } from 'lodash'
 export function convertLatexToMathML(
@@ -141,11 +142,16 @@ export function requestCameraPermission() {
   });
 }
 
-export const isTopicsAssigned=(test:Types.Test) => {
+export const isTopicsAssigned=(topics:any[],test:Types.Test) => {
+  console.log(test.topics,'sss')
   let isValid = true;
+ const treeData= test.topics
+    .map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
+    .flat();
+    console.log(treeData,'treeData')
   test.sections.forEach((s) => {
     s.items.forEach((i) => {
-      if (!i.topic) {
+      if (!(i.topic && JSON.stringify(treeData).includes(i.topic))) {
         isValid = false;
       }
     });
