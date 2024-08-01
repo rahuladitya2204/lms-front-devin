@@ -90,7 +90,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               {enrolledTest.metadata.test.endedAt ? (
                 <Row gutter={[0, 10]}>
                   <Col>
-                    <Tag>
+                    <Tag color="blue-inverse">
                       Taken on{" "}
                       {dayjs(enrolledTest.metadata.test.startedAt).format("LL")}
                     </Tag>
