@@ -105,9 +105,10 @@ export default function TestMetrics(props: TestMetricsPropsI) {
     setSelectedMainTopic(topicIds[0]);
   }, [topicIds]);
   // @ts-ignore
-  const {
-    data: [MAIN_TOPICS],
-  } = User.Queries.useGetTopicTree([selectedMainTopic], 2);
+  const { data: MAIN_TOPICS } = Learner.Queries.useGetTopicTree(
+    [selectedMainTopic],
+    2
+  );
   const difficultyLevelData = useMemo(() => {
     return metrics.difficultyLevel
       ? Object.keys(metrics.difficultyLevel).map((k) => {
@@ -126,9 +127,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   //   selectedTopic !== selectedMainTopic ? 1 : 2
   // );
 
-  const {
-    data: [TOPICS],
-  } = User.Queries.useGetTopicTree(
+  const { data: TOPICS } = Learner.Queries.useGetTopicTree(
     [selectedTopic],
     selectedTopic !== selectedMainTopic ? 1 : 2
   );

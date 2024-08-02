@@ -149,7 +149,6 @@ function TestBuilderScreen() {
   };
 
   useEffect(() => {
-    console.log(testDetails, "detail");
     setTest(testDetails);
   }, [testDetails]);
 

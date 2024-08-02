@@ -253,7 +253,12 @@ const PackageCard = ({
                       <Link
                         title={bundle.title}
                         anchor={isServer}
-                        to={`/app/test-series/${packageId}/enrolled-package`}
+                        // to={`/app/test-series/${packageId}/enrolled-package`}
+                        onClick={() =>
+                          window.open(
+                            `/app/test-series/${packageId}/enrolled-package`
+                          )
+                        }
                       >
                         <Button
                           // onClick={() =>
@@ -270,13 +275,13 @@ const PackageCard = ({
                       </Link>
                     ) : (
                       <ProductCheckoutButton
-                        onClick={() => {
-                          LogEvent(
-                            "Enroll Package Button",
-                            "Click",
-                            bundle.title
-                          );
-                        }}
+                        // onClick={() => {
+                        //   LogEvent(
+                        //     "Enroll Package Button",
+                        //     "Click",
+                        //     bundle.title
+                        //   );
+                        // }}
                         onSuccess={() => {
                           message.open({
                             type: "success",

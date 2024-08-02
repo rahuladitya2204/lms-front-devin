@@ -10,7 +10,6 @@ export interface TopicSelectPropsI {
   required?: boolean;
 }
 export default function TopicSelect(props: TopicSelectPropsI) {
-  console.log(props.topicId, "oh yeyeyey");
   const TOPIC_TREE_DATA = useBuildTopicTree(props.topicId, props.level);
   return (
     <Form.Item name={props.name} label={props.label} required={props.required}>

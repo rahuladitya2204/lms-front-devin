@@ -11,7 +11,7 @@ interface ShowSyllabusPropsI {
 
 export default function ShowSyllabus(props: ShowSyllabusPropsI) {
   const { data: test } = Learner.Queries.useGetTestDetails(props.testId);
-  const { data: treeData } = User.Queries.useGetTopicTree(test.topics, 2);
+  const { data: treeData } = Learner.Queries.useGetTopicTree(test.topics, 2);
   const showTooltip = treeData.length < 10;
   const { openModal } = useModal();
   // console.log(treeData, "treeData");
