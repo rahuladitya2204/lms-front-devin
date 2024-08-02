@@ -117,14 +117,6 @@ export default async function Page({
     getPromotedProducts,
   } = Learner.Queries.Definitions;
   const keywords = link?.keywords || category.keywords;
-  console.log(
-    {
-      category: params.id,
-      mode: "free",
-      ...(keywords ? { keywords: keywords } : []),
-    },
-    "11111"
-  );
   return (
     <>
       <RenderFAQJson faqs={link?.faqs} />

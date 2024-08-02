@@ -150,8 +150,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   const prefixKey = `tests/${testId}/${itemId}`;
   const fillInTheBlanks = Form.useWatch("fillInTheBlanks", form);
   const { data: treeData } = User.Queries.useGetTopicTree(test.topics, 2);
-
-  console.log(treeData, "1111");
   const { mutateAsync: translateQuestion, isLoading: translatingQuestion } =
     User.Queries.useTranslateQuestion();
   const langs = test.languages.filter(
