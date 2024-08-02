@@ -21,8 +21,6 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = (props) => {
   const { mutate: updateTopic, isLoading: updateTopicLoading } =
     User.Queries.useUpdateTopic();
 
-  const { listItems: topics } = User.Queries.useGetTopics();
-
   const [form] = Form.useForm();
 
   const onSubmit = (e: Partial<Types.Topic>) => {

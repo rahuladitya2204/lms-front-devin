@@ -42,7 +42,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { Enum, Learner, Utils } from "@adewaskar/lms-common";
+import { Enum, Learner, User, Utils } from "@adewaskar/lms-common";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "@Router/index";
 
@@ -105,7 +105,9 @@ export default function TestMetrics(props: TestMetricsPropsI) {
     setSelectedMainTopic(topicIds[0]);
   }, [topicIds]);
   // @ts-ignore
-  const MAIN_TOPICS = Utils.buildTopicTree(topics, selectedMainTopic, 2);
+  const {
+    data: [MAIN_TOPICS],
+  } = User.Queries.useGetTopicTree([selectedMainTopic], 2);
   const difficultyLevelData = useMemo(() => {
     return metrics.difficultyLevel
       ? Object.keys(metrics.difficultyLevel).map((k) => {
@@ -118,11 +120,19 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       : [];
   }, [metrics]);
   // console.log(MAIN_TOPICS,'MAIN_TOPICS')
-  const TOPICS = Utils.buildTopicTree(
-    topics,
-    selectedTopic,
+  // const TOPICS = Utils.buildTopicTree(
+  //   topics,
+  //   selectedTopic,
+  //   selectedTopic !== selectedMainTopic ? 1 : 2
+  // );
+
+  const {
+    data: [TOPICS],
+  } = User.Queries.useGetTopicTree(
+    [selectedTopic],
     selectedTopic !== selectedMainTopic ? 1 : 2
   );
+
   // @ts-ignore
   const accumulateTopicData = (topic, topicMap) => {
     if (!topicMap[topic._id]) {

@@ -174,6 +174,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
   const navigate = useNavigate();
   const { openModal } = useModal();
   const { isDesktop } = useBreakpoint();
+  const { data: topics } = User.Queries.useGetTopics();
   return (
     <Space direction="vertical" style={{ width: "100%" }}>
       <DndProvider backend={HTML5Backend}>
@@ -304,7 +305,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                           })
                           .filter((i) => i);
                         const { isValid: isQuestionValid, message } =
-                          Utils.validateTestQuestion(item, test);
+                          Utils.validateTestQuestion(item, test, topics);
                         if (!isQuestionValid) {
                           actions.unshift(
                             <Tooltip title={message}>

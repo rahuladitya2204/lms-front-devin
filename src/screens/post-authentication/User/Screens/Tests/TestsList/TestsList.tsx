@@ -35,10 +35,8 @@ import TestStatusTag from "./TestStatus";
 import { Typography } from "@Components/Typography";
 import { User } from "@adewaskar/lms-common";
 import dayjs from "dayjs";
-import { formatTime } from "video.js/dist/types/utils/time";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { NavLink, useNavigate } from "@Router/index";
-import { isTopicsAssigned } from "@Components/Editor/SunEditor/utils";
 
 const { Text } = Typography;
 
@@ -47,7 +45,6 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
   const { data: categories } = User.Queries.useGetProductCategories("all");
   const { data: users } = User.Queries.useGetUsers();
   const { openModal } = useModal();
-  const { data: topics } = User.Queries.useGetTopics();
   const { data, isFetching: loading } = User.Queries.useGetTests(
     // props.filter
     props.filter
@@ -201,9 +198,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
           />
           <TableColumn
             // defaultSortOrder={"ascend"}
-            sorter={(a, b) =>
-              isTopicsAssigned(topics, a) - isTopicsAssigned(topics, b)
-            }
+            sorter={(a, b) => a.isTopicsAssigned - b.isTopicsAssigned}
             title="Topics Assigned"
             dataIndex="topicsAssigned"
             key="topicsAssigned"
@@ -211,7 +206,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             // @ts-ignore
             render={(_: any, test: Types.Test) =>
               // @ts-ignore
-              isTopicsAssigned(topics, test) ? (
+              test.isTopicsAssigned ? (
                 <Tag color="green">Assigned</Tag>
               ) : (
                 <Tag color="red">Pending</Tag>

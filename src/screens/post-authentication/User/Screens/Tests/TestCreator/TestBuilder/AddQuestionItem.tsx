@@ -89,7 +89,6 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   const criterias = Form.useWatch("criterias", form);
 
   const isTestEnded = test.status === Enum.TestStatus.ENDED;
-  const { data: topics } = User.Queries.useGetTopics();
 
   useEffect(() => {
     const i = {
@@ -150,9 +149,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   }, [criterias]);
   const prefixKey = `tests/${testId}/${itemId}`;
   const fillInTheBlanks = Form.useWatch("fillInTheBlanks", form);
-  const treeData = test.topics
-    .map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
-    .flat();
+  const { data: treeData } = User.Queries.useGetTopicTree(test.topics, 2);
+
+  console.log(treeData, "1111");
   const { mutateAsync: translateQuestion, isLoading: translatingQuestion } =
     User.Queries.useTranslateQuestion();
   const langs = test.languages.filter(

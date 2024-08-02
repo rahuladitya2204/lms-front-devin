@@ -51,9 +51,6 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   const [, , , language] = useOutletContext();
   // console.log(item, "okokok");
   const { data: course } = User.Queries.useGetCourseDetails(courseId + "");
-  // @ts-ignore
-  // console.log(language, "language");
-  const { data: topics } = User.Queries.useGetTopics();
 
   const { mutate: deleteSectionItemApi, isLoading: deletingSectionItem } =
     User.Queries.useDeleteCourseSectionItem();
@@ -71,10 +68,7 @@ const AddTextItem: React.FC<CreateQuestionFormPropsI> = (props) => {
   };
 
   const prefixKey = `courses/${courseId}/${itemId}`;
-
-  const treeData = course?.topics
-    ?.map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
-    .flat();
+  const { data: treeData } = User.Queries.useGetTopicTree(course.topics, 2);
 
   return (
     <Spin spinning={false}>

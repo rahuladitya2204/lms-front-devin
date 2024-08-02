@@ -142,23 +142,6 @@ export function requestCameraPermission() {
   });
 }
 
-export const isTopicsAssigned=(topics:any[],test:Types.Test) => {
-  console.log(test.topics,'sss')
-  let isValid = true;
- const treeData= test.topics
-    .map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
-    .flat();
-    console.log(treeData,'treeData')
-  test.sections.forEach((s) => {
-    s.items.forEach((i) => {
-      if (!(i.topic && JSON.stringify(treeData).includes(i.topic))) {
-        isValid = false;
-      }
-    });
-  });
-  return isValid;
-}
-
 export async function downloadFileFromUrl(fileUrl: string, fileName: string): Promise<void> {
   try {
     const response = await fetch(fileUrl);

@@ -27,7 +27,6 @@ import { Typography } from "@Components/Typography";
 import { deepPatch } from "../../CourseBuilder/utils";
 import { useEffect, useMemo } from "react";
 import { useParams } from "@Router/index";
-import { buildTopicTree } from "@User/Screens/Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails";
 import TopicSelect from "@Components/TopicSelect";
 
 const { TextArea } = Input;

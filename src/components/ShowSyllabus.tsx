@@ -1,4 +1,4 @@
-import { Learner, Types, Utils } from "@adewaskar/lms-common";
+import { Learner, Types, User, Utils } from "@adewaskar/lms-common";
 import { Button, Col, Row, Tooltip } from "antd";
 import { Text } from "./Typography/Typography";
 import { useModal } from "./ActionModal/ModalContext";
@@ -10,11 +10,8 @@ interface ShowSyllabusPropsI {
 }
 
 export default function ShowSyllabus(props: ShowSyllabusPropsI) {
-  const { data: topics } = Learner.Queries.useGetTopics();
   const { data: test } = Learner.Queries.useGetTestDetails(props.testId);
-  const treeData = test?.topics
-    ?.map((topicId) => Utils.buildTopicTree(topics, topicId, 2))
-    .flat();
+  const { data: treeData } = User.Queries.useGetTopicTree(test.topics, 2);
   const showTooltip = treeData.length < 10;
   const { openModal } = useModal();
   // console.log(treeData, "treeData");
