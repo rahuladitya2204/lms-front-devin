@@ -127,10 +127,11 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   //   selectedTopic !== selectedMainTopic ? 1 : 2
   // );
 
-  const { data: TOPICS } = Learner.Queries.useGetTopicTree(
-    [selectedTopic],
-    selectedTopic !== selectedMainTopic ? 1 : 2
-  );
+  const { data: TOPICS, isLoading: loadingTopicTree } =
+    Learner.Queries.useGetTopicTree(
+      [selectedTopic],
+      selectedTopic !== selectedMainTopic ? 1 : 2
+    );
 
   // @ts-ignore
   const accumulateTopicData = (topic, topicMap) => {

@@ -149,7 +149,8 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   }, [criterias]);
   const prefixKey = `tests/${testId}/${itemId}`;
   const fillInTheBlanks = Form.useWatch("fillInTheBlanks", form);
-  const { data: treeData } = User.Queries.useGetTopicTree(test.topics, 2);
+  const { data: treeData, isLoading: loadingTopicTree } =
+    User.Queries.useGetTopicTree(test.topics, 2);
   const { mutateAsync: translateQuestion, isLoading: translatingQuestion } =
     User.Queries.useTranslateQuestion();
   const langs = test.languages.filter(
@@ -298,6 +299,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
             <Col span={12}>
               <Form.Item label="Topic" name="topic">
                 <TreeSelect
+                  loading={loadingTopicTree}
                   treeData={treeData}
                   // onExpand={onExpand}
                   // expandedKeys={expandedKeys}

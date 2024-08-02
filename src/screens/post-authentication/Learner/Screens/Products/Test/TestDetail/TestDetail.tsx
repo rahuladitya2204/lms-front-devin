@@ -519,13 +519,13 @@ const TestCard = ({
                           ENROLLED_CTA
                         ) : (
                           <ProductCheckoutButton
-                            onClick={() => {
-                              LogEvent(
-                                "Enroll Test Button",
-                                "Click",
-                                test.title
-                              );
-                            }}
+                            // onClick={() => {
+                            //   LogEvent(
+                            //     "Enroll Test Button",
+                            //     "Click",
+                            //     test.title
+                            //   );
+                            // }}
                             onSuccess={() => {
                               message.open({
                                 type: "success",
