@@ -10,6 +10,7 @@ const useDehydration = () => {
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
     if (!isServer && process.env.NODE_ENV === 'production' && userType==='learner') {
+      window.ga_enabled=true;
       ReactGA.initialize(GA_KEY);
       initializeApp();
     }
@@ -29,7 +30,7 @@ export default useDehydration;
 
 
 export const LogEvent = (category = '', action = '', label = '', value = 0) => {
-  if (category && action) {
+  if (category && action && window.ga_enabled) {
     ReactGA.event({ category, action, label, value });
   }
 };
