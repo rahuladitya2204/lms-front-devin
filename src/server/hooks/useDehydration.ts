@@ -6,10 +6,10 @@ import ReactGA from 'react-ga';
 const GA_KEY='G-09G526DHYD'
 const useDehydration = () => {
   const isServer = typeof window === "undefined";
-  const {user,learner}=Store.useAuthentication(s=>s);
+  const {user,learner,userType}=Store.useAuthentication(s=>s);
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
-    if (!isServer) {
+    if (!isServer && process.env.NODE_ENV === 'production' && userType==='learner') {
       ReactGA.initialize(GA_KEY);
       initializeApp();
     }

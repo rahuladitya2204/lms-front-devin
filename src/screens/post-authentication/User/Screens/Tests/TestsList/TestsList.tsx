@@ -117,15 +117,9 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
         },
       },
     ];
-    if (
-      test._id &&
-      test.status !== Enum.TestStatus.PUBLISHED
-      // &&
-      // Utils.validatePublishTest(test)
-    ) {
+    if (test._id && test.status !== Enum.TestStatus.PUBLISHED) {
       i.unshift({
         label: "Publish Test",
-        // disabled: !Utils.validatePublishTest(test),
         key: "publish-test",
         icon: <UploadOutlined />,
         onClick: () => {
@@ -213,25 +207,6 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               )
             }
           />
-          {/* <TableColumn
-            // defaultSortOrder={"ascend"}
-            sorter={(a, b) =>
-              Utils.validatePublishTest(a) - Utils.validatePublishTest(b)
-            }
-            title="Validate Status"
-            dataIndex="validateStatus"
-            key="validateStatus"
-            fixed
-            // @ts-ignore
-            render={(_: any, test: Types.Test) =>
-              // @ts-ignore
-              Utils.validatePublishTest(test) ? (
-                <Tag color="green">Valid</Tag>
-              ) : (
-                <Tag color="red">Invalid</Tag>
-              )
-            }
-          /> */}
           <TableColumn
             title="Last Updated By"
             dataIndex="updatedBy"

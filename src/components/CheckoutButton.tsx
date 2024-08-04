@@ -8,6 +8,7 @@ import ActionModal from "./ActionModal/ActionModal";
 import ProductWalletNudge from "./ProductWalletNudge";
 import { usePaymentCheckout } from "@Hooks/CommonHooks";
 import { useRef } from "react";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { confirm } = Modal;
 interface ProductCheckoutButtonPropsI extends ButtonProps {
@@ -42,6 +43,13 @@ export default function ProductCheckoutButton(
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const transactionStrategy = organisation.transaction.strategy;
   const isFree = plan?.type === "free";
+  const onSuccess = (e) => {
+    LogEvent(props.product.type, "Enroll::Success", props.product.id); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+    props.onSuccess();
+  };
+  const onError = (e) => {
+    LogEvent(props.product.type, "Enroll::Eror", props.product.id); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+  };
   const CreateOrder = () => {
     createOrder(
       { data: { type, id } },
@@ -56,7 +64,8 @@ export default function ProductCheckoutButton(
                   data: {},
                 },
                 {
-                  onSuccess: props.onSuccess,
+                  onSuccess: onSuccess,
+                  onError,
                 }
               );
             }
@@ -68,7 +77,8 @@ export default function ProductCheckoutButton(
                   data: payment,
                 },
                 {
-                  onSuccess: props.onSuccess,
+                  onSuccess: onSuccess,
+                  onError,
                 }
               );
             });
@@ -81,7 +91,8 @@ export default function ProductCheckoutButton(
                 data: {},
               },
               {
-                onSuccess: props.onSuccess,
+                onSuccess: onSuccess,
+                onError,
               }
             );
           }
@@ -97,7 +108,7 @@ export default function ProductCheckoutButton(
       <Button
         size="large"
         onClick={(e) => {
-          props.onClick && props.onClick(e);
+          LogEvent(props.product.type, "Enroll Attempt", props.product.id); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
           if (plan.finalPrice.value === 0) {
             return CreateOrder();
           }

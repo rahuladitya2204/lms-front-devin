@@ -18,7 +18,7 @@ import {
   Skeleton,
   Tabs,
 } from "@Lib/index";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Outlet } from "react-router";
 import ShowMore from "@Components/ShowMore/ShowMore";
 import PackageCard from "../Cards/PackageCard";
@@ -30,6 +30,7 @@ import TestCard from "../Cards/TestCard";
 import PromotedProducts from "./PromotedProducts";
 import { PYQTestsComponent } from "./ProductCategoryDetail";
 import LearnerProductCard from "@Components/LearnerProductCard";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -88,6 +89,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
 
     return i;
   }, [productCategory, type]);
+
   const navigate = useNavigate();
   const tab = TABS.find((tab) => tab.key === type);
   return loadingCategory ? (
@@ -157,7 +159,16 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           <PageSchema url={props.url} seo={tab?.seo} />
           {/* <Divider style={{ margin: "5px 0px 20px 0" }} /> */}
           {
-            <ShowMore minHeight={600}>
+            <ShowMore
+              onClick={() => {
+                LogEvent(
+                  "Category",
+                  "CategoryPageShowMore::Clicked",
+                  productCategory._id
+                ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+              }}
+              minHeight={600}
+            >
               {tab?.children ? (
                 <HtmlViewer
                   customStyles={`

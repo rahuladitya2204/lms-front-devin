@@ -20,7 +20,6 @@ import { Enum, Types, User } from "@adewaskar/lms-common";
 import { TEST_TEMPLATES } from "@Components/Editor/SunEditor/constant";
 import { Typography } from "@Components/Typography";
 import { useEffect, useState } from "react";
-import TopicSelect from "@Components/TopicSelect";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { AddQuestionFromBank } from "./AddQuestionFromBank";
 

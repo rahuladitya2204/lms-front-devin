@@ -4,8 +4,9 @@ import PackageCard from "../Cards/PackageCard";
 import TestCard from "../Cards/TestCard";
 import LearnerProductCard from "@Components/LearnerProductCard";
 import { Link } from "@Router/index";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Title } from "@Components/Typography/Typography";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 interface PromotedProductsPropsI {
   isServer: boolean;
@@ -41,6 +42,18 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
       limit: 3,
     }
   );
+
+  useEffect(() => {
+    if (packages.length) {
+      LogEvent("Category", "Promoted Packages::Loaded", categoryId); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+    }
+  }, [packages]);
+
+  useEffect(() => {
+    if (tests.length) {
+      LogEvent("Category", "Promoted Tests::Loaded", categoryId); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+    }
+  }, [tests]);
 
   // console.log(linkPrefix, props.type, "popopo");
   return (

@@ -301,7 +301,12 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
           </Form.Item>
         </Col>
         <Col span={8}>
-          <TopicSelect level={4} name="topics" label="Topics"></TopicSelect>
+          <TopicSelect
+            level={4}
+            topicId={[]}
+            name="topics"
+            label="Topics"
+          ></TopicSelect>
         </Col>
         {isHandwritten ? (
           <Col span={8}>
@@ -469,15 +474,16 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
 
 export default TestDetailsEditor;
 
-export const useBuildTopicTree = (topic?: string | string[], level = 3) => {
-  const { data: topics } = User.Queries.useGetTopics();
-  const TOPIC_TREE_DATA = useMemo(() => {
-    return Array.isArray(topic)
-      ? topic
-          ?.map((topicId) => Utils.buildTopicTree(topics, topicId, level))
-          ?.flat()
-      : Utils.buildTopicTree(topics, topic, level);
-  }, [topics]);
+export const useBuildTopicTree = (
+  topic: string | string[],
+  level = 3,
+  notDisabled?: boolean
+) => {
+  const { data: TOPIC_TREE_DATA } = User.Queries.useGetTopicTree(
+    Array.isArray(topic) ? topic : [topic],
+    level,
+    notDisabled
+  );
   return TOPIC_TREE_DATA;
 };
 

@@ -315,25 +315,6 @@ function TestBuilderScreen() {
             </Space>
           ) : (
             <Space>
-              {/* <Button
-                  disabled={!Utils.validatePublishTest(test)}
-                  onClick={() => {
-                    confirm({
-                      title: 'Are you sure?',
-                      content: `You want to publish this Test?`,
-                      onOk() {
-                        publishTest({
-                          testId: test._id+''
-                        })
-                      },
-                      okText: 'Yes, Publish'
-                    })
-                  }}
-                  style={{ marginRight: 15 }}
-                  icon={<UploadOutlined />} loading={publishingTest}
-                > 
-                  Publish Test
-                </Button> */}
               {isTestEnded ? <Tag color="green">Test has ended</Tag> : null}
             </Space>
           ),

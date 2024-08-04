@@ -87,8 +87,9 @@ export const AddQuestionFromBank = (props: {
           form={form}
         >
           <TopicSelect
-            level={4}
+            level={2}
             label="Topics"
+            notDisabled
             topicId={props.topics}
             name="topics"
             multiple

@@ -1,4 +1,13 @@
-import { Button, Collapse, List, Modal, Space, Tag, Tooltip } from "@Lib/index";
+import {
+  Button,
+  Collapse,
+  List,
+  Modal,
+  Space,
+  Spin,
+  Tag,
+  Tooltip,
+} from "@Lib/index";
 import {
   CheckCircleTwoTone,
   DeleteOutlined,
@@ -104,7 +113,8 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
   deleteSectionItem,
   onReorderSections,
 }) => {
-  const { data: test } = User.Queries.useGetTestDetails(testId);
+  const { data: test, isLoading: loadingTest } =
+    User.Queries.useGetTestDetails(testId);
   const [enableSectionReorder, setEnableSectionReorder] = useState(true);
   const [itemRearrengeIndex, setItemRearrengeIndex] = useState<number | null>(
     null
@@ -175,275 +185,274 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
   const { openModal } = useModal();
   const { isDesktop } = useBreakpoint();
   // const { data: topics } = User.Queries.useGetTopics();
-  const { data: treeData } = User.Queries.useGetTopicTree(test.topics, 2);
+  const { data: treeData, isLoading: loadingTreeData } =
+    User.Queries.useGetTopicTree(test.topics, 2);
+  // console.log(treeData, test.topics, "1111");
   return (
-    <Space direction="vertical" style={{ width: "100%" }}>
-      <DndProvider backend={HTML5Backend}>
-        {sectionList.map((section, secIndex) => {
-          const SectionOptionDropdown = (
-            <MoreButton
-              items={[
-                {
-                  label: "Add Question",
-                  onClick: () => {
-                    onAddNewItem(
-                      {
-                        title: {
-                          text: Constants.INITIAL_LANG_TEXT,
+    <Spin spinning={loadingTreeData}>
+      <Space direction="vertical" style={{ width: "100%" }}>
+        <DndProvider backend={HTML5Backend}>
+          {sectionList.map((section, secIndex) => {
+            const SectionOptionDropdown = (
+              <MoreButton
+                items={[
+                  {
+                    label: "Add Question",
+                    onClick: () => {
+                      onAddNewItem(
+                        {
+                          title: {
+                            text: Constants.INITIAL_LANG_TEXT,
+                          },
+                          options: [
+                            Constants.INITIAL_TEST_QUESTION_OPTION,
+                            Constants.INITIAL_TEST_QUESTION_OPTION,
+                            Constants.INITIAL_TEST_QUESTION_OPTION,
+                            Constants.INITIAL_TEST_QUESTION_OPTION,
+                          ],
+                          solution: { html: "" },
                         },
-                        options: [
-                          Constants.INITIAL_TEST_QUESTION_OPTION,
-                          Constants.INITIAL_TEST_QUESTION_OPTION,
-                          Constants.INITIAL_TEST_QUESTION_OPTION,
-                          Constants.INITIAL_TEST_QUESTION_OPTION,
-                        ],
-                        solution: { html: "" },
-                      },
-                      secIndex
-                    );
-                    // if(section.items.length==0)
+                        secIndex
+                      );
+                      // if(section.items.length==0)
+                    },
+                    key: "add",
                   },
-                  key: "add",
-                },
-                {
-                  label: `Edit Section`,
-                  onClick: () =>
-                    openModal(
-                      <AddTestSection
-                        data={section}
-                        onFinish={(e: { title: string }) =>
-                          onAddSection({ ...section, ...e })
-                        }
-                      />
+                  {
+                    label: `Edit Section`,
+                    onClick: () =>
+                      openModal(
+                        <AddTestSection
+                          data={section}
+                          onFinish={(e: { title: string }) =>
+                            onAddSection({ ...section, ...e })
+                          }
+                        />
+                      ),
+                    key: "edit-section",
+                  },
+                  {
+                    label: (
+                      <span onClick={() => DeleteSection(section._id)}>
+                        Delete Section
+                      </span>
                     ),
-                  key: "edit-section",
-                },
-                {
-                  label: (
-                    <span onClick={() => DeleteSection(section._id)}>
-                      Delete Section
-                    </span>
-                  ),
-                  key: "delete",
-                },
-              ]}
-            />
-          );
-          const actions = [SectionOptionDropdown];
-          if (section?.score?.correct) {
-            actions.unshift(
-              <Tag style={{ textAlign: "center" }} color="blue-inverse">
-                Score(+ {section.score.correct}{" "}
-                {section?.score?.incorrect ? (
-                  <span>, {section.score.incorrect}</span>
-                ) : null}{" "}
-                )
-              </Tag>
+                    key: "delete",
+                  },
+                ]}
+              />
             );
-          }
-          return (
-            <div style={{ marginBottom: 20 }}>
-              <MovableItem
-                disabled={!enableSectionReorder}
-                key={section._id}
-                index={secIndex}
-                moveItem={moveSection}
-                id={section._id}
-              >
-                <CustomCollapse
-                  collapsible="header"
-                  bordered
-                  enableSectionReorder={!enableSectionReorder}
-                  defaultActiveKey={sectionList.map((s, i) => i)}
-                  expandIconPosition="start"
-                  // ghost
+            const actions = [SectionOptionDropdown];
+            if (section?.score?.correct) {
+              actions.unshift(
+                <Tag style={{ textAlign: "center" }} color="blue-inverse">
+                  Score(+ {section.score.correct}{" "}
+                  {section?.score?.incorrect ? (
+                    <span>, {section.score.incorrect}</span>
+                  ) : null}{" "}
+                  )
+                </Tag>
+              );
+            }
+            return (
+              <div style={{ marginBottom: 20 }}>
+                <MovableItem
+                  disabled={!enableSectionReorder}
+                  key={section._id}
+                  index={secIndex}
+                  moveItem={moveSection}
+                  id={section._id}
                 >
-                  <CollapsePanel
-                    extra={<Space>{actions}</Space>}
-                    key={secIndex}
-                    header={section.title}
+                  <CustomCollapse
+                    collapsible="header"
+                    bordered
+                    enableSectionReorder={!enableSectionReorder}
+                    defaultActiveKey={sectionList.map((s, i) => i)}
+                    expandIconPosition="start"
+                    // ghost
                   >
-                    <List
-                      itemLayout="horizontal"
-                      style={{ marginBottom: 20 }}
-                      size="small"
-                      dataSource={section.items}
-                      renderItem={(item, itemIndex) => {
-                        // This propagation is being stopped to prevent dropdown also making list item clickable
-                        const SectionItemOptionDropdown = (
-                          <span onClick={(e) => e.stopPropagation()}>
-                            <MoreButton
-                              items={[
-                                {
-                                  label: (
-                                    <span
-                                      onClick={(e) => {
-                                        // e.stopPropagation()
-                                        DeleteSectionItem(
-                                          section._id,
-                                          item._id
-                                        );
-                                      }}
-                                    >
-                                      Delete Question
-                                    </span>
-                                  ),
-                                  key: "delete",
-                                  icon: <DeleteOutlined />,
-                                },
-                              ]}
-                            />
-                          </span>
-                        );
-                        const actions = [SectionItemOptionDropdown];
-                        const correctOptions = item?.options
-                          .map((i, index) => {
-                            if (i.isCorrect) {
-                              return String.fromCharCode(65 + index);
-                            } else {
-                              return null;
-                            }
-                          })
-                          .filter((i) => i);
-                        const { isValid: isQuestionValid, message } =
-                          Utils.validateTestQuestion(item, test, treeData);
-                        if (!isQuestionValid) {
-                          actions.unshift(
-                            <Tooltip title={message}>
-                              <WarningTwoTone twoToneColor="red" />
-                            </Tooltip>
+                    <CollapsePanel
+                      extra={<Space>{actions}</Space>}
+                      key={secIndex}
+                      header={section.title}
+                    >
+                      <List
+                        itemLayout="horizontal"
+                        style={{ marginBottom: 20 }}
+                        size="small"
+                        dataSource={section.items}
+                        renderItem={(item, itemIndex) => {
+                          // This propagation is being stopped to prevent dropdown also making list item clickable
+                          const SectionItemOptionDropdown = (
+                            <span onClick={(e) => e.stopPropagation()}>
+                              <MoreButton
+                                items={[
+                                  {
+                                    label: (
+                                      <span
+                                        onClick={(e) => {
+                                          // e.stopPropagation()
+                                          DeleteSectionItem(
+                                            section._id,
+                                            item._id
+                                          );
+                                        }}
+                                      >
+                                        Delete Question
+                                      </span>
+                                    ),
+                                    key: "delete",
+                                    icon: <DeleteOutlined />,
+                                  },
+                                ]}
+                              />
+                            </span>
                           );
-                        }
-                        // if (item?.score?.correct) {
-                        //   actions.unshift(<Tag style={{ textAlign: 'center' }}
-                        //     color='blue-inverse'>
-                        //     + {item.score.correct} {(item?.score?.incorrect)?<span>, { item.score.incorrect}</span>:null} </Tag>)
-                        // }
-                        // if (item?.score?.incorrect) {
-                        //   actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
-                        //    {item.score.incorrect}</Tag>)
-                        // }
-                        // if (item.type) {
-                        //   actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
-                        // }
-                        if (correctOptions.length) {
-                          actions.unshift(
-                            <Tag
-                              style={{ textAlign: "center" }}
-                              color="orange-inverse"
-                            >
-                              {correctOptions.join(",")}
-                            </Tag>
-                          );
-                        }
-                        const TestSectionListItem = (isActive: boolean) => (
-                          <TestListItem isActive={isActive} actions={actions}>
-                            <List.Item.Meta
-                              style={{ cursor: "pointer" }}
-                              // title={<Text>{htmlToText(item.title)}</Text>}
-                              title={
-                                <Text>{`${!isDesktop ? "Q" : "Question"} ${
-                                  calculateGlobalIndex(
-                                    sections,
-                                    secIndex,
-                                    itemIndex
-                                  ) + 1
-                                }`}</Text>
+                          const actions = [SectionItemOptionDropdown];
+                          const correctOptions = item?.options
+                            .map((i, index) => {
+                              if (i.isCorrect) {
+                                return String.fromCharCode(65 + index);
+                              } else {
+                                return null;
                               }
-                              avatar={<ReadOutlined />}
-                            />
-                          </TestListItem>
-                        );
-                        return (
-                          <Fragment>
-                            <MovableItem
-                              disabled={!(itemRearrengeIndex === secIndex)}
-                              key={item._id}
-                              index={itemIndex}
-                              moveItem={(dragIndex, hoverIndex) =>
-                                moveTestItem(
-                                  dragIndex,
-                                  hoverIndex,
-                                  section._id,
-                                  item._id
-                                )
-                              }
-                              id={item._id}
-                            >
-                              <List.Item
-                                style={{
-                                  padding: 0,
-                                  background: isQuestionValid
-                                    ? "transparent"
-                                    : "#fff1f0",
-                                }}
+                            })
+                            .filter((i) => i);
+                          const { isValid: isQuestionValid, message } =
+                            Utils.validateTestQuestion(item, test, treeData);
+                          if (!isQuestionValid) {
+                            actions.unshift(
+                              <Tooltip title={message}>
+                                <WarningTwoTone twoToneColor="red" />
+                              </Tooltip>
+                            );
+                          }
+                          // if (item?.score?.correct) {
+                          //   actions.unshift(<Tag style={{ textAlign: 'center' }}
+                          //     color='blue-inverse'>
+                          //     + {item.score.correct} {(item?.score?.incorrect)?<span>, { item.score.incorrect}</span>:null} </Tag>)
+                          // }
+                          // if (item?.score?.incorrect) {
+                          //   actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
+                          //    {item.score.incorrect}</Tag>)
+                          // }
+                          // if (item.type) {
+                          //   actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
+                          // }
+                          if (correctOptions.length) {
+                            actions.unshift(
+                              <Tag
+                                style={{ textAlign: "center" }}
+                                color="orange-inverse"
                               >
-                                <NavLink
-                                  style={{ width: "100%" }}
-                                  key={item._id}
-                                  to={item._id}
-                                  onClick={(e) => {
-                                    e.preventDefault();
-                                    navigate(
-                                      `/admin/products/test/${testId}/builder/${item._id}`
-                                    );
+                                {correctOptions.join(",")}
+                              </Tag>
+                            );
+                          }
+                          const TestSectionListItem = (isActive: boolean) => (
+                            <TestListItem isActive={isActive} actions={actions}>
+                              <List.Item.Meta
+                                style={{ cursor: "pointer" }}
+                                // title={<Text>{htmlToText(item.title)}</Text>}
+                                title={
+                                  <Text>{`${!isDesktop ? "Q" : "Question"} ${
+                                    calculateGlobalIndex(
+                                      sections,
+                                      secIndex,
+                                      itemIndex
+                                    ) + 1
+                                  }`}</Text>
+                                }
+                                avatar={<ReadOutlined />}
+                              />
+                            </TestListItem>
+                          );
+                          return (
+                            <Fragment>
+                              <MovableItem
+                                disabled={!(itemRearrengeIndex === secIndex)}
+                                key={item._id}
+                                index={itemIndex}
+                                moveItem={(dragIndex, hoverIndex) =>
+                                  moveTestItem(
+                                    dragIndex,
+                                    hoverIndex,
+                                    section._id,
+                                    item._id
+                                  )
+                                }
+                                id={item._id}
+                              >
+                                <List.Item
+                                  style={{
+                                    padding: 0,
+                                    background: isQuestionValid
+                                      ? "transparent"
+                                      : "#fff1f0",
                                   }}
-                                  children={({ isActive }) =>
-                                    TestSectionListItem(isActive)
-                                  }
-                                />
-                              </List.Item>
-                            </MovableItem>
+                                >
+                                  <NavLink
+                                    style={{ width: "100%" }}
+                                    key={item._id}
+                                    to={item._id}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      navigate(
+                                        `/admin/products/test/${testId}/builder/${item._id}`
+                                      );
+                                    }}
+                                    children={({ isActive }) =>
+                                      TestSectionListItem(isActive)
+                                    }
+                                  />
+                                </List.Item>
+                              </MovableItem>
 
-                            {itemIndex === section.items.length - 1
-                              ? null
-                              : //   <ActionModal
-                                //   cta={<AddItemListCta
-                                //     >
-                                //       <List.Item.Meta
-                                //         style={{ cursor: 'pointer' }}
-                                //         title={AddItemCTA}
-                                //         avatar={
-                                //           <PlusOutlined/>
-                                //         }
-                                //       />
-                                //     </AddItemListCta>}
-                                // >
-                                //   <AddItem
-                                //     onAddNewItem={(key, value) =>
-                                //       onAddNewItem(key, value, secIndex)
-                                //     }
-                                //   />
-                                // </ActionModal>
-                                null}
-                          </Fragment>
-                        );
-                      }}
-                    />
-                  </CollapsePanel>
-                </CustomCollapse>
-              </MovableItem>
-            </div>
-          );
-        })}
-      </DndProvider>
+                              {itemIndex === section.items.length - 1
+                                ? null
+                                : //   <ActionModal
+                                  //   cta={<AddItemListCta
+                                  //     >
+                                  //       <List.Item.Meta
+                                  //         style={{ cursor: 'pointer' }}
+                                  //         title={AddItemCTA}
+                                  //         avatar={
+                                  //           <PlusOutlined/>
+                                  //         }
+                                  //       />
+                                  //     </AddItemListCta>}
+                                  // >
+                                  //   <AddItem
+                                  //     onAddNewItem={(key, value) =>
+                                  //       onAddNewItem(key, value, secIndex)
+                                  //     }
+                                  //   />
+                                  // </ActionModal>
+                                  null}
+                            </Fragment>
+                          );
+                        }}
+                      />
+                    </CollapsePanel>
+                  </CustomCollapse>
+                </MovableItem>
+              </div>
+            );
+          })}
+        </DndProvider>
 
-      {/* @ts-ignore */}
-      <AddChapterButton
-        onClick={() =>
-          openModal(<AddTestSection onFinish={(e) => onAddSection(e)} />)
-        }
-        block
-        type="primary"
-      >
-        Add New Section
-      </AddChapterButton>
-      {/* <ActionModal cta={<AddChapterButton block type="primary">
-                Add New Section
-              </AddChapterButton>}>
-      <AddTestSection onFinish={e => onAddSection(e)} />
-        </ActionModal> */}
-    </Space>
+        {/* @ts-ignore */}
+        <AddChapterButton
+          onClick={() =>
+            openModal(<AddTestSection onFinish={(e) => onAddSection(e)} />)
+          }
+          block
+          type="primary"
+        >
+          Add New Section
+        </AddChapterButton>
+      </Space>
+    </Spin>
   );
 };
 

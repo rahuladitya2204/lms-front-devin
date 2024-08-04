@@ -48,9 +48,14 @@ const ViewMoreDiv = styled.div`
 interface ShowMoreProps {
   children: React.ReactNode;
   minHeight: number;
+  onClick?: Function;
 }
 
-const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
+const ShowMore: React.FC<ShowMoreProps> = ({
+  children,
+  minHeight,
+  onClick,
+}) => {
   const [showMore, setShowMore] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isOverflowing, setIsOverflowing] = useState(false);
@@ -67,6 +72,7 @@ const ShowMore: React.FC<ShowMoreProps> = ({ children, minHeight }) => {
   }, [children, minHeight]);
 
   const toggleShowMore = () => {
+    onClick && onClick();
     setShowMore(!showMore);
   };
 

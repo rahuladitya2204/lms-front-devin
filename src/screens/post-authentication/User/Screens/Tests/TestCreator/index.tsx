@@ -84,9 +84,9 @@ const TestEditor = () => {
       }
     );
   };
-
+  const { validatePublishTest } = Utils.useValidateTest(test);
   const navigate = useNavigate();
-  const { isMobile } = useBreakpoint();
+  // const { isMobile } = useBreakpoint();
   const MainNavTabs = (
     <Tabs
       tabKey="test-creator"
@@ -160,7 +160,7 @@ const TestEditor = () => {
                   </Tag>
                 ) : (
                   <Button
-                    disabled={!Utils.validatePublishTest(test)}
+                    disabled={!validatePublishTest()}
                     onClick={() => {
                       confirm({
                         title: "Are you sure?",
