@@ -31,6 +31,7 @@ import PromotedProducts from "./PromotedProducts";
 import { PYQTestsComponent } from "./ProductCategoryDetail";
 import LearnerProductCard from "@Components/LearnerProductCard";
 import { LogEvent } from "@ServerHooks/useDehydration";
+import { capitalize } from "lodash";
 
 const CustomTabs = styled(Tabs)`
   .ant-tabs-tab {
@@ -92,6 +93,20 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
 
   const navigate = useNavigate();
   const tab = TABS.find((tab) => tab.key === type);
+
+  useEffect(() => {
+    if (productCategory._id) {
+      LogEvent(
+        "Category",
+        "Page::Loaded",
+        `${productCategory.title}:${capitalize(tab?.label)}`,
+        {
+          categoryId: productCategory._id,
+        }
+      ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+    }
+  }, [productCategory]);
+
   return loadingCategory ? (
     <ProductCategoryTabsSkeleton />
   ) : (
@@ -103,6 +118,14 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
               return (
                 <Button
                   onClick={() => {
+                    LogEvent(
+                      "Category",
+                      "Tab::Clicked",
+                      `${productCategory.title}:${capitalize(tab.label)}`,
+                      {
+                        categoryId: productCategory._id,
+                      }
+                    );
                     navigate(
                       props.isServer
                         ? `/exam/${id}/${tab.key}`
@@ -162,7 +185,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
             <ShowMore
               onClick={() => {
                 LogEvent(
-                  "Category",
+                  "Category:" + type,
                   "CategoryPageShowMore::Clicked",
                   productCategory._id
                 ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
@@ -258,7 +281,16 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
         label: "Test Series",
         key: "test-series",
         children: (
-          <ShowMore minHeight={200}>
+          <ShowMore
+            minHeight={200}
+            onClick={() => {
+              LogEvent(
+                "Category:" + type,
+                "PromotedProducts:ShowMore::Clicked",
+                category.title
+              );
+            }}
+          >
             <PromotedProducts
               categoryId={categoryId}
               type={props.type}

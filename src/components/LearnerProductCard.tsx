@@ -47,6 +47,7 @@ interface LearnerProductCardPropsI {
   actions?: React.ReactNode[];
   onClick?: Function;
   mini?: boolean;
+  onTry?: Function;
 }
 
 const LearnerProductCard = (props: LearnerProductCardPropsI) => {
@@ -73,6 +74,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   const isFree = product?.plan?.type === "free";
   const TryNowButton = (
     <Link
+      onClick={() => props.onTry && props.onTry()}
       to={
         props.isServer
           ? `/${linkPrefix}/${product.slug || product._id}`

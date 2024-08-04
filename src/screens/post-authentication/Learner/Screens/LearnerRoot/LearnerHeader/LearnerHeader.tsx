@@ -254,7 +254,7 @@ const LearnerHeaderClient = ({
                   key={index}
                   to={`/app/${item.key}`}
                   onClick={() => {
-                    LogEvent("NavLink", "Click", item.label);
+                    LogEvent("NavPageLink", "Click", item.label);
                   }}
                   style={{ margin: "0 5px" }}
                   children={({ isActive }) => (

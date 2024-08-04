@@ -69,6 +69,7 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import LearnerLogin from "../../Login";
 import { capitalize } from "lodash";
 import { isServer } from "@tanstack/react-query";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { Text, Paragraph } = Typography;
 
@@ -428,6 +429,7 @@ export const ProductDetailSignup = ({
   const categoryId = product.id;
   const { data: category, isLoading: loadingProductCategory } =
     Learner.Queries.useGetProductCategoryDetails(categoryId + "");
+
   const [showModal, setShowModal] = useState(false);
   const { isSignedIn, isLoading } = Store.useAuthentication((s) => s);
   // const { data: learner } = Learner.Queries.useGetLearnerDetails();
@@ -435,6 +437,16 @@ export const ProductDetailSignup = ({
     setTimeout(() => {
       if (!isLoading && !isSignedIn && categoryId && !hidePopup) {
         setShowModal(true);
+        LogEvent(
+          capitalize(product.type),
+          "ProductSignupModal::Viewed",
+          `${category.title}:${capitalize(categoryId)}`,
+          {
+            categoryId: category._id,
+            displayedIn: timeout,
+            // slug: product.id,
+          }
+        );
         localStorage.setItem("hide_popup", "true");
       }
     }, timeout);

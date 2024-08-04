@@ -45,13 +45,13 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
 
   useEffect(() => {
     if (packages.length) {
-      LogEvent("Category", "Promoted Packages::Loaded", categoryId); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+      LogEvent("Category", "Promoted Packages::Loaded", category.title); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
     }
   }, [packages]);
 
   useEffect(() => {
     if (tests.length) {
-      LogEvent("Category", "Promoted Tests::Loaded", categoryId); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+      LogEvent("Category", "Promoted Tests::Loaded", category.title); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
     }
   }, [tests]);
 
@@ -77,6 +77,13 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
                 >
                   <div style={{ marginLeft: 10 }}>
                     <LearnerProductCard
+                      onTry={() => {
+                        LogEvent(
+                          "Category",
+                          "PromotedProducts:Package::Clicked",
+                          category.title
+                        );
+                      }}
                       isServer={props.isServer}
                       mini
                       product={bundle}
@@ -110,6 +117,13 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
                       isServer={props.isServer}
                       mini
                       product={test}
+                      onTry={() => {
+                        LogEvent(
+                          "Category",
+                          "PromotedProducts:Package::Clicked",
+                          category.title
+                        );
+                      }}
                     />
                   </div>
                 </Col>

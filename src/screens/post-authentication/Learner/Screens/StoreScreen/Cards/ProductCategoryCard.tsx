@@ -51,7 +51,7 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
     <Link
       onClick={() => {
         // console.log(productCategory.title, "aaaaa");
-        LogEvent("Category", "HomeScreenCard::Clicked", productCategory._id); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+        LogEvent("Category", "HomeScreenCard::Clicked", productCategory.title); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
       }}
       title={productCategory.title}
       to={

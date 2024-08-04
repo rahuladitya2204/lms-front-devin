@@ -311,8 +311,8 @@ const CourseCard = ({
                           <ProductCheckoutButton
                             onClick={() => {
                               LogEvent(
-                                "Enroll Course Button",
-                                "Click",
+                                "Course",
+                                "EnrollCourseButton::Clicked",
                                 course.title
                               );
                             }}

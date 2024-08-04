@@ -3,10 +3,21 @@ import { Title } from "@Components/Typography/Typography";
 import { Learner } from "@adewaskar/lms-common";
 import { Col, Row, Skeleton } from "antd";
 import BlogCard from "../StoreScreen/Cards/BlogCard";
+import { useEffect } from "react";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 export default function LearnerBlogsScreen(props: { isServer?: boolean }) {
   const { data: blogs, isLoading: loadingBlogs } =
     Learner.Queries.useGetBlogs();
+
+  useEffect(() => {
+    if (blogs.length) {
+      LogEvent("Blog", "BlogsScreen::Loaded", "Blog List", {
+        blogssLoaded: blogs.length,
+      }); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+    }
+  }, [blogs]);
+
   return loadingBlogs ? (
     <LearnerBlogsSKeletonScreen />
   ) : (

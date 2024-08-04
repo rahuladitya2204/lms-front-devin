@@ -3,10 +3,12 @@ import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import AppImage from "@Components/Image";
 import { Paragraph, Title } from "@Components/Typography/Typography";
 import { useParams } from "@Router/index";
+import { LogEvent } from "@ServerHooks/useDehydration";
 import { Learner } from "@adewaskar/lms-common";
 import { ClockCircleOutlined } from "@ant-design/icons";
 import { Card, Col, Row, Skeleton } from "antd";
 import dayjs from "dayjs";
+import { useEffect } from "react";
 
 interface BlogDetailScreenPropsI {
   id: string;
@@ -20,6 +22,16 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
     Learner.Queries.useGetBlogDetails(id + "", {
       enabled: !!id,
     });
+
+  useEffect(() => {
+    if (blog._id) {
+      LogEvent("Blog", "BlogDetail::Loaded", blog.title, {
+        blogId: blog._id,
+        title: blog.title,
+      }); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+    }
+  }, [blog._id]);
+
   return loadingBlog ? (
     <BlogDetailSkeletonScreen />
   ) : (
@@ -68,12 +80,6 @@ export default function BlogDetailScreen(props: BlogDetailScreenPropsI) {
             />
           </Paragraph>
         </Col>
-        {/* <Col xs={24} lg={24} style={{ marginTop: 30 }}>
-        <Title level={3} style={{ marginTop: 0 }}>
-          To master your skills, practice our tests!
-        </Title>
-        <CategoryProducts categoryId={blog.category} />
-      </Col> */}
       </Row>
     </Card>
   );
