@@ -39,6 +39,7 @@ import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import useOauth from "./useOauth";
 import { useParams } from "@Router/index";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 // Define breakpoints for responsive design
 const breakpoints = {
@@ -154,14 +155,17 @@ const OtpForm = (props: LearnerLoginPropsI) => {
   const sendOtp = async (contactNo = "") => {
     setContactNo(contactNo);
     try {
-      // if (!contactNo) {
-      //   contactNo= (await form.validateFields()).contactNo;
-      // }
+      LogEvent("User", "Send OTP::Clicked", contactNo, {
+        contactNo,
+      });
       console.log(contactNo, "lkllk");
       sendOtpApi(
         { contactNo, product: props.product },
         {
           onSuccess: (user) => {
+            LogEvent("User", "OTP::Sent", contactNo, {
+              contactNo,
+            });
             message.open({
               type: "success",
               content: `OTP has been sent to ${contactNo}`,
@@ -190,6 +194,9 @@ const OtpForm = (props: LearnerLoginPropsI) => {
           code: d.code,
           contactNo,
           onSuccess: (user: any) => {
+            LogEvent("User", "OTP::Verified", contactNo, {
+              contactNo,
+            });
             message.open({
               type: "success",
               content: `OTP Verified, Logged in successfully`,

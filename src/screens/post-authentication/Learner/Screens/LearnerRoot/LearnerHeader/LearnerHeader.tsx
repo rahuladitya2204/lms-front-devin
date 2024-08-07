@@ -327,12 +327,15 @@ const LearnerHeaderClient = ({
               icon={<LoginOutlined />}
               type="dashed"
               style={{ margin: "0 10px" }}
-              onClick={() =>
+              onClick={() => {
+                LogEvent("User", "Login Button::Clicked", "", {
+                  clickedFrom: "header",
+                });
                 openModal(<LoginScreen />, {
                   width: 300,
                   title: "Login",
-                })
-              }
+                });
+              }}
             >
               Login
             </Button>

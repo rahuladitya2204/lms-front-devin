@@ -17,6 +17,7 @@ import { Constants, Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import styled from "@emotion/styled";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { Text } = Typography;
 
@@ -110,9 +111,18 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
     .link ? (
     <Button
       icon={<DownloadOutlined />}
-      onClick={() =>
-        window.open(categoryDetails.info.officialNotification.link)
-      }
+      onClick={() => {
+        LogEvent(
+          "Category",
+          "Official Notification Link::Clicked",
+          categoryDetails.title,
+          {
+            clickedFrom: "Product Category Detail Page",
+            categoryId: categoryDetails._id,
+          }
+        );
+        window.open(categoryDetails.info.officialNotification.link);
+      }}
       type="primary"
       size="small"
     >
@@ -124,7 +134,18 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   data.registrationLink.value = (
     <Button
       icon={<LinkOutlined />}
-      onClick={() => window.open(categoryDetails.info.registration.link)}
+      onClick={() => {
+        LogEvent(
+          "Category",
+          "Registration Link::Clicked",
+          categoryDetails.title,
+          {
+            categoryId: categoryDetails._id,
+            clickedFrom: "Product Category Detail Page",
+          }
+        );
+        window.open(categoryDetails.info.registration.link);
+      }}
       type="primary"
       size="small"
     >

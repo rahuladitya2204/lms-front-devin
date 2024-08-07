@@ -163,7 +163,22 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
                 ),
               }}
             >
-              <Button type="dashed" danger size="small">
+              <Button
+                onClick={() => {
+                  LogEvent(
+                    "Category",
+                    "View all Pages::Clicked",
+                    productCategory.title,
+                    {
+                      clickedFrom: "Product Category Detail Page",
+                      categoryId: productCategory._id,
+                    }
+                  );
+                }}
+                type="dashed"
+                danger
+                size="small"
+              >
                 View all <DownOutlined />
               </Button>
             </Dropdown>
