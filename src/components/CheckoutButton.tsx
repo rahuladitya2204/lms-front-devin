@@ -115,8 +115,12 @@ export default function ProductCheckoutButton(
         onClick={(e) => {
           LogEvent(
             capitalize(props.product.type),
-            "Enroll Attempt",
-            props.product.id
+            `Enroll for ${capitalize(props.product.type)}::Clicked`,
+            props.product.id,
+            {
+              productType: props.product.type,
+              productId: props.product.id,
+            }
           ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
           if (plan.finalPrice.value === 0) {
             return CreateOrder();
