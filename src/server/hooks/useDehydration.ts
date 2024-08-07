@@ -14,7 +14,7 @@ const useDehydration = () => {
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
     if (!isServer) {
-      if( process.env.NODE_ENV === 'production' && userType==='learner'){
+      if(userType==='learner'){
         window.analytics_enabled=true;
       }
       initializeApp();
