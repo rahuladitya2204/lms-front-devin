@@ -13,8 +13,10 @@ const useDehydration = () => {
   const {user,learner,userType}=Store.useAuthentication(s=>s);
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
-    if (!isServer && process.env.NODE_ENV === 'production' && userType==='learner') {
-      window.analytics_enabled=true;
+    if (!isServer) {
+      if( process.env.NODE_ENV === 'production' && userType==='learner'){
+        window.analytics_enabled=true;
+      }
       initializeApp();
     }
   }, [isServer]);
