@@ -439,7 +439,7 @@ export const ProductDetailSignup = ({
         setShowModal(true);
         LogEvent(
           capitalize(product.type),
-          "ProductSignupModal::Viewed",
+          "Product Signup Modal::Viewed",
           `${category.title}:${capitalize(categoryId)}`,
           {
             categoryId: category._id,

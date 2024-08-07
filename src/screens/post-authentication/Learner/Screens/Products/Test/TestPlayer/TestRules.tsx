@@ -29,6 +29,7 @@ import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useEffect } from "react";
 import { useModal } from "@Components/ActionModal/ModalContext";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { Title, Text } = Typography;
 
@@ -211,7 +212,18 @@ export default function TestRules(props: TestRulesPropsI) {
                           }}
                           type="primary"
                           loading={startingTest}
-                          onClick={form.submit}
+                          onClick={() => {
+                            LogEvent(
+                              "Test",
+                              "Start Test::Clicked",
+                              `${test.title}}`,
+                              {
+                                testId: test._id,
+                                clickedFrom: "TestRules",
+                              }
+                            );
+                            form.submit();
+                          }}
                         >
                           {testStartDate && !testEndDate
                             ? "Continue Test"

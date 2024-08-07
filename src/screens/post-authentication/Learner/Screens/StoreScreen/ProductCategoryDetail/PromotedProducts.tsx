@@ -45,13 +45,17 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
 
   useEffect(() => {
     if (packages.length) {
-      LogEvent("Category", "Promoted Packages::Loaded", category.title); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+      LogEvent("Category", "Promoted Packages::Loaded", category.title, {
+        categoryId: category._id,
+      }); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
     }
   }, [packages]);
 
   useEffect(() => {
     if (tests.length) {
-      LogEvent("Category", "Promoted Tests::Loaded", category.title); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+      LogEvent("Category", "Promoted Tests::Loaded", category.title, {
+        categoryId: category._id,
+      }); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
     }
   }, [tests]);
 
@@ -81,7 +85,10 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
                         LogEvent(
                           "Category",
                           "PromotedProducts:Package::Clicked",
-                          category.title
+                          category.title,
+                          {
+                            categoryId: category._id,
+                          }
                         );
                       }}
                       isServer={props.isServer}
@@ -121,7 +128,10 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
                         LogEvent(
                           "Category",
                           "PromotedProducts:Package::Clicked",
-                          category.title
+                          category.title,
+                          {
+                            categoryId: category._id,
+                          }
                         );
                       }}
                     />

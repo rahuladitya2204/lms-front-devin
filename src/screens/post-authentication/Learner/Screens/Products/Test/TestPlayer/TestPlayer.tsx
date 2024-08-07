@@ -49,6 +49,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { Outlet } from "react-router";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { confirm } = Modal;
 
@@ -163,6 +164,10 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     <Button
       block={!isDesktop}
       onClick={() => {
+        LogEvent("Test", "End Test::Clicked", `${test.title}}`, {
+          testId: test._id,
+          clickedFrom: "Test Player",
+        });
         // @ts-ignore
         const markCount = sections
           .map((a) => a.items)
@@ -179,9 +184,10 @@ export default function TestPlayer(props: TestPlayerPropsI) {
           onOk() {
             endTest(undefined, {
               onSuccess: () => {
-                // if (!test.live.enabled) {
-                //   return navigate('../result')
-                // }
+                LogEvent("Test", "End Test::Success", `${test.title}}`, {
+                  testId: test._id,
+                  clickedFrom: "Test Player",
+                });
                 navigate(`/app/test/${testId}/completed`);
               },
             });

@@ -36,6 +36,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const onfirm = Modal.confirm;
 
@@ -81,6 +82,10 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       disabled={!ep.metadata.test.responses.length}
       block={!isDesktop}
       onClick={() => {
+        LogEvent("Test", "End Test::Clicked", `${test.title}}`, {
+          testId: test._id,
+          clickedFrom: "Answer Sheet",
+        });
         confirm({
           title: "Are you sure?",
           // icon: <ExclamationCircleOutlined />,
@@ -88,6 +93,10 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
           onOk() {
             endTest(undefined, {
               onSuccess: () => {
+                LogEvent("Test", "End Test::Success", `${test.title}}`, {
+                  testId: test._id,
+                  clickedFrom: "Answer Sheet",
+                });
                 message.open({
                   type: "success",
                   content: `Test Submitted Successfully`,

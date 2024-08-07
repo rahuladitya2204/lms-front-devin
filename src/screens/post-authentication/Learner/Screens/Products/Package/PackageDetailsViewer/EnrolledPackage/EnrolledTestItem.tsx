@@ -25,6 +25,7 @@ import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, useNavigate } from "@Router/index";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 const { Title, Text } = Typography;
 
@@ -226,7 +227,20 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                 {!test?.live?.enabled ? (
                   !enrolledTest.metadata.test.startedAt ? (
                     <Col xs={24} sm={12}>
-                      <Link to={`/app/test/${test._id}/start`}>
+                      <Link
+                        to={`/app/test/${test._id}/start`}
+                        onClick={() => {
+                          LogEvent(
+                            "Test",
+                            "Start Test::Clicked",
+                            `${test.title}}`,
+                            {
+                              testId: test._id,
+                              clickedFrom: "EnrolledTestItem",
+                            }
+                          );
+                        }}
+                      >
                         <Button
                           type="primary"
                           block={!isDesktop}

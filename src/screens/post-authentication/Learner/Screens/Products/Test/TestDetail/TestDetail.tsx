@@ -349,7 +349,13 @@ const TestCard = ({
         return (
           <Button
             size="large"
-            onClick={() => navigate(`/app/test/${testId}/start`)}
+            onClick={() => {
+              LogEvent("Test", "Start Test::Clicked", `${test.title}}`, {
+                testId: test._id,
+                clickedFrom: "TestDetail",
+              });
+              navigate(`/app/test/${testId}/start`);
+            }}
             block
             type="primary"
           >

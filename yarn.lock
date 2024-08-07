@@ -7,10 +7,10 @@
   resolved "https://registry.yarnpkg.com/@aashutoshrathi/word-wrap/-/word-wrap-1.2.6.tgz#bd9154aec9983f77b3a034ecaa015c2e4201f6cf"
   integrity sha512-1Yjs2SvM8TflER/OD3cOjhWWOZb58A2t7wpE2S9XfBYTiIl+XFhQG2bjy4Pu1I+EAlCNUzRDYDdFwFYUKvXcIA==
 
-"@adewaskar/lms-common@3.1.487-alpha.418":
-  version "3.1.487-alpha.418"
-  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.418.tgz#912740879a18badda5541e0eca28830cfe75be66"
-  integrity sha512-KdeuU6ZpMaApK06Ud9ZCUm1wCyuFgS5qmnJTSOO6ReqepdSxJBdm0ArBtUbsT19CZ5Cp0v5Q4gYZgKVsAlXhaQ==
+"@adewaskar/lms-common@3.1.487-alpha.440":
+  version "3.1.487-alpha.440"
+  resolved "https://registry.yarnpkg.com/@adewaskar/lms-common/-/lms-common-3.1.487-alpha.440.tgz#9cd23c0f0c864759a4d79e6b904182507b2825ce"
+  integrity sha512-STbE6x49l76jzhp0J/1VqVrZgJQjhpe2NbyqUnmAmIPvLnu5EbASP2maEweLObTN2wLOCJZUMzeocSeq7FWZ+g==
   dependencies:
     "@ant-design/colors" "^7.0.0"
     "@babel/core" "^7.21.0"
@@ -24,9 +24,10 @@
     babel-loader "^9.1.2"
     babel-plugin-transform-react-jsx "^6.24.1"
     blueimp-load-image "^5.16.0"
+    clone-deep "^4.0.1"
     compressorjs "^1.2.1"
     dayjs "^1.11.10"
-    lodash "^4.17.21"
+    deep-clone "^4.0.0"
     slugify "^1.6.6"
     webpack "^5.76.0"
     webpack-cli "^5.0.1"
@@ -9196,6 +9197,11 @@ dedent@^0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
   integrity sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==
+
+deep-clone@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/deep-clone/-/deep-clone-4.0.0.tgz#6be9f646cd45b47c46b13cba115953a5df3c24df"
+  integrity sha512-bMvDVR8GiGCGHT4SgqXyXDD9Zmo3kv9YLq8aSO2xslP97A3mFkpNBg+t+fjXERvewzhmtk9efvL+V52iVkD0lg==
 
 deep-equal@^1.0.1:
   version "1.1.2"

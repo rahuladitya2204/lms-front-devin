@@ -7,6 +7,7 @@ import { ReloadOutlined } from "@ant-design/icons";
 import TestTimeCountdown from "@Components/TestTimeCountdown";
 import { useNavigate } from "react-router";
 import { Link } from "@Router/index";
+import { LogEvent } from "@ServerHooks/useDehydration";
 
 interface TestEnrolledCtaPropsI {
   testId: string;
@@ -119,7 +120,15 @@ export default function TestEnrolledCta(props: TestEnrolledCtaPropsI) {
     // console.log(testStartDate, 'enrolledDetails')
     if (!testStartDate) {
       return (
-        <Link to={`/app/test/${testId}/start`}>
+        <Link
+          onClick={() => {
+            LogEvent("Test", "Start Test::Clicked", `${test.title}}`, {
+              testId: test._id,
+              clickedFrom: "TestEnrolledCTA",
+            });
+          }}
+          to={`/app/test/${testId}/start`}
+        >
           <Button size="large" block type="primary">
             Start Test
           </Button>

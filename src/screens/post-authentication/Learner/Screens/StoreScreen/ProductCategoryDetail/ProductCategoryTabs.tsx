@@ -187,7 +187,10 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
                 LogEvent(
                   "Category:" + type,
                   "CategoryPageShowMore::Clicked",
-                  productCategory._id
+                  productCategory._id,
+                  {
+                    categoryId: productCategory._id,
+                  }
                 ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
               }}
               minHeight={600}
@@ -287,7 +290,10 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
               LogEvent(
                 "Category:" + type,
                 "PromotedProducts:ShowMore::Clicked",
-                category.title
+                category.title,
+                {
+                  categoryId: category._id,
+                }
               );
             }}
           >
