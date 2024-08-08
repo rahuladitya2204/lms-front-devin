@@ -261,11 +261,11 @@ const PackageCard = ({
                         }
                       >
                         <Button
-                          // onClick={() =>
-                          //   window.open(
-                          //     `/app/test-series/${packageId}/enrolled-package`
-                          //   )
-                          // }
+                          onClick={() =>
+                            window.open(
+                              `/app/test-series/${packageId}/enrolled-package`
+                            )
+                          }
                           size="large"
                           type="primary"
                           block
