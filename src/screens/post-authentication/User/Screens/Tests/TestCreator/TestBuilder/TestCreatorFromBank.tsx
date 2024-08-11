@@ -213,6 +213,7 @@ TestCreatorFromBankPropsI) {
                         onClick={() => {
                           openModal(
                             <AddQuestionFromBank
+                              languages={testDetails.languages}
                               onSelect={(questions: Types.TestQuestion[]) => {
                                 const Items = [...items];
                                 Items[parseInt(field.name)] = [...questions];

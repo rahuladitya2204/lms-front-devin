@@ -59,7 +59,7 @@ export const AddQuestionFromBank = (props: {
       {
         topics: (nodeId?.length ? nodeId : data.topics).flat(),
         difficultyLevel: data.difficultyLevel,
-        languages: data.languages,
+        languages: props.languages,
       }
       // {
       //   onSuccess: () => {
@@ -94,15 +94,16 @@ export const AddQuestionFromBank = (props: {
             name="topics"
             multiple
           />
-          <Form.Item label="Select Languages" name="languages">
+          {/* <Form.Item label="Select Languages" name="languages">
             <Select mode="multiple" options={Constants.LANGUAGES} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item label="Difficulty Level" name={"difficultyLevel"}>
             <Select
+              mode="multiple"
               style={{ width: "100%" }}
               options={[
                 ...QUESTION_DIFFICULTY_LEVELS,
-                { label: "Ignore Level", value: "" },
+                // { label: "Ignore Level", value: "" },
               ]}
             />
           </Form.Item>
