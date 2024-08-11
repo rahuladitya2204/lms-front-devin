@@ -174,6 +174,13 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
               const cat = categories.find((c) => c._id == test.category);
               return cat?.title;
             }}
+            onFilter={(value, record) => record.category === value}
+            filters={categories.map((l) => {
+              return {
+                text: l.title,
+                value: l._id,
+              };
+            })}
           />
           <TableColumn
             fixed

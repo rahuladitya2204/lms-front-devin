@@ -94,17 +94,9 @@ export const AddQuestionFromBank = (props: {
             name="topics"
             multiple
           />
-          {/* <Form.Item name="languages">
-            <Select
-              mode="multiple"
-              options={Constants.LANGUAGES.map((language) => {
-                return {
-                  label: language.label,
-                  key: language.value,
-                };
-              })}
-            />
-          </Form.Item> */}
+          <Form.Item label="Select Languages" name="languages">
+            <Select mode="multiple" options={Constants.LANGUAGES} />
+          </Form.Item>
           <Form.Item label="Difficulty Level" name={"difficultyLevel"}>
             <Select
               style={{ width: "100%" }}
