@@ -136,7 +136,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
     <Fragment>
       <Fragment>
         <Table
-          searchFields={["title"]}
+          searchFields={["title", "slug"]}
           loading={loading || deletingTest}
           dataSource={data.filter(
             (test) =>
@@ -172,10 +172,7 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             // @ts-ignore
             render={(_: any, test: Types.Test) => {
               const cat = categories.find((c) => c._id == test.category);
-              // @ts-ignore
-              const exam = cat?.exams.find((i) => i._id === test.exam);
-              // console.log(exam, "exam");
-              return `${cat?.title} ${exam ? `| ${exam.title}` : ""}`;
+              return cat?.title;
             }}
           />
           <TableColumn
@@ -195,9 +192,12 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             key="language"
             render={(_: any, test: Types.Test) => (
               <>
-                {test.languages.map(
-                  (l) => Constants.LANGUAGES.find((lg) => lg.value === l)?.label
-                )}
+                {test.languages
+                  .map(
+                    (l) =>
+                      Constants.LANGUAGES.find((lg) => lg.value === l)?.label
+                  )
+                  .join(", ")}
               </>
             )}
           />
@@ -286,6 +286,27 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             // defaultSortOrder={"ascend"}
             sorter={(a, b) => a.status - b.status}
             key="status"
+            onFilter={(value, record) =>
+              record.status.indexOf(value as string) === 0
+            }
+            filters={[
+              {
+                text: Enum.TestStatus.DRAFT,
+                value: Enum.TestStatus.DRAFT,
+              },
+              {
+                text: Enum.TestStatus.PUBLISHED,
+                value: Enum.TestStatus.PUBLISHED,
+              },
+              {
+                text: Enum.TestStatus.ENDED,
+                value: Enum.TestStatus.ENDED,
+              },
+              {
+                text: Enum.TestStatus.IN_PROGRESS,
+                value: Enum.TestStatus.IN_PROGRESS,
+              },
+            ]}
             // @ts-ignore
             render={(_: any, test: Types.Test) => <TestStatusTag test={test} />}
           />

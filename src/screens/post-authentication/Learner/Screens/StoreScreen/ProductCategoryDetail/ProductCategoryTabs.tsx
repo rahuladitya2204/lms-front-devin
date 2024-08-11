@@ -98,7 +98,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
     if (productCategory._id) {
       LogEvent(
         "Category",
-        "Page::Loaded",
+        `${capitalize(tab?.label)} Page::Loaded`,
         `${productCategory.title}:${capitalize(tab?.label)}`,
         {
           categoryId: productCategory._id,
