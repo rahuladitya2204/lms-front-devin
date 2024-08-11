@@ -179,6 +179,29 @@ function TestsList(props: { filter: Types.GetTestsFilter }) {
             }}
           />
           <TableColumn
+            fixed
+            title="Languages"
+            onFilter={(value, record) =>
+              record.languages.indexOf(value as string) === 0
+            }
+            filters={Constants.LANGUAGES.map((l) => {
+              return {
+                text: l.label,
+                value: l.value,
+              };
+            })}
+            // sorter={(a, b) => a.languages[0] - b.languages[0]}
+            dataIndex="language"
+            key="language"
+            render={(_: any, test: Types.Test) => (
+              <>
+                {test.languages.map(
+                  (l) => Constants.LANGUAGES.find((lg) => lg.value === l)?.label
+                )}
+              </>
+            )}
+          />
+          <TableColumn
             title="Promoted"
             dataIndex="slug"
             key="slug"

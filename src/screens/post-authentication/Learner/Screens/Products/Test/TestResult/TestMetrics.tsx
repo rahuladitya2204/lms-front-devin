@@ -26,6 +26,7 @@ import {
   Select,
   Skeleton,
   Space,
+  Spin,
   Statistic,
   Tag,
 } from "@Lib/index";
@@ -537,51 +538,53 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                       {/* @ts-ignore */}
                       {test._id && DROPDOWN_TOPICS.length ? (
                         <Col span={24}>
-                          <Card
-                            bodyStyle={{
-                              paddingTop: topicIds.length > 1 ? 0 : "auto",
-                            }}
-                            title="Topic wise report"
-                            extra={
-                              DROPDOWN_TOPICS.length > 1 ? (
-                                <Select
-                                  style={{ width: 200 }}
-                                  value={selectedTopic}
+                          <Spin spinning={loadingTopicTree}>
+                            <Card
+                              bodyStyle={{
+                                paddingTop: topicIds.length > 1 ? 0 : "auto",
+                              }}
+                              title="Topic wise report"
+                              extra={
+                                DROPDOWN_TOPICS.length > 1 ? (
+                                  <Select
+                                    style={{ width: 200 }}
+                                    value={selectedTopic}
+                                    onChange={(e) => {
+                                      // console.log(e,'setSelectedTopic(e)')
+                                      setSelectedTopic(e);
+                                    }}
+                                    placeholder="Select Topic"
+                                    options={[
+                                      {
+                                        label: "Overall",
+                                        // @ts-ignore
+                                        value: selectedMainTopic,
+                                      },
+                                      ...DROPDOWN_TOPICS,
+                                    ]}
+                                  />
+                                ) : null
+                              }
+                            >
+                              {topicIds.length > 1 ? (
+                                <AntdTabs
                                   onChange={(e) => {
-                                    // console.log(e,'setSelectedTopic(e)')
-                                    setSelectedTopic(e);
+                                    setSelectedMainTopic(e);
                                   }}
-                                  placeholder="Select Topic"
-                                  options={[
-                                    {
-                                      label: "Overall",
-                                      // @ts-ignore
-                                      value: selectedMainTopic,
-                                    },
-                                    ...DROPDOWN_TOPICS,
-                                  ]}
+                                  items={topicIds.map((t) => {
+                                    return {
+                                      label: topics.find((top) => top._id === t)
+                                        ?.title,
+                                      key: t,
+                                      children: BarChartTopics,
+                                    };
+                                  })}
                                 />
-                              ) : null
-                            }
-                          >
-                            {topicIds.length > 1 ? (
-                              <AntdTabs
-                                onChange={(e) => {
-                                  setSelectedMainTopic(e);
-                                }}
-                                items={topicIds.map((t) => {
-                                  return {
-                                    label: topics.find((top) => top._id === t)
-                                      ?.title,
-                                    key: t,
-                                    children: BarChartTopics,
-                                  };
-                                })}
-                              />
-                            ) : (
-                              BarChartTopics
-                            )}
-                          </Card>
+                              ) : (
+                                BarChartTopics
+                              )}
+                            </Card>
+                          </Spin>
                         </Col>
                       ) : null}
                       {leaderboard && leaderboard.length ? (
