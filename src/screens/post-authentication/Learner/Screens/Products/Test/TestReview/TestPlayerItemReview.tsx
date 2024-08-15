@@ -63,6 +63,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const testId = (props.testId || params.testId) + "";
   const {
     currentQuestion,
+    currentSection,
     currentQuestionIndex,
     loading: loadingQuestion,
   } = useReviewQuestion({ questionId, testId });
@@ -276,7 +277,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
               >
                 Score: {currentQuestion.scoreAchieved}
                 {currentQuestion.type === "subjective"
-                  ? "/" + currentQuestion.score.correct
+                  ? "/" + currentSection?.score?.correct
                   : ""}
               </Tag>
             ) : (

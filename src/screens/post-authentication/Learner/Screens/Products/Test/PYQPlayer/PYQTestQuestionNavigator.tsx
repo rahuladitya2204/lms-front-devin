@@ -18,6 +18,7 @@ import { TestNavigatorSkeleton } from "../TestReview/TestItemSkeleton";
 import { Typography } from "@Components/Typography";
 import { useQuestion } from "./PYQTestPlayerItem";
 import { NavLink, useNavigate, useParams } from "@Router/index";
+import TestScore from "@Components/TestScore";
 
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
@@ -68,7 +69,16 @@ export default function TestReviewQuestionNavigator(
             return (
               <Row>
                 <Col span={24}>
-                  <Title level={4}>{section.title}</Title>
+                  <Row justify={"space-between"} align={"middle"}>
+                    <Col>
+                      <Title style={{ margin: "20px 0" }} level={4}>
+                        {section.title}
+                      </Title>
+                    </Col>
+                    <Col>
+                      <TestScore score={section.score} />
+                    </Col>
+                  </Row>
                   <Row gutter={[20, 20]}>
                     {section.items.map((item: any, itemIndex: number) => {
                       const totalIndex = runningIndex++;

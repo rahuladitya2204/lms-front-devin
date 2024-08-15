@@ -18,6 +18,7 @@ import { NavLink } from "@Router/index";
 import { TestNavigatorSkeleton } from "./TestItemSkeleton";
 import { Typography } from "@Components/Typography";
 import { useReviewQuestion } from "./useReviewQuestion";
+import TestScore from "@Components/TestScore";
 
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
@@ -104,7 +105,16 @@ export default function TestReviewQuestionNavigator(
               return (
                 <Row>
                   <Col span={24}>
-                    <Title level={4}>{section.title}</Title>
+                    <Row align={"middle"} justify={"space-between"}>
+                      <Col>
+                        <Title style={{ margin: "20px 0" }} level={4}>
+                          {section.title}
+                        </Title>
+                      </Col>
+                      <Col>
+                        <TestScore score={section.score} />
+                      </Col>
+                    </Row>
                     <Row gutter={[20, 20]}>
                       {section.items.map((item: any, itemIndex: number) => {
                         const totalIndex = runningIndex++;

@@ -479,12 +479,12 @@ export const useBuildTopicTree = (
   level = 3,
   notDisabled?: boolean
 ) => {
-  const { data: TOPIC_TREE_DATA } = User.Queries.useGetTopicTree(
+  const { data: TOPIC_TREE_DATA, isLoading } = User.Queries.useGetTopicTree(
     Array.isArray(topic) ? topic : [topic],
     level,
     notDisabled
   );
-  return TOPIC_TREE_DATA;
+  return { data: TOPIC_TREE_DATA, isLoading };
 };
 
 export const buildTopicTree = (

@@ -243,17 +243,17 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
               />
             );
             const actions = [SectionOptionDropdown];
-            if (section?.score?.correct) {
-              actions.unshift(
-                <Tag style={{ textAlign: "center" }} color="blue-inverse">
-                  Score(+ {section.score.correct}{" "}
-                  {section?.score?.incorrect ? (
-                    <span>, {section.score.incorrect}</span>
-                  ) : null}{" "}
-                  )
-                </Tag>
-              );
-            }
+            // if (section?.score?.correct) {
+            //   actions.unshift(
+            //     <Tag style={{ textAlign: "center" }} color="blue-inverse">
+            //       Score(+ {section.score.correct}{" "}
+            //       {section?.score?.incorrect ? (
+            //         <span>, {section.score.incorrect}</span>
+            //       ) : null}{" "}
+            //       )
+            //     </Tag>
+            //   );
+            // }
             return (
               <div style={{ marginBottom: 20 }}>
                 <MovableItem
@@ -274,7 +274,21 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                     <CollapsePanel
                       extra={<Space>{actions}</Space>}
                       key={secIndex}
-                      header={section.title}
+                      header={
+                        <>
+                          {section.title}{" "}
+                          <Tag
+                            style={{ textAlign: "center" }}
+                            color="blue-inverse"
+                          >
+                            Score(+ {section.score.correct}{" "}
+                            {section?.score?.incorrect ? (
+                              <span>, {section.score.incorrect}</span>
+                            ) : null}{" "}
+                            )
+                          </Tag>
+                        </>
+                      }
                     >
                       <List
                         itemLayout="horizontal"
@@ -327,18 +341,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                               </Tooltip>
                             );
                           }
-                          // if (item?.score?.correct) {
-                          //   actions.unshift(<Tag style={{ textAlign: 'center' }}
-                          //     color='blue-inverse'>
-                          //     + {item.score.correct} {(item?.score?.incorrect)?<span>, { item.score.incorrect}</span>:null} </Tag>)
-                          // }
-                          // if (item?.score?.incorrect) {
-                          //   actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
-                          //    {item.score.incorrect}</Tag>)
-                          // }
-                          // if (item.type) {
-                          //   actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
-                          // }
+
                           if (correctOptions.length) {
                             actions.unshift(
                               <Tag

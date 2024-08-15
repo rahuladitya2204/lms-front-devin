@@ -12,9 +12,12 @@ export interface TopicSelectPropsI {
   required?: boolean;
 }
 export default function TopicSelect(props: TopicSelectPropsI) {
-  let TOPIC_TREE_DATA = cloneDeep(
-    useBuildTopicTree(props.topicId, props.level, props.notDisabled)
+  let { data: TOPIC_TREE_DATA, isLoading } = useBuildTopicTree(
+    props.topicId || [],
+    props.level,
+    props.notDisabled
   );
+  TOPIC_TREE_DATA = cloneDeep(TOPIC_TREE_DATA);
 
   if (props.notDisabled) {
     TOPIC_TREE_DATA.forEach((i) => {
@@ -23,7 +26,11 @@ export default function TopicSelect(props: TopicSelectPropsI) {
   }
   return (
     <Form.Item name={props.name} label={props.label} required={props.required}>
-      <TreeSelect multiple={props.multiple} treeData={TOPIC_TREE_DATA} />
+      <TreeSelect
+        loading={isLoading}
+        multiple={props.multiple}
+        treeData={TOPIC_TREE_DATA}
+      />
     </Form.Item>
   );
 }

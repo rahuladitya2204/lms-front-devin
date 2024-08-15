@@ -27,6 +27,7 @@ import { TestNavigatorSkeleton } from "../../TestReview/TestItemSkeleton";
 import TestTimer from "./TestTimer";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
+import TestScore from "@Components/TestScore";
 
 interface TestQuestionNavigatorPropsI {
   testId: string;
@@ -132,7 +133,16 @@ export default function TestQuestionNavigator(
               return (
                 <Row>
                   <Col span={24}>
-                    <Title level={4}>{section.title}</Title>
+                    <Row justify={"space-between"} align={"middle"}>
+                      <Col>
+                        <Title style={{ margin: "20px 0" }} level={4}>
+                          {section.title}
+                        </Title>
+                      </Col>
+                      <Col>
+                        <TestScore score={section.score} />
+                      </Col>
+                    </Row>
                     <Row gutter={[20, 20]}>
                       {section.items.map((item, itemIndex) => {
                         const totalIndex = runningIndex++;

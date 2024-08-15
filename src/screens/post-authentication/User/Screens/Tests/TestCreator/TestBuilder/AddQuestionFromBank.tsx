@@ -42,7 +42,7 @@ export const AddQuestionFromBank = (props: {
   multiple?: boolean;
   languages: string[];
 }) => {
-  const TOPIC_TREE_DATA = useBuildTopicTree(props.topics, 4);
+  const { data: TOPIC_TREE_DATA } = useBuildTopicTree(props.topics, 4);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [form] = Form.useForm();

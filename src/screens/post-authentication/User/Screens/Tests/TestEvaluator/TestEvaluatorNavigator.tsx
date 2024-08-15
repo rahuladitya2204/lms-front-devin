@@ -271,18 +271,7 @@ const TestEvaluatorNavigator: React.FC<TestEvaluatorNavigatorPropsI> = ({
                           </Tooltip>
                         );
                       }
-                      // if (item?.score?.correct) {
-                      //   actions.unshift(<Tag style={{ textAlign: 'center' }}
-                      //     color='blue-inverse'>
-                      //     + {item.score.correct} {(item?.score?.incorrect)?<span>, { item.score.incorrect}</span>:null} </Tag>)
-                      // }
-                      // if (item?.score?.incorrect) {
-                      //   actions.unshift(<Tag style={{ textAlign: 'center' }} color='red-inverse'>
-                      //    {item.score.incorrect}</Tag>)
-                      // }
-                      // if (item.type) {
-                      //   actions.unshift(<Tag style={{ textAlign: 'center',textTransform:"capitalize" }} color='blue'>{item.type}</Tag>)
-                      // }
+
                       if (correctOptions.length) {
                         actions.unshift(
                           <Tag

@@ -74,7 +74,8 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   });
   const language = ep?.metadata?.test?.language;
   // console.log(ep, language, "huhhahaha");
-  const { currentQuestion, currentQuestionIndex, loading } = useQuestion();
+  const { currentQuestion, currentSection, currentQuestionIndex, loading } =
+    useQuestion();
 
   const {
     data: {
@@ -319,15 +320,15 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             color="blue-inverse"
           >
             {!isMobile ? "Correct Answer Score: " : "+"}
-            {currentQuestion.score.correct}
+            {currentSection?.score?.correct}
           </Tag>,
-          currentQuestion.score.incorrect ? (
+          currentSection?.score?.incorrect ? (
             <Tag
               style={{ fontSize: 15, padding: "2px 5px" }}
               color="red-inverse"
             >
               {!isMobile ? "Incorrect Answer Score: " : ""}{" "}
-              {currentQuestion.score.incorrect}
+              {currentSection?.score?.incorrect}
             </Tag>
           ) : null,
         ]}

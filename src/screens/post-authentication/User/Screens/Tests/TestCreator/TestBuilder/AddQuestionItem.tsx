@@ -252,7 +252,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                 />
               </Form.Item>
             </Col>
-            <Col lg={6} md={12} sm={12} xs={24}>
+            {/* <Col lg={6} md={12} sm={12} xs={24}>
               <Form.Item
                 name={["score", "correct"]}
                 label="Correct Answer Score"
@@ -287,7 +287,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                   placeholder="Enter the score for this question"
                 />
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col lg={6} md={12} sm={12} xs={24}>
               <Form.Item label="Difficulty Level" name={"difficultyLevel"}>
                 <Select
