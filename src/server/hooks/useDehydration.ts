@@ -2,10 +2,11 @@
 import { initializeApp } from "@Utils/index";
 import { Store } from "@adewaskar/lms-common";
 import { useEffect } from "react";
-const GA_KEY='GKpmiOtoXu0V7YpohCF5CoWv2Q747fmY'
+const SG_KEY='GKpmiOtoXu0V7YpohCF5CoWv2Q747fmY'
+const GA_KEY='G-09G526DHYD'
 import { AnalyticsBrowser } from '@segment/analytics-next';
-
-const analytics = AnalyticsBrowser.load({ writeKey: GA_KEY })
+import ReactGA from 'react-ga';
+const analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
 
 
 const useDehydration = () => {
@@ -15,8 +16,9 @@ const useDehydration = () => {
   useEffect(() => {
     if (!isServer) {
       if(userType==='learner'){
+        ReactGA.initialize(GA_KEY);
         window.analytics_enabled=true;
-      }
+     }
       initializeApp();
     }
   }, [isServer]);
@@ -43,12 +45,14 @@ export const LogEvent = (category,action, label,data={}) => {
       category: category,
       label: label,
       ...data
-      // value: value, // Optional
     });
+      ReactGA.event({ category, action, label, ...data });
+
   }
 };
 
 // Set User ID
 const identifyUser = (userId, traits) => {
   analytics.identify(userId, traits);
+  ReactGA.set({ userId });
 };
