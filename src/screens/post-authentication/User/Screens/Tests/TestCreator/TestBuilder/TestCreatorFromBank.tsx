@@ -224,6 +224,7 @@ TestCreatorFromBankPropsI) {
                               multiple
                             />,
                             {
+                              keyboard: false,
                               width: 900,
                               title: "Select Question from Bank",
                             }

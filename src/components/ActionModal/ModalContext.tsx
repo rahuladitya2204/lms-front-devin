@@ -91,6 +91,8 @@ export const ModalProvider: React.FC<ModalProviderProps> = ({ children }) => {
           onCancel={hideModal}
           bodyStyle={modalItem.opts.fullScreen ? { height: "80vh" } : {}}
           {...modalItem.opts}
+          keyboard={false}
+          maskClosable={false}
           footer={
             modalItem.opts.footer ? modalItem.opts.footer(hideModal) : null
           }

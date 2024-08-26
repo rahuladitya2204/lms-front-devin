@@ -495,6 +495,7 @@ function TestBuilderScreen() {
                       />,
                       {
                         width: 900,
+                        keyboard: false,
                         title: "Create Test From Bank",
                       }
                     ),

@@ -1,11 +1,13 @@
 import {
   Button,
   Col,
+  Divider,
   Form,
   Row,
   Select,
   Tag,
   TreeSelect,
+  Typography,
   message,
 } from "@Lib/index";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
@@ -17,6 +19,8 @@ import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDeta
 import TopicSelect from "@Components/TopicSelect";
 import { Title } from "@Components/Typography/Typography";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
+import { NavLink } from "@Router/index";
+import Link from "antd/es/typography/Link";
 
 export const QUESTION_TYPES = [
   { value: Enum.TestQuestionType.SINGLE, label: "Single Choice" },
@@ -46,6 +50,8 @@ export const AddQuestionFromBank = (props: {
   const { data: TOPIC_TREE_DATA } = useBuildTopicTree(props.topics, 4);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  // const [questionsPerTopic, setQuestionsPerTopic] = useState({});
+  const [selectedTopics, setSelectedTopics] = useState([]);
   const [form] = Form.useForm();
   const {
     mutate: getQuestionsFromBank,
@@ -56,6 +62,7 @@ export const AddQuestionFromBank = (props: {
   const submit = (data) => {
     const nodeId = data.topics.map((t) => getChildNodeIds(TOPIC_TREE_DATA, t));
     console.log(data, nodeId, "ddd");
+    setSelectedTopics(data.topics);
     getQuestionsFromBank(
       {
         topics: (nodeId?.length ? nodeId : data.topics).flat(),
@@ -70,10 +77,33 @@ export const AddQuestionFromBank = (props: {
       // }
     );
   };
+
+  const questionsPerTopic = useMemo(() => {
+    const newQuestionsPerTopic: any = {};
+    selectedRows.forEach((question) => {
+      selectedTopics.forEach((topicId) => {
+        if (
+          question.topic === topicId ||
+          getChildNodeIds(TOPIC_TREE_DATA, topicId).includes(question.topic)
+        ) {
+          newQuestionsPerTopic[topicId] =
+            (newQuestionsPerTopic[topicId] || 0) + 1;
+        }
+      });
+    });
+    return newQuestionsPerTopic;
+  }, [selectedRows, selectedTopics, TOPIC_TREE_DATA]);
+
+  const handleRowSelection = useCallback((selectedKeys, selectedRows) => {
+    setSelectedRowKeys(selectedKeys);
+    setSelectedRows(selectedRows);
+  }, []);
+
   useEffect(() => {
     setSelectedRowKeys(props?.items?.map((i) => i?._id) || []);
     setSelectedRows(props.items || []);
   }, [props.items]);
+
   return (
     <Row style={{ overflowX: "scroll" }}>
       <Col span={24}>
@@ -119,14 +149,23 @@ export const AddQuestionFromBank = (props: {
           {data?.length ? (
             <Row>
               <Col span={24}>
+                <QuestionsPerTopicDisplay
+                  selectedTopics={selectedTopics}
+                  questionsPerTopic={questionsPerTopic}
+                />
+              </Col>
+              <Divider />
+              <Col span={24}>
                 <Table
+                  extra={[
+                    <Button onClick={() => handleRowSelection([], [])}>
+                      Reset Selection
+                    </Button>,
+                  ]}
                   rowSelection={{
                     type: "checkbox",
                     selectedRowKeys,
-                    onChange: (selectedKeys, selectedRows) => {
-                      setSelectedRowKeys(selectedKeys);
-                      setSelectedRows(selectedRows);
-                    },
+                    onChange: handleRowSelection,
                     getCheckboxProps: (record) => ({
                       disabled: props.itemCount === selectedRows.length, // Disable checkbox for rows where age is less than 40
                     }),
@@ -143,17 +182,25 @@ export const AddQuestionFromBank = (props: {
                         .map((t) => record.title.text[t])
                         .filter((t) => t)[0];
                       return (
-                        <p
+                        <Typography.Link
                           onClick={() => {
-                            if (!props.multiple && props.onSelect) {
-                              props.onSelect(record);
-                              message.success("Question Selected");
-                              props.closeModal && props.closeModal();
-                            }
+                            window.open(
+                              `/admin/products/test/${record.test}/builder/${record._id}`
+                            );
                           }}
                         >
-                          <HtmlViewer content={titleText} />
-                        </p>
+                          <p
+                            onClick={() => {
+                              if (!props.multiple && props.onSelect) {
+                                props.onSelect(record);
+                                message.success("Question Selected");
+                                props.closeModal && props.closeModal();
+                              }
+                            }}
+                          >
+                            <HtmlViewer content={titleText} />
+                          </p>
+                        </Typography.Link>
                       );
                     }}
                   />
@@ -272,3 +319,42 @@ function TopicTag({ id }: { id: string }) {
   const { data: topics } = User.Queries.useGetTopics();
   return topics.find((t) => t._id === id)?.title;
 }
+
+interface TopicCount {
+  topicId: string;
+  count: number;
+}
+
+const QuestionsPerTopicDisplay = ({ selectedTopics, questionsPerTopic }) => {
+  const columns: any[] = [
+    {
+      title: "Topic",
+      dataIndex: "topicId",
+      key: "topic",
+      render: (topicId: string) => <TopicTag id={topicId} />,
+    },
+    {
+      title: "Count",
+      dataIndex: "count",
+      key: "count",
+    },
+  ];
+
+  const data: TopicCount[] = selectedTopics.map((topicId) => ({
+    topicId,
+    count: questionsPerTopic[topicId] || 0,
+  }));
+
+  return (
+    <div style={{ marginTop: 16, marginBottom: 16 }}>
+      <Title level={5}>Selected topics and questions:</Title>
+      <Table
+        columns={columns}
+        dataSource={data}
+        pagination={false}
+        size="small"
+        rowKey="topicId"
+      />
+    </div>
+  );
+};
