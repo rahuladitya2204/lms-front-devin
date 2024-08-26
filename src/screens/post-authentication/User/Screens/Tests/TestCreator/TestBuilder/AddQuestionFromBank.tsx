@@ -16,6 +16,7 @@ import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/uti
 import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
 import TopicSelect from "@Components/TopicSelect";
 import { Title } from "@Components/Typography/Typography";
+import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 
 export const QUESTION_TYPES = [
   { value: Enum.TestQuestionType.SINGLE, label: "Single Choice" },
@@ -74,13 +75,13 @@ export const AddQuestionFromBank = (props: {
     setSelectedRows(props.items || []);
   }, [props.items]);
   return (
-    <Row>
+    <Row style={{ overflowX: "scroll" }}>
       <Col span={24}>
         <Title level={4}>Total Question - {selectedRows.length}</Title>
         <Form
           layout="vertical"
           initialValues={{
-            difficultyLevel: "",
+            // difficultyLevel: "",
             languages: props.languages,
           }}
           onFinish={submit}
@@ -151,7 +152,7 @@ export const AddQuestionFromBank = (props: {
                             }
                           }}
                         >
-                          {htmlToText(titleText)}
+                          <HtmlViewer content={titleText} />
                         </p>
                       );
                     }}
