@@ -6,6 +6,7 @@ import {
   Row,
   Select,
   Tag,
+  Tree,
   TreeSelect,
   Typography,
   message,
@@ -79,18 +80,37 @@ export const AddQuestionFromBank = (props: {
   };
 
   const questionsPerTopic = useMemo(() => {
-    const newQuestionsPerTopic: any = {};
-    selectedRows.forEach((question) => {
-      selectedTopics.forEach((topicId) => {
-        if (
-          question.topic === topicId ||
-          getChildNodeIds(TOPIC_TREE_DATA, topicId).includes(question.topic)
-        ) {
-          newQuestionsPerTopic[topicId] =
-            (newQuestionsPerTopic[topicId] || 0) + 1;
+    const newQuestionsPerTopic = {};
+
+    // Loop through each selected topic
+    selectedTopics.forEach((parentTopicId) => {
+      // Get child node IDs for the parent topic
+      const childTopicIds = getChildNodeIds(TOPIC_TREE_DATA, parentTopicId);
+
+      // Initialize the count for the parent topic
+      newQuestionsPerTopic[parentTopicId] = 0;
+
+      // Initialize the count for each child topic
+      childTopicIds.forEach((childId) => {
+        newQuestionsPerTopic[childId] = 0;
+      });
+
+      // Loop through each selected question
+      selectedRows.forEach((question) => {
+        // Increment the count for the parent topic if the question belongs to it
+        if (question.topic === parentTopicId) {
+          newQuestionsPerTopic[parentTopicId] += 1;
+        }
+
+        // Increment the count for the child topic if the question belongs to it
+        if (childTopicIds.includes(question.topic)) {
+          newQuestionsPerTopic[
+            childTopicIds.find((id) => id === question.topic)
+          ] += 1;
         }
       });
     });
+
     return newQuestionsPerTopic;
   }, [selectedRows, selectedTopics, TOPIC_TREE_DATA]);
 
@@ -103,6 +123,8 @@ export const AddQuestionFromBank = (props: {
     setSelectedRowKeys(props?.items?.map((i) => i?._id) || []);
     setSelectedRows(props.items || []);
   }, [props.items]);
+
+  const { data: NEW_TOPIC_TREE_DATA } = useBuildTopicTree(props.topics, 2);
 
   return (
     <Row style={{ overflowX: "scroll" }}>
@@ -150,6 +172,7 @@ export const AddQuestionFromBank = (props: {
             <Row>
               <Col span={24}>
                 <QuestionsPerTopicDisplay
+                  TOPIC_TREE_DATA={TOPIC_TREE_DATA}
                   selectedTopics={selectedTopics}
                   questionsPerTopic={questionsPerTopic}
                 />
@@ -216,10 +239,119 @@ export const AddQuestionFromBank = (props: {
                   <TableColumn
                     key={"topic"}
                     title="Topic"
+                    // filterDropdown={({
+                    //   setSelectedKeys,
+                    //   selectedKeys,
+                    //   confirm,
+                    // }) => (
+                    //   <div style={{ padding: 8, width: 300 }}>
+                    //     <Tree
+                    //       checkable
+                    //       onCheck={(checkedKeys) => {
+                    //         setSelectedKeys(
+                    //           Array.isArray(checkedKeys)
+                    //             ? checkedKeys
+                    //             : checkedKeys.checked
+                    //         );
+                    //       }}
+                    //       checkedKeys={selectedKeys}
+                    //       treeData={NEW_TOPIC_TREE_DATA.filter((t) =>
+                    //         selectedTopics.includes(t._id)
+                    //       )}
+                    //       defaultExpandAll
+                    //       style={{ maxHeight: 300, overflowY: "auto" }}
+                    //     />
+                    //     <Button
+                    //       type="primary"
+                    //       onClick={() => confirm()}
+                    //       size="small"
+                    //       style={{ width: 90, marginTop: 8 }}
+                    //     >
+                    //       Apply
+                    //     </Button>
+                    //   </div>
+                    // )}
+                    // onFilter={(value, record) => {
+                    //   console.log("Filter value:", value);
+
+                    //   // Create a mapping of tree keys to topic IDs
+                    //   const keyToIdMap = new Map();
+                    //   const mapKeys = (node, key = "0") => {
+                    //     keyToIdMap.set(key, node._id);
+                    //     if (node.children) {
+                    //       node.children.forEach((child, index) =>
+                    //         mapKeys(child, `${key}-${index}`)
+                    //       );
+                    //     }
+                    //   };
+                    //   NEW_TOPIC_TREE_DATA.forEach((node, index) =>
+                    //     mapKeys(node, `${index}`)
+                    //   );
+
+                    //   console.log(
+                    //     "Key to ID Map:",
+                    //     Object.fromEntries(keyToIdMap)
+                    //   );
+
+                    //   // Function to get all descendant keys for a given key
+                    //   const getDescendantKeys = (key) => {
+                    //     return Array.from(keyToIdMap.keys()).filter(
+                    //       (k) => k.startsWith(key) && k !== key
+                    //     );
+                    //   };
+
+                    //   // Ensure value is always an array
+                    //   const selectedKeys = Array.isArray(value)
+                    //     ? value
+                    //     : [value];
+                    //   console.log("Selected Keys:", selectedKeys);
+
+                    //   // Convert selected keys to actual topic IDs, including descendants
+                    //   const selectedTopicIds = selectedKeys
+                    //     .reduce((acc, key) => {
+                    //       const topicId = keyToIdMap.get(key);
+                    //       const descendantKeys = getDescendantKeys(key);
+                    //       const descendantIds = descendantKeys.map((k) =>
+                    //         keyToIdMap.get(k)
+                    //       );
+                    //       console.log(
+                    //         `For key ${key}: Topic ID: ${topicId}, Descendant IDs: ${descendantIds}`
+                    //       );
+                    //       return acc.concat(topicId, ...descendantIds);
+                    //     }, [])
+                    //     .filter(Boolean);
+
+                    //   console.log("Selected Topic IDs:", selectedTopicIds);
+
+                    //   // If no topics are selected, show all records
+                    //   if (selectedTopicIds.length === 0) return true;
+
+                    //   // Get all subtopics for each selected topic
+                    //   const allSelectedTopicsAndSubtopics =
+                    //     selectedTopicIds.reduce((acc, topicId) => {
+                    //       const childTopics = getChildNodeIds(
+                    //         TOPIC_TREE_DATA,
+                    //         topicId
+                    //       );
+                    //       return acc.concat(childTopics, topicId);
+                    //     }, []);
+
+                    //   console.log(
+                    //     "All Selected Topics and Subtopics:",
+                    //     allSelectedTopicsAndSubtopics
+                    //   );
+                    //   console.log("Record Topic:", record.topic);
+
+                    //   // Check if the record's topic is included in the full list of selected topics and their subtopics
+                    //   return allSelectedTopicsAndSubtopics.includes(
+                    //     record.topic
+                    //   );
+                    // }}
                     render={(_: any, record: Types.TestQuestion) => (
                       <TopicTag id={record.topic} />
                     )}
                   />
+
                   <TableColumn
                     key={"language"}
                     title="Languages"
@@ -325,36 +457,102 @@ interface TopicCount {
   count: number;
 }
 
-const QuestionsPerTopicDisplay = ({ selectedTopics, questionsPerTopic }) => {
-  const columns: any[] = [
+const QuestionsPerTopicDisplay = ({
+  selectedTopics,
+  questionsPerTopic,
+  TOPIC_TREE_DATA,
+}) => {
+  const { data: topics = [] } = User.Queries.useGetTopics();
+
+  const getTopicTitle = (id) => {
+    if (!topics || topics.length === 0) return "Loading...";
+    return topics.find((t) => t?._id === id)?.title || "Unknown Topic";
+  };
+
+  const tableData = useMemo(() => {
+    if (
+      !TOPIC_TREE_DATA ||
+      !Array.isArray(TOPIC_TREE_DATA) ||
+      TOPIC_TREE_DATA.length === 0
+    ) {
+      return [];
+    }
+
+    const calculateCounts = (node) => {
+      let ownCount = questionsPerTopic[node._id] || 0;
+      let totalCount = ownCount;
+      let secondLevelTopics = [];
+
+      if (node.children && node.children.length > 0) {
+        secondLevelTopics = node.children.map((child) => {
+          const childResult = calculateCounts(child);
+          totalCount += childResult.totalCount;
+          return {
+            id: child._id,
+            title: getTopicTitle(child._id),
+            count: childResult.totalCount,
+          };
+        });
+      }
+
+      return {
+        key: node._id,
+        topicTitle: getTopicTitle(node._id),
+        ownCount,
+        totalCount,
+        secondLevelTopics,
+      };
+    };
+
+    return selectedTopics
+      .map((topicId) => TOPIC_TREE_DATA.find((t) => t._id === topicId))
+      .filter(Boolean)
+      .map(calculateCounts)
+      .filter((data) => data.totalCount > 0);
+  }, [selectedTopics, questionsPerTopic, TOPIC_TREE_DATA, topics]);
+
+  const columns = [
     {
       title: "Topic",
-      dataIndex: "topicId",
-      key: "topic",
-      render: (topicId: string) => <TopicTag id={topicId} />,
+      dataIndex: "topicTitle",
+      key: "topicTitle",
+    },
+    // {
+    //   title: "Own Count",
+    //   dataIndex: "ownCount",
+    //   key: "ownCount",
+    // },
+    {
+      title: "Total Count",
+      dataIndex: "totalCount",
+      key: "totalCount",
     },
     {
-      title: "Count",
-      dataIndex: "count",
-      key: "count",
+      title: "2nd Level Topics",
+      dataIndex: "secondLevelTopics",
+      key: "secondLevelTopics",
+      render: (secondLevelTopics) => (
+        <ul>
+          {secondLevelTopics
+            .filter((topic) => topic.count)
+            .map((topic) => (
+              <li key={topic.id}>
+                {topic.title}: {topic.count}
+              </li>
+            ))}
+        </ul>
+      ),
     },
   ];
 
-  const data: TopicCount[] = selectedTopics.map((topicId) => ({
-    topicId,
-    count: questionsPerTopic[topicId] || 0,
-  }));
+  if (!tableData || tableData.length === 0) {
+    return <div>No data available or still loading...</div>;
+  }
 
   return (
     <div style={{ marginTop: 16, marginBottom: 16 }}>
       <Title level={5}>Selected topics and questions:</Title>
-      <Table
-        columns={columns}
-        dataSource={data}
-        pagination={false}
-        size="small"
-        rowKey="topicId"
-      />
+      <Table columns={columns} dataSource={tableData} pagination={false} />
     </div>
   );
 };
