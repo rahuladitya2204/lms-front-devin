@@ -6,6 +6,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Enum, Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
+
 import {
   Badge,
   Button,
@@ -240,6 +241,29 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           </Card>
         </Col>
       ) : null}
+
+      <Col span={24}>
+        <Divider>Important Resources</Divider>
+        <ShowMore minHeight={200}>
+          <Row>
+            {productCategory.info.links.map((link) => {
+              return (
+                <Col xs={24} sm={8} md={8} style={{ marginBottom: 15 }}>
+                  <Link
+                    to={
+                      props.isServer
+                        ? `/exam/${productCategory.slug}/${link.slug}`
+                        : `/app/exam/${productCategory.slug}/${link.slug}`
+                    }
+                  >
+                    {link.title}
+                  </Link>
+                </Col>
+              );
+            })}
+          </Row>
+        </ShowMore>
+      </Col>
     </Row>
   );
 }
