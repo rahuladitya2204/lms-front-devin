@@ -14,6 +14,7 @@ const useDehydration = () => {
   const {user,learner,userType}=Store.useAuthentication(s=>s);
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
+    ReactGA.initialize(GA_KEY);
     if (!isServer) {
       initializeApp();
     }
@@ -23,7 +24,6 @@ const useDehydration = () => {
   useEffect(()=>{
     if(learner._id){
       console.log('Setting User ID on Segment');
-      ReactGA.initialize(GA_KEY);
       window.analytics_enabled = true;
       identifyUser(learner._id,{
         name: learner.name,
