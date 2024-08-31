@@ -15,10 +15,6 @@ const useDehydration = () => {
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
     if (!isServer) {
-      if(userType==='learner'){
-        ReactGA.initialize(GA_KEY);
-        window.analytics_enabled=true;
-     }
       initializeApp();
     }
   }, [isServer]);
@@ -26,7 +22,9 @@ const useDehydration = () => {
 
   useEffect(()=>{
     if(learner._id){
-      console.log('Setting User ID on Segment')
+      console.log('Setting User ID on Segment');
+      ReactGA.initialize(GA_KEY);
+      window.analytics_enabled = true;
       identifyUser(learner._id,{
         name: learner.name,
         interests: learner.interests

@@ -49,6 +49,8 @@ export const AddQuestionFromBank = (props: {
   languages: string[];
 }) => {
   const { data: TOPIC_TREE_DATA } = useBuildTopicTree(props.topics, 4);
+  const { data: treeData, isLoading: loadingTopicTree } =
+    User.Queries.useGetTopicTree(props.topics, 4);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   // const [questionsPerTopic, setQuestionsPerTopic] = useState({});
@@ -126,6 +128,49 @@ export const AddQuestionFromBank = (props: {
 
   const { data: NEW_TOPIC_TREE_DATA } = useBuildTopicTree(props.topics, 2);
 
+  const handleTreeSelect = (checkedKeys, info) => {
+    console.log("Checked Keys:", checkedKeys);
+    console.log("Checked Nodes:", info.checkedNodes);
+
+    const selectedTopicIds = info.checkedNodes
+      .map((node) => node._id)
+      .filter(Boolean);
+
+    console.log("Selected Topic IDs:", selectedTopicIds);
+
+    const expandedTopicIds = selectedTopicIds.flatMap((id) => {
+      console.log("Processing node with ID:", id);
+      console.log(
+        "Node data:",
+        treeData.find((node) => node._id === id)
+      );
+      const childIds = getChildNodeIds(treeData, id);
+      console.log(`Child IDs for ${id}:`, childIds);
+      return [id, ...childIds];
+    });
+
+    console.log("Expanded Topic IDs:", expandedTopicIds);
+
+    // setSelectedTopics(selectedTopicIds);
+
+    if (!data || !Array.isArray(data)) {
+      console.warn("Data is not available or not an array");
+      return;
+    }
+
+    const filteredQuestions = data.filter((item) =>
+      expandedTopicIds.includes(item.topic)
+    );
+
+    console.log("Filtered Questions Count:", filteredQuestions.length);
+    console.log(
+      "Sample Question Topics:",
+      filteredQuestions.slice(0, 5).map((q) => q.topic)
+    );
+
+    // setFilteredData(filteredQuestions);
+  };
+
   return (
     <Row style={{ overflowX: "scroll" }}>
       <Col span={24}>
@@ -158,6 +203,17 @@ export const AddQuestionFromBank = (props: {
                 ...QUESTION_DIFFICULTY_LEVELS,
                 // { label: "Ignore Level", value: "" },
               ]}
+            />
+          </Form.Item>
+          <Form.Item label="Select Topics">
+            <Tree
+              checkable
+              onCheck={handleTreeSelect} // Add this handler to filter data
+              treeData={NEW_TOPIC_TREE_DATA.filter((i) =>
+                selectedTopics.includes(i._id)
+              )} // Use updated tree data with counts
+              defaultExpandAll
+              style={{ maxHeight: 300, overflowY: "auto" }}
             />
           </Form.Item>
           <Row justify={"end"}>
@@ -393,35 +449,32 @@ export const AddQuestionFromBank = (props: {
   );
 };
 
-function getChildNodeIds(tree: any[], id: string): string[] {
-  let result: string[] = [];
+function getChildNodeIds(tree, id) {
+  let result = [];
 
-  function findNodeAndCollectIds(nodes: any[], id: string): boolean {
+  function traverse(nodes) {
     for (let node of nodes) {
       if (node._id === id) {
-        collectIds(node);
+        collectChildIds(node);
         return true;
       }
-      if (node.children) {
-        const found = findNodeAndCollectIds(node.children, id);
-        if (found) {
-          return true;
-        }
+      if (node.children && traverse(node.children)) {
+        return true;
       }
     }
     return false;
   }
 
-  function collectIds(node: Node): void {
+  function collectChildIds(node) {
     if (node.children) {
       for (let child of node.children) {
         result.push(child._id);
-        collectIds(child);
+        collectChildIds(child);
       }
     }
   }
 
-  findNodeAndCollectIds(tree, id);
+  traverse(tree);
   return result;
 }
 
