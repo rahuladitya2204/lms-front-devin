@@ -121,11 +121,33 @@ export const AddQuestionFromBank = (props: {
 
     return newQuestionsPerTopic;
   }, [selectedRows, selectedTopics, TOPIC_TREE_DATA]);
+  const handleRowSelection = useCallback(
+    (
+      newSelectedRowKeys: React.Key[],
+      newSelectedRows: Types.TestQuestion[]
+    ) => {
+      setSelectedRowKeys((prevKeys) => {
+        const updatedKeys = new Set(prevKeys);
+        newSelectedRowKeys.forEach((key) => {
+          if (!updatedKeys.has(key)) {
+            updatedKeys.add(key);
+          }
+        });
+        return Array.from(updatedKeys);
+      });
 
-  const handleRowSelection = useCallback((selectedKeys, selectedRows) => {
-    setSelectedRowKeys(selectedKeys);
-    setSelectedRows(selectedRows);
-  }, []);
+      setSelectedRows((prevRows) => {
+        const updatedRowsMap = new Map(prevRows.map((row) => [row._id, row]));
+        newSelectedRows.forEach((row) => {
+          if (!updatedRowsMap.has(row._id)) {
+            updatedRowsMap.set(row._id, row);
+          }
+        });
+        return Array.from(updatedRowsMap.values());
+      });
+    },
+    []
+  );
 
   useEffect(() => {
     if (TOPIC_TREE_DATA) {
@@ -134,7 +156,7 @@ export const AddQuestionFromBank = (props: {
   }, [questionsPerTopic, TOPIC_TREE_DATA]);
 
   useEffect(() => {
-    const D = props?.items.filter((i) => i._id);
+    const D = props?.items.filter((i) => data?.find((d) => d._id === i._id));
     setSelectedRowKeys(D?.map((i) => i?._id) || []);
     setSelectedRows(D || []);
   }, [props.items, data]);
