@@ -134,9 +134,10 @@ export const AddQuestionFromBank = (props: {
   }, [questionsPerTopic, TOPIC_TREE_DATA]);
 
   useEffect(() => {
-    setSelectedRowKeys(props?.items?.map((i) => i?._id) || []);
-    setSelectedRows(props.items || []);
-  }, [props.items]);
+    const D = props?.items.filter((i) => i._id);
+    setSelectedRowKeys(D?.map((i) => i?._id) || []);
+    setSelectedRows(D || []);
+  }, [props.items, data]);
 
   const { data: NEW_TOPIC_TREE_DATA } = useBuildTopicTree(
     props.topics,

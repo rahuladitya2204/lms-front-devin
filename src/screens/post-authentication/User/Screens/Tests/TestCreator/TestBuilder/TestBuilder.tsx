@@ -414,76 +414,76 @@ function TestBuilderScreen() {
                 //     setTest(TTEST);
                 //   },
                 // },
-                {
-                  key: "rephrase-question",
-                  label: <>Rephrase Questions</>,
-                  onClick: async () => {
-                    console.log("tulurrrr", langs);
-                    const promises = test.sections
-                      .map((section, secIndex) => {
-                        return section.items.map((item) => {
-                          return langs.map(async (language) => {
-                            const O = item.title.text;
-                            const lng = Object.keys(O).find((key) =>
-                              htmlToText(O[key])
-                            );
-                            const body = {
-                              title: O[lng],
-                              itemId: item._id,
-                              language: language,
-                            };
+                // {
+                //   key: "rephrase-question",
+                //   label: <>Rephrase Questions</>,
+                //   onClick: async () => {
+                //     console.log("tulurrrr", langs);
+                //     const promises = test.sections
+                //       .map((section, secIndex) => {
+                //         return section.items.map((item) => {
+                //           return langs.map(async (language) => {
+                //             const O = item.title.text;
+                //             const lng = Object.keys(O).find((key) =>
+                //               htmlToText(O[key])
+                //             );
+                //             const body = {
+                //               title: O[lng],
+                //               itemId: item._id,
+                //               language: language,
+                //             };
 
-                            const rephrasedText: string =
-                              await rephraseQuestion({
-                                text: body.title,
-                              });
+                //             const rephrasedText: string =
+                //               await rephraseQuestion({
+                //                 text: body.title,
+                //               });
 
-                            const rephrased: any = {
-                              title: rephrasedText,
-                            };
-                            if (rephrasedText) {
-                              rephrased.language = language;
-                              rephrased.itemId = body.itemId;
-                              return rephrased;
-                            }
-                            return null;
-                          });
-                        });
-                      })
-                      .flat(2); // Flatten the array of promises
+                //             const rephrased: any = {
+                //               title: rephrasedText,
+                //             };
+                //             if (rephrasedText) {
+                //               rephrased.language = language;
+                //               rephrased.itemId = body.itemId;
+                //               return rephrased;
+                //             }
+                //             return null;
+                //           });
+                //         });
+                //       })
+                //       .flat(2); // Flatten the array of promises
 
-                    const translations = (await Promise.all(promises)).filter(
-                      Boolean
-                    ); // Filter out null results
+                //     const translations = (await Promise.all(promises)).filter(
+                //       Boolean
+                //     ); // Filter out null results
 
-                    const TTEST = cloneDeep(test);
+                //     const TTEST = cloneDeep(test);
 
-                    // Group translations by section and item
-                    const translationMap = {};
-                    translations.forEach((translation) => {
-                      if (!translationMap[translation.itemId]) {
-                        translationMap[translation.itemId] = [];
-                      }
-                      translationMap[translation.itemId].push(translation);
-                    });
+                //     // Group translations by section and item
+                //     const translationMap = {};
+                //     translations.forEach((translation) => {
+                //       if (!translationMap[translation.itemId]) {
+                //         translationMap[translation.itemId] = [];
+                //       }
+                //       translationMap[translation.itemId].push(translation);
+                //     });
 
-                    // Update the test sections with the translations
-                    TTEST.sections.forEach((section) => {
-                      section.items.forEach((item) => {
-                        const itemTranslations = translationMap[item._id] || [];
-                        itemTranslations.forEach((translation) => {
-                          if (translation && translation.title) {
-                            console.log(item.title, translation, "opopop");
-                            item.title.text[translation.language] =
-                              translation.title;
-                          }
-                        });
-                      });
-                    });
-                    console.log(translationMap, "translationMap");
-                    setTest(TTEST);
-                  },
-                },
+                //     // Update the test sections with the translations
+                //     TTEST.sections.forEach((section) => {
+                //       section.items.forEach((item) => {
+                //         const itemTranslations = translationMap[item._id] || [];
+                //         itemTranslations.forEach((translation) => {
+                //           if (translation && translation.title) {
+                //             console.log(item.title, translation, "opopop");
+                //             item.title.text[translation.language] =
+                //               translation.title;
+                //           }
+                //         });
+                //       });
+                //     });
+                //     console.log(translationMap, "translationMap");
+                //     setTest(TTEST);
+                //   },
+                // },
                 {
                   label: "Create Test using Bank",
                   key: "generate-test-from-bank",
@@ -513,11 +513,11 @@ function TestBuilderScreen() {
                   key: "gen-criterias",
                   onClick: () => generateTestInfo({ fields: ["criteria"] }),
                 },
-                {
-                  label: "Generate Topics",
-                  key: "gen-topics",
-                  onClick: () => generateTestInfo({ fields: ["topic"] }),
-                },
+                // {
+                //   label: "Generate Topics",
+                //   key: "gen-topics",
+                //   onClick: () => generateTestInfo({ fields: ["topic"] }),
+                // },
                 // {
                 //   key: 'enter-answers',
                 //   label: (
