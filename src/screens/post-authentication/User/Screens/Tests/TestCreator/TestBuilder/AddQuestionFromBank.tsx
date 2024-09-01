@@ -18,7 +18,7 @@ import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useBuildTopicTree } from "../TestInformation/TestDetailsEditor/TestDetails";
 import TopicSelect from "@Components/TopicSelect";
-import { Title } from "@Components/Typography/Typography";
+import { Text, Title } from "@Components/Typography/Typography";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { NavLink } from "@Router/index";
 import Link from "antd/es/typography/Link";
@@ -275,7 +275,9 @@ export const AddQuestionFromBank = (props: {
                       disabled: props.itemCount === selectedRows.length, // Disable checkbox for rows where age is less than 40
                     }),
                   }}
-                  searchFields={["title.text.eng"]}
+                  searchFields={props.languages.map(
+                    (lang) => `title.text.${lang}`
+                  )}
                   rowKey={"_id"}
                   dataSource={filteredData}
                 >
@@ -290,7 +292,7 @@ export const AddQuestionFromBank = (props: {
                         <Typography.Link
                           onClick={() => {
                             window.open(
-                              `/admin/products/test/${record.test}/builder/${record._id}`
+                              `/admin/products/test/${record.testId}/builder/${record._id}`
                             );
                           }}
                         >
@@ -557,7 +559,14 @@ const getUpdatedTopicTreeWithCounts = (treeData, questionsPerTopic) => {
       const count = questionsPerTopic[node._id] || 0;
 
       // Append the count only if it's greater than zero
-      node.title = count > 0 ? `${originalTitle} (${count})` : originalTitle;
+      node.title =
+        count > 0 ? (
+          <Text strong>
+            {originalTitle} ({count})
+          </Text>
+        ) : (
+          originalTitle
+        );
 
       if (node.children) {
         updateCounts(node.children);
