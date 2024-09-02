@@ -70,6 +70,7 @@ const TestsScreen = () => {
                       Enum.TestStatus.DRAFT,
                       Enum.TestStatus.PUBLISHED,
                       Enum.TestStatus.IN_PROGRESS,
+                      Enum.TestStatus.LIVE,
                     ],
                   }}
                 />
@@ -90,6 +91,7 @@ const TestsScreen = () => {
                               Enum.TestStatus.DRAFT,
                               Enum.TestStatus.PUBLISHED,
                               Enum.TestStatus.IN_PROGRESS,
+                              Enum.TestStatus.LIVE,
                             ]
                           : [Enum.TestStatus.ENDED],
                     }}

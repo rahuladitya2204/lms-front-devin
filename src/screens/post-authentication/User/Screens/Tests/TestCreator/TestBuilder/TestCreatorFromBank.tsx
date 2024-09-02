@@ -67,6 +67,16 @@ TestCreatorFromBankPropsI) {
   } = User.Queries.useGetTestDetails(testId + "", {
     enabled: !!testId,
   });
+
+  const { data: tests, isFetching: loading } = User.Queries.useGetTests({
+    status: [
+      Enum.TestStatus.DRAFT,
+      Enum.TestStatus.PUBLISHED,
+      Enum.TestStatus.IN_PROGRESS,
+    ],
+    category: testDetails.category,
+  });
+
   const [form] = Form.useForm<CreateTestCreatorFromBank>();
   useEffect(() => {
     form.setFieldsValue(
@@ -213,6 +223,8 @@ TestCreatorFromBankPropsI) {
                         onClick={() => {
                           openModal(
                             <AddQuestionFromBank
+                              testId={testId}
+                              category={testDetails.category + ""}
                               languages={testDetails.languages}
                               onSelect={(questions: Types.TestQuestion[]) => {
                                 const Items = [...items];

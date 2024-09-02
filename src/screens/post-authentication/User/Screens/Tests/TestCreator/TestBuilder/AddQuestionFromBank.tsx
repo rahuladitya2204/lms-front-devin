@@ -44,7 +44,9 @@ export const AddQuestionFromBank = (props: {
   onSelect?: (t: Types.TestQuestion) => void;
   closeModal?: Function;
   topics: string[];
+  category: string;
   items: Types.TestQuestion[];
+  testId: string;
   itemCount: number;
   multiple?: boolean;
   languages: string[];
@@ -238,7 +240,16 @@ export const AddQuestionFromBank = (props: {
       questionsPerTopic
     );
   }, [NEW_TOPIC_TREE_DATA, questionsPerTopic]);
-
+  const { data: tests, isFetching: loading } = User.Queries.useGetTests({
+    status: [
+      // Enum.TestStatus.DRAFT,
+      // Enum.TestStatus.PUBLISHED,
+      // Enum.TestStatus.IN_PROGRESS,
+      Enum.TestStatus.LIVE,
+    ],
+    category: props.category,
+  });
+  console.log(tests, "ssss");
   return (
     <Row style={{ overflowX: "scroll" }}>
       <Col span={24}>
@@ -477,7 +488,40 @@ export const AddQuestionFromBank = (props: {
                       <TopicTag id={record.topic} />
                     )}
                   />
-
+                  <TableColumn
+                    key={"usedBefore"}
+                    title="Used Before"
+                    render={(_: any, record: Types.TestQuestion) => {
+                      return (
+                        <Row>
+                          {record.usedBefore
+                            .filter((ub) => {
+                              const test = tests.find((t) => t._id === ub);
+                              return (
+                                props.testId !== ub && test?.status === "live"
+                              );
+                            })
+                            .map((ub) => {
+                              const test = tests.find((t) => t._id === ub);
+                              return (
+                                <Col span={24}>
+                                  <Link
+                                    onClick={() => {
+                                      window.open(
+                                        `/admin/products/test/${ub}/builder/${record._id}`
+                                      );
+                                    }}
+                                  >
+                                    {test?.title || "Test"}
+                                  </Link>
+                                  <Divider />
+                                </Col>
+                              );
+                            })}
+                        </Row>
+                      );
+                    }}
+                  />
                   <TableColumn
                     key={"language"}
                     title="Languages"

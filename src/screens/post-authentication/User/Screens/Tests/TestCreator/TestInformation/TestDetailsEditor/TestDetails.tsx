@@ -26,6 +26,7 @@ import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import { validateSlug } from "@Components/Editor/SunEditor/utils";
 import InputTags from "@Components/InputTags/InputTags";
 import TopicSelect from "@Components/TopicSelect";
+import { capitalize } from "lodash";
 
 const { useWatch } = Form;
 
@@ -307,6 +308,30 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             name="topics"
             label="Topics"
           ></TopicSelect>
+        </Col>
+        <Col span={8}>
+          <Form.Item label="Status" style={{ margin: 0 }} name={["status"]}>
+            <Select
+              options={[
+                {
+                  label: capitalize(Enum.TestStatus.DRAFT),
+                  value: Enum.TestStatus.DRAFT,
+                },
+                {
+                  label: capitalize(Enum.TestStatus.ENDED),
+                  value: Enum.TestStatus.ENDED,
+                },
+                {
+                  label: capitalize(Enum.TestStatus.PUBLISHED),
+                  value: Enum.TestStatus.PUBLISHED,
+                },
+                {
+                  label: capitalize(Enum.TestStatus.LIVE),
+                  value: Enum.TestStatus.LIVE,
+                },
+              ]}
+            />
+          </Form.Item>
         </Col>
         {isHandwritten ? (
           <Col span={8}>
