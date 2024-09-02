@@ -121,6 +121,7 @@ export const AddQuestionFromBank = (props: {
 
     return newQuestionsPerTopic;
   }, [selectedRows, selectedTopics, TOPIC_TREE_DATA]);
+
   const handleRowSelection = useCallback(
     (
       newSelectedRowKeys: React.Key[],
@@ -128,21 +129,39 @@ export const AddQuestionFromBank = (props: {
     ) => {
       setSelectedRowKeys((prevKeys) => {
         const updatedKeys = new Set(prevKeys);
-        newSelectedRowKeys.forEach((key) => {
-          if (!updatedKeys.has(key)) {
-            updatedKeys.add(key);
+        const newKeysSet = new Set(newSelectedRowKeys);
+
+        // Remove keys that are not in the new selection
+        updatedKeys.forEach((key) => {
+          if (!newKeysSet.has(key)) {
+            updatedKeys.delete(key);
           }
         });
+
+        // Add new keys
+        newSelectedRowKeys.forEach((key) => {
+          updatedKeys.add(key);
+        });
+
         return Array.from(updatedKeys);
       });
 
       setSelectedRows((prevRows) => {
         const updatedRowsMap = new Map(prevRows.map((row) => [row._id, row]));
-        newSelectedRows.forEach((row) => {
-          if (!updatedRowsMap.has(row._id)) {
-            updatedRowsMap.set(row._id, row);
+        const newRowIds = new Set(newSelectedRows.map((row) => row._id));
+
+        // Remove rows that are not in the new selection
+        updatedRowsMap.forEach((_, id) => {
+          if (!newRowIds.has(id)) {
+            updatedRowsMap.delete(id);
           }
         });
+
+        // Add new rows
+        newSelectedRows.forEach((row) => {
+          updatedRowsMap.set(row._id, row);
+        });
+
         return Array.from(updatedRowsMap.values());
       });
     },
