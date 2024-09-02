@@ -175,7 +175,7 @@ export const AddQuestionFromBank = (props: {
   }, [questionsPerTopic, TOPIC_TREE_DATA]);
 
   useEffect(() => {
-    const D = props?.items.filter((i) => data?.find((d) => d._id === i._id));
+    const D = props?.items?.filter((i) => data?.find((d) => d._id === i._id));
     setSelectedRowKeys(D?.map((i) => i?._id) || []);
     setSelectedRows(D || []);
   }, [props.items, data]);
