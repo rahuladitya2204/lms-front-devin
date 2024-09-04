@@ -88,37 +88,53 @@ export const AddQuestionFromBank = (props: {
       // }
     );
   };
+
   const questionsPerTopic = useMemo(() => {
     const newQuestionsPerTopic = {};
+    const topicHierarchy = new Map();
 
+    // Build a map of child to parent relationships
+    const buildTopicHierarchy = (nodes, parent = null) => {
+      nodes.forEach((node) => {
+        topicHierarchy.set(node._id, parent ? parent._id : null);
+        if (node.children) {
+          buildTopicHierarchy(node.children, node);
+        }
+      });
+    };
+
+    buildTopicHierarchy(TOPIC_TREE_DATA);
+
+    // Initialize counts
+    const initializeCounts = (nodes) => {
+      nodes.forEach((node) => {
+        newQuestionsPerTopic[node._id] = 0;
+        if (node.children) {
+          initializeCounts(node.children);
+        }
+      });
+    };
+
+    initializeCounts(TOPIC_TREE_DATA);
+
+    // Function to increment count for a topic and all its ancestors
     const incrementCount = (topicId) => {
-      newQuestionsPerTopic[topicId] = (newQuestionsPerTopic[topicId] || 0) + 1;
-      const parentTopic = TOPIC_TREE_DATA.find(
-        (t) => t.children && t.children.some((child) => child._id === topicId)
-      );
-      if (parentTopic) {
-        incrementCount(parentTopic._id);
+      let currentId = topicId;
+      while (currentId) {
+        newQuestionsPerTopic[currentId]++;
+        currentId = topicHierarchy.get(currentId);
       }
     };
 
-    // Initialize counts
-    selectedTopics.forEach((topicId) => {
-      newQuestionsPerTopic[topicId] = 0;
-      const childIds = getChildNodeIds(TOPIC_TREE_DATA, topicId);
-      childIds.forEach((childId) => {
-        newQuestionsPerTopic[childId] = 0;
-      });
-    });
-
     // Count questions
     selectedRows.forEach((question) => {
-      if (newQuestionsPerTopic.hasOwnProperty(question.topic)) {
+      if (topicHierarchy.has(question.topic)) {
         incrementCount(question.topic);
       }
     });
 
     return newQuestionsPerTopic;
-  }, [selectedRows, selectedTopics, TOPIC_TREE_DATA]);
+  }, [selectedRows, TOPIC_TREE_DATA]);
 
   const handleRowSelection = useCallback(
     (
