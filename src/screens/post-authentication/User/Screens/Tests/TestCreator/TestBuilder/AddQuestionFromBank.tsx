@@ -88,37 +88,33 @@ export const AddQuestionFromBank = (props: {
       // }
     );
   };
-
   const questionsPerTopic = useMemo(() => {
     const newQuestionsPerTopic = {};
 
-    // Loop through each selected topic
-    selectedTopics.forEach((parentTopicId) => {
-      // Get child node IDs for the parent topic
-      const childTopicIds = getChildNodeIds(TOPIC_TREE_DATA, parentTopicId);
+    const incrementCount = (topicId) => {
+      newQuestionsPerTopic[topicId] = (newQuestionsPerTopic[topicId] || 0) + 1;
+      const parentTopic = TOPIC_TREE_DATA.find(
+        (t) => t.children && t.children.some((child) => child._id === topicId)
+      );
+      if (parentTopic) {
+        incrementCount(parentTopic._id);
+      }
+    };
 
-      // Initialize the count for the parent topic
-      newQuestionsPerTopic[parentTopicId] = 0;
-
-      // Initialize the count for each child topic
-      childTopicIds.forEach((childId) => {
+    // Initialize counts
+    selectedTopics.forEach((topicId) => {
+      newQuestionsPerTopic[topicId] = 0;
+      const childIds = getChildNodeIds(TOPIC_TREE_DATA, topicId);
+      childIds.forEach((childId) => {
         newQuestionsPerTopic[childId] = 0;
       });
+    });
 
-      // Loop through each selected question
-      selectedRows.forEach((question) => {
-        // Increment the count for the parent topic if the question belongs to it
-        if (question.topic === parentTopicId) {
-          newQuestionsPerTopic[parentTopicId] += 1;
-        }
-
-        // Increment the count for the child topic if the question belongs to it
-        if (childTopicIds.includes(question.topic)) {
-          newQuestionsPerTopic[
-            childTopicIds.find((id) => id === question.topic)
-          ] += 1;
-        }
-      });
+    // Count questions
+    selectedRows.forEach((question) => {
+      if (newQuestionsPerTopic.hasOwnProperty(question.topic)) {
+        incrementCount(question.topic);
+      }
     });
 
     return newQuestionsPerTopic;
@@ -302,14 +298,14 @@ export const AddQuestionFromBank = (props: {
 
           {data?.length ? (
             <Row>
-              <Col span={24}>
+              {/* <Col span={24}>
                 <QuestionsPerTopicDisplay
                   TOPIC_TREE_DATA={TOPIC_TREE_DATA}
                   selectedTopics={selectedTopics}
                   questionsPerTopic={questionsPerTopic}
                 />
               </Col>
-              <Divider />
+              <Divider /> */}
               <Col span={24}>
                 <Table
                   extra={[
