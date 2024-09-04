@@ -127,44 +127,41 @@ export const AddQuestionFromBank = (props: {
   const handleRowSelection = useCallback(
     (
       newSelectedRowKeys: React.Key[],
-      newSelectedRows: Types.TestQuestion[]
+      newSelectedRows: Types.TestQuestion[],
+      currentFilteredData: Types.TestQuestion[]
     ) => {
       setSelectedRowKeys((prevKeys) => {
-        const updatedKeys = new Set(prevKeys);
+        const currentFilteredKeys = new Set(
+          currentFilteredData.map((row) => row._id)
+        );
         const newKeysSet = new Set(newSelectedRowKeys);
 
-        // Remove keys that are not in the new selection
-        updatedKeys.forEach((key) => {
-          if (!newKeysSet.has(key)) {
-            updatedKeys.delete(key);
-          }
-        });
+        // Keep previously selected keys that are not in the current filtered data
+        const keysToKeep = prevKeys.filter(
+          (key) => !currentFilteredKeys.has(key)
+        );
 
-        // Add new keys
-        newSelectedRowKeys.forEach((key) => {
-          updatedKeys.add(key);
-        });
-
-        return Array.from(updatedKeys);
+        // Add newly selected keys
+        return [...new Set([...keysToKeep, ...newSelectedRowKeys])];
       });
 
       setSelectedRows((prevRows) => {
-        const updatedRowsMap = new Map(prevRows.map((row) => [row._id, row]));
-        const newRowIds = new Set(newSelectedRows.map((row) => row._id));
+        const prevRowsMap = new Map(prevRows.map((row) => [row._id, row]));
+        const currentFilteredRowsMap = new Map(
+          currentFilteredData.map((row) => [row._id, row])
+        );
 
-        // Remove rows that are not in the new selection
-        updatedRowsMap.forEach((_, id) => {
-          if (!newRowIds.has(id)) {
-            updatedRowsMap.delete(id);
+        // Update or add newly selected rows
+        newSelectedRows.forEach((row) => prevRowsMap.set(row._id, row));
+
+        // Remove deselected rows that are in the current filtered data
+        currentFilteredData.forEach((row) => {
+          if (!newSelectedRowKeys.includes(row._id)) {
+            prevRowsMap.delete(row._id);
           }
         });
 
-        // Add new rows
-        newSelectedRows.forEach((row) => {
-          updatedRowsMap.set(row._id, row);
-        });
-
-        return Array.from(updatedRowsMap.values());
+        return Array.from(prevRowsMap.values());
       });
     },
     []
@@ -316,14 +313,21 @@ export const AddQuestionFromBank = (props: {
               <Col span={24}>
                 <Table
                   extra={[
-                    <Button onClick={() => handleRowSelection([], [])}>
+                    <Button
+                      onClick={() => handleRowSelection([], [], filteredData)}
+                    >
                       Reset Selection
                     </Button>,
                   ]}
                   rowSelection={{
                     type: "checkbox",
                     selectedRowKeys,
-                    onChange: handleRowSelection,
+                    onChange: (newSelectedRowKeys, newSelectedRows) =>
+                      handleRowSelection(
+                        newSelectedRowKeys,
+                        newSelectedRows,
+                        filteredData
+                      ),
                     getCheckboxProps: (record) => ({
                       disabled: props.itemCount === selectedRows.length, // Disable checkbox for rows where age is less than 40
                     }),
