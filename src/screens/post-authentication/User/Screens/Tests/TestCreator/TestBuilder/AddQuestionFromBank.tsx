@@ -77,7 +77,7 @@ export const AddQuestionFromBank = (props: {
     getQuestionsFromBank(
       {
         topics: (nodeId?.length
-          ? [nodeId, ...data.topics]
+          ? [...nodeId, ...data.topics]
           : data.topics
         ).flat(),
         difficultyLevel: data.difficultyLevel,
