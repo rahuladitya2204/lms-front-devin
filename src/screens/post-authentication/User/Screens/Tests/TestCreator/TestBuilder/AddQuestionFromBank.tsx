@@ -76,7 +76,10 @@ export const AddQuestionFromBank = (props: {
     setSelectedTopics(data.topics);
     getQuestionsFromBank(
       {
-        topics: (nodeId?.length ? nodeId : data.topics).flat(),
+        topics: (nodeId?.length
+          ? [nodeId, ...data.topics]
+          : data.topics
+        ).flat(),
         difficultyLevel: data.difficultyLevel,
         languages: props.languages,
       }
