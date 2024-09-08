@@ -189,6 +189,7 @@
     "@types/uuid": "8.3.4",
     "@types/video-react": "0.15.1",
     "@types/video.js": "7.3.51",
+    "compression-webpack-plugin": "^11.1.0",
     "encoding": "^0.1.13",
     "eslint": "8.3.0",
     "eslint-config-next": "14.1.4",
