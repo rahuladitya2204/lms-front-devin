@@ -3,7 +3,8 @@ import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 import { generateMetadata as GenerateMetadata } from "./[type]/page";
 import { getCookie } from "@ServerUtils/index";
-import axios from "axios";
+import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
+const axios = getAxiosInstance();
 import { RenderFAQJson } from "@Components/CreateFaqsComponent";
 const apiUrl = process.env.API_URL;
 

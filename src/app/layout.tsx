@@ -6,11 +6,12 @@ import type { Metadata, Viewport } from "next";
 import Script from "next/script";
 
 import Providers from "./providers";
-import axios from "axios";
+const axios = getAxiosInstance();
 import { Constants, Utils } from "@adewaskar/lms-common";
 import { getCookie, getServerCookie } from "@ServerUtils/index";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
 import { initDateFormats } from "@Utils/index";
+import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 // initDateFormats();
 export const viewport: Viewport = {
   themeColor: "black",

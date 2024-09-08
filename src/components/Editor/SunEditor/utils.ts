@@ -1,5 +1,10 @@
 import katex, { KatexOptions } from 'katex'
 import { debounce } from 'lodash'
+
+import axios from 'axios';
+// @ts-ignore
+import { setupCache } from 'axios-cache-interceptor';
+
 export function convertLatexToMathML(
   latexString: string,
   options?: KatexOptions
@@ -168,4 +173,11 @@ export const validateSlug = async (slug:string,fn:(d:{slug:string})=>{exists:str
     console.error('Error checking slug:', error);
     return Promise.reject('An error occurred while checking the slug');
 }
+}
+
+export const getAxiosInstance=()=>{
+  
+  const api = setupCache(axios.create());
+
+return api;
 }

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import axios from 'axios';
+import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
+const axios = getAxiosInstance();
 
 
 export async function GET(request) {
@@ -14,7 +15,7 @@ export async function GET(request) {
     subdomain = hostParts[0];
   }
 
-  console.log(subdomain, 'domain');
+  // console.log(subdomain, 'domain');
 
   try {
     // Fetch the URLs from your API, which returns an array of objects with url and priority

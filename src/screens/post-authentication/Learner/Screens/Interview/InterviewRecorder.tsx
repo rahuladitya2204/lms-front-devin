@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import { Button, message, Upload, Progress } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import axios from "axios";
+import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
+const axios = getAxiosInstance();
 
 const InterviewRecorder = () => {
   const videoRef = useRef(null);

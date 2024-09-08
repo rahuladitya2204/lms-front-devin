@@ -7,7 +7,8 @@ import ProductCategoryTabs from "@Screens/post-authentication/Learner/Screens/St
 import PackageDetailsTabs from "@Screens/post-authentication/Learner/Screens/Products/Package/PackageDetailsViewer/PackageDetailTabs";
 import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
-import axios from "axios";
+import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
+const axios = getAxiosInstance();
 
 export async function generateMetadata(req: {
   params: any;

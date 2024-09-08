@@ -6,7 +6,8 @@ import TestDetailScreen from "@Learner/Screens/Products/Test/TestDetail/TestDeta
 
 import { Metadata } from "next";
 import { getCookie } from "@ServerUtils/index";
-import axios from "axios";
+import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
+const axios = getAxiosInstance();
 import TestPublicPlayer from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
 import TestPublicPlayerItemReiew from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 import getQueryClient from "@ServerUtils/getQueryClient";

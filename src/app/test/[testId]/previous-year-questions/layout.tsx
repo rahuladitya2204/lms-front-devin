@@ -2,11 +2,8 @@ import Hydrator from "@ServerComponents/Hydrator";
 import { Learner, Types } from "@adewaskar/lms-common";
 import LearnerRootScreen from "@Learner/Screens/LearnerRoot/LearnerRootScreen";
 import { getToken } from "@Network/index";
-import TestDetailScreen from "@Learner/Screens/Products/Test/TestDetail/TestDetail";
-
-import { Metadata } from "next";
-import { getCookie } from "@ServerUtils/index";
-import axios from "axios";
+import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
+const axios = getAxiosInstance();
 import PYQTestPlayer from "@Screens/post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
 import LearnerFullPageHolder from "@Screens/LearnerFullPageHolder";
 import { generateMetadata as GenerateMetadata } from "./[questionId]/page";
