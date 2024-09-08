@@ -177,7 +177,7 @@ export const validateSlug = async (slug:string,fn:(d:{slug:string})=>{exists:str
 
 export const getAxiosInstance=()=>{
   
-  const api = setupCache(axios.create());
-
+  // const api = setupCache(axios.create());
+const api=axios.create();
 return api;
 }
