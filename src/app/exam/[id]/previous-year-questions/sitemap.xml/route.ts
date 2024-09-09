@@ -4,8 +4,9 @@ const axios = getAxiosInstance();
 
 
 export async function GET(request) {
+    console.log(request.param,'')
   const req = new URL(request.url);
-  const { protocol, host } = req;
+  const { protocol, host,pathname } = req;
   const hostParts = host.split('.');
   const apiUrl = process.env.API_URL;
   let subdomain = '';
@@ -14,13 +15,15 @@ export async function GET(request) {
   if (hostParts.length > 2) {
     subdomain = hostParts[0];
   }
+  const categoryId = pathname.split('/')[2];
 
-  // console.log(subdomain, 'domain');
-
+  // console.log(categoryId,'kya bat pyq!')
+  // console.log(categoryId,pathname, 'categoryIdcategoryIdcategoryId');
+  // return;
   try {
     // Fetch the URLs from your API, which returns an array of objects with url and priority
     const { data: urls } = await axios.get(
-      `${apiUrl}/web/sitemap?subdomain=${subdomain || 'www'}`
+      `${apiUrl}/web/sitemap?subdomain=${subdomain || 'www'}&category=${categoryId}&pyq=true`
     );
 
     // console.log(urls, host);

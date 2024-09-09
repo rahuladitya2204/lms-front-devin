@@ -171,7 +171,7 @@ export const RenderFAQJson = (props: { faqs: Types.FAQ[] }) => {
   const faqJson = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: props.faqs.map((faq) => {
+    mainEntity: props?.faqs?.map((faq) => {
       return {
         "@type": "Question",
         name: faq.title,

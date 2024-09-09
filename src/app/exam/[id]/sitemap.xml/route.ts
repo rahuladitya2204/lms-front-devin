@@ -4,8 +4,9 @@ const axios = getAxiosInstance();
 
 
 export async function GET(request) {
+    console.log(request.param,'')
   const req = new URL(request.url);
-  const { protocol, host } = req;
+  const { protocol, host,pathname } = req;
   const hostParts = host.split('.');
   const apiUrl = process.env.API_URL;
   let subdomain = '';
@@ -14,16 +15,17 @@ export async function GET(request) {
   if (hostParts.length > 2) {
     subdomain = hostParts[0];
   }
-
-  // console.log(subdomain, 'domain');
-
+  const categoryId = pathname.split('/')[2];
+  console.log(categoryId,'kya bat')
+  // console.log(categoryId,pathname, 'categoryIdcategoryIdcategoryId');
+  // return;
   try {
     // Fetch the URLs from your API, which returns an array of objects with url and priority
     const { data: urls } = await axios.get(
-      `${apiUrl}/web/sitemap?subdomain=${subdomain || 'www'}`
+      `${apiUrl}/web/sitemap?subdomain=${subdomain || 'www'}&category=${categoryId}`
     );
 
-    // console.log(urls, host);
+    console.log(urls, host);
 
     // Generate the sitemap XML using the fetched URLs with their respective priorities
     const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
