@@ -43,6 +43,10 @@ const { confirm } = Modal;
 function TestBuilderScreen() {
   const { mutate: updateTest, isLoading: savingTest } =
     User.Queries.useUpdateTest();
+
+  const { mutate: generateTestFromPDF, isLoading: generatingTestFromPDF } =
+    User.Queries.useGenerateTestFromPDF();
+
   const { test, setTest } = useTestStore((s) => s);
 
   const { id: testId, itemId } = useParams();
@@ -331,6 +335,22 @@ function TestBuilderScreen() {
                     openModal(<TestOutline testId={testId + ""} />, {
                       width: 760,
                     }),
+                },
+                {
+                  label: "Generate Test From PDF",
+                  key: "generate-test-from-pdf",
+                  onClick: () =>
+                    generateTestFromPDF(
+                      {
+                        testId: testId + "",
+                      },
+                      {
+                        onSuccess: (d) => {
+                          message.success("Test Generated Successfully");
+                          console.log("Done", d);
+                        },
+                      }
+                    ),
                 },
                 // {
                 //   key: "translate-question",
