@@ -37,7 +37,7 @@ export async function GET(request) {
               <url>
                 <loc>${url}</loc>
                 <lastmod>${new Date().toISOString()}</lastmod>
-                <changefreq>${frequency || 'daily'}</changefreq>
+                ${frequency ? `<changefreq>${frequency || 'daily'}</changefreq>` : ''}
                 ${priority ? `<priority>${priority}</priority>` : ''}
               </url>
             `;
