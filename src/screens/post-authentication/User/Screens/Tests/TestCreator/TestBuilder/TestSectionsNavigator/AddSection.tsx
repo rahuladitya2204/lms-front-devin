@@ -68,13 +68,13 @@ const AddTestSection: React.FC<AddTestSectionPropsI> = (props) => {
             name={["score", "incorrect"]}
             label="Incorrect Answer Score"
             required
-            rules={[
-              {
-                required: true,
-                max: 0,
-                message: "Enter the incorrect score for this question",
-              },
-            ]}
+            // rules={[
+            //   {
+            //     required: true,
+            //     max: 0,
+            //     message: "Enter the incorrect score for this question",
+            //   },
+            // ]}
           >
             <Input placeholder="Enter the score for this question" />
           </Form.Item>
