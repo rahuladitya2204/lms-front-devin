@@ -684,6 +684,9 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
                       form.getFieldValue(["title", "text", language])
                     ),
                     options: options.map((i) => htmlToText(i.text[language])),
+                    correctOption: htmlToText(
+                      options.find((o) => o.isCorrect).text[language]
+                    ),
                     language: Constants.LANGUAGES.find(
                       (l) => l.value === language
                     )?.label,
