@@ -186,7 +186,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
   const { isDesktop } = useBreakpoint();
   // const { data: topics } = User.Queries.useGetTopics();
   const { data: treeData, isLoading: loadingTreeData } =
-    User.Queries.useGetTopicTree(test.topics, 2);
+    User.Queries.useGetTopicTree(test.topics, 4);
   // console.log(treeData, test.topics, "1111");
   return (
     <Spin spinning={loadingTreeData}>

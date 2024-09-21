@@ -99,7 +99,7 @@ const LearnerHeaderClient = ({
   const isMobileOrTablet = screen.isMobile || screen.isTablet;
   const router = useRouter();
 
-  const contentLoading = loadingAuth || loadingLearnerDetails;
+  const contentLoading = loadingLearnerDetails;
 
   const logout = (cb?: Function) => {
     confirm({

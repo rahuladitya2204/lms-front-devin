@@ -9,6 +9,9 @@ import {
   FlagOutlined,
   ForwardOutlined,
   GlobalOutlined,
+  InfoCircleFilled,
+  InfoCircleOutlined,
+  InfoCircleTwoTone,
   UploadOutlined,
 } from "@ant-design/icons";
 import {
@@ -57,7 +60,7 @@ interface TestPlayerItemReiewPropsI {
 
 export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const [form] = Form.useForm();
-  // { questionId, testId }
+  const { data: topics } = Learner.Queries.useGetTopics();
   const params = useParams<{ questionId: string; testId: string }>();
   const questionId = (props.questionId || params.questionId) + "";
   const testId = (props.testId || params.testId) + "";
@@ -67,6 +70,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
     currentQuestionIndex,
     loading: loadingQuestion,
   } = useReviewQuestion({ questionId, testId });
+  const topic = topics.find((topic) => topic._id === currentQuestion.topic);
   const answerGiven = currentQuestion.answerGiven;
   const { data: test } = Learner.Queries.useGetTestDetails(
     testId + "",
@@ -236,7 +240,16 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         bodyStyle={{
           paddingLeft: 35,
         }}
-        title={`Question ${currentQuestionIndex + 1}`}
+        title={
+          <Text>
+            Question {currentQuestionIndex + 1}
+            {topic?.title ? (
+              <Tooltip title={topic?.title ? `${topic?.title}` : null}>
+                <InfoCircleTwoTone style={{ marginLeft: 8 }} />
+              </Tooltip>
+            ) : null}
+          </Text>
+        }
         extra={[
           isMobile ? (
             <>

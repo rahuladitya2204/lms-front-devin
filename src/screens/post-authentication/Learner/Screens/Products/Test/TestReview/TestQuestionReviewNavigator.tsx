@@ -106,12 +106,14 @@ export default function TestReviewQuestionNavigator(
                 <Row>
                   <Col span={24}>
                     <Row align={"middle"} justify={"space-between"}>
-                      <Col>
-                        <Title style={{ margin: "20px 0" }} level={4}>
-                          {section.title}
-                        </Title>
-                      </Col>
-                      <Col>
+                      {test.sections.length > 1 ? (
+                        <Col>
+                          <Title style={{ margin: "20px 0" }} level={4}>
+                            {section.title}
+                          </Title>
+                        </Col>
+                      ) : null}
+                      <Col style={{ marginBottom: 20 }}>
                         <TestScore score={section.score} />
                       </Col>
                     </Row>

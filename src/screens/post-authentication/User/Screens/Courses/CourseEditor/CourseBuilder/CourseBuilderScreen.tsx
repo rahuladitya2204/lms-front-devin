@@ -34,6 +34,7 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import Tabs from "@Components/Tabs";
 import { useCourseStore } from "./useCourseStore";
 import useUpdateCourseForm from "./UploadItems/useUpdateCourseForm";
+import CreateCustomContentComponent from "./CreateCustomContent";
 
 const { confirm } = Modal;
 
@@ -513,7 +514,17 @@ function CourseBuilderScreen() {
                           }
                         />
                       ) : null}
-                      <Card>
+                      <Card
+                        extra={
+                          <Button
+                            onClick={() => {
+                              openModal(<CreateCustomContentComponent />);
+                            }}
+                          >
+                            Generate Content
+                          </Button>
+                        }
+                      >
                         <Outlet
                           context={[
                             items,

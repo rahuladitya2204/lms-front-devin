@@ -64,6 +64,11 @@ import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useQueryClient } from "@tanstack/react-query";
 import ProtectedLearnerProfile from "../../../LearnerRoot/ProtectedLearnerProfile";
+import {
+  accumulateCountsUpToLevel,
+  buildTopicHierarchy,
+  initializeTopicCounts,
+} from "../../../../../User/Screens/Tests/TestCreator/TestBuilder/utils";
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -165,22 +170,28 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       accumulateTopicData(child, topicMap);
     });
   };
+
+  // In your useMemo hook
   const topicsData = useMemo(() => {
     if (!metrics.topics) {
       return [];
     }
-    //  @ts-ignore
 
-    const topicMap = {};
-    TOPICS.forEach((topic) => {
-      accumulateTopicData(topic, topicMap);
-    });
+    const topicsById = {};
+    const topicHierarchy = new Map();
 
-    return Object.values(topicMap).filter(
-      //  @ts-ignore
-      (t) => t.parentId === selectedTopic && t.total > 0
-    );
-  }, [metrics, TOPICS, selectedTopic]);
+    // Build mappings
+    buildTopicHierarchy(TOPICS, null, topicsById, topicHierarchy);
+
+    // Initialize counts
+    const topicMap = initializeTopicCounts(topicsById);
+
+    // Accumulate counts
+    accumulateCountsUpToLevel(metrics.topics, topicHierarchy, topicMap, 2);
+
+    // Return topics with total > 0
+    return Object.values(topicMap).filter((t) => t.total > 0);
+  }, [metrics, TOPICS]);
 
   // console.log(topicsData,'topicsData',selectedTopic,'selected')
   // console.log(difficultyLevelData,'difficultyLevelData')

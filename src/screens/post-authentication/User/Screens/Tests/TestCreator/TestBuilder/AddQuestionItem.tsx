@@ -125,6 +125,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
     enabled: !!jobId,
     retryDelay: 4000,
   });
+
   const { mutate: deleteSectionItemApi, isLoading: deletingSectionItem } =
     User.Queries.useDeleteTestSectionItem();
   const DeleteSectionItem = () => {
@@ -150,7 +151,7 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
   const prefixKey = `tests/${testId}/${itemId}`;
   const fillInTheBlanks = Form.useWatch("fillInTheBlanks", form);
   const { data: treeData, isLoading: loadingTopicTree } =
-    User.Queries.useGetTopicTree(test.topics, 2);
+    User.Queries.useGetTopicTree(test.topics, 4);
   const { mutateAsync: translateQuestion, isLoading: translatingQuestion } =
     User.Queries.useTranslateQuestion();
   const langs = test.languages.filter(
