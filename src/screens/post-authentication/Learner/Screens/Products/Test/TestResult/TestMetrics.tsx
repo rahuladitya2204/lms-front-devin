@@ -510,11 +510,13 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                             );
                             return (
                               <Row key={section.title}>
-                                <Col sm={24}>
-                                  <Title level={5}>
-                                    {capitalize(section.title)}:
-                                  </Title>
-                                </Col>
+                                {test.sections.length > 1 ? (
+                                  <Col sm={24}>
+                                    <Title level={5}>
+                                      {capitalize(section.title)}:
+                                    </Title>
+                                  </Col>
+                                ) : null}
                                 <Col sm={24}>
                                   <Row gutter={[20, 20]}>
                                     <Col span={12}>
@@ -597,7 +599,9 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                             </Card>
                           </Spin>
                         </Col>
-                      ) : null}
+                      ) : (
+                        <Skeleton.Button block style={{ height: 400 }} />
+                      )}
                       {leaderboard && leaderboard.length ? (
                         <Col span={24}>
                           <Card title="Leaderboard">
