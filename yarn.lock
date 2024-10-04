@@ -16891,10 +16891,10 @@ suneditor-react@^3.6.1:
   resolved "https://registry.yarnpkg.com/suneditor-react/-/suneditor-react-3.6.1.tgz#62bd64784a48f5402e8bae19362fd3d32a7c2fd3"
   integrity sha512-12f9KLnEB6pAdyHJINTzRBg3UOWVZZ+jVYSEtwdBTDYQW4amUZr0xOnpikbBAlxb9rcTYV5RHAsad3gnNhLsuA==
 
-suneditor@^2.46.0:
-  version "2.46.0"
-  resolved "https://registry.yarnpkg.com/suneditor/-/suneditor-2.46.0.tgz#63b5ad0a815925c9b5a6b15faafa1d48aa49927f"
-  integrity sha512-vfp363AwI9k9PsyUy3jAQQXrS1mfPakp/+3WGGUd2nRMge27S/DRX1LkRV2ZDpCccB4AKpuPWOuVwz9enOt4Ng==
+suneditor@^2.47.0:
+  version "2.47.0"
+  resolved "https://registry.yarnpkg.com/suneditor/-/suneditor-2.47.0.tgz#915aff5cd553aac9a8121335554eea924908f7f6"
+  integrity sha512-mmPW2NRZ9zzSFQRjHZFnogG0NUK35usP7cBxYSt/FNzdF+FxOveXqRU4RzAdv07ON06+OGbTl4lPYNCmqa5mxg==
 
 supercluster@^8.0.1:
   version "8.0.1"
