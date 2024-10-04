@@ -26,6 +26,7 @@ import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, useNavigate } from "@Router/index";
 import { LogEvent } from "@ServerHooks/useDehydration";
+import ShowSyllabus from "@Components/ShowSyllabus";
 
 const { Title, Text } = Typography;
 
@@ -79,15 +80,22 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                 marginBottom: 10,
               }}
             >
-              <Title
-                style={{
-                  marginTop: 0,
-                  maxWidth: isMobile || isTablet ? 300 : "auto",
-                }}
-                level={5}
-              >
-                {test.title}
-              </Title>
+              <Row>
+                <Col span={24}>
+                  <Title
+                    style={{
+                      marginTop: 0,
+                      maxWidth: isMobile || isTablet ? 300 : "auto",
+                    }}
+                    level={5}
+                  >
+                    {test.title}
+                  </Title>
+                </Col>
+                <Col span={24}>
+                  <ShowSyllabus testId={test._id + ""} />
+                </Col>
+              </Row>
               {enrolledTest.metadata.test.endedAt ? (
                 <Row gutter={[0, 10]}>
                   <Col>

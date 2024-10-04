@@ -10,14 +10,17 @@ interface ShowSyllabusPropsI {
 }
 
 export default function ShowSyllabus(props: ShowSyllabusPropsI) {
-  const { data: test } = Learner.Queries.useGetTestDetails(props.testId);
-  const { data: treeData } = Learner.Queries.useGetTopicTree(test.topics, 2);
+  const { data: test, isLoading: loadingTest } =
+    Learner.Queries.useGetTestDetails(props.testId);
+  const { data: treeData, isLoading: loadingTree } =
+    Learner.Queries.useGetTopicTree(test.topics, 2);
   const showTooltip = treeData.length < 10;
   const { openModal } = useModal();
   // console.log(treeData, "treeData");
   const syllabusText = treeData.map((i) => capitalize(i.title)).join(", ");
   const Component = (
     <Button
+      loading={loadingTest || loadingTree}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();

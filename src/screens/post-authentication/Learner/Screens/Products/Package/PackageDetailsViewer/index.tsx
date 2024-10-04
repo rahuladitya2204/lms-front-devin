@@ -255,14 +255,14 @@ const PackageCard = ({
                         anchor={isServer}
                         // to={`/app/test-series/${packageId}/enrolled-package`}
                         onClick={() =>
-                          window.open(
+                          navigate(
                             `/app/test-series/${packageId}/enrolled-package`
                           )
                         }
                       >
                         <Button
                           onClick={() =>
-                            window.open(
+                            navigate(
                               `/app/test-series/${packageId}/enrolled-package`
                             )
                           }
@@ -288,7 +288,7 @@ const PackageCard = ({
                             content: `You have enrolled successfully`,
                             // particle: true,
                           });
-                          window.open(
+                          navigate(
                             `/app/test-series/${packageId}/enrolled-package`
                           );
                         }}

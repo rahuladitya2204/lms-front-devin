@@ -83,7 +83,8 @@ function PackageMetadata(props: PackageMetadataPropsI) {
     data.events.value = bundle.products.event?.length + "";
   }
   if (bundle.analytics.enrolled.count) {
-    data.enrolled.value = bundle.analytics.enrolled.count + "";
+    // data.enrolled.value = bundle.analytics.enrolled.count + "";
+    data.enrolled.value = `11.5K Students`;
   }
   const dataSource = Object.keys(data)
     // @ts-ignore

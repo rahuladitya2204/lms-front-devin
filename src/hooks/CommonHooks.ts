@@ -102,7 +102,7 @@ export const usePaymentCheckout = () => {
       currency: pgOrder.currency,
       name: organisation.name,
       // @ts-ignore
-      key: getServerEnv()==='production'?PROD_PG_KEY:'rzp_test_pBQlrlQjChLLj7',
+      key: getServerEnv()==='production'?organisation.paymentGateway.key:'rzp_test_pBQlrlQjChLLj7',
       // key:'rzp_test_DSNLOopXvG9RMT',
       image: organisation.logo,
       amount: pgOrder.amount,

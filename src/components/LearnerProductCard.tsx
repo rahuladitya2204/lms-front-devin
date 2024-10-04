@@ -74,12 +74,15 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   const isFree = product?.plan?.type === "free";
   const TryNowButton = (
     <Link
-      onClick={() => props.onTry && props.onTry()}
-      to={
-        props.isServer
-          ? `/${linkPrefix}/${product.slug || product._id}`
-          : `/app/${linkPrefix}/${product.slug || product._id}`
-      }
+      onClick={() => {
+        window.open(`/app/${linkPrefix}/${product.slug || product._id}`);
+        props.onTry && props.onTry();
+      }}
+      // to={
+      //   props.isServer
+      //     ? `/${linkPrefix}/${product.slug || product._id}`
+      //     : `/app/${linkPrefix}/${product.slug || product._id}`
+      // }
     >
       <Button type="primary" size="small" icon={<ExportOutlined />}>
         Try {isFree ? "for Free" : "Now"}
@@ -124,7 +127,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
                     .join(", ")}
                 </Button>
               </Col>
-              {/* <Col>{TryNowButton}</Col> */}
+              <Col>{TryNowButton}</Col>
             </Row>
           ) : null}
           {/* <Row justify={"space-between"}>
@@ -203,7 +206,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
               {product?.products?.test?.length} Tests
             </CustomTag>
           </Col>
-          {/* <Col>{TryNowButton}</Col> */}
+          <Col>{TryNowButton}</Col>
         </Row>
       ) : null}
 
