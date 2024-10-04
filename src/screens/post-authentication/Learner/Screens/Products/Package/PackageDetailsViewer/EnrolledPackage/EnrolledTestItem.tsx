@@ -3,6 +3,7 @@ import {
   Button,
   Card,
   Col,
+  Divider,
   Dropdown,
   Image,
   List,
@@ -92,9 +93,6 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                     {test.title}
                   </Title>
                 </Col>
-                <Col span={24}>
-                  <ShowSyllabus testId={test._id + ""} />
-                </Col>
               </Row>
               {enrolledTest.metadata.test.endedAt ? (
                 <Row gutter={[0, 10]}>
@@ -126,7 +124,11 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                 </Row>
               ) : (
                 <Row>
+                  <Col span={24}>
+                    <ShowSyllabus testId={test._id + ""} />
+                  </Col>
                   <Col>
+                    {/* <Divider type="vertical" /> */}
                     {test.duration.enabled ? (
                       <Tag color="blue-inverse">{test.duration.value} mins</Tag>
                     ) : null}
