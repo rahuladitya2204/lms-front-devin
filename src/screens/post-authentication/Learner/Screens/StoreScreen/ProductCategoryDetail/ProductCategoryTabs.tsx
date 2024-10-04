@@ -198,22 +198,23 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           <PageSchema url={props.url} seo={tab?.seo} />
           {/* <Divider style={{ margin: "5px 0px 20px 0" }} /> */}
           {
-            <ShowMore
-              onClick={() => {
-                LogEvent(
-                  "Category:" + type,
-                  "CategoryPageShowMore::Clicked",
-                  productCategory._id,
-                  {
-                    categoryId: productCategory._id,
-                  }
-                ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
-              }}
-              minHeight={600}
-            >
-              {tab?.children ? (
-                <HtmlViewer
-                  customStyles={`
+            // <ShowMore
+            //   onClick={() => {
+            //     LogEvent(
+            //       "Category:" + type,
+            //       "CategoryPageShowMore::Clicked",
+            //       productCategory._id,
+            //       {
+            //         categoryId: productCategory._id,
+            //       }
+            //     ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+            //   }}
+            //   minHeight={600}
+            // >
+            //   {
+            tab?.children ? (
+              <HtmlViewer
+                customStyles={`
               .html-viewer img,figure {
                 border-radius: 10px;
                 width: 100% !important;
@@ -225,12 +226,13 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
                 width: 100% !important;
               }
               `}
-                  content={tab.children}
-                />
-              ) : (
-                <HtmlViewer content={tab?.description + ""} />
-              )}
-            </ShowMore>
+                content={tab.children}
+              />
+            ) : (
+              <HtmlViewer content={tab?.description + ""} />
+            )
+            //   }
+            // </ShowMore>
           }
         </Card>
       </Col>
