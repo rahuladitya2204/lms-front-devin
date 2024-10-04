@@ -24,6 +24,7 @@ import SelectProductCategory from "@Components/SelectProductCategory";
 import Testimonials from "@User/Screens/ExtraComponents/Testimonials/Testimonials";
 import TextArea from "@Components/Textarea";
 import { validateSlug } from "@Components/Editor/SunEditor/utils";
+import { capitalize } from "lodash";
 
 interface PackageDetailsPropsI {
   packageId: string;
@@ -126,6 +127,30 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
               >
                 <InputTags name={`keywords`} />
               </Form.Item>{" "}
+            </Col>
+            <Col span={12}>
+              <Form.Item label="Status" style={{ margin: 0 }} name={["status"]}>
+                <Select
+                  options={[
+                    {
+                      label: capitalize(Enum.TestStatus.DRAFT),
+                      value: Enum.TestStatus.DRAFT,
+                    },
+                    {
+                      label: capitalize(Enum.TestStatus.ENDED),
+                      value: Enum.TestStatus.ENDED,
+                    },
+                    {
+                      label: capitalize(Enum.TestStatus.PUBLISHED),
+                      value: Enum.TestStatus.PUBLISHED,
+                    },
+                    {
+                      label: capitalize(Enum.TestStatus.LIVE),
+                      value: Enum.TestStatus.LIVE,
+                    },
+                  ]}
+                />
+              </Form.Item>
             </Col>
           </Row>
         </Col>

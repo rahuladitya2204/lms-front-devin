@@ -124,7 +124,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
                     .join(", ")}
                 </Button>
               </Col>
-              <Col>{TryNowButton}</Col>
+              {/* <Col>{TryNowButton}</Col> */}
             </Row>
           ) : null}
           {/* <Row justify={"space-between"}>
@@ -203,7 +203,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
               {product?.products?.test?.length} Tests
             </CustomTag>
           </Col>
-          <Col>{TryNowButton}</Col>
+          {/* <Col>{TryNowButton}</Col> */}
         </Row>
       ) : null}
 

@@ -209,7 +209,7 @@ export default function PackageInformationEditor() {
       title={
         <span>
           <BackButton
-            disabled={!packageDetails.category}
+            // disabled={!packageDetails.category}
             onClick={() => navigate(`/admin/products/packages`)}
           />{" "}
           {packageDetails._id ? packageDetails.title : "Create Package"}

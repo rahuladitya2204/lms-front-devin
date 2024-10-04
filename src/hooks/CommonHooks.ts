@@ -1,3 +1,4 @@
+
 import { Common, Constants, Learner, Store, Types, Utils } from '@adewaskar/lms-common'
 import { createSearchParams, useOutletContext } from 'react-router-dom'
 import { useNavigate, useParams } from '@Router/next';
@@ -6,7 +7,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { usePushNotification } from 'push-notification/usePushNotification';
 import useRazorpay from "react-razorpay";
 import { getServerEnv } from '@ServerUtils/index';
-
+export const PROD_PG_KEY='rzp_live_U6fHPfBsPPVILt'
 export const useNavigateParams = () => {
   const navigate = useNavigate()
 
@@ -101,7 +102,7 @@ export const usePaymentCheckout = () => {
       currency: pgOrder.currency,
       name: organisation.name,
       // @ts-ignore
-      key: getServerEnv()==='production'?organisation.paymentGateway.key:'rzp_test_pBQlrlQjChLLj7',
+      key: getServerEnv()==='production'?PROD_PG_KEY:'rzp_test_pBQlrlQjChLLj7',
       // key:'rzp_test_DSNLOopXvG9RMT',
       image: organisation.logo,
       amount: pgOrder.amount,

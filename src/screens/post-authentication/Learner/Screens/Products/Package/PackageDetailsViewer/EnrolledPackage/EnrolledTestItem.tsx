@@ -175,7 +175,9 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                       width: isMobile ? "100%" : 100,
                       marginRight: isMobile ? 0 : null,
                     }}
-                    onClick={() => window.open(`/test/${test._id}`)}
+                    onClick={() =>
+                      window.open(`/app/test/${test.slug || test._id}`)
+                    }
                     // size='small'
                     block={!isDesktop}
                   >

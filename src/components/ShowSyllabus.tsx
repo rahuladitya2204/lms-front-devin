@@ -37,7 +37,8 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
       style={{ padding: 0, fontSize: 13 }}
       type="link"
     >
-      <BookTwoTone /> Syllabus
+      <BookTwoTone />
+      Show Syllabus
     </Button>
   );
   //   return showTooltip ? (

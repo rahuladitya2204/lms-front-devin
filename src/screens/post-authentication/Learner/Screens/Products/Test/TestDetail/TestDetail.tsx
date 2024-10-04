@@ -442,7 +442,7 @@ const TestCard = ({
   }, [test, enrolledDetails, status]);
   const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
   const { isMobile, isDesktop, isTablet } = useBreakpoint();
-  const isFree = plan.type === "free";
+  const isFree = plan?.type === "free";
   const isLoading = loadingTest;
   const { openModal } = useModal();
   return (
@@ -509,8 +509,12 @@ const TestCard = ({
                 <Col span={24}>
                   {!test?.pyq?.enabled ? (
                     <>
-                      <PriceCardContent plan={plan} />
-                      {!isMobile ? <Divider /> : null}
+                      {plan?._id ? (
+                        <Fragment>
+                          <PriceCardContent plan={plan} />
+                          {!isMobile ? <Divider /> : null}
+                        </Fragment>
+                      ) : null}
                     </>
                   ) : null}
                 </Col>

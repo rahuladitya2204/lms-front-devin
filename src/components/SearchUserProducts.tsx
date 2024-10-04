@@ -15,7 +15,7 @@ interface SearchUserProductsPropsI {
 export default function SearchUserProducts(props: SearchUserProductsPropsI) {
   const { data: products } = User.Queries.useGetProductList(props.type, {
     category: props.category,
-    status: ["published"],
+    status: ["live"],
   });
 
   const filterOption = (inputValue: string, option: any) => {

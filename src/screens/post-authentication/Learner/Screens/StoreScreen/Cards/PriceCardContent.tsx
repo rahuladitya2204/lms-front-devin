@@ -9,13 +9,16 @@ interface PriceCardContentT {
 }
 
 export default function PriceCardContent({ plan }: PriceCardContentT) {
+  if (!plan?._id) {
+    return null;
+  }
   const isPriceSame = plan?.displayPrice?.value === plan?.finalPrice?.value;
   const discount = useMemo(
     () => 100 - (plan.finalPrice.value / plan.displayPrice.value) * 100,
     [plan]
   );
   //   return discount;
-  return (
+  return plan._id ? (
     <Row justify={"space-between"} align={"middle"}>
       <Col>
         {plan?.finalPrice?.value !== 0 ? (
@@ -55,5 +58,5 @@ export default function PriceCardContent({ plan }: PriceCardContentT) {
         ) : null}
       </Col>
     </Row>
-  );
+  ) : null;
 }

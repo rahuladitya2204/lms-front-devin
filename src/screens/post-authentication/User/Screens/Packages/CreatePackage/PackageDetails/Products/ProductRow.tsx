@@ -26,7 +26,7 @@ const ProductRow: React.FC<ProductFormRowProps> = ({
   const { data: courses } = User.Queries.useGetCourses();
   const { data: tests } = User.Queries.useGetTests({
     category,
-    status: [Enum.TestStatus.PUBLISHED],
+    status: [Enum.TestStatus.LIVE],
   });
   const { data: events } = User.Queries.useGetEvents();
   const createOptionLabel = (product: Types.ProductItem) => {

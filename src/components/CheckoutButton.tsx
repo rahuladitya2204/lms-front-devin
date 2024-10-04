@@ -105,7 +105,7 @@ export default function ProductCheckoutButton(
       }
     );
   };
-  return (
+  return plan._id ? (
     <>
       {plan.finalPrice.value ? (
         <ProductWalletNudge product={props.product} />
@@ -175,5 +175,5 @@ export default function ProductCheckoutButton(
           (isFree ? (props.ctaText ? props.ctaText : "Enroll Now") : "Buy Now")}
       </Button>
     </>
-  );
+  ) : null;
 }
