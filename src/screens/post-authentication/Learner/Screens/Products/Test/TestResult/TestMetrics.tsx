@@ -600,7 +600,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                           </Spin>
                         </Col>
                       ) : (
-                        <Skeleton.Button block style={{ height: 400 }} />
+                        <Skeleton.Button active block style={{ height: 400 }} />
                       )}
                       {leaderboard && leaderboard.length ? (
                         <Col span={24}>

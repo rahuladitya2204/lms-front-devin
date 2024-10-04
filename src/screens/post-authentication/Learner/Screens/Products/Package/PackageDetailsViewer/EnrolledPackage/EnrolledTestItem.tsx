@@ -123,12 +123,12 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                   )}
                 </Row>
               ) : (
-                <Row>
-                  <Col span={24}>
+                <Row align="middle">
+                  <Col>
                     <ShowSyllabus testId={test._id + ""} />
+                    <Divider type="vertical" />
                   </Col>
                   <Col>
-                    {/* <Divider type="vertical" /> */}
                     {test.duration.enabled ? (
                       <Tag color="blue-inverse">{test.duration.value} mins</Tag>
                     ) : null}
@@ -180,7 +180,6 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               >
                 <Col xs={24} sm={12}>
                   <Button
-                    // @ts-ignore
                     style={{
                       width: isMobile ? "100%" : 100,
                       marginRight: isMobile ? 0 : null,
@@ -188,7 +187,6 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                     onClick={() =>
                       window.open(`/app/test/${test.slug || test._id}`)
                     }
-                    // size='small'
                     block={!isDesktop}
                   >
                     View Details
