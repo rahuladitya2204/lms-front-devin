@@ -73,21 +73,17 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   }, [props]);
   const isFree = product?.plan?.type === "free";
   const TryNowButton = (
-    <Link
+    <Button
       onClick={() => {
         window.open(`/app/${linkPrefix}/${product.slug || product._id}`);
         props.onTry && props.onTry();
       }}
-      // to={
-      //   props.isServer
-      //     ? `/${linkPrefix}/${product.slug || product._id}`
-      //     : `/app/${linkPrefix}/${product.slug || product._id}`
-      // }
+      type="primary"
+      size="small"
+      icon={<ExportOutlined />}
     >
-      <Button type="primary" size="small" icon={<ExportOutlined />}>
-        Try {isFree ? "for Free" : "Now"}
-      </Button>
-    </Link>
+      Try {isFree ? "for Free" : "Now"}
+    </Button>
   );
   const Component = props.mini ? (
     <MiniCard

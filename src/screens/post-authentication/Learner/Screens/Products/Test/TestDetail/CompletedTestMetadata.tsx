@@ -6,7 +6,7 @@ import {
   ReadOutlined,
   SafetyCertificateOutlined,
 } from "@ant-design/icons";
-import { Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
+import { Constants, Enum, Learner, Types, Utils } from "@adewaskar/lms-common";
 import { List, Tag } from "antd";
 
 import { Typography } from "@Components/Typography";
@@ -38,7 +38,7 @@ const data = {
   language: {
     title: "Language",
     icon: <CopyOutlined />,
-    value: "English",
+    value: "",
   },
   // skillLevel: {
   //   title: 'Skill Level',
@@ -101,6 +101,15 @@ function CompletedTestCard(props: CompletedTestCardPropsI) {
     ) : (
       <Tag style={{ marginRight: 0 }} color="red-inverse">
         Failed
+      </Tag>
+    );
+    data.language.value = (
+      <Tag style={{ marginRight: 0 }} color="purple">
+        {
+          Constants.LANGUAGES.find(
+            (l) => l.value === enrolledDetails.metadata.test.language
+          )?.label
+        }
       </Tag>
     );
   } else {

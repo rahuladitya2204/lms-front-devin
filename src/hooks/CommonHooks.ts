@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { usePushNotification } from 'push-notification/usePushNotification';
 import useRazorpay from "react-razorpay";
 import { getServerEnv } from '@ServerUtils/index';
-export const PROD_PG_KEY='rzp_live_U6fHPfBsPPVILt'
 export const useNavigateParams = () => {
   const navigate = useNavigate()
 

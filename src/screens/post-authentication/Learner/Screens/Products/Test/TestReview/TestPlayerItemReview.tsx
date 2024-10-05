@@ -253,7 +253,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         extra={[
           isMobile ? (
             <>
-              {currentQuestion.isCorrect ? (
+              {/* {currentQuestion.isCorrect ? (
                 <CheckCircleTwoTone
                   style={{
                     marginRight: 5,
@@ -273,7 +273,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                     color: "red",
                   }}
                 />
-              )}
+              )} */}
             </>
           ) : (
             <TestAnswerTag item={currentQuestion} />
