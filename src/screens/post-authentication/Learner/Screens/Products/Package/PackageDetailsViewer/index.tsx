@@ -288,7 +288,7 @@ const PackageCard = ({
                             content: `You have enrolled successfully`,
                             // particle: true,
                           });
-                          navigate(
+                          window.open(
                             `/app/test-series/${packageId}/enrolled-package`
                           );
                         }}

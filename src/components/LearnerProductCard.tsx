@@ -32,7 +32,7 @@ import {
 } from "@ant-design/icons";
 import { useModal } from "./ActionModal/ModalContext";
 import ShowSyllabus from "./ShowSyllabus";
-import { Link } from "@Router/index";
+import { Link, useNavigate } from "@Router/index";
 import { useMemo } from "react";
 
 const CustomTag = styled(Text)`
@@ -51,6 +51,7 @@ interface LearnerProductCardPropsI {
 }
 
 const LearnerProductCard = (props: LearnerProductCardPropsI) => {
+  const navigate = useNavigate();
   const {
     product: { data: product },
   } = props;
@@ -75,7 +76,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   const TryNowButton = (
     <Button
       onClick={() => {
-        window.open(`/app/${linkPrefix}/${product.slug || product._id}`);
+        navigate(`/${linkPrefix}/${product.slug || product._id}`);
         props.onTry && props.onTry();
       }}
       type="primary"
