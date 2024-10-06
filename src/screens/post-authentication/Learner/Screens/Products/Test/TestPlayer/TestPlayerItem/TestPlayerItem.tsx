@@ -133,10 +133,11 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       },
       {
         onSuccess: () => {
-          navigate("next");
+          // navigate("next");
         },
       }
     );
+    navigate("next");
   };
   const ClearAnswerButton = (
     <Button
@@ -185,26 +186,26 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   );
   const MarkForReviewCheckbox = (
     <Col style={{ display: "flex", justifyContent: "center", flex: 1 }}>
-      <Spin spinning={updatingFlag}>
-        <Checkbox
-          checked={currentQuestion.isMarked}
-          onChange={(e) =>
-            updateQuestionResponseFlag({
-              questionId: questionId + "",
-              flag: e.target.checked ? "review-later" : "reviewed",
-            })
-          }
-        >
-          <Text strong>Mark for Review</Text>
-        </Checkbox>
-      </Spin>
+      {/* <Spin spinning={updatingFlag}> */}
+      <Checkbox
+        checked={currentQuestion.isMarked}
+        onChange={(e) =>
+          updateQuestionResponseFlag({
+            questionId: questionId + "",
+            flag: e.target.checked ? "review-later" : "reviewed",
+          })
+        }
+      >
+        <Text strong>Mark for Review</Text>
+      </Checkbox>
+      {/* </Spin> */}
     </Col>
   );
   const MarkForReviewButton = currentQuestion.isMarked ? (
     <Button
       block={isMobile}
       style={{ marginBottom: isMobile ? 5 : 0 }}
-      loading={updatingFlag}
+      // loading={updatingFlag}
       type="primary"
       onClick={() =>
         updateQuestionResponseFlag({
@@ -221,7 +222,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     <Button
       block={isMobile}
       style={{ marginBottom: isMobile ? 5 : 0 }}
-      loading={updatingFlag}
+      // loading={updatingFlag}
       onClick={() =>
         updateQuestionResponseFlag({
           questionId: questionId + "",
@@ -552,7 +553,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 <Button
                   disabled={!isValid}
                   type="primary"
-                  loading={submittingAnswer}
+                  // loading={submittingAnswer}
                   style={{ marginLeft: 20, marginRight: 20, width: "80%" }}
                   onClick={form.submit}
                 >
