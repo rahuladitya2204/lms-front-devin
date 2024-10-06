@@ -143,47 +143,49 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
               );
             })}
           </Col>
-          <Col>
-            <Dropdown
-              trigger={["click"]}
-              menu={{
-                items: TABS.filter((tab) => !tab?.displayOnLandingPage).map(
-                  (i) => {
-                    return {
-                      label: i.label,
-                      key: i.key,
-                      onClick: () => {
-                        navigate(
-                          props.isServer
-                            ? `/exam/${id}/${i.key}`
-                            : `/app/exam/${id}/${i.key}`
-                        );
-                      },
-                    };
-                  }
-                ),
-              }}
-            >
-              <Button
-                onClick={() => {
-                  LogEvent(
-                    "Category",
-                    "View all Pages::Clicked",
-                    productCategory.title,
-                    {
-                      clickedFrom: "Product Category Detail Page",
-                      categoryId: productCategory._id,
+          {TABS.filter((tab) => !tab?.displayOnLandingPage).length ? (
+            <Col>
+              <Dropdown
+                trigger={["click"]}
+                menu={{
+                  items: TABS.filter((tab) => !tab?.displayOnLandingPage).map(
+                    (i) => {
+                      return {
+                        label: i.label,
+                        key: i.key,
+                        onClick: () => {
+                          navigate(
+                            props.isServer
+                              ? `/exam/${id}/${i.key}`
+                              : `/app/exam/${id}/${i.key}`
+                          );
+                        },
+                      };
                     }
-                  );
+                  ),
                 }}
-                type="dashed"
-                danger
-                size="small"
               >
-                View all <DownOutlined />
-              </Button>
-            </Dropdown>
-          </Col>
+                <Button
+                  onClick={() => {
+                    LogEvent(
+                      "Category",
+                      "View all Pages::Clicked",
+                      productCategory.title,
+                      {
+                        clickedFrom: "Product Category Detail Page",
+                        categoryId: productCategory._id,
+                      }
+                    );
+                  }}
+                  type="dashed"
+                  danger
+                  size="small"
+                >
+                  View all <DownOutlined />
+                </Button>
+              </Dropdown>
+            </Col>
+          ) : null}
         </Row>
       </Col>
       <Col span={24}>
