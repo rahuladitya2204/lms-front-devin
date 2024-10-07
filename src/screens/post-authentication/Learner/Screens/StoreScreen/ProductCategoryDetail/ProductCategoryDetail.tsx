@@ -470,8 +470,8 @@ export const ProductDetailSignup = ({
         <Col span={24}>
           <Title level={3}>
             {featuredProducts.length
-              ? `Don't miss out our bestselling Test Series!`
-              : `Leaving Soon? Don't Miss Out 100+ Free {category.title} Test Series`}
+              ? `Don't miss out our Bestselling ${category.title} Test Series!`
+              : `Leaving Soon? Don't Miss Out 100+ Free ${category.title} Test Series`}
           </Title>
           <Row gutter={[0, 10]}>
             {featuredProducts.map((fp) => {

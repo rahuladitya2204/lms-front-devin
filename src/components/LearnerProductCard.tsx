@@ -260,7 +260,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
           placement="start"
           text={
             <>
-              <ThunderboltFilled /> Promoted
+              <ThunderboltFilled /> Featured
             </>
           }
         >
