@@ -596,20 +596,22 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                 {isMobile ? PrevButton : null}
               </Fragment>
             </Col>
-            <Col span={24}>
-              <div
-                style={{
-                  // marginLeft: 20,
-                  // marginRight: 20,
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginTop: 15,
-                }}
-              >
-                <SubmitButton testId={testId + ""} />
-              </div>
-            </Col>
+            {currentQuestionIndex === totalQuestionCount - 1 ? (
+              <Col span={24}>
+                <div
+                  style={{
+                    // marginLeft: 20,
+                    // marginRight: 20,
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    marginTop: 15,
+                  }}
+                >
+                  <SubmitButton testId={testId + ""} />
+                </div>
+              </Col>
+            ) : null}
             {/* {!isMobile?MarkForReviewButton:null} */}
           </Row>
         </Form>
