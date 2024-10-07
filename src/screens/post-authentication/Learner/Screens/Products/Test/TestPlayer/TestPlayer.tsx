@@ -336,3 +336,62 @@ export default function TestPlayer(props: TestPlayerPropsI) {
     </Header>
   );
 }
+
+export const SubmitButton = ({ testId }: { testId: string }) => {
+  const navigate = useNavigate();
+  const { mutate: endTest, isLoading: submittingTest } =
+    Learner.Queries.useEndTest(testId + "");
+  const { data: test } = Learner.Queries.useGetTestDetails(
+    testId + "",
+    Enum.TestDetailMode.TEST
+  );
+  const { isTablet, isDesktop, isMobile } = useBreakpoint();
+  const {
+    data: {
+      status: { startedAt, hasStarted, hasEnded, sections },
+    },
+    isLoading: loadingStatus,
+  } = Learner.Queries.useGetTestStatus(testId + "");
+  return (
+    <Button
+      block={!isDesktop}
+      onClick={() => {
+        LogEvent("Test", "End Test::Clicked", `${test.title}}`, {
+          testId: test._id,
+          clickedFrom: "Test Player",
+        });
+        // @ts-ignore
+        const markCount = sections
+          .map((a) => a.items)
+          .flat()
+          .filter((i) => i.isMarked).length;
+        confirm({
+          title: "Are you sure?",
+          // icon: <ExclamationCircleOutlined />,
+          content: markCount
+            ? `You have marked ${markCount} question${
+                markCount > 1 ? "s" : ""
+              } for review. Are you sure you want to submit? You will not ble able to resubmit the test.`
+            : `You want to submit this test? You will not be able to resubmit the test.`,
+          onOk() {
+            endTest(undefined, {
+              onSuccess: () => {
+                LogEvent("Test", "End Test::Success", `${test.title}}`, {
+                  testId: test._id,
+                  clickedFrom: "Test Player",
+                });
+                navigate(`/app/test/${testId}/completed`);
+              },
+            });
+          },
+          okText: "Yes, Submit",
+        });
+      }}
+      type="primary"
+      danger
+      loading={submittingTest}
+    >
+      Submit Test
+    </Button>
+  );
+};

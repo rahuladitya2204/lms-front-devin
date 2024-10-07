@@ -244,6 +244,18 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           </Row>
         </Col>
       </Row>
+      <Row>
+        <Col span={8}>
+          <Form.Item
+            style={{ margin: 0, marginLeft: 10 }}
+            valuePropName="checked"
+            name={["purchase", "enabled"]}
+            label="Purchase Enabled"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+      </Row>
       <Divider />
 
       <Row gutter={[20, 20]}>

@@ -105,6 +105,11 @@ export default function ProductCheckoutButton(
       }
     );
   };
+
+  // console.log(prod, "prorpo");
+  if (!prod?.purchase?.enabled) {
+    return null;
+  }
   return plan._id ? (
     <>
       {plan.finalPrice.value ? (

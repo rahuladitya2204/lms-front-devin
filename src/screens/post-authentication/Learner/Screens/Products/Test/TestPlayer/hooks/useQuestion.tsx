@@ -42,5 +42,6 @@ export default function useQuestion() {
     currentQuestionIndex,
     currentSection,
     loading: false,
+    totalQuestionCount: questions.length,
   };
 }

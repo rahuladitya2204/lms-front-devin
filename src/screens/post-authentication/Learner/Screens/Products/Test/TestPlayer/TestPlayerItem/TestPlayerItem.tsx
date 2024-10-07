@@ -32,7 +32,14 @@ import {
   theme,
 } from "@Lib/index";
 import { Enum, Learner, Store, Types } from "@adewaskar/lms-common";
-import { Fragment, useEffect, useMemo, useState } from "react";
+import {
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { NavLink } from "@Router/index";
@@ -48,6 +55,7 @@ import useQuestion from "../hooks/useQuestion";
 import { useTestItemTime } from "@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime";
 import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
 import TestPlayerFiles from "./TestPlayerFiles";
+import { SubmitButton } from "../TestPlayer";
 
 const { Title, Text } = Typography;
 
@@ -74,8 +82,13 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   });
   const language = ep?.metadata?.test?.language;
   // console.log(ep, language, "huhhahaha");
-  const { currentQuestion, currentSection, currentQuestionIndex, loading } =
-    useQuestion();
+  const {
+    currentQuestion,
+    currentSection,
+    currentQuestionIndex,
+    loading,
+    totalQuestionCount,
+  } = useQuestion();
 
   const {
     data: {
@@ -236,6 +249,31 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       Mark for review
     </Button>
   );
+
+  const questionRefs = useRef([]);
+  const scrollContainerRef = useRef<HTMLUListElement>(null);
+
+  // Function to scroll into view with proper timing
+  const scrollToActiveButton = useCallback(() => {
+    if (
+      questionRefs.current[currentQuestionIndex] &&
+      scrollContainerRef.current
+    ) {
+      setTimeout(() => {
+        questionRefs.current[currentQuestionIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }, 100); // Add a small delay to ensure elements are rendered
+    }
+  }, [currentQuestionIndex]);
+
+  // Trigger scroll effect when currentQuestionIndex changes
+  useEffect(() => {
+    scrollToActiveButton();
+  }, [currentQuestionIndex, scrollToActiveButton]);
+
   // console.log(currentQuestion,'currentQuestion')
   // const correctOptions = currentQuestion.options.filter(e => e.isCorrect).map(i=>i._id);
   const { width, isDesktop } = useBreakpoint();
@@ -244,73 +282,65 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       {!isDesktop ? (
         <Row align={"middle"}>
           <Col flex={1} style={{ width: 0.72 * width }}>
-            {" "}
             <ul
+              ref={scrollContainerRef}
               style={{
                 display: "flex",
                 marginBottom: 15,
                 listStyle: "none",
                 padding: 0,
                 overflowX: "auto",
-                scrollbarWidth: "none", // For Firefox
-                msOverflowStyle: "none", // For Internet Explorer and Edge
-                // '&::-webkit-scrollbar': {
-                //   display: 'none', // For Chrome, Safari, and Opera
-                // }
+                scrollBehavior: "smooth",
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
               }}
             >
               {questions.map((item, index) => {
-                const isActive = questionId === item._id;
+                const isActive = currentQuestionIndex === index;
                 return (
-                  <li key={item._id} style={{ flexShrink: 0, marginRight: 8 }}>
+                  <li
+                    key={item._id}
+                    style={{ flexShrink: 0, marginRight: 8 }}
+                    ref={(el) => (questionRefs.current[index] = el)}
+                  >
                     <NavLink
                       title={item.title}
                       style={{ width: "100%" }}
                       key={item._id}
                       to={`/app/test/${testId}/player/${item._id}`}
-                      children={() => {
-                        const isActive = questionId === item._id;
-                        return (
-                          // <Badge count={isActive?<ArrowLeftOutlined  style={{fontSize:10}} />:null}>
-                          // <Badge count={item.isMarked? <HighlightTwoTone /> :null} showZero>
-                          <Button
-                            // loading={loading && isCurrent}
-                            onClick={() => {
-                              // navigate(`/app/test/${testId}/player/${item._id}`)
-                            }}
-                            danger={item.isMarked && !isActive}
-                            type={
-                              isActive
-                                ? "primary"
-                                : item.isMarked
-                                ? "primary"
-                                : item.isAnswered
-                                ? "primary"
-                                : "default"
-                            }
-                            style={{
-                              backgroundColor: isActive
-                                ? ""
-                                : item.isAnswered
-                                ? token.colorSuccessActive
-                                : "default",
-                            }}
-                            shape="circle"
-                          >
-                            {index + 1}
-                          </Button>
-                          //  </Badge>
-                        );
-                      }}
-                    />
+                    >
+                      <Button
+                        danger={item.isMarked && !isActive}
+                        type={
+                          isActive
+                            ? "primary"
+                            : item.isMarked
+                            ? "primary"
+                            : item.isAnswered
+                            ? "primary"
+                            : "default"
+                        }
+                        style={{
+                          backgroundColor: isActive
+                            ? ""
+                            : item.isAnswered
+                            ? token.colorSuccessActive
+                            : "default",
+                          width: 40,
+                          height: 40,
+                          borderRadius: "50%",
+                          marginRight: 5,
+                        }}
+                        shape="circle"
+                      >
+                        {index + 1}
+                      </Button>
+                    </NavLink>
                   </li>
                 );
               })}
             </ul>
           </Col>
-          {/* <Col>
-        <Button shape='circle' icon={<InsertRowBelowOutlined />}></Button>
-        </Col> */}
         </Row>
       ) : null}
       <Card
@@ -550,18 +580,35 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             >
               <Fragment>
                 {isMobile ? NextButton : null}
-                <Button
-                  disabled={!isValid}
-                  type="primary"
-                  // loading={submittingAnswer}
-                  style={{ marginLeft: 20, marginRight: 20, width: "80%" }}
-                  onClick={form.submit}
-                >
-                  Save & Next
-                </Button>
+                <div style={{ marginLeft: 20, marginRight: 20, width: "80%" }}>
+                  <Button
+                    disabled={!isValid}
+                    type="primary"
+                    block
+                    // loading={submittingAnswer}
+                    onClick={form.submit}
+                  >
+                    Save & Next
+                  </Button>
+                </div>
+
                 {/* {ClearAnswerButton} */}
                 {isMobile ? PrevButton : null}
               </Fragment>
+            </Col>
+            <Col span={24}>
+              <div
+                style={{
+                  // marginLeft: 20,
+                  // marginRight: 20,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 15,
+                }}
+              >
+                <SubmitButton testId={testId + ""} />
+              </div>
             </Col>
             {/* {!isMobile?MarkForReviewButton:null} */}
           </Row>
