@@ -1,19 +1,19 @@
 {
-  "short_name": "Nimblebee",
-  "name": "Nimblebee",
+  "short_name": "Testmint.ai",
+  "name": "Testmint.ai - AI-powered Test Preparation",
   "icons": [
     {
-      "src": "/favicon.ico",
+      "src": "/images/favicons/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "/logo192.png",
+      "src": "/images/favicons/logo192.png",
       "type": "image/png",
       "sizes": "192x192"
     },
     {
-      "src": "/logo512.png",
+      "src": "/images/favicons/logo512.png",
       "type": "image/png",
       "sizes": "512x512"
     }
@@ -21,5 +21,27 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "en",
+  "description": "Testmint.ai - AI-powered test preparation platform for various competitive exams.",
+  "categories": ["education", "productivity", "exams"],
+  "shortcuts": [
+    {
+      "name": "Start Test",
+      "short_name": "Start",
+      "description": "Start a new test",
+      "url": "/start-test",
+      "icons": [{ "src": "/images/icons/start.png", "sizes": "192x192", "type": "image/png" }]
+    },
+    {
+      "name": "View Scores",
+      "short_name": "Scores",
+      "description": "View your test scores",
+      "url": "/view-scores",
+      "icons": [{ "src": "/images/icons/scores.png", "sizes": "192x192", "type": "image/png" }]
+    }
+  ],
+  "prefer_related_applications": false
 }
