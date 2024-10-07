@@ -2,6 +2,7 @@ import {
   Button,
   Card,
   Col,
+  DatePicker,
   Divider,
   Form,
   Input,
@@ -24,7 +25,8 @@ import SelectProductCategory from "@Components/SelectProductCategory";
 import Testimonials from "@User/Screens/ExtraComponents/Testimonials/Testimonials";
 import TextArea from "@Components/Textarea";
 import { validateSlug } from "@Components/Editor/SunEditor/utils";
-import { capitalize } from "lodash";
+import { capitalize, cloneDeep } from "lodash";
+import dayjs from "dayjs";
 
 interface PackageDetailsPropsI {
   packageId: string;
@@ -34,10 +36,21 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
   const form = Form.useFormInstance();
   const { packageId } = props;
   const image = Form.useWatch("thumbnailImage", form);
-  const { data: bundle } = User.Queries.useGetPackageDetails(packageId, {
+  const { data } = User.Queries.useGetPackageDetails(packageId, {
     enabled: !!props.packageId,
   });
 
+  const bundle = useMemo(() => {
+    return {
+      ...data,
+      // featured: {
+      //   ...(data?.featured || {}),
+      //   from: data?.featured?.from ? dayjs(data.featured.from) : dayjs(),
+      //   to: data?.featured?.to ? dayjs(data.featured.to) : dayjs(),
+      // },
+    };
+  }, [data]);
+  const isFeatured = Form.useWatch(["featured", "enabled"], form);
   const testimonials = Form.useWatch(["testimonials"], form);
   const setTestimonials = (t: Types.Testimonial[]) => {
     form.setFieldValue(["testimonials"], t);
@@ -179,7 +192,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
       </Row>
       <Divider />
       <Row>
-        <Col>
+        <Col span={8}>
           <Form.Item
             style={{ margin: 0, marginLeft: 10 }}
             valuePropName="checked"
@@ -188,6 +201,47 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           >
             <Switch />
           </Form.Item>
+        </Col>
+        <Col flex={1}>
+          <Row gutter={[10, 10]} align={"middle"}>
+            <Col span={6}>
+              <Form.Item
+                style={{ margin: 0, marginLeft: 10 }}
+                valuePropName="checked"
+                name={["featured", "enabled"]}
+                // label="Is Featured"
+                // label="Send email to learner on course enrollment."
+              >
+                <Switch
+                  checkedChildren="Is Featured"
+                  unCheckedChildren="Not Featured"
+                />
+              </Form.Item>
+            </Col>
+            {isFeatured ? (
+              <Col span={6}>
+                <Form.Item
+                  name={["featured", "from"]}
+                  label="Featured From"
+                  // style={{ width: "100%" }}
+                  required
+                >
+                  <DatePicker style={{ width: "100%" }} />
+                </Form.Item>
+              </Col>
+            ) : null}
+            {isFeatured ? (
+              <Col span={6}>
+                <Form.Item
+                  label="Featured Till"
+                  name={["featured", "to"]}
+                  required
+                >
+                  <DatePicker style={{ width: "100%" }} />
+                </Form.Item>
+              </Col>
+            ) : null}
+          </Row>
         </Col>
       </Row>
       <Divider />

@@ -29,6 +29,7 @@ import PackageUsers from "./PackageLearners";
 import PackageLearners from "./PackageLearners";
 import SEOComponent from "@Components/SEOComponent";
 import CreateFaqs from "@Components/CreateFaqsComponent";
+import dayjs from "dayjs";
 
 const { confirm } = Modal;
 interface CreatePackageComponentPropsI {
@@ -105,8 +106,15 @@ export default function PackageInformationEditor() {
       enabled: !!packageId,
     });
   useEffect(() => {
-    console.log(packageDetails, "packageDetailspackageDetails");
-    form.setFieldsValue(packageDetails);
+    const bundle = { ...packageDetails };
+    console.log(bundle, "bundlebundle");
+    if (bundle?.featured?.from) {
+      bundle.featured.from = dayjs(bundle.featured.from);
+    }
+    if (bundle?.featured?.to) {
+      bundle.featured.to = dayjs(bundle.featured.to);
+    }
+    form.setFieldsValue(bundle);
   }, [packageDetails]);
 
   const [form] = Form.useForm<Types.Package>();

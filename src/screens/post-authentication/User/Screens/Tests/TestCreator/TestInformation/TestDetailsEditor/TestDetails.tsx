@@ -442,12 +442,22 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
       </Row>
       <Divider />
       <Row>
-        <Col>
+        <Col span={8}>
           <Form.Item
             style={{ margin: 0, marginLeft: 10 }}
             valuePropName="checked"
             name={["promotion", "enabled"]}
             label="Promoted"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+        <Col span={8}>
+          <Form.Item
+            style={{ margin: 0, marginLeft: 10 }}
+            valuePropName="checked"
+            name={["purchase", "enabled"]}
+            label="Purchase Enabled"
           >
             <Switch />
           </Form.Item>

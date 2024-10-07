@@ -103,7 +103,9 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
 
   // @ts-ignore
   data.examDate.value = categoryDetails.info.examDate ? ( // @ts-ignore
-    <Tag color="red-inverse">{categoryDetails.info.examDate}</Tag>
+    <Tag color="red-inverse">
+      {dayjs(categoryDetails.info.examDate).format("LL")}
+    </Tag>
   ) : null;
 
   // @ts-ignore

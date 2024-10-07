@@ -29,6 +29,7 @@ import {
   EditOutlined,
   ExportOutlined,
   FileTextTwoTone,
+  ThunderboltFilled,
 } from "@ant-design/icons";
 import { useModal } from "./ActionModal/ModalContext";
 import ShowSyllabus from "./ShowSyllabus";
@@ -175,6 +176,13 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
           ) : null} */}
         </Row>
       </Title>
+      {/* <Row>
+        <Col span={24}>
+          {product?.featured?.enabled ? (
+            <Tag color="purple-inverse">Featured</Tag>
+          ) : null}
+        </Col>
+      </Row> */}
       {props.children}
       {product.duration ||
       product?.stats?.score?.total ||
@@ -235,10 +243,27 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       />
     </Card>
   );
-  if (isFree) {
+  // if (isFree) {
+  //   return (
+  //     <div style={{ paddingLeft: 10 }}>
+  //       <Badge.Ribbon color="purple" placement="start" text="Free">
+  //         {Component}
+  //       </Badge.Ribbon>
+  //     </div>
+  //   );
+  // }
+  if (product?.featured?.enabled) {
     return (
       <div style={{ paddingLeft: 10 }}>
-        <Badge.Ribbon color="purple" placement="start" text="Free">
+        <Badge.Ribbon
+          color="purple"
+          placement="start"
+          text={
+            <>
+              <ThunderboltFilled /> Promoted
+            </>
+          }
+        >
           {Component}
         </Badge.Ribbon>
       </div>

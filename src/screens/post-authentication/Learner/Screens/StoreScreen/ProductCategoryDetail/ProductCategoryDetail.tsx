@@ -70,6 +70,7 @@ import LearnerLogin from "../../Login";
 import { capitalize } from "lodash";
 import { isServer } from "@tanstack/react-query";
 import { LogEvent } from "@ServerHooks/useDehydration";
+import LearnerProductCard from "@Components/LearnerProductCard";
 
 const { Text, Paragraph } = Typography;
 
@@ -423,6 +424,14 @@ export const ProductDetailSignup = ({
   product: Types.Product;
   timeout?: number;
 }) => {
+  const { data: featuredProducts } = Learner.Queries.useGetFeaturedProducts(
+    "package",
+    {
+      category: product.id,
+      limit: 4,
+      mode: "one-time",
+    }
+  );
   const [searchParams] = useSearchParams();
   const hidePopup = searchParams.get("hide_popup");
   const { isMobile } = useBreakpoint();
@@ -460,12 +469,25 @@ export const ProductDetailSignup = ({
       <Row gutter={[10, 20]}>
         <Col span={24}>
           <Title level={3}>
-            Leaving Soon? Don't Miss Out 100+ Free {category.title} Test Series
+            {featuredProducts.length
+              ? `Don't miss out our bestselling Test Series!`
+              : `Leaving Soon? Don't Miss Out 100+ Free {category.title} Test Series`}
           </Title>
+          <Row gutter={[0, 10]}>
+            {featuredProducts.map((fp) => {
+              return (
+                <Col span={24}>
+                  <LearnerProductCard mini product={fp} />
+                </Col>
+              );
+            })}
+          </Row>
           {/* <AppImage alt={category.title} src={category.thumbnailImage} /> */}
-          <Text>
-            Also Mock Tests, Free Videos, Quizzes & Study Notes + More
-          </Text>
+          {!featuredProducts.length ? (
+            <Text>
+              Also Mock Tests, Free Videos, Quizzes & Study Notes + More
+            </Text>
+          ) : null}
         </Col>
         <Col span={24}>
           {/* <Form>
