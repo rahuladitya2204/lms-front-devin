@@ -159,28 +159,28 @@ export default function PackageInformationEditor() {
     User.Queries.useCreatePackage();
   const { mutate: updatePackage, isLoading: updatePackageLoading } =
     User.Queries.useUpdatePackage();
-  const PublishPackage = (
-    <Button
-      loading={publishingPackage}
-      key="submit"
-      type="primary"
-      disabled={!isPackageValid}
-      onClick={() => {
-        confirm({
-          title: "Are you sure?",
-          content: `You want to publish this package?`,
-          onOk() {
-            publishPackage({
-              packageId: packageId + "",
-            });
-          },
-          okText: "Yes, Publish",
-        });
-      }}
-    >
-      Publish Package
-    </Button>
-  );
+  const PublishPackage =
+    // <Button
+    //   loading={publishingPackage}
+    //   key="submit"
+    //   type="primary"
+    //   disabled={!isPackageValid}
+    //   onClick={() => {
+    //     confirm({
+    //       title: "Are you sure?",
+    //       content: `You want to publish this package?`,
+    //       onOk() {
+    //         publishPackage({
+    //           packageId: packageId + "",
+    //         });
+    //       },
+    //       okText: "Yes, Publish",
+    //     });
+    //   }}
+    // >
+    //   Publish Package
+    // </Button>
+    null;
   const UnpublishPackage = (
     <Button
       style={{ marginRight: 10 }}

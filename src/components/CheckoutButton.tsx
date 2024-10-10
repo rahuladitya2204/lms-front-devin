@@ -197,9 +197,9 @@ export default function ProductCheckoutButton(
           <Form.Item
             help={
               coupon ? (
-                <Text style={{ marginTop: 5, marginBottom: 10 }} type="success">
-                  Coupon applied successfully!
-                </Text>
+                <div style={{ marginTop: 5, marginBottom: 10 }}>
+                  <Text type="success">Coupon applied successfully!</Text>
+                </div>
               ) : (
                 ""
               )
