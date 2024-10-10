@@ -144,7 +144,6 @@ export default function ProductCheckoutButton(
       return CreateOrder();
     }
     if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
-      debugger;
       if (wallet.balance.value < finalPriceValue) {
         const leftAmount = {
           value: finalPriceValue - wallet.balance.value,
