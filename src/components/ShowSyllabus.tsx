@@ -1,6 +1,6 @@
 import { Learner, Types, User, Utils } from "@adewaskar/lms-common";
-import { Button, Col, Row, Tooltip } from "antd";
-import { Text } from "./Typography/Typography";
+import { Button, Col, List, Row, Skeleton, Tooltip } from "antd";
+import { Text, Title } from "./Typography/Typography";
 import { useModal } from "./ActionModal/ModalContext";
 import { BookTwoTone } from "@ant-design/icons";
 import { capitalize } from "lodash";
@@ -16,11 +16,11 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
     Learner.Queries.useGetTopicTree(test.topics, 2);
   const showTooltip = treeData.length < 10;
   const { openModal } = useModal();
-  // console.log(treeData, "treeData");
-  const syllabusText = treeData.map((i) => capitalize(i.title)).join(", ");
+  const isLoading = loadingTest || loadingTree;
+
   const Component = (
     <Button
-      loading={loadingTest || loadingTree}
+      loading={isLoading}
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -28,7 +28,17 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
         openModal(
           <Row>
             <Col span={24}>
-              <Text>{syllabusText}</Text>
+              <List
+                itemLayout="vertical"
+                dataSource={treeData}
+                renderItem={(item) => {
+                  return (
+                    <Col style={{ marginBottom: 8 }} span={24}>
+                      <Text>{item.title}</Text>
+                    </Col>
+                  );
+                }}
+              />
             </Col>
           </Row>,
           {
@@ -44,10 +54,5 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
       Show Syllabus
     </Button>
   );
-  //   return showTooltip ? (
-  //     <Tooltip title={syllabusText}>{}</Tooltip>
-  //   ) : (
-  //     Component
-  //   );
   return Component;
 }

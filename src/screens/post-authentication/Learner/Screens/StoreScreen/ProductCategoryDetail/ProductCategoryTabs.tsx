@@ -320,7 +320,7 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
       limit: 3,
     }
   );
-  console.log(packages, "jokokok");
+  // console.log(packages, "jokokok");
   const TABS = useMemo(() => {
     const tabs: any[] = [];
     if (packages.length) {

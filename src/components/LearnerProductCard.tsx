@@ -103,7 +103,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       footer={
         <>
           {product?.languages?.length ? (
-            <Row justify={"space-between"}>
+            <Row justify={"space-between"} align={"middle"}>
               <Col>
                 {product?.topics?.length ? (
                   <>
@@ -125,6 +125,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
                     .join(", ")}
                 </Button>
               </Col>
+              <Divider type="vertical" />
               <Col>{TryNowButton}</Col>
             </Row>
           ) : null}
@@ -218,7 +219,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       {product?.stats?.question?.count ? (
         <CustomTag color="red">
           {product.stats.question.count} Questions
-          <Divider type="vertical" />
+          {/* <Divider type="vertical" /> */}
         </CustomTag>
       ) : null}
     </MiniCard>
