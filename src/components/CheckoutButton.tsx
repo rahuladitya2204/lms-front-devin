@@ -39,10 +39,12 @@ export default function ProductCheckoutButton(
   const { data: prod } = Learner.Queries.useGetProductDetail(props.product);
   const { plan, coupons } = prod;
   const coupon = coupons.find((c) => c.code === couponCode);
-  const finalPriceValue = coupon
-    ? plan.finalPrice.value -
-      (plan.finalPrice.value * coupon.discount.value) / 100
-    : plan.finalPrice.value;
+  const finalPriceValue = Math.ceil(
+    coupon
+      ? plan.displayPrice.value -
+          (plan.displayPrice.value * coupon.discount.value) / 100
+      : plan.finalPrice.value
+  );
 
   useEffect(() => {
     if (coupon) {
@@ -142,6 +144,7 @@ export default function ProductCheckoutButton(
       return CreateOrder();
     }
     if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
+      debugger;
       if (wallet.balance.value < finalPriceValue) {
         const leftAmount = {
           value: finalPriceValue - wallet.balance.value,

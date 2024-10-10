@@ -4,6 +4,7 @@ import parse, { domToReact } from "html-react-parser";
 import { Element } from "domhandler";
 import styled from "@emotion/styled";
 import "./style.css";
+import withNonCopyable from "../withNoncopyable";
 const StyledListItem = styled(List.Item)`
   p,
   div {
@@ -19,7 +20,7 @@ interface HtmlViewerProps {
   customStyles?: string;
 }
 
-function HtmlViewer(props: HtmlViewerProps) {
+function HtmlViewerCopyable(props: HtmlViewerProps) {
   const { content, noPreviewImage, customStyles } = props;
 
   if (!content) {
@@ -89,5 +90,7 @@ function HtmlViewer(props: HtmlViewerProps) {
     </div>
   );
 }
+
+const HtmlViewer = withNonCopyable(HtmlViewerCopyable);
 
 export default HtmlViewer;

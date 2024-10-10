@@ -47,11 +47,12 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
         );
         // }
       }}
-      style={{ padding: 0, fontSize: 13 }}
-      type="link"
+      size="small"
+      // style={{ padding: 0, fontSize: 13 }}
+      // type="dashed"
     >
       <BookTwoTone />
-      Show Syllabus
+      Syllabus
     </Button>
   );
   return Component;
