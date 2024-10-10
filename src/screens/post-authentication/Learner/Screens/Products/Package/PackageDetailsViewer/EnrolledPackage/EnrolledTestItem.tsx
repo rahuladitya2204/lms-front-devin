@@ -217,16 +217,13 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                             },
                           ],
                         }}
-                        // icon={!isMobile ? <CheckCircleOutlined /> : null}
-                        // onClick={() =>
-                        //   navigate(`../../test/${test._id}/result`)
-                        // }
+                        // todo
+                        onClick={() =>
+                          navigate(`../../test/${test._id}/result`)
+                        }
                         block={!isDesktop}
-                        // style={{ width: '100%' }}
-                        // @ts-ignore
                         style={{ marginRight: isMobile ? 0 : null }}
                         type="primary"
-                        // size='small'
                       >
                         Solutions
                       </Dropdown.Button>

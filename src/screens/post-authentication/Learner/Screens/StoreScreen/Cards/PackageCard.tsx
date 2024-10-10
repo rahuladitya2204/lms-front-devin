@@ -96,7 +96,7 @@ function PackageCard(props: PackageCardPropsI) {
       <Divider style={{ marginTop: 10, marginBottom: 10 }} />
       <Row justify={"space-between"}>
         <Col span={24}>
-          <PriceCardContent plan={plan} />
+          <PriceCardContent coupons={bundle.coupons} plan={plan} />
         </Col>
       </Row>
     </CustomCard>

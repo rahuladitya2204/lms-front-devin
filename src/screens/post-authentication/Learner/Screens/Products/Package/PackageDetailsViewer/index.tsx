@@ -239,7 +239,7 @@ const PackageCard = ({
           </Col>
           {!isEnrolled ? (
             <Col span={24} style={{ padding: "0 20px" }}>
-              <PriceCardContent plan={plan} />
+              <PriceCardContent coupons={bundle.coupons} plan={plan} />
               {!isMobile ? <Divider style={{ margin: 10 }} /> : null}
             </Col>
           ) : null}

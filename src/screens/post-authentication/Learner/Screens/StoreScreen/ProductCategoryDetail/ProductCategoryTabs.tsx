@@ -248,25 +248,25 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
 
       <Col span={24}>
         <Divider>Important Resources</Divider>
-        <ShowMore minHeight={200}>
-          <Row>
-            {productCategory.info.links.map((link) => {
-              return (
-                <Col xs={24} sm={8} md={8} style={{ marginBottom: 15 }}>
-                  <Link
-                    to={
-                      props.isServer
-                        ? `/exam/${productCategory.slug}/${link.slug}`
-                        : `/app/exam/${productCategory.slug}/${link.slug}`
-                    }
-                  >
-                    {link.title}
-                  </Link>
-                </Col>
-              );
-            })}
-          </Row>
-        </ShowMore>
+        {/* <ShowMore minHeight={200}> */}
+        <Row>
+          {productCategory.info.links.map((link) => {
+            return (
+              <Col xs={24} sm={8} md={8} style={{ marginBottom: 15 }}>
+                <Link
+                  to={
+                    props.isServer
+                      ? `/exam/${productCategory.slug}/${link.slug}`
+                      : `/app/exam/${productCategory.slug}/${link.slug}`
+                  }
+                >
+                  {link.title}
+                </Link>
+              </Col>
+            );
+          })}
+        </Row>
+        {/* </ShowMore> */}
       </Col>
     </Row>
   );
@@ -328,25 +328,25 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
         label: "Test Series",
         key: "test-series",
         children: (
-          <ShowMore
-            minHeight={200}
-            onClick={() => {
-              LogEvent(
-                "Category:" + type,
-                "PromotedProducts:ShowMore::Clicked",
-                category.title,
-                {
-                  categoryId: category._id,
-                }
-              );
-            }}
-          >
-            <PromotedProducts
-              categoryId={categoryId}
-              type={props.type}
-              isServer={!!props.isServer}
-            />
-          </ShowMore>
+          // <ShowMore
+          //   minHeight={200}
+          //   onClick={() => {
+          //     LogEvent(
+          //       "Category:" + type,
+          //       "PromotedProducts:ShowMore::Clicked",
+          //       category.title,
+          //       {
+          //         categoryId: category._id,
+          //       }
+          //     );
+          //   }}
+          // >
+          <PromotedProducts
+            categoryId={categoryId}
+            type={props.type}
+            isServer={!!props.isServer}
+          />
+          // </ShowMore>
         ),
       });
     }
