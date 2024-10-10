@@ -2,12 +2,14 @@ import {
   Button,
   Card,
   Col,
+  DatePicker,
   Form,
   Layout,
   Row,
   Skeleton,
   Spin,
   Tag,
+  TimeRangePickerProps,
   Tooltip,
 } from "@Lib/index";
 import { Learner, Utils } from "@adewaskar/lms-common";
@@ -23,6 +25,8 @@ import Tabs from "@Components/Tabs";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
+import dayjs from "dayjs";
+import { useState } from "react";
 
 const { Title, Text } = Typography;
 
@@ -30,7 +34,7 @@ export default function AffiliateScreen() {
   const navigate = useNavigate();
   const { data: learner, isLoading: loadingDetails } =
     Learner.Queries.useGetLearnerDetails();
-  const { data: affiliateDetails, isLoading: loadingAffiliateDetails } =
+  const { data: affiliateDetails, isFetching: loadingAffiliateDetails } =
     Learner.Queries.useGetAffiliateAccountDetails({
       enabled: !!learner.affiliate,
     });
@@ -127,3 +131,25 @@ export default function AffiliateScreen() {
     </Spin>
   );
 }
+
+interface AffiliateEarningsPropsI {}
+
+export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
+  const [dates, setDates] = useState([dayjs().subtract(7, "day"), dayjs]);
+  const rangePresets: TimeRangePickerProps["presets"] = [
+    { label: "Last 7 Days", value: [dayjs().add(-7, "d"), dayjs()] },
+    { label: "Last 14 Days", value: [dayjs().add(-14, "d"), dayjs()] },
+    { label: "Last 30 Days", value: [dayjs().add(-30, "d"), dayjs()] },
+    { label: "Last 90 Days", value: [dayjs().add(-90, "d"), dayjs()] },
+  ];
+  console.log(dates, "ddd");
+  const { data: earnings } =
+    Learner.Queries.useGetAffiliateAccountEarnings(dates);
+  return (
+    <Row>
+      <Col span={24}>
+        <DatePicker.RangePicker presets={rangePresets} onChange={setDates} />
+      </Col>
+    </Row>
+  );
+};

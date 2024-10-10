@@ -1,25 +1,22 @@
-import { Card, Col, List, Row, Spin, Tooltip } from 'antd'
-import { Learner, Utils } from '@adewaskar/lms-common'
+import { Card, Col, List, Row, Spin, Tooltip } from "antd";
+import { Learner, Utils } from "@adewaskar/lms-common";
 
-import { CommissionStatusTag } from './CommissionStatus'
-import { InfoCircleOutlined } from '@ant-design/icons'
-import { OrderStatusTag } from '../Account/LearnerWallet/OrderStatusTag'
-import { Typography } from '@Components/Typography'
-import dayjs from 'dayjs'
-import useBreakpoint from '@Hooks/useBreakpoint'
+import { CommissionStatusTag } from "./CommissionStatus";
+import { InfoCircleOutlined } from "@ant-design/icons";
+import { OrderStatusTag } from "../Account/LearnerWallet/OrderStatusTag";
+import { Typography } from "@Components/Typography";
+import dayjs from "dayjs";
+import useBreakpoint from "@Hooks/useBreakpoint";
+import { AffiliateEarnings } from "./AffiliateScreen";
 
-const { Text, Title } = Typography
+const { Text, Title } = Typography;
 
-export default function AffiliateDashboard () {
-  const {
-    data: affiliateDetails,
-    isLoading: loadingDetails
-  } = Learner.Queries.useGetAffiliateAccountDetails()
-  const {
-    data: affiliateOrders,
-    isLoading: loadingOrders
-  } = Learner.Queries.useGetAffiliateOrders()
-  console.log(affiliateOrders, 'affiliateDetails')
+export default function AffiliateDashboard() {
+  const { data: affiliateDetails, isLoading: loadingDetails } =
+    Learner.Queries.useGetAffiliateAccountDetails();
+  const { data: affiliateOrders, isLoading: loadingOrders } =
+    Learner.Queries.useGetAffiliateOrders();
+  console.log(affiliateOrders, "affiliateDetails");
   return (
     <Spin spinning={loadingDetails}>
       <Row gutter={[20, 20]}>
@@ -62,7 +59,7 @@ export default function AffiliateDashboard () {
           >
             <Title level={3}>
               {Utils.UnitTypeToStr(affiliateDetails.earnings.paidOut)}
-            </Title>{' '}
+            </Title>{" "}
           </Card>
         </Col>
         <Col xs={24} sm={12} md={6}>
@@ -74,7 +71,7 @@ export default function AffiliateDashboard () {
               </Tooltip>
             }
           >
-            <Title level={3}>12 Dec 2023</Title>
+            <Title level={3}>{dayjs().add(4, "day").format("LL")}</Title>
           </Card>
         </Col>
         <Col xs={24} sm={24} md={12}>
@@ -82,7 +79,7 @@ export default function AffiliateDashboard () {
             <List
               loading={loadingOrders}
               dataSource={affiliateOrders}
-              renderItem={order => {
+              renderItem={(order) => {
                 return (
                   <List.Item
                     extra={[
@@ -90,10 +87,9 @@ export default function AffiliateDashboard () {
                         status={order.affiliate.commission.status}
                       />,
                       <Text strong>
-                        +{Utils.UnitTypeToStr(
-                          order.affiliate.commission.amount
-                        )}
-                      </Text>
+                        +
+                        {Utils.UnitTypeToStr(order.affiliate.commission.amount)}
+                      </Text>,
                     ]}
                     key={order._id}
                   >
@@ -106,15 +102,18 @@ export default function AffiliateDashboard () {
                       //   )
                       // }
                       title={`Commission Received`}
-                      description={dayjs(order.completedAt).format('LL')}
+                      description={dayjs(order.completedAt).format("LL")}
                     />
                   </List.Item>
-                )
+                );
               }}
             />
           </Card>
         </Col>
+        <Col xs={24} sm={24} md={24}>
+          <Card title="Earnings" extra={<AffiliateEarnings />}></Card>
+        </Col>
       </Row>
     </Spin>
-  )
+  );
 }

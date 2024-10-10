@@ -7,41 +7,47 @@ import {
   Select,
   Spin,
   Switch,
-} from 'antd'
-import { Enum, Learner, Types, User, Utils } from '@adewaskar/lms-common'
+  message,
+} from "antd";
+import { Enum, Learner, Types, User, Utils } from "@adewaskar/lms-common";
 
-import { Typography } from '@Components/Typography'
-import { useEffect } from 'react'
+import { Typography } from "@Components/Typography";
+import { useEffect } from "react";
 
-const { Title } = Typography
+const { Title } = Typography;
 
 export default function AffiliateProgramForm() {
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
   const {
     data: { affiliate },
-    isLoading: loadingSetting
-  } = User.Queries.useGetOrgSetting()
-  const {
-    mutate: updateOrgAccount,
-    isLoading: updatingSetting
-  } = User.Queries.useUpdateOrgSetting()
+    isLoading: loadingSetting,
+  } = User.Queries.useGetOrgSetting();
+  const { mutate: updateOrgAccount, isLoading: updatingSetting } =
+    User.Queries.useUpdateOrgSetting();
 
-  useEffect(
-    () => {
-      form.setFieldsValue(affiliate)
-    },
-    [affiliate]
-  )
+  useEffect(() => {
+    form.setFieldsValue(affiliate);
+  }, [affiliate]);
 
   const onSubmit = (data: any) => {
-    console.log(data, '12121')
-    updateOrgAccount({
-      data: {
-        affiliate: data
+    console.log(data, "12121");
+    updateOrgAccount(
+      {
+        data: {
+          affiliate: data,
+        },
+      },
+      {
+        onSuccess: () => {
+          message.open({
+            type: "success",
+            content: "Affiliate program updated successfully",
+          });
+        },
       }
-    })
-  }
-  const commissionType = Form.useWatch(['commission', 'type'], form)
+    );
+  };
+  const commissionType = Form.useWatch(["commission", "type"], form);
   return (
     <Spin spinning={loadingSetting}>
       <Form
@@ -53,28 +59,31 @@ export default function AffiliateProgramForm() {
         <Row>
           <Col span={24}>
             <Title>
-              Affiliate Program Form{' '}
-              <Form.Item valuePropName="checked" name={['enabled']}>
+              Affiliate Program Form{" "}
+              <Form.Item valuePropName="checked" name={["enabled"]}>
                 <Switch />
               </Form.Item>
             </Title>
 
-            <Form.Item label={'Program Name'} name="programName">
+            <Form.Item label={"Program Name"} name="programName">
               <Input />
             </Form.Item>
             <Title level={3}>Commission</Title>
-            <Form.Item label="Committion Type" name={['commission', 'type']}>
+            <Form.Item label="Committion Type" name={["commission", "type"]}>
               <Select
                 options={[
-                  { label: 'Fixed', value: Enum.CommissionType.FIXED },
-                  { label: 'Percentage', value: Enum.CommissionType.PERCENTAGE }
+                  { label: "Fixed", value: Enum.CommissionType.FIXED },
+                  {
+                    label: "Percentage",
+                    value: Enum.CommissionType.PERCENTAGE,
+                  },
                 ]}
               />
             </Form.Item>
             {commissionType === Enum.CommissionType.FIXED ? (
               <Form.Item
                 label="Fixed Amount"
-                name={['commission', 'fixedAmount', 'value']}
+                name={["commission", "fixedAmount", "value"]}
               >
                 <Input type="number" />
               </Form.Item>
@@ -82,7 +91,7 @@ export default function AffiliateProgramForm() {
             {commissionType === Enum.CommissionType.PERCENTAGE ? (
               <Form.Item
                 label="Percentage Based"
-                name={['commission', 'percentage']}
+                name={["commission", "percentage"]}
               >
                 <Input />
               </Form.Item>
@@ -100,5 +109,5 @@ export default function AffiliateProgramForm() {
         </Row>
       </Form>
     </Spin>
-  )
+  );
 }
