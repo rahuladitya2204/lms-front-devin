@@ -36,6 +36,8 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import Table, { TableColumn } from "@Components/Table/TableComponent";
+import { sortBy } from "lodash";
 
 const { Title, Text } = Typography;
 
@@ -146,9 +148,11 @@ interface AffiliateEarningsPropsI {}
 export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
   const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
   // console.log(dates, "ddd");
-  const { data: earnings } = Learner.Queries.useGetAffiliateAccountEarnings({
+  const { data, isLoading } = Learner.Queries.useGetAffiliateAccountEarnings({
     dateRange: dates,
   });
+  const { isMobile } = useBreakpoint();
+  console.log(data, "ad12313123");
   return (
     <Row>
       <Col span={24}>
@@ -162,38 +166,78 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
             />
           }
         >
-          <div style={{ height: 600 }}>
-            <ResponsiveContainer width={"100%"}>
-              <LineChart
-                data={earnings} // Pass the earnings data to the chart
-                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date">
-                  <Label value="Date" offset={-10} position="insideBottom" />
-                </XAxis>
-                <YAxis>
-                  <Label
-                    value="Earnings (₹)"
-                    angle={-90}
-                    position="insideLeft"
-                    style={{ textAnchor: "middle" }}
+          {isMobile ? (
+            <Table
+              loading={isLoading}
+              dataSource={sortBy(data, (e) =>
+                dayjs(e.date).get("seconds")
+              ).reverse()}
+            >
+              <TableColumn
+                title="Date"
+                dataIndex="date"
+                render={(
+                  _: any,
+                  record: {
+                    date: string;
+                    totalEarnings: number;
+                  }
+                ) => {
+                  return dayjs(record.date).format("LL");
+                }}
+              />
+              <TableColumn
+                title="Total Earnings"
+                dataIndex="totalEarnings"
+                key={"totalEarnings"}
+                render={(
+                  _: any,
+                  record: {
+                    date: string;
+                    totalEarnings: number;
+                    totalOrders: number;
+                  }
+                ) => {
+                  return record.totalEarnings
+                    ? `₹ ${record.totalEarnings}`
+                    : "-";
+                }}
+              />
+            </Table>
+          ) : (
+            <div style={{ height: 600 }}>
+              <ResponsiveContainer width={"100%"}>
+                <LineChart
+                  data={data} // Pass the earnings data to the chart
+                  margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="date">
+                    <Label value="Date" offset={-10} position="insideBottom" />
+                  </XAxis>
+                  <YAxis>
+                    <Label
+                      value="Earnings (₹)"
+                      angle={-90}
+                      position="insideLeft"
+                      style={{ textAnchor: "middle" }}
+                    />
+                  </YAxis>
+                  <Tooltip
+                    formatter={(value) => `₹${value}`} // Format tooltip values as Rupee currency
+                    labelFormatter={(label) => `Date: ${label}`} // Show date in the tooltip
                   />
-                </YAxis>
-                <Tooltip
-                  formatter={(value) => `₹${value}`} // Format tooltip values as Rupee currency
-                  labelFormatter={(label) => `Date: ${label}`} // Show date in the tooltip
-                />
-                <Line
-                  type="monotone"
-                  dataKey="totalEarnings"
-                  stroke="#8884d8"
-                  activeDot={{ r: 8 }}
-                  dot={{ r: 4 }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
+                  <Line
+                    type="monotone"
+                    dataKey="totalEarnings"
+                    stroke="#8884d8"
+                    activeDot={{ r: 8 }}
+                    dot={{ r: 4 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
+          )}
         </Card>
       </Col>
     </Row>
