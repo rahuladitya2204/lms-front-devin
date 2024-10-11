@@ -1,4 +1,4 @@
-import { Button, Card, Col, Empty, Row, Spin } from "antd";
+import { Button, Card, Col, DatePicker, Empty, Row, Spin } from "antd";
 import { Enum, Learner, Types } from "@adewaskar/lms-common";
 
 import AppImage from "@Components/Image";
@@ -7,6 +7,20 @@ import Tabs from "@Components/Tabs";
 import { Typography } from "@Components/Typography";
 import { copyToClipboard } from "@Utils/index";
 import { useMemo, useState } from "react";
+import dayjs from "dayjs";
+import { useModal } from "@Components/ActionModal/ModalContext";
+import {
+  CartesianGrid,
+  Label,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { rangePresets } from "./AffiliateScreen";
 
 const { Text } = Typography;
 export default function AffiliateProducts() {
@@ -66,6 +80,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
     setTimeout(() => setCopy(false), 5000);
     copyToClipboard(url);
   };
+  const { openModal } = useModal();
   return (
     <Card
       bodyStyle={{ padding: "20px 10px" }}
@@ -75,15 +90,41 @@ export const ProductCard = (props: ProductCardPropsI) => {
     >
       <Card.Meta
         description={
-          <Button
-            type={copy ? "primary" : "default"}
-            block
-            icon={copy ? <CheckOutlined /> : <CopyOutlined />}
-            onClick={generateLink}
-            // size="small"
-          >
-            {copy ? "Link Copied" : "Copy Link"}
-          </Button>
+          <Row gutter={[10, 10]}>
+            <Col span={24}>
+              <Button
+                type={copy ? "primary" : "default"}
+                block
+                icon={copy ? <CheckOutlined /> : <CopyOutlined />}
+                onClick={generateLink}
+                // size="small"
+              >
+                {copy ? "Link Copied" : "Copy Link"}
+              </Button>
+            </Col>
+            <Col span={24}>
+              <Button
+                onClick={() => {
+                  openModal(
+                    <AffiliateProductAnalytics
+                      product={{
+                        type: props.type,
+                        id: product._id,
+                      }}
+                    />,
+                    {
+                      width: 900,
+                      title: `Your earnings for ${product.title}`,
+                    }
+                  );
+                }}
+                type="primary"
+                block
+              >
+                View Analytics
+              </Button>
+            </Col>
+          </Row>
         }
         title={<Text>{product.title}</Text>}
       />
@@ -112,5 +153,76 @@ export const ProductList = (props: {
         </Row>
       )}
     </Spin>
+  );
+};
+
+export const AffiliateProductAnalytics = (props: {
+  product: Types.Product;
+}) => {
+  const { product } = props;
+  const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
+  const { data } = Learner.Queries.useGetAffiliateProductAnalytics({
+    dateRange: dates,
+    product: product,
+  });
+  console.log(data, "ddddd");
+  return (
+    <Row>
+      <Col span={24}>
+        <Card
+          title="Product Analytics"
+          extra={
+            <DatePicker.RangePicker
+              presets={rangePresets}
+              value={dates}
+              onChange={setDates}
+            />
+          }
+        >
+          <div style={{ height: 600 }}>
+            <ResponsiveContainer width={"100%"}>
+              <LineChart
+                data={data} // Pass the earnings data to the chart
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date">
+                  <Label value="Date" offset={-10} position="insideBottom" />
+                </XAxis>
+                <YAxis>
+                  <Label
+                    value="Earnings/Orders"
+                    angle={-90}
+                    position="insideLeft"
+                    style={{ textAnchor: "middle" }}
+                  />
+                </YAxis>
+                <Tooltip
+                  formatter={(value) => `₹${value}`} // Format tooltip values as Rupee currency
+                  labelFormatter={(label) => `Date: ${label}`} // Show date in the tooltip
+                />
+                <Legend verticalAlign="top" height={36} />
+                <Line
+                  type="monotone"
+                  dataKey="totalOrders"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                  dot={{ r: 4 }}
+                  name="Total Orders"
+                />
+                <Line
+                  type="monotone"
+                  dataKey="totalEarnings"
+                  stroke="#82ca9d"
+                  activeDot={{ r: 8 }}
+                  dot={{ r: 4 }}
+                  name="Total Earnings"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+      </Col>
+    </Row>
   );
 };
