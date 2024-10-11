@@ -199,7 +199,7 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
                   }
                 ) => {
                   return record.totalEarnings
-                    ? `₹ ${record.totalEarnings}`
+                    ? `₹ ${Math.ceil(record.totalEarnings)}`
                     : "-";
                 }}
               />
