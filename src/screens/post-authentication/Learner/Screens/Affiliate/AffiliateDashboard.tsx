@@ -1,4 +1,4 @@
-import { Card, Col, List, Row, Spin, Tooltip } from "antd";
+import { Card, Col, DatePicker, List, Row, Spin, Tooltip } from "antd";
 import { Learner, Utils } from "@adewaskar/lms-common";
 
 import { CommissionStatusTag } from "./CommissionStatus";
@@ -7,16 +7,19 @@ import { OrderStatusTag } from "../Account/LearnerWallet/OrderStatusTag";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
-import { AffiliateEarnings } from "./AffiliateScreen";
+import { AffiliateEarnings, rangePresets } from "./AffiliateScreen";
+import { useState } from "react";
 
 const { Text, Title } = Typography;
 
 export default function AffiliateDashboard() {
+  const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
   const { data: affiliateDetails, isLoading: loadingDetails } =
     Learner.Queries.useGetAffiliateAccountDetails();
   const { data: affiliateOrders, isLoading: loadingOrders } =
-    Learner.Queries.useGetAffiliateOrders();
+    Learner.Queries.useGetAffiliateOrders({ dateRange: dates });
   console.log(affiliateOrders, "affiliateDetails");
+
   return (
     <Spin spinning={loadingDetails}>
       <Row gutter={[20, 20]}>
@@ -74,8 +77,17 @@ export default function AffiliateDashboard() {
             <Title level={3}>{dayjs().add(4, "day").format("LL")}</Title>
           </Card>
         </Col>
-        <Col xs={24} sm={24} md={12}>
-          <Card>
+        <Col xs={24} sm={24} md={24}>
+          <Card
+            title="Affiliate Revenue"
+            extra={
+              <DatePicker.RangePicker
+                presets={rangePresets}
+                value={dates}
+                onChange={setDates}
+              />
+            }
+          >
             <List
               loading={loadingOrders}
               dataSource={affiliateOrders}
@@ -111,7 +123,7 @@ export default function AffiliateDashboard() {
           </Card>
         </Col>
         <Col xs={24} sm={24} md={24}>
-          <Card title="Earnings" extra={<AffiliateEarnings />}></Card>
+          <AffiliateEarnings />
         </Col>
       </Row>
     </Spin>

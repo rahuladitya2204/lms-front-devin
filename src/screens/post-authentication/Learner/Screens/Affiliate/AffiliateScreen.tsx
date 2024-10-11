@@ -27,6 +27,15 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import dayjs from "dayjs";
 import { useState } from "react";
+import {
+  CartesianGrid,
+  Label,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 const { Title, Text } = Typography;
 
@@ -135,21 +144,65 @@ export default function AffiliateScreen() {
 interface AffiliateEarningsPropsI {}
 
 export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
-  const [dates, setDates] = useState([dayjs().subtract(7, "day"), dayjs]);
-  const rangePresets: TimeRangePickerProps["presets"] = [
-    { label: "Last 7 Days", value: [dayjs().add(-7, "d"), dayjs()] },
-    { label: "Last 14 Days", value: [dayjs().add(-14, "d"), dayjs()] },
-    { label: "Last 30 Days", value: [dayjs().add(-30, "d"), dayjs()] },
-    { label: "Last 90 Days", value: [dayjs().add(-90, "d"), dayjs()] },
-  ];
-  console.log(dates, "ddd");
-  const { data: earnings } =
-    Learner.Queries.useGetAffiliateAccountEarnings(dates);
+  const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
+  // console.log(dates, "ddd");
+  const { data: earnings } = Learner.Queries.useGetAffiliateAccountEarnings({
+    dateRange: dates,
+  });
   return (
     <Row>
       <Col span={24}>
-        <DatePicker.RangePicker presets={rangePresets} onChange={setDates} />
+        <Card
+          title="Earnings"
+          extra={
+            <DatePicker.RangePicker
+              presets={rangePresets}
+              value={dates}
+              onChange={setDates}
+            />
+          }
+        >
+          <div style={{ height: 600 }}>
+            <ResponsiveContainer width={"100%"}>
+              <LineChart
+                data={earnings} // Pass the earnings data to the chart
+                margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date">
+                  <Label value="Date" offset={-10} position="insideBottom" />
+                </XAxis>
+                <YAxis>
+                  <Label
+                    value="Earnings (₹)"
+                    angle={-90}
+                    position="insideLeft"
+                    style={{ textAnchor: "middle" }}
+                  />
+                </YAxis>
+                <Tooltip
+                  formatter={(value) => `₹${value}`} // Format tooltip values as Rupee currency
+                  labelFormatter={(label) => `Date: ${label}`} // Show date in the tooltip
+                />
+                <Line
+                  type="monotone"
+                  dataKey="totalEarnings"
+                  stroke="#8884d8"
+                  activeDot={{ r: 8 }}
+                  dot={{ r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
       </Col>
     </Row>
   );
 };
+
+export const rangePresets: TimeRangePickerProps["presets"] = [
+  { label: "Last 7 Days", value: [dayjs().add(-7, "d"), dayjs()] },
+  { label: "Last 14 Days", value: [dayjs().add(-14, "d"), dayjs()] },
+  { label: "Last 30 Days", value: [dayjs().add(-30, "d"), dayjs()] },
+  { label: "Last 90 Days", value: [dayjs().add(-90, "d"), dayjs()] },
+];
