@@ -42,7 +42,7 @@ function LearnersTable() {
   const { openModal } = useModal();
   return (
     <Table
-      searchFields={["name", "email", "contactNo"]}
+      searchFields={["name", "email", "contactNo", "_id", "affiliate"]}
       dataSource={sortBy(data, ["-lastActive"])}
       loading={loading || deletingLearner}
     >
