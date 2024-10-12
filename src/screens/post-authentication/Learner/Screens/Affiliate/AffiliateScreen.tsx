@@ -36,6 +36,7 @@ import {
   Line,
   LineChart,
   ResponsiveContainer,
+  Tooltip as ReTooltip,
   XAxis,
   YAxis,
 } from "recharts";
@@ -299,8 +300,11 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
                     />
                   </YAxis>
 
-                  {/* Use default tooltip for now */}
-                  <Tooltip />
+                  {/* Tooltip with formatter for custom display */}
+                  <ReTooltip
+                    formatter={(value) => `₹${value}`} // Format tooltip values as Rupee currency
+                    labelFormatter={(label) => `${dayjs(label).format("LL")}`} // Format date in the tooltip
+                  />
 
                   {/* Dynamically render lines for each level */}
                   {levels.map((level) => (

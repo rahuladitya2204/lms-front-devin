@@ -2,7 +2,11 @@ import { Card, Col, DatePicker, List, Row, Spin, Tooltip } from "antd";
 import { Learner, Utils } from "@adewaskar/lms-common";
 
 import { CommissionStatusTag } from "./CommissionStatus";
-import { InfoCircleFilled, InfoCircleOutlined } from "@ant-design/icons";
+import {
+  InfoCircleFilled,
+  InfoCircleOutlined,
+  InfoCircleTwoTone,
+} from "@ant-design/icons";
 import { OrderStatusTag } from "../Account/LearnerWallet/OrderStatusTag";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
@@ -123,7 +127,7 @@ export default function AffiliateDashboard() {
                             </Row>
                           }
                         >
-                          <InfoCircleFilled />
+                          <InfoCircleTwoTone />
                         </Tooltip>
                       </Text>,
                     ]}
