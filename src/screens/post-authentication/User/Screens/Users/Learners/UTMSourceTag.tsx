@@ -8,6 +8,7 @@ import {
   WhatsAppOutlined,
   YoutubeOutlined,
   TwitterOutlined,
+  FileUnknownFilled,
 } from "@ant-design/icons";
 import { Tag } from "antd";
 import { useMemo } from "react";
@@ -79,14 +80,12 @@ export default function UTMSourceTag(props: UTMSourcePropsI) {
             Telegram
           </Tag>
         );
-      case "other":
+      default:
         return (
-          <Tag icon={<InstagramOutlined />} color="purple">
+          <Tag icon={<FileUnknownFilled />} color="purple">
             Other
           </Tag>
         );
-      default:
-        return "-";
     }
   }, [props.utmSource]);
 
