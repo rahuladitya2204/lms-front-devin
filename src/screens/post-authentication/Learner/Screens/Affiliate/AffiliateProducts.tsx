@@ -187,6 +187,14 @@ export const AffiliateProductAnalytics = (props: {
     product: product,
   });
   const { isMobile } = useBreakpoint();
+
+  const getColorForLevel = (level) => {
+    const colors = ["#8884d8", "#82ca9d", "#ff7300", "#ffbf00", "#00c49f"]; // Add more colors for more levels if needed
+    return colors[level - 1] || "#000"; // Default to black if color is not available
+  };
+
+  const levels = data && data.length > 0 ? Object.keys(data[0].levels) : [];
+
   return (
     <Row>
       <Col span={24}>
@@ -209,35 +217,39 @@ export const AffiliateProductAnalytics = (props: {
                   _: any,
                   record: {
                     date: string;
-                    totalEarnings: number;
-                    totalOrders: number;
                   }
                 ) => {
                   return dayjs(record.date).format("LL");
                 }}
               />
-              <TableColumn
-                title="Total Orders"
-                dataIndex="totalOrders"
-                key={"totalOrders"}
-              />
-              <TableColumn
-                title="Total Earnings"
-                dataIndex="totalEarnings"
-                key={"totalEarnings"}
-                render={(
-                  _: any,
-                  record: {
-                    date: string;
-                    totalEarnings: number;
-                    totalOrders: number;
-                  }
-                ) => {
-                  return record.totalEarnings
-                    ? `₹ ${Math.ceil(record.totalEarnings)}`
-                    : "-";
-                }}
-              />
+
+              {/* Dynamically add columns for each level */}
+              {levels.map((level) => (
+                <>
+                  <TableColumn
+                    title={`Total Orders (${level})`}
+                    dataIndex={["levels", level, "totalOrders"]}
+                    key={`totalOrders_${level}`}
+                  />
+                  <TableColumn
+                    title={`Total Earnings (${level})`}
+                    dataIndex={["levels", level, "totalEarnings"]}
+                    key={`totalEarnings_${level}`}
+                    render={(
+                      _: any,
+                      record: {
+                        levels: {
+                          [key: string]: { totalEarnings: number };
+                        };
+                      }
+                    ) => {
+                      return record.levels[level]?.totalEarnings
+                        ? `₹ ${Math.ceil(record.levels[level].totalEarnings)}`
+                        : "-";
+                    }}
+                  />
+                </>
+              ))}
             </Table>
           ) : (
             <div style={{ height: 600 }}>
@@ -263,22 +275,31 @@ export const AffiliateProductAnalytics = (props: {
                     labelFormatter={(label) => `Date: ${label}`} // Show date in the tooltip
                   />
                   <Legend verticalAlign="top" height={36} />
-                  <Line
-                    type="monotone"
-                    dataKey="totalOrders"
-                    stroke="#8884d8"
-                    activeDot={{ r: 8 }}
-                    dot={{ r: 4 }}
-                    name="Total Orders"
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="totalEarnings"
-                    stroke="#82ca9d"
-                    activeDot={{ r: 8 }}
-                    dot={{ r: 4 }}
-                    name="Total Earnings"
-                  />
+
+                  {/* Dynamically render lines for each level */}
+                  {levels.map((level, index) => (
+                    <Line
+                      key={level}
+                      type="monotone"
+                      dataKey={`levels.${level}.totalOrders`}
+                      stroke={getColorForLevel(index + 1)} // Assign color based on level
+                      activeDot={{ r: 8 }}
+                      dot={{ r: 4 }}
+                      name={`Total Orders (${level})`}
+                    />
+                  ))}
+
+                  {levels.map((level, index) => (
+                    <Line
+                      key={level}
+                      type="monotone"
+                      dataKey={`levels.${level}.totalEarnings`}
+                      stroke={getColorForLevel(index + 1)} // Assign color based on level
+                      activeDot={{ r: 8 }}
+                      dot={{ r: 4 }}
+                      name={`Total Earnings (${level})`}
+                    />
+                  ))}
                 </LineChart>
               </ResponsiveContainer>
             </div>
