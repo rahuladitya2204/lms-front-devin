@@ -96,6 +96,81 @@ export default function AffiliateProgramForm() {
                 <Input />
               </Form.Item>
             ) : null}
+
+            <Title level={3}>Commission Levels</Title>
+
+            <Form.List name="commissionLevels">
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <div key={key} style={{ marginBottom: "20px" }}>
+                      <Row gutter={16}>
+                        <Col span={10}>
+                          <Form.Item
+                            label="Commission Type"
+                            {...restField}
+                            name={[name, "type"]}
+                          >
+                            <Select
+                              options={[
+                                {
+                                  label: "Fixed",
+                                  value: Enum.CommissionType.FIXED,
+                                },
+                                {
+                                  label: "Percentage",
+                                  value: Enum.CommissionType.PERCENTAGE,
+                                },
+                              ]}
+                            />
+                          </Form.Item>
+                        </Col>
+                        <Col span={8}>
+                          <Form.Item
+                            label={
+                              form.getFieldValue([
+                                "commissions",
+                                name,
+                                "type",
+                              ]) === Enum.CommissionType.FIXED
+                                ? "Fixed Amount"
+                                : "Percentage"
+                            }
+                            {...restField}
+                            name={[
+                              name,
+                              form.getFieldValue([
+                                "commissions",
+                                name,
+                                "type",
+                              ]) === Enum.CommissionType.FIXED
+                                ? "fixedAmount"
+                                : "percentage",
+                            ]}
+                          >
+                            <Input type="number" />
+                          </Form.Item>
+                        </Col>
+                        <Col span={4}>
+                          <Button danger onClick={() => remove(name)}>
+                            Remove
+                          </Button>
+                        </Col>
+                      </Row>
+                    </div>
+                  ))}
+                  <Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => add()}
+                      style={{ width: "100%" }}
+                    >
+                      Add Commission Level
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List>
           </Col>
           <Col span={24}>
             <Button

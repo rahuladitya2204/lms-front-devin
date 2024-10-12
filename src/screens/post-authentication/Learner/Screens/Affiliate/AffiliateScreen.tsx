@@ -1,4 +1,5 @@
 import {
+  Alert,
   Button,
   Card,
   Col,
@@ -11,6 +12,7 @@ import {
   Tag,
   TimeRangePickerProps,
   Tooltip,
+  message,
 } from "@Lib/index";
 import { Learner, Utils } from "@adewaskar/lms-common";
 import { useNavigate } from "@Router/index";
@@ -38,10 +40,16 @@ import {
 } from "recharts";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { sortBy } from "lodash";
+import ActionModal from "@Components/ActionModal/ActionModal";
+import BankDetailsForm from "./BankDetailsForm";
+import ProtectedLearnerProfile from "../LearnerRoot/ProtectedLearnerProfile";
 
 const { Title, Text } = Typography;
+interface AffiliateScreenPropsI {
+  closeModal?: Function;
+}
 
-export default function AffiliateScreen() {
+export default function AffiliateScreen(props: AffiliateScreenPropsI) {
   const navigate = useNavigate();
   const { data: learner, isLoading: loadingDetails } =
     Learner.Queries.useGetLearnerDetails();
@@ -52,6 +60,8 @@ export default function AffiliateScreen() {
   const { isDesktop, isMobile } = useBreakpoint();
   const wallet = affiliateDetails.wallet;
   const Balance = Utils.UnitTypeToStr(wallet.balance);
+  const { mutate: verifyBankDetails, isLoading: verifyingBankAccount } =
+    Learner.Queries.useVerifyAffiliateBankDetails();
   const WalletButton = (
     <Tooltip
       title={
@@ -72,7 +82,6 @@ export default function AffiliateScreen() {
             </Col>
             <Col>
               <Text style={{ fontSize: 16, marginLeft: 5 }} strong>
-                {" "}
                 {Balance}
               </Text>
             </Col>
@@ -81,65 +90,124 @@ export default function AffiliateScreen() {
       </Spin>
     </Tooltip>
   );
-
+  const EditBankAccount = (
+    <ActionModal
+      height={600}
+      width={300}
+      title="Enter Bank Details"
+      cta={<Button size="small">Edit Bank Details</Button>}
+    >
+      <BankDetailsForm />
+    </ActionModal>
+  );
   return (
-    <Spin spinning={loadingDetails}>
-      <Header
-        onLogoClick={() => navigate("../app/store")}
-        // showBack
-        showLogo
-        title="Affiliate Program"
-        extra={isMobile ? [] : [WalletButton]}
-      >
-        {isMobile ? (
-          <Row
-            align={"middle"}
-            justify={"space-between"}
-            style={{ marginBottom: 10 }}
-          >
-            <Col>
-              <Title style={{ margin: 0 }} level={4}>
-                Wallet Balance
-              </Title>
-            </Col>
-            <Col>{WalletButton}</Col>
-          </Row>
-        ) : null}
-        <Card style={{ minHeight: "100vh" }}>
-          {loadingDetails ? (
-            <Skeleton />
-          ) : (
-            <Tabs
-              tabKey="affiliate"
-              style={{ minHeight: "100vh" }}
-              tabPosition={isDesktop ? "left" : "top"}
-              items={
-                !learner.affiliate
-                  ? [
-                      {
-                        label: "Registration",
-                        key: "register",
-                        children: <AffiliateForm />,
-                      },
-                    ]
-                  : [
-                      {
-                        label: "Dashboard",
-                        key: "dashboard",
-                        children: <AffiliateDashboard />,
-                      },
-                      {
-                        label: "Products",
-                        key: "products",
-                        children: <AffiliateProducts />,
-                      },
-                    ]
-              }
-            />
-          )}
-        </Card>
-      </Header>
-    </Spin>
+    <ProtectedLearnerProfile>
+      <Spin spinning={loadingDetails}>
+        {!affiliateDetails.bankDetails.accountName ? (
+          <Alert
+            action={EditBankAccount}
+            message="Your bank account details is incomplete please fill"
+            banner
+            type="error"
+            closable
+          />
+        ) : (
+          <Alert
+            action={
+              affiliateDetails.bankDetails.status !== "verification_pending" ? (
+                <Row>
+                  <Col>{EditBankAccount}</Col>
+                  <Col>
+                    <Button
+                      type="primary"
+                      style={{ marginLeft: 10 }}
+                      loading={verifyingBankAccount}
+                      onClick={() => {
+                        verifyBankDetails(undefined, {
+                          onSuccess(data, variables, context) {
+                            message.success("Bank Account Verified");
+                            props.closeModal && props.closeModal();
+                          },
+                        });
+                      }}
+                      // type="primary"
+                      size="small"
+                    >
+                      Verify Bank Account
+                    </Button>
+                  </Col>
+                </Row>
+              ) : null
+            }
+            message={
+              affiliateDetails.bankDetails.status !== "verified"
+                ? affiliateDetails.bankDetails.status === "verification_pending"
+                  ? "Your bank detail is under verification"
+                  : "Your bank account details are not verified yet"
+                : null
+            }
+            banner
+            type="error"
+            closable
+          />
+        )}
+        <Header
+          onLogoClick={() => navigate("../app/store")}
+          // showBack
+          showLogo
+          title="Affiliate Program"
+          extra={isMobile ? [] : [WalletButton]}
+        >
+          {isMobile ? (
+            <Row
+              align={"middle"}
+              justify={"space-between"}
+              style={{ marginBottom: 10 }}
+            >
+              <Col>
+                <Title style={{ margin: 0 }} level={4}>
+                  Wallet Balance
+                </Title>
+              </Col>
+              <Col>{WalletButton}</Col>
+            </Row>
+          ) : null}
+          <Card style={{ minHeight: "100vh" }}>
+            {loadingDetails ? (
+              <Skeleton />
+            ) : (
+              <Tabs
+                tabKey="affiliate"
+                style={{ minHeight: "100vh" }}
+                tabPosition={isDesktop ? "left" : "top"}
+                items={
+                  !learner.affiliate
+                    ? [
+                        {
+                          label: "Registration",
+                          key: "register",
+                          children: <AffiliateForm />,
+                        },
+                      ]
+                    : [
+                        {
+                          label: "Dashboard",
+                          key: "dashboard",
+                          children: <AffiliateDashboard />,
+                        },
+                        {
+                          label: "Products",
+                          key: "products",
+                          children: <AffiliateProducts />,
+                        },
+                      ]
+                }
+              />
+            )}
+          </Card>
+        </Header>
+      </Spin>
+    </ProtectedLearnerProfile>
   );
 }
 
@@ -152,7 +220,7 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
     dateRange: dates,
   });
   const { isMobile } = useBreakpoint();
-  console.log(data, "ad12313123");
+
   return (
     <Row>
       <Col span={24}>

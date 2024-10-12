@@ -59,11 +59,12 @@ export const useAppInit = () => {
 
   const [subdomain, setSubdomain] = useState('');
   const [affiliateId, setAffiliateId] = useState('');
+  const queryString = window.location.search;
+  const queryParams = new URLSearchParams(queryString);
+  const utmSource = queryParams.get('utm_source') || '';
 
   useEffect(() => {
     if (isMounted) {
-      const queryString = window.location.search;
-      const queryParams = new URLSearchParams(queryString);
       const affiliateId = queryParams.get('ref') || '';
       const parts = window.location.hostname.split('.');
       const subdomain = parts.slice(0, -2).join('-');
@@ -72,6 +73,12 @@ export const useAppInit = () => {
       setAffiliateId(affiliateId);
     }
   }, [isMounted]);
+
+  useEffect(()=>{
+    if(utmSource){
+      Utils.Storage.SetItem('utmSource',utmSource)
+    }
+  },[utmSource])
 
   useEffect(() => {
     if (isMounted && subdomain) {

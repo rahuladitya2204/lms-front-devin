@@ -16,7 +16,7 @@ import {
   EditOutlined,
   EyeOutlined,
 } from "@ant-design/icons";
-import { Enum, Learner, Types } from "@adewaskar/lms-common";
+import { Enum, Learner, Types, Constants } from "@adewaskar/lms-common";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 
 import AddLearner from "./AddLearners";
@@ -27,6 +27,8 @@ import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { sortBy } from "lodash";
 import LearnerProductCard from "@Components/LearnerProductCard";
+import { UTM_SOURCES } from "../../../../Learner/Screens/Affiliate/AffiliateProducts";
+import UTMSourceTag from "./UTMSourceTag";
 
 const confirm = Modal.confirm;
 
@@ -57,6 +59,12 @@ function LearnersTable() {
         render={(_: any, record: Types.Learner) => record.email || "-"}
       />
       <TableColumn title="Contact No" dataIndex="contactNo" key="contactNo" />
+      <TableColumn
+        title="UTM Source"
+        render={(_: any, record: Types.Learner) => (
+          <UTMSourceTag utmSource={record.utmSource} />
+        )}
+      />
       <TableColumn
         title="Interests"
         render={(_: any, record: Types.Learner) =>

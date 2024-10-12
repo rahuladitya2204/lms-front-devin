@@ -2,13 +2,14 @@ import { Card, Col, DatePicker, List, Row, Spin, Tooltip } from "antd";
 import { Learner, Utils } from "@adewaskar/lms-common";
 
 import { CommissionStatusTag } from "./CommissionStatus";
-import { InfoCircleOutlined } from "@ant-design/icons";
+import { InfoCircleFilled, InfoCircleOutlined } from "@ant-design/icons";
 import { OrderStatusTag } from "../Account/LearnerWallet/OrderStatusTag";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { AffiliateEarnings, rangePresets } from "./AffiliateScreen";
 import { useState } from "react";
+import { sum } from "lodash";
 
 const { Text, Title } = Typography;
 
@@ -95,12 +96,35 @@ export default function AffiliateDashboard() {
                 return (
                   <List.Item
                     extra={[
-                      <CommissionStatusTag
-                        status={order.affiliate.commission.status}
-                      />,
+                      // <CommissionStatusTag
+                      //   status={order.affiliate.commission.status}
+                      // />,
                       <Text strong>
                         +
-                        {Utils.UnitTypeToStr(order.affiliate.commission.amount)}
+                        {Utils.UnitTypeToStr({
+                          value: order?.affiliate?.commissions.reduce(
+                            (a, b) => a + b.amount.value,
+                            0
+                          ),
+                          unit: order.total.unit,
+                        })}
+                        <Tooltip
+                          title={
+                            <Row>
+                              {order?.affiliate?.commissions.map(
+                                (commission, index) => {
+                                  return (
+                                    <Col span={24}>
+                                      {Utils.UnitTypeToStr(commission.amount)}
+                                    </Col>
+                                  );
+                                }
+                              )}
+                            </Row>
+                          }
+                        >
+                          <InfoCircleFilled />
+                        </Tooltip>
                       </Text>,
                     ]}
                     key={order._id}

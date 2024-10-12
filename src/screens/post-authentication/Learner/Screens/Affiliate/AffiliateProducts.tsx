@@ -1,5 +1,14 @@
-import { Button, Card, Col, DatePicker, Empty, Row, Spin } from "antd";
-import { Enum, Learner, Types } from "@adewaskar/lms-common";
+import {
+  Button,
+  Card,
+  Col,
+  DatePicker,
+  Dropdown,
+  Empty,
+  Row,
+  Spin,
+} from "antd";
+import { Constants, Enum, Learner, Types } from "@adewaskar/lms-common";
 
 import AppImage from "@Components/Image";
 import { CheckOutlined, CopyOutlined } from "@ant-design/icons";
@@ -77,10 +86,10 @@ export const ProductCard = (props: ProductCardPropsI) => {
     // @ts-ignore
     affiliateDetails._id
   }`;
-  const generateLink = () => {
+  const generateLink = (source: string) => {
     setCopy(true);
     setTimeout(() => setCopy(false), 5000);
-    copyToClipboard(url);
+    copyToClipboard(url + `&utm_source=${source}`);
   };
   const { openModal } = useModal();
   return (
@@ -94,15 +103,25 @@ export const ProductCard = (props: ProductCardPropsI) => {
         description={
           <Row gutter={[10, 10]}>
             <Col span={24}>
-              <Button
+              <Dropdown.Button
+                menu={{
+                  items: Constants.UTM_SOURCES.map((item) => ({
+                    key: item.value,
+                    label: item.label,
+                    onClick: () => generateLink(item.value),
+                  })),
+                }}
                 type={copy ? "primary" : "default"}
-                block
+                style={{
+                  width: "100%",
+                  display: "block",
+                }}
                 icon={copy ? <CheckOutlined /> : <CopyOutlined />}
-                onClick={generateLink}
+                // onClick={generateLink}
                 // size="small"
               >
                 {copy ? "Link Copied" : "Copy Link"}
-              </Button>
+              </Dropdown.Button>
             </Col>
             <Col span={24}>
               <Button
@@ -111,7 +130,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
                     <AffiliateProductAnalytics
                       product={{
                         type: props.type,
-                        id: product._id,
+                        id: product._id + "",
                       }}
                     />,
                     {
@@ -214,7 +233,9 @@ export const AffiliateProductAnalytics = (props: {
                     totalOrders: number;
                   }
                 ) => {
-                  return `₹ ${record.totalEarnings}`;
+                  return record.totalEarnings
+                    ? `₹ ${Math.ceil(record.totalEarnings)}`
+                    : "-";
                 }}
               />
             </Table>

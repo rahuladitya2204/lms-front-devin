@@ -45,6 +45,7 @@ const requestTransformer = [
     const orgAlias = Utils.Storage.GetItem("orgAlias");
     const userType = Utils.Storage.GetItem("userType");
     const affiliateId = Utils.Storage.GetItem("affiliateId");
+    const utmSource= Utils.Storage.GetItem("utmSource");
     // console.log("here", orgAlias, userType, affiliateId);
 
     const token = getToken(userType);
@@ -54,6 +55,10 @@ const requestTransformer = [
 
     if (affiliateId) {
       headers.set("x-affiliate-id", affiliateId);
+    }
+    
+    if(utmSource){
+      headers.set("x-utm-source", utmSource);
     }
 
     headers.set("x-user-type", userType);

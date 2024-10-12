@@ -19,7 +19,7 @@ export default function ProtectedLearnerProfile(
       message={
         <Alert
           icon={<UserOutlined />}
-          message="Please complete your profile to view test result"
+          message="Please complete your profile to continue"
         />
       }
       cta={<LearnerProfile />}
