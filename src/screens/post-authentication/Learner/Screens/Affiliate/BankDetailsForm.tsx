@@ -3,7 +3,7 @@ import { Button, Form, Input, Spin, message } from "antd";
 import { useEffect } from "react";
 
 export default function BankDetailsForm() {
-  const { mutate: updateBankDetails } =
+  const { mutate: updateBankDetails, isLoading: updatingDetails } =
     Learner.Queries.useUpdateAffiliateBankDetails();
   const [form] = Form.useForm();
   const { data: affiliateDetails, isFetching: loadingAffiliateDetails } =
@@ -98,7 +98,12 @@ export default function BankDetailsForm() {
         </Form.Item>
 
         {/* Submit Button */}
-        <Button block onClick={form.submit} type="primary">
+        <Button
+          loading={updatingDetails}
+          block
+          onClick={form.submit}
+          type="primary"
+        >
           Update Details
         </Button>
       </Form>

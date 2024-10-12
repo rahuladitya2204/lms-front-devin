@@ -45,6 +45,7 @@ import { sortBy } from "lodash";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import BankDetailsForm from "./BankDetailsForm";
 import ProtectedLearnerProfile from "../LearnerRoot/ProtectedLearnerProfile";
+import { InfoCircleOutlined, InfoCircleTwoTone } from "@ant-design/icons";
 
 const { Title, Text } = Typography;
 interface AffiliateScreenPropsI {
@@ -127,7 +128,9 @@ export default function AffiliateScreen(props: AffiliateScreenPropsI) {
                       onClick={() => {
                         verifyBankDetails(undefined, {
                           onSuccess(data, variables, context) {
-                            message.success("Bank Account Verified");
+                            message.warning(
+                              "Bank Account Verification Initiated"
+                            );
                             props.closeModal && props.closeModal();
                           },
                         });
@@ -236,6 +239,21 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
     return colors[level - 1] || "#000"; // Default to black if level exceeds color array length
   };
 
+  const renderEarningsBreakdown = (record) => {
+    return (
+      <div>
+        {levels.map((level) => (
+          <div key={level}>
+            <strong>Level {level}:</strong> ₹
+            {record[`level_${level}_earnings`]
+              ? Math.ceil(record[`level_${level}_earnings`])
+              : 0}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <Row>
       <Col span={24}>
@@ -270,13 +288,17 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
                 title="Total Earnings"
                 dataIndex="totalEarnings"
                 key={"totalEarnings"}
-                render={(
-                  _: any,
-                  record: { date: string; totalEarnings: number }
-                ) => {
-                  return record.totalEarnings
-                    ? `₹ ${Math.ceil(record.totalEarnings)}`
-                    : "-";
+                render={(_: any, record: { totalEarnings: number }) => {
+                  return record.totalEarnings ? (
+                    <>
+                      <Text strong>₹ {Math.ceil(record.totalEarnings)}</Text>{" "}
+                      <Tooltip title={renderEarningsBreakdown(record)}>
+                        <InfoCircleTwoTone />
+                      </Tooltip>
+                    </>
+                  ) : (
+                    "-"
+                  );
                 }}
               />
             </Table>
