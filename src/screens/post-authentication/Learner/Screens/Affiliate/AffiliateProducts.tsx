@@ -33,6 +33,7 @@ import {
 import { rangePresets } from "./AffiliateScreen";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
+import { capitalize } from "lodash";
 
 const { Text } = Typography;
 export default function AffiliateProducts() {
@@ -104,25 +105,29 @@ export const ProductCard = (props: ProductCardPropsI) => {
         description={
           <Row gutter={[10, 10]}>
             <Col span={24}>
-              <Dropdown.Button
+              <Dropdown
                 menu={{
                   items: Constants.UTM_SOURCES.map((item) => ({
                     key: item.value,
-                    label: item.label,
+                    label: `Copy ${capitalize(item.label)} Link`,
                     onClick: () => generateLink(item.value),
                   })),
                 }}
-                type={copy ? "primary" : "default"}
-                style={{
-                  width: "100%",
-                  display: "block",
-                }}
-                icon={copy ? <CheckOutlined /> : <CopyOutlined />}
-                // onClick={generateLink}
-                // size="small"
               >
-                {copy ? "Link Copied" : "Copy Link"}
-              </Dropdown.Button>
+                <Button
+                  type={copy ? "primary" : "default"}
+                  style={{
+                    width: "100%",
+                    display: "block",
+                  }}
+                  icon={copy ? <CheckOutlined /> : <CopyOutlined />}
+                  // onClick={generateLink}
+                  // size="small"
+                  block
+                >
+                  {copy ? "Link Copied" : "Copy Link"}
+                </Button>
+              </Dropdown>
             </Col>
             <Col span={24}>
               <Button

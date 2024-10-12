@@ -25,6 +25,27 @@ type SetResponseCookie = {
 
 export async function middleware(request: NextRequest) {
   console.log("[Middleware]: started");
+
+  const referrer = request.headers.get("referer") || "";
+  // todo: testing only
+  let cameFromGoogleSEO = false;
+  // Check if the user came via Google SEO
+  if (referrer.includes("google.com") && !referrer.includes("gclid")) {
+    cameFromGoogleSEO = true;
+    console.log("[Middleware]: User came from Google SEO");
+
+    // Optionally: Set a cookie to track this
+    const response = NextResponse.next();
+    response.cookies.set({
+      name: "cameFromGoogleSEO",
+      value: "true",
+      path: "/",
+    });
+
+    // Continue processing
+    return response;
+  }
+
   const hasOrgAlias = request.cookies.has("orgAlias");
   const hasUserType = request.cookies.has("userType");
 
