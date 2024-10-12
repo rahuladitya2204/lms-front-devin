@@ -7,7 +7,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { usePushNotification } from 'push-notification/usePushNotification';
 import useRazorpay from "react-razorpay";
 import { getServerEnv } from '@ServerUtils/index';
-import { useSearchParams } from '@Router/index';
 export const useNavigateParams = () => {
   const navigate = useNavigate()
 
@@ -60,25 +59,24 @@ export const useAppInit = () => {
 
   const [subdomain, setSubdomain] = useState('');
   const [affiliateId, setAffiliateId] = useState('');
-  const [queryParams] = useSearchParams();
-  const utmSource = queryParams.get('utm_source') || '';
-  // console.log(utmSource,'tukur')
-  useEffect(() => {
-    if (isMounted) {
+
+  useEffect(() => {  
+    if (isMounted && typeof window !== 'undefined') {
+      const queryString = window.location.search;
+      const queryParams = new URLSearchParams(queryString);
+      const utmSource = queryParams.get('utm_source') || '';
+  
       const affiliateId = queryParams.get('ref') || '';
       const parts = window.location.hostname.split('.');
       const subdomain = parts.slice(0, -2).join('-');
-
+      if(utmSource){
+        Utils.Storage.SetItem('utmSource',utmSource)
+      }
       setSubdomain(subdomain);
       setAffiliateId(affiliateId);
     }
   }, [isMounted]);
 
-  useEffect(()=>{
-    if(utmSource){
-      Utils.Storage.SetItem('utmSource',utmSource)
-    }
-  },[utmSource])
 
   useEffect(() => {
     if (isMounted && subdomain) {
