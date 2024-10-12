@@ -32,6 +32,7 @@ import { useState } from "react";
 import {
   CartesianGrid,
   Label,
+  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -214,18 +215,31 @@ export default function AffiliateScreen(props: AffiliateScreenPropsI) {
 interface AffiliateEarningsPropsI {}
 
 export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
+  const {
+    data: { affiliate },
+    isLoading: loadingSetting,
+  } = Learner.Queries.useGetOrgDetails();
+
   const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
-  // console.log(dates, "ddd");
   const { data, isLoading } = Learner.Queries.useGetAffiliateAccountEarnings({
     dateRange: dates,
   });
   const { isMobile } = useBreakpoint();
 
+  // Get commission levels from affiliate data
+  const levels = affiliate.commissionLevels.map((_, ind) => ind + 1); // Levels start from 1
+
+  // Color function for levels
+  const getColorForLevel = (level) => {
+    const colors = ["#8884d8", "#82ca9d", "#ff7300", "#ff4d4f", "#52c41a"]; // More colors can be added
+    return colors[level - 1] || "#000"; // Default to black if level exceeds color array length
+  };
+
   return (
     <Row>
       <Col span={24}>
         <Card
-          title="Earnings"
+          title="Your Earnings"
           extra={
             <DatePicker.RangePicker
               presets={rangePresets}
@@ -246,10 +260,7 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
                 dataIndex="date"
                 render={(
                   _: any,
-                  record: {
-                    date: string;
-                    totalEarnings: number;
-                  }
+                  record: { date: string; totalEarnings: number }
                 ) => {
                   return dayjs(record.date).format("LL");
                 }}
@@ -260,11 +271,7 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
                 key={"totalEarnings"}
                 render={(
                   _: any,
-                  record: {
-                    date: string;
-                    totalEarnings: number;
-                    totalOrders: number;
-                  }
+                  record: { date: string; totalEarnings: number }
                 ) => {
                   return record.totalEarnings
                     ? `₹ ${Math.ceil(record.totalEarnings)}`
@@ -274,7 +281,7 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
             </Table>
           ) : (
             <div style={{ height: 600 }}>
-              <ResponsiveContainer width={"100%"}>
+              <ResponsiveContainer height={700} width={"100%"}>
                 <LineChart
                   data={data} // Pass the earnings data to the chart
                   margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
@@ -291,17 +298,31 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
                       style={{ textAnchor: "middle" }}
                     />
                   </YAxis>
+
+                  {/* Tooltip showing earnings per level */}
                   <Tooltip
-                    formatter={(value) => `₹${value}`} // Format tooltip values as Rupee currency
-                    labelFormatter={(label) => `Date: ${label}`} // Show date in the tooltip
+                    formatter={(value, name) => [
+                      `₹${value}`,
+                      `Earnings for ${name}`,
+                    ]} // Customize tooltip format
+                    labelFormatter={(label) => `Date: ${label}`} // Format date in the tooltip
                   />
-                  <Line
-                    type="monotone"
-                    dataKey="totalEarnings"
-                    stroke="#8884d8"
-                    activeDot={{ r: 8 }}
-                    dot={{ r: 4 }}
-                  />
+
+                  {/* Dynamically render lines for each level */}
+                  {levels.map((level) => (
+                    <Line
+                      key={level}
+                      type="monotone"
+                      dataKey={`level_${level}_earnings`} // Dynamic dataKey for levels
+                      stroke={getColorForLevel(level)} // Assign color based on level
+                      activeDot={{ r: 8 }}
+                      dot={{ r: 4 }}
+                      name={`Level ${level}`} // Show level name in the tooltip and legend
+                    />
+                  ))}
+
+                  {/* Legend to toggle lines */}
+                  <Legend verticalAlign="top" height={36} />
                 </LineChart>
               </ResponsiveContainer>
             </div>

@@ -107,7 +107,7 @@ export default function AffiliateDashboard() {
                             0
                           ),
                           unit: order.total.unit,
-                        })}
+                        })}{" "}
                         <Tooltip
                           title={
                             <Row>
@@ -115,6 +115,7 @@ export default function AffiliateDashboard() {
                                 (commission, index) => {
                                   return (
                                     <Col span={24}>
+                                      Level {index + 1} -{" "}
                                       {Utils.UnitTypeToStr(commission.amount)}
                                     </Col>
                                   );
