@@ -19,7 +19,6 @@ export default function AffiliateDashboard() {
     Learner.Queries.useGetAffiliateAccountDetails();
   const { data: affiliateOrders, isLoading: loadingOrders } =
     Learner.Queries.useGetAffiliateOrders({ dateRange: dates });
-  console.log(affiliateOrders, "affiliateDetails");
 
   return (
     <Spin spinning={loadingDetails}>
@@ -115,7 +114,7 @@ export default function AffiliateDashboard() {
                                 (commission, index) => {
                                   return (
                                     <Col span={24}>
-                                      Level {index + 1} -{" "}
+                                      Level {commission.level} -{" "}
                                       {Utils.UnitTypeToStr(commission.amount)}
                                     </Col>
                                   );

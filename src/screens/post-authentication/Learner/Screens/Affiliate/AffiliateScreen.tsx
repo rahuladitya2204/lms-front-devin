@@ -299,14 +299,8 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
                     />
                   </YAxis>
 
-                  {/* Tooltip showing earnings per level */}
-                  <Tooltip
-                    formatter={(value, name) => [
-                      `₹${value}`,
-                      `Earnings for ${name}`,
-                    ]} // Customize tooltip format
-                    labelFormatter={(label) => `Date: ${label}`} // Format date in the tooltip
-                  />
+                  {/* Use default tooltip for now */}
+                  <Tooltip />
 
                   {/* Dynamically render lines for each level */}
                   {levels.map((level) => (
