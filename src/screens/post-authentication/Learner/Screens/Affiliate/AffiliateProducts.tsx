@@ -334,8 +334,8 @@ export const AffiliateProductAnalytics = (props: {
                     />
                   </YAxis>
                   <Tooltip
-                    formatter={(value) => `₹${value}`} // Format tooltip values as Rupee currency
-                    labelFormatter={(label) => `Date: ${label}`} // Show date in the tooltip
+                    formatter={(value) => `${value}`} // Format tooltip values as Rupee currency
+                    labelFormatter={(label) => `${dayjs(label).format("LL")}`} // Show date in the tooltip
                   />
                   <Legend verticalAlign="top" height={36} />
 
@@ -349,10 +349,7 @@ export const AffiliateProductAnalytics = (props: {
                         stroke={getColorForLevel(1)} // Assign color
                         activeDot={{ r: 8 }}
                         dot={{ r: 4 }}
-                        name={`Total Orders (${selectedLevel.replace(
-                          "_",
-                          " "
-                        )})`}
+                        name={`Total Orders`}
                       />
                       <Line
                         key={selectedLevel}
@@ -361,10 +358,7 @@ export const AffiliateProductAnalytics = (props: {
                         stroke={getColorForLevel(2)} // Assign color
                         activeDot={{ r: 8 }}
                         dot={{ r: 4 }}
-                        name={`Total Earnings (${selectedLevel.replace(
-                          "_",
-                          " "
-                        )})`}
+                        name={`Total Earnings`}
                       />
                     </>
                   ) : (
@@ -377,7 +371,7 @@ export const AffiliateProductAnalytics = (props: {
                           stroke={getColorForLevel(index + 1)} // Assign color based on level
                           activeDot={{ r: 8 }}
                           dot={{ r: 4 }}
-                          name={`Total Orders (${level})`}
+                          name={`Total Orders`}
                         />
                       ))}
                       {levels.map((level, index) => (
@@ -388,7 +382,7 @@ export const AffiliateProductAnalytics = (props: {
                           stroke={getColorForLevel(index + 1)} // Assign color based on level
                           activeDot={{ r: 8 }}
                           dot={{ r: 4 }}
-                          name={`Total Earnings (${level})`}
+                          name={`Total Earnings`}
                         />
                       ))}
                     </>
