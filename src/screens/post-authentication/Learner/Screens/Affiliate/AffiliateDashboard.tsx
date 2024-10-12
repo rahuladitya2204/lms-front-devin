@@ -78,7 +78,7 @@ export default function AffiliateDashboard() {
               </Tooltip>
             }
           >
-            <Title level={3}>{dayjs().add(4, "day").format("LL")}</Title>
+            <Title level={3}>{dayjs().endOf("month").format("LL")}</Title>
           </Card>
         </Col>
         <Col xs={24} sm={24} md={24}>
