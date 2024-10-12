@@ -6,6 +6,7 @@ import {
   Dropdown,
   Empty,
   Row,
+  Select,
   Spin,
 } from "antd";
 import { Constants, Enum, Learner, Types } from "@adewaskar/lms-common";
@@ -182,6 +183,7 @@ export const AffiliateProductAnalytics = (props: {
 }) => {
   const { product } = props;
   const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
+  const [selectedLevel, setSelectedLevel] = useState<string | null>(null); // For storing the selected level
   const { data, isLoading } = Learner.Queries.useGetAffiliateProductAnalytics({
     dateRange: dates,
     product: product,
@@ -195,21 +197,47 @@ export const AffiliateProductAnalytics = (props: {
 
   const levels = data && data.length > 0 ? Object.keys(data[0].levels) : [];
 
+  const handleLevelChange = (value) => {
+    setSelectedLevel(value); // Set the selected level
+  };
+
+  const filteredData = selectedLevel
+    ? data.map((entry) => ({
+        ...entry,
+        levels: { [selectedLevel]: entry.levels[selectedLevel] }, // Only keep the selected level in the data
+      }))
+    : data; // If no level is selected, show all levels
+
   return (
     <Row>
       <Col span={24}>
         <Card
           title="Product Analytics"
           extra={
-            <DatePicker.RangePicker
-              presets={rangePresets}
-              value={dates}
-              onChange={setDates}
-            />
+            <>
+              <Select
+                style={{ width: 200, marginRight: 10 }}
+                placeholder="Select Level"
+                onChange={handleLevelChange}
+                value={selectedLevel || undefined}
+              >
+                {levels.map((level) => (
+                  <Select.Option key={level} value={level}>
+                    {level.replace("_", " ")}{" "}
+                    {/* Display level as Level 1, Level 2 */}
+                  </Select.Option>
+                ))}
+              </Select>
+              <DatePicker.RangePicker
+                presets={rangePresets}
+                value={dates}
+                onChange={setDates}
+              />
+            </>
           }
         >
           {isMobile ? (
-            <Table loading={isLoading} dataSource={data}>
+            <Table loading={isLoading} dataSource={filteredData}>
               <TableColumn
                 title="Date"
                 dataIndex="date"
@@ -223,18 +251,20 @@ export const AffiliateProductAnalytics = (props: {
                 }}
               />
 
-              {/* Dynamically add columns for each level */}
-              {levels.map((level) => (
+              {selectedLevel ? (
                 <>
                   <TableColumn
-                    title={`Total Orders (${level})`}
-                    dataIndex={["levels", level, "totalOrders"]}
-                    key={`totalOrders_${level}`}
+                    title={`Total Orders (${selectedLevel.replace("_", " ")})`}
+                    dataIndex={["levels", selectedLevel, "totalOrders"]}
+                    key={`totalOrders_${selectedLevel}`}
                   />
                   <TableColumn
-                    title={`Total Earnings (${level})`}
-                    dataIndex={["levels", level, "totalEarnings"]}
-                    key={`totalEarnings_${level}`}
+                    title={`Total Earnings (${selectedLevel.replace(
+                      "_",
+                      " "
+                    )})`}
+                    dataIndex={["levels", selectedLevel, "totalEarnings"]}
+                    key={`totalEarnings_${selectedLevel}`}
                     render={(
                       _: any,
                       record: {
@@ -243,19 +273,52 @@ export const AffiliateProductAnalytics = (props: {
                         };
                       }
                     ) => {
-                      return record.levels[level]?.totalEarnings
-                        ? `₹ ${Math.ceil(record.levels[level].totalEarnings)}`
+                      return record.levels[selectedLevel]?.totalEarnings
+                        ? `₹ ${Math.ceil(
+                            record.levels[selectedLevel].totalEarnings
+                          )}`
                         : "-";
                     }}
                   />
                 </>
-              ))}
+              ) : (
+                <>
+                  {levels.map((level) => (
+                    <>
+                      <TableColumn
+                        title={`Total Orders (${level})`}
+                        dataIndex={["levels", level, "totalOrders"]}
+                        key={`totalOrders_${level}`}
+                      />
+                      <TableColumn
+                        title={`Total Earnings (${level})`}
+                        dataIndex={["levels", level, "totalEarnings"]}
+                        key={`totalEarnings_${level}`}
+                        render={(
+                          _: any,
+                          record: {
+                            levels: {
+                              [key: string]: { totalEarnings: number };
+                            };
+                          }
+                        ) => {
+                          return record.levels[level]?.totalEarnings
+                            ? `₹ ${Math.ceil(
+                                record.levels[level].totalEarnings
+                              )}`
+                            : "-";
+                        }}
+                      />
+                    </>
+                  ))}
+                </>
+              )}
             </Table>
           ) : (
             <div style={{ height: 600 }}>
               <ResponsiveContainer width={"100%"}>
                 <LineChart
-                  data={data} // Pass the earnings data to the chart
+                  data={filteredData} // Pass the filtered earnings data to the chart
                   margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
@@ -276,30 +339,60 @@ export const AffiliateProductAnalytics = (props: {
                   />
                   <Legend verticalAlign="top" height={36} />
 
-                  {/* Dynamically render lines for each level */}
-                  {levels.map((level, index) => (
-                    <Line
-                      key={level}
-                      type="monotone"
-                      dataKey={`levels.${level}.totalOrders`}
-                      stroke={getColorForLevel(index + 1)} // Assign color based on level
-                      activeDot={{ r: 8 }}
-                      dot={{ r: 4 }}
-                      name={`Total Orders (${level})`}
-                    />
-                  ))}
-
-                  {levels.map((level, index) => (
-                    <Line
-                      key={level}
-                      type="monotone"
-                      dataKey={`levels.${level}.totalEarnings`}
-                      stroke={getColorForLevel(index + 1)} // Assign color based on level
-                      activeDot={{ r: 8 }}
-                      dot={{ r: 4 }}
-                      name={`Total Earnings (${level})`}
-                    />
-                  ))}
+                  {/* Dynamically render lines for the selected level */}
+                  {selectedLevel ? (
+                    <>
+                      <Line
+                        key={selectedLevel}
+                        type="monotone"
+                        dataKey={`levels.${selectedLevel}.totalOrders`}
+                        stroke={getColorForLevel(1)} // Assign color
+                        activeDot={{ r: 8 }}
+                        dot={{ r: 4 }}
+                        name={`Total Orders (${selectedLevel.replace(
+                          "_",
+                          " "
+                        )})`}
+                      />
+                      <Line
+                        key={selectedLevel}
+                        type="monotone"
+                        dataKey={`levels.${selectedLevel}.totalEarnings`}
+                        stroke={getColorForLevel(2)} // Assign color
+                        activeDot={{ r: 8 }}
+                        dot={{ r: 4 }}
+                        name={`Total Earnings (${selectedLevel.replace(
+                          "_",
+                          " "
+                        )})`}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      {levels.map((level, index) => (
+                        <Line
+                          key={level}
+                          type="monotone"
+                          dataKey={`levels.${level}.totalOrders`}
+                          stroke={getColorForLevel(index + 1)} // Assign color based on level
+                          activeDot={{ r: 8 }}
+                          dot={{ r: 4 }}
+                          name={`Total Orders (${level})`}
+                        />
+                      ))}
+                      {levels.map((level, index) => (
+                        <Line
+                          key={level}
+                          type="monotone"
+                          dataKey={`levels.${level}.totalEarnings`}
+                          stroke={getColorForLevel(index + 1)} // Assign color based on level
+                          activeDot={{ r: 8 }}
+                          dot={{ r: 4 }}
+                          name={`Total Earnings (${level})`}
+                        />
+                      ))}
+                    </>
+                  )}
                 </LineChart>
               </ResponsiveContainer>
             </div>
