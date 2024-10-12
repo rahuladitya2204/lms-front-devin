@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { usePushNotification } from 'push-notification/usePushNotification';
 import useRazorpay from "react-razorpay";
 import { getServerEnv } from '@ServerUtils/index';
+import { useSearchParams } from '@Router/index';
 export const useNavigateParams = () => {
   const navigate = useNavigate()
 
@@ -59,10 +60,9 @@ export const useAppInit = () => {
 
   const [subdomain, setSubdomain] = useState('');
   const [affiliateId, setAffiliateId] = useState('');
-  const queryString = window.location.search;
-  const queryParams = new URLSearchParams(queryString);
+  const [queryParams] = useSearchParams();
   const utmSource = queryParams.get('utm_source') || '';
-
+  // console.log(utmSource,'tukur')
   useEffect(() => {
     if (isMounted) {
       const affiliateId = queryParams.get('ref') || '';
