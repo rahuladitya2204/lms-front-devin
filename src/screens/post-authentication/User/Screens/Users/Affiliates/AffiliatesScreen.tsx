@@ -17,23 +17,22 @@ function AffiliatesScreen() {
   const { data: learners, isFetching: loading } =
     User.Queries.useGetAffiliates();
   const { openModal } = useModal();
-  const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
   return (
     <Header
       title={learners.length ? `Affiliates(${learners.length})` : "Affiliates"}
-      extra={[
-        <DatePicker.RangePicker
-          presets={rangePresets}
-          value={dates}
-          onChange={setDates}
-        />,
-      ]}
+      // extra={[
+      //   <DatePicker.RangePicker
+      //     presets={rangePresets}
+      //     value={dates}
+      //     onChange={setDates}
+      //   />,
+      // ]}
     >
       <Container>
         <Row>
           <Col span={24}>
             {/* <AffiliatesTable /> */}
-            <AffiliatePayoutDetails dates={dates} />
+            <AffiliatePayoutDetails />
           </Col>
         </Row>
       </Container>
@@ -48,9 +47,9 @@ interface AffiliatePayoutDetailsPropsI {
   dates: string[];
 }
 
-export const AffiliatePayoutDetails = ({
-  dates,
-}: AffiliatePayoutDetailsPropsI) => {
+export const AffiliatePayoutDetails = ({}: // dates,
+AffiliatePayoutDetailsPropsI) => {
+  const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
   const { data: affiliates, isFetching: loading } =
     User.Queries.useGetAffiliates();
   const { data: payoutDetails, isLoading } =
@@ -70,6 +69,13 @@ export const AffiliatePayoutDetails = ({
       // ]}
     >
       <Table
+        extra={
+          <DatePicker.RangePicker
+            presets={rangePresets}
+            value={dates}
+            onChange={setDates}
+          />
+        }
         dataSource={payoutDetails.affiliates}
         // expandable={{
         //   expandedRowRender: (record) => (
@@ -100,7 +106,7 @@ export const AffiliatePayoutDetails = ({
           title="Affiliate Name"
           dataIndex="name"
           render={(_: any, record: Types.AffiliatePayoutDetails) =>
-            affiliates.find((a) => a._id === record.affiliateId)?.name
+            record.learner.name
           }
         />
 

@@ -11,7 +11,6 @@ interface FileThumbnailPropsI {
 const FileThumbnail = ({ url }: FileThumbnailPropsI) => {
   // Extract file extension from URL
   const fileExtension = url?.split(".").pop()?.toLowerCase();
-  console.log(url, "urlurl");
   // Render an image thumbnail if the file is an image
   if (["jpg", "jpeg", "png", "gif", "bmp", "svg"].includes(fileExtension)) {
     return <AppImage src={url} height={200} />;

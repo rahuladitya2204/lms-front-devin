@@ -94,7 +94,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
     setTimeout(() => setCopy(false), 5000);
     copyToClipboard(url + `&utm_source=${source}`);
   };
-  const promotionFiles = product?.promotion?.files;
+  const promotionFiles = product?.promotion?.files?.filter((i) => i.url);
   const { openModal } = useModal();
   return (
     <Card
