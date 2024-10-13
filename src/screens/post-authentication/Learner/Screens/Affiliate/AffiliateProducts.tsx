@@ -94,6 +94,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
     setTimeout(() => setCopy(false), 5000);
     copyToClipboard(url + `&utm_source=${source}`);
   };
+  const promotionFiles = product?.promotion?.files;
   const { openModal } = useModal();
   return (
     <Card
@@ -152,7 +153,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
                 View Analytics
               </Button>
             </Col>
-            {product?.promotion?.files?.length ? (
+            {promotionFiles?.length ? (
               <Col span={24}>
                 <Button
                   onClick={() => {
@@ -163,7 +164,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
                           justifyContent: "center",
                         }}
                         type="card"
-                        files={product.promotion.files}
+                        files={promotionFiles}
                       />,
                       {
                         title: "Promotion Content",
