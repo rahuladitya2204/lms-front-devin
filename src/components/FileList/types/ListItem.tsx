@@ -7,6 +7,7 @@ import {
 
 import { Common } from "@adewaskar/lms-common";
 import { useState } from "react";
+import { downloadFileFromUrl } from "@Components/Editor/SunEditor/utils";
 
 const { confirm } = Modal;
 
@@ -35,35 +36,37 @@ function FileItem({
               onClick={(e) => {
                 setDownloading(true);
                 Common.Api.GetPresignedUrlFromFile(file._id).then((url) => {
-                  window.open(url);
+                  downloadFileFromUrl(url);
                   setDownloading(false);
                 });
               }}
             />
           </a>
         </Spin>,
-        <a key="list-loadmore-edit">
-          <DeleteOutlined
-            onClick={(e) => {
-              confirm({
-                title: "Are you sure?",
-                // icon: <ExclamationCircleOutlined />,
-                content: `You want to delete this file`,
-                onOk() {
-                  deleteFile(
-                    { id: fileId + "" },
-                    {
-                      onSuccess: () => {
-                        onDeleteFile(fileId + "");
-                      },
-                    }
-                  );
-                },
-                okText: "Delete File",
-              });
-            }}
-          />
-        </a>,
+        onDeleteFile ? (
+          <a key="list-loadmore-edit">
+            <DeleteOutlined
+              onClick={(e) => {
+                confirm({
+                  title: "Are you sure?",
+                  // icon: <ExclamationCircleOutlined />,
+                  content: `You want to delete this file`,
+                  onOk() {
+                    deleteFile(
+                      { id: fileId + "" },
+                      {
+                        onSuccess: () => {
+                          onDeleteFile(fileId + "");
+                        },
+                      }
+                    );
+                  },
+                  okText: "Delete File",
+                });
+              }}
+            />
+          </a>
+        ) : null,
       ]}
     >
       {file.name}

@@ -144,14 +144,14 @@ export function requestCameraPermission() {
   });
 }
 
-export async function downloadFileFromUrl(fileUrl: string, fileName: string): Promise<void> {
+export async function downloadFileFromUrl(fileUrl: string, fileName?: string): Promise<void> {
   try {
     const response = await fetch(fileUrl);
     const blob = await response.blob();
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = fileName;
+    link.download = fileName || 'FileName';
     link.style.display = 'none';
     document.body.appendChild(link);
     link.click();

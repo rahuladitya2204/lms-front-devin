@@ -27,6 +27,7 @@ import TextArea from "@Components/Textarea";
 import { validateSlug } from "@Components/Editor/SunEditor/utils";
 import { capitalize, cloneDeep } from "lodash";
 import dayjs from "dayjs";
+import FileList from "@Components/FileList";
 
 interface PackageDetailsPropsI {
   packageId: string;
@@ -57,6 +58,8 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
   };
   const { mutateAsync: validateSlugApi, status: validatingStatus } =
     User.Queries.useValidateSlug("package");
+  const promotionImages = Form.useWatch(["promotion", "files"], form) || [];
+
   return (
     <Fragment>
       <Row gutter={[20, 20]}>
@@ -141,7 +144,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
                 <InputTags name={`keywords`} />
               </Form.Item>{" "}
             </Col>
-            <Col span={12}>
+            <Col span={8}>
               <Form.Item label="Status" style={{ margin: 0 }} name={["status"]}>
                 <Select
                   options={[
@@ -163,6 +166,26 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
                     },
                   ]}
                 />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                style={{ margin: 0, marginLeft: 10 }}
+                valuePropName="checked"
+                name={["purchase", "enabled"]}
+                label="Purchase Enabled"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
+            <Col span={8}>
+              <Form.Item
+                style={{ margin: 0, marginLeft: 10 }}
+                valuePropName="checked"
+                name={["promotion", "enabled"]}
+                label="Promoted"
+              >
+                <Switch />
               </Form.Item>
             </Col>
           </Row>
@@ -192,16 +215,6 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
       </Row>
       <Divider />
       <Row>
-        <Col span={8}>
-          <Form.Item
-            style={{ margin: 0, marginLeft: 10 }}
-            valuePropName="checked"
-            name={["promotion", "enabled"]}
-            label="Promoted"
-          >
-            <Switch />
-          </Form.Item>
-        </Col>
         <Col flex={1}>
           <Row gutter={[10, 10]} align={"middle"}>
             <Col span={6}>
@@ -244,16 +257,38 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           </Row>
         </Col>
       </Row>
+      <Divider />
       <Row>
-        <Col span={8}>
-          <Form.Item
-            style={{ margin: 0, marginLeft: 10 }}
-            valuePropName="checked"
-            name={["purchase", "enabled"]}
-            label="Purchase Enabled"
-          >
-            <Switch />
-          </Form.Item>
+        <Col span={24}>
+          <Card title="Promotion Images">
+            <Form.Item
+              name={["promotion", "files"]}
+              required
+              // label="Promotion Images"
+            >
+              <MediaUpload
+                uploadType="file"
+                prefixKey={`Packages/${packageId}/promoted`}
+                onUpload={({ name, _id, url }) => {
+                  form.setFieldValue(
+                    ["promotion", "files"],
+                    [...promotionImages, { name, file: _id, url }]
+                  );
+                }}
+              />
+              {promotionImages?.length ? (
+                <FileList
+                  onDeleteFile={(fileId: string) => {
+                    const FILES = promotionImages.filter(
+                      (f: any) => f.file !== fileId
+                    );
+                    form.setFieldValue(["promotion", "files"], FILES);
+                  }}
+                  files={promotionImages}
+                />
+              ) : null}
+            </Form.Item>
+          </Card>
         </Col>
       </Row>
       <Divider />

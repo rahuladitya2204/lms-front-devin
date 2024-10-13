@@ -34,6 +34,7 @@ import { rangePresets } from "./AffiliateScreen";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import Table, { TableColumn } from "@Components/Table/TableComponent";
 import { capitalize } from "lodash";
+import FileList from "@Components/FileList";
 
 const { Text } = Typography;
 export default function AffiliateProducts() {
@@ -150,6 +151,31 @@ export const ProductCard = (props: ProductCardPropsI) => {
               >
                 View Analytics
               </Button>
+              {product?.promotion?.files?.length ? (
+                <Button
+                  onClick={() => {
+                    openModal(
+                      <FileList
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                        }}
+                        type="card"
+                        files={product.promotion.files}
+                      />,
+                      {
+                        title: "Promotion Content",
+                        width: 800,
+                      }
+                    );
+                  }}
+                  block
+                  style={{ marginTop: 10 }}
+                  type="dashed"
+                >
+                  Promotion Content
+                </Button>
+              ) : null}
             </Col>
           </Row>
         }

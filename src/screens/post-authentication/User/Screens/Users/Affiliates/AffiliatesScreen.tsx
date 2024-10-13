@@ -17,26 +17,23 @@ function AffiliatesScreen() {
   const { data: learners, isFetching: loading } =
     User.Queries.useGetAffiliates();
   const { openModal } = useModal();
+  const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
   return (
     <Header
       title={learners.length ? `Affiliates(${learners.length})` : "Affiliates"}
       extra={[
-        <Button
-          onClick={() => {
-            openModal(<AffiliatePayoutDetails />, {
-              width: 800,
-            });
-          }}
-          type="primary"
-        >
-          Payout Details
-        </Button>,
+        <DatePicker.RangePicker
+          presets={rangePresets}
+          value={dates}
+          onChange={setDates}
+        />,
       ]}
     >
       <Container>
         <Row>
           <Col span={24}>
-            <AffiliatesTable />
+            {/* <AffiliatesTable /> */}
+            <AffiliatePayoutDetails dates={dates} />
           </Col>
         </Row>
       </Container>
@@ -48,10 +45,12 @@ export default AffiliatesScreen;
 
 interface AffiliatePayoutDetailsPropsI {
   affiliateId: string;
+  dates: string[];
 }
 
-export const AffiliatePayoutDetails = (props: AffiliatePayoutDetailsPropsI) => {
-  const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
+export const AffiliatePayoutDetails = ({
+  dates,
+}: AffiliatePayoutDetailsPropsI) => {
   const { data: affiliates, isFetching: loading } =
     User.Queries.useGetAffiliates();
   const { data: payoutDetails, isLoading } =
@@ -62,40 +61,40 @@ export const AffiliatePayoutDetails = (props: AffiliatePayoutDetailsPropsI) => {
       title={`Payout Details(${dayjs(dates[0]).format("LL")} - ${dayjs(
         dates[1]
       ).format("LL")})`}
-      extra={[
-        <DatePicker.RangePicker
-          presets={rangePresets}
-          value={dates}
-          onChange={setDates}
-        />,
-      ]}
+      // extra={[
+      //   <DatePicker.RangePicker
+      //     presets={rangePresets}
+      //     value={dates}
+      //     onChange={setDates}
+      //   />,
+      // ]}
     >
       <Table
         dataSource={payoutDetails.affiliates}
-        expandable={{
-          expandedRowRender: (record) => (
-            <Table dataSource={record.orders}>
-              <TableColumn title="Order Id" dataIndex="orderId" />
+        // expandable={{
+        //   expandedRowRender: (record) => (
+        //     <Table dataSource={record.orders}>
+        //       <TableColumn title="Order Id" dataIndex="orderId" />
 
-              <TableColumn
-                title="Date"
-                dataIndex="date"
-                render={(_: any, record: any) =>
-                  dayjs(record.date).format("LL")
-                }
-              />
+        //       <TableColumn
+        //         title="Date"
+        //         dataIndex="date"
+        //         render={(_: any, record: any) =>
+        //           dayjs(record.date).format("LL")
+        //         }
+        //       />
 
-              <TableColumn
-                title="Commission"
-                dataIndex="commission"
-                render={(_: any, record: any) =>
-                  `${record.commissionValue}(${record.commissionType})`
-                }
-              />
-            </Table>
-          ),
-          rowExpandable: (record) => record.name !== "Not Expandable",
-        }}
+        //       <TableColumn
+        //         title="Commission"
+        //         dataIndex="commission"
+        //         render={(_: any, record: any) =>
+        //           `${record.commissionValue}(${record.commissionType})`
+        //         }
+        //       />
+        //     </Table>
+        //   ),
+        //   rowExpandable: (record) => record.name !== "Not Expandable",
+        // }}
       >
         <TableColumn
           title="Affiliate Name"

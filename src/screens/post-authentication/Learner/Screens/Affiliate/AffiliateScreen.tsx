@@ -4,6 +4,7 @@ import {
   Card,
   Col,
   DatePicker,
+  Dropdown,
   Form,
   Layout,
   Row,
@@ -45,7 +46,13 @@ import { sortBy } from "lodash";
 import ActionModal from "@Components/ActionModal/ActionModal";
 import BankDetailsForm from "./BankDetailsForm";
 import ProtectedLearnerProfile from "../LearnerRoot/ProtectedLearnerProfile";
-import { InfoCircleOutlined, InfoCircleTwoTone } from "@ant-design/icons";
+import {
+  AlertOutlined,
+  CopyOutlined,
+  InfoCircleOutlined,
+  InfoCircleTwoTone,
+} from "@ant-design/icons";
+import { copyToClipboard } from "@Utils/index";
 
 const { Title, Text } = Typography;
 interface AffiliateScreenPropsI {
@@ -74,9 +81,22 @@ export default function AffiliateScreen(props: AffiliateScreenPropsI) {
       }
     >
       <Spin spinning={loadingAffiliateDetails}>
-        <Button
+        <Dropdown.Button
           style={{ paddingTop: 2, paddingLeft: 5 }}
-          color="blue-inverse"
+          menu={{
+            items: [
+              {
+                label: "Copy Referral Link",
+                key: "copy-referral-link",
+                icon: <CopyOutlined />,
+                onClick: () => {
+                  copyToClipboard(
+                    `${window.location.origin}/affiliate?ref=${learner.affiliate}`
+                  );
+                },
+              },
+            ],
+          }}
           // size={screen.isMobile?'small':'middle'}
         >
           <Row justify={"center"} align={"middle"}>
@@ -89,7 +109,7 @@ export default function AffiliateScreen(props: AffiliateScreenPropsI) {
               </Text>
             </Col>
           </Row>
-        </Button>
+        </Dropdown.Button>
       </Spin>
     </Tooltip>
   );
@@ -103,64 +123,82 @@ export default function AffiliateScreen(props: AffiliateScreenPropsI) {
       <BankDetailsForm />
     </ActionModal>
   );
+
+  const AffiliateLinkButton = (
+    <Button
+      onClick={() => {
+        copyToClipboard(
+          `https:///www.testmint.ai/affiliate?ref=${learner.affiliate}`
+        );
+      }}
+    >
+      Copy Affiliate Link
+    </Button>
+  );
+
+  const AlertBox = !affiliateDetails.bankDetails.accountName ? (
+    <Alert
+      action={EditBankAccount}
+      message="Your bank account details is incomplete please fill"
+      banner
+      type="error"
+      closable
+    />
+  ) : (
+    <Alert
+      action={
+        affiliateDetails.bankDetails.status !== "verification_pending" ? (
+          <Row>
+            <Col>{EditBankAccount}</Col>
+            <Col>
+              <Button
+                type="primary"
+                style={{ marginLeft: 10 }}
+                loading={verifyingBankAccount}
+                onClick={() => {
+                  verifyBankDetails(undefined, {
+                    onSuccess(data, variables, context) {
+                      message.warning("Bank Account Verification Initiated");
+                      props.closeModal && props.closeModal();
+                    },
+                  });
+                }}
+                // type="primary"
+                size="small"
+              >
+                Verify Bank Account
+              </Button>
+            </Col>
+          </Row>
+        ) : null
+      }
+      message={
+        affiliateDetails.bankDetails.status !== "verified"
+          ? affiliateDetails.bankDetails.status === "verification_pending"
+            ? "Your bank detail is under verification"
+            : "Your bank account details are not verified yet"
+          : null
+      }
+      banner
+      type="error"
+      closable
+    />
+  );
+
   return (
     <ProtectedLearnerProfile>
       <Spin spinning={loadingDetails}>
-        {!affiliateDetails.bankDetails.accountName ? (
-          <Alert
-            action={EditBankAccount}
-            message="Your bank account details is incomplete please fill"
-            banner
-            type="error"
-            closable
-          />
-        ) : (
-          <Alert
-            action={
-              affiliateDetails.bankDetails.status !== "verification_pending" ? (
-                <Row>
-                  <Col>{EditBankAccount}</Col>
-                  <Col>
-                    <Button
-                      type="primary"
-                      style={{ marginLeft: 10 }}
-                      loading={verifyingBankAccount}
-                      onClick={() => {
-                        verifyBankDetails(undefined, {
-                          onSuccess(data, variables, context) {
-                            message.warning(
-                              "Bank Account Verification Initiated"
-                            );
-                            props.closeModal && props.closeModal();
-                          },
-                        });
-                      }}
-                      // type="primary"
-                      size="small"
-                    >
-                      Verify Bank Account
-                    </Button>
-                  </Col>
-                </Row>
-              ) : null
-            }
-            message={
-              affiliateDetails.bankDetails.status !== "verified"
-                ? affiliateDetails.bankDetails.status === "verification_pending"
-                  ? "Your bank detail is under verification"
-                  : "Your bank account details are not verified yet"
-                : null
-            }
-            banner
-            type="error"
-            closable
-          />
-        )}
+        {!isMobile ? AlertBox : null}
         <Header
           onLogoClick={() => navigate("../app/store")}
           // showBack
           showLogo
-          title="Affiliate Program"
+          title={
+            <div>
+              Affiliate Program
+              {/* {AlertBox} */}
+            </div>
+          }
           extra={isMobile ? [] : [WalletButton]}
         >
           {isMobile ? (
