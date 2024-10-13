@@ -12,7 +12,12 @@ import {
 import { Constants, Enum, Learner, Types } from "@adewaskar/lms-common";
 
 import AppImage from "@Components/Image";
-import { CheckOutlined, CopyOutlined } from "@ant-design/icons";
+import {
+  CheckOutlined,
+  CopyOutlined,
+  DownloadOutlined,
+  LineChartOutlined,
+} from "@ant-design/icons";
 import Tabs from "@Components/Tabs";
 import { Typography } from "@Components/Typography";
 import { copyToClipboard } from "@Utils/index";
@@ -149,6 +154,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
                 }}
                 type="primary"
                 block
+                // icon={<LineChartOutlined />}
               >
                 View Analytics
               </Button>
@@ -156,6 +162,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
             {promotionFiles?.length ? (
               <Col span={24}>
                 <Button
+                  icon={<DownloadOutlined />}
                   onClick={() => {
                     openModal(
                       <FileList
