@@ -6,7 +6,6 @@ import { Typography } from "@Components/Typography";
 import { unit } from "mathjs";
 import FileThumbnail from "../FileThumbnail";
 import { downloadFileFromUrl } from "@Components/Editor/SunEditor/utils";
-import { uniqueId } from "lodash";
 
 const { Text } = Typography;
 
@@ -33,8 +32,7 @@ function FileItem({
         <Button
           block
           onClick={(e) => {
-            const extension = url.split(".").pop();
-            downloadFileFromUrl(url, uniqueId() + "." + extension);
+            downloadFileFromUrl(url);
           }}
           icon={<DownloadOutlined />}
         >

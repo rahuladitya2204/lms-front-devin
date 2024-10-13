@@ -1,5 +1,5 @@
 import katex, { KatexOptions } from 'katex'
-import { debounce } from 'lodash'
+import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
 // @ts-ignore
@@ -151,7 +151,8 @@ export async function downloadFileFromUrl(fileUrl: string, fileName?: string): P
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = fileName || 'FileName';
+    const extension = url.split(".").pop();
+    link.download = fileName || (uniqueId() + "." + extension)
     link.style.display = 'none';
     document.body.appendChild(link);
     link.click();
