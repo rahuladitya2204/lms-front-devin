@@ -324,7 +324,8 @@ export const AffiliateEarnings = (props: AffiliateEarningsPropsI) => {
 
                   {/* Tooltip with formatter for custom display */}
                   <ReTooltip
-                    formatter={(value) => `₹${value}`} // Format tooltip values as Rupee currency
+                    // @ts-ignore
+                    formatter={(value) => `₹${Math.ceil(value)}`} // Format tooltip values as Rupee currency
                     labelFormatter={(label) => `${dayjs(label).format("LL")}`} // Format date in the tooltip
                   />
 

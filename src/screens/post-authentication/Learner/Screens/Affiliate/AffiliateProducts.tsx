@@ -188,7 +188,7 @@ export const AffiliateProductAnalytics = (props: {
 }) => {
   const { product } = props;
   const [dates, setDates] = useState([dayjs().startOf("month"), dayjs()]);
-  const [selectedLevel, setSelectedLevel] = useState<string | null>(null); // For storing the selected level
+  const [selectedLevel, setSelectedLevel] = useState<string>("level_1"); // Preselect 'level_1'
   const { data, isLoading } = Learner.Queries.useGetAffiliateProductAnalytics({
     dateRange: dates,
     product: product,
@@ -200,18 +200,38 @@ export const AffiliateProductAnalytics = (props: {
     return colors[level - 1] || "#000"; // Default to black if color is not available
   };
 
-  const levels = data && data.length > 0 ? Object.keys(data[0].levels) : [];
+  // Define the levels that should always be displayed in the dropdown
+  const predefinedLevels = [
+    "level_1",
+    "level_2",
+    "level_3",
+    "level_4",
+    "level_5",
+  ];
+
+  // Use levels from the data if available, otherwise fallback to predefined levels
+  const levels = predefinedLevels;
 
   const handleLevelChange = (value) => {
     setSelectedLevel(value); // Set the selected level
   };
 
+  // Filter data based on the selected level
   const filteredData = selectedLevel
     ? data.map((entry) => ({
         ...entry,
         levels: { [selectedLevel]: entry.levels[selectedLevel] }, // Only keep the selected level in the data
       }))
     : data; // If no level is selected, show all levels
+
+  // Define formatter for the tooltip
+  const tooltipFormatter = (value, name) => {
+    // Check if the name contains 'Earnings', then format with the rupee symbol
+    if (name.includes("Earnings")) {
+      return `₹ ${value}`;
+    }
+    return value; // Return without Rupee symbol for non-earnings fields (like orders)
+  };
 
   return (
     <Row>
@@ -339,7 +359,7 @@ export const AffiliateProductAnalytics = (props: {
                     />
                   </YAxis>
                   <Tooltip
-                    formatter={(value) => `${value}`} // Format tooltip values as Rupee currency
+                    formatter={tooltipFormatter} // Format tooltip values
                     labelFormatter={(label) => `${dayjs(label).format("LL")}`} // Show date in the tooltip
                   />
                   <Legend verticalAlign="top" height={36} />
