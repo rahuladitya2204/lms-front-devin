@@ -270,10 +270,12 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
                 uploadType="file"
                 prefixKey={`Packages/${packageId}/promoted`}
                 onUpload={({ name, _id, url }) => {
-                  form.setFieldValue(
-                    ["promotion", "files"],
-                    [...promotionImages, { name, file: _id, url }]
-                  );
+                  if (_id) {
+                    form.setFieldValue(
+                      ["promotion", "files"],
+                      [...promotionImages, { name, file: _id, url }]
+                    );
+                  }
                 }}
               />
               {promotionImages?.length ? (

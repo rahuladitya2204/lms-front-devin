@@ -105,7 +105,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
       <Card.Meta
         description={
           <Row gutter={[10, 10]}>
-            <Col span={24}>
+            <Col span={12}>
               <Dropdown
                 menu={{
                   items: Constants.UTM_SOURCES.map((item) => ({
@@ -130,7 +130,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
                 </Button>
               </Dropdown>
             </Col>
-            <Col span={24}>
+            <Col span={12}>
               <Button
                 onClick={() => {
                   openModal(
@@ -151,7 +151,9 @@ export const ProductCard = (props: ProductCardPropsI) => {
               >
                 View Analytics
               </Button>
-              {product?.promotion?.files?.length ? (
+            </Col>
+            {product?.promotion?.files?.length ? (
+              <Col span={24}>
                 <Button
                   onClick={() => {
                     openModal(
@@ -172,11 +174,12 @@ export const ProductCard = (props: ProductCardPropsI) => {
                   block
                   style={{ marginTop: 10 }}
                   type="dashed"
+                  danger
                 >
                   Promotion Content
                 </Button>
-              ) : null}
-            </Col>
+              </Col>
+            ) : null}
           </Row>
         }
         title={<Text>{product.title}</Text>}
@@ -199,7 +202,7 @@ export const ProductList = (props: {
       ) : (
         <Row gutter={[20, 30]}>
           {products.map((product) => (
-            <Col xs={24} sm={12} md={12} lg={6}>
+            <Col xs={24} sm={12} md={12} lg={8}>
               <ProductCard type={props.type} product={product} />
             </Col>
           ))}
