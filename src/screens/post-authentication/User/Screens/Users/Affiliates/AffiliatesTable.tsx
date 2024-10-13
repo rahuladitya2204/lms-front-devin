@@ -11,6 +11,7 @@ import {
   message,
 } from "@Lib/index";
 import {
+  BookOutlined,
   CheckCircleOutlined,
   CloseOutlined,
   DeleteOutlined,
@@ -28,6 +29,7 @@ import { useModal } from "@Components/ActionModal/ModalContext";
 import { sortBy } from "lodash";
 import UTMSourceTag from "../Learners/UTMSourceTag";
 import AddAffiliate from "./AddAffiliate";
+import { AffiliatePayoutDetails } from "./AffiliatesScreen";
 
 const confirm = Modal.confirm;
 
@@ -206,6 +208,19 @@ function AffiliatesTable() {
                           content: "Bank details verified successfully",
                         });
                       },
+                    }
+                  );
+                },
+              },
+              {
+                label: "View Payout Details",
+                key: "view-payout-details",
+                icon: <BookOutlined />,
+                onClick: () => {
+                  openModal(
+                    <AffiliatePayoutDetails affiliateId={record._id} />,
+                    {
+                      width: 800,
                     }
                   );
                 },
