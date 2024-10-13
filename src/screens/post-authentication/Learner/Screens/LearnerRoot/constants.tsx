@@ -1,74 +1,74 @@
 import {
   AppstoreOutlined,
   MailOutlined,
-  UsergroupDeleteOutlined
-} from '@ant-design/icons'
+  UsergroupDeleteOutlined,
+} from "@ant-design/icons";
 
-import { MenuProps } from 'antd'
-import { Types } from '@adewaskar/lms-common'
+import { MenuProps } from "antd";
+import { Types } from "@adewaskar/lms-common";
 
 export const MENU_ITEMS: Types.MenuItemNode[] = [
   {
-    title: 'Users',
+    title: "Users",
     icon: <UsergroupDeleteOutlined />,
-    path: 'users',
+    path: "users",
     children: [
       {
-        title: 'Learners',
-        path: 'learners',
-        icon: <AppstoreOutlined />
+        title: "Learners",
+        path: "learners",
+        icon: <AppstoreOutlined />,
       },
       {
-        title: 'Admins',
-        path: 'users',
-        icon: <AppstoreOutlined />
+        title: "Admins",
+        path: "users",
+        icon: <AppstoreOutlined />,
       },
       {
-        title: 'Users',
-        path: 'users',
-        icon: <AppstoreOutlined />
-      }
-    ]
+        title: "Users",
+        path: "users",
+        icon: <AppstoreOutlined />,
+      },
+      {
+        title: "Affiliates",
+        path: "affiliates",
+        icon: <AppstoreOutlined />,
+      },
+    ],
   },
   {
-    title: 'Website',
+    title: "Website",
     icon: <UsergroupDeleteOutlined />,
-    path: 'website',
-  }
-]
+    path: "website",
+  },
+];
 
-
-export const MenuItems = (items:Types.MenuItemNode[]) => {
+export const MenuItems = (items: Types.MenuItemNode[]) => {
   return items.map((item, pIndex) => {
-    const ARGS = [item.title, `${item.path}`, item.icon]
+    const ARGS = [item.title, `${item.path}`, item.icon];
     const CHILDREN = item?.children?.map((childItem, cIndex) =>
       getItem(childItem.title, `${item.path}/${childItem.path}`, childItem.icon)
-    )
+    );
     if (CHILDREN) {
       // @ts-ignore
-      ARGS.push(CHILDREN)
+      ARGS.push(CHILDREN);
     }
     // @ts-ignore
-    return getItem(...ARGS)
-  })
-}
+    return getItem(...ARGS);
+  });
+};
 
-
-type MenuItem = Required<MenuProps>['items'][number];
-
-
+type MenuItem = Required<MenuProps>["items"][number];
 
 function getItem(
-    label: React.ReactNode,
-    key?: React.Key | null,
-    icon?: React.ReactNode,
-    children?: MenuItem[],
-  ): MenuItem {
-    return {
-      key,
-      icon,
-      children,
-      label,
-    } as MenuItem;
+  label: React.ReactNode,
+  key?: React.Key | null,
+  icon?: React.ReactNode,
+  children?: MenuItem[]
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label,
+  } as MenuItem;
 }
-  

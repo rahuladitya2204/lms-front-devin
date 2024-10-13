@@ -80,6 +80,13 @@ export default function UTMSourceTag(props: UTMSourcePropsI) {
             Telegram
           </Tag>
         );
+
+      case "google":
+        return (
+          <Tag icon={<GoogleOutlined />} color="blue">
+            Google
+          </Tag>
+        );
       default:
         return (
           <Tag icon={<FileUnknownFilled />} color="purple">

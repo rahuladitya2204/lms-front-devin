@@ -146,6 +146,7 @@ import InterviewRecorder from "./post-authentication/Learner/Screens/Interview/I
 import UserDeviceSelection from "@User/Screens/Event/LiveSessionPlayer/User/UserDeviceSelection";
 import UserEventPlayerEnter from "@User/Screens/Event/LiveSessionPlayer/User";
 import EventPlayer from "@User/Screens/Event/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer";
+import AffiliatesScreen from "@User/Screens/Users/Affiliates/AffiliatesScreen";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -408,7 +409,10 @@ const router = (userType: string) => {
                     <Route path="learners">
                       <Route path="" element={<LearnersScreen />} />
                       <Route path=":id/editor" element={<LearnerEditor />} />
-                    </Route>{" "}
+                    </Route>
+                    <Route path="affiliates">
+                      <Route path="" element={<AffiliatesScreen />} />
+                    </Route>
                   </Route>
                   <Route path="platform">
                     <Route path="app">

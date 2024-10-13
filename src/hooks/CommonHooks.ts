@@ -7,6 +7,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { usePushNotification } from 'push-notification/usePushNotification';
 import useRazorpay from "react-razorpay";
 import { getServerEnv } from '@ServerUtils/index';
+import { useCookies } from 'react-cookie';
 export const useNavigateParams = () => {
   const navigate = useNavigate()
 
@@ -49,6 +50,9 @@ const useIsMounted = () => {
 
 // SSR safe by using useIsMounted
 export const useAppInit = () => {
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "seo_utm_cookie",
+  ])
   const isMounted = useIsMounted();
   const isValidAlias = Store.useGlobal(s => s.isAliasValid);
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
@@ -71,6 +75,9 @@ export const useAppInit = () => {
       const subdomain = parts.slice(0, -2).join('-');
       if(utmSource){
         Utils.Storage.SetItem('utmSource',utmSource)
+      }
+      if(cookies.seo_utm_cookie){
+        Utils.Storage.SetItem('utmSource',cookies.seo_utm_cookie)
       }
       setSubdomain(subdomain);
       setAffiliateId(affiliateId);

@@ -108,6 +108,11 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         path: "users",
         // icon: <UserOutlined />
       },
+      {
+        title: "Affiliates",
+        path: "affiliates",
+        // icon: <UserOutlined />
+      },
     ],
   },
   {

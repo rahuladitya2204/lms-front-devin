@@ -37,8 +37,8 @@ export async function middleware(request: NextRequest) {
     // Optionally: Set a cookie to track this
     const response = NextResponse.next();
     response.cookies.set({
-      name: "cameFromGoogleSEO",
-      value: "true",
+      name: "seo_utm_cookie",
+      value: "google",
       path: "/",
     });
 

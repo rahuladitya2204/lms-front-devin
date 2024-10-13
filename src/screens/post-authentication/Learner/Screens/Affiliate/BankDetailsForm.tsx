@@ -1,6 +1,10 @@
 import { Learner, Types } from "@adewaskar/lms-common";
 import { Button, Form, Input, Spin, message } from "antd";
 import { useEffect } from "react";
+export const ifscPattern = /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/;
+
+// PAN Card Validation Pattern (e.g., ABCDE1234F)
+export const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
 export default function BankDetailsForm() {
   const { mutate: updateBankDetails, isLoading: updatingDetails } =
@@ -27,12 +31,6 @@ export default function BankDetailsForm() {
       }
     );
   };
-
-  // IFSC Code Validation Pattern (e.g., HDFC0001234)
-  const ifscPattern = /^[A-Za-z]{4}[a-zA-Z0-9]{7}$/;
-
-  // PAN Card Validation Pattern (e.g., ABCDE1234F)
-  const panPattern = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
 
   return (
     <Spin spinning={loadingAffiliateDetails}>
