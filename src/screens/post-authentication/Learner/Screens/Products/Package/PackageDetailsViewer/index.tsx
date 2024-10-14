@@ -3,6 +3,7 @@
 import {
   Alert,
   Avatar,
+  Badge,
   Button,
   Card,
   Col,
@@ -13,7 +14,12 @@ import {
   Tag,
   message,
 } from "@Lib/index";
-import { AlertOutlined, UserOutlined } from "@ant-design/icons";
+import {
+  AlertOutlined,
+  DollarOutlined,
+  MoneyCollectOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 import { Constants, Enum, Store, Types, Utils } from "@adewaskar/lms-common";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "@Router/index";
@@ -86,6 +92,39 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
       navigate(`/app/test-series/${packageId}/overview`);
     }
   }, [type, category._id, props.isServer]);
+  const { openModal } = useModal();
+  const RefundBox = bundle?.refund?.enabled ? (
+    <Alert
+      showIcon
+      style={{ marginBottom: 10 }}
+      icon={<DollarOutlined />}
+      type="info"
+      message="100% Refund Policy"
+      action={
+        <Button
+          type="primary"
+          onClick={() => {
+            openModal(
+              <Text>
+                This Test series has a 100% refund policy. If you are not
+                satisfied, you can get a full refund with{" "}
+                {bundle?.refund?.within?.days} days.
+              </Text>,
+              {
+                title: "Refund Policy",
+                // content: <RefundPolicy bundle={bundle} />,
+                // width: 700,
+              }
+            );
+          }}
+          danger
+          size="small"
+        >
+          View Refund Policy
+        </Button>
+      }
+    />
+  ) : null;
   const plan =
     (bundle.plan as unknown as Types.Plan) ||
     Constants.INITIAL_COURSE_PLAN_DETAILS;
@@ -104,6 +143,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
         <Col span={24}>
           <Row gutter={[30, 30]} style={{ lineHeight: 0 }}>
             <Col xs={0} sm={0} md={0} lg={24}>
+              {RefundBox}
               <PackageTitle
                 style={{ fontSize: 25 }}
                 className="course-title"
@@ -122,6 +162,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
                 <Col span={24}>
                   <Row gutter={[30, 30]}>
                     <Col xs={24} lg={0}>
+                      {RefundBox}
                       <PackageCard
                         isServer={!!props.isServer}
                         plan={plan}
@@ -209,9 +250,41 @@ const PackageCard = ({
 
   const isEnrolled = Learner.Queries.useIsLearnerEnrolledToProduct(product);
   const { openModal } = useModal();
-
+  // const RefundBox = bundle.refund.enabled ? (
+  //   <Alert
+  //     showIcon
+  //     style={{ marginBottom: 10 }}
+  //     icon={<DollarOutlined />}
+  //     type="info"
+  //     message="100% Refund Policy"
+  //     action={
+  //       <Button
+  //         type="primary"
+  //         onClick={() => {
+  //           openModal(
+  //             <Text>
+  //               This Test series has a 100% refund policy. If you are not
+  //               satisfied, you can get a full refund with{" "}
+  //               {bundle?.refund?.within?.days} days.
+  //             </Text>,
+  //             {
+  //               title: "Refund Policy",
+  //               // content: <RefundPolicy bundle={bundle} />,
+  //               // width: 700,
+  //             }
+  //           );
+  //         }}
+  //         danger
+  //         size="small"
+  //       >
+  //         View Refund Policy
+  //       </Button>
+  //     }
+  //   />
+  // ) : null;
   const isLoading = loadingPackage;
-  return (
+
+  const Component = (
     <Card
       cover
       bordered
@@ -220,9 +293,11 @@ const PackageCard = ({
       bodyStyle={{ padding: 5, paddingBottom: 15 }}
       title={
         !isDesktop ? (
-          <Title style={{ fontSize: 20 }} level={5}>
-            {bundle.title}
-          </Title>
+          <>
+            <Title style={{ fontSize: 20 }} level={5}>
+              {bundle.title}
+            </Title>
+          </>
         ) : null
       }
     >
@@ -317,11 +392,11 @@ const PackageCard = ({
                     Login to access this package
                   </Button>
                   {/* <ActionModal width={300}
-                    cta={<Button size="large" type="primary" block>
-            Login to access this package
-                </Button>}>
-                  <LearnerLogin/>
-                </ActionModal> */}
+                cta={<Button size="large" type="primary" block>
+        Login to access this package
+            </Button>}>
+              <LearnerLogin/>
+            </ActionModal> */}
                 </Col>
               )}
             </Row>
@@ -329,5 +404,19 @@ const PackageCard = ({
         </Row>
       </>
     </Card>
+  );
+  // if (bundle.refund.enabled) {
+  //   // console.log(bundle, "bubububtuurrrr");
+  //   return (
+  //     <Badge.Ribbon text="100% Refund Policy" color="red">
+  //       {Component}
+  //     </Badge.Ribbon>
+  //   );
+  // }
+  return (
+    <Row gutter={[10, 0]}>
+      {/* {isMobile ? <Col span={24}>{RefundBox}</Col> : null} */}
+      <Col span={24}>{Component}</Col>
+    </Row>
   );
 };

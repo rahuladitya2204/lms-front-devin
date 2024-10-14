@@ -69,7 +69,11 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
                 { required: true, message: "Please enter your line1 address" },
               ]}
             >
-              <TextArea rows={2} placeholder="Enter your address" />
+              <TextArea
+                minLength={5}
+                rows={2}
+                placeholder="Enter your address"
+              />
             </Form.Item>
 
             <Form.Item
@@ -79,7 +83,11 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
                 { required: true, message: "Please enter your line2 address" },
               ]}
             >
-              <TextArea rows={2} placeholder="Enter your address" />
+              <TextArea
+                label="Address Line - 2"
+                rows={2}
+                placeholder="Enter your address"
+              />
             </Form.Item>
 
             <Form.Item
@@ -118,7 +126,11 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
               label="Pincode"
               rules={[{ required: true, message: "Please enter your pincode" }]}
             >
-              <Input placeholder="Enter your pincode" />
+              <Input
+                minLength={6}
+                maxLength={6}
+                placeholder="Enter your pincode"
+              />
             </Form.Item>
 
             <Form.Item>

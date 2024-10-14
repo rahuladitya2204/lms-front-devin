@@ -94,24 +94,25 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     </Button>
   );
 
-  const TryNowButton = props.isTrial
-    ? DemoButton
-    : // <Button
-      //   onClick={() => {
-      //     navigate(
-      //       `${props.isServer ? "" : "/app"}/${linkPrefix}/${
-      //         product.slug || product._id
-      //       }`
-      //     );
-      //     props.onTry && props.onTry();
-      //   }}
-      //   type="primary"
-      //   size="small"
-      //   icon={<ExportOutlined />}
-      // >
-      //   Try {isFree ? "for Free" : "Now"}
-      // </Button>
-      null;
+  const TryNowButton = props.isTrial ? (
+    DemoButton
+  ) : (
+    <Button
+      onClick={() => {
+        navigate(
+          `${props.isServer ? "" : "/app"}/${linkPrefix}/${
+            product.slug || product._id
+          }`
+        );
+        props.onTry && props.onTry();
+      }}
+      type="primary"
+      size="small"
+      icon={<ExportOutlined />}
+    >
+      Try {isFree ? "for Free" : "Now"}
+    </Button>
+  );
 
   const Component = props.mini ? (
     <MiniCard

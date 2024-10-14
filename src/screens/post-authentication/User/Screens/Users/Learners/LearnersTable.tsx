@@ -316,15 +316,7 @@ export const EnrolledProductsOfLearner = (props: { learnerId: string }) => {
         <TableColumn
           title="Feedback"
           render={(_: any, record: Types.EnrolledProductDetails) =>
-            record.review ? (
-              <Rate
-                style={{ fontSize: 12 }}
-                disabled
-                value={record?.review?.comment}
-              />
-            ) : (
-              "-"
-            )
+            record.review ? record?.review?.comment : "-"
           }
           dataIndex="endedAt"
           key="endedAt"

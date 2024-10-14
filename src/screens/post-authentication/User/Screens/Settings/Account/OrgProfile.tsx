@@ -11,7 +11,7 @@ import {
   Tabs,
 } from "antd";
 import { CheckCircleOutlined, UploadOutlined } from "@ant-design/icons";
-import { Types, User } from "@adewaskar/lms-common";
+import { Enum, Types, User } from "@adewaskar/lms-common";
 import { useEffect, useState } from "react";
 
 import Image from "@Components/Image";
@@ -271,6 +271,27 @@ export default function OrgProfile() {
               placeholder="Please enter a short name for your org to be used in FavIcon, web title"
             />
           </Form.Item>
+
+          <Title level={3}>Transaction</Title>
+
+          <Form.Item
+            name={["learner", "transaction", "strategy"]}
+            label="Transaction Strategy"
+          >
+            <Select
+              options={[
+                {
+                  label: "Wallet",
+                  value: Enum.LearnerTransactionStrategy.WALLET,
+                },
+                {
+                  label: "Direct",
+                  value: Enum.LearnerTransactionStrategy.DIRECT,
+                },
+              ]}
+            />
+          </Form.Item>
+          <Form.Item />
 
           <Title level={3}>Font</Title>
 

@@ -52,6 +52,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
     };
   }, [data]);
   const isFeatured = Form.useWatch(["featured", "enabled"], form);
+  const isRefundEnabled = Form.useWatch(["refund", "enabled"], form);
   const testimonials = Form.useWatch(["testimonials"], form);
   const setTestimonials = (t: Types.Testimonial[]) => {
     form.setFieldValue(["testimonials"], t);
@@ -255,6 +256,29 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
               </Col>
             ) : null}
           </Row>
+        </Col>
+      </Row>
+      <Divider />
+      <Row>
+        <Col span={8}>
+          <Form.Item
+            style={{ margin: 0, marginLeft: 10 }}
+            valuePropName="checked"
+            name={["refund", "enabled"]}
+            label="Refund Enabled"
+          >
+            <Switch />
+          </Form.Item>
+        </Col>
+
+        <Col style={{ display: isRefundEnabled ? "block" : "none" }} span={8}>
+          <Form.Item
+            style={{ margin: 0, marginLeft: 10 }}
+            name={["refund", "within", "days"]}
+            label="Refund Window(in days)"
+          >
+            <Input type="number" />
+          </Form.Item>
         </Col>
       </Row>
       <Divider />
