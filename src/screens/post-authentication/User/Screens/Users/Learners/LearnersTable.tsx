@@ -29,6 +29,7 @@ import { sortBy } from "lodash";
 import LearnerProductCard from "@Components/LearnerProductCard";
 import { UTM_SOURCES } from "../../../../Learner/Screens/Affiliate/AffiliateProducts";
 import UTMSourceTag from "./UTMSourceTag";
+import LearnerJobs from "./LearnerJobs";
 
 const confirm = Modal.confirm;
 
@@ -141,6 +142,23 @@ function LearnersTable() {
                     </Row>,
                     {
                       title: `${record.name}'s enrolled products`,
+                      width: 700,
+                    }
+                  );
+                },
+              },
+              {
+                label: "Show Jobs",
+                key: "show-jobs",
+                onClick: () => {
+                  openModal(
+                    <Row gutter={[20, 20]}>
+                      <Col span={24}>
+                        <LearnerJobs learnerId={record._id} />
+                      </Col>
+                    </Row>,
+                    {
+                      title: `${record.name}'s jobs`,
                       width: 700,
                     }
                   );
@@ -286,6 +304,23 @@ export const EnrolledProductsOfLearner = (props: { learnerId: string }) => {
                 style={{ fontSize: 12 }}
                 disabled
                 value={record.review?.rating}
+              />
+            ) : (
+              "-"
+            )
+          }
+          dataIndex="endedAt"
+          key="endedAt"
+        />
+
+        <TableColumn
+          title="Feedback"
+          render={(_: any, record: Types.EnrolledProductDetails) =>
+            record.review ? (
+              <Rate
+                style={{ fontSize: 12 }}
+                disabled
+                value={record?.review?.comment}
               />
             ) : (
               "-"

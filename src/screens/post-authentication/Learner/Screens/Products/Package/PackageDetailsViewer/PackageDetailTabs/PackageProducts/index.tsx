@@ -51,21 +51,29 @@ function PackageProducts(props: PackageProductsPropsI) {
                       key={key}
                     >
                       <Row gutter={[20, 30]}>
-                        {products.map((item: Types.Test) => (
-                          <Col xs={24} sm={12} md={12} lg={12} xl={12}>
-                            <LearnerProductCard
-                              mini
-                              onClick={() => {
-                                // @ts-ignore
-                                window.open(`/${key}/${item._id}`);
-                              }}
-                              product={{
-                                id: item._id + "",
-                                type: key,
-                                data: item,
-                              }}
-                            >
-                              {/* {item.duration.enabled ? (
+                        {products.map(
+                          ({
+                            item,
+                            isTrial,
+                          }: {
+                            item: Types.Test;
+                            isTrial: boolean;
+                          }) => (
+                            <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+                              <LearnerProductCard
+                                isTrial={isTrial}
+                                mini
+                                onClick={() => {
+                                  // @ts-ignore
+                                  window.open(`/${key}/${item._id}`);
+                                }}
+                                product={{
+                                  id: item._id + "",
+                                  type: key,
+                                  data: item,
+                                }}
+                              >
+                                {/* {item.duration.enabled ? (
                                 <Tag
                                   style={{ fontSize: 12 }}
                                   color="blue-inverse"
@@ -90,9 +98,10 @@ function PackageProducts(props: PackageProductsPropsI) {
                                   {item.stats.question.count} Questions
                                 </Tag>
                               ) : null} */}
-                            </LearnerProductCard>
-                          </Col>
-                        ))}
+                              </LearnerProductCard>
+                            </Col>
+                          )
+                        )}
                       </Row>
                     </Panel>
                   );

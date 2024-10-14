@@ -43,6 +43,7 @@ const CustomTag = styled(Text)`
 
 interface LearnerProductCardPropsI {
   product: Types.Product;
+  isTrial?: boolean;
   children?: React.ReactNode;
   isServer?: boolean;
   actions?: React.ReactNode[];
@@ -74,19 +75,44 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     return prefix;
   }, [props]);
   const isFree = product?.plan?.type === "free";
-  const TryNowButton = (
+
+  const DemoButton = (
     <Button
       onClick={() => {
-        navigate(`/${linkPrefix}/${product.slug || product._id}`);
+        navigate(
+          `${props.isServer ? "" : "/app"}/${linkPrefix}/${
+            product.slug || product._id
+          }`
+        );
         props.onTry && props.onTry();
       }}
       type="primary"
+      danger
       size="small"
-      icon={<ExportOutlined />}
     >
-      Try {isFree ? "for Free" : "Now"}
+      Try Demo Test
     </Button>
   );
+
+  const TryNowButton = props.isTrial
+    ? DemoButton
+    : // <Button
+      //   onClick={() => {
+      //     navigate(
+      //       `${props.isServer ? "" : "/app"}/${linkPrefix}/${
+      //         product.slug || product._id
+      //       }`
+      //     );
+      //     props.onTry && props.onTry();
+      //   }}
+      //   type="primary"
+      //   size="small"
+      //   icon={<ExportOutlined />}
+      // >
+      //   Try {isFree ? "for Free" : "Now"}
+      // </Button>
+      null;
+
   const Component = props.mini ? (
     <MiniCard
       accessoryLeft={
@@ -244,15 +270,15 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       />
     </Card>
   );
-  // if (isFree) {
-  //   return (
-  //     <div style={{ paddingLeft: 10 }}>
-  //       <Badge.Ribbon color="purple" placement="start" text="Free">
-  //         {Component}
-  //       </Badge.Ribbon>
-  //     </div>
-  //   );
-  // }
+  if (props.isTrial) {
+    return (
+      <div style={{ paddingLeft: 10 }}>
+        <Badge.Ribbon color="red" placement="start" text="Free Demo">
+          {Component}
+        </Badge.Ribbon>
+      </div>
+    );
+  }
   if (product?.featured?.enabled) {
     return (
       <div style={{ paddingLeft: 10 }}>

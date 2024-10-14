@@ -2,7 +2,14 @@ import AddMoneyToWallet, {
   useCreateWallterOrder,
 } from "@Learner/Screens/Account/LearnerWallet/AddMoneyToWallet";
 import { Button, ButtonProps, Form, Input, Modal } from "antd";
-import { Enum, Learner, Store, Types, Utils } from "@adewaskar/lms-common";
+import {
+  Constants,
+  Enum,
+  Learner,
+  Store,
+  Types,
+  Utils,
+} from "@adewaskar/lms-common";
 
 import ActionModal from "./ActionModal/ActionModal";
 import ProductWalletNudge from "./ProductWalletNudge";
@@ -37,8 +44,9 @@ export default function ProductCheckoutButton(
   const couponCodeInput = Form.useWatch(["couponCode"], form);
   const couponCode = searchParams.get("coupon_code") || couponCodeInput;
   const { data: prod } = Learner.Queries.useGetProductDetail(props.product);
-  const { plan, coupons } = prod;
-  const coupon = coupons.find((c) => c.code === couponCode);
+  const { plan = Constants.INITIAL_COURSE_PLAN_DETAILS, coupons = [] } = prod;
+  const coupon = coupons?.find((c) => c.code === couponCode);
+  // console.log(plan, "plplplpl");
   const finalPriceValue = Math.ceil(
     coupon
       ? plan.displayPrice.value -
@@ -223,7 +231,7 @@ export default function ProductCheckoutButton(
               {
                 validator: (_, value) => {
                   if (!value) return Promise.resolve();
-                  const couponExists = coupons.find(
+                  const couponExists = coupons?.find(
                     (c) => c.code === String(value)
                   );
                   if (couponExists) {

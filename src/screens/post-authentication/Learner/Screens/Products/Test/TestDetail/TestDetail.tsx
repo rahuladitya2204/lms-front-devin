@@ -97,7 +97,7 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
   return loadingEnrolledTest || loadingTest ? (
     <TestDetailSkeletonScreen />
   ) : (
-    <Row gutter={[20, 30]}>
+    <Row gutter={[20, 20]}>
       <ProductDetailSignup
         product={{
           type: "category",
@@ -106,16 +106,14 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
       />
       {loadingTest ? null : (
         <>
-          <Col md={24} sm={24} lg={0}>
+          {/* <Col md={24} sm={24} lg={0}>
             <TestCard
               isServer={props.isServer}
               plan={plan}
               testId={testId + ""}
             />
-            {/* Replace with card image */}
-            {/* <CourseMetadata course={course} /> */}
-          </Col>
-          <Col lg={24} md={24} xs={0}>
+          </Col> */}
+          <Col lg={24} md={24} xs={24}>
             <Title
               style={{
                 // fontSize: 16,
@@ -200,7 +198,7 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
               </Card>
             </Col>
           ) : null}
-          <Col xs={0} sm={0} md={0} lg={8}>
+          <Col xs={24} sm={24} md={12} lg={12}>
             <TestCard
               isServer={props.isServer}
               testId={testId + ""}
@@ -449,30 +447,30 @@ const TestCard = ({
     <Card
       bodyStyle={{ padding: 10, paddingBottom: 20 }}
       // style={{ height: '100%' }}
-      title={
-        !isDesktop ? (
-          <Text
-            style={{
-              fontSize: 16,
-              whiteSpace: "normal", // Ensures text wraps
-              overflowWrap: "break-word", // Breaks words to prevent overflow
-            }}
-          >
-            {test.title}
-          </Text>
-        ) : null
-      }
-      extra={
-        isMobile || isTablet ? (
-          <ActionDrawer
-            title={test.title}
-            cta={<Button shape="circle" icon={<InfoOutlined />}></Button>}
-          >
-            {" "}
-            {Metadata}{" "}
-          </ActionDrawer>
-        ) : null
-      }
+      // title={
+      //   !isDesktop ? (
+      //     <Text
+      //       style={{
+      //         fontSize: 16,
+      //         whiteSpace: "normal", // Ensures text wraps
+      //         overflowWrap: "break-word", // Breaks words to prevent overflow
+      //       }}
+      //     >
+      //       {test.title}
+      //     </Text>
+      //   ) : null
+      // }
+      // extra={
+      //   isMobile || isTablet ? (
+      //     <ActionDrawer
+      //       title={test.title}
+      //       cta={<Button shape="circle" icon={<InfoOutlined />}></Button>}
+      //     >
+      //       {" "}
+      //       {Metadata}{" "}
+      //     </ActionDrawer>
+      //   ) : null
+      // }
     >
       {" "}
       {isLoading ? (
@@ -527,8 +525,9 @@ const TestCard = ({
                       <>
                         {isEnrolled ? (
                           ENROLLED_CTA
-                        ) : (
+                        ) : test?.purchase?.enabled ? (
                           <ProductCheckoutButton
+                            ctaText={"Try Demo Test"}
                             // onClick={() => {
                             //   LogEvent(
                             //     "Enroll Test Button",
@@ -541,6 +540,9 @@ const TestCard = ({
                                 type: "success",
                                 content: `You have enrolled successfully`,
                               });
+                              if (isFree) {
+                                navigate(`/app/test/${test._id}/start`);
+                              }
                             }}
                             product={{ type: "test", id: testId + "" }}
                             block
@@ -549,10 +551,10 @@ const TestCard = ({
                             {isFree
                               ? test?.pyq?.enabled
                                 ? "Attempt Now"
-                                : "Enroll Now"
+                                : "Try Demo Test"
                               : "Buy Now"}
                           </ProductCheckoutButton>
-                        )}
+                        ) : null}
                       </>
                     ) : (
                       <Button

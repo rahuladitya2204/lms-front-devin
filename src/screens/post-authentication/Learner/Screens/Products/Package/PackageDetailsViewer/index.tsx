@@ -75,6 +75,7 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
 
   const { data: category } = Learner.Queries.useGetProductCategoryDetails(
     bundle.category,
+    // @ts-ignore
     {
       enabled: !!bundle.category,
     }

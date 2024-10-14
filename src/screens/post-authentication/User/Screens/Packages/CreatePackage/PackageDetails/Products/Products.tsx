@@ -1,6 +1,7 @@
 import {
   Button,
   Card,
+  Checkbox,
   Col,
   Collapse,
   Form,
@@ -86,7 +87,7 @@ export const ProductSection = (props: ProductSectionPropsI) => {
           <SearchUserProducts
             category={props.category}
             // @ts-ignore
-            onSelect={(e) => props.add(e)}
+            onSelect={(e) => props.add({ item: e, isTrial: false })}
             type={props.productType}
           />
         </Col>
@@ -98,16 +99,22 @@ export const ProductSection = (props: ProductSectionPropsI) => {
                 props.name,
                 field.name,
               ]);
-              // console.log(fieldValue, 'fieldValue')
+              const itemId = fieldValue.item;
               return (
                 <Col span={6}>
                   <ProductCard
                     // type={product.value}
                     product={{
                       type: props.productType,
-                      id: fieldValue,
+                      id: itemId,
                     }}
                     actions={[
+                      <Form.Item
+                        name={[field.name, "isTrial"]}
+                        valuePropName="checked"
+                      >
+                        <Checkbox>Is Trial</Checkbox>
+                      </Form.Item>,
                       <Button
                         size="small"
                         onClick={() => props.remove(index)}
