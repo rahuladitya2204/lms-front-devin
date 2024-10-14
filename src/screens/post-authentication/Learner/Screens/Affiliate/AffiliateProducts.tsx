@@ -90,7 +90,7 @@ export const ProductCard = (props: ProductCardPropsI) => {
   //   @ts-ignore
   const url = `${window.location.host}/${type}/${
     product.slug || product._id
-  }?ref=${
+  }/products?ref=${
     // @ts-ignore
     affiliateDetails._id
   }`;
