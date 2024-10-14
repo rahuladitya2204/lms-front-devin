@@ -420,3 +420,70 @@ const PackageCard = ({
     </Row>
   );
 };
+
+export const RefundAlert = (props: { refund; order }) => {
+  const { order, refund } = props;
+  if (refund.enabled) {
+    switch (order.status) {
+      case "refund-requested":
+        return (
+          <Alert
+            showIcon
+            style={{ marginBottom: 10 }}
+            icon={<DollarOutlined />}
+            type="info"
+            message="Refund Requested"
+          />
+        );
+
+      case "refund-initiated":
+        return (
+          <Alert
+            showIcon
+            style={{ marginBottom: 10 }}
+            icon={<DollarOutlined />}
+            type="info"
+            message="Refund Initiated"
+          />
+        );
+
+      case "refund-pending":
+        return (
+          <Alert
+            showIcon
+            style={{ marginBottom: 10 }}
+            icon={<DollarOutlined />}
+            type="warning"
+            message="Refund Pending"
+          />
+        );
+
+      case "refunded":
+        return (
+          <Alert
+            showIcon
+            style={{ marginBottom: 10 }}
+            icon={<DollarOutlined />}
+            type="success"
+            message="Refunded"
+          />
+        );
+
+      case "refund-failed":
+        return (
+          <Alert
+            showIcon
+            style={{ marginBottom: 10 }}
+            icon={<DollarOutlined />}
+            type="error"
+            message="Refund Failed"
+          />
+        );
+
+      default:
+        return null; // No alert if the status doesn't match any of the refund-related statuses
+    }
+  } else {
+    return null;
+  }
+};
