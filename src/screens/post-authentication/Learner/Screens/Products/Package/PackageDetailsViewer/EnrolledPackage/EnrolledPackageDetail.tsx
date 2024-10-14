@@ -1,5 +1,6 @@
 "use client";
 import {
+  Alert,
   Avatar,
   Button,
   Card,
@@ -21,6 +22,7 @@ import {
   CheckCircleFilled,
   CheckOutlined,
   ClockCircleOutlined,
+  DollarOutlined,
   EditOutlined,
   FileOutlined,
   FundProjectionScreenOutlined,
@@ -286,9 +288,19 @@ const EnrolledPackageDetailScreen: React.FC<
       </Col>
     </Row>
   );
+  const RefundBox = order.status.includes("refund") ? (
+    <Alert
+      showIcon
+      style={{ marginBottom: 10 }}
+      icon={<DollarOutlined />}
+      type="info"
+      message="Refund Initiated"
+    />
+  ) : null;
   const skelArr = isDesktop ? [1, 1, 1, 1, 1] : [1, 1];
   return (
     <Row>
+      <Col span={24}>{RefundBox}</Col>
       <Col span={24}>
         <Row>
           <Col span={24}>
