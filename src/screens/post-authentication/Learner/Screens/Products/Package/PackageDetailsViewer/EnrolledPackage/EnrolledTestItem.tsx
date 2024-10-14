@@ -185,7 +185,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                       marginRight: isMobile ? 0 : null,
                     }}
                     onClick={() =>
-                      window.open(`/app/test/${test.slug || test._id}`)
+                      navigate(`/app/test/${test.slug || test._id}`)
                     }
                     block={!isDesktop}
                   >
