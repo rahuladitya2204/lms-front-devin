@@ -189,6 +189,16 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
                 <Switch />
               </Form.Item>
             </Col>
+            <Col span={8}>
+              <Form.Item
+                style={{ margin: 0, marginLeft: 10 }}
+                valuePropName="checked"
+                name={["offlineKit", "enabled"]}
+                label="Offline Kit"
+              >
+                <Switch />
+              </Form.Item>
+            </Col>
           </Row>
         </Col>
         <Col span={8}>

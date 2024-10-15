@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from "react";
-import { Form, Input, Button, Select, Row, Col, message } from "antd";
+import { Form, Input, Button, Select, Row, Col, message, Alert } from "antd";
 import { Constants, Learner, Types } from "@adewaskar/lms-common";
 import TextArea from "@Components/Textarea";
 import { uniq } from "lodash";
@@ -54,7 +54,14 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
   console.log(state, CITIES, "sslslslsk");
   return (
     <ProtectedLearnerProfile>
-      <Row>
+      <Row gutter={[10, 20]}>
+        <Col span={24}>
+          <Alert
+            showIcon
+            message="Your offline test kit will be delivered to this address"
+            type="info"
+          />
+        </Col>
         <Col span={24}>
           <Form
             style={{ width: "100%", marginTop: 20 }}
@@ -83,11 +90,7 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
                 { required: true, message: "Please enter your line2 address" },
               ]}
             >
-              <TextArea
-                label="Address Line - 2"
-                rows={2}
-                placeholder="Enter your address"
-              />
+              <TextArea rows={2} placeholder="Enter your address" />
             </Form.Item>
 
             <Form.Item

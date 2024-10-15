@@ -198,7 +198,7 @@ const EnrolledPackageDetailScreen: React.FC<
           <Button
             style={{ marginTop: 20 }}
             danger
-            type="dashed"
+            type="primary"
             size="large"
             block
           >
