@@ -67,6 +67,10 @@ export default function ProductCheckoutButton(
 
   const { mutate: createOrder, isLoading: isCreatingOrder } =
     Learner.Queries.useCreateOrderFromProduct();
+
+  const { mutate: createOrder, isLoading: isCreatingOrder } =
+    Learner.Queries.useCreateOrderFromProduct();
+
   const { addMoney, isLoading } = useCreateWallterOrder();
   const {
     data: { wallet },

@@ -21,6 +21,7 @@ import useDehydration from "@ServerHooks/useDehydration";
 // import LearnerHeaderServer from "./LearnerHeader/LearnerHeaderServer";
 import LearnerHeaderClient from "./LearnerHeader/LearnerHeader";
 import { getIsServer } from "@ServerUtils/index";
+import SubscriptionPlansScreen from "@User/Screens/ExtraComponents/SubscriptionPlans";
 
 const { Title } = Typography;
 
@@ -85,6 +86,7 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
               </ActionModal>
             ) : null
           ) : null}
+          <SubscriptionPlansScreen />
           <Layout
             style={{ paddingBottom: 0, display: "flex", minHeight: "100vh" }}
           >
