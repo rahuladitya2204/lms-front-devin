@@ -248,7 +248,7 @@ const EnrolledPackageDetailScreen: React.FC<
   const EnrolledPackageExtra = (
     <Row>
       <Col span={24}>
-        <Card style={{ marginTop: 20 }}>
+        <div>
           {loading ? (
             <Row gutter={[0, 10]}>
               {PackageDetailSkel.map(() => (
@@ -267,11 +267,11 @@ const EnrolledPackageDetailScreen: React.FC<
             </Row>
           ) : (
             <Space direction="vertical">
-              <Text>
+              {/* <Text>
                 <CalendarOutlined />
                 {"  "} Enrolled On {"  "}
                 {dayjs(enrolledAt).format("MMMM D, YYYY")}{" "}
-              </Text>
+              </Text> */}
               {expiresAt ? (
                 <Text>
                   <Divider style={{ margin: 0 }} />
@@ -283,8 +283,8 @@ const EnrolledPackageDetailScreen: React.FC<
             </Space>
           )}
 
-          {DownloadTestKit}
-        </Card>
+          {bundle?.offlineKit?.enabled ? DownloadTestKit : null}
+        </div>
       </Col>
     </Row>
   );
@@ -306,7 +306,7 @@ const EnrolledPackageDetailScreen: React.FC<
           <Col span={24}>
             <Card size="small" title={null}>
               <Row>
-                <Col lg={18} md={18} sm={24} xs={24}>
+                <Col lg={17} md={17} sm={24} xs={24}>
                   {loading ? (
                     <Row gutter={[20, 30]}>
                       <Col span={24}>
@@ -362,13 +362,25 @@ const EnrolledPackageDetailScreen: React.FC<
                               return null;
                             }
                             return (
-                              <Col>
-                                <Text strong>
-                                  <EditOutlined /> {/* @ts-ignore */}
-                                  {completedItems[key]}/{totalItems[key]}{" "}
-                                  {capitalize(key)}s Completed
-                                </Text>
-                              </Col>
+                              <>
+                                <Col>
+                                  <Text strong>
+                                    <EditOutlined /> {/* @ts-ignore */}
+                                    {completedItems[key]}/{totalItems[key]}{" "}
+                                    {capitalize(key)}s Completed
+                                  </Text>
+                                </Col>
+                                <Divider type="vertical" />
+                                <Col>
+                                  <Text>
+                                    <CalendarOutlined />
+                                    {"  "} Enrolled On {"  "}
+                                    {dayjs(enrolledAt).format(
+                                      "MMMM D, YYYY"
+                                    )}{" "}
+                                  </Text>
+                                </Col>
+                              </>
                             );
                           })}
                         </Row>
@@ -404,7 +416,7 @@ const EnrolledPackageDetailScreen: React.FC<
                   </Row>
                 </Col>
                 <Col span={1} />
-                <Col lg={5} md={5} sm={0} xs={0}>
+                <Col lg={6} md={6} sm={0} xs={0}>
                   {loading ? (
                     <Skeleton.Image
                       active

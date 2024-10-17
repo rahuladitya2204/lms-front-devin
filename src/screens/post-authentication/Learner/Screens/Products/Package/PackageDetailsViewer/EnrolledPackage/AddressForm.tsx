@@ -143,7 +143,7 @@ const OrderAddressForm = (props: OrderAddressFormPropsI) => {
                 type="primary"
                 htmlType="submit"
               >
-                Submit
+                Get Offline Kit!
               </Button>
             </Form.Item>
           </Form>

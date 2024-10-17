@@ -19,6 +19,7 @@ import useMessage from "@Hooks/useMessage";
 
 interface CreatePlanPropsI {
   product: Partial<Types.Product>;
+  mode: "product" | "global";
   plan?: Types.Plan;
   closeModal?: Function;
   onSuccess?: () => void;
@@ -28,30 +29,39 @@ function CreatePlan(props: CreatePlanPropsI) {
   const [form] = Form.useForm();
 
   const { mutate: createTestPlan, isLoading: isCreating } =
-    User.Queries.useCreateProductPlan();
-  const { mutate: updateTestPlan, isLoading: isUpdating } =
-    User.Queries.useUpdateProductPlan();
+    User.Queries[
+      props.mode === "product" ? "useCreateProductPlan" : "useCreateGlobalPlan"
+    ]();
   const planId = props?.plan?._id || "";
+  const { mutate: updateTestPlan, isLoading: isUpdating } =
+    User.Queries[
+      props.mode === "product" ? "useUpdateProductPlan" : "useUpdateGlobalPlan"
+    ](planId);
   const { product } = props;
   useEffect(() => {
     form.setFieldsValue(props.plan);
   }, [props.plan]);
-
+  console.log(props.mode, "okokokok");
   const onSubmit = (e: Types.Plan) => {
+    if (props.mode === "global") {
+      e.type = "subscription";
+    }
     form.validateFields();
-    const body = {
-      product: {
-        id: product.id,
-        type: product.type,
-      },
+    const body: any = {
       data: e,
     };
+
+    if (props.mode === "product") {
+      body.product = {
+        id: product.id,
+        type: product.type,
+      };
+    }
 
     if (planId) {
       updateTestPlan(
         {
           ...body,
-          planId,
         },
         {
           onSuccess: () => {
@@ -79,22 +89,39 @@ function CreatePlan(props: CreatePlanPropsI) {
       });
     }
   };
-  const planType = Form.useWatch("type", form);
   const trialEnabled = Form.useWatch(
     ["subscription", "trial", "enabled"],
     form
   );
-  console.log(planType, "plan type");
+
+  useEffect(() => {
+    if (props?.plan?._id) {
+      form.setFieldsValue(props.plan);
+    } else {
+      form.setFieldsValue({
+        ...Constants.INITIAL_COURSE_PLAN_DETAILS,
+        mode: props.mode === "global" ? "subscription" : "product",
+        type: props.mode === "global" ? "subscription" : undefined, // This line sets the type
+      });
+    }
+  }, [props.mode, props.plan]);
+
+  const planType = Form.useWatch("type", form);
+
+  console.log(planType, "rtpt");
   return (
     <Form
-      initialValues={Constants.INITIAL_COURSE_PLAN_DETAILS}
+      // initialValues={{
+      //   ...Constants.INITIAL_COURSE_PLAN_DETAILS,
+      // }}
       form={form}
       onFinish={onSubmit}
       layout="vertical"
     >
-      {/* <Form.Item label="Plan Name" required name="name">
-            <Input placeholder="Enter plan name" />
-          </Form.Item> */}
+      <Form.Item label="Plan Name" required name="title">
+        <Input placeholder="Enter plan title" />
+      </Form.Item>
+      {/* {props.mode === "product" ? ( */}
       <Form.Item label="Plan Type" name="type">
         <Radio.Group>
           <Radio.Button value="free">Free</Radio.Button>
@@ -104,6 +131,7 @@ function CreatePlan(props: CreatePlanPropsI) {
           </Radio.Button>
         </Radio.Group>
       </Form.Item>
+      {/* ) : null} */}
       {planType === "one-time" || planType === "subscription" ? (
         <Row gutter={[30, 30]}>
           <Col span={12}>

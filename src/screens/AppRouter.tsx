@@ -147,6 +147,8 @@ import UserDeviceSelection from "@User/Screens/Event/LiveSessionPlayer/User/User
 import UserEventPlayerEnter from "@User/Screens/Event/LiveSessionPlayer/User";
 import EventPlayer from "@User/Screens/Event/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer";
 import AffiliatesScreen from "@User/Screens/Users/Affiliates/AffiliatesScreen";
+import CreatePlan from "@User/Screens/ExtraComponents/CreatePlan";
+import PlansScreen from "@User/Screens/Plans/PlansScreen";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -505,6 +507,13 @@ const router = (userType: string) => {
                         path=":categoryId/edit"
                         element={<CreateCategory />}
                       />
+                    </Route>
+                    <Route path="plan">
+                      <Route path="" element={<PlansScreen />} />
+                      {/* <Route
+                        path="create"
+                        element={<CreatePlan mode="global" />}
+                      /> */}
                     </Route>
                     <Route path="test">
                       <Route path="" element={<UserTestScreen />} />

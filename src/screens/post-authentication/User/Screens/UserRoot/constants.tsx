@@ -71,6 +71,16 @@ export const MENU_ITEMS: Types.MenuItemNode[] = [
         ],
         // icon: <AppstoreOutlined />
       },
+      {
+        title: "Plans",
+        path: "plan",
+        permissions: [
+          // Enum.UserRolePermissions.CREATE_CATEGORY,
+          Enum.UserRolePermissions.GET_PLANS,
+          // Enum.UserRolePermissions.CREATE_CATEGORY,
+        ],
+        // icon: <AppstoreOutlined />
+      },
       // {
       //   title: 'News',
       //   path: '/news',

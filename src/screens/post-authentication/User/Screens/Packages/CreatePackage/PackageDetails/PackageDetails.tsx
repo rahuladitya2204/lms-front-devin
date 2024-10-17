@@ -51,6 +51,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
       // },
     };
   }, [data]);
+  const { data: subscriptionPlans } = User.Queries.useGetGlobalPlans();
   const isFeatured = Form.useWatch(["featured", "enabled"], form);
   const isRefundEnabled = Form.useWatch(["refund", "enabled"], form);
   const testimonials = Form.useWatch(["testimonials"], form);
@@ -199,6 +200,16 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
                 <Switch />
               </Form.Item>
             </Col>
+            {/* <Col span={8}>
+              <Form.Item
+                style={{ margin: 0, marginLeft: 10 }}
+                valuePropName="checked"
+                name={["offlineKit", "enabled"]}
+                label="Offline Kit"
+              >
+                <Switch />
+              </Form.Item>
+            </Col> */}
           </Row>
         </Col>
         <Col span={8}>
@@ -291,6 +302,26 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           </Form.Item>
         </Col>
       </Row>
+      <Divider />
+
+      <Col span={8}>
+        <Form.Item
+          label="Subscription Plans"
+          style={{ margin: 0 }}
+          name={["subscriptions"]}
+        >
+          <Select
+            mode="multiple"
+            options={subscriptionPlans.map((i) => {
+              return {
+                label: i.title,
+                value: i._id,
+              };
+            })}
+          />
+        </Form.Item>
+      </Col>
+
       <Divider />
       <Row>
         <Col span={24}>
