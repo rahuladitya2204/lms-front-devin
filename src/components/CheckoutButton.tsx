@@ -19,6 +19,7 @@ import { LogEvent } from "@ServerHooks/useDehydration";
 import { capitalize } from "lodash";
 import { useSearchParams } from "@Router/index";
 import { Text } from "./Typography/Typography";
+import { useQueryClient } from "@tanstack/react-query";
 
 const { confirm } = Modal;
 interface ProductCheckoutButtonPropsI extends ButtonProps {
@@ -39,6 +40,7 @@ export default function ProductCheckoutButton(
   const {
     product: { id, type },
   } = props;
+  const qc = useQueryClient();
   const [couponValid, setCouponValid] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
   const couponCodeInput = Form.useWatch(["couponCode"], form);
@@ -68,24 +70,23 @@ export default function ProductCheckoutButton(
   const { mutate: createOrder, isLoading: isCreatingOrder } =
     Learner.Queries.useCreateOrderFromProduct();
 
-  const { mutate: createOrder, isLoading: isCreatingOrder } =
-    Learner.Queries.useCreateOrderFromProduct();
-
   const { addMoney, isLoading } = useCreateWallterOrder();
   const {
     data: { wallet },
   } = Learner.Queries.useGetLearnerDetails();
-  const { mutate: updatePaymentOrder, isLoading: updatingPaymentOrder } =
-    Learner.Queries.useUpdateOrderStatus({ id, type });
+  // const { mutate: updatePaymentOrder, isLoading: updatingPaymentOrder } =
+  //   Learner.Queries.useUpdateOrderStatus({ id, type });
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const transactionStrategy = organisation.transaction.strategy;
   const isFree = plan?.type === "free";
-  const onSuccess = (e) => {
+  const onSuccess = () => {
     LogEvent(
       capitalize(props.product.type),
       "Enroll::Success",
       props.product.id
-    ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
+    );
+    qc.invalidateQueries([`GET_LEARNER_DETAILS`]);
+    // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
     props.onSuccess();
   };
   const onError = (e) => {
@@ -98,44 +99,47 @@ export default function ProductCheckoutButton(
         onSuccess: ({ pgOrder, order }: any) => {
           if (transactionStrategy === Enum.LearnerTransactionStrategy.DIRECT) {
             if (!order.total.value) {
-              return updatePaymentOrder(
-                {
-                  orderId: order._id,
-                  status: "successful",
-                  data: {},
-                },
-                {
-                  onSuccess: onSuccess,
-                  onError,
-                }
-              );
+              onSuccess();
+              // return updatePaymentOrder(
+              //   {
+              //     orderId: order._id,
+              //     status: "successful",
+              //     data: {},
+              //   },
+              //   {
+              //     onSuccess: onSuccess,
+              //     onError,
+              //   }
+              // );
             }
             openCheckout({ pgOrder, order }, (payment: any) => {
-              updatePaymentOrder(
-                {
-                  orderId: order._id,
-                  status: "successful",
-                  data: payment,
-                },
-                {
-                  onSuccess: onSuccess,
-                  onError,
-                }
-              );
+              onSuccess();
+              // updatePaymentOrder(
+              //   {
+              //     orderId: order._id,
+              //     status: "successful",
+              //     data: payment,
+              //   },
+              //   {
+              //     onSuccess: onSuccess,
+              //     onError,
+              //   }
+              // );
             });
           }
           if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
-            return updatePaymentOrder(
-              {
-                orderId: order._id,
-                status: "successful",
-                data: {},
-              },
-              {
-                onSuccess: onSuccess,
-                onError,
-              }
-            );
+            onSuccess();
+            // return updatePaymentOrder(
+            //   {
+            //     orderId: order._id,
+            //     status: "successful",
+            //     data: {},
+            //   },
+            //   {
+            //     onSuccess: onSuccess,
+            //     onError,
+            //   }
+            // );
           }
         },
       }
@@ -256,7 +260,7 @@ export default function ProductCheckoutButton(
         <Button
           size="large"
           onClick={form.submit}
-          loading={isCreatingOrder || updatingPaymentOrder || isLoading}
+          loading={isCreatingOrder || isLoading}
           {...props}
         >
           {props.children ||
