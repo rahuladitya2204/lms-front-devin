@@ -54,16 +54,6 @@ export default function SubscriptionPlansModal() {
     setIsModalVisible(false);
   };
 
-  const handleGetPlan = () => {
-    if (selectedPlan) {
-      navigate(`/get-plan/${selectedPlan}`);
-    }
-  };
-
-  if (isLoading) {
-    return <Text>Loading Plans...</Text>;
-  }
-
   return (
     <Modal
       title="Choose Your Subscription Plan"
