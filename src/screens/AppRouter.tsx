@@ -257,11 +257,29 @@ const router = (userType: string) => {
                 {/* <Route path="cropper" element={<PerspectiveCropper />} />  */}
                 <Route path="affiliate" element={<AffiliateScreen />} />
                 <Route path="app/test/:testId">
-                  <Route path="start" element={<TestRules />} />
-                  <Route path="answer-sheet" element={<AnswerSheet />} />
+                  <Route
+                    path="start"
+                    element={
+                      <SigninProtectedRoutes>
+                        <TestRules />
+                      </SigninProtectedRoutes>
+                    }
+                  />
+                  <Route
+                    path="answer-sheet"
+                    element={
+                      <SigninProtectedRoutes>
+                        <AnswerSheet />
+                      </SigninProtectedRoutes>
+                    }
+                  />
                   <Route
                     path="upload-answer-sheet"
-                    element={<AnswerSheetFiles />}
+                    element={
+                      <SigninProtectedRoutes>
+                        <AnswerSheetFiles />
+                      </SigninProtectedRoutes>
+                    }
                   />
                   {/* <Route path="pyq" element={<TestPublicPlayer />}>
                     <Route
@@ -272,9 +290,9 @@ const router = (userType: string) => {
                   <Route
                     path="player"
                     element={
-                      // <Fullscreen>
-                      <TestPlayer />
-                      // </Fullscreen>
+                      <SigninProtectedRoutes>
+                        <TestPlayer />
+                      </SigninProtectedRoutes>
                     }
                   >
                     <Route path=":questionId" element={<TestPlayeritem />} />
@@ -291,14 +309,18 @@ const router = (userType: string) => {
                 </Route>
                 <Route
                   path="app/test/:testId/result"
-                  element={<TestMetrics />}
+                  element={
+                    <SigninProtectedRoutes>
+                      <TestMetrics />
+                    </SigninProtectedRoutes>
+                  }
                 />
                 <Route
                   path="app/test/:testId/review"
                   element={
-                    // <Fullscreen>
-                    <TestReviewPlayer />
-                    // </Fullscreen>
+                    <SigninProtectedRoutes>
+                      <TestReviewPlayer />
+                    </SigninProtectedRoutes>
                   }
                 >
                   <Route path=":questionId" element={<TestPlayerItemReiew />} />
