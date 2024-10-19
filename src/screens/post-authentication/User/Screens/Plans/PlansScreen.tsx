@@ -1,5 +1,6 @@
 import {
   BarChartOutlined,
+  DeleteOutlined,
   EditOutlined,
   SettingOutlined,
 } from "@ant-design/icons";
@@ -9,6 +10,7 @@ import {
   Form,
   Input,
   message,
+  Modal,
   Row,
   Space,
   Table,
@@ -27,6 +29,8 @@ import { Text } from "@Components/Typography/Typography";
 
 function PlansScreen() {
   const { data, isFetching: loading } = User.Queries.useGetGlobalPlans();
+  const { mutate: deletePlan, isLoading: deletingPlan } =
+    User.Queries.useDeleteGlobalPlan();
   const navigate = useNavigate();
   const { openModal } = useModal();
   return (
@@ -43,7 +47,7 @@ function PlansScreen() {
     >
       <Row gutter={[20, 20]}>
         <Col span={24}>
-          <Table loading={loading} dataSource={data}>
+          <Table loading={loading || deletingPlan} dataSource={data}>
             <Table.Column
               title="Title"
               dataIndex="title"
@@ -148,6 +152,30 @@ function PlansScreen() {
                       icon: <SettingOutlined />,
                       onClick: () => {
                         openModal(<CreatePlan mode="global" plan={plan} />);
+                      },
+                    },
+                    {
+                      label: "Delete Plan",
+                      key: "delete-plan",
+                      icon: <DeleteOutlined />,
+                      onClick: () => {
+                        Modal.confirm({
+                          closable: false,
+                          title: `Are you sure?`,
+                          // icon: <ExclamationCircleOutlined />,
+                          content: `You want to delete this plan?`,
+                          // footer: [
+
+                          // ],
+                          onOk() {
+                            deletePlan(plan._id, {
+                              onSuccess: () => {
+                                message.success("Plan deleted successfully");
+                              },
+                            });
+                          },
+                          okText: "Yes, Delete",
+                        });
                       },
                     },
                   ]}
