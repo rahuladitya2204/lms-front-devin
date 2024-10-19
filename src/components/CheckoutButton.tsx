@@ -72,8 +72,11 @@ export default function ProductCheckoutButton(
 
   const { addMoney, isLoading } = useCreateWallterOrder();
   const {
-    data: { wallet, subscription },
+    data: { wallet },
   } = Learner.Queries.useGetLearnerDetails();
+
+  const isSubscriptionValid =
+    Learner.Queries.useIsLearnerSubscriptionValidForProduct(props.product);
   // const { mutate: updatePaymentOrder, isLoading: updatingPaymentOrder } =
   //   Learner.Queries.useUpdateOrderStatus({ id, type });
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
@@ -98,33 +101,11 @@ export default function ProductCheckoutButton(
       {
         onSuccess: ({ pgOrder, order }: any) => {
           if (transactionStrategy === Enum.LearnerTransactionStrategy.DIRECT) {
-            if (!order.total.value) {
+            if (!order.total.value || isSubscriptionValid) {
               onSuccess();
-              // return updatePaymentOrder(
-              //   {
-              //     orderId: order._id,
-              //     status: "successful",
-              //     data: {},
-              //   },
-              //   {
-              //     onSuccess: onSuccess,
-              //     onError,
-              //   }
-              // );
             }
             openCheckout({ pgOrder, order }, (payment: any) => {
               onSuccess();
-              // updatePaymentOrder(
-              //   {
-              //     orderId: order._id,
-              //     status: "successful",
-              //     data: payment,
-              //   },
-              //   {
-              //     onSuccess: onSuccess,
-              //     onError,
-              //   }
-              // );
             });
           }
           if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
@@ -156,7 +137,7 @@ export default function ProductCheckoutButton(
         productId: props.product.id,
       }
     ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
-    if (finalPriceValue === 0 || prod.subscriptions.includes(subscription)) {
+    if (finalPriceValue === 0 || isSubscriptionValid) {
       return CreateOrder();
     }
     if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
