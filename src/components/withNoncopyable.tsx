@@ -37,19 +37,23 @@ const withNonCopyable = (WrappedComponent: React.ComponentType<any>) => {
       };
     }, []);
 
-    // Wrap the component with additional non-copyable styles
+    // Wrap the component with refined non-copyable styles
     const wrapperStyle = {
       userSelect: "none",
       WebkitUserSelect: "none",
       MozUserSelect: "none",
       MsUserSelect: "none",
-      pointerEvents: "none", // Prevent interactions if needed
-      cursor: "default", // Optional: Change the cursor
+    };
+
+    const interactiveElementStyle = {
+      pointerEvents: "auto", // Allow interactions for child elements
     };
 
     return (
       <div style={wrapperStyle}>
-        <WrappedComponent {...props} />
+        <div style={interactiveElementStyle}>
+          <WrappedComponent {...props} />
+        </div>
       </div>
     );
   };

@@ -87,7 +87,7 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
             ) : null
           ) : null}
           {/* todo */}
-          {/* {learner.subscription ? <SubscriptionPlansScreen /> : null} */}
+          {/* {!learner.subscription ? <SubscriptionPlansScreen /> : null} */}
           <Layout
             style={{ paddingBottom: 0, display: "flex", minHeight: "100vh" }}
           >

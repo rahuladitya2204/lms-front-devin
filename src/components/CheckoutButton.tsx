@@ -72,7 +72,7 @@ export default function ProductCheckoutButton(
 
   const { addMoney, isLoading } = useCreateWallterOrder();
   const {
-    data: { wallet },
+    data: { wallet, subscription },
   } = Learner.Queries.useGetLearnerDetails();
   // const { mutate: updatePaymentOrder, isLoading: updatingPaymentOrder } =
   //   Learner.Queries.useUpdateOrderStatus({ id, type });
@@ -156,7 +156,7 @@ export default function ProductCheckoutButton(
         productId: props.product.id,
       }
     ); // Category: Course, Action: Enroll, Label: Course Name    logEvent('Course', 'Enroll', 'Course Name', 1); // Category: Course, Action: Enroll, Label: Course Name
-    if (finalPriceValue === 0) {
+    if (finalPriceValue === 0 || prod.subscriptions.includes(subscription)) {
       return CreateOrder();
     }
     if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {

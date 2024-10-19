@@ -190,51 +190,51 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
     createSubscriptionPlanOrder(
       {
         data: {
-          planId: props?.global?.plan?._id,
+          planId: props?.global?.plan?._id + "",
         },
       },
       {
         onSuccess: ({ pgOrder, order }: any) => {
           if (transactionStrategy === Enum.LearnerTransactionStrategy.DIRECT) {
             if (!order.total.value) {
-              return updatePaymentOrder(
-                {
-                  orderId: order._id,
-                  status: "successful",
-                  data: {},
-                }
-                // {
-                //   onSuccess: onSuccess,
-                //   onError,
-                // }
-              );
+              // return updatePaymentOrder(
+              //   {
+              //     orderId: order._id,
+              //     status: "successful",
+              //     data: {},
+              //   }
+              //   // {
+              //   //   onSuccess: onSuccess,
+              //   //   onError,
+              //   // }
+              // );
             }
             openCheckout({ pgOrder, order }, (payment: any) => {
-              updatePaymentOrder(
-                {
-                  orderId: order._id,
-                  status: "successful",
-                  data: payment,
-                }
-                // {
-                //   onSuccess: onSuccess,
-                //   onError,
-                // }
-              );
+              // updatePaymentOrder(
+              //   {
+              //     orderId: order._id,
+              //     status: "successful",
+              //     data: payment,
+              //   }
+              //   // {
+              //   //   onSuccess: onSuccess,
+              //   //   onError,
+              //   // }
+              // );
             });
           }
           if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
-            return updatePaymentOrder(
-              {
-                orderId: order._id,
-                status: "successful",
-                data: {},
-              }
-              // {
-              //   onSuccess: onSuccess,
-              //   onError,
-              // }
-            );
+            // return updatePaymentOrder(
+            //   {
+            //     orderId: order._id,
+            //     status: "successful",
+            //     data: {},
+            //   }
+            //   // {
+            //   //   onSuccess: onSuccess,
+            //   //   onError,
+            //   // }
+            // );
           }
         },
       }
