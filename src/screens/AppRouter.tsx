@@ -149,6 +149,8 @@ import EventPlayer from "@User/Screens/Event/LiveSessionPlayer/Learner/LearnerLi
 import AffiliatesScreen from "@User/Screens/Users/Affiliates/AffiliatesScreen";
 import CreatePlan from "@User/Screens/ExtraComponents/CreatePlan";
 import PlansScreen from "@User/Screens/Plans/PlansScreen";
+import { Card, Col, Row } from "antd";
+import LearnerLogin from "./post-authentication/Learner/Screens/Login";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -205,7 +207,11 @@ const router = (userType: string) => {
                   {/* <Route path=":slug/:exam" element={<PackagesExamScreen />} /> */}
                   <Route
                     path=":packageId/enrolled-package"
-                    element={<EnrolledPackageDetailScreen />}
+                    element={
+                      <SigninProtectedRoutes>
+                        <EnrolledPackageDetailScreen />
+                      </SigninProtectedRoutes>
+                    }
                   />
                 </Route>
                 <Route path="test">
@@ -585,4 +591,19 @@ const ReturnLearnerToStore = () => {
     navigate("/app/store");
   }, []);
   return null;
+};
+
+const SigninProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
+  const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
+  return isSignedIn ? (
+    children
+  ) : (
+    <Row justify={"center"} align={"middle"}>
+      <Col>
+        <Card style={{ marginTop: 120, width: 300 }}>
+          <LearnerLogin />
+        </Card>
+      </Col>
+    </Row>
+  );
 };
