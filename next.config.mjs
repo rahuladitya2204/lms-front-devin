@@ -1,9 +1,10 @@
 import { withSentryConfig } from '@sentry/nextjs';
 import CompressionPlugin from 'compression-webpack-plugin';
+import BrotliPlugin from 'brotli-webpack-plugin';
 import withPWA from 'next-pwa';
-import { createRequire } from 'module'; // Import `createRequire` to support CommonJS imports
+import { createRequire } from 'module';
 
-const require = createRequire(import.meta.url); // Use `createRequire` to load CommonJS modules
+const require = createRequire(import.meta.url);
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -11,18 +12,16 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  typescript: {
-    ignoreBuildErrors: true,
-  },
+  typescript: { ignoreBuildErrors: true },
   assetPrefix: process.env.NEXT_PUBLIC_CDN_URL,
   images: {
     domains: ['upload-junk.s3.us-west-2.amazonaws.com'],
-  },
-  async redirects() {
-    return [];
+    formats: ['image/avif', 'image/webp'],
   },
   experimental: {
     granularChunks: true,
+    concurrentFeatures: true,
+    serverActions: true,
   },
   swcMinify: true,
   webpack: (config, { isServer }) => {
@@ -35,15 +34,31 @@ const nextConfig = {
           test: /\.js$|\.css$|\.html$/,
           threshold: 10240,
           minRatio: 0.8,
+        }),
+        new BrotliPlugin({
+          asset: '[path].br[query]',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 10240,
+          minRatio: 0.8,
         })
       );
 
       config.optimization.splitChunks = {
         chunks: 'all',
+        minSize: 30000,
+        maxSize: 200000,
+        maxAsyncRequests: 20,
+        maxInitialRequests: 15,
         cacheGroups: {
           vendors: {
             test: /[\\/]node_modules[\\/]/,
             priority: -10,
+            reuseExistingChunk: true,
+          },
+          common: {
+            name: 'common',
+            minChunks: 2,
+            priority: -20,
             reuseExistingChunk: true,
           },
         },
