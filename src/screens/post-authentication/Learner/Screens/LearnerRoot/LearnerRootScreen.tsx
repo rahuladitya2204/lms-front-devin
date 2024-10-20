@@ -15,7 +15,7 @@ import LearnerHeader from "./LearnerHeader/LearnerHeader";
 import LearnerProfile from "../Account/LearnerProfile";
 import ThemeProvider from "screens/ThemeProvider";
 import { Typography } from "@Components/Typography";
-import { useBlockBackButton } from "@User/Screens/Event/LiveSessionPlayer/User/hooks";
+
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useDehydration from "@ServerHooks/useDehydration";
 // import LearnerHeaderServer from "./LearnerHeader/LearnerHeaderServer";
@@ -94,7 +94,7 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
               <Fragment>
                 {learner.profile.status ===
                   Enum.LearnerProfileStatus.INCOMPLETE ||
-                learner.profile.status ===
+                  learner.profile.status ===
                   Enum.LearnerProfileStatus.PARTIAL_COMPLETE ? (
                   <Alert
                     action={

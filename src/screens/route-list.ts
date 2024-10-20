@@ -85,18 +85,11 @@ export const LearnerCart = lazy(() =>
 export const LearnerCourses = lazy(() =>
   import('./post-authentication/Learner/Screens/Products/Courses')
 )
-export const LearnerDeviceSelection = lazy(() =>
-  import('@User/Screens/Event/LiveSessionPlayer/Learner/LearnerDeviceSelection')
-)
+
 export const LearnerEditor = lazy(() =>
   import('./post-authentication/User/Screens/Users/Learners/LearnersEditor')
 )
-export const LearnerLiveSessionPlayer = lazy(() =>
-  import('@User/Screens/Event/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer')
-)
-export const LearnerLiveSessionPlayerEnter = lazy(() =>
-  import('@User/Screens/Event/LiveSessionPlayer/Learner/index')
-)
+
 export const LearnerEventsScreen = lazy(() =>
   import('@Learner/Screens/Products/Event/Events/EventScreen')
 )
@@ -183,21 +176,11 @@ export const UserAccount = lazy(() =>
 export const UserDashboard = lazy(() =>
   import('@User/Screens/UserDashboard/UserDashboard')
 )
-export const UserDeviceSelection = lazy(() =>
-  import('@User/Screens/Event/LiveSessionPlayer/User/UserDeviceSelection')
-)
-export const UserLiveSessionPlayer = lazy(() =>
-  import('@User/Screens/Event/LiveSessionPlayer/User/LiveSessionPlayer')
-)
-export const UserLiveSessionPlayerEnter = lazy(() =>
-  import('@User/Screens/Event/LiveSessionPlayer/User/index')
-)
+
 export const UserLoginScreen = lazy(() =>
   import('./post-authentication/User/Screens/Login')
 )
-export const UserMeetingEnded = lazy(() =>
-  import('@User/Screens/Event/LiveSessionPlayer/User/UserMeetingEnded')
-)
+
 export const UserRootScreen = lazy(() =>
   import('./post-authentication/User/Screens/UserRoot/UserRootScreen')
 )
@@ -210,15 +193,15 @@ export const UserTicketDetail = lazy(() =>
 export const UsersTicketsScreen = lazy(() =>
   import('@User/Screens/Tickets/TicketsScreen/TicketsScreen')
 )
-export const WebpageViewer = lazy(() =>
-  import('@User/Screens/Builder/Website/WebsiteBuilder/WebpageViewer')
-)
-export const WebsiteBuilderScreen = lazy(() =>
-  import('@User/Screens/Builder/Website/WebsiteBuilder/WebsiteBuilder')
-)
-export const WebsiteScreen = lazy(() =>
-  import('@User/Screens/Builder/Website/Website')
-)
+// export const WebpageViewer = lazy(() =>
+//   import('@User/Screens/Builder/Website/WebsiteBuilder/WebpageViewer')
+// )
+// export const WebsiteBuilderScreen = lazy(() =>
+//   import('@User/Screens/Builder/Website/WebsiteBuilder/WebsiteBuilder')
+// )
+// export const WebsiteScreen = lazy(() =>
+//   import('@User/Screens/Builder/Website/Website')
+// )
 export const WhatsappTemplateEditor = lazy(() =>
   import('@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor')
 )

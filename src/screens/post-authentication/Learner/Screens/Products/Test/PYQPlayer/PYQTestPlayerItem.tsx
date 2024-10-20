@@ -36,7 +36,7 @@ import { Typography } from "@Components/Typography";
 import { htmlToText } from "html-to-text";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useOutletContext } from "react-router-dom";
-import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
+import useTestNavigation from "@Hooks/useProductNavigation";
 import { NavLink, useParams } from "@Router/index";
 import { getIdFromSlug } from "./PYQTestQuestionNavigator";
 
@@ -151,34 +151,34 @@ export default function TestPublicPlayerItemReiew(
                               isActive
                                 ? "primary"
                                 : item.isMarked
-                                ? "primary"
-                                : item.isAnswered
-                                ? "primary"
-                                : "default"
+                                  ? "primary"
+                                  : item.isAnswered
+                                    ? "primary"
+                                    : "default"
                             }
                             style={{
                               backgroundColor: isActive
                                 ? ""
                                 : item.isAnswered
-                                ? item.type !== "subjective"
-                                  ? item.isCorrect
-                                    ? token.colorSuccessActive
-                                    : token.colorError
-                                  : token.colorWarningActive
-                                : "default",
+                                  ? item.type !== "subjective"
+                                    ? item.isCorrect
+                                      ? token.colorSuccessActive
+                                      : token.colorError
+                                    : token.colorWarningActive
+                                  : "default",
                             }}
                             shape="circle"
-                            // icon={
-                            //   item.isAnswered ? (
-                            //     <Fragment>
-                            //       {item.isCorrect ? (
-                            //         <CheckOutlined />
-                            //       ) : (
-                            //         <CloseOutlined />
-                            //       )}
-                            //     </Fragment>
-                            //   ) : null
-                            // }
+                          // icon={
+                          //   item.isAnswered ? (
+                          //     <Fragment>
+                          //       {item.isCorrect ? (
+                          //         <CheckOutlined />
+                          //       ) : (
+                          //         <CloseOutlined />
+                          //       )}
+                          //     </Fragment>
+                          //   ) : null
+                          // }
                           >
                             {index + 1}
                           </Button>
@@ -231,14 +231,14 @@ export default function TestPublicPlayerItemReiew(
                 </Paragraph>
                 {currentQuestion.type !== "subjective" ? (
                   currentQuestion.type === Enum.TestQuestionType.SINGLE ||
-                  currentQuestion.type === Enum.TestQuestionType.MULTIPLE ? (
+                    currentQuestion.type === Enum.TestQuestionType.MULTIPLE ? (
                     <>
                       <Text
                         style={{
                           marginTop: 20,
                           fontSize:
                             currentQuestion.type ===
-                            Enum.TestQuestionType.SINGLE
+                              Enum.TestQuestionType.SINGLE
                               ? 16
                               : 18,
                         }}
@@ -298,11 +298,11 @@ export default function TestPublicPlayerItemReiew(
                                         style={
                                           language !== "eng"
                                             ? {
-                                                fontSize: 16,
-                                              }
+                                              fontSize: 16,
+                                            }
                                             : {
-                                                fontSize: 15,
-                                              }
+                                              fontSize: 15,
+                                            }
                                         }
                                       >
                                         {/* @ts-ignore */}

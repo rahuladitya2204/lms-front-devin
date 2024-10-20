@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { notification } from 'antd';
 import * as faceapi from 'face-api.js';
-import '@tensorflow/tfjs';
+// import '@tensorflow/tfjs';
 import Draggable from 'react-draggable';
 import './style.css';
 const NO_FACE_DETECTED_DELAY = 5000;
@@ -25,7 +25,7 @@ const ProctoringComponent: React.FC = () => {
   const violationCooldown = 0; // 1 minute cooldown
   const [startLookingAwayTime, setStartLookingAwayTime] = useState(null);
   const [isLookingAway, setIsLookingAway] = useState(false);
-  
+
   const noFaceDetectedRef = useRef(0);
   const noFaceTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const previousMouthDistanceRef = useRef<number | null>(null);
@@ -82,7 +82,7 @@ const ProctoringComponent: React.FC = () => {
       });
     }
   };
-  
+
   const stopVideo = () => {
     if (stream) {
       stream.getTracks().forEach(track => track.stop());
@@ -100,7 +100,7 @@ const ProctoringComponent: React.FC = () => {
     };
 
   }, []);
-  
+
 
   useEffect(() => {
     const loadModels = async () => {
@@ -123,9 +123,9 @@ const ProctoringComponent: React.FC = () => {
 
   useEffect(() => {
     if (!isProctoring || !videoRef.current) return;
-  
+
     const video = videoRef.current;
-  
+
     const loadModels = async () => {
       try {
         await faceapi.nets.tinyFaceDetector.loadFromUri('/models');
@@ -140,7 +140,7 @@ const ProctoringComponent: React.FC = () => {
         });
       }
     };
-  
+
     loadModels();
 
 
@@ -162,8 +162,8 @@ const ProctoringComponent: React.FC = () => {
       }
       previousMouthDistanceRef.current = currentMouthDistance;
     };
-    
-  
+
+
     const handleNoFaceDetected = (detections) => {
       if (detections.length === 0) {
         noFaceDetectedRef.current += 1;
@@ -186,16 +186,16 @@ const ProctoringComponent: React.FC = () => {
           const landmarks = detections[0].landmarks;
           handleTalkingViolation(landmarks);
         }
-    
+
       }
     };
-  
+
     const handleMultipleFacesDetected = (detections) => {
       if (detections.length > 1) {
         handleViolation('Multiple Faces Detected', 'More than one face detected directly looking at the screen.');
       }
     };
-  
+
     const handleLookingAwayViolation = (detections) => {
       if (detections.length === 1) {
         const landmarks = detections[0].landmarks;
@@ -203,7 +203,7 @@ const ProctoringComponent: React.FC = () => {
         const rightEye = landmarks.getRightEye();
         const angle = Math.atan2(rightEye[3].y - leftEye[0].y, rightEye[3].x - leftEye[0].x);
         const angleThreshold = 0.15;
-    
+
         if (Math.abs(angle) > angleThreshold) {
           if (!isLookingAway) {
             setIsLookingAway(true);
@@ -224,7 +224,7 @@ const ProctoringComponent: React.FC = () => {
         }
       }
     }
-  
+
     const handleSuspiciousFacialExpression = (detections) => {
       if (detections.length === 1) {
         const expressions = detections[0].expressions;
@@ -233,7 +233,7 @@ const ProctoringComponent: React.FC = () => {
         }
       }
     };
-  
+
     const runViolationsCheck = async () => {
       try {
         const detections = await faceapi
@@ -248,18 +248,18 @@ const ProctoringComponent: React.FC = () => {
         console.error('Error during face detection:', err);
       }
     };
-  
+
     const intervalId = setInterval(runViolationsCheck, 100);
-  
+
     return () => {
       clearInterval(intervalId);
       if (noFaceTimeoutRef.current) {
         clearTimeout(noFaceTimeoutRef.current);
       }
       previousMouthDistanceRef.current = null; // Resetting the mouth distance ref
-        };
+    };
   }, [isProctoring]);
-  
+
 
 
   useEffect(() => {
@@ -280,9 +280,8 @@ const ProctoringComponent: React.FC = () => {
     ];
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      const keyCombination = `${event.ctrlKey ? 'Ctrl+' : ''}${
-        event.shiftKey ? 'Shift+' : ''
-      }${event.altKey ? 'Alt+' : ''}${event.metaKey ? 'Cmd+' : ''}${event.key}`;
+      const keyCombination = `${event.ctrlKey ? 'Ctrl+' : ''}${event.shiftKey ? 'Shift+' : ''
+        }${event.altKey ? 'Alt+' : ''}${event.metaKey ? 'Cmd+' : ''}${event.key}`;
       const newKeyStrokes = [...keyStrokes, keyCombination];
       setKeyStrokes(newKeyStrokes);
 
@@ -322,7 +321,7 @@ const ProctoringComponent: React.FC = () => {
             height="150"
             autoPlay
             muted
-            // style={{ display: 'none' }}
+          // style={{ display: 'none' }}
           ></video>
         </div>
       </Draggable>

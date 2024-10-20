@@ -1,6 +1,12 @@
 import { withSentryConfig } from '@sentry/nextjs';
 import CompressionPlugin from 'compression-webpack-plugin';
-import withPWA from 'next-pwa'; // Import next-pwa
+import withPWA from 'next-pwa';
+import { createRequire } from 'module'; // Import `createRequire` to support CommonJS imports
+
+const require = createRequire(import.meta.url); // Use `createRequire` to load CommonJS modules
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -13,20 +19,13 @@ const nextConfig = {
     domains: ['upload-junk.s3.us-west-2.amazonaws.com'],
   },
   async redirects() {
-    return [
-      // Uncomment and modify as needed
-      // {
-      //   source: '/',
-      //   destination: '/home',
-      //   permanent: true,
-      // },
-    ];
+    return [];
   },
   experimental: {
     granularChunks: true,
   },
   swcMinify: true,
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+  webpack: (config, { isServer }) => {
     config.resolve.fallback = { fs: false };
 
     if (!isServer) {
@@ -41,21 +40,10 @@ const nextConfig = {
 
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 20000,
-        maxSize: 244000,
-        minChunks: 1,
-        maxAsyncRequests: 30,
-        maxInitialRequests: 30,
-        automaticNameDelimiter: '~',
         cacheGroups: {
-          defaultVendors: {
+          vendors: {
             test: /[\\/]node_modules[\\/]/,
             priority: -10,
-            reuseExistingChunk: true,
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
             reuseExistingChunk: true,
           },
         },
@@ -65,19 +53,21 @@ const nextConfig = {
   },
 };
 
-export default withSentryConfig(
-  withPWA({
-    dest: 'public', // Ensure 'dest' is placed directly in the PWA configuration
-    disable: process.env.NODE_ENV === 'development',
-    buildExcludes: [/middleware-manifest.json$/], // Avoid conflicts with Next.js edge runtime
-  })(nextConfig),
-  {
-    org: 'testmintai',
-    project: 'javascript-nextjs',
-    silent: !process.env.CI,
-    widenClientFileUpload: true,
-    hideSourceMaps: true,
-    disableLogger: true,
-    automaticVercelMonitors: true,
-  }
+export default withBundleAnalyzer(
+  withSentryConfig(
+    withPWA({
+      dest: 'public',
+      disable: process.env.NODE_ENV === 'development',
+      buildExcludes: [/middleware-manifest.json$/],
+    })(nextConfig),
+    {
+      org: 'testmintai',
+      project: 'javascript-nextjs',
+      silent: !process.env.CI,
+      widenClientFileUpload: true,
+      hideSourceMaps: true,
+      disableLogger: true,
+      automaticVercelMonitors: true,
+    }
+  )
 );

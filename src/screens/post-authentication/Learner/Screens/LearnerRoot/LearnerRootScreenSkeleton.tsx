@@ -23,7 +23,7 @@ import LearnerHeader from "./LearnerHeader/LearnerHeader";
 import LearnerProfile from "../Account/LearnerProfile";
 import ThemeProvider from "screens/ThemeProvider";
 import { Typography } from "@Components/Typography";
-import { useBlockBackButton } from "@User/Screens/Event/LiveSessionPlayer/User/hooks";
+
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useDehydration from "@ServerHooks/useDehydration";
 import Header from "@Components/Header";

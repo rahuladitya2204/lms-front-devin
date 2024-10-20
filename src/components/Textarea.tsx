@@ -1,7 +1,7 @@
 import { Button, Form, Input } from "antd";
 
 import SunEditorComponent from "./Editor/SunEditor/SunEditor";
-import CKEditorComponent from "./Editor/CKEditor/CKEditor";
+// import CKEditorComponent from "./Editor/CKEditor/CKEditor";
 import { TextAreaProps as LibTextAreaProps } from "antd/es/input";
 import React from "react";
 import { User } from "@adewaskar/lms-common";
@@ -37,26 +37,26 @@ const TextArea: React.FC<TextAreaProps> = (props) => {
     <Form.Item
       name={name}
       label={label}
-      // extra={
-      //   <Button
-      //     onClick={() =>
-      //       rephraseText(
-      //         {
-      //           html: true,
-      //           text: restProps.value + "",
-      //         },
-      //         {
-      //           onSuccess: (v) => {
-      //             console.log(v, "vv");
-      //             form.setFieldValue(name, v);
-      //           },
-      //         }
-      //       )
-      //     }
-      //   >
-      //     Rephrase Text
-      //   </Button>
-      // }
+    // extra={
+    //   <Button
+    //     onClick={() =>
+    //       rephraseText(
+    //         {
+    //           html: true,
+    //           text: restProps.value + "",
+    //         },
+    //         {
+    //           onSuccess: (v) => {
+    //             console.log(v, "vv");
+    //             form.setFieldValue(name, v);
+    //           },
+    //         }
+    //       )
+    //     }
+    //   >
+    //     Rephrase Text
+    //   </Button>
+    // }
     >
       {html ? (
         <EditorComponent

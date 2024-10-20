@@ -114,7 +114,6 @@ import UserDashboard from "@User/Screens/UserDashboard/UserDashboard";
 import UserEditor from "./post-authentication/User/Screens/Users/Users/UserEditor";
 import UserFullPageHolder from "@User/Screens/UserRoot/UserFullPageHolder";
 import UserLoginScreen from "./post-authentication/User/Screens/Login";
-import UserMeetingEnded from "@User/Screens/Event/LiveSessionPlayer/User/UserMeetingEnded";
 import UserProfile from "@User/Screens/Settings/Account/UserProfile";
 import UserRegister from "./post-authentication/User/Screens/Register";
 import UserRootScreen from "@User/Screens/UserRoot/UserRootScreen";
@@ -122,9 +121,6 @@ import UserTestScreen from "@User/Screens/Tests/TestsList/TestsScreen";
 import UserTicketDetail from "@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen";
 import UsersScreen from "./post-authentication/User/Screens/Users/Users/UsersScreen";
 import UsersTicketsScreen from "@User/Screens/Tickets/TicketsScreen/TicketsScreen";
-import WebpageViewer from "@User/Screens/Builder/Website/WebsiteBuilder/WebpageViewer";
-import WebsiteBuilderScreen from "@User/Screens/Builder/Website/WebsiteBuilder/WebsiteBuilder";
-import WebsiteScreen from "@User/Screens/Builder/Website/Website";
 import WhatsappTemplateEditor from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplateEditor";
 import WhatsappTemplatesScreen from "@User/Screens/Marketing/Templates/Whatsapp/WhatsappTemplatesScreen";
 import { useEffect } from "react";
@@ -143,9 +139,6 @@ import PackagesList from "./post-authentication/Learner/Screens/Products/Package
 import PYQPapersScreen from "./post-authentication/Learner/Screens/Products/Test/PYQPapers/PYQPapersScreen";
 import Fullscreen from "@Components/Fullscreen";
 import InterviewRecorder from "./post-authentication/Learner/Screens/Interview/InterviewRecorder";
-import UserDeviceSelection from "@User/Screens/Event/LiveSessionPlayer/User/UserDeviceSelection";
-import UserEventPlayerEnter from "@User/Screens/Event/LiveSessionPlayer/User";
-import EventPlayer from "@User/Screens/Event/LiveSessionPlayer/Learner/LearnerLiveSessionPlayer";
 import AffiliatesScreen from "@User/Screens/Users/Affiliates/AffiliatesScreen";
 import CreatePlan from "@User/Screens/ExtraComponents/CreatePlan";
 import PlansScreen from "@User/Screens/Plans/PlansScreen";
@@ -243,14 +236,14 @@ const router = (userType: string) => {
                 <Route path="policies" element={<LearnerPrivacyPolicy />} />
               </Route>
               <Route path="" element={<LearnerFullPageHolder />}>
-                <Route
+                {/* <Route
                   path="app/interview/player"
                   element={<UserEventPlayerEnter />}
                 >
                   <Route path="" element={<UserDeviceSelection />} />
                   <Route path=":meetingId/session" element={<EventPlayer />} />
                   <Route path="ended" element={<UserMeetingEnded />} />
-                </Route>
+                </Route> */}
                 <Route path="app/interview" element={<InterviewRecorder />} />
                 <Route path="app/news" element={<NewsDetailScreen />} />
                 <Route path="image-resizer" element={<ImageResizer />} />
@@ -359,10 +352,10 @@ const router = (userType: string) => {
                     element={<UploadAnswerSheets />}
                   />
                   <Route path="login" element={<UserLoginScreen />} />
-                  <Route
+                  {/* <Route
                     path="webpage-viewer/:pageId"
                     element={<WebpageViewer />}
-                  />
+                  /> */}
                   <Route
                     path="certificate-template/:id/editor"
                     element={<CertificateTemplateEditor />}
@@ -412,10 +405,10 @@ const router = (userType: string) => {
                       {/* <Route path="file/:itemId" element={<UploadFileForm />} /> */}
                     </Route>
                   </Route>
-                  <Route
+                  {/* <Route
                     path="admin/website/builder/:pageId"
                     element={<WebsiteBuilderScreen />}
-                  />
+                  /> */}
                 </Route>
 
                 <Route path="admin" element={<UserRootScreen />}>
@@ -450,7 +443,7 @@ const router = (userType: string) => {
                       <Route path=":id/editor" element={<UserEditor />} />
                     </Route>
                     <Route path="website">
-                      <Route path="" element={<WebsiteScreen />} />
+                      {/* <Route path="" element={<WebsiteScreen />} /> */}
                       {/* <Route path=":id/editor" element={<UserEditor />} /> */}
                     </Route>
                   </Route>

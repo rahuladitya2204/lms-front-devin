@@ -44,22 +44,22 @@ import {
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { NavLink } from "@Router/index";
 import { Paragraph } from "@Components/Typography/Typography";
-// import TestPlayerFiles from './TestPlayerFiles';
+
 import TextArea from "@Components/Textarea";
 import { Typography } from "@Components/Typography";
 import { htmlToText } from "html-to-text";
 import useBreakpoint from "@Hooks/useBreakpoint";
-import useMessage from "@Hooks/useMessage";
+
 import { useParams } from "@Router/index";
 import useQuestion from "../hooks/useQuestion";
-import { useTestItemTime } from "@User/Screens/Event/LiveSessionPlayer/User/useTestItemTime";
-import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
+
+import useTestNavigation from "@Hooks/useProductNavigation";
 import TestPlayerFiles from "./TestPlayerFiles";
 import { SubmitButton } from "../TestPlayer";
 
 const { Title, Text } = Typography;
 
-interface TestPlayeritemPropsI {}
+interface TestPlayeritemPropsI { }
 
 export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   // useTestItemTime();
@@ -315,17 +315,17 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                           isActive
                             ? "primary"
                             : item.isMarked
-                            ? "primary"
-                            : item.isAnswered
-                            ? "primary"
-                            : "default"
+                              ? "primary"
+                              : item.isAnswered
+                                ? "primary"
+                                : "default"
                         }
                         style={{
                           backgroundColor: isActive
                             ? ""
                             : item.isAnswered
-                            ? token.colorSuccessActive
-                            : "default",
+                              ? token.colorSuccessActive
+                              : "default",
                           width: 40,
                           height: 40,
                           borderRadius: "50%",
@@ -399,7 +399,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                             ? "Select all that apply"
                             : null}
                           {questionType ===
-                          Enum.TestQuestionType.FILL_IN_THE_BLANK
+                            Enum.TestQuestionType.FILL_IN_THE_BLANK
                             ? "Fill in the blank below"
                             : null}
                         </Text>
@@ -408,7 +408,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                       {/* <Col><Button>Clear</Button></Col> */}
                     </Row>
                     {questionType === Enum.TestQuestionType.SINGLE ||
-                    questionType === Enum.TestQuestionType.MULTIPLE ? (
+                      questionType === Enum.TestQuestionType.MULTIPLE ? (
                       <Form.Item name={["answer", "options"]}>
                         <OptionSelectedFormControl.Group
                           style={{ width: "100%", display: "block" }}
@@ -489,7 +489,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     ) : null}
 
                     {questionType ===
-                    Enum.TestQuestionType.FILL_IN_THE_BLANK ? (
+                      Enum.TestQuestionType.FILL_IN_THE_BLANK ? (
                       <Row style={{ marginTop: 20 }}>
                         <Col span={24}>
                           {/* @ts-ignore */}

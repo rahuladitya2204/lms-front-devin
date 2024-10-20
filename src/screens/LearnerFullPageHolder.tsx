@@ -10,7 +10,7 @@ import { ModalProvider } from "@Components/ActionModal/ModalContext";
 import { Outlet, useOutletContext } from "react-router";
 import React from "react";
 import ThemeProvider from "./ThemeProvider";
-import { useBlockBackButton } from "@User/Screens/Event/LiveSessionPlayer/User/hooks";
+
 import useDehydration from "@ServerHooks/useDehydration";
 
 interface LearnerFullPageHolderPropsI {

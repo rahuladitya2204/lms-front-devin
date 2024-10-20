@@ -1,38 +1,10 @@
-import katex, { KatexOptions } from 'katex'
+
 import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
 // @ts-ignore
 import { setupCache } from 'axios-cache-interceptor';
 
-export function convertLatexToMathML(
-  latexString: string,
-  options?: KatexOptions
-): string {
-  try {
-    // Use the KaTeX renderToString function with the specified options
-    return katex.renderToString(latexString, {
-      throwOnError: false,
-      displayMode: true,
-      output: 'htmlAndMathml',
-      ...options // Spread operator to merge any additional options
-    })
-  } catch (error) {
-    console.error('Error converting LaTeX to MathML:', error)
-    return '' // Return an empty string or any fallback content you prefer
-  }
-}
-
-// Function to transform an input string containing LaTeX into MathML
-export function transformLatexInString(inputString: string): string {
-  // Regular expression to match LaTeX patterns
-  const latexPattern = /\$(.+?)\$/g
-
-  // Replace all LaTeX patterns in the input string with their MathML equivalent
-  return inputString.replace(latexPattern, (match, latex) => {
-    return convertLatexToMathML(latex)
-  })
-}
 
 export function printPdf(downloadUrl: string, filename = 'test.pdf') {
   // Create a temporary download link
@@ -49,7 +21,7 @@ export function printPdf(downloadUrl: string, filename = 'test.pdf') {
   // document.body.removeChild(downloadLink)
   // window.URL.revokeObjectURL(downloadUrl)
 
-  downloadFileFromUrl(downloadUrl,filename);
+  downloadFileFromUrl(downloadUrl, filename);
 }
 
 // function base64ToArrayBuffer(base64: string) {
@@ -163,22 +135,22 @@ export async function downloadFileFromUrl(fileUrl: string, fileName?: string): P
   }
 }
 
-export const validateSlug = async (slug:string,fn:(d:{slug:string})=>{exists:string}) => {
+export const validateSlug = async (slug: string, fn: (d: { slug: string }) => { exists: string }) => {
   try {
-    const response = await fn({slug});
-    console.log(response,'sssss')
+    const response = await fn({ slug });
+    console.log(response, 'sssss')
     if (response.exists) {
       return Promise.reject(response.exists);
     }
   } catch (error) {
     console.error('Error checking slug:', error);
     return Promise.reject('An error occurred while checking the slug');
-}
+  }
 }
 
-export const getAxiosInstance=()=>{
-  
+export const getAxiosInstance = () => {
+
   // const api = setupCache(axios.create());
-const api=axios.create();
-return api;
+  const api = axios.create();
+  return api;
 }

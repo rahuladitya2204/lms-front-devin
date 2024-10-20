@@ -48,7 +48,7 @@ import { Typography } from "@Components/Typography";
 import { htmlToText } from "html-to-text";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useParams } from "@Router/index";
-import useTestNavigation from "@User/Screens/Event/LiveSessionPlayer/User/useProductNavigation";
+import useTestNavigation from "@Hooks/useProductNavigation";
 import { useReviewQuestion } from "./useReviewQuestion";
 
 const { Title, Text } = Typography;
@@ -126,10 +126,10 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   // @ts-ignore
   const globalCorrectPercent = currentQuestion.analytics?.attempted
     ? Math.ceil(
-        (currentQuestion.analytics?.correctAttempts /
-          currentQuestion.analytics?.attempted) *
-          100
-      )
+      (currentQuestion.analytics?.correctAttempts /
+        currentQuestion.analytics?.attempted) *
+      100
+    )
     : null;
 
   const { token } = theme.useToken();
@@ -206,21 +206,21 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                               isActive
                                 ? "primary"
                                 : item.isMarked
-                                ? "primary"
-                                : item.isAnswered
-                                ? "primary"
-                                : "default"
+                                  ? "primary"
+                                  : item.isAnswered
+                                    ? "primary"
+                                    : "default"
                             }
                             style={{
                               backgroundColor: isActive
                                 ? ""
                                 : item.isAnswered
-                                ? item.type !== "subjective"
-                                  ? item.isCorrect
-                                    ? token.colorSuccessActive
-                                    : token.colorError
-                                  : token.colorWarningActive
-                                : "default",
+                                  ? item.type !== "subjective"
+                                    ? item.isCorrect
+                                      ? token.colorSuccessActive
+                                      : token.colorError
+                                    : token.colorWarningActive
+                                  : "default",
                             }}
                             shape="circle"
                           >
@@ -284,7 +284,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                 color={
                   currentQuestion.scoreAchieved > 0
                     ? // @ts-ignore
-                      "green-inverse"
+                    "green-inverse"
                     : "red-inverse"
                 }
               >
@@ -298,13 +298,12 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
             )
           ) : null,
           globalCorrectPercent !== null &&
-          currentQuestion.type !== "subjective" ? (
+            currentQuestion.type !== "subjective" ? (
             <Tooltip
-              title={`${
-                globalCorrectPercent < 50 && globalCorrectPercent !== 0
+              title={`${globalCorrectPercent < 50 && globalCorrectPercent !== 0
                   ? "Only "
                   : ""
-              }${globalCorrectPercent}% people were able to answer this question correctly`}
+                }${globalCorrectPercent}% people were able to answer this question correctly`}
             >
               <Tag color="purple-inverse" icon={<GlobalOutlined />}>
                 {globalCorrectPercent} %
@@ -329,14 +328,14 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                 </Paragraph>
                 {currentQuestion.type !== "subjective" ? (
                   currentQuestion.type === Enum.TestQuestionType.SINGLE ||
-                  currentQuestion.type === Enum.TestQuestionType.MULTIPLE ? (
+                    currentQuestion.type === Enum.TestQuestionType.MULTIPLE ? (
                     <>
                       <Text
                         style={{
                           marginTop: 20,
                           fontSize:
                             currentQuestion.type ===
-                            Enum.TestQuestionType.SINGLE
+                              Enum.TestQuestionType.SINGLE
                               ? 16
                               : 18,
                         }}
