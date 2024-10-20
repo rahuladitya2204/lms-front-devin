@@ -120,18 +120,18 @@ export function LearnerLogin(props: LearnerLoginPropsI) {
                 />
               ),
             },
-            {
-              label: "Login with Email",
-              key: "email",
-              children: (
-                <EmailForm
-                  product={props.product}
-                  onSuccess={props.onSuccess}
-                  hideSignup={props.hideSignup}
-                  closeModal={props.closeModal}
-                />
-              ),
-            },
+            // {
+            //   label: "Login with Email",
+            //   key: "email",
+            //   children: (
+            //     <EmailForm
+            //       product={props.product}
+            //       onSuccess={props.onSuccess}
+            //       hideSignup={props.hideSignup}
+            //       closeModal={props.closeModal}
+            //     />
+            //   ),
+            // },
           ]}
         />
       )}
@@ -327,7 +327,7 @@ const OtpForm = (props: LearnerLoginPropsI) => {
           </Form.Item>
 
           {org.register.type !== Enum.LearnerRegisterType.INVITE_ONLY &&
-          !props.hideSignup ? (
+            !props.hideSignup ? (
             <Form.Item style={{ textAlign: "center" }}>
               <Typography.Text>
                 Don't have an account yet?{" "}

@@ -133,12 +133,12 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
     <PackageDetailViewerSkeleton />
   ) : (
     <Container>
-      <ProductDetailSignup
+      {/* <ProductDetailSignup
         product={{
           type: "category",
           id: bundle.category,
         }}
-      />
+      /> */}
       <Row gutter={[20, 20]} justify="space-between">
         <Col span={24}>
           <Row gutter={[30, 30]} style={{ lineHeight: 0 }}>

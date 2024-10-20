@@ -140,12 +140,12 @@ export default function ProductCategoryDetailScreen(
                   },
                   ...(link
                     ? [
-                        {
-                          title: (
-                            <span>{link?.displayOnLandingPage?.cta?.text}</span>
-                          ),
-                        },
-                      ]
+                      {
+                        title: (
+                          <span>{link?.displayOnLandingPage?.cta?.text}</span>
+                        ),
+                      },
+                    ]
                     : []),
                 ]}
               />
@@ -207,7 +207,7 @@ export default function ProductCategoryDetailScreen(
                           textAlign: isMobile ? "center" : "left",
                           display: "block",
                         }}
-                        // type="secondary"
+                      // type="secondary"
                       >
                         <ClockCircleOutlined /> Last Updated on{" "}
                         {dayjs(productCategory.updatedAt).format("LL")}
@@ -365,7 +365,7 @@ export const PYQTestsComponent = (props: {
                       );
                     }}
                     block
-                    // type="primary"
+                  // type="primary"
                   >
                     <BookOutlined /> Attempt Now
                   </Button>
@@ -374,12 +374,10 @@ export const PYQTestsComponent = (props: {
                   <Link
                     to={
                       props.isServer
-                        ? `/test/${
-                            test.slug || test._id
-                          }/previous-year-questions`
-                        : `/app/test/${
-                            test.slug || test._id
-                          }/previous-year-questions`
+                        ? `/test/${test.slug || test._id
+                        }/previous-year-questions`
+                        : `/app/test/${test.slug || test._id
+                        }/previous-year-questions`
                     }
                   >
                     <Button type="primary" block danger>
@@ -424,6 +422,15 @@ export const ProductDetailSignup = ({
   product: Types.Product;
   timeout?: number;
 }) => {
+  const { openModal, hideModal } = useModal(); // Use openModal and hideModal from context
+  const [searchParams] = useSearchParams();
+  const hidePopup = searchParams.get("hide_popup");
+  const { isMobile } = useBreakpoint();
+  const categoryId = product.id;
+
+  const { data: category, isLoading: loadingProductCategory } =
+    Learner.Queries.useGetProductCategoryDetails(categoryId + "");
+
   const { data: featuredProducts } = Learner.Queries.useGetFeaturedProducts(
     "package",
     {
@@ -432,20 +439,18 @@ export const ProductDetailSignup = ({
       mode: "one-time",
     }
   );
-  const [searchParams] = useSearchParams();
-  const hidePopup = searchParams.get("hide_popup");
-  const { isMobile } = useBreakpoint();
-  const categoryId = product.id;
-  const { data: category, isLoading: loadingProductCategory } =
-    Learner.Queries.useGetProductCategoryDetails(categoryId + "");
 
-  const [showModal, setShowModal] = useState(false);
   const { isSignedIn, isLoading } = Store.useAuthentication((s) => s);
-  // const { data: learner } = Learner.Queries.useGetLearnerDetails();
+
+  // State to track if the modal has already been opened
+  const [isModalOpened, setIsModalOpened] = useState(false);
+
+  // UseEffect to trigger the modal only once after the timeout
   useEffect(() => {
-    setTimeout(() => {
-      if (!isLoading && !isSignedIn && categoryId && !hidePopup) {
-        setShowModal(true);
+    if (!isSignedIn && categoryId && !hidePopup && !isModalOpened && !isLoading) {
+      const timer = setTimeout(() => {
+        openSignupModal(); // Open the signup modal with openModal
+        setIsModalOpened(true); // Mark as opened to prevent multiple triggers
         LogEvent(
           capitalize(product.type),
           "Product Signup Modal::Viewed",
@@ -453,77 +458,70 @@ export const ProductDetailSignup = ({
           {
             categoryId: category._id,
             displayedIn: timeout,
-            // slug: product.id,
           }
         );
         localStorage.setItem("hide_popup", "true");
-      }
-    }, timeout);
-  }, [isSignedIn, categoryId, hidePopup]);
+      }, timeout);
+
+      // Cleanup the timer to avoid memory leaks
+      return () => clearTimeout(timer);
+    }
+  }, [isSignedIn, categoryId, hidePopup, isLoading, isModalOpened]);
+
+  const openSignupModal = () => {
+    openModal(
+      <SignupModalContent product={product} featuredProducts={featuredProducts} />,
+      { priority: 2 } // Assign priority 2 to the signup modal
+    );
+  };
+
+  return null; // No direct rendering needed; the modal is handled by the modal context
+};
+
+
+// Modal content as a separate component
+const SignupModalContent = ({
+  product,
+  featuredProducts,
+}: {
+  product: Types.Product;
+  featuredProducts: any[];
+}) => {
+  const { hideModal } = useModal(); // Get hideModal from context
+
   return (
-    <Modal
-      onCancel={() => setShowModal(false)}
-      footer={null}
-      open={showModal && !isSignedIn}
-    >
-      <Row gutter={[10, 20]}>
-        <Col span={24}>
-          <Title level={3}>
-            {featuredProducts.length
-              ? `Don't miss out our Bestselling ${category.title} Test Series!`
-              : `Leaving Soon? Don't Miss Out 100+ Free ${category.title} Test Series`}
-          </Title>
-          <Row gutter={[0, 10]}>
-            {featuredProducts.map((fp) => {
-              return (
-                <Col span={24}>
-                  <LearnerProductCard mini product={fp} />
-                </Col>
-              );
-            })}
-          </Row>
-          {/* <AppImage alt={category.title} src={category.thumbnailImage} /> */}
-          {!featuredProducts.length ? (
-            <Text>
-              Also Mock Tests, Free Videos, Quizzes & Study Notes + More
-            </Text>
-          ) : null}
-        </Col>
-        <Col span={24}>
-          {/* <Form>
-          <Form.Item>
-            <Input placeholder="Enter your phone number" />
-          </Form.Item>
-          <Button type="primary" block>
-            // Signup Now! Its Free
-          </Button>
-        </Form> */}
-          <LearnerLogin product={product} hideSignup mode="otp" />
-        </Col>
-        <Col span={24}>
-          <Text
-            // strong
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Avatar.Group
-              size={"small"}
-              // max={{
-              //   count: 2,
-              // }}
-            >
-              <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
-              <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=2" />
-              <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=3" />
-              <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=4" />
-            </Avatar.Group>
-            <Text strong>Valued by 1 Lakh+ Students</Text>
-          </Text>
-        </Col>
-      </Row>
-    </Modal>
+    <Row gutter={[10, 20]}>
+      <Col span={24}>
+        <Title level={3}>
+          {featuredProducts.length
+            ? `Don't miss out our Bestselling ${product.type} Test Series!`
+            : `Leaving Soon? Don't Miss Out 100+ Free ${product.type} Test Series`}
+        </Title>
+        <Row gutter={[0, 10]}>
+          {featuredProducts.map((fp) => (
+            <Col span={24} key={fp._id}>
+              <LearnerProductCard mini product={fp} />
+            </Col>
+          ))}
+        </Row>
+        {!featuredProducts.length ? (
+          <Text>Also Mock Tests, Free Videos, Quizzes & Study Notes + More</Text>
+        ) : null}
+      </Col>
+      <Col span={24}>
+        <LearnerLogin product={product} hideSignup mode="otp" />
+      </Col>
+      <Col span={24}>
+        <Text style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <Avatar.Group size={"small"}>
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=1" />
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=2" />
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=3" />
+            <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=4" />
+          </Avatar.Group>
+          <Text strong>Valued by 1 Lakh+ Students</Text>
+        </Text>
+      </Col>
+    </Row>
   );
 };
