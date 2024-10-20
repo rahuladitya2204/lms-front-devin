@@ -24,16 +24,17 @@ import {
 } from "@Lib/index";
 import { useNavigate } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
-import { ClockCircleOutlined } from "@ant-design/icons";
-import dayjs from "dayjs";
-import ProductCheckoutButton from "@Components/CheckoutButton";
+import Tabs from "@Components/Tabs";
 
 const { Title, Text } = Typography;
 
 export default function SubscriptionPlansModal() {
   const { data: subscriptionPlans, isLoading } =
     Learner.Queries.useGetGlobalPlans();
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
+  const [selectedPlan, setSelectedPlan] = useState<{ plan: Types.Plan, subscription: Types.Subscription }>({
+    planId: '',
+    subscription: Constants.INITIAL_PLAN_SUBSCRIPTION_PLAN_DETAILS
+  });
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const navigate = useNavigate();
 
@@ -46,8 +47,8 @@ export default function SubscriptionPlansModal() {
     return () => clearTimeout(timeout);
   }, []);
 
-  const handlePlanSelect = (planId: string) => {
-    setSelectedPlan(planId);
+  const handlePlanSelect = (plan: Types.Plan, subscription: Types.Subscription) => {
+    setSelectedPlan({ plan, subscription });
   };
 
   const handleModalClose = () => {
@@ -64,66 +65,79 @@ export default function SubscriptionPlansModal() {
       width={800}
     >
       <Row gutter={[16, 16]} justify="center">
-        {subscriptionPlans?.map((plan) => (
-          <Col xs={24} sm={12} md={8} key={plan._id}>
-            <Badge.Ribbon
-              text={plan.subscription?.type}
-              // color={plan.subscription.autoRenew ? "blue" : "green"}
-            >
-              <Card
-                title={<Title level={4}>{plan.title}</Title>}
-                bordered
-                style={{
-                  border:
-                    selectedPlan === plan._id
-                      ? "2px solid #1890ff"
-                      : "1px solid #d9d9d9",
-                  borderRadius: "8px",
-                }}
-              >
-                <Space direction="vertical" size="small">
-                  <Text strong>Price: </Text>
-                  <Text>
-                    {plan.finalPrice.value} {plan.finalPrice.unit}
-                  </Text>
+        <Col span={24}>
+          <Tabs tabKey="subscription-plan" items={subscriptionPlans.map(plan => {
+            return {
+              key: plan._id,
+              label: plan.title,
+              children: <Row>
+                <Col span={24}>
+                  <Row gutter={[20, 20]}>
+                    {plan.subscriptions?.map(subscription => {
+                      return <Col xs={24} sm={12} md={8} key={plan._id}>
+                        <Badge.Ribbon
+                        // text={subscription?.type}
+                        // color={subscription.autoRenew ? "blue" : "green"}
+                        >
+                          <Card
+                            title={<Title level={4}>{subscription.title}</Title>}
+                            bordered
+                          // style={{
+                          //   border:
+                          //     selectedPlan === plan._id
+                          //       ? "2px solid #1890ff"
+                          //       : "1px solid #d9d9d9",
+                          //   borderRadius: "8px",
+                          // }}
+                          >
+                            <Space direction="vertical" size="small">
+                              <Text strong>Price: </Text>
+                              <Text>
+                                {subscription.price.value} {subscription.price.unit}
+                              </Text>
 
-                  <Text strong>Duration: </Text>
-                  <Text>{plan.subscription.duration} days</Text>
+                              <Text strong>Duration: </Text>
+                              <Text>{subscription.duration} days</Text>
 
-                  {/* <Text strong>Last Updated: </Text>
+                              {/* <Text strong>Last Updated: </Text>
                   <Text>
                     <ClockCircleOutlined /> {dayjs(plan.updatedAt).format("LL")}
                   </Text> */}
 
-                  <Radio.Group
-                    value={selectedPlan}
-                    onChange={() => handlePlanSelect(plan._id)}
-                    style={{ marginTop: "12px", width: "100%" }}
-                  >
-                    <Radio value={plan._id} style={{ width: "100%" }}>
-                      Select {plan.title}
-                    </Radio>
-                  </Radio.Group>
-                </Space>
-              </Card>
-            </Badge.Ribbon>
-          </Col>
-        ))}
+                              <Radio.Group
+                                value={selectedPlan.subscription._id}
+                                onChange={() => handlePlanSelect(plan, subscription)}
+                                style={{ marginTop: "12px", width: "100%" }}
+                              >
+                                <Radio value={subscription._id} style={{ width: "100%" }}>
+                                  Select {subscription.title}
+                                </Radio>
+                              </Radio.Group>
+                            </Space>
+                          </Card>
+                        </Badge.Ribbon>
+                      </Col>
+                    })}
+                  </Row>
+                </Col>
+              </Row>
+            }
+          })} /></Col>
       </Row>
 
-      {selectedPlan && (
+      {(selectedPlan?.subscription?._id) && (
         <Row justify="center" style={{ marginTop: "20px" }}>
           <SubscriptionCheckoutButton
             mode="global"
             global={{
-              plan: subscriptionPlans.find((p) => p._id === selectedPlan),
+              plan: selectedPlan.plan,
+              subscription: selectedPlan.subscription
             }}
           >
-            Get{" "}
-            {
-              subscriptionPlans?.find((plan) => plan._id === selectedPlan)
-                ?.title
-            }
+            Get{" "} {selectedPlan.plan.title}
+            ({
+              selectedPlan.subscription.title
+            })
           </SubscriptionCheckoutButton>
         </Row>
       )}
@@ -138,8 +152,9 @@ interface ProductCheckoutButtonPropsI extends ButtonProps {
     type: string;
     id: string;
   };
-  global?: {
+  global: {
     plan: Types.Plan;
+    subscription: Types.Subscription
   };
   ctaText?: string;
   onSuccess: () => void;
@@ -157,7 +172,7 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
   const finalPriceValue = Math.ceil(
     coupon
       ? plan.displayPrice.value -
-          (plan.displayPrice.value * coupon.discount.value) / 100
+      (plan.displayPrice.value * coupon.discount.value) / 100
       : plan.finalPrice.value
   );
 
@@ -191,6 +206,7 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
       {
         data: {
           planId: props?.global?.plan?._id + "",
+          subscription: props.global.subscription
         },
       },
       {
@@ -266,9 +282,8 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
           closable: false,
           title: `There is insufficient balance in your wallet`,
           // icon: <ExclamationCircleOutlined />,
-          content: `Add ${Utils.UnitTypeToStr(leftAmount)} and buy ${
-            props.global?.plan.title
-          }`,
+          content: `Add ${Utils.UnitTypeToStr(leftAmount)} and buy ${props.global?.plan.title
+            }`,
           // footer: [
 
           // ],
