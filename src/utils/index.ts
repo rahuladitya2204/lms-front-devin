@@ -13,6 +13,16 @@ import weekday from 'dayjs/plugin/weekday';
 import localeData from 'dayjs/plugin/localeData';
 import duration from 'dayjs/plugin/duration';
 
+// const FACEBOOK_PIXEL_ID = '1215625842884170'
+// import ReactPixel from 'react-facebook-pixel';
+
+// export const initAnalytics = () => {
+//   if (!getIsServer()) {
+//     ReactPixel.init(FACEBOOK_PIXEL_ID); // Replace with your Pixel ID
+//     ReactPixel.pageView(); // Track initial page load
+//   }
+// }
+
 export const initStorage = () => {
   console.log("initializing storage");
   Utils.Storage.GetItem = (key: string) => {
