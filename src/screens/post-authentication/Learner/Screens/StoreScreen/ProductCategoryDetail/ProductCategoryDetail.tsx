@@ -99,7 +99,7 @@ export default function ProductCategoryDetailScreen(
   );
   const { isMobile, isDesktop } = useBreakpoint();
   const link = productCategory.info.links.find((i) => i.slug === type);
-  // console.log(link?.faqs, "aaa");
+
   return loadingProductCategory ? (
     <ProductCategoryDetailSkeletonScreen />
   ) : (

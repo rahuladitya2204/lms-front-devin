@@ -87,7 +87,6 @@ function PackageDetailViewer(props: PackageDetailViewerPropsI) {
     }
   );
   useEffect(() => {
-    console.log(type, props.isServer, category, "aaa");
     if (!type && !props.isServer) {
       navigate(`/app/test-series/${packageId}/overview`);
     }

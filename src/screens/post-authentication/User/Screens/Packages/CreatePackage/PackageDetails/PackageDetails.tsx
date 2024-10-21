@@ -61,6 +61,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
   const { mutateAsync: validateSlugApi, status: validatingStatus } =
     User.Queries.useValidateSlug("package");
   const promotionImages = Form.useWatch(["promotion", "files"], form) || [];
+  const isPurchaseEnabled = Form.useWatch(["purchase", 'enabled'], form);
 
   return (
     <Fragment>
@@ -88,7 +89,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
             // ]}
             name="subtitle"
             label="Sub Title"
-            // required
+          // required
           >
             <Input placeholder="Enter a title for the live session" />
           </Form.Item>
@@ -136,12 +137,12 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
               <Form.Item
                 name={"keywords"}
                 label="Keywords"
-                // rules={[
-                //   {
-                //     required: true,
-                //     message: "Please enter a description for the Test",
-                //   },
-                // ]}
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please enter a description for the Test",
+              //   },
+              // ]}
               >
                 <InputTags name={`keywords`} />
               </Form.Item>{" "}
@@ -235,73 +236,75 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
           </Form.Item>
         </Col>
       </Row>
-      <Divider />
-      <Row>
-        <Col flex={1}>
-          <Row gutter={[10, 10]} align={"middle"}>
-            <Col span={6}>
-              <Form.Item
-                style={{ margin: 0, marginLeft: 10 }}
-                valuePropName="checked"
-                name={["featured", "enabled"]}
+      {isPurchaseEnabled ? <> <Divider />
+        <Row>
+          <Col flex={1}>
+            <Row gutter={[10, 10]} align={"middle"}>
+              <Col span={6}>
+                <Form.Item
+                  style={{ margin: 0, marginLeft: 10 }}
+                  valuePropName="checked"
+                  name={["featured", "enabled"]}
                 // label="Is Featured"
                 // label="Send email to learner on course enrollment."
-              >
-                <Switch
-                  checkedChildren="Is Featured"
-                  unCheckedChildren="Not Featured"
-                />
-              </Form.Item>
-            </Col>
-            {isFeatured ? (
-              <Col span={6}>
-                <Form.Item
-                  name={["featured", "from"]}
-                  label="Featured From"
-                  // style={{ width: "100%" }}
-                  required
                 >
-                  <DatePicker style={{ width: "100%" }} />
+                  <Switch
+                    checkedChildren="Is Featured"
+                    unCheckedChildren="Not Featured"
+                  />
                 </Form.Item>
               </Col>
-            ) : null}
-            {isFeatured ? (
-              <Col span={6}>
-                <Form.Item
-                  label="Featured Till"
-                  name={["featured", "to"]}
-                  required
-                >
-                  <DatePicker style={{ width: "100%" }} />
-                </Form.Item>
-              </Col>
-            ) : null}
-          </Row>
-        </Col>
-      </Row>
-      <Divider />
-      <Row>
-        <Col span={8}>
-          <Form.Item
-            style={{ margin: 0, marginLeft: 10 }}
-            valuePropName="checked"
-            name={["refund", "enabled"]}
-            label="Refund Enabled"
-          >
-            <Switch />
-          </Form.Item>
-        </Col>
+              {isFeatured ? (
+                <Col span={6}>
+                  <Form.Item
+                    name={["featured", "from"]}
+                    label="Featured From"
+                    // style={{ width: "100%" }}
+                    required
+                  >
+                    <DatePicker style={{ width: "100%" }} />
+                  </Form.Item>
+                </Col>
+              ) : null}
+              {isFeatured ? (
+                <Col span={6}>
+                  <Form.Item
+                    label="Featured Till"
+                    name={["featured", "to"]}
+                    required
+                  >
+                    <DatePicker style={{ width: "100%" }} />
+                  </Form.Item>
+                </Col>
+              ) : null}
+            </Row>
+          </Col>
+        </Row>
+        <Divider />
+        <Row>
+          <Col span={8}>
+            <Form.Item
+              style={{ margin: 0, marginLeft: 10 }}
+              valuePropName="checked"
+              name={["refund", "enabled"]}
+              label="Refund Enabled"
+            >
+              <Switch />
+            </Form.Item>
+          </Col>
 
-        <Col style={{ display: isRefundEnabled ? "block" : "none" }} span={8}>
-          <Form.Item
-            style={{ margin: 0, marginLeft: 10 }}
-            name={["refund", "within", "days"]}
-            label="Refund Window(in days)"
-          >
-            <Input type="number" />
-          </Form.Item>
-        </Col>
-      </Row>
+          <Col style={{ display: isRefundEnabled ? "block" : "none" }} span={8}>
+            <Form.Item
+              style={{ margin: 0, marginLeft: 10 }}
+              name={["refund", "within", "days"]}
+              label="Refund Window(in days)"
+            >
+              <Input type="number" />
+            </Form.Item>
+          </Col>
+        </Row>
+      </> : null}
+
       <Divider />
 
       <Col span={8}>
@@ -329,7 +332,7 @@ export default function PackageDetails(props: PackageDetailsPropsI) {
             <Form.Item
               name={["promotion", "files"]}
               required
-              // label="Promotion Images"
+            // label="Promotion Images"
             >
               <MediaUpload
                 uploadType="file"
