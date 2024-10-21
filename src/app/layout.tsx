@@ -9,8 +9,7 @@ import Providers from "./providers";
 const axios = getAxiosInstance();
 import { Constants, Utils } from "@adewaskar/lms-common";
 import { getCookie, getServerCookie } from "@ServerUtils/index";
-import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { initDateFormats } from "@Utils/index";
+
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 // initDateFormats();
 export const viewport: Viewport = {
@@ -38,9 +37,8 @@ export async function generateMetadata(
     const url = `https://${organisation.alias}.testmint.ai`;
 
     return {
-      title: `${organisation.name}${
-        organisation.description ? ` | ${organisation.description}` : ""
-      }`,
+      title: `${organisation.name}${organisation.description ? ` | ${organisation.description}` : ""
+        }`,
       description: organisation.description,
       icons: {
         icon: organisation.branding.favIcon.url,

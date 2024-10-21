@@ -24,8 +24,6 @@ import EventOutcomes from "../../ExtraComponents/Outcomes/Outcomes";
 import EventTestimonials from "../../ExtraComponents/Testimonials/Testimonials";
 import Header from "@Components/Header";
 import Image from "@Components/Image";
-import LocationAutocomplete from "@Components/LocationSelector";
-import LocationSelector from "@Components/LocationSelector";
 import MediaUpload from "@Components/MediaUpload";
 import PriceFormItem from "@Components/PriceFormItem";
 import TextArea from "@Components/Textarea";
@@ -185,55 +183,55 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = (props) => {
       extra={
         eventDetails.status === Enum.EventStatus.PUBLISHED
           ? [
-              UpdateEvent,
-              <Tag color="green">Event is published</Tag>,
-              UnpublishButton,
-            ]
+            UpdateEvent,
+            <Tag color="green">Event is published</Tag>,
+            UnpublishButton,
+          ]
           : [
-              isUpdate ? (
-                <>
-                  {eventDetails.status === Enum.EventStatus.DRAFT ? (
-                    <>
-                      {UpdateEvent}{" "}
-                      {eventDetails.plan ? (
-                        PublishEvent
-                      ) : (
-                        <ActionModal
-                          cta={
-                            <Button type="primary">Add Plan and Publish</Button>
+            isUpdate ? (
+              <>
+                {eventDetails.status === Enum.EventStatus.DRAFT ? (
+                  <>
+                    {UpdateEvent}{" "}
+                    {eventDetails.plan ? (
+                      PublishEvent
+                    ) : (
+                      <ActionModal
+                        cta={
+                          <Button type="primary">Add Plan and Publish</Button>
+                        }
+                      >
+                        <CreatePlan
+                          onSuccess={() =>
+                            qc.invalidateQueries([
+                              `GET_EVENT_DETAILS`,
+                              eventId,
+                            ])
                           }
-                        >
-                          <CreatePlan
-                            onSuccess={() =>
-                              qc.invalidateQueries([
-                                `GET_EVENT_DETAILS`,
-                                eventId,
-                              ])
-                            }
-                            product={{ type: "event", id: eventDetails._id }}
-                          />
-                        </ActionModal>
-                      )}{" "}
-                    </>
-                  ) : null}
-                </>
-              ) : (
-                <>
-                  <Button
-                    loading={createEventLoading}
-                    style={{ marginRight: 20 }}
-                    // type="primary"
-                    onClick={() => {
-                      // form.setFieldsValue({ status: Enum.EventStatus.DRAFT });
-                      onSubmit(Enum.EventStatus.DRAFT);
-                    }}
-                  >
-                    Save as Draft
-                  </Button>
-                  {PublishEvent}
-                </>
-              ),
-            ]
+                          product={{ type: "event", id: eventDetails._id }}
+                        />
+                      </ActionModal>
+                    )}{" "}
+                  </>
+                ) : null}
+              </>
+            ) : (
+              <>
+                <Button
+                  loading={createEventLoading}
+                  style={{ marginRight: 20 }}
+                  // type="primary"
+                  onClick={() => {
+                    // form.setFieldsValue({ status: Enum.EventStatus.DRAFT });
+                    onSubmit(Enum.EventStatus.DRAFT);
+                  }}
+                >
+                  Save as Draft
+                </Button>
+                {PublishEvent}
+              </>
+            ),
+          ]
       }
     >
       <Card loading={loadingEvent}>
@@ -363,7 +361,7 @@ const CreateEvent: React.FC<CreateEventComponentPropsI> = (props) => {
                   </Col>
                   <Col span={12}>
                     <Form.Item label="Event Location">
-                      <LocationAutocomplete onLocationChange={console.log} />
+                      {/* <LocationAutocomplete onLocationChange={console.log} /> */}
                     </Form.Item>
                   </Col>
                   <Col span={12}>

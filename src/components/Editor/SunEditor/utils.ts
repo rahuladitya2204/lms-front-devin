@@ -2,8 +2,6 @@
 import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
-// @ts-ignore
-import { setupCache } from 'axios-cache-interceptor';
 
 
 export function printPdf(downloadUrl: string, filename = 'test.pdf') {

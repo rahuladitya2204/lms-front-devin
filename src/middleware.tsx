@@ -121,7 +121,6 @@ export async function middleware(request: NextRequest) {
   const isValidRoute = validRoutes.some((route) =>
     request.nextUrl.pathname.startsWith(route)
   );
-  console.log(request.nextUrl.pathname, "isValidRoute");
   // Redirect to 404 if the route is not valid
   if (!isValidRoute) {
     const html = renderToString(<NotFoundScreen />);

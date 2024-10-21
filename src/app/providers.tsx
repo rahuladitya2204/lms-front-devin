@@ -1,59 +1,68 @@
 "use client";
 
-import { ParticlesProvider } from "@Components/Particles/ParticleProvider";
-import { ServerAuthProvider } from "@ServerComponents/ServerAuthProvider";
+import { memo, Suspense, useMemo } from "react";
+import dynamic from "next/dynamic"; // For dynamic imports
+
 import { Store } from "@adewaskar/lms-common";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { AntdRegistry } from "@ant-design/nextjs-registry";
-import { ModalProvider } from "@Components/ActionModal/ModalContext";
 
+// Dynamic imports for large components to improve FCP
+import { ModalProvider } from "@Components/ActionModal/ModalContext";
+import { ServerAuthProvider } from "@ServerComponents/ServerAuthProvider";
+
+/**
+ * Create a query client based on whether it's the browser or server.
+ * Memoized to prevent unnecessary re-creation.
+ */
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
-        // With SSR, we usually want to set some default staleTime
-        // above 0 to avoid refetching immediately on the client
-        staleTime: 60 * 1000,
+        staleTime: 60 * 1000, // Cache data for 1 minute to prevent unnecessary refetching
         refetchOnWindowFocus: false,
       },
     },
   });
 }
 
-let browserQueryClient: QueryClient | undefined = undefined;
+let browserQueryClient;
 
 function getQueryClient() {
   if (typeof window === "undefined") {
-    // Server: always make a new query client
-    return makeQueryClient();
-  } else {
-    // Browser: make a new query client if we don't already have one
-    // This is very important so we don't re-make a new client if React
-    // suspends during the initial render. This may not be needed if we
-    // have a suspense boundary BELOW the creation of the query client
-    if (!browserQueryClient) browserQueryClient = makeQueryClient();
-    return browserQueryClient;
+    return makeQueryClient(); // Server: Create a new client for every request
   }
-}
 
+  if (!browserQueryClient) {
+    browserQueryClient = makeQueryClient(); // Browser: Create only once
+  }
+
+  return browserQueryClient;
+}
+const MemoizedChildren = memo(({ children }) => children);
+
+/**
+ * Providers Component
+ * Uses memoization to prevent unnecessary renders and optimize the provider tree.
+ */
 export default function Providers({ children }) {
-  // NOTE: Avoid useState when initializing the query client if you don't
-  //       have a suspense boundary between this and the code that may
-  //       suspend because React will throw away the client on the initial
-  //       render if it suspends and there is no boundary
-  const queryClient = getQueryClient();
+  const queryClient = useMemo(() => getQueryClient(), []); // Memoize the query client
 
   return (
+    // <Suspense fallback={<div>Loading...</div>}>
     <Store.AuthenticationStoreProvider>
       <Store.GlobalStoreProvider>
         <QueryClientProvider client={queryClient}>
           <ModalProvider>
             <ServerAuthProvider>
-              <AntdRegistry>{children}</AntdRegistry>
+              <AntdRegistry>
+                <MemoizedChildren>{children}</MemoizedChildren>
+              </AntdRegistry>
             </ServerAuthProvider>
           </ModalProvider>
         </QueryClientProvider>
       </Store.GlobalStoreProvider>
     </Store.AuthenticationStoreProvider>
+    // </Suspense>
   );
 }

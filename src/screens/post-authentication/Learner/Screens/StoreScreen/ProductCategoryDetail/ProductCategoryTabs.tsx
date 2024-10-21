@@ -1,8 +1,6 @@
 "use client";
 
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
-import { Paragraph, Text, Title } from "@Components/Typography/Typography";
-import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Enum, Learner } from "@adewaskar/lms-common";
 import styled from "@emotion/styled";
@@ -380,46 +378,46 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
                 setProductTab(e);
               }}
               items={TABS}
-              // tabBarExtraContent={{
-              //   right:
-              //     productTab === "test-series" ? (
-              //       <Button
-              //         onClick={() => {
-              //           if (props.isServer) {
-              //             navigate(
-              //               `/test-series/${category.testSeries.page.slug}`
-              //             );
-              //           } else {
-              //             navigate(
-              //               `/app/test-series/${category.testSeries.page.slug}`
-              //             );
-              //           }
-              //         }}
-              //         type="dashed"
-              //         size="small"
-              //       >
-              //         View All Test Series
-              //       </Button>
-              //     ) : (
-              //       <Button
-              //         onClick={() => {
-              //           if (props.isServer) {
-              //             navigate(
-              //               `/previous-year-questions/${category.testSeries.page.slug}`
-              //             );
-              //           } else {
-              //             navigate(
-              //               `/app/previous-year-questions/${category.testSeries.page.slug}`
-              //             );
-              //           }
-              //         }}
-              //         type="dashed"
-              //         size="small"
-              //       >
-              //         View All PYQ Papers
-              //       </Button>
-              //     ),
-              // }}
+            // tabBarExtraContent={{
+            //   right:
+            //     productTab === "test-series" ? (
+            //       <Button
+            //         onClick={() => {
+            //           if (props.isServer) {
+            //             navigate(
+            //               `/test-series/${category.testSeries.page.slug}`
+            //             );
+            //           } else {
+            //             navigate(
+            //               `/app/test-series/${category.testSeries.page.slug}`
+            //             );
+            //           }
+            //         }}
+            //         type="dashed"
+            //         size="small"
+            //       >
+            //         View All Test Series
+            //       </Button>
+            //     ) : (
+            //       <Button
+            //         onClick={() => {
+            //           if (props.isServer) {
+            //             navigate(
+            //               `/previous-year-questions/${category.testSeries.page.slug}`
+            //             );
+            //           } else {
+            //             navigate(
+            //               `/app/previous-year-questions/${category.testSeries.page.slug}`
+            //             );
+            //           }
+            //         }}
+            //         type="dashed"
+            //         size="small"
+            //       >
+            //         View All PYQ Papers
+            //       </Button>
+            //     ),
+            // }}
             />
           </Card>
         </Col>

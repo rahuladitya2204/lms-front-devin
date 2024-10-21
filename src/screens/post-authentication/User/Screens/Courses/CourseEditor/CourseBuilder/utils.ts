@@ -5,7 +5,6 @@ import Compressor from 'compressorjs'
 import Hls from 'hls.js'
 import { Types } from '@adewaskar/lms-common'
 import { cloneDeep } from 'lodash'
-import { jsonrepair } from 'jsonrepair'
 import { unit } from 'mathjs'
 
 
@@ -36,22 +35,22 @@ export const updateTestSectionItem = (
 ) => {
   const SECTIONS = cloneDeep(sections)
   SECTIONS.forEach(section => {
-      section.items.forEach((secItem, itemIndex) => {
-        if (secItem._id === item._id) {
-          section.items[itemIndex] = {
-            ...secItem,
-            ...item
-          }
+    section.items.forEach((secItem, itemIndex) => {
+      if (secItem._id === item._id) {
+        section.items[itemIndex] = {
+          ...secItem,
+          ...item
         }
-      })
+      }
+    })
   })
   return SECTIONS
 }
 
-export const STRINGIFY = function(data: unknown) {
+export const STRINGIFY = function (data: unknown) {
   return btoa(unescape(encodeURIComponent(JSON.stringify(data))))
 }
-export const PARSE = function(str: string) {
+export const PARSE = function (str: string) {
   return JSON.parse(decodeURIComponent(atob(str)))
 }
 
@@ -189,7 +188,7 @@ export async function getVideoThumbnails(url: string): Promise<Blob[]> {
 }
 
 
-export function formatAvgCount(num:number) {
+export function formatAvgCount(num: number) {
   if (num >= 1000) {
     return Math.floor(num / 1000) + "k+";
   } else {
@@ -212,10 +211,10 @@ export function generateGradientColors(primaryColor, numberOfColors = 5, lightne
 
 function lightenColor(color, amount) {
   const num = parseInt(color.slice(1), 16),
-        amt = Math.round(2.55 * amount),
-        R = (num >> 16) + amt,
-        G = ((num >> 8) & 0x00ff) + amt,
-        B = (num & 0x0000ff) + amt;
+    amt = Math.round(2.55 * amount),
+    R = (num >> 16) + amt,
+    G = ((num >> 8) & 0x00ff) + amt,
+    B = (num & 0x0000ff) + amt;
   return `#${(0x1000000 + (R < 255 ? (R < 1 ? 0 : R) : 255) * 0x10000 + (G < 255 ? (G < 1 ? 0 : G) : 255) * 0x100 + (B < 255 ? (B < 1 ? 0 : B) : 255)).toString(16).slice(1)}`;
 }
 
@@ -228,7 +227,7 @@ console.log(gradientColors);
 
 
 export function convertToCommaSeparated(inputString) {
-  return inputString.split('\n').map(item => item.replace(/[0-9]*\.? */, '').trim()).filter(i=>i);
+  return inputString.split('\n').map(item => item.replace(/[0-9]*\.? */, '').trim()).filter(i => i);
 }
 
 export const convertImageToBlob = async (imageUrl) => {
@@ -256,8 +255,8 @@ export function blobToFile(blob: Blob): File {
 
   // Create a new File from the Blob
   const file = new File([blob], filename, {
-      type: mimeType,
-      lastModified: Date.now(),
+    type: mimeType,
+    lastModified: Date.now(),
   });
 
   return file;
@@ -273,7 +272,7 @@ export function compressImage(file: File, options?: Partial<Compressor.Options>)
     new Compressor(file, {
       quality: 0.6, // Compression quality, 0.6 is 60% quality.
       convertSize: 0, // Images larger than this size in bytes will be converted to JPEG. Set to 0 to convert all images to JPEG.
-      mimeType: file.type.includes('png')?file.type: 'image/jpeg', // Convert the image to JPEG format.
+      mimeType: file.type.includes('png') ? file.type : 'image/jpeg', // Convert the image to JPEG format.
       ...options,
       // @ts-ignore
       success(compressedFile) {
