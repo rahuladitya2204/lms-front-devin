@@ -52,7 +52,7 @@ export default function ProductCheckoutButton(
   const finalPriceValue = Math.ceil(
     coupon
       ? plan.displayPrice.value -
-          (plan.displayPrice.value * coupon.discount.value) / 100
+      (plan.displayPrice.value * coupon.discount.value) / 100
       : plan.finalPrice.value
   );
 
@@ -185,7 +185,7 @@ export default function ProductCheckoutButton(
   };
 
   // console.log(prod, "prorpo");
-  if (!prod?.purchase?.enabled) {
+  if (!(prod?.purchase?.enabled || isFree)) {
     return null;
   }
   return plan._id ? (

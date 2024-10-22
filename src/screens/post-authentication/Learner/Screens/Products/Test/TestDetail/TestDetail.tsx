@@ -314,7 +314,7 @@ const TestCard = ({
                 }
                 type="info"
                 showIcon
-                // action={ }
+              // action={ }
               />
               <Button
                 size="large"
@@ -446,31 +446,31 @@ const TestCard = ({
   return (
     <Card
       bodyStyle={{ padding: 10, paddingBottom: 20 }}
-      // style={{ height: '100%' }}
-      // title={
-      //   !isDesktop ? (
-      //     <Text
-      //       style={{
-      //         fontSize: 16,
-      //         whiteSpace: "normal", // Ensures text wraps
-      //         overflowWrap: "break-word", // Breaks words to prevent overflow
-      //       }}
-      //     >
-      //       {test.title}
-      //     </Text>
-      //   ) : null
-      // }
-      // extra={
-      //   isMobile || isTablet ? (
-      //     <ActionDrawer
-      //       title={test.title}
-      //       cta={<Button shape="circle" icon={<InfoOutlined />}></Button>}
-      //     >
-      //       {" "}
-      //       {Metadata}{" "}
-      //     </ActionDrawer>
-      //   ) : null
-      // }
+    // style={{ height: '100%' }}
+    // title={
+    //   !isDesktop ? (
+    //     <Text
+    //       style={{
+    //         fontSize: 16,
+    //         whiteSpace: "normal", // Ensures text wraps
+    //         overflowWrap: "break-word", // Breaks words to prevent overflow
+    //       }}
+    //     >
+    //       {test.title}
+    //     </Text>
+    //   ) : null
+    // }
+    // extra={
+    //   isMobile || isTablet ? (
+    //     <ActionDrawer
+    //       title={test.title}
+    //       cta={<Button shape="circle" icon={<InfoOutlined />}></Button>}
+    //     >
+    //       {" "}
+    //       {Metadata}{" "}
+    //     </ActionDrawer>
+    //   ) : null
+    // }
     >
       {" "}
       {isLoading ? (
@@ -525,7 +525,7 @@ const TestCard = ({
                       <>
                         {isEnrolled ? (
                           ENROLLED_CTA
-                        ) : test?.purchase?.enabled ? (
+                        ) : (isFree || test?.purchase?.enabled) ? (
                           <ProductCheckoutButton
                             ctaText={"Try Demo Test"}
                             // onClick={() => {
