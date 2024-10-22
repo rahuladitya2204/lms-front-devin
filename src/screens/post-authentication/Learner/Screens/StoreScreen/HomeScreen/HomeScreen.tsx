@@ -93,9 +93,9 @@ function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
           <Divider />
           <Col span={24}>
             <Row gutter={[40, 20]} align={"middle"}>
-              {/* <Col xs={24} sm={24} md={12}>
+              <Col xs={24} sm={24} md={12}>
                 <Image style={{ maxWidth: 200 }} src={Hero2.src} />
-              </Col> */}
+              </Col>
               <Col xs={24} sm={24} md={24}>
                 <Title
                   style={{ margin: 0, textAlign: isMobile ? "center" : "left" }}
