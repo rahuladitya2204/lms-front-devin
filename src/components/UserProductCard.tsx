@@ -1,5 +1,5 @@
-import { Button, Card, Col, Empty, Row, Spin } from "antd";
-import { Enum, Learner, Types, User } from "@adewaskar/lms-common";
+import { Badge, Button, Card, Col, Empty, Row, Spin } from "antd";
+import { Enum, Learner, Types, User, Utils } from "@adewaskar/lms-common";
 import { useMemo, useState } from "react";
 
 import AppImage from "@Components/Image";
@@ -21,22 +21,28 @@ const UserProductCard = (props: UserProductCardPropsI) => {
   } = props;
   const { data: product } = User.Queries.useGetProductDetail({ type, id });
   // console.log(product, id, '1321')
+  const Component = <Card
+    hoverable
+    bodyStyle={{ padding: "20px 10px" }}
+    cover={
+      <AppImage height={80} alt="example" src={product.thumbnailImage} />
+    }
+    actions={props.actions}
+  >
+    <Card.Meta
+      description={props.children}
+      title={<Text>{product.title}</Text>}
+    />
+  </Card>;
 
-  return (
-    <Card
-      hoverable
-      bodyStyle={{ padding: "20px 10px" }}
-      cover={
-        <AppImage height={80} alt="example" src={product.thumbnailImage} />
-      }
-      actions={props.actions}
-    >
-      <Card.Meta
-        description={props.children}
-        title={<Text>{product.title}</Text>}
-      />
-    </Card>
-  );
+  if (product?.plan?.finalPrice) {
+    return <Badge.Ribbon text={Utils.UnitTypeToStr(product.plan.finalPrice)}>{Component}</Badge.Ribbon>
+  }
+  else {
+    return <Badge.Ribbon color='red-inverse' text={`Plan Missing`}>{Component}</Badge.Ribbon>
+  }
+
+  return Component
 };
 
 export default UserProductCard;
