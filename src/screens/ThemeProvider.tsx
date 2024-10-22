@@ -30,10 +30,6 @@ function ThemeProvider(props: any) {
     return themes;
   }, [branding?.theme]);
 
-  // if (isLoading || props.showLoadingScreen) {
-  //   return <LoadingScreen />
-  // }
-  // console.log(organisation._id, 'bbrr')
   const showLoader = !organisation._id;
   return (
     <>
@@ -51,7 +47,7 @@ function ThemeProvider(props: any) {
         <ModalProvider>
           {showLoader ? (
             <div style={{ position: "fixed", left: "50%", top: "50%" }}>
-              <Spin tip="Loading.." />
+              <Spin tip="Loading.." />1
             </div>
           ) : (
             props.children

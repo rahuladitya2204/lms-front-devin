@@ -495,7 +495,7 @@ const SignupModalContent = ({
         <Title level={3}>
           {featuredProducts.length
             ? `Don't miss out our Bestselling ${product.type} Test Series!`
-            : `Leaving Soon? Don't Miss Out 100+ Free ${product.type} Test Series`}
+            : `Leaving Soon? Don't Miss Out 100+ Free Test Series`}
         </Title>
         <Row gutter={[0, 10]}>
           {featuredProducts.map((fp) => (
