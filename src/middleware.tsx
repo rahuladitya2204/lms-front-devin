@@ -49,14 +49,14 @@ export async function middleware(request: NextRequest) {
   const hasOrgAlias = request.cookies.has("orgAlias");
   const hasUserType = request.cookies.has("userType");
 
-  console.log(
-    request.nextUrl.pathname,
-    request.headers.get("cookie"),
-    request.cookies.get("orgAlias"),
-    request.cookies.has("orgAlias"),
-    request.cookies.get("userType"),
-    request.cookies.has("userType")
-  );
+  // console.log(
+  //   request.nextUrl.pathname,
+  //   request.headers.get("cookie"),
+  //   request.cookies.get("orgAlias"),
+  //   request.cookies.has("orgAlias"),
+  //   request.cookies.get("userType"),
+  //   request.cookies.has("userType")
+  // );
   const response = NextResponse.next();
   let updatedResponseCookies = false;
 

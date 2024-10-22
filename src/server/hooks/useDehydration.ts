@@ -22,8 +22,8 @@ const useDehydration = () => {
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
     ReactGA.initialize(GA_KEY);
-    initAnalytics();
     if (!isServer) {
+      initAnalytics();
       initializeApp();
     }
   }, [isServer]);
