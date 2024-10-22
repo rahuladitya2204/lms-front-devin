@@ -29,12 +29,12 @@ function CreatePlan(props: CreatePlanPropsI) {
 
   const { mutate: createTestPlan, isLoading: isCreating } =
     User.Queries[
-      props.mode === "product" ? "useCreateProductPlan" : "useCreateGlobalPlan"
+      props.mode === "global" ? "useCreateGlobalPlan" : "useCreateProductPlan"
     ]();
   const planId = props?.plan?._id || "";
   const { mutate: updateTestPlan, isLoading: isUpdating } =
     User.Queries[
-      props.mode === "product" ? "useUpdateProductPlan" : "useUpdateGlobalPlan"
+      props.mode === "global" ? "useUpdateGlobalPlan" : "useUpdateProductPlan"
     ](planId);
 
   const { product } = props;
@@ -44,6 +44,7 @@ function CreatePlan(props: CreatePlanPropsI) {
   }, [props.plan]);
 
   const onSubmit = (e: Types.Plan) => {
+    e.mode = props.mode;
     form.validateFields();
     const body: any = {
       data: e,

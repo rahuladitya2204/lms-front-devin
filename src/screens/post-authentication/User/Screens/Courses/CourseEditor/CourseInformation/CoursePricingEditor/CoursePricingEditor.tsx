@@ -30,7 +30,7 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
         title={"Pricing Plan"}
         extra={
           <ActionModal cta={<Button>Add Plan</Button>}>
-            <CreatePlan product={{ type: "course", id: props.courseId }} />
+            <CreatePlan mode="product" product={{ type: "course", id: props.courseId }} />
           </ActionModal>
         }
       >

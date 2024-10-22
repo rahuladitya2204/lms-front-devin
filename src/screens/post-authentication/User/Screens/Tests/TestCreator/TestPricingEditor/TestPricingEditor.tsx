@@ -33,7 +33,7 @@ function TestPricingEditor(props: TestPricingEditorPropsI) {
         extra={
           <Button
             onClick={() =>
-              openModal(<CreatePlan product={{ type: "test", id: testId }} />)
+              openModal(<CreatePlan mode="product" product={{ type: "test", id: testId }} />)
             }
           >
             Add Plan

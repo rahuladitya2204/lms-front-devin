@@ -27,7 +27,7 @@ function PackagePricing(props: PackagePricingPropsI) {
           title={"Pricing Plan"}
           extra={
             <ActionModal cta={<Button>Add Plan</Button>}>
-              <CreatePlan product={{ type: "package", id: props.packageId }} />
+              <CreatePlan mode="product" product={{ type: "package", id: props.packageId }} />
             </ActionModal>
           }
         >
