@@ -7,12 +7,17 @@ const GA_KEY = 'G-09G526DHYD'
 import { AnalyticsBrowser } from '@segment/analytics-next';
 import ReactGA from 'react-ga';
 const analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
-const FACEBOOK_PIXEL_ID = '1215625842884170'
-import ReactPixel from 'react-facebook-pixel';
+// const FACEBOOK_PIXEL_ID = '1215625842884170'
+// import dynamic from "next/dynamic";
+
+// const ReactPixel = dynamic(() => import('react-facebook-pixel'), {
+//   ssr: false,
+// });
 
 export const initAnalytics = () => {
-  ReactPixel.init(FACEBOOK_PIXEL_ID); // Replace with your Pixel ID
-  ReactPixel.pageView(); // Track initial page load
+  ReactGA.initialize(GA_KEY);
+  // ReactPixel.init(FACEBOOK_PIXEL_ID); // Replace with your Pixel ID
+  // ReactPixel.pageView(); // Track initial page load
 
 }
 
@@ -21,7 +26,6 @@ const useDehydration = () => {
   const { user, learner, userType } = Store.useAuthentication(s => s);
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
-    ReactGA.initialize(GA_KEY);
     if (!isServer) {
       initAnalytics();
       initializeApp();
