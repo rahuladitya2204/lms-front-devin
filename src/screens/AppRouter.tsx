@@ -12,8 +12,7 @@
 //   WebsiteBuilderScreen
 // } from './route-list';
 import {
-  Route as ReactRouterRoute,
-  RouteProps,
+  Route,
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
@@ -62,11 +61,9 @@ import LearnerEventsScreen from "@Learner/Screens/Products/Event/Events/EventScr
 import LearnerFullPageHolder from "./LearnerFullPageHolder";
 import LearnerHomeScreen from "@Screens/post-authentication/Learner/Screens/StoreScreen/HomeScreen/HomeScreen";
 import LearnerPrivacyPolicy from "@Learner/Screens/ExtraPages/PrivacyPolicy";
-const LearnerRootScreen = lazy(() => import("@Learner/Screens/LearnerRoot/LearnerRootScreen"));
-const UserRootScreen = lazy(() => import("@User/Screens/UserRoot/UserRootScreen"));
-
-
+import LearnerStoreScreen from "@Learner/Screens/StoreScreen/StoreScreen";
 import LearnerTestDetailScreen from "@Learner/Screens/Products/Test/TestDetail/TestDetail";
+import LearnerTestResult from "@Learner/Screens/Products/Test/TestResult/TestResult";
 import LearnerTestScreen from "@Learner/Screens/Products/Test/TestScreen/TestsScreen";
 import LearnerTicketDetail from "@Learner/Screens/Tickets/TicketDetailScreen/TicketDetailScreen";
 import LearnerWallet from "@Learner/Screens/Account/LearnerWallet/LearnerWallet";
@@ -118,7 +115,8 @@ import UserFullPageHolder from "@User/Screens/UserRoot/UserFullPageHolder";
 import UserLoginScreen from "./post-authentication/User/Screens/Login";
 import UserProfile from "@User/Screens/Settings/Account/UserProfile";
 import UserRegister from "./post-authentication/User/Screens/Register";
-// import UserRootScreen from "@User/Screens/UserRoot/UserRootScreen";
+const LearnerRootScreen = lazy(() => import("@Learner/Screens/LearnerRoot/LearnerRootScreen"));
+const UserRootScreen = lazy(() => import("@User/Screens/UserRoot/UserRootScreen"));
 import UserTestScreen from "@User/Screens/Tests/TestsList/TestsScreen";
 import UserTicketDetail from "@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen";
 import UsersScreen from "./post-authentication/User/Screens/Users/Users/UsersScreen";
@@ -147,17 +145,6 @@ import PlansScreen from "@User/Screens/Plans/PlansScreen";
 import { Card, Col, Row } from "antd";
 import LearnerLogin from "./post-authentication/Learner/Screens/Login";
 
-// type AppRoutePropsI = RouteProps & {
-//   lazy?: boolean;
-// }
-
-const Route = (props: any) => {
-  const ROUTE = <ReactRouterRoute {...props} />
-  return props.lazy ? <Suspense fallback={<LoadingScreen />}>
-    {ROUTE}
-  </Suspense> : ROUTE
-}
-
 const router = (userType: string) => {
   return createBrowserRouter(
     createRoutesFromElements(
@@ -168,7 +155,11 @@ const router = (userType: string) => {
           {userType === "learner" ? (
             <>
               <Route index element={<ReturnLearnerToStore />} />
-              <Route lazy path="app" element={<LearnerRootScreen />}>
+              <Route path="app" element={
+                <Suspense fallback={<LoadingScreen />}>
+                  <LearnerRootScreen />
+                </Suspense>
+              }>
                 <Route path="cart" element={<LearnerCart />} />
                 <Route path="wallet" element={<LearnerWallet />} />
                 <Route path="reset-password" element={<ResetPassword />} />
@@ -424,7 +415,7 @@ const router = (userType: string) => {
                   /> */}
                 </Route>
 
-                <Route lazy path="admin" element={<UserRootScreen />}>
+                <Route path="admin" element={<Suspense fallback={<LoadingScreen />}><UserRootScreen /></Suspense>}>
                   <Route path="dashboard" element={<UserDashboard />} />
                   <Route path="admin/news" element={<NewsScreen />} />
                   <Route
