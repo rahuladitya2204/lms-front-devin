@@ -58,7 +58,6 @@ import LearnerCart from "@Learner/Screens/LearnerShop/LearnerCartScreen/LearnerC
 import LearnerCourses from "./post-authentication/Learner/Screens/Products/Courses";
 import LearnerEditor from "./post-authentication/User/Screens/Users/Learners/LearnersEditor";
 import LearnerEventsScreen from "@Learner/Screens/Products/Event/Events/EventScreen";
-import LearnerFullPageHolder from "./LearnerFullPageHolder";
 import LearnerHomeScreen from "@Screens/post-authentication/Learner/Screens/StoreScreen/HomeScreen/HomeScreen";
 import LearnerPrivacyPolicy from "@Learner/Screens/ExtraPages/PrivacyPolicy";
 import LearnerStoreScreen from "@Learner/Screens/StoreScreen/StoreScreen";
@@ -96,11 +95,11 @@ import TestCompleted from "@Learner/Screens/Products/Test/TestPlayer/TestComplet
 import TestEditor from "@User/Screens/Tests/TestCreator";
 import TestEvaluator from "@User/Screens/Tests/TestEvaluator/TestEvaluatorScreen";
 import TestMetrics from "@Learner/Screens/Products/Test/TestResult/TestMetrics";
-import TestPlayer from "@Learner/Screens/Products/Test/TestPlayer/TestPlayer";
+
+
 import TestPlayerItemReiew from "@Learner/Screens/Products/Test/TestReview/TestPlayerItemReview";
 import TestPlayeritem from "@Learner/Screens/Products/Test/TestPlayer/TestPlayerItem/TestPlayerItem";
 import TestResultTable from "@Learner/Screens/Products/Test/TestResult/Table/TestResultTable";
-import TestReviewPlayer from "@Learner/Screens/Products/Test/TestReview/TestReviewPlayer";
 import TestRules from "@Learner/Screens/Products/Test/TestPlayer/TestRules";
 import TestStatus from "@User/Screens/Tests/TestsList/TestInsights/TestStatus";
 import ThemeProvider from "./ThemeProvider";
@@ -117,6 +116,11 @@ import UserProfile from "@User/Screens/Settings/Account/UserProfile";
 import UserRegister from "./post-authentication/User/Screens/Register";
 const LearnerRootScreen = lazy(() => import("@Learner/Screens/LearnerRoot/LearnerRootScreen"));
 const UserRootScreen = lazy(() => import("@User/Screens/UserRoot/UserRootScreen"));
+const TestPlayer = lazy(() => import("@Learner/Screens/Products/Test/TestPlayer/TestPlayer"));
+const TestReviewPlayer = lazy(() => import("@Learner/Screens/Products/Test/TestReview/TestReviewPlayer"));
+const TestPublicPlayer = lazy(() => import("./post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer"));
+const LearnerFullPageHolder = lazy(() => import("./LearnerFullPageHolder"));
+
 import UserTestScreen from "@User/Screens/Tests/TestsList/TestsScreen";
 import UserTicketDetail from "@User/Screens/Tickets/TicketDetailScreen/TicketDetailScreen";
 import UsersScreen from "./post-authentication/User/Screens/Users/Users/UsersScreen";
@@ -128,7 +132,6 @@ import { useNavigate } from "@Router/index";
 import RoutingContext from "./RoutingContext";
 import ProductCategoryTabs from "./post-authentication/Learner/Screens/StoreScreen/ProductCategoryDetail/ProductCategoryTabs";
 import PackageDetailsTabs from "./post-authentication/Learner/Screens/Products/Package/PackageDetailsViewer/PackageDetailTabs";
-import TestPublicPlayer from "./post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayer";
 import TestPublicPlayerItemReiew from "./post-authentication/Learner/Screens/Products/Test/PYQPlayer/PYQTestPlayerItem";
 import CreateBlog from "@User/Screens/Blog/CreateBlog";
 import BlogsScreen from "@User/Screens/Blog/BlogScreen";
@@ -239,7 +242,11 @@ const router = (userType: string) => {
                 />
                 <Route path="policies" element={<LearnerPrivacyPolicy />} />
               </Route>
-              <Route path="" element={<LearnerFullPageHolder />}>
+              <Route path="" element={
+                <Suspense fallback={<LoadingScreen />}>
+                  <LearnerFullPageHolder />
+                </Suspense>
+              }>
                 {/* <Route
                   path="app/interview/player"
                   element={<UserEventPlayerEnter />}
@@ -288,7 +295,9 @@ const router = (userType: string) => {
                     path="player"
                     element={
                       <SigninProtectedRoutes>
-                        <TestPlayer />
+                        <Suspense fallback={<LoadingScreen />}>
+                          <TestPlayer />
+                        </Suspense>
                       </SigninProtectedRoutes>
                     }
                   >
@@ -316,7 +325,9 @@ const router = (userType: string) => {
                   path="app/test/:testId/review"
                   element={
                     <SigninProtectedRoutes>
-                      <TestReviewPlayer />
+                      <Suspense fallback={<LoadingScreen />}>
+                        <TestReviewPlayer />
+                      </Suspense>
                     </SigninProtectedRoutes>
                   }
                 >
@@ -329,7 +340,11 @@ const router = (userType: string) => {
               >
                 <Route
                   path="previous-year-questions"
-                  element={<TestPublicPlayer />}
+                  element={
+                    <Suspense fallback={<LoadingScreen />}>
+                      <TestPublicPlayer />
+                    </Suspense>
+                  }
                 >
                   <Route
                     path=":questionId"
