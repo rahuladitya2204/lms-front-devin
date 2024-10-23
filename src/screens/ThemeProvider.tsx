@@ -47,7 +47,7 @@ function ThemeProvider(props: any) {
         <ModalProvider>
           {showLoader ? (
             <div style={{ position: "fixed", left: "50%", top: "50%" }}>
-              <Spin tip="Loading.." />1
+              <Spin tip="Loading.." />
             </div>
           ) : (
             props.children

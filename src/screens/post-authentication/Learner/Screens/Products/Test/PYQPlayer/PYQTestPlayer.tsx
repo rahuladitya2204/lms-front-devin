@@ -74,11 +74,11 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       navigate(
         props.isServer
           ? `/test/${testId}/previous-year-questions/${Utils.getQuestionSlugFromID(
-              item
-            )}`
+            item
+          )}`
           : `/app/test/${testId}/previous-year-questions/${Utils.getQuestionSlugFromID(
-              item
-            )}`
+            item
+          )}`
       );
     }
     if (test.languages.length) {
@@ -144,9 +144,9 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
   );
   const ChildrenWithLanguage = props.children
     ? React.cloneElement(props.children, {
-        language: lang,
-        isServer: props.isServer,
-      })
+      language: lang,
+      isServer: props.isServer,
+    })
     : null;
   return isLoading ? (
     <TestPlayerSkeleton />
@@ -166,12 +166,12 @@ export default function TestPublicPlayer(props: TestPlayerPropsI) {
       subTitle={"asd"}
       extra={isDesktop ? [LanguagesSelect, ExitButton] : SideDrawer}
     >
-      <ProductDetailSignup
+      {/* <ProductDetailSignup
         product={{
           type: "category",
           id: test.category,
         }}
-      />
+      /> */}
       <Row>
         <Col span={1} />
         <Col span={22}>

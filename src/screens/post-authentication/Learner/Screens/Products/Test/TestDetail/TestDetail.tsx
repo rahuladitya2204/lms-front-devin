@@ -98,12 +98,12 @@ export default function TestDetailScreen(props: TestDetailScreenPropsI) {
     <TestDetailSkeletonScreen />
   ) : (
     <Row gutter={[20, 20]}>
-      <ProductDetailSignup
+      {/* <ProductDetailSignup
         product={{
           type: "category",
           id: test.category,
         }}
-      />
+      /> */}
       {loadingTest ? null : (
         <>
           {/* <Col md={24} sm={24} lg={0}>
