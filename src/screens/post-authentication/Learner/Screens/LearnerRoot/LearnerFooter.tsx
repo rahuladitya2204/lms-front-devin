@@ -107,7 +107,7 @@ export default function LearnerFooter(props: LearnerFooterPropsI) {
                       width={108}
                       height={25}
                       src={organisation.branding.logo.high.url}
-                      // width={25}
+                    // width={25}
                     />
                     <CustomText strong style={{ marginLeft: 5 }}>
                       © 2024
@@ -178,7 +178,7 @@ export default function LearnerFooter(props: LearnerFooterPropsI) {
       <Row justify={"space-between"}>
         <Col>
           <CustomText strong>
-            Copyright © 2024 {organisation.name} Pvt. Ltd.: All rights reserved
+            Copyright © 2024 {organisation.name} Private Limited: All rights reserved
           </CustomText>
         </Col>
 
