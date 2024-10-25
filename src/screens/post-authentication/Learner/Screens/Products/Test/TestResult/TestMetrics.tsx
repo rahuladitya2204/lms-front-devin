@@ -69,6 +69,7 @@ import {
   buildTopicHierarchy,
   initializeTopicCounts,
 } from "../../../../../User/Screens/Tests/TestCreator/TestBuilder/utils";
+import AddToHomeScreenBanner from "@Components/AddToHomeScreen";
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -118,12 +119,12 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   const difficultyLevelData = useMemo(() => {
     return metrics.difficultyLevel
       ? Object.keys(metrics.difficultyLevel).map((k) => {
-          return {
-            difficultyLevel: k,
-            // @ts-ignore
-            ...metrics.difficultyLevel[k],
-          };
-        })
+        return {
+          difficultyLevel: k,
+          // @ts-ignore
+          ...metrics.difficultyLevel[k],
+        };
+      })
       : [];
   }, [metrics]);
   // console.log(MAIN_TOPICS,'MAIN_TOPICS')
@@ -239,7 +240,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       }}
       type="primary"
       danger
-      // loading={submittingTest}
+    // loading={submittingTest}
     >
       Exit
     </Button>
@@ -313,11 +314,11 @@ export default function TestMetrics(props: TestMetricsPropsI) {
               <Skeleton active />
             </Card>
           ) : // @ts-ignore
-          test?._id ? (
-            <Row>
-              <Col xs={24}>{BarChartDifficultyLevel}</Col>
-            </Row>
-          ) : null}
+            test?._id ? (
+              <Row>
+                <Col xs={24}>{BarChartDifficultyLevel}</Col>
+              </Row>
+            ) : null}
         </Card>
       ) : null}
     </>
@@ -395,7 +396,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                     gutter={[30, 30]}
                   >
                     {metrics.totalCorrectlyAnswered +
-                    metrics.totalWronglyAnswered ? (
+                      metrics.totalWronglyAnswered ? (
                       <Col xs={24} sm={8}>
                         <Card bordered={false}>
                           <Statistic
@@ -429,7 +430,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                     </Col>
 
                     {enrolledProduct.metadata.test.startedAt ||
-                    enrolledProduct.metadata.test.endedAt ? (
+                      enrolledProduct.metadata.test.endedAt ? (
                       <Col xs={24} sm={8}>
                         <Card bordered={false}>
                           <Statistic
@@ -438,7 +439,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                             // precision={2}
                             valueStyle={{ fontSize: 20, color: "purple" }}
                             prefix={<ClockCircleOutlined />}
-                            // suffix="mins"
+                          // suffix="mins"
                           />
                         </Card>
                       </Col>
@@ -450,8 +451,8 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                       <Skeleton active />
                     </Card>
                   ) : !(
-                      pieChartData[0].value === 0 && pieChartData[1].value === 0
-                    ) ? (
+                    pieChartData[0].value === 0 && pieChartData[1].value === 0
+                  ) ? (
                     <Row>
                       <Col xs={24}>{PiechartComponent}</Col>
                     </Row>
@@ -501,12 +502,12 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                             const attemptedPercent = Math.ceil(
                               (section?.stats?.questionsAttempted /
                                 section?.stats?.totalQuestions) *
-                                100
+                              100
                             );
                             const correctPercent = Math.ceil(
                               (section?.stats?.questionsAnsweredCorrectly /
                                 section?.stats?.totalQuestions) *
-                                100
+                              100
                             );
                             return (
                               <Row key={section.title}>
@@ -689,6 +690,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
 
   return (
     <ProtectedLearnerProfile>
+      <AddToHomeScreenBanner />
       <Header
         title={!isMobile ? `Test Result: ${test?.title}` : ExitButton}
         extra={
