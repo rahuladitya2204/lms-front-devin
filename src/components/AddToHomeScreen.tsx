@@ -11,7 +11,6 @@ interface BeforeInstallPromptEvent extends Event {
 // Main component
 const AddToHomeScreenBanner: React.FC = () => {
     const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-    const [isBannerVisible, setIsBannerVisible] = useState(true);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [browserName, setBrowserName] = useState<string>('unknown');
 
@@ -42,7 +41,6 @@ const AddToHomeScreenBanner: React.FC = () => {
                 } else {
                     console.log('User dismissed the A2HS prompt');
                 }
-                setIsBannerVisible(false);
             });
         } else {
             setIsModalVisible(true);
@@ -60,15 +58,6 @@ const AddToHomeScreenBanner: React.FC = () => {
 
     return (
         <>
-            {isBannerVisible && (
-                <div style={{ position: 'fixed', bottom: 0, width: '100%', textAlign: 'center', zIndex: 1000 }}>
-                    <p>Install our app for a better experience!</p>
-                    <Button type="primary" onClick={triggerInstallPrompt}>
-                        Install
-                    </Button>
-                </div>
-            )}
-
             <Modal
                 title="Add to Home Screen"
                 open={isModalVisible}
