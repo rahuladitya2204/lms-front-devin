@@ -28,6 +28,8 @@ import TestTimer from "./TestTimer";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import TestScore from "@Components/TestScore";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 interface TestQuestionNavigatorPropsI {
   testId: string;
@@ -45,7 +47,10 @@ export default function TestQuestionNavigator(
       status: { sections, hasStarted, hasEnded },
     },
   } = Learner.Queries.useGetTestStatus(props.testId + "");
-
+  const { data: { metadata: { test: { language } } } } = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id: props.testId + ''
+  })
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
   const { data: test, isLoading: loadingTest } =
     Learner.Queries.useGetTestDetails(
@@ -97,18 +102,19 @@ export default function TestQuestionNavigator(
                   style={{ backgroundColor: token.colorSuccessActive }}
                   type="primary"
                 />{" "}
-                Attempted
+                {FormatLangText(TEXTS.ATTEMPTED, language)}
               </Space>
             </Col>
             <Col span={12}>
               <Space>
-                <Button shape="circle" type="primary" danger /> Marked for
-                Review
+                <Button shape="circle" type="primary" danger />
+                {FormatLangText(TEXTS.MARKED_FOR_REVIEW, language)}
               </Space>
             </Col>
             <Col span={12}>
               <Space>
-                <Button shape="circle" /> Not Attempted
+                <Button shape="circle" />
+                {FormatLangText(TEXTS.NOT_ANSWERED, language)}
               </Space>
             </Col>
             <Col span={12}>
@@ -117,14 +123,14 @@ export default function TestQuestionNavigator(
                   style={{ backgroundColor: token.colorPrimary }}
                   shape="circle"
                 />{" "}
-                Current Question
+                {FormatLangText(TEXTS.CURRENT_QUESTION, language)}
               </Space>
             </Col>
           </Row>
         </Col>
         <Col span={24}>
           <Title style={{ textAlign: "center" }} level={3}>
-            Question Panel
+            {FormatLangText(TEXTS.QUESTION_PANEL, language)}
           </Title>
           {isLoading ? (
             <TestNavigatorSkeleton />
@@ -173,17 +179,17 @@ export default function TestQuestionNavigator(
                                       isActive
                                         ? "primary"
                                         : item.isMarked
-                                        ? "primary"
-                                        : item.isAnswered
-                                        ? "primary"
-                                        : "default"
+                                          ? "primary"
+                                          : item.isAnswered
+                                            ? "primary"
+                                            : "default"
                                     }
                                     style={{
                                       backgroundColor: isActive
                                         ? ""
                                         : item.isAnswered
-                                        ? token.colorSuccessActive
-                                        : "default",
+                                          ? token.colorSuccessActive
+                                          : "default",
                                     }}
                                     shape="circle"
                                   >

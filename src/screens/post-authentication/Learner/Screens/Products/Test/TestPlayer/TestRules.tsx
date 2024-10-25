@@ -39,7 +39,7 @@ interface TestRulesPropsI {
 
 export default function TestRules(props: TestRulesPropsI) {
   const { testId } = useParams();
-  const {} = Learner.Queries.useGetLearnerDetails();
+  const { } = Learner.Queries.useGetLearnerDetails();
   const { mutate: startTest, isLoading: startingTest } =
     Learner.Queries.useStartTest(testId + "");
   const { data: test } = Learner.Queries.useGetTestDetails(testId + "");
@@ -77,8 +77,8 @@ export default function TestRules(props: TestRulesPropsI) {
     enrolledProduct.metadata.test.endedAt || test.live.endedAt;
   const endingAt = test.duration.enabled
     ? dayjs(enrolledProduct.metadata.test.startedAt)
-        .add(test.duration.value, "minutes")
-        .toString()
+      .add(test.duration.value, "minutes")
+      .toString()
     : null;
   const navigate = useNavigate();
   const { isMobile } = useBreakpoint();
@@ -108,6 +108,7 @@ export default function TestRules(props: TestRulesPropsI) {
       form.setFieldValue(["language"], test.languages[0]);
     }
   }, [test.languages]);
+
   const { openModal } = useModal();
 
   return (
@@ -133,18 +134,18 @@ export default function TestRules(props: TestRulesPropsI) {
         extra={
           !isMobile
             ? [
-                hasStarted ? (
-                  testStartDate && endingAt ? (
-                    <Tag color="blue">
-                      Time Left: <TestTimeCountdown testId={testId + ""} />
-                    </Tag>
-                  ) : null
-                ) : test.duration.enabled ? (
-                  <Tag color="blue-inverse">
-                    Time Limit: {test.duration.value} mins
+              hasStarted ? (
+                testStartDate && endingAt ? (
+                  <Tag color="blue">
+                    Time Left: <TestTimeCountdown testId={testId + ""} />
                   </Tag>
-                ) : null,
-              ]
+                ) : null
+              ) : test.duration.enabled ? (
+                <Tag color="blue-inverse">
+                  Time Limit: {test.duration.value} mins
+                </Tag>
+              ) : null,
+            ]
             : null
         }
       >
@@ -159,7 +160,7 @@ export default function TestRules(props: TestRulesPropsI) {
                   dataSource={TEST_RULES}
                   renderItem={(item, index) => (
                     <List.Item>
-                      <List.Item.Meta title={item.rule} />
+                      <List.Item.Meta title={item.rule[language] || item.rule['eng']} />
                     </List.Item>
                   )}
                 />
@@ -171,7 +172,7 @@ export default function TestRules(props: TestRulesPropsI) {
                   {TERMS.map(({ term, termId }) => {
                     return (
                       <Form.Item name={termId} valuePropName="checked">
-                        <Checkbox>{term}</Checkbox>
+                        <Checkbox>{term[language] || term['eng']}</Checkbox>
                       </Form.Item>
                     );
                   })}

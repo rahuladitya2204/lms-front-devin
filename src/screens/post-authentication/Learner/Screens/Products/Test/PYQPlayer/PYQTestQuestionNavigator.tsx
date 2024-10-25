@@ -19,6 +19,8 @@ import { Typography } from "@Components/Typography";
 import { useQuestion } from "./PYQTestPlayerItem";
 import { NavLink, useNavigate, useParams } from "@Router/index";
 import TestScore from "@Components/TestScore";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
@@ -32,12 +34,17 @@ const { Text, Title } = Typography;
 export default function TestReviewQuestionNavigator(
   props: TestReviewQuestionNavigatorPropsI
 ) {
-  const navigate = useNavigate();
+
   const { isLoading: loadingResult, data: test } =
     Learner.Queries.useGetTestDetails(
       props.testId + "",
       Enum.TestDetailMode.RESULT
     );
+
+  const { data: { metadata: { test: { language } } } } = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id: test._id + "",
+  });
   const { currentQuestion, loading } = useQuestion();
 
   const { token } = theme.useToken();
@@ -63,7 +70,7 @@ export default function TestReviewQuestionNavigator(
       <Row>
         <Col span={24}>
           <Title style={{ textAlign: "center" }} level={3}>
-            Question Panel
+            {FormatLangText(TEXTS.QUESTION_PANEL, language)}
           </Title>
           {test.sections.map((section: any) => {
             return (
@@ -93,16 +100,14 @@ export default function TestReviewQuestionNavigator(
                             key={item._id}
                             to={
                               props.isServer
-                                ? `/test/${
-                                    test.slug || test._id
-                                  }/previous-year-questions/${Utils.getQuestionSlugFromID(
-                                    item
-                                  )}`
-                                : `/app/test/${
-                                    test.slug || test._id
-                                  }/previous-year-questions/${Utils.getQuestionSlugFromID(
-                                    item
-                                  )}`
+                                ? `/test/${test.slug || test._id
+                                }/previous-year-questions/${Utils.getQuestionSlugFromID(
+                                  item
+                                )}`
+                                : `/app/test/${test.slug || test._id
+                                }/previous-year-questions/${Utils.getQuestionSlugFromID(
+                                  item
+                                )}`
                             }
                             children={() => {
                               const isActive = questionId === item._id;
@@ -127,34 +132,34 @@ export default function TestReviewQuestionNavigator(
                                     isActive
                                       ? "primary"
                                       : item.isMarked
-                                      ? "primary"
-                                      : item.isAnswered
-                                      ? "primary"
-                                      : "default"
+                                        ? "primary"
+                                        : item.isAnswered
+                                          ? "primary"
+                                          : "default"
                                   }
                                   style={{
                                     backgroundColor: isActive
                                       ? ""
                                       : item.isAnswered
-                                      ? item.type !== "subjective"
-                                        ? item.isCorrect
-                                          ? token.colorSuccessActive
-                                          : token.colorError
-                                        : token.colorWarningActive
-                                      : "default",
+                                        ? item.type !== "subjective"
+                                          ? item.isCorrect
+                                            ? token.colorSuccessActive
+                                            : token.colorError
+                                          : token.colorWarningActive
+                                        : "default",
                                   }}
                                   shape="circle"
-                                  // icon={
-                                  //   item.isAnswered ? (
-                                  //     <Fragment>
-                                  //       {item.isCorrect ? (
-                                  //         <CheckOutlined />
-                                  //       ) : (
-                                  //         <CloseOutlined />
-                                  //       )}
-                                  //     </Fragment>
-                                  //   ) : null
-                                  // }
+                                // icon={
+                                //   item.isAnswered ? (
+                                //     <Fragment>
+                                //       {item.isCorrect ? (
+                                //         <CheckOutlined />
+                                //       ) : (
+                                //         <CloseOutlined />
+                                //       )}
+                                //     </Fragment>
+                                //   ) : null
+                                // }
                                 >
                                   {totalIndex + 1}
                                 </Button>

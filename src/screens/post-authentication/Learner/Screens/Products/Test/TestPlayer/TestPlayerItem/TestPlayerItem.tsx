@@ -56,6 +56,8 @@ import useQuestion from "../hooks/useQuestion";
 import useTestNavigation from "@Hooks/useProductNavigation";
 import TestPlayerFiles from "./TestPlayerFiles";
 import { SubmitButton } from "../TestPlayer";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 const { Title, Text } = Typography;
 
@@ -170,7 +172,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       icon={<ReloadOutlined />}
       style={{ marginLeft: 20 }}
     >
-      Clear
+      {FormatLangText(TEXTS.CLEAR, language)}
     </Button>
   );
   const { navigate } = useTestNavigation(test, "player");
@@ -185,7 +187,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       style={{ marginRight: !isMobile ? 20 : 0 }}
       icon={<BackwardOutlined />}
     >
-      {!isMobile ? "Previous" : ""}
+      {!isMobile ? FormatLangText(TEXTS.PREVIOUS, language) : ""}
     </Button>
   );
   const NextButton = (
@@ -194,7 +196,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       onClick={() => navigate("next")}
       icon={<ForwardOutlined />}
     >
-      {!isMobile ? "Next" : ""}
+      {!isMobile ? FormatLangText(TEXTS.NEXT, language) : ""}
     </Button>
   );
   const MarkForReviewCheckbox = (
@@ -229,7 +231,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       icon={<CheckOutlined />}
       danger
     >
-      Mark as Done
+      {FormatLangText(TEXTS.MARK_AS_DONE, ep.metadata.test.language)}
     </Button>
   ) : (
     <Button
@@ -246,7 +248,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       danger
       type="default"
     >
-      Mark for review
+      {FormatLangText(TEXTS.MARK_FOR_REVIEW, language)}
     </Button>
   );
 
@@ -350,7 +352,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
             style={{ fontSize: 15, padding: "2px 5px" }}
             color="blue-inverse"
           >
-            {!isMobile ? "Correct Answer Score: " : "+"}
+            {!isMobile ? `${FormatLangText(TEXTS.CORRECT_ANSWER_SCORE, language)}: ` : "+"}
             {currentSection?.score?.correct}
           </Tag>,
           currentSection?.score?.incorrect ? (
@@ -358,7 +360,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               style={{ fontSize: 15, padding: "2px 5px" }}
               color="red-inverse"
             >
-              {!isMobile ? "Incorrect Answer Score: " : ""}{" "}
+              {!isMobile ? `${FormatLangText(TEXTS.INCORRECT_ANSWER_SCORE, language)}: ` : ""}{" "}
               {currentSection?.score?.incorrect}
             </Tag>
           ) : null,
@@ -393,7 +395,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                           type="secondary"
                         >
                           {questionType === Enum.TestQuestionType.SINGLE
-                            ? "Select one among others"
+                            ? FormatLangText(TEXTS.SELECT_ONE, ep.metadata.test.language)
                             : null}
                           {questionType === Enum.TestQuestionType.MULTIPLE
                             ? "Select all that apply"
@@ -588,7 +590,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     // loading={submittingAnswer}
                     onClick={form.submit}
                   >
-                    Save & Next
+                    {FormatLangText(TEXTS.SAVE_AND_NEXT, language)}
                   </Button>
                 </div>
 

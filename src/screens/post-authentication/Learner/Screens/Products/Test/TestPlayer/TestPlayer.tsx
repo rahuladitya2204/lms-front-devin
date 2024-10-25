@@ -177,9 +177,8 @@ export default function TestPlayer(props: TestPlayerPropsI) {
           title: "Are you sure?",
           // icon: <ExclamationCircleOutlined />,
           content: markCount
-            ? `You have marked ${markCount} question${
-                markCount > 1 ? "s" : ""
-              } for review. Are you sure you want to submit? You will not able able to resubmit the test.`
+            ? `You have marked ${markCount} question${markCount > 1 ? "s" : ""
+            } for review. Are you sure you want to submit? You will not able able to resubmit the test.`
             : `You want to submit this test? You will not be able to resubmit the test.`,
           onOk() {
             endTest(undefined, {
@@ -369,9 +368,8 @@ export const SubmitButton = ({ testId }: { testId: string }) => {
           title: "Are you sure?",
           // icon: <ExclamationCircleOutlined />,
           content: markCount
-            ? `You have marked ${markCount} question${
-                markCount > 1 ? "s" : ""
-              } for review. Are you sure you want to submit? You will not able able to resubmit the test.`
+            ? `You have marked ${markCount} question${markCount > 1 ? "s" : ""
+            } for review. Are you sure you want to submit? You will not able able to resubmit the test.`
             : `You want to submit this test? You will not be able to resubmit the test.`,
           onOk() {
             endTest(undefined, {

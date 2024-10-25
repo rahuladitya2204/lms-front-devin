@@ -41,7 +41,7 @@ export default function TestOutline({
   closeModal,
   testId,
 }: // onValuesChange
-TestOutlinePropsI) {
+  TestOutlinePropsI) {
   const [totalScore, setTotalScore] = useState(0);
   const calculateTotalScore = (e: CreateTestOutline) => {
     let total = 0;

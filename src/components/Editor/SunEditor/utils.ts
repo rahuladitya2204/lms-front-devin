@@ -2,6 +2,7 @@
 import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
+import { Types } from '@adewaskar/lms-common';
 
 
 export function printPdf(downloadUrl: string, filename = 'test.pdf') {
@@ -151,4 +152,9 @@ export const getAxiosInstance = () => {
   // const api = setupCache(axios.create());
   const api = axios.create();
   return api;
+}
+
+
+export const FormatLangText = (TEXT: { hin: string, guj: string, eng: string }, language: string) => {
+  return TEXT[language] || TEXT['eng']
 }

@@ -39,6 +39,8 @@ import { useOutletContext } from "react-router-dom";
 import useTestNavigation from "@Hooks/useProductNavigation";
 import { NavLink, useParams } from "@Router/index";
 import { getIdFromSlug } from "./PYQTestQuestionNavigator";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 const { Title, Text } = Typography;
 
@@ -53,7 +55,8 @@ export default function TestPublicPlayerItemReiew(
   props: TestPublicPlayerItemReiewPropsI
 ) {
   const [form] = Form.useForm();
-  // { questionId, testId }
+  const context: { language: string } = useOutletContext();
+  const language = context?.language || props.language || '';
   const params = useParams();
   const questionId = getIdFromSlug(props.questionId || params.questionId);
   const testId = props.testId || params.testId;
@@ -84,7 +87,7 @@ export default function TestPublicPlayerItemReiew(
       onClick={() => navigate("next")}
       icon={<ForwardOutlined />}
     >
-      {!isMobile ? "Next" : ""}
+      {!isMobile ? FormatLangText(TEXTS.NEXT, language) : ""}
     </Button>
   );
   const { isDesktop, width } = useBreakpoint();
@@ -99,12 +102,10 @@ export default function TestPublicPlayerItemReiew(
       style={{ marginRight: !isMobile ? 20 : 0 }}
       icon={<BackwardOutlined />}
     >
-      {!isMobile ? "Previous" : ""}
+      {!isMobile ? FormatLangText(TEXTS.PREVIOUS, language) : ""}
     </Button>
   );
 
-  const context: { language: string } = useOutletContext();
-  const language = context?.language || props.language;
 
   return (
     <>
@@ -244,9 +245,6 @@ export default function TestPublicPlayerItemReiew(
                         }}
                         type="secondary"
                       >
-                        {/* {currentQuestion.type === Enum.TestQuestionType.SINGLE
-                          ? "Select one among others"
-                          : "Select all that apply"} */}
                         <Divider />
                       </Text>
                       <Form.Item name={["answer", "options"]}>

@@ -19,6 +19,8 @@ import { TestNavigatorSkeleton } from "./TestItemSkeleton";
 import { Typography } from "@Components/Typography";
 import { useReviewQuestion } from "./useReviewQuestion";
 import TestScore from "@Components/TestScore";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
@@ -45,7 +47,10 @@ export default function TestReviewQuestionNavigator(
       props.testId + "",
       Enum.TestDetailMode.RESULT
     );
-
+  const { data: { metadata: { test: { language } } } } = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id: test._id + "",
+  });
   const { token } = theme.useToken();
   const { questionId } = useParams();
   const isLoading = loadingResult || loadingTest;
@@ -96,7 +101,7 @@ export default function TestReviewQuestionNavigator(
         </Col>
         <Col span={24}>
           <Title style={{ textAlign: "center" }} level={3}>
-            Question Panel
+            {FormatLangText(TEXTS.QUESTION_PANEL, language)}
           </Title>
           {isLoading ? (
             <TestNavigatorSkeleton />
@@ -147,34 +152,34 @@ export default function TestReviewQuestionNavigator(
                                       isActive
                                         ? "primary"
                                         : item.isMarked
-                                        ? "primary"
-                                        : item.isAnswered
-                                        ? "primary"
-                                        : "default"
+                                          ? "primary"
+                                          : item.isAnswered
+                                            ? "primary"
+                                            : "default"
                                     }
                                     style={{
                                       backgroundColor: isActive
                                         ? ""
                                         : item.isAnswered
-                                        ? item.type !== "subjective"
-                                          ? item.isCorrect
-                                            ? token.colorSuccessActive
-                                            : token.colorError
-                                          : token.colorWarningActive
-                                        : "default",
+                                          ? item.type !== "subjective"
+                                            ? item.isCorrect
+                                              ? token.colorSuccessActive
+                                              : token.colorError
+                                            : token.colorWarningActive
+                                          : "default",
                                     }}
                                     shape="circle"
-                                    // icon={
-                                    //   item.isAnswered ? (
-                                    //     <Fragment>
-                                    //       {item.isCorrect ? (
-                                    //         <CheckOutlined />
-                                    //       ) : (
-                                    //         <CloseOutlined />
-                                    //       )}
-                                    //     </Fragment>
-                                    //   ) : null
-                                    // }
+                                  // icon={
+                                  //   item.isAnswered ? (
+                                  //     <Fragment>
+                                  //       {item.isCorrect ? (
+                                  //         <CheckOutlined />
+                                  //       ) : (
+                                  //         <CloseOutlined />
+                                  //       )}
+                                  //     </Fragment>
+                                  //   ) : null
+                                  // }
                                   >
                                     {totalIndex + 1}
                                   </Button>

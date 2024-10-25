@@ -50,6 +50,8 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { useParams } from "@Router/index";
 import useTestNavigation from "@Hooks/useProductNavigation";
 import { useReviewQuestion } from "./useReviewQuestion";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 const { Title, Text } = Typography;
 
@@ -144,7 +146,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       onClick={() => navigate("next")}
       icon={<ForwardOutlined />}
     >
-      {!isMobile ? "Next" : ""}
+      {!isMobile ? FormatLangText(TEXTS.NEXT, language) : ""}
     </Button>
   );
   const { isDesktop, width } = useBreakpoint();
@@ -164,7 +166,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       style={{ marginRight: !isMobile ? 20 : 0 }}
       icon={<BackwardOutlined />}
     >
-      {!isMobile ? "Previous" : ""}
+      {!isMobile ? FormatLangText(TEXTS.PREVIOUS, language) : ""}
     </Button>
   );
   return loadingQuestion ? (
@@ -301,8 +303,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
             currentQuestion.type !== "subjective" ? (
             <Tooltip
               title={`${globalCorrectPercent < 50 && globalCorrectPercent !== 0
-                  ? "Only "
-                  : ""
+                ? "Only "
+                : ""
                 }${globalCorrectPercent}% people were able to answer this question correctly`}
             >
               <Tag color="purple-inverse" icon={<GlobalOutlined />}>
@@ -342,8 +344,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                         type="secondary"
                       >
                         {currentQuestion.type === Enum.TestQuestionType.SINGLE
-                          ? "Select one among others"
-                          : "Select all that apply"}
+                          ? FormatLangText(TEXTS.SELECT_ONE, language)
+                          : FormatLangText(TEXTS.SELECT_MULTIPLE, language)}
                       </Text>
                       <Form.Item name={["answer", "options"]}>
                         <OptionSelectedFormControl.Group
