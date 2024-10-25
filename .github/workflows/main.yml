@@ -1,4 +1,4 @@
-name: Build and deploy Node.js app to Azure Web App - nimblebee-front
+name: Deploy to Azure
 
 on:
   workflow_dispatch:  # Allow manual triggering from GitHub UI

@@ -1,7 +1,5 @@
-
 import { useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-import { Button, Modal } from 'antd';
+import { Button, Modal, message, notification } from 'antd';
 import UAParser from 'ua-parser-js';
 
 // Type for the beforeinstallprompt event
@@ -10,34 +8,21 @@ interface BeforeInstallPromptEvent extends Event {
     userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>;
 }
 
-// Emotion-styled banner
-const Banner = styled.div`
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background-color: #1890ff;
-  color: white;
-  text-align: center;
-  padding: 10px;
-  z-index: 1000;
-`;
-
 // Main component
 const AddToHomeScreenBanner: React.FC = () => {
     const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-    const [isBannerVisible, setIsBannerVisible] = useState(true); // Controls banner visibility
-    const [isModalVisible, setIsModalVisible] = useState(false); // Controls modal visibility
-    const [browserName, setBrowserName] = useState<string>('unknown'); // Stores detected browser
+    const [isBannerVisible, setIsBannerVisible] = useState(true);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [browserName, setBrowserName] = useState<string>('unknown');
 
     useEffect(() => {
-        const parser = new UAParser(); // Detect browser
+        const parser = new UAParser();
         const result = parser.getResult();
         setBrowserName(result.browser.name?.toLowerCase() || 'unknown');
 
-        // Listen for the 'beforeinstallprompt' event
         const handleBeforeInstallPrompt = (e: BeforeInstallPromptEvent) => {
-            e.preventDefault(); // Prevent automatic native prompt
-            setInstallPrompt(e); // Store the event to trigger it later
+            e.preventDefault();
+            setInstallPrompt(e);
         };
 
         window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -47,34 +32,43 @@ const AddToHomeScreenBanner: React.FC = () => {
         };
     }, []);
 
-    // Trigger the native install prompt on button click
     const triggerInstallPrompt = () => {
         if (installPrompt) {
-            installPrompt.prompt(); // Trigger native prompt
+            installPrompt.prompt();
             installPrompt.userChoice.then((choice) => {
                 if (choice.outcome === 'accepted') {
                     console.log('User accepted the A2HS prompt');
+                    displaySuccessNotification();
                 } else {
                     console.log('User dismissed the A2HS prompt');
                 }
-                setIsBannerVisible(false); // Hide the banner after interaction
+                setIsBannerVisible(false);
             });
+        } else {
+            setIsModalVisible(true);
         }
+    };
+
+    const displaySuccessNotification = () => {
+        notification.success({
+            message: 'App Installed!',
+            description: 'The app has been successfully installed. You can open it from your home screen.',
+            placement: 'top',
+            duration: 5,
+        });
     };
 
     return (
         <>
-            {/* Banner at the bottom of the screen */}
             {isBannerVisible && (
-                <Banner>
+                <div style={{ position: 'fixed', bottom: 0, width: '100%', textAlign: 'center', zIndex: 1000 }}>
                     <p>Install our app for a better experience!</p>
                     <Button type="primary" onClick={triggerInstallPrompt}>
                         Install
                     </Button>
-                </Banner>
+                </div>
             )}
 
-            {/* Modal with additional instructions */}
             <Modal
                 title="Add to Home Screen"
                 open={isModalVisible}
