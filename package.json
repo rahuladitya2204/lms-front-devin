@@ -46,6 +46,8 @@
     "mathjs": "11.3.3",
     "next": "14.1.3",
     "next-seo": "^6.5.0",
+    "numbro": "^2.5.0",
+    "numspell": "^0.1.1",
     "pdf-viewer-reactjs": "2.2.3",
     "pdfjs-dist": "4.0.379",
     "plyr": "3.7.8",

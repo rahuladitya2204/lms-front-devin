@@ -31,12 +31,13 @@ import LearnerLogin from "@Learner/Screens/Login";
 import ProductCheckoutButton from "@Components/CheckoutButton";
 import { ReloadOutlined } from "@ant-design/icons";
 import TestEnrolledCta from "../../../TestDetail/TestEnrolledCta";
-import { openWindow } from "@Components/Editor/SunEditor/utils";
+import { FormatLangText, openWindow } from "@Components/Editor/SunEditor/utils";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { LogEvent } from "@ServerHooks/useDehydration";
+import { TEXTS } from "texts/texts";
 
 const onfirm = Modal.confirm;
 
@@ -112,7 +113,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       danger
       loading={submittingTest}
     >
-      Submit Test
+      {FormatLangText(TEXTS.SUBMIT_TEST, ep.metadata.test.language)}
     </Button>
   );
 

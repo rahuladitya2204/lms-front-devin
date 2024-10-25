@@ -28,7 +28,7 @@ import TestTimer from "./TestTimer";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import TestScore from "@Components/TestScore";
-import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { FormatLangText, FormatNumber } from "@Components/Editor/SunEditor/utils";
 import { TEXTS } from "texts/texts";
 
 interface TestQuestionNavigatorPropsI {
@@ -82,7 +82,6 @@ export default function TestQuestionNavigator(
           <>
             {test.duration.enabled ? (
               <Col span={24}>
-                {/* <Button type='primary' style={{marginBottom:30}} danger block size='large'> Submit Test</Button> */}
                 <Row justify={"center"} align={"middle"}>
                   <Col>
                     <TestTimer testId={props.testId} />
@@ -193,7 +192,7 @@ export default function TestQuestionNavigator(
                                     }}
                                     shape="circle"
                                   >
-                                    {totalIndex + 1}
+                                    {FormatNumber(totalIndex + 1, language)}
                                   </Button>
                                   //  </Badge>
                                 );

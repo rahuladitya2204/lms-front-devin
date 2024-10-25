@@ -13,9 +13,8 @@ const Countdown: React.FC<CountdownProps> = ({
 }) => {
   const { timeLeft } = useCountdownTimer(targetDate)
 
-  let formattedTimeLeft = `${timeLeft.hours}:${timeLeft.minutes}:${
-    timeLeft.seconds
-  }`
+  let formattedTimeLeft = `${timeLeft.hours}:${timeLeft.minutes}:${timeLeft.seconds
+    }`
 
   if (hideHour) {
     formattedTimeLeft = `${timeLeft.minutes}:${timeLeft.seconds}`

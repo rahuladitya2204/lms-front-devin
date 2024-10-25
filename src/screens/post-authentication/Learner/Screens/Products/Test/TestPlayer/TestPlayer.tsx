@@ -44,12 +44,13 @@ import TestQuestionNavigator from "./TestQuestionNavigator/TestQuestionNavigator
 import TestTimeCountdown from "@Components/TestTimeCountdown";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
-import { openWindow } from "@Components/Editor/SunEditor/utils";
+import { FormatLangText, openWindow } from "@Components/Editor/SunEditor/utils";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { Outlet } from "react-router";
 import { LogEvent } from "@ServerHooks/useDehydration";
+import { TEXTS } from "texts/texts";
 
 const { confirm } = Modal;
 
@@ -103,7 +104,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       width={800}
       cta={
         <Button block={isMobile} type="primary">
-          Answer Sheet
+          {FormatLangText(TEXTS.ANSWER_SHEET, enrolledProduct.metadata.test.language)}
         </Button>
       }
       title={
@@ -113,7 +114,9 @@ export default function TestPlayer(props: TestPlayerPropsI) {
           align={"middle"}
         >
           <Col>
-            <Title level={4}>Answer Sheet </Title>
+            <Title level={4}>
+              {FormatLangText(TEXTS.ANSWER_SHEET, enrolledProduct.metadata.test.language)}
+            </Title>
           </Col>
           <Col>
             <Button
@@ -198,7 +201,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       danger
       loading={submittingTest}
     >
-      Submit Test
+      {FormatLangText(TEXTS.SUBMIT_TEST, enrolledProduct.metadata.test.language)}
     </Button>
   );
   const targetDate = dayjs(startedAt)
@@ -344,6 +347,11 @@ export const SubmitButton = ({ testId }: { testId: string }) => {
     testId + "",
     Enum.TestDetailMode.TEST
   );
+  const { data: enrolledProduct, isLoading: loadingDetails } =
+    Learner.Queries.useGetEnrolledProductDetails({
+      type: Enum.ProductType.TEST,
+      id: test._id + "",
+    });
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
   const {
     data: {
@@ -389,7 +397,7 @@ export const SubmitButton = ({ testId }: { testId: string }) => {
       danger
       loading={submittingTest}
     >
-      Submit Test
+      {FormatLangText(TEXTS.SUBMIT_TEST, enrolledProduct.metadata.test.language)}
     </Button>
   );
 };

@@ -3,7 +3,15 @@ import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
 import { Types } from '@adewaskar/lms-common';
+import numbro from 'numbro';
+import 'numbro/dist/languages.min'; // Import all languages
 
+// Create a map for your language codes
+const languageMap = {
+  eng: 'en-IN', // English (India)
+  hin: 'hi-IN', // Hindi (India)
+  guj: 'gu-IN'  // Gujarati (India)
+};
 
 export function printPdf(downloadUrl: string, filename = 'test.pdf') {
   // Create a temporary download link
@@ -158,3 +166,9 @@ export const getAxiosInstance = () => {
 export const FormatLangText = (TEXT: { hin: string, guj: string, eng: string }, language: string) => {
   return TEXT[language] || TEXT['eng']
 }
+
+export const FormatNumber = (number: number, language: string): string => {
+  const locale = languageMap[language] || 'en-IN'; // Default to English
+  numbro.setLanguage(locale); // Set the language for numbro
+  return numbro(number).format('0'); // Format number without grouping or decimals
+};
