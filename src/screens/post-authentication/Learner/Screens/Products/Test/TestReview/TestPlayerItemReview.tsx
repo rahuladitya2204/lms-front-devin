@@ -138,7 +138,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const correctOptions = currentQuestion?.options
     ?.filter((i) => i.isCorrect)
     .map((i) => i._id);
-  const { FormatLangText } = useText(language);
+  const { FormatLangText, FormatNumber } = useText(language);
   const NextButton = (
     <Button
       shape={!isMobile ? "default" : "circle"}
@@ -225,7 +225,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                             }}
                             shape="circle"
                           >
-                            {index + 1}
+                            {FormatNumber(index + 1)}
                           </Button>
                         );
                       }}

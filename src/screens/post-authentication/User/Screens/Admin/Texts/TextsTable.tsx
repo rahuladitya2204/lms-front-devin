@@ -33,7 +33,6 @@ function TextsTable() {
     const { data, isLoading: loading } = User.Queries.useGetTexts();
     const { mutate: deleteText, isLoading: deletingText } =
         User.Queries.useDeleteText();
-    console.log(data, 'datadata')
     const { openModal } = useModal();
     return (
         <Table
@@ -67,11 +66,11 @@ function TextsTable() {
                                 icon: <DeleteOutlined />,
                                 onClick: () => {
                                     confirm({
-                                        title: `Are you sure? You want to remove ${record.key}`,
+                                        title: `Are you sure?`,
                                         // icon: <ExclamationCircleOutlined />,
-                                        content: `Text will no longer have any access to the platform`,
+                                        content: `You want to remove ${record.key}`,
                                         onOk() {
-                                            deleteText(record._id, {
+                                            deleteText({ id: record._id }, {
                                                 onSuccess: () => {
                                                     message.open({
                                                         type: "success",

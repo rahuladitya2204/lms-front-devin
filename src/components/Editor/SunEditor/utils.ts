@@ -176,17 +176,11 @@ export const useText = (language: string) => {
     });
   };
 
-  return { FormatLangText };
-};
+  const FormatNumber = (number: number): string => {
+    const locale = languageMap[language] || 'en-IN'; // Default to English
+    numbro.setLanguage(locale); // Set the language for numbro
+    return numbro(number).format('0'); // Format number without grouping or decimals
+  };
 
-
-
-// export const FormatLangText = (TEXT: { hin: string, guj: string, eng: string }, language: string) => {
-//   return TEXT[language] || TEXT['eng']
-// }
-
-export const FormatNumber = (number: number, language: string): string => {
-  const locale = languageMap[language] || 'en-IN'; // Default to English
-  numbro.setLanguage(locale); // Set the language for numbro
-  return numbro(number).format('0'); // Format number without grouping or decimals
+  return { FormatLangText, FormatNumber };
 };

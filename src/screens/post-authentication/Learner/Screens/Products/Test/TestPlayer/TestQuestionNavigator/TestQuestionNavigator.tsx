@@ -28,7 +28,7 @@ import TestTimer from "./TestTimer";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import TestScore from "@Components/TestScore";
-import { FormatNumber, useText } from "@Components/Editor/SunEditor/utils";
+import { useText } from "@Components/Editor/SunEditor/utils";
 
 interface TestQuestionNavigatorPropsI {
   testId: string;
@@ -67,7 +67,7 @@ export default function TestQuestionNavigator(
   const { questionId } = useParams();
   const isLoading = loadingTest || loadingEnrolledTest;
   let runningIndex = 0;
-  const { FormatLangText } = useText(language);
+  const { FormatLangText, FormatNumber } = useText(language);
   return (
     <Card
       // style={{ height: '80vh' }}
@@ -192,7 +192,7 @@ export default function TestQuestionNavigator(
                                     }}
                                     shape="circle"
                                   >
-                                    {FormatNumber(totalIndex + 1, language)}
+                                    {FormatNumber(totalIndex + 1)}
                                   </Button>
                                   //  </Badge>
                                 );
