@@ -349,7 +349,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
     //  @ts-ignore
     return Object.values(topicMap).some((topic) => topic.total > 0);
   }).map((t) => ({
-    label: t.title,
+    label: t.title[language] || t.title['eng'],
     value: t._id,
   }));
   const TABS = [
