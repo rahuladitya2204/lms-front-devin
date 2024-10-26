@@ -302,10 +302,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
           globalCorrectPercent !== null &&
             currentQuestion.type !== "subjective" ? (
             <Tooltip
-              title={`${globalCorrectPercent < 50 && globalCorrectPercent !== 0
-                ? "Only "
-                : ""
-                }${globalCorrectPercent}% people were able to answer this question correctly`}
+              title={FormatLangText(TEXTS.GLOBAL_CORRECT_PERCENTAGE(globalCorrectPercent), language)}
             >
               <Tag color="purple-inverse" icon={<GlobalOutlined />}>
                 {globalCorrectPercent} %

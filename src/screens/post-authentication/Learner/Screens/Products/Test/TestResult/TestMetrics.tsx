@@ -95,7 +95,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       type: Enum.ProductType.TEST,
       id: testId + "",
     });
-  const language = enrolledProduct?.metadata?.test?.language;
+  const language = enrolledProduct?.metadata?.test?.language || 'eng';
   // @ts-ignore
   const [selectedMainTopic, setSelectedMainTopic] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
@@ -155,7 +155,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
         correct: 0,
         incorrect: 0,
         total: 0,
-        topic: topic.title,
+        topic: topic.title[language],
         _id: topic._id,
         parentId: topic.parentId,
       };
@@ -199,7 +199,13 @@ export default function TestMetrics(props: TestMetricsPropsI) {
     accumulateCountsUpToLevel(metrics.topics, topicHierarchy, topicMap, 2);
 
     // Return topics with total > 0
-    return Object.values(topicMap).filter((t) => t.total > 0);
+    return Object.values(topicMap)
+      .filter((t) => t.total > 0).map(i => {
+        return {
+          ...i,
+          topic: i.topic[language] || i.topic['eng']
+        }
+      });
   }, [metrics, TOPICS]);
 
   const { isMobile } = useBreakpoint();
@@ -246,6 +252,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       Exit
     </Button>
   );
+
   // console.log(difficultyLevelData, "difficultyLevelData");
   // @ts-ignore
   const BarChartDifficultyLevel = (
@@ -591,7 +598,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                                   items={topicIds.map((t) => {
                                     return {
                                       label: topics.find((top) => top._id === t)
-                                        ?.title,
+                                        ?.title[language],
                                       key: t,
                                       children: BarChartTopics,
                                     };

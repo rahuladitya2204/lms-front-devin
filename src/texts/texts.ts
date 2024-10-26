@@ -164,6 +164,15 @@ export const TEXTS = {
         hin: 'कृपया परिणाम देखने से पहले हमें रेट करें',
         guj: 'કૃપા કરીને પરિણામ જોવા પહેલા અમને રેટ કરો'
     },
+    GLOBAL_CORRECT_PERCENTAGE: (globalCorrectPercent: number) => {
+        const prefix = globalCorrectPercent < 50 && globalCorrectPercent !== 0 ? "Only " : "";
+
+        return {
+            eng: `${prefix}${globalCorrectPercent}% people were able to answer this question correctly.`,
+            hin: `${prefix}${globalCorrectPercent}% लोगों ने इस प्रश्न का सही उत्तर दिया।`,
+            guj: `${prefix}${globalCorrectPercent}% લોકોએ આ પ્રશ્નનો સાચો જવાબ આપ્યો હતો.`
+        };
+    },
     YOU_HAVE_MARKED: (markCount) => {
         return {
             eng: markCount

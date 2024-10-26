@@ -2,10 +2,11 @@ import { Button, Form, Input, Select, TreeSelect } from "antd";
 import React, { Fragment, ReactNode, useEffect } from "react";
 
 import TextArea from "@Components/Textarea";
-import { Types } from "@adewaskar/lms-common";
+import { Constants, Types } from "@adewaskar/lms-common";
 import { User } from "@adewaskar/lms-common";
 import { useBuildTopicTree } from "../Tests/TestCreator/TestInformation/TestDetailsEditor/TestDetails";
 import TopicSelect from "@Components/TopicSelect";
+import Tabs from "@Components/Tabs";
 
 interface CreateTopicComponentPropsI {
   children?: ReactNode;
@@ -60,30 +61,44 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = (props) => {
   return (
     <Fragment>
       <Form form={form} onFinish={onSubmit} layout="vertical">
-        <TopicSelect
-          level={4}
-          name="parentId"
-          label="Parent Topic"
-        ></TopicSelect>
-        <Form.Item name="title" label="Title" required>
-          <Input placeholder="Topic Title" />
-        </Form.Item>
+        <Tabs
+          tabKey="add-topic"
+          items={Constants.LANGUAGES.map((language) => {
+            return {
+              label: language.label,
+              key: language.value,
+              children: (
+                <>
+                  <TopicSelect
+                    level={4}
+                    name="parentId"
+                    label="Parent Topic"
+                  ></TopicSelect>
 
-        <Form.Item name={["content", "text"]} label="Content" required>
-          <TextArea
-            height={300}
-            html={{ level: 3 }}
-            name={["content", "text"]}
-            placeholder="Content"
-          />
-        </Form.Item>
+                  <Form.Item name={["title", language.value]} label="Title" required>
+                    <Input placeholder="Topic Title" />
+                  </Form.Item>
+
+                  <Form.Item name={["content", "text", language.value]} label="Content" required>
+                    <TextArea
+                      height={300}
+                      html={{ level: 3 }}
+                      name={["content", "text", language.value]}
+                      placeholder="Content"
+                    />
+                  </Form.Item>
+                </>
+              ),
+            };
+          })}
+        />
 
         <Button
           loading={createTopicLoading || updateTopicLoading}
           key="submit"
           type="primary"
           htmlType="submit"
-          // onClick={}
+        // onClick={}
         >
           Submit
         </Button>

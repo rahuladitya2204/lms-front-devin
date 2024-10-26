@@ -114,7 +114,7 @@ export default function TopicsScreen() {
     }
   }, [topics]);
 
-  const renderTopicTitle = (topic: Types.Topic) => <span>{topic.title}</span>;
+  const renderTopicTitle = (topic: Types.Topic) => <span>{topic.title.eng}</span>;
 
   const onAdd = (parentId: string | null) => {
     openModal(
