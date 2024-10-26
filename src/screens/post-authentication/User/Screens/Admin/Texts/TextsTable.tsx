@@ -47,6 +47,18 @@ function TextsTable() {
                 key="key"
             />
             <TableColumn
+                title="Text"
+                render={(_: any, record: Types.Text) => {
+                    return <ul>
+                        {Constants.LANGUAGES.filter(l => record.text[l.value]).map(lang => {
+                            return <li>{record.text[lang.value]}</li>
+                        })}
+                    </ul>
+                }}
+                dataIndex="langText"
+                key="langText"
+            />
+            <TableColumn
                 title="Action"
                 key="action"
                 render={(_: any, record: Types.Text) => (
