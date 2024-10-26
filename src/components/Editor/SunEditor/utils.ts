@@ -5,7 +5,6 @@ import axios from 'axios';
 import { Learner, Types } from '@adewaskar/lms-common';
 import numbro from 'numbro';
 import 'numbro/dist/languages.min'; // Import all languages
-import { NumberFormat } from '@formatjs/intl-numberformat';
 
 // Create a map for your language codes
 const languageMap = {
@@ -178,10 +177,9 @@ export const useText = (language: string) => {
   };
 
   const FormatNumber = (number: number): string => {
-    const locale = languageMap[language] || 'en-IN'; // Default to English (India)
-    // Initialize the NumberFormat with the correct locale
-    const formatter = new NumberFormat(locale);
-    return formatter.format(number); // Format the number accordingly
+    const locale = languageMap[language] || 'en-IN'; // Default to English
+    numbro.setLanguage(locale); // Set the language for numbro
+    return numbro(number).format('0'); // Format number without grouping or decimals
   };
 
   return { FormatLangText, FormatNumber };
