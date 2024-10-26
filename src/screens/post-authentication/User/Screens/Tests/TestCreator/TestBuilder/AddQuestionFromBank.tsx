@@ -261,7 +261,7 @@ export const AddQuestionFromBank = (props: {
     ],
     category: props.category,
   });
-  console.log(tests, "ssss");
+
   return (
     <Row style={{ overflowX: "scroll" }}>
       <Col span={24}>
@@ -635,7 +635,7 @@ export const DifficultyLevelTag = (props: { difficultyLevel: string }) => {
 
 function TopicTag({ id }: { id: string }) {
   const { data: topics } = User.Queries.useGetTopics();
-  return topics.find((t) => t._id === id)?.title;
+  return topics.find((t) => t._id === id)?.title['eng'];
 }
 
 interface TopicCount {
@@ -660,7 +660,7 @@ const getUpdatedTopicTreeWithCounts = (treeData, questionsPerTopic) => {
     nodes.forEach((node) => {
       node.disabled = false;
       // Remove any existing counts from the title and append the new count if greater than zero
-      const originalTitle = node.title.split(" (")[0]; // Splits and removes everything after the first ' ('
+      const originalTitle = node.title['eng'].split(" (")[0]; // Splits and removes everything after the first ' ('
       const count = questionsPerTopic[node._id] || 0;
 
       // Append the count only if it's greater than zero
@@ -681,83 +681,4 @@ const getUpdatedTopicTreeWithCounts = (treeData, questionsPerTopic) => {
 
   updateCounts(updatedTree);
   return updatedTree;
-};
-
-const QuestionsPerTopicDisplay = ({
-  selectedTopics,
-  questionsPerTopic,
-  TOPIC_TREE_DATA,
-}) => {
-  const { data: topics = [] } = User.Queries.useGetTopics();
-
-  const getTopicTitle = (id) => {
-    if (!topics || topics.length === 0) return "Loading...";
-    return topics.find((t) => t?._id === id)?.title || "Unknown Topic";
-  };
-
-  const tableData = useMemo(() => {
-    if (
-      !TOPIC_TREE_DATA ||
-      !Array.isArray(TOPIC_TREE_DATA) ||
-      TOPIC_TREE_DATA.length === 0
-    ) {
-      return [];
-    }
-
-    const calculateCounts = (node) => {
-      let ownCount = questionsPerTopic[node._id] || 0;
-      let totalCount = ownCount;
-      let secondLevelTopics = [];
-
-      if (node.children && node.children.length > 0) {
-        secondLevelTopics = node.children.map((child) => {
-          const childResult = calculateCounts(child);
-          totalCount += childResult.totalCount;
-          return {
-            id: child._id,
-            title: getTopicTitle(child._id),
-            count: childResult.totalCount,
-          };
-        });
-      }
-
-      return {
-        key: node._id,
-        topicTitle: getTopicTitle(node._id),
-        ownCount,
-        totalCount,
-        secondLevelTopics,
-      };
-    };
-
-    return selectedTopics
-      .map((topicId) => TOPIC_TREE_DATA.find((t) => t._id === topicId))
-      .filter(Boolean)
-      .map(calculateCounts)
-      .filter((data) => data.totalCount > 0);
-  }, [selectedTopics, questionsPerTopic, TOPIC_TREE_DATA, topics]);
-
-  const columns = [
-    {
-      title: "Topic",
-      dataIndex: "topicTitle",
-      key: "topicTitle",
-    },
-    {
-      title: "Total Count",
-      dataIndex: "totalCount",
-      key: "totalCount",
-    },
-  ];
-
-  if (!tableData || tableData.length === 0) {
-    return <div>No data available or still loading...</div>;
-  }
-
-  return (
-    <div style={{ marginTop: 16, marginBottom: 16 }}>
-      <Title level={5}>Selected topics and questions:</Title>
-      <Table columns={columns} dataSource={tableData} pagination={false} />
-    </div>
-  );
 };
