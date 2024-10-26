@@ -51,7 +51,7 @@ function TextsTable() {
                 render={(_: any, record: Types.Text) => {
                     return <ul>
                         {Constants.LANGUAGES.filter(l => record.text[l.value]).map(lang => {
-                            return <li>{record.text[lang.value]}</li>
+                            return <li>{record.text[lang.value]}<strong>({lang.label})</strong></li>
                         })}
                     </ul>
                 }}
