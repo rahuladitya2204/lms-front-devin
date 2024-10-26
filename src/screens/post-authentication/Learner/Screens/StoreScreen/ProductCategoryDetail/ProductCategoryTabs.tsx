@@ -3,14 +3,11 @@
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Link, NavLink, useNavigate, useParams } from "@Router/index";
 import { Enum, Learner } from "@adewaskar/lms-common";
-import styled from "@emotion/styled";
 
 import {
-  Badge,
   Button,
   Card,
   Col,
-  Collapse,
   Divider,
   Dropdown,
   Row,
@@ -18,28 +15,16 @@ import {
   Tabs,
 } from "@Lib/index";
 import { useEffect, useMemo, useState } from "react";
-import { Outlet } from "react-router";
 import ShowMore from "@Components/ShowMore/ShowMore";
-import PackageCard from "../Cards/PackageCard";
 import { FAQsList } from "@Components/CreateFaqsComponent";
 import Script from "next/script";
 import { DownOutlined } from "@ant-design/icons";
-import TestCard from "../Cards/TestCard";
 
 import PromotedProducts from "./PromotedProducts";
 import { PYQTestsComponent } from "./ProductCategoryDetail";
-import LearnerProductCard from "@Components/LearnerProductCard";
+
 import { LogEvent } from "@ServerHooks/useDehydration";
 import { capitalize } from "lodash";
-
-const CustomTabs = styled(Tabs)`
-  .ant-tabs-tab {
-    margin-left: 15px;
-  }
-
-  .ant-tabs-tab-active {
-  }
-`;
 
 interface ProductCategoryTabsPropsI {
   id?: string;

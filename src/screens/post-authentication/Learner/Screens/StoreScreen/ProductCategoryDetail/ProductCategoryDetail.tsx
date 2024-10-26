@@ -417,7 +417,7 @@ export const PYQTestsComponent = (props: {
 
 export const ProductDetailSignup = ({
   product,
-  timeout = 5000,
+  timeout = 20000,
 }: {
   product: Types.Product;
   timeout?: number;
