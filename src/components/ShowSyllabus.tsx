@@ -14,46 +14,21 @@ export default function ShowSyllabus(props: ShowSyllabusPropsI) {
     Learner.Queries.useGetTestDetails(props.testId);
   const { data: treeData, isLoading: loadingTree } =
     Learner.Queries.useGetTopicTree(test.topics, 2);
-  const showTooltip = treeData.length < 10;
-  const { openModal } = useModal();
-  const isLoading = loadingTest || loadingTree;
+  const language = test.languages.length < 2 ? test.languages[0] : 'eng'
 
-  const Component = (
-    <Button
-      loading={isLoading}
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        // if (!showTooltip) {
-        openModal(
-          <Row>
-            <Col span={24}>
-              <List
-                itemLayout="vertical"
-                dataSource={treeData}
-                renderItem={(item) => {
-                  return (
-                    <Col style={{ marginBottom: 8 }} span={24}>
-                      <Text>{item.title}</Text>
-                    </Col>
-                  );
-                }}
-              />
+  return <Row>
+    <Col span={24}>
+      <List loading={loadingTest || loadingTree}
+        itemLayout="vertical"
+        dataSource={treeData}
+        renderItem={(item) => {
+          return (
+            <Col style={{ marginBottom: 8 }} span={24}>
+              <Text>{item.title[language] || item.title['eng']}</Text>
             </Col>
-          </Row>,
-          {
-            title: `${test.title} Syllabus`,
-          }
-        );
-        // }
-      }}
-      size="small"
-      // style={{ padding: 0, fontSize: 13 }}
-      // type="dashed"
-    >
-      <BookTwoTone />
-      Syllabus
-    </Button>
-  );
-  return Component;
+          );
+        }}
+      />
+    </Col>
+  </Row>;
 }

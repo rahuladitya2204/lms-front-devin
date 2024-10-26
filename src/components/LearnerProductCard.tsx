@@ -80,8 +80,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     <Button
       onClick={() => {
         navigate(
-          `${props.isServer ? "" : "/app"}/${linkPrefix}/${
-            product.slug || product._id
+          `${props.isServer ? "" : "/app"}/${linkPrefix}/${product.slug || product._id
           }`
         );
         props.onTry && props.onTry();
@@ -100,8 +99,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     <Button
       onClick={() => {
         navigate(
-          `${props.isServer ? "" : "/app"}/${linkPrefix}/${
-            product.slug || product._id
+          `${props.isServer ? "" : "/app"}/${linkPrefix}/${product.slug || product._id
           }`
         );
         props.onTry && props.onTry();
@@ -113,7 +111,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       Try {isFree ? "for Free" : "Now"}
     </Button>
   );
-
+  const { openModal } = useModal();
   const Component = props.mini ? (
     <MiniCard
       accessoryLeft={
@@ -134,14 +132,18 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
               <Col>
                 {product?.topics?.length ? (
                   <>
-                    <ShowSyllabus testId={props.product.id} />
+                    <Button type='dashed' icon={<BookOutlined />} onClick={() => {
+                      openModal(<ShowSyllabus testId={props.product.id} />, {
+                        title: 'Test Syllabus'
+                      })
+                    }} size='small'>Show Syllabus</Button>
                     <Divider type="vertical" />
                   </>
                 ) : null}
                 <Button
                   style={{ padding: 0, fontSize: 13 }}
                   type="link"
-                  // title={``}
+                // title={``}
                 >
                   <FileTextTwoTone />
                   {product?.languages
@@ -213,10 +215,10 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
       </Row> */}
       {props.children}
       {product.duration ||
-      product?.stats?.score?.total ||
-      product?.languages?.length ||
-      product?.products?.test ||
-      product?.question?.count ? (
+        product?.stats?.score?.total ||
+        product?.languages?.length ||
+        product?.products?.test ||
+        product?.question?.count ? (
         <Divider style={{ margin: "10px 0" }} />
       ) : null}
 

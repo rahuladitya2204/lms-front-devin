@@ -14,6 +14,7 @@ import {
   message,
 } from "@Lib/index";
 import {
+  BookOutlined,
   CheckCircleOutlined,
   CheckOutlined,
   VerifiedOutlined,
@@ -28,6 +29,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { Link, useNavigate } from "@Router/index";
 import { LogEvent } from "@ServerHooks/useDehydration";
 import ShowSyllabus from "@Components/ShowSyllabus";
+import { useModal } from "@Components/ActionModal/ModalContext";
 
 const { Title, Text } = Typography;
 
@@ -47,6 +49,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
   const { mutate: retryTest, isLoading: retryingTest } =
     Learner.Queries.useRetryTest(test._id + "");
   const EXAM = category.exams.find((e) => e._id === test.exam);
+  const { openModal } = useModal();
   return (
     <List.Item style={{ paddingLeft: 0, paddingRight: 0 }}>
       <Card
@@ -103,7 +106,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                     </Tag>
                   </Col>
                   {enrolledTest.metadata.test.result.status ===
-                  Enum.TestResultStatus.EVALUATED ? (
+                    Enum.TestResultStatus.EVALUATED ? (
                     <Col>
                       <Tag color="volcano-inverse">
                         Scored:{" "}
@@ -125,7 +128,12 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               ) : (
                 <Row align="middle">
                   <Col>
-                    <ShowSyllabus testId={test._id + ""} />
+                    <Button type='dashed' icon={<BookOutlined />} onClick={() => {
+                      openModal(<ShowSyllabus testId={test._id + ""} />, {
+                        title: 'Test Syllabus'
+                      })
+                    }} size='small'>Show Syllabus</Button>
+
                     <Divider type="vertical" />
                   </Col>
                   <Col>
@@ -153,7 +161,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                       </Tag>
                     ) : null}
                     {test.live.scheduledAt &&
-                    !enrolledTest.metadata.test.startedAt ? (
+                      !enrolledTest.metadata.test.startedAt ? (
                       <Tag color="purple-inverse">
                         Scheduled On{" "}
                         {dayjs(test.live.scheduledAt).format("LLL")}
@@ -251,8 +259,8 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                         <Button
                           type="primary"
                           block={!isDesktop}
-                          // onClick={() => navigate()}
-                          // size='small'
+                        // onClick={() => navigate()}
+                        // size='small'
                         >
                           Start Test
                         </Button>
@@ -265,8 +273,8 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                           block={!isDesktop}
                           danger
                           type="primary"
-                          // onClick={() => navigate(`/app/test/${test._id}/start`)}
-                          // size='small'
+                        // onClick={() => navigate(`/app/test/${test._id}/start`)}
+                        // size='small'
                         >
                           Continue Test
                         </Button>
