@@ -106,7 +106,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
               },
             });
           },
-          okText: "Yes, Submit",
+          okText: FormatLangText(TEXTS.YES_SUBMIT, ep.metadata.test.language),
         });
       }}
       type="primary"

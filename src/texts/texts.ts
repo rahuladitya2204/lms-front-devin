@@ -119,21 +119,65 @@ export const TEXTS = {
         hin: 'उत्तर पत्रक',
         guj: 'જવાબ શીટ'
     },
-    YOU_HAVE_MARKED: {
-        eng: (markCount: number) =>
-            markCount
+    YES_SUBMIT: {
+        eng: 'Yes, Submit',
+        hin: 'हाँ, जमा करें',
+        guj: 'હા, સબમિટ કરો'
+    },
+    NO: {
+        eng: 'No',
+        hin: 'नहीं',
+        guj: 'ના'
+    },
+    SUBMIT: {
+        eng: 'Submit',
+        hin: 'जमा करें',
+        guj: 'સબમિટ કરો'
+    },
+    PLEASE_GIVE_US_RATING: {
+        eng: 'Please give us a rating, it helps us improve',
+        hin: 'कृपया हमें रेटिंग दें, इससे हमें सुधार करने में मदद मिलती है',
+        guj: 'કૃપા કરીને અમને રેટિંગ આપો, તે અમને સુધારવામાં મદદ કરે છે'
+    },
+    TEST_UNDER_VALUATION: {
+        eng: 'Your test is under evaluation',
+        hin: 'आपकी परीक्षा का मूल्यांकन किया जा रहा है',
+        guj: 'તમારું પરીક્ષણ મૂલ્યાંકન હેઠળ છે'
+    },
+    CHECK_BACK_IN_FEW_MINS: {
+        eng: 'Please check back in few minutes',
+        hin: 'कृपया कुछ मिनटों में पुनः जांच करें',
+        guj: 'કૃપા કરીને થોડા મિનિટમાં પાછા ચકાસો'
+    },
+    REFRESH_PAGE_IN_SOME_TIME: {
+        eng: 'Please refresh this page in some time',
+        hin: 'कृपया कुछ समय बाद इस पृष्ठ को रीफ़्रेश करें',
+        guj: 'કૃપા કરીને થોડા સમય પછી આ પૃષ્ઠને તાજું કરો'
+    },
+    PLEASE_GIVE_US_FEEDBACK: {
+        eng: 'Please give us a short feedback, we appreciate it.',
+        hin: 'कृपया हमें छोटा सा फीडबैक दें, हम इसकी सराहना करेंगे।',
+        guj: 'કૃપા કરીને અમને ટૂંકું પ્રતિસાદ આપો, અમે તેનું આભારી રહેશે.'
+    },
+    PLEASE_RATE_US: {
+        eng: 'Please rate us before seeing the result',
+        hin: 'कृपया परिणाम देखने से पहले हमें रेट करें',
+        guj: 'કૃપા કરીને પરિણામ જોવા પહેલા અમને રેટ કરો'
+    },
+    YOU_HAVE_MARKED: (markCount) => {
+        return {
+            eng: markCount
                 ? `You have marked ${markCount} question${markCount > 1 ? 's' : ''} for review. Are you sure you want to submit? You will not be able to resubmit the test.`
                 : `Do you want to submit this test? You will not be able to resubmit the test.`,
 
-        hin: (markCount: number) =>
-            markCount
+            hin: markCount
                 ? `आपने ${markCount} प्रश्न को समीक्षा के लिए चिह्नित किया है। क्या आप वाकई इसे जमा करना चाहते हैं? आप दोबारा इस परीक्षा को जमा नहीं कर पाएंगे।`
                 : `क्या आप इस परीक्षा को जमा करना चाहते हैं? आप इसे दोबारा जमा नहीं कर पाएंगे।`,
 
-        guj: (markCount: number) =>
-            markCount
+            guj: markCount
                 ? `તમે ${markCount} પ્રશ્ન${markCount > 1 ? 'ો' : ''} સમીક્ષા માટે ચિહ્નિત કર્યા છે. શું તમે ખરેખર પરીક્ષા સબમિટ કરવા માંગો છો? તમે ફરીથી આ પરીક્ષા સબમિટ કરી શકશો નહીં.`
                 : `શું તમે આ પરીક્ષા સબમિટ કરવા માંગો છો? તમે ફરીથી સબમિટ કરી શકશો નહીં.`
+        }
     },
     SECTION_WISE_BREAKDOWN: {
         eng: 'Section wise breakdown',

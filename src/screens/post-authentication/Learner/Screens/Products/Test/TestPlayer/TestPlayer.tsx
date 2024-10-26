@@ -191,7 +191,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
               },
             });
           },
-          okText: "Yes, Submit",
+          okText: FormatLangText(TEXTS.YES_SUBMIT, enrolledProduct.metadata.test.language),
         });
       }}
       type="primary"
@@ -387,7 +387,7 @@ export const SubmitButton = ({ testId }: { testId: string }) => {
               },
             });
           },
-          okText: "Yes, Submit",
+          okText: FormatLangText(TEXTS.YES_SUBMIT, enrolledProduct.metadata.test.language),
         });
       }}
       type="primary"

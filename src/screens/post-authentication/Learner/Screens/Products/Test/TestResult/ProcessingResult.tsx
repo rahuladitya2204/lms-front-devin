@@ -2,9 +2,11 @@ import { Button, Col, Row, Spin } from 'antd'
 
 import AppImage from '@Components/Image'
 import Header from '@Components/Header'
-import { Learner } from '@adewaskar/lms-common'
+import { Enum, Learner } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
 import { useQueryClient } from '@tanstack/react-query'
+import { FormatLangText } from '@Components/Editor/SunEditor/utils'
+import { TEXTS } from 'texts/texts'
 
 interface ProcessingResultPropsI {
   testId: string;
@@ -12,7 +14,18 @@ interface ProcessingResultPropsI {
 
 const { Title, Text } = Typography
 export default function ProcessingResult(props: ProcessingResultPropsI) {
-  const qc = useQueryClient()
+  const qc = useQueryClient();
+  const {
+    data: {
+      metadata: {
+        test: { language },
+      },
+    },
+    isLoading: loadingEp,
+  } = Learner.Queries.useGetEnrolledProductDetails({
+    type: Enum.ProductType.TEST,
+    id: props.testId + "",
+  });
   const {
     data: { test, metrics, status },
     isFetching: loadingResult
@@ -23,13 +36,14 @@ export default function ProcessingResult(props: ProcessingResultPropsI) {
         <Row justify={'center'} align={'middle'}>
           <Col span={24}>
             <Title style={{ textAlign: 'center' }}>
-              Your test is under evaluation..
+              {FormatLangText(TEXTS.TEST_UNDER_VALUATION, language)}
             </Title>
             <Title level={3} style={{ textAlign: 'center' }}>
-              Please check back in few minutes
+              {FormatLangText(TEXTS.CHECK_BACK_IN_FEW_MINS, language)}
             </Title>
             <Title type="secondary" level={5} style={{ textAlign: 'center' }}>
-              Please refresh this page in some time. <br />
+              {FormatLangText(TEXTS.REFRESH_PAGE_IN_SOME_TIME, language)}
+              <br />
               <Button
                 style={{ marginTop: 20 }}
                 onClick={() => {
