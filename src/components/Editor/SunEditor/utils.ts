@@ -179,7 +179,7 @@ export const useText = (language: string) => {
   const FormatNumber = (number: number): string => {
     const locale = languageMap[language] || 'en-IN'; // Default to English
     numbro.setLanguage(locale); // Set the language for numbro
-    return numbro(number).format('0'); // Format number without grouping or decimals
+    return numbro(number) // Format number without grouping or decimals
   };
 
   return { FormatLangText, FormatNumber };
