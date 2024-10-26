@@ -6,6 +6,8 @@ import { GlobalOutlined } from "@ant-design/icons";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Typography } from "@Components/Typography";
 import { useParams } from "@Router/index";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 const { Text, Title } = Typography;
 
@@ -117,8 +119,8 @@ const TestResultTable: React.FC = () => {
                     record.type !== "subjective"
                       ? record?.optionsSelected?.length
                         ? record?.optionsSelected?.map((opt) => (
-                            <Tag>{opt}</Tag>
-                          ))
+                          <Tag>{opt}</Tag>
+                        ))
                         : "-"
                       : "-"
                   }
@@ -160,8 +162,10 @@ export default TestResultTable;
 
 export const TestAnswerTag = ({
   item,
+  language = 'eng'
 }: {
   item: Types.TestStatusQuestionStats;
+  language?: string
 }) => {
   return (
     <Space>
@@ -183,13 +187,19 @@ export const TestAnswerTag = ({
           {item.isAnswered ? (
             <>
               {item.isCorrect ? (
-                <Tag color="green-inverse">Correct</Tag>
+                <Tag color="green-inverse">
+                  {FormatLangText(TEXTS.CORRECT, language)}
+                </Tag>
               ) : (
-                <Tag color="red-inverse">Incorrect</Tag>
+                <Tag color="red-inverse">
+                  {FormatLangText(TEXTS.INCORRECT_ANSWER, language)}
+                </Tag>
               )}
             </>
           ) : (
-            <Tag color="orange-inverse">Not Attempted</Tag>
+            <Tag color="orange-inverse">
+              {FormatLangText(TEXTS.NOT_ATTEMPTED, language)}
+            </Tag>
           )}
           {/* <Tooltip placement="right" title={`Global Correctness: ${Math.ceil(item.globalCorrectPercentage)}%`}>  <GlobalOutlined/>
    </Tooltip> */}

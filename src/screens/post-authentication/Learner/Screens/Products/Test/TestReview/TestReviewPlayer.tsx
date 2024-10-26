@@ -36,6 +36,8 @@ import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useReviewQuestion } from "./useReviewQuestion";
 import { Outlet } from "react-router";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -153,11 +155,11 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
       extra={
         isDesktop
           ? [
-              <Tag style={{ marginRight: 30 }}>
-                Submitted at {dayjs(testEndTime).format("LLL")}
-              </Tag>,
-              // ExitButton,
-            ]
+            <Tag style={{ marginRight: 30 }}>
+              {FormatLangText(TEXTS.SUBMITTED_AT, enrolledProduct.metadata.test.language)} {dayjs(testEndTime).format("LLL")}
+            </Tag>,
+            // ExitButton,
+          ]
           : SideDrawer
       }
     >

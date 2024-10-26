@@ -141,7 +141,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
                 }
               }}
             >
-              Upload Answer Sheet
+              {FormatLangText(TEXTS.UPLOAD_ANSWER_SHEET, enrolledProduct.metadata.test.language)}
             </Button>
           </Col>
         </Row>
@@ -179,10 +179,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         confirm({
           title: "Are you sure?",
           // icon: <ExclamationCircleOutlined />,
-          content: markCount
-            ? `You have marked ${markCount} question${markCount > 1 ? "s" : ""
-            } for review. Are you sure you want to submit? You will not able able to resubmit the test.`
-            : `You want to submit this test? You will not be able to resubmit the test.`,
+          content: FormatLangText(TEXTS.YOU_HAVE_MARKED(markCount), enrolledProduct.metadata.test.language),
           onOk() {
             endTest(undefined, {
               onSuccess: () => {

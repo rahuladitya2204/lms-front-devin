@@ -244,7 +244,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         }}
         title={
           <Text>
-            Question {currentQuestionIndex + 1}
+            {FormatLangText(TEXTS.QUESTION, language)} {currentQuestionIndex + 1}
             {topic?.title ? (
               <Tooltip title={topic?.title ? `${topic?.title}` : null}>
                 <InfoCircleTwoTone style={{ marginLeft: 8 }} />
@@ -278,7 +278,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
               )} */}
             </>
           ) : (
-            <TestAnswerTag item={currentQuestion} />
+            <TestAnswerTag language={language} item={currentQuestion} />
           ),
           !currentQuestion.notEvaluated ? (
             currentQuestion.scoreAchieved !== undefined ? (
@@ -290,13 +290,13 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                     : "red-inverse"
                 }
               >
-                Score: {currentQuestion.scoreAchieved}
+                {FormatLangText(TEXTS.SCORE, language)}: {currentQuestion.scoreAchieved}
                 {currentQuestion.type === "subjective"
                   ? "/" + currentSection?.score?.correct
                   : ""}
               </Tag>
             ) : (
-              <Tag color="red-inverse">Score: 0</Tag>
+              <Tag color="red-inverse">{FormatLangText(TEXTS.SCORE, language)}: 0</Tag>
             )
           ) : null,
           globalCorrectPercent !== null &&
@@ -414,7 +414,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                                       >
                                         <Tooltip
                                           placement="top"
-                                          title={`Correct Answer`}
+                                          title={FormatLangText(TEXTS.CORRECT_ANSWER, language)}
                                         >
                                           <CheckCircleTwoTone
                                             style={{
@@ -455,7 +455,9 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                         <HtmlViewer content={answerGiven?.subjective?.text} />
                       </Form.Item>
                     ) : (
-                      <Tag color="red">Not Answered</Tag>
+                      <Tag color="red">
+                        {FormatLangText(TEXTS.NOT_ANSWERED, language)}
+                      </Tag>
                     )}
                   </>
                 )}
@@ -468,7 +470,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                     {currentQuestion.isAnswered ? (
                       <Input style={{ width: 150 }} type="number" readOnly />
                     ) : (
-                      <TestAnswerTag item={currentQuestion} />
+                      <TestAnswerTag language={language} item={currentQuestion} />
                     )}
                   </Form.Item>
                 ) : null}

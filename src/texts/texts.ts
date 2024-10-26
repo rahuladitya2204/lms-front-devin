@@ -29,6 +29,16 @@ export const TEXTS = {
         hin: 'प्रयास नहीं किया गया',
         guj: 'પ્રયાસ કર્યો નથી'
     },
+    SCORE: {
+        eng: 'Score',
+        hin: 'स्कोर',
+        guj: 'સ્કોર'
+    },
+    SUBMITTED_AT: {
+        eng: 'Submitted At',
+        hin: 'प्रेषित समय',
+        guj: 'સબમિટ કર્યું તે સમયે'
+    },
     CURRENT_QUESTION: {
         eng: 'Current Question',
         hin: 'वर्तमान प्रश्न',
@@ -64,6 +74,21 @@ export const TEXTS = {
         hin: 'गलत उत्तर का स्कोर',
         guj: 'ખોટા જવાબનો સ્કોર'
     },
+    INCORRECT_ANSWER: {
+        eng: 'Incorrect Answer',
+        hin: 'गलत उत्तर',
+        guj: 'ખોટો જવાબ'
+    },
+    CORRECT_ANSWER: {
+        eng: 'Correct Answer',
+        hin: 'सही उत्तर',
+        guj: 'સાચો જવાબ'
+    },
+    CORRECT: {
+        eng: 'Correct',
+        hin: 'सही',
+        guj: 'સાચો'
+    },
     CLEAR: {
         eng: 'Clear',
         hin: 'साफ करें',
@@ -93,6 +118,82 @@ export const TEXTS = {
         eng: 'Answer Sheet',
         hin: 'उत्तर पत्रक',
         guj: 'જવાબ શીટ'
+    },
+    YOU_HAVE_MARKED: {
+        eng: (markCount: number) =>
+            markCount
+                ? `You have marked ${markCount} question${markCount > 1 ? 's' : ''} for review. Are you sure you want to submit? You will not be able to resubmit the test.`
+                : `Do you want to submit this test? You will not be able to resubmit the test.`,
+
+        hin: (markCount: number) =>
+            markCount
+                ? `आपने ${markCount} प्रश्न को समीक्षा के लिए चिह्नित किया है। क्या आप वाकई इसे जमा करना चाहते हैं? आप दोबारा इस परीक्षा को जमा नहीं कर पाएंगे।`
+                : `क्या आप इस परीक्षा को जमा करना चाहते हैं? आप इसे दोबारा जमा नहीं कर पाएंगे।`,
+
+        guj: (markCount: number) =>
+            markCount
+                ? `તમે ${markCount} પ્રશ્ન${markCount > 1 ? 'ો' : ''} સમીક્ષા માટે ચિહ્નિત કર્યા છે. શું તમે ખરેખર પરીક્ષા સબમિટ કરવા માંગો છો? તમે ફરીથી આ પરીક્ષા સબમિટ કરી શકશો નહીં.`
+                : `શું તમે આ પરીક્ષા સબમિટ કરવા માંગો છો? તમે ફરીથી સબમિટ કરી શકશો નહીં.`
+    },
+    SECTION_WISE_BREAKDOWN: {
+        eng: 'Section wise breakdown',
+        hin: 'अनुभागवार विश्लेषण',
+        guj: 'વિભાગવાર વિખેવાટ'
+    },
+    TEST_ANALYSIS_REPORT: {
+        eng: 'Test Analysis Report',
+        hin: 'परीक्षण विश्लेषण रिपोर्ट',
+        guj: 'કસોટી વિશ્લેષણ અહેવાલ'
+    },
+    TOPIC_WISE_REPORT: {
+        eng: 'Topic wise Report',
+        hin: 'विषयवार रिपोर्ट',
+        guj: 'વિષયવાર અહેવાલ'
+    },
+    YOU_SCORED: {
+        eng: 'You Scored',
+        hin: 'आपका स्कोर',
+        guj: 'તમારો સ્કોર'
+    },
+    ACCURACY: {
+        eng: 'Accuracy',
+        hin: 'सटीकता',
+        guj: 'સાચ્ચાઈ'
+    },
+    COMPLETED: {
+        eng: 'Completed',
+        hin: 'पूर्ण',
+        guj: 'પૂર્ણ થયું'
+    },
+    TIME_TAKEN: {
+        eng: 'Time Taken',
+        hin: 'लिया गया समय',
+        guj: 'લાગેલો સમય'
+    },
+    OVERALL_PERFORMANCE: {
+        eng: 'Overall Performance',
+        hin: 'कुल प्रदर्शन',
+        guj: 'કુલ પ્રદર્શન'
+    },
+    CORRECTLY_ANSWERED: {
+        eng: 'Correctly Answered',
+        hin: 'सही उत्तर',
+        guj: 'સાચો જવાબ'
+    },
+    QUESTION: {
+        eng: 'Question',
+        hin: '',
+        guj: ''
+    },
+    WRONGLY_ANSWERED: {
+        eng: 'Wrongly Answered',
+        hin: 'गलत उत्तर',
+        guj: 'ખોટો જવાબ'
+    },
+    UPLOAD_ANSWER_SHEET: {
+        eng: 'Upload Answer Sheet',
+        hin: 'उत्तर पत्रक अपलोड करें',
+        guj: 'જવાબ શીટ અપલોડ કરો'
     },
     MARK_AS_DONE: {
         eng: 'Mark as done',

@@ -70,6 +70,8 @@ import {
   initializeTopicCounts,
 } from "../../../../../User/Screens/Tests/TestCreator/TestBuilder/utils";
 import AddToHomeScreenBanner from "@Components/AddToHomeScreen";
+import { FormatLangText } from "@Components/Editor/SunEditor/utils";
+import { TEXTS } from "texts/texts";
 
 const { confirm } = Modal;
 const { Title, Text } = Typography;
@@ -88,6 +90,12 @@ export default function TestMetrics(props: TestMetricsPropsI) {
     testId + "",
     Enum.TestDetailMode.RESULT
   );
+  const { data: enrolledProduct, isLoading: loadingEnrolledProduct } =
+    Learner.Queries.useGetEnrolledProductDetails({
+      type: Enum.ProductType.TEST,
+      id: testId + "",
+    });
+  const language = enrolledProduct?.metadata?.test?.language;
   // @ts-ignore
   const [selectedMainTopic, setSelectedMainTopic] = useState("");
   const [selectedTopic, setSelectedTopic] = useState("");
@@ -100,8 +108,8 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   const COLORS = ["#52c41a", "#FF4040", "#D3D3D3"]; // Green for correct, Red for wrong, Grey for unattempted
   const pieChartData = useMemo(() => {
     return [
-      { name: "Correctly Answered", value: metrics.totalCorrectlyAnswered },
-      { name: "Wrongly Answered", value: metrics.totalWronglyAnswered },
+      { name: (FormatLangText(TEXTS.CORRECTLY_ANSWERED, language)), value: metrics.totalCorrectlyAnswered },
+      { name: (FormatLangText(TEXTS.WRONGLY_ANSWERED, language)), value: metrics.totalWronglyAnswered },
     ];
   }, [metrics]);
   useEffect(() => {
@@ -194,13 +202,6 @@ export default function TestMetrics(props: TestMetricsPropsI) {
     return Object.values(topicMap).filter((t) => t.total > 0);
   }, [metrics, TOPICS]);
 
-  // console.log(topicsData,'topicsData',selectedTopic,'selected')
-  // console.log(difficultyLevelData,'difficultyLevelData')
-  const { data: enrolledProduct, isLoading: loadingEnrolledProduct } =
-    Learner.Queries.useGetEnrolledProductDetails({
-      type: Enum.ProductType.TEST,
-      id: test._id + "",
-    });
   const { isMobile } = useBreakpoint();
   // console.log(pieChartData, 'as')
   const ViewSolutions = (
@@ -279,7 +280,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
 
   const PiechartComponent = (
     <>
-      <Card title="Overall Performance">
+      <Card title={FormatLangText(TEXTS.OVERALL_PERFORMANCE, language)}>
         <Row justify={"center"} align={"middle"}>
           <Col>
             <PieChart width={300} height={250}>
@@ -373,7 +374,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                         }}
                         level={4}
                       >
-                        You Scored: {Math.ceil(metrics.learnerScore)} out of{" "}
+                        {FormatLangText(TEXTS.YOU_SCORED, language)}: {Math.ceil(metrics.learnerScore)} out of{" "}
                         {metrics.totalTestScore}
                       </Title>
                       {/* {metrics.passingScore? <>
@@ -400,7 +401,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                       <Col xs={24} sm={8}>
                         <Card bordered={false}>
                           <Statistic
-                            title="Accuracy"
+                            title={FormatLangText(TEXTS.ACCURACY, language)}
                             value={
                               (metrics.totalCorrectlyAnswered /
                                 (metrics.totalCorrectlyAnswered +
@@ -419,7 +420,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                     <Col xs={24} sm={8}>
                       <Card bordered={false}>
                         <Statistic
-                          title="Completed"
+                          title={FormatLangText(TEXTS.COMPLETED, language)}
                           value={(totalAnswered / questions.length) * 100}
                           precision={1}
                           valueStyle={{ fontSize: 20, color: "#3f8600" }}
@@ -434,7 +435,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                       <Col xs={24} sm={8}>
                         <Card bordered={false}>
                           <Statistic
-                            title="Time Taken"
+                            title={FormatLangText(TEXTS.TIME_TAKEN, language)}
                             value={Utils.formatSeconds(timeTaken)}
                             // precision={2}
                             valueStyle={{ fontSize: 20, color: "purple" }}
@@ -496,8 +497,10 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                   ) : (
                     <Row gutter={[20, 20]}>
                       <Col span={24}>
-                        <Card title="Test Analysis Report">
-                          <Title level={3}>Section wise breakdown</Title>
+                        <Card title={FormatLangText(TEXTS.TEST_ANALYSIS_REPORT, language)}>
+                          <Title level={3}>
+                            {FormatLangText(TEXTS.SECTION_WISE_BREAKDOWN, language)}
+                          </Title>
                           {test?.sections?.map((section) => {
                             const attemptedPercent = Math.ceil(
                               (section?.stats?.questionsAttempted /
@@ -521,7 +524,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                                 <Col sm={24}>
                                   <Row gutter={[20, 20]}>
                                     <Col span={12}>
-                                      Attempted{" "}
+                                      {FormatLangText(TEXTS.ATTEMPTED, language)}{" "}
                                       {section?.stats?.questionsAttempted}/
                                       {section?.stats?.totalQuestions}
                                       <Progress
@@ -530,7 +533,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                                       />
                                     </Col>
                                     <Col span={12}>
-                                      Correct{" "}
+                                      {FormatLangText(TEXTS.CORRECTLY_ANSWERED, language)}{" "}
                                       {
                                         section?.stats
                                           ?.questionsAnsweredCorrectly
@@ -557,7 +560,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                               bodyStyle={{
                                 paddingTop: topicIds.length > 1 ? 0 : "auto",
                               }}
-                              title="Topic wise report"
+                              title={FormatLangText(TEXTS.TOPIC_WISE_REPORT, language)}
                               extra={
                                 DROPDOWN_TOPICS.length > 1 ? (
                                   <Select

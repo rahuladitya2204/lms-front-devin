@@ -346,7 +346,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         </Row>
       ) : null}
       <Card
-        title={`Question ${currentQuestionIndex + 1}`}
+        title={`${FormatLangText(TEXTS.QUESTION, ep.metadata.test.language)} ${currentQuestionIndex + 1}`}
         extra={[
           <Tag
             style={{ fontSize: 15, padding: "2px 5px" }}

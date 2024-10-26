@@ -277,7 +277,7 @@ export default function TestPublicPlayerItemReiew(
                                         {option.isCorrect ? (
                                           <Tooltip
                                             placement="top"
-                                            title={`Correct Answer`}
+                                            title={FormatLangText(TEXTS.CORRECT_ANSWER, language)}
                                           >
                                             <CheckCircleTwoTone
                                               style={{
@@ -336,7 +336,7 @@ export default function TestPublicPlayerItemReiew(
                     {currentQuestion.isAnswered ? (
                       <Input style={{ width: 150 }} type="number" readOnly />
                     ) : (
-                      <TestAnswerTag item={currentQuestion} />
+                      <TestAnswerTag language={language} item={currentQuestion} />
                     )}
                   </Form.Item>
                 ) : null}

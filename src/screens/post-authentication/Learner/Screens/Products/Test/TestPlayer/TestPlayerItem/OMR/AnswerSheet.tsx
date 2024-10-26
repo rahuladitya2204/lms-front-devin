@@ -141,7 +141,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       }}
       block
     >
-      Upload Answer Sheet
+      {FormatLangText(TEXTS.UPLOAD_ANSWER_SHEET, ep.metadata.test.language)}
     </Button>
   );
 

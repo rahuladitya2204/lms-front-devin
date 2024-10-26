@@ -75,17 +75,17 @@ export default function TestReviewQuestionNavigator(
                   style={{ backgroundColor: token.colorSuccessActive }}
                   type="primary"
                 />{" "}
-                Corrrect Answer
+                {FormatLangText(TEXTS.CURRENT_QUESTION, language)}
               </Space>
             </Col>
             <Col span={12}>
               <Space>
-                <Button shape="circle" type="primary" danger /> Incorrect Answer
+                <Button shape="circle" type="primary" danger /> {FormatLangText(TEXTS.INCORRECT_ANSWER, language)}
               </Space>
             </Col>
             <Col span={12}>
               <Space>
-                <Button shape="circle" /> Not Attempted
+                <Button shape="circle" /> {FormatLangText(TEXTS.NOT_ATTEMPTED, language)}
               </Space>
             </Col>
             <Col span={12}>
@@ -94,7 +94,7 @@ export default function TestReviewQuestionNavigator(
                   style={{ backgroundColor: token.colorPrimary }}
                   shape="circle"
                 />{" "}
-                Current Question
+                {FormatLangText(TEXTS.CURRENT_QUESTION, language)}
               </Space>
             </Col>
           </Row>
@@ -119,7 +119,7 @@ export default function TestReviewQuestionNavigator(
                         </Col>
                       ) : null}
                       <Col style={{ marginBottom: 20 }}>
-                        <TestScore score={section.score} />
+                        <TestScore language={language} score={section.score} />
                       </Col>
                     </Row>
                     <Row gutter={[20, 20]}>
