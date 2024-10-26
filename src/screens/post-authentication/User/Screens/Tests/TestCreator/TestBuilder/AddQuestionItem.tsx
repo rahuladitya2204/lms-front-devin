@@ -48,6 +48,7 @@ import { useTestStore } from "./hooks/useTestStore";
 import useUpdateTestForm from "./hooks/useUpdateTest";
 import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { AddQuestionFromBank } from "./AddQuestionFromBank";
+import TopicSelect from "@Components/TopicSelect";
 
 const { Title } = Typography;
 
@@ -297,17 +298,13 @@ const AddQuestion: React.FC<CreateQuestionFormPropsI> = (props) => {
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label="Topic" name="topic">
-                <TreeSelect
-                  loading={loadingTopicTree}
-                  treeData={treeData}
-                // onExpand={onExpand}
-                // expandedKeys={expandedKeys}
-                // defaultExpandAll
-                // showLine
-                // switcherIcon={<DownOutlined />}
-                />
-              </Form.Item>
+              <TopicSelect
+                level={2}
+                label="Topic"
+                notDisabled
+                name="topic"
+                topicId={test.topics}
+              />
             </Col>
 
             <Col span={12}>

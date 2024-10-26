@@ -193,7 +193,7 @@ const TestEvaluatorNavigator: React.FC<TestEvaluatorNavigatorPropsI> = ({
         if (section?.score?.correct) {
           actions.unshift(
             <Tag style={{ textAlign: "center" }} color="blue-inverse">
-              Score(+ {section.score.correct}{" "}
+              Score(+ {section?.score?.correct}{" "}
               {section?.score?.incorrect ? (
                 <span>, {section.score.incorrect}</span>
               ) : null}{" "}
@@ -216,7 +216,7 @@ const TestEvaluatorNavigator: React.FC<TestEvaluatorNavigatorPropsI> = ({
                 enableSectionReorder={!enableSectionReorder}
                 defaultActiveKey={sectionList.map((s, i) => i)}
                 expandIconPosition="start"
-                // ghost
+              // ghost
               >
                 <CollapsePanel
                   extra={<Space>{actions}</Space>}
@@ -319,24 +319,24 @@ const TestEvaluatorNavigator: React.FC<TestEvaluatorNavigatorPropsI> = ({
                           {itemIndex === section.items.length - 1
                             ? null
                             : //   <ActionModal
-                              //   cta={<AddItemListCta
-                              //     >
-                              //       <List.Item.Meta
-                              //         style={{ cursor: 'pointer' }}
-                              //         title={AddItemCTA}
-                              //         avatar={
-                              //           <PlusOutlined/>
-                              //         }
-                              //       />
-                              //     </AddItemListCta>}
-                              // >
-                              //   <AddItem
-                              //     onAddNewItem={(key, value) =>
-                              //       onAddNewItem(key, value, secIndex)
-                              //     }
-                              //   />
-                              // </ActionModal>
-                              null}
+                            //   cta={<AddItemListCta
+                            //     >
+                            //       <List.Item.Meta
+                            //         style={{ cursor: 'pointer' }}
+                            //         title={AddItemCTA}
+                            //         avatar={
+                            //           <PlusOutlined/>
+                            //         }
+                            //       />
+                            //     </AddItemListCta>}
+                            // >
+                            //   <AddItem
+                            //     onAddNewItem={(key, value) =>
+                            //       onAddNewItem(key, value, secIndex)
+                            //     }
+                            //   />
+                            // </ActionModal>
+                            null}
                         </Fragment>
                       );
                     }}

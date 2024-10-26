@@ -269,7 +269,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                     enableSectionReorder={!enableSectionReorder}
                     defaultActiveKey={sectionList.map((s, i) => i)}
                     expandIconPosition="start"
-                    // ghost
+                  // ghost
                   >
                     <CollapsePanel
                       extra={<Space>{actions}</Space>}
@@ -281,7 +281,7 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                             style={{ textAlign: "center" }}
                             color="blue-inverse"
                           >
-                            Score(+ {section.score.correct}{" "}
+                            Score(+ {section?.score?.correct}{" "}
                             {section?.score?.incorrect ? (
                               <span>, {section.score.incorrect}</span>
                             ) : null}{" "}
@@ -358,13 +358,12 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                                 style={{ cursor: "pointer" }}
                                 // title={<Text>{htmlToText(item.title)}</Text>}
                                 title={
-                                  <Text>{`${!isDesktop ? "Q" : "Question"} ${
-                                    calculateGlobalIndex(
-                                      sections,
-                                      secIndex,
-                                      itemIndex
-                                    ) + 1
-                                  }`}</Text>
+                                  <Text>{`${!isDesktop ? "Q" : "Question"} ${calculateGlobalIndex(
+                                    sections,
+                                    secIndex,
+                                    itemIndex
+                                  ) + 1
+                                    }`}</Text>
                                 }
                                 avatar={<ReadOutlined />}
                               />
@@ -414,24 +413,24 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                               {itemIndex === section.items.length - 1
                                 ? null
                                 : //   <ActionModal
-                                  //   cta={<AddItemListCta
-                                  //     >
-                                  //       <List.Item.Meta
-                                  //         style={{ cursor: 'pointer' }}
-                                  //         title={AddItemCTA}
-                                  //         avatar={
-                                  //           <PlusOutlined/>
-                                  //         }
-                                  //       />
-                                  //     </AddItemListCta>}
-                                  // >
-                                  //   <AddItem
-                                  //     onAddNewItem={(key, value) =>
-                                  //       onAddNewItem(key, value, secIndex)
-                                  //     }
-                                  //   />
-                                  // </ActionModal>
-                                  null}
+                                //   cta={<AddItemListCta
+                                //     >
+                                //       <List.Item.Meta
+                                //         style={{ cursor: 'pointer' }}
+                                //         title={AddItemCTA}
+                                //         avatar={
+                                //           <PlusOutlined/>
+                                //         }
+                                //       />
+                                //     </AddItemListCta>}
+                                // >
+                                //   <AddItem
+                                //     onAddNewItem={(key, value) =>
+                                //       onAddNewItem(key, value, secIndex)
+                                //     }
+                                //   />
+                                // </ActionModal>
+                                null}
                             </Fragment>
                           );
                         }}
