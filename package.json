@@ -13,6 +13,7 @@
     "@emotion/css": "11.10.5",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
+    "@formatjs/intl-numberformat": "^8.14.1",
     "@kurkle/color": "0.3.2",
     "@react-google-maps/api": "2.19.2",
     "@react-pdf-viewer/core": "3.12.0",
