@@ -2,7 +2,7 @@
 import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
-import { Learner, Types } from '@adewaskar/lms-common';
+import { Learner } from '@adewaskar/lms-common';
 import numbro from 'numbro';
 import 'numbro/dist/languages.min'; // Import all languages
 
@@ -166,6 +166,7 @@ export const useText = (language: string) => {
   const { data: TEXT } = Learner.Queries.useGetTexts();
 
   const FormatLangText = (key: string, variables: { [key: string]: string | number } = {}) => {
+    console.log(TEXT[key], key, 'TEXT[key]')
     const template = TEXT[key][language] || TEXT[key]['eng'] || '';
 
     // Replace placeholders with variable values if they exist

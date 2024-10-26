@@ -148,6 +148,7 @@ export default async function Page({
     getCartDetails,
     getPromotedProducts,
     getLearnerDetails,
+    getTexts,
     getTestResult,
   } = Learner.Queries.Definitions;
 
@@ -158,6 +159,7 @@ export default async function Page({
       queries={[
         getProductCategoryDetails(test.category + ""),
         getTestDetails(params.testId),
+        getTexts(),
         getPromotedProducts(Enum.ProductType.TEST, {
           category: test.category,
           limit: 4,
