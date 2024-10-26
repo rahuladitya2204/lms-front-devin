@@ -44,13 +44,12 @@ import TestQuestionNavigator from "./TestQuestionNavigator/TestQuestionNavigator
 import TestTimeCountdown from "@Components/TestTimeCountdown";
 import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
-import { FormatLangText, openWindow } from "@Components/Editor/SunEditor/utils";
+import { openWindow, useText } from "@Components/Editor/SunEditor/utils";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { Outlet } from "react-router";
 import { LogEvent } from "@ServerHooks/useDehydration";
-import { TEXTS } from "texts/texts";
 
 const { confirm } = Modal;
 
@@ -97,6 +96,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   const { openModal } = useModal();
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
   const qc = useQueryClient();
+  const { FormatLangText } = useText(enrolledProduct.metadata.test.language);
   const AnswerSheetButton = (
     <ActionModal
       minHeight={500}
@@ -104,7 +104,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       width={800}
       cta={
         <Button block={isMobile} type="primary">
-          {FormatLangText(TEXTS.ANSWER_SHEET, enrolledProduct.metadata.test.language)}
+          {FormatLangText('ANSWER_SHEET')}
         </Button>
       }
       title={
@@ -115,7 +115,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         >
           <Col>
             <Title level={4}>
-              {FormatLangText(TEXTS.ANSWER_SHEET, enrolledProduct.metadata.test.language)}
+              {FormatLangText('ANSWER_SHEET')}
             </Title>
           </Col>
           <Col>
@@ -141,7 +141,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
                 }
               }}
             >
-              {FormatLangText(TEXTS.UPLOAD_ANSWER_SHEET, enrolledProduct.metadata.test.language)}
+              {FormatLangText('UPLOAD_ANSWER_SHEET')}
             </Button>
           </Col>
         </Row>
@@ -163,6 +163,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
   //   })}
   //   icon={<BookOutlined />}
   // block={!isDesktop} style={{ marginRight: 10 }} type='primary'>Answer Sheet</Button>
+  const language = enrolledProduct.metadata.test.language;
   const SubmitTestButton = (
     <Button
       block={!isDesktop}
@@ -179,7 +180,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
         confirm({
           title: "Are you sure?",
           // icon: <ExclamationCircleOutlined />,
-          content: FormatLangText(TEXTS.YOU_HAVE_MARKED(markCount), enrolledProduct.metadata.test.language),
+          content: YOU_HAVE_MARKED(markCount)[language] || YOU_HAVE_MARKED(markCount)['eng'],
           onOk() {
             endTest(undefined, {
               onSuccess: () => {
@@ -191,14 +192,14 @@ export default function TestPlayer(props: TestPlayerPropsI) {
               },
             });
           },
-          okText: FormatLangText(TEXTS.YES_SUBMIT, enrolledProduct.metadata.test.language),
+          okText: FormatLangText('YES_SUBMIT'),
         });
       }}
       type="primary"
       danger
       loading={submittingTest}
     >
-      {FormatLangText(TEXTS.SUBMIT_TEST, enrolledProduct.metadata.test.language)}
+      {FormatLangText('SUBMIT_TEST')}
     </Button>
   );
   const targetDate = dayjs(startedAt)
@@ -349,6 +350,7 @@ export const SubmitButton = ({ testId }: { testId: string }) => {
       type: Enum.ProductType.TEST,
       id: test._id + "",
     });
+  const { FormatLangText } = useText(enrolledProduct.metadata.test.language);
   const { isTablet, isDesktop, isMobile } = useBreakpoint();
   const {
     data: {
@@ -387,14 +389,31 @@ export const SubmitButton = ({ testId }: { testId: string }) => {
               },
             });
           },
-          okText: FormatLangText(TEXTS.YES_SUBMIT, enrolledProduct.metadata.test.language),
+          okText: FormatLangText('YES_SUBMIT'),
         });
       }}
       type="primary"
       danger
       loading={submittingTest}
     >
-      {FormatLangText(TEXTS.SUBMIT_TEST, enrolledProduct.metadata.test.language)}
+      {FormatLangText('SUBMIT_TEST')}
     </Button>
   );
 };
+
+
+const YOU_HAVE_MARKED = (markCount) => {
+  return {
+    eng: markCount
+      ? `You have marked ${markCount} question${markCount > 1 ? 's' : ''} for review. Are you sure you want to submit? You will not be able to resubmit the test.`
+      : `Do you want to submit this test? You will not be able to resubmit the test.`,
+
+    hin: markCount
+      ? `आपने ${markCount} प्रश्न को समीक्षा के लिए चिह्नित किया है। क्या आप वाकई इसे जमा करना चाहते हैं? आप दोबारा इस परीक्षा को जमा नहीं कर पाएंगे।`
+      : `क्या आप इस परीक्षा को जमा करना चाहते हैं? आप इसे दोबारा जमा नहीं कर पाएंगे।`,
+
+    guj: markCount
+      ? `તમે ${markCount} પ્રશ્ન${markCount > 1 ? 'ો' : ''} સમીક્ષા માટે ચિહ્નિત કર્યા છે. શું તમે ખરેખર પરીક્ષા સબમિટ કરવા માંગો છો? તમે ફરીથી આ પરીક્ષા સબમિટ કરી શકશો નહીં.`
+      : `શું તમે આ પરીક્ષા સબમિટ કરવા માંગો છો? તમે ફરીથી સબમિટ કરી શકશો નહીં.`
+  }
+}

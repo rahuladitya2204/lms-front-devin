@@ -28,8 +28,7 @@ import TestTimer from "./TestTimer";
 import { Typography } from "@Components/Typography";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import TestScore from "@Components/TestScore";
-import { FormatLangText, FormatNumber } from "@Components/Editor/SunEditor/utils";
-import { TEXTS } from "texts/texts";
+import { FormatNumber, useText } from "@Components/Editor/SunEditor/utils";
 
 interface TestQuestionNavigatorPropsI {
   testId: string;
@@ -68,6 +67,7 @@ export default function TestQuestionNavigator(
   const { questionId } = useParams();
   const isLoading = loadingTest || loadingEnrolledTest;
   let runningIndex = 0;
+  const { FormatLangText } = useText(language);
   return (
     <Card
       // style={{ height: '80vh' }}
@@ -101,19 +101,19 @@ export default function TestQuestionNavigator(
                   style={{ backgroundColor: token.colorSuccessActive }}
                   type="primary"
                 />{" "}
-                {FormatLangText(TEXTS.ATTEMPTED, language)}
+                {FormatLangText('ATTEMPTED')}
               </Space>
             </Col>
             <Col span={12}>
               <Space>
                 <Button shape="circle" type="primary" danger />
-                {FormatLangText(TEXTS.MARKED_FOR_REVIEW, language)}
+                {FormatLangText('MARKED_FOR_REVIEW')}
               </Space>
             </Col>
             <Col span={12}>
               <Space>
                 <Button shape="circle" />
-                {FormatLangText(TEXTS.NOT_ANSWERED, language)}
+                {FormatLangText('NOT_ANSWERED')}
               </Space>
             </Col>
             <Col span={12}>
@@ -122,14 +122,14 @@ export default function TestQuestionNavigator(
                   style={{ backgroundColor: token.colorPrimary }}
                   shape="circle"
                 />{" "}
-                {FormatLangText(TEXTS.CURRENT_QUESTION, language)}
+                {FormatLangText('CURRENT_QUESTION')}
               </Space>
             </Col>
           </Row>
         </Col>
         <Col span={24}>
           <Title style={{ textAlign: "center" }} level={3}>
-            {FormatLangText(TEXTS.QUESTION_PANEL, language)}
+            {FormatLangText('QUESTION_PANEL')}
           </Title>
           {isLoading ? (
             <TestNavigatorSkeleton />

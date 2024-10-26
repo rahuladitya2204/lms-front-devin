@@ -147,6 +147,7 @@ import CreatePlan from "@User/Screens/ExtraComponents/CreatePlan";
 import PlansScreen from "@User/Screens/Plans/PlansScreen";
 import { Card, Col, Row } from "antd";
 import LearnerLogin from "./post-authentication/Learner/Screens/Login";
+import TextsScreen from "@User/Screens/Admin/Texts/TextsScreen";
 
 const router = (userType: string) => {
   return createBrowserRouter(
@@ -436,6 +437,10 @@ const router = (userType: string) => {
                   <Route
                     path="admin/organisation"
                     element={<OrganisationScreen />}
+                  />
+                  <Route
+                    path="admin/texts"
+                    element={<TextsScreen />}
                   />
                   <Route path="admin/topics" element={<TopicsScreen />} />
                   <Route path="settings" element={<SettingsScreen />} />

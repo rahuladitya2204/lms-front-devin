@@ -22,8 +22,7 @@ import dayjs from "dayjs";
 import styled from "styled-components";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useCountdownTimer from "@Hooks/useCountdownTimer";
-import { FormatLangText } from "@Components/Editor/SunEditor/utils";
-import { TEXTS } from "texts/texts";
+import { useText } from "@Components/Editor/SunEditor/utils";
 
 interface TestQuestionNavigatorType2PropsI {
   testId: string;
@@ -57,6 +56,7 @@ export default function TestTimer(props: TestTimerPropsI) {
   );
 
   const { percentLeft } = useCountdownTimer(endingAt);
+  const { FormatLangText } = useText(ep.metadata.test.language);
 
   return (
     <div
@@ -88,7 +88,7 @@ export default function TestTimer(props: TestTimerPropsI) {
                   ) : (
                     <>
                       <Title type="secondary" style={{ fontSize: 18 }}>
-                        {FormatLangText(TEXTS.TIME_REMAINING, ep.metadata.test.language)}
+                        {FormatLangText('TIME_REMAINING')}
                       </Title>
                       <Title style={{ marginTop: 0, fontSize: 25 }}>
                         <Countdown targetDate={endingAt} />

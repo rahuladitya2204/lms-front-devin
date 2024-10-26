@@ -5,8 +5,7 @@ import Header from '@Components/Header'
 import { Enum, Learner } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
 import { useQueryClient } from '@tanstack/react-query'
-import { FormatLangText } from '@Components/Editor/SunEditor/utils'
-import { TEXTS } from 'texts/texts'
+import { useText } from '@Components/Editor/SunEditor/utils'
 
 interface ProcessingResultPropsI {
   testId: string;
@@ -30,19 +29,20 @@ export default function ProcessingResult(props: ProcessingResultPropsI) {
     data: { test, metrics, status },
     isFetching: loadingResult
   } = Learner.Queries.useGetTestResult(props.testId + '')
+  const { FormatLangText } = useText(language);
   return (
     <Header>
       <Spin spinning={loadingResult}>
         <Row justify={'center'} align={'middle'}>
           <Col span={24}>
             <Title style={{ textAlign: 'center' }}>
-              {FormatLangText(TEXTS.TEST_UNDER_VALUATION, language)}
+              {FormatLangText('TEST_UNDER_VALUATION')}
             </Title>
             <Title level={3} style={{ textAlign: 'center' }}>
-              {FormatLangText(TEXTS.CHECK_BACK_IN_FEW_MINS, language)}
+              {FormatLangText('CHECK_BACK_IN_FEW_MINS')}
             </Title>
             <Title type="secondary" level={5} style={{ textAlign: 'center' }}>
-              {FormatLangText(TEXTS.REFRESH_PAGE_IN_SOME_TIME, language)}
+              {FormatLangText('REFRESH_PAGE_IN_SOME_TIME')}
               <br />
               <Button
                 style={{ marginTop: 20 }}

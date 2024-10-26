@@ -56,8 +56,7 @@ import useQuestion from "../hooks/useQuestion";
 import useTestNavigation from "@Hooks/useProductNavigation";
 import TestPlayerFiles from "./TestPlayerFiles";
 import { SubmitButton } from "../TestPlayer";
-import { FormatLangText } from "@Components/Editor/SunEditor/utils";
-import { TEXTS } from "texts/texts";
+import { useText } from "@Components/Editor/SunEditor/utils";
 
 const { Title, Text } = Typography;
 
@@ -83,6 +82,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
     id: test._id + "",
   });
   const language = ep?.metadata?.test?.language;
+  const { FormatLangText } = useText(language);
   // console.log(ep, language, "huhhahaha");
   const {
     currentQuestion,
@@ -172,7 +172,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       icon={<ReloadOutlined />}
       style={{ marginLeft: 20 }}
     >
-      {FormatLangText(TEXTS.CLEAR, language)}
+      {FormatLangText('CLEAR')}
     </Button>
   );
   const { navigate } = useTestNavigation(test, "player");
@@ -187,7 +187,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       style={{ marginRight: !isMobile ? 20 : 0 }}
       icon={<BackwardOutlined />}
     >
-      {!isMobile ? FormatLangText(TEXTS.PREVIOUS, language) : ""}
+      {!isMobile ? FormatLangText('PREVIOUS') : ""}
     </Button>
   );
   const NextButton = (
@@ -196,7 +196,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       onClick={() => navigate("next")}
       icon={<ForwardOutlined />}
     >
-      {!isMobile ? FormatLangText(TEXTS.NEXT, language) : ""}
+      {!isMobile ? FormatLangText('NEXT') : ""}
     </Button>
   );
   const MarkForReviewCheckbox = (
@@ -231,7 +231,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       icon={<CheckOutlined />}
       danger
     >
-      {FormatLangText(TEXTS.MARK_AS_DONE, ep.metadata.test.language)}
+      {FormatLangText('MARK_AS_DONE')}
     </Button>
   ) : (
     <Button
@@ -248,7 +248,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       danger
       type="default"
     >
-      {FormatLangText(TEXTS.MARK_FOR_REVIEW, language)}
+      {FormatLangText('MARK_FOR_REVIEW')}
     </Button>
   );
 
@@ -270,6 +270,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       }, 100); // Add a small delay to ensure elements are rendered
     }
   }, [currentQuestionIndex]);
+
 
   // Trigger scroll effect when currentQuestionIndex changes
   useEffect(() => {
@@ -346,13 +347,13 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
         </Row>
       ) : null}
       <Card
-        title={`${FormatLangText(TEXTS.QUESTION, ep.metadata.test.language)} ${currentQuestionIndex + 1}`}
+        title={`${FormatLangText('QUESTION')} ${currentQuestionIndex + 1}`}
         extra={[
           <Tag
             style={{ fontSize: 15, padding: "2px 5px" }}
             color="blue-inverse"
           >
-            {!isMobile ? `${FormatLangText(TEXTS.CORRECT_ANSWER_SCORE, language)}: ` : "+"}
+            {!isMobile ? `${FormatLangText('CORRECT_ANSWER_SCORE')}: ` : "+"}
             {currentSection?.score?.correct}
           </Tag>,
           currentSection?.score?.incorrect ? (
@@ -360,7 +361,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
               style={{ fontSize: 15, padding: "2px 5px" }}
               color="red-inverse"
             >
-              {!isMobile ? `${FormatLangText(TEXTS.INCORRECT_ANSWER_SCORE, language)}: ` : ""}{" "}
+              {!isMobile ? `${FormatLangText('INCORRECT_ANSWER_SCORE')}: ` : ""}{" "}
               {currentSection?.score?.incorrect}
             </Tag>
           ) : null,
@@ -395,7 +396,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                           type="secondary"
                         >
                           {questionType === Enum.TestQuestionType.SINGLE
-                            ? FormatLangText(TEXTS.SELECT_ONE, ep.metadata.test.language)
+                            ? FormatLangText('SELECT_ONE')
                             : null}
                           {questionType === Enum.TestQuestionType.MULTIPLE
                             ? "Select all that apply"
@@ -590,7 +591,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     // loading={submittingAnswer}
                     onClick={form.submit}
                   >
-                    {FormatLangText(TEXTS.SAVE_AND_NEXT, language)}
+                    {FormatLangText('SAVE_AND_NEXT')}
                   </Button>
                 </div>
 

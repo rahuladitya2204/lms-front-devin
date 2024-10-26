@@ -2,7 +2,7 @@
 import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
-import { Types } from '@adewaskar/lms-common';
+import { Learner, Types } from '@adewaskar/lms-common';
 import numbro from 'numbro';
 import 'numbro/dist/languages.min'; // Import all languages
 
@@ -162,10 +162,28 @@ export const getAxiosInstance = () => {
   return api;
 }
 
+export const useText = (language: string) => {
+  const { data: TEXT } = Learner.Queries.useGetTexts();
 
-export const FormatLangText = (TEXT: { hin: string, guj: string, eng: string }, language: string) => {
-  return TEXT[language] || TEXT['eng']
-}
+  const FormatLangText = (key: string, variables: { [key: string]: string | number } = {}) => {
+    const template = TEXT[key][language] || TEXT[key]['eng'] || '';
+
+    // Replace placeholders with variable values if they exist
+    return template.replace(/\{\{(.*?)\}\}/g, (_, varName) => {
+      return variables[varName.trim()] !== undefined
+        ? String(variables[varName.trim()])
+        : `{{${varName}}}`; // Keep placeholder if variable is missing
+    });
+  };
+
+  return { FormatLangText };
+};
+
+
+
+// export const FormatLangText = (TEXT: { hin: string, guj: string, eng: string }, language: string) => {
+//   return TEXT[language] || TEXT['eng']
+// }
 
 export const FormatNumber = (number: number, language: string): string => {
   const locale = languageMap[language] || 'en-IN'; // Default to English

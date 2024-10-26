@@ -36,8 +36,7 @@ import dayjs from "dayjs";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import { useReviewQuestion } from "./useReviewQuestion";
 import { Outlet } from "react-router";
-import { FormatLangText } from "@Components/Editor/SunEditor/utils";
-import { TEXTS } from "texts/texts";
+import { useText } from "@Components/Editor/SunEditor/utils";
 
 // const ProctoringComponent = lazy(() => import('@Learner/Screens/Procturing/TestProcturing'));
 
@@ -48,7 +47,6 @@ interface TestPlayerPropsI {
   // children: React.ReactNode;
 }
 
-const { Title, Text } = Typography;
 
 export default function TestReviewPlayer(props: TestPlayerPropsI) {
   const { testId, questionId } = useParams();
@@ -77,6 +75,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
       type: Enum.ProductType.TEST,
       id: test._id + "",
     });
+  const { FormatLangText } = useText(enrolledProduct.metadata.test.language);
 
   const isProcturingOn = test.rules.procturing.enabled;
 
@@ -156,7 +155,7 @@ export default function TestReviewPlayer(props: TestPlayerPropsI) {
         isDesktop
           ? [
             <Tag style={{ marginRight: 30 }}>
-              {FormatLangText(TEXTS.SUBMITTED_AT, enrolledProduct.metadata.test.language)} {dayjs(testEndTime).format("LLL")}
+              {FormatLangText('SUBMITTED_AT')} {dayjs(testEndTime).format("LLL")}
             </Tag>,
             // ExitButton,
           ]

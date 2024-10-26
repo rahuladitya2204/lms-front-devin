@@ -39,8 +39,8 @@ import { useOutletContext } from "react-router-dom";
 import useTestNavigation from "@Hooks/useProductNavigation";
 import { NavLink, useParams } from "@Router/index";
 import { getIdFromSlug } from "./PYQTestQuestionNavigator";
-import { FormatLangText } from "@Components/Editor/SunEditor/utils";
-import { TEXTS } from "texts/texts";
+
+import { useText } from "@Components/Editor/SunEditor/utils";
 
 const { Title, Text } = Typography;
 
@@ -80,6 +80,7 @@ export default function TestPublicPlayerItemReiew(
 
   const { token } = theme.useToken();
   const { isMobile } = useBreakpoint();
+  const { FormatLangText } = useText(language);
 
   const NextButton = (
     <Button
@@ -87,7 +88,7 @@ export default function TestPublicPlayerItemReiew(
       onClick={() => navigate("next")}
       icon={<ForwardOutlined />}
     >
-      {!isMobile ? FormatLangText(TEXTS.NEXT, language) : ""}
+      {!isMobile ? FormatLangText('NEXT') : ""}
     </Button>
   );
   const { isDesktop, width } = useBreakpoint();
@@ -102,7 +103,7 @@ export default function TestPublicPlayerItemReiew(
       style={{ marginRight: !isMobile ? 20 : 0 }}
       icon={<BackwardOutlined />}
     >
-      {!isMobile ? FormatLangText(TEXTS.PREVIOUS, language) : ""}
+      {!isMobile ? FormatLangText('PREVIOUS') : ""}
     </Button>
   );
 
@@ -277,7 +278,7 @@ export default function TestPublicPlayerItemReiew(
                                         {option.isCorrect ? (
                                           <Tooltip
                                             placement="top"
-                                            title={FormatLangText(TEXTS.CORRECT_ANSWER, language)}
+                                            title={FormatLangText('CORRECT_ANSWER')}
                                           >
                                             <CheckCircleTwoTone
                                               style={{

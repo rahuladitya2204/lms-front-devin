@@ -19,8 +19,8 @@ import { Typography } from "@Components/Typography";
 import { useQuestion } from "./PYQTestPlayerItem";
 import { NavLink, useNavigate, useParams } from "@Router/index";
 import TestScore from "@Components/TestScore";
-import { FormatLangText } from "@Components/Editor/SunEditor/utils";
-import { TEXTS } from "texts/texts";
+
+import { useText } from "@Components/Editor/SunEditor/utils";
 
 interface TestReviewQuestionNavigatorPropsI {
   testId: string;
@@ -45,6 +45,7 @@ export default function TestReviewQuestionNavigator(
     type: Enum.ProductType.TEST,
     id: test._id + "",
   });
+  const { FormatLangText } = useText(language);
   const { currentQuestion, loading } = useQuestion();
 
   const { token } = theme.useToken();
@@ -70,7 +71,7 @@ export default function TestReviewQuestionNavigator(
       <Row>
         <Col span={24}>
           <Title style={{ textAlign: "center" }} level={3}>
-            {FormatLangText(TEXTS.QUESTION_PANEL, language)}
+            {FormatLangText('QUESTION_PANEL')}
           </Title>
           {test.sections.map((section: any) => {
             return (

@@ -18,10 +18,10 @@ export const useNavigateParams = () => {
 }
 
 export const useGetNodeFromRouterOutlet = () => {
-  const { itemId,sectionId } = useParams();
+  const { itemId, sectionId } = useParams();
   const [items, courseId] = useOutletContext<Types.CourseSection[][]>();
   // console.log(items,itemId, 'nodeee');
-  return {  courseId,sectionId };
+  return { courseId, sectionId };
 }
 
 /**
@@ -57,6 +57,7 @@ export const useAppInit = () => {
   const isValidAlias = Store.useGlobal(s => s.isAliasValid);
   const isSignedIn = Store.useAuthentication(s => s.isSignedIn);
   usePushNotification(isSignedIn);
+  const { data: TEXTS } = Learner.Queries.useGetTexts();
   const { data: organisation, isLoading: loadingOrganisation } = Common.Queries.useGetOrgDetails();
   const { mutate: validateOrgAlias, isLoading: validatingOrgAlias } = Common.Queries.useValidateOrgAlias();
   const { mutate: validateAffiliateId } = Common.Queries.useValidateAffiliateId();
@@ -64,20 +65,20 @@ export const useAppInit = () => {
   const [subdomain, setSubdomain] = useState('');
   const [affiliateId, setAffiliateId] = useState('');
 
-  useEffect(() => {  
+  useEffect(() => {
     if (isMounted && typeof window !== 'undefined') {
       const queryString = window.location.search;
       const queryParams = new URLSearchParams(queryString);
       const utmSource = queryParams.get('utm_source') || '';
-  
+
       const affiliateId = queryParams.get('ref') || '';
       const parts = window.location.hostname.split('.');
       const subdomain = parts.slice(0, -2).join('-');
-      if(utmSource){
-        Utils.Storage.SetItem('utmSource',utmSource)
+      if (utmSource) {
+        Utils.Storage.SetItem('utmSource', utmSource)
       }
-      if(cookies.seo_utm_cookie){
-        Utils.Storage.SetItem('utmSource',cookies.seo_utm_cookie)
+      if (cookies.seo_utm_cookie) {
+        Utils.Storage.SetItem('utmSource', cookies.seo_utm_cookie)
       }
       setSubdomain(subdomain);
       setAffiliateId(affiliateId);
@@ -106,20 +107,20 @@ export const usePaymentCheckout = () => {
   const { data: organisation } = Learner.Queries.useGetOrgDetails()
   const Razorpay = useRazorpay();
   // @ts-ignore
-  const openCheckout = ({pgOrder,order},cb) => {
+  const openCheckout = ({ pgOrder, order }, cb) => {
     const rzpay = new Razorpay({
       order_id: pgOrder.id,
-      callback_url:`${Constants.config.API_URL}/learner/${order._id}/successful`,
+      callback_url: `${Constants.config.API_URL}/learner/${order._id}/successful`,
       currency: pgOrder.currency,
       name: organisation.name,
       // @ts-ignore
-      key: getServerEnv()==='production'?organisation.paymentGateway.key:'rzp_test_pBQlrlQjChLLj7',
+      key: getServerEnv() === 'production' ? organisation.paymentGateway.key : 'rzp_test_pBQlrlQjChLLj7',
       // key:'rzp_test_DSNLOopXvG9RMT',
       image: organisation.logo,
       amount: pgOrder.amount,
-      handler:cb
+      handler: cb
     });
-    console.log(rzpay,'rzpay')
+    console.log(rzpay, 'rzpay')
     return rzpay.open();
   }
 

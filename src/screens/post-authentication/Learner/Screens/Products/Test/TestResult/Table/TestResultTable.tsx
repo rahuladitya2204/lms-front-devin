@@ -6,8 +6,7 @@ import { GlobalOutlined } from "@ant-design/icons";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Typography } from "@Components/Typography";
 import { useParams } from "@Router/index";
-import { FormatLangText } from "@Components/Editor/SunEditor/utils";
-import { TEXTS } from "texts/texts";
+import { useText } from "@Components/Editor/SunEditor/utils";
 
 const { Text, Title } = Typography;
 
@@ -167,6 +166,7 @@ export const TestAnswerTag = ({
   item: Types.TestStatusQuestionStats;
   language?: string
 }) => {
+  const { FormatLangText } = useText(language);
   return (
     <Space>
       {/* @ts-ignore */}
@@ -188,17 +188,17 @@ export const TestAnswerTag = ({
             <>
               {item.isCorrect ? (
                 <Tag color="green-inverse">
-                  {FormatLangText(TEXTS.CORRECT, language)}
+                  {FormatLangText('CORRECT')}
                 </Tag>
               ) : (
                 <Tag color="red-inverse">
-                  {FormatLangText(TEXTS.INCORRECT_ANSWER, language)}
+                  {FormatLangText('INCORRECT_ANSWER')}
                 </Tag>
               )}
             </>
           ) : (
             <Tag color="orange-inverse">
-              {FormatLangText(TEXTS.NOT_ATTEMPTED, language)}
+              {FormatLangText('NOT_ATTEMPTED')}
             </Tag>
           )}
           {/* <Tooltip placement="right" title={`Global Correctness: ${Math.ceil(item.globalCorrectPercentage)}%`}>  <GlobalOutlined/>

@@ -50,8 +50,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import { useParams } from "@Router/index";
 import useTestNavigation from "@Hooks/useProductNavigation";
 import { useReviewQuestion } from "./useReviewQuestion";
-import { FormatLangText } from "@Components/Editor/SunEditor/utils";
-import { TEXTS } from "texts/texts";
+import { useText } from "@Components/Editor/SunEditor/utils";
 
 const { Title, Text } = Typography;
 
@@ -139,14 +138,14 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const correctOptions = currentQuestion?.options
     ?.filter((i) => i.isCorrect)
     .map((i) => i._id);
-
+  const { FormatLangText } = useText(language);
   const NextButton = (
     <Button
       shape={!isMobile ? "default" : "circle"}
       onClick={() => navigate("next")}
       icon={<ForwardOutlined />}
     >
-      {!isMobile ? FormatLangText(TEXTS.NEXT, language) : ""}
+      {!isMobile ? FormatLangText('NEXT') : ""}
     </Button>
   );
   const { isDesktop, width } = useBreakpoint();
@@ -166,7 +165,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
       style={{ marginRight: !isMobile ? 20 : 0 }}
       icon={<BackwardOutlined />}
     >
-      {!isMobile ? FormatLangText(TEXTS.PREVIOUS, language) : ""}
+      {!isMobile ? FormatLangText('PREVIOUS') : ""}
     </Button>
   );
   return loadingQuestion ? (
@@ -244,9 +243,9 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
         }}
         title={
           <Text>
-            {FormatLangText(TEXTS.QUESTION, language)} {currentQuestionIndex + 1}
+            {FormatLangText('QUESTION')} {currentQuestionIndex + 1}
             {topic?.title ? (
-              <Tooltip title={topic?.title ? `${topic?.title}` : null}>
+              <Tooltip title={topic?.title ? `${topic?.title[language] || topic?.title['eng']}` : null}>
                 <InfoCircleTwoTone style={{ marginLeft: 8 }} />
               </Tooltip>
             ) : null}
@@ -290,19 +289,20 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                     : "red-inverse"
                 }
               >
-                {FormatLangText(TEXTS.SCORE, language)}: {currentQuestion.scoreAchieved}
+                {FormatLangText('SCORE')}: {currentQuestion.scoreAchieved}
                 {currentQuestion.type === "subjective"
                   ? "/" + currentSection?.score?.correct
                   : ""}
               </Tag>
             ) : (
-              <Tag color="red-inverse">{FormatLangText(TEXTS.SCORE, language)}: 0</Tag>
+              <Tag color="red-inverse">{FormatLangText('SCORE')}: 0</Tag>
             )
           ) : null,
           globalCorrectPercent !== null &&
             currentQuestion.type !== "subjective" ? (
             <Tooltip
-              title={FormatLangText(TEXTS.GLOBAL_CORRECT_PERCENTAGE(globalCorrectPercent), language)}
+              // todoimp
+              title={FormatLangText('GLOBAL_CORRECT_PERCENTAGE', { globalCorrectPercent })}
             >
               <Tag color="purple-inverse" icon={<GlobalOutlined />}>
                 {globalCorrectPercent} %
@@ -341,8 +341,8 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                         type="secondary"
                       >
                         {currentQuestion.type === Enum.TestQuestionType.SINGLE
-                          ? FormatLangText(TEXTS.SELECT_ONE, language)
-                          : FormatLangText(TEXTS.SELECT_MULTIPLE, language)}
+                          ? FormatLangText('SELECT_ONE')
+                          : FormatLangText('SELECT_MULTIPLE')}
                       </Text>
                       <Form.Item name={["answer", "options"]}>
                         <OptionSelectedFormControl.Group
@@ -411,7 +411,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                                       >
                                         <Tooltip
                                           placement="top"
-                                          title={FormatLangText(TEXTS.CORRECT_ANSWER, language)}
+                                          title={FormatLangText('CORRECT_ANSWER')}
                                         >
                                           <CheckCircleTwoTone
                                             style={{
@@ -453,7 +453,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                       </Form.Item>
                     ) : (
                       <Tag color="red">
-                        {FormatLangText(TEXTS.NOT_ANSWERED, language)}
+                        {FormatLangText('NOT_ANSWERED')}
                       </Tag>
                     )}
                   </>

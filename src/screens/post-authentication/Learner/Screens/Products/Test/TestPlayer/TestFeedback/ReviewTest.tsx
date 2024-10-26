@@ -3,8 +3,7 @@ import { Enum, Learner, Types } from '@adewaskar/lms-common'
 
 import TextArea from '@Components/Textarea';
 import { Typography } from '@Components/Typography';
-import { FormatLangText } from '@Components/Editor/SunEditor/utils';
-import { TEXTS } from 'texts/texts';
+import { useText } from '@Components/Editor/SunEditor/utils';
 
 const { Title } = Typography
 
@@ -46,20 +45,21 @@ const ReviewTest: React.FC<ReviewTestPropsI> = ({ testId, closeModal, onSubmit }
       }
     })
   }
+  const { FormatLangText } = useText(language);
   return <>
     <Space style={{ width: '100%' }} align='center' direction='vertical'>
       <Title style={{ textAlign: 'center' }} level={3}>
-        {FormatLangText(TEXTS.PLEASE_RATE_US, language)}
+        {FormatLangText('PLEASE_RATE_US')}
       </Title>
       <Form onFinish={submitReview} style={{ textAlign: 'center' }} layout='vertical' form={form}>
-        <Form.Item rules={[{ required: true, message: FormatLangText(TEXTS.PLEASE_GIVE_US_RATING, language) }]} name="rating">
+        <Form.Item rules={[{ required: true, message: FormatLangText('PLEASE_GIVE_US_RATING') }]} name="rating">
           <Rate style={{ marginBottom: 30 }} />
         </Form.Item>
-        <Form.Item rules={[{ required: true, message: FormatLangText(TEXTS.PLEASE_GIVE_US_FEEDBACK, language) }]} name="comment">
+        <Form.Item rules={[{ required: true, message: FormatLangText('PLEASE_GIVE_US_FEEDBACK') }]} name="comment">
           <TextArea style={{ width: 300 }} rows={4} />
         </Form.Item>
         <Button loading={submittingReview} onClick={form.submit}>
-          {FormatLangText(TEXTS.SUBMIT, language)}
+          {FormatLangText('SUBMIT')}
         </Button>
       </Form>
 

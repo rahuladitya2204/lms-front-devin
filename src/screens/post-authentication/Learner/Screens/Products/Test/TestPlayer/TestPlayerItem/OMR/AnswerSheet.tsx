@@ -31,13 +31,12 @@ import LearnerLogin from "@Learner/Screens/Login";
 import ProductCheckoutButton from "@Components/CheckoutButton";
 import { ReloadOutlined } from "@ant-design/icons";
 import TestEnrolledCta from "../../../TestDetail/TestEnrolledCta";
-import { FormatLangText, openWindow } from "@Components/Editor/SunEditor/utils";
+import { openWindow, useText } from "@Components/Editor/SunEditor/utils";
 import useBreakpoint from "@Hooks/useBreakpoint";
 import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useQueryClient } from "@tanstack/react-query";
 import { LogEvent } from "@ServerHooks/useDehydration";
-import { TEXTS } from "texts/texts";
 
 const onfirm = Modal.confirm;
 
@@ -78,6 +77,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
   const { mutate: endTest, isLoading: submittingTest } =
     Learner.Queries.useEndTest(testId + "");
   const { isDesktop } = useBreakpoint();
+  const { FormatLangText } = useText(ep.metadata.test.language);
   const SubmitTestButton = (
     <Button
       disabled={!ep.metadata.test.responses.length}
@@ -106,14 +106,14 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
               },
             });
           },
-          okText: FormatLangText(TEXTS.YES_SUBMIT, ep.metadata.test.language),
+          okText: FormatLangText('YES_SUBMIT'),
         });
       }}
       type="primary"
       danger
       loading={submittingTest}
     >
-      {FormatLangText(TEXTS.SUBMIT_TEST, ep.metadata.test.language)}
+      {FormatLangText('SUBMIT_TEST')}
     </Button>
   );
 
@@ -141,7 +141,7 @@ const AnswerSheet: React.FC<OMRComponentPropsI> = ({
       }}
       block
     >
-      {FormatLangText(TEXTS.UPLOAD_ANSWER_SHEET, ep.metadata.test.language)}
+      {FormatLangText('UPLOAD_ANSWER_SHEET')}
     </Button>
   );
 
