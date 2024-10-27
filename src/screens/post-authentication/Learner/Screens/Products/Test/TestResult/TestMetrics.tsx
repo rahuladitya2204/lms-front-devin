@@ -111,7 +111,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
       { name: (FormatLangText('CORRECTLY_ANSWERED')), value: metrics.totalCorrectlyAnswered },
       { name: (FormatLangText('WRONGLY_ANSWERED')), value: metrics.totalWronglyAnswered },
     ];
-  }, [metrics]);
+  }, [metrics, FormatLangText]);
   useEffect(() => {
     setSelectedTopic(selectedMainTopic);
   }, [topicIds, selectedMainTopic]);
@@ -263,9 +263,9 @@ export default function TestMetrics(props: TestMetricsPropsI) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="correct" stackId="a" fill="#52c41a" name="Correct" />
-        <Bar dataKey="incorrect" stackId="a" fill="#f94041" name="Incorrect" />
-        <Bar dataKey="total" stackId="a" fill="#ffc658" name="Total" />
+        <Bar dataKey="correct" stackId="a" fill="#52c41a" name={FormatLangText('CORRECT')} />
+        <Bar dataKey="incorrect" stackId="a" fill="#f94041" name={FormatLangText('INCORRECT')} />
+        <Bar dataKey="total" stackId="a" fill="#ffc658" name={FormatLangText('TOTAL')} />
       </BarChart>
     </ResponsiveContainer>
   );
@@ -278,9 +278,9 @@ export default function TestMetrics(props: TestMetricsPropsI) {
         <YAxis />
         <Tooltip />
         <Legend />
-        <Bar dataKey="correct" stackId="a" fill="#52c41a" name="Correct" />
-        <Bar dataKey="incorrect" stackId="a" fill="#f94041" name="Incorrect" />
-        <Bar dataKey="total" stackId="a" fill="#ffc658" name="Total" />
+        <Bar dataKey="correct" stackId="a" fill="#52c41a" name={FormatLangText('CORRECT')} />
+        <Bar dataKey="incorrect" stackId="a" fill="#f94041" name={FormatLangText('INCORRECT')} />
+        <Bar dataKey="total" stackId="a" fill="#ffc658" name={FormatLangText('TOTAL')} />
       </BarChart>
     </ResponsiveContainer>
   );
