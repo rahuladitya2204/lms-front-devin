@@ -10,7 +10,6 @@ import LoadingScreen from "@Components/LoadingScreen";
 const App = dynamic(() => import("../../App"), { ssr: false });
 
 export function ClientOnly(): JSX.Element {
-  initInterceptors();
   useDehydration();
   // @ts-ignore
   return (
