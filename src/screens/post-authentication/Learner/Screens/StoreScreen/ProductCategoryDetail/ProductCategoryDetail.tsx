@@ -49,7 +49,7 @@ import {
   useSearchParams,
 } from "@Router/index";
 
-const ProductCategoryMetadata = dynamic(() => import('./ProductCategoryMetadata'), { ssr: false });
+import ProductCategoryMetadata from './ProductCategoryMetadata'
 
 import Tabs from "@Components/Tabs";
 // import Tabs from '@Components/Tabs'
