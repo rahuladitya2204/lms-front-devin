@@ -71,7 +71,6 @@ import { isServer } from "@tanstack/react-query";
 import { LogEvent } from "@ServerHooks/useDehydration";
 import LearnerProductCard from "@Components/LearnerProductCard";
 import dynamic from "next/dynamic";
-import { getIsServer } from "@ServerUtils/index";
 
 const { Text, Paragraph } = Typography;
 
@@ -211,7 +210,7 @@ export default function ProductCategoryDetailScreen(
                       // type="secondary"
                       >
                         <ClockCircleOutlined /> Last Updated on{" "}
-                        {getIsServer() ? 'Loading..' : dayjs(productCategory.updatedAt).format("LL")}
+                        {dayjs(productCategory.updatedAt).format("LL")}
                         {isDesktop ? (
                           <>
                             <Divider type="vertical" />{" "}
