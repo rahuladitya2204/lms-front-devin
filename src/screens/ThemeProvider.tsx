@@ -47,9 +47,9 @@ function ThemeProvider(props: any) {
       >
         <ModalProvider>
           {showLoader ? (
-            <div style={{ position: "fixed", left: "50%", top: "50%" }}>
+            <div style={{ position: "fixed", left: "45%", top: "50%" }}>
               <Space align="center">
-                <OrgLogo /> <Spin tip="Loading.." />
+                <OrgLogo showName />  <Spin tip="Loading.." />
               </Space>
 
             </div>
