@@ -1,6 +1,6 @@
 "use client";
 import { Common, Constants, Enum, Store } from "@adewaskar/lms-common";
-import { ConfigProvider, Spin, message, theme } from "@Lib/index";
+import { ConfigProvider, Space, Spin, message, theme } from "@Lib/index";
 import useMessage, { MessageContext } from "@Hooks/useMessage";
 
 import ApplyFavicon from "@Learner/Screens/LearnerRoot/ApplyFavicon";
@@ -9,6 +9,7 @@ import LoadingScreen from "@Components/LoadingScreen";
 import { ModalProvider } from "@Components/ActionModal/ModalContext";
 import useDynamicFont from "@Hooks/useDynamicFont";
 import { useMemo } from "react";
+import OrgLogo from "@Components/OrgLogo";
 
 const { darkAlgorithm } = theme;
 function ThemeProvider(props: any) {
@@ -47,7 +48,10 @@ function ThemeProvider(props: any) {
         <ModalProvider>
           {showLoader ? (
             <div style={{ position: "fixed", left: "50%", top: "50%" }}>
-              <Spin tip="Loading.." />
+              <Space align="center">
+                <OrgLogo /> <Spin tip="Loading.." />
+              </Space>
+
             </div>
           ) : (
             props.children
