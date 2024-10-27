@@ -128,7 +128,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
               ) : (
                 <Row align="middle">
                   <Col>
-                    <Button type='dashed' icon={<BookOutlined />} onClick={() => {
+                    <Button className="show-syllabus-button" type='dashed' icon={<BookOutlined />} onClick={() => {
                       openModal(<ShowSyllabus testId={test._id + ""} />, {
                         title: 'Test Syllabus'
                       })

@@ -18,6 +18,7 @@ import { Typography } from "@Components/Typography";
 import dayjs from "dayjs";
 import styled from "@emotion/styled";
 import { LogEvent } from "@ServerHooks/useDehydration";
+import { getIsServer } from "@ServerUtils/index";
 
 const { Text } = Typography;
 
@@ -104,7 +105,7 @@ function ProductCategoryMetadata(props: ProductCategoryMetadataPropsI) {
   // @ts-ignore
   data.examDate.value = categoryDetails.info.examDate ? ( // @ts-ignore
     <Tag color="red-inverse">
-      {dayjs(categoryDetails.info.examDate).format("LL")}
+      {getIsServer() ? 'Loading...' : dayjs(categoryDetails.info.examDate).format("LL")}
     </Tag>
   ) : null;
 

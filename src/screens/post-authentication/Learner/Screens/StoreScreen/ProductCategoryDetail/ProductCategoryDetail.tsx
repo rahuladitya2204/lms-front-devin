@@ -48,10 +48,9 @@ import {
   useParams,
   useSearchParams,
 } from "@Router/index";
-import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
-import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
-import PackageCard from "../Cards/PackageCard";
-import ProductCategoryMetadata from "./ProductCategoryMetadata";
+
+const ProductCategoryMetadata = dynamic(() => import('./ProductCategoryMetadata'), { ssr: false });
+
 import Tabs from "@Components/Tabs";
 // import Tabs from '@Components/Tabs'
 import Title from "antd/es/typography/Title";
@@ -71,6 +70,8 @@ import { capitalize } from "lodash";
 import { isServer } from "@tanstack/react-query";
 import { LogEvent } from "@ServerHooks/useDehydration";
 import LearnerProductCard from "@Components/LearnerProductCard";
+import dynamic from "next/dynamic";
+import { getIsServer } from "@ServerUtils/index";
 
 const { Text, Paragraph } = Typography;
 
@@ -210,7 +211,7 @@ export default function ProductCategoryDetailScreen(
                       // type="secondary"
                       >
                         <ClockCircleOutlined /> Last Updated on{" "}
-                        {dayjs(productCategory.updatedAt).format("LL")}
+                        {getIsServer() ? 'Loading..' : dayjs(productCategory.updatedAt).format("LL")}
                         {isDesktop ? (
                           <>
                             <Divider type="vertical" />{" "}

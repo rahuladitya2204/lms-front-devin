@@ -113,7 +113,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   );
   const { openModal } = useModal();
   const Component = props.mini ? (
-    <MiniCard
+    <MiniCard className={`${props.product.type}-product-card`}
       accessoryLeft={
         product.thumbnailImage ? (
           <Image
@@ -132,7 +132,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
               <Col>
                 {product?.topics?.length ? (
                   <>
-                    <Button type='dashed' icon={<BookOutlined />} onClick={() => {
+                    <Button className="show-syllabus-button" type='dashed' icon={<BookOutlined />} onClick={() => {
                       openModal(<ShowSyllabus testId={props.product.id} />, {
                         title: 'Test Syllabus'
                       })
@@ -254,6 +254,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
     </MiniCard>
   ) : (
     <Card
+      className={`${props.product.type}-product-card`}
       onClick={() => props.onClick && props.onClick()}
       // hoverable
       bodyStyle={{ padding: "20px 10px" }}
@@ -275,7 +276,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   );
   if (props.isTrial) {
     return (
-      <div style={{ paddingLeft: 10 }}>
+      <div style={{ paddingLeft: 10 }} className={`${props.product.type}-product-card`}>
         <Badge.Ribbon color="red" placement="start" text="Free Demo">
           {Component}
         </Badge.Ribbon>
@@ -284,7 +285,7 @@ const LearnerProductCard = (props: LearnerProductCardPropsI) => {
   }
   if (product?.featured?.enabled) {
     return (
-      <div style={{ paddingLeft: 10 }}>
+      <div style={{ paddingLeft: 10 }} className={`${props.product.type}-product-card`}>
         <Badge.Ribbon
           color="purple"
           placement="start"

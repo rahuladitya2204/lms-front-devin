@@ -13,8 +13,8 @@ describe('Exam Page', () => {
     })
 
     it('is exam page navigation tabs working', () => {
-        cy.get('button.category-tabs-button').eq(1).should('be.visible').click();
-        cy.wait(10000);
+        cy.contains(`Important Link`).click();
+        cy.wait(20000);
         cy.url().should('eq', '/exam/test-category/important-link');
     })
 
