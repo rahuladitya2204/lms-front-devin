@@ -3,15 +3,7 @@ import { debounce, uniqueId } from 'lodash'
 
 import axios from 'axios';
 import { Learner } from '@adewaskar/lms-common';
-import numbro from 'numbro';
-import 'numbro/dist/languages.min'; // Import all languages
 
-// Create a map for your language codes
-const languageMap = {
-  eng: 'en-IN', // English (India)
-  hin: 'hi-IN', // Hindi (India)
-  guj: 'gu-IN'  // Gujarati (India)
-};
 
 export function printPdf(downloadUrl: string, filename = 'test.pdf') {
   // Create a temporary download link
@@ -166,7 +158,7 @@ export const useText = (language: string) => {
   const { data: TEXT } = Learner.Queries.useGetTexts();
 
   const FormatLangText = (key: string, variables: { [key: string]: string | number } = {}) => {
-    console.log(TEXT[key], key, 'TEXT[key]')
+    // console.log(TEXT[key], key, 'TEXT[key]')
     const template = TEXT[key][language] || TEXT[key]['eng'] || '';
 
     // Replace placeholders with variable values if they exist
@@ -177,10 +169,10 @@ export const useText = (language: string) => {
     });
   };
 
-  const FormatNumber = (number: number): string => {
-    const locale = languageMap[language] || 'en-IN'; // Default to English
-    numbro.setLanguage(locale); // Set the language for numbro
-    return numbro(number) // Format number without grouping or decimals
+  const FormatNumber = (number: number): number => {
+    // const locale = languageMap[language] || 'en-IN'; // Default to English
+    // numbro.setLanguage(locale); // Set the language for numbro
+    return (number) // Format number without grouping or decimals
   };
 
   return { FormatLangText, FormatNumber };
