@@ -30,7 +30,7 @@ export interface HydratorProps {
 }
 
 export default async function Hydrator({ children, queries }: HydratorProps) {
-  initializeServerApp();
+  // initializeServerApp();
 
   const queryClient = getQueryClient();
   if (queries && queries.length) {
