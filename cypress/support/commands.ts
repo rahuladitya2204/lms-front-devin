@@ -11,11 +11,15 @@
 //
 //
 // -- This is a parent command --
-Cypress.Commands.add('login', (username, password) => {
-    cy.request('POST', '/api/auth/login', { username, password })
-        .then((resp) => {
-            window.localStorage.setItem('authToken', resp.body.token);
-        });
+Cypress.Commands.add('login', () => {
+    const contactNo = Cypress.env('contactNo');
+
+    cy.visit('/'); // Visit the login page
+    cy.get('input[placeholder="Enter mobile number"]').type(contactNo); // Type the username
+    cy.get('button[type="submit"]').click(); // Click the login button
+
+    // Verify login success, adjust this as per your app behavior
+    cy.url().should('not.include', '/login');
 });
 //
 //

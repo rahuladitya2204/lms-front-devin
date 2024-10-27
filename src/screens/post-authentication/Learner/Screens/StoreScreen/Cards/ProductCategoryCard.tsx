@@ -49,6 +49,7 @@ function ProductCategoryCard(props: ProductCategoryCardPropsI) {
   const isServer = props.isServer;
   const CardComponent = (
     <Link
+      className="category-card"
       onClick={() => {
         // console.log(productCategory.title, "aaaaa");
         LogEvent("Category", "HomeScreenCard::Clicked", productCategory.title, {

@@ -318,7 +318,7 @@ const OtpForm = (props: LearnerLoginPropsI) => {
               },
             ]}
           >
-            <Input type="number" />
+            <Input placeholder="Enter mobile number" type="number" />
           </Form.Item>
           <Form.Item>
             <Button loading={sendingOtp} block type="primary" htmlType="submit">

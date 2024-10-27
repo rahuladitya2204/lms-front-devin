@@ -1,4 +1,3 @@
-import { withSentryConfig } from '@sentry/nextjs';
 import CompressionPlugin from 'compression-webpack-plugin';
 import BrotliPlugin from 'brotli-webpack-plugin';
 import withPWA from 'next-pwa';
@@ -69,20 +68,18 @@ const nextConfig = {
 };
 
 export default withBundleAnalyzer(
-  withSentryConfig(
-    withPWA({
-      dest: 'public',
-      disable: process.env.NODE_ENV === 'development',
-      buildExcludes: [/middleware-manifest.json$/],
-    })(nextConfig),
-    {
-      org: 'testmintai',
-      project: 'javascript-nextjs',
-      silent: !process.env.CI,
-      widenClientFileUpload: true,
-      hideSourceMaps: true,
-      disableLogger: true,
-      automaticVercelMonitors: true,
-    }
-  )
+  withPWA({
+    dest: 'public',
+    disable: process.env.NODE_ENV === 'development',
+    buildExcludes: [/middleware-manifest.json$/],
+  })(nextConfig),
+  {
+    org: 'testmintai',
+    project: 'javascript-nextjs',
+    silent: !process.env.CI,
+    widenClientFileUpload: true,
+    hideSourceMaps: true,
+    disableLogger: true,
+    automaticVercelMonitors: true,
+  }
 );

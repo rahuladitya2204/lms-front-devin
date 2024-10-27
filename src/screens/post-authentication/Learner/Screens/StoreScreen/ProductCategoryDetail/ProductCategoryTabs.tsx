@@ -101,6 +101,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
             {TABS.filter((i) => i?.displayOnLandingPage).map((tab) => {
               return (
                 <Button
+                  className='category-tabs-button'
                   onClick={() => {
                     LogEvent(
                       "Category",
@@ -149,6 +150,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
                 }}
               >
                 <Button
+                  className='view-all-tabs-button'
                   onClick={() => {
                     LogEvent(
                       "Category",
@@ -236,7 +238,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           {productCategory.info.links.map((link) => {
             return (
               <Col xs={24} sm={8} md={8} style={{ marginBottom: 15 }}>
-                <Link
+                <Link className='important-resources-button'
                   to={
                     props.isServer
                       ? `/exam/${productCategory.slug}/${link.slug}`
