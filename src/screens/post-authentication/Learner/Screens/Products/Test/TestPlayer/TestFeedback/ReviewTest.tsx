@@ -56,9 +56,9 @@ const ReviewTest: React.FC<ReviewTestPropsI> = ({ testId, closeModal, onSubmit }
           <Rate style={{ marginBottom: 30 }} />
         </Form.Item>
         <Form.Item rules={[{ required: true, message: FormatLangText('PLEASE_GIVE_US_FEEDBACK') }]} name="comment">
-          <TextArea style={{ width: 300 }} rows={4} />
+          <TextArea id='submit-review-text-input' style={{ width: 300 }} rows={4} />
         </Form.Item>
-        <Button loading={submittingReview} onClick={form.submit}>
+        <Button id='submit-review-button' loading={submittingReview} onClick={form.submit}>
           {FormatLangText('SUBMIT')}
         </Button>
       </Form>

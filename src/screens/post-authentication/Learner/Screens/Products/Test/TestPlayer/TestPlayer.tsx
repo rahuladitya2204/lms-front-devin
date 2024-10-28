@@ -198,6 +198,7 @@ export default function TestPlayer(props: TestPlayerPropsI) {
       type="primary"
       danger
       loading={submittingTest}
+      id='submit-test-button'
     >
       {FormatLangText('SUBMIT_TEST')}
     </Button>
@@ -394,6 +395,7 @@ export const SubmitButton = ({ testId }: { testId: string }) => {
       }}
       type="primary"
       danger
+      id='submit-test-button'
       loading={submittingTest}
     >
       {FormatLangText('SUBMIT_TEST')}

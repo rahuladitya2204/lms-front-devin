@@ -590,6 +590,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
                     disabled={!isValid}
                     type="primary"
                     block
+                    id='save-and-next'
                     // loading={submittingAnswer}
                     onClick={form.submit}
                   >

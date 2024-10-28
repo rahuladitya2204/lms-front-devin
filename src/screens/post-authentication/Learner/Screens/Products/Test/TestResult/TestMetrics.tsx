@@ -212,6 +212,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   // console.log(pieChartData, 'as')
   const ViewSolutions = (
     <Button
+      id='view-solutions-button'
       style={{ marginRight: isMobile ? 0 : 10 }}
       onClick={() => navigate(`/app/test/${testId}/review`)}
       type="primary"
@@ -226,6 +227,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
   );
   const ExitButton = (
     <Button
+      id='exit-button'
       style={{ width: isMobile ? "100%" : 100, marginTop: 10 }}
       icon={isMobile ? <ArrowLeftOutlined /> : <LogoutOutlined />}
       onClick={() => {
@@ -287,7 +289,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
 
   const PiechartComponent = (
     <>
-      <Card title={FormatLangText('OVERALL_PERFORMANCE')}>
+      <Card id='over-performance-card' title={FormatLangText('OVERALL_PERFORMANCE')}>
         <Row justify={"center"} align={"middle"}>
           <Col>
             <PieChart width={300} height={250}>
@@ -406,7 +408,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                     {metrics.totalCorrectlyAnswered +
                       metrics.totalWronglyAnswered ? (
                       <Col xs={24} sm={8}>
-                        <Card bordered={false}>
+                        <Card bordered={false} id="accuracy-card">
                           <Statistic
                             title={FormatLangText('ACCURACY')}
                             value={
@@ -425,7 +427,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                     ) : null}
 
                     <Col xs={24} sm={8}>
-                      <Card bordered={false}>
+                      <Card bordered={false} id="completed-card">
                         <Statistic
                           title={FormatLangText('COMPLETED')}
                           value={(totalAnswered / questions.length) * 100}
@@ -564,6 +566,7 @@ export default function TestMetrics(props: TestMetricsPropsI) {
                         <Col span={24}>
                           <Spin spinning={loadingTopicTree}>
                             <Card
+                              id='topic-wise-card'
                               bodyStyle={{
                                 paddingTop: topicIds.length > 1 ? 0 : "auto",
                               }}

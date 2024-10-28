@@ -76,6 +76,15 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
           <Input placeholder="Name of the learner" />
         </Form.Item>
         <Form.Item
+          rules={[
+            { required: true, message: 'Please enter email of the learner' }
+          ]}
+          name="email"
+          label="Learner Email"
+        >
+          <Input placeholder="Email of the learner" />
+        </Form.Item>
+        <Form.Item
           label="Learner's Mobile Number"
           name="contactNo"
           hasFeedback
@@ -118,7 +127,7 @@ const AddLearner: React.FC<CreateLearnerComponentPropsI> = props => {
               key="submit"
               type="primary"
               htmlType="submit"
-              // onClick={form.submit}
+            // onClick={form.submit}
             >
               {props.data?._id ? 'Update Learner' : 'Add Learner'}
             </Button>

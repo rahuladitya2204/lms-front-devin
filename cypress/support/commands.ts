@@ -32,12 +32,14 @@ Cypress.Commands.add('removeEnrollmentForPackage', async () => {
 
 
 Cypress.Commands.add('submitTestAnswer', (index: number) => {
-    cy.get('input[type=radio]').eq(index || 0).click({ force: true });
-    cy.get('#next-button').click()
-    cy.wait(1000)
+    cy.get('input[type=radio]', { timeout: 5000 }).eq(index || 0).click({ force: true });
+    cy.get('#save-and-next', { timeout: 30000 }).click()
 });
 
 
+// Cypress.Commands.add('initTest', (index: number) => {
+//     await axios({ method: 'POST', url: 'user/test/create-test-learner' })
+// });
 
 // Cypress.Commands.add('enrollForPackage', async () => {
 //     await cy.apiRequest({ method: 'POST', url: 'user/test/remove-package-enrollment' })

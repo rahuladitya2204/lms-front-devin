@@ -14,6 +14,7 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
+import axios from 'axios';
 import './commands'
 
 // Alternatively you can use CommonJS syntax:
@@ -23,3 +24,7 @@ Cypress.on('uncaught:exception', (err) => {
         return false; // Prevent Cypress from failing the test
     }
 });
+
+before(async () => {
+    await cy.apiRequest({ method: 'POST', url: 'user/test/create-test-learner' })
+})

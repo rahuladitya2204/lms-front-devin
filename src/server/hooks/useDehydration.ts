@@ -1,6 +1,6 @@
 // utils/dehydration.ts
 import { initializeApp } from "@Utils/index";
-import { Store } from "@adewaskar/lms-common";
+import { Learner, Store } from "@adewaskar/lms-common";
 import { useEffect } from "react";
 const SG_KEY = 'GKpmiOtoXu0V7YpohCF5CoWv2Q747fmY'
 const GA_KEY = 'G-09G526DHYD'
@@ -26,6 +26,7 @@ export const initAnalytics = () => {
 const useDehydration = () => {
   const isServer = typeof window === "undefined";
   const { user, learner, userType } = Store.useAuthentication(s => s);
+  Learner.Queries.useGetTexts();
   // console.log(user,learner,'aaaaa')
   useEffect(() => {
     if (!isServer) {

@@ -22,7 +22,7 @@ interface LearnerFullPageHolderPropsI {
 export default function LearnerFullPageHolder(
   props: LearnerFullPageHolderPropsI
 ) {
-  // useBlockBackButton();
+  Learner.Queries.useGetTexts();
   useDehydration();
   const outletcontext = useOutletContext<any>();
   const isSignedIn = Store.useAuthentication((s) => s.isSignedIn);
