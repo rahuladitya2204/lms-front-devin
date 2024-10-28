@@ -43,7 +43,7 @@ jobs:
           node-version: '18.x'
 
       - name: Install Cypress
-        run: npm install cypress --save-dev
+        run: npm install cypress --save-dev --legacy-peer-deps
 
       # Install and Configure Nginx for Subdomain Routing
       - name: Install Nginx
