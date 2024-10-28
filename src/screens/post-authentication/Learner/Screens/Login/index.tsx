@@ -274,10 +274,11 @@ const OtpForm = (props: LearnerLoginPropsI) => {
                   },
                 ]}
               >
-                <Input type="number" />
+                <Input id='enter-otp' type="number" />
               </Form.Item>
               <Form.Item style={{ marginBottom: 10 }}>
                 <Button
+                  id='verify-otp'
                   loading={verifyingOtp}
                   block
                   type="primary"
@@ -318,10 +319,10 @@ const OtpForm = (props: LearnerLoginPropsI) => {
               },
             ]}
           >
-            <Input placeholder="Enter mobile number" type="number" />
+            <Input id='enter-mobile-number' placeholder="Enter mobile number" type="number" />
           </Form.Item>
           <Form.Item>
-            <Button loading={sendingOtp} block type="primary" htmlType="submit">
+            <Button id='send-otp' loading={sendingOtp} block type="primary" htmlType="submit">
               Send OTP
             </Button>
           </Form.Item>

@@ -46,7 +46,7 @@ function CampaignsScreen() {
     <Header
       title="Campaigns"
       extra={[
-        <Button onClick={() => navigate("../create-campaign")} type="primary">
+        <Button onClick={() => navigate("/admin/marketing/create-campaign")} type="primary">
           Create Campaign
         </Button>,
       ]}
@@ -122,14 +122,14 @@ function CampaignsScreen() {
                           // @ts-ignore
                           !Utils.validateCampaign(record)
                             ? {
-                                key: "execute",
-                                label: "Execute Campaign",
-                                // icon: <CheckOutlined />,
-                                onClick: () =>
-                                  executeCampaign({
-                                    id: record._id,
-                                  }),
-                              }
+                              key: "execute",
+                              label: "Execute Campaign",
+                              // icon: <CheckOutlined />,
+                              onClick: () =>
+                                executeCampaign({
+                                  id: record._id,
+                                }),
+                            }
                             : null,
                           {
                             key: "edit",

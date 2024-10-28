@@ -8,7 +8,8 @@ export default defineConfig({
     },
   },
   env: {
-    contactNo: '7622950688',
-    apiUrl: 'https://api.example.com',  // Example of additional environment variables
+    NODE_ENV: 'test',
+    contactNo: '9999999999',
+    apiUrl: 'http://localhost:4000',  // Example of additional environment variables
   }
 });

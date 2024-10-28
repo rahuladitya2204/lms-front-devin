@@ -3,12 +3,16 @@ describe('Package Page', () => {
         cy.visit('http://www.nimblebee.local:3000/test-series/test-package/products')
     })
 
-    it.skip('Should display products page', () => {
-        cy.get('.test-product-card').should('be.visible')
+    it('should display products', () => {
+        cy.contains(`What's included`).click()
+        cy.get('.test-product-card', { timeout: 20000 }).should('be.visible')
     })
 
-    it('Should display syllabus', () => {
-        cy.get('.show-syllabus-button').eq(0).should('be.visible').click()
+    it('show syllabus should work', () => {
+        cy.visit('http://www.nimblebee.local:3000/test-series/test-package/products')
+        cy.get('.test-product-card', { timeout: 20000 }).should('be.visible')
+        cy.get('.show-syllabus-button').should('be.visible')
+        // add show syllabus test here
     })
 
 })

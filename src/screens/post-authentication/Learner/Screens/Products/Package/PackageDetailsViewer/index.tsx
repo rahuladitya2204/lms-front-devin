@@ -336,6 +336,7 @@ const PackageCard = ({
                         }
                       >
                         <Button
+                          className="go-to-package-button"
                           onClick={() =>
                             navigate(
                               `/app/test-series/${packageId}/enrolled-package`
@@ -350,6 +351,7 @@ const PackageCard = ({
                       </Link>
                     ) : (
                       <ProductCheckoutButton
+                        className="enroll-now-button"
                         // onClick={() => {
                         //   LogEvent(
                         //     "Enroll Package Button",
@@ -378,7 +380,7 @@ const PackageCard = ({
                 </>
               ) : (
                 <Col span={24}>
-                  <Button
+                  <Button className='login-to-access-button'
                     onClick={() => {
                       openModal(<LearnerLogin />, {
                         width: 300,

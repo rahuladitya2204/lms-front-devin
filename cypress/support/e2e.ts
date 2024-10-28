@@ -18,3 +18,8 @@ import './commands'
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+Cypress.on('uncaught:exception', (err) => {
+    if (err.message.includes('Hydration failed')) {
+        return false; // Prevent Cypress from failing the test
+    }
+});

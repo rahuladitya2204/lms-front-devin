@@ -6,7 +6,8 @@ const SG_KEY = 'GKpmiOtoXu0V7YpohCF5CoWv2Q747fmY'
 const GA_KEY = 'G-09G526DHYD'
 import { AnalyticsBrowser } from '@segment/analytics-next';
 import ReactGA from 'react-ga';
-const analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
+import { getIsServer } from "@ServerUtils/index";
+let analytics;
 // const FACEBOOK_PIXEL_ID = '1215625842884170'
 // import dynamic from "next/dynamic";
 
@@ -16,6 +17,7 @@ const analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
 
 export const initAnalytics = () => {
   ReactGA.initialize(GA_KEY);
+  analytics = AnalyticsBrowser.load({ writeKey: SG_KEY })
   // ReactPixel.init(FACEBOOK_PIXEL_ID); // Replace with your Pixel ID
   // ReactPixel.pageView(); // Track initial page load
 
@@ -34,6 +36,7 @@ const useDehydration = () => {
 
 
   useEffect(() => {
+    const isServer = getIsServer();
     if (learner._id) {
       console.log('Setting User ID on Segment');
       window.analytics_enabled = true;
@@ -42,7 +45,7 @@ const useDehydration = () => {
         interests: learner.interests
       })
     }
-  }, [learner._id])
+  }, [learner._id, isServer])
 
 };
 

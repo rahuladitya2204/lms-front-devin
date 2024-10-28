@@ -47,10 +47,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = (props) => {
     }
   );
 
-  const saveDraft = (d: Types.Campaign) => {
-    // if (!isFormValid) {
-    //   return
-    // }
+  const saveCampaign = (d: Types.Campaign) => {
     const data: Types.CreateCampaignPayload = {
       ...d,
       status: "draft",
@@ -72,9 +69,9 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = (props) => {
         onSuccess: (r) => {
           message.open({
             type: "success",
-            content: "Saved",
+            content: "Campaign Saved",
           });
-          // navigate('../campaign')
+          navigate('/admin/marketing/campaign')
         },
       });
     }
@@ -94,6 +91,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = (props) => {
     const fieldsError = form.getFieldsError();
     return fieldsError.every(({ errors }) => errors.length === 0);
   };
+
   const GET_TAB_ITEMS = () => {
     const arr = [];
     if (channel?.includes("email")) {
@@ -125,15 +123,16 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = (props) => {
       title="Create Campaign"
       extra={[
         <Button
+          type='dashed'
           style={{ marginRight: 10 }}
           // disabled={!isFormValid}
           loading={createCampaignLoading || updateCampaignLoading}
           onClick={form.submit}
         >
-          Save Draft
+          Save Campaign
         </Button>,
-        !!isFormValid() ? (
-          <Button
+        (!!isFormValid() && campaignDetails._id) ? (
+          <Button danger
             type="primary"
             loading={initiatingExecution}
             onClick={() => {
@@ -169,7 +168,7 @@ const CreateCampaign: React.FC<CreateCampaignComponentPropsI> = (props) => {
       <Row gutter={[16, 16]}>
         <Col span={24}>
           <Card>
-            <Form onFinish={saveDraft} form={form} layout="vertical">
+            <Form onFinish={saveCampaign} form={form} layout="vertical">
               <Stepper
                 steps={[
                   {

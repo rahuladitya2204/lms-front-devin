@@ -660,7 +660,7 @@ const getUpdatedTopicTreeWithCounts = (treeData, questionsPerTopic) => {
     nodes.forEach((node) => {
       node.disabled = false;
       // Remove any existing counts from the title and append the new count if greater than zero
-      const originalTitle = node.title['eng'].split(" (")[0]; // Splits and removes everything after the first ' ('
+      const originalTitle = node?.title['eng']?.split(" (")[0]; // Splits and removes everything after the first ' ('
       const count = questionsPerTopic[node._id] || 0;
 
       // Append the count only if it's greater than zero

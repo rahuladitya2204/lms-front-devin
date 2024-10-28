@@ -27,6 +27,7 @@ interface ProductCheckoutButtonPropsI extends ButtonProps {
     type: string;
     id: string;
   };
+  className?: string;
   ctaText?: string;
   onSuccess: () => void;
 }
@@ -243,6 +244,7 @@ export default function ProductCheckoutButton(
           onClick={form.submit}
           loading={isCreatingOrder || isLoading}
           {...props}
+          id="enroll-button"
         >
           {props.children ||
             (isFree
