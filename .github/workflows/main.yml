@@ -70,7 +70,11 @@ jobs:
         run: yarn dev &  # Start the app in the background
 
       - name: Wait for App to Be Ready
-        run: npx wait-on http://www.nimblebee.local
+        run: |
+          until curl --output /dev/null --silent --head --fail http://localhost:3000; do
+            echo "Waiting for the app to be ready..."
+            sleep 5
+          done
 
       - name: Run Cypress Tests
         run: npx cypress run --config baseUrl=http://www.nimblebee.local
