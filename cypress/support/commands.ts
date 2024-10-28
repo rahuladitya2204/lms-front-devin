@@ -18,13 +18,32 @@ import axios from "axios";
 // -- This is a parent command --
 Cypress.Commands.add('loginLearner', () => {
     const contactNo = Cypress.env('contactNo');
-    cy.get('#enter-mobile-number').type(contactNo)
+    cy.get('#enter-mobile-number', { timeout: 20000 }).focus().as('enter-mobile-number')
+    cy.get('@enter-mobile-number').type(contactNo)
     cy.get('#send-otp').click();
     cy.get('#enter-otp').type('000000')
     cy.get('#verify-otp').click();
     cy.contains('OTP Verified')
 });
 
+Cypress.Commands.add('removeEnrollmentForPackage', async () => {
+    await cy.apiRequest({ method: 'POST', url: 'user/test/remove-package-enrollment' })
+});
+
+
+Cypress.Commands.add('submitTestAnswer', (index: number) => {
+    cy.get('input[type=radio]').eq(index || 0).click({ force: true });
+    cy.get('#next-button').click()
+    cy.wait(1000)
+});
+
+
+
+// Cypress.Commands.add('enrollForPackage', async () => {
+//     await cy.apiRequest({ method: 'POST', url: 'user/test/remove-package-enrollment' })
+//     cy.visit('http://www.nimblebee.local:3000/test-series/test-package')
+//     cy.get('#enroll-button').click({ force: true })
+// });
 
 Cypress.Commands.add('apiRequest', ({ method = 'GET', url, body = {}, headers = {} }) => {
     const apiUrl = Cypress.env('apiUrl');

@@ -81,9 +81,9 @@ function CreatePlan(props: CreatePlanPropsI) {
 
   return (
     <Form form={form} onFinish={onSubmit} layout="vertical">
-      <Form.Item label="Plan Name" required name="title">
+      {planType === "subscription" ? <Form.Item label="Plan Name" required name="title">
         <Input placeholder="Enter plan title" />
-      </Form.Item>
+      </Form.Item> : null}
 
       <Form.Item label="Plan Type" name="type">
         <Radio.Group>
@@ -92,7 +92,39 @@ function CreatePlan(props: CreatePlanPropsI) {
           <Radio.Button value="subscription">Recurring Subscription</Radio.Button>
         </Radio.Group>
       </Form.Item>
-
+      {planType === "one-time" ? (
+        <Row gutter={[30, 30]}>
+          <Col span={12}>
+            <Space align="end">
+              <Form.Item label="List Price" name={["displayPrice", "unit"]}>
+                <Select style={{ width: 70 }} defaultValue="rupee">
+                  <Select.Option value="rupee">₹</Select.Option>
+                  <Select.Option value="dollar">$</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item
+                style={{ width: 130 }}
+                name={["displayPrice", "value"]}
+              >
+                <Input type="number" />
+              </Form.Item>
+            </Space>
+          </Col>
+          <Col span={12}>
+            <Space align="end">
+              <Form.Item label="Final Price" name={["finalPrice", "unit"]}>
+                <Select style={{ width: 70 }} defaultValue="rupee">
+                  <Select.Option value="rupee">₹</Select.Option>
+                  <Select.Option value="dollar">$</Select.Option>
+                </Select>
+              </Form.Item>
+              <Form.Item style={{ width: 130 }} name={["finalPrice", "value"]}>
+                <Input type="number" />
+              </Form.Item>
+            </Space>
+          </Col>
+        </Row>
+      ) : null}
       {planType === "subscription" ? (
         <>
           <Col span={24}>

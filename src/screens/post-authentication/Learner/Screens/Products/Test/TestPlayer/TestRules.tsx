@@ -211,6 +211,7 @@ export default function TestRules(props: TestRulesPropsI) {
                             width: !isMobile ? 150 : "100%",
                             display: "inline-block",
                           }}
+                          id='start-test'
                           type="primary"
                           loading={startingTest}
                           onClick={() => {

@@ -51,7 +51,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
   const EXAM = category.exams.find((e) => e._id === test.exam);
   const { openModal } = useModal();
   return (
-    <List.Item style={{ paddingLeft: 0, paddingRight: 0 }}>
+    <List.Item style={{ paddingLeft: 0, paddingRight: 0 }} className={`enrolled-${props.enrolledProduct.product.type}-item`}>
       <Card
         hoverable
         // onClick={() => window.open(`../../test/${test._id}`)}
@@ -243,6 +243,7 @@ export default function EnrolledTestItem(props: EnrolledTestItemPropsI) {
                   !enrolledTest.metadata.test.startedAt ? (
                     <Col xs={24} sm={12}>
                       <Link
+                        className='start-test-button'
                         to={`/app/test/${test._id}/start`}
                         onClick={() => {
                           LogEvent(

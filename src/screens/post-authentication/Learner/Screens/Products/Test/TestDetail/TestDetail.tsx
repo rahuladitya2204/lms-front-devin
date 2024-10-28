@@ -558,6 +558,7 @@ const TestCard = ({
                       </>
                     ) : (
                       <Button
+                        id='login-to-access-test'
                         onClick={() => {
                           openModal(<LearnerLogin />, {
                             width: 300,

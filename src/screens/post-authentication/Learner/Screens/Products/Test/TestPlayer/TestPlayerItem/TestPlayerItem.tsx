@@ -182,6 +182,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   const wordLength = answerText.split(" ").length;
   const PrevButton = (
     <Button
+      id='previous-button'
       shape={!isMobile ? "default" : "circle"}
       onClick={() => navigate("prev")}
       style={{ marginRight: !isMobile ? 20 : 0 }}
@@ -192,6 +193,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
   );
   const NextButton = (
     <Button
+      id='next-button'
       shape={!isMobile ? "default" : "circle"}
       onClick={() => navigate("next")}
       icon={<ForwardOutlined />}
@@ -262,7 +264,7 @@ export default function TestPlayeritem(props: TestPlayeritemPropsI) {
       scrollContainerRef.current
     ) {
       setTimeout(() => {
-        questionRefs.current[currentQuestionIndex].scrollIntoView({
+        questionRefs.current[currentQuestionIndex]?.scrollIntoView({
           behavior: "smooth",
           block: "nearest",
           inline: "center",

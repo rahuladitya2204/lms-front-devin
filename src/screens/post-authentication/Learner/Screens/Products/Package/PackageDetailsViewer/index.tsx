@@ -345,6 +345,7 @@ const PackageCard = ({
                           size="large"
                           type="primary"
                           block
+                          id="go-to-package-button"
                         >
                           Go to Package
                         </Button>
