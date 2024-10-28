@@ -141,6 +141,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   const { FormatLangText, FormatNumber } = useText(language);
   const NextButton = (
     <Button
+      id='next-button'
       shape={!isMobile ? "default" : "circle"}
       onClick={() => navigate("next")}
       icon={<ForwardOutlined />}
@@ -160,6 +161,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
   }, [sections]);
   const PrevButton = (
     <Button
+      id='previous-button'
       shape={!isMobile ? "default" : "circle"}
       onClick={() => navigate("prev")}
       style={{ marginRight: !isMobile ? 20 : 0 }}
