@@ -29,15 +29,6 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: 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
 
-      - name: Zip Artifact for Deployment
-        run: (cd ./.next/standalone && zip -r ../../release.zip .)
-
-      - name: Upload Artifact for Deployment Job
-        uses: actions/upload-artifact@v3
-        with:
-          name: node-app
-          path: release.zip
-
   test:
     if: ${{ github.event_name == 'workflow_dispatch' || github.ref_name == 'main' }}
     runs-on: ubuntu-latest
@@ -45,11 +36,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - name: Download Artifact from Build Job
-        uses: actions/download-artifact@v3
-        with:
-          name: node-app
 
       - name: Set up Node.js version
         uses: actions/setup-node@v3
@@ -97,13 +83,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Artifact from Build Job
-        uses: actions/download-artifact@v3
+      - name: Set up Node.js version
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.x'
+
+      - name: Zip Artifact for Deployment
+        run: (cd ./.next/standalone && zip -r ../../release.zip .)
+
+      - name: Upload Artifact for Deployment
+        uses: actions/upload-artifact@v3
         with:
           name: node-app
-
-      - name: Unzip Artifact for Deployment
-        run: unzip release.zip
+          path: release.zip
 
       - name: Login to Azure
         uses: azure/login@v1
@@ -129,4 +121,4 @@ jobs:
         with:
           app-name: 'nimblebee-front'
           slot-name: 'Production'
-          package: .
+          package: release.zip
