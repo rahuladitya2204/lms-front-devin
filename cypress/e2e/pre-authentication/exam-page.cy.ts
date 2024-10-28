@@ -1,9 +1,10 @@
 describe('Exam Page', () => {
+    const appUrl = Cypress.env('appUrl');
     beforeEach(() => {
-        cy.visit('http://www.nimblebee.local:3000/exam/test-category?hide_popup=true')
+        cy.visit(`${appUrl}/exam/test-category?hide_popup=true`)
     })
 
-    it.skip('Should display main exam page content', () => {
+    it('Should display main exam page content', () => {
         cy.contains('Registration Date').should('be.visible')
         cy.contains('Salary').should('be.visible')
         cy.contains('Vacancies').should('be.visible')

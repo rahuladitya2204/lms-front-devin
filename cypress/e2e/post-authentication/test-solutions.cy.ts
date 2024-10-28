@@ -1,7 +1,8 @@
 describe('Test Solutions', () => {
+    const appUrl = Cypress.env('appUrl');
     beforeEach(async () => {
         await cy.apiRequest({ method: 'POST', url: 'user/test/create-test-answers' })
-        cy.visit('http://www.nimblebee.local:3000/app/test/test/review');
+        cy.visit(`${appUrl}/app/test/test/review`);
         cy.loginLearner();
     })
 

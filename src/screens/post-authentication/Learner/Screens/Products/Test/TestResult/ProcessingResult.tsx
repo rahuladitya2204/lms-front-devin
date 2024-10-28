@@ -49,6 +49,7 @@ export default function ProcessingResult(props: ProcessingResultPropsI) {
                 onClick={() => {
                   qc.invalidateQueries([`GET_TEST_RESULT`, props.testId])
                 }}
+                id='refresh-button'
                 type="primary"
               >
                 Refresh

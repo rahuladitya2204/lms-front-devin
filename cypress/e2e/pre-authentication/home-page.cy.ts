@@ -1,6 +1,7 @@
 describe('Home Page', () => {
+    const appUrl = Cypress.env('appUrl');
     beforeEach(() => {
-        cy.visit('http://www.nimblebee.local:3000')
+        cy.visit(`${appUrl}`)
     })
 
     it('Should display login button when not authenticated', () => {

@@ -10,6 +10,7 @@ export default defineConfig({
   env: {
     NODE_ENV: 'test',
     contactNo: '9999999999',
-    apiUrl: 'http://localhost:4000',  // Example of additional environment variables
+    apiUrl: process.env.NEXT_PUBLIC_API_URL,  // Example of additional environment variables
+    appUrl: 'http://www.nimblebee.local:3000'
   }
 });

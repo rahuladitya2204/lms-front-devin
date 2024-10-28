@@ -1,6 +1,7 @@
 describe('Package Page', () => {
+    const appUrl = Cypress.env('appUrl');
     beforeEach(() => {
-        cy.visit('http://www.nimblebee.local:3000/test-series/test-package?hide_popup=true')
+        cy.visit(`${appUrl}/test-series/test-package?hide_popup=true`)
     })
 
     it('Should display package content', () => {

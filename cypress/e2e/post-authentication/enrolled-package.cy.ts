@@ -1,6 +1,8 @@
 describe('Enrolled Packages details', () => {
-    beforeEach(() => {
-        cy.visit('http://www.nimblebee.local:3000/app/test-series/test-package/enrolled-package').wait(10000)
+    const appUrl = Cypress.env('appUrl');
+    beforeEach(async () => {
+        await cy.apiRequest({ method: 'POST', url: 'user/test/create-package-enrollment' })
+        cy.visit(`${appUrl}/app/test-series/test-package/enrolled-package`).wait(10000)
         cy.loginLearner();
     })
 

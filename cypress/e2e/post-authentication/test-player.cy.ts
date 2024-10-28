@@ -1,7 +1,8 @@
 describe('Test Result Player', () => {
+    const appUrl = Cypress.env('appUrl');
     beforeEach(async () => {
         await cy.apiRequest({ method: 'POST', url: 'user/test/create-package-enrollment' })
-        cy.visit('http://www.nimblebee.local:3000/app/test/test/start');
+        cy.visit(`${appUrl}/app/test/test/start`);
         cy.loginLearner();
     })
 
@@ -23,5 +24,7 @@ describe('Test Result Player', () => {
         cy.get('div[role=radio]').eq(2).click();
         cy.get('#submit-review-text-input').type('good test')
         cy.get('#submit-review-button').click()
+        cy.get('#submit-review-button').click()
+        cy.get('#refresh-button').click()
     })
 })
