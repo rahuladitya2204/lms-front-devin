@@ -48,12 +48,12 @@ jobs:
       - name: Start Application
         run: yarn dev &  # Run the app in the background
 
-      - name: Wait for App to be Ready
+      # Manual Polling Step
+      - name: Manual Polling - Wait for App to be Ready
         run: |
-          until curl --output /dev/null --silent --head --fail http://localhost:3000; do
-            echo "Waiting for localhost:3000 to be ready..."
-            sleep 5
-          done
+          echo "Waiting 30 seconds for the app to start..."
+          sleep 30  # Adjust the delay based on your app's startup time
+          echo "Proceeding to the next step..."
 
       - name: Run Cypress Tests
         run: npx cypress run --config baseUrl=http://localhost:3000
