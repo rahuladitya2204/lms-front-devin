@@ -62,6 +62,7 @@ const AddTopic: React.FC<CreateTopicComponentPropsI> = (props) => {
     <Fragment>
       <Form form={form} onFinish={onSubmit} layout="vertical">
         <Tabs
+          destroyInactiveTabPane={false}
           tabKey="add-topic"
           items={Constants.LANGUAGES.map((language) => {
             return {

@@ -80,6 +80,7 @@ const AddText: React.FC<CreateTextComponentPropsI> = props => {
                 </Form.Item>
 
                 <Tabs
+                    destroyInactiveTabPane={false}
                     tabKey="add-text"
                     items={Constants.LANGUAGES.map((language) => {
                         return {
