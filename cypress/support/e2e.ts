@@ -1,4 +1,4 @@
-import '@cypress/code-coverage/support';
+// import '@cypress/code-coverage/support';
 // ***********************************************************
 // This example support/e2e.ts is processed and
 // loaded automatically before your test files.
@@ -31,9 +31,4 @@ Cypress.on('uncaught:exception', (err) => {
 before(async () => {
     await axiosTestInstance({ method: 'POST', url: 'user/test/create-test-learner' })
     await axiosTestInstance({ method: 'POST', url: 'user/test/create-test-package' })
-})
-
-after(async () => {
-    await axiosTestInstance({ method: 'POST', url: 'user/test/remove-test-learner' })
-    await axiosTestInstance({ method: 'POST', url: 'user/test/remove-test-package' })
 })

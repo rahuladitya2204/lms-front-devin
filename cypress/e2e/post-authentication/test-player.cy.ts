@@ -24,7 +24,6 @@ describe('Test Result Player', () => {
         cy.get('div[role=radio]').eq(2).click();
         cy.get('#submit-review-text-input').type('good test')
         cy.get('#submit-review-button').click()
-        cy.get('#submit-review-button').click()
         cy.get('#refresh-button').click()
     })
 })
