@@ -331,7 +331,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                   currentQuestion.type === Enum.TestQuestionType.SINGLE ||
                     currentQuestion.type === Enum.TestQuestionType.MULTIPLE ? (
                     <>
-                      <Text
+                      {/* <Text
                         style={{
                           marginTop: 20,
                           fontSize:
@@ -345,7 +345,7 @@ export default function TestPlayerItemReiew(props: TestPlayerItemReiewPropsI) {
                         {currentQuestion.type === Enum.TestQuestionType.SINGLE
                           ? FormatLangText('SELECT_ONE')
                           : FormatLangText('SELECT_MULTIPLE')}
-                      </Text>
+                      </Text> */}
                       <Form.Item name={["answer", "options"]}>
                         <OptionSelectedFormControl.Group
                           style={{ width: "100%", display: "block" }}

@@ -180,7 +180,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             style={{ margin: 0 }}
             valuePropName="checked"
             name={["pyq", "enabled"]}
-            // label="Send email to learner on course enrollment."
+          // label="Send email to learner on course enrollment."
           >
             <Switch
             // checkedChildren="PYQ"
@@ -196,7 +196,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                 style={{ margin: 0 }}
                 // valuePropName="checked"
                 name={["pyq", "year"]}
-                // label="Send email to learner on course enrollment."
+              // label="Send email to learner on course enrollment."
               >
                 <Input type="number" />
               </Form.Item>
@@ -206,7 +206,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                 label="Paper Notes"
                 style={{ margin: 0 }}
                 name={["pyq", "notes"]}
-                // label="Send email to learner on course enrollment."
+              // label="Send email to learner on course enrollment."
               >
                 <TextArea height={400} html={{ level: 3 }} />
               </Form.Item>
@@ -226,7 +226,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             // ]}
             name="passingScore"
             label="Minimum Passing Score"
-            // required
+          // required
           >
             <Input
               type="number"
@@ -245,7 +245,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                   style={{ margin: 0 }}
                   valuePropName="checked"
                   name={["duration", "enabled"]}
-                  // label="Send email to learner on course enrollment."
+                // label="Send email to learner on course enrollment."
                 >
                   <Switch
                     checkedChildren="Enabled"
@@ -288,19 +288,7 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
             />
           </Form.Item>
         </Col>
-        <Col span={8}>
-          <Form.Item label="Exam" style={{ margin: 0 }} name={["exam"]}>
-            <Select
-              options={category?.exams.map((e) => {
-                return {
-                  label: e.title,
-                  // @ts-ignore
-                  value: e._id,
-                };
-              })}
-            />
-          </Form.Item>
-        </Col>
+
         <Col span={8}>
           <TopicSelect
             level={4}
@@ -375,18 +363,17 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
                     <Col flex={1}>
                       {isLive
                         ? "Schedule Date"
-                        : `Live ${
-                            isPublished
-                              ? "(Cannot change date/time once published)"
-                              : ""
-                          }`}
+                        : `Live ${isPublished
+                          ? "(Cannot change date/time once published)"
+                          : ""
+                        }`}
                     </Col>
                     <Col>
                       <Form.Item
                         style={{ margin: 0, marginLeft: 10 }}
                         valuePropName="checked"
                         name={["live", "enabled"]}
-                        // label="Send email to learner on course enrollment."
+                      // label="Send email to learner on course enrollment."
                       >
                         <Switch checkedChildren="Live" unCheckedChildren="No" />
                       </Form.Item>
@@ -482,25 +469,6 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         </Col>
         <Col span={8}>
           <SelectProductCategory name={["category"]} />
-        </Col>
-        <Col span={8}>
-          <Form.Item
-            name="exam"
-            required
-            label="Exam"
-            // rules={[{ required: true, message: "Please select an exam" }]}
-          >
-            <Select
-              showSearch
-              placeholder="Select Exam"
-              options={category?.exams?.map((c) => {
-                return {
-                  label: c.title,
-                  value: c._id,
-                };
-              })}
-            />
-          </Form.Item>
         </Col>
       </Row>
     </>

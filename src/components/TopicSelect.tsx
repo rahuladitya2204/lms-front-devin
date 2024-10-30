@@ -44,7 +44,6 @@ export default function TopicSelect(props: TopicSelectPropsI) {
       node.disabled = false;
     });
   }
-  console.log(TOPIC_TREE_DATA, 'TOPIC_TREE_DATA')
   return (
     <Form.Item name={props.name} label={props.label} required={props.required}>
       <TreeSelect
