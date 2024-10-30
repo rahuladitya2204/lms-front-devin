@@ -98,28 +98,25 @@ function CourseBuilderScreen() {
   ) => {
     // debugger;
     let COURSE = cloneDeep(course);
-    const sectionId = COURSE.sections[index]._id;
     const newItem: Partial<Types.CourseSectionItem> = {
-      title: {
-        text: Constants.INITIAL_LANG_TEXT,
-      },
-      // _id: '',
-      // fix later
-      type,
-      metadata: item.metadata,
-      section: sectionId,
+      ...item,
+      type
     };
+    // console.log(test, 'livviviv')
+
     if (item._id) {
-      COURSE.sections[index].items.forEach((i, itemIndex) => {
-        if (i._id === item._id) {
-          // @ts-ignore
-          COURSE.sections[index].items[itemIndex] = {
-            ...item,
-            ...newItem,
-            type,
-          };
+      COURSE.sections[index].items.forEach(
+        (i: Types.CourseSectionItem, itemIndex: number) => {
+          if (i._id === item._id) {
+            // @ts-ignore
+            COURSE.sections[index].items[itemIndex] = {
+              ...item,
+              ...newItem,
+              type
+            };
+          }
         }
-      });
+      );
     } else {
       // @ts-ignore
       COURSE.sections[index].items.push(newItem);
@@ -207,23 +204,22 @@ function CourseBuilderScreen() {
     );
   };
 
-  const deleteSectionItem = (sectionId: string, itemId: string) => {
-    const COURSE = cloneDeep(course);
-    // COURSE.sections[sectionIndex].items.splice(itemIndex, 1)
+  const deleteSectionItem = (itemId: string, cb) => {
+    const COURSE = course;
     deleteSectionItemApi(
       {
         data: {
           courseId: courseId + "",
-          sectionId: sectionId,
           itemId: itemId,
         },
       },
       {
         onSuccess: () => {
-          const lastSection = course.sections.pop();
+          const lastSection = COURSE.sections.pop();
           const lastItem = lastSection?.items.pop();
-          if (lastSection && lastItem && lastItem.type)
-            navigate(`${lastItem.type}/${lastItem._id}`);
+          if (lastSection && lastItem)
+            navigate(`/admin/products/courses/${courseId}/builder/${lastItem.type}/${lastItem._id}`);
+          cb && cb();
         },
       }
     );
@@ -288,7 +284,7 @@ function CourseBuilderScreen() {
                         courseId: course._id,
                       });
                     },
-                    okText: "Yes, Unpublish",
+                    okText: "Delete",
                   });
                 }}
                 loading={unpublishingCourse}
@@ -338,7 +334,21 @@ function CourseBuilderScreen() {
           form={form}
           layout="vertical"
         >
-          <Tabs
+          <Tabs tabBarExtraContent={{
+            right: <Button onClick={() => {
+              confirm({
+                title: "Are you sure?",
+                // icon: <ExclamationCircleOutlined />,
+                content: `You want to delete this chapter?`,
+                onOk() {
+                  deleteSectionItem(itemId + '', () => {
+                    message.success('Chapter deleted successfully')
+                  })
+                },
+                okText: "Delete Chapter",
+              })
+            }} danger size='small' type='primary'>Delete Chapter Item</Button>
+          }}
             tabPosition="top"
             type="card"
             onTabClick={(e) => {

@@ -4,14 +4,18 @@ import React, { Fragment, useEffect, useState } from "react";
 import { AddItemProps } from "../UploadItems/UploadPDF";
 import { Constants, Types } from "@adewaskar/lms-common";
 import Tabs from "@Components/Tabs";
+import { useCourseStore } from "../useCourseStore";
 
 const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
   props: AddItemProps
 ) => {
+  const { languages } = useCourseStore(s => s.course)
   const onSubmit = ({ textHeading }: { textHeading: string }) => {
+    console.log(textHeading, 'huhijoij')
     props.onFinish &&
       props.onFinish({
         title: textHeading,
+        type: 'text'
       });
     form.resetFields(["textHeading"]);
     props.closeModal && props.closeModal();
@@ -31,10 +35,11 @@ const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
     <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
       <Tabs
         destroyInactiveTabPane={false}
-        items={Constants.LANGUAGES.map((language) => {
+        items={languages.map((language) => {
+          const LANGUAGE = Constants.LANGUAGES.find(lang => lang.value === language);
           return {
-            label: language.label,
-            key: language.value,
+            label: LANGUAGE?.label,
+            key: LANGUAGE?.value,
             children: (
               <Form.Item
                 rules={[
@@ -43,7 +48,7 @@ const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
                     message: "Please mention title for Text Page",
                   },
                 ]}
-                name={["textHeading", "text", language.value]}
+                name={["textHeading", "text", LANGUAGE.value]}
                 label="Text Heading"
               >
                 <Input />

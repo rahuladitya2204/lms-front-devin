@@ -259,7 +259,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   enableSectionReorder={!enableSectionReorder}
                   defaultActiveKey={sectionList.map((s, i) => i)}
                   expandIconPosition="start"
-                  // ghost
+                // ghost
                 >
                   {/* {language} */}
                   <CollapsePanel
@@ -368,17 +368,6 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                                       {CourseSectionListItem(false)}
                                     </span>
                                   )
-                                  //     < ActionModal width={650}
-                                  //   cta={
-                                  //     CourseSectionListItem(false)
-                                  //   }
-                                  // >
-                                  // <AddItem item={item}
-                                  //   onAddNewItem={(key, value) =>
-                                  //     onAddNewItem(key, value, secIndex)
-                                  //   }
-                                  // />
-                                  //   </ActionModal>
                                 }
                               </List.Item>
                             </MovableItem>

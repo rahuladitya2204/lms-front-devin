@@ -315,28 +315,6 @@ const TestEvaluatorNavigator: React.FC<TestEvaluatorNavigatorPropsI> = ({
                               }
                             />
                           </List.Item>
-
-                          {itemIndex === section.items.length - 1
-                            ? null
-                            : //   <ActionModal
-                            //   cta={<AddItemListCta
-                            //     >
-                            //       <List.Item.Meta
-                            //         style={{ cursor: 'pointer' }}
-                            //         title={AddItemCTA}
-                            //         avatar={
-                            //           <PlusOutlined/>
-                            //         }
-                            //       />
-                            //     </AddItemListCta>}
-                            // >
-                            //   <AddItem
-                            //     onAddNewItem={(key, value) =>
-                            //       onAddNewItem(key, value, secIndex)
-                            //     }
-                            //   />
-                            // </ActionModal>
-                            null}
                         </Fragment>
                       );
                     }}
