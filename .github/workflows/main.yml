@@ -2,13 +2,19 @@ name: Deploy to Azure
 
 on:
   workflow_dispatch:  # Allow manual triggering from GitHub UI
+    inputs:
+      bypassTest:
+        description: "Set to true to skip build and test stages"
+        required: false
+        default: "true"  # Default to 'false'
+
   push:
     branches:
       - main  # Only trigger on push to the 'main' branch
 
 jobs:
   build:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.ref_name == 'main' }}
+    if: ${{ github.event.inputs.bypassTest != 'true' && (github.event_name == 'workflow_dispatch' || github.ref_name == 'main') }}
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +36,7 @@ jobs:
           SENTRY_AUTH_TOKEN: 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
 
   test:
-    if: ${{ github.event_name == 'workflow_dispatch' || github.ref_name == 'main' }}
+    if: ${{ github.event.inputs.bypassTest != 'true' && (github.event_name == 'workflow_dispatch' || github.ref_name == 'main') }}
     runs-on: ubuntu-latest
     needs: build  # Ensure the build job completes successfully
 
@@ -48,11 +54,10 @@ jobs:
       - name: Start Application
         run: yarn dev &  # Run the app in the background
 
-      # Manual Polling Step
       - name: Manual Polling - Wait for App to be Ready
         run: |
           echo "Waiting 30 seconds for the app to start..."
-          sleep 30  # Adjust the delay based on your app's startup time
+          sleep 30
           echo "Proceeding to the next step..."
 
       - name: Run Cypress Tests
@@ -68,9 +73,9 @@ jobs:
           path: release.zip
 
   deploy:
-    if: ${{ success() && (github.event_name == 'workflow_dispatch' || github.ref_name == 'main') }}
+    if: ${{ success() && (github.event.inputs.bypassTest == 'true' || (github.event_name == 'workflow_dispatch' || github.ref_name == 'main')) }}
     runs-on: ubuntu-latest
-    needs: test  # Ensure the test job completes successfully
+    needs: test  # Ensure the test job completes successfully unless bypassed
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
