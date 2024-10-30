@@ -6,7 +6,7 @@ on:
       bypassTest:
         description: "Set to true to skip build and test stages"
         required: false
-        default: "true"  # Default to 'false'
+        default: "true"  # Default to 'true'
 
   push:
     branches:
@@ -73,7 +73,7 @@ jobs:
           path: release.zip
 
   deploy:
-    if: ${{ success() && (github.event.inputs.bypassTest == 'true' || (github.event_name == 'workflow_dispatch' || github.ref_name == 'main')) }}
+    if: ${{ (github.event.inputs.bypassTest == 'true') || (github.event_name == 'workflow_dispatch' || github.ref_name == 'main') }}
     runs-on: ubuntu-latest
     needs: test  # Ensure the test job completes successfully unless bypassed
     environment:
