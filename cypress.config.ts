@@ -1,6 +1,7 @@
 import { defineConfig } from "cypress";
 
 export default defineConfig({
+  projectId: 'wqyupj',
   e2e: {
     baseUrl: process.env.UI_URL, // Update this if your app runs on another port
     setupNodeEvents(on, config) {

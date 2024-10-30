@@ -244,30 +244,22 @@ function CourseBuilderScreen() {
   const { mutate: unpublishCourse, isLoading: unpublishingCourse } =
     User.Queries.useUnpublishCourse();
   const { openModal } = useModal();
-  const { language, setLanguage } = useCourseStore((s) => s);
-  const { onFormChange, updateItem } = useUpdateCourseForm(itemId + "");
-  const item = useCourseStore((s) => s.currentItem);
+  const { setLanguage } = useCourseStore((s) => s);
   const [form] = Form.useForm();
-
-  useEffect(() => {
-    // console.log(item, "okokok");
-    const i = {
-      ...item,
-    };
-    if (i._id === itemId) {
-      if (!item.topic) {
-        // @ts-ignore
-        i.topic = null;
-      }
-      form.setFieldsValue(i);
-    }
-  }, [item, language]);
+  const { onFormChange, updateItem } = useUpdateCourseForm(itemId + "", form);
+  const item = useCourseStore((s) => s.currentItem);
 
   useEffect(() => {
     if (course.languages.length) {
       setLanguage(course.languages[0]);
     }
   }, [course.languages]);
+
+  // useEffect(() => {
+  //   if (item && (item._id === itemId)) {
+  //     form.setFieldsValue(item)
+  //   }
+  // }, [itemId]);
 
   return (
     <AppProvider>
@@ -533,6 +525,8 @@ function CourseBuilderScreen() {
                             l.value,
                           ]}
                         />
+                        {/* <AddTextItem language={l.value} /> */}
+
                       </Card>
                     </Col>
                   </Row>

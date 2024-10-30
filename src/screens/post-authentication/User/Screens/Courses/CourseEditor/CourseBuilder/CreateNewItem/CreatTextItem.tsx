@@ -30,6 +30,7 @@ const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
   return (
     <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
       <Tabs
+        destroyInactiveTabPane={false}
         items={Constants.LANGUAGES.map((language) => {
           return {
             label: language.label,
