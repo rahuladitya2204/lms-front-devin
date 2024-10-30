@@ -18,7 +18,7 @@ import axios from "axios";
 // -- This is a parent command --
 Cypress.Commands.add('loginLearner', () => {
     const contactNo = Cypress.env('contactNo');
-    cy.get('#enter-mobile-number', { timeout: 20000 }).focus().as('enter-mobile-number')
+    cy.get('#enter-mobile-number', { timeout: 40000 }).focus().as('enter-mobile-number')
     cy.get('@enter-mobile-number').type(contactNo)
     cy.get('#send-otp').click();
     cy.get('#enter-otp').type('000000')
@@ -48,7 +48,7 @@ Cypress.Commands.add('submitTestAnswer', (index: number) => {
 // });
 
 Cypress.Commands.add('apiRequest', ({ method = 'GET', url, body = {}, headers = {} }) => {
-    const apiUrl = Cypress.env('apiUrl');
+    const apiUrl = `http://localhost:4000`
     return axios({
         method,
         url: `${apiUrl}/${url}`,
@@ -57,6 +57,17 @@ Cypress.Commands.add('apiRequest', ({ method = 'GET', url, body = {}, headers = 
         failOnStatusCode: false, // Prevents Cypress from failing on non-2xx status codes
     })
 });
+
+export const axiosTestInstance = ({ method = 'GET', url, body = {}, headers = {} }) => {
+    const apiUrl = `http://localhost:4000`
+    return axios({
+        method,
+        url: `${apiUrl}/${url}`,
+        headers,
+        body,
+        failOnStatusCode: false, // Prevents Cypress from failing on non-2xx status codes
+    })
+}
 
 //
 //

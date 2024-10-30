@@ -25,8 +25,8 @@ export default function TopicSelect(props: TopicSelectPropsI) {
   // Function to update only title and description fields
   const updateTitleAndDescription = (nodes: any[]) => {
     nodes.forEach((node) => {
-      if (node.title?.eng) node.title = node.title.eng;
-      if (node.description?.eng) node.description = node.description.eng;
+      if (typeof node.title === 'object') node.title = node.title.eng;
+      if (typeof node.description === 'object') node.description = node.description.eng;
 
       // Recursively update child nodes, if any
       if (node.children?.length) {
@@ -44,7 +44,7 @@ export default function TopicSelect(props: TopicSelectPropsI) {
       node.disabled = false;
     });
   }
-
+  console.log(TOPIC_TREE_DATA, 'TOPIC_TREE_DATA')
   return (
     <Form.Item name={props.name} label={props.label} required={props.required}>
       <TreeSelect

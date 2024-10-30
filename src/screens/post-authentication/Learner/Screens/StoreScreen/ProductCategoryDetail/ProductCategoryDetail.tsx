@@ -198,7 +198,7 @@ export default function ProductCategoryDetailScreen(
                       </Title>
                     </Col>
                     <Col span={24}>
-                      <Text
+                      <Text suppressHydrationWarning
                         style={{
                           // fontSize: 16,
                           whiteSpace: "normal", // Ensures text wraps

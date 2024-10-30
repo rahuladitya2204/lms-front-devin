@@ -30,4 +30,4 @@ dist
 .env.sentry-build-plugin
 
 cypress/screenshots/
-.nyc_outut/
+.nyc_outut/*
