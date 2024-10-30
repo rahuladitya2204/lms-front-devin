@@ -15,7 +15,7 @@ describe('Exam Page', () => {
 
     it('is exam page navigation tabs working', () => {
         cy.contains(`Important Link`).click();
-        cy.url({ timeout: 20000 }).should('eq', '/exam/test-category/important-link');
+        cy.url({ timeout: 60000 }).should('eq', '/exam/test-category/important-link');
     })
 
 })

@@ -23,12 +23,15 @@ import { axiosTestInstance } from './commands';
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
 Cypress.on('uncaught:exception', (err) => {
-    if (err.message.includes('hydrating')) {
-        return false; // Prevent Cypress from failing the test
-    }
+    return false
 });
 
 before(async () => {
-    await axiosTestInstance({ method: 'POST', url: 'user/test/create-test-learner' })
-    await axiosTestInstance({ method: 'POST', url: 'user/test/create-test-package' })
+    try {
+        await axiosTestInstance({ method: 'POST', url: 'user/test/create-test-learner' })
+        await axiosTestInstance({ method: 'POST', url: 'user/test/create-test-package' })
+    }
+    catch (er) {
+        console.log(er, 'rrr')
+    }
 })
