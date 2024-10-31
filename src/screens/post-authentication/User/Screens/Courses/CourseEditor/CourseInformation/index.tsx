@@ -1,4 +1,4 @@
-import { Button, Card, Col, Form, Row } from "@Lib/index";
+import { Button, Card, Col, Form, message, Row } from "@Lib/index";
 import { Constants, Types } from "@adewaskar/lms-common";
 import { EyeOutlined, SaveOutlined, UploadOutlined } from "@ant-design/icons";
 import { Fragment, useEffect, useState } from "react";
@@ -14,46 +14,29 @@ import Header from "@Components/Header";
 import Tabs from "@Components/Tabs";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
+import { useCourseStore } from "../CourseBuilder/useCourseStore";
 
 function CourseInformationEditor(props: any) {
-  const { id } = useParams();
-  const courseId = id + "";
-  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
-
-  const { data: courseDetails } = User.Queries.useGetCourseDetails(courseId, {
-    enabled: !!courseId,
-  });
-
-  useEffect(() => {
-    setCourse(courseDetails);
-  }, [courseDetails]);
   return (
     <Fragment>
-      {/* <Form onFinish={saveCourse} form={form} layout="vertical" autoComplete="off"> */}
+      {/* <Form onFinish={saveCourse} layout='vertical' form={form}> */}
       <Tabs
-        // defaultActiveKey="1"
+        destroyInactiveTabPane={false}
+        tabKey="course-detail"
         items={[
           {
             label: `Details`,
             active: true,
             key: "details",
             children: (
-              <CourseDetailsEditor
-                saveCourse={props.saveCourse}
-                course={props.course}
-                courseId={props.courseId}
-              />
+              <CourseDetailsEditor />
             ),
           },
           {
             label: `Landing Page`,
             key: "landing-page",
             children: (
-              <CourseLandingPageEditor
-                saveCourse={props.saveCourse}
-                course={props.course}
-                courseId={props.courseId}
-              />
+              <CourseLandingPageEditor />
             ),
           },
           {
@@ -61,9 +44,6 @@ function CourseInformationEditor(props: any) {
             key: "pricing",
             children: (
               <CoursePricingEditor
-                saveCourse={props.saveCourse}
-                course={props.course}
-                courseId={props.courseId}
               />
             ),
           },
@@ -71,17 +51,13 @@ function CourseInformationEditor(props: any) {
             label: `Advanced`,
             key: "advanced",
             children: (
-              <CourseAdvancedSettings
-                saveCourse={props.saveCourse}
-                course={props.course}
-                courseId={props.courseId}
-              />
+              <CourseAdvancedSettings />
             ),
           },
         ]}
       />
+      {/* </Form> */}
 
-      <Outlet />
     </Fragment>
   );
 }

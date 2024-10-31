@@ -28,6 +28,7 @@ import { deepPatch } from "../../CourseBuilder/utils";
 import { useEffect, useMemo } from "react";
 import { useParams } from "@Router/index";
 import TopicSelect from "@Components/TopicSelect";
+import ValidateProductSlug from "@User/Screens/ExtraComponents/ValidateProductSlug";
 
 const { TextArea } = Input;
 const { Text } = Typography;
@@ -50,61 +51,18 @@ const DIFFICULTY_LEVELS = [
 const { useWatch } = Form;
 const { Option } = Select;
 interface CourseDetailsEditorPropsI {
-  courseId?: string;
-  saveCourse: Function;
-  course: Types.Course;
+
 }
 
-const STATUSES = Utils.getValuesFromMap(Constants.COURSE_STATUSES_MAP);
-
 function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
-  const { course } = props;
-  const [form] = Form.useForm();
-  const { id } = useParams();
-  const courseId = props.courseId || id;
+  const form = Form.useFormInstance();
+  const { id: courseId } = useParams();
   const { data: users } = User.Queries.useGetUsers();
   const thumbnailImage = useWatch(["thumbnailImage"], form);
-  useEffect(() => {
-    form.setFieldsValue(course);
-  }, [course]);
 
-  const onValuesChange = (d: Partial<Types.Course>) => {
-    const data = deepPatch(course, d);
-    props.saveCourse(data);
-  };
-
-  const generateWithAI = (fields: string[]) => {
-    return (
-      <GenerateWithAI
-        courseId={course._id}
-        fields={fields}
-        onValuesChange={onValuesChange}
-      />
-    );
-  };
 
   return (
-    <Form
-      form={form}
-      layout="vertical"
-      autoComplete="off"
-      onValuesChange={onValuesChange}
-    >
-      {/* <Form.Item name={['status']} required label="Course Status">
-        <Select style={{ width: 200 }} placeholder="Select Status`">
-          {STATUSES.map((category: any) => {
-            return (
-              <Option
-                key={category.value}
-                value={category.value}
-                label={category.label}
-              >
-                {category.label}
-              </Option>
-            )
-          })}
-        </Select>
-      </Form.Item> */}
+    <>
       <Form.Item name="thumbnailImage" required label="Thumbnail">
         <MediaUpload
           source={{
@@ -120,7 +78,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           prefixKey={`courses/${courseId}/thumbnailImage`}
           renderItem={() => <Image preview={false} src={thumbnailImage} />}
           onUpload={(e) => {
-            onValuesChange({ thumbnailImage: e.url });
+            form.setFieldValue(['thumbnailImage'], e.url);
           }}
         />
       </Form.Item>
@@ -141,7 +99,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
         required
         label="Subtitle"
         rules={[{ required: true, message: "Please enter a subtitle!" }]}
-        extra={generateWithAI(["subtitle"])}
+      // extra={generateWithAI(["subtitle"])}
       >
         <Input />
       </Form.Item>
@@ -155,7 +113,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             message: "Please enter a description for the course",
           },
         ]}
-        extra={generateWithAI(["description"])}
+      // extra={generateWithAI(["description"])}
       >
         <TextArea rows={4} placeholder="Enter the course description" />
       </Form.Item>
@@ -190,51 +148,14 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             />
           </Form.Item>
         </Col>
-      </Row>
-      <Row gutter={[40, 20]}>
-        <Col span={12}>
-          <Row gutter={[0, 20]}>
-            <Col flex={1}>
-              <Form.Item
-                name="user"
-                required
-                label="User"
-                rules={[{ required: true, message: "Please select a user" }]}
-              >
-                <Select style={{ width: "100%" }} placeholder="Select User">
-                  {users.map((user) => {
-                    return (
-                      <Select.Option key={user._id} value={user._id}>
-                        <Space>
-                          <Avatar size={20} src={user.image} />
-                          <Typography.Text>{user.name}</Typography.Text>
-                        </Space>
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-            </Col>
-            <Col style={{ display: "flex", alignItems: "center" }}>
-              <ActionModal
-                cta={
-                  <Button
-                    style={{ marginLeft: 10 }}
-                    shape="round"
-                    icon={<PlusOutlined />}
-                  />
-                }
-              >
-                <AddUser> </AddUser>
-              </ActionModal>
-            </Col>
-          </Row>
-        </Col>
-        <Col span={12}>
-          <SelectProductCategory name={["category"]} />
+        <Col span={8}>
+          <ValidateProductSlug product={{
+            type: 'course',
+            id: courseId + ''
+          }} />
         </Col>
       </Row>
-    </Form>
+    </>
   );
 }
 

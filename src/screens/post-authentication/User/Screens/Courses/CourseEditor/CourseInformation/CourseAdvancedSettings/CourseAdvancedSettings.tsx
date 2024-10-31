@@ -46,57 +46,21 @@ const VARIABLES = [
 
 const { Paragraph } = Typography;
 interface CourseAdvancedSettingsPropsI {
-  courseId: string;
-  saveCourse: Function;
-  course: Types.Course;
+  // courseId: string;
+  // saveCourse: Function;
+  // course: Types.Course;
 }
 
 function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
-  const [form] = Form.useForm();
+  const form = Form.useFormInstance();
   const sendEmail = useWatch(["email", "enabled"], form);
 
-  useLayoutEffect(() => {
-    form.setFieldsValue(props.course.advanced);
-  }, [props.course]);
-
-  const onValuesChange = (d: any) => {
-    const data = deepPatch(props.course.advanced, d);
-    props.saveCourse({
-      advanced: data,
-    });
-  };
-  const keywords = props.course.keywords;
   return (
     <>
-      <Form
-        onValuesChange={onValuesChange}
-        form={form}
-        layout="vertical"
-        autoComplete="off"
-      >
+      <>
         <Form.Item valuePropName="checked" name={["watermark", "enabled"]}>
           <Checkbox>Enable Water Mark</Checkbox>
         </Form.Item>
-
-        {/* <Form.Item label='Course Keywords' name={['keywords']} extra={  <GenerateWithAI
-        courseId={props.course._id}
-        fields={['keywords']}
-          onValuesChange={(e: any) => {
-            if (e && e.keywords) {
-              const keywords = convertToCommaSeparated(e?.keywords?.toLowerCase());
-              props.saveCourse({
-                keywords
-              });
-            }            
-        }}
-      />}>
-          <InputTags onChange={keywords => {
-            // console.log(keywords,'kkj')
-            props.saveCourse({
-              keywords
-            })
-          }} name='keywords'/>
-        </Form.Item> */}
 
         <Card
           bordered={false}
@@ -113,7 +77,6 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
                 style={{ margin: 0 }}
                 valuePropName="checked"
                 name={["email", "enabled"]}
-                // label="Send email to learner on course enrollment."
               >
                 <Switch />
               </Form.Item>
@@ -161,7 +124,7 @@ function CourseAdvancedSettings(props: CourseAdvancedSettingsPropsI) {
             </Col>
           </Row>
         </Form.Item>
-      </Form>
+      </>
     </>
   );
 }

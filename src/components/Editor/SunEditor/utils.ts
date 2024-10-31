@@ -134,19 +134,6 @@ export async function downloadFileFromUrl(fileUrl: string, fileName?: string): P
   }
 }
 
-export const validateSlug = async (slug: string, fn: (d: { slug: string }) => { exists: string }) => {
-  try {
-    const response = await fn({ slug });
-    console.log(response, 'sssss')
-    if (response.exists) {
-      return Promise.reject(response.exists);
-    }
-  } catch (error) {
-    console.error('Error checking slug:', error);
-    return Promise.reject('An error occurred while checking the slug');
-  }
-}
-
 export const getAxiosInstance = () => {
 
   // const api = setupCache(axios.create());

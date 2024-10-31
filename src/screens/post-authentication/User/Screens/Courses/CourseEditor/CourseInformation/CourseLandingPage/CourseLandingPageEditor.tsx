@@ -10,36 +10,20 @@ import { deepPatch } from "../../CourseBuilder/utils";
 import { useParams } from "@Router/index";
 
 interface CourseLandingPageEditorPropsI {
-  courseId: string;
-  saveCourse: Function;
+  // courseId: string;
+  // saveCourse: Function;
 
-  course: Types.Course;
+  // course: Types.Course;
 }
 
 function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
-  const { id } = useParams();
-  const { course } = props;
-  const courseId = props.courseId || id + "";
-  const [form] = Form.useForm();
-  const { useWatch } = Form;
-  const promoVideoFile = course.landingPage.promoVideo;
-  useLayoutEffect(() => {
-    form.setFieldsValue(course.landingPage);
-  }, [course]);
+  const { id: courseId } = useParams();
+  const form = Form.useFormInstance();
 
-  const onValuesChange = (d: Partial<Types.LandingPage>) => {
-    const data = deepPatch(course.landingPage, d);
-    props.saveCourse({
-      landingPage: data,
-    });
-  };
+  const promoVideoFile = Form.useWatch(['landingPage', 'promoVideo'], form);
+
   return (
-    <Form
-      onValuesChange={onValuesChange}
-      form={form}
-      layout="vertical"
-      autoComplete="off"
-    >
+    <>
       <Card
         style={{ marginTop: 20, marginBottom: 20 }}
         title="Promo Video"
@@ -55,11 +39,9 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
             height="250px"
             onUpload={(d) => {
               console.log(d, "eee");
-              onValuesChange({
-                promoVideo: {
-                  file: d._id,
-                  url: d.url,
-                },
+              form.setFieldValue(['landingPage', 'promoVideo'], {
+                file: d._id,
+                url: d.url,
               });
             }}
             renderItem={() => (
@@ -69,7 +51,7 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
                   : "Upload Promo Video"}
               </Button>
             )}
-            // url={promoVideoFile}
+          // url={promoVideoFile}
           />,
         ]}
       >
@@ -80,10 +62,10 @@ function CourseLandingPageEditor(props: CourseLandingPageEditorPropsI) {
         )}
       </Card>
 
-      <Form.Item name={"description"} required label="Landing Page Description">
-        <TextArea html name={"description"} />
+      <Form.Item name={['landingPage', "description"]} required label="Landing Page Description">
+        <TextArea html name={['landingPage', "description"]} />
       </Form.Item>
-    </Form>
+    </>
   );
 }
 

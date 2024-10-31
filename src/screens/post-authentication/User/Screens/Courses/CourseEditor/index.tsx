@@ -34,50 +34,38 @@ import CourseLearners from "./CourseLearners/CourseLearners";
 import Tabs from "@Components/Tabs";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
+import { useCourseStore } from "./CourseBuilder/useCourseStore";
 
 const { confirm } = Modal;
 
 function CourseEditor() {
+  const [form] = Form.useForm();
   const { id } = useParams();
+  const { mutate: updateCourse, isLoading: loading } = User.Queries.useUpdateCourse();
   const courseId = id + "";
-  const [course, setCourse] = useState(Constants.INITIAL_COURSE_DETAILS);
+  const setCourse = useCourseStore(s => s.setCourse)
 
-  const { mutate: updateCourseApi, isLoading: loading } =
-    User.Queries.useUpdateCourse();
+  const saveCourse = (course: Types.Course) => {
+    updateCourse({ id: courseId, data: course }, {
+      onSuccess: (data) => {
+        setCourse(data)
+        message.success('Course Updated successfully')
+      }
+    })
+  }
 
-  const { data: courseDetails } = User.Queries.useGetCourseDetails(courseId, {
+  const { data: course } = User.Queries.useGetCourseDetails(courseId, {
     enabled: !!courseId,
   });
 
   const { mutate: publishCourse, isLoading: publishingCourse } =
     User.Queries.usePublishCourse();
 
-  useEffect(() => {
-    setCourse(courseDetails);
-  }, [courseDetails]);
 
-  const saveCourse = (e: Partial<Course>) => {
-    setCourse({
-      ...course,
-      ...e,
-    });
-  };
-  const updateCourse = () => {
-    updateCourseApi(
-      {
-        id: courseId,
-        data: course,
-      },
-      {
-        onSuccess: () => {
-          message.open({
-            type: "success",
-            content: "Saved",
-          });
-        },
-      }
-    );
-  };
+  useEffect(() => {
+    form.setFieldsValue(course)
+  }, [course]);
+
 
   const validateDraftCourse = () => {
     return course.title;
@@ -137,99 +125,52 @@ function CourseEditor() {
                   </Button>
                 </Link>,
                 <Button
-                  disabled={!validateDraftCourse()}
                   loading={loading}
+                  onClick={form.submit}
                   type="primary"
-                  onClick={updateCourse}
+                  htmlType='submit'
                   icon={<SaveOutlined />}
                 >
                   Save as draft
                 </Button>,
               ]}
             >
-              <Tabs
-                tabKey="course-editor"
-                tabPosition={"left"}
-                style={{ minHeight: "100vh" }}
-                items={[
-                  {
-                    label: (
-                      <span>
-                        <InfoCircleOutlined />
-                        Information
-                      </span>
-                    ),
-                    key: "information",
-                    children: (
-                      <CourseInformationEditor
-                        saveCourse={saveCourse}
-                        course={course}
-                        courseId={courseId}
-                      />
-                    ),
-                  },
-                  // {
-                  //   label: (
-                  //     <span
-                  //       onClick={e => {
-                  //         window.open(`../${course._id}/builder`)
-                  //         e.stopPropagation()
-                  //       }}
-                  //     >
-                  //       <SettingOutlined />Builder
-                  //     </span>
-                  //   ),
-                  //   key: 'builder',
-                  //   children: null
-                  // },
-                  // {
-                  //   label: (
-                  //     <span>
-                  //       <ToolOutlined />Builder
-                  //     </span>
-                  //   ),
-                  //   key: 'builder'
-                  // },
-                  {
-                    label: (
-                      <span>
-                        <ClockCircleOutlined />
-                        Drip
-                      </span>
-                    ),
-                    key: "drip",
-                    children: (
-                      <CourseDrip saveCourse={saveCourse} course={course} />
-                    ),
-                  },
-                  {
-                    label: (
-                      <span>
-                        <UserOutlined />
-                        Learners
-                      </span>
-                    ),
-                    key: "learners",
-                    children: <CourseLearners courseId={course._id} />,
-                  },
-                  {
-                    label: (
-                      <span>
-                        <SafetyCertificateOutlined />
-                        Certificate
-                      </span>
-                    ),
-                    key: "certificate",
-                    children: (
-                      <CourseCertificate
-                        courseId={course._id}
-                        course={course}
-                        saveCourse={saveCourse}
-                      />
-                    ),
-                  },
-                ]}
-              />
+              <Form onFinish={saveCourse} layout='vertical' form={form}>
+
+                <Tabs
+                  tabKey="course-editor"
+                  tabPosition={"left"}
+                  style={{ minHeight: "100vh" }}
+                  items={[
+                    {
+                      label: (
+                        <span>
+                          <InfoCircleOutlined />
+                          Information
+                        </span>
+                      ),
+                      key: "information",
+                      children: (
+                        <CourseInformationEditor
+                          saveCourse={saveCourse}
+                          course={course}
+                          courseId={courseId}
+                        />
+                      ),
+                    },
+                    {
+                      label: (
+                        <span>
+                          <UserOutlined />
+                          Learners
+                        </span>
+                      ),
+                      key: "learners",
+                      children: <CourseLearners courseId={course._id} />,
+                    },
+                  ]}
+                />
+              </Form>
             </Card>
           </Col>
           {/* <Col span={20}>

@@ -8,19 +8,21 @@ import { Fragment } from "react";
 import { Types } from "@adewaskar/lms-common";
 import { User } from "@adewaskar/lms-common";
 import useMessage from "@Hooks/useMessage";
+import { useParams } from "@Router/index";
 
 interface CoursePricingEditorPropsI {
-  courseId: string;
-  saveCourse: Function;
+  // courseId: string;
+  // saveCourse: Function;
 
-  course: Types.Course;
+  // course: Types.Course;
 }
 
 function CoursePricingEditor(props: CoursePricingEditorPropsI) {
+  const { id: courseId } = useParams();
   const { data, isFetching: loading } = User.Queries.useGetProductPlans(
-    props.courseId,
+    courseId + '',
     {
-      enabled: !!props.courseId,
+      enabled: !!courseId,
     }
   );
   return (
@@ -30,7 +32,7 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
         title={"Pricing Plan"}
         extra={
           <ActionModal cta={<Button>Add Plan</Button>}>
-            <CreatePlan mode="product" product={{ type: "course", id: props.courseId }} />
+            <CreatePlan mode="product" product={{ type: "course", id: courseId + '' }} />
           </ActionModal>
         }
       >
@@ -66,7 +68,8 @@ function CoursePricingEditor(props: CoursePricingEditorPropsI) {
                   <Space size="middle">
                     <ActionModal cta={<EditOutlined />}>
                       <CreatePlan
-                        product={{ type: "course", id: props.courseId }}
+                        mode='product'
+                        product={{ type: "course", id: courseId + '' }}
                         plan={record}
                       />
                     </ActionModal>

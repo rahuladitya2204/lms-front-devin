@@ -27,6 +27,7 @@ import { validateSlug } from "@Components/Editor/SunEditor/utils";
 import InputTags from "@Components/InputTags/InputTags";
 import TopicSelect from "@Components/TopicSelect";
 import { capitalize } from "lodash";
+import ValidateProductSlug from "@User/Screens/ExtraComponents/ValidateProductSlug";
 
 const { useWatch } = Form;
 
@@ -116,37 +117,10 @@ function TestDetailsEditor(props: TestDetailsEditorPropsI) {
         <Input />
       </Form.Item>
 
-      <Form.Item
-        name="slug"
-        required
-        label="Slug"
-        hasFeedback
-        validateStatus={
-          validatingStatus === "loading" ? "validating" : "success"
-        }
-        rules={[
-          {
-            required: true,
-            message: "Please enter a slug for the test",
-          },
-          {
-            validator: async (rule, value) => {
-              console.log(testDetail?.slug, value, "112");
-              if (testDetail?.slug && testDetail?.slug !== value) {
-                try {
-                  await validateSlug(value, validateSlugApi);
-                  return Promise.resolve();
-                } catch (error) {
-                  console.log(error);
-                  return Promise.reject(error);
-                }
-              }
-            },
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+      <ValidateProductSlug product={{
+        type: 'test',
+        id: testId + ''
+      }} />
 
       <Form.Item name="subtitle" label="Subtitle">
         <Input />
