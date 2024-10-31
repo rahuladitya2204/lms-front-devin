@@ -20,8 +20,8 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import MoreButton from "@Components/MoreButton";
 import { MovableItem } from "@Components/DragAndDrop/MovableItem";
-import { NavLink } from "@Router/index";
-import { Types } from "@adewaskar/lms-common";
+import { NavLink, useNavigate, useParams } from "@Router/index";
+import { Types, User } from "@adewaskar/lms-common";
 import { Typography } from "@Components/Typography";
 import { cloneDeep } from "lodash";
 import styled from "@emotion/styled";
@@ -37,13 +37,6 @@ const { Title, Text } = Typography;
 const CollapsePanel = styled(Collapse.Panel)`
   .ant-collapse-header-text {
     width: 85%;
-  }
-`;
-
-const AddItemListCta = styled(List.Item)`
-  .ant-list-item {
-    border-top: 1px solid #dbd9d9;
-    border-bottom: 1px solid #dbd9d9;
   }
 `;
 
@@ -115,33 +108,44 @@ interface CourseSectionsNavigatorPropsI {
 }
 
 const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
-  sections,
   onAddNewItem,
-  // language,
   deleteSection,
   onAddSection,
-  deleteSectionItem,
   onReorderSections,
 }) => {
-  const language = useCourseStore((s) => s.language);
+  const { sections } = useCourseStore(s => s.course)
   const [enableSectionReorder, setEnableSectionReorder] = useState(true);
   const [itemRearrengeIndex, setItemRearrengeIndex] = useState<number | null>(
     null
   );
+  const { id: courseId } = useParams();
+  const language = useCourseStore((s) => s.language);
   const [sectionList, setSectionList] =
     useState<Types.CourseSection[]>(sections);
   useEffect(() => {
     setSectionList(sections);
   }, [sections]);
-  const DeleteSectionItem = (sectionId: string, itemId: string) => {
-    confirm({
-      title: "Are you sure?",
-      content: `You want to delete this section item`,
-      onOk() {
-        deleteSectionItem(sectionId, itemId);
+  const navigate = useNavigate();
+  const { course, setCourse } = useCourseStore((s) => s);
+  const { mutate: deleteSectionItemApi, isLoading: deletingSectionItem } =
+    User.Queries.useDeleteCourseSectionItem();
+  const deleteSectionItem = (itemId: string) => {
+    deleteSectionItemApi(
+      {
+        data: {
+          courseId: courseId + "",
+          itemId: itemId,
+        },
       },
-      okText: "Delete",
-    });
+      {
+        onSuccess: () => {
+          const lastSection = course.sections.pop();
+          const lastItem = lastSection?.items.pop();
+          if (lastSection && lastItem)
+            navigate(`/admin/products/courses/${courseId}/builder/${lastItem.type}/${lastItem._id}`);
+        },
+      }
+    );
   };
 
   const DeleteSection = (sectionId: string) => {
@@ -278,8 +282,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                             items={[
                               {
                                 label: 'Delete Chapter Item',
-                                onClick: () => DeleteSectionItem(
-                                  section._id,
+                                onClick: () => deleteSectionItem(
                                   item._id
                                 ),
                                 key: "delete",
@@ -358,26 +361,6 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                                 }
                               </List.Item>
                             </MovableItem>
-
-                            {itemIndex === section.items.length - 1 ? (
-                              <ActionModal
-                                cta={
-                                  <AddItemListCta>
-                                    <List.Item.Meta
-                                      style={{ cursor: "pointer" }}
-                                      title={AddItemCTA}
-                                      avatar={<PlusOutlined />}
-                                    />
-                                  </AddItemListCta>
-                                }
-                              >
-                                <AddItem
-                                  onAddNewItem={(key, value) =>
-                                    onAddNewItem(key, value, secIndex)
-                                  }
-                                />
-                              </ActionModal>
-                            ) : null}
                           </Fragment>
                         );
                       }}

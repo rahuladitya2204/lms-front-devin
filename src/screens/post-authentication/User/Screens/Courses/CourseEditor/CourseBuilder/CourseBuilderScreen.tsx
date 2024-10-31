@@ -13,11 +13,10 @@ import {
   message,
 } from "@Lib/index";
 import { Constants, Enum, Types, User, Utils } from "@adewaskar/lms-common";
-import { Outlet } from "react-router";
-import { Link, useNavigate, useParams } from "@Router/index";
-import { SaveOutlined, UploadOutlined } from "@ant-design/icons";
-import { cloneDeep, debounce } from "lodash";
-import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "@Router/index";
+import { UploadOutlined } from "@ant-design/icons";
+import { cloneDeep } from "lodash";
+import { useEffect } from "react";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import AppProvider from "screens/AppProvider";
@@ -28,31 +27,87 @@ import Header from "@Components/Header";
 import Image from "@Components/Image";
 import MediaUpload from "@Components/MediaUpload";
 import SetCourseRules from "./SetCourseRules";
-import { updateCourseSectionItem } from "./utils";
-import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import Tabs from "@Components/Tabs";
 import { useCourseStore } from "./useCourseStore";
+import AddTextItem from "./UploadItems/AddTextItem/AddTextItem";
+import { Outlet } from "react-router";
 import useUpdateCourseForm from "./UploadItems/useUpdateCourseForm";
-import CreateCustomContentComponent from "./CreateCustomContent";
 
 const { confirm } = Modal;
 
 function CourseBuilderScreen() {
   const { id: courseId, itemId } = useParams();
-  const { course, setCourse } = useCourseStore((s) => s);
+  const [form] = Form.useForm();
+  useUpdateCourseForm(form)
   const { mutate: updateCourse, isLoading: savingCourse } =
     User.Queries.useUpdateCourse();
+  const { course, updateItem, currentItem } = useCourseStore(s => s)
+
+  const { mutate: deleteSectionApi, isLoading: deletingSection } =
+    User.Queries.useDeleteCourseSection();
+  const navigate = useNavigate();
+
   const { data: courseDetails, isLoading: loadingCourse } =
     User.Queries.useGetCourseDetails(courseId + "", {
       enabled: !!courseId,
     });
 
-  const { mutate: deleteSectionApi, isLoading: deletingSection } =
-    User.Queries.useDeleteCourseSection();
-  const { mutate: deleteSectionItemApi, isLoading: deletingSectionItem } =
-    User.Queries.useDeleteCourseSectionItem();
-  const navigate = useNavigate();
+  const { openModal } = useModal();
+  const { setLanguage, setCourse } = useCourseStore((s) => s);
+
+
+  useEffect(() => {
+    setCourse(courseDetails)
+  }, [courseDetails])
+
+  useEffect(() => {
+    console.log(currentItem, 'currentItem')
+    form.setFieldsValue(currentItem)
+  }, [currentItem])
+
+  const saveCourse = () => {
+    console.log("Saved");
+    if (course._id) {
+      updateCourse(
+        {
+          id: courseId + "",
+          data: {
+            sections: course.sections,
+          },
+        },
+        {
+          onSuccess: () => {
+            message.open({
+              type: "success",
+              content: "Saved Course",
+            });
+          },
+        }
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (!itemId) {
+      const firstSection = course.sections.find((s) => s.items.length);
+      if (firstSection && firstSection.items.length) {
+        const firstItem = firstSection.items[0];
+        if (firstItem.type) {
+          navigate(`${firstItem.type}/${firstItem._id}`);
+        }
+      }
+    }
+  }, [course._id]);
+
+  const { mutate: unpublishCourse, isLoading: unpublishingCourse } =
+    User.Queries.useUnpublishCourse();
+
+  useEffect(() => {
+    if (course.languages.length) {
+      setLanguage(course.languages[0]);
+    }
+  }, [course.languages]);
 
   const onAddSection = (section: Partial<Types.CourseSection>) => {
     console.log(section, "section");
@@ -86,6 +141,27 @@ function CourseBuilderScreen() {
             type: "success",
             content: `Saved`,
           });
+        },
+      }
+    );
+  };
+
+
+  const deleteSection = (sectionId: string) => {
+    deleteSectionApi(
+      {
+        data: {
+          courseId: courseId + "",
+          sectionId: sectionId,
+        },
+      },
+      {
+        onSuccess: () => {
+          message.success("Section Deleted");
+          const lastSection = course.sections.pop();
+          const lastItem = lastSection?.items.pop();
+          if (lastSection && lastItem && lastItem.type)
+            navigate(`${lastItem.type}/${lastItem._id}`);
         },
       }
     );
@@ -136,126 +212,6 @@ function CourseBuilderScreen() {
     });
   };
 
-  const saveCourse = () => {
-    console.log("Saved");
-    if (course._id) {
-      updateCourse(
-        {
-          id: courseId + "",
-          data: {
-            sections: course.sections,
-          },
-        },
-        {
-          onSuccess: () => {
-            message.open({
-              type: "success",
-              content: "Saved Course",
-            });
-          },
-        }
-      );
-    }
-  };
-
-  useEffect(() => {
-    if (!itemId) {
-      const firstSection = course.sections.find((s) => s.items.length);
-      if (firstSection && firstSection.items.length) {
-        const firstItem = firstSection.items[0];
-        if (firstItem.type) {
-          navigate(`${firstItem.type}/${firstItem._id}`);
-        }
-      }
-    }
-  }, [course._id]);
-
-  useEffect(() => {
-    setCourse(courseDetails);
-  }, [courseDetails]);
-
-  const updateCourseSection = (
-    sectionId: string,
-    item: Types.CourseSectionItem
-  ) => {
-    const COURSE = cloneDeep(course);
-    COURSE.sections = updateCourseSectionItem(COURSE.sections, sectionId, item);
-    setCourse(COURSE);
-    // saveCourse(COURSE)
-  };
-
-  const deleteSection = (sectionId: string) => {
-    deleteSectionApi(
-      {
-        data: {
-          courseId: courseId + "",
-          sectionId: sectionId,
-        },
-      },
-      {
-        onSuccess: () => {
-          message.success("Section Deleted");
-          const lastSection = course.sections.pop();
-          const lastItem = lastSection?.items.pop();
-          if (lastSection && lastItem && lastItem.type)
-            navigate(`${lastItem.type}/${lastItem._id}`);
-        },
-      }
-    );
-  };
-
-  const deleteSectionItem = (itemId: string, cb) => {
-    const COURSE = course;
-    deleteSectionItemApi(
-      {
-        data: {
-          courseId: courseId + "",
-          itemId: itemId,
-        },
-      },
-      {
-        onSuccess: () => {
-          const lastSection = COURSE.sections.pop();
-          const lastItem = lastSection?.items.pop();
-          if (lastSection && lastItem)
-            navigate(`/admin/products/courses/${courseId}/builder/${lastItem.type}/${lastItem._id}`);
-          cb && cb();
-        },
-      }
-    );
-  };
-
-  const onReorderSections = (sections: Types.CourseSection[]) => {
-    const COURSE = cloneDeep(course);
-    COURSE.sections = sections;
-    setCourse(COURSE);
-  };
-  // const { mutate: updateCourseStatus } = User.Queries.useUpdateCourseStatus(
-  //   courseId + ''
-  // )
-  const items = course.sections.map((s) => s.items).flat();
-  // console.log(course.sections, items, 'nodeee')
-  const { mutate: publishCourse, isLoading: publishingCourse } =
-    User.Queries.usePublishCourse();
-  const { mutate: unpublishCourse, isLoading: unpublishingCourse } =
-    User.Queries.useUnpublishCourse();
-  const { openModal } = useModal();
-  const { setLanguage } = useCourseStore((s) => s);
-  const [form] = Form.useForm();
-  const { onFormChange, updateItem } = useUpdateCourseForm(itemId + "", form);
-  const item = useCourseStore((s) => s.currentItem);
-
-  useEffect(() => {
-    if (course.languages.length) {
-      setLanguage(course.languages[0]);
-    }
-  }, [course.languages]);
-
-  // useEffect(() => {
-  //   if (item && (item._id === itemId)) {
-  //     form.setFieldsValue(item)
-  //   }
-  // }, [itemId]);
 
   return (
     <AppProvider>
@@ -304,7 +260,8 @@ function CourseBuilderScreen() {
               </Link> */}
               <Button
                 loading={savingCourse}
-                onClick={() => saveCourse()}
+                htmlType="submit"
+                onClick={form.submit}
                 type="primary"
                 style={{ marginRight: 10 }}
               >
@@ -312,48 +269,22 @@ function CourseBuilderScreen() {
               </Button>
             </>
           ),
-          // <Button
-          //   onClick={() => saveCourse(course)}
-          //   loading={loading}
-          //   type="primary"
-          //   icon={<SaveOutlined />}
-          // >
-          //   Save
-          // </Button>
         ]}
       >
         <Form
           name="course builder"
-          initialValues={item}
-          onValuesChange={(changedValues, allValues) => {
-            // console.log(allValues, "allValues");
-            onFormChange({
-              ...allValues,
-            });
-          }}
           form={form}
+          onFinish={saveCourse}
           layout="vertical"
+          onValuesChange={(a, allValues) =>
+            updateItem(itemId + '', allValues)
+          }
         >
-          <Tabs tabBarExtraContent={{
-            right: <Button onClick={() => {
-              confirm({
-                title: "Are you sure?",
-                // icon: <ExclamationCircleOutlined />,
-                content: `You want to delete this chapter?`,
-                onOk() {
-                  deleteSectionItem(itemId + '', () => {
-                    message.success('Chapter deleted successfully')
-                  })
-                },
-                okText: "Delete Chapter",
-              })
-            }} danger size='small' type='primary'>Delete Chapter Item</Button>
-          }}
+          <Tabs
             tabPosition="top"
             type="card"
             onTabClick={(e) => {
               setLanguage(e);
-              console.log(e, "eee");
             }}
             tabKey="course-builder"
             destroyInactiveTabPane={false}
@@ -365,7 +296,7 @@ function CourseBuilderScreen() {
                 key: l.value,
                 children: (
                   <Row gutter={[16, 16]}>
-                    <Col span={8}>
+                    <Col span={7}>
                       <Row>
                         <Col span={24}>
                           <Form.Item>
@@ -422,14 +353,7 @@ function CourseBuilderScreen() {
                                     <Button
                                       onClick={() => {
                                         openModal(
-                                          <SetCourseRules
-                                            onSubmit={(d) =>
-                                              saveCourse({
-                                                rules: d,
-                                              })
-                                            }
-                                            data={course.rules}
-                                          />,
+                                          <SetCourseRules />,
                                           {
                                             title: "Set Rules",
                                           }
@@ -440,23 +364,6 @@ function CourseBuilderScreen() {
                                     >
                                       Set Rules
                                     </Button>
-                                    {/* <ActionModal
-                                  title="Set Rules"
-                                  cta={
-                                    <Button block type="primary">
-                                      Set Rules
-                                    </Button>
-                                  }
-                                >
-                                  <SetCourseRules
-                                    onSubmit={d =>
-                                      saveCourse({
-                                        rules: d
-                                      })
-                                    }
-                                    data={course.rules}
-                                  />
-                                </ActionModal> */}
                                   </Col>
                                 </>
                               )}
@@ -468,24 +375,19 @@ function CourseBuilderScreen() {
                             tip="Please wait.."
                             spinning={
                               deletingSection ||
-                              deletingSectionItem ||
                               loadingCourse
                             }
                           >
                             <CourseSectionsNavigator
-                              // language={language}
-                              deleteSectionItem={deleteSectionItem}
                               deleteSection={deleteSection}
                               onAddNewItem={onAddNewItem}
                               onAddSection={onAddSection}
-                              sections={course.sections}
-                              onReorderSections={onReorderSections}
                             />
                           </Spin>
                         </Col>
                       </Row>
                     </Col>
-                    <Col span={16}>
+                    <Col span={17}>
                       {!course.sections.length ? (
                         <Alert
                           message="Generate course structure using AI"
@@ -516,27 +418,8 @@ function CourseBuilderScreen() {
                           }
                         />
                       ) : null}
-                      <Card
-                      // extra={
-                      //   <Button
-                      //     onClick={() => {
-                      //       openModal(<CreateCustomContentComponent />);
-                      //     }}
-                      //   >
-                      //     Generate Content
-                      //   </Button>
-                      // }
-                      >
-                        <Outlet
-                          context={[
-                            items,
-                            updateCourseSection,
-                            saveCourse,
-                            l.value,
-                          ]}
-                        />
-                        {/* <AddTextItem language={l.value} /> */}
-
+                      <Card>
+                        <Outlet context={{ language: l.value }} />
                       </Card>
                     </Col>
                   </Row>

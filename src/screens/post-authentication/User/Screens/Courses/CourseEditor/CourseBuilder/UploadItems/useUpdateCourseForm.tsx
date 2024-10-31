@@ -1,40 +1,37 @@
-import { Types, User } from "@adewaskar/lms-common";
+import { Constants, Types, User } from "@adewaskar/lms-common";
 import { useCallback, useEffect } from "react";
 import { useCourseStore } from "../useCourseStore";
-import { Form } from "antd";
 import { FormInstance } from "antd/lib";
+import { useParams } from "@Router/index";
 
-function useUpdateCourseForm(itemId: string, form: FormInstance) {
+
+function useUpdateCourseForm(form: FormInstance) {
+  const { itemId } = useParams();
   const updateItem = useCourseStore((s) => s.updateItem);
   const course = useCourseStore((s) => s.course);
-  const setCurrentQuestion = useCourseStore((s) => s.setCurrentItem);
+  const { setCurrentItem, currentItem } = useCourseStore((s) => s);
   const { data: topics } = User.Queries.useGetTopics();
   useEffect(() => {
-    const currentItem = course.sections
+    const item = course.sections
       .map((section) => section.items).flat()
       .find((item) => item._id === itemId);
-    console.log(currentItem, itemId, 'currentItem')
     if (
-      currentItem
+      item?._id
     ) {
-      setCurrentQuestion(currentItem._id);
-      form.setFieldsValue(currentItem)
+      setCurrentItem(item);
+      form.setFieldsValue(item);
     }
-  }, [itemId, course, setCurrentQuestion]);
+  }, [itemId, course, setCurrentItem]);
 
-  const onFormChange = useCallback(
-    (data: Partial<Types.CourseSectionItem>) => {
-      if (itemId) {
-        updateItem(itemId, data);
-      }
-    },
-    [itemId, updateItem]
-  );
+  // useEffect(() => {
+  //   if (currentItem._id) {
+  //     form.setFieldsValue(currentItem);
+  //   }
+  // }, [currentItem])
 
   return {
     itemId,
     updateItem,
-    onFormChange,
     topics,
   };
 }

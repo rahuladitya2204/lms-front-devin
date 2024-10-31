@@ -28,13 +28,7 @@ const SwitchButton = styled(Switch)`
 `
 
 export default function SetCourseRules(props: SetCourseRulesPropsI) {
-  const [form] = Form.useForm()
-  useEffect(
-    () => {
-      form.setFieldsValue(props.data)
-    },
-    [props.data]
-  )
+  const form = Form.useFormInstance();
 
   const onSubmit = (d: Types.CourseRules) => {
     props.onSubmit(d)
@@ -42,14 +36,13 @@ export default function SetCourseRules(props: SetCourseRulesPropsI) {
   }
 
   return (
-    <Form form={form} onFinish={onSubmit}>
+    <>
       <Row justify={'space-between'} align="middle">
         <Col>Enable Content Scheduling(Dripping)</Col>
         <Col>
           <Form.Item
             valuePropName="checked"
             name={['drip', 'enabled']}
-            // label=""
           >
             <SwitchButton style={{ marginTop: 20 }} />
           </Form.Item>
@@ -110,6 +103,6 @@ export default function SetCourseRules(props: SetCourseRulesPropsI) {
           Submit
         </Button>
       </Space>
-    </Form>
+    </>
   )
 }

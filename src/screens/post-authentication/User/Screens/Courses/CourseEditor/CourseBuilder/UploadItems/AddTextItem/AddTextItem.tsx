@@ -28,66 +28,52 @@ interface AddTextItemPropsI {
 
 const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
   const { itemId, id: courseId } = useParams();
-  // const { language } = props;
-  const [, , , language] = useOutletContext(); // Get form and language from context
-
-  const form = Form.useFormInstance();
-  const { data: course } = User.Queries.useGetCourseDetails(courseId + "");
-
-  const DeleteSectionItem = () => {
-    // Logic to delete the section item
-  };
-
+  // const { language } = props// Get form and language from context
+  const { language } = useOutletContext();
+  const course = useCourseStore(s => s.course)
   const prefixKey = `courses/${courseId}/${itemId}`;
-
   return (
     <Spin spinning={false}>
-      {/* Form is already provided by the parent, so no need to include it here */}
-      <Card>
-        {/* No need to wrap in another Form, since it's provided in context */}
-        <Row gutter={[10, 0]}>
-          <Col span={24}>
-            <Form.Item
-              name={["title", "text", language]}
-              label="Title"
-              required
-              rules={[{ required: true, message: "Enter the title" }]}
-            >
-              <Input />
-            </Form.Item>
-            <Form.Item
+      <Row gutter={[10, 0]}>
+        <Col span={24}>
+          <Form.Item
+            name={["title", "text", language]}
+            label="Title"
+            required
+            rules={[{ required: true, message: "Enter the title" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Row gutter={[15, 15]}>
+            <Col span={12}>
+              <TopicSelect
+                level={2}
+                label="Topic"
+                notDisabled
+                topicId={course.topics}
+                name="topic"
+              /></Col>
+            <Col span={12}>
+              <Form.Item label="Tags" name="tags">
+                <InputTags name="tags" />
+              </Form.Item></Col>
+          </Row>
+          <Form.Item
+            name={["description", "text", language]}
+            label="Content"
+            required
+          >
+            <TextArea modifyCta
               name={["description", "text", language]}
-              label="Content"
-              required
-            >
-              <TextArea
-                uploadPrefixKey={prefixKey}
-                height={350}
-                html={{ level: 3 }}
-              />
-            </Form.Item>
-            {/* Non-language-specific fields */}
-            {/* <TreeSelect treeData={treeData} /> */}
-            <Row>
-              <Col span={12}>
-                <TopicSelect
-                  level={2}
-                  label="Topic"
-                  notDisabled
-                  topicId={course.topics}
-                  name="topic"
-                /></Col>
-              <Col span={12}>
-                <Form.Item label="Tags" name="tags">
-                  <InputTags name="tags" />
-                </Form.Item></Col>
-            </Row>
-
-          </Col>
-        </Row>
-      </Card>
+              uploadPrefixKey={prefixKey}
+              height={350}
+              html={{ level: 3 }}
+            />
+          </Form.Item>
+        </Col>
+      </Row>
     </Spin>
   );
 };
 
-export default React.memo(AddTextItem);
+export default AddTextItem

@@ -8,7 +8,7 @@ interface CourseStoreState {
   setCourse: (course: Partial<Types.Course>) => void;
   language: string;
   setLanguage: (language: string) => void;
-  setCurrentItem: (item: string) => void;
+  setCurrentItem: (item: Types.CourseSectionItem) => void;
   updateSection: (
     id: string,
     newSectionData: Partial<Types.CourseSection>
@@ -36,10 +36,8 @@ export const useCourseStore = create<CourseStoreState>((set) => ({
       language,
     }));
   },
-  setCurrentItem: (itemId: string) => {
-    set((state) => {
-      const items = state.course.sections.map(i => i.items).flat();
-      const item = items.find(i => i._id === itemId)
+  setCurrentItem: (item: string) => {
+    set(() => {
       return ({
         currentItem: item,
       })
