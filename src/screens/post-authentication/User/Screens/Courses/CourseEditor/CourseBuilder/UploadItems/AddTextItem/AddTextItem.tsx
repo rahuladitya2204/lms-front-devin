@@ -18,6 +18,7 @@ import { useParams } from "@Router/index";
 import { useCourseStore } from "../../useCourseStore";
 import { useOutletContext } from "react-router";
 import useUpdateCourseForm from "../useUpdateCourseForm";
+import TopicSelect from "@Components/TopicSelect";
 
 const { confirm } = Modal;
 
@@ -32,7 +33,6 @@ const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
 
   const form = Form.useFormInstance();
   const { data: course } = User.Queries.useGetCourseDetails(courseId + "");
-  const { data: treeData } = User.Queries.useGetTopicTree(course.topics, 2);
 
   const DeleteSectionItem = () => {
     // Logic to delete the section item
@@ -67,15 +67,22 @@ const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
               />
             </Form.Item>
             {/* Non-language-specific fields */}
-            <Form.Item label="Topic" name="topic">
-              <TreeSelect treeData={treeData} />
-            </Form.Item>
-            <Form.Item label="Tags" name="tags">
-              <InputTags name="tags" />
-            </Form.Item>
-            <Button type="primary" onClick={DeleteSectionItem} danger>
-              Delete Chapter
-            </Button>
+            {/* <TreeSelect treeData={treeData} /> */}
+            <Row>
+              <Col span={12}>
+                <TopicSelect
+                  level={2}
+                  label="Topic"
+                  notDisabled
+                  topicId={course.topics}
+                  name="topic"
+                /></Col>
+              <Col span={12}>
+                <Form.Item label="Tags" name="tags">
+                  <InputTags name="tags" />
+                </Form.Item></Col>
+            </Row>
+
           </Col>
         </Row>
       </Card>

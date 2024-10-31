@@ -10,11 +10,14 @@ const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
   props: AddItemProps
 ) => {
   const { languages } = useCourseStore(s => s.course)
-  const onSubmit = ({ textHeading }: { textHeading: string }) => {
+  const onSubmit = ({ textHeading }: { textHeading: Types.LangText }) => {
     console.log(textHeading, 'huhijoij')
     props.onFinish &&
       props.onFinish({
-        title: textHeading,
+        title: {
+          ...(Constants.INITIAL_LANG_TEXT),
+          ...textHeading
+        },
         type: 'text'
       });
     form.resetFields(["textHeading"]);

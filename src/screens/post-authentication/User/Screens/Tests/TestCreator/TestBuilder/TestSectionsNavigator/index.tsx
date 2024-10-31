@@ -302,18 +302,10 @@ const TestSectionsNavigator: React.FC<TestSectionsNavigatorPropsI> = ({
                               <MoreButton
                                 items={[
                                   {
-                                    label: (
-                                      <span
-                                        onClick={(e) => {
-                                          // e.stopPropagation()
-                                          DeleteSectionItem(
-                                            section._id,
-                                            item._id
-                                          );
-                                        }}
-                                      >
-                                        Delete Question
-                                      </span>
+                                    label: 'Delete Question',
+                                    onClick: () => DeleteSectionItem(
+                                      section._id,
+                                      item._id
                                     ),
                                     key: "delete",
                                     icon: <DeleteOutlined />,

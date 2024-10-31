@@ -1,9 +1,10 @@
-import { Button, Form, Input, Modal } from "antd";
+import { Button, Col, Form, Input, Modal, Row } from "antd";
 import React, { Fragment, useEffect, useState } from "react";
 
 import TextArea from "@Components/Textarea";
 import { Constants, Types } from "@adewaskar/lms-common";
 import Tabs from "@Components/Tabs";
+import { useCourseStore } from "../useCourseStore";
 
 interface AddSectionPropsI {
   closeModal?: Function;
@@ -13,6 +14,7 @@ interface AddSectionPropsI {
 
 const AddSection: React.FC<AddSectionPropsI> = (props) => {
   const [form] = Form.useForm<Types.TestSection>();
+  const { languages } = useCourseStore((s) => s.course);
   const { closeModal } = props;
   const onSubmit = (data: Types.TestSection) => {
     props.onFinish && props.onFinish(data);
@@ -30,7 +32,7 @@ const AddSection: React.FC<AddSectionPropsI> = (props) => {
     <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
       <Tabs
         tabKey="add-section"
-        items={Constants.LANGUAGES.map((language) => {
+        items={Constants.LANGUAGES.filter(lang => languages.includes(lang.value)).map((language) => {
           return {
             label: language.label,
             key: language.value,
@@ -55,9 +57,12 @@ const AddSection: React.FC<AddSectionPropsI> = (props) => {
           };
         })}
       />
-      <Button htmlType="submit" type="primary">
-        Add Section
-      </Button>
+      <Row justify={'end'}>
+        <Col>
+          <Button htmlType="submit" type="primary">
+            Add Section
+          </Button></Col>
+      </Row>
     </Form>
   );
 };

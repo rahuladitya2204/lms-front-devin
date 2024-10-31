@@ -28,7 +28,7 @@ import styled from "@emotion/styled";
 import update from "immutability-helper";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { useCourseStore } from "../useCourseStore";
-import AddCourseSection from "./AddCourseSection";
+
 import AddSection from "../CreateNewItem/AddSection";
 
 const { confirm } = Modal;
@@ -224,7 +224,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   label: `Edit Section`,
                   onClick: () =>
                     openModal(
-                      <AddCourseSection
+                      <AddSection
                         data={section}
                         onFinish={(e: { title: string }) =>
                           onAddSection({ ...section, ...e })
@@ -234,11 +234,8 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                   key: "edit-section",
                 },
                 {
-                  label: (
-                    <span onClick={() => DeleteSection(section._id)}>
-                      Delete Section
-                    </span>
-                  ),
+                  label: 'Delete Section',
+                  onClick: () => DeleteSection(section._id),
                   key: "delete",
                 },
               ]}
@@ -277,29 +274,19 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                       renderItem={(item, itemIndex) => {
                         // This propagation is being stopped to prevent dropdown also making list item clickable
                         const SectionItemOptionDropdown = (
-                          <span onClick={(e) => e.stopPropagation()}>
-                            <MoreButton
-                              items={[
-                                {
-                                  label: (
-                                    <span
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        DeleteSectionItem(
-                                          section._id,
-                                          item._id
-                                        );
-                                      }}
-                                    >
-                                      Delete Chapter Item
-                                    </span>
-                                  ),
-                                  key: "delete",
-                                  icon: <DeleteOutlined />,
-                                },
-                              ]}
-                            />
-                          </span>
+                          <MoreButton
+                            items={[
+                              {
+                                label: 'Delete Chapter Item',
+                                onClick: () => DeleteSectionItem(
+                                  section._id,
+                                  item._id
+                                ),
+                                key: "delete",
+                                icon: <DeleteOutlined />,
+                              },
+                            ]}
+                          />
                         );
                         const CourseSectionListItem = (isActive: boolean) => (
                           <CourseListItem

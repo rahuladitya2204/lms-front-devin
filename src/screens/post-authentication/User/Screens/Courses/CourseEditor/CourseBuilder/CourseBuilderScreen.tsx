@@ -517,15 +517,15 @@ function CourseBuilderScreen() {
                         />
                       ) : null}
                       <Card
-                        extra={
-                          <Button
-                            onClick={() => {
-                              openModal(<CreateCustomContentComponent />);
-                            }}
-                          >
-                            Generate Content
-                          </Button>
-                        }
+                      // extra={
+                      //   <Button
+                      //     onClick={() => {
+                      //       openModal(<CreateCustomContentComponent />);
+                      //     }}
+                      //   >
+                      //     Generate Content
+                      //   </Button>
+                      // }
                       >
                         <Outlet
                           context={[
