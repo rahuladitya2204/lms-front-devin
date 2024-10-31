@@ -282,9 +282,23 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                             items={[
                               {
                                 label: 'Delete Chapter Item',
-                                onClick: () => deleteSectionItem(
-                                  item._id
-                                ),
+                                onClick: () => {
+                                  Modal.confirm({
+                                    closable: false,
+                                    title: `Are you sure?`,
+                                    // icon: <ExclamationCircleOutlined />,
+                                    content: `You want to delete this Chapter Item?`,
+                                    // footer: [
+
+                                    // ],
+                                    onOk() {
+                                      deleteSectionItem(
+                                        item._id
+                                      )
+                                    },
+                                    okText: "Yes, Delete",
+                                  });
+                                },
                                 key: "delete",
                                 icon: <DeleteOutlined />,
                               },

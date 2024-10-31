@@ -10,26 +10,34 @@ const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
   props: AddItemProps
 ) => {
   const { languages } = useCourseStore(s => s.course)
-  const onSubmit = ({ textHeading }: { textHeading: Types.LangText }) => {
-    console.log(textHeading, 'huhijoij')
+  const onSubmit = ({ title }: { title: { text: Types.LangText } }) => {
+    console.log(title, 'huhijoij')
     props.onFinish &&
       props.onFinish({
         title: {
-          ...(Constants.INITIAL_LANG_TEXT),
-          ...textHeading
+          ...title,
+          text: {
+            ...(Constants.INITIAL_LANG_TEXT),
+            ...title.text
+          }
+        },
+        description: {
+          text: {
+            ...(Constants.INITIAL_LANG_TEXT)
+          }
         },
         type: 'text'
       });
-    form.resetFields(["textHeading"]);
+    form.resetFields(["title"]);
     props.closeModal && props.closeModal();
   };
 
-  const [form] = Form.useForm<{ textHeading: { text: Types.LangText } }>();
+  const [form] = Form.useForm<{ title: { text: Types.LangText } }>();
 
   useEffect(() => {
     if (props.item) {
       form.setFieldsValue({
-        textHeading: props.item.title,
+        title: props.item.title,
       });
     }
   }, [props.item, form]);
@@ -51,8 +59,8 @@ const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
                     message: "Please mention title for Text Page",
                   },
                 ]}
-                name={["textHeading", "text", LANGUAGE.value]}
-                label="Text Heading"
+                name={["title", "text", LANGUAGE.value]}
+                label="Title"
               >
                 <Input />
               </Form.Item>
