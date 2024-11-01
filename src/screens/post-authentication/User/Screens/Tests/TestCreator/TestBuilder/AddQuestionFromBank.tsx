@@ -565,7 +565,6 @@ export const AddQuestionFromBank = (props: {
                   <Button
                     type="primary"
                     onClick={() => {
-                      console.log(selectedRows, "111");
                       props.onSelect && props.onSelect(selectedRows);
                       props.closeModal && props.closeModal();
                     }}

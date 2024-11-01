@@ -278,13 +278,11 @@ function CourseBuilderScreen() {
           onFinish={saveCourse}
           layout="vertical"
           onValuesChange={(a, allValues: Types.CourseSectionItem) => {
-            Object.keys(allValues.title.text).forEach(lang => {
-              allValues.title.text[lang].duration = getReadingTime(allValues.title.text[lang].text)
-            })
-            Object.keys(allValues.description.text).forEach(lang => {
-              allValues.description.text[lang].duration = getReadingTime(allValues.description.text[lang].text)
-            })
-            console.log(allValues, '123123123');
+            if (!allValues.metadata)
+              allValues.metadata = {};
+            // allValues.description.duration = getReadingTime(allValues.description.text.eng)
+            allValues.metadata.duration = getReadingTime(allValues.description.text.eng)
+            // console.log(allValues, '123123123');
             updateItem(itemId + '', allValues)
           }
           }

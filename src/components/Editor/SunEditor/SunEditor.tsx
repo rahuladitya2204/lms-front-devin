@@ -22,7 +22,7 @@ import { Common, Types, User } from "@adewaskar/lms-common";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 
 import SunEditor from "suneditor-react";
-import { uniqueId } from "lodash";
+import { debounce, uniqueId } from "lodash";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
 import { Title } from "@Components/Typography/Typography";
 import ActionModal from "@Components/ActionModal/ActionModal";
@@ -223,7 +223,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
       editorInstance.insertHTML(`{{${value}}}`);
     }
   };
-
+  const onChange = debounce(props.onChange, 500);
   return (
     <Fragment>
       <Spin spinning={loading}>
@@ -261,7 +261,7 @@ const SunEditorComponent = (props: SunEditorPropsI) => {
               >
                 <RephraseTextComponent
                   text={value}
-                  onComplete={(modifiedText) => props.onChange(modifiedText)}
+                  onComplete={(modifiedText) => onChange(modifiedText)}
                 />
               </ActionModal>
             </Col>

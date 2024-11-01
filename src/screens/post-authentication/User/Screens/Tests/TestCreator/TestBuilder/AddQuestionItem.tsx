@@ -42,8 +42,6 @@ import TextArea from "@Components/Textarea";
 import { Typography } from "@Components/Typography";
 import UploadVideo from "@User/Screens/Courses/CourseEditor/CourseBuilder/UploadItems/UploadVideo/UploadVideoPopup/UploadVideo";
 import { useParams } from "@Router/index";
-import useTestBuilderUI from "./hooks/useTestBuilder";
-import useTestNavigation from "@Hooks/useProductNavigation";
 import { useTestStore } from "./hooks/useTestStore";
 import useUpdateTestForm from "./hooks/useUpdateTest";
 import { htmlToText } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";

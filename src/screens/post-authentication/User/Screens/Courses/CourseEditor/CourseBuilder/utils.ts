@@ -90,10 +90,10 @@ export function htmlToText(html: string) {
 }
 
 export function getReadingTime(html: string, wordsPerMinute = 200) {
-  const text = htmlToText(html)
-  const wordCount = text.trim().split(/\s+/).length
-  const minutes = wordCount / wordsPerMinute * 60
-  return Math.ceil(minutes)
+  const text = htmlToText(html);
+  const wordCount = text.trim().split(/\s+/).length;
+  const minutes = wordCount / wordsPerMinute;
+  return Math.ceil(minutes);
 }
 
 const wordsPerMinute = 200 // Adjust this value based on your preference

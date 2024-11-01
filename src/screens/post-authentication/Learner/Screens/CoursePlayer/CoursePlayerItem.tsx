@@ -6,13 +6,12 @@ import CoursePlayerTextItem from "./CoursePlayerItems/Text";
 import ErrorBoundary from "@Components/ErrorBoundary";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PDFViewer from "@Components/PDFViewer";
-import { Spin } from "@Lib/index";
+import { Skeleton, Spin } from "@Lib/index";
 
 import { useParams } from "@Router/index";
 import { useOutletContext } from "react-router";
 
 function CoursePlayerItem() {
-  const [, , language] = useOutletContext();
   const [loading, setLoading] = useState(false);
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress();
   const { data: user } = Learner.Queries.useGetLearnerDetails();
@@ -23,7 +22,7 @@ function CoursePlayerItem() {
 </div>`;
   }, [user]);
   const { id: courseId, itemId } = useParams();
-  const { data: item } = Learner.Queries.useGetCourseItemDetails(
+  const { data: item, isLoading } = Learner.Queries.useGetCourseItemDetails(
     courseId + "",
     itemId + ""
   );
@@ -106,7 +105,11 @@ function CoursePlayerItem() {
             width: "100%",
           }}
         >
-          {Component}
+          {isLoading ? <Skeleton.Button block active style={{
+            width: '100%',
+            height: 500
+
+          }} /> : Component}
         </div>
       </Spin>
     </ErrorBoundary>

@@ -14,6 +14,7 @@ const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
     console.log(title, 'huhijoij')
     props.onFinish &&
       props.onFinish({
+        ...Constants.INITIAL_COURSE_SECTION_ITEM_DETAILS,
         title: {
           ...title,
           text: {

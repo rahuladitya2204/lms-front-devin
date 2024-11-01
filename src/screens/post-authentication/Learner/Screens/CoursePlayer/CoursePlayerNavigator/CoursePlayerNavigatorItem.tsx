@@ -46,9 +46,8 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
   if (!duration) {
     duration = 0;
   }
-  let durationInMin = unit(duration, "seconds").to("minute").toJSON();
   const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress();
-  const minDuration = Math.ceil(durationInMin.value);
+  const minDuration = Math.ceil(duration);
   return (
     <NavLink
       title={props.item.title?.text[props.language]}
@@ -56,8 +55,8 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
       children={({ isActive }) => (
         <CourseListItem
           // extra={[
-          //   // props.item.type === 'video' && durationInMin ? (
-          //   //   <Tag color="blue">{durationInMin.value} min</Tag>
+          //   // props.item.type === 'video' && duration ? (
+          //   //   <Tag color="blue">{duration} min</Tag>
           //   // ) : null,
 
           // ]}
@@ -90,14 +89,14 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
                 {(props.item.type === "video" ||
                   props.item.type === "text" ||
                   props.item.type === "pdf") &&
-                durationInMin ? (
+                  duration ? (
                   <Row
                     justify={"space-between"}
                     style={{
                       marginTop: 10,
                     }}
-                    // direction="horizontal"
-                    // align="center"
+                  // direction="horizontal"
+                  // align="center"
                   >
                     <Col>
                       <Tag

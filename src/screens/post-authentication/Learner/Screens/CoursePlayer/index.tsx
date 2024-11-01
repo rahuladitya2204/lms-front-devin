@@ -222,9 +222,9 @@ function CoursePlayer() {
           banner
         />
       ) : null}
-      <ActionModal width={800} open={showReview}>
+      {/* <ActionModal width={800} open={showReview}>
         <ReviewCourse course={course} />
-      </ActionModal>
+      </ActionModal> */}
       <CustomHeader
         className="page-header"
         // bgColor="black"
