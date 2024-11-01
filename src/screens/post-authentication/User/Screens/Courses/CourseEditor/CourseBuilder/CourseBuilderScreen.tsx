@@ -221,7 +221,7 @@ function CourseBuilderScreen() {
           <span>
             {" "}
             <BackButton
-              onClick={() => navigate("/admin/products/courses")}
+              onClick={() => navigate(`/admin/products/courses/${courseId}/editor`)}
             />{" "}
             {course.title}
           </span>

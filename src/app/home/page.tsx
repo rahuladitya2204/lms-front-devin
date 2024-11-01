@@ -7,8 +7,8 @@ import { getToken } from "@Network/index";
 export default function Page() {
   const {
     getLearnerProductCategories,
-    getRecommendedProducts,
-    getCartDetails,
+    // getRecommendedProducts,
+    // getCartDetails,
     getOrgDetails,
     getLearnerDetails,
   } = Learner.Queries.Definitions;
@@ -17,11 +17,12 @@ export default function Page() {
   return (
     <Hydrator
       queries={[
-        getRecommendedProducts(),
+        // getRecommendedProducts(),
         getLearnerProductCategories(),
         getOrgDetails(),
         // authenticated routes should only be called if token is present
-        ...(token ? [getCartDetails(), getLearnerDetails()] : []),
+        ...(token ? [getLearnerDetails()] : []),
+        // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
       <LearnerRootScreen isServer>

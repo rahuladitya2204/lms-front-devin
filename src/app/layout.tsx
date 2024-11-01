@@ -7,8 +7,8 @@ import Script from "next/script";
 
 import Providers from "./providers";
 const axios = getAxiosInstance();
-import { Constants, Utils } from "@adewaskar/lms-common";
-import { getCookie, getServerCookie } from "@ServerUtils/index";
+import { Constants } from "@adewaskar/lms-common";
+import { getCookie } from "@ServerUtils/index";
 
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 // initDateFormats();
