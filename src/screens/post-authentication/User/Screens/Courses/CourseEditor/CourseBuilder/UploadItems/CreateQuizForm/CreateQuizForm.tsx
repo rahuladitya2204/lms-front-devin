@@ -111,6 +111,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
             ]}
           >
             <Questions
+              language={language}
               onUpdate={question => {
                 console.log(question, 'question')
                 const newQuestions = [...courseQuiz.questions]

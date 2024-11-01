@@ -11,6 +11,7 @@ const { confirm } = Modal
 
 interface QuestionsProps {
   data: Types.TestQuestion[];
+  language: string;
   deleteItem: (item: Types.TestQuestion, index: number) => void;
   onUpdate: (index: number, d: Types.TestQuestion) => void;
 }
@@ -18,6 +19,7 @@ interface QuestionsProps {
 export default function Questions<T>({
   data,
   deleteItem,
+  language,
   onUpdate
 }: QuestionsProps) {
   return (
@@ -57,7 +59,7 @@ export default function Questions<T>({
           <ActionModal
             width={650}
             // @ts-ignore
-            cta={<Typography.Text strong>{item.title}</Typography.Text>}
+            cta={<Typography.Text strong>{item.title.text[language]}</Typography.Text>}
           >
             <AddQuestion
               submit={q => {

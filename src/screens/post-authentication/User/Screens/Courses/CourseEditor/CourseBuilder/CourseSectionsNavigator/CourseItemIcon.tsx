@@ -2,6 +2,8 @@ import {
   BookFilled,
   BookOutlined,
   CloudDownloadOutlined,
+  EditFilled,
+  EditOutlined,
   FilePdfFilled,
   FilePdfOutlined,
   FileTextFilled,
@@ -59,9 +61,9 @@ const CourseItemIcon = (props: CourseItemIconPropsI) => {
 
     case 'quiz':
       if (props.type === 'outlined') {
-        Icon = FileWordOutlined
+        Icon = EditOutlined
       } else {
-        Icon = FileWordFilled
+        Icon = EditFilled
       }
       break
 
