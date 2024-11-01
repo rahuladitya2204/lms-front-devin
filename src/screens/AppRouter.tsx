@@ -225,12 +225,14 @@ const router = (userType: string) => {
                   <Route path="" element={<LearnerEventsScreen />} />
                   <Route path=":eventId" element={<EventDetailScreen />} />
                 </Route>
-                <Route path="enrolled-courses">
-                  <Route
-                    path=":courseId"
-                    element={<EnrolledCourseDetailScreen />}
-                  />
-                </Route>
+                <Route
+                  path=":courseId/enrolled-course"
+                  element={
+                    <SigninProtectedRoutes>
+                      <EnrolledCourseDetailScreen />
+                    </SigninProtectedRoutes>
+                  }
+                />
                 {/* <Route path="enrolled-package">
                 <Route
                   path=":packageId"

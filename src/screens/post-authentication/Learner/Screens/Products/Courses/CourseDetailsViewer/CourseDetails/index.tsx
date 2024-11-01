@@ -18,16 +18,16 @@ function CourseDetails(props: CourseDetailsPropsI) {
           label: `Overview`,
           children: <CourseOverview course={props.course} />,
         },
-        {
-          key: "curriculum",
-          label: `Curriculum`,
-          children: <CourseCurriculum course={props.course} />,
-        },
-        {
-          key: "reviews",
-          label: `Reviews`,
-          children: <CourseReviews course={props.course} />,
-        },
+        // {
+        //   key: "curriculum",
+        //   label: `Curriculum`,
+        //   children: <CourseCurriculum course={props.course} />,
+        // },
+        // {
+        //   key: "reviews",
+        //   label: `Reviews`,
+        //   children: <CourseReviews course={props.course} />,
+        // },
       ]}
       style={{ fontSize: 30 }}
       size="middle"

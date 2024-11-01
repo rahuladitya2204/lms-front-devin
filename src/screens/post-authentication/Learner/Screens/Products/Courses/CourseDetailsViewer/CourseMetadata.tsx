@@ -5,7 +5,7 @@ import {
   ReadOutlined,
   SafetyCertificateOutlined
 } from '@ant-design/icons'
-import { Learner, Types, Utils } from '@adewaskar/lms-common'
+import { Constants, Learner, Types, Utils } from '@adewaskar/lms-common'
 import { List, Skeleton, Typography } from 'antd'
 
 import styled from '@emotion/styled'
@@ -22,36 +22,36 @@ const data = {
     icon: <ClockCircleOutlined />,
     value: '43 Weeks'
   },
-  lectures: {
-    title: 'Lectures',
-    icon: <ReadOutlined />,
-    value: 1
-  },
+  // lectures: {
+  //   title: 'Lectures',
+  //   icon: <ReadOutlined />,
+  //   value: ''
+  // },
   enrolled: {
     title: 'Enrolled',
     icon: <CheckCircleOutlined />,
-    value: '1982 Students'
+    value: '2k+ Students'
   },
   language: {
     title: 'Language',
     icon: <CheckCircleOutlined />,
     value: 'English'
   },
-  skillLevel: {
-    title: 'Skill Level',
-    icon: <CheckCircleOutlined />,
-    value: 'Beginner'
-  },
+  // skillLevel: {
+  //   title: 'Skill Level',
+  //   icon: <CheckCircleOutlined />,
+  //   value: 'Beginner'
+  // },
   // deadline: {
   //   title: 'Deadline',
   //   icon: <CalendarOutlined />,
   //   value: '06 April 2020'
   // },
-  certificate: {
-    title: 'Certificate',
-    icon: <SafetyCertificateOutlined />,
-    value: 'Yes'
-  }
+  // certificate: {
+  //   title: 'Certificate',
+  //   icon: <SafetyCertificateOutlined />,
+  //   value: 'Yes'
+  // }
 }
 
 interface CourseMetadataPropsI {
@@ -70,10 +70,10 @@ function CourseMetadata(props: CourseMetadataPropsI) {
   //   return <Skeleton paragraph={{ rows: 10 }} active />
   // }
   data.duration.value = formatTime(course.totalDuration)
-  data.enrolled.value = `${course.analytics.enrolled.count} students`
-  data.lectures.value = course.totalItems
-  data.certificate.value = course.certificate ? 'Yes' : ''
-  data.language.value = course.language
+  // data.enrolled.value = `${course.analytics.enrolled.count} students`
+  // data.lectures.value = course.totalItems
+  // data.certificate.value = course.certificate ? 'Yes' : ''
+  data.language.value = Constants.LANGUAGES.filter(l => course.languages.includes(l.value)).map(i => i.label).join(', ')
   // @ts-ignore
   const dataSource = Object.keys(data).map(key => data[key])
   return (

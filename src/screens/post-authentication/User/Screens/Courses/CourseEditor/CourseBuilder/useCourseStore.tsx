@@ -1,6 +1,7 @@
 import { Constants, Types } from '@adewaskar/lms-common';
 import create from 'zustand';
 import merge from 'lodash.merge';
+import { getReadingTime } from './utils';
 
 interface CourseStoreState {
   course: Types.Course;

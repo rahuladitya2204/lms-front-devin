@@ -43,7 +43,7 @@ const LearnerCourseList: React.FC = () => {
           {" "}
           <CourseCard
             onClick={() =>
-              navigate(`../enrolled-courses/${enrolledProduct.product.id}`)
+              navigate(`../${enrolledProduct.product.id}/enrolled-course`)
             }
             courseId={enrolledProduct.product.id}
             enrolledProduct={enrolledProduct}

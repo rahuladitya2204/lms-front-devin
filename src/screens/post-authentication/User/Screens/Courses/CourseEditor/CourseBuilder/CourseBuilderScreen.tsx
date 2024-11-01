@@ -33,6 +33,7 @@ import { useCourseStore } from "./useCourseStore";
 import AddTextItem from "./UploadItems/AddTextItem/AddTextItem";
 import { Outlet } from "react-router";
 import useUpdateCourseForm from "./UploadItems/useUpdateCourseForm";
+import { getReadingTime } from "./utils";
 
 const { confirm } = Modal;
 
@@ -276,8 +277,16 @@ function CourseBuilderScreen() {
           form={form}
           onFinish={saveCourse}
           layout="vertical"
-          onValuesChange={(a, allValues) =>
+          onValuesChange={(a, allValues: Types.CourseSectionItem) => {
+            Object.keys(allValues.title.text).forEach(lang => {
+              allValues.title.text[lang].duration = getReadingTime(allValues.title.text[lang].text)
+            })
+            Object.keys(allValues.description.text).forEach(lang => {
+              allValues.description.text[lang].duration = getReadingTime(allValues.description.text[lang].text)
+            })
+            console.log(allValues, '123123123');
             updateItem(itemId + '', allValues)
+          }
           }
         >
           <Tabs

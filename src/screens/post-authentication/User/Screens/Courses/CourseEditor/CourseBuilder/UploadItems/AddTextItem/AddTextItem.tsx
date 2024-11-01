@@ -28,7 +28,6 @@ interface AddTextItemPropsI {
 
 const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
   const { itemId, id: courseId } = useParams();
-  // const { language } = props// Get form and language from context
   const { language } = useOutletContext();
   const course = useCourseStore(s => s.course)
   const prefixKey = `courses/${courseId}/${itemId}`;

@@ -14,7 +14,7 @@ import {
 import { AlertOutlined, UserOutlined } from "@ant-design/icons";
 import { Constants, Store, Types, Utils } from "@adewaskar/lms-common";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "@Router/index";
+import { Link, useNavigate, useParams } from "@Router/index";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
 import CourseDetails from "./CourseDetails";
@@ -123,7 +123,7 @@ function CourseDetailViewer() {
                   </Col>
                   <Col span={24}>
                     <Row justify="space-between" align="middle">
-                      <Col xs={24} sm={18} md={16} lg={12}>
+                      {/* <Col xs={24} sm={18} md={16} lg={12}>
                         <Row justify="start" align="middle" gutter={[20, 20]}>
                           <Col>
                             <Avatar
@@ -142,7 +142,7 @@ function CourseDetailViewer() {
                       <Col xs={0} sm={0} md={0} lg={6}>
                         <MetaText strong>Categories</MetaText> <br />
                         <MetaText>{category?.title}</MetaText>
-                      </Col>
+                      </Col> 
                       <Col xs={24} sm={6} md={7} lg={6}>
                         <MetaText strong>Review</MetaText> <br />
                         <CustomRate
@@ -154,7 +154,7 @@ function CourseDetailViewer() {
                         {formatAvgCount(course.analytics.reviews.count)}{" "}
                         reviews)
                         <MetaText />
-                      </Col>
+                      </Col>*/}
                     </Row>
                   </Col>
                 </Row>
@@ -183,10 +183,12 @@ export default CourseDetailViewer;
 const CourseCard = ({
   courseId,
   plan,
+  isServer,
   children,
 }: {
   courseId: string;
   plan: Types.Plan;
+  isServer: boolean;
   children?: React.ReactNode;
 }) => {
   const product = { type: "course", id: courseId };
@@ -284,60 +286,64 @@ const CourseCard = ({
                 {isSignedIn ? (
                   <>
                     <Col span={24}>
-                      {!isEnrolled ? (
-                        <Button
-                          loading={addingToCart}
-                          disabled={!!isAddedToCart}
-                          onClick={() => addItemToCart(course)}
-                          size="large"
-                          block
+                      {isEnrolled ? (
+                        <Link
+                          title={course.title}
+                          anchor={isServer}
+                          // to={`/app/enrolled-course/${courseId}/enrolled-course`}
+                          onClick={() =>
+                            navigate(
+                              `/app/enrolled-course/${courseId}/enrolled-course`
+                            )
+                          }
                         >
-                          {isAddedToCart ? `Added to cart` : `Add To Cart`}
-                        </Button>
-                      ) : null}
-                    </Col>
-                    <Col span={24}>
-                      {
-                        isEnrolled ? (
                           <Button
-                            onClick={() => navigate(`player`)}
+                            className="go-to-course-button"
+                            onClick={() =>
+                              navigate(
+                                `/app/enrolled-course/${courseId}/enrolled-course`
+                              )
+                            }
                             size="large"
                             type="primary"
                             block
+                            id="go-to-course-button"
                           >
-                            Go to Course
+                            Go to Package
                           </Button>
-                        ) : (
-                          <ProductCheckoutButton
-                            onClick={() => {
-                              LogEvent(
-                                "Course",
-                                "EnrollCourseButton::Clicked",
-                                course.title
-                              );
-                            }}
-                            onSuccess={() => {
-                              message.open({
-                                type: "success",
-                                content: `You have enrolled successfully`,
-                              });
-                            }}
-                            product={{ type: "course", id: courseId + "" }}
-                            block
-                            type="primary"
-                          >
-                            Enroll Now
-                          </ProductCheckoutButton>
-                        )
-                        //           <Button onClick={() => enrollForCourse(course._id)} size="large" type="primary" block>
-                        //   Enroll Now
-                        // </Button>
-                      }
+                        </Link>
+                      ) : (
+                        <ProductCheckoutButton
+                          className="enroll-now-button"
+                          // onClick={() => {
+                          //   LogEvent(
+                          //     "Enroll Package Button",
+                          //     "Click",
+                          //     course.title
+                          //   );
+                          // }}
+                          onSuccess={() => {
+                            message.open({
+                              type: "success",
+                              content: `You have enrolled successfully`,
+                              // particle: true,
+                            });
+                            window.open(
+                              `/app/enrolled-course/${courseId}/enrolled-course`
+                            );
+                          }}
+                          product={{ type: "course", id: courseId + "" }}
+                          block
+                          type="primary"
+                        >
+                          Enroll Now
+                        </ProductCheckoutButton>
+                      )}
                     </Col>{" "}
                   </>
                 ) : (
                   <Col span={24}>
-                    <Button
+                    <Button className='login-to-access-button'
                       onClick={() => {
                         openModal(<LearnerLogin />, {
                           width: 300,
@@ -350,11 +356,11 @@ const CourseCard = ({
                       Login to access this course
                     </Button>
                     {/* <ActionModal width={300}
-                    cta={<Button size="large" type="primary" block>
-            Login to access this course
-                </Button>}>
-                  <LearnerLogin/>
-                </ActionModal> */}
+                cta={<Button size="large" type="primary" block>
+        Login to access this course
+            </Button>}>
+              <LearnerLogin/>
+            </ActionModal> */}
                   </Col>
                 )}
                 {children ? <Col span={24}>{children}</Col> : null}

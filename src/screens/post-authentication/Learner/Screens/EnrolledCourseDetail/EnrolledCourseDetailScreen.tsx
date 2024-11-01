@@ -79,7 +79,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
   };
 
   const { isMobile, isTablet } = useBreakpoint();
-
+  const defaultLanguage = 'eng'
   return (
     <Row>
       <Col span={24}>
@@ -90,19 +90,17 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                 <Col lg={18} md={18} sm={24} xs={24}>
                   <Title style={{ marginTop: 0 }}>{course.title}</Title>
                   <Row justify="space-between">
-                    <Col>
+                    {/* <Col>
                       <Space align="start">
                         <Avatar
                           style={{ marginBottom: 20 }}
-                          //   @ts-ignore
                           src={user.image}
                         />
                         <Text style={{ position: "relative", top: 4 }}>
-                          {/* @ts-ignore  */}
                           {user.name}
                         </Text>
                       </Space>
-                    </Col>
+                    </Col> */}
                     <Col
                       // xs={24}
                       flex={1}
@@ -189,7 +187,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                       return (
                         <Col span={24}>
                           <Title level={3} style={{ marginTop: 0 }}>
-                            {section.title}
+                            {section.title.text[defaultLanguage]}
                           </Title>
                           <List
                             split={false}
@@ -223,7 +221,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
                                         style={{ marginTop: 0 }}
                                         level={5}
                                       >
-                                        {item.title}
+                                        {item.title.text[defaultLanguage]}
                                       </Title>
                                       <Space>
                                         <Tag color="orange-inverse">
