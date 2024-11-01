@@ -130,7 +130,7 @@ export default function Page({ params }: { params: { id: string } }) {
     getBlogDetails,
     getOrgDetails,
     getPackages,
-    getPYQs,
+    // getPYQs,
     getLearnerDetails,
   } = Learner.Queries.Definitions;
 
@@ -141,7 +141,7 @@ export default function Page({ params }: { params: { id: string } }) {
       queries={[
         getOrgDetails(),
         getPackages(params.id),
-        getPYQs(params.id),
+        // getPYQs(params.id),
         getBlogDetails(params.id),
         // authenticated routes should only be called if token is present
         ...(token ? [getLearnerDetails()] : []),

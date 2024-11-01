@@ -28,7 +28,7 @@ export default async function Page({ params }: { params: { id: string } }) {
           getOrgDetails(),
           getProductCategoryDetails(params.id),
           getPackages(params.id),
-          getPYQs(params.id),
+          // getPYQs(params.id),
           getPromotedProducts(Enum.ProductType.PACKAGE, {
             category: params.id,
             limit: 3,

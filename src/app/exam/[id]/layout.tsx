@@ -14,7 +14,7 @@ export default function Page({
   const {
     getProductCategoryDetails,
     getPackages,
-    getPYQs,
+    // getPYQs,
     getOrgDetails,
     getCartDetails,
     getLearnerDetails,
@@ -27,7 +27,7 @@ export default function Page({
       queries={[
         getProductCategoryDetails(params.id),
         getPackages(params.id),
-        getPYQs(params.id),
+        // getPYQs(params.id),
         getOrgDetails(),
         // authenticated routes should only be called if token is present
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),

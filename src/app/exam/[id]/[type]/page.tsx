@@ -125,7 +125,7 @@ export default async function Page({
         queries={[
           getProductCategoryDetails(params.id),
           // getPackages(params.id),
-          getPYQs(params.id),
+          // getPYQs(params.id),
           getPromotedProducts(Enum.ProductType.PACKAGE, {
             category: params.id,
             ...(keywords?.length ? { keywords: keywords } : {}),
@@ -167,8 +167,8 @@ export async function getData({ id, type }) {
     type === "overview"
       ? { seo: category.seo, faqs: category.info.faqs }
       : type === "test-series"
-      ? category.testSeries
-      : category.info.links.find((link) => link.slug === type);
+        ? category.testSeries
+        : category.info.links.find((link) => link.slug === type);
   return {
     category,
     link,
