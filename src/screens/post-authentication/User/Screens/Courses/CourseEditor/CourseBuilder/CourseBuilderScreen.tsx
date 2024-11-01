@@ -63,7 +63,6 @@ function CourseBuilderScreen() {
   }, [courseDetails])
 
   useEffect(() => {
-    console.log(currentItem, 'currentItem')
     form.setFieldsValue(currentItem)
   }, [currentItem])
 

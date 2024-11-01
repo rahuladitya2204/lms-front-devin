@@ -19,7 +19,9 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
       bodyStyle={{ minHeight: 500 }}
       title={props?.item?.title?.text[language]}
     >
-      {htmlToText(description) ? <HtmlViewer content={description} /> : <Empty style={{ marginTop: 135 }} description='No Content Added' />}
+      {htmlToText(description) ? <HtmlViewer
+        customStyles={`.html-viewer ul {padding:0;} .html-viewer .ant-list-item {padding:0;}`}
+        content={description} /> : <Empty style={{ marginTop: 135 }} description='No Content Added' />}
     </Card>
   );
 };

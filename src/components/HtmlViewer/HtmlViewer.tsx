@@ -53,6 +53,48 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
     return "";
   };
 
+  const renderList = (node: Element, index: number) => {
+    const isOrdered = node.name === "ol";
+
+    const items = node.children
+      .filter((child) => child.type === "tag" && child.name === "li")
+      .map((child, idx) => {
+        // Recursively render the content of the list item
+        const content = domToReact(child.children, { replace: convertNodeToElement });
+        return {
+          key: idx,
+          content,
+        };
+      });
+
+    if (items.length === 0) {
+      // If there are no items, return null to prevent 'No Data' from displaying
+      return null;
+    }
+
+    return (
+      <List
+        itemLayout='vertical'
+        key={index}
+        dataSource={items}
+        renderItem={(item) => (
+          <List.Item key={item.key} style={{ paddingLeft: "16px" }}>
+            <div style={{ display: 'flex' }}>
+              {isOrdered ? (
+                <span style={{ marginRight: "8px" }}>{item.key + 1}.</span>
+              ) : (
+                <span style={{ marginRight: "8px", fontWeight: "bold" }}>•</span>
+              )}
+              <div>{item.content}</div>
+            </div>
+          </List.Item>
+        )}
+        style={{ margin: "16px 0" }}
+        split={false} // Prevents dividers between items
+      />
+    );
+  };
+
   const convertNodeToElement = (node: Element | Text, index: number) => {
     if (node.type === "tag") {
       switch (node.name) {
@@ -185,6 +227,11 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
               style={{ margin: "16px 0" }}
             />
           );
+        }
+
+        case "ul":
+        case "ol": {
+          return renderList(node, index);
         }
 
         // Handle inline elements and preserve styles

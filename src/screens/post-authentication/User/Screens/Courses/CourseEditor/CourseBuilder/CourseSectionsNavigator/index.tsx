@@ -315,7 +315,7 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                               title={
                                 <Text>
                                   {(item?.title?.text)
-                                    ? (item?.title?.text[language] || item?.title?.text['eng'])
+                                    ? (item?.title?.text[language])
                                     : ""}
                                 </Text>
                               }
