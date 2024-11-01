@@ -42,28 +42,29 @@ function CoursePlayerNavigator({
   toggleItemCheck,
   isMobile = false,
 }: CoursePlayerNavigatorPropsI) {
-  const {
-    data: {
-      product: { data: course },
-    },
-    isFetching: loadingCourse,
-    isLoading,
-  } = Learner.Queries.useGetEnrolledProductDetails(
-    {
-      type: "course",
-      id: courseId,
-    },
-    {
-      enabled: !!courseId,
-    }
-  );
+  const { data: course, isLoading: loadingCourse } = Learner.Queries.useGetCourseDetails(courseId)
+  // const {
+  //   data: {
+  //     product: { data: course },
+  //   },
+  //   isFetching: loadingCourse,
+  //   isLoading,
+  // } = Learner.Queries.useGetEnrolledProductDetails(
+  //   {
+  //     type: "course",
+  //     id: courseId,
+  //   },
+  //   {
+  //     enabled: !!courseId,
+  //   }
+  // );
 
   const sections: Types.CourseSection[] = course?.sections || [];
   const text = searchText.toLowerCase();
   console.log(sections, language, "111");
   return (
     <Fragment>
-      {loadingCourse ? "fetching" : ""} {isLoading ? "loading" : ""}
+      {/* {loadingCourse ? "fetching" : ""} {isLoading ? "loading" : ""} */}
       {sections
         .filter((s) => {
           const sectionTitle = s.title?.text[language]?.toLowerCase();

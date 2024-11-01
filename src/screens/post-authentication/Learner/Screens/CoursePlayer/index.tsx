@@ -126,7 +126,7 @@ function CoursePlayer() {
 
   const allItems = sections.map((s: any) => s.items).flat();
 
-  const toggleItemCheck = () => {};
+  const toggleItemCheck = () => { };
   let currentItemIndex = 0;
 
   allItems.forEach((i: any, index: number) => {
@@ -168,9 +168,9 @@ function CoursePlayer() {
     () =>
       trialExpiresAt
         ? Utils.isTrialExpiringSoon(trialExpiresAt, {
-            value: 1,
-            unit: "day",
-          })
+          value: 1,
+          unit: "day",
+        })
         : false,
     [trialExpiresAt]
   );
@@ -183,32 +183,34 @@ function CoursePlayer() {
   const isFetching = loadingEnrolledCourse || loadingCourse;
   const CourseNavigator = (
     <>
-      {loadingCourseFirst || loadingFirstEnrolledCourseDetail ? (
-        <>
-          <Skeleton.Input block />
-          <PlayerSkeleton />
-          <PlayerSkeleton />
-          <PlayerSkeleton />
-          {/* <PlayerSkeleton/> */}
-        </>
-      ) : (
-        <>
-          <Search
-            value={searchText}
-            placeholder="Search in course.."
-            onChange={(e) => setSearchText(e.target.value)}
-            size="large"
-            style={{ marginBottom: 20 }}
-          />
-          <CoursePlayerCollapsible
-            language={language}
-            isMobile={isMobile || isTablet}
-            searchText={searchText}
-            courseId={course._id}
-            toggleItemCheck={toggleItemCheck}
-          />
-        </>
-      )}
+      {loadingCourseFirst
+        //  || loadingFirstEnrolledCourseDetail
+        ? (
+          <>
+            <Skeleton.Input block />
+            <PlayerSkeleton />
+            <PlayerSkeleton />
+            <PlayerSkeleton />
+            {/* <PlayerSkeleton/> */}
+          </>
+        ) : (
+          <>
+            <Search
+              value={searchText}
+              placeholder="Search in course.."
+              onChange={(e) => setSearchText(e.target.value)}
+              size="large"
+              style={{ marginBottom: 20 }}
+            />
+            <CoursePlayerCollapsible
+              language={language}
+              isMobile={isMobile || isTablet}
+              searchText={searchText}
+              courseId={course._id}
+              toggleItemCheck={toggleItemCheck}
+            />
+          </>
+        )}
     </>
   );
   return (
@@ -230,7 +232,7 @@ function CoursePlayer() {
           <Space style={{ cursor: "pointer", paddingLeft: 10 }}>
             <OrgLogo
               onClick={() => navigate("../app/store")}
-              // style={{ width: 60 }}
+            // style={{ width: 60 }}
             />
             <Divider type="vertical" />
             {!isMobile ? (
@@ -293,7 +295,7 @@ function CoursePlayer() {
                     // overflow: 'scroll'
                   }
                 }
-                // bodyStyle={{}}
+              // bodyStyle={{}}
               >
                 {currentItemIndex > 0 ? (
                   <Tooltip

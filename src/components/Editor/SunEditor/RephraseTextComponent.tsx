@@ -1,8 +1,9 @@
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
+import TextArea from "@Components/Textarea";
 import { Title } from "@Components/Typography/Typography";
 import { Constants, User } from "@adewaskar/lms-common";
 import { Button, Col, Divider, Form, Row, Select, Switch } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface RephraseTextComponentPropsI {
   text: string;
@@ -13,6 +14,10 @@ interface RephraseTextComponentPropsI {
 export default function RephraseTextComponent(
   props: RephraseTextComponentPropsI
 ) {
+  const [text, setText] = useState('')
+  useEffect(() => {
+    setText(props.text)
+  }, [props.text])
   const [rephrasedText, setRephrasedText] = useState("");
   const [form] = Form.useForm();
   const { mutate: rephraseText, isLoading: rephrasing } =
@@ -27,7 +32,7 @@ export default function RephraseTextComponent(
           translateTo: Constants.LANGUAGES.find(
             (i) => i.value === values.translateTo
           )?.label,
-          text: props.text,
+          text: text,
         },
         {
           onSuccess: (v) => {
@@ -56,7 +61,7 @@ export default function RephraseTextComponent(
       <Row gutter={[10, 10]}>
         <Col span={24}>
           <Title level={4}>Old Text</Title>
-          <HtmlViewer content={props.text} />
+          <TextArea html={{ level: 3 }} value={text} onChange={setText} />
         </Col>
         <Divider />
 
