@@ -1,5 +1,5 @@
 import "./suneditor.css";
-import { List, Typography, Image, Table } from "antd";
+import { List, Typography, Image, Table, Divider } from "antd";
 import parse, { domToReact, DOMNode } from "html-react-parser";
 import { Element } from "domhandler";
 import styled from "@emotion/styled";
@@ -232,6 +232,10 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
         case "ul":
         case "ol": {
           return renderList(node, index);
+        }
+
+        case "hr": {
+          return <Divider key={index} />;
         }
 
         // Handle inline elements and preserve styles
