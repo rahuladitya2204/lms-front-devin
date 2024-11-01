@@ -15,14 +15,14 @@ import {
 import React, { Fragment, ReactNode, useEffect, useState } from "react";
 
 import ActionModal from "@Components/ActionModal/ActionModal";
-import AddQuestion from "../ExtraComponents/TestQuestions/AddQuestion";
+import AddQuestion from "../ExtraComponents/QuizQuestions/AddQuizQuestion";
 import AddTestimonial from "../ExtraComponents/Testimonials/AddTestomonial";
 import Header from "@Components/Header";
 import Image from "@Components/Image";
 import MediaUpload from "@Components/MediaUpload";
 import { PlusOutlined } from "@ant-design/icons";
 import PriceFormItem from "@Components/PriceFormItem";
-import Questions from "../ExtraComponents/TestQuestions/Questions";
+import Questions from "../ExtraComponents/QuizQuestions/Questions";
 import TestOutcomes from "../ExtraComponents/Outcomes/Outcomes";
 import TestTestimonials from "../ExtraComponents/Testimonials/Testimonials";
 import TextArea from "@Components/Textarea";
@@ -293,7 +293,6 @@ const CreateTest: React.FC<CreateTestComponentPropsI> = (props) => {
                         >
                           <AddOutcome
                             submit={(e: Outcome) => {
-                              console.log(e, "e");
                               setOutcomes([...outcomes, e]);
                             }}
                           />

@@ -314,8 +314,8 @@ const CourseSectionsNavigator: React.FC<CourseSectionsNavigatorPropsI> = ({
                               style={{ cursor: "pointer" }}
                               title={
                                 <Text>
-                                  {item.title.text
-                                    ? item.title.text[language]
+                                  {(item?.title?.text)
+                                    ? (item?.title?.text[language] || item?.title?.text['eng'])
                                     : ""}
                                 </Text>
                               }

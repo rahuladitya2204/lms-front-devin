@@ -4,34 +4,16 @@ import React, { Fragment, useEffect, useState } from 'react';
 import { AddItemProps } from '../UploadItems/UploadPDF';
 import { Types } from '@adewaskar/lms-common'
 
-const CreateQuizItem: React.FC<Types.CreateItemPropsI> = (props:AddItemProps) => {
-    const onSubmit = ({textHeading}: { textHeading: string }) => {
-      props.onFinish&& props.onFinish({
-        title: textHeading,
-      });
-      form.resetFields(['textHeading']);
-      props.closeModal && props.closeModal();
-    }
-    
-  const [form] = Form.useForm<{ textHeading: string }>();
-  
-  useEffect(() => {
-    if (props.item) {
-      form.setFieldsValue({
-        textHeading: props.item.title
-      });
-    }
-  }, [props.item, form]);
-
+const CreateQuizItem: React.FC<Types.CreateItemPropsI> = (props: AddItemProps) => {
   return (
-    <Form onFinish={onSubmit} form={form} layout="vertical" autoComplete="off">
-    <Form.Item  rules={[{ required: true, message: 'Please mention title for Quiz' }]} name="textHeading" label="Quiz Title">
-      <Input />
+    <>
+      <Form.Item rules={[{ required: true, message: 'Please mention title for Quiz' }]} name="title" label="Quiz Title">
+        <Input />
       </Form.Item>
-      <Button key="submit" type="primary" onClick={form.submit}>
-            Submit
-          </Button>
-    </Form>
+      <Button key="submit" type="primary" htmlType='submit'>
+        Submit
+      </Button>
+    </>
   );
 };
 

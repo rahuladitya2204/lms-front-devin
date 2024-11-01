@@ -38,7 +38,7 @@ const CREATE_NEW_ITEM = [
   {
     title: 'Quiz',
     description: 'Learners can attempt it any time and view instant results.',
-    component: CreateQuizItem,
+    component: CreateTextItem,
     type: 'quiz'
   }
 ]

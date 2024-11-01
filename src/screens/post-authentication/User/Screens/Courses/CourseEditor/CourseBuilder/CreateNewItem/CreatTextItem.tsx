@@ -12,23 +12,25 @@ const CreateTextItem: React.FC<Types.CreateItemPropsI> = (
   const { languages } = useCourseStore(s => s.course)
   const onSubmit = ({ title }: { title: { text: Types.LangText } }) => {
     console.log(title, 'huhijoij')
+    const item = {
+      // ...Constants.INITIAL_COURSE_SECTION_ITEM_DETAILS,
+      title: {
+        ...title,
+        text: {
+          ...(Constants.INITIAL_LANG_TEXT),
+          ...title.text
+        }
+      },
+      description: {
+        text: {
+          ...(Constants.INITIAL_LANG_TEXT)
+        }
+      },
+      type: 'text',
+      _id: undefined
+    };
     props.onFinish &&
-      props.onFinish({
-        ...Constants.INITIAL_COURSE_SECTION_ITEM_DETAILS,
-        title: {
-          ...title,
-          text: {
-            ...(Constants.INITIAL_LANG_TEXT),
-            ...title.text
-          }
-        },
-        description: {
-          text: {
-            ...(Constants.INITIAL_LANG_TEXT)
-          }
-        },
-        type: 'text'
-      });
+      props.onFinish(item);
     form.resetFields(["title"]);
     props.closeModal && props.closeModal();
   };

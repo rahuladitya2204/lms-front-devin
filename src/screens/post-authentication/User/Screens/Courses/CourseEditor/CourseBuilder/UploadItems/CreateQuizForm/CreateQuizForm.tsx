@@ -20,14 +20,15 @@ import { Fragment, useEffect } from 'react'
 
 import ActionModal from '@Components/ActionModal/ActionModal'
 import { AddItemProps } from '../UploadPDF'
-import CreateQuestionForm from '../../../../../ExtraComponents/TestQuestions/AddQuestion'
+import CreateQuestionForm from '../../../../../ExtraComponents/QuizQuestions/AddQuizQuestion'
 import FileList from '@Components/FileList'
 import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton'
 import MediaUpload from '@Components/MediaUpload'
-import Questions from '@User/Screens/ExtraComponents/TestQuestions/Questions'
+import Questions from '@User/Screens/ExtraComponents/QuizQuestions/Questions'
 import TextArea from '@Components/Textarea'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
+import { useOutletContext } from 'react-router'
 
 const { confirm } = Modal
 
@@ -44,7 +45,7 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
     section
   } = useUploadItemForm(form)
   const courseQuiz = item?.quiz || Constants.INITIAL_COURSE_QUIZ
-  console.log(courseId, 'courseId')
+  console.log(courseQuiz, 'courseId')
   const deleteQuestion = (questionId: string) => {
     const newQuestions = [...courseQuiz.questions]
     const index = courseQuiz.questions.findIndex(
@@ -67,210 +68,104 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
     },
     [props.item]
   )
+  const { language } = useOutletContext();
   return (
     <Fragment>
-      <Form
-        form={form}
-        layout="vertical"
-        onValuesChange={e => {
-          console.log(e, 'eee')
-          const data: Partial<Types.CourseSectionItem> = {
-            ...e,
-            metadata: {
-              duration: 100
-            }
-          }
-          onFormChange(data)
-        }}
-      >
-        <Form.Item name="title" label="Title" required>
-          <Input placeholder="Enter Quiz Title" />
-        </Form.Item>
-        <Form.Item name="description">
-          <TextArea label="Description" name="description" />
-        </Form.Item>
-        {/* <Form.Item>
-          <Checkbox
-            checked={item.isPreview}
-            onChange={e => {
-              const isPreview = e.target.checked
-              onFormChange({ isPreview })
-            }}
-          >
-            Avail this as a free lecture
-          </Checkbox>
-        </Form.Item> */}
-        <Row gutter={[20, 20]}>
-          <Col span={24}>
-            <Card
-              style={{ marginBottom: 20 }}
-              title="Questions"
-              extra={[
-                courseQuiz.questions.length ? null : (
-                  <GenerateWithAI
-                    courseId={courseId + ''}
-                    fields={['quiz']}
-                    extra={{
-                      sectionTitle: section?.title,
-                      chaptersCovered: section?.items
-                        .slice(0, currentItemIndex)
-                        .map(i => i.title)
-                        .join(',')
-                    }}
-                    onValuesChange={({ quiz }: any) => {
-                      console.log(quiz, 'quiz')
-                      onFormChange({
-                        quiz: {
-                          ...courseQuiz,
-                          questions: quiz
-                        }
-                      })
-                    }}
-                  />
-                ),
-                <ActionModal
-                  width={850}
-                  cta={
-                    <Button
-                      style={{ marginLeft: 10 }}
-                      size="small"
-                      type="primary"
-                      icon={<PlusOutlined />}
-                    >
-                      Add
-                    </Button>
-                  }
-                >
-                  <CreateQuestionForm
-                    submit={question => {
-                      onFormChange({
-                        quiz: {
-                          ...courseQuiz,
-                          questions: [...courseQuiz.questions, question]
-                        }
-                      })
-                    }}
-                  />
-                </ActionModal>
-              ]}
-            >
-              <Questions
-                onUpdate={question => {
-                  const newQuestions = [...courseQuiz.questions]
-                  newQuestions.forEach((q, index) => {
-                    if (q._id === item._id) {
-                      newQuestions[index] = question
-                    }
-                  })
-                  onFormChange({
-                    quiz: {
-                      ...courseQuiz,
-                      questions: newQuestions
-                    }
-                  })
-                }}
-                data={courseQuiz.questions}
-                deleteItem={item => deleteQuestion(item._id)}
-              />
-              {/* <List
-                bordered
-                dataSource={courseQuiz.questions}
-                renderItem={(item: Types.TestQuestion) => (
-                  <List.Item
-                    style={{ cursor: 'pointer' }}
-                    extra={[
-                      <Typography.Text>
-                        {item.type === Enum.TestQuestionType.SINGLE ? (
-                          <Tag color="magenta">Single Choice</Tag>
-                        ) : (
-                          <Tag color="volcano">Multiple Choice</Tag>
-                        )}
-                        <Tag color="blue">{item.answers.length} Options</Tag>
-                        <Tooltip title="Delete Question">
-                          <DeleteOutlined
-                            onClick={() => {
-                              confirm({
-                                title: 'Are you sure?',
-                                // icon: <ExclamationCircleOutlined />,
-                                content: `You want to delete this question`,
-                                onOk() {
-                                  deleteQuestion(item._id)
-                                },
-                                okText: 'Yes, Delete'
-                              })
-                            }}
-                            style={{ marginLeft: 10 }}
-                          />
-                        </Tooltip>
-                      </Typography.Text>
-                    ]}
+      <Form.Item name={["title", 'text', language]} label="Title" required>
+        <Input placeholder="Enter Quiz Title" />
+      </Form.Item>
+      <Form.Item name={["description", 'text', language]}>
+        <TextArea label="Description" name={["description", 'text', language]} />
+      </Form.Item>
+      <Row gutter={[20, 20]}>
+        <Col span={24}>
+          <Card
+            style={{ marginBottom: 20 }}
+            title="Questions"
+            extra={[
+              <ActionModal
+                width={850}
+                cta={
+                  <Button
+                    style={{ marginLeft: 10 }}
+                    size="small"
+                    type="primary"
+                    icon={<PlusOutlined />}
                   >
-                    <ActionModal
-                      width={650}
-                      cta={
-                        <Typography.Text strong>{item.title}</Typography.Text>
+                    Add Question
+                  </Button>
+                }
+              >
+                <CreateQuestionForm
+                  submit={question => {
+                    console.log(question, 'added quest')
+                    onFormChange({
+                      quiz: {
+                        ...courseQuiz,
+                        questions: [...courseQuiz.questions, question]
                       }
-                    >
-                      <CreateQuestionForm
-                        submit={question => {
-                          const newQuestions = [...courseQuiz.questions]
-                          newQuestions.forEach((q, index) => {
-                            if (q._id === item._id) {
-                              newQuestions[index] = question
-                            }
-                          })
-                          onFormChange({
-                            quiz: {
-                              ...courseQuiz,
-                              questions: newQuestions
-                            }
-                          })
-                        }}
-                        data={item}
-                      />
-                    </ActionModal>
-                  </List.Item>
-                )}
-              /> */}
-            </Card>
-          </Col>
-          <Col span={24}>
-            <Card
-              style={{ marginBottom: 20 }}
-              title="Course Files"
-              extra={
-                <ActionModal
-                  cta={<Button icon={<UploadOutlined />}> Upload </Button>}
-                >
-                  <MediaUpload
-                    source={{
-                      type: 'course.section.item.files',
-                      value: courseId + ''
-                    }}
-                    uploadType="file"
-                    prefixKey={`courses/${courseId}/${sectionId}/${
-                      itemId
+                    })
+                  }}
+                />
+              </ActionModal>
+            ]}
+          >
+            <Questions
+              onUpdate={question => {
+                console.log(question, 'question')
+                const newQuestions = [...courseQuiz.questions]
+                newQuestions.forEach((q, index) => {
+                  if (q._id === item._id) {
+                    newQuestions[index] = question
+                  }
+                })
+                onFormChange({
+                  quiz: {
+                    ...courseQuiz,
+                    questions: newQuestions
+                  }
+                })
+              }}
+              data={courseQuiz.questions}
+              deleteItem={item => deleteQuestion(item._id)}
+            />
+          </Card>
+        </Col>
+        <Col span={24}>
+          <Card
+            style={{ marginBottom: 20 }}
+            title="Course Files"
+            extra={
+              <ActionModal
+                cta={<Button icon={<UploadOutlined />}> Upload </Button>}
+              >
+                <MediaUpload
+                  source={{
+                    type: 'course.section.item.files',
+                    value: courseId + ''
+                  }}
+                  uploadType="file"
+                  prefixKey={`courses/${courseId}/${sectionId}/${itemId
                     }/files/${uniqueId()}`}
-                    onUpload={({ name, _id }) => {
-                      onFormChange({
-                        files: [...item.files, { name, file: _id }]
-                      })
-                    }}
-                  />
-                </ActionModal>
-              }
-            >
-              <FileList
-                onDeleteFile={(fileId: string) => {
-                  const files = item.files.filter((f: any) => f.file !== fileId)
-                  onFormChange({ files })
-                }}
-                files={item.files}
-              />
-            </Card>
-          </Col>
-        </Row>
-      </Form>
+                  onUpload={({ name, _id }) => {
+                    onFormChange({
+                      files: [...item.files, { name, file: _id }]
+                    })
+                  }}
+                />
+              </ActionModal>
+            }
+          >
+            <FileList
+              onDeleteFile={(fileId: string) => {
+                const files = item.files.filter((f: any) => f.file !== fileId)
+                onFormChange({ files })
+              }}
+              files={item.files}
+            />
+          </Card>
+        </Col>
+      </Row>
     </Fragment>
   )
 }
