@@ -21,10 +21,12 @@ function CoursePlayerItem() {
   <p>${user.contactNo}</p>
 </div>`;
   }, [user]);
+  const [, , language] = useOutletContext();
   const { id: courseId, itemId } = useParams();
   const { data: item, isLoading } = Learner.Queries.useGetCourseItemDetails(
     courseId + "",
-    itemId + ""
+    itemId + "",
+    language
   );
   const onEnd = () => {
     updateProgress({
