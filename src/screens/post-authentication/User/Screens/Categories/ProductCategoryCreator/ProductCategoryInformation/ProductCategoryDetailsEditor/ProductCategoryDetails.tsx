@@ -25,7 +25,7 @@ import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
 import { Typography } from "@Components/Typography";
 import { deepPatch } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useParams } from "@Router/index";
-import { validateSlug } from "@Components/Editor/SunEditor/utils";
+import { validateSlug } from "@User/Screens/ExtraComponents/ValidateProductSlug";
 
 const { useWatch } = Form;
 
@@ -172,7 +172,7 @@ function ProductCategoryDetailsEditor(
             // ]}
             name={["info", "registration", "date"]}
             label="Registration Date"
-            // required
+          // required
           >
             <Input
               // type="string"
@@ -190,7 +190,7 @@ function ProductCategoryDetailsEditor(
             // ]}
             name={["info", "registration", "link"]}
             label="Registration Link"
-            // required
+          // required
           >
             <Input
               // type="number"
@@ -208,7 +208,7 @@ function ProductCategoryDetailsEditor(
             // ]}
             name={["info", "examDate"]}
             label="Exam Date"
-            // required
+          // required
           >
             <Input
               // type="number"
@@ -247,7 +247,7 @@ function ProductCategoryDetailsEditor(
             // ]}
             name={["info", "calendar", "date"]}
             label="Calendar Release Date"
-            // required
+          // required
           >
             <Input
               // type="string"
@@ -335,7 +335,7 @@ function ProductCategoryDetailsEditor(
             // ]}
             name={["info", "eligibility"]}
             label="Eligibility"
-            // required
+          // required
           >
             <Input
               // type="string"
@@ -353,7 +353,7 @@ function ProductCategoryDetailsEditor(
             // ]}
             name={["info", "vacancies"]}
             label="Vacancies"
-            // required
+          // required
           >
             <Input
               // type="string"
@@ -371,7 +371,7 @@ function ProductCategoryDetailsEditor(
             // ]}
             name={["info", "salaryRange"]}
             label="Salary"
-            // required
+          // required
           >
             <Input
               // type="number"

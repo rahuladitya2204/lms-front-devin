@@ -337,12 +337,16 @@ export const PYQTestsComponent = (props: {
       enabled: !!categoryId,
     }
   );
+  console.log()
   const navigate = useNavigate();
   const { data: category } =
     Learner.Queries.useGetProductCategoryDetails(categoryId);
   return (
     <Row gutter={[20, 20]}>
-      {PYQTests.sort((a) => a.pyq.year).map((test, idx) => {
+      {PYQTests.sort((a) => {
+        console.log(a, 'aaaa')
+        return a.pyq.year
+      }).map((test, idx) => {
         return (
           <Col sm={12} key={idx} md={8} xs={24} lg={8} xl={6} xxl={6}>
             <TestCard

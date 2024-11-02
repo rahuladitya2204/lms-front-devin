@@ -23,7 +23,6 @@ import { useParams } from "react-router";
 import TextArea from "@Components/Textarea";
 import FileList from "@Components/FileList";
 import { TopicNode } from "@User/Screens/Admin/Topics/TopicsScreen";
-import { validateSlug } from "@Components/Editor/SunEditor/utils";
 import InputTags from "@Components/InputTags/InputTags";
 import TopicSelect from "@Components/TopicSelect";
 import { capitalize } from "lodash";

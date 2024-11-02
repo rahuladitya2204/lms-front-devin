@@ -24,10 +24,10 @@ import ProductRow from "./Products/ProductRow";
 import SelectProductCategory from "@Components/SelectProductCategory";
 import Testimonials from "@User/Screens/ExtraComponents/Testimonials/Testimonials";
 import TextArea from "@Components/Textarea";
-import { validateSlug } from "@Components/Editor/SunEditor/utils";
 import { capitalize, cloneDeep } from "lodash";
 import dayjs from "dayjs";
 import FileList from "@Components/FileList";
+import { validateSlug } from "@User/Screens/ExtraComponents/ValidateProductSlug";
 
 interface PackageDetailsPropsI {
   packageId: string;
