@@ -53,47 +53,55 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
     return "";
   };
 
-  const renderList = (node: Element, index: number) => {
+
+  const renderList = (node: Element, index: number, level = 0) => {
     const isOrdered = node.name === "ol";
 
+    // Extract list items
     const items = node.children
       .filter((child) => child.type === "tag" && child.name === "li")
       .map((child, idx) => {
-        // Recursively render the content of the list item
-        const content = domToReact(child.children, { replace: convertNodeToElement });
-        return {
-          key: idx,
-          content,
-        };
-      });
+        const nestedList = child.children.find(
+          (subChild) => subChild.type === "tag" && (subChild.name === "ul" || subChild.name === "ol")
+        );
 
-    if (items.length === 0) {
-      // If there are no items, return null to prevent 'No Data' from displaying
-      return null;
-    }
+        // Recursively render the content of the list item, including nested lists if present
+        const content = domToReact(child.children.filter((subChild) => subChild !== nestedList), {
+          replace: convertNodeToElement,
+        });
 
-    return (
-      <List
-        itemLayout='vertical'
-        key={index}
-        dataSource={items}
-        renderItem={(item) => (
-          <List.Item key={item.key} style={{ paddingLeft: "16px" }}>
-            <div style={{ display: 'flex' }}>
+        return (
+          <List.Item key={idx} style={{ paddingLeft: `${level * 16}px` }}>
+            <div style={{ display: "flex" }}>
               {isOrdered ? (
-                <span style={{ marginRight: "8px" }}>{item.key + 1}.</span>
+                <span style={{ marginRight: "8px" }}>{idx + 1}.</span>
               ) : (
                 <span style={{ marginRight: "8px", fontWeight: "bold" }}>•</span>
               )}
-              <div>{item.content}</div>
+              <div>{content}</div>
             </div>
+            {nestedList && (
+              <div style={{ paddingLeft: "16px" }}>
+                {renderList(nestedList as Element, idx, level + 1)}
+              </div>
+            )}
           </List.Item>
-        )}
+        );
+      });
+
+    return (
+      <List
+        itemLayout="vertical"
+        key={index}
+        dataSource={items}
+        renderItem={(item) => item}
         style={{ margin: "16px 0" }}
         split={false} // Prevents dividers between items
       />
     );
   };
+
+
 
   const convertNodeToElement = (node: Element | Text, index: number) => {
     if (node.type === "tag") {
