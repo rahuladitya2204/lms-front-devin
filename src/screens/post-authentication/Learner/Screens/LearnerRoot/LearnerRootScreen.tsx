@@ -19,6 +19,7 @@ import useBreakpoint from "@Hooks/useBreakpoint";
 import useDehydration from "@ServerHooks/useDehydration";
 
 import LearnerHeaderClient from "./LearnerHeader/LearnerHeader";
+import SubscriptionPlansModal from "@User/Screens/ExtraComponents/SubscriptionPlans";
 
 const { Title } = Typography;
 
@@ -83,7 +84,7 @@ const LearnerRootScreen = ({ children, isServer }: LearnerRootScreenProps) => {
               </ActionModal>
             ) : null
           ) : null}
-          {/* {!learner.subscription ? <SubscriptionPlansScreen /> : null} */}
+          {!learner.subscription ? <SubscriptionPlansModal /> : null}
           <Layout
             style={{ paddingBottom: 0, display: "flex", minHeight: "100vh" }}
           >

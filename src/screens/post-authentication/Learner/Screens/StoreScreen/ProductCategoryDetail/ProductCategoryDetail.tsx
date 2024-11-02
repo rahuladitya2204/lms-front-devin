@@ -344,7 +344,6 @@ export const PYQTestsComponent = (props: {
   return (
     <Row gutter={[20, 20]}>
       {PYQTests.sort((a) => {
-        console.log(a, 'aaaa')
         return a.pyq.year
       }).map((test, idx) => {
         return (

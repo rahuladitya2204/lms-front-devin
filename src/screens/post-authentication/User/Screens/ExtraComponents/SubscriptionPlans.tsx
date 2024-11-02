@@ -25,13 +25,14 @@ import {
 import { useNavigate } from "@Router/index";
 import { Learner } from "@adewaskar/lms-common";
 import Tabs from "@Components/Tabs";
+import { useQueryClient } from "@tanstack/react-query";
 
 const { Title, Text } = Typography;
 
 export default function SubscriptionPlansModal() {
   const { data: subscriptionPlans, isLoading } =
     Learner.Queries.useGetGlobalPlans();
-  const [selectedPlan, setSelectedPlan] = useState<{ plan: Types.Plan, subscription: Types.Subscription }>({
+  const [selectedPlan, setSelectedPlan] = useState<{ planId: string, subscription: Types.Subscription }>({
     planId: '',
     subscription: Constants.INITIAL_PLAN_SUBSCRIPTION_PLAN_DETAILS
   });
@@ -68,54 +69,36 @@ export default function SubscriptionPlansModal() {
         <Col span={24}>
           <Tabs tabKey="subscription-plan" items={subscriptionPlans.map(plan => {
             return {
-              key: plan._id,
+              key: `${plan._id}`,
               label: plan.title,
               children: <Row>
                 <Col span={24}>
                   <Row gutter={[20, 20]}>
                     {plan.subscriptions?.map(subscription => {
-                      return <Col xs={24} sm={12} md={8} key={plan._id}>
-                        <Badge.Ribbon
-                        // text={subscription?.type}
-                        // color={subscription.autoRenew ? "blue" : "green"}
+                      return <Col xs={24} sm={12} md={8} key={subscription._id}>
+                        <Card
+                          title={<Title level={4}>{subscription.title}</Title>}
+                          bordered
                         >
-                          <Card
-                            title={<Title level={4}>{subscription.title}</Title>}
-                            bordered
-                          // style={{
-                          //   border:
-                          //     selectedPlan === plan._id
-                          //       ? "2px solid #1890ff"
-                          //       : "1px solid #d9d9d9",
-                          //   borderRadius: "8px",
-                          // }}
-                          >
-                            <Space direction="vertical" size="small">
-                              <Text strong>Price: </Text>
-                              <Text>
-                                {subscription.price.value} {subscription.price.unit}
-                              </Text>
+                          <Space direction="vertical" size="small">
+                            <Text strong>Price: </Text>
+                            <Text>
+                              {subscription.price.value} {subscription.price.unit}
+                            </Text>
 
-                              <Text strong>Duration: </Text>
-                              <Text>{subscription.duration} days</Text>
-
-                              {/* <Text strong>Last Updated: </Text>
-                  <Text>
-                    <ClockCircleOutlined /> {dayjs(plan.updatedAt).format("LL")}
-                  </Text> */}
-
-                              <Radio.Group
-                                value={selectedPlan.subscription._id}
-                                onChange={() => handlePlanSelect(plan, subscription)}
-                                style={{ marginTop: "12px", width: "100%" }}
-                              >
-                                <Radio value={subscription._id} style={{ width: "100%" }}>
-                                  Select {subscription.title}
-                                </Radio>
-                              </Radio.Group>
-                            </Space>
-                          </Card>
-                        </Badge.Ribbon>
+                            <Text strong>Duration: </Text>
+                            <Text>{subscription.duration} days</Text>
+                            <Radio.Group
+                              value={selectedPlan.subscription._id}
+                              onChange={() => handlePlanSelect(plan, subscription)}
+                              style={{ marginTop: "12px", width: "100%" }}
+                            >
+                              <Radio value={subscription._id} style={{ width: "100%" }}>
+                                Select {subscription.title}
+                              </Radio>
+                            </Radio.Group>
+                          </Space>
+                        </Card>
                       </Col>
                     })}
                   </Row>
@@ -187,6 +170,8 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
     }
   }, [coupon, couponCode]);
 
+  const queryClient = useQueryClient();
+
   const {
     mutate: createSubscriptionPlanOrder,
     isLoading: isCreatingSubscriptionPlanOrder,
@@ -196,10 +181,17 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
   const {
     data: { wallet },
   } = Learner.Queries.useGetLearnerDetails();
-  const { mutate: updatePaymentOrder, isLoading: updatingPaymentOrder } =
-    Learner.Queries.useUpdateOrderStatus(product);
+
   const { data: organisation } = Learner.Queries.useGetOrgDetails();
   const transactionStrategy = organisation.transaction.strategy;
+  const onSuccess = () => {
+    LogEvent(
+      capitalize(`Subscription PLan:: ${plan.title}`),
+      "Enroll::Success",
+      plan._id
+    );
+    queryClient.invalidateQueries([`GET_LEARNER_DETAILS`]);
+  };
 
   const CreateOrder = () => {
     createSubscriptionPlanOrder(
@@ -213,44 +205,14 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
         onSuccess: ({ pgOrder, order }: any) => {
           if (transactionStrategy === Enum.LearnerTransactionStrategy.DIRECT) {
             if (!order.total.value) {
-              // return updatePaymentOrder(
-              //   {
-              //     orderId: order._id,
-              //     status: "successful",
-              //     data: {},
-              //   }
-              //   // {
-              //   //   onSuccess: onSuccess,
-              //   //   onError,
-              //   // }
-              // );
+              onSuccess()
             }
             openCheckout({ pgOrder, order }, (payment: any) => {
-              // updatePaymentOrder(
-              //   {
-              //     orderId: order._id,
-              //     status: "successful",
-              //     data: payment,
-              //   }
-              //   // {
-              //   //   onSuccess: onSuccess,
-              //   //   onError,
-              //   // }
-              // );
+              onSuccess();
             });
           }
           if (transactionStrategy === Enum.LearnerTransactionStrategy.WALLET) {
-            // return updatePaymentOrder(
-            //   {
-            //     orderId: order._id,
-            //     status: "successful",
-            //     data: {},
-            //   }
-            //   // {
-            //   //   onSuccess: onSuccess,
-            //   //   onError,
-            //   // }
-            // );
+            onSuccess();
           }
         },
       }
@@ -336,17 +298,6 @@ export function SubscriptionCheckoutButton(props: ProductCheckoutButtonPropsI) {
             name="couponCode"
             validateStatus={coupon ? "success" : ""}
             rules={[
-              // {
-              //   required: true,
-              //   message: "Please enter a coupon code",
-              // },
-              // {
-              //   type: "number",
-              //   min: 1,
-              //   max: 99,
-              //   message: "Coupon code must be between 1 and 99",
-              //   transform: (value) => Number(value), // Transforms the input to a number before validation
-              // },
               {
                 validator: (_, value) => {
                   if (!value) return Promise.resolve();
