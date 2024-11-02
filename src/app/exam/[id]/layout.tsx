@@ -26,11 +26,11 @@ export default function Page({
     <Hydrator
       queries={[
         getProductCategoryDetails(params.id),
-        getPackages(params.id),
+        // getPackages(params.id),
         // getPYQs(params.id),
-        getOrgDetails(),
+        // getOrgDetails(),
         // authenticated routes should only be called if token is present
-        ...(token ? [getCartDetails(), getLearnerDetails()] : []),
+        // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}
     >
       <LearnerRootScreen isServer>

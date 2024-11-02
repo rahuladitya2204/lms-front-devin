@@ -25,25 +25,24 @@ export default async function Page({ params }: { params: { id: string } }) {
       {/* @ts-ignore */}
       <Hydrator
         queries={[
-          getOrgDetails(),
+          // getOrgDetails(),
           getProductCategoryDetails(params.id),
-          getPackages(params.id),
-          // getPYQs(params.id),
-          getPromotedProducts(Enum.ProductType.PACKAGE, {
-            category: params.id,
-            limit: 3,
-            ...(category.keywords?.length
-              ? { keywords: category.keywords }
-              : {}),
-          }),
-          getPromotedProducts(Enum.ProductType.TEST, {
-            category: params.id,
-            mode: "free",
-            limit: 3,
-            ...(category.keywords?.length
-              ? { keywords: category.keywords }
-              : {}),
-          }),
+          // getPackages(params.id),
+          // getPromotedProducts(Enum.ProductType.PACKAGE, {
+          //   category: params.id,
+          //   limit: 3,
+          //   ...(category.keywords?.length
+          //     ? { keywords: category.keywords }
+          //     : {}),
+          // }),
+          // getPromotedProducts(Enum.ProductType.TEST, {
+          //   category: params.id,
+          //   mode: "free",
+          //   limit: 3,
+          //   ...(category.keywords?.length
+          //     ? { keywords: category.keywords }
+          //     : {}),
+          // }),
           // // authenticated routes should only be called if token is present
           // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
         ]}

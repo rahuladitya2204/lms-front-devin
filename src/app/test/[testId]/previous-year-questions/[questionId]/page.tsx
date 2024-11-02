@@ -160,11 +160,11 @@ export default async function Page({
         getProductCategoryDetails(test.category + ""),
         getTestDetails(params.testId),
         getTexts(),
-        getPromotedProducts(Enum.ProductType.TEST, {
-          category: test.category,
-          limit: 4,
-          mode: "free",
-        }),
+        // getPromotedProducts(Enum.ProductType.TEST, {
+        //   category: test.category,
+        //   limit: 4,
+        //   mode: "free",
+        // }),
         // authenticated routes should only be called if token is present
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}

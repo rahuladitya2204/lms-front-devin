@@ -126,17 +126,17 @@ export default async function Page({
           getProductCategoryDetails(params.id),
           // getPackages(params.id),
           // getPYQs(params.id),
-          getPromotedProducts(Enum.ProductType.PACKAGE, {
-            category: params.id,
-            ...(keywords?.length ? { keywords: keywords } : {}),
-            limit: 3,
-          }),
-          getPromotedProducts(Enum.ProductType.TEST, {
-            category: params.id,
-            mode: "free",
-            ...(keywords?.length ? { keywords: keywords } : {}),
-            limit: 3,
-          }),
+          // getPromotedProducts(Enum.ProductType.PACKAGE, {
+          //   category: params.id,
+          //   ...(keywords?.length ? { keywords: keywords } : {}),
+          //   limit: 3,
+          // }),
+          // getPromotedProducts(Enum.ProductType.TEST, {
+          //   category: params.id,
+          //   mode: "free",
+          //   ...(keywords?.length ? { keywords: keywords } : {}),
+          //   limit: 3,
+          // }),
         ]}
       >
         <ProductCategoryTabs

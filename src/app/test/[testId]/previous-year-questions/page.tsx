@@ -37,11 +37,11 @@ export default async function Page({
       queries={[
         // getOrgDetails(),
         getTestDetails(params.testId),
-        getPromotedProducts(Enum.ProductType.TEST, {
-          category: test.category,
-          limit: 4,
-          mode: "free",
-        }),
+        // getPromotedProducts(Enum.ProductType.TEST, {
+        //   category: test.category,
+        //   limit: 4,
+        //   mode: "free",
+        // }),
         // authenticated routes should only be called if token is present
         ...(token ? [getCartDetails(), getLearnerDetails()] : []),
       ]}

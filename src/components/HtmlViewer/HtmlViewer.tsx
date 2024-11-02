@@ -229,10 +229,10 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           );
         }
 
-        case "ul":
-        case "ol": {
-          return renderList(node, index);
-        }
+        // case "ul":
+        // case "ol": {
+        //   return renderList(node, index);
+        // }
 
         case "hr": {
           return <Divider key={index} />;
