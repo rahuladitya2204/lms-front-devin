@@ -6,7 +6,6 @@ import { getCookie } from "@ServerUtils/index";
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 const axios = getAxiosInstance();
 import { RenderFAQJson } from "@Components/CreateFaqsComponent";
-import { getToken } from "@Network/index";
 
 const apiUrl = process.env.API_URL;
 
@@ -114,11 +113,8 @@ export default async function Page({
   console.log(link, "link");
   const {
     getProductCategoryDetails,
-    getLearnerDetails,
     getOrgDetails
   } = Learner.Queries.Definitions;
-  const token = getToken();
-  const keywords = link?.keywords || category.keywords;
   return (
     <>
       <RenderFAQJson faqs={link?.faqs} />

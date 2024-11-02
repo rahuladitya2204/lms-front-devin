@@ -17,7 +17,7 @@ export default async function Page({ params }: { params: { id: string } }) {
     getProductCategoryDetails,
     getOrgDetails,
   } = Learner.Queries.Definitions;
-  const token = getToken();
+
   return (
     <>
       <RenderFAQJson faqs={category.info.faqs} />

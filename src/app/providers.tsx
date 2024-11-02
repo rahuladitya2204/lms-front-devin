@@ -32,13 +32,12 @@ function getQueryClient() {
   if (typeof window === "undefined") {
     return makeQueryClient(); // Server: Create a new client for every request
   }
-
   if (!browserQueryClient) {
     browserQueryClient = makeQueryClient(); // Browser: Create only once
   }
-
   return browserQueryClient;
 }
+
 const MemoizedChildren = memo(({ children }) => children);
 
 /**
@@ -49,20 +48,20 @@ export default function Providers({ children }) {
   const queryClient = useMemo(() => getQueryClient(), []); // Memoize the query client
 
   return (
-    // <Suspense fallback={<div>Loading...</div>}>
-    <Store.AuthenticationStoreProvider>
-      <Store.GlobalStoreProvider>
-        <QueryClientProvider client={queryClient}>
-          <ModalProvider>
-            <ServerAuthProvider>
-              <AntdRegistry>
-                <MemoizedChildren>{children}</MemoizedChildren>
-              </AntdRegistry>
-            </ServerAuthProvider>
-          </ModalProvider>
-        </QueryClientProvider>
-      </Store.GlobalStoreProvider>
-    </Store.AuthenticationStoreProvider>
-    // </Suspense>
+    <MemoizedChildren>
+      <Store.AuthenticationStoreProvider>
+        <Store.GlobalStoreProvider>
+          <QueryClientProvider client={queryClient}>
+            <ModalProvider>
+              <ServerAuthProvider>
+                <AntdRegistry>
+                  {children}
+                </AntdRegistry>
+              </ServerAuthProvider>
+            </ModalProvider>
+          </QueryClientProvider>
+        </Store.GlobalStoreProvider>
+      </Store.AuthenticationStoreProvider>
+    </MemoizedChildren >
   );
 }
