@@ -30,13 +30,13 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
   const { data: appUser } = Learner.Queries.useGetLearnerDetails();
   return (
     <Row>
-            <Col span={24}>
+      <Col span={24}>
         <Card>
           <Comment
             avatar={
               <Avatar style={{ backgroundColor: token.colorPrimary }}>
-              {Utils.getFirstLettersOfName(appUser.name)}
-            </Avatar>            }
+                {Utils.getFirstLettersOfName(appUser.name)}
+              </Avatar>}
             content={<CreateQuestion itemId={props.itemId} product={props.product} />}
           />
         </Card>
@@ -51,37 +51,37 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
             loading={loadingQuestions}
             className="comment-list"
             header={`${questions?.length} Comments`}
-              itemLayout="horizontal"
-              // @ts-ignore
-            dataSource={questions.sort((a,b)=>b.date-a.date)}
-              renderItem={question => {
-                const user = question.user as unknown as Types.Learner;
+            itemLayout="horizontal"
+            // @ts-ignore
+            dataSource={questions.sort((a, b) => b.date - a.date)}
+            renderItem={question => {
+              const user = question.user as unknown as Types.Learner;
               return (
                 <List.Item
                   key={question._id}
                   actions={[
-                    <Text type='secondary'>{dayjs(question.date).fromNow() }</Text>,
-                  //   <Badge count={question.upvotes }>
-                  //   <Button icon={<ArrowUpOutlined />}>
-                  //  </Button>
-                  //     </Badge>,
-                    <Badge count={question.answers.length }>
+                    <Text type='secondary'>{dayjs(question.date).fromNow()}</Text>,
+                    //   <Badge count={question.upvotes }>
+                    //   <Button icon={<ArrowUpOutlined />}>
+                    //  </Button>
+                    //     </Badge>,
+                    <Badge count={question.answers.length}>
                       <Button type='primary' shape='circle' icon={<CommentOutlined
 
                       />} onClick={() => props.selectQuestion(question)}>
-  </Button>
+                      </Button>
                     </Badge>
                   ]}
                 >
                   <List.Item.Meta
-                        avatar={
-                          <Avatar style={{ backgroundColor: (user._id===appUser._id)?token.colorPrimary:token.colorTextSecondary }}>
-                              {Utils.getFirstLettersOfName(user.name)}
-                          </Avatar>
-                        }
+                    avatar={
+                      <Avatar style={{ backgroundColor: (user._id === appUser._id) ? token.colorPrimary : token.colorTextSecondary }}>
+                        {Utils.getFirstLettersOfName(user.name)}
+                      </Avatar>
+                    }
                     title={
                       <Text ellipsis strong>
-                        {question.title}
+                        {user.name || 'User'}
                       </Text>
                     }
                     description={
@@ -104,4 +104,3 @@ const ProductDiscussionList: React.FC<ProductDiscussionListPropsI> = props => {
 }
 
 export default ProductDiscussionList
-	

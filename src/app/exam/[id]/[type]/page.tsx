@@ -124,8 +124,8 @@ export default async function Page({
       <RenderFAQJson faqs={link?.faqs} />
       <Hydrator
         queries={[
+          getOrgDetails(),
           getProductCategoryDetails(params.id),
-          getOrgDetails()
         ]}
       >
         <ProductCategoryTabs

@@ -6,10 +6,12 @@ import CoursePlayerTextItem from "./CoursePlayerItems/Text";
 import ErrorBoundary from "@Components/ErrorBoundary";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PDFViewer from "@Components/PDFViewer";
-import { Skeleton, Spin } from "@Lib/index";
+import { Col, Row, Skeleton, Spin } from "@Lib/index";
 
 import { useParams } from "@Router/index";
 import { useOutletContext } from "react-router";
+import ProductDiscussionList from "../ProductDiscussion/ProductDiscussion";
+import ProductDiscussion from "../ProductDiscussion";
 
 function CoursePlayerItem() {
   const [loading, setLoading] = useState(false);
@@ -101,18 +103,30 @@ function CoursePlayerItem() {
     // @ts-ignore
     <ErrorBoundary fallbackComponent={Component}>
       <Spin spinning={loading || loadingFile}>
-        <div
-          style={{
-            // height: 550,
-            width: "100%",
-          }}
-        >
-          {isLoading ? <Skeleton.Button block active style={{
-            width: '100%',
-            height: 500
+        <Row gutter={[20, 20]}>
+          <Col span={24}>
+            <div
+              style={{
+                // height: 550,
+                width: "100%",
+              }}
+            >
+              {isLoading ? <Skeleton.Button block active style={{
+                width: '100%',
+                height: 500
 
-          }} /> : Component}
-        </div>
+              }} /> : Component}
+            </div></Col>
+          <Col span={24}>
+            <ProductDiscussion
+              product={{
+                type: Enum.ProductType.COURSE,
+                id: courseId + ''
+              }}
+              itemId={itemId + ''}
+            />
+          </Col>
+        </Row>
       </Spin>
     </ErrorBoundary>
   );

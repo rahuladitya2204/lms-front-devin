@@ -37,7 +37,7 @@ export const useCourseStore = create<CourseStoreState>((set) => ({
       language,
     }));
   },
-  setCurrentItem: (item: string) => {
+  setCurrentItem: (item) => {
     set(() => {
       return ({
         currentItem: item,

@@ -65,11 +65,13 @@ const CreateQuestion: React.FC<CreateQuestionPropsI> = props => {
         </Form>
       </Col>
       <Col span={24} style={{ flexDirection: 'row-reverse' }}>
-        <Form.Item>
-          <Button loading={loading} onClick={form.submit} type="primary">
-            Submit Query
-          </Button>
-        </Form.Item>
+        <Row justify={'end'}>
+          <Col><Form.Item>
+            <Button loading={loading} onClick={form.submit} type="primary">
+              Start Discussion
+            </Button>
+          </Form.Item></Col>
+        </Row>
       </Col>
     </Row>
   )

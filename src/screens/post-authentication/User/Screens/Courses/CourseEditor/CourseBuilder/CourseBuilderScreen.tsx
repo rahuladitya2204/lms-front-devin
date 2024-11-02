@@ -40,7 +40,7 @@ const { confirm } = Modal;
 function CourseBuilderScreen() {
   const { id: courseId, itemId } = useParams();
   const [form] = Form.useForm();
-  useUpdateCourseForm(form)
+  useUpdateCourseForm(form);
   const { mutate: updateCourse, isLoading: savingCourse } =
     User.Queries.useUpdateCourse();
   const { course, updateItem, currentItem } = useCourseStore(s => s)
