@@ -15,9 +15,7 @@ export default function Page({
 }) {
   const {
     getProductCategoryDetailsFromExamSlug,
-    getPackages,
     getLearnerDetails,
-    getPackageDetails,
   } = Learner.Queries.Definitions;
 
   const token = getToken();

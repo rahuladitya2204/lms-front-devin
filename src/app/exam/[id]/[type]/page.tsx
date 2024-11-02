@@ -6,6 +6,7 @@ import { getCookie } from "@ServerUtils/index";
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 const axios = getAxiosInstance();
 import { RenderFAQJson } from "@Components/CreateFaqsComponent";
+import { getToken } from "@Network/index";
 
 const apiUrl = process.env.API_URL;
 
@@ -113,10 +114,10 @@ export default async function Page({
   console.log(link, "link");
   const {
     getProductCategoryDetails,
-    getPackages,
-    getPYQs,
-    getPromotedProducts,
+    getLearnerDetails,
+    getOrgDetails
   } = Learner.Queries.Definitions;
+  const token = getToken();
   const keywords = link?.keywords || category.keywords;
   return (
     <>
@@ -124,19 +125,7 @@ export default async function Page({
       <Hydrator
         queries={[
           getProductCategoryDetails(params.id),
-          // getPackages(params.id),
-          // getPYQs(params.id),
-          // getPromotedProducts(Enum.ProductType.PACKAGE, {
-          //   category: params.id,
-          //   ...(keywords?.length ? { keywords: keywords } : {}),
-          //   limit: 3,
-          // }),
-          // getPromotedProducts(Enum.ProductType.TEST, {
-          //   category: params.id,
-          //   mode: "free",
-          //   ...(keywords?.length ? { keywords: keywords } : {}),
-          //   limit: 3,
-          // }),
+          getOrgDetails()
         ]}
       >
         <ProductCategoryTabs

@@ -365,46 +365,6 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
                 setProductTab(e);
               }}
               items={TABS}
-            // tabBarExtraContent={{
-            //   right:
-            //     productTab === "test-series" ? (
-            //       <Button
-            //         onClick={() => {
-            //           if (props.isServer) {
-            //             navigate(
-            //               `/test-series/${category.testSeries.page.slug}`
-            //             );
-            //           } else {
-            //             navigate(
-            //               `/app/test-series/${category.testSeries.page.slug}`
-            //             );
-            //           }
-            //         }}
-            //         type="dashed"
-            //         size="small"
-            //       >
-            //         View All Test Series
-            //       </Button>
-            //     ) : (
-            //       <Button
-            //         onClick={() => {
-            //           if (props.isServer) {
-            //             navigate(
-            //               `/previous-year-questions/${category.testSeries.page.slug}`
-            //             );
-            //           } else {
-            //             navigate(
-            //               `/app/previous-year-questions/${category.testSeries.page.slug}`
-            //             );
-            //           }
-            //         }}
-            //         type="dashed"
-            //         size="small"
-            //       >
-            //         View All PYQ Papers
-            //       </Button>
-            //     ),
-            // }}
             />
           </Card>
         </Col>
@@ -416,7 +376,6 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
 export const ProductCategoryTabsSkeleton = () => {
   return (
     <Row gutter={[20, 15]}>
-      {/* <Divider style={{ margin: 0 }} /> */}
       <Col span={24}>
         <Row gutter={[15, 10]}>
           {[1, 1, 1, 1, 1, 1, 1].map(() => (
@@ -429,7 +388,6 @@ export const ProductCategoryTabsSkeleton = () => {
       <Col span={24}>
         <Skeleton.Button block style={{ height: 400 }} active />
       </Col>
-      {/* <Divider style={{ margin: 0 }} /> */}
       <Col span={24}>
         <Skeleton.Button block style={{ height: 400 }} active />
       </Col>

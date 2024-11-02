@@ -54,12 +54,6 @@ function CoursePlayerNavigatorItem(props: CoursePlayerNavigatorItemPropsI) {
       to={`${props.item._id}`}
       children={({ isActive }) => (
         <CourseListItem
-          // extra={[
-          //   // props.item.type === 'video' && duration ? (
-          //   //   <Tag color="blue">{duration} min</Tag>
-          //   // ) : null,
-
-          // ]}
           isActive={isActive}
         >
           <List.Item.Meta

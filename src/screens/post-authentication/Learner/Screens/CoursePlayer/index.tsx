@@ -186,13 +186,7 @@ function CoursePlayer() {
       {loadingCourseFirst
         //  || loadingFirstEnrolledCourseDetail
         ? (
-          <>
-            <Skeleton.Input block />
-            <PlayerSkeleton />
-            <PlayerSkeleton />
-            <PlayerSkeleton />
-            {/* <PlayerSkeleton/> */}
-          </>
+          <CoursePlayerNavigatorSkeleton />
         ) : (
           <>
             <Search
@@ -347,3 +341,13 @@ function CoursePlayer() {
 }
 
 export default CoursePlayer;
+
+
+export const CoursePlayerNavigatorSkeleton = () => {
+  return <>
+    <Skeleton.Input block />
+    <PlayerSkeleton />
+    <PlayerSkeleton />
+    <PlayerSkeleton />
+  </>
+}

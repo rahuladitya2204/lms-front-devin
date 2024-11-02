@@ -6,6 +6,7 @@ import { getCookie } from "@ServerUtils/index";
 import { getAxiosInstance } from "@Components/Editor/SunEditor/utils";
 const axios = getAxiosInstance();
 import { RenderFAQJson } from "@Components/CreateFaqsComponent";
+import { getToken } from "@Network/index";
 const apiUrl = process.env.API_URL;
 
 export const generateMetadata = GenerateMetadata;
@@ -14,37 +15,17 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { category } = await getData({ id: params.id });
   const {
     getProductCategoryDetails,
-    getPackages,
-    getPYQs,
     getOrgDetails,
-    getPromotedProducts,
   } = Learner.Queries.Definitions;
+  const token = getToken();
   return (
     <>
       <RenderFAQJson faqs={category.info.faqs} />
       {/* @ts-ignore */}
       <Hydrator
         queries={[
-          // getOrgDetails(),
+          getOrgDetails(),
           getProductCategoryDetails(params.id),
-          // getPackages(params.id),
-          // getPromotedProducts(Enum.ProductType.PACKAGE, {
-          //   category: params.id,
-          //   limit: 3,
-          //   ...(category.keywords?.length
-          //     ? { keywords: category.keywords }
-          //     : {}),
-          // }),
-          // getPromotedProducts(Enum.ProductType.TEST, {
-          //   category: params.id,
-          //   mode: "free",
-          //   limit: 3,
-          //   ...(category.keywords?.length
-          //     ? { keywords: category.keywords }
-          //     : {}),
-          // }),
-          // // authenticated routes should only be called if token is present
-          // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
         ]}
       >
         <ProductCategoryTabs

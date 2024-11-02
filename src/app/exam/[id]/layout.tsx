@@ -13,24 +13,17 @@ export default function Page({
 }) {
   const {
     getProductCategoryDetails,
-    getPackages,
-    // getPYQs,
     getOrgDetails,
-    getCartDetails,
-    getLearnerDetails,
+
   } = Learner.Queries.Definitions;
 
-  const token = getToken();
+  // const token = getToken();
   return (
     // @ts-ignore
     <Hydrator
       queries={[
         getProductCategoryDetails(params.id),
-        // getPackages(params.id),
-        // getPYQs(params.id),
-        // getOrgDetails(),
-        // authenticated routes should only be called if token is present
-        // ...(token ? [getCartDetails(), getLearnerDetails()] : []),
+        getOrgDetails(),
       ]}
     >
       <LearnerRootScreen isServer>
