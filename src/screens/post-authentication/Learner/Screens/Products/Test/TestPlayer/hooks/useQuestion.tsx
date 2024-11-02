@@ -1,6 +1,5 @@
 import { Constants, Learner, Store, Types } from "@adewaskar/lms-common";
 
-import { sec } from "mathjs";
 import { useMemo } from "react";
 import { useParams } from "@Router/index";
 

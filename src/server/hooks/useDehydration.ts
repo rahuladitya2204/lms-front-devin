@@ -54,7 +54,7 @@ export default useDehydration;
 
 
 export const LogEvent = (category, action, label, data = {}) => {
-  if (category && action && window.analytics_enabled) {
+  if (category && action && window.analytics_enabled && analytics) {
     analytics.track(action, {
       category: category,
       label: label,
