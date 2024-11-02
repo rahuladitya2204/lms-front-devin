@@ -394,7 +394,7 @@ function CourseBuilderScreen() {
                       </Row>
                     </Col>
                     <Col span={17}>
-                      {!course.sections.length ? (
+                      {/* {!course.sections.length ? (
                         <Alert
                           message="Generate course structure using AI"
                           description="You can generate course outline using our AI"
@@ -423,7 +423,7 @@ function CourseBuilderScreen() {
                             />
                           }
                         />
-                      ) : null}
+                      ) : null} */}
                       <Card>
                         <Outlet context={{ language: l.value }} />
                       </Card>
