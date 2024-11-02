@@ -36,17 +36,6 @@ Cypress.Commands.add('submitTestAnswer', (index: number) => {
     cy.get('#save-and-next', { timeout: 30000 }).click()
 });
 
-
-// Cypress.Commands.add('initTest', (index: number) => {
-//     await axios({ method: 'POST', url: 'user/test/create-test-learner' })
-// });
-
-// Cypress.Commands.add('enrollForPackage', async () => {
-//     await cy.apiRequest({ method: 'POST', url: 'user/test/remove-package-enrollment' })
-//     cy.visit('http://www.nimblebee.local:3000/test-series/test-package')
-//     cy.get('#enroll-button').click({ force: true })
-// });
-
 Cypress.Commands.add('apiRequest', ({ method = 'GET', url, body = {}, headers = {} }) => {
     const apiUrl = `http://localhost:4000`
     return axios({

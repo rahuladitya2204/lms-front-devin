@@ -24,10 +24,6 @@ export async function generateMetadata(
     return {
       title: link?.seo?.meta?.title || `${category.title} Exam`,
       description: link?.seo?.meta?.description || `${category.title} Exam`,
-      // icons: {
-      //   icon: category.thumbnailImage,
-      //   apple: category.thumbnailImage,
-      // },
       viewport: "width=device-width, initial-scale=1",
       themeColor: "#ffffff",
       manifest: "/manifest.json",
@@ -54,17 +50,7 @@ export async function generateMetadata(
       },
       alternates: {
         canonical: url,
-      },
-      // other: {
-      //   "application/ld+json": JSON.stringify({
-      //     "@context": "https://schema.org",
-      //     "@type": "WebPage",
-      //     name: category.title,
-      //     description: category.title,
-      //     url: url,
-      //   }),
-      //   // "schema:faq": JSON.stringify(faqSchema),
-      // },
+      }
     };
   }
 
@@ -110,7 +96,7 @@ export default async function Page({
   params: { type: string; id: string; product: string };
 }) {
   const { category, link, url } = await getData(params);
-  console.log(link, "link");
+
   const {
     getProductCategoryDetails,
     getOrgDetails
@@ -146,8 +132,12 @@ export async function getData({ id, type }) {
       headers: {
         "x-org-alias": alias,
       },
+      params: {
+        mode: 'seo'
+      }
     }
   );
+  console.log(category, 'categorycategory')
   const link =
     type === "overview"
       ? { seo: category.seo, faqs: category.info.faqs }

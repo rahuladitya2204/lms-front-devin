@@ -141,15 +141,11 @@ export default async function Page({
 }) {
   const test = await getData(params.testId);
   const {
-    getLearnerProductCategories,
     getProductCategoryDetails,
     getTestDetails,
-    getOrgDetails,
     getCartDetails,
-    getPromotedProducts,
     getLearnerDetails,
     getTexts,
-    getTestResult,
   } = Learner.Queries.Definitions;
 
   const token = getToken();
@@ -188,7 +184,7 @@ export const getData = async (
   alias = "www"
 ): Promise<Types.Test> => {
   const { data: test }: { data: Types.Test } = await axios(
-    `${apiUrl}/learner/test/${id}?mode=general`,
+    `${apiUrl}/learner/test/${id}?mode=seo`,
     {
       headers: {
         "x-org-alias": alias,

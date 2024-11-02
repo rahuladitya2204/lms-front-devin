@@ -100,30 +100,29 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
           <Col>
             {TABS.filter((i) => i?.displayOnLandingPage).map((tab) => {
               return (
-                <Button
-                  className='category-tabs-button'
-                  onClick={() => {
-                    LogEvent(
-                      "Category",
-                      "Tab::Clicked",
-                      `${productCategory.title}:${capitalize(tab.label)}`,
-                      {
-                        categoryId: productCategory._id,
-                      }
-                    );
-                    navigate(
-                      props.isServer
-                        ? `/exam/${id}/${tab.key}`
-                        : `/app/exam/${id}/${tab.key}`
-                    );
-                  }}
-                  // type="text"
-                  size="small"
-                  type={tab.key === type ? "primary" : "default"}
-                  style={{ marginRight: 15, marginBottom: 10 }}
-                >
-                  {tab.label}
-                </Button>
+                <Link to={props.isServer
+                  ? `/exam/${id}/${tab.key}`
+                  : `/app/exam/${id}/${tab.key}`}>
+                  <Button
+                    className='category-tabs-button'
+                    onClick={() => {
+                      LogEvent(
+                        "Category",
+                        "Tab::Clicked",
+                        `${productCategory.title}:${capitalize(tab.label)}`,
+                        {
+                          categoryId: productCategory._id,
+                        }
+                      );
+                    }}
+                    // type="text"
+                    size="small"
+                    type={tab.key === type ? "primary" : "default"}
+                    style={{ marginRight: 15, marginBottom: 10 }}
+                  >
+                    {tab.label}
+                  </Button>
+                </Link>
               );
             })}
           </Col>

@@ -49,6 +49,10 @@ export async function getData({ id }) {
       headers: {
         "x-org-alias": alias,
       },
+      params: {
+        mode: 'seo'
+      }
+
     }
   );
 
