@@ -30,7 +30,7 @@ const { darkAlgorithm } = theme;
 export default function LearnerFooter(props: LearnerFooterPropsI) {
   const { data: organisation, isLoading: loading } =
     Learner.Queries.useGetOrgDetails();
-  const { data: categories } = Learner.Queries.useGetLearnerCategories();
+  const { data: categories } = Learner.Queries.useGetLearnerCategories({ mode: 'basic' });
   const { token } = theme.useToken();
   return (
     <Footer

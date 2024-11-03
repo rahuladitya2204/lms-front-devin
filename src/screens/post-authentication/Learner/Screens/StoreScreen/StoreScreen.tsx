@@ -30,7 +30,7 @@ const { Title, Paragraph, Text } = Typography;
 function StoreScreen() {
   const { data: products, isFetching } =
     Learner.Queries.useGetRecommendedProducts();
-  const { data: categories } = Learner.Queries.useGetLearnerCategories();
+  const { data: categories } = Learner.Queries.useGetLearnerCategories({ mode: 'basic' });
   const { isTablet, isMobile } = useBreakpoint();
   const arr = [1, 1, 1, 1, 1, 1, 1, 1];
   return (

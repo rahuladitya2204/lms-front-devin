@@ -18,7 +18,7 @@ export default function Page() {
     <Hydrator
       queries={[
         // getRecommendedProducts(),
-        getLearnerProductCategories(),
+        getLearnerProductCategories({ mode: 'basic' }),
         // getOrgDetails(),
         // authenticated routes should only be called if token is present
         // ...(token ? [getLearnerDetails()] : []),
