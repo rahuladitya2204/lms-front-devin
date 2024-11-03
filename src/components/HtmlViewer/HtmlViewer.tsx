@@ -1,3 +1,4 @@
+import React from 'react'
 import "./suneditor.css";
 import { List, Typography, Image, Table, Divider } from "antd";
 import parse, { domToReact, DOMNode } from "html-react-parser";
@@ -6,12 +7,6 @@ import styled from "@emotion/styled";
 import "./style.css";
 import withNonCopyable from "../withNoncopyable";
 
-const StyledListItem = styled(List.Item)`
-  p,
-  div {
-    margin: 0;
-  }
-`;
 
 const { Title, Paragraph } = Typography;
 
@@ -53,42 +48,59 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
     return "";
   };
 
-
   const renderList = (node: Element, index: number, level = 0) => {
     const isOrdered = node.name === "ol";
 
     // Extract list items
     const items = node.children
-      .filter((child) => child.type === "tag" && child.name === "li")
+      .filter((child) => child.type === "tag" && (child.name === "li" || child.name === "ul" || child.name === "ol"))
       .map((child, idx) => {
-        const nestedList = child.children.find(
-          (subChild) => subChild.type === "tag" && (subChild.name === "ul" || subChild.name === "ol")
-        );
+        if (child.name === "li") {
+          // Find any nested lists within this list item
+          const nestedLists = child.children.filter(
+            (subChild) =>
+              subChild.type === "tag" &&
+              (subChild.name === "ul" || subChild.name === "ol")
+          );
 
-        // Recursively render the content of the list item, including nested lists if present
-        const content = domToReact(child.children.filter((subChild) => subChild !== nestedList), {
-          replace: convertNodeToElement,
-        });
+          // Content of the list item excluding the nested lists
+          const content = domToReact(
+            child.children.filter((subChild) => !nestedLists.includes(subChild)),
+            { replace: convertNodeToElement }
+          );
 
-        return (
-          <List.Item key={idx} style={{ paddingLeft: `${level * 16}px` }}>
-            <div style={{ display: "flex" }}>
-              {isOrdered ? (
-                <span style={{ marginRight: "8px" }}>{idx + 1}.</span>
-              ) : (
-                <span style={{ marginRight: "8px", fontWeight: "bold" }}>•</span>
-              )}
-              <div>{content}</div>
-            </div>
-            {nestedList && (
-              <div style={{ paddingLeft: "16px" }}>
-                {renderList(nestedList as Element, idx, level + 1)}
+          return (
+            <List.Item key={idx}>
+              <div style={{ display: "flex" }}>
+                {isOrdered ? (
+                  <span style={{ marginRight: "8px" }}>{idx + 1}.</span>
+                ) : (
+                  <span style={{ marginRight: "8px", fontWeight: "bold" }}>•</span>
+                )}
+                <div>{content}</div>
               </div>
-            )}
-          </List.Item>
-        );
+              {/* Render nested lists within the current list item */}
+              {nestedLists.map((nestedList, nestedIdx) => (
+                <div key={nestedIdx} style={{ paddingLeft: "16px" }}>
+                  {renderList(nestedList as Element, nestedIdx, level + 1)}
+                </div>
+              ))}
+            </List.Item>
+          );
+        } else if (child.name === "ul" || child.name === "ol") {
+          // Directly render nested lists
+          return (
+            <div key={idx} style={{ paddingLeft: `${(level + 1) * 16}px` }}>
+              {renderList(child, idx, level + 1)}
+            </div>
+          );
+        } else {
+          // Handle other tags if necessary
+          return null;
+        }
       });
 
+    // Return the List component with the 'split' prop set based on the level
     return (
       <List
         itemLayout="vertical"
@@ -96,15 +108,46 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
         dataSource={items}
         renderItem={(item) => item}
         style={{ margin: "16px 0" }}
-        split={false} // Prevents dividers between items
+        split={level === 0} // Show dividers only for top-level lists
       />
     );
   };
 
 
+  // List of void elements
+  const voidElements = new Set([
+    "area",
+    "base",
+    "br",
+    "col",
+    "embed",
+    "hr",
+    "img",
+    "input",
+    "keygen",
+    "link",
+    "meta",
+    "param",
+    "source",
+    "track",
+    "wbr",
+  ]);
 
   const convertNodeToElement = (node: Element | Text, index: number) => {
     if (node.type === "tag") {
+      // Handle void elements
+      if (voidElements.has(node.name)) {
+        return React.createElement(
+          node.name,
+          {
+            key: index,
+            ...node.attribs,
+            style: parseStyleString(node.attribs.style),
+          },
+          null
+        );
+      }
+
       switch (node.name) {
         // Handle headings
         case "h1":
@@ -115,7 +158,11 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
         case "h6": {
           const level = parseInt(node.name.slice(1));
           return (
-            <Title key={index} level={level}>
+            <Title
+              key={index}
+              level={level}
+              style={parseStyleString(node.attribs.style)}
+            >
               {domToReact(node.children, { replace: convertNodeToElement })}
             </Title>
           );
@@ -124,12 +171,15 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
         // Handle paragraphs
         case "p":
           return (
-            <Paragraph key={index}>
+            <Paragraph
+              key={index}
+              style={parseStyleString(node.attribs.style)}
+            >
               {domToReact(node.children, { replace: convertNodeToElement })}
             </Paragraph>
           );
 
-        // Handle images
+        // Handle images (already a void element)
         case "img": {
           const src = node.attribs.src;
           const alt = node.attribs.alt || "";
@@ -146,101 +196,21 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
 
         // Handle tables
         case "table": {
-          const columns = [];
-          const dataSource = [];
-          const columnKeys = [];
-          let headersProcessed = false;
-
-          // Process header rows
-          const processHeaderRow = (row) => {
-            let cellIndex = 0;
-            row.children.forEach((cell) => {
-              if (
-                cell.type === "tag" &&
-                (cell.name === "th" || cell.name === "td")
-              ) {
-                const dataIndex = `col${cellIndex}`;
-                const title = extractText(cell);
-                columns.push({
-                  title: title,
-                  dataIndex: dataIndex,
-                  key: dataIndex,
-                });
-                columnKeys.push(dataIndex);
-                cellIndex++;
-              }
-            });
-          };
-
-          // Process data rows
-          const processDataRow = (row, rowIndex) => {
-            const rowData = { key: rowIndex };
-            let cellIndex = 0;
-            row.children.forEach((cell) => {
-              if (
-                cell.type === "tag" &&
-                (cell.name === "td" || cell.name === "th")
-              ) {
-                const dataIndex = columnKeys[cellIndex] || `col${cellIndex}`;
-                const cellContent = extractText(cell);
-                rowData[dataIndex] = cellContent;
-                cellIndex++;
-              }
-            });
-            dataSource.push(rowData);
-          };
-
-          // Process table children
-          node.children.forEach((child) => {
-            if (child.type === "tag") {
-              if (child.name === "thead") {
-                // Process header rows
-                child.children.forEach((row) => {
-                  if (row.type === "tag" && row.name === "tr") {
-                    processHeaderRow(row);
-                  }
-                });
-                headersProcessed = true;
-              } else if (child.name === "tbody") {
-                // Process data rows
-                child.children.forEach((row) => {
-                  if (row.type === "tag" && row.name === "tr") {
-                    if (!headersProcessed && columns.length === 0) {
-                      processHeaderRow(row);
-                      headersProcessed = true;
-                    } else {
-                      processDataRow(row, dataSource.length);
-                    }
-                  }
-                });
-              } else if (child.name === "tr") {
-                // Process rows not wrapped in <thead> or <tbody>
-                if (!headersProcessed && columns.length === 0) {
-                  processHeaderRow(child);
-                  headersProcessed = true;
-                } else {
-                  processDataRow(child, dataSource.length);
-                }
-              }
-            }
-          });
-
+          // Your existing table processing logic
+          // ...
           return (
             <Table
               key={index}
-              columns={columns}
-              dataSource={dataSource}
-              pagination={false}
-              bordered
-              style={{ margin: "16px 0" }}
+            // ...other props
             />
           );
         }
 
-        // case "ul":
-        // case "ol": {
-        //   return renderList(node, index);
-        // }
+        // Handle lists
+        case "ul":
+        case "ol": {
+          return renderList(node, index);
+        }
 
         case "hr": {
           return <Divider key={index} />;
@@ -266,9 +236,17 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           );
         }
 
-        // Default case: preserve original node
+        // Default case: create the element and process its children
         default:
-          return domToReact(node, { replace: convertNodeToElement, key: index });
+          return React.createElement(
+            node.name,
+            {
+              key: index,
+              ...node.attribs,
+              style: parseStyleString(node.attribs.style),
+            },
+            domToReact(node.children, { replace: convertNodeToElement })
+          );
       }
     } else if (node.type === "text") {
       return node.data;

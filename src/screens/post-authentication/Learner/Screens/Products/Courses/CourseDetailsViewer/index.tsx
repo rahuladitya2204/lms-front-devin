@@ -301,7 +301,7 @@ const CourseCard = ({
                             className="go-to-course-button"
                             onClick={() =>
                               navigate(
-                                `/app/enrolled-course/${courseId}/enrolled-course`
+                                `/app/${courseId}/enrolled-course`
                               )
                             }
                             size="large"
@@ -309,7 +309,7 @@ const CourseCard = ({
                             block
                             id="go-to-course-button"
                           >
-                            Go to Package
+                            Go to Course
                           </Button>
                         </Link>
                       ) : (
@@ -329,7 +329,7 @@ const CourseCard = ({
                               // particle: true,
                             });
                             window.open(
-                              `/app/enrolled-course/${courseId}/enrolled-course`
+                              `/app/${courseId}/enrolled-course`
                             );
                           }}
                           product={{ type: "course", id: courseId + "" }}
