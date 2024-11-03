@@ -194,14 +194,94 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           );
         }
 
-        // Handle tables
         case "table": {
-          // Your existing table processing logic
-          // ...
+          const columns = [];
+          const dataSource = [];
+          const columnKeys = [];
+          let headersProcessed = false;
+
+          // Process header rows
+          const processHeaderRow = (row) => {
+            let cellIndex = 0;
+            row.children.forEach((cell) => {
+              if (
+                cell.type === "tag" &&
+                (cell.name === "th" || cell.name === "td")
+              ) {
+                const dataIndex = `col${cellIndex}`;
+                const title = extractText(cell);
+                columns.push({
+                  title: title,
+                  dataIndex: dataIndex,
+                  key: dataIndex,
+                });
+                columnKeys.push(dataIndex);
+                cellIndex++;
+              }
+            });
+          };
+
+          // Process data rows
+          const processDataRow = (row, rowIndex) => {
+            const rowData = { key: rowIndex };
+            let cellIndex = 0;
+            row.children.forEach((cell) => {
+              if (
+                cell.type === "tag" &&
+                (cell.name === "td" || cell.name === "th")
+              ) {
+                const dataIndex = columnKeys[cellIndex] || `col${cellIndex}`;
+                const cellContent = extractText(cell);
+                rowData[dataIndex] = cellContent;
+                cellIndex++;
+              }
+            });
+            dataSource.push(rowData);
+          };
+
+          // Process table children
+          node.children.forEach((child) => {
+            if (child.type === "tag") {
+              if (child.name === "thead") {
+                // Process header rows
+                child.children.forEach((row) => {
+                  if (row.type === "tag" && row.name === "tr") {
+                    processHeaderRow(row);
+                  }
+                });
+                headersProcessed = true;
+              } else if (child.name === "tbody") {
+                // Process data rows
+                child.children.forEach((row) => {
+                  if (row.type === "tag" && row.name === "tr") {
+                    if (!headersProcessed && columns.length === 0) {
+                      processHeaderRow(row);
+                      headersProcessed = true;
+                    } else {
+                      processDataRow(row, dataSource.length);
+                    }
+                  }
+                });
+              } else if (child.name === "tr") {
+                // Process rows not wrapped in <thead> or <tbody>
+                if (!headersProcessed && columns.length === 0) {
+                  processHeaderRow(child);
+                  headersProcessed = true;
+                } else {
+                  processDataRow(child, dataSource.length);
+                }
+              }
+            }
+          });
+
           return (
             <Table
               key={index}
-            // ...other props
+              columns={columns}
+              dataSource={dataSource}
+              pagination={false}
+              bordered
+              style={{ margin: "16px 0" }}
             />
           );
         }

@@ -1,10 +1,7 @@
 import { Enum, Learner, Types } from "@adewaskar/lms-common";
 import { Col, Row } from "antd";
-import PackageCard from "../Cards/PackageCard";
-import TestCard from "../Cards/TestCard";
 import LearnerProductCard from "@Components/LearnerProductCard";
-import { Link } from "@Router/index";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Title } from "@Components/Typography/Typography";
 import { LogEvent } from "@ServerHooks/useDehydration";
 
@@ -19,9 +16,10 @@ export default function PromotedProducts(props: PromotedProductsPropsI) {
   const { categoryId, type } = props;
   const { data: category } =
     Learner.Queries.useGetProductCategoryDetails(categoryId);
-  // console.log(category.keywords, link?.keywords, "keywords");
-  const link = category.info.links.find((i) => i.slug === type);
-  const keywords = link?.keywords || category.keywords;
+
+  const { data: link } =
+    Learner.Queries.useGetProductCategoryLinkDetails(categoryId, type + '');
+  const keywords = link?.keywords;
 
   const { data: packages } = Learner.Queries.useGetPromotedProducts(
     Enum.ProductType.PACKAGE,

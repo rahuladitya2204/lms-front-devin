@@ -15,6 +15,7 @@ export default async function Page({ params }: { params: { id: string } }) {
   const { category } = await getData({ id: params.id });
   const {
     getProductCategoryDetails,
+    getProductCategoryLinkDetails,
     getOrgDetails,
   } = Learner.Queries.Definitions;
 
@@ -26,6 +27,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         queries={[
           getOrgDetails(),
           getProductCategoryDetails(params.id),
+          getProductCategoryLinkDetails(params.id, 'overview')
         ]}
       >
         <ProductCategoryTabs

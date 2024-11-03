@@ -20,33 +20,33 @@ export async function generateMetadata(
   const type = req.params.type || "overview";
   if (alias && userType) {
     // Fetch metadata from an API
-    const { category, link, url } = await getData({ id, type });
+    const { link, url } = await getData({ id, type });
     return {
-      title: link?.seo?.meta?.title || `${category.title} Exam`,
-      description: link?.seo?.meta?.description || `${category.title} Exam`,
+      title: link?.seo?.meta?.title || `${link.title} Exam`,
+      description: link?.seo?.meta?.description || `${link.title} Exam`,
       viewport: "width=device-width, initial-scale=1",
       themeColor: "#ffffff",
       manifest: "/manifest.json",
       openGraph: {
-        title: category.title,
-        description: category.subtitle,
+        title: link.title,
+        description: link.subtitle,
         type: "website",
         locale: "en_IN",
         url: url,
         images: [
           {
-            url: category.thumbnailImage,
+            url: link.thumbnailImage,
             width: 800,
             height: 600,
-            alt: category.title,
+            alt: link.title,
           },
         ],
       },
       twitter: {
         card: "summary_large_image",
-        title: category.title,
-        description: category.title,
-        images: [category.thumbnailImage],
+        title: link.title,
+        description: link.title,
+        images: [link.thumbnailImage],
       },
       alternates: {
         canonical: url,
@@ -95,11 +95,12 @@ export default async function Page({
 }: {
   params: { type: string; id: string; product: string };
 }) {
-  const { category, link, url } = await getData(params);
+  const { link, url } = await getData(params);
 
   const {
+    getProductCategoryLinkDetails,
     getProductCategoryDetails,
-    getOrgDetails
+    getOrgDetails,
   } = Learner.Queries.Definitions;
   return (
     <>
@@ -107,7 +108,8 @@ export default async function Page({
       <Hydrator
         queries={[
           getOrgDetails(),
-          getProductCategoryDetails(params.id),
+          getProductCategoryLinkDetails(params.id, params.type),
+          getProductCategoryDetails(params.id)
         ]}
       >
         <ProductCategoryTabs
@@ -126,8 +128,8 @@ export async function getData({ id, type }) {
   const alias = getCookie("orgAlias")?.split("-")[0];
   const url = `https://${alias}.testmint.ai/exam/${id}/${type}`;
 
-  const { data: category }: { data: Types.ProductCategory } = await axios(
-    `${apiUrl}/learner/product-category/${id}`,
+  const { data: link }: { data: Types.ProductCategory } = await axios(
+    `${apiUrl}/learner/product-category/${id}/${type}`,
     {
       headers: {
         "x-org-alias": alias,
@@ -137,15 +139,8 @@ export async function getData({ id, type }) {
       }
     }
   );
-  console.log(category, 'categorycategory')
-  const link =
-    type === "overview"
-      ? { seo: category.seo, faqs: category.info.faqs }
-      : type === "test-series"
-        ? category.testSeries
-        : category.info.links.find((link) => link.slug === type);
+
   return {
-    category,
     link,
     url,
   };

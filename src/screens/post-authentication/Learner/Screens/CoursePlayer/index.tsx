@@ -117,11 +117,13 @@ function CoursePlayer() {
     if (itemId && sectionId) {
       return navigate(`${itemId}`);
     }
-    if (sections[0]?.items[0]) {
-      const sectionId = sections[0]._id;
-      const itemId = sections[0].items[0]._id;
-      navigate(`${itemId}`);
-    }
+    setTimeout(() => {
+      if (sections[0]?.items[0]) {
+        const sectionId = sections[0]._id;
+        const itemId = sections[0].items[0]._id;
+        navigate(`${itemId}`);
+      }
+    }, 500)
   }, [sections]);
 
   const allItems = sections.map((s: any) => s.items).flat();

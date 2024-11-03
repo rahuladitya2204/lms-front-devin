@@ -11,9 +11,9 @@ export default function Page({ params }: { params: { slug: string[] } }) {
   if (!params.slug) {
     return <HomePage />;
   }
-  if (!(params?.slug?.includes('app') || params?.slug?.includes('admin'))) {
+  if (!(params.slug.includes('app') || params.slug.includes('admin'))) {
     return null;
   }
-  // console.log(params, "params");
+
   return <ClientOnly />;
 }

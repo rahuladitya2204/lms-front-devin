@@ -98,7 +98,8 @@ export default function ProductCategoryDetailScreen(
     <ProductCategoryMetadata productCategory={productCategory} />
   );
   const { isMobile, isDesktop } = useBreakpoint();
-  const link = productCategory.info.links.find((i) => i.slug === type);
+  const { data: link, isLoading: loadingCategoryLink } =
+    Learner.Queries.useGetProductCategoryLinkDetails(productCategoryId + '', type + '');
 
   return loadingProductCategory ? (
     <ProductCategoryDetailSkeletonScreen />

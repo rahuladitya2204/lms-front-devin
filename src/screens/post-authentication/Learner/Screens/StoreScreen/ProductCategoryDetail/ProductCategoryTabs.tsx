@@ -42,7 +42,10 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   // debugger;
   // const product = props.product || params.product || "packages";
   const { data: productCategory, isLoading: loadingCategory } =
-    Learner.Queries.useGetProductCategoryDetails(id + "");
+    Learner.Queries.useGetProductCategoryDetails(id + '');
+
+  // const { data: productCategoryLink, isLoading: loadingCategoryLink } =
+  //   Learner.Queries.useGetProductCategoryDetails(id + '');
   const TABS = useMemo(() => {
     const i = [
       {
@@ -215,7 +218,7 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
                 content={tab.children}
               />
             ) : (
-              <HtmlViewer content={tab?.description + ""} />
+              <ProductCategoryLinkViewer categoryId={id} type={tab?.key} />
             )
             //   }
             // </ShowMore>
@@ -291,7 +294,7 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
   );
   const { data: category } =
     Learner.Queries.useGetProductCategoryDetails(categoryId);
-  // console.log(category.keywords, link?.keywords, "keywords");
+
   const link = category.info.links.find((i) => i.slug === type);
 
   const keywords = link?.keywords || category.keywords;
@@ -312,19 +315,6 @@ const CategoryProducts = (props: CategoryProductsPropsI) => {
         label: "Test Series",
         key: "test-series",
         children: (
-          // <ShowMore
-          //   minHeight={200}
-          //   onClick={() => {
-          //     LogEvent(
-          //       "Category:" + type,
-          //       "PromotedProducts:ShowMore::Clicked",
-          //       category.title,
-          //       {
-          //         categoryId: category._id,
-          //       }
-          //     );
-          //   }}
-          // >
           <PromotedProducts
             categoryId={categoryId}
             type={props.type}
@@ -393,3 +383,10 @@ export const ProductCategoryTabsSkeleton = () => {
     </Row>
   );
 };
+
+
+const ProductCategoryLinkViewer = ({ categoryId, type }: { categoryId, type }) => {
+  const { data: link, isLoading: loadingCategoryLink } =
+    Learner.Queries.useGetProductCategoryLinkDetails(categoryId + '', type + '');
+  return <HtmlViewer content={link?.description + ""} />
+}
