@@ -49,67 +49,79 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
   };
 
   const renderList = (node: Element, index: number, level = 0) => {
-    const isOrdered = node.name === "ol";
+    // Predefined array of list markers
+    const listMarkers = ['•', '*', '–', '▪', '•']; // You can add more markers as needed
 
-    // Extract list items
-    const items = node.children
-      .filter((child) => child.type === "tag" && (child.name === "li" || child.name === "ul" || child.name === "ol"))
+    // Determine the marker for the current level
+    const marker =
+      level < listMarkers.length ? listMarkers[level] : listMarkers[listMarkers.length - 1];
+
+    // Check if the list is ordered or unordered
+    const isOrdered = node.name === 'ol';
+
+    // Filter out 'li' elements for the list items
+    const listItems = node.children
+      .filter((child) => child.type === 'tag' && child.name === 'li')
       .map((child, idx) => {
-        if (child.name === "li") {
-          // Find any nested lists within this list item
-          const nestedLists = child.children.filter(
-            (subChild) =>
-              subChild.type === "tag" &&
-              (subChild.name === "ul" || subChild.name === "ol")
-          );
+        // Process 'li' elements
+        const nestedLists = child.children.filter(
+          (subChild) =>
+            subChild.type === 'tag' &&
+            (subChild.name === 'ul' || subChild.name === 'ol')
+        );
 
-          // Content of the list item excluding the nested lists
-          const content = domToReact(
-            child.children.filter((subChild) => !nestedLists.includes(subChild)),
-            { replace: convertNodeToElement }
-          );
+        // Content of the list item excluding the nested lists
+        const content = domToReact(
+          child.children.filter((subChild) => !nestedLists.includes(subChild)),
+          { replace: convertNodeToElement }
+        );
 
-          return (
-            <List.Item key={idx}>
-              <div style={{ display: "flex" }}>
-                {isOrdered ? (
-                  <span style={{ marginRight: "8px" }}>{idx + 1}.</span>
-                ) : (
-                  <span style={{ marginRight: "8px", fontWeight: "bold" }}>•</span>
-                )}
-                <div>{content}</div>
-              </div>
-              {/* Render nested lists within the current list item */}
-              {nestedLists.map((nestedList, nestedIdx) => (
-                <div key={nestedIdx} style={{ paddingLeft: "16px" }}>
-                  {renderList(nestedList as Element, nestedIdx, level + 1)}
-                </div>
-              ))}
-            </List.Item>
-          );
-        } else if (child.name === "ul" || child.name === "ol") {
-          // Directly render nested lists
-          return (
-            <div key={idx} style={{ paddingLeft: `${(level + 1) * 16}px` }}>
-              {renderList(child, idx, level + 1)}
+        return (
+          <List.Item key={idx}>
+            <div style={{ display: 'flex' }}>
+              {isOrdered ? (
+                <span style={{ marginRight: '8px' }}>{idx + 1}.</span>
+              ) : (
+                <span style={{ marginRight: '8px', fontWeight: 'bold' }}>{marker}</span>
+              )}
+              <div>{content}</div>
             </div>
-          );
-        } else {
-          // Handle other tags if necessary
-          return null;
-        }
+            {/* Render nested lists within the current list item */}
+            {nestedLists.map((nestedList, nestedIdx) => (
+              <div key={nestedIdx} style={{ paddingLeft: '16px' }}>
+                {renderList(nestedList as Element, nestedIdx, level + 1)}
+              </div>
+            ))}
+          </List.Item>
+        );
       });
 
-    // Return the List component with the 'split' prop set based on the level
+    // Process any 'ul' or 'ol' elements directly under the current node (not within 'li')
+    const nestedListsDirectlyUnderNode = node.children.filter(
+      (child) =>
+        child.type === 'tag' &&
+        (child.name === 'ul' || child.name === 'ol')
+    );
+
+    // Render the list and any nested lists
     return (
-      <List
-        itemLayout="vertical"
-        key={index}
-        dataSource={items}
-        renderItem={(item) => item}
-        style={{ margin: "16px 0" }}
-        split={level === 0} // Show dividers only for top-level lists
-      />
+      <>
+        {listItems.length > 0 && (
+          <List
+            itemLayout='vertical'
+            key={index}
+            style={{ margin: '16px 0' }}
+            split={level === 0} // Show dividers only for top-level lists
+          >
+            {listItems}
+          </List>
+        )}
+        {nestedListsDirectlyUnderNode.map((nestedList, idx) => (
+          <div key={idx} style={{ paddingLeft: `${(level + 1) * 16}px` }}>
+            {renderList(nestedList as Element, idx, level + 1)}
+          </div>
+        ))}
+      </>
     );
   };
 
