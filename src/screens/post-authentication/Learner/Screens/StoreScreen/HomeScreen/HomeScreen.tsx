@@ -32,11 +32,9 @@ interface LearnerHomeScreenPropsI {
 }
 
 function LearnerHomeScreen(props: LearnerHomeScreenPropsI) {
-  // initialize application utils like interceptors and storage on client side
   const { isFetching } = Learner.Queries.useGetRecommendedProducts();
   const { data: categories } = Learner.Queries.useGetLearnerCategories({ mode: 'basic' });
   const { isMobile, isDesktop } = useBreakpoint();
-  const { openModal } = useModal();
   return (
     <Row gutter={[30, 30]}>
       {isFetching ? (

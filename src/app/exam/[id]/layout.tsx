@@ -13,6 +13,7 @@ export default function Page({
 }) {
   const {
     getProductCategoryDetails,
+    getProductCategoryLinkDetails,
     getOrgDetails,
 
   } = Learner.Queries.Definitions;
@@ -23,6 +24,7 @@ export default function Page({
     <Hydrator
       queries={[
         getProductCategoryDetails(params.id),
+        getProductCategoryLinkDetails(params.id, 'overview'),
         getOrgDetails(),
       ]}
     >

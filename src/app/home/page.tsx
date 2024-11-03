@@ -19,7 +19,7 @@ export default function Page() {
       queries={[
         // getRecommendedProducts(),
         getLearnerProductCategories({ mode: 'basic' }),
-        // getOrgDetails(),
+        getOrgDetails(),
         // authenticated routes should only be called if token is present
         // ...(token ? [getLearnerDetails()] : []),
         // ...(token ? [getCartDetails(), getLearnerDetails()] : []),

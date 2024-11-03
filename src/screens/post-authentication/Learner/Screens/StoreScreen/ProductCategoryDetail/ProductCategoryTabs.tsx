@@ -39,13 +39,10 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
   const params = useParams();
   const id = props.id || params.id;
   const type = props.type || params.type || "overview";
-  // debugger;
-  // const product = props.product || params.product || "packages";
+
   const { data: productCategory, isLoading: loadingCategory } =
     Learner.Queries.useGetProductCategoryDetails(id + '');
 
-  // const { data: productCategoryLink, isLoading: loadingCategoryLink } =
-  //   Learner.Queries.useGetProductCategoryDetails(id + '');
   const TABS = useMemo(() => {
     const i = [
       {
@@ -61,7 +58,6 @@ export default function ProductCategoryTabs(props: ProductCategoryTabsPropsI) {
 
     i.push(
       ...productCategory.info.links
-        // .filter((l) => l.displayOnLandingPage)
         .map((link) => {
           return {
             label: link?.displayOnLandingPage?.cta?.text || link.title,
