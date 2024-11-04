@@ -121,9 +121,17 @@ const CreateNote: React.FC<CourseNotesPropsI> = (props) => {
               style={{ display: "flex", flexDirection: "row-reverse" }}
             >
               <Row gutter={[10, 10]}>
-                {/* <Col>
-                  <Button>Cancel</Button>
-                </Col> */}
+                {(props.selectedNote) ? <Col>
+                  <Button
+                    // style={{ marginRight: 15 }}
+                    onClick={() => {
+                      form.resetFields();
+                      props.onFinish && props.onFinish();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </Col> : null}
                 <Col>{props.selectedNote ? (
                   <Button
                     disabled={!noteContent || !isPlaying}
@@ -141,9 +149,9 @@ const CreateNote: React.FC<CourseNotesPropsI> = (props) => {
                   </Button>
                 )}</Col>
               </Row>
-              {props.selectedNote ? (
+              {/* {props.selectedNote ? (
                 <Button
-                  style={{ marginRight: 20 }}
+                  style={{ marginRight: 15 }}
                   onClick={() => {
                     form.resetFields();
                     props.onFinish && props.onFinish();
@@ -151,7 +159,7 @@ const CreateNote: React.FC<CourseNotesPropsI> = (props) => {
                 >
                   Cancel
                 </Button>
-              ) : null}
+              ) : null} */}
             </Col>
           </Row>
         </Col>
