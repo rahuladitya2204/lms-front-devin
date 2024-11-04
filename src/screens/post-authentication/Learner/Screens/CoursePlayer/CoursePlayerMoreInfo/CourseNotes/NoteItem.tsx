@@ -17,7 +17,7 @@ import {
   PlayCircleOutlined,
 } from "@ant-design/icons";
 import { Constants, Learner, Store, Types } from "@adewaskar/lms-common";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import CreateNote from "./CreateNote";
 import HtmlViewer from "@Components/HtmlViewer/HtmlViewer";
@@ -25,6 +25,8 @@ import MoreButton from "@Components/MoreButton";
 import { Typography } from "@Components/Typography";
 import { formatSeconds } from "@User/Screens/Courses/CourseEditor/CourseBuilder/utils";
 import { useParams } from "@Router/index";
+import dayjs from "dayjs";
+import { useOutletContext } from "react-router";
 
 const { Text } = Typography;
 const { confirm } = Modal;
@@ -33,12 +35,11 @@ interface CourseNoteItemPropsI {
   note: Types.CourseNote;
 }
 const CourseNoteItem: React.FC<CourseNoteItemPropsI> = (props) => {
-  const { mutate: deleteNoteApi } = Learner.Queries.useDeleteNote();
+  const { id: courseId, itemId } = useParams();
+  const { mutate: deleteNoteApi } = Learner.Queries.useDeleteNote(courseId + '', itemId + '');
   const playerInstance = Store.usePlayer((s) => s.state.playerInstance);
-  const { sectionId, itemId } = useParams();
-  const section = props.course.sections.find((s) => s._id === sectionId);
-  const item = section?.items.find((i) => i._id === itemId);
-  const { name } = Store.useAuthentication((s) => s.learner);
+  const [, , language] = useOutletContext();
+  const { data: item } = Learner.Queries.useGetCourseItemDetails(courseId + '', itemId + '', language)
   const time = formatSeconds(props.note.time);
   const [selectedNote, setSelectedNote] = useState<Types.CourseNote>(
     Constants.INITIAL_COURSE_NOTE_DETAILS
@@ -55,14 +56,48 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = (props) => {
             noteId: props.note._id + "",
           },
           {
-            onSuccess: () => {},
+            onSuccess: () => { },
           }
         );
       },
       okText: "Delete",
     });
   };
-
+  const isVideo = item?.type === 'video';
+  const ACTIONS = useMemo(() => {
+    const tempArr = [<Tag>{dayjs(props.note.createdAt).format('LL')}</Tag>];
+    if (isVideo) {
+      tempArr.push(<Button
+        onClick={() => {
+          if (playerInstance) {
+            playerInstance.currentTime = 3;
+          }
+        }}
+        icon={<PlayCircleOutlined />}
+      >
+        Play Here
+      </Button>)
+    }
+    tempArr.push(<MoreButton
+      items={[
+        {
+          label: `Edit`,
+          onClick: () => {
+            setSelectedNote(props.note);
+          },
+          key: "edit",
+          icon: <EditOutlined />,
+        },
+        {
+          label: `Delete`,
+          onClick: deleteNote,
+          key: "play",
+          icon: <DeleteOutlined />,
+        },
+      ]}
+    />)
+    return tempArr
+  }, [props.note, isVideo, itemId])
   return selectedNote._id ? (
     <Row>
       <Col span={24}>
@@ -71,46 +106,17 @@ const CourseNoteItem: React.FC<CourseNoteItemPropsI> = (props) => {
             setSelectedNote(Constants.INITIAL_COURSE_NOTE_DETAILS)
           }
           selectedNote={selectedNote}
-          item={itemId + ""}
+          itemId={itemId + ""}
           courseId={props.course._id}
         />
       </Col>
     </Row>
   ) : (
     <List.Item
-      actions={[
-        <Button
-          onClick={() => {
-            if (playerInstance) {
-              playerInstance.currentTime = 3;
-            }
-          }}
-          icon={<PlayCircleOutlined />}
-        >
-          Play Here
-        </Button>,
-        <MoreButton
-          items={[
-            {
-              label: `Edit`,
-              onClick: () => {
-                setSelectedNote(props.note);
-              },
-              key: "edit",
-              icon: <EditOutlined />,
-            },
-            {
-              label: `Delete`,
-              onClick: deleteNote,
-              key: "play",
-              icon: <DeleteOutlined />,
-            },
-          ]}
-        />,
-      ]}
+      actions={ACTIONS}
     >
       <List.Item.Meta
-        avatar={<Tag color="blue">{time}</Tag>}
+        avatar={isVideo ? <Tag color="blue">{time}</Tag> : null}
         // title={
         //   <Row>
         //     <Col>

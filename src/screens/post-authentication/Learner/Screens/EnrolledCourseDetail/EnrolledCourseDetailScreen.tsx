@@ -75,7 +75,7 @@ const EnrolledCourseDetailScreen: React.FC<EnrolledCourseDetailScreenPropsI> = (
   };
 
   const playItem = (sectionId: string, itemId: string) => {
-    navigate(`/app/courses/${courseId}/player/${itemId}`);
+    navigate(`/app/courses/${courseId}/player`);
   };
 
   const { isMobile, isTablet } = useBreakpoint();

@@ -20,27 +20,26 @@ const { Text } = Typography;
 
 interface CourseNotesPropsI {
   course: Types.Course;
+  itemId: string;
 }
 const CourseNotes: React.FC<CourseNotesPropsI> = (props) => {
   // const playerInstance = Store.usePlayer(s => s.state.playerInstance)
   const { course } = props;
-  const { itemId } = useParams();
+  const { itemId, id: courseId } = useParams();
   const {
     data: notes,
     isLoading: loadingNotes,
     isFetching: fetchingNotes,
   } = Learner.Queries.useGetCourseNotes(
-    course._id
-    // {
-    //   enabled: !!course._id
-    // }
+    courseId + '',
+    itemId + ''
   );
 
-  const currentItemNotes = notes.filter((note) => note.item === itemId) || [];
+  const currentItemNotes = notes?.filter((note) => note.item === itemId) || [];
   return (
     <Row>
       <Col span={24}>
-        <CreateNote item={itemId + ""} courseId={course._id} />
+        <CreateNote itemId={itemId + ""} courseId={course._id} />
       </Col>
       <Divider />
 

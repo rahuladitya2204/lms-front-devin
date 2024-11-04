@@ -6,12 +6,13 @@ import CoursePlayerTextItem from "./CoursePlayerItems/Text";
 import ErrorBoundary from "@Components/ErrorBoundary";
 import MediaPlayer from "@Components/MediaPlayer/MediaPlayer";
 import PDFViewer from "@Components/PDFViewer";
-import { Col, Row, Skeleton, Spin } from "@Lib/index";
+import { Card, Col, Row, Skeleton, Spin } from "@Lib/index";
 
 import { useParams } from "@Router/index";
 import { useOutletContext } from "react-router";
 import ProductDiscussionList from "../ProductDiscussion/ProductDiscussion";
 import ProductDiscussion from "../ProductDiscussion";
+import CoursePlayerMoreInfo from "./CoursePlayerMoreInfo";
 
 function CoursePlayerItem() {
   const [loading, setLoading] = useState(false);
@@ -118,13 +119,9 @@ function CoursePlayerItem() {
               }} /> : Component}
             </div></Col>
           <Col span={24}>
-            <ProductDiscussion
-              product={{
-                type: Enum.ProductType.COURSE,
-                id: courseId + ''
-              }}
-              itemId={itemId + ''}
-            />
+            <Card>
+              <CoursePlayerMoreInfo course={course} itemId={itemId + ''} />
+            </Card>
           </Col>
         </Row>
       </Spin>

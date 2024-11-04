@@ -2,8 +2,9 @@ import CourseNotes from './CourseNotes/CourseNotes'
 import ProductDiscussion from '@Learner/Screens/ProductDiscussion'
 import React from 'react'
 import Tabs from '@Components/Tabs'
-import { Types } from '@adewaskar/lms-common'
+import { Learner, Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
+import { useParams } from '@Router/index'
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
@@ -13,18 +14,20 @@ interface CoursePlayerMoreInfoPropsI {
 }
 
 const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
-  // useWatchTime(props.course._id);
-
+  const { id: courseId, itemId } = useParams();
+  const {
+    data: notes,
+    isLoading: loadingNotes,
+    isFetching: fetchingNotes,
+  } = Learner.Queries.useGetCourseNotes(
+    courseId + '',
+    itemId + ''
+  );
   const TAB_ITEMS = [
-    // {
-    //   label: <Text strong>Overview</Text>,
-    //   key: '2',
-    //   children: <CourseOverview hidePreview course={props.course} />
-    // },
     {
-      label: `Notes`,
+      label: notes.length ? `Notes(${notes.length})` : `Notes`,
       key: 'notes',
-      children: <CourseNotes course={props.course} />
+      children: <CourseNotes itemId={props.itemId} course={props.course} />
     },
     {
       label: `Discussion`,
