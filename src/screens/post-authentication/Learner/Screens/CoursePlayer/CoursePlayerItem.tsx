@@ -45,6 +45,7 @@ function CoursePlayerItem() {
     data: {
       metadata: { notes },
     },
+    isLoading: loadingEnrolledProduct
   } = Learner.Queries.useGetEnrolledProductDetails(
     {
       type: Enum.ProductType.COURSE,
@@ -61,6 +62,7 @@ function CoursePlayerItem() {
       enabled: !!item.file,
     });
   const currentItemNotes = notes.filter((note) => note.item === item._id) || [];
+  const LOADING = isLoading || loadingEnrolledProduct;
   let Component;
   if (item.type === "text") {
     Component = <CoursePlayerTextItem item={item} />;
@@ -112,17 +114,25 @@ function CoursePlayerItem() {
                 width: "100%",
               }}
             >
-              {isLoading ? <Skeleton.Button block active style={{
-                width: '100%',
-                height: 500
+              {LOADING ? <Row gutter={[20, 30]}>
+                <Col span={24}>
+                  <Skeleton.Button block active style={{
+                    width: '100%',
+                    height: 500
 
-              }} /> : Component}
+                  }} /> </Col>
+                <Col span={24}>
+                  <Skeleton.Button block active style={{
+                    width: '100%',
+                    height: 200
+                  }} /> </Col>
+              </Row> : Component}
             </div></Col>
-          <Col span={24}>
+          {LOADING ? null : <Col span={24}>
             <Card>
               <CoursePlayerMoreInfo course={course} itemId={itemId + ''} />
             </Card>
-          </Col>
+          </Col>}
         </Row>
       </Spin>
     </ErrorBoundary>
