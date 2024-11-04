@@ -114,12 +114,11 @@ function CoursePlayer() {
   }, [progress, review]);
 
   useEffect(() => {
-    if (itemId && sectionId) {
-      return navigate(`${itemId}`);
-    }
+    // if (!itemId) {
+    //   return navigate(`${itemId}`);
+    // }
     setTimeout(() => {
-      if (sections[0]?.items[0]) {
-        const sectionId = sections[0]._id;
+      if (sections[0]?.items[0] && !itemId) {
         const itemId = sections[0].items[0]._id;
         navigate(`${itemId}`);
       }
