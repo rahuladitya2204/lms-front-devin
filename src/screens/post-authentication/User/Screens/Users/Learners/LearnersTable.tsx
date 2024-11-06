@@ -23,11 +23,8 @@ import AddLearner from "./AddLearners";
 import MoreButton from "@Components/MoreButton";
 import { User } from "@adewaskar/lms-common";
 import dayjs from "dayjs";
-import useMessage from "@Hooks/useMessage";
 import { useModal } from "@Components/ActionModal/ModalContext";
 import { sortBy } from "lodash";
-import LearnerProductCard from "@Components/LearnerProductCard";
-import { UTM_SOURCES } from "../../../../Learner/Screens/Affiliate/AffiliateProducts";
 import UTMSourceTag from "./UTMSourceTag";
 import LearnerJobs from "./LearnerJobs";
 

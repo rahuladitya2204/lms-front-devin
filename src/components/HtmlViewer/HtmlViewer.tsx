@@ -50,7 +50,7 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
 
   const renderList = (node: Element, index: number, level = 0) => {
     // Predefined array of list markers
-    const listMarkers = ['•', '*', '–', '▪', '•']; // You can add more markers as needed
+    const listMarkers = [<span style={{ marginRight: '8px', display: 'block', width: 5, height: 5, background: '#000', borderRadius: '50%' }}></span>, '*', '–', '▪', '•']; // You can add more markers as needed
 
     // Determine the marker for the current level
     const marker =
@@ -78,7 +78,7 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
 
         return (
           <List.Item key={idx}>
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline' }}>
               {isOrdered ? (
                 <span style={{ marginRight: '8px' }}>{idx + 1}.</span>
               ) : (
