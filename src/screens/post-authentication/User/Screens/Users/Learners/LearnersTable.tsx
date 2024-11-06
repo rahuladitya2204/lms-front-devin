@@ -37,7 +37,7 @@ function LearnersTable() {
   const { data, isFetching: loading } = User.Queries.useGetLearners();
   const { mutate: deleteLearner, isLoading: deletingLearner } =
     User.Queries.useDeleteLearner();
-  const { data: categories } = Learner.Queries.useGetLearnerCategories();
+  const { data: categories } = Learner.Queries.useGetLearnerCategories({ mode: 'basic' });
   const { mutate: changeAccountStatus } =
     User.Queries.useUpdateLearnerAccountStatus();
   const { openModal } = useModal();
@@ -175,11 +175,10 @@ function LearnersTable() {
                   confirm({
                     title: "Are you sure?",
                     // icon: <ExclamationCircleOutlined />,
-                    content: `You want to ${
-                      record.status === Enum.LearnerAccountStatus.ACTIVE
-                        ? "revoke"
-                        : "release"
-                    } access for this learner`,
+                    content: `You want to ${record.status === Enum.LearnerAccountStatus.ACTIVE
+                      ? "revoke"
+                      : "release"
+                      } access for this learner`,
                     onOk() {
                       changeAccountStatus(
                         {
@@ -212,9 +211,8 @@ function LearnersTable() {
                 icon: <DeleteOutlined />,
                 onClick: () => {
                   confirm({
-                    title: `Are you sure? You want to remove ${
-                      record.name || record.email
-                    }`,
+                    title: `Are you sure? You want to remove ${record.name || record.email
+                      }`,
                     // icon: <ExclamationCircleOutlined />,
                     content: `Learner will no longer have any access to the platform`,
                     onOk() {
