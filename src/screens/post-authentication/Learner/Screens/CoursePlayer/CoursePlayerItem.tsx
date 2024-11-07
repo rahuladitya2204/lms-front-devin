@@ -10,8 +10,6 @@ import { Card, Col, Row, Skeleton, Spin } from "@Lib/index";
 
 import { useParams } from "@Router/index";
 import { useOutletContext } from "react-router";
-import ProductDiscussionList from "../ProductDiscussion/ProductDiscussion";
-import ProductDiscussion from "../ProductDiscussion";
 import CoursePlayerMoreInfo from "./CoursePlayerMoreInfo";
 
 function CoursePlayerItem() {

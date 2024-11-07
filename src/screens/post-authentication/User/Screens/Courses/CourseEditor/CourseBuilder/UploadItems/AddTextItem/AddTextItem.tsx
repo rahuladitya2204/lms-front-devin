@@ -46,7 +46,7 @@ const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
           <Row gutter={[15, 15]}>
             <Col span={12}>
               <TopicSelect
-                level={2}
+                level={4}
                 label="Topic"
                 notDisabled
                 topicId={course.topics}

@@ -6,6 +6,7 @@ import { Element } from "domhandler";
 import styled from "@emotion/styled";
 import "./style.css";
 import withNonCopyable from "../withNoncopyable";
+import CanvasRenderer from '@User/Screens/ExtraComponents/CanvasRenderer';
 
 
 const { Title, Paragraph } = Typography;
@@ -14,10 +15,11 @@ interface HtmlViewerProps {
   content: string;
   noPreviewImage?: boolean;
   customStyles?: string;
+  protected?: boolean;
 }
 
 function HtmlViewerCopyable(props: HtmlViewerProps) {
-  const { content, noPreviewImage, customStyles } = props;
+  const { content, noPreviewImage, customStyles, protected: isProtected } = props;
 
   if (!content) {
     return null;
@@ -345,12 +347,21 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
     }
     return null;
   };
-
-  return (
+  const parsedContent = parse(content, { replace: convertNodeToElement });
+  return isProtected ? (
+    // Render content through CanvasRenderer when protected
+    <div style={{ width: '100%' }}>
+      <CanvasRenderer>
+        <style>{customStyles}</style>
+        {parsedContent}
+      </CanvasRenderer>
+    </div>
+  ) : (
+    // Render content normally when not protected
     <div className="ck ck-content ck-editor__editable ck-rounded-corners ck-editor__editable_inline ck-blurred">
       <div className="html-viewer">
         <style>{customStyles}</style>
-        {parse(content, { replace: convertNodeToElement })}
+        {parsedContent}
       </div>
     </div>
   );

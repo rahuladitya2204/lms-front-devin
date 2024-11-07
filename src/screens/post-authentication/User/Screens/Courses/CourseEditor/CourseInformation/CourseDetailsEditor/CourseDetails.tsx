@@ -130,7 +130,7 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
           </Form.Item>
         </Col>
         <Col span={8}>
-          <TopicSelect name="topics" label="Topics" />
+          <TopicSelect level={4} name="topics" label="Topics" />
         </Col>
 
         <Col span={8}>
@@ -153,6 +153,9 @@ function CourseDetailsEditor(props: CourseDetailsEditorPropsI) {
             type: 'course',
             id: courseId + ''
           }} />
+        </Col>
+        <Col span={8}>
+          <SelectProductCategory name={["category"]} />
         </Col>
       </Row>
     </>

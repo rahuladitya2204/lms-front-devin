@@ -5,6 +5,7 @@ import Tabs from '@Components/Tabs'
 import { Learner, Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
 import { useParams } from '@Router/index'
+import CourseItemPYQs from './CourseItemPYQs'
 // import useWatchTime from '@Components/MediaPlayer/Playr/useWatchTime'
 
 const { Text } = Typography
@@ -16,16 +17,16 @@ interface CoursePlayerMoreInfoPropsI {
 const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
   const { id: courseId, itemId } = useParams();
   const {
-    data: notes,
+    data: pyqs,
     isLoading: loadingNotes,
     isFetching: fetchingNotes,
-  } = Learner.Queries.useGetCourseNotes(
+  } = Learner.Queries.useGetCourseItemPYQs(
     courseId + '',
     itemId + ''
   );
   const TAB_ITEMS = [
     {
-      label: notes.length ? `Notes(${notes.length})` : `Notes`,
+      label: `Notes`,
       key: 'notes',
       children: <CourseNotes itemId={props.itemId} course={props.course} />
     },
@@ -39,22 +40,14 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
         />
       )
     }
-    // {
-    //   label: <Text strong>Announcements</Text>,
-    //   key: '4',
-    //   children: 'Tab 3'
-    // },
-    // {
-    //   label: <Text strong>Reviews</Text>,
-    //   key: '5',
-    //   children: 'Tab 3'
-    // },
-    // {
-    //   label: 'Learning Tools',
-    //   key: '6',
-    //   children: 'Tab 3'
-    // }
   ]
+  if (pyqs.length) {
+    TAB_ITEMS.unshift({
+      label: 'Previous Year Questions',
+      key: 'pyqs',
+      children: <CourseItemPYQs itemId={props.itemId} course={props.course} />
+    })
+  }
   return <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
 }
 

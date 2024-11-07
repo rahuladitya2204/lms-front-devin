@@ -20,6 +20,7 @@ const CoursePlayerTextItem: React.FC<CoursePlayerItemsPropsI> = (props) => {
       title={props?.item?.title?.text[language]}
     >
       {htmlToText(description) ? <HtmlViewer
+        // protected
         customStyles={`
         .html-viewer div.ant-typography {
         font-size: 16px;
