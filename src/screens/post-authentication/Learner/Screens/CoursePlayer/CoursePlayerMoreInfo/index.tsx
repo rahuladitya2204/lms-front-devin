@@ -16,14 +16,14 @@ interface CoursePlayerMoreInfoPropsI {
 
 const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
   const { id: courseId, itemId } = useParams();
-  const {
-    data: pyqs,
-    isLoading: loadingNotes,
-    isFetching: fetchingNotes,
-  } = Learner.Queries.useGetCourseItemPYQs(
-    courseId + '',
-    itemId + ''
-  );
+  // const {
+  //   data: pyqs,
+  //   isLoading: loadingNotes,
+  //   isFetching: fetchingNotes,
+  // } = Learner.Queries.useGetCourseItemPYQs(
+  //   courseId + '',
+  //   itemId + ''
+  // );
   const TAB_ITEMS = [
     {
       label: `Notes`,
@@ -41,13 +41,13 @@ const CoursePlayerMoreInfo: React.FC<CoursePlayerMoreInfoPropsI> = props => {
       )
     }
   ]
-  if (pyqs.length) {
-    TAB_ITEMS.unshift({
-      label: 'Previous Year Questions',
-      key: 'pyqs',
-      children: <CourseItemPYQs itemId={props.itemId} course={props.course} />
-    })
-  }
+  // if (pyqs.length) {
+  //   TAB_ITEMS.unshift({
+  //     label: 'Previous Year Questions',
+  //     key: 'pyqs',
+  //     children: <CourseItemPYQs itemId={props.itemId} course={props.course} />
+  //   })
+  // }
   return <Tabs defaultActiveKey="1" items={TAB_ITEMS} />
 }
 
