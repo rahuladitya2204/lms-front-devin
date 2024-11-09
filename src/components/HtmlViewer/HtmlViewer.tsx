@@ -1,12 +1,10 @@
-import React from 'react'
 import "./suneditor.css";
-import { List, Typography, Image, Table, Divider } from "antd";
+import { List, Typography, Image as ANTDImage, Table, Divider } from "antd";
 import parse, { domToReact, DOMNode } from "html-react-parser";
 import { Element } from "domhandler";
 import styled from "@emotion/styled";
 import "./style.css";
 import withNonCopyable from "../withNoncopyable";
-import CanvasRenderer from '@User/Screens/ExtraComponents/CanvasRenderer';
 
 
 const { Title, Paragraph } = Typography;
@@ -198,12 +196,24 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           const src = node.attribs.src;
           const alt = node.attribs.alt || "";
           return (
-            <Image
+            <ANTDImage
               className="html-viewer-img"
               key={index}
               src={src}
               alt={alt}
               preview={!noPreviewImage}
+            // onError={(e: any) => {
+            //   // Convert to base64 on error
+            //   getBase64Image(src)
+            //     .then(base64Src => {
+            //       if (e.currentTarget) {
+            //         e.currentTarget.src = base64Src;
+            //       }
+            //     })
+            //     .catch(error => {
+            //       console.warn('Failed to load image:', error);
+            //     });
+            // }}
             />
           );
         }
@@ -370,3 +380,158 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
 const HtmlViewer = withNonCopyable(HtmlViewerCopyable);
 
 export default HtmlViewer;
+
+
+// CanvasRenderer.tsx
+import React, { useEffect, useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
+
+interface CanvasRendererProps {
+  children: React.ReactNode;
+}
+
+const CanvasRenderer: React.FC<CanvasRendererProps> = ({ children }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isRendered, setIsRendered] = useState(false);
+
+  useEffect(() => {
+    const captureContent = async () => {
+      if (containerRef.current && canvasRef.current) {
+        try {
+          // Reset rendered state when capturing starts
+          setIsRendered(false);
+
+          // Wait for fonts to load
+          await document.fonts.ready;
+
+          // Wait for images to load
+          const images = containerRef.current.getElementsByTagName('img');
+          await Promise.all(
+            Array.from(images).map(
+              (img) =>
+                new Promise<void>((resolve) => {
+                  if (img.complete) {
+                    resolve();
+                  } else {
+                    img.onload = () => resolve();
+                    img.onerror = () => resolve();
+                  }
+                })
+            )
+          );
+
+          // Allow the DOM to update
+          await new Promise((resolve) => setTimeout(resolve, 100));
+
+          // Get the dimensions of the container
+          const { width: containerWidth, height: containerHeight } = containerRef.current.getBoundingClientRect();
+
+          // Get device pixel ratio
+          const devicePixelRatio = window.devicePixelRatio || 1;
+
+          // Capture the content using html2canvas
+          const canvas = await html2canvas(containerRef.current, {
+            backgroundColor: null,
+            useCORS: true,
+            scrollX: 0,
+            scrollY: 0,
+            scale: devicePixelRatio,
+            width: containerWidth,
+            height: containerHeight,
+          });
+
+          // Set the canvas dimensions
+          canvasRef.current.width = canvas.width;
+          canvasRef.current.height = canvas.height;
+
+          // Set the canvas CSS dimensions to match the container
+          canvasRef.current.style.width = `${containerWidth}px`;
+          canvasRef.current.style.height = `${containerHeight}px`;
+
+          // Draw the captured content onto the canvas
+          const ctx = canvasRef.current.getContext('2d');
+          if (ctx) {
+            ctx.drawImage(canvas, 0, 0);
+          }
+
+          // Mark rendering as complete
+          setIsRendered(true);
+
+        } catch (error) {
+          console.error('Error capturing canvas image:', error);
+        }
+      }
+    };
+
+    captureContent();
+  }, [children]);
+
+  return (
+    <div style={{
+      width: '100%',
+      position: 'relative',
+      maxWidth: '100%',
+    }}>
+      {/* Content container - visible until canvas is rendered */}
+      <div
+        ref={containerRef}
+        style={{
+          width: '100%',
+          maxWidth: '100%',
+          display: isRendered ? 'none' : 'block',
+          overflowWrap: 'break-word',
+          wordWrap: 'break-word'
+        }}
+      >
+        {children}
+      </div>
+
+      {/* Canvas element - shown after rendering */}
+      <canvas
+        ref={canvasRef}
+        style={{
+          display: isRendered ? 'block' : 'none',
+          maxWidth: '100%',
+          height: 'auto',
+        }}
+      />
+    </div>
+  );
+};
+
+
+
+const getBase64Image = (url: string): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        const dataURL = canvas.toDataURL('image/png');
+        resolve(dataURL);
+      } else {
+        reject(new Error('Failed to get canvas context'));
+      }
+    };
+
+    img.onerror = () => {
+      // If direct loading fails, try with proxy
+      // const proxyUrl = `https://upload-junk.s3.us-west-2.amazonaws.com/${url}`;
+      // img.src = proxyUrl;
+
+      // If proxy also fails, return original URL
+      img.onerror = () => resolve(url);
+    };
+
+    // Try loading the image directly first
+    img.src = url;
+  });
+};
