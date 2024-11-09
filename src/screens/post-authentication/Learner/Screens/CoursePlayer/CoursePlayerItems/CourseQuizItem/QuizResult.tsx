@@ -4,6 +4,9 @@ import { CheckOutlined, StarFilled } from '@ant-design/icons'
 
 import { Question } from './useQuizStore'
 import { Typography } from '@Components/Typography';
+import { useOutletContext } from 'react-router';
+import { useParams } from '@Router/index';
+import { Learner } from '@adewaskar/lms-common';
 
 interface QuizResultPropsI {
   questions: Question[];
@@ -16,8 +19,14 @@ export default function QuizResult({
   onReset,
   onEnd
 }: QuizResultPropsI) {
+  const { id: courseId, itemId } = useParams();
+  const [, , language] = useOutletContext();
+  const totalQuestions = questions.length;
   const correctAnswered = questions.filter(q => q.isCorrectAnswer)
   const wrongAnswered = questions.filter(q => !q.isCorrectAnswer)
+  console.log(correctAnswered, wrongAnswered, 'asdasda')
+  const isPassed = correctAnswered >= (totalQuestions / 2)
+  const { mutate: updateProgress } = Learner.Queries.useUpdateCourseProgress();
   return (
     <Row>
       <Col span={24}>
@@ -26,14 +35,20 @@ export default function QuizResult({
             <Button key="buy" onClick={onReset}>
               Retry Quiz
             </Button>,
-            <Button type="primary" onClick={onEnd}>
+            <Button onClickCapture={() => {
+              updateProgress({
+                courseId: courseId || "",
+                action: 'ADD',
+                itemId: itemId,
+                data: null,
+              });
+            }} type="primary" onClick={onEnd}>
               Continue
             </Button>
           ]}
-          status="success"
-          title="Great job! You are ready to move on to the next lecture."
-          subTitle="You got 4 out of 5 correct.
-    "
+          status={isPassed ? 'success' : 'error'}
+          title={isPassed ? "Great job! You are ready to move on to the next lecture." : 'You didnt pass.'}
+          subTitle={`You got ${correctAnswered} out of ${totalQuestions} correct.`}
           icon={<StarFilled />}
         >
           <List
@@ -46,7 +61,7 @@ export default function QuizResult({
             dataSource={correctAnswered}
             renderItem={item => (
               <List.Item>
-                <Typography.Text>{item.title}</Typography.Text>
+                <Typography.Text>{item.title.text[language]}</Typography.Text>
               </List.Item>
             )}
           />
@@ -61,12 +76,12 @@ export default function QuizResult({
             dataSource={wrongAnswered}
             renderItem={item => (
               <List.Item>
-                <Typography.Text>{item.title}</Typography.Text>
+                <Typography.Text>{item.title.text[language]}</Typography.Text>
               </List.Item>
             )}
           />
         </Result>
       </Col>
-    </Row>
+    </Row >
   )
 }

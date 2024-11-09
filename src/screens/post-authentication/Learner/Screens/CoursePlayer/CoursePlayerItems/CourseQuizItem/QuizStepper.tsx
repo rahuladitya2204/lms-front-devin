@@ -7,6 +7,7 @@ import QuizResult from './QuizResult'
 import Stepper from '@Components/Stepper'
 import { Types } from '@adewaskar/lms-common'
 import { useQuizStore } from './useQuizStore'
+import { useOutletContext } from 'react-router'
 
 interface CoursePlayerItemsPropsI {
   quiz: Types.CourseQuiz;
@@ -14,6 +15,7 @@ interface CoursePlayerItemsPropsI {
 }
 
 const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
+  const [, , language] = useOutletContext();
   const [isEnded, setIsEnded] = useState(false)
   const questions = useQuizStore(state => state.questions)
   const {
@@ -61,7 +63,7 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
       steps={
         questions?.map((question, index) => {
           const isAnswerChecked = question.isAnswerChecked
-          const isCorrectAnswer = isAnswerChecked
+          const isCorrectAnswer = question.isCorrectAnswer
           // &&
           // question?.answered?.join(',') === question.correctOptions.join(',')
 
@@ -108,25 +110,25 @@ const QuizStepper: React.FC<CoursePlayerItemsPropsI> = ({ quiz, onEnd }) => {
       nextCta={
         questions.length
           ? ({ question, questionIndex }, next) => {
-              return (
-                <Space>
-                  <Button type="text">Skip Question</Button>
-                  {question.isAnswerChecked ? (
-                    <Button type="primary" onClick={e => next()}>
-                      Next
-                    </Button>
-                  ) : (
-                    <Button
-                      type="primary"
-                      disabled={!question.answered}
-                      onClick={e => checkAnswer(questionIndex)}
-                    >
-                      Check Answer
-                    </Button>
-                  )}
-                </Space>
-              )
-            }
+            return (
+              <Space>
+                <Button type="text">Skip Question</Button>
+                {question.isAnswerChecked ? (
+                  <Button type="primary" onClick={e => next()}>
+                    Next
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    disabled={!question.answered}
+                    onClick={e => checkAnswer(questionIndex)}
+                  >
+                    Check Answer
+                  </Button>
+                )}
+              </Space>
+            )
+          }
           : console.log
       }
     />

@@ -27,7 +27,9 @@ function CoursePlayerItem() {
   const { data: item, isLoading } = Learner.Queries.useGetCourseItemDetails(
     courseId + "",
     itemId + "",
-    language
+    language, {
+    enabled: !!language
+  }
   );
   const onEnd = () => {
     updateProgress({

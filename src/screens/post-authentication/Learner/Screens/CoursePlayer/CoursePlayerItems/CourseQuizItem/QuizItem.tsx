@@ -6,6 +6,8 @@ import { StarFilled } from '@ant-design/icons'
 import Stepper from '@Components/Stepper'
 import { Types } from '@adewaskar/lms-common'
 import { Typography } from '@Components/Typography'
+import { useOutletContext } from 'react-router'
+import { Title } from '@Components/Typography/Typography'
 
 interface CoursePlayerItemsPropsI {
   item: Types.CourseSectionItem;
@@ -16,7 +18,9 @@ const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({
   item,
   onEnd
 }) => {
+  const [, , language] = useOutletContext();
   const [isQuizStarted, setIsQuizStarted] = useState(false)
+  console.log(item, 'item')
   if (item.isCompleted) {
     return (
       <Result
@@ -29,7 +33,12 @@ const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({
     )
   }
   return (
-    <div style={{ margin: 30 }}>
+    <Card
+      bodyStyle={{ minHeight: 500 }}
+    >
+      <Title>
+        {item.title.text[language]}
+      </Title>
       {isQuizStarted ? (
         <Fragment>
           {/* @ts-ignore */}
@@ -39,27 +48,35 @@ const CoursePlayerQuiz: React.FC<CoursePlayerItemsPropsI> = ({
         <Fragment>
           <Row gutter={[20, 20]}>
             <Col span={24}>
-              <Typography.Title>{item?.title || ''}</Typography.Title>
-              <Typography.Text strong>
-                5 mins
-                <Divider type="vertical" />
-                {item.quiz?.questions.length} Questions
-              </Typography.Text>
+              <Typography.Title>{item?.title?.[language]}</Typography.Title>
+              <Divider />
+              <Typography.Paragraph>
+                {item?.description?.[language]}
+              </Typography.Paragraph>
             </Col>
             <Col span={24}>
-              <Button>Skip Quiz</Button>
-              <Button
-                style={{ marginLeft: 15 }}
-                type="primary"
-                onClick={e => setIsQuizStarted(true)}
-              >
-                Start Quiz
-              </Button>
+              <Row justify={'space-between'}>
+                <Col>
+                  <Typography.Text strong>
+                    5 mins
+                    <Divider type="vertical" />
+                    {item.quiz?.questions.length} Questions
+                  </Typography.Text></Col>
+                <Col>
+                  <Button>Skip Quiz</Button>
+                  <Button
+                    style={{ marginLeft: 15 }}
+                    type="primary"
+                    onClick={e => setIsQuizStarted(true)}
+                  >
+                    Start Quiz
+                  </Button></Col>
+              </Row>
             </Col>
           </Row>
         </Fragment>
       )}
-    </div>
+    </Card>
   )
 }
 

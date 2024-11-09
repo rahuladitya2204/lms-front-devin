@@ -336,22 +336,22 @@ function TestBuilderScreen() {
                       width: 760,
                     }),
                 },
-                {
-                  label: "Generate Test From PDF",
-                  key: "generate-test-from-pdf",
-                  onClick: () =>
-                    generateTestFromPDF(
-                      {
-                        testId: testId + "",
-                      },
-                      {
-                        onSuccess: (d) => {
-                          message.success("Test Generated Successfully");
-                          console.log("Done", d);
-                        },
-                      }
-                    ),
-                },
+                // {
+                //   label: "Generate Test From PDF",
+                //   key: "generate-test-from-pdf",
+                //   onClick: () =>
+                //     generateTestFromPDF(
+                //       {
+                //         testId: testId + "",
+                //       },
+                //       {
+                //         onSuccess: (d) => {
+                //           message.success("Test Generated Successfully");
+                //           console.log("Done", d);
+                //         },
+                //       }
+                //     ),
+                // },
                 // {
                 //   key: "translate-question",
                 //   label: (
@@ -528,11 +528,11 @@ function TestBuilderScreen() {
                       title: "Print",
                     }),
                 },
-                {
-                  label: "Generate Criterias",
-                  key: "gen-criterias",
-                  onClick: () => generateTestInfo({ fields: ["criteria"] }),
-                },
+                // {
+                //   label: "Generate Criterias",
+                //   key: "gen-criterias",
+                //   onClick: () => generateTestInfo({ fields: ["criteria"] }),
+                // },
                 // {
                 //   label: "Generate Topics",
                 //   key: "gen-topics",

@@ -13,52 +13,53 @@ type QuizStore = {
   saveAnswer: (questionIndex: number, answerIndex: number) => void,
   checkAnswer: (questionIndex: number) => void
   setQuestions: (questions: Question[]) => void,
-  resetQuestions:()=>void;
+  resetQuestions: () => void;
 
 }
 
 export const useQuizStore =
-  create <
-  QuizStore >
-  (set => ({
-    questions: [],
-    resetQuestions: () => set((state) => {
-      const newQuestions = [...state.questions]
-      newQuestions.forEach(q=>{
-        delete q.isAnswerChecked;
-        delete q.isCorrectAnswer;
-        delete q.answered;
-      })
-      return { questions: newQuestions }
-    }),  
-    setQuestions: (questions) => set(() => ({ questions })),  
-    saveAnswer: (questionIndex, answerIndex) =>
-      set(state => {
+  create<
+    QuizStore>
+    (set => ({
+      questions: [],
+      resetQuestions: () => set((state) => {
         const newQuestions = [...state.questions]
-        const question = newQuestions[questionIndex]
-        if (question.type === Enum.TestQuestionType.SINGLE) {
-          question.answered = [answerIndex]
-        } else {
-          if (!question.answered) {
-            question.answered = [];
-          }
-          const index = question.answered.indexOf(answerIndex)
-          if (index === -1) {
-            question.answered.push(answerIndex)
-          } else {
-            question.answered.splice(index, 1)
-          }
-        }
-        question.isAnswerChecked = false
+        newQuestions.forEach(q => {
+          delete q.isAnswerChecked;
+          delete q.isCorrectAnswer;
+          delete q.answered;
+        })
         return { questions: newQuestions }
       }),
-    checkAnswer: questionIndex =>
-      set(state => {
-        const newQuestions = [...state.questions]
-        const question = newQuestions[questionIndex]
-        question.isAnswerChecked = true
-        // question.isCorrectAnswer =
-        //   question?.answered?.join(',') === question.correctOptions.join(',')
-        return { questions: newQuestions }
-      })
-  }))
+      setQuestions: (questions) => set(() => ({ questions })),
+      saveAnswer: (questionIndex, answerIndex) =>
+        set(state => {
+          const newQuestions = [...state.questions]
+          const question = newQuestions[questionIndex]
+          if (question.type === Enum.TestQuestionType.SINGLE) {
+            question.answered = [answerIndex]
+          } else {
+            if (!question.answered) {
+              question.answered = [];
+            }
+            const index = question.answered.indexOf(answerIndex)
+            if (index === -1) {
+              question.answered.push(answerIndex)
+            } else {
+              question.answered.splice(index, 1)
+            }
+          }
+          question.isAnswerChecked = false
+          return { questions: newQuestions }
+        }),
+      checkAnswer: questionIndex =>
+        set(state => {
+          const newQuestions = [...state.questions]
+          const question = newQuestions[questionIndex]
+          question.isAnswerChecked = true
+          console.log(question, '12312312s')
+          question.isCorrectAnswer =
+            question?.answered?.sort()?.join(',') === question.options.filter(i => i.isCorrect).map((o, index) => index).sort().join(',')
+          return { questions: newQuestions }
+        })
+    }))

@@ -4,6 +4,7 @@ import { Enum, Types } from '@adewaskar/lms-common'
 
 import React from 'react'
 import { Typography } from '@Components/Typography';
+import { useOutletContext } from 'react-router';
 
 interface CoursePlayerItemsPropsI {
   question: Types.TestQuestion;
@@ -18,9 +19,10 @@ const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
   answerGiven,
   saveAnswerByLearner
 }) => {
+  const [, , language] = useOutletContext();
   return (
     <div style={{ margin: 30 }}>
-      <Typography.Text strong> {question?.title || ''}</Typography.Text>
+      <Typography.Text strong> {question?.title.text[language] || ''}</Typography.Text>
       <List
         bordered
         size="large"
@@ -36,7 +38,7 @@ const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
                 value={answerGiven && answerGiven[0]}
               >
                 <List.Item.Meta
-                  avatar={<Radio value={index}>{item.text}</Radio>}
+                  avatar={<Radio value={index}>{item.text[language]}</Radio>}
                 />
               </Radio.Group>
             ) : (
@@ -47,7 +49,7 @@ const CourseQuestionStep: React.FC<CoursePlayerItemsPropsI> = ({
                 value={answerGiven}
               >
                 <List.Item.Meta
-                  avatar={<Checkbox value={index}>{item.text}</Checkbox>}
+                  avatar={<Checkbox value={index}>{item.text[language]}</Checkbox>}
                 />
               </Checkbox.Group>
             )}

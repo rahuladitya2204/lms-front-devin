@@ -65,7 +65,7 @@ const AddTextItem: React.FC = (props: AddTextItemPropsI) => {
             <TextArea modifyCta
               name={["description", "text", language]}
               uploadPrefixKey={prefixKey}
-              height={350}
+              height={800}
               html={{ level: 3 }}
             />
           </Form.Item>

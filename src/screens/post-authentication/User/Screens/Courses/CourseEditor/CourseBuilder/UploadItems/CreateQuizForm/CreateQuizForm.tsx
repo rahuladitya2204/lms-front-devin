@@ -24,15 +24,18 @@ import CreateQuestionForm from '../../../../../ExtraComponents/QuizQuestions/Add
 import FileList from '@Components/FileList'
 import GenerateWithAI from '../../../CourseInformation/GenerateWithAiButton'
 import MediaUpload from '@Components/MediaUpload'
-import Questions from '@User/Screens/ExtraComponents/QuizQuestions/Questions'
 import TextArea from '@Components/Textarea'
 import { uniqueId } from 'lodash'
 import useUploadItemForm from '../hooks/useUploadItemForm'
 import { useOutletContext } from 'react-router'
+import { useCourseStore } from '../../useCourseStore'
+import { useParams } from '@Router/index'
+import Questions from '@User/Screens/ExtraComponents/QuizQuestions/Questions'
 
 const { confirm } = Modal
 
 const CreateQuizForm: React.FC<AddItemProps> = props => {
+  const { updateItem } = useCourseStore(s => s)
   const [form] = Form.useForm()
   const {
     onFormChange,
@@ -45,14 +48,14 @@ const CreateQuizForm: React.FC<AddItemProps> = props => {
     section
   } = useUploadItemForm(form)
   const courseQuiz = item?.quiz || Constants.INITIAL_COURSE_QUIZ
-  console.log(courseQuiz, 'courseId')
+  console.log(item, courseQuiz, 'courseId')
   const deleteQuestion = (questionId: string) => {
     const newQuestions = [...courseQuiz.questions]
     const index = courseQuiz.questions.findIndex(
       (s: Types.TestQuestion) => s._id === questionId
     )
     newQuestions.splice(index, 1)
-    onFormChange({
+    updateItem(itemId + '', {
       quiz: {
         ...courseQuiz,
         questions: newQuestions
