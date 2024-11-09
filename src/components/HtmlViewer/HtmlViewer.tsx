@@ -195,7 +195,11 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           const src = node.attribs.src;
           const alt = node.attribs.alt || "";
           return (
-            <Base64Image
+            props.protected ? <AppImage
+              key={index}
+              src={src}
+              alt={alt}
+            /> : <AppImage
               key={index}
               src={src}
               alt={alt}
@@ -485,40 +489,4 @@ const CanvasRenderer: React.FC<CanvasRendererProps> = ({ children }) => {
       />
     </div>
   );
-};
-
-
-
-const getBase64Image = (url: string): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-
-    img.onload = () => {
-      const canvas = document.createElement('canvas');
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      const ctx = canvas.getContext('2d');
-      if (ctx) {
-        ctx.drawImage(img, 0, 0);
-        const dataURL = canvas.toDataURL('image/png');
-        resolve(dataURL);
-      } else {
-        reject(new Error('Failed to get canvas context'));
-      }
-    };
-
-    img.onerror = () => {
-      // If direct loading fails, try with proxy
-      // const proxyUrl = `https://upload-junk.s3.us-west-2.amazonaws.com/${url}`;
-      // img.src = proxyUrl;
-
-      // If proxy also fails, return original URL
-      img.onerror = () => resolve(url);
-    };
-
-    // Try loading the image directly first
-    img.src = url;
-  });
 };

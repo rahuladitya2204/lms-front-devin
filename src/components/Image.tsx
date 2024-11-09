@@ -64,7 +64,7 @@ function AppImage({
     img.onerror = () => setHasLoaded(false);
   }, [imageUrl]);
   const { openModal } = useModal();
-  const IMG_SRC = imageUrl || FALLBACK;
+  const IMG_SRC = getCDNLink(imageUrl) || FALLBACK;
   return (
     <div>
       <ImageHolder style={holderStyle} width={width} height={height}>
@@ -72,7 +72,6 @@ function AppImage({
           noLoadNoShowPlaceholder
         ) : (
           <Image
-            // crossOrigin='anonymous'
             onClick={() => {
               if (preview) {
                 openModal(<AppImage src={src} />);
@@ -102,3 +101,27 @@ function AppImage({
 }
 
 export default AppImage;
+
+
+export function getCDNLink(s3Url: string): string {
+  if (!s3Url.includes('upload-junk')) {
+    return s3Url;
+  }
+  const cdnDomain = 'https://dv5r4ilyur6nq.cloudfront.net';
+
+  try {
+    // Parse the original URL
+    const url = new URL(s3Url);
+
+    // Extract the pathname (includes leading '/')
+    const path = url.pathname;
+
+    // Construct the new URL using the CDN domain
+    const cdnUrl = `${cdnDomain}${path}`;
+
+    return cdnUrl;
+  } catch (error) {
+    console.error('Invalid URL provided to getCDNLink:', s3Url, error);
+    return s3Url; // Fallback to the original URL in case of error
+  }
+}
