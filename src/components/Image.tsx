@@ -22,8 +22,7 @@ interface ImagePropsI {
 
 const ImageHolder = styled.div(
   ({ width, height }: { width?: number; height: number }) => `
-    width: ${
-      width ? `${typeof width === "number" ? width + "px" : width}` : "auto"
+    width: ${width ? `${typeof width === "number" ? width + "px" : width}` : "auto"
     };
     object-fit: cover;
     display: flex;
@@ -73,6 +72,7 @@ function AppImage({
           noLoadNoShowPlaceholder
         ) : (
           <Image
+            // crossOrigin='anonymous'
             onClick={() => {
               if (preview) {
                 openModal(<AppImage src={src} />);

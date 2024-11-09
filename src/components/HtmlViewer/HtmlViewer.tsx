@@ -1,5 +1,5 @@
 import "./suneditor.css";
-import { List, Typography, Image as ANTDImage, Table, Divider } from "antd";
+import { List, Typography, Table, Divider } from "antd";
 import parse, { domToReact, DOMNode } from "html-react-parser";
 import { Element } from "domhandler";
 import styled from "@emotion/styled";
@@ -134,7 +134,6 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
     "col",
     "embed",
     "hr",
-    "img",
     "input",
     "keygen",
     "link",
@@ -196,24 +195,10 @@ function HtmlViewerCopyable(props: HtmlViewerProps) {
           const src = node.attribs.src;
           const alt = node.attribs.alt || "";
           return (
-            <ANTDImage
-              className="html-viewer-img"
+            <Base64Image
               key={index}
               src={src}
               alt={alt}
-              preview={!noPreviewImage}
-            // onError={(e: any) => {
-            //   // Convert to base64 on error
-            //   getBase64Image(src)
-            //     .then(base64Src => {
-            //       if (e.currentTarget) {
-            //         e.currentTarget.src = base64Src;
-            //       }
-            //     })
-            //     .catch(error => {
-            //       console.warn('Failed to load image:', error);
-            //     });
-            // }}
             />
           );
         }
@@ -385,6 +370,8 @@ export default HtmlViewer;
 // CanvasRenderer.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
+import AppImage from "@Components/Image";
+import Base64Image from "@User/Screens/ExtraComponents/Base64Image";
 
 interface CanvasRendererProps {
   children: React.ReactNode;
