@@ -107,7 +107,7 @@ export function getCDNLink(s3Url: string): string {
   if (!s3Url.includes('upload-junk')) {
     return s3Url;
   }
-  const cdnDomain = 'https://dv5r4ilyur6nq.cloudfront.net';
+  const cdnDomain = 'https://assets.testmint.ai';
 
   try {
     // Parse the original URL
